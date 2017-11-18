@@ -3,8 +3,8 @@
 
 import type { FormatterFunction } from './types';
 
+const { isUndefined } = require('@polkadot/util/lib/is');
 const formatNoop = require('./noop');
-const { isUndefined } = require('../util/is');
 
 function format (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
   const formatter = formatters[type];

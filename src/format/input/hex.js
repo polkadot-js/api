@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-const { addHexPrefix, hasHexPrefix, stripHexPrefix } = require('../../util/hex');
+const { addHexPrefix, hasHexPrefix, stripHexPrefix } = require('@polkadot/util/lib/hex');
 
 const H64_ZERO: string = '00000000000000000000000000000000';
 const H128_ZERO: string = `${H64_ZERO}${H64_ZERO}`;

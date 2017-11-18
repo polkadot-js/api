@@ -3,7 +3,7 @@
 
 import type { JsonRpcRequest, JsonRpcResponse } from './types';
 
-const { isNumber, isUndefined } = require('../util/is');
+const { isNumber, isUndefined } = require('@polkadot/util/lib/is');
 
 module.exports = class JsonRpcCoder {
   _id: number = 0;

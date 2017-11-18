@@ -7,9 +7,9 @@ import type { ProviderInterface } from './provider/types';
 
 const interfaces = require('@polkadot/jsonrpc');
 const { callSignature } = require('@polkadot/jsonrpc/lib/util');
+const { isFunction } = require('@polkadot/util/lib/is');
 const { formatInputs, formatOutput } = require('./format');
 const { HttpProvider } = require('./provider');
-const { isFunction } = require('./util/is');
 
 module.exports = class Api implements ApiInterface {
   _provider: ProviderInterface;
