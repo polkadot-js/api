@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@polkadot/jsonrpc": "^0.2.0",
+    "@polkadot/util": "^0.2.0",
     "babel-runtime": "^6.26.0",
     "isomorphic-fetch": "^2.2.1"
   }
