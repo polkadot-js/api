@@ -1,0 +1,75 @@
+{
+  "name": "@polkadot/api",
+  "version": "0.2.0",
+  "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
+  "main": "lib/index.js",
+  "keywords": [
+    "Polkadot",
+    "JsonRPC"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=6.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api#readme",
+  "scripts": {
+    "build": "npm run build:js",
+    "build:js": "rimraf lib && babel src --out-dir lib --ignore *.spec.js,types.js",
+    "check": "npm run check:flow && npm run check:lint",
+    "check:flow": "flow check",
+    "check:lint": "eslint src",
+    "ci:makeshift": "makeshift",
+    "ci:coveralls": "coveralls < coverage/lcov.info",
+    "test": "cross-env NODE_ENV=test babel-istanbul cover _mocha 'src/*.spec.js' 'src/**/*.spec.js'"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-istanbul": "^0.12.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
+    "cross-env": "^5.1.1",
+    "eslint": "^4.11.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-flowtype": "^2.39.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "flow-bin": "^0.59.0",
+    "makeshift": "^1.1.0",
+    "mocha": "^4.0.1",
+    "mock-socket": "^7.1.0",
+    "nock": "^9.1.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0"
+  },
+  "dependencies": {
+    "@polkadot/jsonrpc": "^0.2.0",
+    "babel-runtime": "^6.26.0",
+    "isomorphic-fetch": "^2.2.1",
+    "ws": "^3.3.1"
+  }
+}

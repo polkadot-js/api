@@ -1,0 +1,10 @@
+[ignore]
+
+[include]
+
+[libs]
+
+[options]
+esproposal.decorators=ignore
+module.ignore_non_literal_requires=true
+unsafe.enable_getters_and_setters=true
