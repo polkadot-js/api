@@ -34,6 +34,60 @@ describe('provider/Ws', () => {
     }
   });
 
+  describe('websocket', () => {
+    beforeEach(() => {
+      ws = createWs([]);
+
+      sinon.spy(console, 'error');
+      sinon.spy(console, 'log');
+    });
+
+    afterEach(() => {
+      console.error.restore();
+      console.log.restore();
+    });
+
+    it('sets up the on* handlers', () => {
+      expect(ws._websocket.onclose[0]).to.equal(ws._onClose);
+      expect(ws._websocket.onerror[0]).to.equal(ws._onError);
+      expect(ws._websocket.onmessage[0]).to.equal(ws._onMessage);
+      expect(ws._websocket.onopen[0]).to.equal(ws._onOpen);
+    });
+
+    describe('_onClose', () => {
+      it('reconnects after delay', () => {
+        const clock = sinon.useFakeTimers();
+
+        ws.connect = sinon.stub();
+        ws._onClose();
+
+        expect(ws.connect).not.to.have.been.called;
+
+        clock.tick(1001);
+
+        expect(ws.connect).to.have.been.called;
+
+        clock.restore();
+      });
+    });
+
+    describe('_onError', () => {
+      it('logs the error', () => {
+        ws._onError('test error');
+
+        expect(console.error).to.have.been.calledWith('test error');
+      });
+    });
+
+    describe('_onMessage', () => {
+      it('fails with log when handler not found', () => {
+        ws._onMessage({ data: '{"id":2}' });
+
+        expect(console.error).to.have.been.calledWith('Unable to find handler for id=2');
+      });
+    });
+  });
+
   describe('send', () => {
     it('handles internal errors', () => {
       ws = createWs([], false);
