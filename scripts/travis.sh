@@ -29,8 +29,6 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
   exit 0
 fi
 
-echo "Setting up GitHub config"
-
 setupGit ${TRAVIS_REPO_SLUG}
 
 if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
