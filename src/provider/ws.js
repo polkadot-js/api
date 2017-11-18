@@ -42,7 +42,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   }
 
   _onClose = () => {
-    console.log('disconnected from', this._endpoint);
+    // console.log('disconnected from', this._endpoint);
 
     if (this._autoConnect) {
       setTimeout(this.connect, 1000);
@@ -54,17 +54,15 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   }
 
   _onOpen = () => {
-    console.log('connected to', this._endpoint);
+    // console.log('connected to', this._endpoint);
   }
 
   _onMessage = (message: WsMessageType) => {
-    // {"jsonrpc":"2.0","id":2,"result":"0x9ce59a13059e417087c02d3236a0b1cc"}
-    // "jsonrpc": "2.0", "method": "eth_subscription", "params": { "result": {...} }, "subscription": "0x9ce59a13059e417087c02d3236a0b1cc"
     const response: JsonRpcResponse = JSON.parse(message.data);
     const handler = this._handlers[response.id];
 
     if (!handler) {
-      console.error(`Unable to find handler for ${response.id}`);
+      console.error(`Unable to find handler for id=${response.id}`);
       return;
     }
 
