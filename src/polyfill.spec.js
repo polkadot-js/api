@@ -1,5 +1,4 @@
 // ISC, Copyright 2017 Jaco Greeff
-// @flow
 
 /* eslint-disable no-unused-expressions */
 
