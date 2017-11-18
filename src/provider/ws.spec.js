@@ -4,6 +4,7 @@
 
 const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
 
+const { isUndefined } = require('@polkadot/util/lib/is');
 const sinon = require('sinon');
 
 const Ws = require('./ws');
@@ -11,8 +12,8 @@ const Ws = require('./ws');
 let ws;
 let mock;
 
-function createWs (requests, autoConnect = true) {
-  mock = autoConnect
+function createWs (requests, autoConnect) {
+  mock = autoConnect || isUndefined(autoConnect)
     ? mockWs(requests)
     : null;
 
@@ -66,6 +67,24 @@ describe('provider/Ws', () => {
         clock.tick(1001);
 
         expect(ws.connect).to.have.been.called;
+
+        clock.restore();
+      });
+
+      it('does not reconnect when autoConnect false', () => {
+        mock.done();
+        ws = createWs([], false);
+
+        const clock = sinon.useFakeTimers();
+
+        ws.connect = sinon.stub();
+        ws._onClose();
+
+        expect(ws.connect).not.to.have.been.called;
+
+        clock.tick(1001);
+
+        expect(ws.connect).not.to.have.been.called;
 
         clock.restore();
       });
