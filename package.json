@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "keywords": [
