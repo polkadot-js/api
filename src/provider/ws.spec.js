@@ -4,7 +4,7 @@
 
 const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
 
-const { isUndefined } = require('@polkadot/util/lib/is');
+const { isUndefined } = require('@polkadot/util/is');
 const sinon = require('sinon');
 
 const Ws = require('./ws');
