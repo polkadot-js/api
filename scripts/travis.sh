@@ -38,16 +38,19 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   git commit -m "[CI Skip] Build artifacts"
 fi
 
+echo "Incrementing package version"
+
+npm --no-git-tag-version version
+npm version patch -m "[CI Skip] Version bump"
+git push --quiet origin HEAD:refs/heads/$TRAVIS_BRANCH > /dev/null 2>&1
+
 echo "Publishing to npm"
 
 npm run ci:makeshift
-npm --no-git-tag-version version
-npm version patch -m "[CI Skip] Version bump"
+cp LICENSE package.json package-lock.json src/types.js lib/
+cd lib
 npm publish
-
-echo "Final push to GitHub"
-
-git push --quiet origin HEAD:refs/heads/$TRAVIS_BRANCH > /dev/null 2>&1
+cd ..
 
 echo "Release completed"
 
