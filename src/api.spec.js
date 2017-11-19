@@ -109,10 +109,4 @@ describe('Api', () => {
       });
     });
   });
-
-  describe('static', () => {
-    it('exports Api.HttpProvider', () => {
-      expect(Api.HttpProvider).to.be.ok;
-    });
-  });
 });
