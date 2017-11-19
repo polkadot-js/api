@@ -4,7 +4,7 @@
 
 const sinon = require('sinon');
 
-const { isFunction } = require('@polkadot/util/lib/is');
+const { isFunction } = require('@polkadot/util/is');
 
 const Api = require('./api');
 
