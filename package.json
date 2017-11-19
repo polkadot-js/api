@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "keywords": [
@@ -35,6 +35,7 @@
     "test": "cross-env NODE_ENV=test babel-istanbul cover _mocha 'src/*.spec.js' 'src/**/*.spec.js'"
   },
   "devDependencies": {
+    "@polkadot/api-provider": "~0.1.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
@@ -60,8 +61,6 @@
     "flow-bin": "^0.59.0",
     "makeshift": "^1.1.0",
     "mocha": "^4.0.1",
-    "mock-socket": "^7.1.0",
-    "nock": "^9.1.0",
     "rimraf": "^2.6.2",
     "sinon": "^4.1.2",
     "sinon-chai": "^2.14.0"
@@ -70,7 +69,6 @@
     "@polkadot/api-format": "~0.3.0",
     "@polkadot/jsonrpc": "~0.3.0",
     "@polkadot/util": "~0.3.0",
-    "babel-runtime": "^6.26.0",
-    "isomorphic-fetch": "^2.2.1"
+    "babel-runtime": "^6.26.0"
   }
 }

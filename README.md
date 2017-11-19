@@ -1,4 +1,4 @@
-# Polkadot JavaScript API
+# API wrapper for RPC calls
 
 [![Build Status](https://travis-ci.org/polkadot-js/api.svg?branch=master)](https://travis-ci.org/polkadot-js/api)
 [![Coverage Status](https://coveralls.io/repos/github/polkadot-js/api/badge.svg?branch=master)](https://coveralls.io/github/polkadot-js/api?branch=master)
@@ -21,8 +21,9 @@ Initialisation -
 
 ```
 import Api from '@polkadot/api';
+import HttpProvider from '@polkadot/api-provider/http';
 
-const provider = new Api.HttpProvider('http://127.0.0.1:9933');
+const provider = new HttpProvider('http://127.0.0.1:9933');
 const api = new Api(provider);
 ```
 

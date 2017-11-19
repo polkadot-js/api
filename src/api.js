@@ -1,16 +1,14 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
+import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { InterfaceDefinition } from '@polkadot/jsonrpc/types';
 import type { ApiInterface } from './types';
-import type { ProviderInterface } from './provider/types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const interfaces = require('@polkadot/jsonrpc');
 const { callSignature } = require('@polkadot/jsonrpc/util');
 const { isFunction } = require('@polkadot/util/is');
-
-const { HttpProvider } = require('./provider');
 
 module.exports = class Api implements ApiInterface {
   _provider: ProviderInterface;
@@ -67,6 +65,4 @@ module.exports = class Api implements ApiInterface {
         return container;
       }, {});
   }
-
-  static HttpProvider = HttpProvider;
 };
