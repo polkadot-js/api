@@ -25,11 +25,8 @@
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "scripts": {
-    "build": "npm run build:js",
-    "build:js": "rimraf build && babel src --out-dir build --ignore *.spec.js",
-    "check": "npm run check:lint && npm run check:check",
-    "check:flow": "flow check",
-    "check:lint": "eslint src",
+    "build": "rimraf build && babel src --out-dir build --ignore *.spec.js",
+    "check": "eslint src && flow check",
     "test": "cross-env NODE_ENV=test babel-istanbul cover _mocha 'src/*.spec.js' 'src/**/*.spec.js'"
   },
   "devDependencies": {
