@@ -38,4 +38,4 @@ api.chain
 
 ## Available methods
 
-For a list of currently exposed methods, see the [@polkadot/jsonrpc](https://github.com/polkadot-js/jsonrpc) repository.
+For a list of currently exposed methods, see the [@polkadot/jsonrpc](https://github.com/polkadot-js/jsonrpc#readme) repository.

@@ -4,7 +4,7 @@
 
 const sinon = require('sinon');
 
-const { isFunction } = require('@polkadot/util/is');
+const isFunction = require('@polkadot/util/is/function');
 
 const Api = require('./api');
 
@@ -86,7 +86,7 @@ describe('Api', () => {
         return container
           .blah()
           .catch((error) => {
-            expect(error).to.match(/test_blah\(foo: Address\) => Address/);
+            expect(error).to.match(/test_blah \(foo: Address\): Address/);
           });
       });
 
