@@ -19,7 +19,7 @@ npm install --save @polkadot/api
 
 Initialisation -
 
-```
+```js
 import Api from '@polkadot/api';
 import HttpProvider from '@polkadot/api-provider/http';
 
@@ -29,7 +29,7 @@ const api = new Api(provider);
 
 Making calls -
 
-```
+```js
 api.chain
   .getHeader('0x1234567890')
   .then((header) => console.log(header))
@@ -38,4 +38,4 @@ api.chain
 
 ## Available methods
 
-For a list of currently exposed methods, see the [@polkadot/jsonrpc](https://github.com/polkadot-js/jsonrpc) repository.
+For a list of currently exposed methods, see the [@polkadot/jsonrpc](https://github.com/polkadot-js/jsonrpc#readme) repository.

@@ -7,8 +7,8 @@ import type { ApiInterface } from './types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const interfaces = require('@polkadot/jsonrpc');
-const { callSignature } = require('@polkadot/jsonrpc/util');
-const { isFunction } = require('@polkadot/util/is');
+const isFunction = require('@polkadot/util/is/function');
+const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
 module.exports = class Api implements ApiInterface {
   _provider: ProviderInterface;
@@ -58,7 +58,7 @@ module.exports = class Api implements ApiInterface {
 
             return formatOutput(output, result);
           } catch (error) {
-            throw new Error(`${callSignature(rpcName, inputs, output)}:: ${error.message}`);
+            throw new Error(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`);
           }
         };
 
