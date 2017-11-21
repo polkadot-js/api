@@ -27,16 +27,17 @@
   "scripts": {
     "build": "rimraf build && babel src --out-dir build --ignore *.spec.js",
     "check": "eslint src && flow check",
-    "test": "cross-env NODE_ENV=test babel-istanbul cover _mocha 'src/*.spec.js' 'src/**/*.spec.js'"
+    "test": "jest --coverage src"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.1.7",
-    "@polkadot/api-provider": "^0.1.3"
+    "@polkadot/dev": "^0.2.2",
+    "@polkadot/api-provider": "^0.1.4"
   },
   "dependencies": {
-    "@polkadot/api-format": "~0.3.4",
-    "@polkadot/jsonrpc": "~0.3.5",
-    "@polkadot/util": "~0.5.2",
-    "babel-runtime": "^6.26.0"
+    "@polkadot/api-format": "~0.3.5",
+    "@polkadot/jsonrpc": "~0.3.6",
+    "@polkadot/util": "~0.5.4",
+    "babel-runtime": "^6.26.0",
+    "jest": "^21.2.1"
   }
 }
