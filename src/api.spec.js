@@ -1,8 +1,6 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-/* eslint-disable no-unused-expressions */
-
-const sinon = require('sinon');
+/* global jest */
 
 const isFunction = require('@polkadot/util/is/function');
 
@@ -11,6 +9,7 @@ const Api = require('./api');
 describe('Api', () => {
   let api;
   let provider;
+  let sendSpy;
 
   beforeEach(() => {
     provider = {
@@ -18,33 +17,33 @@ describe('Api', () => {
         return Promise.resolve(params[0]);
       }
     };
-    sinon.spy(provider, 'send');
+    sendSpy = jest.spyOn(provider, 'send');
     api = new Api(provider);
   });
 
   afterEach(() => {
-    provider.send.restore();
+    sendSpy.mockRestore();
   });
 
   describe('constructor', () => {
     it('requires a provider', () => {
       expect(
         () => new Api()
-      ).to.throw(/Instantiate the Api/);
+      ).toThrow(/Instantiate the Api/);
     });
 
     it('requires a provider with a send method', () => {
       expect(
         () => new Api({})
-      ).to.throw(/does not expose send/);
+      ).toThrow(/does not expose send/);
     });
 
     it('sets up the chain interface', () => {
-      expect(api.chain).to.be.ok;
+      expect(api.chain).toBeDefined();
     });
 
     it('sets up the state interface', () => {
-      expect(api.state).to.be.ok;
+      expect(api.state).toBeDefined();
     });
   });
 
@@ -72,12 +71,12 @@ describe('Api', () => {
 
     describe('method expansion', () => {
       it('adds the specified methods to the interface', () => {
-        expect(Object.keys(container)).to.deep.equal(['blah', 'bleh']);
+        expect(Object.keys(container)).toEqual(['blah', 'bleh']);
       });
 
       it('had function calls for the attached methods', () => {
-        expect(isFunction(container.blah)).to.be.true;
-        expect(isFunction(container.bleh)).to.be.true;
+        expect(isFunction(container.blah)).toEqual(true);
+        expect(isFunction(container.bleh)).toEqual(true);
       });
     });
 
@@ -86,7 +85,7 @@ describe('Api', () => {
         return container
           .blah()
           .catch((error) => {
-            expect(error).to.match(/test_blah \(foo: Address\): Address/);
+            expect(error.message).toMatch(/test_blah \(foo: Address\): Address/);
           });
       });
 
@@ -94,7 +93,7 @@ describe('Api', () => {
         return container
           .bleh(1)
           .catch((error) => {
-            expect(error).to.match(/0 params expected, found 1 instead/);
+            expect(error.message).toMatch(/0 params expected, found 1 instead/);
           });
       });
 
@@ -102,7 +101,7 @@ describe('Api', () => {
         return container
           .blah('0x123')
           .then(() => {
-            expect(provider.send).to.have.been.calledWith('test_blah', [
+            expect(provider.send).toHaveBeenCalledWith('test_blah', [
               '0x0000000000000000000000000000000000000123'
             ]);
           });
