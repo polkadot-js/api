@@ -1,4 +1,13 @@
 language: node_js
 node_js:
   - "8"
-script: ./node_modules/.bin/polkadot-dev-build-travis build check coveralls npm test
+cache:
+  yarn: true
+  directories:
+    - node_modules
+before_install:
+  - npm install -g yarn --cache-min 999999999
+install:
+  - yarn
+script:
+  - ./node_modules/.bin/polkadot-dev-build-travis build check coveralls publish test
