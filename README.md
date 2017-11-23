@@ -1,5 +1,7 @@
 # API wrapper for RPC calls
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/polkadot-js/api.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/polkadot-js/api.svg?branch=master)](https://travis-ci.org/polkadot-js/api)
 [![Coverage Status](https://coveralls.io/repos/github/polkadot-js/api/badge.svg?branch=master)](https://coveralls.io/github/polkadot-js/api?branch=master)
 [![Dependency Status](https://david-dm.org/polkadot-js/api.svg)](https://david-dm.org/polkadot-js/api)
