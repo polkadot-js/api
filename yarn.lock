@@ -54,24 +54,24 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@polkadot/api-format@~0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.3.7.tgz#a03796fcd74728c33293b65de9031a06ad8c44e8"
+"@polkadot/api-format@^0.3.7":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-format/-/api-format-0.3.8.tgz#a2540cb362ad4cd62d321add91b834b8918f683a"
   dependencies:
     "@polkadot/util" "~0.5.6"
     babel-runtime "^6.26.0"
 
-"@polkadot/api-provider@~0.1.6":
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.1.6.tgz#240e655f3e39468ebb5cc3943638c92ac309d5e2"
+"@polkadot/api-provider@^0.1.6":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/api-provider/-/api-provider-0.1.7.tgz#226aace19d15ffea4532f1695127e6f709966ad6"
   dependencies:
     "@polkadot/util" "~0.5.6"
     babel-runtime "^6.26.0"
     isomorphic-fetch "^2.2.1"
 
-"@polkadot/dev@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.3.1.tgz#9cb3bd91df1355ab0dba0a277d2f853c0959a592"
+"@polkadot/dev@^0.3.4":
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.3.4.tgz#bb933a6f075e12abbd6a567d273865781ee383b8"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
@@ -104,11 +104,19 @@
     stylelint "^8.2.0"
     stylelint-config-standard "^17.0.0"
 
-"@polkadot/jsonrpc@~0.3.9":
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.3.9.tgz#ea08a95fb6cc904d84f047305579fc513f90d4a9"
+"@polkadot/jsonrpc@^0.3.9":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.3.11.tgz#8d2d7d0b0c26d83b31bc6d252848c0e8d016c1e0"
   dependencies:
     babel-runtime "^6.26.0"
+
+"@polkadot/util@^0.5.10":
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.5.10.tgz#c957f1c3993028d92e66862fc29606a302b0d50e"
+  dependencies:
+    babel-runtime "^6.26.0"
+    bn.js "^4.11.8"
+    keccak "^1.3.0"
 
 "@polkadot/util@~0.5.6":
   version "0.5.6"
