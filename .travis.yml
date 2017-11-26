@@ -10,4 +10,4 @@ before_install:
 install:
   - yarn
 script:
-  - ./node_modules/.bin/polkadot-dev-build-travis build check coveralls publish test
+  - yarn run polkadot-dev-build-travis
