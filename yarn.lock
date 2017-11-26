@@ -69,9 +69,9 @@
     babel-runtime "^6.26.0"
     isomorphic-fetch "^2.2.1"
 
-"@polkadot/dev@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.6.3.tgz#aa13c9e14b76c4bd6ab02c5e38875f6eb3c7db2f"
+"@polkadot/dev@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.7.2.tgz#24ca5160b11d0c3d7ca9176f0773afaa8543ea78"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
