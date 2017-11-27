@@ -30,7 +30,7 @@
     "test": "jest --coverage src"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.7.2"
+    "@polkadot/dev": "^0.8.1"
   },
   "dependencies": {
     "@polkadot/api-format": "^0.3.7",
