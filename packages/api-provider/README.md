@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/polkadot-js/api-provider.svg?branch=master)](https://travis-ci.org/polkadot-js/api-provider)
-[![Coverage Status](https://coveralls.io/repos/github/polkadot-js/api-provider/badge.svg?branch=master)](https://coveralls.io/github/polkadot-js/api-provider?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/polkadot-js/api-provider.svg)](https://greenkeeper.io/)
 [![Dependency Status](https://david-dm.org/polkadot-js/api-provider.svg)](https://david-dm.org/polkadot-js/api-provider)
 [![devDependency Status](https://david-dm.org/polkadot-js/api-provider/dev-status.svg)](https://david-dm.org/polkadot-js/api-provider#info=devDependencies)
 
