@@ -23,7 +23,7 @@
     "test": "yarn jest --coverage packages"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.9.5",
+    "@polkadot/dev": "^0.9.6",
     "lerna": "^2.5.1"
   },
   "dependencies": {},
