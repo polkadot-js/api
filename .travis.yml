@@ -10,6 +10,6 @@ before_install:
   - npm install --global lerna
 install:
   - yarn install
-  - lerna bootstrap --hoist
+  - lerna bootstrap
 script:
   - yarn run polkadot-dev-build-travis
