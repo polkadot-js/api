@@ -12,5 +12,5 @@ It is split up into a number of internal packages -
 
 - Make sure you have [Lerna](https://lernajs.io/) installed, `yarn install -g lerna`
 - Install the wrapper dependencies, `yarn install`
-- Bootstrap the dependencies, `lerna bootstrap`
+- Bootstrap the dependencies, `lerna bootstrap --hoist`
 - Make any changes in the relevant package, on master merges new versions will be published automatically
