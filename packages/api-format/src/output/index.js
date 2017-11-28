@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { FormatOutputType, InterfaceOutputType } from '@polkadot/jsonrpc/types';
+import type { FormatOutputType, InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
 import type { FormatterFunction } from '../types';
 
 const formatNoop = require('../noop');

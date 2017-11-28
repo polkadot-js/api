@@ -2,11 +2,11 @@
 // @flow
 
 import type { ProviderInterface } from '@polkadot/api-provider/types';
-import type { InterfaceDefinition } from '@polkadot/jsonrpc/types';
+import type { InterfaceDefinition } from '@polkadot/api-jsonrpc/types';
 import type { ApiInterface } from './types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
-const interfaces = require('@polkadot/jsonrpc');
+const interfaces = require('@polkadot/api-jsonrpc');
 const isFunction = require('@polkadot/util/is/function');
 const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 

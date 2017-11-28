@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { FormatInputType, InterfaceInputType } from '@polkadot/jsonrpc/types';
+import type { FormatInputType, InterfaceInputType } from '@polkadot/api-jsonrpc/types';
 import type { FormatterFunction } from '../types';
 
 const formatAddress = require('./address');

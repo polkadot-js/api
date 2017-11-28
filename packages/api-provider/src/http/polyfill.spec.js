@@ -1,13 +1,24 @@
 // ISC, Copyright 2017 Jaco Greeff
 
 describe('http/polyfill', () => {
-  it('adds polyfills with no exceptions', () => {
+  let origFetch;
+
+  beforeEach(() => {
+    origFetch = global.fetch;
+    global.fetch = null;
+  });
+
+  afterEach(() => {
+    global.fetch = origFetch;
+  });
+
+  it('polyfills with no exceptions (without fetch)', () => {
     expect(require('./polyfill')).toBeDefined();
   });
 
-  describe('interfaces', () => {
-    it('fetch is available', () => {
-      expect(fetch).toBeDefined();
-    });
+  it('polyfills with no exceptions (with fetch)', () => {
+    global.fetch = () => true;
+
+    expect(require('./polyfill')).toBeDefined();
   });
 });
