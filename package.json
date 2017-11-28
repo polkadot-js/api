@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
   "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint packages && flow check",
+    "build": "yarn polkadot-dev-build-babel",
+    "check": "yarn eslint packages && yarn flow check",
     "test": "yarn jest --coverage packages"
   },
   "devDependencies": {

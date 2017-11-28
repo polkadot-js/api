@@ -12,4 +12,4 @@ install:
   - yarn install
   - lerna bootstrap
 script:
-  - yarn run polkadot-dev-build-travis
+  - yarn polkadot-dev-build-travis
