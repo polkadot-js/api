@@ -27,7 +27,7 @@
   "scripts": {
     "build": "polkadot-dev-build-babel && polkadot-dev-build-docs",
     "check": "eslint src && flow check",
-    "test": "jest --coverage src"
+    "test": "echo \"Tests only available from root wrapper\""
   },
   "devDependencies": {
     "@polkadot/dev": "^0.9.1"

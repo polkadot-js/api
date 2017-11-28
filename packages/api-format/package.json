@@ -27,7 +27,7 @@
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "eslint src && flow check",
-    "test": "jest --coverage src"
+    "test": "echo \"Tests only available from root wrapper\""
   },
   "devDependencies": {
     "@polkadot/api-jsonrpc": "^0.5.0",
