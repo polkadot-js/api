@@ -1,0 +1,28 @@
+[![Build Status](https://travis-ci.org/polkadot-js/api-provider.svg?branch=master)](https://travis-ci.org/polkadot-js/api-provider)
+[![Coverage Status](https://coveralls.io/repos/github/polkadot-js/api-provider/badge.svg?branch=master)](https://coveralls.io/github/polkadot-js/api-provider?branch=master)
+[![Greenkeeper badge](https://badges.greenkeeper.io/polkadot-js/api-provider.svg)](https://greenkeeper.io/)
+[![Dependency Status](https://david-dm.org/polkadot-js/api-provider.svg)](https://david-dm.org/polkadot-js/api-provider)
+[![devDependency Status](https://david-dm.org/polkadot-js/api-provider/dev-status.svg)](https://david-dm.org/polkadot-js/api-provider#info=devDependencies)
+
+# @polkadot/api-provider
+
+Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. Generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used. API interfaces building on top these providers can support various transports with the same underlying interfaces.
+
+## Usage
+
+Installation -
+
+```
+npm install --save @polkadot/api-provider
+```
+
+Initialisation -
+
+```js
+import HttpProvider from '@polkadot/api-provider/http';
+
+const provider = new HttpProvider('http://127.0.0.1:9933');
+const version = await provider.send('client_version', []);
+
+console.log('clientVersion', version);
+```

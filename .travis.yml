@@ -6,8 +6,10 @@ cache:
   directories:
     - node_modules
 before_install:
-  - npm install -g yarn --cache-min 999999999
+  - npm install --global yarn --cache-min 999999999
+  - npm install --global lerna
 install:
-  - yarn
+  - yarn install
+  - lerna bootstrap
 script:
   - yarn run polkadot-dev-build-travis

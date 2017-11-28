@@ -1,20 +1,13 @@
 {
-  "name": "@polkadot/api",
-  "version": "0.4.14",
-  "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
-  "main": "index.js",
-  "keywords": [
-    "Polkadot",
-    "JsonRPC"
-  ],
+  "name": "@polkadot/api-wrapper",
+  "version": "0.5.0",
+  "description": "Non-published, see packages/",
+  "keywords": [],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
+  "private": true,
   "engines": {
-    "node": ">=6.4"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org"
+    "node": ">=8.0"
   },
   "repository": {
     "type": "git",
@@ -24,19 +17,9 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint src && flow check",
-    "test": "jest --coverage src"
-  },
   "devDependencies": {
-    "@polkadot/dev": "^0.8.1"
+    "@polkadot/dev": "^0.9.1",
+    "lerna": "^2.5.1"
   },
-  "dependencies": {
-    "@polkadot/api-format": "^0.3.7",
-    "@polkadot/api-provider": "^0.1.6",
-    "@polkadot/jsonrpc": "^0.3.9",
-    "@polkadot/util": "^0.5.10",
-    "babel-runtime": "^6.26.0"
-  }
+  "dependencies": {}
 }

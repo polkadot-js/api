@@ -2,6 +2,7 @@
 .*/build/.*
 
 [include]
+./node_modules/@polkadot/dev/flow-typed
 
 [libs]
 
