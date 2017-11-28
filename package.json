@@ -17,6 +17,11 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
+  "scripts": {
+    "build": "lerna run build",
+    "check": "lerna run check",
+    "test": "lerna run test"
+  },
   "devDependencies": {
     "@polkadot/dev": "^0.9.1",
     "lerna": "^2.5.1"

@@ -10,4 +10,3 @@
 esproposal.decorators=ignore
 module.ignore_non_literal_requires=true
 unsafe.enable_getters_and_setters=true
-module.name_mapper='^@polkadot/api-jsonrpc\(.*\)$' -> '<PROJECT_ROOT>/../api-jsonrpc/src\1'

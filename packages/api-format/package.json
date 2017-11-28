@@ -23,18 +23,18 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/api-format#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-format#readme",
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "eslint src && flow check",
     "test": "jest --coverage src"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.9.1",
-    "@polkadot/jsonrpc": "^0.3.9"
+    "@polkadot/api-jsonrpc": "^0.5.0",
+    "@polkadot/dev": "^0.9.1"
   },
   "dependencies": {
-    "@polkadot/util": "^0.5.10",
+    "@polkadot/util": "^0.5.15",
     "babel-runtime": "^6.26.0"
   }
 }
