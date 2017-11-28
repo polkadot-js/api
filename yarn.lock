@@ -89,9 +89,9 @@
     stylelint "^8.2.0"
     stylelint-config-standard "^18.0.0"
 
-"@polkadot/dev@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.9.3.tgz#fac90744ca304fe888f0931757c079f32f96015d"
+"@polkadot/dev@^0.9.7":
+  version "0.9.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.9.7.tgz#414c0581d76f146b3fe7dba6527c6723e76869d7"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
