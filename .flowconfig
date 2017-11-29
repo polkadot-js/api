@@ -2,9 +2,9 @@
 .*/build/.*
 
 [include]
-./node_modules/@polkadot/dev/flow-typed
 
 [libs]
+./node_modules/@polkadot/dev/flow-typed
 
 [options]
 esproposal.decorators=ignore
