@@ -29,14 +29,12 @@
     "check": "eslint src && flow check",
     "test": "echo \"Tests only available from root wrapper\""
   },
-  "devDependencies": {
-    "@polkadot/dev": "^0.9.1"
-  },
+  "devDependencies": {},
   "dependencies": {
     "@polkadot/api-format": "^0.5.4",
     "@polkadot/api-jsonrpc": "^0.5.4",
     "@polkadot/api-provider": "^0.5.4",
-    "@polkadot/util": "^0.5.15",
+    "@polkadot/util": "^0.5.19",
     "babel-runtime": "^6.26.0"
   }
 }

@@ -30,12 +30,11 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.9.1",
     "mock-socket": "^7.1.0",
     "nock": "^9.1.0"
   },
   "dependencies": {
-    "@polkadot/util": "^0.5.15",
+    "@polkadot/util": "^0.5.19",
     "babel-runtime": "^6.26.0",
     "isomorphic-fetch": "^2.2.1"
   }

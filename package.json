@@ -17,17 +17,17 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api#readme",
-  "scripts": {
-    "build": "yarn polkadot-dev-build-babel",
-    "check": "yarn eslint packages && yarn flow check",
-    "test": "yarn jest --coverage packages"
-  },
-  "devDependencies": {
-    "@polkadot/dev": "^0.9.8",
-    "lerna": "^2.5.1"
-  },
-  "dependencies": {},
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "eslint packages && flow check",
+    "test": "jest --coverage packages"
+  },
+  "devDependencies": {
+    "@polkadot/dev": "^0.9.9",
+    "lerna": "^2.5.1"
+  },
+  "dependencies": {}
 }

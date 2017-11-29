@@ -30,11 +30,10 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "devDependencies": {
-    "@polkadot/api-jsonrpc": "^0.5.4",
-    "@polkadot/dev": "^0.9.1"
+    "@polkadot/api-jsonrpc": "^0.5.4"
   },
   "dependencies": {
-    "@polkadot/util": "^0.5.15",
+    "@polkadot/util": "^0.5.19",
     "babel-runtime": "^6.26.0"
   }
 }
