@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-wrapper",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Non-published, see packages/",
   "keywords": [],
   "author": "Jaco Greeff <jacogr@gmail.com>",

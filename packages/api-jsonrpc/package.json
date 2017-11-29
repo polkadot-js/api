@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-jsonrpc",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Method definitions for the Polkadot RPC layer",
   "main": "index.js",
   "engines": {
@@ -29,7 +29,6 @@
     "check": "eslint src && flow check",
     "test": "echo \"Tests only available from root wrapper\""
   },
-  "devDependencies": {},
   "dependencies": {
     "babel-runtime": "^6.26.0"
   }
