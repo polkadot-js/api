@@ -1,7 +1,5 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-/* global jest */
-
 const isFunction = require('@polkadot/util/is/function');
 
 const Api = require('./api');

@@ -1,7 +1,5 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-/* global jest */
-
 const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
 
 const { isUndefined } = require('@polkadot/util/is');
