@@ -1,7 +1,5 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-/* global jest */
-
 const { mockHttp, TEST_HTTP_URL } = require('../../test/mockHttp');
 
 const Http = require('./index');

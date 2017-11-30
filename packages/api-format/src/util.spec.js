@@ -1,7 +1,5 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-/* global jest */
-
 const { format, formatArray } = require('./util');
 const formatNoop = require('./noop');
 
