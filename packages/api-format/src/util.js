@@ -8,11 +8,8 @@ const formatNoop = require('./noop');
 
 const arrayTypeRegex = /\[\]$/;
 
-function format (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
-  const isArrayType: boolean = arrayTypeRegex.test(type);
-  const formatter: FormatterFunction = isArrayType
-    ? formatters[type.replace(arrayTypeRegex, '')]
-    : formatters[type];
+function formatSingleType (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
+  const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
     console.warn(`Unable to find default formatter for '${type}', falling back to noop`);
@@ -20,19 +17,31 @@ function format (formatters: { [any]: FormatterFunction }, type: string, value: 
     return formatNoop(value);
   }
 
-  if (isArrayType && !Array.isArray(value)) {
+  try {
+    return formatter(value);
+  } catch (error) {
+    throw new Error(`Error formatting '${value}' as '${type}': ${error.message}`);
+  }
+}
+
+function formatArrayType (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
+  if (!Array.isArray(value)) {
     throw new Error(`Unable to format non-array '${value}' as '${type}'`);
   }
 
-  try {
-    if (isArrayType) {
-      return (value: Array<any>).map((value) => formatter(value));
-    } else {
-      return formatter(value);
-    }
-  } catch (error) {
-    throw new Error(`Error formatting '${value}' as '${type}'': ${error.message}`);
+  type = type.replace(arrayTypeRegex, '');
+
+  return (value: Array<any>).map((value) => {
+    return formatSingleType(formatters, type, value);
+  });
+}
+
+function format (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
+  if (arrayTypeRegex.test(type)) {
+    return formatArrayType(formatters, type, value);
   }
+
+  return formatSingleType(formatters, type, value);
 }
 
 function formatArray (formatters: { [any]: FormatterFunction }, types: Array<string>, values: Array<any>): Array<any> {

@@ -54,9 +54,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@polkadot/dev@^0.9.9":
-  version "0.9.9"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.9.9.tgz#b302ba6728a5068c7bffe069fd64290c227d317c"
+"@polkadot/dev@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.10.1.tgz#4c57180413320f0194c340177725f8b8c0ecbffa"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
@@ -73,6 +73,7 @@
     eslint "^4.11.0"
     eslint-config-semistandard "^11.0.0"
     eslint-config-standard "^10.2.1"
+    eslint-config-standard-jsx "^4.0.2"
     eslint-config-standard-react "^5.0.0"
     eslint-plugin-flowtype "^2.39.1"
     eslint-plugin-import "^2.8.0"
@@ -89,9 +90,9 @@
     stylelint "^8.2.0"
     stylelint-config-standard "^18.0.0"
 
-"@polkadot/util@^0.5.19":
-  version "0.5.19"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.5.19.tgz#e34d917f3fd52b98c6a7633e534f26d182e7cb6f"
+"@polkadot/util@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.6.1.tgz#d08fca12cbef5559f27bb0f51f72e71a3f11c824"
   dependencies:
     babel-runtime "^6.26.0"
     bn.js "^4.11.8"
@@ -1882,7 +1883,7 @@ eslint-config-semistandard@^11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/eslint-config-semistandard/-/eslint-config-semistandard-11.0.0.tgz#44eef7cfdfd47219e3a7b81b91b540e880bb2615"
 
-eslint-config-standard-jsx@^4.0.0:
+eslint-config-standard-jsx@^4.0.0, eslint-config-standard-jsx@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/eslint-config-standard-jsx/-/eslint-config-standard-jsx-4.0.2.tgz#009e53c4ddb1e9ee70b4650ffe63a7f39f8836e1"
 

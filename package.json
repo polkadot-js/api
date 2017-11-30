@@ -1,22 +1,6 @@
 {
-  "name": "@polkadot/api-wrapper",
   "version": "0.5.5",
-  "description": "Non-published, see packages/",
-  "keywords": [],
-  "author": "Jaco Greeff <jacogr@gmail.com>",
-  "license": "ISC",
   "private": true,
-  "engines": {
-    "node": ">=8.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
-  },
-  "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
-  },
-  "homepage": "https://github.com/polkadot-js/api#readme",
   "workspaces": [
     "packages/*"
   ],
@@ -26,8 +10,7 @@
     "test": "jest --coverage packages"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.9.9",
+    "@polkadot/dev": "^0.10.1",
     "lerna": "^2.5.1"
-  },
-  "dependencies": {}
+  }
 }
