@@ -7,10 +7,10 @@
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "eslint packages && flow check",
-    "test": "jest --coverage packages"
+    "test": "jest packages"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.11.1",
+    "@polkadot/dev": "^0.12.4",
     "lerna": "^2.5.1"
   }
 }

@@ -1,5 +1,5 @@
-[![Dependency Status](https://david-dm.org/polkadot-js/api.svg?path=packages/api-jsonrpc)](https://david-dm.org/polkadot-js/api?path=packages/api-jsonrpc)
-[![devDependency Status](https://david-dm.org/polkadot-js/api/dev-status.svg?path=packages/api-jsonrpc)](https://david-dm.org/polkadot-js/api?path=packages/api-jsonrpc#info=devDependencies)
+[![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/api-jsonrpc)](https://david-dm.org/polkadot-js/api?path=packages/api-jsonrpc)
+[![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/api-jsonrpc)](https://david-dm.org/polkadot-js/api?path=packages/api-jsonrpc#info=devDependencies)
 
 # @polkadot/api-jsonrpc
 

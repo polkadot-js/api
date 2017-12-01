@@ -1,9 +1,10 @@
-![ISC](https://img.shields.io/badge/license-ISC-lightgrey.svg)
-[![npm (scoped)](https://img.shields.io/npm/v/@polkadot/api.svg)](https://www.npmjs.com/package/@polkadot/api)
-[![Build Status](https://travis-ci.org/polkadot-js/api.svg?branch=master)](https://travis-ci.org/polkadot-js/api)
-[![Maintainability](https://api.codeclimate.com/v1/badges/bdc230778ec91a5167b8/maintainability)](https://codeclimate.com/github/polkadot-js/api/maintainability)
-[![Coverage Status](https://coveralls.io/repos/github/polkadot-js/api/badge.svg?branch=master)](https://coveralls.io/github/polkadot-js/api?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/polkadot-js/api.svg)](https://greenkeeper.io/)
+![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square)
+[![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard)
+[![npm](https://img.shields.io/npm/v/@polkadot/api.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/api)
+[![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api)
+[![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability)
+[![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master)
+[![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg?style=flat-square)](https://greenkeeper.io/)
 
 # @polkadot/client
 
