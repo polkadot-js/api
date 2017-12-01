@@ -7,8 +7,6 @@
 ./node_modules/@polkadot/dev/flow-typed
 
 [options]
-esproposal.decorators=ignore
-module.ignore_non_literal_requires=true
 unsafe.enable_getters_and_setters=true
 module.name_mapper='^@polkadot/api-format\(.*\)$' -> '<PROJECT_ROOT>/packages/api-format/src\1'
 module.name_mapper='^@polkadot/api-jsonrpc\(.*\)$' -> '<PROJECT_ROOT>/packages/api-jsonrpc/src\1'

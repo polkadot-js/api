@@ -1,5 +1,5 @@
 {
   "extends": [
-    "./node_modules/@polkadot/dev/.eslintrc.json"
+    "./node_modules/@polkadot/dev/config/eslint.js"
   ]
 }

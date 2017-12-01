@@ -1,4 +1,4 @@
-const config = require('@polkadot/dev/jest.config');
+const config = require('@polkadot/dev/config/jest');
 
 module.exports = Object.assign({}, config, {
   moduleNameMapper: {

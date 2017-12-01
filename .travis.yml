@@ -6,8 +6,7 @@ cache:
   directories:
     - node_modules
 before_install:
-  - npm install --global yarn --cache-min 999999999
-  - npm install --global lerna
+  - npm install --global lerna yarn --cache-min 999999999
 install:
   - yarn install
   - lerna bootstrap
