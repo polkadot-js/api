@@ -19,6 +19,8 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   _autoConnect: boolean = true;
   _endpoint: string;
   _handlers: { [number]: AwaitingType } = {};
+  _isConnected: boolean = false;
+  _queued: { [number]: JsonRpcRequest } = {};
   _websocket: WebSocket;
 
   constructor (endpoint: string, autoConnect: boolean = true) {
@@ -30,6 +32,10 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     if (autoConnect) {
       this.connect();
     }
+  }
+
+  get isConnected (): boolean {
+    return this._isConnected;
   }
 
   connect = () => {
@@ -45,6 +51,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
   _onClose = () => {
     // console.log('disconnected from', this._endpoint);
+    this._isConnected = false;
 
     if (this._autoConnect) {
       setTimeout(this.connect, 1000);
@@ -57,6 +64,16 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
   _onOpen = () => {
     // console.log('connected to', this._endpoint);
+    this._isConnected = true;
+
+    Object.keys(this._queued).forEach((id) => {
+      try {
+        this._websocket.send(this._queued[id]);
+        delete this._queued[id];
+      } catch (error) {
+        console.error(error);
+      }
+    });
   }
 
   _onMessage = (message: WsMessageType) => {
@@ -82,9 +99,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   send (method: string, params: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        this._websocket.send(
-          this.encodeObject(method, params)
-        );
+        const encoded = this.encodeObject(method, params);
 
         this._handlers[this.id] = {
           callback: (error: ?Error, result: any) => {
@@ -95,6 +110,12 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
             }
           }
         };
+
+        if (this._isConnected) {
+          this._websocket.send(encoded);
+        } else {
+          this._queued[this.id] = encoded;
+        }
       } catch (error) {
         reject(error);
       }
