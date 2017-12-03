@@ -5,7 +5,7 @@ describe('ws/polyfill', () => {
 
   beforeEach(() => {
     origWs = global.WebSocket;
-    global.fetch = null;
+    global.WebSocket = null;
   });
 
   afterEach(() => {
