@@ -6,7 +6,7 @@
 [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master)
 [![greenkeeper](https://img.shields.io/badge/greenkeeper-enabled-brightgreen.svg?style=flat-square)](https://greenkeeper.io/)
 
-# @polkadot/client
+# @polkadot/api
 
 This library provides a clean wrapper around all the methods exposed by a Polkadot network client. As part of the JsonRpc defintions, the [exposed methods are documented](packages/api-jsonrpc/docs/).
 
