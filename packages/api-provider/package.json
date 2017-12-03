@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-provider",
-  "version": "0.5.12",
+  "version": "0.5.13",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
