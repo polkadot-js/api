@@ -3,33 +3,26 @@
 
 import type { JsonRpcRequest, JsonRpcResponse } from './types';
 
-const { isNumber, isUndefined } = require('@polkadot/util/is');
+const assert = require('@polkadot/util/assert');
+const isNumber = require('@polkadot/util/is/number');
+const isUndefined = require('@polkadot/util/is/undefined');
 
 module.exports = class JsonRpcCoder {
   _id: number = 0;
 
   decodeResponse (response: JsonRpcResponse): any {
-    if (!response) {
-      throw new Error('Empty response object received');
-    }
+    assert(response, 'Empty response object received');
 
-    if (response.jsonrpc !== '2.0') {
-      throw new Error('Invalid jsonrpc field in decoded object');
-    }
+    assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
-    if (!isNumber(response.id)) {
-      throw new Error('Invalid id field in decoded object');
-    }
+    assert(isNumber(response.id), 'Invalid id field in decoded object');
 
     if (response.error) {
       const { code, message } = response.error;
 
       throw new Error(`[${code}]: ${message}`);
     }
-
-    if (isUndefined(response.result)) {
-      throw new Error('No result found in JsonRpc response');
-    }
+    assert(!isUndefined(response.result), 'No result found in JsonRpc response');
 
     return response.result;
   }

@@ -7,6 +7,7 @@ import type { ApiInterface } from './types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const interfaces = require('@polkadot/api-jsonrpc');
+const assert = require('@polkadot/util/assert');
 const isFunction = require('@polkadot/util/is/function');
 const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
@@ -16,13 +17,9 @@ module.exports = class Api implements ApiInterface {
   _stateInterface: any = null;
 
   constructor (provider: ProviderInterface) {
-    if (!provider) {
-      throw new Error('Instantiate the Api with `new Api(new Provider(...))`');
-    }
+    assert(provider, 'Instantiate the Api with `new Api(new Provider(...))`');
 
-    if (!isFunction(provider.send)) {
-      throw new Error('Supplied provider does not expose send method');
-    }
+    assert(isFunction(provider.send), 'Supplied provider does not expose send method');
 
     this._provider = provider;
 
@@ -49,9 +46,7 @@ module.exports = class Api implements ApiInterface {
 
         container[method] = async (..._params: Array<any>): any => {
           try {
-            if (inputs.length !== _params.length) {
-              throw new Error(`${inputs.length} params expected, found ${_params.length} instead`);
-            }
+            assert(inputs.length === _params.length, `${inputs.length} params expected, found ${_params.length} instead`);
 
             const params = formatInputs(inputs, _params);
             const result = await this._provider.send(rpcName, params);
