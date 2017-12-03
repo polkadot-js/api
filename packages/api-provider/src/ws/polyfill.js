@@ -2,5 +2,5 @@
 // @flow
 
 if (typeof WebSocket === 'undefined') {
-  global.WebSocket = require('ws');
+  global.WebSocket = require('websocket').w3cwebsocket;
 }

@@ -21,7 +21,30 @@ describe('Http', () => {
     encodeSpy.mockRestore();
     decodeSpy.mockRestore();
 
-    mock.done();
+    if (mock) {
+      mock.done();
+      mock = null;
+    }
+  });
+
+  describe('constructor', () => {
+    it('requires the endpoint to be set', () => {
+      expect(
+        () => new Http()
+      ).toThrow(/should be provided/);
+    });
+
+    it('requires an http:// prefixed endpoint', () => {
+      expect(
+        () => new Http('ws://')
+      ).toThrow(/with 'http/);
+    });
+  });
+
+  describe('isConnected', () => {
+    it('always returns true', () => {
+      expect(http.isConnected).toEqual(true);
+    });
   });
 
   describe('send', () => {

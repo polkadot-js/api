@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { JsonRpcResponse, ProviderInterface } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
   callback: (error: ?Error, result: any) => void
@@ -13,16 +13,22 @@ type WsMessageType = {
 
 require('./polyfill');
 
+const assert = require('@polkadot/util/assert');
 const JsonRpcCoder = require('../jsonRpcCoder');
 
 module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterface {
   _autoConnect: boolean = true;
   _endpoint: string;
   _handlers: { [number]: AwaitingType } = {};
+  _isConnected: boolean = false;
+  _queued: { [number]: JsonRpcRequest } = {};
   _websocket: WebSocket;
 
   constructor (endpoint: string, autoConnect: boolean = true) {
     super();
+
+    assert(endpoint, 'Endpoint should be provided');
+    assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._endpoint = endpoint;
     this._autoConnect = autoConnect;
@@ -32,9 +38,11 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     }
   }
 
-  connect = () => {
-    this._handlers = {};
+  get isConnected (): boolean {
+    return this._isConnected;
+  }
 
+  connect = () => {
     this._websocket = new WebSocket(this._endpoint);
 
     this._websocket.onclose = this._onClose;
@@ -45,6 +53,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
   _onClose = () => {
     // console.log('disconnected from', this._endpoint);
+    this._isConnected = false;
 
     if (this._autoConnect) {
       setTimeout(this.connect, 1000);
@@ -57,6 +66,16 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
   _onOpen = () => {
     // console.log('connected to', this._endpoint);
+    this._isConnected = true;
+
+    Object.keys(this._queued).forEach((id: string) => {
+      try {
+        this._websocket.send(this._queued[((id: any): number)]);
+        delete this._queued[((id: any): number)];
+      } catch (error) {
+        console.error(error);
+      }
+    });
   }
 
   _onMessage = (message: WsMessageType) => {
@@ -82,9 +101,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   send (method: string, params: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        this._websocket.send(
-          this.encodeObject(method, params)
-        );
+        const encoded = this.encodeObject(method, params);
 
         this._handlers[this.id] = {
           callback: (error: ?Error, result: any) => {
@@ -95,6 +112,12 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
             }
           }
         };
+
+        if (this._isConnected) {
+          this._websocket.send(encoded);
+        } else {
+          this._queued[this.id] = encoded;
+        }
       } catch (error) {
         reject(error);
       }
