@@ -14,6 +14,9 @@ module.exports = class HttpProvider extends JsonRpcCoder implements ProviderInte
   constructor (endpoint: string) {
     super();
 
+    assert(endpoint, 'Endpoint should be provided');
+    assert(/^http:\/\//.test(endpoint), `Endpoint should start with 'http://'`);
+
     this._endpoint = endpoint;
   }
 

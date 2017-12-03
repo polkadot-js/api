@@ -34,6 +34,20 @@ describe('Ws', () => {
     }
   });
 
+  describe('constructor', () => {
+    it('requires the endpoint to be set', () => {
+      expect(
+        () => new Ws()
+      ).toThrow(/should be provided/);
+    });
+
+    it('requires an ws:// prefixed endpoint', () => {
+      expect(
+        () => new Ws('http://')
+      ).toThrow(/with 'http/);
+    });
+  });
+
   describe('websocket', () => {
     let errorSpy;
 

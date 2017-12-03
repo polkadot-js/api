@@ -13,6 +13,7 @@ type WsMessageType = {
 
 require('./polyfill');
 
+const assert = require('@polkadot/util/assert');
 const JsonRpcCoder = require('../jsonRpcCoder');
 
 module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterface {
@@ -25,6 +26,9 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
   constructor (endpoint: string, autoConnect: boolean = true) {
     super();
+
+    assert(endpoint, 'Endpoint should be provided');
+    assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://'`);
 
     this._endpoint = endpoint;
     this._autoConnect = autoConnect;
