@@ -3,7 +3,8 @@
 
 import type { FormatterFunction } from './types';
 
-const { isUndefined } = require('@polkadot/util/is');
+const assert = require('@polkadot/util/assert');
+const isUndefined = require('@polkadot/util/is/undefined');
 const formatNoop = require('./noop');
 
 const arrayTypeRegex = /\[\]$/;
@@ -25,9 +26,7 @@ function formatSingleType (formatters: { [any]: FormatterFunction }, type: strin
 }
 
 function formatArrayType (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
-  if (!Array.isArray(value)) {
-    throw new Error(`Unable to format non-array '${value}' as '${type}'`);
-  }
+  assert(Array.isArray(value), `Unable to format non-array '${value}' as '${type}'`);
 
   type = type.replace(arrayTypeRegex, '');
 
