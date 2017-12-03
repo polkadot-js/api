@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { JsonRpcRequest, JsonRpcResponse, ProviderInterface } from '../types';
+import type { JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
   callback: (error: ?Error, result: any) => void
