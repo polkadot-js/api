@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { JsonRpcRequest, JsonRpcResponse, ProviderInterface } from '../types';
+import type { JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
   callback: (error: ?Error, result: any) => void
@@ -21,7 +21,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   _endpoint: string;
   _handlers: { [number]: AwaitingType } = {};
   _isConnected: boolean = false;
-  _queued: { [number]: JsonRpcRequest } = {};
+  _queued: { [number]: string } = {};
   _websocket: WebSocket;
 
   constructor (endpoint: string, autoConnect: boolean = true) {
@@ -101,7 +101,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   send (method: string, params: Array<any>): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
-        const encoded = this.encodeObject(method, params);
+        const json = this.encodeJson(method, params);
 
         this._handlers[this.id] = {
           callback: (error: ?Error, result: any) => {
@@ -114,9 +114,9 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
         };
 
         if (this._isConnected) {
-          this._websocket.send(encoded);
+          this._websocket.send(json);
         } else {
-          this._queued[this.id] = encoded;
+          this._queued[this.id] = json;
         }
       } catch (error) {
         reject(error);
