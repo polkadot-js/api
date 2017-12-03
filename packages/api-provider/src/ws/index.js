@@ -11,6 +11,8 @@ type WsMessageType = {
   data: any
 };
 
+require('./polyfill');
+
 const JsonRpcCoder = require('../jsonRpcCoder');
 
 module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterface {
