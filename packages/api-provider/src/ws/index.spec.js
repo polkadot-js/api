@@ -2,8 +2,6 @@
 
 const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
 
-const { isUndefined } = require('@polkadot/util/is');
-
 const Ws = require('./index');
 
 let ws;
@@ -12,10 +10,7 @@ let encodeSpy;
 let decodeSpy;
 
 function createWs (requests, autoConnect) {
-  mock = autoConnect || isUndefined(autoConnect)
-    ? mockWs(requests)
-    : null;
-
+  mock = mockWs(requests);
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   encodeSpy = jest.spyOn(ws, 'encodeObject');
@@ -26,11 +21,19 @@ function createWs (requests, autoConnect) {
 
 describe('Ws', () => {
   afterEach(() => {
-    encodeSpy.mockRestore();
-    decodeSpy.mockRestore();
+    if (encodeSpy) {
+      encodeSpy.mockRestore();
+      encodeSpy = null;
+    }
+
+    if (decodeSpy) {
+      decodeSpy.mockRestore();
+      decodeSpy = null;
+    }
 
     if (mock) {
       mock.done();
+      mock = null;
     }
   });
 
@@ -44,7 +47,7 @@ describe('Ws', () => {
     it('requires an ws:// prefixed endpoint', () => {
       expect(
         () => new Ws('http://')
-      ).toThrow(/with 'http/);
+      ).toThrow(/with 'ws/);
     });
   });
 
@@ -88,6 +91,10 @@ describe('Ws', () => {
         expect(ws.connect).toHaveBeenCalled();
       });
 
+      it('sets isConnected false', () => {
+        expect(ws.isConnected).toEqual(false);
+      });
+
       it('does not reconnect when autoConnect false', () => {
         mock.done();
         ws = createWs([], false);
@@ -122,7 +129,7 @@ describe('Ws', () => {
 
   describe('send', () => {
     it('handles internal errors', () => {
-      ws = createWs([], false);
+      ws = createWs([]);
 
       return ws
         .send('test_encoding', ['param'])
@@ -202,6 +209,29 @@ describe('Ws', () => {
         .catch((error) => {
           expect(error.message).toMatch(/\[666\]: error/);
         });
+    });
+  });
+
+  describe('queued', () => {
+    let sendPromise;
+
+    beforeEach(() => {
+      ws = createWs([{
+        id: 1,
+        method: 'test_queue',
+        reply: {
+          result: 'ok'
+        }
+      }], false);
+      sendPromise = ws.send('test_queue', []);
+    });
+
+    it('sends messages when conected', () => {
+      ws.connect();
+
+      return sendPromise.then((result) => {
+        expect(result).toEqual('ok');
+      });
     });
   });
 });

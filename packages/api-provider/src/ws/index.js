@@ -1,7 +1,7 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-import type { JsonRpcResponse, ProviderInterface } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
   callback: (error: ?Error, result: any) => void
@@ -28,7 +28,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     super();
 
     assert(endpoint, 'Endpoint should be provided');
-    assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://'`);
+    assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._endpoint = endpoint;
     this._autoConnect = autoConnect;
@@ -43,8 +43,6 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   }
 
   connect = () => {
-    this._handlers = {};
-
     this._websocket = new WebSocket(this._endpoint);
 
     this._websocket.onclose = this._onClose;
@@ -70,10 +68,10 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     // console.log('connected to', this._endpoint);
     this._isConnected = true;
 
-    Object.keys(this._queued).forEach((id) => {
+    Object.keys(this._queued).forEach((id: string) => {
       try {
-        this._websocket.send(this._queued[id]);
-        delete this._queued[id];
+        this._websocket.send(this._queued[((id: any): number)]);
+        delete this._queued[((id: any): number)];
       } catch (error) {
         console.error(error);
       }

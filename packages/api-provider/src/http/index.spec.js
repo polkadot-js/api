@@ -38,6 +38,12 @@ describe('Http', () => {
     });
   });
 
+  describe('isConnected', () => {
+    it('always returns true', () => {
+      expect(http.isConnected).toEqual(true);
+    });
+  });
+
   describe('send', () => {
     it('encodes requests', () => {
       mock = mockHttp([{
