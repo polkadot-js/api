@@ -131,6 +131,9 @@ describe('Ws', () => {
     it('handles internal errors', () => {
       ws = createWs([]);
 
+      ws._isConnected = true;
+      ws._websocket = null;
+
       return ws
         .send('test_encoding', ['param'])
         .catch((error) => {
@@ -226,7 +229,15 @@ describe('Ws', () => {
       sendPromise = ws.send('test_queue', []);
     });
 
-    it('sends messages when conected', () => {
+    it('sends messages when connected', () => {
+      ws.connect();
+
+      return sendPromise.then((result) => {
+        expect(result).toEqual('ok');
+      });
+    });
+
+    it('sends messages when connected (errors)', () => {
       ws.connect();
 
       return sendPromise.then((result) => {

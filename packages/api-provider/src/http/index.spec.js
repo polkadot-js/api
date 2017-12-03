@@ -21,7 +21,10 @@ describe('Http', () => {
     encodeSpy.mockRestore();
     decodeSpy.mockRestore();
 
-    mock.done();
+    if (mock) {
+      mock.done();
+      mock = null;
+    }
   });
 
   describe('constructor', () => {
