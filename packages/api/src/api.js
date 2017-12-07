@@ -8,6 +8,7 @@ import type { ApiInterface } from './types';
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const interfaces = require('@polkadot/api-jsonrpc');
 const assert = require('@polkadot/util/assert');
+const ExtError = require('@polkadot/util/ext/error');
 const isFunction = require('@polkadot/util/is/function');
 const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
@@ -19,7 +20,7 @@ module.exports = class Api implements ApiInterface {
   constructor (provider: ProviderInterface) {
     assert(provider, 'Instantiate the Api with `new Api(new Provider(...))`');
 
-    assert(isFunction(provider.send), 'Supplied provider does not expose send method');
+    assert(isFunction(provider.send), 'Provider does not expose send method');
 
     this._provider = provider;
 
@@ -53,7 +54,7 @@ module.exports = class Api implements ApiInterface {
 
             return formatOutput(output, result);
           } catch (error) {
-            throw new Error(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`);
+            throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
           }
         };
 
