@@ -1,12 +1,12 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-const format = require('./index');
+const { formatInputs } = require('./index');
 
-describe('input', () => {
+describe('formatInputs', () => {
   describe('format', () => {
     it('formats each value in an array', () => {
       expect(
-        format(
+        formatInputs(
           [
             { name: 'foo', type: 'Address' },
             { name: 'bar', type: 'H256' }

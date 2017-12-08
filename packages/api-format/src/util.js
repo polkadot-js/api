@@ -45,9 +45,7 @@ function format (formatters: { [any]: FormatterFunction }, type: string, value: 
 
 function formatArray (formatters: { [any]: FormatterFunction }, types: Array<string>, values: Array<any>): Array<any> {
   return types.map((type, index) => {
-    const value = values[index];
-
-    return format(formatters, type, value);
+    return format(formatters, type, values[index]);
   });
 }
 
