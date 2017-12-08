@@ -2,17 +2,19 @@
 // @flow
 
 import type { FormatOutputType, InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
-import type { FormatterFunction } from '../types';
+import type { FormatterFunction } from './types';
 
-const formatNoop = require('../noop');
-const util = require('../util');
+const headerFromJson = require('@polkadot/primitives-json/header/fromJson');
+
+const formatNoop = require('./noop');
+const util = require('./util');
 
 const formatters: { [FormatOutputType]: FormatterFunction } = {
-  'Header': formatNoop,
+  'Header': headerFromJson,
   'OutData': formatNoop,
   'StorageData': formatNoop
 };
 
-module.exports = function format (output: InterfaceOutputType, value: any): any {
+module.exports = function formatOutput (output: InterfaceOutputType, value: any): any {
   return util.format(formatters, output.type, value);
 };
