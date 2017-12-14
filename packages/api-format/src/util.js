@@ -5,7 +5,7 @@ import type { FormatterFunction } from './types';
 
 const assert = require('@polkadot/util/assert');
 const isUndefined = require('@polkadot/util/is/undefined');
-const formatNoop = require('./noop');
+const echo = require('./echo');
 
 const arrayTypeRegex = /\[\]$/;
 
@@ -13,9 +13,9 @@ function formatSingleType (formatters: { [any]: FormatterFunction }, type: strin
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
-    console.warn(`Unable to find default formatter for '${type}', falling back to noop`);
+    console.warn(`Unable to find default formatter for '${type}', falling back to echo`);
 
-    return formatNoop(value);
+    return echo(value);
   }
 
   try {

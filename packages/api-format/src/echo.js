@@ -1,6 +1,6 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-module.exports = function format (value: any): any {
+module.exports = function echo (value: any): any {
   return value;
 };

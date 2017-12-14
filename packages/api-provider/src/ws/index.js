@@ -70,7 +70,9 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
 
     Object.keys(this._queued).forEach((id: string) => {
       try {
-        this._websocket.send(this._queued[((id: any): number)]);
+        this._websocket.send(
+          this._queued[((id: any): number)]
+        );
         delete this._queued[((id: any): number)];
       } catch (error) {
         console.error(error);
