@@ -4,15 +4,15 @@
 import type { FormatOutputType, InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
 import type { FormatterFunction } from './types';
 
-const headerFromJson = require('@polkadot/primitives-json/header/fromJson');
+const headerDecode = require('@polkadot/primitives-json/header/decode');
 
-const formatNoop = require('./noop');
+const echo = require('./echo');
 const util = require('./util');
 
 const formatters: { [FormatOutputType]: FormatterFunction } = {
-  'Header': headerFromJson,
-  'OutData': formatNoop,
-  'StorageData': formatNoop
+  'Header': headerDecode,
+  'OutData': echo,
+  'StorageData': echo
 };
 
 module.exports = function formatOutput (output: InterfaceOutputType, value: any): any {

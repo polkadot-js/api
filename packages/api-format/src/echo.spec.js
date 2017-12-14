@@ -1,13 +1,13 @@
 // ISC, Copyright 2017 Jaco Greeff
 
-const format = require('./noop');
+const echo = require('./echo');
 
-describe('noop', () => {
+describe('echo', () => {
   it('returns input value as output value', () => {
     const input = { 'some': 'object' };
 
     expect(
-      format(input)
+      echo(input)
     ).toEqual(input);
   });
 });

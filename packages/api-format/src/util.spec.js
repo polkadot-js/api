@@ -1,20 +1,20 @@
 // ISC, Copyright 2017 Jaco Greeff
 
 const { format, formatArray } = require('./util');
-const formatNoop = require('./noop');
+const echo = require('./echo');
 
 describe('util', () => {
   let formatters;
-  let noopSpy;
+  let echoSpy;
   let warnSpy;
 
   beforeEach(() => {
-    noopSpy = jest.fn(formatNoop);
+    echoSpy = jest.fn(echo);
     warnSpy = jest.spyOn(console, 'warn');
 
     formatters = {
-      'Address': noopSpy,
-      'Address[]': noopSpy,
+      'Address': echoSpy,
+      'Address[]': echoSpy,
       'Exception': () => {
         throw new Error('something went wrong');
       }
@@ -22,7 +22,7 @@ describe('util', () => {
   });
 
   afterEach(() => {
-    noopSpy.mockRestore();
+    echoSpy.mockRestore();
     warnSpy.mockRestore();
   });
 
@@ -35,7 +35,7 @@ describe('util', () => {
 
     it('logs a warning with unknown types', () => {
       format(formatters, 'Unknown', 'test');
-      expect(warnSpy).toHaveBeenCalledWith("Unable to find default formatter for 'Unknown', falling back to noop");
+      expect(warnSpy).toHaveBeenCalledWith("Unable to find default formatter for 'Unknown', falling back to echo");
     });
 
     it('wraps exceptions with the type', () => {
@@ -48,7 +48,7 @@ describe('util', () => {
       it('formats known types using the supplied formatter', () => {
         format(formatters, 'Address', '0xaddress');
 
-        expect(noopSpy).toHaveBeenCalledWith('0xaddress');
+        expect(echoSpy).toHaveBeenCalledWith('0xaddress');
       });
     });
 
@@ -62,8 +62,8 @@ describe('util', () => {
       it('formats using the primitive type', () => {
         format(formatters, 'Address[]', ['0x123', '0x234']);
 
-        expect(noopSpy).toHaveBeenCalledWith('0x123');
-        expect(noopSpy).toHaveBeenCalledWith('0x234');
+        expect(echoSpy).toHaveBeenCalledWith('0x123');
+        expect(echoSpy).toHaveBeenCalledWith('0x234');
       });
 
       it('returns formatted values as arrays', () => {
