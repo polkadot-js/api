@@ -8,7 +8,4 @@
 
 [options]
 unsafe.enable_getters_and_setters=true
-module.name_mapper='^@polkadot/api-format\(.*\)$' -> '<PROJECT_ROOT>/packages/api-format/src\1'
-module.name_mapper='^@polkadot/api-jsonrpc\(.*\)$' -> '<PROJECT_ROOT>/packages/api-jsonrpc/src\1'
-module.name_mapper='^@polkadot/api-provider\(.*\)$' -> '<PROJECT_ROOT>/packages/api-provider/src\1'
-module.name_mapper='^@polkadot/jsonrpc\(.*\)$' -> '<PROJECT_ROOT>/packages/api-jsonrpc/src\1'
+module.name_mapper='^@polkadot/api-\(format\|jsonrpc\|provider\)\(.*\)$' -> '<PROJECT_ROOT>/packages/api-\1/src\2'

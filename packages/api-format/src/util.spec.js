@@ -53,12 +53,6 @@ describe('util', () => {
     });
 
     describe('primitive[]', () => {
-      it('throws exception with array type, but non-array value', () => {
-        expect(
-          () => format(formatters, 'Address[]', 'not-an-array')
-        ).toThrow(/Unable to format non-array/);
-      });
-
       it('formats using the primitive type', () => {
         format(formatters, 'Address[]', ['0x123', '0x234']);
 

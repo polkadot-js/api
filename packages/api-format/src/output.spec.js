@@ -21,10 +21,10 @@ describe('formatOutput', () => {
       )
     ).toEqual(
       JSON.stringify({
-        parentHash: '0x0000000000000000000000000000000000000000000000000000000000001234',
+        parentHash: '0x1234',
         number: new BN(0x1234),
-        stateRoot: '0x0000000000000000000000000000000000000000000000000000000000005678',
-        transactionRoot: '0x000000000000000000000000000000000000000000000000000000000000abcd',
+        stateRoot: '0x5678',
+        transactionRoot: '0xabcd',
         digest: {
           parachainActivityBitfield: Buffer.from([0x12, 0x34]),
           logs: [

@@ -27,18 +27,10 @@ describe('Http', () => {
     }
   });
 
-  describe('constructor', () => {
-    it('requires the endpoint to be set', () => {
-      expect(
-        () => new Http()
-      ).toThrow(/should be provided/);
-    });
-
-    it('requires an http:// prefixed endpoint', () => {
-      expect(
-        () => new Http('ws://')
-      ).toThrow(/with 'http/);
-    });
+  it('requires an http:// prefixed endpoint', () => {
+    expect(
+      () => new Http('ws://')
+    ).toThrow(/with 'http/);
   });
 
   describe('isConnected', () => {
