@@ -24,16 +24,10 @@ describe('Api', () => {
   });
 
   describe('constructor', () => {
-    it('requires a provider', () => {
-      expect(
-        () => new Api()
-      ).toThrow(/Instantiate the Api/);
-    });
-
     it('requires a provider with a send method', () => {
       expect(
         () => new Api({})
-      ).toThrow(/does not expose send/);
+      ).toThrow(/Expected Provider/);
     });
 
     it('sets up the chain interface', () => {
@@ -100,7 +94,7 @@ describe('Api', () => {
           .blah('0x123')
           .then(() => {
             expect(provider.send).toHaveBeenCalledWith('test_blah', [
-              '0x0000000000000000000000000000000000000123'
+              '0x0123'
             ]);
           });
       });

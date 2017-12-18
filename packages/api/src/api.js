@@ -18,9 +18,7 @@ module.exports = class Api implements ApiInterface {
   _stateInterface: any = null;
 
   constructor (provider: ProviderInterface) {
-    assert(provider, 'Instantiate the Api with `new Api(new Provider(...))`');
-
-    assert(isFunction(provider.send), 'Provider does not expose send method');
+    assert(provider && isFunction(provider.send), 'Expected Provider');
 
     this._provider = provider;
 

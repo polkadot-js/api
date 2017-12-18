@@ -27,7 +27,6 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   constructor (endpoint: string, autoConnect: boolean = true) {
     super();
 
-    assert(endpoint, 'Endpoint should be provided');
     assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._endpoint = endpoint;
