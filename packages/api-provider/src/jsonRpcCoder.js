@@ -10,7 +10,7 @@ const isUndefined = require('@polkadot/util/is/undefined');
 module.exports = class JsonRpcCoder {
   _id: number = 0;
 
-  decodeResponse (response: JsonRpcResponse): any {
+  decodeResponse (response: JsonRpcResponse): mixed {
     assert(response, 'Empty response object received');
 
     assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
@@ -27,7 +27,7 @@ module.exports = class JsonRpcCoder {
     return response.result;
   }
 
-  encodeObject (method: string, params: Array<any>): JsonRpcRequest {
+  encodeObject (method: string, params: Array<mixed>): JsonRpcRequest {
     return {
       id: ++this._id,
       jsonrpc: '2.0',
@@ -36,12 +36,13 @@ module.exports = class JsonRpcCoder {
     };
   }
 
-  encodeJson (method: string, params: Array<any>): string {
+  encodeJson (method: string, params: Array<mixed>): string {
     return JSON.stringify(
       this.encodeObject(method, params)
     );
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get id (): number {
     return this._id;
   }

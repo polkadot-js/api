@@ -3,7 +3,7 @@
 
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { InterfaceDefinition } from '@polkadot/api-jsonrpc/types';
-import type { ApiInterface } from './types';
+import type { ApiInterface, ApiInterface$Section } from './types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const interfaces = require('@polkadot/api-jsonrpc');
@@ -14,8 +14,8 @@ const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
 module.exports = class Api implements ApiInterface {
   _provider: ProviderInterface;
-  _chainInterface: any = null;
-  _stateInterface: any = null;
+  _chainInterface: ApiInterface$Section;
+  _stateInterface: ApiInterface$Section;
 
   constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider');
@@ -26,15 +26,17 @@ module.exports = class Api implements ApiInterface {
     this._stateInterface = this._createInterface(interfaces, 'state');
   }
 
-  get chain (): any {
+  // flowlint-next-line unsafe-getters-setters:off
+  get chain (): ApiInterface$Section {
     return this._chainInterface;
   }
 
-  get state (): any {
+  // flowlint-next-line unsafe-getters-setters:off
+  get state (): ApiInterface$Section {
     return this._stateInterface;
   }
 
-  _createInterface (definitions: { [string]: InterfaceDefinition }, section: string): any {
+  _createInterface (definitions: { [string]: InterfaceDefinition }, section: string): ApiInterface$Section {
     const definition = definitions[section];
 
     return Object
@@ -43,7 +45,7 @@ module.exports = class Api implements ApiInterface {
         const { inputs, output } = definition.methods[method];
         const rpcName = `${section}_${method}`;
 
-        container[method] = async (..._params: Array<any>): any => {
+        container[method] = async (..._params: Array<mixed>): Promise<mixed> => {
           try {
             assert(inputs.length === _params.length, `${inputs.length} params expected, found ${_params.length} instead`);
 

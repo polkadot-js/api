@@ -8,7 +8,7 @@ export type JsonRpcObject = {
 
 export type JsonRpcRequest = JsonRpcObject & {
   method: string;
-  params: Array<any>;
+  params: Array<mixed>;
 };
 
 export type JsonRpcResponseBase = {
@@ -16,12 +16,12 @@ export type JsonRpcResponseBase = {
     code: number,
     message: string
   };
-  result?: any;
+  result?: mixed;
 }
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
 export interface ProviderInterface {
   +isConnected: boolean;
-  send (method: string, params: Array<any>): Promise<any>;
+  send (method: string, params: Array<mixed>): Promise<mixed>;
 }

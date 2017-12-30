@@ -4,11 +4,7 @@
 import type { JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
-  callback: (error: ?Error, result: any) => void
-};
-
-type WsMessageType = {
-  data: any
+  callback: (error: ?Error, result: mixed) => void
 };
 
 require('./polyfill');
@@ -37,6 +33,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     }
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isConnected (): boolean {
     return this._isConnected;
   }
@@ -67,11 +64,14 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     // console.log('connected to', this._endpoint);
     this._isConnected = true;
 
-    Object.keys(this._queued).forEach((id: string) => {
+    Object.keys(this._queued).forEach((id) => {
       try {
         this._websocket.send(
+          // flowlint-next-line unclear-type:off
           this._queued[((id: any): number)]
         );
+
+        // flowlint-next-line unclear-type:off
         delete this._queued[((id: any): number)];
       } catch (error) {
         console.error(error);
@@ -79,8 +79,9 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     });
   }
 
-  _onMessage = (message: WsMessageType) => {
-    const response: JsonRpcResponse = JSON.parse(message.data);
+  _onMessage = (message: MessageEvent): void => {
+    // flowlint-next-line unclear-type:off
+    const response: JsonRpcResponse = JSON.parse(((message.data: any): string));
     const handler = this._handlers[response.id];
 
     if (!handler) {
@@ -99,13 +100,13 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     delete this._handlers[response.id];
   }
 
-  send (method: string, params: Array<any>): Promise<any> {
-    return new Promise((resolve, reject) => {
+  send (method: string, params: Array<mixed>): Promise<mixed> {
+    return new Promise((resolve, reject): void => {
       try {
         const json = this.encodeJson(method, params);
 
         this._handlers[this.id] = {
-          callback: (error: ?Error, result: any) => {
+          callback: (error: ?Error, result: mixed) => {
             if (error) {
               reject(error);
             } else {

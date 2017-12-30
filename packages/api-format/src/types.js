@@ -1,4 +1,5 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-export type FormatterFunction = (value: any) => any;
+// flowlint-next-line unclear-type:off
+export type FormatterFunction = (value: any) => mixed;
