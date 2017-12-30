@@ -19,11 +19,12 @@ module.exports = class HttpProvider extends JsonRpcCoder implements ProviderInte
     this._endpoint = endpoint;
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isConnected (): boolean {
     return true;
   }
 
-  async send (method: string, params: Array<any>): Promise<any> {
+  async send (method: string, params: Array<mixed>): Promise<mixed> {
     const body = this.encodeJson(method, params);
     const response = await fetch(this._endpoint, {
       body,

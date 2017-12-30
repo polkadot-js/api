@@ -6,6 +6,9 @@
 [libs]
 ./node_modules/@polkadot/dev/flow-typed
 
+[lints]
+all=warn
+
 [options]
-unsafe.enable_getters_and_setters=true
+include_warnings=true
 module.name_mapper='^@polkadot/api-\(format\|jsonrpc\|provider\)\(.*\)$' -> '<PROJECT_ROOT>/packages/api-\1/src\2'

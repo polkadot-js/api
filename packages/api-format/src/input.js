@@ -20,7 +20,7 @@ const formatters: { [FormatInputType]: FormatterFunction } = {
   'String': echo
 };
 
-module.exports = function formatInputs (inputs: Array<InterfaceInputType>, values: Array<any>): Array<any> {
+module.exports = function formatInputs (inputs: Array<InterfaceInputType>, values: Array<mixed>): Array<mixed> {
   const types = inputs.map(({ type }) => type);
 
   return util.formatArray(formatters, types, values);

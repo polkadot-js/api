@@ -15,6 +15,6 @@ const formatters: { [FormatOutputType]: FormatterFunction } = {
   'StorageData': echo
 };
 
-module.exports = function formatOutput (output: InterfaceOutputType, value: any): any {
+module.exports = function formatOutput (output: InterfaceOutputType, value: mixed): mixed {
   return util.format(formatters, output.type, value);
 };

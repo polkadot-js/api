@@ -34,7 +34,7 @@
     "nock": "^9.1.0"
   },
   "dependencies": {
-    "@polkadot/util": "^0.10.1",
+    "@polkadot/util": "^0.11.1",
     "babel-runtime": "^6.26.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.25"

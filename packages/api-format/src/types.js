@@ -1,4 +1,4 @@
 // ISC, Copyright 2017 Jaco Greeff
 // @flow
 
-export type FormatterFunction = (value: any) => any;
+export type FormatterFunction = (value: mixed) => mixed;

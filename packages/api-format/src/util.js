@@ -8,7 +8,7 @@ const echo = require('./echo');
 
 const arrayTypeRegex = /\[\]$/;
 
-function formatSingleType (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
+function formatSingleType (formatters: { [string]: FormatterFunction }, type: string, value: mixed): mixed {
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
@@ -24,7 +24,7 @@ function formatSingleType (formatters: { [any]: FormatterFunction }, type: strin
   }
 }
 
-function formatArrayType (formatters: { [any]: FormatterFunction }, type: string, value: Array<any>): any {
+function formatArrayType (formatters: { [string]: FormatterFunction }, type: string, value: Array<mixed>): mixed {
   type = type.replace(arrayTypeRegex, '');
 
   return value.map((value) => {
@@ -32,7 +32,7 @@ function formatArrayType (formatters: { [any]: FormatterFunction }, type: string
   });
 }
 
-function format (formatters: { [any]: FormatterFunction }, type: string, value: any): any {
+function format (formatters: { [string]: FormatterFunction }, type: string, value: mixed): mixed {
   if (arrayTypeRegex.test(type)) {
     return formatArrayType(formatters, type, value);
   }
@@ -40,8 +40,8 @@ function format (formatters: { [any]: FormatterFunction }, type: string, value: 
   return formatSingleType(formatters, type, value);
 }
 
-function formatArray (formatters: { [any]: FormatterFunction }, types: Array<string>, values: Array<any>): Array<any> {
-  return types.map((type, index) => {
+function formatArray (formatters: { [string]: FormatterFunction }, types: Array<string>, values: Array<mixed>): Array<mixed> {
+  return types.map((type, index): mixed => {
     return format(formatters, type, values[index]);
   });
 }

@@ -4,11 +4,11 @@
 import type { JsonRpcResponse, ProviderInterface } from '../types';
 
 type AwaitingType = {
-  callback: (error: ?Error, result: any) => void
+  callback: (error: ?Error, result: mixed) => void
 };
 
 type WsMessageType = {
-  data: any
+  data: mixed
 };
 
 require('./polyfill');
@@ -37,6 +37,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     }
   }
 
+  // flowlint-next-line unsafe-getters-setters:off
   get isConnected (): boolean {
     return this._isConnected;
   }
@@ -67,19 +68,19 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     // console.log('connected to', this._endpoint);
     this._isConnected = true;
 
-    Object.keys(this._queued).forEach((id: string) => {
+    Object.keys(this._queued).forEach((id: number) => {
       try {
         this._websocket.send(
-          this._queued[((id: any): number)]
+          this._queued[id]
         );
-        delete this._queued[((id: any): number)];
+        delete this._queued[id];
       } catch (error) {
         console.error(error);
       }
     });
   }
 
-  _onMessage = (message: WsMessageType) => {
+  _onMessage = (message: WsMessageType): void => {
     const response: JsonRpcResponse = JSON.parse(message.data);
     const handler = this._handlers[response.id];
 
@@ -99,13 +100,13 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     delete this._handlers[response.id];
   }
 
-  send (method: string, params: Array<any>): Promise<any> {
-    return new Promise((resolve, reject) => {
+  send (method: string, params: Array<mixed>): Promise<mixed> {
+    return new Promise((resolve, reject): void => {
       try {
         const json = this.encodeJson(method, params);
 
         this._handlers[this.id] = {
-          callback: (error: ?Error, result: any) => {
+          callback: (error: ?Error, result: mixed) => {
             if (error) {
               reject(error);
             } else {
