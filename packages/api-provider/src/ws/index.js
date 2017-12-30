@@ -7,10 +7,6 @@ type AwaitingType = {
   callback: (error: ?Error, result: mixed) => void
 };
 
-type WsMessageType = {
-  data: mixed
-};
-
 require('./polyfill');
 
 const assert = require('@polkadot/util/assert');
@@ -68,20 +64,24 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     // console.log('connected to', this._endpoint);
     this._isConnected = true;
 
-    Object.keys(this._queued).forEach((id: number) => {
+    Object.keys(this._queued).forEach((id) => {
       try {
         this._websocket.send(
-          this._queued[id]
+          // flowlint-next-line unclear-type:off
+          this._queued[((id: any): number)]
         );
-        delete this._queued[id];
+
+        // flowlint-next-line unclear-type:off
+        delete this._queued[((id: any): number)];
       } catch (error) {
         console.error(error);
       }
     });
   }
 
-  _onMessage = (message: WsMessageType): void => {
-    const response: JsonRpcResponse = JSON.parse(message.data);
+  _onMessage = (message: MessageEvent): void => {
+    // flowlint-next-line unclear-type:off
+    const response: JsonRpcResponse = JSON.parse(((message.data: any): string));
     const handler = this._handlers[response.id];
 
     if (!handler) {

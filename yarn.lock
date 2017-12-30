@@ -63,9 +63,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@polkadot/dev@^0.14.5":
-  version "0.14.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.14.5.tgz#28c8583dced8675d1b06ddb34b549da3c99d9cdc"
+"@polkadot/dev@^0.14.6":
+  version "0.14.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.14.6.tgz#4677e48d6a0ce692acdaea75a36ee93968a60e48"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
