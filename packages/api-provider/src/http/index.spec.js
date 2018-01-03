@@ -1,4 +1,4 @@
-// ISC, Copyright 2017 Jaco Greeff
+// ISC, Copyright 2017-2018 Jaco Greeff
 
 const { mockHttp, TEST_HTTP_URL } = require('../../test/mockHttp');
 
