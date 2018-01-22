@@ -4,6 +4,8 @@
 // @flow
 
 import type { InterfaceDefinition } from '@polkadot/api-jsonrpc/types';
+import type { ProviderInterface } from '@polkadot/api-provider/types';
+import type { ApiInterface$Section } from '../types';
 
 const { formatInputs, formatOutput } = require('@polkadot/api-format');
 const assert = require('@polkadot/util/assert');
