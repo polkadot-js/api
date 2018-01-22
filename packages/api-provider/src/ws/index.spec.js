@@ -207,28 +207,16 @@ describe('Ws', () => {
   });
 
   describe('queued', () => {
-    let sendPromise;
-
-    beforeEach(() => {
-      ws = createWs([{
+    it('sends messages when connected', () => {
+      const ws = createWs([{
         id: 1,
         method: 'test_queue',
         reply: {
           result: 'ok'
         }
       }], false);
-      sendPromise = ws.send('test_queue', []);
-    });
+      const sendPromise = ws.send('test_queue', []);
 
-    it('sends messages when connected', () => {
-      ws.connect();
-
-      return sendPromise.then((result) => {
-        expect(result).toEqual('ok');
-      });
-    });
-
-    it('sends messages when connected (errors)', () => {
       ws.connect();
 
       return sendPromise.then((result) => {

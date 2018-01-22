@@ -24,6 +24,7 @@ module.exports = class JsonRpcCoder {
 
       throw new Error(`[${code}]: ${message}`);
     }
+
     assert(!isUndefined(response.result), 'No result found in JsonRpc response');
 
     return response.result;

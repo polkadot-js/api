@@ -63,9 +63,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@polkadot/dev@^0.14.6":
-  version "0.14.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.14.6.tgz#4677e48d6a0ce692acdaea75a36ee93968a60e48"
+"@polkadot/dev@^0.14.10":
+  version "0.14.10"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.14.10.tgz#f3fcc4baff131139cb8d57dc5a648b3a9978c719"
   dependencies:
     babel-cli "^6.26.0"
     babel-core "^6.26.0"
@@ -89,7 +89,7 @@
     eslint-plugin-promise "^3.6.0"
     eslint-plugin-react "^7.4.0"
     eslint-plugin-standard "^3.0.1"
-    flow-bin "^0.62.0"
+    flow-bin "^0.63.1"
     flow-copy-source "^1.2.1"
     jest "^22.0.0"
     makeshift "^1.1.0"
@@ -100,17 +100,17 @@
     stylelint "^8.2.0"
     stylelint-config-standard "^18.0.0"
 
-"@polkadot/primitives-json@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.4.6.tgz#c1b45cb1983b02a1773769af89522b447b87e03d"
+"@polkadot/primitives-json@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.4.9.tgz#c3561be09d3118318b333903fdccefcc9628f1ac"
   dependencies:
-    "@polkadot/primitives" "^0.4.6"
+    "@polkadot/primitives" "^0.4.9"
     "@polkadot/util" "^0.11.1"
     babel-runtime "^6.26.0"
 
-"@polkadot/primitives@^0.4.6":
-  version "0.4.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.4.6.tgz#c3c74ec099780cac5a4ecf709b1a74c2974c3afc"
+"@polkadot/primitives@^0.4.9":
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.4.9.tgz#900c290c2be5164571af14197a55a47bbd16cef9"
   dependencies:
     "@polkadot/util" "^0.11.1"
     babel-runtime "^6.26.0"
@@ -121,6 +121,16 @@
   dependencies:
     babel-runtime "^6.26.0"
     bn.js "^4.11.8"
+    ip-regex "^2.1.0"
+    keccak "^1.3.0"
+
+"@polkadot/util@^0.12.3":
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.12.3.tgz#25368dad0066d3070dbed9c3adda092bce86e364"
+  dependencies:
+    babel-runtime "^6.26.0"
+    bn.js "^4.11.8"
+    deasync "^0.1.12"
     ip-regex "^2.1.0"
     keccak "^1.3.0"
 
@@ -962,6 +972,10 @@ bindings@^1.2.1:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.0.tgz#b346f6ecf6a95f5a815c5839fc7cdb22502f1ed7"
 
+bindings@~1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
+
 bl@^1.0.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.1.tgz#cac328f7bee45730d404b692203fcb590e172d5e"
@@ -1539,6 +1553,13 @@ dateformat@^1.0.11, dateformat@^1.0.12:
   dependencies:
     get-stdin "^4.0.1"
     meow "^3.3.0"
+
+deasync@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/deasync/-/deasync-0.1.12.tgz#0159492a4133ab301d6c778cf01e74e63b10e549"
+  dependencies:
+    bindings "~1.2.1"
+    nan "^2.0.7"
 
 debug@^2.2.0, debug@^2.6.8:
   version "2.6.9"
@@ -2127,9 +2148,9 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
-flow-bin@^0.62.0:
-  version "0.62.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.62.0.tgz#14bca669a6e3f95c0bc0c2d1eb55ec4e98cb1d83"
+flow-bin@^0.63.1:
+  version "0.63.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.63.1.tgz#ab00067c197169a5fb5b4996c8f6927b06694828"
 
 flow-copy-source@^1.2.1:
   version "1.2.1"
@@ -3699,7 +3720,7 @@ mute-stream@0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
-nan@^2.0.5, nan@^2.2.1, nan@^2.3.0, nan@^2.3.3:
+nan@^2.0.5, nan@^2.0.7, nan@^2.2.1, nan@^2.3.0, nan@^2.3.3:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.8.0.tgz#ed715f3fe9de02b57a5e6252d90a96675e1f085a"
 
