@@ -22,8 +22,14 @@ export type InterfaceMethodDefinition = {
   output: InterfaceOutputType
 };
 
+export type InterfaceTypes = 'chain' | 'state';
+
 export type InterfaceDefinition = {
   methods: {
     [string]: InterfaceMethodDefinition
   }
+};
+
+export type InterfaceDefinitions = {
+  [InterfaceTypes]: InterfaceDefinition
 };

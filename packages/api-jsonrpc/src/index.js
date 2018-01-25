@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceDefinition } from './types';
+import type { InterfaceDefinitions } from './types';
 
 const chain = require('./chain');
 const state = require('./state');
@@ -14,4 +14,4 @@ const state = require('./state');
 module.exports = ({
   chain,
   state
-}: { [string]: InterfaceDefinition });
+}: InterfaceDefinitions);

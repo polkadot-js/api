@@ -1,5 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/build
+<PROJECT_ROOT>/packages/.*/build
 
 [include]
 
