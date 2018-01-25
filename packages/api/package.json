@@ -33,7 +33,7 @@
     "@polkadot/api-format": "^0.7.0",
     "@polkadot/api-jsonrpc": "^0.7.0",
     "@polkadot/api-provider": "^0.7.0",
-    "@polkadot/util": "^0.12.3",
+    "@polkadot/util": "^0.13.1",
     "babel-runtime": "^6.26.0"
   }
 }
