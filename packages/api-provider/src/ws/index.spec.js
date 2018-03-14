@@ -108,7 +108,9 @@ describe('Ws', () => {
       it('logs the error', () => {
         ws._onError('test error');
 
-        expect(errorSpy).toHaveBeenCalledWith('test error');
+        expect(errorSpy).toHaveBeenCalledWith(
+          expect.anything(), expect.anything(), 'test error'
+        );
       });
     });
 
@@ -116,7 +118,9 @@ describe('Ws', () => {
       it('fails with log when handler not found', () => {
         ws._onMessage({ data: '{"id":2}' });
 
-        expect(errorSpy).toHaveBeenCalledWith('Unable to find handler for id=2');
+        expect(errorSpy).toHaveBeenCalledWith(
+          expect.anything(), expect.anything(), 'Unable to find handler for id=2'
+        );
       });
     });
   });
@@ -222,6 +226,24 @@ describe('Ws', () => {
       return sendPromise.then((result) => {
         expect(result).toEqual('ok');
       });
+    });
+  });
+
+  describe('pubsub', () => {
+    beforeEach(() => {
+      ws = createWs([]);
+    });
+
+    it('does not (yet) support subscribe', () => {
+      expect(
+        () => ws.subscribe()
+      ).toThrow(/has not been implemented/);
+    });
+
+    it('does not (yet) support unsubscribe', () => {
+      expect(
+        () => ws.unsubscribe()
+      ).toThrow(/has not been implemented/);
     });
   });
 });

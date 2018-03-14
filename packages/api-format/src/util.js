@@ -12,6 +12,8 @@ type FormattersFunctionMap = {
 };
 
 const isUndefined = require('@polkadot/util/is/undefined');
+const l = require('@polkadot/util/logger')('api-format');
+
 const echo = require('./echo');
 
 const arrayTypeRegex = /\[\]$/;
@@ -20,7 +22,7 @@ function formatSingleType (formatters: FormattersFunctionMap, type: FormattersFu
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
-    console.warn(`Unable to find default formatter for '${type}', falling back to echo`);
+    l.warn(`Unable to find default formatter for '${type}', falling back to echo`);
 
     return echo(value);
   }

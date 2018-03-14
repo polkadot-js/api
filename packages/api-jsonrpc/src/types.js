@@ -24,10 +24,12 @@ export type InterfaceMethodDefinition = {
 
 export type InterfaceTypes = 'chain' | 'state';
 
+export type InterfaceDefinition$Methods = {
+  [string]: InterfaceMethodDefinition
+};
+
 export type InterfaceDefinition = {
-  methods: {
-    [string]: InterfaceMethodDefinition
-  }
+  methods: InterfaceDefinition$Methods
 };
 
 export type InterfaceDefinitions = {

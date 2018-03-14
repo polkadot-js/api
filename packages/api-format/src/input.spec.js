@@ -12,7 +12,7 @@ describe('formatInputs', () => {
           { name: 'foo', type: 'Address' },
           { name: 'bar', type: 'H256' }
         ],
-        ['0x1234', '0xabcd']
+        [new Uint8Array([0x12, 0x34]), new Uint8Array([0xab, 0xcd])]
       )
     ).toEqual([
       '0x1234',

@@ -3,21 +3,22 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { JsonRpcResponse, ProviderInterface } from '../types';
+import type { JsonRpcResponse, ProviderInterface$Subscribe, ProviderInterface$Subscribe$Callback } from '../types';
 
-type AwaitingType = {
+type Awaiting = {
   callback: (error: ?Error, result: mixed) => void
 };
 
 require('./polyfill');
 
+const l = require('@polkadot/util/logger')('ws-provider');
 const assert = require('@polkadot/util/assert');
 const JsonRpcCoder = require('../jsonRpcCoder');
 
-module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterface {
+module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterface$Subscribe {
   _autoConnect: boolean = true;
   _endpoint: string;
-  _handlers: { [number]: AwaitingType } = {};
+  _handlers: { [number]: Awaiting } = {};
   _isConnected: boolean = false;
   _queued: { [number]: string } = {};
   _websocket: WebSocket;
@@ -50,7 +51,8 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   }
 
   _onClose = () => {
-    // console.log('disconnected from', this._endpoint);
+    l.debug(() => ['disconnected from', this._endpoint]);
+
     this._isConnected = false;
 
     if (this._autoConnect) {
@@ -59,11 +61,12 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
   }
 
   _onError = (error: Event) => {
-    console.error(error);
+    l.error(error);
   }
 
   _onOpen = () => {
-    // console.log('connected to', this._endpoint);
+    l.debug(() => ['connected to', this._endpoint]);
+
     this._isConnected = true;
 
     Object.keys(this._queued).forEach((id) => {
@@ -76,7 +79,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
         // flowlint-next-line unclear-type:off
         delete this._queued[((id: any): number)];
       } catch (error) {
-        console.error(error);
+        l.error(error);
       }
     });
   }
@@ -87,7 +90,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     const handler = this._handlers[response.id];
 
     if (!handler) {
-      console.error(`Unable to find handler for id=${response.id}`);
+      l.error(`Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -126,5 +129,13 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
         reject(error);
       }
     });
+  }
+
+  subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Subscribe$Callback): Promise<number> {
+    throw new Error('Subscriptions has not been implemented');
+  }
+
+  unsubscribe (id: number): Promise<boolean> {
+    throw new Error('Subscriptions has not been implemented');
   }
 };

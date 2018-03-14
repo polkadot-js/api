@@ -16,24 +16,22 @@ describe('formatOutput', () => {
           stateRoot: '0x5678',
           transactionRoot: '0xabcd',
           digest: {
-            parachainActivityBitfield: '0x1234',
             logs: ['0x5678', '0x789a']
           }
         })
       )
     ).toEqual(
       JSON.stringify({
-        parentHash: '0x1234',
-        number: new BN(0x1234),
-        stateRoot: '0x5678',
-        transactionRoot: '0xabcd',
         digest: {
-          parachainActivityBitfield: Buffer.from([0x12, 0x34]),
           logs: [
-            Buffer.from([0x56, 0x78]),
-            Buffer.from([0x78, 0x9a])
+            new Uint8Array([0x56, 0x78]),
+            new Uint8Array([0x78, 0x9a])
           ]
-        }
+        },
+        number: new BN(0x1234),
+        parentHash: new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x12, 0x34]),
+        stateRoot: new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x56, 0x78]),
+        transactionRoot: new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xab, 0xcd])
       })
     );
   });

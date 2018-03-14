@@ -33,42 +33,12 @@ describe('createInterface', () => {
     container = createInterface(provider, definition, 'test');
   });
 
-  describe('method expansion', () => {
-    it('adds the specified methods to the interface', () => {
-      expect(Object.keys(container)).toEqual(['blah', 'bleh']);
-    });
-
-    it('had function calls for the attached methods', () => {
-      expect(isFunction(container.blah)).toEqual(true);
-      expect(isFunction(container.bleh)).toEqual(true);
-    });
+  it('adds the specified methods to the interface', () => {
+    expect(Object.keys(container)).toEqual(['blah', 'bleh']);
   });
 
-  describe('calling', () => {
-    it('wraps errors with the call signature', () => {
-      return container
-        .blah()
-        .catch((error) => {
-          expect(error.message).toMatch(/test_blah \(foo: Address\): Address/);
-        });
-    });
-
-    it('checks for mismatched parameters', () => {
-      return container
-        .bleh(1)
-        .catch((error) => {
-          expect(error.message).toMatch(/0 params expected, found 1 instead/);
-        });
-    });
-
-    it('calls the provider with the correct parameters', () => {
-      return container
-        .blah('0x123')
-        .then(() => {
-          expect(provider.send).toHaveBeenCalledWith('test_blah', [
-            '0x0123'
-          ]);
-        });
-    });
+  it('had function calls for the attached methods', () => {
+    expect(isFunction(container.blah)).toEqual(true);
+    expect(isFunction(container.bleh)).toEqual(true);
   });
 });

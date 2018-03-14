@@ -4,34 +4,31 @@
 // @flow
 
 import type { InterfaceDefinition } from '@polkadot/api-jsonrpc/types';
-import type { ProviderInterface } from '@polkadot/api-provider/types';
+import type { ProviderInterface, ProviderInterface$Subscribe } from '@polkadot/api-provider/types';
 import type { ApiInterface$Section } from '../types';
 
-const { formatInputs, formatOutput } = require('@polkadot/api-format');
-const assert = require('@polkadot/util/assert');
-const ExtError = require('@polkadot/util/ext/error');
-const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
+const isFunction = require('@polkadot/util/is/function');
 
-module.exports = function createInterface (provider: ProviderInterface, definition: InterfaceDefinition, section: string): ApiInterface$Section {
+const createMethod = require('./method');
+const createSubscribe = require('./subscribe');
+
+module.exports = function createInterface (provider: ProviderInterface, { methods }: InterfaceDefinition, section: string): ApiInterface$Section {
+  const exposed: $Shape<ApiInterface$Section> = {};
+  const pubsub = (provider: ProviderInterface$Subscribe);
+
+  if (isFunction(pubsub.subscribe)) {
+    exposed.subscribe = createSubscribe(pubsub, section, methods);
+    exposed.unsubscribe = provider.unsubcribe;
+  }
+
   return Object
-    .keys(definition.methods)
-    .reduce((container, method: string) => {
-      const { inputs, output } = definition.methods[method];
-      const rpcName = `${section}_${method}`;
+    .keys(methods)
+    .reduce((exposed, name: string) => {
+      const rpcName = `${section}_${name}`;
+      const method = createMethod(provider, rpcName, methods[name]);
 
-      container[method] = async (..._params: Array<mixed>): Promise<mixed> => {
-        try {
-          assert(inputs.length === _params.length, `${inputs.length} params expected, found ${_params.length} instead`);
+      exposed[name] = method;
 
-          const params = formatInputs(inputs, _params);
-          const result = await provider.send(rpcName, params);
-
-          return formatOutput(output, result);
-        } catch (error) {
-          throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
-        }
-      };
-
-      return container;
-    }, ({}: $Shape<ApiInterface$Section>));
+      return exposed;
+    }, exposed);
 };

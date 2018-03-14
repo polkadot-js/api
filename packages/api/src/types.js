@@ -7,7 +7,7 @@ export type ApiInterface$Section = {
   [string]: () => Promise<mixed>
 };
 
-export interface ApiInterface {
-  +chain: ApiInterface$Section;
-  +state: ApiInterface$Section;
+export type ApiInterface = {
+  chain: ApiInterface$Section,
+  state: ApiInterface$Section
 }
