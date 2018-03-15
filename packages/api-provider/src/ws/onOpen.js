@@ -6,7 +6,7 @@
 import type { WsState } from './types';
 
 module.exports = function onOpen (self: WsState): () => void {
-  return (): void => {
+  return (): boolean => {
     self.l.debug(() => ['connected to', self.endpoint]);
 
     self.isConnected = true;
@@ -24,5 +24,7 @@ module.exports = function onOpen (self: WsState): () => void {
         self.l.error(error);
       }
     });
+
+    return true;
   };
 };

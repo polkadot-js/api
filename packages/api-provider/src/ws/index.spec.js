@@ -24,23 +24,10 @@ describe('Ws', () => {
     }
   });
 
-  describe('queued', () => {
-    it('sends messages when connected', () => {
-      const ws = createWs([{
-        id: 1,
-        method: 'test_queue',
-        reply: {
-          result: 'ok'
-        }
-      }], false);
-      const sendPromise = ws.send('test_queue', []);
-
-      ws.connect();
-
-      return sendPromise.then((result) => {
-        expect(result).toEqual('ok');
-      });
-    });
+  it('returns the connected state', () => {
+    expect(
+      createWs([]).isConnected()
+    ).toEqual(false);
   });
 
   describe('pubsub', () => {

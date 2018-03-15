@@ -34,7 +34,9 @@ describe('createInterface', () => {
   });
 
   it('adds the specified methods to the interface', () => {
-    expect(Object.keys(container)).toEqual(['blah', 'bleh']);
+    expect(Object.keys(container)).toEqual(
+      ['subscribe', 'unsubscribe', 'blah', 'bleh']
+    );
   });
 
   it('had function calls for the attached methods', () => {

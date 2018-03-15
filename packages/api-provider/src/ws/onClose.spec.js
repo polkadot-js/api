@@ -7,18 +7,13 @@ const { TEST_WS_URL } = require('../../test/mockWs');
 const createState = require('./state');
 
 describe('onClose', () => {
-  let state;
   let mockConnect;
-  let onClose;
 
   beforeEach(() => {
     mockConnect = jest.fn();
 
     jest.mock('./connect', () => mockConnect);
     jest.useFakeTimers();
-
-    state = createState(TEST_WS_URL, true);
-    onClose = require('./onClose')(state);
   });
 
   afterEach(() => {
@@ -26,7 +21,7 @@ describe('onClose', () => {
   });
 
   it('reconnects after delay', () => {
-    onClose();
+    require('./onClose')(createState(TEST_WS_URL, true))();
 
     expect(mockConnect).not.toHaveBeenCalled();
 
@@ -35,12 +30,8 @@ describe('onClose', () => {
     expect(mockConnect).toHaveBeenCalled();
   });
 
-  it('sets isConnected false', () => {
-    expect(state.isConnected).toEqual(false);
-  });
-
   it('does not reconnect when autoConnect false', () => {
-    onClose();
+    require('./onClose')(createState(TEST_WS_URL, false))();
 
     expect(mockConnect).not.toHaveBeenCalled();
 

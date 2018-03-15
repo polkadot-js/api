@@ -40,7 +40,6 @@ describe('send', () => {
 
     global.WebSocket = class {
       constructor () {
-        console.log('CONSTRUCT!');
         websocket = this;
       }
 
