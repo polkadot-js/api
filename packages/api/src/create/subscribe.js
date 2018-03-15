@@ -4,22 +4,22 @@
 // @flow
 
 import type { InterfaceDefinition$Methods } from '@polkadot/api-jsonrpc/types';
-import type { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
+import type { ProviderInterface } from '@polkadot/api-provider/types';
 
 const assert = require('@polkadot/util/assert');
 
-type Method = (name: string, params: Array<mixed>, cb: ProviderInterface$Callback) => Promise<number>;
+type Method = (name: string, ...params: Array<mixed>) => Promise<number>;
 
 const subscribeMethod = require('./subscribeMethod');
 
 module.exports = function createSubscribe (provider: ProviderInterface, section: string, methods: InterfaceDefinition$Methods): Method {
-  return async (name: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> => {
+  return async (name: string, ...params: Array<mixed>): Promise<number> => {
     const rpcName = `${section}_${name}`;
 
     assert(methods[name], `Unable to find '${rpcName}' subscription`);
 
     const fn = subscribeMethod(provider, rpcName, methods[name]);
 
-    return fn(params, cb);
+    return fn.apply(null, params);
   };
 };

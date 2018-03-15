@@ -3,9 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+export type ApiInterface$Section$Method = (...params: Array<mixed>) => Promise<mixed>;
+
 export type ApiInterface$Section = {
-  // flowlint-next-line unclear-type:off
-  [string]: Function
+  [string]: ApiInterface$Section$Method,
+
+  subscribe: (name: string, ...params: Array<mixed>) => Promise<number>,
+  unsubscribe: (id: number) => Promise<boolean>
 };
 
 export type ApiInterface = {

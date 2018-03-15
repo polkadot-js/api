@@ -35,7 +35,7 @@ describe('createSubscribe', () => {
       })
     };
 
-    sub = createSubscribe(provider, methods, 'test');
+    sub = createSubscribe(provider, 'test', methods);
   });
 
   it('it does not subscribe to not-found endpoint', () => {
@@ -45,13 +45,13 @@ describe('createSubscribe', () => {
   });
 
   it('returns the subscription', () => {
-    return sub('bleh', []).then((id) => {
+    return sub('bleh', () => true).then((id) => {
       expect(id).toEqual(12345);
     });
   });
 
   it('returns values as they are available', (done) => {
-    sub('bleh', [], () => {
+    sub('bleh', () => {
       done();
     });
 
@@ -59,12 +59,18 @@ describe('createSubscribe', () => {
   });
 
   it('returns errors as they are available', (done) => {
-    sub('bleh', [], (error) => {
+    sub('bleh', (error) => {
       expect(error.message).toEqual('test error');
 
       done();
     });
 
     cb(new Error('test error'));
+  });
+
+  it('checks that valid callback is provided', () => {
+    return sub('bleh').catch((error) => {
+      expect(error.message).toMatch(/Expected callback in last position/);
+    });
   });
 });
