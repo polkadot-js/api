@@ -4,7 +4,7 @@
 
 const { mockHttp, TEST_HTTP_URL } = require('../../test/mockHttp');
 
-const Http = require('./index');
+const createHttp = require('./index');
 
 describe('Http', () => {
   let http;
@@ -13,7 +13,7 @@ describe('Http', () => {
   let decodeSpy;
 
   beforeEach(() => {
-    http = new Http(TEST_HTTP_URL);
+    http = createHttp(TEST_HTTP_URL);
 
     encodeSpy = jest.spyOn(http, 'encodeJson');
     decodeSpy = jest.spyOn(http, 'decodeResponse');
@@ -31,7 +31,7 @@ describe('Http', () => {
 
   it('requires an http:// prefixed endpoint', () => {
     expect(
-      () => new Http('ws://')
+      () => createHttp('ws://')
     ).toThrow(/with 'http/);
   });
 

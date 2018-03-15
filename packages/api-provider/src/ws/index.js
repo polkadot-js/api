@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { JsonRpcResponse, ProviderInterface$Subscribe, ProviderInterface$Subscribe$Callback } from '../types';
+import type { JsonRpcResponse, ProviderInterface$Callback } from '../types';
 
 type Awaiting = {
   callback: (error: ?Error, result: mixed) => void
@@ -131,7 +131,7 @@ module.exports = class WsProvider extends JsonRpcCoder implements ProviderInterf
     });
   }
 
-  subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Subscribe$Callback): Promise<number> {
+  subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> {
     throw new Error('Subscriptions has not been implemented');
   }
 

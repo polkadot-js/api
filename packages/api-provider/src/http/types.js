@@ -3,10 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const http = require('./http');
-const ws = require('./ws');
+import type { RpcCoder } from '../jsonRpcCoder';
 
-module.exports = {
-  http,
-  ws
+export type HttpState = {
+  coder: RpcCoder,
+  endpoint: string
 };
