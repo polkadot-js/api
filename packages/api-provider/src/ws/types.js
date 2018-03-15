@@ -11,6 +11,7 @@ export type WsState$Awaiting = {
 };
 
 export type WsState = {
+  autoConnect: boolean,
   coder: RpcCoder,
   endpoint: string,
   handlers: { [number]: WsState$Awaiting },

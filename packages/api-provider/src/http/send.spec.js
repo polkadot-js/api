@@ -9,58 +9,16 @@ const createHttp = require('./index');
 describe('send', () => {
   let http;
   let mock;
-  let encodeSpy;
-  let decodeSpy;
 
   beforeEach(() => {
     http = createHttp(TEST_HTTP_URL);
-
-    encodeSpy = jest.spyOn(http, 'encodeJson');
-    decodeSpy = jest.spyOn(http, 'decodeResponse');
   });
 
   afterEach(() => {
-    encodeSpy.mockRestore();
-    decodeSpy.mockRestore();
-
     if (mock) {
       mock.done();
       mock = null;
     }
-  });
-
-  it('encodes requests', () => {
-    mock = mockHttp([{
-      method: 'test_encoding',
-      reply: {
-        result: 'ok'
-      }
-    }]);
-
-    return http
-      .send('test_encoding', ['param'])
-      .then((result) => {
-        expect(encodeSpy).toHaveBeenCalledWith('test_encoding', ['param']);
-      });
-  });
-
-  it('decodes responses', () => {
-    mock = mockHttp([{
-      method: 'test_encoding',
-      reply: {
-        result: 'ok'
-      }
-    }]);
-
-    return http
-      .send('test_encoding', ['param'])
-      .then((result) => {
-        expect(decodeSpy).toHaveBeenCalledWith({
-          id: 1,
-          jsonrpc: '2.0',
-          result: 'ok'
-        });
-      });
   });
 
   it('passes the body through correctly', () => {

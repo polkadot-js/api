@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { JsonRpcRequest, JsonRpcResponse } from '../types';
+import type { JsonRpcRequest, JsonRpcResponse } from '../../types';
 import type { RpcCoder, RpcCoderState } from './types';
 
 const decodeResponse = require('./decodeResponse');

@@ -6,7 +6,8 @@
 export type RpcCoder = {
   decodeResponse: (response: JsonRpcResponse) => mixed,
   encodeObject: (method: string, params: Array<mixed>) => JsonRpcRequest,
-  encodeJson: (method: string, params: Array<mixed>) => string
+  encodeJson: (method: string, params: Array<mixed>) => string,
+  getId: () => number
 };
 
 export type RpcCoderState = {

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { JsonRpcResponse } from '../types';
+import type { JsonRpcResponse } from '../../types';
 import type { RpcCoderState } from './types';
 
 const assert = require('@polkadot/util/assert');

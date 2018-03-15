@@ -9,21 +9,23 @@ module.exports = async function send (self: WsState, method: string, params: Arr
   return new Promise((resolve, reject): void => {
     try {
       const json = self.coder.encodeJson(method, params);
-
-      self.handlers[this.coder.getId()] = {
-        callback: (error: ?Error, result: mixed) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
+      const id = self.coder.getId();
+      const callback = (error: ?Error, result: mixed) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
         }
+      };
+
+      self.handlers[id] = {
+        callback
       };
 
       if (self.isConnected) {
         self.websocket.send(json);
       } else {
-        self.queued[this.id] = json;
+        self.queued[id] = json;
       }
     } catch (error) {
       reject(error);

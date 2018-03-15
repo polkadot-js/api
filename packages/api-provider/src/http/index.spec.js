@@ -14,6 +14,18 @@ describe('Http', () => {
   });
 
   it('always returns isConnected true', () => {
-    expect(http.isConnected).toEqual(true);
+    expect(http.isConnected()).toEqual(true);
+  });
+
+  it('does not (yet) support subscribe', () => {
+    return http.subscribe().catch((error) => {
+      expect(error.message).toMatch(/has not been implemented/);
+    });
+  });
+
+  it('does not (yet) support unsubscribe', () => {
+    return http.unsubscribe().catch((error) => {
+      expect(error.message).toMatch(/has not been implemented/);
+    });
   });
 });

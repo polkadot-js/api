@@ -21,6 +21,8 @@ module.exports = function wsProvider (endpoint: string, autoConnect: boolean = t
   }
 
   return {
+    connect: (): void =>
+      connect(self),
     isConnected: (): boolean =>
       self.isConnected,
     send: (method: string, params: Array<mixed>): Promise<mixed> =>

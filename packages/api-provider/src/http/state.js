@@ -6,9 +6,9 @@
 import type { HttpState } from './types';
 
 const assert = require('@polkadot/util/assert');
-const l = require('@polkadot/util/logger')('http-provider');
+const l = require('@polkadot/util/logger')('api-http');
 
-const coder = require('../jsonRpcCoder');
+const coder = require('../coder/json');
 
 module.exports = function state (endpoint: string): HttpState {
   assert(/^http:\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);

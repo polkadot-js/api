@@ -6,9 +6,9 @@
 import type { WsState } from './types';
 
 const assert = require('@polkadot/util/assert');
-const l = require('@polkadot/util/logger')('ws-provider');
+const l = require('@polkadot/util/logger')('api-ws');
 
-const coder = require('../jsonRpcCoder');
+const coder = require('../coder/json');
 
 module.exports = function state (endpoint: string, autoConnect: boolean): $Shape<WsState> {
   assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
