@@ -21,6 +21,8 @@ module.exports = function rpcCoder (): RpcCoder {
     encodeJson: (method: string, params: Array<mixed>): string =>
       encodeJson(self, method, params),
     encodeObject: (method: string, params: Array<mixed>): JsonRpcRequest =>
-      encodeObject(self, method, params)
+      encodeObject(self, method, params),
+    getId: (): number =>
+      self.id
   };
 };

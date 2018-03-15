@@ -4,7 +4,7 @@
 
 const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
 
-const Ws = require('./index');
+const create = require('./index');
 
 let ws;
 let mock;
@@ -13,7 +13,7 @@ let decodeSpy;
 
 function createWs (requests, autoConnect) {
   mock = mockWs(requests);
-  ws = new Ws(TEST_WS_URL, autoConnect);
+  ws = create(TEST_WS_URL, autoConnect);
 
   encodeSpy = jest.spyOn(ws, 'encodeObject');
   decodeSpy = jest.spyOn(ws, 'decodeResponse');
@@ -37,12 +37,6 @@ describe('Ws', () => {
       mock.done();
       mock = null;
     }
-  });
-
-  it('requires an ws:// prefixed endpoint', () => {
-    expect(
-      () => new Ws('http://')
-    ).toThrow(/with 'ws/);
   });
 
   describe('websocket', () => {

@@ -6,8 +6,16 @@
 import type { Logger } from '@polkadot/util/types';
 import type { RpcCoder } from '../jsonRpcCoder';
 
-export type HttpState = {
+export type WsState$Awaiting = {
+  callback: (error: ?Error, result: mixed) => void
+};
+
+export type WsState = {
   coder: RpcCoder,
   endpoint: string,
-  l: Logger
+  handlers: { [number]: WsState$Awaiting },
+  isConnected: boolean,
+  l: Logger,
+  queued: { [number]: string },
+  websocket: WebSocket
 };
