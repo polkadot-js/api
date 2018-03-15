@@ -5,15 +5,18 @@
 
 import type { InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
 
+const bnDecode = require('@polkadot/primitives-json/bn/decode');
 const headerDecode = require('@polkadot/primitives-json/header/decode');
 
 const echo = require('./echo');
 const util = require('./util');
 
 const formatters = {
+  'BlockNumber': bnDecode,
   'Header': headerDecode,
   'OutData': echo,
-  'StorageData': echo
+  'StorageData': echo,
+  'U64': bnDecode
 };
 
 module.exports = function formatOutput (output: InterfaceOutputType, value: mixed): mixed {

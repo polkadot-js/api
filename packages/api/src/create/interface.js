@@ -3,15 +3,20 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceDefinition } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface$Section } from '../types';
+
+const interfaces = require('@polkadot/api-jsonrpc');
 
 const createMethod = require('./method');
 const createSubscribe = require('./subscribe');
 
-module.exports = function createInterface (provider: ProviderInterface, { methods }: InterfaceDefinition, section: string): ApiInterface$Section {
+console.log('interfaces', interfaces);
+
+module.exports = function createInterface (provider: ProviderInterface, section: InterfaceTypes): ApiInterface$Section {
   const exposed: $Shape<ApiInterface$Section> = {};
+  const { methods } = interfaces[section];
 
   exposed.subscribe = createSubscribe(provider, section, methods);
   exposed.unsubscribe = provider.unsubscribe;
