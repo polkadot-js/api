@@ -12,8 +12,6 @@ const interfaces = require('@polkadot/api-jsonrpc');
 const createMethod = require('./method');
 const createSubscribe = require('./subscribe');
 
-console.log('interfaces', interfaces);
-
 module.exports = function createInterface (provider: ProviderInterface, section: InterfaceTypes): ApiInterface$Section {
   const exposed: $Shape<ApiInterface$Section> = {};
   const { methods } = interfaces[section];
