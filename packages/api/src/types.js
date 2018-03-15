@@ -4,7 +4,8 @@
 // @flow
 
 export type ApiInterface$Section = {
-  [string]: () => Promise<mixed>
+  // flowlint-next-line unclear-type:off
+  [string]: Function
 };
 
 export type ApiInterface = {

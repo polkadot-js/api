@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
 module.exports = function onMessage (self: WsState): (MessageEvent) => void {

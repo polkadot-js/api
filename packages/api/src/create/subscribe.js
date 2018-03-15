@@ -4,7 +4,7 @@
 // @flow
 
 import type { InterfaceDefinition$Methods } from '@polkadot/api-jsonrpc/types';
-import type { ProviderInterface$Subscribe, ProviderInterface$Callback } from '@polkadot/api-provider/types';
+import type { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 
 const assert = require('@polkadot/util/assert');
 
@@ -12,7 +12,7 @@ type Method = (name: string, params: Array<mixed>, cb: ProviderInterface$Callbac
 
 const subscribeMethod = require('./subscribeMethod');
 
-module.exports = function createSubscribe (provider: ProviderInterface$Subscribe, methods: InterfaceDefinition$Methods, section: string): Method {
+module.exports = function createSubscribe (provider: ProviderInterface, section: string, methods: InterfaceDefinition$Methods): Method {
   return async (name: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> => {
     const rpcName = `${section}_${name}`;
 

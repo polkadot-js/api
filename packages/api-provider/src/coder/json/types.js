@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { JsonRpcRequest, JsonRpcResponse } from '../../types';
+
 export type RpcCoder = {
   decodeResponse: (response: JsonRpcResponse) => mixed,
   encodeObject: (method: string, params: Array<mixed>) => JsonRpcRequest,

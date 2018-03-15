@@ -4,7 +4,7 @@
 // @flow
 
 import type { Logger } from '@polkadot/util/types';
-import type { RpcCoder } from '../jsonRpcCoder';
+import type { RpcCoder } from '../coder/json/types';
 
 export type WsState$Awaiting = {
   callback: (error: ?Error, result: mixed) => void

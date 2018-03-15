@@ -14,7 +14,7 @@ module.exports = function createInterface (provider: ProviderInterface, { method
   const exposed: $Shape<ApiInterface$Section> = {};
 
   exposed.subscribe = createSubscribe(provider, section, methods);
-  exposed.unsubscribe = provider.unsubcribe;
+  exposed.unsubscribe = provider.unsubscribe;
 
   return Object
     .keys(methods)

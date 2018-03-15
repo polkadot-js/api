@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { ProviderInterface$Callback } from '../types';
 import type { HttpState } from './types';
 
 module.exports = async function subscribe (self: HttpState, method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> {
