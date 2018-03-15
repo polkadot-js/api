@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const Http = require('./http');
-const Ws = require('./ws');
+const http = require('./http');
+const ws = require('./ws');
 
 module.exports = {
-  Http,
-  Ws
+  http,
+  ws
 };

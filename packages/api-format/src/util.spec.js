@@ -37,7 +37,9 @@ describe('util', () => {
 
     it('logs a warning with unknown types', () => {
       format(formatters, 'Unknown', 'test');
-      expect(warnSpy).toHaveBeenCalledWith("Unable to find default formatter for 'Unknown', falling back to echo");
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.anything(), expect.anything(), "Unable to find default formatter for 'Unknown', falling back to echo"
+      );
     });
 
     it('wraps exceptions with the type', () => {

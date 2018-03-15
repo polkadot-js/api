@@ -3,11 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+export type ApiInterface$Section$Method = (...params: Array<mixed>) => Promise<mixed>;
+
 export type ApiInterface$Section = {
-  [string]: () => Promise<mixed>
+  [string]: ApiInterface$Section$Method,
+
+  subscribe: (name: string, ...params: Array<mixed>) => Promise<number>,
+  unsubscribe: (id: number) => Promise<boolean>
 };
 
-export interface ApiInterface {
-  +chain: ApiInterface$Section;
-  +state: ApiInterface$Section;
+export type ApiInterface = {
+  chain: ApiInterface$Section,
+  state: ApiInterface$Section
 }

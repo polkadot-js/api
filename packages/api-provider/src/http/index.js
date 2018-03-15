@@ -3,45 +3,26 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ProviderInterface } from '../types';
+import type { ProviderInterface, ProviderInterface$Callback } from '../types';
 
 require('./polyfill');
 
-const assert = require('@polkadot/util/assert');
-const JsonRpcCoder = require('../jsonRpcCoder');
+const send = require('./send');
+const subscribe = require('./subscribe');
+const state = require('./state');
+const unsubscribe = require('./unsubscribe');
 
-module.exports = class HttpProvider extends JsonRpcCoder implements ProviderInterface {
-  _endpoint: string;
+module.exports = function httpProvider (endpoint: string): ProviderInterface {
+  const self = state(endpoint);
 
-  constructor (endpoint: string) {
-    super();
-
-    assert(/^http:\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
-
-    this._endpoint = endpoint;
-  }
-
-  // flowlint-next-line unsafe-getters-setters:off
-  get isConnected (): boolean {
-    return true;
-  }
-
-  async send (method: string, params: Array<mixed>): Promise<mixed> {
-    const body = this.encodeJson(method, params);
-    const response = await fetch(this._endpoint, {
-      body,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Length': `${body.length}`,
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    });
-
-    assert(response.ok, `[${response.status}]: ${response.statusText}`);
-
-    const result = await response.json();
-
-    return this.decodeResponse(result);
-  }
+  return {
+    isConnected: (): boolean =>
+      true,
+    send: (method: string, params: Array<mixed>): Promise<mixed> =>
+      send(self, method, params),
+    subscribe: (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> =>
+      subscribe(self, method, params, cb),
+    unsubscribe: (id: number): Promise<boolean> =>
+      unsubscribe(self, id)
+  };
 };

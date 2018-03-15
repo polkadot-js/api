@@ -4,11 +4,10 @@
 // @flow
 
 import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
+import type { Hash } from '@polkadot/primitives/base';
 
 const accountIdEncode = require('@polkadot/primitives-json/accountId/encode');
-const h256Encode = require('@polkadot/primitives-json/h256/encode');
 const hashEncode = require('@polkadot/primitives-json/hash/encode');
-const headerHashEncode = require('@polkadot/primitives-json/headerHash/encode');
 
 const echo = require('./echo');
 const util = require('./util');
@@ -16,8 +15,8 @@ const util = require('./util');
 const formatters = {
   'Address': accountIdEncode,
   'CallData': hashEncode,
-  'H256': h256Encode,
-  'HeaderHash': headerHashEncode,
+  'H256': (value: Hash) => hashEncode(value, 256),
+  'HeaderHash': hashEncode,
   'String': echo
 };
 

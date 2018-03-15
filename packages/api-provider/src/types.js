@@ -23,7 +23,11 @@ export type JsonRpcResponseBase = {
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
-export interface ProviderInterface {
-  +isConnected: boolean;
-  send (method: string, params: Array<mixed>): Promise<mixed>;
+export type ProviderInterface$Callback = (error: ?Error, result: mixed) => void;
+
+export type ProviderInterface = {
+  isConnected (): boolean,
+  send (method: string, params: Array<mixed>): Promise<mixed>,
+  subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number>,
+  unsubscribe (id: number): Promise<boolean>
 }

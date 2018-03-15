@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-format",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "Input/Output formatters for JsonRPC exchange",
   "main": "index.js",
   "keywords": [
@@ -30,11 +30,11 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "devDependencies": {
-    "@polkadot/api-jsonrpc": "^0.7.1"
+    "@polkadot/api-jsonrpc": "^0.8.0"
   },
   "dependencies": {
-    "@polkadot/primitives-json": "^0.4.10",
-    "@polkadot/util": "^0.13.1",
+    "@polkadot/primitives-json": "^0.9.4",
+    "@polkadot/util": "^0.17.2",
     "babel-runtime": "^6.26.0"
   }
 }
