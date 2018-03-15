@@ -5,7 +5,7 @@
 
 export type FormatInputType = 'Address' | 'CallData' | 'H256' | 'HeaderHash' | 'String';
 
-export type FormatOutputType = 'Header' | 'OutData' | 'StorageData';
+export type FormatOutputType = 'BlockNumber' | 'Header' | 'OutData' | 'StorageData' | 'U64';
 
 export type InterfaceInputType = {
   name: string,
@@ -22,7 +22,7 @@ export type InterfaceMethodDefinition = {
   output: InterfaceOutputType
 };
 
-export type InterfaceTypes = 'chain' | 'state';
+export type InterfaceTypes = 'chain' | 'extra' | 'state';
 
 export type InterfaceDefinition$Methods = {
   [string]: InterfaceMethodDefinition

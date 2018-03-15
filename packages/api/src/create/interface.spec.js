@@ -4,6 +4,23 @@
 
 const isFunction = require('@polkadot/util/is/function');
 
+jest.mock('./@polkadot/api-jsonrpc', () => ({
+  test: {
+    methods: {
+      blah: {
+        inputs: [
+          { name: 'foo', type: 'Address' }
+        ],
+        output: { type: 'Address' }
+      },
+      bleh: {
+        inputs: [],
+        output: { type: 'Address' }
+      }
+    }
+  }
+}));
+
 const createInterface = require('./interface');
 
 describe('createInterface', () => {
@@ -11,26 +28,12 @@ describe('createInterface', () => {
   let provider;
 
   beforeEach(() => {
-    const definition = {
-      methods: {
-        blah: {
-          inputs: [
-            { name: 'foo', type: 'Address' }
-          ],
-          output: { type: 'Address' }
-        },
-        bleh: {
-          inputs: [],
-          output: { type: 'Address' }
-        }
-      }
-    };
     provider = {
       send: jest.fn((method, params) => {
         return Promise.resolve(params[0]);
       })
     };
-    container = createInterface(provider, definition, 'test');
+    container = createInterface(provider, 'test');
   });
 
   it('adds the specified methods to the interface', () => {
