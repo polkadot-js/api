@@ -11,6 +11,8 @@
 
 # @polkadot/api
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/polkadot-js/api.svg)](https://greenkeeper.io/)
+
 This library provides a clean wrapper around all the methods exposed by a Polkadot network client. As part of the JsonRpc defintions, the [exposed methods are documented](packages/api-jsonrpc/docs/).
 
 The API is split up into a number of internal packages -
