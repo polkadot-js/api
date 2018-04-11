@@ -3,9 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type FormatInputType = 'Address' | 'CallData' | 'H256' | 'HeaderHash' | 'String';
+export type InterfaceTypes = 'author' | 'chain' | 'extra' | 'state';
 
-export type FormatOutputType = 'BlockNumber' | 'Header' | 'OutData' | 'StorageData' | 'U64';
+export type FormatInputType = 'Bytes' | 'H256' | 'HeaderHash' | 'String';
+
+export type FormatOutputType = 'BlockNumber' | 'Bytes' | 'Header' | 'U64';
 
 export type InterfaceInputType = {
   name: string,
@@ -21,8 +23,6 @@ export type InterfaceMethodDefinition = {
   inputs: Array<InterfaceInputType>,
   output: InterfaceOutputType
 };
-
-export type InterfaceTypes = 'chain' | 'extra' | 'state';
 
 export type InterfaceDefinition$Methods = {
   [string]: InterfaceMethodDefinition

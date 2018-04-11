@@ -7,19 +7,20 @@ import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface } from './types';
 
+const interfaces = require('@polkadot/api-jsonrpc');
 const assert = require('@polkadot/util/assert');
 const isFunction = require('@polkadot/util/is/function');
 
 const createInterface = require('./create/interface');
 
-const ALL_INTERFACES: Array<InterfaceTypes> = ['chain', 'extra', 'state'];
-
 module.exports = function api (provider: ProviderInterface): ApiInterface {
   assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
-  return ALL_INTERFACES.reduce((result, type: InterfaceTypes) => {
-    result[type] = createInterface(provider, type);
+  return Object
+    .keys(interfaces)
+    .reduce((result, type: InterfaceTypes) => {
+      result[type] = createInterface(provider, type);
 
-    return result;
-  }, ({}: $Shape<ApiInterface>));
+      return result;
+    }, ({}: $Shape<ApiInterface>));
 };

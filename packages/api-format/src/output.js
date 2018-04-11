@@ -6,16 +6,15 @@
 import type { InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
 
 const bnDecode = require('@polkadot/primitives-json/bn/decode');
+const bytesDecode = require('@polkadot/primitives-json/bytes/decode');
 const headerDecode = require('@polkadot/primitives-json/header/decode');
 
-const echo = require('./echo');
 const util = require('./util');
 
 const formatters = {
   'BlockNumber': bnDecode,
+  'Bytes': bytesDecode,
   'Header': headerDecode,
-  'OutData': echo,
-  'StorageData': echo,
   'U64': bnDecode
 };
 

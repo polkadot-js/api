@@ -5,6 +5,7 @@
 
 import type { InterfaceDefinitions } from './types';
 
+const author = require('./author');
 const chain = require('./chain');
 const extra = require('./extra');
 const state = require('./state');
@@ -13,6 +14,7 @@ const state = require('./state');
   @summary Exposes the definition for the RPC endpoints for a Polkadot client node
 */
 module.exports = ({
+  author,
   chain,
   extra,
   state

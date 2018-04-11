@@ -9,7 +9,7 @@ describe('formatInputs', () => {
     expect(
       formatInputs(
         [
-          { name: 'foo', type: 'Address' },
+          { name: 'foo', type: 'Bytes' },
           { name: 'bar', type: 'H256' }
         ],
         [new Uint8Array([0x12, 0x34]), new Uint8Array([0xab, 0xcd])]
