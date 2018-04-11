@@ -4,20 +4,17 @@
 // @flow
 
 import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
-import type { Hash } from '@polkadot/primitives/base';
 
-const accountIdEncode = require('@polkadot/primitives-json/accountId/encode');
+const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
 const hashEncode = require('@polkadot/primitives-json/hash/encode');
 
-const echo = require('./echo');
 const util = require('./util');
 
 const formatters = {
-  'Address': accountIdEncode,
+  'Bytes': bytesEncode,
   'CallData': hashEncode,
-  'H256': (value: Hash) => hashEncode(value, 256),
-  'HeaderHash': hashEncode,
-  'String': echo
+  'H256': hashEncode,
+  'HeaderHash': hashEncode
 };
 
 module.exports = function formatInputs (inputs: Array<InterfaceInputType>, values: Array<mixed>): Array<mixed> {

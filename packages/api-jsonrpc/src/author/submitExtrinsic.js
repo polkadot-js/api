@@ -6,20 +6,18 @@
 import type { InterfaceMethodDefinition } from '../types';
 
 /**
-  @name getHeader
-  @signature chain_getHeader (hash: HeaderHash): Header
-  @summary Retrieves the header for a specific block.
+  @name submitExtrinsic
+  @signature author_submitExtrinsic (extrinsic: Bytes): Header
+  @summary Submit a fully formatted extrinsic for block inclusion.
   @description
     Given a block header specified by `hash`, return the full block `Header` information.
 */
 module.exports = ({
   inputs: [
     {
-      name: 'hash',
-      type: 'HeaderHash'
+      name: 'extrinsic',
+      type: 'Bytes'
     }
   ],
-  output: {
-    type: 'Header'
-  }
+  output: { type: 'Header' }
 }: InterfaceMethodDefinition);

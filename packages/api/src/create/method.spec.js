@@ -12,13 +12,13 @@ describe('createMethod', () => {
     methods = {
       blah: {
         inputs: [
-          { name: 'foo', type: 'Address' }
+          { name: 'foo', type: 'Bytes' }
         ],
-        output: { type: 'Address' }
+        output: { type: 'Bytes' }
       },
       bleh: {
         inputs: [],
-        output: { type: 'Address' }
+        output: { type: 'Bytes' }
       }
     };
 
@@ -33,7 +33,7 @@ describe('createMethod', () => {
     const method = createMethod(provider, 'test_blah', methods.blah);
 
     return method().catch((error) => {
-      expect(error.message).toMatch(/test_blah \(foo: Address\): Address/);
+      expect(error.message).toMatch(/test_blah \(foo: Bytes\): Bytes/);
     });
   });
 
