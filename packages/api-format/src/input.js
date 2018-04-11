@@ -12,7 +12,6 @@ const util = require('./util');
 
 const formatters = {
   'Bytes': bytesEncode,
-  'CallData': hashEncode,
   'H256': hashEncode,
   'HeaderHash': hashEncode
 };

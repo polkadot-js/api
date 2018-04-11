@@ -15,10 +15,6 @@ import type { InterfaceMethodDefinition } from '../types';
 module.exports = ({
   inputs: [
     {
-      name: 'address',
-      type: 'Address'
-    },
-    {
       name: 'method',
       type: 'String'
     },
@@ -32,6 +28,6 @@ module.exports = ({
     }
   ],
   output: {
-    type: 'OutData'
+    type: 'Bytes'
   }
 }: InterfaceMethodDefinition);
