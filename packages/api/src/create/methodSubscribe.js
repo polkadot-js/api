@@ -15,8 +15,10 @@ const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
 const createParams = require('./params');
 
-module.exports = function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): $Shape<ApiInterface$Section$Method> {
-  return async (..._params: Array<mixed>): Promise<number> => {
+module.exports = function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): ApiInterface$Section$Method {
+  const unsubscribe = (subscriptionId: mixed): Promise<mixed> =>
+    provider.send(`unsubscribe_${name}`, [subscriptionId]);
+  const call = async (..._params: Array<mixed>): Promise<mixed> => {
     try {
       // flowlint-next-line unclear-type:off
       const cb = ((_params.pop(): any): ProviderInterface$Callback);
@@ -24,26 +26,21 @@ module.exports = function methodSubscribe (provider: ProviderInterface, rpcName:
       assert(isFunction(cb), `Expected callback in last position of params`);
 
       const params = createParams(rpcName, _params, inputs);
-      let subscriptionId = -1;
-      const promise = provider
-        .subscribe(`subscribe_${name}`, params, (error: ?Error, result: mixed) => {
-          if (error) {
-            cb(error);
-          } else {
-            cb(null, formatOutput(output, result));
-          }
-        })
-        .then((_subscriptionId) => {
-          subscriptionId = _subscriptionId;
-        });
 
-      promise.unsubscribe = (): Promise<boolean> => {
-        return provider.send(`unsubscribe_${name}`, subscriptionId);
-      };
-
-      return promise;
+      return provider.subscribe(`subscribe_${name}`, params, (error: ?Error, result: mixed) => {
+        if (error) {
+          cb(error);
+        } else {
+          cb(null, formatOutput(output, result));
+        }
+      });
     } catch (error) {
       throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
     }
   };
+
+  call.unsubscribe = unsubscribe;
+
+  // flowlint-next-line unclear-type:off
+  return ((call: any): ApiInterface$Section$Method);
 };

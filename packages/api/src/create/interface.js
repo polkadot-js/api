@@ -22,6 +22,7 @@ module.exports = function createInterface (provider: ProviderInterface, section:
       const rpcName = `${section}_${name}`;
       const def = methods[name];
 
+      // flowlint-next-line sketchy-null-bool:off
       exposed[name] = def.isSubscription
         ? methodSubscribe(provider, rpcName, name, methods[name])
         : methodSend(provider, rpcName, name, methods[name]);

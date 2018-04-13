@@ -13,8 +13,8 @@ const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
 const createParams = require('./params');
 
-module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): $Shape<ApiInterface$Section$Method> {
-  return async (..._params: Array<mixed>): Promise<mixed> => {
+module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): ApiInterface$Section$Method {
+  const call = async (..._params: Array<mixed>): Promise<mixed> => {
     // TODO: Deprecated warning
     try {
       const params = createParams(rpcName, _params, inputs);
@@ -25,4 +25,7 @@ module.exports = function createMethodSend (provider: ProviderInterface, rpcName
       throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
     }
   };
+
+  // flowlint-next-line unclear-type:off
+  return ((call: any): ApiInterface$Section$Method);
 };

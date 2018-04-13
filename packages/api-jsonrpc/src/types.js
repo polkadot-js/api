@@ -7,7 +7,7 @@ export type InterfaceTypes = 'author' | 'chain' | 'extra' | 'state';
 
 export type FormatInputType = 'Bytes' | 'H256' | 'HeaderHash' | 'String';
 
-export type FormatOutputType = 'BlockNumber' | 'Bytes' | 'Header' | 'U64';
+export type FormatOutputType = 'BlockNumber' | 'Bytes' | 'Header' | 'HeaderHash' | 'U64';
 
 export type InterfaceInputType = {
   name: string,
