@@ -18,8 +18,14 @@ export type InterfaceOutputType = {
   type: FormatOutputType
 };
 
+export type InterfaceMethodDefinition$Subscribe = {
+  subscribe: string,
+  unsubscribe: string
+}
+
 export type InterfaceMethodDefinition = {
-  deprecated?: boolean,
+  isDeprecated?: boolean,
+  isSubscription?: boolean,
   inputs: Array<InterfaceInputType>,
   output: InterfaceOutputType
 };

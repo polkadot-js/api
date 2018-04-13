@@ -5,13 +5,17 @@
 
 import type { InterfaceDefinition } from '../types';
 
+const getHead = require('./getHead');
 const getHeader = require('./getHeader');
+const newHead = require('./newHead');
 
 /**
   @summary Methods to retrieve chain data.
 */
 module.exports = ({
   methods: {
-    getHeader
+    getHead,
+    getHeader,
+    newHead
   }
 }: InterfaceDefinition);
