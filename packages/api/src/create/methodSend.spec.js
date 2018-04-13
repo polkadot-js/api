@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const createMethod = require('./method');
+const createMethod = require('./methodSend');
 
-describe('createMethod', () => {
+describe('methodCall', () => {
   let methods;
   let provider;
 
@@ -30,7 +30,7 @@ describe('createMethod', () => {
   });
 
   it('wraps errors with the call signature', () => {
-    const method = createMethod(provider, 'test_blah', methods.blah);
+    const method = createMethod(provider, 'test_blah', 'blah', methods.blah);
 
     return method().catch((error) => {
       expect(error.message).toMatch(/test_blah \(foo: Bytes\): Bytes/);
@@ -38,7 +38,7 @@ describe('createMethod', () => {
   });
 
   it('checks for mismatched parameters', () => {
-    const method = createMethod(provider, 'test_bleh', methods.bleh);
+    const method = createMethod(provider, 'test_bleh', 'bleh', methods.bleh);
 
     return method(1).catch((error) => {
       expect(error.message).toMatch(/0 params expected, found 1 instead/);
@@ -46,7 +46,7 @@ describe('createMethod', () => {
   });
 
   it('calls the provider with the correct parameters', () => {
-    const method = createMethod(provider, 'test_blah', methods.blah);
+    const method = createMethod(provider, 'test_blah', 'blah', methods.blah);
 
     return method(new Uint8Array([0x12, 0x34])).then(() => {
       expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);

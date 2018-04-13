@@ -5,6 +5,7 @@
 
 import type { InterfaceMethodDefinition } from '@polkadot/api-jsonrpc/types';
 import type { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
+import type { ApiInterface$Section$Method } from '../types';
 
 const formatOutput = require('@polkadot/api-format/output');
 const assert = require('@polkadot/util/assert');
@@ -12,11 +13,9 @@ const ExtError = require('@polkadot/util/ext/error');
 const isFunction = require('@polkadot/util/is/function');
 const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
-type Method = (...params: Array<mixed>) => Promise<number>;
-
 const createParams = require('./params');
 
-module.exports = function createSubscribeMethod (provider: ProviderInterface, rpcName: string, { inputs, output }: InterfaceMethodDefinition): Method {
+module.exports = function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): $Shape<ApiInterface$Section$Method> {
   return async (..._params: Array<mixed>): Promise<number> => {
     try {
       // flowlint-next-line unclear-type:off
@@ -25,14 +24,24 @@ module.exports = function createSubscribeMethod (provider: ProviderInterface, rp
       assert(isFunction(cb), `Expected callback in last position of params`);
 
       const params = createParams(rpcName, _params, inputs);
+      let subscriptionId = -1;
+      const promise = provider
+        .subscribe(`subscribe_${name}`, params, (error: ?Error, result: mixed) => {
+          if (error) {
+            cb(error);
+          } else {
+            cb(null, formatOutput(output, result));
+          }
+        })
+        .then((_subscriptionId) => {
+          subscriptionId = _subscriptionId;
+        });
 
-      return provider.subscribe(rpcName, params, (error: ?Error, result: mixed) => {
-        if (error) {
-          cb(error);
-        } else {
-          cb(null, formatOutput(output, result));
-        }
-      });
+      promise.unsubscribe = (): Promise<boolean> => {
+        return provider.send(`unsubscribe_${name}`, subscriptionId);
+      };
+
+      return promise;
     } catch (error) {
       throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
     }
