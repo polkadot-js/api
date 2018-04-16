@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@polkadot/primitives-json": "^0.9.5",
-    "@polkadot/util": "^0.18.2",
+    "@polkadot/util": "^0.18.4",
     "babel-runtime": "^6.26.0"
   }
 }

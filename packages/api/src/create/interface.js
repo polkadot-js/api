@@ -9,23 +9,23 @@ import type { ApiInterface$Section } from '../types';
 
 const interfaces = require('@polkadot/api-jsonrpc');
 
-const createMethod = require('./method');
-const createSubscribe = require('./subscribe');
+const methodSend = require('./methodSend');
+const methodSubscribe = require('./methodSubscribe');
 
 module.exports = function createInterface (provider: ProviderInterface, section: InterfaceTypes): ApiInterface$Section {
   const exposed: $Shape<ApiInterface$Section> = {};
   const { methods } = interfaces[section];
 
-  exposed.subscribe = createSubscribe(provider, section, methods);
-  exposed.unsubscribe = provider.unsubscribe;
-
   return Object
     .keys(methods)
     .reduce((exposed, name: string) => {
       const rpcName = `${section}_${name}`;
-      const method = createMethod(provider, rpcName, methods[name]);
+      const def = methods[name];
 
-      exposed[name] = method;
+      // flowlint-next-line sketchy-null-bool:off
+      exposed[name] = def.isSubscription
+        ? methodSubscribe(provider, rpcName, name, methods[name])
+        : methodSend(provider, rpcName, name, methods[name]);
 
       return exposed;
     }, exposed);

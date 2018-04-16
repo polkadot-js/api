@@ -7,7 +7,7 @@ export type InterfaceTypes = 'author' | 'chain' | 'extra' | 'state';
 
 export type FormatInputType = 'Bytes' | 'H256' | 'HeaderHash' | 'String';
 
-export type FormatOutputType = 'BlockNumber' | 'Bytes' | 'Header' | 'U64';
+export type FormatOutputType = 'BlockNumber' | 'Bytes' | 'Header' | 'HeaderHash' | 'U64';
 
 export type InterfaceInputType = {
   name: string,
@@ -18,8 +18,14 @@ export type InterfaceOutputType = {
   type: FormatOutputType
 };
 
+export type InterfaceMethodDefinition$Subscribe = {
+  subscribe: string,
+  unsubscribe: string
+}
+
 export type InterfaceMethodDefinition = {
-  deprecated?: boolean,
+  isDeprecated?: boolean,
+  isSubscription?: boolean,
   inputs: Array<InterfaceInputType>,
   output: InterfaceOutputType
 };

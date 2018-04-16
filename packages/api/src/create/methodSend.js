@@ -5,17 +5,17 @@
 
 import type { InterfaceMethodDefinition } from '@polkadot/api-jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
+import type { ApiInterface$Section$Method } from '../types';
 
 const formatOutput = require('@polkadot/api-format/output');
 const ExtError = require('@polkadot/util/ext/error');
 const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
-type Method = (..._params: Array<mixed>) => Promise<mixed>;
-
 const createParams = require('./params');
 
-module.exports = function createMethod (provider: ProviderInterface, rpcName: string, { inputs, output }: InterfaceMethodDefinition): Method {
-  return async (..._params: Array<mixed>): Promise<mixed> => {
+module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, { inputs, output }: InterfaceMethodDefinition): ApiInterface$Section$Method {
+  const call = async (..._params: Array<mixed>): Promise<mixed> => {
+    // TODO: Deprecated warning
     try {
       const params = createParams(rpcName, _params, inputs);
       const result = await provider.send(rpcName, params);
@@ -25,4 +25,7 @@ module.exports = function createMethod (provider: ProviderInterface, rpcName: st
       throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
     }
   };
+
+  // flowlint-next-line unclear-type:off
+  return ((call: any): ApiInterface$Section$Method);
 };

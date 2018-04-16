@@ -16,6 +16,11 @@ jest.mock('./@polkadot/api-jsonrpc', () => ({
       bleh: {
         inputs: [],
         output: { type: 'Address' }
+      },
+      pubsub: {
+        isSubscription: true,
+        inputs: [],
+        output: { type: 'Address' }
       }
     }
   }
@@ -38,7 +43,7 @@ describe('createInterface', () => {
 
   it('adds the specified methods to the interface', () => {
     expect(Object.keys(container)).toEqual(
-      ['subscribe', 'unsubscribe', 'blah', 'bleh']
+      ['blah', 'bleh', 'pubsub']
     );
   });
 

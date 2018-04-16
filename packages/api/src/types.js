@@ -5,13 +5,13 @@
 
 import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
 
-export type ApiInterface$Section$Method = (...params: Array<mixed>) => Promise<mixed>;
+export type ApiInterface$Section$Method = {
+  (...params: Array<mixed>): Promise<mixed>;
+  unsubscribe: (id: number) => Promise<mixed>;
+}
 
 export type ApiInterface$Section = {
-  [string]: ApiInterface$Section$Method,
-
-  subscribe: (name: string, ...params: Array<mixed>) => Promise<number>,
-  unsubscribe: (id: number) => Promise<boolean>
+  [string]: ApiInterface$Section$Method
 };
 
 export type ApiInterface = {
