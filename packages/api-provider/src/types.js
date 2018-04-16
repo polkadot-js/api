@@ -13,18 +13,26 @@ export type JsonRpcRequest = JsonRpcObject & {
   params: Array<mixed>;
 };
 
-export type JsonRpcResponseBase = {
-  error?: {
-    code: number,
-    message: string
-  };
-  method?: string;
+export type JsonRpcResponseBase$Error = {
+  code: number,
+  message: string
+};
+
+type JsonRpcResponse$Single = {
+  error?: JsonRpcResponseBase$Error;
   result?: mixed;
-  params?: {
-    result: mixed
-  },
-  subscription: number;
-}
+};
+
+type JsonRpcResponse$Subscription = {
+  method?: string;
+  params: {
+    error?: JsonRpcResponseBase$Error;
+    result: mixed;
+    subscription: number;
+  }
+};
+
+export type JsonRpcResponseBase = JsonRpcResponse$Single & JsonRpcResponse$Subscription;
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 

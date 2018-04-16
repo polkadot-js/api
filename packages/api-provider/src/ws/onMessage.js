@@ -13,10 +13,12 @@ const onMessageSubscribe = require('./onMessageSubscribe');
 
 module.exports = function onMessage (self: WsState): (MessageEvent) => void {
   return (message: MessageEvent): void => {
+    self.l.debug(() => ['received', message.data]);
+
     // flowlint-next-line unclear-type:off
     const response: JsonRpcResponse = JSON.parse(((message.data: any): string));
 
-    return isUndefined(response.subscription)
+    return isUndefined(response.method)
       ? onMessageResult(self, response)
       : onMessageSubscribe(self, response);
   };

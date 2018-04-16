@@ -7,10 +7,12 @@ import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
 module.exports = function onMessageSubscribe (self: WsState, response: JsonRpcResponse): void {
-  const handler = self.subscriptions[response.subscription];
+  self.l.debug(() => ['handling: response =', response, 'subscription =', response.params.subscription]);
+
+  const handler = self.subscriptions[response.params.subscription];
 
   if (!handler) {
-    self.l.error(`Unable to find handler for subscription=${response.subscription}`);
+    self.l.error(`Unable to find handler for subscription=${response.params.subscription}`);
     return;
   }
 

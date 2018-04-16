@@ -19,7 +19,7 @@ describe('onMessageSubscribe', () => {
   });
 
   it('fails with log when handler not found', () => {
-    onMessage(state)({ data: '{"subscription":2}' });
+    onMessage(state)({ data: '{"method":"test","params":{"subscription":2}}' });
 
     expect(errorSpy).toHaveBeenCalledWith(
       expect.anything(), expect.anything(), 'Unable to find handler for subscription=2'
@@ -36,7 +36,7 @@ describe('onMessageSubscribe', () => {
     };
 
     onMessage(state)({ data: '{"jsonrpc":"2.0","id":11,"result":22}' });
-    onMessage(state)({ data: '{"jsonrpc":"2.0","subscription":22,"params":{"result":"test"}}' });
+    onMessage(state)({ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' });
   });
 
   it('calls the subscriber with error', (done) => {
@@ -49,6 +49,6 @@ describe('onMessageSubscribe', () => {
     };
 
     onMessage(state)({ data: '{"jsonrpc":"2.0","id":11,"result":22}' });
-    onMessage(state)({ data: '{"jsonrpc":"2.0","subscription":22,"error":{"message":"test"}}' });
+    onMessage(state)({ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' });
   });
 });

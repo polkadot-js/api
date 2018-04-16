@@ -19,6 +19,8 @@ module.exports = async function send (self: WsState, method: string, params: Arr
         }
       };
 
+      self.l.debug(() => ['calling', method, params, json, !!subscription]);
+
       self.handlers[id] = {
         callback,
         subscription

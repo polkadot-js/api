@@ -7,6 +7,8 @@ import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
 module.exports = function onMessageResult (self: WsState, response: JsonRpcResponse): void {
+  self.l.debug(() => ['handling: response =', response, 'id =', response.id]);
+
   const handler = self.handlers[response.id];
 
   if (!handler) {
