@@ -13,6 +13,7 @@ import type { InterfaceMethodDefinition } from '../types';
     Returns the current time on the running node
 */
 module.exports = ({
+  isSubscription: true,
   inputs: [],
   output: { type: 'U64' }
 }: InterfaceMethodDefinition);

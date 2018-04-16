@@ -12,6 +12,7 @@ const METHODS = Array.prototype.concat.apply(
   [], Object.keys(interfaces).map((section) => {
     return Object
       .keys(interfaces[section].methods)
+      .filter((method) => interfaces[section].methods[method].isSubscription)
       .map((method) => `${section}_${method}`);
   })
 );
