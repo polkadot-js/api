@@ -5,7 +5,7 @@
 
 import type { MockState } from './types';
 
-module.exports = async function subscribe (self: MockState, _: string, id: number): Promise<boolean> {
+module.exports = async function unsubscribe (self: MockState, _: string, id: number): Promise<boolean> {
   const method = self.subscriptionMap[id];
 
   self.l.debug(() => ['unsubscribe', id, method]);

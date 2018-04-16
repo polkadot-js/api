@@ -13,7 +13,7 @@ const METHODS = Array.prototype.concat.apply(
     return Object
       .keys(interfaces[section].methods)
       .filter((method) => interfaces[section].methods[method].isSubscription)
-      .map((method) => `${section}_${method}`);
+      .map((method) => `subscribe_${method}`);
   })
 );
 

@@ -24,7 +24,7 @@ describe('state', () => {
     expect(
       state.subscriptions
     ).toMatchObject({
-      'extra_getBlockNumber': {
+      'subscribe_newHead': {
         callbacks: {},
         lastValue: null
       }

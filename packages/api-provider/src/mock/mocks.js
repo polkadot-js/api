@@ -45,11 +45,6 @@ module.exports = function mocks ({ subscriptions }: MockState): void {
   setInterval(() => {
     newHead = makeBlockHeader(newHead.number);
 
-    updateSubs('extra_getBlockNumber', `0x${(newHead.number).toString(16)}`);
-    updateSubs('chain_newHead', newHead);
+    updateSubs('subscribe_newHead', newHead);
   }, 5000);
-
-  setInterval(() => {
-    updateSubs('extra_getClientTime', `0x${Date.now().toString(16)}`);
-  }, 1000);
 };
