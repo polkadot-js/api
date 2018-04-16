@@ -13,13 +13,26 @@ export type JsonRpcRequest = JsonRpcObject & {
   params: Array<mixed>;
 };
 
-export type JsonRpcResponseBase = {
-  error?: {
-    code: number,
-    message: string
-  };
+export type JsonRpcResponseBase$Error = {
+  code: number,
+  message: string
+};
+
+type JsonRpcResponse$Single = {
+  error?: JsonRpcResponseBase$Error;
   result?: mixed;
-}
+};
+
+type JsonRpcResponse$Subscription = {
+  method?: string;
+  params: {
+    error?: JsonRpcResponseBase$Error;
+    result: mixed;
+    subscription: number;
+  }
+};
+
+export type JsonRpcResponseBase = JsonRpcResponse$Single & JsonRpcResponse$Subscription;
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
@@ -29,5 +42,5 @@ export type ProviderInterface = {
   isConnected (): boolean,
   send (method: string, params: Array<mixed>): Promise<mixed>,
   subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number>,
-  unsubscribe (id: number): Promise<boolean>
+  unsubscribe (method: string, id: number): Promise<boolean>
 }

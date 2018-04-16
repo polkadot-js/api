@@ -26,14 +26,11 @@ module.exports = function methodSubscribe (provider: ProviderInterface, rpcName:
       assert(isFunction(cb), `Expected callback in last position of params`);
 
       const params = createParams(rpcName, _params, inputs);
+      const update = (error: ?Error, result?: mixed) => {
+        cb(error, formatOutput(output, result));
+      };
 
-      return provider.subscribe(`subscribe_${name}`, params, (error: ?Error, result: mixed) => {
-        if (error) {
-          cb(error);
-        } else {
-          cb(null, formatOutput(output, result));
-        }
-      });
+      return provider.subscribe(`subscribe_${name}`, params, update);
     } catch (error) {
       throw new ExtError(`${jsonrpcSignature(rpcName, inputs, output)}:: ${error.message}`, (error: ExtError).code);
     }

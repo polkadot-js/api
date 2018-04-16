@@ -23,7 +23,7 @@ module.exports = function mockProvider (): ProviderInterface {
       send(self, method, params),
     subscribe: (method: string, ...params: Array<mixed>): Promise<number> =>
       subscribe(self, method, params),
-    unsubscribe: (id: number): Promise<boolean> =>
-      unsubscribe(self, id)
+    unsubscribe: (method: string, id: number): Promise<boolean> =>
+      unsubscribe(self, method, id)
   };
 };

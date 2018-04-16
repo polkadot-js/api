@@ -6,25 +6,20 @@
 import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
+const isUndefined = require('@polkadot/util/is/undefined');
+
+const onMessageResult = require('./onMessageResult');
+const onMessageSubscribe = require('./onMessageSubscribe');
+
 module.exports = function onMessage (self: WsState): (MessageEvent) => void {
   return (message: MessageEvent): void => {
+    self.l.debug(() => ['received', message.data]);
+
     // flowlint-next-line unclear-type:off
     const response: JsonRpcResponse = JSON.parse(((message.data: any): string));
-    const handler = self.handlers[response.id];
 
-    if (!handler) {
-      self.l.error(`Unable to find handler for id=${response.id}`);
-      return;
-    }
-
-    try {
-      const result = self.coder.decodeResponse(response);
-
-      handler.callback(null, result);
-    } catch (error) {
-      handler.callback(error);
-    }
-
-    delete self.handlers[response.id];
+    return isUndefined(response.method)
+      ? onMessageResult(self, response)
+      : onMessageSubscribe(self, response);
   };
 };

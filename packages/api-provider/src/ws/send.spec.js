@@ -91,4 +91,20 @@ describe('send', () => {
         expect(error.message).toMatch(/\[666\]: error/);
       });
   });
+
+  it('adds subscriptions', () => {
+    createMock([{
+      id: 1,
+      method: 'test_sub',
+      reply: {
+        result: 1
+      }
+    }]);
+
+    return createWs()
+      .send('test_sub', [], () => {})
+      .then((id) => {
+        expect(id).toEqual(1);
+      });
+  });
 });

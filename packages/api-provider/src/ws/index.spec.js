@@ -29,22 +29,4 @@ describe('Ws', () => {
       createWs([]).isConnected()
     ).toEqual(false);
   });
-
-  describe('pubsub', () => {
-    beforeEach(() => {
-      ws = createWs([]);
-    });
-
-    it('does not (yet) support subscribe', () => {
-      return ws.subscribe().catch((error) => {
-        expect(error.message).toMatch(/has not been implemented/);
-      });
-    });
-
-    it('does not (yet) support unsubscribe', () => {
-      return ws.unsubscribe().catch((error) => {
-        expect(error.message).toMatch(/has not been implemented/);
-      });
-    });
-  });
 });

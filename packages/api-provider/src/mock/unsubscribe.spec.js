@@ -19,17 +19,17 @@ describe('unsubscribe', () => {
   });
 
   it('fails on unknown ids', () => {
-    return unsubscribe(state, 5).catch((error) => {
+    return unsubscribe(state, 'extra_getBlockNumber', 5).catch((error) => {
       expect(error.message).toMatch(/Unable to find/);
     });
   });
 
   it('unsubscribes successfully', () => {
-    return unsubscribe(state, id);
+    return unsubscribe(state, 'extra_getBlockNumber', id);
   });
 
   it('fails on double unsubscribe', () => {
-    return unsubscribe(state, id)
+    return unsubscribe(state, 'extra_getBlockNumber', id)
       .then(() => unsubscribe(state, id))
       .catch((error) => {
         expect(error.message).toMatch(/Unable to find/);
@@ -37,7 +37,7 @@ describe('unsubscribe', () => {
   });
 
   it('clears the subscriptions', () => {
-    return unsubscribe(state, id).then(() => {
+    return unsubscribe(state, 'extra_getBlockNumber', id).then(() => {
       expect(state.subscriptionMap[id]).not.toBeDefined();
       expect(state.subscriptions['extra_getBlockNumber'].callbacks[id]).not.toBeDefined();
     });

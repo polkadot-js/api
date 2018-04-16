@@ -20,6 +20,7 @@ module.exports = function state (endpoint: string, autoConnect: boolean): $Shape
     handlers: {},
     isConnected: false,
     l,
-    queued: {}
+    queued: {},
+    subscriptions: {}
   };
 };

@@ -5,6 +5,18 @@
 
 import type { WsState } from './types';
 
-module.exports = async function unsubscribe (self: WsState, id: number): Promise<boolean> {
-  throw new Error('Subscriptions has not been implemented');
+const assert = require('@polkadot/util/assert');
+const isUndefined = require('@polkadot/util/is/undefined');
+
+const send = require('./send');
+
+module.exports = async function unsubscribe (self: WsState, method: string, id: number): Promise<boolean> {
+  assert(!isUndefined(self.subscriptions[id]), `Unable to find active subscription=${id}`);
+
+  delete self.subscriptions[id];
+
+  const result = await send(self, method, [id]);
+
+  // flowlint-next-line unclear-type:off
+  return ((result: any): boolean);
 };
