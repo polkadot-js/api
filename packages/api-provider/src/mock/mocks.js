@@ -5,27 +5,29 @@
 
 import type { MockState, MockState$Subscription$Callback } from './types';
 
+const BN = require('bn.js');
+const headerEncode = require('@polkadot/primitives-json/header/encode');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
-const randomAsHex = require('@polkadot/util-crypto/random/asHex');
+const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
 
-function makeBlockHeader (prevNumber: number) {
-  const blockNumber = prevNumber++;
+function makeBlockHeader (prevNumber: BN) {
+  const blockNumber = prevNumber.addn(1);
 
   return {
     digest: {
       logs: []
     },
-    extrinsicsRoot: randomAsHex(),
+    extrinsicsRoot: randomAsU8a(),
     number: blockNumber,
-    parentHash: prevNumber === -1
-      ? '0x0000000000000000000000000000000000000000000000000000000000000000'
+    parentHash: prevNumber.eqn(-1)
+      ? new Uint8Array(32)
       : bnToU8a(prevNumber, 256),
     stateRoot: bnToU8a(blockNumber, 256)
   };
 }
 
 module.exports = function mocks ({ subscriptions }: MockState): void {
-  let newHead = makeBlockHeader(-1);
+  let newHead = makeBlockHeader(new BN(-1));
 
   const updateSubs = (method, value) => {
     subscriptions[method].lastValue = value;
@@ -45,6 +47,6 @@ module.exports = function mocks ({ subscriptions }: MockState): void {
   setInterval(() => {
     newHead = makeBlockHeader(newHead.number);
 
-    updateSubs('subscribe_newHead', newHead);
+    updateSubs('subscribe_newHead', headerEncode(newHead));
   }, 5000);
 };
