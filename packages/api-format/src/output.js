@@ -8,6 +8,7 @@ import type { InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
 const bnDecode = require('@polkadot/primitives-json/bn/decode');
 const bytesDecode = require('@polkadot/primitives-json/bytes/decode');
 const headerDecode = require('@polkadot/primitives-json/header/decode');
+const isNull = require('@polkadot/util/is/null');
 const isUndefined = require('@polkadot/util/is/undefined');
 
 const util = require('./util');
@@ -20,8 +21,8 @@ const formatters = {
 };
 
 module.exports = function formatOutput (output: InterfaceOutputType, value?: mixed): ?mixed {
-  if (isUndefined(value)) {
-    return void 0;
+  if (isUndefined(value) || isNull(value)) {
+    return value;
   }
 
   return util.format(formatters, output.type, value);

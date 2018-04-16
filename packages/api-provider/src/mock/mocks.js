@@ -5,11 +5,12 @@
 
 import type { MockState, MockState$Subscription$Callback } from './types';
 
+const headerEncode = require('@polkadot/primitives-json/header/encode');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const randomAsHex = require('@polkadot/util-crypto/random/asHex');
 
 function makeBlockHeader (prevNumber: number) {
-  const blockNumber = prevNumber++;
+  const blockNumber = prevNumber + 1;
 
   return {
     digest: {
@@ -45,6 +46,6 @@ module.exports = function mocks ({ subscriptions }: MockState): void {
   setInterval(() => {
     newHead = makeBlockHeader(newHead.number);
 
-    updateSubs('subscribe_newHead', newHead);
+    updateSubs('subscribe_newHead', headerEncode(newHead));
   }, 5000);
 };
