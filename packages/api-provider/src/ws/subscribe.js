@@ -9,5 +9,8 @@ import type { WsState } from './types';
 const send = require('./send');
 
 module.exports = async function subscribe (self: WsState, method: string, params: Array<mixed>, subscription: ProviderInterface$Callback): Promise<number> {
-  return send(self, method, params, subscription);
+  const id = await send(self, method, params, subscription);
+
+  // flowlint-next-line unclear-type:off
+  return ((id: any): number);
 };

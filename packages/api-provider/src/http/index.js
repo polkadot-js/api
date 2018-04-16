@@ -22,7 +22,7 @@ module.exports = function httpProvider (endpoint: string): ProviderInterface {
       send(self, method, params),
     subscribe: (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> =>
       subscribe(self, method, params, cb),
-    unsubscribe: (id: number): Promise<boolean> =>
-      unsubscribe(self, id)
+    unsubscribe: (method: string, id: number): Promise<boolean> =>
+      unsubscribe(self, method, id)
   };
 };

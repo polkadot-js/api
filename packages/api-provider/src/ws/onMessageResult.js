@@ -19,7 +19,8 @@ module.exports = function onMessageResult (self: WsState, response: JsonRpcRespo
     const result = self.coder.decodeResponse(response);
 
     if (subscription) {
-      self.subscriptions[result] = {
+      // flowlint-next-line unclear-type:off
+      self.subscriptions[((result: any): number)] = {
         callback: subscription
       };
     }

@@ -5,6 +5,6 @@
 
 import type { HttpState } from './types';
 
-module.exports = async function unsubscribe (self: HttpState, id: number): Promise<boolean> {
+module.exports = async function unsubscribe (self: HttpState, method: string, id: number): Promise<boolean> {
   throw new Error('Subscriptions has not been implemented');
 };

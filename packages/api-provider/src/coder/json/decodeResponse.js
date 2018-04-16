@@ -25,7 +25,8 @@ module.exports = function decodeResponse (self: RpcCoderState, response: JsonRpc
 
   assert(!isUndefined(response.result) || !isUndefined(response.params), 'No result found in JsonRpc response');
 
-  return isUndefined(response.result)
+  return isUndefined(response.result) && !isUndefined(response.params)
+    // $FlowFixMe we have something here, checked just above
     ? response.params.result
     : response.result;
 };

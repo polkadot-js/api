@@ -15,5 +15,8 @@ module.exports = async function unsubscribe (self: WsState, method: string, id: 
 
   delete self.subscriptions[id];
 
-  return send(self, method, [id]);
+  const result = await send(self, method, [id]);
+
+  // flowlint-next-line unclear-type:off
+  return ((result: any): boolean);
 };
