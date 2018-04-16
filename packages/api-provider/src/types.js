@@ -18,7 +18,12 @@ export type JsonRpcResponseBase = {
     code: number,
     message: string
   };
+  method?: string;
   result?: mixed;
+  params?: {
+    result: mixed
+  },
+  subscription: number;
 }
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;

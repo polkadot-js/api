@@ -15,7 +15,7 @@ module.exports = function decodeResponse (self: RpcCoderState, response: JsonRpc
 
   assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
-  assert(isNumber(response.id), 'Invalid id field in decoded object');
+  assert(isNumber(response.id) || isNumber(response.subscription), 'Invalid id field in decoded object');
 
   if (response.error) {
     const { code, message } = response.error;
@@ -23,7 +23,9 @@ module.exports = function decodeResponse (self: RpcCoderState, response: JsonRpc
     throw new Error(`[${code}]: ${message}`);
   }
 
-  assert(!isUndefined(response.result), 'No result found in JsonRpc response');
+  assert(!isUndefined(response.result) || !isUndefined(response.params), 'No result found in JsonRpc response');
 
-  return response.result;
+  return isUndefined(response.result)
+    ? response.params.result
+    : response.result;
 };

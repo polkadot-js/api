@@ -6,6 +6,8 @@
 import type { ProviderInterface$Callback } from '../types';
 import type { WsState } from './types';
 
-module.exports = async function subscribe (self: WsState, method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> {
-  throw new Error('Subscriptions has not been implemented');
+const send = require('./send');
+
+module.exports = async function subscribe (self: WsState, method: string, params: Array<mixed>, subscription: ProviderInterface$Callback): Promise<number> {
+  return send(self, method, params, subscription);
 };

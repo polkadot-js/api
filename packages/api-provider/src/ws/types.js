@@ -5,9 +5,15 @@
 
 import type { Logger } from '@polkadot/util/types';
 import type { RpcCoder } from '../coder/json/types';
+import type { ProviderInterface$Callback } from '../types';
 
 export type WsState$Awaiting = {
-  callback: (error: ?Error, result: mixed) => void
+  callback: ProviderInterface$Callback,
+  subscription?: ProviderInterface$Callback
+};
+
+export type WsState$Subscription = {
+  callback: ProviderInterface$Callback
 };
 
 export type WsState = {
@@ -18,5 +24,6 @@ export type WsState = {
   isConnected: boolean,
   l: Logger,
   queued: { [number]: string },
+  subscriptions: { [number]: WsState$Subscription },
   websocket: WebSocket
 };

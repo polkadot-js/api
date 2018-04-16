@@ -3,9 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type { ProviderInterface$Callback } from '../types';
 import type { WsState } from './types';
 
-module.exports = async function send (self: WsState, method: string, params: Array<mixed>): Promise<mixed> {
+module.exports = async function send (self: WsState, method: string, params: Array<mixed>, subscription?: ProviderInterface$Callback): Promise<mixed> {
   return new Promise((resolve, reject): void => {
     try {
       const json = self.coder.encodeJson(method, params);
@@ -19,7 +20,8 @@ module.exports = async function send (self: WsState, method: string, params: Arr
       };
 
       self.handlers[id] = {
-        callback
+        callback,
+        subscription
       };
 
       if (self.isConnected) {

@@ -5,7 +5,7 @@
 const onMessage = require('./onMessage');
 const createState = require('./state');
 
-describe('onError', () => {
+describe('onMessageResult', () => {
   let state;
   let errorSpy;
 
@@ -24,5 +24,16 @@ describe('onError', () => {
     expect(errorSpy).toHaveBeenCalledWith(
       expect.anything(), expect.anything(), 'Unable to find handler for id=2'
     );
+  });
+
+  it('calls the handler when found', (done) => {
+    state.handlers[5] = {
+      callback: (_, result) => {
+        expect(result).toEqual('test');
+        done();
+      }
+    };
+
+    onMessage(state)({ data: '{"jsonrpc":"2.0","id":5,"result":"test"}' });
   });
 });
