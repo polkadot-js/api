@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-export type InterfaceTypes = 'author' | 'chain' | 'extra' | 'state';
+export type InterfaceTypes = 'author' | 'chain' | 'state';
 
 export type FormatInputType = 'Bytes' | 'H256' | 'HeaderHash' | 'String';
 

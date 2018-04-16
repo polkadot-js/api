@@ -7,7 +7,6 @@ import type { InterfaceDefinitions } from './types';
 
 const author = require('./author');
 const chain = require('./chain');
-const extra = require('./extra');
 const state = require('./state');
 
 /**
@@ -16,6 +15,5 @@ const state = require('./state');
 module.exports = ({
   author,
   chain,
-  extra,
   state
 }: InterfaceDefinitions);

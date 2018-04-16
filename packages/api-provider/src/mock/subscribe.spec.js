@@ -19,7 +19,7 @@ describe('subscribe', () => {
   });
 
   it('returns a subscription id', () => {
-    return subscribe(state, 'extra_getBlockNumber', [() => void 0]).then((id) => {
+    return subscribe(state, 'subscribe_newHead', [() => void 0]).then((id) => {
       expect(id).toEqual(state.subscriptionId);
     });
   });
@@ -27,16 +27,16 @@ describe('subscribe', () => {
   it('stores the mapping values', () => {
     const cb = () => void 0;
 
-    return subscribe(state, 'extra_getBlockNumber', [cb]).then((id) => {
-      expect(state.subscriptionMap[id]).toEqual('extra_getBlockNumber');
-      expect(state.subscriptions['extra_getBlockNumber'].callbacks[id]).toEqual(cb);
+    return subscribe(state, 'subscribe_newHead', [cb]).then((id) => {
+      expect(state.subscriptionMap[id]).toEqual('subscribe_newHead');
+      expect(state.subscriptions['subscribe_newHead'].callbacks[id]).toEqual(cb);
     });
   });
 
   it('calls back with the last known value', (done) => {
-    state.subscriptions['extra_getBlockNumber'].lastValue = 'testValue';
+    state.subscriptions['subscribe_newHead'].lastValue = 'testValue';
 
-    subscribe(state, 'extra_getBlockNumber', [(_, value) => {
+    subscribe(state, 'subscribe_newHead', [(_, value) => {
       expect(value).toEqual('testValue');
       done();
     }]);

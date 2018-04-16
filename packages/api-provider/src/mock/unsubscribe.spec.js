@@ -13,23 +13,23 @@ describe('unsubscribe', () => {
   beforeEach(() => {
     state = createState();
 
-    return subscribe(state, 'extra_getBlockNumber', [() => void 0]).then((_id) => {
+    return subscribe(state, 'subscribe_newHead', [() => void 0]).then((_id) => {
       id = _id;
     });
   });
 
   it('fails on unknown ids', () => {
-    return unsubscribe(state, 'extra_getBlockNumber', 5).catch((error) => {
+    return unsubscribe(state, 'subscribe_newHead', 5).catch((error) => {
       expect(error.message).toMatch(/Unable to find/);
     });
   });
 
   it('unsubscribes successfully', () => {
-    return unsubscribe(state, 'extra_getBlockNumber', id);
+    return unsubscribe(state, 'subscribe_newHead', id);
   });
 
   it('fails on double unsubscribe', () => {
-    return unsubscribe(state, 'extra_getBlockNumber', id)
+    return unsubscribe(state, 'subscribe_newHead', id)
       .then(() => unsubscribe(state, id))
       .catch((error) => {
         expect(error.message).toMatch(/Unable to find/);
@@ -37,9 +37,9 @@ describe('unsubscribe', () => {
   });
 
   it('clears the subscriptions', () => {
-    return unsubscribe(state, 'extra_getBlockNumber', id).then(() => {
+    return unsubscribe(state, 'subscribe_newHead', id).then(() => {
       expect(state.subscriptionMap[id]).not.toBeDefined();
-      expect(state.subscriptions['extra_getBlockNumber'].callbacks[id]).not.toBeDefined();
+      expect(state.subscriptions['subscribe_newHead'].callbacks[id]).not.toBeDefined();
     });
   });
 });
