@@ -34,5 +34,5 @@ export type ProviderInterface = {
   isConnected (): boolean,
   send (method: string, params: Array<mixed>): Promise<mixed>,
   subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number>,
-  unsubscribe (id: number): Promise<boolean>
+  unsubscribe (method: string, id: number): Promise<boolean>
 }
