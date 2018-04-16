@@ -13,6 +13,7 @@ import type { InterfaceMethodDefinition } from '../types';
     Returns the best blockNumber available on the client
 */
 module.exports = ({
+  isSubscription: true,
   inputs: [],
   output: { type: 'BlockNumber' }
 }: InterfaceMethodDefinition);
