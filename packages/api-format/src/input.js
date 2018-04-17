@@ -8,7 +8,7 @@ import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
 const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
 const hashEncode = require('@polkadot/primitives-json/hash/encode');
 
-const util = require('./util');
+const format = require('./format');
 
 const formatters = {
   'Bytes': bytesEncode,
@@ -19,5 +19,5 @@ const formatters = {
 module.exports = function formatInputs (inputs: Array<InterfaceInputType>, values: Array<mixed>): Array<mixed> {
   const types = inputs.map(({ type }) => type);
 
-  return util.formatArray(formatters, types, values);
+  return format(formatters, types, values);
 };
