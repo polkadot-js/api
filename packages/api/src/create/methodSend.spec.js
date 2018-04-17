@@ -41,7 +41,7 @@ describe('methodCall', () => {
     const method = createMethod(provider, 'test_bleh', 'bleh', methods.bleh);
 
     return method(1).catch((error) => {
-      expect(error.message).toMatch(/0 params expected, found 1 instead/);
+      expect(error.message).toMatch(/no params expected, found 1 instead/);
     });
   });
 

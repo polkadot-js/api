@@ -9,7 +9,12 @@ const formatInputs = require('@polkadot/api-format/input');
 const assert = require('@polkadot/util/assert');
 
 module.exports = function createParams (rpcName: string, params: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
-  assert(inputs.length === params.length, `${rpcName}: ${inputs.length} params expected, found ${params.length} instead`);
+  const required = inputs.filter(({ isOptional }) => !isOptional);
+  const optionalText = inputs.length
+    ? ` (${(inputs.length - required.length) || 'none'} optional)`
+    : '';
+
+  assert(params.length >= required.length && params.length <= inputs.length, `${rpcName}: ${inputs.length || 'no'} params expected${optionalText}, found ${params.length} instead`);
 
   return formatInputs(inputs, params);
 };

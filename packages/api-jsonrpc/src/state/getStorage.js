@@ -19,6 +19,7 @@ module.exports = ({
       type: 'H256'
     },
     {
+      isOptional: true,
       name: 'blockHash',
       type: 'HeaderHash'
     }
