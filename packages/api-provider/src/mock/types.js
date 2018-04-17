@@ -16,8 +16,18 @@ export type MockState$Subscriptions = {
   }
 };
 
+export type MockState$Storage = {
+  [string]: Uint8Array
+};
+
+export type MockState$Requests = {
+  [string]: (storage: MockState$Storage, params: Array<mixed>) => mixed
+};
+
 export type MockState = {
   l: Logger,
+  requests: MockState$Requests,
+  storage: MockState$Storage,
   subscriptionId: number,
   subscriptionMap: {
     [number]: string

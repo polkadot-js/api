@@ -3,12 +3,12 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { MockState } from './types';
+import type { MockState, MockState$Storage } from './types';
 
 const interfaces = require('@polkadot/api-jsonrpc');
 const l = require('@polkadot/util/logger')('api-mock');
 
-const METHODS = Array.prototype.concat.apply(
+const SUBSCRIPTIONS = Array.prototype.concat.apply(
   [], Object.keys(interfaces).map((section) => {
     return Object
       .keys(interfaces[section].methods)
@@ -17,8 +17,16 @@ const METHODS = Array.prototype.concat.apply(
   })
 );
 
+const REQUESTS = {
+  'state_getStorage': (storage: MockState$Storage, params: Array<mixed>): Uint8Array => {
+    // flowlint-next-line unclear-type:off
+    return storage[((params[0]: any): string)];
+  }
+};
+
 module.exports = function state (): MockState {
-  const subscriptions = METHODS.reduce((subscriptions, name) => {
+  const storage = {};
+  const subscriptions = SUBSCRIPTIONS.reduce((subscriptions, name) => {
     subscriptions[name] = {
       callbacks: {},
       lastValue: null
@@ -29,6 +37,8 @@ module.exports = function state (): MockState {
 
   return {
     l,
+    requests: Object.assign({}, REQUESTS),
+    storage,
     subscriptionId: 0,
     subscriptionMap: {},
     subscriptions
