@@ -44,22 +44,15 @@ function formatArrayType (formatters: FormattersFunctionMap, type: FormattersFun
   });
 }
 
-function format (formatters: FormattersFunctionMap, type: FormattersFunctionType, value: mixed | Array<mixed>): mixed {
-  if (arrayTypeRegex.test(type)) {
-    // $FlowFixMe array type
-    return formatArrayType(formatters, type, value);
-  }
+module.exports = function format (formatters: FormattersFunctionMap, types: Array<FormattersFunctionType>, values: Array<mixed>): Array<mixed> {
+  return values.map((value, index): mixed => {
+    const type = types[index];
 
-  return formatSingleType(formatters, type, value);
-}
+    if (arrayTypeRegex.test(type)) {
+      // $FlowFixMe array type
+      return formatArrayType(formatters, type, value);
+    }
 
-function formatArray (formatters: FormattersFunctionMap, types: Array<FormattersFunctionType>, values: Array<mixed>): Array<mixed> {
-  return types.map((type, index): mixed => {
-    return format(formatters, type, values[index]);
+    return formatSingleType(formatters, type, value);
   });
-}
-
-module.exports = {
-  format,
-  formatArray
 };

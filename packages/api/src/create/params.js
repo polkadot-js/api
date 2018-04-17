@@ -8,8 +8,13 @@ import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
 const formatInputs = require('@polkadot/api-format/input');
 const assert = require('@polkadot/util/assert');
 
-module.exports = function createParams (rpcName: string, params: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
-  assert(inputs.length === params.length, `${rpcName}: ${inputs.length} params expected, found ${params.length} instead`);
+module.exports = function createParams (params: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
+  const required = inputs.filter(({ isOptional }) => !isOptional);
+  const optionalText = inputs.length
+    ? ` (${(inputs.length - required.length) || 'none'} optional)`
+    : '';
+
+  assert(params.length >= required.length && params.length <= inputs.length, `${inputs.length || 'no'} params expected${optionalText}, found ${params.length} instead`);
 
   return formatInputs(inputs, params);
 };

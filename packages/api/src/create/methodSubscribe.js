@@ -25,7 +25,7 @@ module.exports = function methodSubscribe (provider: ProviderInterface, rpcName:
 
       assert(isFunction(cb), `Expected callback in last position of params`);
 
-      const params = createParams(rpcName, _params, inputs);
+      const params = createParams(_params, inputs);
       const update = (error: ?Error, result?: mixed) => {
         cb(error, formatOutput(output, result));
       };

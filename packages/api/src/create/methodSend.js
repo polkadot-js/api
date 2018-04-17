@@ -17,7 +17,7 @@ module.exports = function createMethodSend (provider: ProviderInterface, rpcName
   const call = async (..._params: Array<mixed>): Promise<mixed> => {
     // TODO: Deprecated warning
     try {
-      const params = createParams(rpcName, _params, inputs);
+      const params = createParams(_params, inputs);
       const result = await provider.send(rpcName, params);
 
       return formatOutput(output, result);

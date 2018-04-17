@@ -11,7 +11,7 @@ const headerDecode = require('@polkadot/primitives-json/header/decode');
 const isNull = require('@polkadot/util/is/null');
 const isUndefined = require('@polkadot/util/is/undefined');
 
-const util = require('./util');
+const format = require('./format');
 
 const formatters = {
   'BlockNumber': bnDecode,
@@ -25,5 +25,5 @@ module.exports = function formatOutput (output: InterfaceOutputType, value?: mix
     return value;
   }
 
-  return util.format(formatters, output.type, value);
+  return format(formatters, [output.type], [value])[0];
 };
