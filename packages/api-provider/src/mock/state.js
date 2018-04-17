@@ -6,6 +6,7 @@
 import type { MockState, MockState$Storage } from './types';
 
 const interfaces = require('@polkadot/api-jsonrpc');
+const u8aToHex = require('@polkadot/util/u8a/toHex');
 const l = require('@polkadot/util/logger')('api-mock');
 
 const SUBSCRIPTIONS = Array.prototype.concat.apply(
@@ -18,9 +19,11 @@ const SUBSCRIPTIONS = Array.prototype.concat.apply(
 );
 
 const REQUESTS = {
-  'state_getStorage': (storage: MockState$Storage, params: Array<mixed>): Uint8Array => {
-    // flowlint-next-line unclear-type:off
-    return storage[((params[0]: any): string)];
+  'state_getStorage': (storage: MockState$Storage, params: Array<mixed>): string => {
+    return u8aToHex(
+      // flowlint-next-line unclear-type:off
+      storage[((params[0]: any): string)]
+    );
   }
 };
 
