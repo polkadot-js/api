@@ -21,7 +21,7 @@ export type MockState$Storage = {
 };
 
 export type MockState$Requests = {
-  [string]: (storage: MockState$Storage, params: Array<mixed>) => mixed
+  [string]: (storage: MockState$Storage, params: Array<mixed>) => string
 };
 
 export type MockState = {
