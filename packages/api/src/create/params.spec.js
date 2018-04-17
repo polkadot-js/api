@@ -26,13 +26,13 @@ describe('params', () => {
 
   it('check against params', () => {
     expect(
-      () => params('test_blah', [], methods.blah.inputs)
+      () => params([], methods.blah.inputs)
     ).toThrow(/params expected/);
   });
 
   it('check against params (required)', () => {
     expect(
-      params('test_bleh', [], methods.bleh.inputs)
+      params([], methods.bleh.inputs)
     ).toBeDefined();
   });
 });
