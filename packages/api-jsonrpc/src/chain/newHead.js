@@ -16,6 +16,7 @@ module.exports = ({
   isSubscription: true,
   inputs: [],
   output: {
-    type: 'Header'
+    type: 'Header',
+    withHash: true
   }
 }: InterfaceMethodDefinition);
