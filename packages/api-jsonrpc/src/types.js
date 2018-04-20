@@ -16,8 +16,7 @@ export type InterfaceInputType = {
 };
 
 export type InterfaceOutputType = {
-  type: FormatOutputType,
-  withHash?: boolean
+  type: FormatOutputType
 };
 
 export type InterfaceMethodDefinition$Subscribe = {
