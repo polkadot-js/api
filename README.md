@@ -18,4 +18,4 @@ The API is split up into a number of internal packages -
 - [@polkadot/api](packages/api/) The API library
 - [@polkadot/api-format](packages/api-format/) Input and output formatters
 - [@polkadot/api-jsonrpc](packages/api-jsonrpc/) Interface definitions for RPC
-- [@polkadot/api-provider](packages/api-provider/) Transport providers
+- [@polkadot/api-provider](packages/api-provider/) Providers for connecting
