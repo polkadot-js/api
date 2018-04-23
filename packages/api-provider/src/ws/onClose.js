@@ -5,8 +5,6 @@
 
 import type { WsState } from './types';
 
-const connect = require('./connect');
-
 module.exports = function onClose (self: WsState): () => void {
   return (): void => {
     self.l.debug(() => ['disconnected from', self.endpoint]);
@@ -14,7 +12,10 @@ module.exports = function onClose (self: WsState): () => void {
     self.isConnected = false;
 
     if (self.autoConnect) {
-      setTimeout(() => connect(self), 1000);
+      setTimeout(() => {
+        // FIXME: This is a circular dependency
+        require('./connect')(self);
+      }, 1000);
     }
   };
 };
