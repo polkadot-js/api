@@ -16,6 +16,6 @@ export type ApiInterface$Section = {
 };
 
 export type ApiInterface = {
-  [InterfaceTypes]: ApiInterface$Section,
-  on (type: ProviderInterface$Emitted, callback: ProviderInterface$EmitCb): void
+  on: (type: ProviderInterface$Emitted, callback: ProviderInterface$EmitCb) => void,
+  [InterfaceTypes]: ApiInterface$Section
 }
