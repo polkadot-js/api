@@ -3,10 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ProviderInterface, ProviderInterface$Callback } from '../types';
+import type { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
 require('./polyfill');
 
+const on = require('./on');
 const send = require('./send');
 const subscribe = require('./subscribe');
 const state = require('./state');
@@ -18,6 +19,8 @@ module.exports = function httpProvider (endpoint: string): ProviderInterface {
   return {
     isConnected: (): boolean =>
       true,
+    on: (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void =>
+      on(self, type, sub),
     send: (method: string, params: Array<mixed>): Promise<mixed> =>
       send(self, method, params),
     subscribe: (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> =>

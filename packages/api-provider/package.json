@@ -38,6 +38,7 @@
     "@polkadot/util-crypto": "^0.19.2",
     "@polkadot/util-keyring": "^0.19.2",
     "babel-runtime": "^6.26.0",
+    "eventemitter3": "^2.0.3",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.25"
   }

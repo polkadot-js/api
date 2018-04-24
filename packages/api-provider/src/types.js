@@ -38,8 +38,14 @@ export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
 export type ProviderInterface$Callback = (error: ?Error, result: mixed) => void;
 
+export type ProviderInterface$Emitted = 'connected' | 'disconnected';
+
+// flowlint-next-line unclear-type:off
+export type ProviderInterface$EmitCb = () => any;
+
 export type ProviderInterface = {
   isConnected (): boolean,
+  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void,
   send (method: string, params: Array<mixed>): Promise<mixed>,
   subscribe (method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number>,
   unsubscribe (method: string, id: number): Promise<boolean>
