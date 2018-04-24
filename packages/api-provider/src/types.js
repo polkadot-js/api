@@ -41,7 +41,7 @@ export type ProviderInterface$Callback = (error: ?Error, result: mixed) => void;
 export type ProviderInterface$Emitted = 'connected' | 'disconnected';
 
 // flowlint-next-line unclear-type:off
-export type ProviderInterface$EmitCb = () => any;
+export type ProviderInterface$EmitCb = (value?: any) => any;
 
 export type ProviderInterface = {
   isConnected (): boolean,
