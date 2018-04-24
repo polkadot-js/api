@@ -16,9 +16,7 @@ const createInterface = require('./create/interface');
 module.exports = function api (provider: ProviderInterface): ApiInterface {
   assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
-  const exposed: ApiInterface = {
-    on: provider.on
-  };
+  const exposed: ApiInterface = {};
 
   return Object
     .keys(interfaces)

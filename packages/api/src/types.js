@@ -4,7 +4,6 @@
 // @flow
 
 import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
-import type { ProviderInterface$Emitted, ProviderInterface$EmitCb } from '@polkadot/api-provider/types';
 
 export type ApiInterface$Section$Method = {
   (...params: Array<mixed>): Promise<mixed>;
@@ -16,6 +15,5 @@ export type ApiInterface$Section = {
 };
 
 export type ApiInterface = {
-  on: (type: ProviderInterface$Emitted, callback: ProviderInterface$EmitCb) => void,
   [InterfaceTypes]: ApiInterface$Section
 }
