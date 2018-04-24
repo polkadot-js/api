@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type EventEmitter from 'eventemitter3';
 import type { Logger } from '@polkadot/util/types';
 import type { RpcCoder } from '../coder/json/types';
 import type { ProviderInterface$Callback } from '../types';
@@ -20,6 +21,7 @@ export type WsState = {
   autoConnect: boolean,
   coder: RpcCoder,
   endpoint: string,
+  emitter: EventEmitter,
   handlers: { [number]: WsState$Awaiting },
   isConnected: boolean,
   l: Logger,

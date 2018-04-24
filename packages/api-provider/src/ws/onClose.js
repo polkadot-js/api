@@ -10,6 +10,7 @@ module.exports = function onClose (self: WsState): () => void {
     self.l.debug(() => ['disconnected from', self.endpoint]);
 
     self.isConnected = false;
+    self.emitter.emit('disconnected');
 
     if (self.autoConnect) {
       setTimeout(() => {
