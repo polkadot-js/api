@@ -3,9 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { ProviderInterface } from '../types';
+import type { ProviderInterface, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
 const mocks = require('./mocks');
+const on = require('./on');
 const send = require('./send');
 const state = require('./state');
 const subscribe = require('./subscribe');
@@ -19,6 +20,8 @@ module.exports = function mockProvider (): ProviderInterface {
   return {
     isConnected: (): boolean =>
       true,
+    on: (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void =>
+      on(self, type, sub),
     send: (method: string, params: Array<mixed>): Promise<mixed> =>
       send(self, method, params),
     subscribe: (method: string, ...params: Array<mixed>): Promise<number> =>

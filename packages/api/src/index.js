@@ -16,11 +16,15 @@ const createInterface = require('./create/interface');
 module.exports = function api (provider: ProviderInterface): ApiInterface {
   assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
+  const exposed: ApiInterface = {
+    on: provider.on
+  };
+
   return Object
     .keys(interfaces)
     .reduce((result, type: InterfaceTypes) => {
       result[type] = createInterface(provider, type);
 
       return result;
-    }, ({}: $Shape<ApiInterface>));
+    }, exposed);
 };

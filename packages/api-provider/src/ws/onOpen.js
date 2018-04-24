@@ -10,6 +10,7 @@ module.exports = function onOpen (self: WsState): () => boolean {
     self.l.debug(() => ['connected to', self.endpoint]);
 
     self.isConnected = true;
+    self.emitter.emit('connected');
 
     Object.keys(self.queued).forEach((id) => {
       try {

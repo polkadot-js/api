@@ -5,6 +5,7 @@
 
 import type { WsState } from './types';
 
+const EventEmitter = require('eventemitter3');
 const assert = require('@polkadot/util/assert');
 const l = require('@polkadot/util/logger')('api-ws');
 
@@ -16,6 +17,7 @@ module.exports = function state (endpoint: string, autoConnect: boolean): $Shape
   return {
     autoConnect,
     coder: coder(),
+    emitter: new EventEmitter(),
     endpoint,
     handlers: {},
     isConnected: false,
