@@ -7,5 +7,5 @@ import type { ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../typ
 import type { MockState } from './types';
 
 module.exports = function on (self: MockState, type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
-  self.l.error(`Provider does not have 'on' emitters for type '${type}'`);
+  self.emitter.on(type, sub);
 };
