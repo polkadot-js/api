@@ -69,12 +69,8 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
 
     newHead = makeBlockHeader(newHead.number);
 
-    Object.values(keyring).forEach((pair, index) => {
-      // flowlint-next-line unclear-type:off
-      const publicKey = ((pair: any): KeyringPair).publicKey();
-      const balance = newHead.number.muln(3).iaddn(index);
-
-      setStorageBn(storage, 'sta:bal:', publicKey, balance);
+    keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
+      setStorageBn(storage, 'sta:bal:', publicKey(), newHead.number.muln(3).iaddn(index));
     });
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
