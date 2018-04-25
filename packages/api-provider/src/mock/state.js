@@ -5,6 +5,7 @@
 
 import type { MockState, MockState$Storage } from './types';
 
+const EventEmitter = require('eventemitter3');
 const interfaces = require('@polkadot/api-jsonrpc');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 const l = require('@polkadot/util/logger')('api-mock');
@@ -39,6 +40,7 @@ module.exports = function state (): MockState {
   }, {});
 
   return {
+    emitter: new EventEmitter(),
     l,
     requests: Object.assign({}, REQUESTS),
     storage,

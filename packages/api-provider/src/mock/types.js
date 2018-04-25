@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
+import type EventEmitter from 'eventemitter3';
 import type { Logger } from '@polkadot/util/types';
 
 export type MockState$Subscription$Callback = (error: ?Error, value: mixed) => void;
@@ -25,6 +26,7 @@ export type MockState$Requests = {
 };
 
 export type MockState = {
+  emitter: EventEmitter,
   l: Logger,
   requests: MockState$Requests,
   storage: MockState$Storage,
