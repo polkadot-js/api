@@ -8,7 +8,9 @@ const u8aFromString = require('@polkadot/util/u8a/fromString');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 const xxhash = require('@polkadot/util-crypto/xxhash/asU8a128');
 
-module.exports = function storageKey (prefix: string, key: Uint8Array | string): string {
+// FIXME: Use @polkadot/storage/key
+
+module.exports = function storageKey (prefix: string, key?: Uint8Array | string = new Uint8Array([])): string {
   return u8aToHex(
     xxhash(
       u8aConcat(

@@ -53,7 +53,7 @@ function updateSubs (subscriptions, method, value) {
     });
 }
 
-function setStorageBn (storage, prefix: string, key: Uint8Array, value: BN): void {
+function setStorageBn (storage, prefix: string, value: BN | number, key?: Uint8Array): void {
   storage[storageKey(prefix, key)] = bnToU8a(value, 64, true);
 }
 
@@ -71,7 +71,7 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
       // FIXME: We should be using @polkadot/storage
-      setStorageBn(storage, 'sta:bal:', publicKey(), newHead.number.muln(3).iaddn(index));
+      setStorageBn(storage, 'sta:bal:', newHead.number.muln(3).iaddn(index), publicKey());
     });
 
     // FIXME: We should be using @polkadot/storage
