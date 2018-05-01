@@ -5,17 +5,19 @@
 
 // FIME: This file is way too long and way too messy
 
+import type { StorageDef$Key } from '@polkadot/storage/types';
 import type { KeyringPair } from '@polkadot/util-keyring/types';
 import type { ProviderInterface$Emitted } from '../types';
 import type { MockState, MockState$Subscription$Callback } from './types';
 
 const BN = require('bn.js');
 const headerEncode = require('@polkadot/primitives-json/header/encode');
+const createKey = require('@polkadot/storage/key');
+const keys = require('@polkadot/storage-substrate/keys');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
+const u8aToHex = require('@polkadot/util/u8a/toHex');
 const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
 const testKeyring = require('@polkadot/util-keyring/testing');
-
-const storageKey = require('./storageKey');
 
 const keyring = testKeyring();
 
@@ -53,8 +55,12 @@ function updateSubs (subscriptions, method, value) {
     });
 }
 
-function setStorageBn (storage, prefix: string, key: Uint8Array, value: BN): void {
-  storage[storageKey(prefix, key)] = bnToU8a(value, 64, true);
+function setStorageBn (storage, key: StorageDef$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+  const keyValue = u8aToHex(
+    createKey(key).apply(null, keyParams)
+  );
+
+  storage[keyValue] = bnToU8a(value, 64, true);
 }
 
 module.exports = function mocks ({ emitter, storage, subscriptions }: MockState): void {
@@ -70,8 +76,10 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
-      setStorageBn(storage, 'sta:bal:', publicKey(), newHead.number.muln(3).iaddn(index));
+      setStorageBn(storage, keys.staking.balanceOf, newHead.number.muln(3).iaddn(index), publicKey());
     });
+
+    setStorageBn(storage, keys.timestamp.current, Date.now());
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);
