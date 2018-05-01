@@ -15,6 +15,7 @@ const headerEncode = require('@polkadot/primitives-json/header/encode');
 const createKey = require('@polkadot/storage/key');
 const keys = require('@polkadot/storage-substrate/keys');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
+const u8aToHex = require('@polkadot/util/u8a/toHex');
 const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
 const testKeyring = require('@polkadot/util-keyring/testing');
 
@@ -55,7 +56,9 @@ function updateSubs (subscriptions, method, value) {
 }
 
 function setStorageBn (storage, key: StorageDef$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
-  const keyValue = createKey(key).apply(null, keyParams);
+  const keyValue = u8aToHex(
+    createKey(key).apply(null, keyParams)
+  );
 
   storage[keyValue] = bnToU8a(value, 64, true);
 }
