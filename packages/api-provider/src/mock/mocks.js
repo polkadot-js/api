@@ -70,8 +70,12 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
+      // FIXME: We should be using @polkadot/storage
       setStorageBn(storage, 'sta:bal:', publicKey(), newHead.number.muln(3).iaddn(index));
     });
+
+    // FIXME: We should be using @polkadot/storage
+    setStorageBn(storage, 'tim:val', Date.now());
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);
