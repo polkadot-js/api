@@ -34,6 +34,7 @@
     "nock": "^9.1.0"
   },
   "dependencies": {
+    "@polkadot/storage-substrate": "^0.10.2",
     "@polkadot/util": "^0.19.4",
     "@polkadot/util-crypto": "^0.19.4",
     "@polkadot/util-keyring": "^0.19.4",
