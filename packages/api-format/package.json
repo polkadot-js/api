@@ -33,7 +33,7 @@
     "@polkadot/api-jsonrpc": "^0.9.7"
   },
   "dependencies": {
-    "@polkadot/primitives-json": "^0.10.4",
+    "@polkadot/primitives-json": "^0.11.1",
     "@polkadot/util": "^0.19.4",
     "babel-runtime": "^6.26.0"
   }
