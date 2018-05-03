@@ -80,7 +80,7 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
       setStorageBn(storage, state.system.keys.nonceOf, newHead.number.addn(index), publicKey());
     });
 
-    setStorageBn(storage, state.timestamp.keys.current, Date.now());
+    setStorageBn(storage, state.timestamp.keys.current, Math.floor(Date.now() / 1000));
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);
