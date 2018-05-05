@@ -117,68 +117,68 @@
     stylelint "^9.1.1"
     stylelint-config-standard "^18.2.0"
 
-"@polkadot/primitives-builder@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-builder/-/primitives-builder-0.12.4.tgz#213ee92bcc2ee3b248d3fcd02c0f2ac463d27c50"
+"@polkadot/primitives-builder@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-builder/-/primitives-builder-0.12.5.tgz#70b2593653d15fe278e4eb2a502f47132fd77e23"
   dependencies:
-    "@polkadot/primitives" "^0.12.4"
-    "@polkadot/primitives-codec" "^0.12.4"
+    "@polkadot/primitives" "^0.12.5"
+    "@polkadot/primitives-codec" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     "@polkadot/util-crypto" "^0.19.4"
     "@polkadot/util-triehash" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/primitives-codec@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.12.4.tgz#358bf9e2299c01d4e36ccc6369d755aae5a6711b"
+"@polkadot/primitives-codec@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.12.5.tgz#247636953e4a502ae9b073953666ea737f711a46"
   dependencies:
-    "@polkadot/primitives" "^0.12.4"
-    "@polkadot/primitives-builder" "^0.12.4"
-    "@polkadot/primitives-rlp" "^0.12.4"
+    "@polkadot/primitives" "^0.12.5"
+    "@polkadot/primitives-builder" "^0.12.5"
+    "@polkadot/primitives-rlp" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     "@polkadot/util-keyring" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/primitives-json@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.12.4.tgz#8e83799db0750df3d6f011bebae16e0cbffad159"
+"@polkadot/primitives-json@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.12.5.tgz#fa13f466fd3f76994d80f2bfaf3e90134e3939eb"
   dependencies:
-    "@polkadot/primitives" "^0.12.4"
-    "@polkadot/primitives-builder" "^0.12.4"
+    "@polkadot/primitives" "^0.12.5"
+    "@polkadot/primitives-builder" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/primitives-rlp@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-rlp/-/primitives-rlp-0.12.4.tgz#0a936925a9afc32e1ad6b78540eff19b47b1a22e"
+"@polkadot/primitives-rlp@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-rlp/-/primitives-rlp-0.12.5.tgz#ce2251e9e8baefe8b7def16d9797a153dd681c84"
   dependencies:
-    "@polkadot/primitives" "^0.12.4"
-    "@polkadot/primitives-builder" "^0.12.4"
-    "@polkadot/primitives-json" "^0.12.4"
+    "@polkadot/primitives" "^0.12.5"
+    "@polkadot/primitives-builder" "^0.12.5"
+    "@polkadot/primitives-json" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     "@polkadot/util-crypto" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/primitives@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.12.4.tgz#7aa00e2ae19c44cc6c1e30a999342ac6cc5afbb8"
+"@polkadot/primitives@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.12.5.tgz#b3ce84c6c9f34a3b035112254514ea6398d17598"
   dependencies:
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/storage-substrate@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.12.4.tgz#a48ee75ef88a2c8119fd712bd7fca59c67b728e7"
+"@polkadot/storage-substrate@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.12.5.tgz#4f6ea424f9af0393eba7926f6e0da8e590a812ee"
   dependencies:
-    "@polkadot/storage" "^0.12.4"
+    "@polkadot/storage" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
-"@polkadot/storage@^0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.12.4.tgz#ec50733ea6fa4efeabc9238fd32aa3b60e39001b"
+"@polkadot/storage@^0.12.5":
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.12.5.tgz#9f979f60f84effcbe99fe1880406aa22e847e80f"
   dependencies:
-    "@polkadot/primitives" "^0.12.4"
+    "@polkadot/primitives" "^0.12.5"
     "@polkadot/util" "^0.19.4"
     babel-runtime "^6.26.0"
 
