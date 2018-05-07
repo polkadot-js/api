@@ -12,4 +12,5 @@ all=warn
 
 [options]
 include_warnings=true
-module.name_mapper='^@polkadot/api-\(format\|jsonrpc\|provider\)\(.*\)$' -> '<PROJECT_ROOT>/packages/api-\1/src\2'
+module.name_mapper='^@polkadot/api-\(format\|jsonrpc\|provider\|rx\)\(.*\)$' -> '<PROJECT_ROOT>/packages/api-\1/src\2'
+module.name_mapper='^@polkadot/api\(.*\)$' -> '<PROJECT_ROOT>/packages/api/src\1'

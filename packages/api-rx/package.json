@@ -1,0 +1,37 @@
+{
+  "name": "@polkadot/api-rx",
+  "version": "0.6.1",
+  "description": "An RxJs wrapper around the Polkadot JS API",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-rx#readme",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "eslint src && flow check",
+    "test": "echo \"Tests only available from root wrapper\""
+  },
+  "dependencies": {
+    "@polkadot/api": "^0.9.16",
+    "@polkadot/api-provider": "^0.9.16",
+    "rxjs": "^5.5.10"
+  }
+}

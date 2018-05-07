@@ -15,7 +15,8 @@ This library provides a clean wrapper around all the methods exposed by a Polkad
 
 The API is split up into a number of internal packages -
 
-- [@polkadot/api](packages/api/) The API library
+- [@polkadot/api](packages/api/) The low-level base API library
+- [@polkadot/api-rx](packages/api-rx/) A RxJs Observable wrapper around the API
 - [@polkadot/api-format](packages/api-format/) Input and output formatters
 - [@polkadot/api-jsonrpc](packages/api-jsonrpc/) Interface definitions for RPC
 - [@polkadot/api-provider](packages/api-provider/) Providers for connecting
