@@ -1,16 +1,16 @@
 {
-  "name": "@polkadot/api-provider",
+  "name": "@polkadot/api-rx",
   "version": "0.10.0",
-  "description": "Transport providers for the API",
+  "description": "An RxJs wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
     "Polkadot",
-    "JsonRPC"
+    "RxJs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "ISC",
   "engines": {
-    "node": ">=6.4"
+    "node": ">=8.0"
   },
   "publishConfig": {
     "access": "public",
@@ -23,24 +23,15 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-provider#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-rx#readme",
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "eslint src && flow check",
     "test": "echo \"Tests only available from root wrapper\""
   },
-  "devDependencies": {
-    "mock-socket": "^7.1.0",
-    "nock": "^9.1.0"
-  },
   "dependencies": {
-    "@polkadot/storage-substrate": "^0.12.7",
-    "@polkadot/util": "^0.19.5",
-    "@polkadot/util-crypto": "^0.19.5",
-    "@polkadot/util-keyring": "^0.19.5",
-    "babel-runtime": "^6.26.0",
-    "eventemitter3": "^2.0.3",
-    "isomorphic-fetch": "^2.2.1",
-    "websocket": "^1.0.25"
+    "@polkadot/api": "^0.10.0",
+    "@polkadot/api-provider": "^0.10.0",
+    "rxjs": "^5.5.10"
   }
 }
