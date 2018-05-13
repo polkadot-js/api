@@ -29,11 +29,9 @@
     "check": "eslint src && flow check",
     "test": "echo \"Tests only available from root wrapper\""
   },
-  "devDependencies": {
-    "@polkadot/api-jsonrpc": "^0.10.3"
-  },
   "dependencies": {
-    "@polkadot/primitives-json": "^0.12.9",
+    "@polkadot/api-jsonrpc": "^0.10.3",
+    "@polkadot/primitives-json": "^0.13.2",
     "@polkadot/util": "^0.19.6",
     "babel-runtime": "^6.26.0"
   }
