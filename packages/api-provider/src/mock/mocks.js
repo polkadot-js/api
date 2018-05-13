@@ -76,8 +76,8 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
-      setStorageBn(storage, state.staking.keys.balanceOf, newHead.number.muln(3).iaddn(index), publicKey());
-      setStorageBn(storage, state.system.keys.nonceOf, newHead.number.addn(index), publicKey());
+      setStorageBn(storage, state.staking.keys.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
+      setStorageBn(storage, state.system.keys.accountIndexOf, newHead.number.addn(index), publicKey());
     });
 
     setStorageBn(storage, state.timestamp.keys.current, Math.floor(Date.now() / 1000));
