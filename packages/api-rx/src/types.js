@@ -5,7 +5,8 @@
 
 import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
 
-export type RxApiInterface$Method = (...params: Array<mixed>) => rxjs$Observable<*> | rxjs$BehaviorSubject<*>;
+// flowlint-next-line unclear-type:off
+export type RxApiInterface$Method = (...params: Array<mixed>) => rxjs$Observable<any> | rxjs$BehaviorSubject<any>;
 
 export type RxApiInterface$Section = {
   [string]: RxApiInterface$Method

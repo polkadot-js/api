@@ -10,7 +10,8 @@ type Cached$ParamJson = string;
 
 type CachedMap = {
   [Cached$Name]: {
-    [Cached$ParamJson]: rxjs$BehaviorSubject<*>
+    // flowlint-next-line unclear-type:off
+    [Cached$ParamJson]: rxjs$BehaviorSubject<any>
   }
 };
 
@@ -18,12 +19,14 @@ const subject = require('./subject');
 
 const cacheMap: CachedMap = {};
 
-module.exports = function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$BehaviorSubject<*> {
+// flowlint-next-line unclear-type:off
+module.exports = function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$BehaviorSubject<any> {
   if (!cacheMap[subName]) {
     cacheMap[subName] = {};
   }
 
-  return (...params: Array<mixed>): rxjs$BehaviorSubject<*> => {
+  // flowlint-next-line unclear-type:off
+  return (...params: Array<mixed>): rxjs$BehaviorSubject<any> => {
     const paramStr = JSON.stringify(params);
 
     if (!cacheMap[subName][paramStr]) {

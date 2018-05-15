@@ -10,12 +10,14 @@ const isFunction = require('@polkadot/util/is/function');
 
 const cached = require('./cached');
 
-module.exports = function observable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$Observable<*> | rxjs$BehaviorSubject<*> {
+// flowlint-next-line unclear-type:off
+module.exports = function observable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$Observable<any> | rxjs$BehaviorSubject<any> {
   if (isFunction(section[name].unsubscribe)) {
     return cached(subName, name, section);
   }
 
-  return (...params: Array<mixed>): rxjs$Observable<*> =>
+  // flowlint-next-line unclear-type:off
+  return (...params: Array<mixed>): rxjs$Observable<any> =>
     fromPromise(
       section[name].apply(null, params)
     );
