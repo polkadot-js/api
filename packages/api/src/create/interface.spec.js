@@ -4,7 +4,7 @@
 
 const isFunction = require('@polkadot/util/is/function');
 
-jest.mock('./@polkadot/api-jsonrpc', () => ({
+jest.mock('./@polkadot/jsonrpc', () => ({
   test: {
     methods: {
       blah: {

@@ -4,7 +4,7 @@
 // @flow
 
 import type { ApiInterface, ApiInterface$Section } from '@polkadot/api/types';
-import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 import type { RxApiInterface$Section } from './types';
 
 const observable = require('./observable');

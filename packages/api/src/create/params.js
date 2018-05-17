@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceInputType } from '@polkadot/jsonrpc/types';
 
 const formatInputs = require('@polkadot/api-format/input');
 const assert = require('@polkadot/util/assert');

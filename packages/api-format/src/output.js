@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceOutputType } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceOutputType } from '@polkadot/jsonrpc/types';
 
 const bnDecode = require('@polkadot/primitives-json/bn/decode');
 const bytesDecode = require('@polkadot/primitives-json/bytes/decode');

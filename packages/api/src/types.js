@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 
 export type ApiInterface$Section$Method = {
   (...params: Array<mixed>): Promise<mixed>;

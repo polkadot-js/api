@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { FormatInputType, FormatOutputType } from '@polkadot/api-jsonrpc/types';
+import type { FormatInputType, FormatOutputType } from '@polkadot/jsonrpc/types';
 import type { FormatterFunction } from './types';
 
 type FormattersFunctionType = FormatInputType | FormatOutputType;

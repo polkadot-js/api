@@ -4,11 +4,11 @@
 // @flow
 
 import type { ProviderInterface } from '@polkadot/api-provider/types';
-import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 import type { RxApiInterface } from './types';
 
 const createApi = require('@polkadot/api');
-const interfaces = require('@polkadot/api-jsonrpc');
+const interfaces = require('@polkadot/jsonrpc');
 const createWs = require('@polkadot/api-provider/ws');
 
 const createExposed = require('./api');
