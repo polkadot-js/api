@@ -581,6 +581,18 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.47"
     "@babel/plugin-transform-flow-strip-types" "7.0.0-beta.47"
 
+"@babel/register@^7.0.0-beta.47":
+  version "7.0.0-beta.47"
+  resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.0.0-beta.47.tgz#ac53bc357ca59979db0e306aa5d3121aa612a7a2"
+  dependencies:
+    core-js "^2.5.3"
+    find-cache-dir "^1.0.0"
+    home-or-tmp "^3.0.0"
+    lodash "^4.17.5"
+    mkdirp "^0.5.1"
+    pirates "^3.0.1"
+    source-map-support "^0.4.2"
+
 "@babel/runtime@^7.0.0-beta.47":
   version "7.0.0-beta.47"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.47.tgz#273f5e71629e80f6cbcd7507503848615e59f7e0"
@@ -652,9 +664,9 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
-"@polkadot/dev@^0.19.7":
-  version "0.19.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.19.7.tgz#0906604c3001929aa11083368f11249e8775fdbb"
+"@polkadot/dev@^0.19.9":
+  version "0.19.9"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.19.9.tgz#cc37c7364e010d96f45132d0069eda32f52e8462"
   dependencies:
     "@babel/cli" "^7.0.0-beta.47"
     "@babel/core" "^7.0.0-beta.47"
@@ -663,6 +675,7 @@
     "@babel/plugin-transform-runtime" "^7.0.0-beta.47"
     "@babel/preset-env" "^7.0.0-beta.47"
     "@babel/preset-flow" "^7.0.0-beta.47"
+    "@babel/register" "^7.0.0-beta.47"
     "@babel/runtime" "^7.0.0-beta.47"
     babel-core "^7.0.0-bridge.0"
     babel-eslint "^8.2.3"
@@ -790,6 +803,17 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
+"@polkadot/util-crypto@^0.20.5":
+  version "0.20.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.20.5.tgz#6317f15d1bbd2314e2e08e28fd236e548b1ee731"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.20.5"
+    blakejs "^1.1.0"
+    js-sha3 "^0.7.0"
+    tweetnacl "^1.0.0"
+    xxhashjs "^0.2.2"
+
 "@polkadot/util-keyring@^0.20.4":
   version "0.20.4"
   resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.20.4.tgz#e7279e39cb83617808595ba6ae5fedee0352514a"
@@ -797,6 +821,15 @@
     "@babel/runtime" "^7.0.0-beta.47"
     "@polkadot/util" "^0.20.4"
     "@polkadot/util-crypto" "^0.20.4"
+    bs58 "^4.0.1"
+
+"@polkadot/util-keyring@^0.20.5":
+  version "0.20.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.20.5.tgz#eec652706e3036d43d73a8d49155b2f868fab0d3"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    "@polkadot/util" "^0.20.5"
+    "@polkadot/util-crypto" "^0.20.5"
     bs58 "^4.0.1"
 
 "@polkadot/util-rlp@^0.20.4":
@@ -818,6 +851,15 @@
 "@polkadot/util@^0.20.4":
   version "0.20.4"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.20.4.tgz#688dbdd44e17e548c3b1b81ced8a556263be8966"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.47"
+    bn.js "^4.11.8"
+    deasync "^0.1.12"
+    ip-regex "^2.1.0"
+
+"@polkadot/util@^0.20.5":
+  version "0.20.5"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.20.5.tgz#b5a74e79d24ee5421a337443c5a2e1f5a6e3a1e1"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     bn.js "^4.11.8"
@@ -1634,6 +1676,10 @@ commander@^2.8.1:
 commander@^2.9.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.0.tgz#ad2a23a1c3b036e392469b8012cec6b33b4c1322"
+
+commondir@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
 
 compare-func@^1.3.1:
   version "1.3.2"
@@ -2482,6 +2528,14 @@ fill-range@^4.0.0:
     repeat-string "^1.6.1"
     to-regex-range "^2.1.0"
 
+find-cache-dir@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/find-cache-dir/-/find-cache-dir-1.0.0.tgz#9288e3e9e3cc3748717d39eade17cf71fc30ee6f"
+  dependencies:
+    commondir "^1.0.1"
+    make-dir "^1.0.0"
+    pkg-dir "^2.0.0"
+
 find-up@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/find-up/-/find-up-1.1.2.tgz#6b2e9822b1a2ce0a60ab64d610eccad53cb24d0f"
@@ -2942,6 +2996,10 @@ home-or-tmp@^2.0.0:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
+
+home-or-tmp@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-3.0.0.tgz#57a8fe24cf33cdd524860a15821ddc25c86671fb"
 
 hosted-git-info@^2.1.4, hosted-git-info@^2.5.0:
   version "2.5.0"
@@ -4295,6 +4353,10 @@ node-int64@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
 
+node-modules-regexp@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
+
 node-notifier@^5.2.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-5.2.1.tgz#fa313dd08f5517db0e2502e5758d664ac69f9dea"
@@ -4632,6 +4694,12 @@ pinkie-promise@^2.0.0:
 pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+
+pirates@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/pirates/-/pirates-3.0.2.tgz#7e6f85413fd9161ab4e12b539b06010d85954bb9"
+  dependencies:
+    node-modules-regexp "^1.0.0"
 
 pkg-dir@^1.0.0:
   version "1.0.0"
@@ -5261,7 +5329,7 @@ source-map-resolve@^0.5.0:
     source-map-url "^0.4.0"
     urix "^0.1.0"
 
-source-map-support@^0.4.15:
+source-map-support@^0.4.15, source-map-support@^0.4.2:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.4.18.tgz#0286a6de8be42641338594e97ccea75f0a2c585f"
   dependencies:
