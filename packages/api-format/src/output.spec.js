@@ -10,15 +10,18 @@ describe('formatOutput', () => {
   it('formats the value', () => {
     expect(
       JSON.stringify(
-        formatOutput({ type: 'Header' }, {
-          digest: {
-            logs: ['0x5678', '0x789a']
-          },
-          extrinsicsRoot: '0xabcd',
-          number: '0x1234',
-          parentHash: '0x1234',
-          stateRoot: '0x5678'
-        })
+        formatOutput(
+          'Header',
+          {
+            digest: {
+              logs: ['0x5678', '0x789a']
+            },
+            extrinsicsRoot: '0xabcd',
+            number: '0x1234',
+            parentHash: '0x1234',
+            stateRoot: '0x5678'
+          }
+        )
       )
     ).toEqual(
       JSON.stringify({

@@ -8,10 +8,10 @@ import type { ProviderInterface, ProviderInterface$Callback } from '@polkadot/ap
 import type { ApiInterface$Section$Method } from '../types';
 
 const formatOutput = require('@polkadot/api-format/output');
+const signature = require('@polkadot/params/signature');
 const assert = require('@polkadot/util/assert');
 const ExtError = require('@polkadot/util/ext/error');
 const isFunction = require('@polkadot/util/is/function');
-const jsonrpcSignature = require('@polkadot/util/jsonrpc/signature');
 
 const createParams = require('./params');
 
@@ -25,14 +25,14 @@ module.exports = function methodSubscribe (provider: ProviderInterface, rpcName:
 
       assert(isFunction(cb), `Expected callback in last position of params`);
 
-      const params = createParams(values, method.params);
+      const params = createParams(method.params, values);
       const update = (error: ?Error, result?: mixed) => {
         cb(error, formatOutput(method.type, result));
       };
 
       return provider.subscribe(`subscribe_${name}`, params, update);
     } catch (error) {
-      throw new ExtError(`${jsonrpcSignature(method)}:: ${error.message}`, (error: ExtError).code);
+      throw new ExtError(`${signature(method)}:: ${error.message}`, (error: ExtError).code);
     }
   };
 

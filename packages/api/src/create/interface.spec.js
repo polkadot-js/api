@@ -4,23 +4,23 @@
 
 const isFunction = require('@polkadot/util/is/function');
 
-jest.mock('./@polkadot/jsonrpc', () => ({
+jest.mock('@polkadot/jsonrpc', () => ({
   test: {
     methods: {
       blah: {
-        inputs: [
-          { name: 'foo', type: 'Address' }
-        ],
-        output: { type: 'Address' }
+        params: {
+          foo: { type: 'Address' }
+        },
+        type: 'Address'
       },
       bleh: {
-        inputs: [],
-        output: { type: 'Address' }
+        params: {},
+        type: 'Address'
       },
       pubsub: {
         isSubscription: true,
-        inputs: [],
-        output: { type: 'Address' }
+        params: {},
+        type: 'Address'
       }
     }
   }

@@ -11,14 +11,16 @@ describe('methodCall', () => {
   beforeEach(() => {
     methods = {
       blah: {
-        inputs: [
-          { name: 'foo', type: 'Bytes' }
-        ],
-        output: { type: 'Bytes' }
+        name: 'blah',
+        params: {
+          foo: { type: 'Bytes' }
+        },
+        type: 'Bytes'
       },
       bleh: {
-        inputs: [],
-        output: { type: 'Bytes' }
+        name: 'bleh',
+        params: {},
+        type: 'Bytes'
       }
     };
 
@@ -33,7 +35,7 @@ describe('methodCall', () => {
     const method = createMethod(provider, 'test_blah', 'blah', methods.blah);
 
     return method().catch((error) => {
-      expect(error.message).toMatch(/test_blah \(foo: Bytes\): Bytes/);
+      expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
     });
   });
 
