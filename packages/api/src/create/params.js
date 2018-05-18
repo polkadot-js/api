@@ -3,18 +3,19 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
+import type { Params } from '@polkadot/params/types';
 
 const formatInputs = require('@polkadot/api-format/input');
 const assert = require('@polkadot/util/assert');
 
-module.exports = function createParams (params: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
-  const required = inputs.filter(({ isOptional }) => !isOptional);
-  const optionalText = inputs.length
-    ? ` (${(inputs.length - required.length) || 'none'} optional)`
+module.exports = function createParams (_params: Params, values: Array<mixed>): Array<mixed> {
+  const params = Object.keys(_params).map((key) => _params[key]);
+  const required = params.filter(({ isOptional }) => !isOptional);
+  const optionalText = params.length
+    ? ` (${(params.length - required.length) || 'none'} optional)`
     : '';
 
-  assert(params.length >= required.length && params.length <= inputs.length, `${inputs.length || 'no'} params expected${optionalText}, found ${params.length} instead`);
+  assert(values.length >= required.length && values.length <= params.length, `${params.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
 
-  return formatInputs(inputs, params);
+  return formatInputs(_params, values);
 };

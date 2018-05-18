@@ -3,11 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceTypes } from '@polkadot/api-jsonrpc/types';
+import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface } from './types';
 
-const interfaces = require('@polkadot/api-jsonrpc');
+const interfaces = require('@polkadot/jsonrpc');
 const assert = require('@polkadot/util/assert');
 const isFunction = require('@polkadot/util/is/function');
 

@@ -3,22 +3,21 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { FormatInputType, FormatOutputType } from '@polkadot/api-jsonrpc/types';
+import type { Param$Type, Param$Type$Tuple, Param$Types } from '@polkadot/params/types';
 import type { FormatterFunction } from './types';
 
-type FormattersFunctionType = FormatInputType | FormatOutputType;
-type FormattersFunctionMap = {
-  [FormattersFunctionType]: FormatterFunction
-};
+type FormattersFunctionMap = $Shape<{
+  [Param$Type]: FormatterFunction
+}>;
 
+const typeToString = require('@polkadot/params/typeToString');
 const isUndefined = require('@polkadot/util/is/undefined');
 const l = require('@polkadot/util/logger')('api-format');
 
 const echo = require('./echo');
 
-const arrayTypeRegex = /\[\]$/;
-
-function formatSingleType (formatters: FormattersFunctionMap, type: FormattersFunctionType, value: mixed): mixed {
+// flowlint-next-line unclear-type:off
+function formatSingleType (formatters: FormattersFunctionMap, type: Param$Type, value: any): any {
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
@@ -30,26 +29,25 @@ function formatSingleType (formatters: FormattersFunctionMap, type: FormattersFu
   try {
     return formatter(value);
   } catch (error) {
-    // $FlowFixMe just let JS coerce all it wants to
-    throw new Error(`Error formatting '${value}' as '${type}': ${error.message}`);
+    throw new Error(`Error formatting '${value.toString()}' as '${typeToString(type)}': ${error.message}`);
   }
 }
 
-function formatArrayType (formatters: FormattersFunctionMap, type: FormattersFunctionType, value: Array<mixed>): mixed {
-  // flowlint-next-line unclear-type:off
-  type = ((type.replace(arrayTypeRegex, ''): any): FormattersFunctionType);
-
+// flowlint-next-line unclear-type:off
+function formatArrayType (formatters: FormattersFunctionMap, [ type ]: Param$Type$Tuple, value: Array<any>): any {
   return value.map((value) => {
     return formatSingleType(formatters, type, value);
   });
 }
 
-module.exports = function format (formatters: FormattersFunctionMap, types: Array<FormattersFunctionType>, values: Array<mixed>): Array<mixed> {
+// flowlint-next-line unclear-type:off
+module.exports = function format (formatters: FormattersFunctionMap, types: Array<Param$Types>, values: Array<any>): Array<any> {
   return values.map((value, index): mixed => {
     const type = types[index];
 
-    if (arrayTypeRegex.test(type)) {
-      // $FlowFixMe array type
+    if (Array.isArray(type)) {
+      // FIXME we are currently not catering for tuples
+      // $FlowFixMe assume that we are only passing a single type through
       return formatArrayType(formatters, type, value);
     }
 

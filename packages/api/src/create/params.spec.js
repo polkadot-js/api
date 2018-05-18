@@ -10,29 +10,29 @@ describe('params', () => {
   beforeEach(() => {
     methods = {
       blah: {
-        inputs: [
-          { name: 'foo', type: 'Bytes' }
-        ],
-        output: { type: 'Bytes' }
+        params: {
+          foo: { type: 'Bytes' }
+        },
+        type: 'Bytes'
       },
       bleh: {
-        inputs: [
-          { name: 'foo', type: 'Bytes', isOptional: true }
-        ],
-        output: { type: 'Bytes' }
+        params: {
+          foo: { type: 'Bytes', isOptional: true }
+        },
+        type: 'Bytes'
       }
     };
   });
 
   it('check against params', () => {
     expect(
-      () => params([], methods.blah.inputs)
+      () => params(methods.blah.params, [])
     ).toThrow(/params expected/);
   });
 
   it('check against params (required)', () => {
     expect(
-      params([], methods.bleh.inputs)
+      params(methods.bleh.params, [])
     ).toBeDefined();
   });
 });

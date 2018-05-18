@@ -16,7 +16,6 @@ describe('format', () => {
 
     formatters = {
       'Address': echoSpy,
-      'Address[]': echoSpy,
       'Exception': () => {
         throw new Error('something went wrong');
       }
@@ -57,7 +56,7 @@ describe('format', () => {
 
   describe('primitive[]', () => {
     it('formats using the primitive type', () => {
-      format(formatters, ['Address[]'], [['0x123', '0x234']]);
+      format(formatters, [['Address']], [['0x123', '0x234']]);
 
       expect(echoSpy).toHaveBeenCalledWith('0x123');
       expect(echoSpy).toHaveBeenCalledWith('0x234');
@@ -65,7 +64,7 @@ describe('format', () => {
 
     it('returns formatted values as arrays', () => {
       expect(
-        format(formatters, ['Address[]'], [['0x123', '0x234']])
+        format(formatters, [['Address']], [['0x123', '0x234']])
       ).toEqual([['0x123', '0x234']]);
     });
   });

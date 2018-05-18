@@ -8,11 +8,14 @@ describe('formatInputs', () => {
   it('formats each value in an array', () => {
     expect(
       formatInputs(
+        {
+          foo: { type: 'Bytes' },
+          bar: { type: 'Hash' }
+        },
         [
-          { name: 'foo', type: 'Bytes' },
-          { name: 'bar', type: 'H256' }
-        ],
-        [new Uint8Array([0x12, 0x34]), new Uint8Array([0xab, 0xcd])]
+          new Uint8Array([0x12, 0x34]),
+          new Uint8Array([0xab, 0xcd])
+        ]
       )
     ).toEqual([
       '0x1234',

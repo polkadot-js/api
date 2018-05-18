@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceInputType } from '@polkadot/api-jsonrpc/types';
+import type { Params, Param$Types } from '@polkadot/params/types';
 
 const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
 const hashEncode = require('@polkadot/primitives-json/hash/encode');
@@ -12,12 +12,12 @@ const format = require('./format');
 
 const formatters = {
   'Bytes': bytesEncode,
-  'H256': hashEncode,
-  'HeaderHash': hashEncode
+  'Hash': hashEncode
 };
 
-module.exports = function formatInputs (inputs: Array<InterfaceInputType>, values: Array<mixed>): Array<mixed> {
-  const types = inputs.map(({ type }) => type);
+// flowlint-next-line unclear-type:off
+module.exports = function formatInputs (params: Params, values: Array<any>): Array<any> {
+  const types: Array<Param$Types> = Object.keys(params).map((name) => params[name].type);
 
   return format(formatters, types, values);
 };
