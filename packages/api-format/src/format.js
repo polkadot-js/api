@@ -3,11 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Param$Type, Param$Type$Tuple, Param$Types } from '@polkadot/params/types';
+import type { Param$Types, Param$Type$Array } from '@polkadot/params/types';
 import type { FormatterFunction } from './types';
 
 type FormattersFunctionMap = $Shape<{
-  [Param$Type]: FormatterFunction
+  [Param$Types]: FormatterFunction
 }>;
 
 const typeToString = require('@polkadot/params/typeToString');
@@ -17,11 +17,11 @@ const l = require('@polkadot/util/logger')('api-format');
 const echo = require('./echo');
 
 // flowlint-next-line unclear-type:off
-function formatSingleType (formatters: FormattersFunctionMap, type: Param$Type, value: any): any {
+function formatSingleType (formatters: FormattersFunctionMap, type: Param$Types, value: any): any {
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
-    l.warn(`Unable to find default formatter for '${type}', falling back to echo`);
+    l.warn(`Unable to find default formatter for '${typeToString(type)}', falling back to echo`);
 
     return echo(value);
   }
@@ -34,7 +34,7 @@ function formatSingleType (formatters: FormattersFunctionMap, type: Param$Type, 
 }
 
 // flowlint-next-line unclear-type:off
-function formatArrayType (formatters: FormattersFunctionMap, [ type ]: Param$Type$Tuple, value: Array<any>): any {
+function formatArrayType (formatters: FormattersFunctionMap, [ type ]: Param$Type$Array, value: Array<any>): any {
   return value.map((value) => {
     return formatSingleType(formatters, type, value);
   });
@@ -47,7 +47,6 @@ module.exports = function format (formatters: FormattersFunctionMap, types: Arra
 
     if (Array.isArray(type)) {
       // FIXME we are currently not catering for tuples
-      // $FlowFixMe assume that we are only passing a single type through
       return formatArrayType(formatters, type, value);
     }
 
