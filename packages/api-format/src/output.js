@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceOutputType } from '@polkadot/jsonrpc/types';
+import type { Param$Types } from '@polkadot/params/types';
 
 const bnDecode = require('@polkadot/primitives-json/bn/decode');
 const bytesDecode = require('@polkadot/primitives-json/bytes/decode');
@@ -17,13 +17,13 @@ const formatters = {
   'BlockNumber': bnDecode,
   'Bytes': bytesDecode,
   'Header': headerDecode,
-  'U64': bnDecode
+  'u64': bnDecode
 };
 
-module.exports = function formatOutput (output: InterfaceOutputType, value?: mixed): ?mixed {
+module.exports = function formatOutput (type: Param$Types, value?: mixed): ?mixed {
   if (isUndefined(value) || isNull(value)) {
     return value;
   }
 
-  return format(formatters, [output.type], [value])[0];
+  return format(formatters, [type], [value])[0];
 };

@@ -8,13 +8,13 @@ import type { InterfaceInputType } from '@polkadot/jsonrpc/types';
 const formatInputs = require('@polkadot/api-format/input');
 const assert = require('@polkadot/util/assert');
 
-module.exports = function createParams (params: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
+module.exports = function createParams (values: Array<mixed>, inputs: Array<InterfaceInputType>): Array<mixed> {
   const required = inputs.filter(({ isOptional }) => !isOptional);
   const optionalText = inputs.length
     ? ` (${(inputs.length - required.length) || 'none'} optional)`
     : '';
 
-  assert(params.length >= required.length && params.length <= inputs.length, `${inputs.length || 'no'} params expected${optionalText}, found ${params.length} instead`);
+  assert(values.length >= required.length && values.length <= inputs.length, `${inputs.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
 
-  return formatInputs(inputs, params);
+  return formatInputs(inputs, values);
 };

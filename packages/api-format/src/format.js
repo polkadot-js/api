@@ -3,22 +3,19 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { FormatInputType, FormatOutputType } from '@polkadot/jsonrpc/types';
+import type { Param$Type, Param$Types } from '@polkadot/params/types';
 import type { FormatterFunction } from './types';
 
-type FormattersFunctionType = FormatInputType | FormatOutputType;
-type FormattersFunctionMap = {
-  [FormattersFunctionType]: FormatterFunction
-};
+type FormattersFunctionMap = $Shape<{
+  [Param$Type]: FormatterFunction
+}>;
 
 const isUndefined = require('@polkadot/util/is/undefined');
 const l = require('@polkadot/util/logger')('api-format');
 
 const echo = require('./echo');
 
-const arrayTypeRegex = /\[\]$/;
-
-function formatSingleType (formatters: FormattersFunctionMap, type: FormattersFunctionType, value: mixed): mixed {
+function formatSingleType (formatters: FormattersFunctionMap, type: Param$Type, value: mixed): mixed {
   const formatter: FormatterFunction = formatters[type];
 
   if (isUndefined(formatter)) {
@@ -35,21 +32,17 @@ function formatSingleType (formatters: FormattersFunctionMap, type: FormattersFu
   }
 }
 
-function formatArrayType (formatters: FormattersFunctionMap, type: FormattersFunctionType, value: Array<mixed>): mixed {
-  // flowlint-next-line unclear-type:off
-  type = ((type.replace(arrayTypeRegex, ''): any): FormattersFunctionType);
-
+function formatArrayType (formatters: FormattersFunctionMap, type: Param$Types, value: Array<mixed>): mixed {
   return value.map((value) => {
-    return formatSingleType(formatters, type, value);
+    return formatSingleType(formatters, type[0], value);
   });
 }
 
-module.exports = function format (formatters: FormattersFunctionMap, types: Array<FormattersFunctionType>, values: Array<mixed>): Array<mixed> {
+module.exports = function format (formatters: FormattersFunctionMap, types: Param$Types, values: Array<mixed>): Array<mixed> {
   return values.map((value, index): mixed => {
     const type = types[index];
 
-    if (arrayTypeRegex.test(type)) {
-      // $FlowFixMe array type
+    if (Array.isArray(type)) {
       return formatArrayType(formatters, type, value);
     }
 
