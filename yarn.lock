@@ -700,143 +700,143 @@
     mkdirp "^0.5.1"
     rimraf "^2.6.2"
 
-"@polkadot/extrinsics-substrate@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics-substrate/-/extrinsics-substrate-0.15.3.tgz#2258f923b9c799be374375bbb57e70139baaf52f"
+"@polkadot/extrinsics-substrate@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics-substrate/-/extrinsics-substrate-0.15.7.tgz#a2e4c2c42067bf09930efe718a504a4a7af9e80b"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/extrinsics" "^0.15.3"
+    "@polkadot/extrinsics" "^0.15.7"
 
-"@polkadot/extrinsics@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.15.3.tgz#4af6b339aa1dd59c1795562f2542dfdcf9265dc0"
+"@polkadot/extrinsics@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.15.7.tgz#03e9c2ccc10156c06a08fa03a2704f49c22aba31"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/params" "^0.15.3"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/params" "^0.15.7"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/jsonrpc@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.15.3.tgz#94ad8c39fc9b01449c9e4adf0028a152f65c17d9"
+"@polkadot/jsonrpc@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/jsonrpc/-/jsonrpc-0.15.7.tgz#7324a5637a7d461b06dac996578bafd87ec9dcc1"
   dependencies:
-    "@polkadot/params" "^0.15.3"
+    "@polkadot/params" "^0.15.7"
     babel-runtime "^6.26.0"
 
-"@polkadot/params@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.15.3.tgz#1ce662b9823ac0a29366d5c0bd16f7064a694e02"
+"@polkadot/params@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.15.7.tgz#dac7295c69e0b6771b427e9715864ec612c5a278"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/extrinsics" "^0.15.3"
-    "@polkadot/extrinsics-substrate" "^0.15.3"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/extrinsics" "^0.15.7"
+    "@polkadot/extrinsics-substrate" "^0.15.7"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/primitives-builder@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-builder/-/primitives-builder-0.15.3.tgz#a3d1ff95920585c392e1103bea832ce7fb5d0249"
+"@polkadot/primitives-builder@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-builder/-/primitives-builder-0.15.7.tgz#bb7fb916bb9fc4b41e30f414bec64c073395f7fc"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/primitives-codec" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
-    "@polkadot/util-crypto" "^0.21.1"
-    "@polkadot/util-triehash" "^0.21.1"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/primitives-codec" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
+    "@polkadot/util-crypto" "^0.21.2"
+    "@polkadot/util-triehash" "^0.21.2"
 
-"@polkadot/primitives-codec@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.15.3.tgz#309eb1767423e36ea07d04481a60fb6e199811a5"
+"@polkadot/primitives-codec@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-codec/-/primitives-codec-0.15.7.tgz#220c3fc86f5fecd268b0873f50890bd842ead964"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/primitives-builder" "^0.15.3"
-    "@polkadot/primitives-rlp" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
-    "@polkadot/util-keyring" "^0.21.1"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/primitives-builder" "^0.15.7"
+    "@polkadot/primitives-rlp" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
+    "@polkadot/util-keyring" "^0.21.2"
 
-"@polkadot/primitives-json@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.15.3.tgz#2d238269ea29f10ddbeee6f0edfc6fccd61bb56f"
+"@polkadot/primitives-json@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-json/-/primitives-json-0.15.7.tgz#21b24881ccf7a445ce5546ce1796a60d450d915c"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/primitives-builder" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/primitives-builder" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/primitives-rlp@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives-rlp/-/primitives-rlp-0.15.3.tgz#7377ca033ada2f43ecbca52ff9ac29fec124447d"
+"@polkadot/primitives-rlp@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives-rlp/-/primitives-rlp-0.15.7.tgz#ef2e9ebed54e2b53978b72fd0e2eb8368ce0fddd"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/primitives-builder" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
-    "@polkadot/util-crypto" "^0.21.1"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/primitives-builder" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
+    "@polkadot/util-crypto" "^0.21.2"
 
-"@polkadot/primitives@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.15.3.tgz#8b7405db42bf45a88d40c92dcd830bf269bb4029"
+"@polkadot/primitives@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.15.7.tgz#803defa0bd0e51a0c85f732341f596e84645ec19"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/storage-substrate@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.15.3.tgz#950335d0b719ca9f5100ec1760a313d1461ac1b5"
+"@polkadot/storage-substrate@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage-substrate/-/storage-substrate-0.15.7.tgz#8fb41076e53e22bd1d859457a25df48c8aff6010"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/storage" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/storage" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/storage@^0.15.3":
-  version "0.15.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.15.3.tgz#3c2981ef3085d8fbcb37877e82019101766bad68"
+"@polkadot/storage@^0.15.7":
+  version "0.15.7"
+  resolved "https://registry.yarnpkg.com/@polkadot/storage/-/storage-0.15.7.tgz#b86faa076feef4b800140c1440be05536708f84f"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/params" "^0.15.3"
-    "@polkadot/primitives" "^0.15.3"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/params" "^0.15.7"
+    "@polkadot/primitives" "^0.15.7"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/util-crypto@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.21.1.tgz#45b7cb7cba89a740d9fb179b5af0e5e071f2f9a5"
+"@polkadot/util-crypto@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.21.2.tgz#533728f937c4a505368df991c34c122e7788e377"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/util" "^0.21.2"
     blakejs "^1.1.0"
     js-sha3 "^0.7.0"
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util-keyring@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.21.1.tgz#1b4d9ad969af948d1b8a0fbd8fe0d4abcc8a6474"
+"@polkadot/util-keyring@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.21.2.tgz#fa5b363ec556f1d29e37e45e68ed3d7075e44b65"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/util" "^0.21.1"
-    "@polkadot/util-crypto" "^0.21.1"
+    "@polkadot/util" "^0.21.2"
+    "@polkadot/util-crypto" "^0.21.2"
     bs58 "^4.0.1"
 
-"@polkadot/util-rlp@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.21.1.tgz#4c9134c8cbac477486cfd2f2fe5e217b4d6057c7"
+"@polkadot/util-rlp@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.21.2.tgz#6218ce60c450a1f07dc9dad744f9ddaf49915ed2"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/util" "^0.21.1"
+    "@polkadot/util" "^0.21.2"
 
-"@polkadot/util-triehash@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-triehash/-/util-triehash-0.21.1.tgz#4ebbf12055ec355afca0effde56375d3abd210c8"
+"@polkadot/util-triehash@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-triehash/-/util-triehash-0.21.2.tgz#5137587cf0672c5d750f8da9ec3b6fab46372c7b"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
-    "@polkadot/util" "^0.21.1"
-    "@polkadot/util-crypto" "^0.21.1"
-    "@polkadot/util-rlp" "^0.21.1"
+    "@polkadot/util" "^0.21.2"
+    "@polkadot/util-crypto" "^0.21.2"
+    "@polkadot/util-rlp" "^0.21.2"
 
-"@polkadot/util@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.21.1.tgz#d116b2de0bd6d8ed5cccd51b8a05f910c66e6282"
+"@polkadot/util@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.21.2.tgz#63ea8da13711ef9f9e4285abfdf05f9d16446b93"
   dependencies:
     "@babel/runtime" "^7.0.0-beta.47"
     bn.js "^4.11.8"
