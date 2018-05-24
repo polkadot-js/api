@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceMethodDefinition } from '@polkadot/jsonrpc/types';
+import type { Interface$Method } from '@polkadot/jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface$Section$Method } from '../types';
 
@@ -13,7 +13,7 @@ const jsonrpcSignature = require('@polkadot/params/signature');
 
 const createParams = require('./params');
 
-module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: InterfaceMethodDefinition): ApiInterface$Section$Method {
+module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
   const call = async (...values: Array<mixed>): Promise<mixed> => {
     // TODO: Deprecated warning
     try {

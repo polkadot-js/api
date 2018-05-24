@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface } from './types';
 
@@ -20,7 +19,7 @@ module.exports = function api (provider: ProviderInterface): ApiInterface {
 
   return Object
     .keys(interfaces)
-    .reduce((result, type: InterfaceTypes) => {
+    .reduce((result, type) => {
       result[type] = createInterface(provider, type);
 
       return result;

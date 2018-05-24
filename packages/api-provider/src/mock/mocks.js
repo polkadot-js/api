@@ -5,7 +5,7 @@
 
 // FIME: This file is way too long and way too messy
 
-import type { StorageDef$Key } from '@polkadot/storage/types';
+import type { Storage$Key } from '@polkadot/storage/types';
 import type { KeyringPair } from '@polkadot/util-keyring/types';
 import type { ProviderInterface$Emitted } from '../types';
 import type { MockState, MockState$Subscription$Callback } from './types';
@@ -55,7 +55,7 @@ function updateSubs (subscriptions, method, value) {
     });
 }
 
-function setStorageBn (storage, key: StorageDef$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+function setStorageBn (storage, key: Storage$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
   const keyValue = u8aToHex(
     createKey(key).apply(null, keyParams)
   );

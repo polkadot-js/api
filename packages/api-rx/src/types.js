@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
+import type { Interface$Sections } from '@polkadot/jsonrpc/types';
 
 // flowlint-next-line unclear-type:off
 export type RxApiInterface$Method = (...params: Array<mixed>) => rxjs$Observable<any> | rxjs$BehaviorSubject<any>;
@@ -14,5 +14,5 @@ export type RxApiInterface$Section = {
 
 export type RxApiInterface = {
   isConnected: () => rxjs$BehaviorSubject<boolean>;
-  [InterfaceTypes]: RxApiInterface$Section;
+  [Interface$Sections]: RxApiInterface$Section;
 };
