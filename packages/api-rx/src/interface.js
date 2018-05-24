@@ -4,12 +4,12 @@
 // @flow
 
 import type { ApiInterface, ApiInterface$Section } from '@polkadot/api/types';
-import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
+import type { Interface$Sections } from '@polkadot/jsonrpc/types';
 import type { RxApiInterface$Section } from './types';
 
 const observable = require('./observable');
 
-module.exports = function createInterface (api: ApiInterface, sectionName: InterfaceTypes): RxApiInterface$Section {
+module.exports = function createInterface (api: ApiInterface, sectionName: Interface$Sections): RxApiInterface$Section {
   const section: ApiInterface$Section = api[sectionName];
 
   return Object

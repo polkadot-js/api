@@ -4,7 +4,6 @@
 // @flow
 
 import type { ProviderInterface } from '@polkadot/api-provider/types';
-import type { InterfaceTypes } from '@polkadot/jsonrpc/types';
 import type { RxApiInterface } from './types';
 
 const createApi = require('@polkadot/api');
@@ -21,7 +20,7 @@ module.exports = function rxApi (provider?: ProviderInterface = createWs(default
 
   return Object
     .keys(interfaces)
-    .reduce((result, type: InterfaceTypes) => {
+    .reduce((result, type) => {
       result[type] = createInterface(api, type);
 
       return result;
