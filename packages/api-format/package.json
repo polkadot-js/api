@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-format",
-  "version": "0.12.5",
+  "version": "0.12.6",
   "description": "Input/Output formatters for JsonRPC exchange",
   "main": "index.js",
   "keywords": [
