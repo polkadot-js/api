@@ -5,6 +5,7 @@
 
 import type { Param$Types } from '@polkadot/params/types';
 
+const addressEncode = require('@polkadot/util-keyring/address/encode');
 const bnDecode = require('@polkadot/primitives-json/bn/decode');
 const bytesDecode = require('@polkadot/primitives-json/bytes/decode');
 const headerDecode = require('@polkadot/primitives-json/header/decode');
@@ -14,6 +15,8 @@ const isUndefined = require('@polkadot/util/is/undefined');
 const format = require('./format');
 
 const formatters = {
+  // publicKey -> address
+  'AccountId': addressEncode,
   'BlockNumber': bnDecode,
   'Bytes': bytesDecode,
   'Header': headerDecode,
