@@ -5,12 +5,15 @@
 
 import type { Params, Param$Types } from '@polkadot/params/types';
 
+const addressDecode = require('@polkadot/util-keyring/address/decode');
 const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
 const hashEncode = require('@polkadot/primitives-json/hash/encode');
 
 const format = require('./format');
 
 const formatters = {
+  // funnily named, goes from address -> u8a
+  'AccountId': addressDecode,
   'Bytes': bytesEncode,
   'Hash': hashEncode
 };
