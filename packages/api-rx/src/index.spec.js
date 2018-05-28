@@ -16,7 +16,7 @@ describe('createApi', () => {
     expect(
       Object.keys(createApi())
     ).toEqual([
-      'isConnected', 'author', 'chain', 'state'
+      'isConnected', 'author', 'chain', 'state', 'system'
     ]);
   });
 });
