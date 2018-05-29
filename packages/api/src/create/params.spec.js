@@ -10,15 +10,15 @@ describe('params', () => {
   beforeEach(() => {
     methods = {
       blah: {
-        params: {
-          foo: { type: 'Bytes' }
-        },
+        params: [
+          { name: 'foo', type: 'Bytes' }
+        ],
         type: 'Bytes'
       },
       bleh: {
-        params: {
-          foo: { type: 'Bytes', isOptional: true }
-        },
+        params: [
+          { name: 'foo', type: 'Bytes', isOptional: true }
+        ],
         type: 'Bytes'
       }
     };
