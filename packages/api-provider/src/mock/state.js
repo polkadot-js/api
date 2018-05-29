@@ -13,8 +13,8 @@ const l = require('@polkadot/util/logger')('api-mock');
 const SUBSCRIPTIONS = Array.prototype.concat.apply(
   [], Object.keys(interfaces).map((section) => {
     return Object
-      .keys(interfaces[section].methods)
-      .filter((method) => interfaces[section].methods[method].isSubscription)
+      .keys(interfaces[section].public)
+      .filter((method) => interfaces[section].public[method].isSubscription)
       .map((method) => `subscribe_${method}`);
   })
 );
@@ -25,7 +25,10 @@ const REQUESTS = {
       // flowlint-next-line unclear-type:off
       storage[((params[0]: any): string)]
     );
-  }
+  },
+  'system_chain': (): string => 'mockChain',
+  'system_name': (): string => 'mockClient',
+  'system_version': (): string => '9.8.7'
 };
 
 module.exports = function state (): MockState {

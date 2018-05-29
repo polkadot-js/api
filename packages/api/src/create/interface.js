@@ -14,7 +14,7 @@ const methodSubscribe = require('./methodSubscribe');
 
 module.exports = function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
   const exposed: $Shape<ApiInterface$Section> = {};
-  const { methods } = interfaces[section];
+  const methods = interfaces[section].public;
 
   return Object
     .keys(methods)
@@ -22,10 +22,9 @@ module.exports = function createInterface (provider: ProviderInterface, section:
       const rpcName = `${section}_${name}`;
       const def = methods[name];
 
-      // flowlint-next-line sketchy-null-bool:off
       exposed[name] = def.isSubscription
-        ? methodSubscribe(provider, rpcName, name, methods[name])
-        : methodSend(provider, rpcName, name, methods[name]);
+        ? methodSubscribe(provider, rpcName, name, def)
+        : methodSend(provider, rpcName, name, def);
 
       return exposed;
     }, exposed);

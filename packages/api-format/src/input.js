@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-import type { Params, Param$Types } from '@polkadot/params/types';
+import type { Params } from '@polkadot/params/types';
 
 const addressDecode = require('@polkadot/util-keyring/address/decode');
 const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
@@ -20,7 +20,7 @@ const formatters = {
 
 // flowlint-next-line unclear-type:off
 module.exports = function formatInputs (params: Params, values: Array<any>): Array<any> {
-  const types: Array<Param$Types> = Object.keys(params).map((name) => params[name].type);
+  const types = params.map(({ type }) => type);
 
   return format(formatters, types, values);
 };

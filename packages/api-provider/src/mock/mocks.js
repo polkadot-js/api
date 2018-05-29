@@ -13,7 +13,7 @@ import type { MockState, MockState$Subscription$Callback } from './types';
 const BN = require('bn.js');
 const headerEncode = require('@polkadot/primitives-json/header/encode');
 const createKey = require('@polkadot/storage/key');
-const state = require('@polkadot/storage-substrate/keys');
+const state = require('@polkadot/storage');
 const bnToU8a = require('@polkadot/util/bn/toU8a');
 const u8aToHex = require('@polkadot/util/u8a/toHex');
 const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
@@ -76,11 +76,11 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
-      setStorageBn(storage, state.staking.keys.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
-      setStorageBn(storage, state.system.keys.accountIndexOf, newHead.number.addn(index), publicKey());
+      setStorageBn(storage, state.staking.public.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
+      setStorageBn(storage, state.system.public.accountIndexOf, newHead.number.addn(index), publicKey());
     });
 
-    setStorageBn(storage, state.timestamp.keys.current, Math.floor(Date.now() / 1000));
+    setStorageBn(storage, state.timestamp.public.current, Math.floor(Date.now() / 1000));
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);

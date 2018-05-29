@@ -12,14 +12,14 @@ describe('methodCall', () => {
     methods = {
       blah: {
         name: 'blah',
-        params: {
-          foo: { type: 'Bytes' }
-        },
+        params: [
+          { name: 'foo', type: 'Bytes' }
+        ],
         type: 'Bytes'
       },
       bleh: {
         name: 'bleh',
-        params: {},
+        params: [],
         type: 'Bytes'
       }
     };

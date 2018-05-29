@@ -6,20 +6,20 @@ const isFunction = require('@polkadot/util/is/function');
 
 jest.mock('@polkadot/jsonrpc', () => ({
   test: {
-    methods: {
+    public: {
       blah: {
-        params: {
-          foo: { type: 'Address' }
-        },
+        params: [
+          { name: 'foo', type: 'Address' }
+        ],
         type: 'Address'
       },
       bleh: {
-        params: {},
+        params: [],
         type: 'Address'
       },
       pubsub: {
         isSubscription: true,
-        params: {},
+        params: [],
         type: 'Address'
       }
     }
