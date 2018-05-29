@@ -11,7 +11,7 @@ const l = require('@polkadot/util/logger')('api-http');
 const coder = require('../coder/json');
 
 module.exports = function state (endpoint: string): HttpState {
-  assert(/^http:\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
+  assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
   return {
     coder: coder(),
