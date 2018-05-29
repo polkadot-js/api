@@ -10,4 +10,10 @@ describe('state', () => {
       () => state('ws://')
     ).toThrow(/with 'http/);
   });
+
+  it('allows https:// endpoints', () => {
+    expect(
+      state('https://')
+    ).toBeDefined();
+  });
 });

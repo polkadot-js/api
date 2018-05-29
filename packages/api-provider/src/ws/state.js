@@ -12,7 +12,7 @@ const l = require('@polkadot/util/logger')('api-ws');
 const coder = require('../coder/json');
 
 module.exports = function state (endpoint: string, autoConnect: boolean): $Shape<WsState> {
-  assert(/^ws:\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
+  assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
   return {
     autoConnect,
