@@ -12,9 +12,10 @@
     "build": "polkadot-dev-build-babel",
     "check": "eslint packages && flow check",
     "clean": "polkadot-dev-clean-build",
+    "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.19.24"
+    "@polkadot/dev": "^0.19.25"
   }
 }
