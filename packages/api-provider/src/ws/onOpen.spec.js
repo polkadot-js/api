@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const { mockWs, TEST_WS_URL } = require('../../test/mockWs');
+import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-const create = require('./index');
+import create from './index';
 
 let ws;
 let mock;

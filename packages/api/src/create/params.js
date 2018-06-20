@@ -5,10 +5,10 @@
 
 import type { Params } from '@polkadot/params/types';
 
-const formatInputs = require('@polkadot/api-format/input');
-const assert = require('@polkadot/util/assert');
+import formatInputs from '@polkadot/api-format/input';
+import assert from '@polkadot/util/assert';
 
-module.exports = function createParams (params: Params, values: Array<mixed>): Array<mixed> {
+export default function createParams (params: Params, values: Array<mixed>): Array<mixed> {
   const required = params.filter(({ isOptional }) => !isOptional);
   const optionalText = params.length
     ? ` (${(params.length - required.length) || 'none'} optional)`
@@ -17,4 +17,4 @@ module.exports = function createParams (params: Params, values: Array<mixed>): A
   assert(values.length >= required.length && values.length <= params.length, `${params.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
 
   return formatInputs(params, values);
-};
+}

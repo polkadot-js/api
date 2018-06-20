@@ -5,7 +5,7 @@
 
 import type { MockState, MockState$Subscription$Callback } from './types';
 
-module.exports = async function subscribe (self: MockState, method: string, params: Array<mixed>): Promise<number> {
+export default async function subscribe (self: MockState, method: string, params: Array<mixed>): Promise<number> {
   self.l.debug(() => ['subscribe', method, params]);
 
   if (self.subscriptions[method]) {
@@ -22,4 +22,4 @@ module.exports = async function subscribe (self: MockState, method: string, para
   }
 
   throw new Error(`provider.subscribe: Invalid method '${method}'`);
-};
+}

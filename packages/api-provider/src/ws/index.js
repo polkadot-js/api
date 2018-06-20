@@ -5,16 +5,16 @@
 
 import type { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
-require('./polyfill');
+import './polyfill';
 
-const connect = require('./connect');
-const on = require('./on');
-const send = require('./send');
-const state = require('./state');
-const subscribe = require('./subscribe');
-const unsubscribe = require('./unsubscribe');
+import connect from './connect';
+import on from './on';
+import send from './send';
+import state from './state';
+import subscribe from './subscribe';
+import unsubscribe from './unsubscribe';
 
-module.exports = function wsProvider (endpoint: string, autoConnect: boolean = true): ProviderInterface {
+export default function wsProvider (endpoint: string, autoConnect: boolean = true): ProviderInterface {
   const self = state(endpoint, autoConnect);
 
   if (autoConnect) {
@@ -35,4 +35,4 @@ module.exports = function wsProvider (endpoint: string, autoConnect: boolean = t
     unsubscribe: (method: string, id: number): Promise<boolean> =>
       unsubscribe(self, method, id)
   };
-};
+}

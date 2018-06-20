@@ -6,6 +6,6 @@
 import type { ProviderInterface$Callback } from '../types';
 import type { HttpState } from './types';
 
-module.exports = async function subscribe (self: HttpState, method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> {
+export default async function subscribe (self: HttpState, method: string, params: Array<mixed>, cb: ProviderInterface$Callback): Promise<number> {
   throw new Error('Subscriptions has not been implemented');
-};
+}

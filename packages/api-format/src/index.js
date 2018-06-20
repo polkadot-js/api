@@ -3,10 +3,10 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-const formatInputs = require('./input');
-const formatOutput = require('./output');
+import formatInputs from './input';
+import formatOutput from './output';
 
-module.exports = {
+export {
   formatInputs,
   formatOutput
 };

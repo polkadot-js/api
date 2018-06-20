@@ -5,14 +5,14 @@
 
 import type { ProviderInterface, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
-const mocks = require('./mocks');
-const on = require('./on');
-const send = require('./send');
-const state = require('./state');
-const subscribe = require('./subscribe');
-const unsubscribe = require('./unsubscribe');
+import mocks from './mocks';
+import on from './on';
+import send from './send';
+import state from './state';
+import subscribe from './subscribe';
+import unsubscribe from './unsubscribe';
 
-module.exports = function mockProvider (): ProviderInterface {
+export default function mockProvider (): ProviderInterface {
   const self = state();
 
   mocks(self);
@@ -29,4 +29,4 @@ module.exports = function mockProvider (): ProviderInterface {
     unsubscribe: (method: string, id: number): Promise<boolean> =>
       unsubscribe(self, method, id)
   };
-};
+}

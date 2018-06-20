@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const state = require('./state');
+import state from './state';
 
 describe('state', () => {
   it('requires an ws:// prefixed endpoint', () => {

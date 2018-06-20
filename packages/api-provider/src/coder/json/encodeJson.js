@@ -5,10 +5,10 @@
 
 import type { RpcCoderState } from './types';
 
-const encodeObject = require('./encodeObject');
+import encodeObject from './encodeObject';
 
-module.exports = function encodeJson (self: RpcCoderState, method: string, params: Array<mixed>): string {
+export default function encodeJson (self: RpcCoderState, method: string, params: Array<mixed>): string {
   return JSON.stringify(
     encodeObject(self, method, params)
   );
-};
+}

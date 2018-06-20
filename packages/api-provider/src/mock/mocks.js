@@ -10,14 +10,14 @@ import type { KeyringPair } from '@polkadot/util-keyring/types';
 import type { ProviderInterface$Emitted } from '../types';
 import type { MockState, MockState$Subscription$Callback } from './types';
 
-const BN = require('bn.js');
-const headerEncode = require('@polkadot/primitives-json/header/encode');
-const createKey = require('@polkadot/storage/key');
-const state = require('@polkadot/storage');
-const bnToU8a = require('@polkadot/util/bn/toU8a');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
-const randomAsU8a = require('@polkadot/util-crypto/random/asU8a');
-const testKeyring = require('@polkadot/util-keyring/testing');
+import BN from 'bn.js';
+import headerEncode from '@polkadot/primitives-json/header/encode';
+import createKey from '@polkadot/storage/key';
+import state from '@polkadot/storage';
+import bnToU8a from '@polkadot/util/bn/toU8a';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
+import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
 
@@ -63,7 +63,7 @@ function setStorageBn (storage, key: Storage$Key, value: BN | number, ...keyPara
   storage[keyValue] = bnToU8a(value, 64, true);
 }
 
-module.exports = function mocks ({ emitter, storage, subscriptions }: MockState): void {
+export default function mocks ({ emitter, storage, subscriptions }: MockState): void {
   let newHead = makeBlockHeader(new BN(-1));
 
   setInterval(() => {
@@ -84,4 +84,4 @@ module.exports = function mocks ({ emitter, storage, subscriptions }: MockState)
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);
-};
+}

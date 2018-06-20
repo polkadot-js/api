@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const createState = require('./state');
-const subscribe = require('./subscribe');
-const unsubscribe = require('./unsubscribe');
+import createState from './state';
+import subscribe from './subscribe';
+import unsubscribe from './unsubscribe';
 
 describe('unsubscribe', () => {
   let state;

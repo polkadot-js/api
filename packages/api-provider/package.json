@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-provider",
-  "version": "0.13.8",
+  "version": "0.14.0",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -39,10 +39,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.47",
-    "@polkadot/storage": "^0.17.24",
-    "@polkadot/util": "^0.22.9",
-    "@polkadot/util-crypto": "^0.22.9",
-    "@polkadot/util-keyring": "^0.22.9",
+    "@polkadot/storage": "^0.18.2",
+    "@polkadot/util": "^0.23.1",
+    "@polkadot/util-crypto": "^0.23.1",
+    "@polkadot/util-keyring": "^0.23.1",
     "eventemitter3": "^2.0.3",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.25"

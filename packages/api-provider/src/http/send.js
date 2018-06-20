@@ -5,9 +5,9 @@
 
 import type { HttpState } from './types';
 
-const assert = require('@polkadot/util/assert');
+import assert from '@polkadot/util/assert';
 
-module.exports = async function send ({ coder, endpoint }: HttpState, method: string, params: Array<mixed>): Promise<mixed> {
+export default async function send ({ coder, endpoint }: HttpState, method: string, params: Array<mixed>): Promise<mixed> {
   const body = coder.encodeJson(method, params);
   const response = await fetch(endpoint, {
     body,
@@ -24,4 +24,4 @@ module.exports = async function send ({ coder, endpoint }: HttpState, method: st
   const result = await response.json();
 
   return coder.decodeResponse(result);
-};
+}

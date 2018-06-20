@@ -6,7 +6,7 @@
 import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
-module.exports = function onMessageSubscribe (self: WsState, response: JsonRpcResponse): void {
+export default function onMessageSubscribe (self: WsState, response: JsonRpcResponse): void {
   self.l.debug(() => ['handling: response =', response, 'subscription =', response.params.subscription]);
 
   const handler = self.subscriptions[response.params.subscription];
@@ -23,4 +23,4 @@ module.exports = function onMessageSubscribe (self: WsState, response: JsonRpcRe
   } catch (error) {
     handler.callback(error);
   }
-};
+}

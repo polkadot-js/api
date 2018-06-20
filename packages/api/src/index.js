@@ -6,13 +6,13 @@
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface } from './types';
 
-const interfaces = require('@polkadot/jsonrpc');
-const assert = require('@polkadot/util/assert');
-const isFunction = require('@polkadot/util/is/function');
+import interfaces from '@polkadot/jsonrpc';
+import assert from '@polkadot/util/assert';
+import isFunction from '@polkadot/util/is/function';
 
-const createInterface = require('./create/interface');
+import createInterface from './create/interface';
 
-module.exports = function api (provider: ProviderInterface): ApiInterface {
+export default function api (provider: ProviderInterface): ApiInterface {
   assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
   const exposed: ApiInterface = {};
@@ -24,4 +24,4 @@ module.exports = function api (provider: ProviderInterface): ApiInterface {
 
       return result;
     }, exposed);
-};
+}

@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const createApi = require('../../api/src');
-const createProvider = require('../src/ws');
+import createApi from '../../api/src';
+import createProvider from '../src/ws';
 
 describe.skip('e2e', () => {
   let api;

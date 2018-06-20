@@ -5,10 +5,12 @@
 
 import type { MockState, MockState$Storage } from './types';
 
-const EventEmitter = require('eventemitter3');
-const interfaces = require('@polkadot/jsonrpc');
-const u8aToHex = require('@polkadot/util/u8a/toHex');
-const l = require('@polkadot/util/logger')('api-mock');
+import EventEmitter from 'eventemitter3';
+import interfaces from '@polkadot/jsonrpc';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+import logger from '@polkadot/util/logger';
+
+const l = logger('api-mock');
 
 const SUBSCRIPTIONS = Array.prototype.concat.apply(
   [], Object.keys(interfaces).map((section) => {
@@ -31,7 +33,7 @@ const REQUESTS = {
   'system_version': (): string => '9.8.7'
 };
 
-module.exports = function state (): MockState {
+export default function state (): MockState {
   const storage = {};
   const subscriptions = SUBSCRIPTIONS.reduce((subscriptions, name) => {
     subscriptions[name] = {
@@ -51,4 +53,4 @@ module.exports = function state (): MockState {
     subscriptionMap: {},
     subscriptions
   };
-};
+}

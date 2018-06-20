@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const format = require('./format');
-const echo = require('./echo');
+import format from './format';
+import echo from './echo';
 
 describe('format', () => {
   let formatters;

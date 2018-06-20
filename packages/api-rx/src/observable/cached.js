@@ -5,6 +5,8 @@
 
 import type { ApiInterface$Section } from '@polkadot/api/types';
 
+import subject from './subject';
+
 type Cached$Name = string;
 type Cached$ParamJson = string;
 
@@ -15,12 +17,10 @@ type CachedMap = {
   }
 };
 
-const subject = require('./subject');
-
 const cacheMap: CachedMap = {};
 
 // flowlint-next-line unclear-type:off
-module.exports = function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$BehaviorSubject<any> {
+export default function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<mixed>) => rxjs$BehaviorSubject<any> {
   if (!cacheMap[subName]) {
     cacheMap[subName] = {};
   }
@@ -35,4 +35,4 @@ module.exports = function cached (subName: string, name: string, section: ApiInt
 
     return cacheMap[subName][paramStr];
   };
-};
+}
