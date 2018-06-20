@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const isFunction = require('@polkadot/util/is/function');
+import isFunction from '@polkadot/util/is/function';
 
 jest.mock('@polkadot/jsonrpc', () => ({
   test: {
@@ -26,7 +26,7 @@ jest.mock('@polkadot/jsonrpc', () => ({
   }
 }));
 
-const createInterface = require('./interface');
+const createInterface = require('./interface').default;
 
 describe('createInterface', () => {
   let container;

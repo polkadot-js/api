@@ -7,12 +7,12 @@ import type { Interface$Sections } from '@polkadot/jsonrpc/types';
 import type { ProviderInterface } from '@polkadot/api-provider/types';
 import type { ApiInterface$Section } from '../types';
 
-const interfaces = require('@polkadot/jsonrpc');
+import interfaces from '@polkadot/jsonrpc';
 
-const methodSend = require('./methodSend');
-const methodSubscribe = require('./methodSubscribe');
+import methodSend from './methodSend';
+import methodSubscribe from './methodSubscribe';
 
-module.exports = function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
+export default function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
   const exposed: $Shape<ApiInterface$Section> = {};
   const methods = interfaces[section].public;
 
@@ -28,4 +28,4 @@ module.exports = function createInterface (provider: ProviderInterface, section:
 
       return exposed;
     }, exposed);
-};
+}

@@ -6,12 +6,12 @@
 import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
-const isUndefined = require('@polkadot/util/is/undefined');
+import isUndefined from '@polkadot/util/is/undefined';
 
-const onMessageResult = require('./onMessageResult');
-const onMessageSubscribe = require('./onMessageSubscribe');
+import onMessageResult from './onMessageResult';
+import onMessageSubscribe from './onMessageSubscribe';
 
-module.exports = function onMessage (self: WsState): (MessageEvent) => void {
+export default function onMessage (self: WsState): (MessageEvent) => void {
   return (message: MessageEvent): void => {
     self.l.debug(() => ['received', message.data]);
 
@@ -22,4 +22,4 @@ module.exports = function onMessage (self: WsState): (MessageEvent) => void {
       ? onMessageResult(self, response)
       : onMessageSubscribe(self, response);
   };
-};
+}

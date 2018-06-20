@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const { formatInputs } = require('./index');
+import { formatInputs } from './index';
 
 describe('formatInputs', () => {
   it('formats each value in an array', () => {

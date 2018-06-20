@@ -3,6 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 // @flow
 
-module.exports = function echo (value: mixed): mixed {
+export default function echo (value: mixed): mixed {
   return value;
-};
+}

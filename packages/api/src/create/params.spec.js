@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const params = require('./params');
+import params from './params';
 
 describe('params', () => {
   let methods;

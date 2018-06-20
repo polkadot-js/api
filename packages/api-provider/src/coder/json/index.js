@@ -6,11 +6,11 @@
 import type { JsonRpcRequest, JsonRpcResponse } from '../../types';
 import type { RpcCoder, RpcCoderState } from './types';
 
-const decodeResponse = require('./decodeResponse');
-const encodeJson = require('./encodeJson');
-const encodeObject = require('./encodeObject');
+import decodeResponse from './decodeResponse';
+import encodeJson from './encodeJson';
+import encodeObject from './encodeObject';
 
-module.exports = function rpcCoder (): RpcCoder {
+export default function rpcCoder (): RpcCoder {
   const self: RpcCoderState = {
     id: 0
   };
@@ -25,4 +25,4 @@ module.exports = function rpcCoder (): RpcCoder {
     getId: (): number =>
       self.id
   };
-};
+}

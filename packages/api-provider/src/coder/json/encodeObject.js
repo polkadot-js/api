@@ -6,11 +6,11 @@
 import type { JsonRpcRequest } from '../../types';
 import type { RpcCoderState } from './types';
 
-module.exports = function encodeObject (self: RpcCoderState, method: string, params: Array<mixed>): JsonRpcRequest {
+export default function encodeObject (self: RpcCoderState, method: string, params: Array<mixed>): JsonRpcRequest {
   return {
     id: ++self.id,
     jsonrpc: '2.0',
     method,
     params
   };
-};
+}

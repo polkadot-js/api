@@ -6,7 +6,7 @@
 import type { JsonRpcResponse } from '../types';
 import type { WsState } from './types';
 
-module.exports = function onMessageResult (self: WsState, response: JsonRpcResponse): void {
+export default function onMessageResult (self: WsState, response: JsonRpcResponse): void {
   self.l.debug(() => ['handling: response =', response, 'id =', response.id]);
 
   const handler = self.handlers[response.id];
@@ -33,4 +33,4 @@ module.exports = function onMessageResult (self: WsState, response: JsonRpcRespo
   }
 
   delete self.handlers[response.id];
-};
+}

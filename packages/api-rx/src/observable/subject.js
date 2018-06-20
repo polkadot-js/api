@@ -5,11 +5,11 @@
 
 import type { ApiInterface$Section } from '@polkadot/api/types';
 
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
-const { Observable } = require('rxjs/Observable');
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 // flowlint-next-line unclear-type:off
-module.exports = function subscription (name: string, params: Array<mixed>, section: ApiInterface$Section, unsubCallback?: () => void): rxjs$BehaviorSubject<any> {
+export default function subscription (name: string, params: Array<mixed>, section: ApiInterface$Section, unsubCallback?: () => void): rxjs$BehaviorSubject<any> {
   const subject = new BehaviorSubject();
 
   Observable
@@ -41,4 +41,4 @@ module.exports = function subscription (name: string, params: Array<mixed>, sect
     .subscribe(subject);
 
   return subject;
-};
+}

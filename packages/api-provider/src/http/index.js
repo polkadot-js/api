@@ -5,15 +5,15 @@
 
 import type { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
-require('./polyfill');
+import './polyfill';
 
-const on = require('./on');
-const send = require('./send');
-const subscribe = require('./subscribe');
-const state = require('./state');
-const unsubscribe = require('./unsubscribe');
+import on from './on';
+import send from './send';
+import subscribe from './subscribe';
+import state from './state';
+import unsubscribe from './unsubscribe';
 
-module.exports = function httpProvider (endpoint: string): ProviderInterface {
+export default function httpProvider (endpoint: string): ProviderInterface {
   const self = state(endpoint);
 
   return {
@@ -28,4 +28,4 @@ module.exports = function httpProvider (endpoint: string): ProviderInterface {
     unsubscribe: (method: string, id: number): Promise<boolean> =>
       unsubscribe(self, method, id)
   };
-};
+}
