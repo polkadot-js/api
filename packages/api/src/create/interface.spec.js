@@ -26,7 +26,7 @@ jest.mock('@polkadot/jsonrpc', () => ({
   }
 }));
 
-const createInterface from './interface');
+const createInterface = require('./interface');
 
 describe('createInterface', () => {
   let container;

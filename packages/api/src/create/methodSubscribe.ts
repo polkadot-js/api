@@ -19,22 +19,23 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
     provider.send(`unsubscribe_${name}`, [subscriptionId]);
   const call = async (...values: Array<any>): Promise<any> => {
     try {
-      const cb = ((values.pop(): any): ProviderInterface$Callback);
+      const cb: ProviderInterface$Callback = values.pop();
 
       assert(isFunction(cb), `Expected callback in last position of params`);
 
       const params = createParams(method.params, values);
-      const update = (error: ?Error, result?: any) => {
+      const update = (error: Error | null, result?: any) => {
         cb(error, formatOutput(method.type, result));
       };
 
       return provider.subscribe(`subscribe_${name}`, params, update);
     } catch (error) {
-      throw new ExtError(`${signature(method)}:: ${error.message}`, (error: ExtError).code);
+      throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }
   };
 
+  // @ts-ignore yes, we are extending here
   call.unsubscribe = unsubscribe;
 
-  return ((call: any): ApiInterface$Section$Method);
+  return call as ApiInterface$Section$Method;
 }

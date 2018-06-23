@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Param$Types } from '@polkadot/params/types';
+import { FormatterFunction } from './types';
 
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import bnDecode from '@polkadot/primitives-json/bn/decode';
@@ -13,16 +14,16 @@ import isUndefined from '@polkadot/util/is/undefined';
 
 import format from './format';
 
-const formatters = {
+const formatters = new Map<Param$Types, FormatterFunction>([
   // publicKey -> address
-  'AccountId': addressEncode,
-  'BlockNumber': bnDecode,
-  'Bytes': bytesDecode,
-  'Header': headerDecode,
-  'u64': bnDecode
-};
+  ['AccountId', addressEncode],
+  ['BlockNumber', bnDecode],
+  ['Bytes', bytesDecode],
+  ['Header', headerDecode],
+  ['u64', bnDecode]
+]);
 
-export default function formatOutput (type: Param$Types, value?: any): ?any {
+export default function formatOutput (type: Param$Types, value?: any): any | null {
   if (isUndefined(value) || isNull(value)) {
     return value;
   }

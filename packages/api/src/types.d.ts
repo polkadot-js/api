@@ -10,9 +10,9 @@ export type ApiInterface$Section$Method = {
 }
 
 export type ApiInterface$Section = {
-  [string]: ApiInterface$Section$Method
+  [index: string]: ApiInterface$Section$Method
 };
 
 export type ApiInterface = {
-  [Interface$Sections]: ApiInterface$Section
+  [index: string]: ApiInterface$Section
 }

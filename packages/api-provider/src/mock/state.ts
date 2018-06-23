@@ -15,7 +15,9 @@ const SUBSCRIPTIONS = Array.prototype.concat.apply(
   [], Object.keys(interfaces).map((section) => {
     return Object
       .keys(interfaces[section].public)
-      .filter((method) => interfaces[section].public[method].isSubscription)
+      .filter((method) =>
+        interfaces[section].public[method].isSubscription
+      )
       .map((method) => `subscribe_${method}`);
   })
 );
@@ -23,7 +25,7 @@ const SUBSCRIPTIONS = Array.prototype.concat.apply(
 const REQUESTS = {
   'state_getStorage': (storage: MockState$Storage, params: Array<any>): string => {
     return u8aToHex(
-      storage[((params[0]: any): string)]
+      storage[(params[0] as string)]
     );
   },
   'system_chain': (): string => 'mockChain',

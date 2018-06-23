@@ -3,22 +3,18 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Param$Types, Param$Type$Array } from '@polkadot/params/types';
-import { FormatterFunction } from './types';
-
-type FormattersFunctionMap = {
-  [index: Param$Types]: FormatterFunction
-}
+import { FormattersFunctionMap } from './types';
 
 import typeToString from '@polkadot/params/typeToString';
 import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
-const echo from './echo';
+import echo from './echo';
 
 const l = logger('api-format');
 
 function formatSingleType (formatters: FormattersFunctionMap, type: Param$Types, value: any): any {
-  const formatter: FormatterFunction = formatters[type];
+  const formatter = formatters.get(type);
 
   if (isUndefined(formatter)) {
     l.warn(`Unable to find default formatter for '${typeToString(type)}', falling back to echo`);

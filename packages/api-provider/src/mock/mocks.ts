@@ -7,7 +7,7 @@
 import { Storage$Key } from '@polkadot/storage/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { ProviderInterface$Emitted } from '../types';
-import { MockState, MockState$Subscription$Callback } from './types';
+import { MockState, MockState$Storage, MockState$Subscriptions, MockState$Subscription$Callback } from './types';
 
 import BN from 'bn.js';
 import headerEncode from '@polkadot/primitives-json/header/encode';
@@ -19,6 +19,12 @@ import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
+// @ts-ignore yes, it _should_ be there
+const stateStaking = state.get('staking').public;
+// @ts-ignore yes, it _should_ be there
+const stateSystem = state.get('staking').public;
+// @ts-ignore yes, it _should_ be there
+const stateTimestamp = state.get('timestamp').public;
 
 const emitEvents: Array<ProviderInterface$Emitted> = ['connected', 'disconnected'];
 let emitIndex = 0;
@@ -39,21 +45,21 @@ function makeBlockHeader (prevNumber: BN) {
   };
 }
 
-function updateSubs (subscriptions, method, value) {
+function updateSubs (subscriptions: MockState$Subscriptions, method: string, value: any) {
   subscriptions[method].lastValue = value;
 
   Object
     .values(subscriptions[method].callbacks)
     .forEach((cb) => {
       try {
-        ((cb: any): MockState$Subscription$Callback)(null, value);
+        (cb as MockState$Subscription$Callback)(null, value);
       } catch (error) {
         console.error(`Error on '${method}' subscription`, error);
       }
     });
 }
 
-function setStorageBn (storage, key: Storage$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+function setStorageBn (storage: MockState$Storage, key: Storage$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
   const keyValue = u8aToHex(
     createKey(key).apply(null, keyParams)
   );
@@ -74,11 +80,11 @@ export default function mocks ({ emitter, storage, subscriptions }: MockState): 
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
-      setStorageBn(storage, state.staking.public.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
-      setStorageBn(storage, state.system.public.accountIndexOf, newHead.number.addn(index), publicKey());
+      setStorageBn(storage, stateStaking.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
+      setStorageBn(storage, stateSystem.accountIndexOf, newHead.number.addn(index), publicKey());
     });
 
-    setStorageBn(storage, state.timestamp.public.current, Math.floor(Date.now() / 1000));
+    setStorageBn(storage, stateTimestamp.current, Math.floor(Date.now() / 1000));
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);

@@ -7,13 +7,20 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface$Section } from '../types';
 
 import interfaces from '@polkadot/jsonrpc';
+import assert from '@polkadot/util/assert';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import methodSend from './methodSend';
 import methodSubscribe from './methodSubscribe';
 
 export default function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
-  const exposed: $Shape<ApiInterface$Section> = {};
-  const methods = interfaces[section].public;
+  const exposed: ApiInterface$Section = {};
+  const definition = interfaces.get(section);
+
+  assert(!isUndefined(definition), `Unable to find section'${section}`);
+
+  // @ts-ignore undefined check done in assert
+  const methods = definition.public;
 
   return Object
     .keys(methods)

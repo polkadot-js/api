@@ -16,11 +16,9 @@ export default function api (provider: ProviderInterface): ApiInterface {
 
   const exposed: ApiInterface = {};
 
-  return Object
-    .keys(interfaces)
-    .reduce((result, type) => {
-      result[type] = createInterface(provider, type);
+  for (let type of interfaces.keys()) {
+    exposed[type] = createInterface(provider, type);
+  }
 
-      return result;
-    }, exposed);
+  return exposed;
 }

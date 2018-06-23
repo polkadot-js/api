@@ -8,22 +8,22 @@ import { ApiInterface$Section$Method } from '../types';
 
 import formatOutput from '@polkadot/api-format/output';
 import ExtError from '@polkadot/util/ext/error';
-import jsonrpcSignature from '@polkadot/params/signature';
+import signature from '@polkadot/params/signature';
 
 import createParams from './params';
 
 export default function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
   const call = async (...values: Array<any>): Promise<any> => {
-    // TODO: Deprecated warning
+    // TODO Warn on deprecated methods
     try {
       const params = createParams(method.params, values);
       const result = await provider.send(rpcName, params);
 
       return formatOutput(method.type, result);
     } catch (error) {
-      throw new ExtError(`${jsonrpcSignature(method)}:: ${error.message}`, (error: ExtError).code);
+      throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }
   };
 
-  return ((call: any): ApiInterface$Section$Method);
+  return call as ApiInterface$Section$Method;
 }
