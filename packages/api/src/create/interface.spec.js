@@ -2,31 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const isFunction = require('@polkadot/util/is/function');
+import isFunction from '@polkadot/util/is/function';
 
-jest.mock('@polkadot/jsonrpc', () => ({
-  test: {
-    public: {
-      blah: {
-        params: [
-          { name: 'foo', type: 'Address' }
-        ],
-        type: 'Address'
-      },
-      bleh: {
-        params: [],
-        type: 'Address'
-      },
-      pubsub: {
-        isSubscription: true,
-        params: [],
-        type: 'Address'
+jest.mock('@polkadot/jsonrpc', () =>
+  new Map([
+    ['test', {
+      public: {
+        blah: {
+          params: [
+            { name: 'foo', type: 'Address' }
+          ],
+          type: 'Address'
+        },
+        bleh: {
+          params: [],
+          type: 'Address'
+        },
+        pubsub: {
+          isSubscription: true,
+          params: [],
+          type: 'Address'
+        }
       }
-    }
-  }
-}));
+    }]
+  ])
+);
 
-const createInterface = require('./interface');
+const createInterface = require('./interface').default;
 
 describe('createInterface', () => {
   let container;

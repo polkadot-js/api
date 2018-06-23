@@ -4,7 +4,7 @@
 
 jest.mock('./observable', () => (subName, name, section) => `${subName}_${name}_${Object.keys(section).join(':')}`);
 
-const createInterface = require('./interface');
+const createInterface = require('./interface').default;
 
 describe('createInterface', () => {
   let api;

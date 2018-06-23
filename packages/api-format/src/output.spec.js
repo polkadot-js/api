@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const BN = require('bn.js');
+import BN from 'bn.js';
 
-const { formatOutput } = require('./index');
+import { formatOutput } from './index';
 
 describe('formatOutput', () => {
   it('formats the value', () => {

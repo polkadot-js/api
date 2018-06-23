@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const onMessage = require('./onMessage');
-const createState = require('./state');
+import onMessage from './onMessage';
+import createState from './state';
 
 describe('onMessageResult', () => {
   let state;
