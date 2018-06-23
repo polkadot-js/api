@@ -4,17 +4,19 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import isFunction from '@polkadot/util/is/function';
 
 import cached from './cached';
 
-export default function observable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => rxjs$Observable<any> | rxjs$BehaviorSubject<any> {
+export default function observable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => Observable<any> | BehaviorSubject<any> {
   if (isFunction(section[name].unsubscribe)) {
     return cached(subName, name, section);
   }
 
-  return (...params: Array<any>): rxjs$Observable<any> =>
+  return (...params: Array<any>): Observable<any> =>
     fromPromise(
       section[name].apply(null, params)
     );

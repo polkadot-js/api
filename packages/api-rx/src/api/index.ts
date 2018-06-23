@@ -5,13 +5,16 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '../types';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 import createConnected from './connected';
 
 export default function exposed (provider: ProviderInterface): RxApiInterface {
   const connected = createConnected(provider);
 
+  // @ts-ignore as in types.d.ts, not sure what to do here
   return {
-    isConnected: (): rxjs$BehaviorSubject<boolean> =>
+    isConnected: (): BehaviorSubject<boolean> =>
       connected
   };
 }

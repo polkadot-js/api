@@ -4,12 +4,11 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
-type Cached$Name = string;
-type Cached$ParamJson = string;
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 type CachedMap = {
-  [Cached$Name]: {
-    [Cached$ParamJson]: rxjs$BehaviorSubject<any>
+  [index: string]: {
+    [index: string]: BehaviorSubject<any>
   }
 };
 
@@ -17,12 +16,12 @@ import subject from './subject';
 
 const cacheMap: CachedMap = {};
 
-export default function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => rxjs$BehaviorSubject<any> {
+export default function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => BehaviorSubject<any> {
   if (!cacheMap[subName]) {
     cacheMap[subName] = {};
   }
 
-  return (...params: Array<any>): rxjs$BehaviorSubject<any> => {
+  return (...params: Array<any>): BehaviorSubject<any> => {
     const paramStr = JSON.stringify(params);
 
     if (!cacheMap[subName][paramStr]) {

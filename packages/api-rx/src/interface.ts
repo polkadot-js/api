@@ -18,5 +18,5 @@ export default function createInterface (api: ApiInterface, sectionName: Interfa
       observables[name] = observable(`${sectionName}_${name}`, name, section);
 
       return observables;
-    }, ({}: $Shape<RxApiInterface$Section>));
+    }, ({} as RxApiInterface$Section));
 }
