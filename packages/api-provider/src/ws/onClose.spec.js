@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const { TEST_WS_URL } = require('../../test/mockWs');
+import { TEST_WS_URL } from '../../test/mockWs';
 
-const createState = require('./state');
+import createState from './state';
 
 describe('onClose', () => {
   let mockConnect;

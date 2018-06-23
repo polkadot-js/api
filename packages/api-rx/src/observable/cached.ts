@@ -13,11 +13,11 @@ type CachedMap = {
   }
 };
 
-const subject = require('./subject');
+import subject from './subject';
 
 const cacheMap: CachedMap = {};
 
-module.exports = function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => rxjs$BehaviorSubject<any> {
+export default function cached (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => rxjs$BehaviorSubject<any> {
   if (!cacheMap[subName]) {
     cacheMap[subName] = {};
   }
@@ -31,4 +31,4 @@ module.exports = function cached (subName: string, name: string, section: ApiInt
 
     return cacheMap[subName][paramStr];
   };
-};
+}

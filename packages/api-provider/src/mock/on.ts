@@ -5,6 +5,6 @@
 import { ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 import { MockState } from './types';
 
-module.exports = function on (self: MockState, type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+export default function on (self: MockState, type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
   self.emitter.on(type, sub);
-};
+}

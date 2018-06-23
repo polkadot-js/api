@@ -4,11 +4,11 @@
 
 import { Params } from '@polkadot/params/types';
 
-const addressDecode = require('@polkadot/util-keyring/address/decode');
-const bytesEncode = require('@polkadot/primitives-json/bytes/encode');
-const hashEncode = require('@polkadot/primitives-json/hash/encode');
+import addressDecode from '@polkadot/util-keyring/address/decode';
+import bytesEncode from '@polkadot/primitives-json/bytes/encode';
+import hashEncode from '@polkadot/primitives-json/hash/encode';
 
-const format = require('./format');
+import format from './format';
 
 const formatters = {
   // funnily named, goes from address -> u8a
@@ -17,8 +17,8 @@ const formatters = {
   'Hash': hashEncode
 };
 
-module.exports = function formatInputs (params: Params, values: Array<any>): Array<any> {
+export default function formatInputs (params: Params, values: Array<any>): Array<any> {
   const types = params.map(({ type }) => type);
 
   return format(formatters, types, values);
-};
+}

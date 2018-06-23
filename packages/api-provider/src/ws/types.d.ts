@@ -21,10 +21,16 @@ export type WsState = {
   coder: RpcCoder,
   endpoint: string,
   emitter: EventEmitter,
-  handlers: { [number]: WsState$Awaiting },
+  handlers: {
+    [index: number]: WsState$Awaiting
+  },
   isConnected: boolean,
   l: Logger,
-  queued: { [number]: string },
-  subscriptions: { [number]: WsState$Subscription },
+  queued: {
+    [index: number]: string
+  },
+  subscriptions: {
+    [index: number]: WsState$Subscription
+  },
   websocket: WebSocket
 };

@@ -8,20 +8,20 @@ import { Logger } from '@polkadot/util/types';
 export type MockState$Subscription$Callback = (error: ?Error, value: any) => void;
 
 export type MockState$Subscriptions = {
-  [string]: {
+  [index: string]: {
     callbacks: {
-      [number]: MockState$Subscription$Callback
+      [index: number]: MockState$Subscription$Callback
     },
     lastValue: any
   }
 };
 
 export type MockState$Storage = {
-  [string]: Uint8Array
+  [index: string]: Uint8Array
 };
 
 export type MockState$Requests = {
-  [string]: (storage: MockState$Storage, params: Array<any>) => string
+  [index: string]: (storage: MockState$Storage, params: Array<any>) => string
 };
 
 export type MockState = {
@@ -31,7 +31,7 @@ export type MockState = {
   storage: MockState$Storage,
   subscriptionId: number,
   subscriptionMap: {
-    [number]: string
+    [index: number]: string
   },
   subscriptions: MockState$Subscriptions
 };

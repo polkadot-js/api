@@ -4,7 +4,7 @@
 
 import { WsState } from './types';
 
-module.exports = function onClose (self: WsState): () => void {
+export default function onClose (self: WsState): () => void {
   return (): void => {
     self.l.debug(() => ['disconnected from', self.endpoint]);
 

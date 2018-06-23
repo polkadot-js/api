@@ -5,13 +5,13 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '../types';
 
-const createConnected = require('./connected');
+import createConnected from './connected';
 
-module.exports = function exposed (provider: ProviderInterface): RxApiInterface {
+export default function exposed (provider: ProviderInterface): RxApiInterface {
   const connected = createConnected(provider);
 
   return {
     isConnected: (): rxjs$BehaviorSubject<boolean> =>
       connected
   };
-};
+}

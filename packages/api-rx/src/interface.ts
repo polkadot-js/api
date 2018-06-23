@@ -6,9 +6,9 @@ import { ApiInterface, ApiInterface$Section } from '@polkadot/api/types';
 import { Interface$Sections } from '@polkadot/jsonrpc/types';
 import { RxApiInterface$Section } from './types';
 
-const observable = require('./observable');
+import observable from './observable';
 
-module.exports = function createInterface (api: ApiInterface, sectionName: Interface$Sections): RxApiInterface$Section {
+export default function createInterface (api: ApiInterface, sectionName: Interface$Sections): RxApiInterface$Section {
   const section: ApiInterface$Section = api[sectionName];
 
   return Object
@@ -19,4 +19,4 @@ module.exports = function createInterface (api: ApiInterface, sectionName: Inter
 
       return observables;
     }, ({}: $Shape<RxApiInterface$Section>));
-};
+}

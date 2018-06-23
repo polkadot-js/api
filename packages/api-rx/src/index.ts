@@ -5,15 +5,15 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from './types';
 
-const createApi = require('@polkadot/api');
-const interfaces = require('@polkadot/jsonrpc');
-const createWs = require('@polkadot/api-provider/ws');
+import createApi from '@polkadot/api';
+import interfaces from '@polkadot/jsonrpc';
+import createWs from '@polkadot/api-provider/ws';
 
-const createExposed = require('./api');
-const defaults = require('./defaults');
-const createInterface = require('./interface');
+import createExposed from './api';
+import defaults from './defaults';
+import createInterface from './interface';
 
-module.exports = function rxApi (provider?: ProviderInterface = createWs(defaults.WS_URL)): RxApiInterface {
+export default function rxApi (provider: ProviderInterface = createWs(defaults.WS_URL)): RxApiInterface {
   const api = createApi(provider);
   const exposed = createExposed(provider);
 
@@ -24,4 +24,4 @@ module.exports = function rxApi (provider?: ProviderInterface = createWs(default
 
       return result;
     }, exposed);
-};
+}

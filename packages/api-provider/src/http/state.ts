@@ -4,12 +4,14 @@
 
 import { HttpState } from './types';
 
-const assert = require('@polkadot/util/assert');
-const l = require('@polkadot/util/logger')('api-http');
+import assert from '@polkadot/util/assert';
+import logger from '@polkadot/util/logger';
 
-const coder = require('../coder/json');
+import coder from '../coder/json';
 
-module.exports = function state (endpoint: string): HttpState {
+const l = logger('api-http');
+
+export default function state (endpoint: string): HttpState {
   assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
   return {
@@ -17,4 +19,4 @@ module.exports = function state (endpoint: string): HttpState {
     endpoint,
     l
   };
-};
+}

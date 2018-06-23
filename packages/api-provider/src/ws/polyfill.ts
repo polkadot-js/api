@@ -3,5 +3,5 @@
 // of the ISC license. See the LICENSE file for details.
 
 if (typeof WebSocket === 'undefined') {
-  global.WebSocket = require('websocket').w3cwebsocket;
+  global.WebSocket from 'websocket').w3cwebsocket;
 }

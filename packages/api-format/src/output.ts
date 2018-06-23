@@ -4,14 +4,14 @@
 
 import { Param$Types } from '@polkadot/params/types';
 
-const addressEncode = require('@polkadot/util-keyring/address/encode');
-const bnDecode = require('@polkadot/primitives-json/bn/decode');
-const bytesDecode = require('@polkadot/primitives-json/bytes/decode');
-const headerDecode = require('@polkadot/primitives-json/header/decode');
-const isNull = require('@polkadot/util/is/null');
-const isUndefined = require('@polkadot/util/is/undefined');
+import addressEncode from '@polkadot/util-keyring/address/encode';
+import bnDecode from '@polkadot/primitives-json/bn/decode';
+import bytesDecode from '@polkadot/primitives-json/bytes/decode';
+import headerDecode from '@polkadot/primitives-json/header/decode';
+import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
 
-const format = require('./format');
+import format from './format';
 
 const formatters = {
   // publicKey -> address
@@ -22,10 +22,10 @@ const formatters = {
   'u64': bnDecode
 };
 
-module.exports = function formatOutput (type: Param$Types, value?: any): ?any {
+export default function formatOutput (type: Param$Types, value?: any): ?any {
   if (isUndefined(value) || isNull(value)) {
     return value;
   }
 
   return format(formatters, [type], [value])[0];
-};
+}

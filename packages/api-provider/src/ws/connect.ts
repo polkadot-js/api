@@ -4,16 +4,16 @@
 
 import { WsState } from './types';
 
-const onClose = require('./onClose');
-const onError = require('./onError');
-const onMessage = require('./onMessage');
-const onOpen = require('./onOpen');
+import onClose from './onClose';
+import onError from './onError';
+import onMessage from './onMessage';
+import onOpen from './onOpen';
 
-module.exports = function connect (self: WsState): void {
+export default function connect (self: WsState): void {
   self.websocket = new WebSocket(self.endpoint);
 
   self.websocket.onclose = onClose(self);
   self.websocket.onerror = onError(self);
   self.websocket.onmessage = onMessage(self);
   self.websocket.onopen = onOpen(self);
-};
+}

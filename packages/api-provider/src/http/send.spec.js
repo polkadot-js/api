@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const { mockHttp, TEST_HTTP_URL } = require('../../test/mockHttp');
+import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-const createHttp = require('./index');
+import createHttp from './index';
 
 describe('send', () => {
   let http;

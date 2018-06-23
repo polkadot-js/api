@@ -5,7 +5,7 @@
 import { ProviderInterface$Callback } from '../types';
 import { WsState } from './types';
 
-module.exports = async function send (self: WsState, method: string, params: Array<any>, subscription?: ProviderInterface$Callback): Promise<any> {
+export default async function send (self: WsState, method: string, params: Array<any>, subscription?: ProviderInterface$Callback): Promise<any> {
   return new Promise((resolve, reject): void => {
     try {
       const json = self.coder.encodeJson(method, params);
@@ -34,4 +34,4 @@ module.exports = async function send (self: WsState, method: string, params: Arr
       reject(error);
     }
   });
-};
+}

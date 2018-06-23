@@ -6,13 +6,13 @@ import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitte
 
 require('./polyfill');
 
-const on = require('./on');
-const send = require('./send');
-const subscribe = require('./subscribe');
-const state = require('./state');
-const unsubscribe = require('./unsubscribe');
+import on from './on';
+import send from './send';
+import subscribe from './subscribe';
+import state from './state';
+import unsubscribe from './unsubscribe';
 
-module.exports = function httpProvider (endpoint: string): ProviderInterface {
+export default function httpProvider (endpoint: string): ProviderInterface {
   const self = state(endpoint);
 
   return {

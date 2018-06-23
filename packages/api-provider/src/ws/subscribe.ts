@@ -5,10 +5,10 @@
 import { ProviderInterface$Callback } from '../types';
 import { WsState } from './types';
 
-const send = require('./send');
+import send from './send';
 
-module.exports = async function subscribe (self: WsState, method: string, params: Array<any>, subscription: ProviderInterface$Callback): Promise<number> {
+export default async function subscribe (self: WsState, method: string, params: Array<any>, subscription: ProviderInterface$Callback): Promise<number> {
   const id = await send(self, method, params, subscription);
 
   return ((id: any): number);
-};
+}

@@ -6,15 +6,15 @@ import { Interface$Method } from '@polkadot/jsonrpc/types';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
-const formatOutput = require('@polkadot/api-format/output');
-const signature = require('@polkadot/params/signature');
-const assert = require('@polkadot/util/assert');
-const ExtError = require('@polkadot/util/ext/error');
-const isFunction = require('@polkadot/util/is/function');
+import formatOutput from '@polkadot/api-format/output';
+import signature from '@polkadot/params/signature';
+import assert from '@polkadot/util/assert';
+import ExtError from '@polkadot/util/ext/error';
+import isFunction from '@polkadot/util/is/function';
 
-const createParams = require('./params');
+import createParams from './params';
 
-module.exports = function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
+export default function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
     provider.send(`unsubscribe_${name}`, [subscriptionId]);
   const call = async (...values: Array<any>): Promise<any> => {
@@ -37,4 +37,4 @@ module.exports = function methodSubscribe (provider: ProviderInterface, rpcName:
   call.unsubscribe = unsubscribe;
 
   return ((call: any): ApiInterface$Section$Method);
-};
+}

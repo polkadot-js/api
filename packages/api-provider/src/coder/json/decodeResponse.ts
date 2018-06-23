@@ -5,9 +5,9 @@
 import { JsonRpcResponse, JsonRpcResponseBase$Error } from '../../types';
 import { RpcCoderState } from './types';
 
-const assert = require('@polkadot/util/assert');
-const isNumber = require('@polkadot/util/is/number');
-const isUndefined = require('@polkadot/util/is/undefined');
+import assert from '@polkadot/util/assert';
+import isNumber from '@polkadot/util/is/number';
+import isUndefined from '@polkadot/util/is/undefined';
 
 function checkError (error?: JsonRpcResponseBase$Error) {
   if (!error) {
@@ -19,7 +19,7 @@ function checkError (error?: JsonRpcResponseBase$Error) {
   throw new Error(`[${code}]: ${message}`);
 }
 
-module.exports = function decodeResponse (self: RpcCoderState, response: JsonRpcResponse): any {
+export default function decodeResponse (self: RpcCoderState, response: JsonRpcResponse): any {
   assert(response, 'Empty response object received');
   assert(response.jsonrpc === '2.0', 'Invalid jsonrpc field in decoded object');
 
@@ -38,4 +38,4 @@ module.exports = function decodeResponse (self: RpcCoderState, response: JsonRpc
   }
 
   return response.result;
-};
+}

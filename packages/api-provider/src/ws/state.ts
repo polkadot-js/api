@@ -4,13 +4,15 @@
 
 import { WsState } from './types';
 
-const EventEmitter = require('eventemitter3');
-const assert = require('@polkadot/util/assert');
-const l = require('@polkadot/util/logger')('api-ws');
+import EventEmitter from 'eventemitter3');
+import assert from '@polkadot/util/assert');
+import logger from '@polkadot/util/logger';
 
-const coder = require('../coder/json');
+import scoder from '../coder/json';
 
-module.exports = function state (endpoint: string, autoConnect: boolean): $Shape<WsState> {
+const l = logger('api-ws');
+
+export default function state (endpoint: string, autoConnect: boolean): $Shape<WsState> {
   assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
   return {

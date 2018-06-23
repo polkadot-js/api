@@ -5,15 +5,17 @@
 import { Param$Types, Param$Type$Array } from '@polkadot/params/types';
 import { FormatterFunction } from './types';
 
-type FormattersFunctionMap = $Shape<{
-  [Param$Types]: FormatterFunction
-}>;
+type FormattersFunctionMap = {
+  [index: Param$Types]: FormatterFunction
+}
 
-const typeToString = require('@polkadot/params/typeToString');
-const isUndefined = require('@polkadot/util/is/undefined');
-const l = require('@polkadot/util/logger')('api-format');
+import typeToString from '@polkadot/params/typeToString';
+import isUndefined from '@polkadot/util/is/undefined';
+import logger from '@polkadot/util/logger';
 
-const echo = require('./echo');
+const echo from './echo';
+
+const l = logger('api-format');
 
 function formatSingleType (formatters: FormattersFunctionMap, type: Param$Types, value: any): any {
   const formatter: FormatterFunction = formatters[type];
@@ -37,7 +39,7 @@ function formatArrayType (formatters: FormattersFunctionMap, [ type ]: Param$Typ
   });
 }
 
-module.exports = function format (formatters: FormattersFunctionMap, types: Array<Param$Types>, values: Array<any>): Array<any> {
+export default function format (formatters: FormattersFunctionMap, types: Array<Param$Types>, values: Array<any>): Array<any> {
   return values.map((value, index): any => {
     const type = types[index];
 
@@ -48,4 +50,4 @@ module.exports = function format (formatters: FormattersFunctionMap, types: Arra
 
     return formatSingleType(formatters, type, value);
   });
-};
+}

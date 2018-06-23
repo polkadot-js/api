@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const formatInputs = require('./input');
-const formatOutput = require('./output');
+import formatInputs from './input';
+import formatOutput from './output';
 
-module.exports = {
+export {
   formatInputs,
   formatOutput
 };

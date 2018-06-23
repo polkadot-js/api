@@ -6,13 +6,13 @@ import { Interface$Method } from '@polkadot/jsonrpc/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
-const formatOutput = require('@polkadot/api-format/output');
-const ExtError = require('@polkadot/util/ext/error');
-const jsonrpcSignature = require('@polkadot/params/signature');
+import formatOutput from '@polkadot/api-format/output';
+import ExtError from '@polkadot/util/ext/error';
+import jsonrpcSignature from '@polkadot/params/signature';
 
-const createParams = require('./params');
+import createParams from './params';
 
-module.exports = function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
+export default function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
   const call = async (...values: Array<any>): Promise<any> => {
     // TODO: Deprecated warning
     try {
@@ -26,4 +26,4 @@ module.exports = function createMethodSend (provider: ProviderInterface, rpcName
   };
 
   return ((call: any): ApiInterface$Section$Method);
-};
+}

@@ -4,6 +4,6 @@
 
 const WS_URL = 'ws://127.0.0.1:9944';
 
-module.exports = {
+export default {
   WS_URL
 };

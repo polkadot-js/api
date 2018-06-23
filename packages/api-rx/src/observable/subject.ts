@@ -4,10 +4,10 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
-const { BehaviorSubject } = require('rxjs/BehaviorSubject');
-const { Observable } = require('rxjs/Observable');
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
-module.exports = function subscription (name: string, params: Array<any>, section: ApiInterface$Section, unsubCallback?: () => void): rxjs$BehaviorSubject<any> {
+export default function subscription (name: string, params: Array<any>, section: ApiInterface$Section, unsubCallback?: () => void): rxjs$BehaviorSubject<any> {
   const subject = new BehaviorSubject();
 
   Observable
@@ -37,4 +37,4 @@ module.exports = function subscription (name: string, params: Array<any>, sectio
     .subscribe(subject);
 
   return subject;
-};
+}

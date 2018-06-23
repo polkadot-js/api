@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const { Server } = require('mock-socket');
+import { Server } from 'mock-socket';
 
 const TEST_WS_URL = 'ws://localhost:9955';
 
@@ -53,7 +53,7 @@ function mockWs (requests) {
   return scope;
 }
 
-module.exports = {
+export default {
   TEST_WS_URL,
   mockWs
 };
