@@ -6,13 +6,13 @@ import nock from 'nock';
 
 const TEST_HTTP_URL = 'http://localhost:9944';
 
-function mockHttp (requests) {
+function mockHttp (requests: any[]) {
   nock.cleanAll();
 
-  return requests.reduce((scope, request, index) => {
+  return requests.reduce((scope, request: any, index: number) => {
     return scope
       .post('/')
-      .reply(request.code || 200, (uri, body) => {
+      .reply(request.code || 200, (uri: string, body: { id: string }) => {
         scope.body = scope.body || {};
         scope.body[request.method] = body;
 

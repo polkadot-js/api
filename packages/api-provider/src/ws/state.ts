@@ -4,26 +4,27 @@
 
 import { WsState } from './types';
 
-import EventEmitter from 'eventemitter3');
-import assert from '@polkadot/util/assert');
+import E3 from 'eventemitter3';
+import assert from '@polkadot/util/assert';
 import logger from '@polkadot/util/logger';
 
-import scoder from '../coder/json';
+import coder from '../coder/json';
 
 const l = logger('api-ws');
 
-export default function state (endpoint: string, autoConnect: boolean): $Shape<WsState> {
+export default function state (endpoint: string, autoConnect: boolean): WsState {
   assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
   return {
     autoConnect,
     coder: coder(),
-    emitter: new EventEmitter(),
+    emitter: new E3.EventEmitter(),
     endpoint,
     handlers: {},
     isConnected: false,
     l,
     queued: {},
-    subscriptions: {}
+    subscriptions: {},
+    websocket: null
   };
 };

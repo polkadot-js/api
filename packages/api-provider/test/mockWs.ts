@@ -6,9 +6,9 @@ import { Server } from 'mock-socket';
 
 const TEST_WS_URL = 'ws://localhost:9955';
 
-let server;
+let server: Server;
 
-function createError ({ id, error: { code, message } }) {
+function createError ({ id, error: { code, message } }: { id: number, error: { code: number, message: string } }) {
   return {
     id,
     jsonrpc: '2.0',
@@ -19,7 +19,7 @@ function createError ({ id, error: { code, message } }) {
   };
 }
 
-function createReply ({ id, reply: { result } }) {
+function createReply ({ id, reply: { result } }: { id: number, reply: { result: any }}) {
   return {
     id,
     jsonrpc: '2.0',
@@ -27,21 +27,24 @@ function createReply ({ id, reply: { result } }) {
   };
 }
 
-function mockWs (requests) {
+function mockWs (requests: Array<{ method: string }>) {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;
-  const scope = {
+  const scope: { body: { [index: string]: {} }, requests: number, server: Server, done: any } = {
     body: {},
     requests: 0,
     server,
     done: () => server.stop()
   };
 
-  server.on('message', (body) => {
+  server.on('message', (body: {}) => {
     const request = requests[requestCount];
+    // @ts-ignore Yes, SHOULD be fixed, this is a mess
     const response = request.error
+      // @ts-ignore Yes, SHOULD be fixed, this is a mess
       ? createError(request)
+      // @ts-ignore Yes, SHOULD be fixed, this is a mess
       : createReply(request);
 
     scope.body[request.method] = body;
@@ -53,7 +56,7 @@ function mockWs (requests) {
   return scope;
 }
 
-export default {
+export {
   TEST_WS_URL,
   mockWs
 };

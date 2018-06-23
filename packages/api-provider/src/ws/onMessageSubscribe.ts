@@ -20,6 +20,6 @@ export default function onMessageSubscribe (self: WsState, response: JsonRpcResp
 
     handler.callback(null, result);
   } catch (error) {
-    handler.callback(error);
+    handler.callback(error, undefined);
   }
 }

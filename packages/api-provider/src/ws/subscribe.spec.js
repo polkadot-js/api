@@ -12,7 +12,7 @@ function createMock (requests) {
 }
 
 function createWs (autoConnect) {
-  ws from './index')(TEST_WS_URL, autoConnect);
+  ws = require('./index')(TEST_WS_URL, autoConnect);
 
   return ws;
 }

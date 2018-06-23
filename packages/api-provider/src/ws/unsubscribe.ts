@@ -16,5 +16,5 @@ export default async function unsubscribe (self: WsState, method: string, id: nu
 
   const result = await send(self, method, [id]);
 
-  return ((result: any): boolean);
+  return result as boolean;
 }

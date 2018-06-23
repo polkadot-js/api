@@ -4,8 +4,8 @@
 
 import { WsState } from './types';
 
-export default function onError (self: WsState): (Event) => void {
+export default function onError (self: WsState): (event: Event) => void {
   return (error: Event): void => {
     self.l.error(error);
   };
-};
+}

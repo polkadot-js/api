@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { ApiInterface } from '../../api/src/types';
+
 import createApi from '../../api/src';
 import createProvider from '../src/ws';
 
 describe.skip('e2e', () => {
-  let api;
+  let api: ApiInterface;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -17,7 +19,7 @@ describe.skip('e2e', () => {
     let count = 0;
 
     api.chain
-      .newHead((error, data) => {
+      .newHead((error: Error | null, data: any) => {
         console.log('newHead: result =', [error, data]);
 
         expect(data).toBeDefined();

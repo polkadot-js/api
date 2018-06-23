@@ -10,11 +10,11 @@ import isUndefined from '@polkadot/util/is/undefined';
 import onMessageResult from './onMessageResult';
 import onMessageSubscribe from './onMessageSubscribe';
 
-export default function onMessage (self: WsState): (MessageEvent) => void {
+export default function onMessage (self: WsState): (event: MessageEvent) => void {
   return (message: MessageEvent): void => {
     self.l.debug(() => ['received', message.data]);
 
-    const response: JsonRpcResponse = JSON.parse(((message.data: any): string));
+    const response: JsonRpcResponse = JSON.parse(message.data as string);
 
     return isUndefined(response.method)
       ? onMessageResult(self, response)

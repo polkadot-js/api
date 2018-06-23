@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import EventEmitter from 'eventemitter3';
+import E3 from 'eventemitter3';
 import { Logger } from '@polkadot/util/types';
 
-export type MockState$Subscription$Callback = (error: ?Error, value: any) => void;
+export type MockState$Subscription$Callback = (error: Error | null, value: any) => void;
 
 export type MockState$Subscriptions = {
   [index: string]: {
@@ -25,7 +25,7 @@ export type MockState$Requests = {
 };
 
 export type MockState = {
-  emitter: EventEmitter,
+  emitter: E3.EventEmitter,
   l: Logger,
   requests: MockState$Requests,
   storage: MockState$Storage,

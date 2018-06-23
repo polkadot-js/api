@@ -5,12 +5,14 @@
 import { ProviderInterface$Callback } from '../types';
 import { WsState } from './types';
 
+import isNull from '@polkadot/util/is/null';
+
 export default async function send (self: WsState, method: string, params: Array<any>, subscription?: ProviderInterface$Callback): Promise<any> {
   return new Promise((resolve, reject): void => {
     try {
       const json = self.coder.encodeJson(method, params);
       const id = self.coder.getId();
-      const callback = (error: ?Error, result: any) => {
+      const callback = (error: Error | null, result: any) => {
         if (error) {
           reject(error);
         } else {
@@ -25,7 +27,7 @@ export default async function send (self: WsState, method: string, params: Array
         subscription
       };
 
-      if (self.isConnected) {
+      if (self.isConnected && !isNull(self.websocket)) {
         self.websocket.send(json);
       } else {
         self.queued[id] = json;

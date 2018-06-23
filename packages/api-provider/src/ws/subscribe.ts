@@ -10,5 +10,5 @@ import send from './send';
 export default async function subscribe (self: WsState, method: string, params: Array<any>, subscription: ProviderInterface$Callback): Promise<number> {
   const id = await send(self, method, params, subscription);
 
-  return ((id: any): number);
+  return id as number;
 }

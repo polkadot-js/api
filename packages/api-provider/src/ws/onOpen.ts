@@ -4,8 +4,13 @@
 
 import { WsState } from './types';
 
+import assert from '@polkadot/util/assert';
+import isNull from '@polkadot/util/is/null';
+
 export default function onOpen (self: WsState): () => boolean {
   return (): boolean => {
+    assert(!isNull(self.websocket), 'WebSocket cannot be null in onOpen');
+
     self.l.debug(() => ['connected to', self.endpoint]);
 
     self.isConnected = true;
@@ -13,11 +18,12 @@ export default function onOpen (self: WsState): () => boolean {
 
     Object.keys(self.queued).forEach((id) => {
       try {
+        // @ts-ignore checked above
         self.websocket.send(
-          self.queued[((id: any): number)]
+          self.queued[id]
         );
 
-        delete self.queued[((id: any): number)];
+        delete self.queued[id];
       } catch (error) {
         self.l.error(error);
       }

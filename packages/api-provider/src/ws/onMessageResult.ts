@@ -20,14 +20,14 @@ export default function onMessageResult (self: WsState, response: JsonRpcRespons
     const result = self.coder.decodeResponse(response);
 
     if (subscription) {
-      self.subscriptions[((result: any): number)] = {
+      self.subscriptions[result as number] = {
         callback: subscription
       };
     }
 
     handler.callback(null, result);
   } catch (error) {
-    handler.callback(error);
+    handler.callback(error, undefined);
   }
 
   delete self.handlers[response.id];

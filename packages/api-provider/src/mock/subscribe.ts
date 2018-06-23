@@ -8,7 +8,7 @@ export default async function subscribe (self: MockState, method: string, params
   self.l.debug(() => ['subscribe', method, params]);
 
   if (self.subscriptions[method]) {
-    const callback = ((params.pop(): any): MockState$Subscription$Callback);
+    const callback: MockState$Subscription$Callback = params.pop();
     const id = ++self.subscriptionId;
 
     self.subscriptions[method].callbacks[id] = callback;

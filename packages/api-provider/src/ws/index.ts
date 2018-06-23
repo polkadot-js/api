@@ -21,8 +21,6 @@ export default function wsProvider (endpoint: string, autoConnect: boolean = tru
   }
 
   return {
-    connect: (): void =>
-      connect(self),
     isConnected: (): boolean =>
       self.isConnected,
     on: (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void =>
