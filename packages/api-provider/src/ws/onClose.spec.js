@@ -21,7 +21,7 @@ describe('onClose', () => {
   });
 
   it('reconnects after delay', () => {
-    require('./onClose')(createState(TEST_WS_URL, true))();
+    require('./onClose').default(createState(TEST_WS_URL, true))();
 
     expect(mockConnect).not.toHaveBeenCalled();
 
@@ -31,7 +31,7 @@ describe('onClose', () => {
   });
 
   it('does not reconnect when autoConnect false', () => {
-    require('./onClose')(createState(TEST_WS_URL, false))();
+    require('./onClose').default(createState(TEST_WS_URL, false))();
 
     expect(mockConnect).not.toHaveBeenCalled();
 

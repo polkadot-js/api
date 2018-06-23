@@ -4,7 +4,7 @@
 
 import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
-require('./polyfill');
+import './polyfill';
 
 import connect from './connect';
 import on from './on';
@@ -13,7 +13,11 @@ import state from './state';
 import subscribe from './subscribe';
 import unsubscribe from './unsubscribe';
 
-export default function wsProvider (endpoint: string, autoConnect: boolean = true): ProviderInterface {
+type WSProviderInterface = ProviderInterface & {
+  connect (): void
+}
+
+export default function wsProvider (endpoint: string, autoConnect: boolean = true): WSProviderInterface {
   const self = state(endpoint, autoConnect);
 
   if (autoConnect) {
@@ -21,6 +25,8 @@ export default function wsProvider (endpoint: string, autoConnect: boolean = tru
   }
 
   return {
+    connect: (): void =>
+      connect(self),
     isConnected: (): boolean =>
       self.isConnected,
     on: (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void =>

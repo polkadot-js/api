@@ -14,12 +14,12 @@ describe('format', () => {
     echoSpy = jest.fn(echo);
     warnSpy = jest.spyOn(console, 'warn');
 
-    formatters = {
-      'Address': echoSpy,
-      'Exception': () => {
+    formatters = new Map([
+      ['Address', echoSpy],
+      ['Exception', () => {
         throw new Error('something went wrong');
-      }
-    };
+      }]
+    ]);
   });
 
   afterEach(() => {

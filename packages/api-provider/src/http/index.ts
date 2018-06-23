@@ -4,7 +4,7 @@
 
 import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
-require('./polyfill');
+import './polyfill';
 
 import on from './on';
 import send from './send';

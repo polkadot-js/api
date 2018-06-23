@@ -43,7 +43,7 @@ export default function state (): MockState {
       lastValue: null
     };
 
-    return subscriptions;
+    return subs;
   }, ({} as MockState$Subscriptions));
 
   return {

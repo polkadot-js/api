@@ -9,7 +9,7 @@ jest.mock('@polkadot/api-provider/ws', () => () => ({
 }));
 jest.mock('./interface', () => (api, sectionName) => sectionName);
 
-const createApi = require('./index');
+const createApi = require('./index').default;
 
 describe('createApi', () => {
   it('creates an instance with all sections', () => {

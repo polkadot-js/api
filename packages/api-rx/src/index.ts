@@ -18,8 +18,8 @@ export default function rxApi (provider: ProviderInterface = createWs(defaults.W
   const exposed = createExposed(provider);
 
   return [...interfaces.keys()].reduce((result, type) => {
-      result[type] = createInterface(api, type);
+    result[type] = createInterface(api, type);
 
-      return result;
-    }, exposed);
+    return result;
+  }, exposed);
 }

@@ -4,6 +4,8 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
+import index from './index';
+
 let ws;
 let mock;
 
@@ -12,7 +14,7 @@ function createMock (requests) {
 }
 
 function createWs (autoConnect) {
-  ws = require('./index')(TEST_WS_URL, autoConnect);
+  ws = index(TEST_WS_URL, autoConnect);
 
   return ws;
 }
