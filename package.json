@@ -9,13 +9,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint packages && flow check",
+    "build": "polkadot-dev-build-ts",
+    "check": "tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.19.25"
+    "@polkadot/dev": "^0.20.2",
+    "@polkadot/ts": "^0.0.18"
   }
 }
