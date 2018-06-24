@@ -34,11 +34,11 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
+    "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/api-format": "^0.14.3",
     "@polkadot/api-provider": "^0.14.3",
-    "@polkadot/jsonrpc": "^0.19.3",
-    "@polkadot/params": "^0.19.3",
-    "@polkadot/util": "^0.24.3"
+    "@polkadot/jsonrpc": "^0.19.4",
+    "@polkadot/params": "^0.19.4",
+    "@polkadot/util": "^0.24.5"
   }
 }

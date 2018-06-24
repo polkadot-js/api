@@ -34,7 +34,7 @@
     "test": "echo \"Tests only available from root wrapper\""
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.47",
+    "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/api": "^0.14.3",
     "@polkadot/api-provider": "^0.14.3",
     "@types/rx": "^4.1.1",
