@@ -4,29 +4,27 @@
 
 import isFunction from '@polkadot/util/is/function';
 
-jest.mock('@polkadot/jsonrpc', () =>
-  new Map([
-    ['test', {
-      public: {
-        blah: {
-          params: [
-            { name: 'foo', type: 'Address' }
-          ],
-          type: 'Address'
-        },
-        bleh: {
-          params: [],
-          type: 'Address'
-        },
-        pubsub: {
-          isSubscription: true,
-          params: [],
-          type: 'Address'
-        }
+jest.mock('@polkadot/jsonrpc', () => ({
+  test: {
+    public: {
+      blah: {
+        params: [
+          { name: 'foo', type: 'Address' }
+        ],
+        type: 'Address'
+      },
+      bleh: {
+        params: [],
+        type: 'Address'
+      },
+      pubsub: {
+        isSubscription: true,
+        params: [],
+        type: 'Address'
       }
-    }]
-  ])
-);
+    }
+  }
+}));
 
 const createInterface = require('./interface').default;
 
