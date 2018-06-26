@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/storage": "^0.19.5",
+    "@polkadot/storage": "^0.20.1",
     "@polkadot/util": "^0.24.6",
     "@polkadot/util-crypto": "^0.24.6",
     "@polkadot/util-keyring": "^0.24.6",

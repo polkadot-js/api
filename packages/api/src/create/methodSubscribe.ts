@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Method } from '@polkadot/jsonrpc/types';
+import { Interfaces } from '@polkadot/jsonrpc/types';
+import { SectionItem } from '@polkadot/params/types';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
@@ -14,7 +15,7 @@ import isFunction from '@polkadot/util/is/function';
 
 import createParams from './params';
 
-export default function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: Interface$Method): ApiInterface$Section$Method {
+export default function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
     provider.send(`unsubscribe_${name}`, [subscriptionId]);
   const call = async (...values: Array<any>): Promise<any> => {

@@ -12,14 +12,14 @@ import logger from '@polkadot/util/logger';
 const l =logger('api-mock');
 
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
-  [], [...interfaces.values()].map((areas) =>
+  [], Object.values(interfaces).map((area) =>
     Object
-      .keys(areas.public)
+      .values(area.public)
       .filter((method) =>
-        areas.public[method].isSubscription
+        method.isSubscription
       )
-      .map((method) =>
-        `subscribe_${method}`
+      .map(({ name }) =>
+        `subscribe_${name}`
       )
   )
 );

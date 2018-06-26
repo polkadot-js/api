@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Interfaces } from '@polkadot/jsonrpc/types';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Interface$Sections } from '@polkadot/jsonrpc/types';
@@ -12,8 +13,10 @@ export type RxApiInterface$Section = {
   [index: string]: RxApiInterface$Method
 };
 
-export type RxApiInterface = {
-  // @ts-ignore this is the odd one out... doesn't quite match index sig
-  isConnected: () => BehaviorSubject<boolean>;
-  [index: string]: RxApiInterface$Section;
+type RxApiInterface$Keys = {
+  [key in keyof Interfaces]: RxApiInterface$Section;
 };
+
+export type RxApiInterface = RxApiInterface$Keys & {
+  isConnected: () => BehaviorSubject<boolean>
+}

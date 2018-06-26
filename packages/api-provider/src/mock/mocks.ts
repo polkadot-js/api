@@ -4,7 +4,8 @@
 
 // FIME: This file is way too long and way too messy
 
-import { Storage$Key } from '@polkadot/storage/types';
+import { Storages } from '@polkadot/storage/types';
+import { SectionItem } from '@polkadot/params/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { ProviderInterface$Emitted } from '../types';
 import { MockState, MockState$Storage, MockState$Subscriptions, MockState$Subscription$Callback } from './types';
@@ -19,12 +20,9 @@ import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
-// @ts-ignore yes, it _should_ be there
-const stateStaking = state.get('staking').public;
-// @ts-ignore yes, it _should_ be there
-const stateSystem = state.get('staking').public;
-// @ts-ignore yes, it _should_ be there
-const stateTimestamp = state.get('timestamp').public;
+const stateStaking = state.staking.public;
+const stateSystem = state.staking.public;
+const stateTimestamp = state.timestamp.public;
 
 const emitEvents: Array<ProviderInterface$Emitted> = ['connected', 'disconnected'];
 let emitIndex = 0;
@@ -59,7 +57,7 @@ function updateSubs (subscriptions: MockState$Subscriptions, method: string, val
     });
 }
 
-function setStorageBn (storage: MockState$Storage, key: Storage$Key, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+function setStorageBn (storage: MockState$Storage, key: SectionItem<Storages>, value: BN | number, ...keyParams: Array<Uint8Array>): void {
   const keyValue = u8aToHex(
     createKey(key).apply(null, keyParams)
   );

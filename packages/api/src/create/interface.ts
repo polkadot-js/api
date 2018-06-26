@@ -14,17 +14,16 @@ import methodSend from './methodSend';
 import methodSubscribe from './methodSubscribe';
 
 export default function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
-  const exposed: ApiInterface$Section = {};
-  const definition = interfaces.get(section);
+  const definition = interfaces[section];
 
-  assert(!isUndefined(definition), `Unable to find section'${section}`);
+  assert(!isUndefined(definition), `Unable to find section '${section}`);
 
   // @ts-ignore undefined check done in assert
   const methods = definition.public;
 
   return Object
     .keys(methods)
-    .reduce((exposed, name: string) => {
+    .reduce((exposed, name) => {
       const rpcName = `${section}_${name}`;
       const def = methods[name];
 
@@ -33,5 +32,5 @@ export default function createInterface (provider: ProviderInterface, section: I
         : methodSend(provider, rpcName, name, def);
 
       return exposed;
-    }, exposed);
+    }, {} as ApiInterface$Section);
 }
