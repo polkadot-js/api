@@ -27,4 +27,4 @@ export default function state (endpoint: string, autoConnect: boolean): WsState 
     subscriptions: {},
     websocket: null
   };
-};
+}

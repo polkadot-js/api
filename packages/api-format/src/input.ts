@@ -6,8 +6,8 @@ import { Params, Param$Types } from '@polkadot/params/types';
 import { FormatterFunction } from './types';
 
 import addressDecode from '@polkadot/util-keyring/address/decode';
-import bytesEncode from '@polkadot/primitives-json/bytes/encode';
-import hashEncode from '@polkadot/primitives-json/hash/encode';
+import bytesEncode from '@polkadot/primitives/json/bytes/encode';
+import hashEncode from '@polkadot/primitives/json/hash/encode';
 
 import format from './format';
 

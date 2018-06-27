@@ -7,4 +7,4 @@ import { HttpState } from './types';
 
 export default async function subscribe (self: HttpState, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
   throw new Error('Subscriptions has not been implemented');
-};
+}

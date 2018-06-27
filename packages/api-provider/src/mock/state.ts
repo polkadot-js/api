@@ -9,7 +9,7 @@ import interfaces from '@polkadot/jsonrpc';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import logger from '@polkadot/util/logger';
 
-const l =logger('api-mock');
+const l = logger('api-mock');
 
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   [], Object.values(interfaces).map((area) =>

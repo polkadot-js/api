@@ -18,6 +18,7 @@ describe.skip('e2e', () => {
   it('subscribes to client_newHead', (done) => {
     let count = 0;
 
+    // tslint:disable-next-line
     api.chain
       .newHead((error: Error | null, data: any) => {
         console.log('newHead: result =', [error, data]);

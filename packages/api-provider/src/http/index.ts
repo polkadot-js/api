@@ -27,4 +27,4 @@ export default function httpProvider (endpoint: string): ProviderInterface {
     unsubscribe: (method: string, id: number): Promise<boolean> =>
       unsubscribe(self, method, id)
   };
-};
+}

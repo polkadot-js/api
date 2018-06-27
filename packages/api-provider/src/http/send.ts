@@ -23,4 +23,4 @@ export default async function send ({ coder, endpoint }: HttpState, method: stri
   const result = await response.json();
 
   return coder.decodeResponse(result);
-};
+}
