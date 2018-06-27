@@ -10,13 +10,13 @@
   ],
   "scripts": {
     "build": "polkadot-dev-build-ts",
-    "check": "tsc --noEmit",
+    "check": "tslint --project . && tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.20.7",
+    "@polkadot/dev": "^0.20.8",
     "@polkadot/ts": "^0.1.3"
   }
 }

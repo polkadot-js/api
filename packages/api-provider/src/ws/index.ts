@@ -15,7 +15,7 @@ import unsubscribe from './unsubscribe';
 
 type WSProviderInterface = ProviderInterface & {
   connect (): void
-}
+};
 
 export default function wsProvider (endpoint: string, autoConnect: boolean = true): WSProviderInterface {
   const self = state(endpoint, autoConnect);

@@ -31,4 +31,4 @@ export default function onOpen (self: WsState): () => boolean {
 
     return true;
   };
-};
+}

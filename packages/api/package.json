@@ -37,8 +37,8 @@
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/api-format": "^0.14.8",
     "@polkadot/api-provider": "^0.14.8",
-    "@polkadot/jsonrpc": "^0.20.3",
-    "@polkadot/params": "^0.20.3",
-    "@polkadot/util": "^0.24.9"
+    "@polkadot/jsonrpc": "^0.26.6",
+    "@polkadot/params": "^0.26.6",
+    "@polkadot/util": "^0.26.6"
   }
 }

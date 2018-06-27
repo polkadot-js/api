@@ -8,7 +8,22 @@ const TEST_WS_URL = 'ws://localhost:9955';
 
 let server: Server;
 
-function createError ({ id, error: { code, message } }: { id: number, error: { code: number, message: string } }) {
+type ErrorDef = {
+  id: number,
+  error: {
+    code: number,
+    message: string
+  }
+};
+
+type ReplyDef = {
+  id: number,
+  reply: {
+    result: any
+  }
+};
+
+function createError ({ id, error: { code, message } }: ErrorDef) {
   return {
     id,
     jsonrpc: '2.0',
@@ -19,7 +34,7 @@ function createError ({ id, error: { code, message } }: { id: number, error: { c
   };
 }
 
-function createReply ({ id, reply: { result } }: { id: number, reply: { result: any }}) {
+function createReply ({ id, reply: { result } }: ReplyDef) {
   return {
     id,
     jsonrpc: '2.0',

@@ -7,4 +7,4 @@ import { WsState } from './types';
 
 export default function on (self: WsState, type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
   self.emitter.on(type, sub);
-};
+}

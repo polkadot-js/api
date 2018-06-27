@@ -8,10 +8,10 @@ import { Storages } from '@polkadot/storage/types';
 import { SectionItem } from '@polkadot/params/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { ProviderInterface$Emitted } from '../types';
-import { MockState, MockState$Storage, MockState$Subscriptions, MockState$Subscription$Callback } from './types';
+import { MockState, MockState$Storage, MockState$Subscriptions } from './types';
 
 import BN from 'bn.js';
-import headerEncode from '@polkadot/primitives-json/header/encode';
+import headerEncode from '@polkadot/primitives/json/header/encode';
 import createKey from '@polkadot/storage/key';
 import state from '@polkadot/storage';
 import bnToU8a from '@polkadot/util/bn/toU8a';
@@ -50,7 +50,7 @@ function updateSubs (subscriptions: MockState$Subscriptions, method: string, val
     .values(subscriptions[method].callbacks)
     .forEach((cb) => {
       try {
-        (cb as MockState$Subscription$Callback)(null, value);
+        cb(null, value);
       } catch (error) {
         console.error(`Error on '${method}' subscription`, error);
       }
@@ -86,4 +86,4 @@ export default function mocks ({ emitter, storage, subscriptions }: MockState): 
 
     updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
   }, 5000);
-};
+}
