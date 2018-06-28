@@ -35,9 +35,9 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/jsonrpc": "^0.26.8",
-    "@polkadot/primitives": "^0.26.8",
-    "@polkadot/util": "^0.26.8",
-    "@polkadot/util-keyring": "^0.26.8"
+    "@polkadot/jsonrpc": "^0.26.9",
+    "@polkadot/primitives": "^0.26.9",
+    "@polkadot/util": "^0.26.9",
+    "@polkadot/util-keyring": "^0.26.9"
   }
 }

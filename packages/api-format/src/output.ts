@@ -8,6 +8,7 @@ import { FormatterFunction } from './types';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import bnDecode from '@polkadot/primitives/json/bn/decode';
 import bytesDecode from '@polkadot/primitives/json/bytes/decode';
+import hashDecode from '@polkadot/primitives/json/hash/decode';
 import headerDecode from '@polkadot/primitives/json/header/decode';
 import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -19,6 +20,7 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   ['AccountId', addressEncode],
   ['BlockNumber', bnDecode],
   ['Bytes', bytesDecode],
+  ['Hash', hashDecode],
   ['Header', headerDecode],
   ['u64', bnDecode]
 ]);
