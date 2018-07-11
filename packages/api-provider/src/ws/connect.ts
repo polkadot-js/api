@@ -10,10 +10,14 @@ import onMessage from './onMessage';
 import onOpen from './onOpen';
 
 export default function connect (self: WsState): void {
-  self.websocket = new WebSocket(self.endpoint);
+  try {
+    self.websocket = new WebSocket(self.endpoint);
 
-  self.websocket.onclose = onClose(self);
-  self.websocket.onerror = onError(self);
-  self.websocket.onmessage = onMessage(self);
-  self.websocket.onopen = onOpen(self);
+    self.websocket.onclose = onClose(self);
+    self.websocket.onerror = onError(self);
+    self.websocket.onmessage = onMessage(self);
+    self.websocket.onopen = onOpen(self);
+  } catch (error) {
+    self.l.error(error);
+  }
 }
