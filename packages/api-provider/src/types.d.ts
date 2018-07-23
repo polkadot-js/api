@@ -9,7 +9,7 @@ export type JsonRpcObject = {
 
 export type JsonRpcRequest = JsonRpcObject & {
   method: string;
-  params: Array<any> | null;
+  params: Array<any>;
 };
 
 export type JsonRpcResponseBase$Error = {

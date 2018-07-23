@@ -10,8 +10,6 @@ export default function encodeObject (self: RpcCoderState, method: string, param
     id: ++self.id,
     jsonrpc: '2.0',
     method,
-    params: params && params.length
-      ? params
-      : null
+    params
   };
 }
