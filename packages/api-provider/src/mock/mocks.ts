@@ -38,8 +38,8 @@ function makeBlockHeader (prevNumber: BN) {
     number: blockNumber,
     parentHash: prevNumber.eqn(-1)
       ? new Uint8Array(32)
-      : bnToU8a(prevNumber, 256),
-    stateRoot: bnToU8a(blockNumber, 256)
+      : bnToU8a(prevNumber, 256, false),
+    stateRoot: bnToU8a(blockNumber, 256, false)
   };
 }
 
