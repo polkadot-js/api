@@ -1,0 +1,19 @@
+{
+  "name": "@polkadot/api-example",
+  "version": "0.14.26",
+  "description": "An example implementation of Polkadot JS API",
+  "main": "index.js",
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "eslint src && flow check",
+    "test": "echo \"Tests only available from root wrapper\""
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/api": "^0.14.26"
+  }
+}
