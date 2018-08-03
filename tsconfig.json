@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@polkadot/api-example/*": [ "packages/api-example/src/*" ],
       "@polkadot/api-format/*": [ "packages/api-format/src/*" ],
       "@polkadot/api-provider/*": [ "packages/api-provider/src/*" ],
       "@polkadot/api-rx/*": [ "packages/api-rx/src/*" ],
