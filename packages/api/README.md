@@ -25,11 +25,11 @@ npm install --save @polkadot/api
 Initialisation -
 
 ```js
-import Api from '@polkadot/api';
+import createApi from '@polkadot/api';
 import HttpProvider from '@polkadot/api-provider/http';
 
 const provider = new HttpProvider('http://127.0.0.1:9933');
-const api = new Api(provider);
+const api = createApi(provider);
 ```
 
 Making calls -

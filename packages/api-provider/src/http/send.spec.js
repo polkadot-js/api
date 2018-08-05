@@ -4,14 +4,14 @@
 
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-import createHttp from './index';
+import Http from './index';
 
 describe('send', () => {
   let http;
   let mock;
 
   beforeEach(() => {
-    http = createHttp(TEST_HTTP_URL);
+    http = new Http(TEST_HTTP_URL);
   });
 
   afterEach(() => {
