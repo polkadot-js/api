@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/api-provider/types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 export default function connected (provider: ProviderInterface): BehaviorSubject<boolean> {
   const subject = new BehaviorSubject(provider.isConnected());

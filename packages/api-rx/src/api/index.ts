@@ -5,7 +5,7 @@
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from '../types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 import createConnected from './connected';
 
