@@ -4,7 +4,7 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 
 type CachedMap = {
   [index: string]: {

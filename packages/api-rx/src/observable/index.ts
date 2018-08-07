@@ -4,9 +4,7 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { BehaviorSubject, Observable, from } from 'rxjs';
 import isFunction from '@polkadot/util/is/function';
 
 import cached from './cached';
@@ -17,9 +15,9 @@ export default function observable (subName: string, name: string, section: ApiI
   }
 
   return (...params: Array<any>): Observable<any> =>
-    fromPromise(
-      section[name].apply(null, params).catch((error: Error) =>
-        console.error(error)
-      )
+    from(
+      section[name].apply(null, params).catch(() => {
+        // swallow error - mostly storage failures, undefined as result
+      })
     );
 }

@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Interfaces } from '@polkadot/jsonrpc/types';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Interface$Sections } from '@polkadot/jsonrpc/types';
 
 export type RxApiInterface$Method = (...params: Array<any>) => Observable<any> | BehaviorSubject<any>;

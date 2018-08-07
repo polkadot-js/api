@@ -4,9 +4,7 @@
 
 import { ApiInterface$Section } from '@polkadot/api/types';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs/Subscriber';
+import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
 
 export default function subscription (name: string, params: Array<any>, section: ApiInterface$Section, unsubCallback?: () => void): BehaviorSubject<any> {
   const subject = new BehaviorSubject(undefined);
