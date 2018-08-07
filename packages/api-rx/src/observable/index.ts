@@ -18,6 +18,8 @@ export default function observable (subName: string, name: string, section: ApiI
 
   return (...params: Array<any>): Observable<any> =>
     fromPromise(
-      section[name].apply(null, params)
+      section[name].apply(null, params).catch((error: Error) =>
+        console.error(error)
+      )
     );
 }
