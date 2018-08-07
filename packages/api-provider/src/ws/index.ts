@@ -107,7 +107,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
           subscription
         };
 
-        if (this.isConnected && !isNull(this.websocket)) {
+        if (this.isConnected() && !isNull(this.websocket)) {
           this.websocket.send(json);
         } else {
           this.queued[id] = json;
