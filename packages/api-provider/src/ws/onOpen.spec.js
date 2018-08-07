@@ -4,14 +4,14 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import create from './index';
+import Ws from './index';
 
 let ws;
 let mock;
 
 function createWs (requests, autoConnect) {
   mock = mockWs(requests);
-  ws = create(TEST_WS_URL, autoConnect);
+  ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
 }

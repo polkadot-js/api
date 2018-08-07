@@ -4,13 +4,25 @@
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
 
-import createHttp from './index';
+import Http from './index';
 
 describe('Http', () => {
   let http;
 
   beforeEach(() => {
-    http = createHttp(TEST_HTTP_URL);
+    http = new Http(TEST_HTTP_URL);
+  });
+
+  it('requires an http:// prefixed endpoint', () => {
+    expect(
+      () => new Http('ws://')
+    ).toThrow(/with 'http/);
+  });
+
+  it('allows https:// endpoints', () => {
+    expect(
+      () => new Http('https://')
+    ).not.toThrow();
   });
 
   it('always returns isConnected true', () => {
