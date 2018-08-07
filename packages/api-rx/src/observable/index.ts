@@ -16,8 +16,8 @@ export default function observable (subName: string, name: string, section: ApiI
 
   return (...params: Array<any>): Observable<any> =>
     from(
-      section[name].apply(null, params).catch((error: Error) =>
-        console.error(error)
-      )
+      section[name].apply(null, params).catch(() => {
+        // swallow error - mostly storage failures, undefined as result
+      })
     );
 }
