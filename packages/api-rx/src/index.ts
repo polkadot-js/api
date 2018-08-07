@@ -8,13 +8,13 @@ import { RxApiInterface } from './types';
 
 import createApi from '@polkadot/api/index';
 import interfaces from '@polkadot/jsonrpc';
-import createWs from '@polkadot/api-provider/ws';
+import Ws from '@polkadot/api-provider/ws';
 
 import createExposed from './api';
 import defaults from './defaults';
 import createInterface from './interface';
 
-export default function rxApi (provider: ProviderInterface = createWs(defaults.WS_URL)): RxApiInterface {
+export default function rxApi (provider: ProviderInterface = new Ws(defaults.WS_URL)): RxApiInterface {
   const api = createApi(provider);
 
   return Object.keys(interfaces).reduce((result, type) => {

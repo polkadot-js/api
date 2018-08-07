@@ -4,10 +4,9 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import createState from './state';
-import connect from './connect';
+import Ws from './index';
 
-describe('onError', () => {
+describe('onConnect', () => {
   let mock;
 
   beforeEach(() => {
@@ -22,13 +21,13 @@ describe('onError', () => {
   });
 
   it('sets up the on* handlers', () => {
-    const state = createState(TEST_WS_URL, false);
+    const ws = new Ws(TEST_WS_URL, false);
 
-    connect(state);
+    ws.connect();
 
-    expect(state.websocket.onclose[0]).toBeDefined();
-    expect(state.websocket.onerror[0]).toBeDefined();
-    expect(state.websocket.onmessage[0]).toBeDefined();
-    expect(state.websocket.onopen[0]).toBeDefined();
+    expect(ws.websocket.onclose[0]).toBeDefined();
+    expect(ws.websocket.onerror[0]).toBeDefined();
+    expect(ws.websocket.onmessage[0]).toBeDefined();
+    expect(ws.websocket.onopen[0]).toBeDefined();
   });
 });

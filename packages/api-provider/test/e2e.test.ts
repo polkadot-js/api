@@ -5,14 +5,14 @@
 import { ApiInterface } from '../../api/src/types';
 
 import createApi from '../../api/src';
-import createProvider from '../src/ws';
+import Ws from '../src/ws';
 
 describe.skip('e2e', () => {
   let api: ApiInterface;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = createApi(createProvider('ws://127.0.0.1:9944'));
+    api = createApi(new Ws('ws://127.0.0.1:9944'));
   });
 
   it('subscribes to client_newHead', (done) => {

@@ -41,7 +41,7 @@ export type ProviderInterface$Emitted = 'connected' | 'disconnected';
 
 export type ProviderInterface$EmitCb = (value?: any) => any;
 
-export type ProviderInterface = {
+export interface ProviderInterface {
   isConnected (): boolean,
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void,
   send (method: string, params: Array<any>): Promise<any>,
