@@ -24,10 +24,11 @@ export default function observable (subName: string, name: string, section: ApiI
           // FIXME: swallow error - mostly storage failures, undefined as result. Once nodes
           // rollout new versions, can display the error here again (and/or fail explicitly)
         })
-        .then((value: any) =>
-          isUndefined(value) || isNull(value)
-            ? undefined
-            : value
-        )
+        // HACK The hammer approach if nothing else works
+        // .then((value: any) =>
+        //   isUndefined(value) || isNull(value)
+        //     ? undefined
+        //     : value
+        // )
     );
 }
