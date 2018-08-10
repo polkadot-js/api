@@ -6,8 +6,8 @@ import { ApiInterface$Section } from '@polkadot/api/types';
 
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import isFunction from '@polkadot/util/is/function';
-import isNull from '@polkadot/util/is/null';
-import isUndefined from '@polkadot/util/is/undefined';
+// import isNull from '@polkadot/util/is/null';
+// import isUndefined from '@polkadot/util/is/undefined';
 
 import cached from './cached';
 
