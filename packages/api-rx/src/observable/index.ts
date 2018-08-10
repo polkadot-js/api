@@ -6,6 +6,8 @@ import { ApiInterface$Section } from '@polkadot/api/types';
 
 import { BehaviorSubject, Observable, from } from 'rxjs';
 import isFunction from '@polkadot/util/is/function';
+// import isNull from '@polkadot/util/is/null';
+// import isUndefined from '@polkadot/util/is/undefined';
 
 import cached from './cached';
 
@@ -16,8 +18,17 @@ export default function observable (subName: string, name: string, section: ApiI
 
   return (...params: Array<any>): Observable<any> =>
     from(
-      section[name].apply(null, params).catch(() => {
-        // swallow error - mostly storage failures, undefined as result
-      })
+      section[name]
+        .apply(null, params)
+        .catch(() => {
+          // FIXME: swallow error - mostly storage failures, undefined as result. Once nodes
+          // rollout new versions, can display the error here again (and/or fail explicitly)
+        })
+        // HACK The hammer approach if nothing else works
+        // .then((value: any) =>
+        //   isUndefined(value) || isNull(value)
+        //     ? undefined
+        //     : value
+        // )
     );
 }
