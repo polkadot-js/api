@@ -22,7 +22,13 @@ describe('formatResult', () => {
         Promise.resolve('0x0102')
       ),
       subscribe: jest.fn((method, params, subscription) =>
-        subscription(null, ['0x0102', '0x0201'])
+        subscription(null, {
+          block: '0x1234',
+          changes: [
+            ['0x11cf1094db4db43356b7787c3e59c39f', '0x0102'],
+            ['0x924776c687da8e30afdd2ac87d2c67da', '0x0201']
+          ]
+        })
       )
     };
     api = createApi(provider);
