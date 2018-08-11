@@ -7,13 +7,13 @@ import { SectionItem } from '@polkadot/params/types';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
-import formatOutput from '@polkadot/api-format/output';
+import formatInputs from '@polkadot/api-format/input';
 import signature from '@polkadot/params/signature';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
-import createParams from './params';
+import formatResult from './formatResult';
 
 export default function methodSubscribe (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
@@ -24,9 +24,9 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
 
       assert(isFunction(cb), `Expected callback in last position of params`);
 
-      const params = createParams(method.params, values);
+      const params = formatInputs(method.params, values);
       const update = (error: Error | null, result?: any) => {
-        cb(error, formatOutput(method.type, result));
+        cb(error, formatResult(method, values, result));
       };
 
       return provider.subscribe(rpcName, params, update);

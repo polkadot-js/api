@@ -10,16 +10,16 @@ import formatOutput from '@polkadot/api-format/output';
 import decodeParams from '@polkadot/params/decode';
 
 function formatStorageOutput (key: SectionItem<Storages>, result?: any): any {
-  return decodeParams(key.type, result, 'poc-1').value;
+  return decodeParams(key.type, result, 'latest', true).value;
 }
 
 export default function formatResult (method: SectionItem<Interfaces>, inputs: Array<any>, result?: any): any {
   if (method.type === 'StorageResult') {
-    return formatStorageOutput(inputs[0], result);
+    return formatStorageOutput(inputs[0][0], result);
   }
 
   if (Array.isArray(method.type) && method.type[0] === 'StorageResult') {
-    return inputs.map((input, index) =>
+    return inputs[0].map((input: Array<any>, index: number) =>
       formatStorageOutput(input[0], result[index])
     );
   }

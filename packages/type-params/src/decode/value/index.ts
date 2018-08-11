@@ -6,6 +6,7 @@ import { EncodingVersions, Param$Decoded, Param$Type } from '../../types';
 import { Decoder } from '../types';
 
 import sizes from '@polkadot/primitives/sizes';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import bool from './bool';
 import bn from './bn';
@@ -22,12 +23,14 @@ import string from './string';
 import time from './time';
 import u8a from './u8a';
 
-export default function decodeValue (decode: Decoder, type: Param$Type, input: Uint8Array, version: EncodingVersions): Param$Decoded {
+export default function decodeValue (decode: Decoder, type: Param$Type, _input: Uint8Array | string, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+  const input = toU8a(_input);
+
   try {
     switch (type) {
       // TODO Pass back the actual address, not publicKey?
       case 'AccountId':
-        return u8a(input, 256, version === 'poc-1' ? 0 : 1);
+        return u8a(input, 256, (isStorage || version === 'poc-1') ? 0 : 1);
 
       case 'Balance':
         return bn(input, sizes.Balance);
@@ -47,7 +50,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, input: U
 
       case 'Call':
       case 'Proposal':
-        return method(decode, input, type === 'Call', version);
+        return method(decode, input, type === 'Call', version, isStorage);
 
       case 'Code':
         return code(input);

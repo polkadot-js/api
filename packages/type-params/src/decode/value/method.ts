@@ -16,7 +16,7 @@ type Result = {
   value: ExtrinsicDecoded
 };
 
-export default function call (decode: Decoder, input: Uint8Array, isPublic: boolean, version: EncodingVersions): Param$Decoded {
+export default function call (decode: Decoder, input: Uint8Array, isPublic: boolean, version: EncodingVersions, isStorage: boolean): Param$Decoded {
   const section: Section<Extrinsics> | undefined = Object.values(extrinsics).find(({ index }) =>
     index[0] === input[0]
   );
@@ -42,7 +42,7 @@ export default function call (decode: Decoder, input: Uint8Array, isPublic: bool
   };
 
   return params.reduce(({ length, value }: Result, { type }: Param) => {
-    const decoded = decode(type, input.subarray(length), version);
+    const decoded = decode(type, input.subarray(length), version, isStorage);
 
     value.params.push(decoded.value);
 

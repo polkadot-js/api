@@ -9,6 +9,12 @@ describe('params', () => {
 
   beforeEach(() => {
     methods = {
+      array: {
+        params: [
+          { name: 'test', type: ['Bytes'] }
+        ],
+        type: 'Bytes'
+      },
       blah: {
         params: [
           { name: 'foo', type: 'Bytes' }
@@ -30,9 +36,17 @@ describe('params', () => {
     ).toThrow(/params expected/);
   });
 
-  it('check against params (required)', () => {
+  it('check against params (optional)', () => {
     expect(
       params(methods.bleh.params, [])
     ).toBeDefined();
+  });
+
+  it('formats array inputs correctly', () => {
+    expect(
+      params(methods.array.params, [[new Uint8Array([1]), new Uint8Array([2])]])
+    ).toEqual([[
+      '0x01', '0x02'
+    ]]);
   });
 });

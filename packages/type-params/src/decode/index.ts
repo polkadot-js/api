@@ -5,10 +5,11 @@
 import { EncodingVersions, Param$Decoded, Param$Type$Array, Param$Types, Param$Value, Param$Value$Array } from '../types';
 
 import u8aToBn from '@polkadot/util/u8a/toBn';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import decodeValue from './value';
 
-function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions): Param$Decoded {
+function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
   if (!input) {
     return {
       length: 0,
@@ -20,7 +21,7 @@ function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version:
   let length = 0;
 
   type.forEach((_type: Param$Types) => {
-    const decoded = decode(_type, input.subarray(length), version);
+    const decoded = decode(_type, input.subarray(length), version, isStorage);
 
     // NOTE small TS hack, since we don't have recursive arrays, assume primitives to push
     value.push(decoded.value as Param$Value);
@@ -33,7 +34,7 @@ function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version:
   };
 }
 
-function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions): Param$Decoded {
+function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
   if (!input) {
     return {
       length: 0,
@@ -46,7 +47,7 @@ function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, vers
   let length = 4;
 
   for (let index = 0; index < arrayLength; index++) {
-    const decoded = decode(type, input.subarray(length), version);
+    const decoded = decode(type, input.subarray(length), version, isStorage);
 
     // NOTE small TS hack, since we don't have recursive arrays, assume primitives to push
     value.push(decoded.value as Param$Value);
@@ -59,15 +60,17 @@ function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, vers
   };
 }
 
-export default function decode (type: Param$Types, input: Uint8Array, version: EncodingVersions): Param$Decoded {
+export default function decode (type: Param$Types, _input: Uint8Array | string, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
+  const input = toU8a(_input);
+
   if (Array.isArray(type)) {
     // Arrays have single entries, Tuples will have multiple types
     if (type.length === 1) {
-      return decodeArray(type, input, version);
+      return decodeArray(type, input, version, isStorage);
     } else {
-      return decodeTuple(type, input, version);
+      return decodeTuple(type, input, version, isStorage);
     }
   }
 
-  return decodeValue(decode, type, input, version);
+  return decodeValue(decode, type, input, version, isStorage);
 }
