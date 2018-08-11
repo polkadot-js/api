@@ -7,9 +7,8 @@ import { Param$Decoded } from '../../types';
 export default function u8a (input: Uint8Array | null, bitLength: 256 | 512, offset: number): Param$Decoded {
   if (input === null) {
     return {
-      length: 0,
-      value: new Uint8Array()
-    };
+      length: 0
+    } as Param$Decoded;
   }
 
   const length = (bitLength / 8) + offset;

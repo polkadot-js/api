@@ -10,9 +10,8 @@ import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 export default function string (input: Uint8Array | null): Param$Decoded {
   if (input === null) {
     return {
-      length: 0,
-      value: ''
-    };
+      length: 0
+    } as Param$Decoded;
   }
 
   const length = u8aToBn(input.subarray(0, 4), true).toNumber();

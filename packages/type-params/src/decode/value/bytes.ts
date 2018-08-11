@@ -9,9 +9,8 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 export default function bytes (input: Uint8Array | null): Param$Decoded {
   if (input === null) {
     return {
-      length: 0,
-      value: new Uint8Array()
-    };
+      length: 0
+    } as Param$Decoded;
   }
 
   const length = u8aToBn(input.subarray(0, 4), true).toNumber();
