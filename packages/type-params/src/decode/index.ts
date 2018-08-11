@@ -6,6 +6,8 @@ import { EncodingVersions, Param$Decoded, Param$Type$Array, Param$Types, Param$V
 
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import toU8a from '@polkadot/util/u8a/toU8a';
+import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import decodeValue from './value';
 
@@ -60,8 +62,10 @@ function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, vers
   };
 }
 
-export default function decode (type: Param$Types, _input: Uint8Array | string | null, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
-  const input = toU8a(_input);
+export default function decode (type: Param$Types, _input: Uint8Array | string | null | undefined, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
+  const input: Uint8Array | null = isUndefined(_input) || isNull(_input)
+    ? null
+    : toU8a(_input);
 
   if (Array.isArray(type)) {
     // Arrays have single entries, Tuples will have multiple types
