@@ -20,15 +20,10 @@ export default function observable (subName: string, name: string, section: ApiI
     from(
       section[name]
         .apply(null, params)
-        .catch(() => {
-          // FIXME: swallow error - mostly storage failures, undefined as result. Once nodes
-          // rollout new versions, can display the error here again (and/or fail explicitly)
+        .catch((error: Error) => {
+          console.error(error);
+
+          throw error;
         })
-        // HACK The hammer approach if nothing else works
-        // .then((value: any) =>
-        //   isUndefined(value) || isNull(value)
-        //     ? undefined
-        //     : value
-        // )
     );
 }

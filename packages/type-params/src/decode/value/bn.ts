@@ -8,12 +8,17 @@ import BN from 'bn.js';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default function bn (input: Uint8Array | null, bitLength: 32 | 64 | 128): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0,
+      value: new BN(0)
+    };
+  }
+
   const length = bitLength / 8;
 
   return {
     length,
-    value: input
-      ? u8aToBn(input.subarray(0, length), true)
-      : new BN(0)
+    value: u8aToBn(input.subarray(0, length), true)
   };
 }

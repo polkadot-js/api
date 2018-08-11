@@ -7,29 +7,29 @@ import { SectionItem } from '@polkadot/params/types';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
-import formatOutput from '@polkadot/api-format/output';
+import formatInputs from '@polkadot/api-format/input';
 import signature from '@polkadot/params/signature';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
-import createParams from './params';
+import formatResult from './formatResult';
 
-export default function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+export default function methodSubscribe (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
-    provider.send(`unsubscribe_${name}`, [subscriptionId]);
+    provider.send(rpcName.replace('subscribe', 'unsubscribe'), [subscriptionId]);
   const call = async (...values: Array<any>): Promise<any> => {
     try {
       const cb: ProviderInterface$Callback = values.pop();
 
       assert(isFunction(cb), `Expected callback in last position of params`);
 
-      const params = createParams(method.params, values);
+      const params = formatInputs(method.params, values);
       const update = (error: Error | null, result?: any) => {
-        cb(error, formatOutput(method.type, result));
+        cb(error, formatResult(method, params, values, result));
       };
 
-      return provider.subscribe(`subscribe_${name}`, params, update);
+      return provider.subscribe(rpcName, params, update);
     } catch (error) {
       throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }

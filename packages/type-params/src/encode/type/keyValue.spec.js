@@ -7,9 +7,9 @@ import toU8a from '@polkadot/util/u8a/toU8a';
 import encode from './index';
 
 describe('keyValue', () => {
-  it('encodes KeyValueStorage -> Uint8Array properly', () => {
+  it('encodes StorageKeyValue -> Uint8Array properly', () => {
     expect(
-      encode('KeyValueStorage', {
+      encode('StorageKeyValue', {
         key: toU8a('0x11223344'),
         value: toU8a('0x998877665544332211')
       })
@@ -20,7 +20,7 @@ describe('keyValue', () => {
         9, 0, 0, 0,
         0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
       ])
-    )
+    );
   });
 
   it('encodes KeyValue -> Uint8Array properly', () => {
@@ -36,6 +36,6 @@ describe('keyValue', () => {
         2, 0, 0, 0,
         0x99, 0x88
       ])
-    )
+    );
   });
 });

@@ -5,6 +5,7 @@
 import { Params, Param$Types } from '@polkadot/params/types';
 import { FormatterFunction } from './types';
 
+import assert from '@polkadot/util/assert';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 import bytesEncode from '@polkadot/primitives/json/bytes/encode';
 import hashEncode from '@polkadot/primitives/json/hash/encode';
@@ -19,6 +20,13 @@ const formatters = new Map<Param$Types, FormatterFunction>([
 ]);
 
 export default function formatInputs (params: Params, values: Array<any>): Array<any> {
+  const required = params.filter(({ isOptional }) => !isOptional);
+  const optionalText = params.length
+    ? ` (${(params.length - required.length) || 'none'} optional)`
+    : '';
+
+  assert(values.length >= required.length && values.length <= params.length, `${params.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
+
   const types = params.map(({ type }) => type);
 
   return format(formatters, types, values);

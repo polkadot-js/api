@@ -32,7 +32,7 @@ describe('methodCall', () => {
   });
 
   it('wraps errors with the call signature', () => {
-    const method = createMethod(provider, 'test_blah', 'blah', methods.blah);
+    const method = createMethod(provider, 'test_blah', methods.blah);
 
     return method().catch((error) => {
       expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
@@ -40,7 +40,7 @@ describe('methodCall', () => {
   });
 
   it('checks for mismatched parameters', () => {
-    const method = createMethod(provider, 'test_bleh', 'bleh', methods.bleh);
+    const method = createMethod(provider, 'test_bleh', methods.bleh);
 
     return method(1).catch((error) => {
       expect(error.message).toMatch(/no params expected, found 1 instead/);
@@ -48,7 +48,7 @@ describe('methodCall', () => {
   });
 
   it('calls the provider with the correct parameters', () => {
-    const method = createMethod(provider, 'test_blah', 'blah', methods.blah);
+    const method = createMethod(provider, 'test_blah', methods.blah);
 
     return method(new Uint8Array([0x12, 0x34])).then(() => {
       expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);

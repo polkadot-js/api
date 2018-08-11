@@ -5,18 +5,33 @@
 import { ApiInterface$Section } from '@polkadot/api/types';
 
 import { BehaviorSubject, Observable, Subscriber } from 'rxjs';
+import isUndefined from '@polkadot/util/is/undefined';
 
 export default function subscription (name: string, params: Array<any>, section: ApiInterface$Section, unsubCallback?: () => void): BehaviorSubject<any> {
   const subject = new BehaviorSubject(undefined);
 
   Observable
     .create((observer: Subscriber<any>): Function => {
+      let cachedResult: any;
+
       const callback = (error: Error | null, result: any) => {
         if (error) {
           return;
         }
 
-        observer.next(result);
+        if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
+          cachedResult = result;
+        } else {
+          const resultArray = (result as Array<any>) || [];
+
+          cachedResult = cachedResult.map((cachedValue, index) =>
+            isUndefined(resultArray[index])
+              ? cachedValue
+              : resultArray[index]
+          );
+        }
+
+        observer.next(cachedResult);
       };
 
       const fn = section[name];

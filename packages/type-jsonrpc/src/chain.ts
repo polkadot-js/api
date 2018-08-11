@@ -22,7 +22,7 @@ const getHeader: CreateItemOptions = {
   type: 'Header'
 };
 
-const newHead: CreateItemOptions = {
+const subscribeNewHead: CreateItemOptions = {
   description: 'Retrieves the best header via subscription',
   isSubscription: true,
   params: [],
@@ -40,7 +40,7 @@ export default (name: Interface$Sections): Section<Interfaces> =>
         createMethod('getHead')(getHead),
       getHeader:
         createMethod('getHeader')(getHeader),
-      newHead:
-        createMethod('newHead')(newHead)
+      subscribeNewHead:
+        createMethod('subscribeNewHead')(subscribeNewHead)
     }
   }));

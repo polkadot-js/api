@@ -4,4 +4,4 @@
 
 import { EncodingVersions, Param$Types, Param$Decoded } from '../types';
 
-export type Decoder = (type: Param$Types, input: Uint8Array, version: EncodingVersions) => Param$Decoded;
+export type Decoder = (type: Param$Types, input: Uint8Array, version: EncodingVersions, isStorage: boolean) => Param$Decoded;

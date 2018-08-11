@@ -7,14 +7,17 @@ import { Param$Decoded } from '../../types';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default function bytes (input: Uint8Array | null): Param$Decoded {
-  const length = input
-    ? u8aToBn(input.subarray(0, 4), true).toNumber()
-    : 0;
+  if (input === null) {
+    return {
+      length: 0,
+      value: new Uint8Array()
+    };
+  }
+
+  const length = u8aToBn(input.subarray(0, 4), true).toNumber();
 
   return {
     length: length + 4,
-    value: input
-      ? input.subarray(4, length + 4)
-      : new Uint8Array()
+    value: input.subarray(4, length + 4)
   };
 }

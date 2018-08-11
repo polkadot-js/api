@@ -27,7 +27,7 @@ const setCode: CreateItemOptions = {
 const setStorage: CreateItemOptions = {
   description: 'Set storage entries',
   params: [
-    param('entries', ['KeyValueStorage'])
+    param('entries', ['StorageKeyValue'])
   ],
   type: []
 };

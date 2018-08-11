@@ -5,10 +5,15 @@
 import { Param$Decoded } from '../../types';
 
 export default function byte (input: Uint8Array | null): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0,
+      value: 0
+    };
+  }
+
   return {
     length: 1,
-    value: input
-      ? input[0]
-      : 0
+    value: input[0]
   };
 }

@@ -71,9 +71,9 @@ describe('decode', () => {
     ).toEqual('{"length":15,"value":["69",[true,false,true]]}');
   });
 
-  it('decodes KeyValueStorage arrays', () => {
+  it('decodes StorageKeyValue arrays', () => {
     expect(
-      decode(['KeyValueStorage'], new Uint8Array([
+      decode(['StorageKeyValue'], new Uint8Array([
         2, 0, 0, 0,
         4, 0, 0, 0,
         0x11, 0x22, 0x33, 0x44,
@@ -96,6 +96,6 @@ describe('decode', () => {
           value: toU8a('0x9988')
         }
       ]
-    })
+    });
   });
 });

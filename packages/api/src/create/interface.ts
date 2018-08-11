@@ -5,23 +5,13 @@
 import { Interface$Sections } from '@polkadot/jsonrpc/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface$Section } from '../types';
-import { MethodCreator } from './types';
 
 import interfaces from '@polkadot/jsonrpc/index';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import methodSend from './methodSend';
-import methodSetStorage from './methodSetStorage';
 import methodSubscribe from './methodSubscribe';
-
-type RpcOverrides = {
-  [index: string]: MethodCreator
-};
-
-const overrides: RpcOverrides = {
-  'state_getStorage': methodSetStorage
-};
 
 export default function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
   const definition = interfaces[section];
@@ -38,8 +28,8 @@ export default function createInterface (provider: ProviderInterface, section: I
       const def = methods[name];
 
       exposed[name] = def.isSubscription
-        ? methodSubscribe(provider, rpcName, name, def)
-        : (overrides[rpcName] || methodSend)(provider, rpcName, name, def);
+        ? methodSubscribe(provider, rpcName, def)
+        : methodSend(provider, rpcName, def);
 
       return exposed;
     }, {} as ApiInterface$Section);
