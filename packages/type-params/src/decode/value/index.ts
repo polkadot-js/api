@@ -8,6 +8,7 @@ import { Decoder } from '../types';
 import sizes from '@polkadot/primitives/sizes';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import accountId from './accountId';
 import bool from './bool';
 import bn from './bn';
 import byte from './byte';
@@ -30,7 +31,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
     switch (type) {
       // TODO Pass back the actual address, not publicKey?
       case 'AccountId':
-        return u8a(input, 256, (isStorage || version === 'poc-1') ? 0 : 1);
+        return accountId(input, version, isStorage);
 
       case 'Balance':
         return bn(input, sizes.Balance);
