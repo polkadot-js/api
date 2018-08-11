@@ -7,6 +7,8 @@ import { Decoder } from '../types';
 
 import sizes from '@polkadot/primitives/sizes';
 import toU8a from '@polkadot/util/u8a/toU8a';
+import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import accountId from './accountId';
 import bool from './bool';
@@ -24,8 +26,10 @@ import string from './string';
 import time from './time';
 import u8a from './u8a';
 
-export default function decodeValue (decode: Decoder, type: Param$Type, _input: Uint8Array | string | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
-  const input: Uint8Array | null = toU8a(_input);
+export default function decodeValue (decode: Decoder, type: Param$Type, _input: Uint8Array | string | null | undefined, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+  const input: Uint8Array | null = isUndefined(_input) || isNull(_input)
+    ? null
+    : toU8a(_input);
 
   try {
     switch (type) {
