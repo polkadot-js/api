@@ -84,7 +84,7 @@ const subscribeStorage: CreateItemOptions = {
   params: [
     param('keys', ['StorageKey'])
   ],
-  type: ['StorageResult']
+  type: 'StorageResultSet'
 };
 
 /**

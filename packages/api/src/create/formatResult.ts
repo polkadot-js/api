@@ -13,15 +13,23 @@ function formatStorageOutput (key: SectionItem<Storages>, result?: any): any {
   return decodeParams(key.type, result, 'latest', true).value;
 }
 
-export default function formatResult (method: SectionItem<Interfaces>, inputs: Array<any>, result?: any): any {
+export default function formatResult (method: SectionItem<Interfaces>, params: Array<any>, inputs: Array<any>, result?: any): any {
   if (method.type === 'StorageResult') {
     return formatStorageOutput(inputs[0][0], result);
   }
 
-  if (Array.isArray(method.type) && method.type[0] === 'StorageResult') {
-    return inputs[0].map((input: Array<any>, index: number) =>
-      formatStorageOutput(input[0], result[index])
-    );
+  if (method.type === 'StorageResultSet') {
+    return params[0].map((key: string, index: number) => {
+      const input = inputs[0][index][0];
+      const { changes = [] }: { block: string, changes: Array<[string, string]> } = result || {};
+      const value = changes.find(([_key]) => key === _key);
+
+      if (!value) {
+        return undefined;
+      }
+
+      return formatStorageOutput(input, value[1]);
+    });
   }
 
   return formatOutput(method.type, result);

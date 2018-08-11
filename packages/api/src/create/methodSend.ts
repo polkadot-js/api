@@ -20,7 +20,7 @@ export default function createMethodSend (provider: ProviderInterface, rpcName: 
       const params = formatInputs(method.params, values);
       const result = await provider.send(rpcName, params);
 
-      return formatResult(method, values, result);
+      return formatResult(method, params, values, result);
     } catch (error) {
       throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }

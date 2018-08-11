@@ -100,6 +100,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
         return byte(input);
 
       case 'StorageResult':
+      case 'StorageResultSet':
       default:
         // tslint:disable-next-line
         (type as never);

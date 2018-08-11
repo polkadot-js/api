@@ -26,7 +26,7 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
 
       const params = formatInputs(method.params, values);
       const update = (error: Error | null, result?: any) => {
-        cb(error, formatResult(method, values, result));
+        cb(error, formatResult(method, params, values, result));
       };
 
       return provider.subscribe(rpcName, params, update);
