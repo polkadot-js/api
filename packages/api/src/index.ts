@@ -6,7 +6,7 @@ import { Interface$Sections } from '@polkadot/jsonrpc/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface } from './types';
 
-import interfaces from '@polkadot/jsonrpc';
+import interfaces from '@polkadot/jsonrpc/index';
 import assert from '@polkadot/util/assert';
 import isFunction from '@polkadot/util/is/function';
 
