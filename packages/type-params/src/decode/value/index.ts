@@ -42,6 +42,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, input: U
         return bool(input);
 
       case 'Bytes':
+      case 'StorageKey':
         return bytes(input);
 
       case 'Call':
@@ -67,7 +68,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, input: U
         return bn(input, sizes.AccountIndex);
 
       case 'KeyValue':
-      case 'KeyValueStorage':
+      case 'StorageKeyValue':
         return keyValue(input);
 
       case 'MisbehaviorReport':
@@ -95,6 +96,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, input: U
       case 'VoteThreshold':
         return byte(input);
 
+      case 'StorageResult':
       default:
         // tslint:disable-next-line
         (type as never);

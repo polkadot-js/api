@@ -30,9 +30,9 @@ const callAt: CreateItemOptions = {
 const getStorage: CreateItemOptions = {
   description: 'Retrieves the storage for a key',
   params: [
-    param('key', 'Bytes')
+    param('key', 'StorageKey')
   ],
-  type: 'Bytes'
+  type: 'StorageResult'
 };
 
 const getStorageAt: CreateItemOptions = {
@@ -82,9 +82,9 @@ const subscribeStorage: CreateItemOptions = {
   description: 'Subscribes to storage changes for the provided keys',
   isSubscription: true,
   params: [
-    param('keys', ['Bytes'])
+    param('keys', ['StorageKey'])
   ],
-  type: ['Bytes']
+  type: ['StorageResult']
 };
 
 /**

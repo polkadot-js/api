@@ -49,7 +49,9 @@ export default function formatParams (params: Params, values: Storage$Key$Value[
         case 'Hash':
         case 'Header':
         case 'KeyValue':
-        case 'KeyValueStorage':
+        case 'StorageKey':
+        case 'StorageKeyValue':
+        case 'StorageResult':
         case 'MisbehaviorReport':
         case 'Proposal':
         case 'Signature':

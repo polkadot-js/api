@@ -9,7 +9,7 @@ import decode from './index';
 describe('keyValue', () => {
   const nullDecoder = () => {};
 
-  it('encodes KeyValueStorage -> Uint8Array properly', () => {
+  it('encodes StorageKeyValue -> Uint8Array properly', () => {
     expect(
       decode(
         nullDecoder,
@@ -28,7 +28,7 @@ describe('keyValue', () => {
         key: toU8a('0x11223344'),
         value: toU8a('0x998877665544332211')
       }
-    })
+    });
   });
 
   it('encodes KeyValue -> Uint8Array properly', () => {
@@ -50,6 +50,6 @@ describe('keyValue', () => {
         key: toU8a('0x11'),
         value: toU8a('0x9988')
       }
-    })
+    });
   });
 });

@@ -15,7 +15,8 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   // funnily named, goes from address -> u8a
   ['AccountId', addressDecode],
   ['Bytes', bytesEncode],
-  ['Hash', hashEncode]
+  ['Hash', hashEncode],
+  ['StorageKey', () => null]
 ]);
 
 export default function formatInputs (params: Params, values: Array<any>): Array<any> {

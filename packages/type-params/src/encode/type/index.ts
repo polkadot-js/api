@@ -14,6 +14,7 @@ import defaultSizes from '@polkadot/primitives/sizes';
 
 import sizes from '../../sizes';
 import keyValue from './keyValue';
+import storageKey from './storageKey';
 
 export default function encodeType (type: Param$Type, value: any, version: EncodingVersions): Uint8Array {
   try {
@@ -60,7 +61,7 @@ export default function encodeType (type: Param$Type, value: any, version: Encod
         return bnToU8a(value, sizes.AccountIndex.get(version) || defaultSizes.Balance, true);
 
       case 'KeyValue':
-      case 'KeyValueStorage':
+      case 'StorageKeyValue':
         return keyValue(value);
 
       case 'ParachainId':
@@ -69,6 +70,9 @@ export default function encodeType (type: Param$Type, value: any, version: Encod
       case 'VoteIndex':
       case 'u32':
         return bnToU8a(value, 32, true);
+
+      case 'StorageKey':
+        return storageKey(value);
 
       case 'String':
         return (() => {
