@@ -25,7 +25,7 @@ export default function formatInputs (params: Params, values: Array<any>): Array
     ? ` (${(params.length - required.length) || 'none'} optional)`
     : '';
 
-  assert(values.length >= required.length, `${params.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
+  assert(values.length >= required.length && values.length <= params.length, `${params.length || 'no'} params expected${optionalText}, found ${values.length} instead`);
 
   const types = params.map(({ type }) => type);
 

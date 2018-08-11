@@ -18,8 +18,8 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
       .filter((method) =>
         method.isSubscription
       )
-      .map(({ name }) =>
-        `subscribe_${name}`
+      .map(({ name, section }) =>
+        `${section}_${name}`
       )
   )
 );

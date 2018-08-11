@@ -22,7 +22,7 @@ describe('formatResult', () => {
         Promise.resolve('0x0102')
       ),
       subscribe: jest.fn((method, params, subscription) =>
-        subscription(['0x0102', '0x0201'])
+        subscription(null, ['0x0102', '0x0201'])
       )
     };
     api = createApi(provider);
@@ -34,21 +34,36 @@ describe('formatResult', () => {
         storage.staking.public.freeBalanceOf, ADDR_ONE
       ])
       .then((value) => {
-        expect(provider.send).toHaveBeenCalledWith('state_getStorage', [ENC_ONE]);
+        expect(
+          provider.send
+        ).toHaveBeenCalledWith(
+          'state_getStorage',
+          [ENC_ONE]
+        );
         expect(value.toNumber()).toEqual(513);
       });
   });
 
-  it('encodes multiple keys, decoding multiple results', () => {
-    return api.state
+  it('encodes multiple keys, decoding multiple results', (done) => {
+    api.state
       .subscribeStorage(
         [
           [storage.staking.public.freeBalanceOf, ADDR_ONE],
           [storage.staking.public.freeBalanceOf, ADDR_TWO]
         ],
-        (value) => {
-          expect(provider.subscribe).toHaveBeenCalledWith('state_subscribeStorage', [[ENC_ONE, ENC_TWO]], expect.anything());
-          expect(value).toEqual([513, 258]);
+        (error, value) => {
+          expect(
+            provider.subscribe
+          ).toHaveBeenCalledWith(
+            'state_subscribeStorage',
+            [[ENC_ONE, ENC_TWO]],
+            expect.anything()
+          );
+          expect(
+            value.map((bn) => bn.toNumber())
+          ).toEqual([513, 258]);
+
+          done(error);
         });
   });
 });
