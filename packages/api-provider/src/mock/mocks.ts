@@ -13,7 +13,7 @@ import { MockState, MockState$Storage, MockState$Subscriptions } from './types';
 import BN from 'bn.js';
 import headerEncode from '@polkadot/primitives/json/header/encode';
 import createKey from '@polkadot/storage/key';
-import state from '@polkadot/storage';
+import state from '@polkadot/storage/index';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';

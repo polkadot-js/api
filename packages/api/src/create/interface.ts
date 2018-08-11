@@ -7,7 +7,7 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface$Section } from '../types';
 import { MethodCreator } from './types';
 
-import interfaces from '@polkadot/jsonrpc';
+import interfaces from '@polkadot/jsonrpc/index';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 

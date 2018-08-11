@@ -5,7 +5,7 @@
 import { MockState, MockState$Storage, MockState$Subscriptions } from './types';
 
 import E3 from 'eventemitter3';
-import interfaces from '@polkadot/jsonrpc';
+import interfaces from '@polkadot/jsonrpc/index';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import logger from '@polkadot/util/logger';
 

@@ -1,0 +1,23 @@
+{
+  "name": "@polkadot/extrinsics",
+  "version": "0.28.0",
+  "main": "index.js",
+  "repository": "https://github.com/polkadot-js/api.git",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "ISC",
+  "scripts": {
+    "build": "polkadot-dev-build-babel",
+    "check": "stylelint 'src/**/*.css' && eslint src && flow check",
+    "test": "jest --coverage"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.51",
+    "@polkadot/params": "^0.28.0",
+    "@polkadot/primitives": "^0.28.0",
+    "@polkadot/util": "^0.28.1"
+  }
+}

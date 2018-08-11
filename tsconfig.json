@@ -6,7 +6,12 @@
       "@polkadot/api-format/*": [ "packages/api-format/src/*" ],
       "@polkadot/api-provider/*": [ "packages/api-provider/src/*" ],
       "@polkadot/api-rx/*": [ "packages/api-rx/src/*" ],
-      "@polkadot/api/*": [ "packages/api/src/*" ]
+      "@polkadot/api/*": [ "packages/api/src/*" ],
+      "@polkadot/extrinsics/*": [ "packages/type-extrinsics/src/*" ],
+      "@polkadot/jsonrpc/*": [ "packages/type-jsonrpc/src/*" ],
+      "@polkadot/params/*": [ "packages/type-params/src/*" ],
+      "@polkadot/primitives/*": [ "packages/type-primitives/src/*" ],
+      "@polkadot/storage/*": [ "packages/type-storage/src/*" ],
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",

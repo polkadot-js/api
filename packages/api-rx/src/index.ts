@@ -7,7 +7,7 @@ import { ProviderInterface } from '@polkadot/api-provider/types';
 import { RxApiInterface } from './types';
 
 import createApi from '@polkadot/api/index';
-import interfaces from '@polkadot/jsonrpc';
+import interfaces from '@polkadot/jsonrpc/index';
 import Ws from '@polkadot/api-provider/ws';
 
 import createExposed from './api';
