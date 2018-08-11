@@ -19,3 +19,11 @@ The API is split up into a number of internal packages -
 - [@polkadot/api-rx](packages/api-rx/) A RxJs Observable wrapper around the API
 - [@polkadot/api-format](packages/api-format/) Input and output formatters
 - [@polkadot/api-provider](packages/api-provider/) Providers for connecting
+
+Type definitions for interfaces as exposed by Polkadot & Substrate clients -
+
+- [@polkadot/extrinsics](packages/type-extrinsics/) Base extrinsic definitions & codecs
+- [@polkadot/jsonrpc](packages/type-jsonrpc/) Definitions for JSONRPC endpoints
+- [@polkadot/params](packages/type-params/) Input/output parameter formatting
+- [@polkadot/primitives](packages/type-primitives/) Primitive type definitions, builder & codecs
+- [@polkadot/storage](packages/type-storage/) Definitions for storage entries
