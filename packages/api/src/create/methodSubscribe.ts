@@ -15,9 +15,9 @@ import isFunction from '@polkadot/util/is/function';
 
 import createParams from './params';
 
-export default function methodSubscribe (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+export default function methodSubscribe (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
-    provider.send(`unsubscribe_${name}`, [subscriptionId]);
+    provider.send(rpcName.replace('subscribe', 'unsubscribe'), [subscriptionId]);
   const call = async (...values: Array<any>): Promise<any> => {
     try {
       const cb: ProviderInterface$Callback = values.pop();
@@ -29,7 +29,7 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
         cb(error, formatOutput(method.type, result));
       };
 
-      return provider.subscribe(`subscribe_${name}`, params, update);
+      return provider.subscribe(rpcName, params, update);
     } catch (error) {
       throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }

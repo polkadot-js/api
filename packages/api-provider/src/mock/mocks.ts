@@ -84,6 +84,6 @@ export default function mocks ({ emitter, storage, subscriptions }: MockState): 
 
     setStorageBn(storage, stateTimestamp.current, Math.floor(Date.now() / 1000));
 
-    updateSubs(subscriptions, 'subscribe_newHead', headerEncode(newHead));
+    updateSubs(subscriptions, 'chain_subscribeNewHead', headerEncode(newHead));
   }, 5000);
 }

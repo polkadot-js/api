@@ -6,7 +6,7 @@ import storage from '@polkadot/storage';
 
 import createApi from '../index';
 
-describe('methodSetStorage', () => {
+describe('methodGetStorage', () => {
   let api;
   let provider;
 

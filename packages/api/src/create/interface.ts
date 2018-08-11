@@ -12,7 +12,7 @@ import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import methodSend from './methodSend';
-import methodSetStorage from './methodSetStorage';
+import methodGetStorage from './methodGetStorage';
 import methodSubscribe from './methodSubscribe';
 
 type RpcOverrides = {
@@ -20,7 +20,7 @@ type RpcOverrides = {
 };
 
 const overrides: RpcOverrides = {
-  'state_getStorage': methodSetStorage
+  'state_getStorage': methodGetStorage
 };
 
 export default function createInterface (provider: ProviderInterface, section: Interface$Sections): ApiInterface$Section {
@@ -38,8 +38,8 @@ export default function createInterface (provider: ProviderInterface, section: I
       const def = methods[name];
 
       exposed[name] = def.isSubscription
-        ? methodSubscribe(provider, rpcName, name, def)
-        : (overrides[rpcName] || methodSend)(provider, rpcName, name, def);
+        ? methodSubscribe(provider, rpcName, def)
+        : (overrides[rpcName] || methodSend)(provider, rpcName, def);
 
       return exposed;
     }, {} as ApiInterface$Section);

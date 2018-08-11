@@ -17,8 +17,8 @@ import signature from '@polkadot/params/signature';
 import methodSend from './methodSend';
 
 type KeyValues = [SectionItem<Storages>, any];
-export default function createMethodSetStorage (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
-  const send = methodSend(provider, rpcName, name, method);
+export default function createMethodGetStorage (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+  const send = methodSend(provider, rpcName, method);
   const tryCatch = (fn: () => any): any => {
     try {
       return fn();

@@ -7,4 +7,4 @@ import { SectionItem } from '@polkadot/params/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface$Section$Method } from '../types';
 
-export type MethodCreator = (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>) => ApiInterface$Section$Method;
+export type MethodCreator = (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>) => ApiInterface$Section$Method;

@@ -13,7 +13,7 @@ import signature from '@polkadot/params/signature';
 
 import createParams from './params';
 
-export default function createMethodSend (provider: ProviderInterface, rpcName: string, name: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+export default function createMethodSend (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const call = async (...values: Array<any>): Promise<any> => {
     // TODO Warn on deprecated methods
     try {

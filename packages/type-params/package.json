@@ -35,6 +35,7 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/extrinsics": "^0.28.2",
+    "@polkadot/params": "^0.28.2",
     "@polkadot/primitives": "^0.28.2",
     "@polkadot/util": "^0.28.1"
   }
