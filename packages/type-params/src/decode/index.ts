@@ -60,7 +60,7 @@ function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, vers
   };
 }
 
-export default function decode (type: Param$Types, _input: Uint8Array | string, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
+export default function decode (type: Param$Types, _input: Uint8Array | string | null, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
   const input = toU8a(_input);
 
   if (Array.isArray(type)) {

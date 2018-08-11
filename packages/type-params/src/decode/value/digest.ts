@@ -10,6 +10,12 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 import bytes from './bytes';
 
 export default function digest (input: Uint8Array | null): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0
+    } as Param$Decoded;
+  }
+
   const logLength = input
     ? u8aToBn(input.subarray(0, 4), true).toNumber()
     : 0;
@@ -20,12 +26,7 @@ export default function digest (input: Uint8Array | null): Param$Decoded {
   let length = 4;
 
   for (let index = 0; index < logLength; index++) {
-    const decoded = input
-      ? bytes(input.subarray(length))
-      : {
-        length: 0,
-        value: new Uint8Array()
-      };
+    const decoded = bytes(input.subarray(length));
 
     length += decoded.length;
     value.logs.push((decoded.value as Uint8Array));

@@ -5,8 +5,15 @@
 import { Param$Decoded } from '../../types';
 
 export default function bool (input: Uint8Array | null): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0,
+      value: false
+    };
+  }
+
   return {
     length: 1,
-    value: !!(input && input[0] !== 0)
+    value: input[0] !== 0
   };
 }

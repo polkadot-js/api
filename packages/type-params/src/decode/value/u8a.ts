@@ -5,12 +5,17 @@
 import { Param$Decoded } from '../../types';
 
 export default function u8a (input: Uint8Array | null, bitLength: 256 | 512, offset: number): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0,
+      value: new Uint8Array()
+    };
+  }
+
   const length = (bitLength / 8) + offset;
 
   return {
     length,
-    value: input
-      ? input.subarray(offset, length)
-      : new Uint8Array()
+    value: input.subarray(offset, length)
   };
 }

@@ -4,7 +4,13 @@
 
 import { Param$Decoded } from '../../types';
 
-export default function passThrough (input: Uint8Array): Param$Decoded {
+export default function passThrough (input: Uint8Array | null): Param$Decoded {
+  if (input === null) {
+    return {
+      length: 0
+    } as Param$Decoded;
+  }
+
   return {
     length: input.length,
     value: input
