@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polkadot-js/types.git"
+    "url": "git+https://github.com/polkadot-js/api.git"
   },
   "keywords": [
     "Polkadot"
@@ -24,9 +24,9 @@
   "contributors": [],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/polkadot-js/types/issues"
+    "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/types/tree/master/packages/params#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-params#readme",
   "scripts": {
     "build": "polkadot-dev-build-babel",
     "check": "eslint src && flow check",
@@ -36,6 +36,6 @@
     "@babel/runtime": "^7.0.0-beta.51",
     "@polkadot/extrinsics": "^0.28.0",
     "@polkadot/primitives": "^0.28.0",
-    "@polkadot/util": "^0.27.12"
+    "@polkadot/util": "^0.28.1"
   }
 }

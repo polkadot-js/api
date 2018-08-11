@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/jsonrpc#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
   "scripts": {
     "build": "polkadot-dev-build-babel && polkadot-dev-build-docs",
     "check": "eslint src && flow check",
