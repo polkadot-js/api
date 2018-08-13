@@ -4,8 +4,7 @@
 
 import { EncodingVersions, Param$Decoded } from '../../types';
 
-// TODO Comment out when auto-convert of addresses is in place
-// import encodeAddress from '@polkadot/util-keyring/address/encode';
+import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import u8a from './u8a';
 
@@ -20,6 +19,6 @@ export default function accountId (input: Uint8Array | null, version: EncodingVe
 
   return {
     length: u8aDecoded.length,
-    value: u8aDecoded.value // encodeAddress(u8aDecoded.value as Uint8Array)
+    value: encodeAddress(u8aDecoded.value as Uint8Array)
   };
 }
