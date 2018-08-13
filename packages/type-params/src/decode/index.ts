@@ -11,7 +11,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 
 import decodeValue from './value';
 
-function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+function decodeTuple (type: Param$Type$Array, input: Uint8Array | null | undefined, version: EncodingVersions, isStorage: boolean): Param$Decoded {
   if (!input) {
     return {
       length: 0,
@@ -36,7 +36,7 @@ function decodeTuple (type: Param$Type$Array, input: Uint8Array | null, version:
   };
 }
 
-function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null | undefined, version: EncodingVersions, isStorage: boolean): Param$Decoded {
   if (!input) {
     return {
       length: 0,
@@ -63,8 +63,8 @@ function decodeArray ([ type ]: Param$Type$Array, input: Uint8Array | null, vers
 }
 
 export default function decode (type: Param$Types, _input: Uint8Array | string | null | undefined, version: EncodingVersions, isStorage: boolean = false): Param$Decoded {
-  const input: Uint8Array | null = isUndefined(_input) || isNull(_input)
-    ? null
+  const input: Uint8Array | null | undefined = isUndefined(_input) || isNull(_input)
+    ? _input
     : toU8a(_input);
 
   if (Array.isArray(type)) {

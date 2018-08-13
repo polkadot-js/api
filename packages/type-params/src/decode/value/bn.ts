@@ -7,8 +7,8 @@ import { Param$Decoded } from '../../types';
 import BN from 'bn.js';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-export default function bn (input: Uint8Array | null, bitLength: 32 | 64 | 128): Param$Decoded {
-  if (input === null) {
+export default function bn (input: Uint8Array | null | undefined, bitLength: 32 | 64 | 128): Param$Decoded {
+  if (!input) {
     return {
       length: 0,
       value: new BN(0)

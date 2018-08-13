@@ -18,8 +18,8 @@ const B_SIG = B_HASH + 32;
 
 const length = B_SIG + 64;
 
-export default function misbehavior (input: Uint8Array | null): Param$Decoded {
-  if (input === null) {
+export default function misbehavior (input: Uint8Array | null | undefined): Param$Decoded {
+  if (!input) {
     return {
       length: 0
     } as Param$Decoded;

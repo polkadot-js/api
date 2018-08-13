@@ -9,10 +9,11 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import bytes from './bytes';
 
-export default function digest (input: Uint8Array | null): Param$Decoded {
-  if (input === null) {
+export default function digest (input: Uint8Array | null | undefined): Param$Decoded {
+  if (!input) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 

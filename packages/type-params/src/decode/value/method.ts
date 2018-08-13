@@ -16,10 +16,11 @@ type Result = {
   value: ExtrinsicDecoded
 };
 
-export default function call (decode: Decoder, input: Uint8Array | null, isPublic: boolean, version: EncodingVersions, isStorage: boolean): Param$Decoded {
-  if (input === null) {
+export default function call (decode: Decoder, input: Uint8Array | null | undefined, isPublic: boolean, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+  if (!input) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 

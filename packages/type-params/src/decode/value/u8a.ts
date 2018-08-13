@@ -4,10 +4,11 @@
 
 import { Param$Decoded } from '../../types';
 
-export default function u8a (input: Uint8Array | null, bitLength: 256 | 512, offset: number): Param$Decoded {
-  if (input === null) {
+export default function u8a (input: Uint8Array | null | undefined, bitLength: 256 | 512, offset: number): Param$Decoded {
+  if (!input) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 

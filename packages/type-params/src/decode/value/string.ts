@@ -6,11 +6,14 @@ import { Param$Decoded } from '../../types';
 
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
+import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
 
-export default function string (input: Uint8Array | null): Param$Decoded {
-  if (input === null) {
+export default function string (input: Uint8Array | null | undefined): Param$Decoded {
+  if (isUndefined(input) || isNull(input)) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 
