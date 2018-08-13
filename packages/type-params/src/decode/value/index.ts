@@ -27,8 +27,8 @@ import time from './time';
 import u8a from './u8a';
 
 export default function decodeValue (decode: Decoder, type: Param$Type, _input: Uint8Array | string | null | undefined, version: EncodingVersions, isStorage: boolean): Param$Decoded {
-  const input: Uint8Array | null = isUndefined(_input) || isNull(_input)
-    ? null
+  const input: Uint8Array | null | undefined = isUndefined(_input) || isNull(_input)
+    ? _input
     : toU8a(_input);
 
   try {

@@ -8,10 +8,11 @@ import encodeAddress from '@polkadot/util-keyring/address/encode';
 
 import u8a from './u8a';
 
-export default function accountId (input: Uint8Array | null, version: EncodingVersions, isStorage: boolean): Param$Decoded {
-  if (input === null) {
+export default function accountId (input: Uint8Array | null | undefined, version: EncodingVersions, isStorage: boolean): Param$Decoded {
+  if (!input) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 

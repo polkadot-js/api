@@ -30,7 +30,7 @@ export type KeyValue = {
   value: Uint8Array
 }
 
-export type Param$Value = Digest | Header | KeyValue | MisbehaviorReport | ExtrinsicDecoded | BN | Date | Uint8Array | boolean | number | string;
+export type Param$Value = Digest | Header | KeyValue | MisbehaviorReport | ExtrinsicDecoded | BN | Date | Uint8Array | boolean | number | string | null;
 
 export type Param$Value$Array = Array<Param$Value | Array<Param$Value | Array<Param$Value>>>;
 

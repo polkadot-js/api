@@ -6,10 +6,11 @@ import { Param$Decoded } from '../../types';
 
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-export default function bytes (input: Uint8Array | null): Param$Decoded {
-  if (input === null) {
+export default function bytes (input: Uint8Array | null | undefined): Param$Decoded {
+  if (!input) {
     return {
-      length: 0
+      length: 0,
+      value: input
     } as Param$Decoded;
   }
 
