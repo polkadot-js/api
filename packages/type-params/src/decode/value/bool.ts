@@ -4,8 +4,11 @@
 
 import { Param$Decoded } from '../../types';
 
+import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
+
 export default function bool (input: Uint8Array | null | undefined): Param$Decoded {
-  if (!input) {
+  if (isUndefined(input) || isNull(input)) {
     return {
       length: 0,
       value: false
