@@ -6,7 +6,10 @@ import { Hash } from '../../base';
 import { JsonHash } from '../types';
 
 import u8aToHex from '@polkadot/util/u8a/toHex';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
-export default function hashEncode (value: Hash, bitLength: number = -1): JsonHash {
-  return u8aToHex(value);
+export default function hashEncode (value: Hash | string, bitLength: number = -1): JsonHash {
+  return u8aToHex(
+    toU8a(value)
+  );
 }

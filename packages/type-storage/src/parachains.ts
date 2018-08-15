@@ -40,7 +40,7 @@ const didUpdate: CreateItemOptions = {
   type: 'bool'
 };
 
-export default (name: Storage$Sections): Section<Storages> =>
+export default (name: Storage$Sections): Section<Storages, any, any> =>
   createSection(name)((createMethod: CreateItems<Storages>) => ({
     description: 'Parachain related entries',
     public: {

@@ -10,6 +10,7 @@ import bnDecode from '@polkadot/primitives/json/bn/decode';
 import bytesDecode from '@polkadot/primitives/json/bytes/decode';
 import hashDecode from '@polkadot/primitives/json/hash/decode';
 import headerDecode from '@polkadot/primitives/json/header/decode';
+import blockDecode from '@polkadot/primitives/json/block/decode';
 import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -22,6 +23,7 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   ['Bytes', bytesDecode],
   ['Hash', hashDecode],
   ['Header', headerDecode],
+  ['SignedBlock', blockDecode],
   ['u64', bnDecode]
 ]);
 

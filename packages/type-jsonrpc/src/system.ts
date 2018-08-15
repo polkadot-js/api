@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, Section } from '@polkadot/params/types';
+import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section } from '@polkadot/params/types';
 import { Interfaces, Interface$Sections } from './types';
 
 import createSection from '@polkadot/params/section';
@@ -25,10 +25,19 @@ const version: CreateItemOptions = {
   type: 'String'
 };
 
+const privateMethods: CreateItemOptionsMap = {};
+
+const publicMethods: CreateItemOptionsMap = {
+  chain, name, version
+};
+
+export type PrivateMethods = typeof privateMethods;
+export type PublicMethods = typeof publicMethods;
+
 /**
  * @summary Methods to retrieve system info.
  */
-export default (sname: Interface$Sections): Section<Interfaces> =>
+export default (sname: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
   createSection(sname)((createMethod: CreateItems<Interfaces>) => ({
     description: 'Methods to retrieve system info',
     public: {

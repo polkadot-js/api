@@ -8,9 +8,9 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 
 import createMethod from './method';
 
-export default function createSection <T> (name: keyof T, _index: number = 0): CreateSection<T> {
+export default function createSection <T> (name: keyof T, _index: number = 0): CreateSection<T, any, any> {
   const index = bnToU8a(_index, 8, true);
-  const creator = (optOrFn: CreateSectionOptions<T>): Section<T> => {
+  const creator = (optOrFn: CreateSectionOptions<T, any, any>): Section<T, any, any> => {
     if (typeof optOrFn === 'function') {
       return creator(
         optOrFn(
