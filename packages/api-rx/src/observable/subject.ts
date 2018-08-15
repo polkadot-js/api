@@ -49,6 +49,9 @@ export default function subscription (name: string, params: Array<any>, section:
               if (unsubCallback) {
                 unsubCallback();
               }
+            })
+            .catch((error) => {
+              console.error('Unsubscribe failed', error);
             });
         };
       } catch (error) {
