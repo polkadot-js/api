@@ -53,11 +53,11 @@ export default class HttpProvider implements ProviderInterface {
     return this.coder.decodeResponse(result);
   }
 
-  async subscribe (method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
+  async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
     throw new Error('Subscriptions has not been implemented');
   }
 
-  async unsubscribe (method: string, id: number): Promise<boolean> {
+  async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     throw new Error('Subscriptions has not been implemented');
   }
 }

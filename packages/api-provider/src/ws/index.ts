@@ -16,15 +16,19 @@ import logger from '@polkadot/util/logger';
 
 import coder from '../coder/json';
 
+type SubscriptionHandler = {
+  callback: ProviderInterface$Callback,
+  type: string
+};
+
 type WsState$Awaiting = {
   callback: ProviderInterface$Callback,
   method: string,
   params: Array<any>,
-  subscription?: ProviderInterface$Callback
+  subscription?: SubscriptionHandler
 };
 
-type WsState$Subscription = {
-  callback: ProviderInterface$Callback,
+type WsState$Subscription = SubscriptionHandler & {
   method: string,
   params: Array<any>
 };
@@ -91,7 +95,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     return super.on(type, sub);
   }
 
-  async send (method: string, params: Array<any>, subscription?: ProviderInterface$Callback): Promise<any> {
+  async send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
         const json = this.coder.encodeJson(method, params);
@@ -124,16 +128,18 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     });
   }
 
-  async subscribe (method: string, params: Array<any>, subscription: ProviderInterface$Callback): Promise<number> {
-    const id = await this.send(method, params, subscription);
+  async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
+    const id = await this.send(method, params, { callback, type });
 
     return id as number;
   }
 
-  async unsubscribe (method: string, id: number): Promise<boolean> {
-    assert(!isUndefined(this.subscriptions[`${method}::${id}`]), `Unable to find active subscription=${id}`);
+  async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
+    const subscription = `${type}::${id}`;
 
-    delete this.subscriptions[id];
+    assert(!isUndefined(this.subscriptions[subscription]), `Unable to find active subscription=${subscription}`);
+
+    delete this.subscriptions[subscription];
 
     const result = await this.send(method, [id]);
 
@@ -178,12 +184,12 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     }
 
     try {
-      const { method, params, subscription } = this.handlers[response.id];
+      const { method, params, subscription } = handler;
       const result = this.coder.decodeResponse(response);
 
       if (subscription) {
-        this.subscriptions[`${method}::${result}`] = {
-          callback: subscription,
+        this.subscriptions[`${subscription.type}::${result}`] = {
+          ...subscription,
           method,
           params
         };

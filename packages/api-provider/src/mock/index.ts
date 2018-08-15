@@ -23,9 +23,9 @@ export default function mockProvider (): ProviderInterface {
       on(self, type, sub),
     send: (method: string, params: Array<any>): Promise<any> =>
       send(self, method, params),
-    subscribe: (method: string, ...params: Array<any>): Promise<number> =>
-      subscribe(self, method, params),
-    unsubscribe: (method: string, id: number): Promise<boolean> =>
-      unsubscribe(self, method, id)
+    subscribe: (type: string, method: string, ...params: Array<any>): Promise<number> =>
+      subscribe(self, type, method, params),
+    unsubscribe: (type: string, method: string, id: number): Promise<boolean> =>
+      unsubscribe(self, type, method, id)
   };
 }

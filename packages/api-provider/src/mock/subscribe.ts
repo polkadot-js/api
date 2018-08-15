@@ -4,7 +4,7 @@
 
 import { MockState, MockState$Subscription$Callback } from './types';
 
-export default async function subscribe (self: MockState, method: string, params: Array<any>): Promise<number> {
+export default async function subscribe (self: MockState, type: string, method: string, params: Array<any>): Promise<number> {
   self.l.debug(() => ['subscribe', method, params]);
 
   if (self.subscriptions[method]) {

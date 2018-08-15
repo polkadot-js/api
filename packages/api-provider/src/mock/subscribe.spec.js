@@ -13,13 +13,13 @@ describe('subscribe', () => {
   });
 
   it('fails on unknown methods', () => {
-    return subscribe(state, 'test_notFound').catch((error) => {
+    return subscribe(state, 'test', 'test_notFound').catch((error) => {
       expect(error.message).toMatch(/Invalid method 'test_notFound'/);
     });
   });
 
   it('returns a subscription id', () => {
-    return subscribe(state, 'chain_newHead', [() => void 0]).then((id) => {
+    return subscribe(state, 'chain_newHead', 'chain_newHead', [() => void 0]).then((id) => {
       expect(id).toEqual(state.subscriptionId);
     });
   });
@@ -27,7 +27,7 @@ describe('subscribe', () => {
   it('stores the mapping values', () => {
     const cb = () => void 0;
 
-    return subscribe(state, 'chain_newHead', [cb]).then((id) => {
+    return subscribe(state, 'chain_newHead', 'chain_newHead', [cb]).then((id) => {
       expect(state.subscriptionMap[id]).toEqual('chain_newHead');
       expect(state.subscriptions['chain_newHead'].callbacks[id]).toEqual(cb);
     });
@@ -36,7 +36,7 @@ describe('subscribe', () => {
   it('calls back with the last known value', (done) => {
     state.subscriptions['chain_newHead'].lastValue = 'testValue';
 
-    subscribe(state, 'chain_newHead', [(_, value) => {
+    subscribe(state, 'chain_newHead', 'chain_newHead', [(_, value) => {
       expect(value).toEqual('testValue');
       done();
     }]);
