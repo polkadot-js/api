@@ -22,8 +22,6 @@ export default function observable (subName: string, name: string, section: ApiI
         .apply(null, params)
         .catch((error: Error) => {
           console.error(error);
-
-          throw error;
         })
     );
 }

@@ -16,6 +16,8 @@ export default function subscription (name: string, params: Array<any>, section:
 
       const callback = (error: Error | null, result: any) => {
         if (error) {
+          console.error(error);
+          observer.next();
           return;
         }
 
@@ -34,20 +36,31 @@ export default function subscription (name: string, params: Array<any>, section:
         observer.next(cachedResult);
       };
 
-      const fn = section[name];
-      // @ts-ignore slicing and dicing these things in true JS fashion... well, not sure how to go about fixing the TS complaints here
-      const subParams: Array<any> = [].concat(params, [callback]);
-      const subscribe = fn.apply(null, subParams);
+      try {
+        const fn = section[name];
+        const subscribe = fn(...params, callback);
 
-      return (): void => {
-        subscribe
-          .then((subscriptionId: number) => fn.unsubscribe(subscriptionId))
-          .then(() => {
-            if (unsubCallback) {
-              unsubCallback();
-            }
-          });
-      };
+        return (): void => {
+          subscribe
+            .then((subscriptionId: number) =>
+              fn.unsubscribe(subscriptionId)
+            )
+            .then(() => {
+              if (unsubCallback) {
+                unsubCallback();
+              }
+            })
+            .catch((error) => {
+              console.error('Unsubscribe failed', error);
+            });
+        };
+      } catch (error) {
+        console.error(error);
+
+        return (): void => {
+          console.error('Unsubscribe called on previously failed subscription', error);
+        };
+      }
     })
     .subscribe(subject);
 
