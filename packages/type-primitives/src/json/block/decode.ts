@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BlockDecoded, ExtrinsicDecoded } from '@polkadot/params/types';
+import { BlockDecoded } from '@polkadot/params/types';
 import { JsonBlock } from '../types';
 
 import toU8a from '@polkadot/util/u8a/toU8a';
