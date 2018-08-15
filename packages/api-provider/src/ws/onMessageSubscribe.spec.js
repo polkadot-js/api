@@ -29,9 +29,12 @@ describe('onMessageSubscribe', () => {
     ws.handlers[11] = {
       callback: (_, id) => {},
       method: 'test',
-      subscription: (_, result) => {
-        expect(result).toEqual('test');
-        done();
+      subscription: {
+        callback: (_, result) => {
+          expect(result).toEqual('test');
+          done();
+        },
+        type: 'test'
       }
     };
 
@@ -43,9 +46,12 @@ describe('onMessageSubscribe', () => {
     ws.handlers[11] = {
       callback: (_, id) => {},
       method: 'test',
-      subscription: (error) => {
-        expect(error.message).toMatch(/test/);
-        done();
+      subscription: {
+        callback: (error) => {
+          expect(error.message).toMatch(/test/);
+          done();
+        },
+        type: 'test'
       }
     };
 

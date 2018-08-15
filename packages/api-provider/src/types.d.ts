@@ -45,6 +45,6 @@ export interface ProviderInterface {
   isConnected (): boolean,
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void,
   send (method: string, params: Array<any>): Promise<any>,
-  subscribe (method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number>,
-  unsubscribe (method: string, id: number): Promise<boolean>
+  subscribe (type: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number>,
+  unsubscribe (type: string, method: string, id: number): Promise<boolean>
 }

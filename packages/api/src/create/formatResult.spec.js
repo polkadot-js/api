@@ -21,7 +21,7 @@ describe('formatResult', () => {
       send: jest.fn((method, params) =>
         Promise.resolve('0x0102')
       ),
-      subscribe: jest.fn((method, params, subscription) =>
+      subscribe: jest.fn((type, method, params, subscription) =>
         subscription(null, {
           block: '0x1234',
           changes: [
@@ -61,6 +61,7 @@ describe('formatResult', () => {
           expect(
             provider.subscribe
           ).toHaveBeenCalledWith(
+            'state_storage',
             'state_subscribeStorage',
             [[ENC_ONE, ENC_TWO]],
             expect.anything()

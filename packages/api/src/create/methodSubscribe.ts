@@ -17,7 +17,7 @@ import formatResult from './formatResult';
 
 export default function methodSubscribe (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
-    provider.send(method.subscribe[1], [subscriptionId]);
+    provider.unsubscribe(rpcName, method.subscribe[1], subscriptionId);
   const _call = async (...values: Array<any>): Promise<any> => {
     try {
       const cb: ProviderInterface$Callback = values.pop();
@@ -29,7 +29,7 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
         cb(error, formatResult(method, params, values, result));
       };
 
-      return provider.subscribe(method.subscribe[0], params, update);
+      return provider.subscribe(rpcName, method.subscribe[0], params, update);
     } catch (error) {
       throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }
