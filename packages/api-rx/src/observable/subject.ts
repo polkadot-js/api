@@ -16,6 +16,8 @@ export default function subscription (name: string, params: Array<any>, section:
 
       const callback = (error: Error | null, result: any) => {
         if (error) {
+          console.error(error);
+          observer.next();
           return;
         }
 
@@ -41,7 +43,9 @@ export default function subscription (name: string, params: Array<any>, section:
 
       return (): void => {
         subscribe
-          .then((subscriptionId: number) => fn.unsubscribe(subscriptionId))
+          .then((subscriptionId: number) =>
+            fn.unsubscribe(subscriptionId)
+          )
           .then(() => {
             if (unsubCallback) {
               unsubCallback();
