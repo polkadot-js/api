@@ -14,7 +14,7 @@ export type EncodingVersions = 'poc-1' | 'latest';
 // - @polkadot/storage/key/params.ts
 // - decode/value/index.js
 // - encode/type/index.js
-export type Param$Type = 'AccountId' | 'AccountIndex' | 'Balance' | 'BlockNumber' | 'bool' | 'Bytes' | 'Call' | 'CandidateReceipt' | 'Code' | 'Digest' | 'Gas' | 'Hash' | 'Header'  | 'KeyValue' | 'MisbehaviorReport' | 'ParachainId' | 'PropIndex' | 'Proposal' | 'ReferendumIndex' | 'SessionKey' | 'Signature' | 'StorageKey' | 'StorageKeyValue' | 'StorageResult' | 'StorageResultSet' | 'String' | 'Timestamp' | 'u32' | 'u64' | 'u128' | 'VoteIndex' | 'VoteThreshold';
+export type Param$Type = 'AccountId' | 'AccountIndex' | 'Balance' | 'BlockNumber' | 'bool' | 'Bytes' | 'Call' | 'CandidateReceipt' | 'Code' | 'Digest' | 'Gas' | 'Hash' | 'Header'  | 'KeyValue' | 'MisbehaviorReport' | 'ParachainId' | 'PrendingExtrinsics' | 'PropIndex' | 'Proposal' | 'ReferendumIndex' | 'SessionKey' | 'Signature' | 'SignedBlock' | 'StorageKey' | 'StorageKeyValue' | 'StorageResult' | 'StorageResultSet' | 'String' | 'Timestamp' | 'u32' | 'u64' | 'u128' | 'VoteIndex' | 'VoteThreshold';
 
 export type Param$Type$Array = Array<Param$Type | Array<Param$Type | Array<Param$Type>>>;
 
@@ -24,6 +24,20 @@ export type ExtrinsicDecoded = {
   extrinsic: SectionItem<Extrinsics>,
   params: Array<any>
 }
+
+export type BlockExtrinsicDecoded = {
+  address: string,
+  nonce: BN,
+  extrinsic: SectionItem<Extrinsics>,
+  params: Array<any>,
+  signature: Uint8Array
+}
+
+export type BlockDecoded = {
+  header: Header,
+  extrinsics: Array<BlockExtrinsicDecoded>,
+  justification: any
+};
 
 export type KeyValue = {
   key: Uint8Array,
@@ -68,21 +82,21 @@ export type SectionItem<T> = {
   type: Param$Types
 };
 
-export type SectionItems<T> = {
-  [index: string]: SectionItem<T>
+export type SectionItems<T, K> = {
+  [key in keyof K]: SectionItem<T>
 };
 
-export type Section<T> = {
+export type Section<T, Priv, Pub> = {
   isDeprecated: boolean,
   isHidden: boolean,
   description: string,
   index: Uint8Array,
   name: keyof T,
-  private: SectionItems<T>,
-  public: SectionItems<T>
+  private: SectionItems<T, Priv>,
+  public: SectionItems<T, Pub>
 };
 
-export type Sections<T> = Map<T, Section<T>>;
+export type Sections<T, Priv, Pub> = Map<T, Section<T, Priv, Pub>>;
 
 export type CreateItemOptions = {
   description: string,
@@ -96,20 +110,24 @@ export type CreateItemOptions = {
   type: Param$Types
 };
 
+export type CreateItemOptionsMap = {
+  [index: string]: CreateItemOptions
+};
+
 export type CreateItem<T> = (options: CreateItemOptions) => SectionItem<T>;
 
 export type CreateItems<T> = (name: string, index?: number) => CreateItem<T>;
 
-export type CreateSectionOptions$Only<T> = {
+export type CreateSectionOptions$Only<T, Priv, Pub> = {
   description: string,
   isDeprecated?: boolean,
   isHidden?: boolean,
-  'private'?: SectionItems<T>,
-  'public'?: SectionItems<T>
+  'private'?: SectionItems<T, Priv>,
+  'public'?: SectionItems<T, Pub>
 };
 
-export type CreateSectionOptions$Fn<T> = (method: CreateItems<T>) => CreateSectionOptions$Only<T>;
+export type CreateSectionOptions$Fn<T, Priv, Pub> = (method: CreateItems<T>) => CreateSectionOptions$Only<T, Priv, Pub>;
 
-export type CreateSectionOptions<T> = CreateSectionOptions$Only<T> | CreateSectionOptions$Fn<T>;
+export type CreateSectionOptions<T, Priv, Pub> = CreateSectionOptions$Only<T, Priv, Pub> | CreateSectionOptions$Fn<T, Priv, Pub>;
 
-export type CreateSection<T> = (options: CreateSectionOptions<T>) => Section<T>;
+export type CreateSection<T, Priv, Pub> = (options: CreateSectionOptions<T, Priv, Pub>) => Section<T, Priv, Pub>;

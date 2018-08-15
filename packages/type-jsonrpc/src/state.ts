@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, Section } from '@polkadot/params/types';
+import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section } from '@polkadot/params/types';
 import { Interfaces, Interface$Sections } from './types';
 
 import param from '@polkadot/params/param';
@@ -87,10 +87,19 @@ const subscribeStorage: CreateItemOptions = {
   type: 'StorageResultSet'
 };
 
+const privateMethods: CreateItemOptionsMap = {};
+
+const publicMethods: CreateItemOptionsMap = {
+  call, callAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, subscribeStorage
+};
+
+export type PrivateMethods = typeof privateMethods;
+export type PublicMethods = typeof publicMethods;
+
 /**
  * @summary Query the state and state storage.
  */
-export default (name: Interface$Sections): Section<Interfaces> =>
+export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
   createSection(name)((createMethod: CreateItems<Interfaces>) => ({
     description: 'Query of state',
     public: {

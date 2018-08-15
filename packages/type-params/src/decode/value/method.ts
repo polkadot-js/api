@@ -24,7 +24,7 @@ export default function call (decode: Decoder, input: Uint8Array | null | undefi
     } as Param$Decoded;
   }
 
-  const section: Section<Extrinsics> | undefined = Object.values(extrinsics).find(({ index }) =>
+  const section: Section<Extrinsics, any, any> | undefined = Object.values(extrinsics).find(({ index }) =>
     index[0] === input[0]
   );
 

@@ -8,16 +8,16 @@ import { Section } from '@polkadot/params/types';
 export type Storage$Key$Value = number | BN | Uint8Array | string;
 
 export type Storages = {
-  consensus: Section<Storages>,
-  // contract: Section<Storages>,
-  council: Section<Storages>,
-  councilVoting: Section<Storages>,
-  democracy: Section<Storages>,
-  parachains: Section<Storages>,
-  session: Section<Storages>,
-  staking: Section<Storages>,
-  system: Section<Storages>,
-  timestamp: Section<Storages>
+  consensus: Section<Storages, any, any>,
+  // contract: Section<Storages, any, any>,
+  council: Section<Storages, any, any>,
+  councilVoting: Section<Storages, any, any>,
+  democracy: Section<Storages, any, any>,
+  parachains: Section<Storages, any, any>,
+  session: Section<Storages, any, any>,
+  staking: Section<Storages, any, any>,
+  system: Section<Storages, any, any>,
+  timestamp: Section<Storages, any, any>
 };
 
 export type Storage$Sections = keyof Storages;

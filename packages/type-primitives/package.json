@@ -34,8 +34,8 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/trie-hash": "^0.28.1",
-    "@polkadot/util": "^0.28.1"
+    "@polkadot/trie-hash": "^0.28.2",
+    "@polkadot/util": "^0.28.2"
   },
   "devDependencies": {
     "bn.js": "^4.11.8"
