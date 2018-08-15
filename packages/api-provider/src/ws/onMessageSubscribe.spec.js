@@ -21,13 +21,14 @@ describe('onMessageSubscribe', () => {
     ws.onSocketMessage({ data: '{"method":"test","params":{"subscription":2}}' });
 
     expect(errorSpy).toHaveBeenCalledWith(
-      expect.anything(), expect.anything(), 'Unable to find handler for subscription=2'
+      expect.anything(), expect.anything(), 'Unable to find handler for subscription=test::2'
     );
   });
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
       callback: (_, id) => {},
+      method: 'test',
       subscription: (_, result) => {
         expect(result).toEqual('test');
         done();
@@ -41,6 +42,7 @@ describe('onMessageSubscribe', () => {
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
       callback: (_, id) => {},
+      method: 'test',
       subscription: (error) => {
         expect(error.message).toMatch(/test/);
         done();

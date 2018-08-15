@@ -58,7 +58,7 @@ describe('subscribe', () => {
     return ws
       .subscribe('subscribe_test', [], () => {})
       .then((id) => {
-        return ws.unsubscribe('unsubscribe_test', id);
+        return ws.unsubscribe('subscribe_test', id);
       });
   });
 
@@ -76,7 +76,7 @@ describe('subscribe', () => {
     return ws
       .subscribe('subscribe_test', [], () => {})
       .then((id) => {
-        return ws.unsubscribe('unsubscribe_test', 111);
+        return ws.unsubscribe('subscribe_test', 111);
       })
       .catch((error) => {
         expect(error.message).toMatch(/find active subscription/);

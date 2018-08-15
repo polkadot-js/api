@@ -131,7 +131,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   async unsubscribe (method: string, id: number): Promise<boolean> {
-    assert(!isUndefined(this.subscriptions[id]), `Unable to find active subscription=${id}`);
+    assert(!isUndefined(this.subscriptions[`${method}::${id}`]), `Unable to find active subscription=${id}`);
 
     delete this.subscriptions[id];
 

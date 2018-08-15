@@ -33,8 +33,8 @@ const getHeader: CreateItemOptions = {
 const newHead: CreateItemOptions = {
   description: 'Retrieves the best header via subscription',
   subscribe: [
-    'chain_subscribeNewHead',
-    'chain_unsubscribeNewHead'
+    'chain_newHead',
+    'chain_unnewHead'
   ],
   params: [],
   type: 'Header'
