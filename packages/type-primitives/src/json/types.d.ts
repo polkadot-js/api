@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { ExtrinsicDecoded } from '@polkadot/params/types';
+
 export type JsonBnType = string;
 export type JsonHash = string;
 
@@ -44,8 +46,12 @@ export type JsonHeader = {
   digest: JsonDigest
 };
 
+export type JsonJustification = {};
+
 export type JsonBlock = {
-  header: JsonHeader,
-  timestamp: JsonU64,
-  transactions: Array<JsonUnchecked>
+  block: {
+    extrinsics: Array<Array<JsonBytes>>,
+    header: JsonHeader,
+  },
+  justification: JsonJustification
 };

@@ -49,7 +49,7 @@ const setVotingPeriod: CreateItemOptions = {
   type: []
 };
 
-export default (name: Extrinsic$Sections, index: number): Section<Extrinsics> =>
+export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, any, any> =>
   createSection(name, index)((createMethod: CreateItems<Extrinsics>) => ({
     description: 'Council Voting',
     public: {

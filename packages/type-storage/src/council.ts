@@ -154,7 +154,7 @@ const leaderboard: CreateItemOptions = {
   type: [['Balance', 'AccountId']]
 };
 
-export default (name: keyof Storages): Section<Storages> =>
+export default (name: keyof Storages): Section<Storages, any, any> =>
   createSection(name)((createMethod: CreateItems<Storages>) => ({
     description: 'Council',
     public: {

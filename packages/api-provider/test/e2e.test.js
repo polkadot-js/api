@@ -38,22 +38,51 @@ describe.skip('e2e', () => {
 
   it('subscribes to storage', (done) => {
     api.state
-      .subscribeStorage([
-        [storage.staking.public.freeBalanceOf, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
-        [storage.staking.public.freeBalanceOf, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
-      ], (error, data) => {
-        if (error) {
-          return done(error);
+      .subscribeStorage(
+        [
+          [storage.system.public.accountIndexOf, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
+          [storage.staking.public.freeBalanceOf, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
+        ],
+        (error, data) => {
+          if (error) {
+            return done(error);
+          }
+
+          expect(data).toHaveLength(2);
+          expect(data[0].toNumber()).toEqual(0);
+          expect(data[1].toNumber()).not.toEqual(0);
+
+          done();
         }
-
-        expect(data).toHaveLength(2);
-        expect(data[0].toNumber()).toEqual(0);
-        expect(data[1].toNumber()).not.toEqual(0);
-
-        done();
-      })
+      )
       .then((subscriptionId) => {
         console.log('newHead: subscriptionId =', subscriptionId);
+      });
+  });
+
+  it('retrieves a block by hash', () => {
+    return api.chain
+      .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
+      .then((block) => {
+        expect(block).toBeDefined();
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
+  it.skip('retrieves the pending extrinsics', () => {
+    return api.author
+      .pendingExtrinsics()
+      .then((extrinsics) => {
+        console.error('extrinsics', extrinsics);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
       });
   });
 });

@@ -6,16 +6,16 @@ import { Section } from '@polkadot/params/types';
 
 export type Extrinsics = {
   // substrate
-  consensus: Section<Extrinsics>,
-  council: Section<Extrinsics>,
-  councilVoting: Section<Extrinsics>,
-  democracy: Section<Extrinsics>,
-  session: Section<Extrinsics>,
-  staking: Section<Extrinsics>,
-  timestamp: Section<Extrinsics>,
-  treasury: Section<Extrinsics>,
+  consensus: Section<Extrinsics, any, any>,
+  council: Section<Extrinsics, any, any>,
+  councilVoting: Section<Extrinsics, any, any>,
+  democracy: Section<Extrinsics, any, any>,
+  session: Section<Extrinsics, any, any>,
+  staking: Section<Extrinsics, any, any>,
+  timestamp: Section<Extrinsics, any, any>,
+  treasury: Section<Extrinsics, any, any>,
   // polkadot
-  parachains: Section<Extrinsics>
+  parachains: Section<Extrinsics, any, any>
 };
 
 export type Extrinsic$Sections = keyof Extrinsics;
