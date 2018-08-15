@@ -6,21 +6,23 @@ import { SectionItem, CreateItem, CreateItems, CreateItemOptions } from './types
 
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import isUndefined from '@polkadot/util/is/undefined';
 
 export default function createMethod<T> (section: keyof T, sectionIndex: Uint8Array): CreateItems<T> {
   return (name: string, index: number = 0): CreateItem<T> =>
-    ({ description, key = '', params, type, isDeprecated = false, isHidden = false, isSigned = false, isSubscription = false, isUnhashed = false }: CreateItemOptions): SectionItem<T> => ({
+    ({ description, key = '', params, type, isDeprecated = false, isHidden = false, isSigned = false, isUnhashed = false, subscribe }: CreateItemOptions): SectionItem<T> => ({
       description,
       index: u8aConcat(sectionIndex, bnToU8a(index, 8, true)),
       isDeprecated,
       isHidden,
       isSigned,
-      isSubscription,
+      isSubscription: !isUndefined(subscribe),
       isUnhashed,
       key,
       name,
       params,
       section,
+      subscribe: subscribe || ['', ''],
       type
     });
 }

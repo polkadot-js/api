@@ -78,9 +78,9 @@ const getStorageSizeAt: CreateItemOptions = {
   type: 'u64'
 };
 
-const subscribeStorage: CreateItemOptions = {
+const storage: CreateItemOptions = {
   description: 'Subscribes to storage changes for the provided keys',
-  isSubscription: true,
+  subscribe: ['state_subscribeStorage', 'state_unsubscribeStorage'],
   params: [
     param('keys', ['StorageKey'])
   ],
@@ -110,7 +110,7 @@ export default (name: Interface$Sections): Section<Interfaces> =>
         createMethod('getStorageSize')(getStorageSize),
       getStorageSizeAt:
         createMethod('getStorageSizeAt')(getStorageSizeAt),
-      subscribeStorage:
-        createMethod('subscribeStorage')(subscribeStorage)
+      storage:
+        createMethod('storage')(storage)
     }
   }));

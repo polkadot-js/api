@@ -65,6 +65,7 @@ export type SectionItem<T> = {
   name: string,
   params: Params,
   section: keyof T,
+  subscribe: [string, string], // only for jsonrpc
   type: Param$Types
 };
 
@@ -89,10 +90,10 @@ export type CreateItemOptions = {
   isDeprecated?: boolean,
   isHidden?: boolean,
   isSigned?: boolean,
-  isSubscription?: boolean,
   isUnhashed?: boolean,
   key?: string,
   params: Params,
+  subscribe?: [string, string],
   type: Param$Types
 };
 

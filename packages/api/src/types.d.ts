@@ -4,9 +4,10 @@
 
 import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 
-export type ApiInterface$Section$Method = {
+export interface ApiInterface$Section$Method {
   (...params: Array<any>): Promise<any>;
 
+  subscription: string;
   unsubscribe: (id: number) => Promise<any>;
 }
 
