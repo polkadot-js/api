@@ -30,9 +30,12 @@ const getHeader: CreateItemOptions = {
   type: 'Header'
 };
 
-const subscribeNewHead: CreateItemOptions = {
+const newHead: CreateItemOptions = {
   description: 'Retrieves the best header via subscription',
-  isSubscription: true,
+  subscribe: [
+    'chain_subscribeNewHead',
+    'chain_unsubscribeNewHead'
+  ],
   params: [],
   type: 'Header'
 };
@@ -40,7 +43,7 @@ const subscribeNewHead: CreateItemOptions = {
 const privateMethods: CreateItemOptionsMap = {};
 
 const publicMethods: CreateItemOptionsMap = {
-  getBlock, getHead, getHeader, subscribeNewHead
+  getBlock, getHead, getHeader, newHead
 };
 
 export type PublicMethods = typeof publicMethods;

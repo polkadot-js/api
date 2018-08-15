@@ -78,9 +78,12 @@ const getStorageSizeAt: CreateItemOptions = {
   type: 'u64'
 };
 
-const subscribeStorage: CreateItemOptions = {
+const storage: CreateItemOptions = {
   description: 'Subscribes to storage changes for the provided keys',
-  isSubscription: true,
+  subscribe: [
+    'state_subscribeStorage',
+    'state_unsubscribeStorage'
+  ],
   params: [
     param('keys', ['StorageKey'])
   ],
@@ -90,7 +93,7 @@ const subscribeStorage: CreateItemOptions = {
 const privateMethods: CreateItemOptionsMap = {};
 
 const publicMethods: CreateItemOptionsMap = {
-  call, callAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, subscribeStorage
+  call, callAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, storage
 };
 
 export type PrivateMethods = typeof privateMethods;
@@ -119,7 +122,7 @@ export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, P
         createMethod('getStorageSize')(getStorageSize),
       getStorageSizeAt:
         createMethod('getStorageSizeAt')(getStorageSizeAt),
-      subscribeStorage:
-        createMethod('subscribeStorage')(subscribeStorage)
+      storage:
+        createMethod('storage')(storage)
     }
   }));

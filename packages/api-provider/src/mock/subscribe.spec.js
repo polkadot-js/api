@@ -19,7 +19,7 @@ describe('subscribe', () => {
   });
 
   it('returns a subscription id', () => {
-    return subscribe(state, 'chain_subscribeNewHead', [() => void 0]).then((id) => {
+    return subscribe(state, 'chain_newHead', [() => void 0]).then((id) => {
       expect(id).toEqual(state.subscriptionId);
     });
   });
@@ -27,16 +27,16 @@ describe('subscribe', () => {
   it('stores the mapping values', () => {
     const cb = () => void 0;
 
-    return subscribe(state, 'chain_subscribeNewHead', [cb]).then((id) => {
-      expect(state.subscriptionMap[id]).toEqual('chain_subscribeNewHead');
-      expect(state.subscriptions['chain_subscribeNewHead'].callbacks[id]).toEqual(cb);
+    return subscribe(state, 'chain_newHead', [cb]).then((id) => {
+      expect(state.subscriptionMap[id]).toEqual('chain_newHead');
+      expect(state.subscriptions['chain_newHead'].callbacks[id]).toEqual(cb);
     });
   });
 
   it('calls back with the last known value', (done) => {
-    state.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
+    state.subscriptions['chain_newHead'].lastValue = 'testValue';
 
-    subscribe(state, 'chain_subscribeNewHead', [(_, value) => {
+    subscribe(state, 'chain_newHead', [(_, value) => {
       expect(value).toEqual('testValue');
       done();
     }]);

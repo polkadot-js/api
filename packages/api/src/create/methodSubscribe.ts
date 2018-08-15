@@ -17,8 +17,8 @@ import formatResult from './formatResult';
 
 export default function methodSubscribe (provider: ProviderInterface, rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
   const unsubscribe = (subscriptionId: any): Promise<any> =>
-    provider.send(rpcName.replace('subscribe', 'unsubscribe'), [subscriptionId]);
-  const call = async (...values: Array<any>): Promise<any> => {
+    provider.send(method.subscribe[1], [subscriptionId]);
+  const _call = async (...values: Array<any>): Promise<any> => {
     try {
       const cb: ProviderInterface$Callback = values.pop();
 
@@ -29,14 +29,15 @@ export default function methodSubscribe (provider: ProviderInterface, rpcName: s
         cb(error, formatResult(method, params, values, result));
       };
 
-      return provider.subscribe(rpcName, params, update);
+      return provider.subscribe(method.subscribe[0], params, update);
     } catch (error) {
       throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
     }
   };
 
-  // @ts-ignore yes, we are extending here
+  const call = _call as ApiInterface$Section$Method;
+
   call.unsubscribe = unsubscribe;
 
-  return call as ApiInterface$Section$Method;
+  return call;
 }

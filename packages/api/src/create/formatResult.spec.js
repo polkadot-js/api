@@ -52,7 +52,7 @@ describe('formatResult', () => {
 
   it('encodes multiple keys, decoding multiple results', (done) => {
     api.state
-      .subscribeStorage(
+      .storage(
         [
           [storage.staking.public.freeBalanceOf, ADDR_ONE],
           [storage.staking.public.freeBalanceOf, ADDR_TWO]

@@ -15,12 +15,12 @@ describe.skip('e2e', () => {
     api = createApi(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('subscribes to chain_subscribeNewHead', (done) => {
+  it('subscribes to chain_newHead', (done) => {
     let count = 0;
 
     // tslint:disable-next-line
     api.chain
-      .subscribeNewHead((error, data) => {
+      .newHead((error, data) => {
         if (error) {
           return done(error);
         }

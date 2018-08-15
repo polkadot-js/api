@@ -24,7 +24,7 @@ describe('state', () => {
     expect(
       state.subscriptions
     ).toMatchObject({
-      'chain_subscribeNewHead': {
+      'chain_newHead': {
         callbacks: {},
         lastValue: null
       }

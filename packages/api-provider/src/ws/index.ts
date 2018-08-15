@@ -18,11 +18,15 @@ import coder from '../coder/json';
 
 type WsState$Awaiting = {
   callback: ProviderInterface$Callback,
+  method: string,
+  params: Array<any>,
   subscription?: ProviderInterface$Callback
 };
 
 type WsState$Subscription = {
-  callback: ProviderInterface$Callback
+  callback: ProviderInterface$Callback,
+  method: string,
+  params: Array<any>
 };
 
 interface WSProviderInterface extends ProviderInterface {
@@ -42,7 +46,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     [index: string]: string
   };
   private subscriptions: {
-    [index: number]: WsState$Subscription
+    [index: string]: WsState$Subscription
   };
   private websocket: WebSocket | null;
 
@@ -104,6 +108,8 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
 
         this.handlers[id] = {
           callback,
+          method,
+          params,
           subscription
         };
 
@@ -125,7 +131,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   async unsubscribe (method: string, id: number): Promise<boolean> {
-    assert(!isUndefined(this.subscriptions[id]), `Unable to find active subscription=${id}`);
+    assert(!isUndefined(this.subscriptions[`${method}::${id}`]), `Unable to find active subscription=${id}`);
 
     delete this.subscriptions[id];
 
@@ -172,12 +178,14 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     }
 
     try {
-      const { subscription } = this.handlers[response.id];
+      const { method, params, subscription } = this.handlers[response.id];
       const result = this.coder.decodeResponse(response);
 
       if (subscription) {
-        this.subscriptions[result as number] = {
-          callback: subscription
+        this.subscriptions[`${method}::${result}`] = {
+          callback: subscription,
+          method,
+          params
         };
       }
 
@@ -190,12 +198,14 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    this.l.debug(() => ['handling: response =', response, 'subscription =', response.params.subscription]);
+    const subscription = `${response.method}::${response.params.subscription}`;
 
-    const handler = this.subscriptions[response.params.subscription];
+    this.l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
+
+    const handler = this.subscriptions[subscription];
 
     if (!handler) {
-      this.l.error(`Unable to find handler for subscription=${response.params.subscription}`);
+      this.l.error(`Unable to find handler for subscription=${subscription}`);
       return;
     }
 
