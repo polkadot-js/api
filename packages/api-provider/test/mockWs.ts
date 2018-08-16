@@ -50,22 +50,28 @@ function mockWs (requests: Array<{ method: string }>) {
     body: {},
     requests: 0,
     server,
-    done: () => server.stop()
+    done: () =>
+      server.stop(() => {
+        // ignore
+      })
   };
 
-  server.on('message', (body: {}) => {
-    const request = requests[requestCount];
-    // @ts-ignore Yes, SHOULD be fixed, this is a mess
-    const response = request.error
+  server.on('connection', (socket) => {
+    // @ts-ignore definitions are wrong, this is 'on', not 'onmessage'
+    socket.on('message', (body: {}) => {
+      const request = requests[requestCount];
       // @ts-ignore Yes, SHOULD be fixed, this is a mess
-      ? createError(request)
-      // @ts-ignore Yes, SHOULD be fixed, this is a mess
-      : createReply(request);
+      const response = request.error
+        // @ts-ignore Yes, SHOULD be fixed, this is a mess
+        ? createError(request)
+        // @ts-ignore Yes, SHOULD be fixed, this is a mess
+        : createReply(request);
 
-    scope.body[request.method] = body;
-    requestCount++;
+      scope.body[request.method] = body;
+      requestCount++;
 
-    server.send(JSON.stringify(response));
+      socket.send(JSON.stringify(response));
+    });
   });
 
   return scope;
