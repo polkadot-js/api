@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/primitives",
-  "version": "0.28.14",
+  "version": "0.28.15",
   "description": "Type defintions for the Polkadot network",
   "main": "index.js",
   "engines": {
