@@ -28,11 +28,6 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel && polkadot-dev-build-docs",
-    "check": "eslint src && flow check",
-    "test": "echo \"Tests only available from root wrapper\""
-  },
   "dependencies": {
     "@polkadot/params": "^0.28.14",
     "babel-runtime": "^6.26.0"

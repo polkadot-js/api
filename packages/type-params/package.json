@@ -27,17 +27,12 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-params#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint src && flow check",
-    "test": "echo \"Tests only available from root wrapper\""
-  },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
+    "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/extrinsics": "^0.28.14",
     "@polkadot/params": "^0.28.14",
     "@polkadot/primitives": "^0.28.14",
-    "@polkadot/util": "^0.28.2",
-    "@polkadot/util-keyring": "^0.28.2"
+    "@polkadot/util": "^0.28.3",
+    "@polkadot/util-keyring": "^0.28.3"
   }
 }

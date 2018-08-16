@@ -27,15 +27,10 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-primitives#readme",
-  "scripts": {
-    "build": "polkadot-dev-build-babel",
-    "check": "eslint src && flow check",
-    "test": "echo \"Tests only available from root wrapper\""
-  },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.51",
-    "@polkadot/trie-hash": "^0.28.2",
-    "@polkadot/util": "^0.28.2"
+    "@babel/runtime": "^7.0.0-rc.1",
+    "@polkadot/trie-hash": "^0.28.3",
+    "@polkadot/util": "^0.28.3"
   },
   "devDependencies": {
     "bn.js": "^4.11.8"
