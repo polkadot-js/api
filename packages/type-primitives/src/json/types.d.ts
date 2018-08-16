@@ -46,7 +46,11 @@ export type JsonHeader = {
   digest: JsonDigest
 };
 
-export type JsonJustification = {};
+export type JsonJustification = {
+  hash: string,
+  round_number: number,
+  signatures: Array<[string, string]>
+};
 
 export type JsonBlock = {
   block: {
