@@ -33,10 +33,19 @@ export type BlockExtrinsicDecoded = {
   signature: Uint8Array
 }
 
+export type BlockJustificationDecoded = {
+  hash: Uint8Array,
+  round: BN,
+  signatures: Array<{
+    address: string,
+    signature: Uint8Array
+  }>
+}
+
 export type BlockDecoded = {
   header: Header,
   extrinsics: Array<BlockExtrinsicDecoded>,
-  justification: any
+  justification: BlockJustificationDecoded
 };
 
 export type KeyValue = {
