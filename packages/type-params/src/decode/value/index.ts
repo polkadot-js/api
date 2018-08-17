@@ -5,11 +5,12 @@
 import { EncodingVersions, Param$Decoded, Param$Type } from '../../types';
 import { Decoder } from '../types';
 
-import sizes from '@polkadot/primitives/sizes';
+import defaultSizes from '@polkadot/primitives/sizes';
 import toU8a from '@polkadot/util/u8a/toU8a';
 import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
 
+import sizes from '../../sizes';
 import accountId from './accountId';
 import bool from './bool';
 import bn from './bn';
@@ -37,8 +38,11 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
       case 'AccountId':
         return accountId(input, version, isStorage);
 
+      case 'AccountIndex':
+        return bn(input, sizes.AccountIndex.get(version) || defaultSizes.AccountIndex);
+
       case 'Balance':
-        return bn(input, sizes.Balance);
+        return bn(input, sizes.Balance.get(version) || defaultSizes.Balance);
 
       case 'BlockNumber':
       case 'Gas':
@@ -71,9 +75,6 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
 
       case 'Hash':
         return u8a(input, 256, 0);
-
-      case 'AccountIndex':
-        return bn(input, sizes.AccountIndex);
 
       case 'KeyValue':
       case 'StorageKeyValue':

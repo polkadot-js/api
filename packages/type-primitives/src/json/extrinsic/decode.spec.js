@@ -16,12 +16,34 @@ const extrinsics = [
   ])
 ];
 
+const poc1 = new Uint8Array([
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 36, 241, 242, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+]);
+
 describe('extrinsic', () => {
   extrinsics.forEach((extrinsic, index) => {
     it(`decodes the extrinsic - ${index}`, () => {
       const decoded = decode(extrinsic);
 
       expect(decoded).toBeDefined();
+    });
+  });
+
+  it('decodes poc-1 extrinsic', () => {
+    expect(
+      decode(poc1).extrinsic
+    ).toMatchObject({
+      name: 'set',
+      section: 'timestamp'
+    });
+  });
+
+  it('decodes poc-2/latest extrinsic', () => {
+    expect(
+      decode(extrinsics[1]).extrinsic
+    ).toMatchObject({
+      name: 'setHeads',
+      section: 'parachains'
     });
   });
 });
