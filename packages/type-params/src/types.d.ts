@@ -27,7 +27,7 @@ export type ExtrinsicDecoded = {
 
 export type BlockExtrinsicDecoded = {
   address: string,
-  nonce: BN,
+  accountIndex: BN,
   extrinsic: SectionItem<Extrinsics>,
   params: Array<any>,
   signature: Uint8Array
