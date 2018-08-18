@@ -27,6 +27,9 @@ export default function encodeType (type: Param$Type, value: any, version: Encod
           addressDecode(value)
         );
 
+      case 'AccountIndex':
+        return bnToU8a(value, sizes.AccountIndex.get(version) || defaultSizes.Balance, true);
+
       case 'Balance':
         return bnToU8a(value, sizes.Balance.get(version) || defaultSizes.Balance, true);
 
@@ -56,9 +59,6 @@ export default function encodeType (type: Param$Type, value: any, version: Encod
       case 'Hash':
       case 'Signature':
         return u8aToU8a(value);
-
-      case 'AccountIndex':
-        return bnToU8a(value, sizes.AccountIndex.get(version) || defaultSizes.Balance, true);
 
       case 'InputNumber':
         return bnToU8a(value, sizes.InputNumber.get(version) || defaultSizes.InputNumber, true);

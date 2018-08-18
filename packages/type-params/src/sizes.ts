@@ -5,13 +5,13 @@
 import sizes, { SizeType } from '@polkadot/primitives/sizes';
 import { EncodingVersions } from './types';
 
-const Balance: Map<EncodingVersions, SizeType> = new Map([
-  ['latest' as EncodingVersions, sizes.Balance],
+const AccountIndex: Map<EncodingVersions, SizeType> = new Map([
+  ['latest' as EncodingVersions, sizes.AccountIndex],
   ['poc-1' as EncodingVersions, 64 as SizeType]
 ]);
 
-const AccountIndex: Map<EncodingVersions, SizeType> = new Map([
-  ['latest' as EncodingVersions, sizes.AccountIndex],
+const Balance: Map<EncodingVersions, SizeType> = new Map([
+  ['latest' as EncodingVersions, sizes.Balance],
   ['poc-1' as EncodingVersions, 64 as SizeType]
 ]);
 

@@ -27,6 +27,9 @@ export default function formatParams (params: Params, values: Storage$Key$Value[
         case 'AccountId':
           return addressDecode((value as Uint8Array));
 
+        case 'AccountIndex':
+          return bnToU8a((value as BN), sizes.AccountIndex, true);
+
         case 'Balance':
           return bnToU8a((value as BN), sizes.Balance, true);
 
@@ -57,9 +60,6 @@ export default function formatParams (params: Params, values: Storage$Key$Value[
         case 'Proposal':
         case 'Signature':
           return u8aToU8a((value as Uint8Array));
-
-        case 'AccountIndex':
-          return bnToU8a((value as BN), sizes.AccountIndex, true);
 
         case 'InputNumber':
           return bnToU8a((value as BN), sizes.InputNumber, true);
