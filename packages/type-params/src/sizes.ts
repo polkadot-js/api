@@ -15,7 +15,13 @@ const AccountIndex: Map<EncodingVersions, SizeType> = new Map([
   ['poc-1' as EncodingVersions, 64 as SizeType]
 ]);
 
+const InputNumber: Map<EncodingVersions, SizeType> = new Map([
+  ['latest' as EncodingVersions, sizes.InputNumber],
+  ['poc-1' as EncodingVersions, 64 as SizeType]
+]);
+
 export default {
   AccountIndex,
-  Balance
+  Balance,
+  InputNumber
 };

@@ -61,6 +61,9 @@ export default function formatParams (params: Params, values: Storage$Key$Value[
         case 'AccountIndex':
           return bnToU8a((value as BN), sizes.AccountIndex, true);
 
+        case 'InputNumber':
+          return bnToU8a((value as BN), sizes.InputNumber, true);
+
         case 'ParachainId':
         case 'PropIndex':
         case 'ReferendumIndex':

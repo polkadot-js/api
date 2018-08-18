@@ -12,7 +12,7 @@ const propose: CreateItemOptions = {
   description: 'Propose',
   params: [
     param('proposal', 'Proposal'),
-    param('value', 'Balance')
+    param('value', 'InputNumber')
   ],
   type: []
 };
