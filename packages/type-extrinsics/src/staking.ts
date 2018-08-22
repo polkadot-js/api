@@ -28,7 +28,7 @@ const transfer: CreateItemOptions = {
   description: 'Transfer',
   params: [
     param('recipient', 'AccountId'),
-    param('value', 'Balance')
+    param('value', 'InputNumber')
   ],
   type: []
 };

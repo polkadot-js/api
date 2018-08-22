@@ -76,6 +76,9 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
       case 'Hash':
         return u8a(input, 256, 0);
 
+      case 'InputNumber':
+        return bn(input, sizes.InputNumber.get(version) || defaultSizes.InputNumber);
+
       case 'KeyValue':
       case 'StorageKeyValue':
         return keyValue(input);
