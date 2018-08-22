@@ -8,6 +8,20 @@ import { Extrinsics, Extrinsic$Sections } from './types';
 import param from '@polkadot/params/param';
 import createSection from '@polkadot/params/section';
 
+const forceNewSession: CreateItemOptions = {
+  description: 'Force new session',
+  params: [],
+  type: []
+};
+
+const noteOffline: CreateItemOptions = {
+  description: 'Indicate offline validators',
+  params: [
+    param('indexes', ['u32'])
+  ],
+  type: []
+};
+
 const setKey: CreateItemOptions = {
   description: 'Set session key',
   params: [
@@ -24,18 +38,14 @@ const setLength: CreateItemOptions = {
   type: []
 };
 
-const forceNewSession: CreateItemOptions = {
-  description: 'Force new session',
-  params: [],
-  type: []
-};
-
 export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, any, any> =>
   createSection(name, index)((createMethod: CreateItems<Extrinsics>) => ({
     description: 'Session',
     public: {
       setKey:
-        createMethod('setKey', 0)(setKey)
+        createMethod('setKey', 0)(setKey),
+      noteOffline:
+        createMethod('noteOffline', 1)(noteOffline)
     },
     private: {
       setLength:
