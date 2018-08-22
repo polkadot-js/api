@@ -78,7 +78,6 @@ describe.skip('e2e', () => {
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
       .then((block) => {
         expect(block).toBeDefined();
-        console.error(block.extrinsics);
       })
       .catch((error) => {
         console.error(error);
