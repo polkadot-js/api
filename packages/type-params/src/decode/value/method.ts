@@ -24,19 +24,19 @@ export default function call (decode: Decoder, input: Uint8Array | null | undefi
     } as Param$Decoded;
   }
 
-  const section: Section<Extrinsics, any, any> | undefined = Object.values(extrinsics).find(({ index }) =>
+  const _section: Section<Extrinsics, any, any> | undefined = Object.values(extrinsics).find(({ index }) =>
     index[0] === input[0]
   );
 
-  assert(!isUndefined(section), `Unable to find extrinsic section ${input[0]}`);
+  assert(!isUndefined(_section), `Unable to find extrinsic section ${input[0]}`);
 
-  // @ts-ignore checked above
+  const section = _section as Section<Extrinsics, any, any>;
   const methods = section[isPublic ? 'public' : 'private'];
   const extrinsic = Object.values(methods).find(({ index }) =>
     index[1] === input[1]
   );
 
-  assert(!isUndefined(extrinsic), `Unable to find method ${input[1]}`);
+  assert(!isUndefined(extrinsic), `Unable to find method ${input[1]} for section '${section.name}'`);
 
   // @ts-ignore checked above
   const params = extrinsic.params;

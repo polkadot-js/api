@@ -60,7 +60,7 @@ describe.skip('e2e', () => {
       });
   });
 
-  it('retrieves a block by hash', () => {
+  it('retrieves a block by hash (krumme lanke #1)', () => {
     return api.chain
       .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
       .then((block) => {
@@ -73,7 +73,20 @@ describe.skip('e2e', () => {
       });
   });
 
-  it.skip('retrieves the pending extrinsics', () => {
+  it('retrieves a block by hash (krumme lanke #2)', () => {
+    return api.chain
+      .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
+      .then((block) => {
+        expect(block).toBeDefined();
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
+  it('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()
       .then((extrinsics) => {
