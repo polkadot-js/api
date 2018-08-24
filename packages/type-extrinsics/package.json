@@ -13,6 +13,6 @@
     "@babel/runtime": "^7.0.0-rc.1",
     "@polkadot/params": "^0.28.20",
     "@polkadot/primitives": "^0.28.20",
-    "@polkadot/util": "^0.28.4"
+    "@polkadot/util": "^0.28.6"
   }
 }
