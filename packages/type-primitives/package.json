@@ -29,8 +29,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-primitives#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/trie-hash": "^0.28.7",
-    "@polkadot/util": "^0.28.7"
+    "@polkadot/trie-hash": "^0.28.13",
+    "@polkadot/util": "^0.28.13"
   },
   "devDependencies": {
     "bn.js": "^4.11.8"

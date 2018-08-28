@@ -23,9 +23,9 @@ npm install --save @polkadot/api-provider
 Initialisation -
 
 ```js
-import HttpProvider from '@polkadot/api-provider/http';
+import WsProvider from '@polkadot/api-provider/ws';
 
-const provider = new HttpProvider('http://127.0.0.1:9933');
+const provider = new WsProvider('http://127.0.0.1:9944');
 const version = await provider.send('client_version', []);
 
 console.log('clientVersion', version);

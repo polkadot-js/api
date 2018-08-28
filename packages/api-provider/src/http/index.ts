@@ -13,6 +13,8 @@ import logger from '@polkadot/util/logger';
 
 import coder from '../coder/json';
 
+const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
+
 export default class HttpProvider implements ProviderInterface {
   private coder: RpcCoder;
   private endpoint: string;
@@ -31,7 +33,7 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
-    this.l.error(`Provider does not have 'on' emitters for type '${type}'`);
+    this.l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
   async send (method: string, params: Array<any>): Promise<any> {
@@ -54,10 +56,14 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
-    throw new Error('Subscriptions has not been implemented');
+    this.l.error(ERROR_SUBSCRIBE);
+
+    throw new Error(ERROR_SUBSCRIBE);
   }
 
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
-    throw new Error('Subscriptions has not been implemented');
+    this.l.error(ERROR_SUBSCRIBE);
+
+    throw new Error(ERROR_SUBSCRIBE);
   }
 }
