@@ -26,9 +26,9 @@ Initialisation -
 
 ```js
 import createApi from '@polkadot/api';
-import HttpProvider from '@polkadot/api-provider/http';
+import WsProvider from '@polkadot/api-provider/ws';
 
-const provider = new HttpProvider('http://127.0.0.1:9933');
+const provider = new HttpProvider('http://127.0.0.1:9944');
 const api = createApi(provider);
 ```
 
@@ -39,4 +39,40 @@ api.chain
   .getHeader('0x1234567890')
   .then((header) => console.log(header))
   .catch((error) => console.error(error));
+```
+
+Retrieving the best block -
+
+```js
+api.chain
+  .getHead()
+  .then((headerHash) => {
+    return api.chain.getHeader(headerHash);
+  })
+  .then((header) => {
+    console.log(`best #${header.number.toString()}`);
+  })
+  .catch((error) => {
+    console.error('error:', error);
+  });
+```
+
+Retrieving best best via subscription -
+
+```js
+api.chain
+  .newHead((error, header) => {
+    if (error) {
+      console.error('error:', error);
+    }
+
+    console.log(`best #${header.number.toString()}`);
+  })
+  .then((subscriptionId) => {
+    // id for the subscription, can unsubscribe via
+    // api.chain.newHead.unsubscribe(subscriptionId)
+  })
+  .catch((error) => {
+    console.error('error subscripbing:', error);
+  });
 ```
