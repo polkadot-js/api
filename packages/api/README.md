@@ -73,6 +73,6 @@ api.chain
     // api.chain.newHead.unsubscribe(subscriptionId)
   })
   .catch((error) => {
-    console.error('error subscripbing:', error);
+    console.error('error subscribing:', error);
   });
 ```
