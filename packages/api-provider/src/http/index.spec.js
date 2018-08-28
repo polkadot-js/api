@@ -31,13 +31,13 @@ describe('Http', () => {
 
   it('does not (yet) support subscribe', () => {
     return http.subscribe().catch((error) => {
-      expect(error.message).toMatch(/has not been implemented/);
+      expect(error.message).toMatch(/does not have subscriptions/);
     });
   });
 
   it('does not (yet) support unsubscribe', () => {
     return http.unsubscribe().catch((error) => {
-      expect(error.message).toMatch(/has not been implemented/);
+      expect(error.message).toMatch(/does not have subscriptions/);
     });
   });
 });
