@@ -41,7 +41,7 @@ api.chain
   .catch((error) => console.error(error));
 ```
 
-Retrieving the best block -
+Retrieving the best block (once-off) -
 
 ```js
 api.chain
@@ -57,7 +57,7 @@ api.chain
   });
 ```
 
-Retrieving best best via subscription -
+Retrieving best header via subscription -
 
 ```js
 api.chain
