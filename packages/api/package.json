@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.28.23",
+  "version": "0.28.24",
   "description": "A JavaScript wrapper for the Polkadot JsonRPC interface",
   "main": "index.js",
   "keywords": [
@@ -30,10 +30,10 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/api-format": "^0.28.23",
-    "@polkadot/api-provider": "^0.28.23",
-    "@polkadot/jsonrpc": "^0.28.23",
-    "@polkadot/params": "^0.28.23",
+    "@polkadot/api-format": "^0.28.24",
+    "@polkadot/api-provider": "^0.28.24",
+    "@polkadot/jsonrpc": "^0.28.24",
+    "@polkadot/params": "^0.28.24",
     "@polkadot/util": "^0.28.21"
   }
 }
