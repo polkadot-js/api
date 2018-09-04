@@ -47,6 +47,24 @@ const unstake: CreateItemOptions = {
   type: []
 };
 
+const registerSlashPreference: CreateItemOptions = {
+  description: 'Preference for slashing',
+  params: [
+    param('intentionIndex', 'u32'),
+    // FIXME This is actually a 'SlashPreference' struct (for now only a single value)
+    param('unstakeThreshold', 'u32')
+  ],
+  type: []
+};
+
+const noteMissedProposal: CreateItemOptions = {
+  description: 'Indicate that a proposal has been missed',
+  params: [
+    param('offlineValIndices', ['u32'])
+  ],
+  type: []
+};
+
 const setSessionsPerEra: CreateItemOptions = {
   description: 'Set sessions per era',
   params: [
@@ -77,6 +95,24 @@ const forceNewEra: CreateItemOptions = {
   type: []
 };
 
+const setOfflineSlashGrace: CreateItemOptions = {
+  description: 'Sets the offline grace period before slashing',
+  params: [
+    param('value', 'u32')
+  ],
+  type: []
+};
+
+const setBalance: CreateItemOptions = {
+  description: 'Sets the balance for an account',
+  params: [
+    param('who', 'AccountId'),
+    param('free', 'Balance'),
+    param('reserved', 'Balance')
+  ],
+  type: []
+};
+
 export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, any, any> =>
   createSection(name, index)((createMethod: CreateItems<Extrinsics>) => ({
     description: 'Staking',
@@ -90,7 +126,11 @@ export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, an
       nominate:
         createMethod('nominate', 3)(nominate),
       unnominate:
-        createMethod('unnominate', 4)(unnominate)
+        createMethod('unnominate', 4)(unnominate),
+      registerSlashPreference:
+        createMethod('registerSlashPreference', 5)(registerSlashPreference),
+      noteMissedProposal:
+        createMethod('noteMissedProposal', 6)(noteMissedProposal)
     },
     private: {
       setSessionsPerEra:
@@ -100,6 +140,10 @@ export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, an
       setValidatorCount:
         createMethod('setValidatorCount', 2)(setValidatorCount),
       forceNewEra:
-        createMethod('forceNewEra', 3)(forceNewEra)
+        createMethod('forceNewEra', 3)(forceNewEra),
+      setOfflineSlashGrace:
+        createMethod('setOfflineSlashGrace', 4)(setOfflineSlashGrace),
+      setBalance:
+        createMethod('setBalance', 5)(setBalance)
     }
   }));
