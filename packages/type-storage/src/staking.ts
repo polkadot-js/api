@@ -16,8 +16,15 @@ const bondingDuration: CreateItemOptions = {
 };
 
 const validatorCount: CreateItemOptions = {
-  description: 'The number of validators',
+  description: 'The ideal number of staking participants',
   key: 'sta:vac',
+  params: [],
+  type: 'u32'
+};
+
+const minimumValidatorCount: CreateItemOptions = {
+  description: 'Minimum number of staking participants before emergency conditions are imposed',
+  key: 'sta:minimum_validator_count',
   params: [],
   type: 'u32'
 };
@@ -92,11 +99,27 @@ const earlyEraSlash: CreateItemOptions = {
   type: 'Balance'
 };
 
+const offlineSlashGrace: CreateItemOptions = {
+  description: 'Number of instances of offline reports before slashing begins for validators',
+  key: 'sta:offline_slash_grace',
+  params: [],
+  type: 'u32'
+};
+
 const currentEra: CreateItemOptions = {
   description: 'The current era index',
   key: 'sta:era',
   params: [],
   type: 'BlockNumber'
+};
+
+const slashPreferenceOf: CreateItemOptions = {
+  description: 'How many times the validator should get slashed for being offline and automatically unstaked',
+  key: 'sta:slash_preference_of',
+  params: [
+    param('who', 'AccountId')
+  ],
+  type: 'u32'
 };
 
 const intentions: CreateItemOptions = {
@@ -141,7 +164,7 @@ const nextSessionsPerEra: CreateItemOptions = {
 };
 
 const lastEraLengthChange: CreateItemOptions = {
-  description: 'The block number at which the era length last changed',
+  description: 'The session index at which the era length last changed',
   key: 'sta:lec',
   params: [],
   type: 'BlockNumber'
@@ -231,6 +254,8 @@ export default (name: Storage$Sections): Section<Storages, any, any> =>
         createMethod('intentions')(intentions),
       lastEraLengthChange:
         createMethod('lastEraLengthChange')(lastEraLengthChange),
+      minimumValidatorCount:
+        createMethod('minimumValidatorCount')(minimumValidatorCount),
       nextEnumSet:
         createMethod('nextEnumSet')(nextEnumSet),
       nextSessionsPerEra:
@@ -239,8 +264,12 @@ export default (name: Storage$Sections): Section<Storages, any, any> =>
         createMethod('nominating')(nominating),
       nominatorsFor:
         createMethod('nominatorsFor')(nominatorsFor),
+      offlineSlashGrace:
+        createMethod('offlineSlashGrace')(offlineSlashGrace),
       reclaimRebate:
         createMethod('reclaimRebate')(reclaimRebate),
+      slashPreferenceOf:
+        createMethod('slashPreferenceOf')(slashPreferenceOf),
       stakeThreshold:
         createMethod('stakeThreshold')(stakeThreshold),
       sessionsPerEra:
