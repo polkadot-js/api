@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-provider",
-  "version": "0.28.25",
+  "version": "0.28.26",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/storage": "^0.28.25",
+    "@polkadot/storage": "^0.28.26",
     "@polkadot/util": "^0.29.21",
     "@polkadot/util-crypto": "^0.29.21",
     "@polkadot/util-keyring": "^0.29.21",

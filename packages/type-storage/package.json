@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/storage",
-  "version": "0.28.25",
+  "version": "0.28.26",
   "description": "Generic wrapper wrapper around state storage",
   "main": "index.js",
   "engines": {
@@ -30,8 +30,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-storage#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0-rc.1",
-    "@polkadot/params": "^0.28.25",
-    "@polkadot/primitives": "^0.28.25",
+    "@polkadot/params": "^0.28.26",
+    "@polkadot/primitives": "^0.28.26",
     "@polkadot/util": "^0.29.21",
     "@polkadot/util-crypto": "^0.29.21",
     "@polkadot/util-keyring": "^0.29.21"
