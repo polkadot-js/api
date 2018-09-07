@@ -33,11 +33,11 @@
     "nock": "^9.6.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@polkadot/storage": "^0.28.27",
-    "@polkadot/util": "^0.29.21",
-    "@polkadot/util-crypto": "^0.29.21",
-    "@polkadot/util-keyring": "^0.29.21",
+    "@polkadot/util": "^0.29.32",
+    "@polkadot/util-crypto": "^0.29.32",
+    "@polkadot/util-keyring": "^0.29.32",
     "@types/nock": "^9.1.3",
     "eventemitter3": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",

@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-format#readme",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0",
     "@polkadot/jsonrpc": "^0.28.27",
     "@polkadot/primitives": "^0.28.27",
-    "@polkadot/util": "^0.29.21",
-    "@polkadot/util-keyring": "^0.29.21"
+    "@polkadot/util": "^0.29.32",
+    "@polkadot/util-keyring": "^0.29.32"
   }
 }
