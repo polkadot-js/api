@@ -32,7 +32,7 @@
     "@babel/runtime": "^7.0.0",
     "@polkadot/jsonrpc": "^0.28.28",
     "@polkadot/primitives": "^0.28.28",
-    "@polkadot/util": "^0.29.32",
-    "@polkadot/util-keyring": "^0.29.32"
+    "@polkadot/util": "^0.29.33",
+    "@polkadot/util-keyring": "^0.29.33"
   }
 }
