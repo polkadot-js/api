@@ -1,21 +1,40 @@
 {
   "extends": "./node_modules/@polkadot/dev/config/tsconfig",
-  "compilerOptions": {
+  "compilerOptions":
+  {
     "baseUrl": ".",
-    "paths": {
-      "@polkadot/api-format/*": [ "packages/api-format/src/*" ],
-      "@polkadot/api-provider/*": [ "packages/api-provider/src/*" ],
-      "@polkadot/api-rx/*": [ "packages/api-rx/src/*" ],
-      "@polkadot/api/*": [ "packages/api/src/*" ],
-      "@polkadot/extrinsics/*": [ "packages/type-extrinsics/src/*" ],
-      "@polkadot/jsonrpc/*": [ "packages/type-jsonrpc/src/*" ],
-      "@polkadot/params/*": [ "packages/type-params/src/*" ],
-      "@polkadot/primitives/*": [ "packages/type-primitives/src/*" ],
-      "@polkadot/storage/*": [ "packages/type-storage/src/*" ],
+    "paths":
+    {
+      "@polkadot/api-format/*": ["packages/api-format/src/*"],
+      "@polkadot/api-provider/*": ["packages/api-provider/src/*"],
+      "@polkadot/api-rx/*": ["packages/api-rx/src/*"],
+      "@polkadot/api/*": ["packages/api/src/*"],
+      "@polkadot/extrinsics/*": ["packages/type-extrinsics/src/*"],
+      "@polkadot/jsonrpc/*": ["packages/type-jsonrpc/src/*"],
+      "@polkadot/params/*": ["packages/type-params/src/*"],
+      "@polkadot/primitives/*": ["packages/type-primitives/src/*"],
+      "@polkadot/storage/*": ["packages/type-storage/src/*"],
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ]
+  },
+  "typedocOptions":
+  {
+    "name": "Polkadot JS API",
+    "out": "docs",
+    "mode": "file",
+    "excludeExternals": true,
+    "exclude": "*.md,*.spec.js",
+    "theme": "default",
+    "ignoreCompilerErrors": true,
+    "includeDeclarations": true,
+    "excludePrivate": true,
+    "excludeNotExported": true,
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "suppressExcessPropertyErrors": true,
+    "suppressImplicitAnyIndexErrors": true,
   }
 }

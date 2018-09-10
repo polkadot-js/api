@@ -37,6 +37,18 @@ interface WSProviderInterface extends ProviderInterface {
   connect (): void;
 }
 
+/**
+ * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
+ * it does support subscriptions and allows listening to events such as new blocks or balance changes.
+ * @example
+ * ```javascript
+ *
+ * import createApi from '@polkadot/api';
+ * import WsProvider from '@polkadot/api-provider/ws';
+ * const provider = new WsProvider('ws://127.0.0.1:9944');
+ * const api = createApi(provider);
+ * ```
+ */
 export default class WsProvider extends E3.EventEmitter implements WSProviderInterface {
   private autoConnect: boolean;
   private coder: RpcCoder;
@@ -54,6 +66,10 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   };
   private websocket: WebSocket | null;
 
+  /**
+   * @param {string}     endpoint The endpoint url. Usually ws://ip:9944 or wss://ip:9944
+   * @param {boolean =        true}        autoConnect Whether to connect automatically or not.
+   */
   constructor (endpoint: string, autoConnect: boolean = true) {
     super();
 
@@ -74,6 +90,10 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     }
   }
 
+  /**
+   * The [[WsProvider]] connects automatically by default. if you decided otherwise, you may
+   * connect manually using this method.
+   */
   connect (): void {
     try {
       this.websocket = new WebSocket(this.endpoint);
@@ -87,10 +107,20 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     }
   }
 
+  /**
+   * Whether the node is connected or not.
+   * @return {boolean} true if connected
+   */
   isConnected (): boolean {
     return this._isConnected;
   }
 
+  /**
+   * Listens on events after having subscribed using the [[subscribe]] function.
+   * @param  {ProviderInterface$Emitted} type Event
+   * @param  {ProviderInterface$EmitCb}  sub  Callback
+   * @return {this}                           [description]
+   */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): this {
     return super.on(type, sub);
   }
@@ -128,12 +158,34 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     });
   }
 
+  /**
+   * Allows subscribing to a specific event.
+   * @param  {string}                     type     Subscription type
+   * @param  {string}                     method   Subscription method
+   * @param  {Array<any>}                 params   Parameters
+   * @param  {ProviderInterface$Callback} callback Callback
+   * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
+   * @example
+   * ```javascript
+   *
+   * const provider = new WsProvider('ws://127.0.0.1:9944')
+   * const api = createApi(provider)
+   * api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
+   *   console.log(values)
+   * }).then((subscriptionId) => {
+   *   console.log('balance changes subscription id: ', subscriptionId)
+   * })
+   * ```
+   */
   async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
 
     return id as number;
   }
 
+  /**
+   * Allows unsubscribing to subscriptions made with [[subscribe]].
+   */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
 

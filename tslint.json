@@ -1,3 +1,6 @@
 {
-  "extends": "@polkadot/dev/config/tslint"
+  "extends": "@polkadot/dev/config/tslint",
+  "rules": {
+    "completed-docs": true
+  }
 }

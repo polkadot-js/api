@@ -15,6 +15,19 @@ import coder from '../coder/json';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
+/**
+ * The HTTP Provider allows sending requests using HTTP. it does not support subscriptions
+ * so you won´t be able to listen to events such as new blocks or balance changes.
+ * It is usually preferrable using the [[WsProvider]].
+ * @example
+ * ```javascript
+ *
+ * import createApi from '@polkadot/api';
+ * import WsProvider from '@polkadot/api-provider/ws';
+ * const provider = new WsProvider('http://127.0.0.1:9933');
+ * const api = createApi(provider);
+ * ```
+ */
 export default class HttpProvider implements ProviderInterface {
   private coder: RpcCoder;
   private endpoint: string;
@@ -28,10 +41,17 @@ export default class HttpProvider implements ProviderInterface {
     this.l = logger('api-http');
   }
 
+  /**
+   * Whether the node is connected or not.
+   * @return {boolean} true if connected
+   */
   isConnected (): boolean {
     return true;
   }
 
+  /**
+   * Events are not supported with the HttpProvider, see [[WsProvider]].
+   */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
     this.l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
@@ -55,12 +75,18 @@ export default class HttpProvider implements ProviderInterface {
     return this.coder.decodeResponse(result);
   }
 
+  /**
+   * Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
+   */
   async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
     this.l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
   }
 
+  /**
+   * Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
+   */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     this.l.error(ERROR_SUBSCRIBE);
 
