@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.20.19",
-    "@polkadot/ts": "^0.1.25",
-    "typedoc": "^0.12.0"
+    "typedoc": "^0.12.0",
+    "@polkadot/ts": "^0.1.27"
   }
 }
