@@ -34,6 +34,6 @@
     "@polkadot/api-provider": "^0.28.29",
     "@polkadot/jsonrpc": "^0.28.29",
     "@polkadot/params": "^0.28.29",
-    "@polkadot/util": "^0.29.33"
+    "@polkadot/util": "^0.30.1"
   }
 }
