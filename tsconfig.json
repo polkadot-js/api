@@ -19,22 +19,5 @@
       "./node_modules/@polkadot/ts",
       "./node_modules/@types"
     ]
-  },
-  "typedocOptions":
-  {
-    "name": "Polkadot JS API",
-    "out": "docs",
-    "mode": "file",
-    "excludeExternals": true,
-    "exclude": "*.md,*.spec.js",
-    "theme": "default",
-    "ignoreCompilerErrors": true,
-    "includeDeclarations": true,
-    "excludePrivate": true,
-    "excludeNotExported": true,
-    "moduleResolution": "node",
-    "preserveConstEnums": true,
-    "suppressExcessPropertyErrors": true,
-    "suppressImplicitAnyIndexErrors": true,
   }
 }

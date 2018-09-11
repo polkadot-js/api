@@ -40,6 +40,7 @@ interface WSProviderInterface extends ProviderInterface {
 /**
  * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
  * it does support subscriptions and allows listening to events such as new blocks or balance changes.
+ * [[include:create_api.md]]
  * @example
  * ```javascript
  *
@@ -48,6 +49,7 @@ interface WSProviderInterface extends ProviderInterface {
  * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = createApi(provider);
  * ```
+ * @see [[HttpProvider]]
  */
 export default class WsProvider extends E3.EventEmitter implements WSProviderInterface {
   private autoConnect: boolean;
@@ -67,7 +69,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   private websocket: WebSocket | null;
 
   /**
-   * @param {string}     endpoint The endpoint url. Usually ws://ip:9944 or wss://ip:9944
+   * @param {string}     endpoint The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean =        true}        autoConnect Whether to connect automatically or not.
    */
   constructor (endpoint: string, autoConnect: boolean = true) {

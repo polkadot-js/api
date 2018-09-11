@@ -27,6 +27,7 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * const provider = new WsProvider('http://127.0.0.1:9933');
  * const api = createApi(provider);
  * ```
+ * @see [[WsProvider]]
  */
 export default class HttpProvider implements ProviderInterface {
   private coder: RpcCoder;

@@ -66,7 +66,15 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>The WebSocket Provider allows sending requests using WebSocket. Unlike the <a href="httpprovider.html">HttpProvider</a>,
-						it does support subscriptions and allows listening to events such as new blocks or balance changes.</p>
+							it does support subscriptions and allows listening to events such as new blocks or balance changes.
+						See also </p>
+						<pre><code class="language-javascript"><span class="hljs-keyword">import</span> createApi <span class="hljs-keyword">from</span> <span class="hljs-string">'@polkadot/api'</span>;
+<span class="hljs-keyword">import</span> WsProvider <span class="hljs-keyword">from</span> <span class="hljs-string">'@polkadot/api-provider/ws'</span>;
+<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">'ws://127.0.0.1:9944'</span>);
+<span class="hljs-keyword">const</span> api = createApi(provider);</code></pre>
+						<p>[[test.md]]
+							[test.md]
+						<a href="test.md">test</a></p>
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
@@ -75,6 +83,9 @@
 <span class="hljs-keyword">import</span> WsProvider <span class="hljs-keyword">from</span> <span class="hljs-string">'@polkadot/api-provider/ws'</span>;
 <span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">'ws://127.0.0.1:9944'</span>);
 <span class="hljs-keyword">const</span> api = createApi(provider);</code></pre>
+						</dd>
+						<dt>see</dt>
+						<dd><p><a href="httpprovider.html">HttpProvider</a></p>
 						</dd>
 					</dl>
 				</div>
@@ -163,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L67">api-provider/src/ws/index.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L69">api-provider/src/ws/index.ts:69</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,7 +185,7 @@
 									<h5>endpoint: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The endpoint url. Usually ws://ip:9944 or wss://ip:9944</p>
+											<p>The endpoint url. Usually <code>ws://ip:9944</code> or <code>wss://ip:9944</code></p>
 										</div>
 									</div>
 								</li>
@@ -248,7 +259,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L97">api-provider/src/ws/index.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L99">api-provider/src/ws/index.ts:99</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -327,7 +338,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L114">api-provider/src/ws/index.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L116">api-provider/src/ws/index.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -442,7 +453,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L124">api-provider/src/ws/index.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L126">api-provider/src/ws/index.ts:126</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -582,7 +593,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L128">api-provider/src/ws/index.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L130">api-provider/src/ws/index.ts:130</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -611,7 +622,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L180">api-provider/src/ws/index.ts:180</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L182">api-provider/src/ws/index.ts:182</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -673,7 +684,7 @@ api.state.storage([[storage.staking.public.freeBalanceOf, &lt;Address&gt;]], (_,
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/7ea21c1/packages/api-provider/src/ws/index.ts#L189">api-provider/src/ws/index.ts:189</a></li>
+									<li>Defined in <a href="https://github.com/chevdor/polkadot-js-api/blob/78235c4/packages/api-provider/src/ws/index.ts#L191">api-provider/src/ws/index.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -774,7 +785,7 @@ api.state.storage([[storage.staking.public.freeBalanceOf, &lt;Address&gt;]], (_,
 		</div>
 	</div>
 </div>
-<footer class="with-border-bottom">
+<footer>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
@@ -833,9 +844,6 @@ api.state.storage([[storage.staking.public.freeBalanceOf, &lt;Address&gt;]], (_,
 		</div>
 	</div>
 </footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
