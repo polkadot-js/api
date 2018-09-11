@@ -19,6 +19,8 @@ interface PrimitiveBase <T, S = Uint8Array> extends PrimitiveEncoder<S> {
   value: T;
 }
 
+export type NumberBitLength = 8 | 32 | 64 | 128;
+
 export interface BlockNumber extends PrimitiveBase<BN> {}
 export interface BlockNumberDecoder extends PrivitiveDecoder<BlockNumber> {}
 

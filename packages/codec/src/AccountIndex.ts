@@ -5,24 +5,25 @@
 import { AccountIndex, AccountIndexDecoder } from './types';
 
 import BN from 'bn.js';
-import Number from './Number';
+
+import BaseNumber from './base/Number';
 
 const BITLENGTH = 64;
 
-class AccountIndexImpl extends Number implements AccountIndex {
+class AccountIndexImpl extends BaseNumber implements AccountIndex {
   constructor (value: BN | number) {
     super(value, BITLENGTH);
   }
 
   static fromJSON (input: any): AccountIndexImpl {
     return new AccountIndexImpl(
-      Number.valueFromJSON(input, BITLENGTH)
+      BaseNumber.valueFromJSON(input, BITLENGTH)
     );
   }
 
   static fromU8a (input: Uint8Array): AccountIndexImpl {
     return new AccountIndexImpl(
-      Number.valueFromU8a(input, BITLENGTH)
+      BaseNumber.valueFromU8a(input, BITLENGTH)
     );
   }
 }

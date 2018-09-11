@@ -5,24 +5,25 @@
 import { BlockNumber, BlockNumberDecoder } from './types';
 
 import BN from 'bn.js';
-import Number from './Number';
+
+import BaseNumber from './base/Number';
 
 const BITLENGTH = 64;
 
-class BlockNumberImpl extends Number implements BlockNumber {
+class BlockNumberImpl extends BaseNumber implements BlockNumber {
   constructor (value: BN | number) {
     super(value, BITLENGTH);
   }
 
   static fromJSON (input: any): BlockNumberImpl {
     return new BlockNumberImpl(
-      Number.valueFromJSON(input, BITLENGTH)
+      BaseNumber.valueFromJSON(input, BITLENGTH)
     );
   }
 
   static fromU8a (input: Uint8Array): BlockNumberImpl {
     return new BlockNumberImpl(
-      Number.valueFromU8a(input, BITLENGTH)
+      BaseNumber.valueFromU8a(input, BITLENGTH)
     );
   }
 }

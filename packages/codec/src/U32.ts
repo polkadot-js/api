@@ -5,24 +5,25 @@
 import { U32, U32Decoder } from './types';
 
 import BN from 'bn.js';
-import Number from './Number';
+
+import BaseNumber from './base/Number';
 
 const BITLENGTH = 32;
 
-class U32Impl extends Number implements U32 {
+class U32Impl extends BaseNumber implements U32 {
   constructor (value: BN | number) {
     super(value, BITLENGTH);
   }
 
   static fromJSON (input: any): U32Impl {
     return new U32Impl(
-      Number.valueFromJSON(input, BITLENGTH)
+      BaseNumber.valueFromJSON(input, BITLENGTH)
     );
   }
 
   static fromU8a (input: Uint8Array): U32Impl {
     return new U32Impl(
-      Number.valueFromU8a(input, BITLENGTH)
+      BaseNumber.valueFromU8a(input, BITLENGTH)
     );
   }
 }

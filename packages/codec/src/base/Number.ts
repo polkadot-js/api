@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { NumberBitLength } from '../types';
+
 import BN from 'bn.js';
 import isHex from '@polkadot/util/is/hex';
 import bnToBn from '@polkadot/util/bn/toBn';
@@ -11,10 +13,10 @@ import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default class Number {
-  private bitLength: number;
+  private bitLength: NumberBitLength;
   value: BN;
 
-  constructor (value: BN | number, bitLength: number) {
+  constructor (value: BN | number, bitLength: NumberBitLength) {
     this.bitLength = bitLength;
     this.value = bnToBn(value);
   }
@@ -31,13 +33,13 @@ export default class Number {
     return bnToHex(this.value, this.bitLength);
   }
 
-  static valueFromJSON (input: any, bitLength: number): BN {
+  static valueFromJSON (input: any, bitLength: NumberBitLength): BN {
     return isHex(input)
       ? hexToBn(input)
       : new BN(input);
   }
 
-  static valueFromU8a (input: Uint8Array, bitLength: number): BN {
-    return u8aToBn(input, true);
+  static valueFromU8a (input: Uint8Array, bitLength: NumberBitLength): BN {
+    return u8aToBn(input.subarray(0, bitLength / 8), true);
   }
 }

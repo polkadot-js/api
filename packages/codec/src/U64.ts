@@ -5,24 +5,25 @@
 import { U64, U64Decoder } from './types';
 
 import BN from 'bn.js';
-import Number from './Number';
+
+import BaseNumber from './base/Number';
 
 const BITLENGTH = 64;
 
-class U64Impl extends Number implements U64 {
+class U64Impl extends BaseNumber implements U64 {
   constructor (value: BN | number) {
     super(value, BITLENGTH);
   }
 
   static fromJSON (input: any): U64Impl {
     return new U64Impl(
-      Number.valueFromJSON(input, BITLENGTH)
+      BaseNumber.valueFromJSON(input, BITLENGTH)
     );
   }
 
   static fromU8a (input: Uint8Array): U64Impl {
     return new U64Impl(
-      Number.valueFromU8a(input, BITLENGTH)
+      BaseNumber.valueFromU8a(input, BITLENGTH)
     );
   }
 }
