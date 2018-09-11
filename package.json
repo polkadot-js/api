@@ -21,6 +21,6 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.20.19",
-    "@polkadot/ts": "^0.1.25"
+    "@polkadot/ts": "^0.1.27"
   }
 }
