@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import toU8a from '@polkadot/util/u8a/toU8a';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 
-export default function justificcationDecode ({ hash, round_number, signatures }: JsonJustification): BlockJustificationDecoded {
+export default function justificationDecode ({ hash, round_number, signatures }: JsonJustification): BlockJustificationDecoded {
   return {
     hash: toU8a(hash),
     round: new BN(round_number),

@@ -1225,9 +1225,9 @@
     "@polkadot/util-crypto" "^0.29.33"
     "@polkadot/util-rlp" "^0.29.33"
 
-"@polkadot/ts@^0.1.25":
-  version "0.1.25"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.25.tgz#a88c5242ae02975acce7128b5a84a6df8ca9d7b7"
+"@polkadot/ts@^0.1.27":
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.27.tgz#88ddd9e90f4c5c98996ecd433670839eaf530d73"
 
 "@polkadot/util-crypto@^0.29.33":
   version "0.29.33"
