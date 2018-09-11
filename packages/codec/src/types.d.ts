@@ -4,34 +4,17 @@
 
 import BN from 'bn.js';
 
-interface PrimitiveEncoder <S = Uint8Array> {
+export interface Base <S> {
+  value: S;
+
+  byteLength (): number;
+  fromJSON (input: any): Base <S>;
+  fromU8a (input: Uint8Array): Base <S>;
   toJSON (): any;
   toString (): string;
-  toU8a (): S;
+  toU8a (): Uint8Array;
 }
 
-interface PrivitiveDecoder <C extends PrimitiveBase<any, S>, S = Uint8Array> {
-  fromJSON (input: any): C;
-  fromU8a (input: S): C;
-}
-
-interface PrimitiveBase <T, S = Uint8Array> extends PrimitiveEncoder<S> {
-  value: T;
-}
+export type HashBitLength = 256 | 512;
 
 export type NumberBitLength = 8 | 32 | 64 | 128;
-
-export interface BlockNumber extends PrimitiveBase<BN> {}
-export interface BlockNumberDecoder extends PrivitiveDecoder<BlockNumber> {}
-
-export interface AccountIndex extends PrimitiveBase<BN> {}
-export interface AccountIndexDecoder extends PrivitiveDecoder<AccountIndex> {}
-
-export interface U32 extends PrimitiveBase<BN> {}
-export interface U32Decoder extends PrivitiveDecoder<U32> {}
-
-export interface U64 extends PrimitiveBase<BN> {}
-export interface U64Decoder extends PrivitiveDecoder<U64> {}
-
-export interface U128 extends PrimitiveBase<BN> {}
-export interface U128Decoder extends PrivitiveDecoder<U128> {}

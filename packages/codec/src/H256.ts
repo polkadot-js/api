@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import BaseHash from './base/Hash';
 
-import BaseNumber from './base/Number';
+const BITLENGTH = 256;
 
-const BITLENGTH = 64;
-
-export default class U64 extends BaseNumber {
-  constructor (value?: BN | number) {
+export default class H256 extends BaseHash {
+  constructor (value?: Uint8Array) {
     super(value, BITLENGTH);
   }
 }

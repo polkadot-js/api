@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { NumberBitLength } from '../types';
+import { NumberBitLength, Base } from '../types';
 
 import BN from 'bn.js';
 import isHex from '@polkadot/util/is/hex';
@@ -12,13 +12,34 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-export default class Number {
+const DEFAULT_VALUE = new BN(0);
+const DEFAULT_BITLENGTH = 64;
+
+export default class BaseNumber implements Base<BN> {
   private bitLength: NumberBitLength;
   value: BN;
 
-  constructor (value: BN | number, bitLength: NumberBitLength) {
+  constructor (value: BN | number = DEFAULT_VALUE, bitLength: NumberBitLength = DEFAULT_BITLENGTH) {
     this.bitLength = bitLength;
     this.value = bnToBn(value);
+  }
+
+  byteLength (): number {
+    return this.bitLength / 8;
+  }
+
+  fromJSON (input: any): BaseNumber {
+    this.value = isHex(input)
+      ? hexToBn(input)
+      : new BN(input);
+
+    return this;
+  }
+
+  fromU8a (input: Uint8Array): BaseNumber {
+    this.value = u8aToBn(input.subarray(0, this.byteLength()), true);
+
+    return this;
   }
 
   toJSON (): any {
@@ -31,15 +52,5 @@ export default class Number {
 
   toString (): string {
     return bnToHex(this.value, this.bitLength);
-  }
-
-  static valueFromJSON (input: any, bitLength: NumberBitLength): BN {
-    return isHex(input)
-      ? hexToBn(input)
-      : new BN(input);
-  }
-
-  static valueFromU8a (input: Uint8Array, bitLength: NumberBitLength): BN {
-    return u8aToBn(input.subarray(0, bitLength / 8), true);
   }
 }

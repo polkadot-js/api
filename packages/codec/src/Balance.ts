@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import U64 from './U64';
+import U128 from './U128';
 
-export default class AccountIndex extends U64 {
+export default class Balance extends U128 {
 }
