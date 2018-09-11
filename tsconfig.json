@@ -7,6 +7,7 @@
       "@polkadot/api-provider/*": [ "packages/api-provider/src/*" ],
       "@polkadot/api-rx/*": [ "packages/api-rx/src/*" ],
       "@polkadot/api/*": [ "packages/api/src/*" ],
+      "@polkadot/codec/*": [ "packages/codec/src/*" ],
       "@polkadot/extrinsics/*": [ "packages/type-extrinsics/src/*" ],
       "@polkadot/jsonrpc/*": [ "packages/type-jsonrpc/src/*" ],
       "@polkadot/params/*": [ "packages/type-params/src/*" ],
