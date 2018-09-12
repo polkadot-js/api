@@ -13,7 +13,9 @@ export default function encodeBlockRaw (header: Uint8Array, extrinsics: Array<Un
   return u8aConcat(
     header,
     encodeArray(
-      extrinsics.map(uncheckedLength)
+      extrinsics.map((extrinsic) =>
+        uncheckedLength(extrinsic)
+      )
     )
   );
 }

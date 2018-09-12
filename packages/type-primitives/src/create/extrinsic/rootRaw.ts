@@ -9,6 +9,8 @@ import trieRootOrdered from '@polkadot/trie-hash/rootOrdered';
 
 export default function extrinsicsRootRaw (extrinsics: Array<UncheckedRaw> = []): Uint8Array {
   return trieRootOrdered(
-    extrinsics.map(uncheckedLength)
+    extrinsics.map((extrinsic) =>
+      uncheckedLength(extrinsic)
+    )
   );
 }
