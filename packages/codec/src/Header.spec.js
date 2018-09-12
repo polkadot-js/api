@@ -13,7 +13,7 @@ describe('Header', () => {
     // stateRoot
     3, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3,
     // extrinsicsRoot
-    7, 77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 66,
+    7, 0x77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0x66,
     // digest (length, log1, log2)
     2, 0, 0, 0,
     1, 0, 0, 0, 1,
@@ -23,15 +23,13 @@ describe('Header', () => {
 
   beforeEach(() => {
     header = new Header().fromU8a(u8a);
-
-    console.error(header);
   });
 
   it('decodes properly', () => {
     expect(
       header.toJSON()
     ).toEqual({
-      blockNumber: '0x0000000000000043',
+      number: '0x0000000000000043',
       digest: {
         logs: ['0x01', '0x0203']
       },
