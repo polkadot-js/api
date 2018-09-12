@@ -44,7 +44,8 @@ describe('decodeRaw', () => {
       )
     ).toMatchObject({
       extrinsics: [
-        encodeUnchecked(keyring.nobody, 0)(
+        encodeUnchecked(
+          keyring.nobody, 0,
           extrinsics.timestamp.public.set,
           [10101]
         )

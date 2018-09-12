@@ -13,21 +13,15 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import encode from './index';
 import prefixes from './prefixes';
 
-type Encoder = (extrinsic: SectionItem<Extrinsics>, values: Array<any>) => UncheckedRaw;
+export default function unchecked (pair: KeyringPair, index: number | BN, extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions = 'latest'): UncheckedRaw {
+  const message = encode(pair.publicKey(), index, extrinsic, values, version);
+  const signature = pair.sign(message);
 
-export default function unchecked (pair: KeyringPair, index: number | BN, version: EncodingVersions = 'latest'): Encoder {
-  const encoder = encode(pair.publicKey(), index);
-
-  return (extrinsic: SectionItem<Extrinsics>, values: Array<any>): UncheckedRaw => {
-    const message = encoder(extrinsic, values, version);
-    const signature = pair.sign(message);
-
-    return u8aConcat(
-      version === 'poc-1'
-        ? prefixes.none
-        : prefixes.publicKey,
-      message,
-      signature
-    );
-  };
+  return u8aConcat(
+    version === 'poc-1'
+      ? prefixes.none
+      : prefixes.publicKey,
+    message,
+    signature
+  );
 }

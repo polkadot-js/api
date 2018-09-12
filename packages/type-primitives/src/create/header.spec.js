@@ -22,11 +22,13 @@ describe('header', () => {
 
   it('applies the all transactions (extrinsicsRoot)', () => {
     const transactions = [
-      encodeUnchecked(keyring.nobody, 0)(
+      encodeUnchecked(
+        keyring.nobody, 0,
         extrinsics.timestamp.public.set,
         [54321]
       ),
-      encodeUnchecked(keyring.one, 0)(
+      encodeUnchecked(
+        keyring.one, 0,
         extrinsics.timestamp.public.set,
         [12345]
       )
