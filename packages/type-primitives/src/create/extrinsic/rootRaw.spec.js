@@ -25,11 +25,13 @@ describe('root', () => {
   it('calculates the root correctly (actual)', () => {
     expect(
       root([
-        encodeUnchecked(keyring.nobody, 0)(
+        encodeUnchecked(
+          keyring.nobody, 0,
           extrinsics.timestamp.public.set,
           [0x5b13c3a4]
         ),
-        encodeUnchecked(keyring.nobody, 0)(
+        encodeUnchecked(
+          keyring.nobody, 0,
           extrinsics.parachains.public.setHeads,
           [[]]
         )

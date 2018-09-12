@@ -13,7 +13,8 @@ const keyring = testingPairs();
 describe('encode', () => {
   it('encodes extrinsic correctly', () => {
     expect(
-      encode(keyring.nobody.publicKey(), 1234)(
+      encode(
+        keyring.nobody.publicKey(), 1234,
         extrinsics.timestamp.public.set,
         [10101],
         'latest'
