@@ -14,7 +14,8 @@ const keyring = testingPairs();
 describe('unchecked', () => {
   it('encodes extrinsic correctly (nobody)', () => {
     expect(
-      encode(keyring.nobody, 1234)(
+      encode(
+        keyring.nobody, 1234,
         extrinsics.timestamp.public.set,
         [10101]
       )
@@ -37,9 +38,11 @@ describe('unchecked', () => {
 
   it('encodes extrinsic correctly (one)', () => {
     expect(
-      encode(keyring.one, 258, 'poc-1')(
+      encode(
+        keyring.one, 258,
         extrinsics.staking.public.transfer,
-        [keyring.two.publicKey(), 69]
+        [keyring.two.publicKey(), 69],
+        'poc-1'
       )
     ).toEqual(
       new Uint8Array([
@@ -62,7 +65,8 @@ describe('unchecked', () => {
 
   it('encodes extrinsic correctly (one + latest)', () => {
     expect(
-      encode(keyring.one, 258)(
+      encode(
+        keyring.one, 258,
         extrinsics.staking.public.transfer,
         [keyring.two.publicKey(), 69]
       )
@@ -89,7 +93,8 @@ describe('unchecked', () => {
 
   it('encodes timetamp.set extrinsic correctly (actual values)', () => {
     expect(
-      encode(keyring.nobody, 0)(
+      encode(
+        keyring.nobody, 0,
         extrinsics.timestamp.public.set,
         [0x5b13c37b]
       )
@@ -102,7 +107,8 @@ describe('unchecked', () => {
 
   it('encoded parachains.setHeads correctly (actual values)', () => {
     expect(
-      encode(keyring.nobody, 0)(
+      encode(
+        keyring.nobody, 0,
         extrinsics.parachains.public.setHeads,
         [[]]
       )
