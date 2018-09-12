@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-format",
-  "version": "0.28.31",
+  "version": "0.28.32",
   "description": "Input/Output formatters for JsonRPC exchange",
   "main": "index.js",
   "keywords": [
@@ -30,8 +30,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-format#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/jsonrpc": "^0.28.31",
-    "@polkadot/primitives": "^0.28.31",
+    "@polkadot/jsonrpc": "^0.28.32",
+    "@polkadot/primitives": "^0.28.32",
     "@polkadot/util": "^0.30.1",
     "@polkadot/util-keyring": "^0.30.1"
   }
