@@ -10,8 +10,6 @@ import { ExtrinsicWithAccount } from '../types';
 import encodeCall from './call';
 import encodeExtrinsic from './extrinsic';
 
-type Encoder = (extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions) => ExtrinsicWithAccount;
-
 export default function encode (publicKey: Uint8Array, index: number | BN, extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions): ExtrinsicWithAccount {
   return encodeCall(
     publicKey,
