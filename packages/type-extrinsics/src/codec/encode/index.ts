@@ -12,12 +12,11 @@ import encodeExtrinsic from './extrinsic';
 
 type Encoder = (extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions) => ExtrinsicWithAccount;
 
-export default function encode (publicKey: Uint8Array, index: number | BN): Encoder {
-  return (extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions): ExtrinsicWithAccount =>
-    encodeCall(
-      publicKey,
-      index,
-      encodeExtrinsic(extrinsic, values, version),
-      version
-    );
+export default function encode (publicKey: Uint8Array, index: number | BN, extrinsic: SectionItem<Extrinsics>, values: Array<any>, version: EncodingVersions): ExtrinsicWithAccount {
+  return encodeCall(
+    publicKey,
+    index,
+    encodeExtrinsic(extrinsic, values, version),
+    version
+  );
 }

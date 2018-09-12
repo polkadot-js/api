@@ -23,11 +23,13 @@ describe('encodeBlock', () => {
             stateRoot: hexToU8a('0xf707774183723f201b875024069f30e7089b7f83c3c3cdc534b10d15fca91262')
           },
           extrinsics: [
-            encodeUnchecked(keyring.nobody, 0)(
+            encodeUnchecked
+              (keyring.nobody, 0,
               extrinsics.timestamp.public.set,
               [0x5b13c3a4]
             ),
-            encodeUnchecked(keyring.nobody, 0)(
+            encodeUnchecked(
+              keyring.nobody, 0,
               extrinsics.parachains.public.setHeads,
               [[]]
             )
