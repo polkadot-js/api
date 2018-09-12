@@ -11,10 +11,9 @@ module.exports = {
   out: 'docs/api',
   module: 'commonjs',
   stripInternal: 'true',
-  theme: 'default',
+  theme: 'markdown',
   ignoreCompilerErrors: true,
   moduleResolution: "node",
   suppressExcessPropertyErrors: true,
-  suppressImplicitAnyIndexErrors: true,
-  readme: "./docs/README.md",
+  suppressImplicitAnyIndexErrors: true
 };

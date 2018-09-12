@@ -1,0 +1,27 @@
+
+== API
+
+- link:api/README.md[api]
+- link:api-format/README.md[api-format]
+- link:api-provider/README.md[api-provider]
+- link:api-rx/README.md[api-rx]
+- link:type-extrinsics/README.md[type-extrinsics]
+- link:type-jsonrpc/README.md[type-jsonrpc]
+- link:type-params/README.md[type-params]
+- link:type-primitives/README.md[type-primitives]
+- link:type-storage/README.md[type-storage]
+
+== Guides
+
+- link:guides/create_api.adoc[Create API]
+
+== Examples
+
+- link:examples/README.adoc[Overview]
+- link:examples/01_simple_connect/README.adoc[Simple connect]
+- link:examples/02_listen_to_blocks/README.adoc[Listen to blocks]
+- link:examples/03_listen_to_balance_change/README.adoc[Listen to balance change]
+- link:examples/04_generate_account/README.adoc[Generate Accounts]
+- link:examples/05_read_storage/README.adoc[Read Storage]
+- link:examples/06_craft_extrinsic/README.adoc[Craft Extrinsic]
+- link:examples/07_transfer_dots/README.adoc[Transfer DOTs]

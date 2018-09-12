@@ -1,0 +1,8 @@
+= Listen to new blocks
+
+This example shows how to subscribe to new blocks. The example runs until you stop it and will display the block number every time a new block is seen by the node you are connected to.
+
+[source, javascript]
+----
+include::index.js[]
+----

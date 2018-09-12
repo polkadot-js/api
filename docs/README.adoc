@@ -1,0 +1,27 @@
+= Polkadot Javascript API
+:toc:
+
+You can query a node and interact with the Polkadot network using Javascript. This guide describes the Polkadot Javascript API.
+
+== The Polkadot Project
+
+You can read more about the Polkadot Network at https://polkadot.network/
+
+== Github repositories
+
+You can find the Polkadot repositories at:
+
+- https://github.com/polkadot-js
+- https://github.com/paritytech/polkadot
+- https://github.com/paritytech/substrate
+
+This documentation is generated from https://github.com/polkadot-js/api
+
+== Contributing
+
+Contribution to the Polkadot JS API are more than welcome. You can https://github.com/polkadot-js/api/issues/new[report issues] and https://github.com/polkadot-js/api/issues/new[feature requests].
+
+
+== Summary
+
+include::SUMMARY.adoc[]

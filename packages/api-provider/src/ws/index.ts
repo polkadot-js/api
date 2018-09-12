@@ -40,7 +40,7 @@ interface WSProviderInterface extends ProviderInterface {
 /**
  * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
  * it does support subscriptions and allows listening to events such as new blocks or balance changes.
- * [[include:create_api.md]]
+ * [[include:create_api.adoc]]
  * @example
  * ```javascript
  *
