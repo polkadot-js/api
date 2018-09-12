@@ -4,10 +4,8 @@
 
 import BaseHash from './base/Hash';
 
-const BITLENGTH = 256;
-
 export default class H256 extends BaseHash {
   constructor (value?: Uint8Array) {
-    super(value, BITLENGTH);
+    super(value, 256);
   }
 }

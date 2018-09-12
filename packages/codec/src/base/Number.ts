@@ -13,13 +13,12 @@ import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 const DEFAULT_VALUE = new BN(0);
-const DEFAULT_BITLENGTH = 64;
 
 export default class BaseNumber implements Base<BN> {
   private bitLength: NumberBitLength;
   value: BN;
 
-  constructor (value: BN | number = DEFAULT_VALUE, bitLength: NumberBitLength = DEFAULT_BITLENGTH) {
+  constructor (value: BN | number = DEFAULT_VALUE, bitLength: NumberBitLength = 64) {
     this.bitLength = bitLength;
     this.value = bnToBn(value);
   }

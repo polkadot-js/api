@@ -4,10 +4,11 @@
 
 import { Base } from './types';
 
+import u8aConcat from '@polkadot/util/u8a/concat';
+
 import BlockNumber from './BlockNumber';
 import Digest from './Digest';
 import H256 from './H256';
-import u8aConcat from '@polkadot/util/u8a/concat';
 
 export type HeaderValue = {
   blockNumber: BlockNumber,
@@ -42,7 +43,7 @@ export default class Header implements Base<HeaderValue> {
 
   fromJSON (input: any): Header {
     this.value = {
-      blockNumber: new BlockNumber().fromJSON(input.blockNumber),
+      blockNumber: new BlockNumber().fromJSON(input.number),
       digest: new Digest().fromJSON(input.digest),
       extrinsicsRoot: new H256().fromJSON(input.extrinsicsRoot),
       parentHash: new H256().fromJSON(input.parentHash),
@@ -53,21 +54,21 @@ export default class Header implements Base<HeaderValue> {
   }
 
   fromU8a (input: Uint8Array): Header {
-    const digest = new Digest().fromU8a(input);
-    let offset = digest.byteLength();
-    const extrinsicsRoot = new H256().fromU8a(input.subarray(offset));
-
-    offset += extrinsicsRoot.byteLength();
-
+    const parentHash = new H256().fromU8a(input);
+    let offset = parentHash.byteLength();
     const blockNumber = new BlockNumber().fromU8a(input.subarray(offset));
 
     offset += blockNumber.byteLength();
 
-    const parentHash = new H256().fromU8a(input.subarray(offset));
-
-    offset += parentHash.byteLength();
-
     const stateRoot = new H256().fromU8a(input.subarray(offset));
+
+    offset += stateRoot.byteLength();
+
+    const extrinsicsRoot = new H256().fromU8a(input.subarray(offset));
+
+    offset += extrinsicsRoot.byteLength();
+
+    const digest = new Digest().fromU8a(input.subarray(offset));
 
     this.value = {
       blockNumber,
@@ -82,9 +83,9 @@ export default class Header implements Base<HeaderValue> {
 
   toJSON (): any {
     return {
-      blockNumber: this.value.blockNumber.toJSON(),
       digest: this.value.digest.toJSON(),
       extrinsicsRoot: this.value.extrinsicsRoot.toJSON(),
+      number: this.value.blockNumber.toJSON(),
       parentHash: this.value.parentHash.toJSON(),
       stateRoot: this.value.stateRoot.toJSON()
     };
@@ -92,19 +93,19 @@ export default class Header implements Base<HeaderValue> {
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      this.value.digest.toU8a(),
-      this.value.extrinsicsRoot.toU8a(),
-      this.value.blockNumber.toU8a(),
       this.value.parentHash.toU8a(),
-      this.value.stateRoot.toU8a()
+      this.value.blockNumber.toU8a(),
+      this.value.stateRoot.toU8a(),
+      this.value.extrinsicsRoot.toU8a(),
+      this.value.digest.toU8a()
     );
   }
 
   toString (): string {
     return JSON.stringify({
-      blockNumber: this.value.blockNumber.toString(),
       digest: this.value.digest.toString(),
       extrinsicsRoot: this.value.extrinsicsRoot.toString(),
+      number: this.value.blockNumber.toString(),
       parentHash: this.value.parentHash.toString(),
       stateRoot: this.value.stateRoot.toString()
     });

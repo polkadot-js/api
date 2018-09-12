@@ -6,10 +6,8 @@ import BN from 'bn.js';
 
 import BaseNumber from './base/Number';
 
-const BITLENGTH = 128;
-
 export default class U128 extends BaseNumber {
   constructor (value?: BN | number) {
-    super(value, BITLENGTH);
+    super(value, 128);
   }
 }

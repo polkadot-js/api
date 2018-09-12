@@ -5,41 +5,13 @@
 import { Base } from './types';
 
 import BaseArray from './base/Array';
+import BaseVector from './base/Vector';
 
 export type DigestValue = {
   logs: DigestLogs
 };
 
-export class DigestLog implements Base<Uint8Array> {
-  value: Uint8Array;
-
-  constructor () {
-    this.value = new Uint8Array();
-  }
-
-  byteLength (): number {
-    return this.value.length;
-  }
-
-  fromJSON (input: any): DigestLog {
-    throw new Error('Unimplemented');
-  }
-
-  fromU8a (input: Uint8Array): DigestLog {
-    throw new Error('Unimplemented');
-  }
-
-  toJSON (): any {
-    throw new Error('Unimplemented');
-  }
-
-  toU8a (): Uint8Array {
-    throw new Error('Unimplemented');
-  }
-
-  toString (): string {
-    throw new Error('Unimplemented');
-  }
+export class DigestLog extends BaseVector {
 }
 
 export class DigestLogs extends BaseArray<DigestLog> {
