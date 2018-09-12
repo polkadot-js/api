@@ -16,7 +16,7 @@ export class DigestLog extends BaseVector {
 
 export class DigestLogs extends BaseArray<DigestLog> {
   constructor (value: Array<DigestLog> = [] as Array<DigestLog>) {
-    super(DigestLog);
+    super(DigestLog, value);
   }
 }
 
