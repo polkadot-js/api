@@ -12,7 +12,7 @@ describe('format', () => {
 
   beforeEach(() => {
     echoSpy = jest.fn(echo);
-    warnSpy = jest.spyOn(console, 'warn');
+    warnSpy = jest.spyOn(console, 'log');
 
     formatters = new Map([
       ['Address', echoSpy],

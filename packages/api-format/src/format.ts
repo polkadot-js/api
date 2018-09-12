@@ -28,7 +28,7 @@ function formatSingleType (formatters: FormattersFunctionMap, type: Param$Types,
   const formatter = formatters.get(type);
 
   if (isUndefined(formatter)) {
-    l.warn(`Unable to find default formatter for '${typeToString(type)}', falling back to echo`);
+    l.debug(() => `Unable to find default formatter for '${typeToString(type)}', falling back to echo`);
 
     return echo(value);
   }
