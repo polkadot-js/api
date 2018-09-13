@@ -1,6 +1,6 @@
 {
   "extends": "@polkadot/dev/config/tslint",
   "rules": {
-    "completed-docs": true
+    "completed-docs": false
   }
 }
