@@ -32,7 +32,7 @@
     "@polkadot/extrinsics": "^0.28.34",
     "@polkadot/params": "^0.28.34",
     "@polkadot/primitives": "^0.28.34",
-    "@polkadot/util": "^0.30.2",
-    "@polkadot/util-keyring": "^0.30.2"
+    "@polkadot/util": "^0.30.3",
+    "@polkadot/util-keyring": "^0.30.3"
   }
 }
