@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/jsonrpc",
-  "version": "0.28.34",
+  "version": "0.28.35",
   "description": "Method definitions for the Polkadot RPC layer",
   "main": "index.js",
   "engines": {
@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
   "dependencies": {
-    "@polkadot/params": "^0.28.34",
+    "@polkadot/params": "^0.28.35",
     "babel-runtime": "^6.26.0"
   }
 }
