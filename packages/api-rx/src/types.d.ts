@@ -13,7 +13,7 @@ export type RxApiInterface$Section = {
 };
 
 type RxApiInterface$Keys = {
-  [key in keyof Interfaces]: RxApiInterface$Section;
+  readonly [key in keyof Interfaces]: RxApiInterface$Section;
 };
 
 export type RxApiInterface = RxApiInterface$Keys & {
