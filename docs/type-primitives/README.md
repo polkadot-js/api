@@ -1,10 +1,31 @@
 
-Intro
+[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org) ![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square) [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard) [![npm](https://img.shields.io/npm/v/@polkadot/primitives.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/primitives) [![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api) [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability) [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master) [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/type-primitives)](https://david-dm.org/polkadot-js/api?path=packages/type-primitives) [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/type-primitives)](https://david-dm.org/polkadot-js/api?path=packages/type-primitives#info=devDependencies)
+
+@polkadot/primitives
+====================
+
+Base [flow](https://flow.org/) definitions for the base Polkadot types as defined in the [specification](https://github.com/w3f/polkadot-spec). It is useful for implementations, applications and libraries, where type-checking of the JavaScript base types is of importance.
+
+Usage
 -----
 
-This is the Polkadot JS Api documentation.
+Installation -
 
-Start [here](globals.html)
+```
+npm install --save @polkadot/primitives
+```
+
+Usage -
+
+```js
+// @flow
+
+import type { AccountId, Balance } from '@polkadot/primitives/base';
+
+function getBalance (accountId: AccountId): Balance {
+ ...
+}
+```
 
 ## Index
 
@@ -122,7 +143,7 @@ Start [here](globals.html)
 
 **Ƭ AccountId**: *[H256](#h256)*
 
-*Defined in [base.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L17)*
+*Defined in [base.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L17)*
 
 ___
 <a id="balance"></a>
@@ -131,7 +152,7 @@ ___
 
 **Ƭ Balance**: *[U128](#u128)*
 
-*Defined in [base.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L18)*
+*Defined in [base.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L18)*
 
 ___
 <a id="block"></a>
@@ -140,7 +161,7 @@ ___
 
 **Ƭ Block**: *`object`*
 
-*Defined in [block.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/block.d.ts#L8)*
+*Defined in [block.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/block.d.ts#L8)*
 
 #### Type declaration
 
@@ -151,7 +172,7 @@ ___
 
 **Ƭ BlockIncomplete**: *`object`*
 
-*Defined in [create/types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/create/types.d.ts#L19)*
+*Defined in [create/types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/create/types.d.ts#L19)*
 
 #### Type declaration
 
@@ -162,7 +183,7 @@ ___
 
 **Ƭ BlockNumber**: *[U64](#u64)*
 
-*Defined in [base.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L19)*
+*Defined in [base.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L19)*
 
 ___
 <a id="bytes"></a>
@@ -171,7 +192,7 @@ ___
 
 **Ƭ Bytes**: *`Uint8Array`*
 
-*Defined in [base.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L7)*
+*Defined in [base.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L7)*
 
 ___
 <a id="candidate"></a>
@@ -180,7 +201,7 @@ ___
 
 **Ƭ Candidate**: *`object`*
 
-*Defined in [candidate.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/candidate.d.ts#L7)*
+*Defined in [candidate.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/candidate.d.ts#L7)*
 
 #### Type declaration
 
@@ -191,7 +212,7 @@ ___
 
 **Ƭ CandidateReceipt**: *`object`*
 
-*Defined in [candidate.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/candidate.d.ts#L17)*
+*Defined in [candidate.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/candidate.d.ts#L17)*
 
 #### Type declaration
 
@@ -202,7 +223,7 @@ ___
 
 **Ƭ CandidateReceipt$BalanceUpload**: *[[AccountId](#accountid), [Balance](#balance)]*
 
-*Defined in [candidate.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/candidate.d.ts#L14)*
+*Defined in [candidate.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/candidate.d.ts#L14)*
 
 ___
 <a id="candidatereceipt_egressqueueroot"></a>
@@ -211,7 +232,7 @@ ___
 
 **Ƭ CandidateReceipt$EgressQueueRoot**: *[[ChainId](#chainid), [Hash](#hash)]*
 
-*Defined in [candidate.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/candidate.d.ts#L15)*
+*Defined in [candidate.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/candidate.d.ts#L15)*
 
 ___
 <a id="chainid"></a>
@@ -220,7 +241,7 @@ ___
 
 **Ƭ ChainId**: *[U32](#u32)*
 
-*Defined in [base.d.ts:20](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L20)*
+*Defined in [base.d.ts:20](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L20)*
 
 ___
 <a id="digest"></a>
@@ -229,7 +250,7 @@ ___
 
 **Ƭ Digest**: *`object`*
 
-*Defined in [digest.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/digest.d.ts#L9)*
+*Defined in [digest.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/digest.d.ts#L9)*
 
 #### Type declaration
 
@@ -240,7 +261,7 @@ ___
 
 **Ƭ Digest$Log**: *[Bytes](#bytes)*
 
-*Defined in [digest.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/digest.d.ts#L7)*
+*Defined in [digest.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/digest.d.ts#L7)*
 
 ___
 <a id="extrinsicfunction"></a>
@@ -249,7 +270,7 @@ ___
 
 **Ƭ ExtrinsicFunction**: *`Uint8Array`*
 
-*Defined in [extrinsic.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/extrinsic.d.ts#L8)*
+*Defined in [extrinsic.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/extrinsic.d.ts#L8)*
 
 ___
 <a id="h160"></a>
@@ -258,7 +279,7 @@ ___
 
 **Ƭ H160**: *`Uint8Array`*
 
-*Defined in [base.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L9)*
+*Defined in [base.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L9)*
 
 ___
 <a id="h256"></a>
@@ -267,7 +288,7 @@ ___
 
 **Ƭ H256**: *`Uint8Array`*
 
-*Defined in [base.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L10)*
+*Defined in [base.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L10)*
 
 ___
 <a id="h512"></a>
@@ -276,7 +297,7 @@ ___
 
 **Ƭ H512**: *`Uint8Array`*
 
-*Defined in [base.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L11)*
+*Defined in [base.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L11)*
 
 ___
 <a id="hash"></a>
@@ -285,7 +306,7 @@ ___
 
 **Ƭ Hash**: *`Uint8Array`*
 
-*Defined in [base.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L8)*
+*Defined in [base.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L8)*
 
 ___
 <a id="header"></a>
@@ -294,7 +315,7 @@ ___
 
 **Ƭ Header**: *`object`*
 
-*Defined in [header.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/header.d.ts#L8)*
+*Defined in [header.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/header.d.ts#L8)*
 
 #### Type declaration
 
@@ -305,7 +326,7 @@ ___
 
 **Ƭ HeaderHash**: *[H256](#h256)*
 
-*Defined in [base.d.ts:21](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L21)*
+*Defined in [base.d.ts:21](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L21)*
 
 ___
 <a id="headerincomplete"></a>
@@ -314,7 +335,7 @@ ___
 
 **Ƭ HeaderIncomplete**: *`object`*
 
-*Defined in [create/types.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/create/types.d.ts#L9)*
+*Defined in [create/types.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/create/types.d.ts#L9)*
 
 #### Type declaration
 
@@ -325,7 +346,7 @@ ___
 
 **Ƭ Index**: *[U32](#u32)*
 
-*Defined in [base.d.ts:22](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L22)*
+*Defined in [base.d.ts:22](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L22)*
 
 ___
 <a id="jsonaccountid"></a>
@@ -334,7 +355,7 @@ ___
 
 **Ƭ JsonAccountId**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L18)*
+*Defined in [json/types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L18)*
 
 ___
 <a id="jsonauthorityid"></a>
@@ -343,7 +364,7 @@ ___
 
 **Ƭ JsonAuthorityId**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L19)*
+*Defined in [json/types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L19)*
 
 ___
 <a id="jsonblock"></a>
@@ -352,7 +373,7 @@ ___
 
 **Ƭ JsonBlock**: *`object`*
 
-*Defined in [json/types.d.ts:57](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L57)*
+*Defined in [json/types.d.ts:57](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L57)*
 
 #### Type declaration
 
@@ -363,7 +384,7 @@ ___
 
 **Ƭ JsonBlockNumber**: *[JsonU64](#jsonu64)*
 
-*Defined in [json/types.d.ts:20](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L20)*
+*Defined in [json/types.d.ts:20](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L20)*
 
 ___
 <a id="jsonbntype"></a>
@@ -372,7 +393,7 @@ ___
 
 **Ƭ JsonBnType**: *`string`*
 
-*Defined in [json/types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L7)*
+*Defined in [json/types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L7)*
 
 ___
 <a id="jsonbytes"></a>
@@ -382,7 +403,7 @@ ___
 **Ƭ JsonBytes**: * `string` &#124; `Array`<`number`>
 *
 
-*Defined in [json/types.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L10)*
+*Defined in [json/types.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L10)*
 
 ___
 <a id="jsondigest"></a>
@@ -391,7 +412,7 @@ ___
 
 **Ƭ JsonDigest**: *`object`*
 
-*Defined in [json/types.d.ts:37](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L37)*
+*Defined in [json/types.d.ts:37](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L37)*
 
 #### Type declaration
 
@@ -402,7 +423,7 @@ ___
 
 **Ƭ JsonH160**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L11)*
+*Defined in [json/types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L11)*
 
 ___
 <a id="jsonh256"></a>
@@ -411,7 +432,7 @@ ___
 
 **Ƭ JsonH256**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L12)*
+*Defined in [json/types.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L12)*
 
 ___
 <a id="jsonh512"></a>
@@ -420,7 +441,7 @@ ___
 
 **Ƭ JsonH512**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:13](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L13)*
+*Defined in [json/types.d.ts:13](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L13)*
 
 ___
 <a id="jsonhash"></a>
@@ -429,7 +450,7 @@ ___
 
 **Ƭ JsonHash**: *`string`*
 
-*Defined in [json/types.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L8)*
+*Defined in [json/types.d.ts:8](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L8)*
 
 ___
 <a id="jsonheader"></a>
@@ -438,7 +459,7 @@ ___
 
 **Ƭ JsonHeader**: *`object`*
 
-*Defined in [json/types.d.ts:41](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L41)*
+*Defined in [json/types.d.ts:41](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L41)*
 
 #### Type declaration
 
@@ -449,7 +470,7 @@ ___
 
 **Ƭ JsonHeaderHash**: *[JsonH256](#jsonh256)*
 
-*Defined in [json/types.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L14)*
+*Defined in [json/types.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L14)*
 
 ___
 <a id="jsonjustification"></a>
@@ -458,7 +479,7 @@ ___
 
 **Ƭ JsonJustification**: *`object`*
 
-*Defined in [json/types.d.ts:51](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L51)*
+*Defined in [json/types.d.ts:51](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L51)*
 
 #### Type declaration
 
@@ -469,7 +490,7 @@ ___
 
 **Ƭ JsonJustification$Signature**: *[`string`, `string`]*
 
-*Defined in [json/types.d.ts:49](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L49)*
+*Defined in [json/types.d.ts:49](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L49)*
 
 ___
 <a id="jsonobjectid"></a>
@@ -478,7 +499,7 @@ ___
 
 **Ƭ JsonObjectId**: *[JsonU64](#jsonu64)*
 
-*Defined in [json/types.d.ts:21](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L21)*
+*Defined in [json/types.d.ts:21](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L21)*
 
 ___
 <a id="jsonparachainid"></a>
@@ -487,7 +508,7 @@ ___
 
 **Ƭ JsonParaChainId**: *[JsonU64](#jsonu64)*
 
-*Defined in [json/types.d.ts:22](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L22)*
+*Defined in [json/types.d.ts:22](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L22)*
 
 ___
 <a id="jsonsignature"></a>
@@ -496,7 +517,7 @@ ___
 
 **Ƭ JsonSignature**: *[JsonHash](#jsonhash)*
 
-*Defined in [json/types.d.ts:23](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L23)*
+*Defined in [json/types.d.ts:23](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L23)*
 
 ___
 <a id="jsontransaction"></a>
@@ -505,7 +526,7 @@ ___
 
 **Ƭ JsonTransaction**: *`object`*
 
-*Defined in [json/types.d.ts:25](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L25)*
+*Defined in [json/types.d.ts:25](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L25)*
 
 #### Type declaration
 
@@ -516,7 +537,7 @@ ___
 
 **Ƭ JsonU256**: *[JsonBnType](#jsonbntype)*
 
-*Defined in [json/types.d.ts:16](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L16)*
+*Defined in [json/types.d.ts:16](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L16)*
 
 ___
 <a id="jsonu64"></a>
@@ -525,7 +546,7 @@ ___
 
 **Ƭ JsonU64**: *[JsonBnType](#jsonbntype)*
 
-*Defined in [json/types.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L15)*
+*Defined in [json/types.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L15)*
 
 ___
 <a id="jsonunchecked"></a>
@@ -534,7 +555,7 @@ ___
 
 **Ƭ JsonUnchecked**: *`object`*
 
-*Defined in [json/types.d.ts:32](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/types.d.ts#L32)*
+*Defined in [json/types.d.ts:32](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/types.d.ts#L32)*
 
 #### Type declaration
 
@@ -545,8 +566,8 @@ ___
 
 **Ƭ Justification**: *`object`*
 
-*Defined in [bft.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/bft.d.ts#L9)*
-*Defined in [justification.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/justification.d.ts#L14)*
+*Defined in [bft.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/bft.d.ts#L9)*
+*Defined in [justification.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/justification.d.ts#L14)*
 
 #### Type declaration
 
@@ -557,8 +578,8 @@ ___
 
 **Ƭ Justification$Signature**: *`object`*
 
-*Defined in [bft.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/bft.d.ts#L7)*
-*Defined in [justification.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/justification.d.ts#L9)*
+*Defined in [bft.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/bft.d.ts#L7)*
+*Defined in [justification.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/justification.d.ts#L9)*
 
 #### Type declaration
 
@@ -569,7 +590,7 @@ ___
 
 **Ƭ MisbehaviorReport**: *`object`*
 
-*Defined in [misbehavior.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/misbehavior.d.ts#L7)*
+*Defined in [misbehavior.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/misbehavior.d.ts#L7)*
 
 #### Type declaration
 
@@ -580,7 +601,7 @@ ___
 
 **Ƭ ObjectId**: *[U64](#u64)*
 
-*Defined in [base.d.ts:23](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L23)*
+*Defined in [base.d.ts:23](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L23)*
 
 ___
 <a id="parachainid"></a>
@@ -589,7 +610,7 @@ ___
 
 **Ƭ ParaChainId**: *[U64](#u64)*
 
-*Defined in [base.d.ts:24](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L24)*
+*Defined in [base.d.ts:24](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L24)*
 
 ___
 <a id="proportion"></a>
@@ -598,7 +619,7 @@ ___
 
 **Ƭ Proportion**: *[U64](#u64)*
 
-*Defined in [base.d.ts:25](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L25)*
+*Defined in [base.d.ts:25](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L25)*
 
 ___
 <a id="role"></a>
@@ -607,7 +628,7 @@ ___
 
 **Ƭ Role**: *`keyof RoleMap`*
 
-*Defined in [role/index.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/role/index.d.ts#L12)*
+*Defined in [role/index.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/role/index.d.ts#L12)*
 
 ___
 <a id="rolemap"></a>
@@ -616,7 +637,7 @@ ___
 
 **Ƭ RoleMap**: *`object`*
 
-*Defined in [role/index.d.ts:5](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/role/index.d.ts#L5)*
+*Defined in [role/index.d.ts:5](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/role/index.d.ts#L5)*
 
 #### Type declaration
 
@@ -627,7 +648,7 @@ ___
 
 **Ƭ Signature**: *[H512](#h512)*
 
-*Defined in [base.d.ts:26](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L26)*
+*Defined in [base.d.ts:26](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L26)*
 
 ___
 <a id="sizetype"></a>
@@ -637,7 +658,7 @@ ___
 **Ƭ SizeType**: * `32` &#124; `64` &#124; `128`
 *
 
-*Defined in [sizes.ts:5](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/sizes.ts#L5)*
+*Defined in [sizes.ts:5](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/sizes.ts#L5)*
 
 ___
 <a id="timestamp"></a>
@@ -646,7 +667,7 @@ ___
 
 **Ƭ Timestamp**: *[U64](#u64)*
 
-*Defined in [base.d.ts:27](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L27)*
+*Defined in [base.d.ts:27](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L27)*
 
 ___
 <a id="u128"></a>
@@ -655,7 +676,7 @@ ___
 
 **Ƭ U128**: *`BN`*
 
-*Defined in [base.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L14)*
+*Defined in [base.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L14)*
 
 ___
 <a id="u256"></a>
@@ -664,7 +685,7 @@ ___
 
 **Ƭ U256**: *`BN`*
 
-*Defined in [base.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L15)*
+*Defined in [base.d.ts:15](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L15)*
 
 ___
 <a id="u32"></a>
@@ -673,7 +694,7 @@ ___
 
 **Ƭ U32**: *`BN`*
 
-*Defined in [base.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L12)*
+*Defined in [base.d.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L12)*
 
 ___
 <a id="u64"></a>
@@ -682,7 +703,7 @@ ___
 
 **Ƭ U64**: *`BN`*
 
-*Defined in [base.d.ts:13](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/base.d.ts#L13)*
+*Defined in [base.d.ts:13](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/base.d.ts#L13)*
 
 ___
 <a id="unchecked"></a>
@@ -691,7 +712,7 @@ ___
 
 **Ƭ Unchecked**: *`object`*
 
-*Defined in [extrinsic.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/extrinsic.d.ts#L10)*
+*Defined in [extrinsic.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/extrinsic.d.ts#L10)*
 
 #### Type declaration
 
@@ -702,7 +723,7 @@ ___
 
 **Ƭ UncheckedRaw**: *`Uint8Array`*
 
-*Defined in [extrinsic.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/extrinsic.d.ts#L17)*
+*Defined in [extrinsic.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/extrinsic.d.ts#L17)*
 
 ___
 
@@ -714,7 +735,7 @@ ___
 
 ▸ **accountIdDecode**(value: *[JsonAccountId](#jsonaccountid)*): [AccountId](#accountid)
 
-*Defined in [json/accountId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/accountId/decode.ts#L10)*
+*Defined in [json/accountId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/accountId/decode.ts#L10)*
 
 **Parameters:**
 
@@ -731,7 +752,7 @@ ___
 
 ▸ **accountIdEncode**(value: *[AccountId](#accountid)*): [JsonAccountId](#jsonaccountid)
 
-*Defined in [json/accountId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/accountId/encode.ts#L10)*
+*Defined in [json/accountId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/accountId/encode.ts#L10)*
 
 **Parameters:**
 
@@ -748,7 +769,7 @@ ___
 
 ▸ **block**(__namedParameters: *`object`*): [Block](#block)
 
-*Defined in [create/block.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/create/block.ts#L10)*
+*Defined in [create/block.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/create/block.ts#L10)*
 
 **Parameters:**
 
@@ -765,7 +786,7 @@ ___
 
 ▸ **blockDecode**(__namedParameters: *`object`*): `BlockDecoded`
 
-*Defined in [json/block/decode.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/block/decode.ts#L14)*
+*Defined in [json/block/decode.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/block/decode.ts#L14)*
 
 **Parameters:**
 
@@ -782,7 +803,7 @@ ___
 
 ▸ **bnDecode**(value: *[JsonBnType](#jsonbntype)*, bitLength?: *`number`*): `BN`
 
-*Defined in [json/bn/decode.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/bn/decode.ts#L12)*
+*Defined in [json/bn/decode.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/bn/decode.ts#L12)*
 
 **Parameters:**
 
@@ -800,7 +821,7 @@ ___
 
 ▸ **bnEncode**(value: * `BN` &#124; `number`*, bitLength?: *`number`*): [JsonBnType](#jsonbntype)
 
-*Defined in [json/bn/encode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/bn/encode.ts#L11)*
+*Defined in [json/bn/encode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/bn/encode.ts#L11)*
 
 **Parameters:**
 
@@ -818,7 +839,7 @@ ___
 
 ▸ **bytesDecode**(value: *[JsonBytes](#jsonbytes)*): [Bytes](#bytes)
 
-*Defined in [json/bytes/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/bytes/decode.ts#L10)*
+*Defined in [json/bytes/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/bytes/decode.ts#L10)*
 
 **Parameters:**
 
@@ -835,7 +856,7 @@ ___
 
 ▸ **bytesEncode**(value: *[Bytes](#bytes)*): [JsonBytes](#jsonbytes)
 
-*Defined in [json/bytes/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/bytes/encode.ts#L10)*
+*Defined in [json/bytes/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/bytes/encode.ts#L10)*
 
 **Parameters:**
 
@@ -852,7 +873,7 @@ ___
 
 ▸ **decodeArray**(input: *`Uint8Array`*): `DecodedArray`
 
-*Defined in [codec/decoder/array.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/decoder/array.ts#L12)*
+*Defined in [codec/decoder/array.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/decoder/array.ts#L12)*
 
 **Parameters:**
 
@@ -869,7 +890,7 @@ ___
 
 ▸ **decodeBlock**(u8a: *`Uint8Array`*): [Block](#block)
 
-*Defined in [codec/block/decode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/block/decode.ts#L11)*
+*Defined in [codec/block/decode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/block/decode.ts#L11)*
 
 **Parameters:**
 
@@ -886,7 +907,7 @@ ___
 
 ▸ **decodeHeader**(u8a: *`Uint8Array`*): `DecodedRaw`
 
-*Defined in [codec/header/decodeRaw.ts:20](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/header/decodeRaw.ts#L20)*
+*Defined in [codec/header/decodeRaw.ts:20](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/header/decodeRaw.ts#L20)*
 
 **Parameters:**
 
@@ -903,7 +924,7 @@ ___
 
 ▸ **decodeJustification**(u8a: *`Uint8Array`*): [Justification](#justification)
 
-*Defined in [codec/justification/decode.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/justification/decode.ts#L9)*
+*Defined in [codec/justification/decode.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/justification/decode.ts#L9)*
 
 **Parameters:**
 
@@ -920,7 +941,7 @@ ___
 
 ▸ **decodeRaw**(u8a: *`Uint8Array`*): `RawData`
 
-*Defined in [codec/block/decodeRaw.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/block/decodeRaw.ts#L19)*
+*Defined in [codec/block/decodeRaw.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/block/decodeRaw.ts#L19)*
 
 **Parameters:**
 
@@ -937,7 +958,7 @@ ___
 
 ▸ **decodeU8a**(input: *`Uint8Array`*): `Uint8Array`
 
-*Defined in [codec/decoder/u8a.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/decoder/u8a.ts#L7)*
+*Defined in [codec/decoder/u8a.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/decoder/u8a.ts#L7)*
 
 **Parameters:**
 
@@ -954,7 +975,7 @@ ___
 
 ▸ **encodeArray**(input: *`Array`<`Uint8Array`>*): `Uint8Array`
 
-*Defined in [codec/encoder/array.ts:5](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/encoder/array.ts#L5)*
+*Defined in [codec/encoder/array.ts:5](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/encoder/array.ts#L5)*
 
 **Parameters:**
 
@@ -971,7 +992,7 @@ ___
 
 ▸ **encodeBlock**(__namedParameters: *`object`*): `Uint8Array`
 
-*Defined in [codec/block/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/block/encode.ts#L10)*
+*Defined in [codec/block/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/block/encode.ts#L10)*
 
 **Parameters:**
 
@@ -988,7 +1009,7 @@ ___
 
 ▸ **encodeBlockRaw**(header: *`Uint8Array`*, extrinsics?: *`Array`<[UncheckedRaw](#uncheckedraw)>*): `Uint8Array`
 
-*Defined in [codec/block/encodeRaw.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/block/encodeRaw.ts#L12)*
+*Defined in [codec/block/encodeRaw.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/block/encodeRaw.ts#L12)*
 
 **Parameters:**
 
@@ -1006,7 +1027,7 @@ ___
 
 ▸ **encodeHeader**(__namedParameters: *`object`*, extrinsics?: *`Array`<[UncheckedRaw](#uncheckedraw)>*): `Uint8Array`
 
-*Defined in [codec/header/encode.ts:17](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/header/encode.ts#L17)*
+*Defined in [codec/header/encode.ts:17](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/header/encode.ts#L17)*
 
 **Parameters:**
 
@@ -1024,7 +1045,7 @@ ___
 
 ▸ **encodeU8a**(input: *`Uint8Array`*): `Uint8Array`
 
-*Defined in [codec/encoder/u8a.ts:5](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/encoder/u8a.ts#L5)*
+*Defined in [codec/encoder/u8a.ts:5](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/encoder/u8a.ts#L5)*
 
 **Parameters:**
 
@@ -1041,7 +1062,7 @@ ___
 
 ▸ **extrinsicDecode**(extrinsic: *`Uint8Array`*): `BlockExtrinsicDecoded`
 
-*Defined in [json/extrinsic/decode.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/extrinsic/decode.ts#L14)*
+*Defined in [json/extrinsic/decode.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/extrinsic/decode.ts#L14)*
 
 **Parameters:**
 
@@ -1058,7 +1079,7 @@ ___
 
 ▸ **extrinsicsRootRaw**(extrinsics?: *`Array`<[UncheckedRaw](#uncheckedraw)>*): `Uint8Array`
 
-*Defined in [create/extrinsic/rootRaw.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/create/extrinsic/rootRaw.ts#L10)*
+*Defined in [create/extrinsic/rootRaw.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/create/extrinsic/rootRaw.ts#L10)*
 
 **Parameters:**
 
@@ -1075,7 +1096,7 @@ ___
 
 ▸ **hashDecode**(value: *[JsonHash](#jsonhash)*, bitLength?: *`number`*): [Hash](#hash)
 
-*Defined in [json/hash/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/hash/decode.ts#L10)*
+*Defined in [json/hash/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/hash/decode.ts#L10)*
 
 **Parameters:**
 
@@ -1093,7 +1114,7 @@ ___
 
 ▸ **hashEncode**(value: * [Hash](#hash) &#124; `string`*, bitLength?: *`number`*): [JsonHash](#jsonhash)
 
-*Defined in [json/hash/encode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/hash/encode.ts#L11)*
+*Defined in [json/hash/encode.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/hash/encode.ts#L11)*
 
 **Parameters:**
 
@@ -1111,7 +1132,7 @@ ___
 
 ▸ **header**(__namedParameters: *`object`*, extrinsics?: *`Array`<[UncheckedRaw](#uncheckedraw)>*): [Header](#header)
 
-*Defined in [create/header.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/create/header.ts#L14)*
+*Defined in [create/header.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/create/header.ts#L14)*
 
 **Parameters:**
 
@@ -1129,7 +1150,7 @@ ___
 
 ▸ **headerDecode**(__namedParameters: *`object`*): [Header](#header)
 
-*Defined in [json/header/decode.ts:15](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/header/decode.ts#L15)*
+*Defined in [json/header/decode.ts:15](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/header/decode.ts#L15)*
 
 **Parameters:**
 
@@ -1146,7 +1167,7 @@ ___
 
 ▸ **headerEncode**(__namedParameters: *`object`*): [JsonHeader](#jsonheader)
 
-*Defined in [json/header/encode.ts:13](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/header/encode.ts#L13)*
+*Defined in [json/header/encode.ts:13](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/header/encode.ts#L13)*
 
 **Parameters:**
 
@@ -1163,7 +1184,7 @@ ___
 
 ▸ **headerHash**(header: *[Header](#header)*): `Uint8Array`
 
-*Defined in [codec/header/hash.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/codec/header/hash.ts#L11)*
+*Defined in [codec/header/hash.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/codec/header/hash.ts#L11)*
 
 **Parameters:**
 
@@ -1180,7 +1201,7 @@ ___
 
 ▸ **justificationDecode**(__namedParameters: *`object`*): `BlockJustificationDecoded`
 
-*Defined in [json/justification/decode.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/justification/decode.ts#L12)*
+*Defined in [json/justification/decode.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/justification/decode.ts#L12)*
 
 **Parameters:**
 
@@ -1197,7 +1218,7 @@ ___
 
 ▸ **justificationEncode**(__namedParameters: *`object`*): [JsonJustification](#jsonjustification)
 
-*Defined in [json/justification/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/justification/encode.ts#L10)*
+*Defined in [json/justification/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/justification/encode.ts#L10)*
 
 **Parameters:**
 
@@ -1214,7 +1235,7 @@ ___
 
 ▸ **objectIdDecode**(value: *[JsonObjectId](#jsonobjectid)*): [ObjectId](#objectid)
 
-*Defined in [json/objectId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/objectId/decode.ts#L10)*
+*Defined in [json/objectId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/objectId/decode.ts#L10)*
 
 **Parameters:**
 
@@ -1231,7 +1252,7 @@ ___
 
 ▸ **objectIdEncode**(value: *[ObjectId](#objectid)*): [JsonObjectId](#jsonobjectid)
 
-*Defined in [json/objectId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/objectId/encode.ts#L10)*
+*Defined in [json/objectId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/objectId/encode.ts#L10)*
 
 **Parameters:**
 
@@ -1248,7 +1269,7 @@ ___
 
 ▸ **parachainIdDecode**(value: *[JsonParaChainId](#jsonparachainid)*): [ParaChainId](#parachainid)
 
-*Defined in [json/parachainId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/parachainId/decode.ts#L10)*
+*Defined in [json/parachainId/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/parachainId/decode.ts#L10)*
 
 **Parameters:**
 
@@ -1265,7 +1286,7 @@ ___
 
 ▸ **parachainIdEncode**(value: *[ParaChainId](#parachainid)*): [JsonParaChainId](#jsonparachainid)
 
-*Defined in [json/parachainId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/parachainId/encode.ts#L10)*
+*Defined in [json/parachainId/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/parachainId/encode.ts#L10)*
 
 **Parameters:**
 
@@ -1282,7 +1303,7 @@ ___
 
 ▸ **rolesFromId**(roleId: *`number`*): `Array`<[Role](#role)>
 
-*Defined in [role/fromId.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/role/fromId.ts#L9)*
+*Defined in [role/fromId.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/role/fromId.ts#L9)*
 
 **Parameters:**
 
@@ -1299,7 +1320,7 @@ ___
 
 ▸ **rolesToId**(roles: *`Array`<[Role](#role)>*): `number`
 
-*Defined in [role/toId.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/role/toId.ts#L9)*
+*Defined in [role/toId.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/role/toId.ts#L9)*
 
 **Parameters:**
 
@@ -1316,7 +1337,7 @@ ___
 
 ▸ **signatureDecode**(value: *[JsonSignature](#jsonsignature)*): [Signature](#signature)
 
-*Defined in [json/signature/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/signature/decode.ts#L10)*
+*Defined in [json/signature/decode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/signature/decode.ts#L10)*
 
 **Parameters:**
 
@@ -1333,7 +1354,7 @@ ___
 
 ▸ **signatureEncode**(value: *[Signature](#signature)*): [JsonSignature](#jsonsignature)
 
-*Defined in [json/signature/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/type-primitives/src/json/signature/encode.ts#L10)*
+*Defined in [json/signature/encode.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/type-primitives/src/json/signature/encode.ts#L10)*
 
 **Parameters:**
 

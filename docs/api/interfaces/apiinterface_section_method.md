@@ -9,19 +9,7 @@
 ## Callable
 ▸ **__call**(...params: *`Array`<`any`>*): `Promise`<`any`>
 
-▸ **__call**(...params: *`Array`<`any`>*): `Promise`<`any`>
-
-*Defined in [packages/api/src/types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api/src/types.d.ts#L7)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| `Rest` params | `Array`<`any`> |
-
-**Returns:** `Promise`<`any`>
-
-*Defined in packages/api/build/types.d.ts:7*
+*Defined in [types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/types.d.ts#L7)*
 
 **Parameters:**
 
@@ -48,8 +36,7 @@
 
 **● subscription**: *`string`*
 
-*Defined in [packages/api/src/types.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api/src/types.d.ts#L10)*
-*Defined in packages/api/build/types.d.ts:10*
+*Defined in [types.d.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/types.d.ts#L10)*
 
 ___
 <a id="unsubscribe"></a>
@@ -58,8 +45,7 @@ ___
 
 **● unsubscribe**: *`function`*
 
-*Defined in [packages/api/src/types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api/src/types.d.ts#L11)*
-*Defined in packages/api/build/types.d.ts:11*
+*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/types.d.ts#L11)*
 
 #### Type declaration
 ▸(id: *`number`*): `Promise`<`any`>

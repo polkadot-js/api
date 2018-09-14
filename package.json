@@ -14,7 +14,6 @@
   },
   "scripts": {
     "build": "polkadot-dev-build-ts && polkadot-dev-build-docs",
-    "build:doc": "typedoc",
     "check": "tslint --project . && tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
@@ -25,6 +24,7 @@
     "@polkadot/ts": "^0.1.27",
     "gitbook-cli": "^2.3.2",
     "gitbook-plugin-asciidoc-include": "^0.1.9",
+    "npx": "^10.2.0",
     "typedoc": "^0.12.0"
   }
 }

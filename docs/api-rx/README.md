@@ -1,10 +1,10 @@
 
-Intro
------
+[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org) ![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square) [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard) [![npm](https://img.shields.io/npm/v/@polkadot/api-rx.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/api-rx) [![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api) [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability) [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master) [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/api-rx)](https://david-dm.org/polkadot-js/api?path=packages/api-rx) [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/api-rx)](https://david-dm.org/polkadot-js/api?path=packages/api-rx#info=devDependencies)
 
-This is the Polkadot JS Api documentation.
+@polkadot/api-rx
+================
 
-Start [here](globals.html)
+An RxJs wrapper around the [@polkadot/api](../api).
 
 ## Index
 
@@ -35,7 +35,7 @@ Start [here](globals.html)
 **Ƭ RxApiInterface**: * `RxApiInterface$Keys` & `object`
 *
 
-*Defined in [types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/types.d.ts#L19)*
+*Defined in [types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/types.d.ts#L19)*
 
 ___
 <a id="rxapiinterface_method"></a>
@@ -44,7 +44,7 @@ ___
 
 **Ƭ RxApiInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/types.d.ts#L9)*
+*Defined in [types.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/types.d.ts#L9)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `BehaviorSubject`<`any`>
@@ -64,7 +64,7 @@ ___
 
 **Ƭ RxApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/types.d.ts#L11)*
 
 #### Type declaration
 
@@ -80,7 +80,7 @@ ___
 
 ▸ **cached**(subName: *`string`*, name: *`string`*, section: *`ApiInterface$Section`*): `function`
 
-*Defined in [observable/cached.ts:19](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/observable/cached.ts#L19)*
+*Defined in [observable/cached.ts:19](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/observable/cached.ts#L19)*
 
 **Parameters:**
 
@@ -99,7 +99,7 @@ ___
 
 ▸ **connected**(provider: *`ProviderInterface`*): `BehaviorSubject`<`boolean`>
 
-*Defined in [api/connected.ts:9](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/api/connected.ts#L9)*
+*Defined in [api/connected.ts:9](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/api/connected.ts#L9)*
 
 **Parameters:**
 
@@ -116,7 +116,7 @@ ___
 
 ▸ **createInterface**(api: *`ApiInterface`*, sectionName: *`Interface$Sections`*): [RxApiInterface$Section](#rxapiinterface_section)
 
-*Defined in [interface.ts:11](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/interface.ts#L11)*
+*Defined in [interface.ts:11](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/interface.ts#L11)*
 
 **Parameters:**
 
@@ -134,7 +134,7 @@ ___
 
 ▸ **exposed**(provider: *`ProviderInterface`*): [RxApiInterface](#rxapiinterface)
 
-*Defined in [api/index.ts:12](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/api/index.ts#L12)*
+*Defined in [api/index.ts:12](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/api/index.ts#L12)*
 
 **Parameters:**
 
@@ -151,7 +151,7 @@ ___
 
 ▸ **observable**(subName: *`string`*, name: *`string`*, section: *`ApiInterface$Section`*): `function`
 
-*Defined in [observable/index.ts:14](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/observable/index.ts#L14)*
+*Defined in [observable/index.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/observable/index.ts#L14)*
 
 **Parameters:**
 
@@ -170,7 +170,7 @@ ___
 
 ▸ **rxApi**(provider?: *`ProviderInterface`*): [RxApiInterface](#rxapiinterface)
 
-*Defined in [index.ts:17](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/index.ts#L17)*
+*Defined in [index.ts:17](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/index.ts#L17)*
 
 **Parameters:**
 
@@ -187,7 +187,7 @@ ___
 
 ▸ **subscription**(name: *`string`*, params: *`Array`<`any`>*, section: *`ApiInterface$Section`*, unsubCallback?: * `undefined` &#124; `function`*): `BehaviorSubject`<`any`>
 
-*Defined in [observable/subject.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-rx/src/observable/subject.ts#L10)*
+*Defined in [observable/subject.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-rx/src/observable/subject.ts#L10)*
 
 **Parameters:**
 

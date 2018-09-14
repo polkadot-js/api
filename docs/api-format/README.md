@@ -1,10 +1,19 @@
 
-Intro
+[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org) ![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square) [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard) [![npm](https://img.shields.io/npm/v/@polkadot/api-format.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/api-format) [![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api) [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability) [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master) [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/api-format)](https://david-dm.org/polkadot-js/api?path=packages/api-format) [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/api-format)](https://david-dm.org/polkadot-js/api?path=packages/api-format#info=devDependencies)
+
+@polkadot/api-format
+====================
+
+Formatters that are used by the application API interface, taking care of transparently formatting parameters (inputs) and the results (output) for requests made over the client RPC interfaces.
+
+Usage
 -----
 
-This is the Polkadot JS Api documentation.
+Installation -
 
-Start [here](globals.html)
+```
+npm install --save @polkadot/api-format
+```
 
 ## Index
 
@@ -29,7 +38,7 @@ Start [here](globals.html)
 
 **Ƭ FormatterFunction**: *`function`*
 
-*Defined in [types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-format/src/types.d.ts#L7)*
+*Defined in [types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-format/src/types.d.ts#L7)*
 
 #### Type declaration
 ▸(value: *`any`*): `any`
@@ -52,7 +61,7 @@ ___
 
 ▸ **echo**(value: *`any`*): `any`
 
-*Defined in [echo.ts:10](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-format/src/echo.ts#L10)*
+*Defined in [echo.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-format/src/echo.ts#L10)*
 
 A function returning any value passed to it
 
@@ -72,7 +81,7 @@ ___
 
 ▸ **format**(formatters: *`FormattersFunctionMap`*, types: *`Array`<`Param$Types`>*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [format.ts:49](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-format/src/format.ts#L49)*
+*Defined in [format.ts:49](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-format/src/format.ts#L49)*
 
 **Parameters:**
 
@@ -91,7 +100,7 @@ ___
 
 ▸ **formatInputs**(params: *`Params`*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [input.ts:22](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-format/src/input.ts#L22)*
+*Defined in [input.ts:22](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-format/src/input.ts#L22)*
 
 **Parameters:**
 
@@ -109,7 +118,7 @@ ___
 
 ▸ **formatOutput**(type: *`Param$Types`*, value?: *`any`*):  `any` &#124; `null`
 
-*Defined in [output.ts:30](https://github.com/chevdor/polkadot-js-api/blob/4661a2e/packages/api-format/src/output.ts#L30)*
+*Defined in [output.ts:30](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api-format/src/output.ts#L30)*
 
 **Parameters:**
 

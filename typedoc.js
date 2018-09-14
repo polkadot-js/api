@@ -13,7 +13,7 @@ module.exports = {
   stripInternal: 'true',
   theme: 'markdown',
   ignoreCompilerErrors: true,
-  moduleResolution: "node",
+  moduleResolution: 'node',
   suppressExcessPropertyErrors: true,
   suppressImplicitAnyIndexErrors: true
-};
+}

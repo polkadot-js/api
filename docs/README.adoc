@@ -22,6 +22,3 @@ This documentation is generated from https://github.com/polkadot-js/api
 Contribution to the Polkadot JS API are more than welcome. You can https://github.com/polkadot-js/api/issues/new[report issues] and https://github.com/polkadot-js/api/issues/new[feature requests].
 
 
-== Summary
-
-include::SUMMARY.adoc[]

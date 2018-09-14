@@ -1,3 +1,8 @@
+= Summary
+
+== Intro
+
+// Leave this emtpy, the README.adoc will be linked here.
 
 == API
 
@@ -11,10 +16,6 @@
 - link:type-primitives/README.md[type-primitives]
 - link:type-storage/README.md[type-storage]
 
-== Guides
-
-- link:guides/create_api.adoc[Create API]
-
 == Examples
 
 - link:examples/README.adoc[Overview]
@@ -25,3 +26,12 @@
 - link:examples/05_read_storage/README.adoc[Read Storage]
 - link:examples/06_craft_extrinsic/README.adoc[Craft Extrinsic]
 - link:examples/07_transfer_dots/README.adoc[Transfer DOTs]
+
+// Making this section ready for the upcoming guides
+// == Guides
+
+// - link:guides/create_api.adoc[Create API]
+
+== Contributing
+
+- link:CONTRIBUTING.adoc[Contributing guide]
