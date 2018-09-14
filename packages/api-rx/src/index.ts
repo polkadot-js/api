@@ -2,24 +2,39 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interface$Sections } from '@polkadot/jsonrpc/types';
+import { ApiInterface } from '@polkadot/api/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
-import { RxApiInterface } from './types';
+import { RxApiInterface, RxApiInterface$Section } from './types';
 
-import createApi from '@polkadot/api/index';
-import interfaces from '@polkadot/jsonrpc/index';
+import { BehaviorSubject } from 'rxjs';
+import Api from '@polkadot/api/index';
 import Ws from '@polkadot/api-provider/ws';
 
-import createExposed from './api';
 import defaults from './defaults';
 import createInterface from './interface';
 
-export default function rxApi (provider: ProviderInterface = new Ws(defaults.WS_URL)): RxApiInterface {
-  const api = createApi(provider);
+export default class RxApi implements RxApiInterface {
+  private _api: ApiInterface;
+  private _isConnected: BehaviorSubject<boolean>;
+  readonly author: RxApiInterface$Section;
+  readonly chain: RxApiInterface$Section;
+  readonly state: RxApiInterface$Section;
+  readonly system: RxApiInterface$Section;
 
-  return Object.keys(interfaces).reduce((result, type) => {
-    result[type as Interface$Sections] = createInterface(api, type as Interface$Sections);
+  constructor (provider: ProviderInterface = new Ws(defaults.WS_URL)) {
+    this._api = new Api(provider);
+    this._isConnected = new BehaviorSubject(provider.isConnected());
 
-    return result;
-  }, createExposed(provider));
+    provider.on('connected', () => this._isConnected.next(true));
+    provider.on('disconnected', () => this._isConnected.next(false));
+
+    this.author = createInterface(this._api, 'author');
+    this.chain = createInterface(this._api, 'chain');
+    this.state = createInterface(this._api, 'state');
+    this.system = createInterface(this._api, 'system');
+  }
+
+  isConnected (): BehaviorSubject<boolean> {
+    return this._isConnected;
+  }
 }

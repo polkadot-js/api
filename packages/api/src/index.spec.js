@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import createApi from './index';
+import Api from './index';
 
 describe('Api', () => {
   let api;
@@ -16,7 +16,7 @@ describe('Api', () => {
       }
     };
     sendSpy = jest.spyOn(provider, 'send');
-    api = createApi(provider);
+    api = new Api(provider);
   });
 
   afterEach(() => {
@@ -25,7 +25,7 @@ describe('Api', () => {
 
   it('requires a provider with a send method', () => {
     expect(
-      () => createApi({})
+      () => new Api({})
     ).toThrow(/Expected Provider/);
   });
 
