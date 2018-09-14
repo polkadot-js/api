@@ -21,15 +21,18 @@ async function transfer (keyRingFrom, addressTo, amount) {
   console.log(`Current accountIndex: ${accountIndex}`)
 
   // encode the call for signing
-  const message = encodeExtrinsic(keyRingFrom.publicKey(), accountIndex)(
-    extrinsics.staking.public.transfer, [addressTo, amount]
+  const message = encodeExtrinsic(
+    keyRingFrom.publicKey(),
+    accountIndex,
+    extrinsics.staking.public.transfer,
+    [addressTo, amount]
   )
 
   // get the signature
   const signature = keyRingFrom.sign(message)
 
   // encode the extrinsic for submission, adding the length (prefix) and the
-  // signature (postfix)
+  // signature (postfix)Rödl
   const encoded = encodeLength(
     // When working with publicKeys, the prefix is 0xff for poc-2+
     new Uint8Array([0xff]),

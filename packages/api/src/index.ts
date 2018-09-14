@@ -9,9 +9,6 @@ import isFunction from '@polkadot/util/is/function';
 import createInterface from './create/interface';
 
 /**
- * Api class.
- * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket for instance
- * @return {ApiInterface}               The returned API Object
  * @example
  * ```javascript
  *
@@ -28,6 +25,11 @@ export default class Api implements ApiInterface {
   readonly state: ApiInterface$Section;
   readonly system: ApiInterface$Section;
 
+  /**
+   * @constructor
+   * Default constructor for the Api Object
+   * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
+   */
   constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 

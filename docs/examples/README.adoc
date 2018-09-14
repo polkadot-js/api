@@ -23,5 +23,5 @@ From each folder, run `yarn` to install the required dependencies
 
 From each folder, run:
 ```
-node index.js
+yarn start
 ```

@@ -13,7 +13,7 @@ const provider = new WsProvider('ws://127.0.0.1:9944')
 const api = new Api(provider)
 
 async function getAccountIndex (address) {
-  return await api.state.getStorage([storage.system.public.accountIndexOf, address])
+  return api.state.getStorage([storage.system.public.accountIndexOf, address])
 }
 
 async function transfer (keyRingFrom, addressTo, amount) {

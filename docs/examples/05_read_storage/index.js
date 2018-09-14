@@ -7,15 +7,15 @@ const provider = new WsProvider('ws://127.0.0.1:9944')
 const api = new Api(provider)
 
 async function getAccountIndex (address) {
-  return await api.state.getStorage([storage.system.public.accountIndexOf, address])
+  return api.state.getStorage([storage.system.public.accountIndexOf, address])
 }
 
 async function getValidators () {
-  return await api.state.getStorage([storage.session.public.validators])
+  return api.state.getStorage([storage.session.public.validators])
 }
 
 async function getBlockPeriod () {
-  return await api.state.getStorage([storage.timestamp.public.blockPeriod])
+  return api.state.getStorage([storage.timestamp.public.blockPeriod])
 }
 
 async function main () {

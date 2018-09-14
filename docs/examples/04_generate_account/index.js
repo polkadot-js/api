@@ -1,4 +1,4 @@
-const createKeyring = require('@polkadot/util-keyring').default
+const Keyring = require('@polkadot/util-keyring').default
 const u8aToHex = require('@polkadot/util/u8a/toHex').default
 const Encoder = new TextEncoder() // always utf-8
 const crypto = require('crypto')
@@ -11,7 +11,7 @@ const SEED1 = new Uint8Array(
 // A fixed seed from a 32 chars string
 const SEED2 = Encoder.encode('correct horse battery and staple')
 
-const keyring = createKeyring()
+const keyring = new Keyring()
 const pair1 = keyring.addFromSeed(SEED1)
 const pair2 = keyring.addFromSeed(SEED2)
 

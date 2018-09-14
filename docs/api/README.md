@@ -20,11 +20,11 @@ npm install --save @polkadot/api
 Initialisation -
 
 ```js
-import createApi from '@polkadot/api';
+import Api from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
-const api = createApi(provider);
+const api = new Api(provider);
 ```
 
 Making calls -
@@ -74,6 +74,10 @@ api.chain
 
 ## Index
 
+### Classes
+
+* [Api](classes/api.md)
+
 ### Interfaces
 
 * [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
@@ -85,7 +89,6 @@ api.chain
 
 ### Functions
 
-* [api](#api)
 * [createInterface](#createinterface)
 * [createMethodSend](#createmethodsend)
 * [createParams](#createparams)
@@ -102,7 +105,7 @@ api.chain
 
 **Ƭ ApiInterface**: *`object`*
 
-*Defined in [types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/types.d.ts#L18)*
 
 #### Type declaration
 
@@ -113,7 +116,7 @@ ___
 
 **Ƭ ApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/types.d.ts#L14)*
 
 #### Type declaration
 
@@ -123,39 +126,13 @@ ___
 
 ## Functions
 
-<a id="api"></a>
-
-###  api
-
-▸ **api**(provider: *`ProviderInterface`*): [ApiInterface](#apiinterface)
-
-*Defined in [index.ts:32](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/index.ts#L32)*
-
-Test
-*__example__*: ```javascript
-import createApi from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
-const provider = new WsProvider('http://127.0.0.1:9944');
-const api = createApi(provider);
-```
-
-**Parameters:**
-
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| provider | `ProviderInterface` |  An API provider using HTTP or WebSocket for instance |
-
-**Returns:** [ApiInterface](#apiinterface)
-The returned API Object
-
-___
 <a id="createinterface"></a>
 
 ###  createInterface
 
 ▸ **createInterface**(provider: *`ProviderInterface`*, section: *`Interface$Sections`*): [ApiInterface$Section](#apiinterface_section)
 
-*Defined in [create/interface.ts:16](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/create/interface.ts#L16)*
+*Defined in [create/interface.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/interface.ts#L16)*
 
 **Parameters:**
 
@@ -173,7 +150,7 @@ ___
 
 ▸ **createMethodSend**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
 
-*Defined in [create/methodSend.ts:16](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/create/methodSend.ts#L16)*
+*Defined in [create/methodSend.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/methodSend.ts#L16)*
 
 **Parameters:**
 
@@ -192,7 +169,7 @@ ___
 
 ▸ **createParams**(params: *`Params`*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [create/params.ts:10](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/create/params.ts#L10)*
+*Defined in [create/params.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/params.ts#L10)*
 
 **Parameters:**
 
@@ -210,7 +187,7 @@ ___
 
 ▸ **formatResult**(method: *`SectionItem`<`Interfaces`>*, params: *`Array`<`any`>*, inputs: *`Array`<`any`>*, result?: *`any`*): `any`
 
-*Defined in [create/formatResult.ts:16](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/create/formatResult.ts#L16)*
+*Defined in [create/formatResult.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/formatResult.ts#L16)*
 
 **Parameters:**
 
@@ -230,7 +207,7 @@ ___
 
 ▸ **methodSubscribe**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
 
-*Defined in [create/methodSubscribe.ts:18](https://github.com/chevdor/polkadot-js-api/blob/16237c4/packages/api/src/create/methodSubscribe.ts#L18)*
+*Defined in [create/methodSubscribe.ts:18](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/methodSubscribe.ts#L18)*
 
 **Parameters:**
 
