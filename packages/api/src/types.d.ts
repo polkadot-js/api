@@ -16,5 +16,5 @@ export type ApiInterface$Section = {
 };
 
 export type ApiInterface = {
-  [key in keyof Interfaces]: ApiInterface$Section
+  readonly [key in keyof Interfaces]: ApiInterface$Section
 }

@@ -4,7 +4,7 @@
 
 import storage from '@polkadot/storage';
 
-import createApi from '../index';
+import Api from '../index';
 
 const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
 const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';
@@ -31,7 +31,7 @@ describe('formatResult', () => {
         })
       )
     };
-    api = createApi(provider);
+    api = new Api(provider);
   });
 
   it('encodes key (with params), decoding response', () => {

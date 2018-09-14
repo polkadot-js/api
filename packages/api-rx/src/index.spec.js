@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isFunction from '@polkadot/util/is/function';
+
 jest.mock('@polkadot/api-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
@@ -9,14 +11,30 @@ jest.mock('@polkadot/api-provider/ws', () => class {
 });
 jest.mock('./interface', () => (api, sectionName) => sectionName);
 
-const createApi = require('./index').default;
+const Api = require('./index').default;
 
-describe('createApi', () => {
+describe('Api', () => {
+  let api;
+
+  beforeEach(() => {
+    api = new Api();
+  });
+
   it('creates an instance with all sections', () => {
     expect(
-      Object.keys(createApi())
+      Object
+        .keys(api)
+        .filter((key) =>
+          !key.startsWith('_')
+        )
     ).toEqual([
-      'isConnected', 'author', 'chain', 'state', 'system'
+      'author', 'chain', 'state', 'system'
     ]);
+  });
+
+  it('has isConnected', () => {
+    expect(
+      isFunction(api.isConnected)
+    ).toBe(true);
   });
 });
