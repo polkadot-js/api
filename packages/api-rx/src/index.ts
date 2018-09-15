@@ -13,6 +13,17 @@ import Ws from '@polkadot/api-provider/ws';
 import defaults from './defaults';
 import createInterface from './interface';
 
+/**
+ * An RxJs wrapper around the [[api]].
+ * @example
+ * ```javascript
+ *
+ * import RxApi from '@polkadot/api';
+ * import WsProvider from '@polkadot/api-provider/ws';
+ * const provider = new WsProvider('http://127.0.0.1:9944');
+ * const rxapi = new RxApi(provider);
+ * ```
+ */
 export default class RxApi implements RxApiInterface {
   private _api: ApiInterface;
   private _isConnected: BehaviorSubject<boolean>;
@@ -21,6 +32,9 @@ export default class RxApi implements RxApiInterface {
   readonly state: RxApiInterface$Section;
   readonly system: RxApiInterface$Section;
 
+  /**
+   * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
+   */
   constructor (provider: ProviderInterface = new Ws(defaults.WS_URL)) {
     this._api = new Api(provider);
     this._isConnected = new BehaviorSubject(provider.isConnected());

@@ -4,12 +4,20 @@
 
 import { ProviderInterface } from '@polkadot/api-provider/types';
 import { ApiInterface, ApiInterface$Section } from './types';
-
 import assert from '@polkadot/util/assert';
 import isFunction from '@polkadot/util/is/function';
-
 import createInterface from './create/interface';
 
+/**
+ * @example
+ * ```javascript
+ *
+ * import Api from '@polkadot/api';
+ * import WsProvider from '@polkadot/api-provider/ws';
+ * const provider = new WsProvider('http://127.0.0.1:9944');
+ * const api = new Api(provider);
+ * ```
+ */
 export default class Api implements ApiInterface {
   private _provider: ProviderInterface;
   readonly author: ApiInterface$Section;
@@ -17,6 +25,11 @@ export default class Api implements ApiInterface {
   readonly state: ApiInterface$Section;
   readonly system: ApiInterface$Section;
 
+  /**
+   * @constructor
+   * Default constructor for the Api Object
+   * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
+   */
   constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 

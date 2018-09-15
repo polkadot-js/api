@@ -11,6 +11,10 @@ import state from './state';
 import subscribe from './subscribe';
 import unsubscribe from './unsubscribe';
 
+/**
+ * A moock provider mainly used for testing.
+ * @return {ProviderInterface} The mock provider
+ */
 export default function mockProvider (): ProviderInterface {
   const self = state();
 
