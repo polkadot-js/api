@@ -36,7 +36,7 @@ An RxJs wrapper around the [@polkadot/api](../api).
 **Ƭ RxApiInterface**: * `RxApiInterface$Keys` & `object`
 *
 
-*Defined in [types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/types.d.ts#L19)*
+*Defined in [types.d.ts:19](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/types.d.ts#L19)*
 
 ___
 <a id="rxapiinterface_method"></a>
@@ -45,7 +45,7 @@ ___
 
 **Ƭ RxApiInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:9](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/types.d.ts#L9)*
+*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/types.d.ts#L9)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `BehaviorSubject`<`any`>
@@ -65,7 +65,7 @@ ___
 
 **Ƭ RxApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/types.d.ts#L11)*
 
 #### Type declaration
 
@@ -81,7 +81,7 @@ ___
 
 ▸ **cached**(subName: *`string`*, name: *`string`*, section: *`ApiInterface$Section`*): `function`
 
-*Defined in [observable/cached.ts:19](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/observable/cached.ts#L19)*
+*Defined in [observable/cached.ts:19](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/observable/cached.ts#L19)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 ▸ **createInterface**(api: *`ApiInterface`*, sectionName: *`Interface$Sections`*): [RxApiInterface$Section](#rxapiinterface_section)
 
-*Defined in [interface.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/interface.ts#L11)*
+*Defined in [interface.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/interface.ts#L11)*
 
 **Parameters:**
 
@@ -118,7 +118,7 @@ ___
 
 ▸ **observable**(subName: *`string`*, name: *`string`*, section: *`ApiInterface$Section`*): `function`
 
-*Defined in [observable/index.ts:14](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/observable/index.ts#L14)*
+*Defined in [observable/index.ts:14](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/observable/index.ts#L14)*
 
 **Parameters:**
 
@@ -137,7 +137,7 @@ ___
 
 ▸ **subscription**(name: *`string`*, params: *`Array`<`any`>*, section: *`ApiInterface$Section`*, unsubCallback?: * `undefined` &#124; `function`*): `BehaviorSubject`<`any`>
 
-*Defined in [observable/subject.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/observable/subject.ts#L10)*
+*Defined in [observable/subject.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/observable/subject.ts#L10)*
 
 **Parameters:**
 

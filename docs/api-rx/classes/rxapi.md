@@ -45,7 +45,7 @@ const rxapi = new RxApi(provider);
 
 ⊕ **new RxApi**(provider?: *`ProviderInterface`*): [RxApi](rxapi.md)
 
-*Defined in [index.ts:33](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L33)*
+*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L33)*
 
 **Parameters:**
 
@@ -65,7 +65,7 @@ ___
 
 **● author**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:30](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L30)*
+*Defined in [index.ts:30](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L30)*
 
 ___
 <a id="chain"></a>
@@ -74,7 +74,7 @@ ___
 
 **● chain**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:31](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L31)*
+*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L31)*
 
 ___
 <a id="state"></a>
@@ -83,7 +83,7 @@ ___
 
 **● state**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:32](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L32)*
+*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L32)*
 
 ___
 <a id="system"></a>
@@ -92,7 +92,7 @@ ___
 
 **● system**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:33](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L33)*
+*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L33)*
 
 ___
 
@@ -104,7 +104,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:51](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api-rx/src/index.ts#L51)*
+*Defined in [index.ts:51](https://github.com/polkadot-js/api/blob/0981a30/packages/api-rx/src/index.ts#L51)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 

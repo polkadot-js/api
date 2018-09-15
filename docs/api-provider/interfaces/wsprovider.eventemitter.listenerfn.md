@@ -9,7 +9,7 @@
 ## Callable
 ▸ **__call**(...args: *`Array`<`any`>*): `void`
 
-*Defined in /Users/will/projects/paritytech/polka/polkadot-js-api/node_modules/eventemitter3/index.d.ts:53*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:53*
 
 **Parameters:**
 

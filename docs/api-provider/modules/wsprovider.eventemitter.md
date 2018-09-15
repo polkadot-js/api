@@ -23,7 +23,7 @@
 
 **● EventEmitter**: *`EventEmitterStatic`*
 
-*Defined in /Users/will/projects/paritytech/polka/polkadot-js-api/node_modules/eventemitter3/index.d.ts:61*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:61*
 
 ___
 

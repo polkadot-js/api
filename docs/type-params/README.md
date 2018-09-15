@@ -74,7 +74,7 @@
 
 **Ƭ BlockDecoded**: *`object`*
 
-*Defined in [types.d.ts:45](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L45)*
+*Defined in [types.d.ts:45](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L45)*
 
 #### Type declaration
 
@@ -85,7 +85,7 @@ ___
 
 **Ƭ BlockExtrinsicDecoded**: *`object`*
 
-*Defined in [types.d.ts:28](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L28)*
+*Defined in [types.d.ts:28](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L28)*
 
 #### Type declaration
 
@@ -96,7 +96,7 @@ ___
 
 **Ƭ BlockJustificationDecoded**: *`object`*
 
-*Defined in [types.d.ts:36](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L36)*
+*Defined in [types.d.ts:36](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L36)*
 
 #### Type declaration
 
@@ -107,7 +107,7 @@ ___
 
 **Ƭ CreateItem**: *`function`*
 
-*Defined in [types.d.ts:127](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L127)*
+*Defined in [types.d.ts:127](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L127)*
 
 #### Type declaration
 ▸(options: *[CreateItemOptions](#createitemoptions)*): [SectionItem](#sectionitem)<`T`>
@@ -127,7 +127,7 @@ ___
 
 **Ƭ CreateItemOptions**: *`object`*
 
-*Defined in [types.d.ts:111](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L111)*
+*Defined in [types.d.ts:111](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L111)*
 
 #### Type declaration
 
@@ -138,7 +138,7 @@ ___
 
 **Ƭ CreateItemOptionsMap**: *`object`*
 
-*Defined in [types.d.ts:123](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L123)*
+*Defined in [types.d.ts:123](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L123)*
 
 #### Type declaration
 
@@ -151,7 +151,7 @@ ___
 
 **Ƭ CreateItems**: *`function`*
 
-*Defined in [types.d.ts:129](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L129)*
+*Defined in [types.d.ts:129](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L129)*
 
 #### Type declaration
 ▸(name: *`string`*, index?: * `undefined` &#124; `number`*): [CreateItem](#createitem)<`T`>
@@ -172,7 +172,7 @@ ___
 
 **Ƭ CreateSection**: *`function`*
 
-*Defined in [types.d.ts:143](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L143)*
+*Defined in [types.d.ts:143](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L143)*
 
 #### Type declaration
 ▸(options: *[CreateSectionOptions](#createsectionoptions)<`T`, `Priv`, `Pub`>*): [Section](#section)<`T`, `Priv`, `Pub`>
@@ -193,7 +193,7 @@ ___
 **Ƭ CreateSectionOptions**: * [CreateSectionOptions$Only](#createsectionoptions_only)<`T`, `Priv`, `Pub`> &#124; [CreateSectionOptions$Fn](#createsectionoptions_fn)<`T`, `Priv`, `Pub`>
 *
 
-*Defined in [types.d.ts:141](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L141)*
+*Defined in [types.d.ts:141](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L141)*
 
 ___
 <a id="createsectionoptions_fn"></a>
@@ -202,7 +202,7 @@ ___
 
 **Ƭ CreateSectionOptions$Fn**: *`function`*
 
-*Defined in [types.d.ts:139](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L139)*
+*Defined in [types.d.ts:139](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L139)*
 
 #### Type declaration
 ▸(method: *[CreateItems](#createitems)<`T`>*): [CreateSectionOptions$Only](#createsectionoptions_only)<`T`, `Priv`, `Pub`>
@@ -222,7 +222,7 @@ ___
 
 **Ƭ CreateSectionOptions$Only**: *`object`*
 
-*Defined in [types.d.ts:131](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L131)*
+*Defined in [types.d.ts:131](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L131)*
 
 #### Type declaration
 
@@ -233,7 +233,7 @@ ___
 
 **Ƭ Decoder**: *`function`*
 
-*Defined in [decode/types.d.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/types.d.ts#L7)*
+*Defined in [decode/types.d.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/types.d.ts#L7)*
 
 #### Type declaration
 ▸(type: *[Param$Types](#param_types)*, input: *`Uint8Array`*, version: *[EncodingVersions](#encodingversions)*, isStorage: *`boolean`*): [Param$Decoded](#param_decoded)
@@ -257,7 +257,7 @@ ___
 **Ƭ EncodingVersions**: * "poc-1" &#124; "latest"
 *
 
-*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L11)*
 
 ___
 <a id="extrinsicdecoded"></a>
@@ -266,7 +266,7 @@ ___
 
 **Ƭ ExtrinsicDecoded**: *`object`*
 
-*Defined in [types.d.ts:23](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L23)*
+*Defined in [types.d.ts:23](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L23)*
 
 #### Type declaration
 
@@ -277,7 +277,7 @@ ___
 
 **Ƭ KeyValue**: *`object`*
 
-*Defined in [types.d.ts:51](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L51)*
+*Defined in [types.d.ts:51](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L51)*
 
 #### Type declaration
 
@@ -289,7 +289,7 @@ ___
 **Ƭ Param**: * [Param$Options](#param_options) & `object`
 *
 
-*Defined in [types.d.ts:71](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L71)*
+*Defined in [types.d.ts:71](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L71)*
 
 ___
 <a id="param_decoded"></a>
@@ -298,7 +298,7 @@ ___
 
 **Ƭ Param$Decoded**: *`object`*
 
-*Defined in [types.d.ts:62](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L62)*
+*Defined in [types.d.ts:62](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L62)*
 
 #### Type declaration
 
@@ -309,7 +309,7 @@ ___
 
 **Ƭ Param$Options**: *`object`*
 
-*Defined in [types.d.ts:67](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L67)*
+*Defined in [types.d.ts:67](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L67)*
 
 #### Type declaration
 
@@ -321,7 +321,7 @@ ___
 **Ƭ Param$Type**: * "AccountId" &#124; "AccountIndex" &#124; "Balance" &#124; "BlockNumber" &#124; "bool" &#124; "Bytes" &#124; "Call" &#124; "CandidateReceipt" &#124; "Code" &#124; "Digest" &#124; "Gas" &#124; "Hash" &#124; "Header" &#124; "KeyValue" &#124; "MisbehaviorReport" &#124; "ParachainId" &#124; "PrendingExtrinsics" &#124; "PropIndex" &#124; "Proposal" &#124; "ReferendumIndex" &#124; "SessionKey" &#124; "Signature" &#124; "SignedBlock" &#124; "StorageKey" &#124; "StorageKeyValue" &#124; "StorageResult" &#124; "StorageResultSet" &#124; "String" &#124; "Timestamp" &#124; "u32" &#124; "u64" &#124; "u128" &#124; "VoteIndex" &#124; "VoteThreshold"
 *
 
-*Defined in [types.d.ts:17](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L17)*
+*Defined in [types.d.ts:17](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L17)*
 
 ___
 <a id="param_type_array"></a>
@@ -330,7 +330,7 @@ ___
 
 **Ƭ Param$Type$Array**: *`Array`< [Param$Type](#param_type) &#124; `Array`< [Param$Type](#param_type) &#124; `Array`<[Param$Type](#param_type)>>>*
 
-*Defined in [types.d.ts:19](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L19)*
+*Defined in [types.d.ts:19](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L19)*
 
 ___
 <a id="param_types"></a>
@@ -340,7 +340,7 @@ ___
 **Ƭ Param$Types**: * [Param$Type](#param_type) &#124; [Param$Type$Array](#param_type_array)
 *
 
-*Defined in [types.d.ts:21](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L21)*
+*Defined in [types.d.ts:21](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L21)*
 
 ___
 <a id="param_value"></a>
@@ -350,7 +350,7 @@ ___
 **Ƭ Param$Value**: * `Digest` &#124; `Header` &#124; [KeyValue](#keyvalue) &#124; `MisbehaviorReport` &#124; [ExtrinsicDecoded](#extrinsicdecoded) &#124; `BN` &#124; `Date` &#124; `Uint8Array` &#124; `boolean` &#124; `number` &#124; `string` &#124; `null`
 *
 
-*Defined in [types.d.ts:56](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L56)*
+*Defined in [types.d.ts:56](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L56)*
 
 ___
 <a id="param_value_array"></a>
@@ -359,7 +359,7 @@ ___
 
 **Ƭ Param$Value$Array**: *`Array`< [Param$Value](#param_value) &#124; `Array`< [Param$Value](#param_value) &#124; `Array`<[Param$Value](#param_value)>>>*
 
-*Defined in [types.d.ts:58](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L58)*
+*Defined in [types.d.ts:58](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L58)*
 
 ___
 <a id="param_values"></a>
@@ -369,7 +369,7 @@ ___
 **Ƭ Param$Values**: * [Param$Value](#param_value) &#124; [Param$Value$Array](#param_value_array)
 *
 
-*Defined in [types.d.ts:60](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L60)*
+*Defined in [types.d.ts:60](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L60)*
 
 ___
 <a id="params"></a>
@@ -378,7 +378,7 @@ ___
 
 **Ƭ Params**: *`Array`<[Param](#param)>*
 
-*Defined in [types.d.ts:76](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L76)*
+*Defined in [types.d.ts:76](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L76)*
 
 ___
 <a id="section"></a>
@@ -387,7 +387,7 @@ ___
 
 **Ƭ Section**: *`object`*
 
-*Defined in [types.d.ts:99](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L99)*
+*Defined in [types.d.ts:99](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L99)*
 
 #### Type declaration
 
@@ -398,7 +398,7 @@ ___
 
 **Ƭ SectionItem**: *`object`*
 
-*Defined in [types.d.ts:79](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L79)*
+*Defined in [types.d.ts:79](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L79)*
 
 #### Type declaration
 
@@ -409,7 +409,7 @@ ___
 
 **Ƭ SectionItems**: *`object`*
 
-*Defined in [types.d.ts:95](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L95)*
+*Defined in [types.d.ts:95](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L95)*
 
 #### Type declaration
 
@@ -420,7 +420,7 @@ ___
 
 **Ƭ Sections**: *`Map`<`T`, [Section](#section)<`T`, `Priv`, `Pub`>>*
 
-*Defined in [types.d.ts:109](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/types.d.ts#L109)*
+*Defined in [types.d.ts:109](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/types.d.ts#L109)*
 
 ___
 
@@ -432,7 +432,7 @@ ___
 
 ▸ **accountId**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*, version: *[EncodingVersions](#encodingversions)*, isStorage: *`boolean`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/accountId.ts:13](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/accountId.ts#L13)*
+*Defined in [decode/value/accountId.ts:13](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/accountId.ts#L13)*
 
 **Parameters:**
 
@@ -451,7 +451,7 @@ ___
 
 ▸ **bn**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*, bitLength: * `32` &#124; `64` &#124; `128`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/bn.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/bn.ts#L10)*
+*Defined in [decode/value/bn.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/bn.ts#L10)*
 
 **Parameters:**
 
@@ -469,7 +469,7 @@ ___
 
 ▸ **bool**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/bool.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/bool.ts#L10)*
+*Defined in [decode/value/bool.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/bool.ts#L10)*
 
 **Parameters:**
 
@@ -486,7 +486,7 @@ ___
 
 ▸ **byte**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/byte.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/byte.ts#L7)*
+*Defined in [decode/value/byte.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/byte.ts#L7)*
 
 **Parameters:**
 
@@ -503,7 +503,7 @@ ___
 
 ▸ **bytes**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/bytes.ts:9](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/bytes.ts#L9)*
+*Defined in [decode/value/bytes.ts:9](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/bytes.ts#L9)*
 
 **Parameters:**
 
@@ -520,7 +520,7 @@ ___
 
 ▸ **call**(decode: *[Decoder](#decoder)*, input: * `Uint8Array` &#124; `null` &#124; `undefined`*, isPublic: *`boolean`*, version: *[EncodingVersions](#encodingversions)*, isStorage: *`boolean`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/method.ts:19](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/method.ts#L19)*
+*Defined in [decode/value/method.ts:19](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/method.ts#L19)*
 
 **Parameters:**
 
@@ -541,7 +541,7 @@ ___
 
 ▸ **code**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/code.ts:9](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/code.ts#L9)*
+*Defined in [decode/value/code.ts:9](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/code.ts#L9)*
 
 **Parameters:**
 
@@ -558,7 +558,7 @@ ___
 
 ▸ **createMethod**<`T`>(section: *`keyof T`*, sectionIndex: *`Uint8Array`*): [CreateItems](#createitems)<`T`>
 
-*Defined in [method.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/method.ts#L11)*
+*Defined in [method.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/method.ts#L11)*
 
 **Type parameters:**
 
@@ -579,7 +579,7 @@ ___
 
 ▸ **createParam**(name: *`string`*, type: *[Param$Types](#param_types)*, __namedParameters?: *`object`*): [Param](#param)
 
-*Defined in [param.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/param.ts#L7)*
+*Defined in [param.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/param.ts#L7)*
 
 **Parameters:**
 
@@ -598,7 +598,7 @@ ___
 
 ▸ **createSection**<`T`>(name: *`keyof T`*, _index?: *`number`*): [CreateSection](#createsection)<`T`, `any`, `any`>
 
-*Defined in [section.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/section.ts#L11)*
+*Defined in [section.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/section.ts#L11)*
 
 **Type parameters:**
 
@@ -619,7 +619,7 @@ ___
 
 ▸ **decode**(type: *[Param$Types](#param_types)*, _input: * `Uint8Array` &#124; `string` &#124; `null` &#124; `undefined`*, version: *[EncodingVersions](#encodingversions)*, isStorage?: *`boolean`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/index.ts:65](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/index.ts#L65)*
+*Defined in [decode/index.ts:65](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/index.ts#L65)*
 
 **Parameters:**
 
@@ -639,7 +639,7 @@ ___
 
 ▸ **decodeValue**(decode: *[Decoder](#decoder)*, type: *[Param$Type](#param_type)*, _input: * `Uint8Array` &#124; `string` &#124; `null` &#124; `undefined`*, version: *[EncodingVersions](#encodingversions)*, isStorage: *`boolean`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/index.ts:30](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/index.ts#L30)*
+*Defined in [decode/value/index.ts:30](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/index.ts#L30)*
 
 **Parameters:**
 
@@ -660,7 +660,7 @@ ___
 
 ▸ **digest**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/digest.ts:12](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/digest.ts#L12)*
+*Defined in [decode/value/digest.ts:12](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/digest.ts#L12)*
 
 **Parameters:**
 
@@ -677,7 +677,7 @@ ___
 
 ▸ **encodeParam**(param: *[Param](#param)*, value: *`any`*, version?: *[EncodingVersions](#encodingversions)*): `Uint8Array`
 
-*Defined in [encode/param.ts:14](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/encode/param.ts#L14)*
+*Defined in [encode/param.ts:14](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/encode/param.ts#L14)*
 
 **Parameters:**
 
@@ -696,7 +696,7 @@ ___
 
 ▸ **encodeParams**(params: *[Params](#params)*, values: *`Array`<`any`>*, version: *[EncodingVersions](#encodingversions)*): `Uint8Array`
 
-*Defined in [encode/index.ts:12](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/encode/index.ts#L12)*
+*Defined in [encode/index.ts:12](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/encode/index.ts#L12)*
 
 **Parameters:**
 
@@ -715,7 +715,7 @@ ___
 
 ▸ **encodeType**(type: *[Param$Type](#param_type)*, value: *`any`*, version: *[EncodingVersions](#encodingversions)*): `Uint8Array`
 
-*Defined in [encode/type/index.ts:19](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/encode/type/index.ts#L19)*
+*Defined in [encode/type/index.ts:19](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/encode/type/index.ts#L19)*
 
 **Parameters:**
 
@@ -734,7 +734,7 @@ ___
 
 ▸ **header**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/header.ts:9](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/header.ts#L9)*
+*Defined in [decode/value/header.ts:9](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/header.ts#L9)*
 
 **Parameters:**
 
@@ -751,7 +751,7 @@ ___
 
 ▸ **keyValue**(__namedParameters: *`object`*): `Uint8Array`
 
-*Defined in [encode/type/keyValue.ts:12](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/encode/type/keyValue.ts#L12)*
+*Defined in [encode/type/keyValue.ts:12](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/encode/type/keyValue.ts#L12)*
 
 **Parameters:**
 
@@ -768,7 +768,7 @@ ___
 
 ▸ **misbehavior**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/misbehavior.ts:21](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/misbehavior.ts#L21)*
+*Defined in [decode/value/misbehavior.ts:21](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/misbehavior.ts#L21)*
 
 **Parameters:**
 
@@ -785,7 +785,7 @@ ___
 
 ▸ **passThrough**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/passThrough.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/passThrough.ts#L7)*
+*Defined in [decode/value/passThrough.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/passThrough.ts#L7)*
 
 **Parameters:**
 
@@ -802,7 +802,7 @@ ___
 
 ▸ **signature**<`T`>(__namedParameters: *`object`*): `string`
 
-*Defined in [signature.ts:20](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/signature.ts#L20)*
+*Defined in [signature.ts:20](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/signature.ts#L20)*
 
 *__name__*: signature
 
@@ -834,7 +834,7 @@ ___
 
 ▸ **storageKey**(__namedParameters: *[`object`, `Array`]*): `Uint8Array`
 
-*Defined in [encode/type/storageKey.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/encode/type/storageKey.ts#L10)*
+*Defined in [encode/type/storageKey.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/encode/type/storageKey.ts#L10)*
 
 **Parameters:**
 
@@ -851,7 +851,7 @@ ___
 
 ▸ **string**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/string.ts:12](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/string.ts#L12)*
+*Defined in [decode/value/string.ts:12](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/string.ts#L12)*
 
 **Parameters:**
 
@@ -868,7 +868,7 @@ ___
 
 ▸ **time**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/time.ts:9](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/time.ts#L9)*
+*Defined in [decode/value/time.ts:9](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/time.ts#L9)*
 
 **Parameters:**
 
@@ -885,7 +885,7 @@ ___
 
 ▸ **typeToString**(type: *[Param$Types](#param_types)*): `string`
 
-*Defined in [typeToString.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/typeToString.ts#L7)*
+*Defined in [typeToString.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/typeToString.ts#L7)*
 
 **Parameters:**
 
@@ -902,7 +902,7 @@ ___
 
 ▸ **u8a**(input: * `Uint8Array` &#124; `null` &#124; `undefined`*, bitLength: *`number`*, offset: *`number`*): [Param$Decoded](#param_decoded)
 
-*Defined in [decode/value/u8a.ts:7](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-params/src/decode/value/u8a.ts#L7)*
+*Defined in [decode/value/u8a.ts:7](https://github.com/polkadot-js/api/blob/0981a30/packages/type-params/src/decode/value/u8a.ts#L7)*
 
 **Parameters:**
 

@@ -44,7 +44,7 @@ As methods are added, simply adding the name, inputs & output will prepare it fo
 
 **Ƭ Interface$Sections**: *`keyof Interfaces`*
 
-*Defined in [types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/types.d.ts#L18)*
 
 ___
 <a id="interfaces"></a>
@@ -53,7 +53,7 @@ ___
 
 **Ƭ Interfaces**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/types.d.ts#L11)*
 
 #### Type declaration
 
@@ -64,10 +64,10 @@ ___
 
 **Ƭ PrivateMethods**: *`object`*
 
-*Defined in [chain.ts:50](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/chain.ts#L50)*
-*Defined in [state.ts:99](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/state.ts#L99)*
-*Defined in [system.ts:34](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/system.ts#L34)*
-*Defined in [author.ts:32](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/author.ts#L32)*
+*Defined in [chain.ts:50](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/chain.ts#L50)*
+*Defined in [state.ts:99](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/state.ts#L99)*
+*Defined in [system.ts:34](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/system.ts#L34)*
+*Defined in [author.ts:32](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/author.ts#L32)*
 
 #### Type declaration
 
@@ -80,10 +80,10 @@ ___
 
 **Ƭ PublicMethods**: *`object`*
 
-*Defined in [chain.ts:49](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/chain.ts#L49)*
-*Defined in [state.ts:100](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/state.ts#L100)*
-*Defined in [system.ts:35](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/system.ts#L35)*
-*Defined in [author.ts:33](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/type-jsonrpc/src/author.ts#L33)*
+*Defined in [chain.ts:49](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/chain.ts#L49)*
+*Defined in [state.ts:100](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/state.ts#L100)*
+*Defined in [system.ts:35](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/system.ts#L35)*
+*Defined in [author.ts:33](https://github.com/polkadot-js/api/blob/0981a30/packages/type-jsonrpc/src/author.ts#L33)*
 
 #### Type declaration
 

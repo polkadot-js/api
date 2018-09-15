@@ -105,7 +105,7 @@ api.chain
 
 **Ƭ ApiInterface**: *`object`*
 
-*Defined in [types.d.ts:18](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/types.d.ts#L18)*
 
 #### Type declaration
 
@@ -116,7 +116,7 @@ ___
 
 **Ƭ ApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/types.d.ts#L14)*
 
 #### Type declaration
 
@@ -132,7 +132,7 @@ ___
 
 ▸ **createInterface**(provider: *`ProviderInterface`*, section: *`Interface$Sections`*): [ApiInterface$Section](#apiinterface_section)
 
-*Defined in [create/interface.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/interface.ts#L16)*
+*Defined in [create/interface.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/interface.ts#L16)*
 
 **Parameters:**
 
@@ -150,7 +150,7 @@ ___
 
 ▸ **createMethodSend**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
 
-*Defined in [create/methodSend.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/methodSend.ts#L16)*
+*Defined in [create/methodSend.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/methodSend.ts#L16)*
 
 **Parameters:**
 
@@ -169,7 +169,7 @@ ___
 
 ▸ **createParams**(params: *`Params`*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [create/params.ts:10](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/params.ts#L10)*
+*Defined in [create/params.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/params.ts#L10)*
 
 **Parameters:**
 
@@ -187,7 +187,7 @@ ___
 
 ▸ **formatResult**(method: *`SectionItem`<`Interfaces`>*, params: *`Array`<`any`>*, inputs: *`Array`<`any`>*, result?: *`any`*): `any`
 
-*Defined in [create/formatResult.ts:16](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/formatResult.ts#L16)*
+*Defined in [create/formatResult.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/formatResult.ts#L16)*
 
 **Parameters:**
 
@@ -207,7 +207,7 @@ ___
 
 ▸ **methodSubscribe**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
 
-*Defined in [create/methodSubscribe.ts:18](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/create/methodSubscribe.ts#L18)*
+*Defined in [create/methodSubscribe.ts:18](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/methodSubscribe.ts#L18)*
 
 **Parameters:**
 

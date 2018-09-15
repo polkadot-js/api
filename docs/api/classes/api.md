@@ -40,7 +40,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](api.md)
 
-*Defined in [index.ts:26](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/index.ts#L26)*
+*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L26)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -62,7 +62,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:23](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/index.ts#L23)*
+*Defined in [index.ts:23](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L23)*
 
 ___
 <a id="chain"></a>
@@ -71,7 +71,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:24](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/index.ts#L24)*
+*Defined in [index.ts:24](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L24)*
 
 ___
 <a id="state"></a>
@@ -80,7 +80,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:25](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/index.ts#L25)*
+*Defined in [index.ts:25](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L25)*
 
 ___
 <a id="system"></a>
@@ -89,7 +89,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:26](https://github.com/chevdor/polkadot-js-api/blob/461228c/packages/api/src/index.ts#L26)*
+*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L26)*
 
 ___
 

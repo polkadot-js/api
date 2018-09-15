@@ -22,7 +22,7 @@
 
 ⊕ **new EventEmitterStatic**<`EventTypes`>(): `EventEmitter`<`EventTypes`>
 
-*Defined in /Users/will/projects/paritytech/polka/polkadot-js-api/node_modules/eventemitter3/index.d.ts:57*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:57*
 
 **Type parameters:**
 
