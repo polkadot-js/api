@@ -30,7 +30,7 @@ An base interface to the storage layer
 
 **Ƭ Keygen**: *`function`*
 
-*Defined in [key/index.ts:14](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/key/index.ts#L14)*
+*Defined in [key/index.ts:14](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/key/index.ts#L14)*
 
 #### Type declaration
 ▸(...keyParams: *`Array`<[Storage$Key$Value](#storage_key_value)>*): `Uint8Array`
@@ -51,7 +51,7 @@ ___
 **Ƭ Storage$Key$Value**: * `number` &#124; `BN` &#124; `Uint8Array` &#124; `string`
 *
 
-*Defined in [types.d.ts:8](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/types.d.ts#L8)*
+*Defined in [types.d.ts:8](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/types.d.ts#L8)*
 
 ___
 <a id="storage_sections"></a>
@@ -60,7 +60,7 @@ ___
 
 **Ƭ Storage$Sections**: *`keyof Storages`*
 
-*Defined in [types.d.ts:23](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/types.d.ts#L23)*
+*Defined in [types.d.ts:23](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/types.d.ts#L23)*
 
 ___
 <a id="storages"></a>
@@ -69,7 +69,7 @@ ___
 
 **Ƭ Storages**: *`object`*
 
-*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/types.d.ts#L10)*
+*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/types.d.ts#L10)*
 
 #### Type declaration
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **bindKey**<`T`>(__namedParameters: *`object`*): [Keygen](#keygen)
 
-*Defined in [key/index.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/key/index.ts#L16)*
+*Defined in [key/index.ts:16](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/key/index.ts#L16)*
 
 **Type parameters:**
 
@@ -103,7 +103,7 @@ ___
 
 ▸ **formatParams**(params: *`Params`*, values?: *[Storage$Key$Value](#storage_key_value)[]*): `Array`<`Uint8Array`>
 
-*Defined in [key/params.ts:15](https://github.com/polkadot-js/api/blob/0981a30/packages/type-storage/src/key/params.ts#L15)*
+*Defined in [key/params.ts:15](https://github.com/polkadot-js/api/blob/5f8c52d/packages/type-storage/src/key/params.ts#L15)*
 
 **Parameters:**
 

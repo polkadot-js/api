@@ -5,6 +5,7 @@
 *__example__*: ```javascript
 import Api from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
+
 const provider = new WsProvider('http://127.0.0.1:9944');
 const api = new Api(provider);
 ```
@@ -40,7 +41,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](api.md)
 
-*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L26)*
+*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/index.ts#L37)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -62,7 +63,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:23](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L23)*
+*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/index.ts#L34)*
 
 ___
 <a id="chain"></a>
@@ -71,7 +72,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:24](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L24)*
+*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/index.ts#L35)*
 
 ___
 <a id="state"></a>
@@ -80,7 +81,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:25](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L25)*
+*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/index.ts#L36)*
 
 ___
 <a id="system"></a>
@@ -89,7 +90,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../#apiinterface_section)*
 
-*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/index.ts#L26)*
+*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/index.ts#L37)*
 
 ___
 

@@ -87,14 +87,6 @@ api.chain
 * [ApiInterface](#apiinterface)
 * [ApiInterface$Section](#apiinterface_section)
 
-### Functions
-
-* [createInterface](#createinterface)
-* [createMethodSend](#createmethodsend)
-* [createParams](#createparams)
-* [formatResult](#formatresult)
-* [methodSubscribe](#methodsubscribe)
-
 ---
 
 ## Type aliases
@@ -105,7 +97,7 @@ api.chain
 
 **Ƭ ApiInterface**: *`object`*
 
-*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/types.d.ts#L18)*
 
 #### Type declaration
 
@@ -116,108 +108,11 @@ ___
 
 **Ƭ ApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/types.d.ts#L14)*
 
 #### Type declaration
 
 [index: `string`]: [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
-
-___
-
-## Functions
-
-<a id="createinterface"></a>
-
-###  createInterface
-
-▸ **createInterface**(provider: *`ProviderInterface`*, section: *`Interface$Sections`*): [ApiInterface$Section](#apiinterface_section)
-
-*Defined in [create/interface.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/interface.ts#L16)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| provider | `ProviderInterface` |
-| section | `Interface$Sections` |
-
-**Returns:** [ApiInterface$Section](#apiinterface_section)
-
-___
-<a id="createmethodsend"></a>
-
-###  createMethodSend
-
-▸ **createMethodSend**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
-
-*Defined in [create/methodSend.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/methodSend.ts#L16)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| provider | `ProviderInterface` |
-| rpcName | `string` |
-| method | `SectionItem`<`Interfaces`> |
-
-**Returns:** [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
-
-___
-<a id="createparams"></a>
-
-###  createParams
-
-▸ **createParams**(params: *`Params`*, values: *`Array`<`any`>*): `Array`<`any`>
-
-*Defined in [create/params.ts:10](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/params.ts#L10)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| params | `Params` |
-| values | `Array`<`any`> |
-
-**Returns:** `Array`<`any`>
-
-___
-<a id="formatresult"></a>
-
-###  formatResult
-
-▸ **formatResult**(method: *`SectionItem`<`Interfaces`>*, params: *`Array`<`any`>*, inputs: *`Array`<`any`>*, result?: *`any`*): `any`
-
-*Defined in [create/formatResult.ts:16](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/formatResult.ts#L16)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| method | `SectionItem`<`Interfaces`> |
-| params | `Array`<`any`> |
-| inputs | `Array`<`any`> |
-| `Optional` result | `any` |
-
-**Returns:** `any`
-
-___
-<a id="methodsubscribe"></a>
-
-###  methodSubscribe
-
-▸ **methodSubscribe**(provider: *`ProviderInterface`*, rpcName: *`string`*, method: *`SectionItem`<`Interfaces`>*): [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
-
-*Defined in [create/methodSubscribe.ts:18](https://github.com/polkadot-js/api/blob/0981a30/packages/api/src/create/methodSubscribe.ts#L18)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| provider | `ProviderInterface` |
-| rpcName | `string` |
-| method | `SectionItem`<`Interfaces`> |
-
-**Returns:** [ApiInterface$Section$Method](interfaces/apiinterface_section_method.md)
 
 ___
 
