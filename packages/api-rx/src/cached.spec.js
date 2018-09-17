@@ -2,11 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import cachedSubscription from './cached';
+jest.mock('@polkadot/api-provider/ws', () => class {
+  isConnected = () => true;
+  on = () => true;
+  send = () => true;
+});
 
-describe('cached', () => {
+const Api = require('./index').default;
+
+describe('createCachedObservable', () => {
+  let api;
   let creator;
   let section;
+
+  beforeEach(() => {
+    api = new Api();
+  });
 
   beforeEach(() => {
     const subMethod = jest.fn((name, ...params) => {
@@ -26,7 +37,7 @@ describe('cached', () => {
       subMethod
     };
 
-    creator = cachedSubscription('test', 'subMethod', section);
+    creator = api.createCachedObservable('test', 'subMethod', section);
   });
 
   it('creates a single observable', () => {

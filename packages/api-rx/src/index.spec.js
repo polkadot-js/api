@@ -9,7 +9,6 @@ jest.mock('@polkadot/api-provider/ws', () => class {
   on = () => true;
   send = () => true;
 });
-jest.mock('./interface', () => (api, sectionName) => sectionName);
 
 const Api = require('./index').default;
 
