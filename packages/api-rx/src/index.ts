@@ -112,44 +112,18 @@ export default class RxApi implements RxApiInterface {
 
     Observable
       .create((observer: Subscriber<any>): Function => {
-        let cachedResult: any;
-
-        const callback = (error: Error | null, result: any) => {
-          if (error) {
-            console.error(error);
-            observer.next();
-            return;
-          }
-
-          if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
-            cachedResult = result;
-          } else {
-            const resultArray = (result as Array<any>) || [];
-
-            cachedResult = cachedResult.map((cachedValue, index) =>
-              isUndefined(resultArray[index])
-                ? cachedValue
-                : resultArray[index]
-            );
-          }
-
-          observer.next(cachedResult);
-        };
-
         try {
           const fn = section[name];
-          const subscribe = fn(...params, callback);
+          const subscribe = fn(...params, this.createSubjectCallback(observer));
 
           return (): void => {
             subscribe
               .then((subscriptionId: number) =>
                 fn.unsubscribe(subscriptionId)
               )
-              .then(() => {
-                if (unsubCallback) {
-                  unsubCallback();
-                }
-              })
+              .then(() =>
+                isFunction(unsubCallback) && unsubCallback()
+              )
               .catch((error) => {
                 console.error('Unsubscribe failed', error);
               });
@@ -165,5 +139,31 @@ export default class RxApi implements RxApiInterface {
       .subscribe(subject);
 
     return subject;
+  }
+
+  private createSubjectCallback (observer: Subscriber<any>) {
+    let cachedResult: any;
+
+    return (error: Error | null, result: any) => {
+      if (error) {
+        console.error(error);
+        observer.next();
+        return;
+      }
+
+      if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
+        cachedResult = result;
+      } else {
+        const resultArray = (result as Array<any>) || [];
+
+        cachedResult = cachedResult.map((cachedValue, index) =>
+          isUndefined(resultArray[index])
+            ? cachedValue
+            : resultArray[index]
+        );
+      }
+
+      observer.next(cachedResult);
+    };
   }
 }
