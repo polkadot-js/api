@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import createMethod from './methodSend';
+import Api from './index';
 
-describe('methodCall', () => {
+describe('methodSend', () => {
+  let api;
   let methods;
   let provider;
 
@@ -29,10 +30,12 @@ describe('methodCall', () => {
         return Promise.resolve(params[0]);
       })
     };
+
+    api = new Api(provider);
   });
 
   it('wraps errors with the call signature', () => {
-    const method = createMethod(provider, 'test_blah', methods.blah);
+    const method = api.createMethodSend('test_blah', methods.blah);
 
     return method().catch((error) => {
       expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
@@ -40,7 +43,7 @@ describe('methodCall', () => {
   });
 
   it('checks for mismatched parameters', () => {
-    const method = createMethod(provider, 'test_bleh', methods.bleh);
+    const method = api.createMethodSend('test_bleh', methods.bleh);
 
     return method(1).catch((error) => {
       expect(error.message).toMatch(/no params expected, found 1 instead/);
@@ -48,7 +51,7 @@ describe('methodCall', () => {
   });
 
   it('calls the provider with the correct parameters', () => {
-    const method = createMethod(provider, 'test_blah', methods.blah);
+    const method = api.createMethodSend('test_blah', methods.blah);
 
     return method(new Uint8Array([0x12, 0x34])).then(() => {
       expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);
