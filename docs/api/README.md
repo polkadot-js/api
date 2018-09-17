@@ -97,7 +97,7 @@ api.chain
 
 **Ƭ ApiInterface**: *`object`*
 
-*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api/src/types.d.ts#L18)*
 
 #### Type declaration
 
@@ -108,7 +108,7 @@ ___
 
 **Ƭ ApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api/src/types.d.ts#L14)*
 
 #### Type declaration
 

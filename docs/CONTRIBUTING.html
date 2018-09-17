@@ -1,0 +1,587 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Contributing guide · Polkadot API Book</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="examples/07_transfer_dots/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Intro</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="api/">
+            
+                <a href="api/">
+            
+                    
+                    api
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="api-format/">
+            
+                <a href="api-format/">
+            
+                    
+                    api-format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="api-provider/">
+            
+                <a href="api-provider/">
+            
+                    
+                    api-provider
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="api-rx/">
+            
+                <a href="api-rx/">
+            
+                    
+                    api-rx
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="type-extrinsics/">
+            
+                <a href="type-extrinsics/">
+            
+                    
+                    type-extrinsics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="type-jsonrpc/">
+            
+                <a href="type-jsonrpc/">
+            
+                    
+                    type-jsonrpc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="type-params/">
+            
+                <a href="type-params/">
+            
+                    
+                    type-params
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="type-primitives/">
+            
+                <a href="type-primitives/">
+            
+                    
+                    type-primitives
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="type-storage/">
+            
+                <a href="type-storage/">
+            
+                    
+                    type-storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Examples</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="examples/">
+            
+                <a href="examples/">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="examples/01_simple_connect/">
+            
+                <a href="examples/01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="examples/02_listen_to_blocks/">
+            
+                <a href="examples/02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="examples/03_listen_to_balance_change/">
+            
+                <a href="examples/03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="examples/04_generate_account/">
+            
+                <a href="examples/04_generate_account/">
+            
+                    
+                    Generate Accounts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="examples/05_read_storage/">
+            
+                <a href="examples/05_read_storage/">
+            
+                    
+                    Read Storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="examples/06_craft_extrinsic/">
+            
+                <a href="examples/06_craft_extrinsic/">
+            
+                    
+                    Craft Extrinsic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="examples/07_transfer_dots/">
+            
+                <a href="examples/07_transfer_dots/">
+            
+                    
+                    Transfer DOTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Contributing</li>
+        
+        
+    
+        <li class="chapter active" data-level="4.1" data-path="CONTRIBUTING.html">
+            
+                <a href="CONTRIBUTING.html">
+            
+                    
+                    Contributing guide
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Contributing guide</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="contributing">Contributing</h1>
+<div class="sect1">
+<h2 id="_what">What?</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Individuals making significant and valuable contributions are given commit-access to a project to contribute as they see fit.
+A project is more like an open wiki than a standard guarded open source project.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rules">Rules</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There are a few basic ground-rules for contributors (including the maintainer(s) of the project):</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>No <code>--force</code> pushes</strong> or modifying the Git history in any way. If you need to rebase, ensure you do it in your own repo.</p>
+</li>
+<li>
+<p><strong>Non-master branches</strong>, prefixed with a short name moniker (e.g. <code>gav-my-feature</code>) must be used for ongoing work.</p>
+</li>
+<li>
+<p><strong>All modifications</strong> must be made in a <strong>pull-request</strong> to solicit feedback from other contributors.</p>
+</li>
+<li>
+<p>A pull-request <strong>must not be merged until CI</strong> has finished successfully.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Merging pull requests once CI is successful:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>A pull request with no large change to logic that is an urgent fix may be merged after a non-author contributor has reviewed it well.</p>
+</li>
+<li>
+<p>No PR should be merged until all reviews&apos; comments are addressed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title">Reviewing pull requests:</div>
+<p>When reviewing a pull request, the end-goal is to suggest useful changes to the author. Reviews should finish with approval unless there are issues that would result in:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Buggy behaviour.</p>
+</li>
+<li>
+<p>Undue maintenance burden.</p>
+</li>
+<li>
+<p>Breaking with house coding style.</p>
+</li>
+<li>
+<p>Pessimisation (i.e. reduction of speed as measured in the projects benchmarks).</p>
+</li>
+<li>
+<p>Feature reduction (i.e. it removes some aspect of functionality that a significant minority of users rely on).</p>
+</li>
+<li>
+<p>Uselessness (i.e. it does not strictly add a feature or fix a known issue).</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Reviews may not be used as an effective veto for a PR because:</div>
+<ol class="arabic">
+<li>
+<p>There exists a somewhat cleaner/better/faster way of accomplishing the same feature/fix.</p>
+</li>
+<li>
+<p>It does not fit well with some other contributors&apos; longer-term vision for the project.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_releases">Releases</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Declaring formal releases remains the prerogative of the project maintainer(s).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_changes_to_this_arrangement">Changes to this arrangement</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is an experiment and feedback is welcome! This document may also be subject to pull-requests or changes by contributors where you believe you have something valuable to add or change.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_heritage">Heritage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>These contributing guidelines are modified from the &quot;OPEN Open Source Project&quot; guidelines for the Level project: <a href="https://github.com/Level/community/blob/master/CONTRIBUTING.md" class="bare" target="_blank">https://github.com/Level/community/blob/master/CONTRIBUTING.md</a></p>
+</div>
+</div>
+</div>
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="examples/07_transfer_dots/" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Transfer DOTs">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Contributing guide","level":"4.1","depth":1,"previous":{"title":"Transfer DOTs","level":"3.8","depth":1,"path":"examples/07_transfer_dots/README.adoc","ref":"examples/07_transfer_dots/README.adoc","articles":[]},"dir":"ltr"},"config":{"plugins":["asciidoc-include"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"asciidoc-include":{"syntax":"asciidoc"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"CONTRIBUTING.adoc","mtime":"2018-09-17T12:30:32.109Z","type":"asciidoc"},"gitbook":{"version":"3.2.3","time":"2018-09-17T12:37:27.221Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -38,7 +38,7 @@ npm install --save @polkadot/api-format
 
 **Ƭ FormatterFunction**: *`function`*
 
-*Defined in [types.d.ts:7](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-format/src/types.d.ts#L7)*
+*Defined in [types.d.ts:7](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-format/src/types.d.ts#L7)*
 
 #### Type declaration
 ▸(value: *`any`*): `any`
@@ -61,7 +61,7 @@ ___
 
 ▸ **echo**(value: *`any`*): `any`
 
-*Defined in [echo.ts:10](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-format/src/echo.ts#L10)*
+*Defined in [echo.ts:10](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-format/src/echo.ts#L10)*
 
 A function returning any value passed to it
 
@@ -81,7 +81,7 @@ ___
 
 ▸ **format**(formatters: *`FormattersFunctionMap`*, types: *`Array`<`Param$Types`>*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [format.ts:49](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-format/src/format.ts#L49)*
+*Defined in [format.ts:49](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-format/src/format.ts#L49)*
 
 **Parameters:**
 
@@ -100,7 +100,7 @@ ___
 
 ▸ **formatInputs**(params: *`Params`*, values: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [input.ts:22](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-format/src/input.ts#L22)*
+*Defined in [input.ts:22](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-format/src/input.ts#L22)*
 
 **Parameters:**
 
@@ -118,7 +118,7 @@ ___
 
 ▸ **formatOutput**(type: *`Param$Types`*, value?: *`any`*):  `any` &#124; `null`
 
-*Defined in [output.ts:30](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-format/src/output.ts#L30)*
+*Defined in [output.ts:30](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-format/src/output.ts#L30)*
 
 **Parameters:**
 

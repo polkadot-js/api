@@ -46,7 +46,7 @@ const rxapi = new RxApi(provider);
 
 ⊕ **new RxApi**(provider?: *`ProviderInterface`*): [RxApi](rxapi.md)
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L43)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 **● author**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L40)*
+*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L40)*
 
 ___
 <a id="chain"></a>
@@ -75,7 +75,7 @@ ___
 
 **● chain**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L41)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L41)*
 
 ___
 <a id="state"></a>
@@ -84,7 +84,7 @@ ___
 
 **● state**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L42)*
 
 ___
 <a id="system"></a>
@@ -93,7 +93,7 @@ ___
 
 **● system**: *[RxApiInterface$Section](../#rxapiinterface_section)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L43)*
 
 ___
 
@@ -105,7 +105,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:62](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/index.ts#L62)*
+*Defined in [index.ts:62](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/index.ts#L62)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 

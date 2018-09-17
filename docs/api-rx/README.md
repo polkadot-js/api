@@ -29,7 +29,7 @@ An RxJs wrapper around the [@polkadot/api](../api).
 **Ƭ RxApiInterface**: * `RxApiInterface$Keys` & `object`
 *
 
-*Defined in [types.d.ts:19](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/types.d.ts#L19)*
+*Defined in [types.d.ts:19](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/types.d.ts#L19)*
 
 ___
 <a id="rxapiinterface_method"></a>
@@ -38,7 +38,7 @@ ___
 
 **Ƭ RxApiInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/types.d.ts#L9)*
+*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/types.d.ts#L9)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `BehaviorSubject`<`any`>
@@ -58,7 +58,7 @@ ___
 
 **Ƭ RxApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/5f8c52d/packages/api-rx/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/f5b0e23/packages/api-rx/src/types.d.ts#L11)*
 
 #### Type declaration
 

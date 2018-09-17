@@ -1,0 +1,1501 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>type-params · Polkadot API Book</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../type-primitives/" />
+    
+    
+    <link rel="prev" href="../type-jsonrpc/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Intro</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    api
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../api-format/">
+            
+                <a href="../api-format/">
+            
+                    
+                    api-format
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../api-provider/">
+            
+                <a href="../api-provider/">
+            
+                    
+                    api-provider
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../api-rx/">
+            
+                <a href="../api-rx/">
+            
+                    
+                    api-rx
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../type-extrinsics/">
+            
+                <a href="../type-extrinsics/">
+            
+                    
+                    type-extrinsics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../type-jsonrpc/">
+            
+                <a href="../type-jsonrpc/">
+            
+                    
+                    type-jsonrpc
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.7" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    type-params
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../type-primitives/">
+            
+                <a href="../type-primitives/">
+            
+                    
+                    type-primitives
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.9" data-path="../type-storage/">
+            
+                <a href="../type-storage/">
+            
+                    
+                    type-storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Examples</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../examples/">
+            
+                <a href="../examples/">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../examples/01_simple_connect/">
+            
+                <a href="../examples/01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../examples/02_listen_to_blocks/">
+            
+                <a href="../examples/02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../examples/03_listen_to_balance_change/">
+            
+                <a href="../examples/03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../examples/04_generate_account/">
+            
+                <a href="../examples/04_generate_account/">
+            
+                    
+                    Generate Accounts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../examples/05_read_storage/">
+            
+                <a href="../examples/05_read_storage/">
+            
+                    
+                    Read Storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../examples/06_craft_extrinsic/">
+            
+                <a href="../examples/06_craft_extrinsic/">
+            
+                    
+                    Craft Extrinsic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../examples/07_transfer_dots/">
+            
+                <a href="../examples/07_transfer_dots/">
+            
+                    
+                    Transfer DOTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Contributing</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../CONTRIBUTING.html">
+            
+                <a href="../CONTRIBUTING.html">
+            
+                    
+                    Contributing guide
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >type-params</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><a href="https://polkadot.js.org" target="_blank"><img src="https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square" alt="polkadotjs"></a> <img src="https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square" alt="isc"> <a href="https://github.com/Flet/semistandard" target="_blank"><img src="https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square" alt="style"></a> <a href="https://www.npmjs.com/package/@polkadot/primitives" target="_blank"><img src="https://img.shields.io/npm/v/@polkadot/primitives.svg?style=flat-square" alt="npm"></a> <a href="https://travis-ci.org/polkadot-js/api" target="_blank"><img src="https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square" alt="travis"></a> <a href="https://codeclimate.com/github/polkadot-js/api/maintainability" target="_blank"><img src="https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square" alt="maintainability"></a> <a href="https://coveralls.io/github/polkadot-js/api?branch=master" target="_blank"><img src="https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square" alt="coverage"></a> <a href="https://david-dm.org/polkadot-js/api?path=packages/type-params" target="_blank"><img src="https://david-dm.org/polkadot-js/api.svg?style=flat-square&amp;path=packages/type-params" alt="dependency"></a> <a href="https://david-dm.org/polkadot-js/api?path=packages/type-params#info=devDependencies" target="_blank"><img src="https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&amp;path=packages/type-params" alt="devDependency"></a></p>
+<h2 id="index">Index</h2>
+<h3 id="type-aliases">Type aliases</h3>
+<ul>
+<li><a href="#blockdecoded">BlockDecoded</a></li>
+<li><a href="#blockextrinsicdecoded">BlockExtrinsicDecoded</a></li>
+<li><a href="#blockjustificationdecoded">BlockJustificationDecoded</a></li>
+<li><a href="#createitem">CreateItem</a></li>
+<li><a href="#createitemoptions">CreateItemOptions</a></li>
+<li><a href="#createitemoptionsmap">CreateItemOptionsMap</a></li>
+<li><a href="#createitems">CreateItems</a></li>
+<li><a href="#createsection">CreateSection</a></li>
+<li><a href="#createsectionoptions">CreateSectionOptions</a></li>
+<li><a href="#createsectionoptions_fn">CreateSectionOptions$Fn</a></li>
+<li><a href="#createsectionoptions_only">CreateSectionOptions$Only</a></li>
+<li><a href="#decoder">Decoder</a></li>
+<li><a href="#encodingversions">EncodingVersions</a></li>
+<li><a href="#extrinsicdecoded">ExtrinsicDecoded</a></li>
+<li><a href="#keyvalue">KeyValue</a></li>
+<li><a href="#param">Param</a></li>
+<li><a href="#param_decoded">Param$Decoded</a></li>
+<li><a href="#param_options">Param$Options</a></li>
+<li><a href="#param_type">Param$Type</a></li>
+<li><a href="#param_type_array">Param$Type$Array</a></li>
+<li><a href="#param_types">Param$Types</a></li>
+<li><a href="#param_value">Param$Value</a></li>
+<li><a href="#param_value_array">Param$Value$Array</a></li>
+<li><a href="#param_values">Param$Values</a></li>
+<li><a href="#params">Params</a></li>
+<li><a href="#section">Section</a></li>
+<li><a href="#sectionitem">SectionItem</a></li>
+<li><a href="#sectionitems">SectionItems</a></li>
+<li><a href="#sections">Sections</a></li>
+</ul>
+<h3 id="functions">Functions</h3>
+<ul>
+<li><a href="#accountid">accountId</a></li>
+<li><a href="#bn">bn</a></li>
+<li><a href="#bool">bool</a></li>
+<li><a href="#byte">byte</a></li>
+<li><a href="#bytes">bytes</a></li>
+<li><a href="#call">call</a></li>
+<li><a href="#code">code</a></li>
+<li><a href="#createmethod">createMethod</a></li>
+<li><a href="#createparam">createParam</a></li>
+<li><a href="#createsection">createSection</a></li>
+<li><a href="#decode">decode</a></li>
+<li><a href="#decodevalue">decodeValue</a></li>
+<li><a href="#digest">digest</a></li>
+<li><a href="#encodeparam">encodeParam</a></li>
+<li><a href="#encodeparams">encodeParams</a></li>
+<li><a href="#encodetype">encodeType</a></li>
+<li><a href="#header">header</a></li>
+<li><a href="#keyvalue">keyValue</a></li>
+<li><a href="#misbehavior">misbehavior</a></li>
+<li><a href="#passthrough">passThrough</a></li>
+<li><a href="#signature">signature</a></li>
+<li><a href="#storagekey">storageKey</a></li>
+<li><a href="#string">string</a></li>
+<li><a href="#time">time</a></li>
+<li><a href="#typetostring">typeToString</a></li>
+<li><a href="#u8a">u8a</a></li>
+</ul>
+<hr>
+<h2 id="type-aliases">Type aliases</h2>
+<p><a id="blockdecoded"></a></p>
+<h3 id="blockdecoded">BlockDecoded</h3>
+<p><strong>&#x1AC; BlockDecoded</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L45" target="_blank">types.d.ts:45</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="blockextrinsicdecoded"></a></p>
+<h3 id="blockextrinsicdecoded">BlockExtrinsicDecoded</h3>
+<p><strong>&#x1AC; BlockExtrinsicDecoded</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L28" target="_blank">types.d.ts:28</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="blockjustificationdecoded"></a></p>
+<h3 id="blockjustificationdecoded">BlockJustificationDecoded</h3>
+<p><strong>&#x1AC; BlockJustificationDecoded</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L36" target="_blank">types.d.ts:36</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="createitem"></a></p>
+<h3 id="createitem">CreateItem</h3>
+<p><strong>&#x1AC; CreateItem</strong>: <em><code>function</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L127" target="_blank">types.d.ts:127</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<p>&#x25B8;(options: <em><a href="#createitemoptions">CreateItemOptions</a></em>): <a href="#sectionitem">SectionItem</a>&lt;<code>T</code>&gt;</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><a href="#createitemoptions">CreateItemOptions</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#sectionitem">SectionItem</a>&lt;<code>T</code>&gt;</p>
+<hr>
+<p><a id="createitemoptions"></a></p>
+<h3 id="createitemoptions">CreateItemOptions</h3>
+<p><strong>&#x1AC; CreateItemOptions</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L111" target="_blank">types.d.ts:111</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="createitemoptionsmap"></a></p>
+<h3 id="createitemoptionsmap">CreateItemOptionsMap</h3>
+<p><strong>&#x1AC; CreateItemOptionsMap</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L123" target="_blank">types.d.ts:123</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="createitems"></a></p>
+<h3 id="createitems">CreateItems</h3>
+<p><strong>&#x1AC; CreateItems</strong>: <em><code>function</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L129" target="_blank">types.d.ts:129</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<p>&#x25B8;(name: <em><code>string</code></em>, index?: <em> <code>undefined</code> | <code>number</code></em>): <a href="#createitem">CreateItem</a>&lt;<code>T</code>&gt;</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>Optional</code> index</td>
+<td><code>undefined</code> | <code>number</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#createitem">CreateItem</a>&lt;<code>T</code>&gt;</p>
+<hr>
+<p><a id="createsection"></a></p>
+<h3 id="createsection">CreateSection</h3>
+<p><strong>&#x1AC; CreateSection</strong>: <em><code>function</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L143" target="_blank">types.d.ts:143</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<p>&#x25B8;(options: <em><a href="#createsectionoptions">CreateSectionOptions</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</em>): <a href="#section">Section</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>options</td>
+<td><a href="#createsectionoptions">CreateSectionOptions</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#section">Section</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</p>
+<hr>
+<p><a id="createsectionoptions"></a></p>
+<h3 id="createsectionoptions">CreateSectionOptions</h3>
+<p><strong>&#x1AC; CreateSectionOptions</strong>: <em> <a href="#createsectionoptions_only">CreateSectionOptions$Only</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt; | <a href="#createsectionoptions_fn">CreateSectionOptions$Fn</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L141" target="_blank">types.d.ts:141</a></em></p>
+<hr>
+<p><a id="createsectionoptions_fn"></a></p>
+<h3 id="createsectionoptionsfn">CreateSectionOptions$Fn</h3>
+<p><strong>&#x1AC; CreateSectionOptions$Fn</strong>: <em><code>function</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L139" target="_blank">types.d.ts:139</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<p>&#x25B8;(method: <em><a href="#createitems">CreateItems</a>&lt;<code>T</code>&gt;</em>): <a href="#createsectionoptions_only">CreateSectionOptions$Only</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>method</td>
+<td><a href="#createitems">CreateItems</a>&lt;<code>T</code>&gt;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#createsectionoptions_only">CreateSectionOptions$Only</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;</p>
+<hr>
+<p><a id="createsectionoptions_only"></a></p>
+<h3 id="createsectionoptionsonly">CreateSectionOptions$Only</h3>
+<p><strong>&#x1AC; CreateSectionOptions$Only</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L131" target="_blank">types.d.ts:131</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="decoder"></a></p>
+<h3 id="decoder">Decoder</h3>
+<p><strong>&#x1AC; Decoder</strong>: <em><code>function</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/types.d.ts#L7" target="_blank">decode/types.d.ts:7</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<p>&#x25B8;(type: <em><a href="#param_types">Param$Types</a></em>, input: <em><code>Uint8Array</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>, isStorage: <em><code>boolean</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><a href="#param_types">Param$Types</a></td>
+</tr>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+<tr>
+<td>isStorage</td>
+<td><code>boolean</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="encodingversions"></a></p>
+<h3 id="encodingversions">EncodingVersions</h3>
+<p><strong>&#x1AC; EncodingVersions</strong>: <em> &quot;poc-1&quot; | &quot;latest&quot;
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L11" target="_blank">types.d.ts:11</a></em></p>
+<hr>
+<p><a id="extrinsicdecoded"></a></p>
+<h3 id="extrinsicdecoded">ExtrinsicDecoded</h3>
+<p><strong>&#x1AC; ExtrinsicDecoded</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L23" target="_blank">types.d.ts:23</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="keyvalue"></a></p>
+<h3 id="keyvalue">KeyValue</h3>
+<p><strong>&#x1AC; KeyValue</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L51" target="_blank">types.d.ts:51</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="param"></a></p>
+<h3 id="param">Param</h3>
+<p><strong>&#x1AC; Param</strong>: <em> <a href="#param_options">Param$Options</a> &amp; <code>object</code>
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L71" target="_blank">types.d.ts:71</a></em></p>
+<hr>
+<p><a id="param_decoded"></a></p>
+<h3 id="paramdecoded">Param$Decoded</h3>
+<p><strong>&#x1AC; Param$Decoded</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L62" target="_blank">types.d.ts:62</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="param_options"></a></p>
+<h3 id="paramoptions">Param$Options</h3>
+<p><strong>&#x1AC; Param$Options</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L67" target="_blank">types.d.ts:67</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="param_type"></a></p>
+<h3 id="paramtype">Param$Type</h3>
+<p><strong>&#x1AC; Param$Type</strong>: <em> &quot;AccountId&quot; | &quot;AccountIndex&quot; | &quot;Balance&quot; | &quot;BlockNumber&quot; | &quot;bool&quot; | &quot;Bytes&quot; | &quot;Call&quot; | &quot;CandidateReceipt&quot; | &quot;Code&quot; | &quot;Digest&quot; | &quot;Gas&quot; | &quot;Hash&quot; | &quot;Header&quot; | &quot;KeyValue&quot; | &quot;MisbehaviorReport&quot; | &quot;ParachainId&quot; | &quot;PrendingExtrinsics&quot; | &quot;PropIndex&quot; | &quot;Proposal&quot; | &quot;ReferendumIndex&quot; | &quot;SessionKey&quot; | &quot;Signature&quot; | &quot;SignedBlock&quot; | &quot;StorageKey&quot; | &quot;StorageKeyValue&quot; | &quot;StorageResult&quot; | &quot;StorageResultSet&quot; | &quot;String&quot; | &quot;Timestamp&quot; | &quot;u32&quot; | &quot;u64&quot; | &quot;u128&quot; | &quot;VoteIndex&quot; | &quot;VoteThreshold&quot;
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L17" target="_blank">types.d.ts:17</a></em></p>
+<hr>
+<p><a id="param_type_array"></a></p>
+<h3 id="paramtypearray">Param$Type$Array</h3>
+<p><strong>&#x1AC; Param$Type$Array</strong>: <em><code>Array</code>&lt; <a href="#param_type">Param$Type</a> | <code>Array</code>&lt; <a href="#param_type">Param$Type</a> | <code>Array</code>&lt;<a href="#param_type">Param$Type</a>&gt;&gt;&gt;</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L19" target="_blank">types.d.ts:19</a></em></p>
+<hr>
+<p><a id="param_types"></a></p>
+<h3 id="paramtypes">Param$Types</h3>
+<p><strong>&#x1AC; Param$Types</strong>: <em> <a href="#param_type">Param$Type</a> | <a href="#param_type_array">Param$Type$Array</a>
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L21" target="_blank">types.d.ts:21</a></em></p>
+<hr>
+<p><a id="param_value"></a></p>
+<h3 id="paramvalue">Param$Value</h3>
+<p><strong>&#x1AC; Param$Value</strong>: <em> <code>Digest</code> | <code>Header</code> | <a href="#keyvalue">KeyValue</a> | <code>MisbehaviorReport</code> | <a href="#extrinsicdecoded">ExtrinsicDecoded</a> | <code>BN</code> | <code>Date</code> | <code>Uint8Array</code> | <code>boolean</code> | <code>number</code> | <code>string</code> | <code>null</code>
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L56" target="_blank">types.d.ts:56</a></em></p>
+<hr>
+<p><a id="param_value_array"></a></p>
+<h3 id="paramvaluearray">Param$Value$Array</h3>
+<p><strong>&#x1AC; Param$Value$Array</strong>: <em><code>Array</code>&lt; <a href="#param_value">Param$Value</a> | <code>Array</code>&lt; <a href="#param_value">Param$Value</a> | <code>Array</code>&lt;<a href="#param_value">Param$Value</a>&gt;&gt;&gt;</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L58" target="_blank">types.d.ts:58</a></em></p>
+<hr>
+<p><a id="param_values"></a></p>
+<h3 id="paramvalues">Param$Values</h3>
+<p><strong>&#x1AC; Param$Values</strong>: <em> <a href="#param_value">Param$Value</a> | <a href="#param_value_array">Param$Value$Array</a>
+</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L60" target="_blank">types.d.ts:60</a></em></p>
+<hr>
+<p><a id="params"></a></p>
+<h3 id="params">Params</h3>
+<p><strong>&#x1AC; Params</strong>: <em><code>Array</code>&lt;<a href="#param">Param</a>&gt;</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L76" target="_blank">types.d.ts:76</a></em></p>
+<hr>
+<p><a id="section"></a></p>
+<h3 id="section">Section</h3>
+<p><strong>&#x1AC; Section</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L99" target="_blank">types.d.ts:99</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="sectionitem"></a></p>
+<h3 id="sectionitem">SectionItem</h3>
+<p><strong>&#x1AC; SectionItem</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L79" target="_blank">types.d.ts:79</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="sectionitems"></a></p>
+<h3 id="sectionitems">SectionItems</h3>
+<p><strong>&#x1AC; SectionItems</strong>: <em><code>object</code></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L95" target="_blank">types.d.ts:95</a></em></p>
+<h4 id="type-declaration">Type declaration</h4>
+<hr>
+<p><a id="sections"></a></p>
+<h3 id="sections">Sections</h3>
+<p><strong>&#x1AC; Sections</strong>: <em><code>Map</code>&lt;<code>T</code>, <a href="#section">Section</a>&lt;<code>T</code>, <code>Priv</code>, <code>Pub</code>&gt;&gt;</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/types.d.ts#L109" target="_blank">types.d.ts:109</a></em></p>
+<hr>
+<h2 id="functions">Functions</h2>
+<p><a id="accountid"></a></p>
+<h3 id="accountid">accountId</h3>
+<p>&#x25B8; <strong>accountId</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>, isStorage: <em><code>boolean</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/accountId.ts#L13" target="_blank">decode/value/accountId.ts:13</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+<tr>
+<td>isStorage</td>
+<td><code>boolean</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="bn"></a></p>
+<h3 id="bn">bn</h3>
+<p>&#x25B8; <strong>bn</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>, bitLength: <em> <code>32</code> | <code>64</code> | <code>128</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/bn.ts#L10" target="_blank">decode/value/bn.ts:10</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+<tr>
+<td>bitLength</td>
+<td><code>32</code> | <code>64</code> | <code>128</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="bool"></a></p>
+<h3 id="bool">bool</h3>
+<p>&#x25B8; <strong>bool</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/bool.ts#L10" target="_blank">decode/value/bool.ts:10</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="byte"></a></p>
+<h3 id="byte">byte</h3>
+<p>&#x25B8; <strong>byte</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/byte.ts#L7" target="_blank">decode/value/byte.ts:7</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="bytes"></a></p>
+<h3 id="bytes">bytes</h3>
+<p>&#x25B8; <strong>bytes</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/bytes.ts#L9" target="_blank">decode/value/bytes.ts:9</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="call"></a></p>
+<h3 id="call">call</h3>
+<p>&#x25B8; <strong>call</strong>(decode: <em><a href="#decoder">Decoder</a></em>, input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>, isPublic: <em><code>boolean</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>, isStorage: <em><code>boolean</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/method.ts#L19" target="_blank">decode/value/method.ts:19</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>decode</td>
+<td><a href="#decoder">Decoder</a></td>
+</tr>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+<tr>
+<td>isPublic</td>
+<td><code>boolean</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+<tr>
+<td>isStorage</td>
+<td><code>boolean</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="code"></a></p>
+<h3 id="code">code</h3>
+<p>&#x25B8; <strong>code</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/code.ts#L9" target="_blank">decode/value/code.ts:9</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="createmethod"></a></p>
+<h3 id="createmethod">createMethod</h3>
+<p>&#x25B8; <strong>createMethod</strong>&lt;<code>T</code>&gt;(section: <em><code>keyof T</code></em>, sectionIndex: <em><code>Uint8Array</code></em>): <a href="#createitems">CreateItems</a>&lt;<code>T</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/method.ts#L11" target="_blank">method.ts:11</a></em></p>
+<p><strong>Type parameters:</strong></p>
+<h4 id="t">T</h4>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>section</td>
+<td><code>keyof T</code></td>
+</tr>
+<tr>
+<td>sectionIndex</td>
+<td><code>Uint8Array</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#createitems">CreateItems</a>&lt;<code>T</code>&gt;</p>
+<hr>
+<p><a id="createparam"></a></p>
+<h3 id="createparam">createParam</h3>
+<p>&#x25B8; <strong>createParam</strong>(name: <em><code>string</code></em>, type: <em><a href="#param_types">Param$Types</a></em>, __namedParameters?: <em><code>object</code></em>): <a href="#param">Param</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/param.ts#L7" target="_blank">param.ts:7</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><code>string</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td><a href="#param_types">Param$Types</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Default value</code> __namedParameters</td>
+<td><code>object</code></td>
+<td>{ isOptional: false }</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param">Param</a></p>
+<hr>
+<p><a id="createsection"></a></p>
+<h3 id="createsection">createSection</h3>
+<p>&#x25B8; <strong>createSection</strong>&lt;<code>T</code>&gt;(name: <em><code>keyof T</code></em>, _index?: <em><code>number</code></em>): <a href="#createsection">CreateSection</a>&lt;<code>T</code>, <code>any</code>, <code>any</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/section.ts#L11" target="_blank">section.ts:11</a></em></p>
+<p><strong>Type parameters:</strong></p>
+<h4 id="t">T</h4>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><code>keyof T</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Default value</code> _index</td>
+<td><code>number</code></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#createsection">CreateSection</a>&lt;<code>T</code>, <code>any</code>, <code>any</code>&gt;</p>
+<hr>
+<p><a id="decode"></a></p>
+<h3 id="decode">decode</h3>
+<p>&#x25B8; <strong>decode</strong>(type: <em><a href="#param_types">Param$Types</a></em>, _input: <em> <code>Uint8Array</code> | <code>string</code> | <code>null</code> | <code>undefined</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>, isStorage?: <em><code>boolean</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/index.ts#L65" target="_blank">decode/index.ts:65</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><a href="#param_types">Param$Types</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>_input</td>
+<td><code>Uint8Array</code> | <code>string</code> | <code>null</code> | <code>undefined</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Default value</code> isStorage</td>
+<td><code>boolean</code></td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="decodevalue"></a></p>
+<h3 id="decodevalue">decodeValue</h3>
+<p>&#x25B8; <strong>decodeValue</strong>(decode: <em><a href="#decoder">Decoder</a></em>, type: <em><a href="#param_type">Param$Type</a></em>, _input: <em> <code>Uint8Array</code> | <code>string</code> | <code>null</code> | <code>undefined</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>, isStorage: <em><code>boolean</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/index.ts#L30" target="_blank">decode/value/index.ts:30</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>decode</td>
+<td><a href="#decoder">Decoder</a></td>
+</tr>
+<tr>
+<td>type</td>
+<td><a href="#param_type">Param$Type</a></td>
+</tr>
+<tr>
+<td>_input</td>
+<td><code>Uint8Array</code> | <code>string</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+<tr>
+<td>isStorage</td>
+<td><code>boolean</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="digest"></a></p>
+<h3 id="digest">digest</h3>
+<p>&#x25B8; <strong>digest</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/digest.ts#L12" target="_blank">decode/value/digest.ts:12</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="encodeparam"></a></p>
+<h3 id="encodeparam">encodeParam</h3>
+<p>&#x25B8; <strong>encodeParam</strong>(param: <em><a href="#param">Param</a></em>, value: <em><code>any</code></em>, version?: <em><a href="#encodingversions">EncodingVersions</a></em>): <code>Uint8Array</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/encode/param.ts#L14" target="_blank">encode/param.ts:14</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>param</td>
+<td><a href="#param">Param</a></td>
+<td>-</td>
+</tr>
+<tr>
+<td>value</td>
+<td><code>any</code></td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Default value</code> version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+<td>&quot;latest&quot;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Uint8Array</code></p>
+<hr>
+<p><a id="encodeparams"></a></p>
+<h3 id="encodeparams">encodeParams</h3>
+<p>&#x25B8; <strong>encodeParams</strong>(params: <em><a href="#params">Params</a></em>, values: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>): <code>Uint8Array</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/encode/index.ts#L12" target="_blank">encode/index.ts:12</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>params</td>
+<td><a href="#params">Params</a></td>
+</tr>
+<tr>
+<td>values</td>
+<td><code>Array</code>&lt;<code>any</code>&gt;</td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Uint8Array</code></p>
+<hr>
+<p><a id="encodetype"></a></p>
+<h3 id="encodetype">encodeType</h3>
+<p>&#x25B8; <strong>encodeType</strong>(type: <em><a href="#param_type">Param$Type</a></em>, value: <em><code>any</code></em>, version: <em><a href="#encodingversions">EncodingVersions</a></em>): <code>Uint8Array</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/encode/type/index.ts#L19" target="_blank">encode/type/index.ts:19</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><a href="#param_type">Param$Type</a></td>
+</tr>
+<tr>
+<td>value</td>
+<td><code>any</code></td>
+</tr>
+<tr>
+<td>version</td>
+<td><a href="#encodingversions">EncodingVersions</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Uint8Array</code></p>
+<hr>
+<p><a id="header"></a></p>
+<h3 id="header">header</h3>
+<p>&#x25B8; <strong>header</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/header.ts#L9" target="_blank">decode/value/header.ts:9</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="keyvalue"></a></p>
+<h3 id="keyvalue">keyValue</h3>
+<p>&#x25B8; <strong>keyValue</strong>(__namedParameters: <em><code>object</code></em>): <code>Uint8Array</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/encode/type/keyValue.ts#L12" target="_blank">encode/type/keyValue.ts:12</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__namedParameters</td>
+<td><code>object</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Uint8Array</code></p>
+<hr>
+<p><a id="misbehavior"></a></p>
+<h3 id="misbehavior">misbehavior</h3>
+<p>&#x25B8; <strong>misbehavior</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/misbehavior.ts#L21" target="_blank">decode/value/misbehavior.ts:21</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="passthrough"></a></p>
+<h3 id="passthrough">passThrough</h3>
+<p>&#x25B8; <strong>passThrough</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/passThrough.ts#L7" target="_blank">decode/value/passThrough.ts:7</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="signature"></a></p>
+<h3 id="signature">signature</h3>
+<p>&#x25B8; <strong>signature</strong>&lt;<code>T</code>&gt;(__namedParameters: <em><code>object</code></em>): <code>string</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/signature.ts#L20" target="_blank">signature.ts:20</a></em></p>
+<p><em><strong>name</strong></em>: signature</p>
+<p><em><strong>signature</strong></em>: jsonrpcSignature (method: InterfaceMethodDefinition): string</p>
+<p><em><strong>summary</strong></em>: Returns a string representation of the method with inputs and outputs.</p>
+<p><em><strong>description</strong></em>: Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.</p>
+<p><em><strong>example</strong></em>: import signature from &apos;@polkadot/params/signature&apos;;</p>
+<p>signature({ name: &apos;test_method&apos;, params: [ { name: &apos;dest&apos;, type: &apos;Address&apos; } ], type: &apos;Address&apos; }); // =&gt; test_method (dest: Address): Address</p>
+<p><strong>Type parameters:</strong></p>
+<h4 id="t">T</h4>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__namedParameters</td>
+<td><code>object</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>string</code></p>
+<hr>
+<p><a id="storagekey"></a></p>
+<h3 id="storagekey">storageKey</h3>
+<p>&#x25B8; <strong>storageKey</strong>(__namedParameters: <em>[<code>object</code>, <code>Array</code>]</em>): <code>Uint8Array</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/encode/type/storageKey.ts#L10" target="_blank">encode/type/storageKey.ts:10</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__namedParameters</td>
+<td>[<code>object</code>, <code>Array</code>]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Uint8Array</code></p>
+<hr>
+<p><a id="string"></a></p>
+<h3 id="string">string</h3>
+<p>&#x25B8; <strong>string</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/string.ts#L12" target="_blank">decode/value/string.ts:12</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="time"></a></p>
+<h3 id="time">time</h3>
+<p>&#x25B8; <strong>time</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/time.ts#L9" target="_blank">decode/value/time.ts:9</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+<p><a id="typetostring"></a></p>
+<h3 id="typetostring">typeToString</h3>
+<p>&#x25B8; <strong>typeToString</strong>(type: <em><a href="#param_types">Param$Types</a></em>): <code>string</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/typeToString.ts#L7" target="_blank">typeToString.ts:7</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><a href="#param_types">Param$Types</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>string</code></p>
+<hr>
+<p><a id="u8a"></a></p>
+<h3 id="u8a">u8a</h3>
+<p>&#x25B8; <strong>u8a</strong>(input: <em> <code>Uint8Array</code> | <code>null</code> | <code>undefined</code></em>, bitLength: <em><code>number</code></em>, offset: <em><code>number</code></em>): <a href="#param_decoded">Param$Decoded</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/f5b0e23/packages/type-params/src/decode/value/u8a.ts#L7" target="_blank">decode/value/u8a.ts:7</a></em></p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>input</td>
+<td><code>Uint8Array</code> | <code>null</code> | <code>undefined</code></td>
+</tr>
+<tr>
+<td>bitLength</td>
+<td><code>number</code></td>
+</tr>
+<tr>
+<td>offset</td>
+<td><code>number</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <a href="#param_decoded">Param$Decoded</a></p>
+<hr>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../type-jsonrpc/" class="navigation navigation-prev " aria-label="Previous page: type-jsonrpc">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../type-primitives/" class="navigation navigation-next " aria-label="Next page: type-primitives">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"type-params","level":"2.7","depth":1,"next":{"title":"type-primitives","level":"2.8","depth":1,"path":"type-primitives/README.md","ref":"type-primitives/README.md","articles":[]},"previous":{"title":"type-jsonrpc","level":"2.6","depth":1,"path":"type-jsonrpc/README.md","ref":"type-jsonrpc/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["asciidoc-include"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"asciidoc-include":{"syntax":"asciidoc"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"type-params/README.md","mtime":"2018-09-17T12:36:53.046Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-17T12:37:27.221Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
