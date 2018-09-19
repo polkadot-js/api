@@ -4,5 +4,6 @@
 
 import H256 from './H256';
 
+// FIXME This needs to be a proper AccountId, not just a Vec<u8; 32>
 export default class AccountId extends H256 {
 }
