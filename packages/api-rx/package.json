@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-rx",
-  "version": "0.29.5",
+  "version": "0.29.6",
   "description": "An RxJs wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -30,8 +30,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/api": "^0.29.5",
-    "@polkadot/api-provider": "^0.29.5",
+    "@polkadot/api": "^0.29.6",
+    "@polkadot/api-provider": "^0.29.6",
     "@types/rx": "^4.1.1",
     "rxjs": "^6.3.2"
   }
