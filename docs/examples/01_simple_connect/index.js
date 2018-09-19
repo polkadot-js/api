@@ -9,6 +9,7 @@ async function getChain () {
 
 async function main () {
   const chain = await getChain()
+
   console.log('You are connected to chain:', chain)
 }
 

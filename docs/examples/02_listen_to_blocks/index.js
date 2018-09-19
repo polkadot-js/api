@@ -8,6 +8,7 @@ function main () {
   console.log('Blocks will be shown as they come in, CTRL+C to stop:')
   api.chain.newHead((_, header) => {
     const bnBlockNumber = new BN(header.number, 16)
+
     console.log('#' + bnBlockNumber.toString(10))
   })
 }

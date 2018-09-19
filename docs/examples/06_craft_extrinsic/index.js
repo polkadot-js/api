@@ -18,6 +18,7 @@ async function getAccountIndex (address) {
 
 async function transfer (keyRingFrom, addressTo, amount) {
   const accountIndex = await getAccountIndex(keyRingFrom.address())
+
   console.log(`Current accountIndex: ${accountIndex}`)
 
   // encode the call for signing
@@ -48,8 +49,12 @@ const addressBob = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE'
 const amount = new BN(999) // on dev chain, the fee is 1, that makes it a round 1000
 
 console.log(`Crafting and sending an extrinsic for Alice to send Bob ${amount} DOTs`)
+
 transfer(Alice, addressBob, amount)
-  .then(() => console.log('Sent'))
-  .catch((e) => console.log(
-    'HINT: Make sure you wait for the storage to update before sending the next extrinsic', e))
+  .then(() =>
+    console.log('Sent')
+  )
+  .catch((e) =>
+    console.log('HINT: Make sure you wait for the storage to update before sending the next extrinsic', e)
+  )
   .finally(_ => process.exit(0))

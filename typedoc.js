@@ -1,19 +1,16 @@
 module.exports = {
   name: 'Polkadot JS API',
-  mode: 'file',
-  exclude: ['test', '**/*spec.ts'],
+  exclude: [],
   excludeExternals: true,
   excludeNotExported: true,
   excludePrivate: true,
   hideGenerator: true,
   includes: './docs/guides',
   includeDeclarations: true,
-  out: 'docs/api',
+  out: 'docs',
   module: 'commonjs',
-  stripInternal: 'true',
-  theme: 'markdown',
-  ignoreCompilerErrors: true,
   moduleResolution: 'node',
-  suppressExcessPropertyErrors: true,
-  suppressImplicitAnyIndexErrors: true
-}
+  mdEngine: 'gitbook',
+  stripInternal: 'true',
+  theme: 'markdown'
+};
