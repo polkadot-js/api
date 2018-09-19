@@ -7,5 +7,3 @@
 [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master)
 [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/type-params)](https://david-dm.org/polkadot-js/api?path=packages/type-params)
 [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/type-params)](https://david-dm.org/polkadot-js/api?path=packages/type-params#info=devDependencies)
-
-# @polkadot/params

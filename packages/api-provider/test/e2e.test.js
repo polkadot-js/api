@@ -4,7 +4,7 @@
 
 import storage from '@polkadot/storage';
 
-import createApi from '../../api/src';
+import Api from '../../api/src';
 import Ws from '../src/ws';
 
 describe.skip('e2e', () => {
@@ -12,7 +12,7 @@ describe.skip('e2e', () => {
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = createApi(new Ws('ws://127.0.0.1:9944'));
+    api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
   it('subscribes to chain_newHead', (done) => {
