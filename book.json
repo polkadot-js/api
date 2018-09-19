@@ -1,13 +1,9 @@
 {
- "title":"Polkadot API Book",
- "gitbook":">=2.4.0",
- "plugins": [ "asciidoc-include" ],
- "root": "docs",
- "pluginsConfig":
-  {
-   "asciidoc-include":
-    {
-     "syntax":"asciidoc"
-    }
-  }
+  "title": "Polkadot API Book",
+  "gitbook": ">=2.4.0",
+  "plugins": [
+    "include-codeblock"
+  ],
+  "root": "docs",
+  "pluginsConfig": {}
 }

@@ -21,7 +21,10 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@polkadot/dev": "^0.20.20",
-    "@polkadot/ts": "^0.1.28"
+    "@polkadot/dev": "^0.20.21",
+    "@polkadot/ts": "^0.1.30"
+  },
+  "dependencies": {
+    "gitbook-plugin-include-codeblock": "^3.2.2"
   }
 }

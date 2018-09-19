@@ -1,0 +1,857 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>WsProvider · Polkadot API Book</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../../api-rx/" />
+    
+    
+    <link rel="prev" href="_http_index_.httpprovider.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Packages</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../api/">
+            
+                <a href="../../api/">
+            
+                    
+                    api
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../api/classes/_index_.api.html">
+            
+                <a href="../../api/classes/_index_.api.html">
+            
+                    
+                    Api
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    api-provider
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="_http_index_.httpprovider.html">
+            
+                <a href="_http_index_.httpprovider.html">
+            
+                    
+                    HttpProvider
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.2" data-path="_ws_index_.wsprovider.html">
+            
+                <a href="_ws_index_.wsprovider.html">
+            
+                    
+                    WsProvider
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../api-rx/">
+            
+                <a href="../../api-rx/">
+            
+                    
+                    api-rx
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../../api-rx/classes/_index_.rxapi.html">
+            
+                <a href="../../api-rx/classes/_index_.rxapi.html">
+            
+                    
+                    ApiRx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Examples</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../../examples/">
+            
+                <a href="../../examples/">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../../examples/01_simple_connect/">
+            
+                <a href="../../examples/01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../../examples/02_listen_to_blocks/">
+            
+                <a href="../../examples/02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../../examples/03_listen_to_balance_change/">
+            
+                <a href="../../examples/03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../../examples/04_generate_account/">
+            
+                <a href="../../examples/04_generate_account/">
+            
+                    
+                    Generate Accounts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../../examples/05_read_storage/">
+            
+                <a href="../../examples/05_read_storage/">
+            
+                    
+                    Read Storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../../examples/06_craft_extrinsic/">
+            
+                <a href="../../examples/06_craft_extrinsic/">
+            
+                    
+                    Craft Extrinsic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../../examples/07_transfer_dots/">
+            
+                <a href="../../examples/07_transfer_dots/">
+            
+                    
+                    Transfer DOTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >WsProvider</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p>The WebSocket Provider allows sending requests using WebSocket. Unlike the <a href="_http_index_.httpprovider.html">HttpProvider</a>, it does support subscriptions and allows listening to events such as new blocks or balance changes.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> createApi <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@polkadot/api&apos;</span>;
+<span class="hljs-keyword">import</span> WsProvider <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>;
+<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;ws://127.0.0.1:9944&apos;</span>);
+<span class="hljs-keyword">const</span> api = createApi(provider);
+</code></pre>
+<p><em><strong>example</strong></em>: ```javascript
+import createApi from &apos;@polkadot/api&apos;;
+import WsProvider from &apos;@polkadot/api-provider/ws&apos;;
+const provider = new WsProvider(&apos;ws://127.0.0.1:9944&apos;);
+const api = createApi(provider);</p>
+<pre><code>
+*__see__*: [HttpProvider](_http_index_.httpprovider.md)
+
+# Type parameters
+#### EventTypes :   `string` &amp;#124; `symbol`
+
+# Hierarchy
+
+ `EventEmitter`
+
+**&#x21B3; WsProvider**
+
+# Implements
+
+* `WSProviderInterface`
+
+# Constructors
+
+&lt;a id=&quot;constructor&quot;&gt;&lt;/a&gt;
+
+##  constructor
+
+&#x2295; **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
+
+*Defined in [ws/index.ts:69](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L69)*
+
+**Parameters:**
+
+| Param | Type | Default value | Description |
+| ------ | ------ | ------ | ------ |
+| endpoint | `string` | - |  The endpoint url. Usually \`ws://ip:9944\` or \`wss://ip:9944\` |
+| `Default value` autoConnect | `boolean` | true |  Whether to connect automatically or not. |
+
+**Returns:** [WsProvider](_ws_index_.wsprovider.md)
+
+___
+
+# Properties
+
+&lt;a id=&quot;prefixed&quot;&gt;&lt;/a&gt;
+
+## `&lt;Static&gt;` prefixed
+
+**&#x25CF; prefixed**: * `string` &amp;#124; `boolean`
+*
+
+*Inherited from EventEmitter.prefixed*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:6*
+
+___
+
+# Methods
+
+&lt;a id=&quot;addlistener&quot;&gt;&lt;/a&gt;
+
+##  addListener
+
+&#x25B8; **addListener**(event: *`EventTypes`*, fn: *`ListenerFn`*, context?: *`any`*): `this`
+
+*Inherited from EventEmitter.addListener*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:33*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+| fn | `ListenerFn` |
+| `Optional` context | `any` |
+
+**Returns:** `this`
+
+___
+&lt;a id=&quot;connect&quot;&gt;&lt;/a&gt;
+
+##  connect
+
+&#x25B8; **connect**(): `void`
+
+*Defined in [ws/index.ts:99](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L99)*
+
+The [WsProvider](_ws_index_.wsprovider.md) connects automatically by default. if you decided otherwise, you may connect manually using this method.
+
+**Returns:** `void`
+
+___
+&lt;a id=&quot;emit&quot;&gt;&lt;/a&gt;
+
+##  emit
+
+&#x25B8; **emit**(event: *`EventTypes`*, ...args: *`Array`&lt;`any`&gt;*): `boolean`
+
+*Inherited from EventEmitter.emit*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:27*
+
+Calls each of the listeners registered for a given event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+| `Rest` args | `Array`&lt;`any`&gt; |
+
+**Returns:** `boolean`
+
+___
+&lt;a id=&quot;eventnames&quot;&gt;&lt;/a&gt;
+
+##  eventNames
+
+&#x25B8; **eventNames**(): `Array`&lt;`EventTypes`&gt;
+
+*Inherited from EventEmitter.eventNames*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:12*
+
+Return an array listing the events for which the emitter has registered listeners.
+
+**Returns:** `Array`&lt;`EventTypes`&gt;
+
+___
+&lt;a id=&quot;isconnected&quot;&gt;&lt;/a&gt;
+
+##  isConnected
+
+&#x25B8; **isConnected**(): `boolean`
+
+*Defined in [ws/index.ts:116](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L116)*
+
+Whether the node is connected or not.
+
+**Returns:** `boolean`
+true if connected
+
+___
+&lt;a id=&quot;listenercount&quot;&gt;&lt;/a&gt;
+
+##  listenerCount
+
+&#x25B8; **listenerCount**(event: *`EventTypes`*): `number`
+
+*Inherited from EventEmitter.listenerCount*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:22*
+
+Return the number of listeners listening to a given event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+
+**Returns:** `number`
+
+___
+&lt;a id=&quot;listeners&quot;&gt;&lt;/a&gt;
+
+##  listeners
+
+&#x25B8; **listeners**(event: *`EventTypes`*): `Array`&lt;`ListenerFn`&gt;
+
+*Inherited from EventEmitter.listeners*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:17*
+
+Return the listeners registered for a given event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+
+**Returns:** `Array`&lt;`ListenerFn`&gt;
+
+___
+&lt;a id=&quot;off&quot;&gt;&lt;/a&gt;
+
+##  off
+
+&#x25B8; **off**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &amp;#124; `false` &amp;#124; `true`*): `this`
+
+*Inherited from EventEmitter.off*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:44*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+| `Optional` fn | [ListenerFn](../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md) |
+| `Optional` context | `any` |
+| `Optional` once |  `undefined` &amp;#124; `false` &amp;#124; `true`|
+
+**Returns:** `this`
+
+___
+&lt;a id=&quot;on&quot;&gt;&lt;/a&gt;
+
+##  on
+
+&#x25B8; **on**(type: *[ProviderInterface$Emitted](../modules/_types_d_.md#providerinterface_emitted)*, sub: *[ProviderInterface$EmitCb](../modules/_types_d_.md#providerinterface_emitcb)*): `this`
+
+*Overrides EventEmitter.on*
+
+*Defined in [ws/index.ts:126](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L126)*
+
+Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
+
+**Parameters:**
+
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| type | [ProviderInterface$Emitted](../modules/_types_d_.md#providerinterface_emitted) |  Event |
+| sub | [ProviderInterface$EmitCb](../modules/_types_d_.md#providerinterface_emitcb) |  Callback |
+
+**Returns:** `this`
+[description]
+
+___
+&lt;a id=&quot;once&quot;&gt;&lt;/a&gt;
+
+##  once
+
+&#x25B8; **once**(event: *`EventTypes`*, fn: *`ListenerFn`*, context?: *`any`*): `this`
+
+*Inherited from EventEmitter.once*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:38*
+
+Add a one-time listener for a given event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+| fn | `ListenerFn` |
+| `Optional` context | `any` |
+
+**Returns:** `this`
+
+___
+&lt;a id=&quot;removealllisteners&quot;&gt;&lt;/a&gt;
+
+##  removeAllListeners
+
+&#x25B8; **removeAllListeners**(event?: *[EventTypes]()*): `this`
+
+*Inherited from EventEmitter.removeAllListeners*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:49*
+
+Remove all listeners, or those of the specified event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| `Optional` event | [EventTypes]() |
+
+**Returns:** `this`
+
+___
+&lt;a id=&quot;removelistener&quot;&gt;&lt;/a&gt;
+
+##  removeListener
+
+&#x25B8; **removeListener**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &amp;#124; `false` &amp;#124; `true`*): `this`
+
+*Inherited from EventEmitter.removeListener*
+
+*Defined in /Users/jacogreeff/Projects/polkadot/api/node_modules/eventemitter3/index.d.ts:43*
+
+Remove the listeners of a given event.
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| event | `EventTypes` |
+| `Optional` fn | [ListenerFn](../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md) |
+| `Optional` context | `any` |
+| `Optional` once |  `undefined` &amp;#124; `false` &amp;#124; `true`|
+
+**Returns:** `this`
+
+___
+&lt;a id=&quot;send&quot;&gt;&lt;/a&gt;
+
+##  send
+
+&#x25B8; **send**(method: *`string`*, params: *`Array`&lt;`any`&gt;*, subscription?: *`SubscriptionHandler`*): `Promise`&lt;`any`&gt;
+
+*Defined in [ws/index.ts:130](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L130)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| method | `string` |
+| params | `Array`&lt;`any`&gt; |
+| `Optional` subscription | `SubscriptionHandler` |
+
+**Returns:** `Promise`&lt;`any`&gt;
+
+___
+&lt;a id=&quot;subscribe&quot;&gt;&lt;/a&gt;
+
+##  subscribe
+
+&#x25B8; **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`&lt;`any`&gt;*, callback: *[ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback)*): `Promise`&lt;`number`&gt;
+
+*Defined in [ws/index.ts:182](https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L182)*
+
+Allows subscribing to a specific event.
+*__example__*: ```javascript
+const provider = new WsProvider(&apos;ws://127.0.0.1:9944&apos;)
+const api = createApi(provider)
+api.state.storage([[storage.staking.public.freeBalanceOf, &lt;Address&gt;]], (_, values) =&gt; {
+  console.log(values)
+}).then((subscriptionId) =&gt; {
+  console.log(&apos;balance changes subscription id: &apos;, subscriptionId)
+})
+</code></pre><p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+<td>Subscription type</td>
+</tr>
+<tr>
+<td>method</td>
+<td><code>string</code></td>
+<td>Subscription method</td>
+</tr>
+<tr>
+<td>params</td>
+<td><code>Array</code>&lt;<code>any</code>&gt;</td>
+<td>Parameters</td>
+</tr>
+<tr>
+<td>callback</td>
+<td><a href="../modules/_types_d_.md#providerinterface_callback">ProviderInterface$Callback</a></td>
+<td>Callback</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>number</code>&gt;
+Promise resolving to the dd of the subscription you can use with [[unsubscribe]]</p>
+<hr>
+<p><a id="unsubscribe"></a></p>
+<h2 id="unsubscribe">unsubscribe</h2>
+<p>&#x25B8; <strong>unsubscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, id: <em><code>number</code></em>): <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/01435c1/packages/api-provider/src/ws/index.ts#L191" target="_blank">ws/index.ts:191</a></em></p>
+<p>Allows unsubscribing to subscriptions made with <a href="_ws_index_.wsprovider.html#subscribe">subscribe</a>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td>method</td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td>id</td>
+<td><code>number</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
+<hr>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="_http_index_.httpprovider.html" class="navigation navigation-prev " aria-label="Previous page: HttpProvider">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../../api-rx/" class="navigation navigation-next " aria-label="Next page: api-rx">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"WsProvider","level":"1.3.2","depth":2,"next":{"title":"api-rx","level":"1.4","depth":1,"path":"api-rx/README.md","ref":"api-rx/README.md","articles":[{"title":"ApiRx","level":"1.4.1","depth":2,"path":"api-rx/classes/_index_.rxapi.md","ref":"api-rx/classes/_index_.rxapi.md","articles":[]}]},"previous":{"title":"HttpProvider","level":"1.3.1","depth":2,"path":"api-provider/classes/_http_index_.httpprovider.md","ref":"api-provider/classes/_http_index_.httpprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api-provider/classes/_ws_index_.wsprovider.md","mtime":"2018-09-19T11:17:52.279Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-19T11:17:59.884Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
