@@ -10,9 +10,7 @@
 
 # @polkadot/api
 
-Warning - currently this does not actually do all that much, it is an attempt to put into code some thoughts about how to maintain the endpoints. This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
-
-Methods are auto-generated for the [JsonRPC interface definitions](https://github.com/polkadot-js/api/packages/type-jsonrpc), containing a full list of all sections and the methods contained within.
+This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
 
 ## Usage
 
@@ -25,11 +23,11 @@ npm install --save @polkadot/api
 Initialisation -
 
 ```js
-import createApi from '@polkadot/api';
+import Api from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
-const api = createApi(provider);
+const api = new Api(provider);
 ```
 
 Making calls -

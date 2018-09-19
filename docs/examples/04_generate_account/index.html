@@ -1,0 +1,486 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Generate Accounts · Polkadot API Book</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../05_read_storage/" />
+    
+    
+    <link rel="prev" href="../03_listen_to_balance_change/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Packages</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../api/">
+            
+                <a href="../../api/">
+            
+                    
+                    api
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../api/classes/_index_.api.html">
+            
+                <a href="../../api/classes/_index_.api.html">
+            
+                    
+                    Api
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../api-provider/">
+            
+                <a href="../../api-provider/">
+            
+                    
+                    api-provider
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../api-provider/classes/_http_index_.httpprovider.html">
+            
+                <a href="../../api-provider/classes/_http_index_.httpprovider.html">
+            
+                    
+                    HttpProvider
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../api-provider/classes/_ws_index_.wsprovider.html">
+            
+                <a href="../../api-provider/classes/_ws_index_.wsprovider.html">
+            
+                    
+                    WsProvider
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../api-rx/">
+            
+                <a href="../../api-rx/">
+            
+                    
+                    api-rx
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../../api-rx/classes/_index_.rxapi.html">
+            
+                <a href="../../api-rx/classes/_index_.rxapi.html">
+            
+                    
+                    ApiRx
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Examples</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Overview
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_simple_connect/">
+            
+                <a href="../01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../02_listen_to_blocks/">
+            
+                <a href="../02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../03_listen_to_balance_change/">
+            
+                <a href="../03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.5" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Generate Accounts
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.6" data-path="../05_read_storage/">
+            
+                <a href="../05_read_storage/">
+            
+                    
+                    Read Storage
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.7" data-path="../06_craft_extrinsic/">
+            
+                <a href="../06_craft_extrinsic/">
+            
+                    
+                    Craft Extrinsic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.8" data-path="../07_transfer_dots/">
+            
+                <a href="../07_transfer_dots/">
+            
+                    
+                    Transfer DOTs
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Generate Accounts</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="generate-accounts">Generate accounts</h1>
+<p>If you want to develop a wallet or a program that will accept payments in DOTs, you likely will need to generate addresses. This sample shows you how to generate accounts in several ways.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Keyring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/util-keyring&apos;</span>).default
+<span class="hljs-keyword">const</span> u8aToHex = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/util/u8a/toHex&apos;</span>).default
+<span class="hljs-keyword">const</span> Encoder = <span class="hljs-keyword">new</span> TextEncoder() <span class="hljs-comment">// always utf-8</span>
+<span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;crypto&apos;</span>)
+
+<span class="hljs-comment">// A fixed seed from an array</span>
+<span class="hljs-keyword">const</span> SEED1 = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>([
+  <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>, <span class="hljs-number">21</span>,
+    <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>, <span class="hljs-number">25</span>, <span class="hljs-number">26</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+])
+
+<span class="hljs-comment">// A fixed seed from a 32 chars string</span>
+<span class="hljs-keyword">const</span> SEED2 = Encoder.encode(<span class="hljs-string">&apos;correct horse battery and staple&apos;</span>)
+
+<span class="hljs-keyword">const</span> keyring = <span class="hljs-keyword">new</span> Keyring()
+<span class="hljs-keyword">const</span> pair1 = keyring.addFromSeed(SEED1)
+<span class="hljs-keyword">const</span> pair2 = keyring.addFromSeed(SEED2)
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Deterministic addresses (same for each run):&apos;</span>)
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Address 1\t <span class="hljs-subst">${pair1.address()}</span>\t Seed: <span class="hljs-subst">${u8aToHex(SEED1)}</span>`</span>)
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Address 2\t <span class="hljs-subst">${pair2.address()}</span>\t Seed: <span class="hljs-subst">${u8aToHex(SEED2)}</span>`</span>)
+
+<span class="hljs-comment">// A random seed</span>
+<span class="hljs-keyword">const</span> SEED = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(<span class="hljs-number">32</span>)
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Random Addresses (random for each run):&apos;</span>)
+
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">3</span>; i &lt; <span class="hljs-number">13</span>; i++) {
+  Buffer.from(crypto.randomFillSync(SEED))
+  <span class="hljs-keyword">const</span> pair3 = keyring.addFromSeed(SEED)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Address <span class="hljs-subst">${i}</span>\t <span class="hljs-subst">${pair3.address()}</span>\t Seed: <span class="hljs-subst">${u8aToHex(SEED)}</span>`</span>)
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../03_listen_to_balance_change/" class="navigation navigation-prev " aria-label="Previous page: Listen to balance change">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../05_read_storage/" class="navigation navigation-next " aria-label="Next page: Read Storage">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Generate Accounts","level":"2.5","depth":1,"next":{"title":"Read Storage","level":"2.6","depth":1,"path":"examples/05_read_storage/README.md","ref":"examples/05_read_storage/README.md","articles":[]},"previous":{"title":"Listen to balance change","level":"2.4","depth":1,"path":"examples/03_listen_to_balance_change/README.md","ref":"examples/03_listen_to_balance_change/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/04_generate_account/README.md","mtime":"2018-09-19T09:57:54.541Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-19T11:17:59.884Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

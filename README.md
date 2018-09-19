@@ -11,7 +11,7 @@
 
 # @polkadot/api
 
-This library provides a clean wrapper around all the methods exposed by a Polkadot/Subtrate network client. As part of the JsonRpc defintions, the [exposed methods are documented](packages/api-jsonrpc/docs/).
+This library provides a clean wrapper around all the methods exposed by a Polkadot/Subtrate network client. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/api/).
 
 The API is split up into a number of internal packages -
 

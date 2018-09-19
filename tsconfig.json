@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/@polkadot/dev/config/tsconfig",
-  "compilerOptions": {
+  "compilerOptions":
+  {
     "baseUrl": ".",
     "paths": {
       "@polkadot/api-format/*": [ "packages/api-format/src/*" ],
@@ -12,7 +13,7 @@
       "@polkadot/jsonrpc/*": [ "packages/type-jsonrpc/src/*" ],
       "@polkadot/params/*": [ "packages/type-params/src/*" ],
       "@polkadot/primitives/*": [ "packages/type-primitives/src/*" ],
-      "@polkadot/storage/*": [ "packages/type-storage/src/*" ],
+      "@polkadot/storage/*": [ "packages/type-storage/src/*" ]
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",

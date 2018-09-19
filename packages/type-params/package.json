@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/params",
-  "version": "0.28.32",
+  "version": "0.29.4",
   "description": "Type defintions for parameters as passed in calls",
   "main": "index.js",
   "engines": {
@@ -29,10 +29,10 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-params#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/extrinsics": "^0.28.32",
-    "@polkadot/params": "^0.28.32",
-    "@polkadot/primitives": "^0.28.32",
-    "@polkadot/util": "^0.30.1",
-    "@polkadot/util-keyring": "^0.30.1"
+    "@polkadot/extrinsics": "^0.29.4",
+    "@polkadot/params": "^0.29.4",
+    "@polkadot/primitives": "^0.29.4",
+    "@polkadot/util": "^0.30.3",
+    "@polkadot/util-keyring": "^0.30.3"
   }
 }
