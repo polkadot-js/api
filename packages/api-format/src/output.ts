@@ -12,7 +12,6 @@ import hashDecode from '@polkadot/primitives/json/hash/decode';
 import headerDecode from '@polkadot/primitives/json/header/decode';
 import blockDecode from '@polkadot/primitives/json/block/decode';
 import isNull from '@polkadot/util/is/null';
-import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import format from './format';
@@ -24,9 +23,7 @@ import Metadata from './codec/Metadata';
 // original way of doing things
 
 const metaDecode = (input: Array<number>) => {
-  return new Metadata()
-    .fromJSON(input)
-    .toJSON();
+  return new Metadata().fromJSON(input);
 };
 
 const formatters = new Map<Param$Types, FormatterFunction>([

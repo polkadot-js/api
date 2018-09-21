@@ -33,19 +33,21 @@ export default class String implements Base<string> {
 
   fromU8a (input: Uint8Array): String {
     this.length.fromU8a(input);
-    this.value = u8aToUtf8(input.subarray(this.length.byteLength()));
+
+    const offset = this.length.byteLength();
+    const count = this.length.value.toNumber();
+
+    this.value = u8aToUtf8(input.subarray(offset, offset + count));
 
     return this;
   }
 
   toJSON (): any {
-    return this.value;
+    return this.toString();
   }
 
   toString (): string {
-    return JSON.stringify(
-      this.toJSON()
-    );
+    return this.value;
   }
 
   toU8a (): Uint8Array {

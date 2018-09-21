@@ -9,37 +9,74 @@ import toU8a from '@polkadot/util/u8a/toU8a';
 import BaseArray from './base/Array';
 import String from './String';
 
-type TMetadataEvent = {};
+class MetadataEventArguments extends BaseArray<String> {
+  constructor (value?: Array<String>) {
+    super(String, value);
+  }
+}
+
+class MetadataEventDocumentation extends BaseArray<String> {
+  constructor (value?: Array<String>) {
+    super(String, value);
+  }
+}
+
+type TMetadataEvent = {
+  args: MetadataEventArguments,
+  docs: MetadataEventDocumentation,
+  name: String
+};
 
 class MetadataEvent implements Base<TMetadataEvent> {
   value: TMetadataEvent;
 
-  constructor (value: TMetadataEvent = {} as TMetadataEvent) {
-    this.value = value;
+  constructor ({ args = new MetadataEventArguments(), docs = new MetadataEventDocumentation(), name = new String() }: TMetadataEvent = {} as TMetadataEvent) {
+    this.value = {
+      args,
+      docs,
+      name
+    };
   }
 
   byteLength (): number {
-    return 0;
+    return this.value.args.byteLength() +
+      this.value.docs.byteLength() +
+      this.value.name.byteLength();
   }
 
   fromJSON (input: any): MetadataEvent {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataEvent::fromJSON: Uinimplemented');
   }
 
   fromU8a (input: Uint8Array): MetadataEvent {
-    throw new Error('Uinimplemented');
+    this.value.name.fromU8a(input);
+
+    const nameLength = this.value.name.byteLength();
+
+    this.value.args.fromU8a(input.subarray(nameLength));
+    this.value.docs.fromU8a(input.subarray(nameLength + this.value.args.byteLength()));
+
+    return this;
   }
 
   toJSON (): any {
-    throw new Error('Uinimplemented');
+    return {
+      args: this.value.args.toJSON(),
+      docs: this.value.docs.toJSON(),
+      name: this.value.name.toJSON()
+    };
   }
 
   toU8a (): Uint8Array {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataEvent::toU8a: Uinimplemented');
   }
 
   toString (): string {
-    throw new Error('Uinimplemented');
+    throw JSON.stringify({
+      args: this.value.args.toString(),
+      docs: this.value.docs.toString(),
+      name: this.value.name.toString()
+    });
   }
 }
 
@@ -50,8 +87,8 @@ class MetadataEvents extends BaseArray<MetadataEvent> {
 }
 
 type TMetadataEventsOuter = {
-  name: String,
-  events: MetadataEvents
+  events: MetadataEvents,
+  name: String
 };
 
 class MetadataEventsOuter implements Base<TMetadataEventsOuter> {
@@ -65,34 +102,37 @@ class MetadataEventsOuter implements Base<TMetadataEventsOuter> {
   }
 
   byteLength (): number {
-    return this.value.name.byteLength();
+    return this.value.events.byteLength() +
+      this.value.name.byteLength();
   }
 
   fromJSON (input: any): MetadataEventsOuter {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataEventsOuter::fromJSON: Uinimplemented');
   }
 
   fromU8a (input: Uint8Array): MetadataEventsOuter {
     this.value.name = new String().fromU8a(input);
+    this.value.events = new MetadataEvents().fromU8a(input.subarray(this.value.name.byteLength()));
 
     return this;
   }
 
   toJSON (): any {
     return {
-      events: [],
+      events: this.value.events.toJSON(),
       name: this.value.name.toJSON()
     };
   }
 
   toString (): string {
-    return JSON.stringify(
-      this.toJSON()
-    );
+    return JSON.stringify({
+      events: this.value.events.toString(),
+      name: this.value.name.toString()
+    });
   }
 
   toU8a (): Uint8Array {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataEventsOuter::toU8a: Uinimplemented');
   }
 }
 
@@ -110,7 +150,7 @@ class MetadataModules implements Base<TMetadataModules> {
   }
 
   fromJSON (input: any): Metadata {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataModules::fromJSON: Uinimplemented');
   }
 
   fromU8a (input: Uint8Array): MetadataModules {
@@ -122,13 +162,11 @@ class MetadataModules implements Base<TMetadataModules> {
   }
 
   toString (): string {
-    return JSON.stringify(
-      this.toJSON()
-    );
+    return JSON.stringify(this.value);
   }
 
   toU8a (): Uint8Array {
-    throw new Error('Uinimplemented');
+    throw new Error('MetadataModules::toU8a: Uinimplemented');
   }
 }
 
@@ -166,16 +204,21 @@ export default class Metadata implements Base<TMetadata> {
   }
 
   toJSON (): any {
-    return this.value;
+    return {
+      events: this.value.events.toJSON(),
+      modules: this.value.modules.toJSON()
+    };
   }
 
   toString (): string {
-    return JSON.stringify(
-      this.toJSON()
-    );
+    return JSON.stringify(this.toJSON());
+  }
+
+  toText (): string {
+    return this.toString();
   }
 
   toU8a (): Uint8Array {
-    throw new Error('Uinimplemented');
+    throw new Error('Metadata::toU8a: Uinimplemented');
   }
 }

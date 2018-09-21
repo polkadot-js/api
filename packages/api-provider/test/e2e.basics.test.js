@@ -13,7 +13,7 @@ describe('e2e basics', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('subscribes to chain_newHead', (done) => {
+  it.skip('subscribes to chain_newHead', (done) => {
     let count = 0;
 
     // tslint:disable-next-line
@@ -34,7 +34,7 @@ describe('e2e basics', () => {
       });
   });
 
-  it('retrieves the pending extrinsics', () => {
+  it.skip('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()
       .then((extrinsics) => {
@@ -51,7 +51,7 @@ describe('e2e basics', () => {
     return api.state
       .getMetadata()
       .then((meta) => {
-        console.error('meta', meta);
+        console.error(meta.toText());
       })
       .catch((error) => {
         console.error(error);
