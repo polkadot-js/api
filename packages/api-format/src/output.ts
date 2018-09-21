@@ -12,9 +12,22 @@ import hashDecode from '@polkadot/primitives/json/hash/decode';
 import headerDecode from '@polkadot/primitives/json/header/decode';
 import blockDecode from '@polkadot/primitives/json/block/decode';
 import isNull from '@polkadot/util/is/null';
+import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import format from './format';
+import Metadata from './codec/Metadata';
+
+// NOTE Here we are trying to do things a bit differently, i.e. more in line with where we think things
+// could go with the primitive classes. (Good testbed anyway for the decoding, although maybe a bit messy
+// with duplication). Overall, bit hackly since it shoehorns in a potential new implementation into an
+// original way of doing things
+
+const metaDecode = (input: Array<number>) => {
+  return new Metadata()
+    .fromJSON(input)
+    .toJSON();
+};
 
 const formatters = new Map<Param$Types, FormatterFunction>([
   // publicKey -> address
@@ -23,6 +36,7 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   ['Bytes', bytesDecode],
   ['Hash', hashDecode],
   ['Header', headerDecode],
+  ['MetaData', metaDecode],
   ['SignedBlock', blockDecode],
   ['u64', bnDecode]
 ]);

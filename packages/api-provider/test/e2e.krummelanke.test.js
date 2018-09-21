@@ -7,33 +7,12 @@ import storage from '@polkadot/storage';
 import Api from '../../api/src';
 import Ws from '../src/ws';
 
-describe.skip('e2e', () => {
+describe.skip('e2e krumme lanke', () => {
   let api;
 
   beforeEach(() => {
     jest.setTimeout(30000);
     api = new Api(new Ws('ws://127.0.0.1:9944'));
-  });
-
-  it('subscribes to chain_newHead', (done) => {
-    let count = 0;
-
-    // tslint:disable-next-line
-    api.chain
-      .newHead((error, data) => {
-        if (error) {
-          return done(error);
-        }
-
-        expect(data).toBeDefined();
-
-        if (++count === 3) {
-          done();
-        }
-      })
-      .then((subscriptionId) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
-      });
   });
 
   it('subscribes to storage', (done) => {
@@ -78,19 +57,6 @@ describe.skip('e2e', () => {
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
       .then((block) => {
         expect(block).toBeDefined();
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
-      });
-  });
-
-  it('retrieves the pending extrinsics', () => {
-    return api.author
-      .pendingExtrinsics()
-      .then((extrinsics) => {
-        console.error('extrinsics', extrinsics);
       })
       .catch((error) => {
         console.error(error);
