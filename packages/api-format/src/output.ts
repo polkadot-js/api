@@ -23,7 +23,19 @@ import Metadata from './codec/Metadata';
 // original way of doing things
 
 const metaDecode = (input: Array<number>) => {
-  return new Metadata().fromJSON(input);
+  const metadata = new Metadata();
+
+  try {
+    metadata.fromU8a(
+      Uint8Array.from(input)
+    );
+  } catch (error) {
+    console.error('current', JSON.stringify(metadata.toJSON()), error);
+
+    throw error;
+  }
+
+  return metadata;
 };
 
 const formatters = new Map<Param$Types, FormatterFunction>([

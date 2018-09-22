@@ -10,10 +10,10 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default class BaseLength implements BaseU8a<BN> {
-  value: BN;
+  raw: BN;
 
   constructor (value: BN | number = new BN(0)) {
-    this.value = bnToBn(value);
+    this.raw = bnToBn(value);
   }
 
   byteLength (): number {
@@ -21,16 +21,16 @@ export default class BaseLength implements BaseU8a<BN> {
   }
 
   fromU8a (input: Uint8Array): BaseLength {
-    this.value = u8aToBn(input.subarray(0, 4), true);
+    this.raw = u8aToBn(input.subarray(0, 4), true);
 
     return this;
   }
 
   toU8a (): Uint8Array {
-    return bnToU8a(this.value, 32, true);
+    return bnToU8a(this.raw, 32, true);
   }
 
-  setValue (value: BN | number): void {
-    this.value = bnToBn(value);
+  setValue (raw: BN | number): void {
+    this.raw = bnToBn(raw);
   }
 }

@@ -35,37 +35,37 @@ export default class BaseLengthCompact extends BaseLength {
     const flag = input[0] & 0b11;
 
     if (flag === 0b00) {
-      this.value = new BN(input[0] >> 2);
+      this.raw = new BN(input[0] >> 2);
     } else if (flag === 0b01) {
       const u8a = input.slice(0, 2);
 
       u8a.set([u8a[0] >> 2]);
 
-      this.value = u8aToBn(u8a, true);
+      this.raw = u8aToBn(u8a, true);
     } else if (flag === 0b10) {
       const u8a = input.slice(0, 4);
 
       u8a.set([u8a[0] >> 2]);
 
-      this.value = u8aToBn(u8a, true);
+      this.raw = u8aToBn(u8a, true);
     } else {
-      this.value = u8aToBn(input.subarray(1, 5), true);
+      this.raw = u8aToBn(input.subarray(1, 5), true);
     }
 
     return this;
   }
 
   toU8a (): Uint8Array {
-    if (this.value.lte(MAX_VAL_U8)) {
-      return new Uint8Array([this.value.toNumber() << 2]);
-    } else if (this.value.lte(MAX_VAL_U16)) {
-      const u8a = bnToU8a(this.value, 16, true);
+    if (this.raw.lte(MAX_VAL_U8)) {
+      return new Uint8Array([this.raw.toNumber() << 2]);
+    } else if (this.raw.lte(MAX_VAL_U16)) {
+      const u8a = bnToU8a(this.raw, 16, true);
 
       u8a.set([(u8a[0] << 2) | 0b01]);
 
       return u8a;
-    } else if (this.value.lte(MAX_VAL_U32)) {
-      const u8a = bnToU8a(this.value, 32, true);
+    } else if (this.raw.lte(MAX_VAL_U32)) {
+      const u8a = bnToU8a(this.raw, 32, true);
 
       u8a.set([(u8a[0] << 2) | 0b10]);
 
@@ -74,7 +74,7 @@ export default class BaseLengthCompact extends BaseLength {
 
     return u8aConcat(
       new Uint8Array([0b11]),
-      bnToU8a(this.value, 32, true)
+      bnToU8a(this.raw, 32, true)
     );
   }
 }

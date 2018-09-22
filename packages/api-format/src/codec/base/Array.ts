@@ -8,67 +8,74 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Length from './Length';
 
-export default class BaseArray <T extends Base<any>> implements Base<Array<T>> {
+type TArray = Array<Base<any>>;
+
+export default class BaseArray implements Base<TArray> {
   private length: Length;
-  private Value: { new(): T };
+  private Type: { new(): Base<any> };
 
-  value: Array<T>;
+  raw: TArray;
 
-  constructor (Value: { new(): T }, value: Array<T> = [] as Array<T>, _Length: typeof Length = Length) {
+  constructor (Type: { new(): Base<any> }, value: TArray = [] as TArray, _Length: typeof Length = Length) {
     this.length = new _Length(value.length);
-    this.Value = Value;
-    this.value = value;
+    this.Type = Type;
+    this.raw = value;
   }
 
   byteLength (): number {
-    return this.value.reduce((total, value) => {
-      return total + value.byteLength();
+    return this.raw.reduce((total, raw) => {
+      return total + raw.byteLength();
     }, this.length.byteLength());
   }
 
-  fromJSON (input: any): BaseArray<T> {
-    this.value = input.map((input: any) =>
-      new this.Value().fromJSON(input)
+  fromJSON (input: any): BaseArray {
+    this.raw = input.map((input: any) =>
+      new this.Type().fromJSON(input)
     );
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): BaseArray<T> {
+  fromU8a (input: Uint8Array): BaseArray {
+    console.error('Array <-', input.subarray(0, 50).toString());
+
     this.length.fromU8a(input);
 
-    const count = this.length.value.toNumber();
+    const length = this.length.raw.toNumber();
     let offset = this.length.byteLength();
-    this.value = [];
+    this.raw = [];
 
-    for (let index = 0; index < count; index++) {
-      const value = new this.Value().fromU8a(input.subarray(offset));
+    console.error('Array', length);
 
-      this.value.push(value as T);
-      offset += value.byteLength();
+    for (let index = 0; index < length; index++) {
+      const raw = new this.Type().fromU8a(input.subarray(offset));
+
+      // FIXME ???
+      this.raw.push(raw as any);
+      offset += raw.byteLength();
     }
 
     return this;
   }
 
   toJSON (): any {
-    return this.value.map((value) =>
-      value.toJSON()
+    return this.raw.map((entry) =>
+      entry.toJSON()
     );
   }
 
   toU8a (): Uint8Array {
     return u8aConcat(
       this.length.toU8a(),
-      ...this.value.map((value) =>
-        value.toU8a()
+      ...this.raw.map((entry) =>
+        entry.toU8a()
       )
     );
   }
 
   toString (): string {
-    const data = this.value.map((value) =>
-      value.toString()
+    const data = this.raw.map((entry) =>
+      entry.toString()
     ).join(', ');
 
     return `[${data}]`;

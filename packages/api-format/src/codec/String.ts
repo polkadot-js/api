@@ -13,17 +13,17 @@ import Length from './base/Length';
 export default class String implements Base<string> {
   private length: Length;
 
-  value: string;
+  raw: string;
 
   // NOTE We pass the Length class in here that manages the prefix.
   // It could be be one of Length or LengthCompact
   constructor (value: string = '', _Length: typeof Length = Length) {
     this.length = new _Length(value.length);
-    this.value = value;
+    this.raw = value;
   }
 
   byteLength (): number {
-    return this.value.length +
+    return this.raw.length +
       this.length.byteLength();
   }
 
@@ -32,12 +32,16 @@ export default class String implements Base<string> {
   }
 
   fromU8a (input: Uint8Array): String {
+    console.error('String <-', input.subarray(0, 50).toString());
+
     this.length.fromU8a(input);
 
+    const length = this.length.raw.toNumber();
     const offset = this.length.byteLength();
-    const count = this.length.value.toNumber();
 
-    this.value = u8aToUtf8(input.subarray(offset, offset + count));
+    this.raw = u8aToUtf8(input.subarray(offset, offset + length));
+
+    console.error('String', length, this.raw.slice(0, Math.min(50, length)));
 
     return this;
   }
@@ -47,13 +51,13 @@ export default class String implements Base<string> {
   }
 
   toString (): string {
-    return this.value;
+    return this.raw;
   }
 
   toU8a (): Uint8Array {
     return u8aConcat(
       this.length.toU8a(),
-      u8aFromUtf8(this.value)
+      u8aFromUtf8(this.raw)
     );
   }
 }

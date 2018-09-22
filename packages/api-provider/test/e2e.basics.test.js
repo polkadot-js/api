@@ -51,7 +51,7 @@ describe('e2e basics', () => {
     return api.state
       .getMetadata()
       .then((meta) => {
-        console.error(meta.toText());
+        console.error(JSON.stringify(meta.toJSON()));
       })
       .catch((error) => {
         console.error(error);

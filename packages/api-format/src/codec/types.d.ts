@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 export interface BaseU8a <S> {
-  value: S;
+  raw: S;
 
   byteLength (): number;
   fromU8a (input: Uint8Array): BaseU8a <S>;

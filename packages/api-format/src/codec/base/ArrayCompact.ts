@@ -7,8 +7,8 @@ import { Base } from '../types';
 import LengthCompact from './LengthCompact';
 import BaseArray from './Array';
 
-export default class BaseArrayCompact <T extends Base<any>> extends BaseArray<T> {
-  constructor (Value: { new(): T }, value: Array<T> = [] as Array<T>) {
+export default class BaseArrayCompact extends BaseArray {
+  constructor (Value: { new(): Base<any> }, value: Array<Base<any>> = [] as Array<Base<any>>) {
     super(Value, value, LengthCompact);
   }
 }
