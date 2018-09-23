@@ -16,11 +16,12 @@ const DEFAULT_VALUE = new BN(0);
 
 export default class CodecNumber implements Base<BN> {
   private bitLength: NumberBitLength;
-  protected _raw: BN;
+
+  raw: BN;
 
   constructor (value: BN | number = DEFAULT_VALUE, bitLength: NumberBitLength = 64) {
     this.bitLength = bitLength;
-    this._raw = bnToBn(value);
+    this.raw = bnToBn(value);
   }
 
   byteLength (): number {
@@ -28,7 +29,7 @@ export default class CodecNumber implements Base<BN> {
   }
 
   fromJSON (input: any): CodecNumber {
-    this._raw = isHex(input)
+    this.raw = isHex(input)
       ? hexToBn(input)
       : new BN(input);
 
@@ -36,7 +37,7 @@ export default class CodecNumber implements Base<BN> {
   }
 
   fromU8a (input: Uint8Array): CodecNumber {
-    this._raw = u8aToBn(input.subarray(0, this.byteLength()), true);
+    this.raw = u8aToBn(input.subarray(0, this.byteLength()), true);
 
     return this;
   }
@@ -46,18 +47,18 @@ export default class CodecNumber implements Base<BN> {
   }
 
   toU8a (): Uint8Array {
-    return bnToU8a(this._raw, this.bitLength, true);
+    return bnToU8a(this.raw, this.bitLength, true);
   }
 
   toString (): string {
-    return bnToHex(this._raw, this.bitLength);
+    return bnToHex(this.raw, this.bitLength);
   }
 
   toBn (): BN {
-    return this._raw;
+    return this.raw;
   }
 
   toNumber (): number {
-    return this._raw.toNumber();
+    return this.raw.toNumber();
   }
 }

@@ -14,15 +14,15 @@ import Length from './base/Length';
 export default class String implements Base<string> {
   private _length: Length;
 
-  protected _raw: string;
+  raw: string;
 
   constructor (value: string = '') {
     this._length = new Length(value.length);
-    this._raw = value;
+    this.raw = value;
   }
 
   byteLength (): number {
-    return this._raw.length +
+    return this.raw.length +
       this._length.byteLength();
   }
 
@@ -36,7 +36,7 @@ export default class String implements Base<string> {
     const length = this._length.toNumber();
     const offset = this._length.byteLength();
 
-    this._raw = u8aToUtf8(input.subarray(offset, offset + length));
+    this.raw = u8aToUtf8(input.subarray(offset, offset + length));
 
     return this;
   }
@@ -46,13 +46,13 @@ export default class String implements Base<string> {
   }
 
   toString (): string {
-    return this._raw;
+    return this.raw;
   }
 
   toU8a (): Uint8Array {
     return u8aConcat(
       this._length.toU8a(),
-      u8aFromUtf8(this._raw)
+      u8aFromUtf8(this.raw)
     );
   }
 }

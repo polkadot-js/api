@@ -7,11 +7,11 @@ import { Base } from '../types';
 export default class CodecEnum implements Base<number> {
   private strings: Array<string>;
 
-  protected _raw: number;
+  raw: number;
 
   constructor (strings: Array<string>, value: number = 0) {
     this.strings = strings;
-    this._raw = value;
+    this.raw = value;
   }
 
   byteLength (): number {
@@ -19,30 +19,30 @@ export default class CodecEnum implements Base<number> {
   }
 
   fromJSON (input: any): CodecEnum {
-    this._raw = input;
+    this.raw = input;
 
     return this;
   }
 
   fromU8a (input: Uint8Array): CodecEnum {
-    this._raw = input[0];
+    this.raw = input[0];
 
     return this;
   }
 
   toJSON (): any {
-    return this._raw;
+    return this.raw;
   }
 
   toU8a (): Uint8Array {
-    return new Uint8Array([this._raw]);
+    return new Uint8Array([this.raw]);
   }
 
   toNumber (): number {
-    return this._raw;
+    return this.raw;
   }
 
   toString (): string {
-    return this.strings[this._raw];
+    return this.strings[this.raw];
   }
 }

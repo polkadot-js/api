@@ -13,12 +13,12 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
   private _length: Length;
   private _Type: { new(value?: any): T };
 
-  protected _raw: Array<T>;
+  raw: Array<T>;
 
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
     this._length = new Length(value.length);
     this._Type = Type;
-    this._raw = value.map((entry) =>
+    this.raw = value.map((entry) =>
       new this._Type(entry)
     );
   }
@@ -32,25 +32,25 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
   }
 
   at (index: number): T {
-    return this._raw[index];
+    return this.raw[index];
   }
 
   byteLength (): number {
-    return this._raw.reduce((total, raw) => {
+    return this.raw.reduce((total, raw) => {
       return total + raw.byteLength();
     }, this._length.byteLength());
   }
 
   filter (fn: (entry: T, index?: number) => any): Array<T> {
-    return this._raw.filter(fn);
+    return this.raw.filter(fn);
   }
 
   forEach (fn: (entry: T, index?: number) => any): any {
-    return this._raw.forEach(fn);
+    return this.raw.forEach(fn);
   }
 
   fromJSON (input: any): CodecArray<T> {
-    this._raw = input.map((input: any) =>
+    this.raw = input.map((input: any) =>
       new this._Type().fromJSON(input)
     );
 
@@ -62,12 +62,12 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
 
     const length = this._length.toNumber();
     let offset = this._length.byteLength();
-    this._raw = [];
+    this.raw = [];
 
     for (let index = 0; index < length; index++) {
       const raw = new this._Type().fromU8a(input.subarray(offset));
 
-      this._raw.push(raw as T);
+      this.raw.push(raw as T);
       offset += raw.byteLength();
     }
 
@@ -75,15 +75,15 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
   }
 
   map <O> (fn: (entry: T, index?: number) => O): Array<O> {
-    return this._raw.map(fn);
+    return this.raw.map(fn);
   }
 
   reduce <O> (fn: (result: O, entry: T, index?: number) => O, initial: O): O {
-    return this._raw.reduce(fn, initial);
+    return this.raw.reduce(fn, initial);
   }
 
   toJSON (): any {
-    return this._raw.map((entry) =>
+    return this.raw.map((entry) =>
       entry.toJSON()
     );
   }
@@ -91,14 +91,14 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
   toU8a (): Uint8Array {
     return u8aConcat(
       this._length.toU8a(),
-      ...this._raw.map((entry) =>
+      ...this.raw.map((entry) =>
         entry.toU8a()
       )
     );
   }
 
   toString (): string {
-    const data = this._raw.map((entry) =>
+    const data = this.raw.map((entry) =>
       entry.toString()
     ).join(', ');
 
@@ -106,6 +106,6 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
   }
 
   get length (): number {
-    return this._raw.length;
+    return this.raw.length;
   }
 }

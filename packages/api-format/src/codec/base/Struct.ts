@@ -7,10 +7,10 @@ import { Base } from '../types';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 export default class CodecStruct <T = { [index: string]: Base<any> }, K = keyof T, V = { [key in keyof T]: any }> implements Base<T> {
-  protected _raw: T;
+  raw: T;
 
   constructor (Struct: { [key in keyof T]: { new(value?: any): Base<any> } }, value: V = {} as V) {
-    this._raw = Object.keys(Struct).reduce((raw: T, key) => {
+    this.raw = Object.keys(Struct).reduce((raw: T, key) => {
       // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
       // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
       // was added, the idea is to provide better checks, which does backfire here, but works
@@ -30,36 +30,36 @@ export default class CodecStruct <T = { [index: string]: Base<any> }, K = keyof 
   }
 
   byteLength (): number {
-    return Object.values(this._raw).reduce((length, entry) => {
+    return Object.values(this.raw).reduce((length, entry) => {
       return length += entry.byteLength();
     }, 0);
   }
 
   fromJSON (input: any): CodecStruct<T> {
-    Object.keys(this._raw).forEach((key) => {
+    Object.keys(this.raw).forEach((key) => {
       // @ts-ignore as above...
-      this._raw[key].fromJSON(input[key]);
+      this.raw[key].fromJSON(input[key]);
     });
 
     return this;
   }
 
   fromU8a (input: Uint8Array): CodecStruct<T> {
-    Object.keys(this._raw).reduce((offset, key) => {
+    Object.keys(this.raw).reduce((offset, key) => {
       // @ts-ignore as above...
-      this._raw[key].fromU8a(input.subarray(offset));
+      this.raw[key].fromU8a(input.subarray(offset));
 
       // @ts-ignore as above...
-      return offset + this._raw[key].byteLength();
+      return offset + this.raw[key].byteLength();
     }, 0);
 
     return this;
   }
 
   toJSON (): any {
-    return Object.keys(this._raw).reduce((json, key) => {
+    return Object.keys(this.raw).reduce((json, key) => {
       // @ts-ignore as above...
-      json[key] = this._raw[key].toJSON();
+      json[key] = this.raw[key].toJSON();
 
       return json;
     }, {} as any);
@@ -67,17 +67,17 @@ export default class CodecStruct <T = { [index: string]: Base<any> }, K = keyof 
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      ...Object.keys(this._raw).map((key) =>
+      ...Object.keys(this.raw).map((key) =>
         // @ts-ignore as above...
-        this._raw[key].toU8a()
+        this.raw[key].toU8a()
       )
     );
   }
 
   toString (): string {
-    const data = Object.keys(this._raw).map((key) =>
+    const data = Object.keys(this.raw).map((key) =>
       // @ts-ignore as above...
-      `${key}: ${this._raw[key].toString()}`
+      `${key}: ${this.raw[key].toString()}`
     ).join(', ');
 
     return `{${data}}`;

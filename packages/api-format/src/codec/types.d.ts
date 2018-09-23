@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 export interface Base <S> {
+  raw: S;
+
   byteLength (): number;
   fromJSON (input: any): Base <S>;
   fromU8a (input: Uint8Array): Base <S>;

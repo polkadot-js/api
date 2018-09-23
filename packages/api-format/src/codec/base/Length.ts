@@ -10,10 +10,10 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default class CodecLength implements Base<BN> {
-  protected _raw: BN;
+  raw: BN;
 
   constructor (value: BN | number = new BN(0)) {
-    this._raw = bnToBn(value);
+    this.raw = bnToBn(value);
   }
 
   byteLength (): number {
@@ -25,13 +25,13 @@ export default class CodecLength implements Base<BN> {
   }
 
   fromNumber (value: BN | number): CodecLength {
-    this._raw = bnToBn(value);
+    this.raw = bnToBn(value);
 
     return this;
   }
 
   fromU8a (input: Uint8Array): CodecLength {
-    this._raw = u8aToBn(input.subarray(0, 4), true);
+    this.raw = u8aToBn(input.subarray(0, 4), true);
 
     return this;
   }
@@ -41,7 +41,7 @@ export default class CodecLength implements Base<BN> {
   }
 
   toNumber (): number {
-    return this._raw.toNumber();
+    return this.raw.toNumber();
   }
 
   toString (): string {
@@ -49,6 +49,6 @@ export default class CodecLength implements Base<BN> {
   }
 
   toU8a (): Uint8Array {
-    return bnToU8a(this._raw, 32, true);
+    return bnToU8a(this.raw, 32, true);
   }
 }

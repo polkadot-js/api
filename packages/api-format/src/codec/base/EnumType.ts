@@ -5,21 +5,21 @@
 import { Base } from '../types';
 
 export default class CodecEnumType <T> implements Base<Base<T>> {
-  private Type: Array<{ new(value?: any): Base<T> }>;
+  private Type: Array<{ new(value?: any): Base<any> }>;
   private index: number;
   private strings: Array<string>;
 
-  protected _raw: Base<T>;
+  raw: Base<T>;
 
-  constructor (Type: Array<{ new(value?: any): Base<T> }>, strings: Array<string>, index: number = 0) {
+  constructor (Type: Array<{ new(value?: any): Base<any> }>, strings: Array<string>, index: number = 0) {
     this.Type = Type;
     this.index = index;
     this.strings = strings;
-    this._raw = new Type[index]();
+    this.raw = new Type[index]();
   }
 
   byteLength (): number {
-    return 1 + this._raw.byteLength();
+    return 1 + this.raw.byteLength();
   }
 
   fromJSON (input: any): CodecEnumType<T> {
@@ -28,13 +28,13 @@ export default class CodecEnumType <T> implements Base<Base<T>> {
 
   fromU8a (input: Uint8Array): CodecEnumType<T> {
     this.index = input[0];
-    this._raw = new this.Type[this.index]().fromU8a(input.subarray(1)) as Base<any>;
+    this.raw = new this.Type[this.index]().fromU8a(input.subarray(1)) as Base<any>;
 
     return this;
   }
 
   toJSON (): any {
-    return this._raw;
+    return this.raw;
   }
 
   toU8a (): Uint8Array {

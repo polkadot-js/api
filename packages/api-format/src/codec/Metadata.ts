@@ -22,6 +22,23 @@ class EventMetadata extends CodecStruct<{
       documentation: CodecArray.with(String)
     });
   }
+
+  // FIXME Really not crazy about having to manually add all the getters and setters. Preferably
+  // it should be done automagically in the actual CodecStruct - however what is really important
+  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if we
+  // have to choose between the 2, manual defs it would have to be.
+
+  get arguments (): CodecArray<String> {
+    return this.raw.arguments;
+  }
+
+  get documentation (): CodecArray<String> {
+    return this.raw.documentation;
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
 }
 
 class OuterEventMetadataEvent extends CodecStruct<{
@@ -33,6 +50,14 @@ class OuterEventMetadataEvent extends CodecStruct<{
       name: String,
       events: CodecArray.with(EventMetadata)
     });
+  }
+
+  get events (): CodecArray<EventMetadata> {
+    return this.raw.events;
+  }
+
+  get name (): String {
+    return this.raw.name;
   }
 }
 
@@ -46,6 +71,14 @@ class OuterEventMetadata extends CodecStruct<{
       events: CodecArray.with(OuterEventMetadataEvent)
     });
   }
+
+  get events (): CodecArray<OuterEventMetadataEvent> {
+    return this.raw.events;
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
 }
 
 class FunctionArgumentMetadata extends CodecStruct<{
@@ -57,6 +90,14 @@ class FunctionArgumentMetadata extends CodecStruct<{
       name: String,
       type: String
     });
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
+
+  get type (): String {
+    return this.raw.type;
   }
 }
 
@@ -74,6 +115,22 @@ class FunctionMetadata extends CodecStruct<{
       documentation: CodecArray.with(String)
     });
   }
+
+  get arguments (): CodecArray<FunctionArgumentMetadata> {
+    return this.raw.arguments;
+  }
+
+  get documentation (): CodecArray<String> {
+    return this.raw.documentation;
+  }
+
+  get id (): U16 {
+    return this.raw.id;
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
 }
 
 class CallMetadata extends CodecStruct<{
@@ -86,6 +143,14 @@ class CallMetadata extends CodecStruct<{
       functions: CodecArray.with(FunctionMetadata)
     });
   }
+
+  get functions (): CodecArray<FunctionMetadata> {
+    return this.raw.functions;
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
 }
 
 class ModuleMetadata extends CodecStruct<{
@@ -97,6 +162,14 @@ class ModuleMetadata extends CodecStruct<{
       name: String,
       call: CallMetadata
     });
+  }
+
+  get call (): CallMetadata {
+    return this.raw.call;
+  }
+
+  get name (): String {
+    return this.raw.name;
   }
 }
 
@@ -132,6 +205,22 @@ class StorageFunctionMetadata extends CodecStruct<{
       documentation: CodecArray.with(String)
     });
   }
+
+  get documentation (): CodecArray<String> {
+    return this.raw.documentation;
+  }
+
+  get name (): String {
+    return this.raw.name;
+  }
+
+  get modifier (): StorageFunctionModifier {
+    return this.raw.modifier;
+  }
+
+  get type (): StorageFunctionType {
+    return this.raw.type;
+  }
 }
 
 class StorageMetadata extends CodecStruct<{
@@ -143,6 +232,14 @@ class StorageMetadata extends CodecStruct<{
       prefix: String,
       functions: CodecArray.with(StorageFunctionMetadata)
     });
+  }
+
+  get functions (): CodecArray<StorageFunctionMetadata> {
+    return this.raw.functions;
+  }
+
+  get prefix (): String {
+    return this.raw.prefix;
   }
 }
 
@@ -158,6 +255,18 @@ class RuntimeModuleMetadata extends CodecStruct<{
       storage: CodecOption.with(StorageMetadata)
     });
   }
+
+  get module (): ModuleMetadata {
+    return this.raw.module;
+  }
+
+  get prefix (): String {
+    return this.raw.prefix;
+  }
+
+  get storage (): StorageMetadata | undefined {
+    return this.raw.storage.value;
+  }
 }
 
 export default class RuntimeMetadata extends CodecStruct<{
@@ -171,7 +280,11 @@ export default class RuntimeMetadata extends CodecStruct<{
     }, value);
   }
 
+  get events (): CodecArray<OuterEventMetadataEvent> {
+    return this.raw.outerEvent.events;
+  }
+
   get modules (): CodecArray<RuntimeModuleMetadata> {
-    return this._raw.modules;
+    return this.raw.modules;
   }
 }
