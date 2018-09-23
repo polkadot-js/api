@@ -11,31 +11,31 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import Length from './base/Length';
 
 export default class String implements Base<string> {
-  private length: Length;
+  private _length: Length;
 
   raw: string;
 
   // NOTE We pass the Length class in here that manages the prefix.
   // It could be be one of Length or LengthCompact
   constructor (value: string = '', _Length: typeof Length = Length) {
-    this.length = new _Length(value.length);
+    this._length = new _Length(value.length);
     this.raw = value;
   }
 
   byteLength (): number {
     return this.raw.length +
-      this.length.byteLength();
+      this._length.byteLength();
   }
 
   fromJSON (input: any): String {
-    throw new Error('fromJSON is not implemented');
+    throw new Error('String::fromJSON: unimplemented');
   }
 
   fromU8a (input: Uint8Array): String {
-    this.length.fromU8a(input);
+    this._length.fromU8a(input);
 
-    const length = this.length.raw.toNumber();
-    const offset = this.length.byteLength();
+    const length = this._length.raw.toNumber();
+    const offset = this._length.byteLength();
 
     this.raw = u8aToUtf8(input.subarray(offset, offset + length));
 
@@ -52,7 +52,7 @@ export default class String implements Base<string> {
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      this.length.toU8a(),
+      this._length.toU8a(),
       u8aFromUtf8(this.raw)
     );
   }
