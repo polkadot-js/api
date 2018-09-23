@@ -6,6 +6,14 @@ import { Base } from '../types';
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
+// A Struct defines an Object with key/values - where the values are CodecBase values. It removes
+// a lot of repetition from the actual coding, defined a structure type, pass it the key/Base<T>
+// values in the constructor and it manages the decoding. It is important that the constructor
+// values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
+// it needs to decoded in the specific defined order.
+//
+// TODO:
+//   - Check the constructor, something is really, really wrong with the way the defs are used
 export default class CodecStruct <
   T = { [index: string]: Base<any> },
   S = { [key in keyof T]: { new(value?: any): Base<any> } },

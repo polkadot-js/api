@@ -10,6 +10,32 @@ import CodecStruct from './base/Struct';
 import String from './String';
 import U16 from './U16';
 
+// Decodes the runtime metadata as passed through from the `state_getMetadata` call.
+export default class RuntimeMetadata extends CodecStruct<{
+  outerEvent: OuterEventMetadata,
+  modules: CodecArray<RuntimeModuleMetadata>
+}> {
+  constructor (value?: any) {
+    super({
+      outerEvent: OuterEventMetadata,
+      modules: CodecArray.with(RuntimeModuleMetadata)
+    }, value);
+  }
+
+  // FIXME Really not crazy about having to manually add all the getters. Preferably it should
+  // be done automagically in the actual CodecStruct - however what is really important here
+  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
+  // we have to choose between the 2, manual defs it would have to be.
+
+  get events (): CodecArray<OuterEventMetadataEvent> {
+    return this.raw.outerEvent.events;
+  }
+
+  get modules (): CodecArray<RuntimeModuleMetadata> {
+    return this.raw.modules;
+  }
+}
+
 class EventMetadata extends CodecStruct<{
   name: String,
   arguments: CodecArray<String>,
@@ -22,11 +48,6 @@ class EventMetadata extends CodecStruct<{
       documentation: CodecArray.with(String)
     });
   }
-
-  // FIXME Really not crazy about having to manually add all the getters and setters. Preferably
-  // it should be done automagically in the actual CodecStruct - however what is really important
-  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if we
-  // have to choose between the 2, manual defs it would have to be.
 
   get arguments (): CodecArray<String> {
     return this.raw.arguments;
@@ -266,25 +287,5 @@ class RuntimeModuleMetadata extends CodecStruct<{
 
   get storage (): StorageMetadata | undefined {
     return this.raw.storage.value;
-  }
-}
-
-export default class RuntimeMetadata extends CodecStruct<{
-  outerEvent: OuterEventMetadata,
-  modules: CodecArray<RuntimeModuleMetadata>
-}> {
-  constructor (value?: any) {
-    super({
-      outerEvent: OuterEventMetadata,
-      modules: CodecArray.with(RuntimeModuleMetadata)
-    }, value);
-  }
-
-  get events (): CodecArray<OuterEventMetadataEvent> {
-    return this.raw.outerEvent.events;
-  }
-
-  get modules (): CodecArray<RuntimeModuleMetadata> {
-    return this.raw.modules;
   }
 }

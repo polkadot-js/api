@@ -21,6 +21,10 @@ export default class String implements Base<string> {
     this.raw = value;
   }
 
+  get length (): number {
+    return this._length.toNumber();
+  }
+
   byteLength (): number {
     return this.raw.length +
       this._length.byteLength();
@@ -54,9 +58,5 @@ export default class String implements Base<string> {
       this._length.toU8a(),
       u8aFromUtf8(this.raw)
     );
-  }
-
-  get length (): number {
-    return this._length.toNumber();
   }
 }

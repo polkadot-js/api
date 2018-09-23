@@ -14,6 +14,12 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 const DEFAULT_VALUE = new BN(0);
 
+// A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
+// and decoding of those numbers. Upoj construction the bitLength is provided and any additional
+// use keeps the number to theis length.
+//
+// TODO:
+//   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
 export default class CodecNumber implements Base<BN> {
   private _bitLength: NumberBitLength;
 

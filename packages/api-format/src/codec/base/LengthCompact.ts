@@ -13,7 +13,7 @@ const MAX_VAL_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_VAL_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
 const MAX_VAL_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 
-// A new compact length-encoding algoirithm. It performs the same function as Length, however
+// A new compact length-encoding algorithm. It performs the same function as Length, however
 // differs in that it uses a variable number of bytes to do the actual encoding. From the Rust
 // implementation for compact encoding
 //

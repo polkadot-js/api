@@ -6,6 +6,9 @@ import { Base } from '../types';
 
 import isNull from '@polkadot/util/is/null';
 
+// An Option is an optinal field. Basically the first byte (if zero) indicates that there is no
+// value to follow. If the byte is non-zero (actually 1), there is an actual value. So the CodecOption
+// implements that - decodes, checks for optionality and wraps the required structure with a vlaue if found.
 export default class CodecOption <T> implements Base<Base<T> | null> {
   private Value: { new(value?: any): Base<T> };
 
@@ -24,6 +27,12 @@ export default class CodecOption <T> implements Base<Base<T> | null> {
         super(Type, value);
       }
     };
+  }
+
+  get value (): T | undefined {
+    return isNull(this.raw)
+      ? undefined
+      : this.raw.raw;
   }
 
   byteLength (): number {
@@ -71,11 +80,5 @@ export default class CodecOption <T> implements Base<Base<T> | null> {
     return this.raw
       ? this.raw.toString()
       : '';
-  }
-
-  get value (): T | undefined {
-    return isNull(this.raw)
-      ? undefined
-      : this.raw.raw;
   }
 }
