@@ -4,37 +4,37 @@
 
 import { Base } from '../types';
 
-export default class CodecEnumType implements Base<Base<any>> {
-  private Type: Array<{ new(): Base<any> }>;
+export default class CodecEnumType <T> implements Base<Base<T>> {
+  private Type: Array<{ new(value?: any): Base<T> }>;
   private index: number;
   private strings: Array<string>;
 
-  raw: Base<any>;
+  protected _raw: Base<T>;
 
-  constructor (Type: Array<{ new(): Base<any> }>, strings: Array<string>, index: number = 0) {
+  constructor (Type: Array<{ new(value?: any): Base<T> }>, strings: Array<string>, index: number = 0) {
     this.Type = Type;
     this.index = index;
     this.strings = strings;
-    this.raw = new Type[index]();
+    this._raw = new Type[index]();
   }
 
   byteLength (): number {
-    return 1 + this.raw.byteLength();
+    return 1 + this._raw.byteLength();
   }
 
-  fromJSON (input: any): CodecEnumType {
+  fromJSON (input: any): CodecEnumType<T> {
     throw new Error('CodecEnumType:fromJSON: unimplemented');
   }
 
-  fromU8a (input: Uint8Array): CodecEnumType {
+  fromU8a (input: Uint8Array): CodecEnumType<T> {
     this.index = input[0];
-    this.raw = new this.Type[this.index]().fromU8a(input.subarray(1)) as Base<any>;
+    this._raw = new this.Type[this.index]().fromU8a(input.subarray(1)) as Base<any>;
 
     return this;
   }
 
   toJSON (): any {
-    return this.raw;
+    return this._raw;
   }
 
   toU8a (): Uint8Array {

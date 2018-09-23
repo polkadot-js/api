@@ -8,22 +8,21 @@ import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
+// NOTE or LengthCompact
 import Length from './base/Length';
 
 export default class String implements Base<string> {
   private _length: Length;
 
-  raw: string;
+  protected _raw: string;
 
-  // NOTE We pass the Length class in here that manages the prefix.
-  // It could be be one of Length or LengthCompact
-  constructor (value: string = '', _Length: typeof Length = Length) {
-    this._length = new _Length(value.length);
-    this.raw = value;
+  constructor (value: string = '') {
+    this._length = new Length(value.length);
+    this._raw = value;
   }
 
   byteLength (): number {
-    return this.raw.length +
+    return this._raw.length +
       this._length.byteLength();
   }
 
@@ -34,10 +33,10 @@ export default class String implements Base<string> {
   fromU8a (input: Uint8Array): String {
     this._length.fromU8a(input);
 
-    const length = this._length.raw.toNumber();
+    const length = this._length.toNumber();
     const offset = this._length.byteLength();
 
-    this.raw = u8aToUtf8(input.subarray(offset, offset + length));
+    this._raw = u8aToUtf8(input.subarray(offset, offset + length));
 
     return this;
   }
@@ -47,13 +46,13 @@ export default class String implements Base<string> {
   }
 
   toString (): string {
-    return this.raw;
+    return this._raw;
   }
 
   toU8a (): Uint8Array {
     return u8aConcat(
       this._length.toU8a(),
-      u8aFromUtf8(this.raw)
+      u8aFromUtf8(this._raw)
     );
   }
 }

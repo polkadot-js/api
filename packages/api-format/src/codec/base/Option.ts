@@ -4,34 +4,46 @@
 
 import { Base } from '../types';
 
-export default class CodecOption implements Base<Base<any> | null> {
-  private Value: { new(): Base<any> };
+import isNull from '@polkadot/util/is/null';
 
-  raw: Base<any> | null;
+export default class CodecOption <T> implements Base<Base<T> | null> {
+  private Value: { new(value?: any): Base<T> };
 
-  constructor (Value: { new(): Base<any> }, value: Base<any> | null = null) {
+  protected _raw: Base<T> | null;
+
+  constructor (Value: { new(value?: any): Base<T> }, value: any = null) {
     this.Value = Value;
-    this.raw = value;
+    this._raw = isNull(value)
+      ? new Value(value)
+      : null;
+  }
+
+  static with <O extends Base<any>> (Type: { new(value?: any): O }): { new(value?: any): Base<O> } {
+    return class extends CodecOption<O> {
+      constructor (value?: any) {
+        super(Type, value);
+      }
+    };
   }
 
   byteLength (): number {
-    const childLength = this.raw
-      ? this.raw.byteLength()
+    const childLength = this._raw
+      ? this._raw.byteLength()
       : 0;
 
     return 1 + childLength;
   }
 
-  fromJSON (input: any): CodecOption {
-    this.raw = input
+  fromJSON (input: any): CodecOption<T> {
+    this._raw = input
       ? new this.Value().fromJSON(input) as Base<any>
       : null;
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecOption {
-    this.raw = input[0] === 1
+  fromU8a (input: Uint8Array): CodecOption<T> {
+    this._raw = input[0] === 1
       ? new this.Value().fromU8a(input.subarray(1)) as Base<any>
       : null;
 
@@ -39,25 +51,25 @@ export default class CodecOption implements Base<Base<any> | null> {
   }
 
   toJSON (): any {
-    return this.raw
-      ? this.raw.toJSON()
+    return this._raw
+      ? this._raw.toJSON()
       : undefined;
   }
 
   toU8a (): Uint8Array {
     const u8a = new Uint8Array(this.byteLength());
 
-    if (this.raw) {
+    if (this._raw) {
       u8a.set([1]);
-      u8a.set(this.raw.toU8a(), 1);
+      u8a.set(this._raw.toU8a(), 1);
     }
 
     return u8a;
   }
 
   toString (): string {
-    return this.raw
-      ? this.raw.toString()
+    return this._raw
+      ? this._raw.toString()
       : '';
   }
 }

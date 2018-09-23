@@ -6,50 +6,60 @@ import { Base } from '../types';
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-type TStruct = {
-  [index: string]: Base<any>
-};
+export default class CodecStruct <T = { [index: string]: Base<any> }, K = keyof T, V = { [key in keyof T]: any }> implements Base<T> {
+  protected _raw: T;
 
-export default class CodecStruct implements Base<TStruct> {
-  raw: TStruct;
-
-  constructor (Struct: { [index: string]: { new(): Base<any> } }, value: TStruct = {} as TStruct) {
-    this.raw = Object.keys(Struct).reduce((raw, key) => {
-      raw[key] = value[key] || new Struct[key]();
+  constructor (Struct: { [key in keyof T]: { new(value?: any): Base<any> } }, value: V = {} as V) {
+    this._raw = Object.keys(Struct).reduce((raw: T, key) => {
+      // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
+      // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
+      // was added, the idea is to provide better checks, which does backfire here, but works
+      // externally.)
+      raw[key] = new Struct[key as K](value[key]);
 
       return raw;
-    }, {} as TStruct);
+    }, {} as T);
+  }
+
+  static with <O = { [index: string]: Base<any> }> (Struct: { [key in keyof O]: { new(value?: any): Base<any> } }): { new(value?: any): CodecStruct<O> } {
+    return class extends CodecStruct<O> {
+      constructor (value?: any) {
+        super(Struct, value);
+      }
+    };
   }
 
   byteLength (): number {
-    return Object.values(this.raw).reduce((length, entry) => {
+    return Object.values(this._raw).reduce((length, entry) => {
       return length += entry.byteLength();
     }, 0);
   }
 
-  fromJSON (input: any): CodecStruct {
-    Object.keys(this.raw).forEach((key) => {
-      this.raw[key].fromJSON(input[key]);
+  fromJSON (input: any): CodecStruct<T> {
+    Object.keys(this._raw).forEach((key) => {
+      // @ts-ignore as above...
+      this._raw[key].fromJSON(input[key]);
     });
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecStruct {
-    let offset = 0;
+  fromU8a (input: Uint8Array): CodecStruct<T> {
+    Object.keys(this._raw).reduce((offset, key) => {
+      // @ts-ignore as above...
+      this._raw[key].fromU8a(input.subarray(offset));
 
-    Object.keys(this.raw).forEach((key) => {
-      this.raw[key].fromU8a(input.subarray(offset));
-
-      offset += this.raw[key].byteLength();
-    });
+      // @ts-ignore as above...
+      return offset + this._raw[key].byteLength();
+    }, 0);
 
     return this;
   }
 
   toJSON (): any {
-    return Object.keys(this.raw).reduce((json, key) => {
-      json[key] = this.raw[key].toJSON();
+    return Object.keys(this._raw).reduce((json, key) => {
+      // @ts-ignore as above...
+      json[key] = this._raw[key].toJSON();
 
       return json;
     }, {} as any);
@@ -57,15 +67,17 @@ export default class CodecStruct implements Base<TStruct> {
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      ...Object.keys(this.raw).map((key) =>
-        this.raw[key].toU8a()
+      ...Object.keys(this._raw).map((key) =>
+        // @ts-ignore as above...
+        this._raw[key].toU8a()
       )
     );
   }
 
   toString (): string {
-    const data = Object.keys(this.raw).map((key) =>
-      `${key}: ${this.raw[key].toString()}`
+    const data = Object.keys(this._raw).map((key) =>
+      // @ts-ignore as above...
+      `${key}: ${this._raw[key].toString()}`
     ).join(', ');
 
     return `{${data}}`;

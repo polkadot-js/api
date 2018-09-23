@@ -10,10 +10,10 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 export default class CodecLength implements Base<BN> {
-  raw: BN;
+  protected _raw: BN;
 
   constructor (value: BN | number = new BN(0)) {
-    this.raw = bnToBn(value);
+    this._raw = bnToBn(value);
   }
 
   byteLength (): number {
@@ -24,8 +24,14 @@ export default class CodecLength implements Base<BN> {
     throw new Error('CodecLength::fromJSON: unimplemented');
   }
 
+  fromNumber (value: BN | number): CodecLength {
+    this._raw = bnToBn(value);
+
+    return this;
+  }
+
   fromU8a (input: Uint8Array): CodecLength {
-    this.raw = u8aToBn(input.subarray(0, 4), true);
+    this._raw = u8aToBn(input.subarray(0, 4), true);
 
     return this;
   }
@@ -34,15 +40,15 @@ export default class CodecLength implements Base<BN> {
     throw new Error('CodecLength::toJSON: unimplemented');
   }
 
+  toNumber (): number {
+    return this._raw.toNumber();
+  }
+
   toString (): string {
     throw new Error('CodecLength::toString: unimplemented');
   }
 
   toU8a (): Uint8Array {
-    return bnToU8a(this.raw, 32, true);
-  }
-
-  setValue (raw: BN | number): void {
-    this.raw = bnToBn(raw);
+    return bnToU8a(this._raw, 32, true);
   }
 }
