@@ -37,23 +37,11 @@ export default class CodecLengthCompact extends CodecLength {
     const flag = input[0] & 0b11;
 
     if (flag === 0b00) {
-      this.raw = new BN(input[0] >> 2);
+      this.raw = new BN(input[0]).shrn(2);
     } else if (flag === 0b01) {
-      const u8a = input.slice(0, 2);
-
-      u8a.set([
-        u8a[0] >> 2
-      ]);
-
-      this.raw = u8aToBn(u8a, true);
+      this.raw = u8aToBn(input.slice(0, 2), true).shrn(2);
     } else if (flag === 0b10) {
-      const u8a = input.slice(0, 4);
-
-      u8a.set([
-        u8a[0] >> 2
-      ]);
-
-      this.raw = u8aToBn(u8a, true);
+      this.raw = u8aToBn(input.slice(0, 4), true).shrn(2);
     } else {
       this.raw = u8aToBn(input.subarray(1, 5), true);
     }

@@ -9,8 +9,9 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-// A length-encoder. It is basically used in Vectors, Arrays and String (anything variable) to
-// do the encoding/decoding for the length prefixes.
+// A basic u32 LE length-encoder. It is basically used in Vectors, Arrays and String
+// (anything variable) to do the encoding/decoding for the length prefixes. (It has
+// been superceded by the compact encoder, i.e. LengthCompact)
 export default class CodecLength implements Base<BN> {
   raw: BN;
 

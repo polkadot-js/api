@@ -9,7 +9,7 @@ import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 // NOTE this could be Length or LengthCompact (the latter new and will replace the former)
-import Length from './base/Length';
+import Length from './base/LengthCompact';
 
 export default class String implements Base<string> {
   private _length: Length;
