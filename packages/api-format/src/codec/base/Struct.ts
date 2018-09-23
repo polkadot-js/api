@@ -6,22 +6,28 @@ import { Base } from '../types';
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-export default class CodecStruct <T = { [index: string]: Base<any> }, K = keyof T, V = { [key in keyof T]: any }> implements Base<T> {
+export default class CodecStruct <
+  T = { [index: string]: Base<any> },
+  S = { [key in keyof T]: { new(value?: any): Base<any> } },
+  V = { [key in keyof T]: any }
+> implements Base<T> {
   raw: T;
 
-  constructor (Struct: { [key in keyof T]: { new(value?: any): Base<any> } }, value: V = {} as V) {
+  constructor (Struct: S, value: V = {} as V) {
     this.raw = Object.keys(Struct).reduce((raw: T, key) => {
       // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
       // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
       // was added, the idea is to provide better checks, which does backfire here, but works
       // externally.)
-      raw[key] = new Struct[key as K](value[key]);
+      raw[key] = new Struct[key](value[key]);
 
       return raw;
     }, {} as T);
   }
 
-  static with <O = { [index: string]: Base<any> }> (Struct: { [key in keyof O]: { new(value?: any): Base<any> } }): { new(value?: any): CodecStruct<O> } {
+  static with <
+    O = { [index: string]: Base<any> }
+  > (Struct: { [key in keyof O]: { new(value?: any): Base<any> } }): { new(value?: any): CodecStruct<O> } {
     return class extends CodecStruct<O> {
       constructor (value?: any) {
         super(Struct, value);

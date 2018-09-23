@@ -8,7 +8,7 @@ import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-// NOTE or LengthCompact
+// NOTE this could be Length or LengthCompact (the latter new and will replace the former)
 import Length from './base/Length';
 
 export default class String implements Base<string> {
@@ -54,5 +54,9 @@ export default class String implements Base<string> {
       this._length.toU8a(),
       u8aFromUtf8(this.raw)
     );
+  }
+
+  get length (): number {
+    return this._length.toNumber();
   }
 }

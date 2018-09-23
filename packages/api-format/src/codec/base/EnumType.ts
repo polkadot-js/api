@@ -4,17 +4,24 @@
 
 import { Base } from '../types';
 
+// This implements an enum, that based on the value wraps a different type. It is effectively an
+// extension to enum.
+//
+// TODO:
+//   - As per Enum, actually use TS enum
+//   - It should rather probably extend Enum instead of copying code
+//   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
 export default class CodecEnumType <T> implements Base<Base<T>> {
-  private Type: Array<{ new(value?: any): Base<any> }>;
-  private index: number;
-  private strings: Array<string>;
+  private _Type: Array<{ new(value?: any): Base<any> }>;
+  private _index: number;
+  private _strings: Array<string>;
 
   raw: Base<T>;
 
   constructor (Type: Array<{ new(value?: any): Base<any> }>, strings: Array<string>, index: number = 0) {
-    this.Type = Type;
-    this.index = index;
-    this.strings = strings;
+    this._Type = Type;
+    this._index = index;
+    this._strings = strings;
     this.raw = new Type[index]();
   }
 
@@ -27,8 +34,8 @@ export default class CodecEnumType <T> implements Base<Base<T>> {
   }
 
   fromU8a (input: Uint8Array): CodecEnumType<T> {
-    this.index = input[0];
-    this.raw = new this.Type[this.index]().fromU8a(input.subarray(1)) as Base<any>;
+    this._index = input[0];
+    this.raw = new this._Type[this._index]().fromU8a(input.subarray(1)) as Base<any>;
 
     return this;
   }
@@ -41,7 +48,11 @@ export default class CodecEnumType <T> implements Base<Base<T>> {
     throw new Error('CodecEnumType:toU8a: unimplemented');
   }
 
+  toNumber (): number {
+    return this._index;
+  }
+
   toString (): string {
-    return this.strings[this.index];
+    return this._strings[this._index];
   }
 }

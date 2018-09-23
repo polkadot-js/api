@@ -9,7 +9,14 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import CodecLength from './Length';
 
-// From the Rust implementation for compact encoding
+const MAX_VAL_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
+const MAX_VAL_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
+const MAX_VAL_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
+
+// A new compact length-encoding algoirithm. It performs the same function as Length, however
+// differs in that it uses a variable number of bytes to do the actual encoding. From the Rust
+// implementation for compact encoding
+//
 //     0b00 00 00 00 / 00 00 00 00 / 00 00 00 00 / 00 00 00 00
 // (0 ... 2**6 - 1)    (u8)
 //     xx xx xx 00
@@ -19,13 +26,8 @@ import CodecLength from './Length';
 //     zL zL zL 10 / zM zM zM zL / zM zM zM zM / zH zH zH zM
 // (2**30 ... 2**536 - 1)  (u32, u64, u128, U256, U512, U520) straight LE-encoded
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
-
+//
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-
-const MAX_VAL_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
-const MAX_VAL_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
-const MAX_VAL_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
-
 export default class CodecLengthCompact extends CodecLength {
   byteLength (): number {
     return this.toU8a().length;

@@ -15,17 +15,17 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 const DEFAULT_VALUE = new BN(0);
 
 export default class CodecNumber implements Base<BN> {
-  private bitLength: NumberBitLength;
+  private _bitLength: NumberBitLength;
 
   raw: BN;
 
   constructor (value: BN | number = DEFAULT_VALUE, bitLength: NumberBitLength = 64) {
-    this.bitLength = bitLength;
+    this._bitLength = bitLength;
     this.raw = bnToBn(value);
   }
 
   byteLength (): number {
-    return this.bitLength / 8;
+    return this._bitLength / 8;
   }
 
   fromJSON (input: any): CodecNumber {
@@ -47,11 +47,11 @@ export default class CodecNumber implements Base<BN> {
   }
 
   toU8a (): Uint8Array {
-    return bnToU8a(this.raw, this.bitLength, true);
+    return bnToU8a(this.raw, this._bitLength, true);
   }
 
   toString (): string {
-    return bnToHex(this.raw, this.bitLength);
+    return bnToHex(this.raw, this._bitLength);
   }
 
   toBn (): BN {

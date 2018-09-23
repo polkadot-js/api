@@ -6,10 +6,17 @@ import { Base } from '../types';
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-// NOTE or LengthCompact
+// NOTE this could be Length or LengthCompact (the latter new and will replace the former)
 import Length from './Length';
 
-export default class CodecArray <T extends Base<any>> implements Base<Array<T>> {
+// This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
+// construction with the passed `Type` in the constructor. It aims to be an array-likle structure,
+// i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
+// to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
+// `reduce` is exposed on the interface.
+export default class CodecArray <
+  T extends Base<any>
+> implements Base<Array<T>> {
   private _length: Length;
   private _Type: { new(value?: any): T };
 
@@ -31,14 +38,18 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
     };
   }
 
-  at (index: number): T {
-    return this.raw[index];
-  }
-
   byteLength (): number {
     return this.raw.reduce((total, raw) => {
       return total + raw.byteLength();
     }, this._length.byteLength());
+  }
+
+  get length (): number {
+    return this.raw.length;
+  }
+
+  at (index: number): T {
+    return this.raw[index];
   }
 
   filter (fn: (entry: T, index?: number) => any): Array<T> {
@@ -103,9 +114,5 @@ export default class CodecArray <T extends Base<any>> implements Base<Array<T>> 
     ).join(', ');
 
     return `[${data}]`;
-  }
-
-  get length (): number {
-    return this.raw.length;
   }
 }

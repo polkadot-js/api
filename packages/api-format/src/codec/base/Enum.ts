@@ -4,13 +4,20 @@
 
 import { Base } from '../types';
 
+// A codec wrapper for an enum. Enums are encoded as a single byte, where the byte
+// is a zero-indexed value. This class allows you to retrieve the value either
+// by `toNumber()` exposing the actual raw index, or `toString()` returning a
+// string representation (as provided as part of the constructor)
+//
+// TODO:
+//   - It would be great if this could actually wrap actual TS enums
 export default class CodecEnum implements Base<number> {
-  private strings: Array<string>;
+  private _strings: Array<string>;
 
   raw: number;
 
   constructor (strings: Array<string>, value: number = 0) {
-    this.strings = strings;
+    this._strings = strings;
     this.raw = value;
   }
 
@@ -43,6 +50,6 @@ export default class CodecEnum implements Base<number> {
   }
 
   toString (): string {
-    return this.strings[this.raw];
+    return this._strings[this.raw];
   }
 }
