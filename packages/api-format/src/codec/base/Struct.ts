@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Base } from '../types';
-
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-// A Struct defines an Object with key/values - where the values are CodecBase values. It removes
-// a lot of repetition from the actual coding, defined a structure type, pass it the key/Base<T>
+import CodecBase from './Base';
+
+// A Struct defines an Object with key/values - where the values are CodecCodecBase values. It removes
+// a lot of repetition from the actual coding, define a structure type, pass it the key/CodecBase<T>
 // values in the constructor and it manages the decoding. It is important that the constructor
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
@@ -15,27 +15,27 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 // TODO:
 //   - Check the constructor, something is really, really wrong with the way the defs are used
 export default class CodecStruct <
-  T = { [index: string]: Base<any> },
-  S = { [key in keyof T]: { new(value?: any): Base<any> } },
-  V = { [key in keyof T]: any }
-> implements Base<T> {
-  raw: T;
-
+  T = { [index: string]: CodecBase },
+  S = { [K in keyof T]: { new(value?: any): CodecBase } },
+  V = { [K in keyof T]: any }
+> extends CodecBase<T> {
   constructor (Struct: S, value: V = {} as V) {
-    this.raw = Object.keys(Struct).reduce((raw: T, key) => {
-      // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
-      // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
-      // was added, the idea is to provide better checks, which does backfire here, but works
-      // externally.)
-      raw[key] = new Struct[key](value[key]);
+    super(
+      Object.keys(Struct).reduce((raw: T, key) => {
+        // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
+        // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
+        // was added, the idea is to provide better checks, which does backfire here, but works
+        // externally.)
+        raw[key] = new Struct[key](value[key]);
 
-      return raw;
-    }, {} as T);
+        return raw;
+      }, {} as T)
+    );
   }
 
   static with <
-    O = { [index: string]: Base<any> }
-  > (Struct: { [key in keyof O]: { new(value?: any): Base<any> } }): { new(value?: any): CodecStruct<O> } {
+    O = { [index: string]: CodecBase }
+  > (Struct: { [K in keyof O]: { new(value?: any): CodecBase } }): { new(value?: any): CodecStruct<O> } {
     return class extends CodecStruct<O> {
       constructor (value?: any) {
         super(Struct, value);

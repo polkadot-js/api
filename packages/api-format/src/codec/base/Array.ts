@@ -2,35 +2,34 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Base } from '../types';
-
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-// NOTE this could be Length or LengthCompact (the latter new and will replace the former)
+import CodecBase from './Base';
 import Length from './LengthCompact';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
-// construction with the passed `Type` in the constructor. It aims to be an array-likle structure,
+// construction with the passed `Type` in the constructor. It aims to be an array-like structure,
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
 export default class CodecArray <
-  T extends Base<any>
-> implements Base<Array<T>> {
+  T extends CodecBase
+> extends CodecBase<Array<T>> {
   private _length: Length;
   private _Type: { new(value?: any): T };
 
-  raw: Array<T>;
-
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
+    super(
+      value.map((entry) =>
+        new Type(entry)
+      )
+    );
+
     this._length = new Length(value.length);
     this._Type = Type;
-    this.raw = value.map((entry) =>
-      new this._Type(entry)
-    );
   }
 
-  static with <O extends Base<any>> (Type: { new(value?: any): O }): { new(value?: any): CodecArray<O> } {
+  static with <O extends CodecBase> (Type: { new(value?: any): O }): { new(value?: any): CodecArray<O> } {
     return class extends CodecArray<O> {
       constructor (value?: Array<any>) {
         super(Type, value);

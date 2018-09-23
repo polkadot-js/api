@@ -2,26 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Base } from '../types';
-
 import isNull from '@polkadot/util/is/null';
 
-// An Option is an optinal field. Basically the first byte (if zero) indicates that there is no
-// value to follow. If the byte is non-zero (actually 1), there is an actual value. So the CodecOption
-// implements that - decodes, checks for optionality and wraps the required structure with a vlaue if found.
-export default class CodecOption <T> implements Base<Base<T> | null> {
-  private Value: { new(value?: any): Base<T> };
+import CodecBase from './Base';
 
-  raw: Base<T> | null;
+// An Option is an optional field. Basically the first byte (if zero) indicates that there is
+// is value to follow. If the byte is non-zero, there is an actual value. So the CodecOption
+// implements that - decodes, checks for optionality and wraps the required structure with a
+// value if/as required/found.
+export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
+  private Value: { new(value?: any): CodecBase<T> };
 
-  constructor (Value: { new(value?: any): Base<T> }, value: any = null) {
-    this.Value = Value;
-    this.raw = isNull(value)
+  constructor (Value: { new(value?: any): CodecBase<T> }, value: any = null) {
+    super(
+      isNull(value)
       ? new Value(value)
-      : null;
+      : null
+    );
+
+    this.Value = Value;
   }
 
-  static with <O> (Type: { new(value?: any): Base<O> }): { new(value?: any): CodecOption<O> } {
+  static with <O> (Type: { new(value?: any): CodecBase<O> }): { new(value?: any): CodecOption<O> } {
     return class extends CodecOption<O> {
       constructor (value?: any) {
         super(Type, value);
@@ -45,7 +47,7 @@ export default class CodecOption <T> implements Base<Base<T> | null> {
 
   fromJSON (input: any): CodecOption<T> {
     this.raw = input
-      ? new this.Value().fromJSON(input) as Base<any>
+      ? new this.Value().fromJSON(input) as CodecBase
       : null;
 
     return this;
@@ -53,7 +55,7 @@ export default class CodecOption <T> implements Base<Base<T> | null> {
 
   fromU8a (input: Uint8Array): CodecOption<T> {
     this.raw = input[0] === 1
-      ? new this.Value().fromU8a(input.subarray(1)) as Base<any>
+      ? new this.Value().fromU8a(input.subarray(1)) as CodecBase
       : null;
 
     return this;

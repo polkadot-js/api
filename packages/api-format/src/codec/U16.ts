@@ -4,9 +4,9 @@
 
 import BN from 'bn.js';
 
-import BaseNumber from './base/Number';
+import CodecNumber from './base/Number';
 
-export default class U16 extends BaseNumber {
+export default class U16 extends CodecNumber {
   constructor (value?: BN | number) {
     super(value, 16);
   }

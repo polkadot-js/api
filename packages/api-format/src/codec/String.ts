@@ -2,23 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Base } from './types';
-
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-// NOTE this could be Length or LengthCompact (the latter new and will replace the former)
+import CodecBase from './base/Base';
 import Length from './base/LengthCompact';
 
-export default class String implements Base<string> {
+// This is a string wrapper, along with the length. It is used both for strings as well
+// as stuff like documentation.
+//
+// TODO
+//   - Strings should probably be trimmed (docs do come through with extra padding)
+//   - Potentially we want a "TypeString" extension to this. Basically something that
+//     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
+//     we can nicely strip types down like "T::AcountId" -> "AccountId"
+export default class String extends CodecBase<string> {
   private _length: Length;
 
-  raw: string;
-
   constructor (value: string = '') {
+    super(value);
+
     this._length = new Length(value.length);
-    this.raw = value;
   }
 
   get length (): number {

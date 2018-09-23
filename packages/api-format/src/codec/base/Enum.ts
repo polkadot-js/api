@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Base } from '../types';
+import CodecBase from './Base';
 
 // A codec wrapper for an enum. Enums are encoded as a single byte, where the byte
 // is a zero-indexed value. This class allows you to retrieve the value either
@@ -11,14 +11,13 @@ import { Base } from '../types';
 //
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
-export default class CodecEnum implements Base<number> {
+export default class CodecEnum extends CodecBase<number> {
   private _strings: Array<string>;
 
-  raw: number;
-
   constructor (strings: Array<string>, value: number = 0) {
+    super(value);
+
     this._strings = strings;
-    this.raw = value;
   }
 
   byteLength (): number {
