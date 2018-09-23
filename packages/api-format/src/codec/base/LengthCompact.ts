@@ -33,6 +33,11 @@ export default class CodecLengthCompact extends CodecLength {
     return this.toU8a().length;
   }
 
+  fromNumber (value: BN | number): CodecLength {
+    // FIXME this should be in (may even be used already)
+    throw new Error('CodecLengthCompact::fromNumber: unimplemented');
+  }
+
   fromU8a (input: Uint8Array): CodecLengthCompact {
     const flag = input[0] & 0b11;
 
