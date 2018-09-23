@@ -41,13 +41,17 @@ export default class CodecLengthCompact extends CodecLength {
     } else if (flag === 0b01) {
       const u8a = input.slice(0, 2);
 
-      u8a.set([u8a[0] >> 2]);
+      u8a.set([
+        u8a[0] >> 2
+      ]);
 
       this.raw = u8aToBn(u8a, true);
     } else if (flag === 0b10) {
       const u8a = input.slice(0, 4);
 
-      u8a.set([u8a[0] >> 2]);
+      u8a.set([
+        u8a[0] >> 2
+      ]);
 
       this.raw = u8aToBn(u8a, true);
     } else {
@@ -63,19 +67,25 @@ export default class CodecLengthCompact extends CodecLength {
     } else if (this.raw.lte(MAX_VAL_U16)) {
       const u8a = bnToU8a(this.raw, 16, true);
 
-      u8a.set([(u8a[0] << 2) | 0b01]);
+      u8a.set([
+        (u8a[0] << 2) | 0b01
+      ]);
 
       return u8a;
     } else if (this.raw.lte(MAX_VAL_U32)) {
       const u8a = bnToU8a(this.raw, 32, true);
 
-      u8a.set([(u8a[0] << 2) | 0b10]);
+      u8a.set([
+        (u8a[0] << 2) | 0b10
+      ]);
 
       return u8a;
     }
 
     return u8aConcat(
-      new Uint8Array([0b11]),
+      new Uint8Array([
+        0b11
+      ]),
       bnToU8a(this.raw, 32, true)
     );
   }
