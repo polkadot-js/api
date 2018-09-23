@@ -7,7 +7,7 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import BaseLength from './Length';
+import CodecLength from './Length';
 
 // From the Rust implementation for compact encoding
 //     0b00 00 00 00 / 00 00 00 00 / 00 00 00 00 / 00 00 00 00
@@ -26,12 +26,12 @@ const MAX_VAL_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_VAL_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
 const MAX_VAL_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 
-export default class BaseLengthCompact extends BaseLength {
+export default class CodecLengthCompact extends CodecLength {
   byteLength (): number {
     return this.toU8a().length;
   }
 
-  fromU8a (input: Uint8Array): BaseLengthCompact {
+  fromU8a (input: Uint8Array): CodecLengthCompact {
     const flag = input[0] & 0b11;
 
     if (flag === 0b00) {

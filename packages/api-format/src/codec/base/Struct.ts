@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/codec authors & contributors
+// Copyright 2017-2018 @polkadot/api-format authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ type TStruct = {
   [index: string]: Base<any>
 };
 
-export default class BaseStruct implements Base<TStruct> {
+export default class CodecStruct implements Base<TStruct> {
   raw: TStruct;
 
   constructor (Struct: { [index: string]: { new(): Base<any> } }, value: TStruct = {} as TStruct) {
@@ -27,7 +27,7 @@ export default class BaseStruct implements Base<TStruct> {
     }, 0);
   }
 
-  fromJSON (input: any): BaseStruct {
+  fromJSON (input: any): CodecStruct {
     Object.keys(this.raw).forEach((key) => {
       this.raw[key].fromJSON(input[key]);
     });
@@ -35,9 +35,7 @@ export default class BaseStruct implements Base<TStruct> {
     return this;
   }
 
-  fromU8a (input: Uint8Array): BaseStruct {
-    console.error('Struct <-', input.subarray(0, 50).toString());
-
+  fromU8a (input: Uint8Array): CodecStruct {
     let offset = 0;
 
     Object.keys(this.raw).forEach((key) => {

@@ -32,16 +32,12 @@ export default class String implements Base<string> {
   }
 
   fromU8a (input: Uint8Array): String {
-    console.error('String <-', input.subarray(0, 50).toString());
-
     this.length.fromU8a(input);
 
     const length = this.length.raw.toNumber();
     const offset = this.length.byteLength();
 
     this.raw = u8aToUtf8(input.subarray(offset, offset + length));
-
-    console.error('String', length, this.raw.slice(0, Math.min(50, length)));
 
     return this;
   }

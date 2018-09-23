@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-export interface BaseU8a <S> {
+export interface Base <S> {
   raw: S;
 
   byteLength (): number;
-  fromU8a (input: Uint8Array): BaseU8a <S>;
+  fromJSON (input: any): Base <S>;
+  fromU8a (input: Uint8Array): Base <S>;
+  toJSON (): any;
+  toString (): string;
   toU8a (): Uint8Array;
 }
 
-export interface Base <S> extends BaseU8a <S> {
-  fromJSON (input: any): Base <S>;
-  toJSON (): any;
-  toString (): string;
-}
+export type NumberBitLength = 8 | 16 | 32 | 64 | 128;
