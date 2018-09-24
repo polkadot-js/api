@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import CodecArray from './base/Array';
+import CodecBase from './base/Base';
 import CodecEnum from './base/Enum';
 import CodecEnumType from './base/EnumType';
 import CodecOption from './base/Option';
@@ -174,19 +175,41 @@ class StorageFunctionModifier extends CodecEnum {
   }
 }
 
-class StorageFunctionType extends CodecEnumType<Type | CodecStruct> {
+class StorageFunctionType$Map extends CodecStruct {
+  constructor () {
+    super({
+      key: Type,
+      value: Type
+    });
+  }
+
+  get key (): Type {
+    return this.raw.type as Type;
+  }
+
+  get value (): Type {
+    return this.raw.value as Type;
+  }
+}
+
+class StorageFunctionType extends CodecEnumType<Type | StorageFunctionType$Map> {
   constructor () {
     super([
       Type,
-      CodecStruct.with({
-        key: Type,
-        value: Type
-      })
-    ], ['Plain', 'KeyValue']);
+      StorageFunctionType$Map
+    ], ['Plain', 'Map']);
   }
 
   get isMap (): boolean {
     return this.toNumber() === 1;
+  }
+
+  get asMap (): StorageFunctionType$Map {
+    return (this.raw as CodecBase<StorageFunctionType$Map>).raw;
+  }
+
+  get asType (): Type {
+    return (this.raw as CodecBase<Type>).raw;
   }
 }
 
