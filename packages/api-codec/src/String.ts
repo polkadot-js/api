@@ -20,8 +20,12 @@ import Length from './base/LengthCompact';
 export default class String extends CodecBase<string> {
   protected _length: Length;
 
-  constructor (value: string = '') {
-    super(value);
+  constructor (value: String | string = '') {
+    super(
+      value instanceof String
+        ? value.raw
+        : value
+    );
 
     this._length = new Length(value.length);
   }

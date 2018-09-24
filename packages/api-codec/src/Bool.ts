@@ -9,7 +9,8 @@ export default class Bool extends Base<boolean> {
     super(
       value instanceof Bool
         ? value.raw
-        : value);
+        : value
+    );
   }
 
   byteLength (): number {
