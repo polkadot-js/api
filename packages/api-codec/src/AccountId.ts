@@ -9,15 +9,16 @@ import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
+import CodecU8a from './base/U8a';
 import CodecU8aFixed from './base/U8aFixed';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
 // underlying PublicKeys (32 bytes in length), we extend from CodecU8aFixed which is
 // basically just a Uint8Array wrapper with a fixed length.
 export default class AccountId extends CodecU8aFixed {
-  constructor (value: AccountId | string | Uint8Array = new Uint8Array()) {
+  constructor (value: CodecU8a | string | Uint8Array = new Uint8Array()) {
     super(
-      value instanceof AccountId
+      value instanceof CodecU8a
         ? value.raw
         : AccountId.decode(value),
       256
