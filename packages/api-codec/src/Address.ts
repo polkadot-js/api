@@ -24,14 +24,6 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
     );
   }
 
-  // FIXME Not 100% sure how to handle the encoding of short addresses. It is (mostly)
-  // unused atm, options are to go to hex or to utf8. Here we go the hex route.
-  static encode (value: Uint8Array): string {
-    return value.length === 32
-      ? AccountId.encode(value)
-      : AccountIndex.encode(value);
-  }
-
   static decode (value: AccountId | AccountIndex | string | Uint8Array | Array<number>): AccountId | AccountIndex {
     if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
