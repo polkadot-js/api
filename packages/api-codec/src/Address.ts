@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import isHex from '@polkadot/util/is/hex';
-import isInstanceOf from '@polkadot/util/is/instanceOf';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
