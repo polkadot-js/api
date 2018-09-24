@@ -8,7 +8,7 @@
 
 ▸ **mockProvider**(): [ProviderInterface](../interfaces/_types_d_.providerinterface.md)
 
-*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/5219cf1/packages/api-provider/src/mock/index.ts#L18)*
+*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api-provider/src/mock/index.ts#L18)*
 
 A moock provider mainly used for testing.
 

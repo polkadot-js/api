@@ -24,7 +24,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](_index_.api.md)
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/5219cf1/packages/api/src/index.ts#L37)*
+*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api/src/index.ts#L37)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -46,7 +46,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/5219cf1/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api/src/index.ts#L34)*
 
 ___
 <a id="chain"></a>
@@ -55,7 +55,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/5219cf1/packages/api/src/index.ts#L35)*
+*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api/src/index.ts#L35)*
 
 ___
 <a id="state"></a>
@@ -64,7 +64,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/5219cf1/packages/api/src/index.ts#L36)*
+*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api/src/index.ts#L36)*
 
 ___
 <a id="system"></a>
@@ -73,7 +73,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/5219cf1/packages/api/src/index.ts#L37)*
+*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api/src/index.ts#L37)*
 
 ___
 
