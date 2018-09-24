@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import isHex from '@polkadot/util/is/hex';
+import isInstanceOf from '@polkadot/util/is/instanceOf';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
@@ -17,7 +18,7 @@ import AccountIndex from './AccountIndex';
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends CodecBase<AccountId | AccountIndex> {
-  constructor (value: string | Uint8Array = new Uint8Array()) {
+  constructor (value: AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
     super(
       AccountId.decode(value)
     );
@@ -31,8 +32,10 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
       : AccountIndex.encode(value);
   }
 
-  static decode (value: string | Uint8Array | Array<number>): AccountId | AccountIndex {
-    if (isU8a(value) || Array.isArray(value)) {
+  static decode (value: AccountId | AccountIndex | string | Uint8Array | Array<number>): AccountId | AccountIndex {
+    if (isInstanceOf(value, AccountId) || isInstanceOf(value, AccountIndex)) {
+      return value;
+    } else if (isU8a(value) || Array.isArray(value)) {
       return value.length === 32
         ? new AccountId(u8aToU8a(value))
         : new AccountIndex(u8aToU8a(value));
