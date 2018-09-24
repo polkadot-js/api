@@ -20,13 +20,13 @@ class EventMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
-      arguments: CodecArray.with(String),
+      arguments: CodecArray.with(Type),
       documentation: CodecArray.with(String)
     });
   }
 
-  get arguments (): CodecArray<String> {
-    return this.raw.arguments as CodecArray<String>;
+  get arguments (): CodecArray<Type> {
+    return this.raw.arguments as CodecArray<Type>;
   }
 
   get documentation (): CodecArray<String> {
@@ -279,5 +279,58 @@ export default class RuntimeMetadata extends CodecStruct {
 
   get modules (): CodecArray<RuntimeModuleMetadata> {
     return this.raw.modules as CodecArray<RuntimeModuleMetadata>;
+  }
+
+  // Helper to retrieve a list of all type that are found, sorted and de-deuplicated
+  getUniqTypes (): Array<string> {
+    // Quick and dirty flatten (.flat() not available)
+    const flatten = (list: Array<any>): Array<any> =>
+      list.reduce((a, b) => {
+        return a.concat(
+          Array.isArray(b)
+            ? flatten(b)
+            : b
+        );
+      }, []);
+    // Quick and dirty uniq
+    const uniq = (list: Array<any>): Array<any> => {
+      const result: Array<any> = [];
+
+      list.forEach((entry) => {
+        if (!result.includes(entry)) {
+          result.push(entry);
+        }
+      });
+
+      return result;
+    };
+
+    const events = this.events.map((module) =>
+      module.events.map((event) =>
+        event.arguments.map((argument) =>
+          argument.raw
+        )
+      )
+    );
+    const storages = this.modules.map((module) =>
+      module.storage
+        ? module.storage.functions.map((fn) =>
+          fn.type.isMap
+            ? [fn.type.asMap.key.raw, fn.type.asMap.value.raw]
+            : [fn.type.asType.raw]
+        )
+        : []
+    );
+    const args = this.modules.map((module) =>
+      module.module.call.functions.map((fn) =>
+        fn.arguments.map((argument) =>
+          argument.type.raw
+        )
+      )
+    );
+
+    return uniq(
+      flatten([events, storages, args]).filter((value) => value)
+    ).sort();
   }
 }

@@ -10,9 +10,11 @@ describe('Metadata', () => {
     const decoded = new Metadata().fromU8a(
       Uint8Array.from(rpcdata.result)
     );
+
     const str = JSON.stringify(decoded.toJSON());
 
     console.error(str);
+    console.error(decoded.getUniqTypes());
 
     expect(str).not.toBe(null);
   });
