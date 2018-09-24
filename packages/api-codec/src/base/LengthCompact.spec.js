@@ -5,22 +5,73 @@
 import LengthCompact from './LengthCompact';
 
 describe('Compact', () => {
-  let compact;
-
-  beforeEach(() => {
-
+  it('encodes short u8', () => {
+    expect(
+      new LengthCompact(18).toU8a()
+    ).toEqual(
+      new Uint8Array([18 << 2])
+    );
   });
 
-  // FIXME skipped since this one does not actually work as expected :()
-  // basically, bring in the tests since encoding with lengths are still
-  // proplematic (decoding at this point does work)
-  it.skip('encodes short u8', () => {
-    compact = new LengthCompact(78);
-
+  it('encodes max u8 values', () => {
     expect(
-      compact.toU8a()
+      new LengthCompact(63).toU8a()
     ).toEqual(
-      new Uint8Array([78 << 2])
+      new Uint8Array([0b11111100])
+    );
+  });
+
+  it('encodes basic u16 value', () => {
+    expect(
+      new LengthCompact(511).toU8a()
+    ).toEqual(
+      new Uint8Array([0b11111101, 0b00000111])
+    );
+  });
+
+  it('decodes from same u16 encoded value', () => {
+    expect(
+      new LengthCompact()
+        .fromU8a(new Uint8Array([0b11111101, 0b00000111]))
+        .toNumber()
+    ).toEqual(
+      511
+    );
+  });
+
+  it('encodes basic u32 values (short)', () => {
+    expect(
+      new LengthCompact(0xffff).toU8a()
+    ).toEqual(
+      new Uint8Array([254, 255, 3, 0])
+    );
+  });
+
+  it('decodes from same u32 encoded value (short)', () => {
+    expect(
+      new LengthCompact()
+        .fromU8a(new Uint8Array([254, 255, 3, 0]))
+        .toNumber()
+    ).toEqual(
+      0xffff
+    );
+  });
+
+  it('encodes basic u32 values (full)', () => {
+    expect(
+      new LengthCompact(0xfffffff9).toU8a()
+    ).toEqual(
+      new Uint8Array([3, 249, 255, 255, 255])
+    );
+  });
+
+  it('decodes from same u32 encoded value (full)', () => {
+    expect(
+      new LengthCompact()
+        .fromU8a(new Uint8Array([3, 249, 255, 255, 255]))
+        .toNumber()
+    ).toEqual(
+      0xfffffff9
     );
   });
 });

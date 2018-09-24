@@ -53,21 +53,9 @@ export default class CodecLengthCompact extends CodecBaseLength {
     if (this.raw.lte(MAX_VAL_U8)) {
       return new Uint8Array([this.raw.toNumber() << 2]);
     } else if (this.raw.lte(MAX_VAL_U16)) {
-      const u8a = bnToU8a(this.raw, 16, true);
-
-      u8a.set([
-        (u8a[0] << 2) | 0b01
-      ]);
-
-      return u8a;
+      return bnToU8a(this.raw.shln(2).addn(0b01), 16, true);
     } else if (this.raw.lte(MAX_VAL_U32)) {
-      const u8a = bnToU8a(this.raw, 32, true);
-
-      u8a.set([
-        (u8a[0] << 2) | 0b10
-      ]);
-
-      return u8a;
+      return bnToU8a(this.raw.shln(2).addn(0b10), 32, true);
     }
 
     return u8aConcat(
