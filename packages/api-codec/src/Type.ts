@@ -85,19 +85,13 @@ function unwrap (check: string): Mapper {
   };
 }
 
-function applyMappings (initial: string, mappings: Array<Mapper>): string {
-  return mappings.reduce((result, fn: Mapper) => {
-    return fn(result);
-  }, initial);
-}
-
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
 export default class Type extends String {
+  // HACK(ery) Take the types and tweak them (slightly?) for consistency
   private cleanupTypes (): Type {
-    // HACK(ery) Take the types and tweak them (slightly?) for consistency
-    this.raw = applyMappings(this.raw, [
+    const mappings: Array<Mapper> = [
       // Remove all the trait prefixes
       untrait(),
       // remove boxing, `Box<Proposal>` -> `Proposal`
@@ -108,7 +102,11 @@ export default class Type extends String {
       unalias('RawAddress', 'Address'),
       // convert `PropIndex` -> `ProposalIndex`
       unalias('PropIndex', 'ProposalIndex')
-    ]);
+    ];
+
+    this.raw = mappings.reduce((result, fn: Mapper) => {
+      return fn(result);
+    }, this.raw);
 
     return this;
   }

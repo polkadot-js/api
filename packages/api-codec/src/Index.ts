@@ -2,10 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecU8aFixed from './base/U8aFixed';
+import U32 from './U32';
 
-export default class H512 extends CodecU8aFixed {
-  constructor (value?: Uint8Array) {
-    super(value, 512);
-  }
+export default class Index extends U32 {
 }

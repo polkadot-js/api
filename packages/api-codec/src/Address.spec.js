@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import AccountId from './AccountId';
+import Address from './Address';
 
-describe('AccountId', () => {
+describe('Address', () => {
   it('decodes with a prefix (255)', () => {
     expect(
-      new AccountId()
+      new Address()
         .fromU8a(
           new Uint8Array([
             255,
@@ -21,7 +21,7 @@ describe('AccountId', () => {
 
   it('codes with a prefix (1-byte)', () => {
     expect(
-      new AccountId()
+      new Address()
         .fromU8a(
           new Uint8Array([
             1, 17
