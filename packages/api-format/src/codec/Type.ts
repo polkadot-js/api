@@ -29,4 +29,11 @@ export default class Type extends String {
 
     return this;
   }
+
+  toU8a (): Uint8Array {
+    // Note Since we are mangling what we get in beyond recognition, we really should
+    // not allow the re-encoding. Additionally, this is probably more of a decoder-only
+    // helper, so treat it as such.
+    throw new Error('Type::toU8a: unimplemented');
+  }
 }
