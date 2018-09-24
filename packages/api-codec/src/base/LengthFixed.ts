@@ -13,9 +13,11 @@ import CodecBase from './Base';
 // (anything variable) to do the encoding/decoding for the length prefixes. (It has
 // been superceded in use by the compact encoder, i.e. LengthCompact)
 export default class CodecLengthFixed extends CodecBase<BN> {
-  constructor (value: BN | number = new BN(0)) {
+  constructor (value: CodecLengthFixed | BN | number = new BN(0)) {
     super(
-      bnToBn(value)
+      value instanceof CodecLengthFixed
+        ? value.raw
+        : bnToBn(value)
     );
   }
 

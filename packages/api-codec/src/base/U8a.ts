@@ -20,6 +20,10 @@ export default class CodecU8a extends Base<Uint8Array> {
     );
   }
 
+  get length (): number {
+    return this.byteLength();
+  }
+
   byteLength (): number {
     return this.raw.length;
   }
