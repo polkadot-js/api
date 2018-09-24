@@ -12,11 +12,11 @@ import Base from './Base';
 // consume the full u8a as passed to it in fromU8a. As such it is meant to be
 // subclassed where the wrapper takes care of the actual lengths.
 export default class CodecU8a extends Base<Uint8Array> {
-  constructor (value: CodecU8a | Uint8Array = new Uint8Array()) {
+  constructor (value: CodecU8a | string | Uint8Array = new Uint8Array()) {
     super(
       value instanceof CodecU8a
         ? value.raw
-        : value
+        : toU8a(value)
     );
   }
 
