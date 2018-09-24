@@ -285,25 +285,22 @@ export default class RuntimeMetadata extends CodecStruct {
   getUniqTypes (): Array<string> {
     // Quick and dirty flatten (.flat() not available)
     const flatten = (list: Array<any>): Array<any> =>
-      list.reduce((a, b) => {
-        return a.concat(
-          Array.isArray(b)
-            ? flatten(b)
-            : b
+      list.reduce((result, entry) => {
+        return result.concat(
+          Array.isArray(entry)
+            ? flatten(entry)
+            : entry
         );
       }, []);
     // Quick and dirty uniq
-    const uniq = (list: Array<any>): Array<any> => {
-      const result: Array<any> = [];
-
-      list.forEach((entry) => {
+    const uniq = (list: Array<any>): Array<any> =>
+      list.reduce((result, entry) => {
         if (!result.includes(entry)) {
           result.push(entry);
         }
-      });
 
-      return result;
-    };
+        return result;
+      }, [] as Array<any>);
 
     const events = this.events.map((module) =>
       module.events.map((event) =>
