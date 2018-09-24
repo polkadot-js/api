@@ -1,0 +1,2199 @@
+{
+  "outerEvent": {
+    "name": "Event",
+    "events": [
+      {
+        "name": "system",
+        "events": [
+          {
+            "name": "ExtrinsicSuccess",
+            "arguments": [],
+            "documentation": [
+              " An extrinsic completed successfully."
+            ]
+          },
+          {
+            "name": "ExtrinsicFailed",
+            "arguments": [],
+            "documentation": [
+              " An extrinsic failed."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "balances",
+        "events": [
+          {
+            "name": "NewAccount",
+            "arguments": [
+              "AccountId",
+              "AccountIndex",
+              "NewAccountOutcome"
+            ],
+            "documentation": [
+              " A new account was created."
+            ]
+          },
+          {
+            "name": "ReapedAccount",
+            "arguments": [
+              "AccountId"
+            ],
+            "documentation": [
+              " An account was reaped."
+            ]
+          },
+          {
+            "name": "Transfer",
+            "arguments": [
+              "AccountId",
+              "AccountId",
+              "Balance",
+              "Balance"
+            ],
+            "documentation": [
+              " Transfer succeeded (from, to, value, fees)."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "session",
+        "events": [
+          {
+            "name": "NewSession",
+            "arguments": [
+              "BlockNumber"
+            ],
+            "documentation": [
+              " New session has happened. Note that the argument is the session index, not the block",
+              " number as the type might suggest."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "staking",
+        "events": [
+          {
+            "name": "Reward",
+            "arguments": [
+              "Balance"
+            ],
+            "documentation": [
+              " All validators have been rewarded by the given balance."
+            ]
+          },
+          {
+            "name": "OfflineWarning",
+            "arguments": [
+              "AccountId",
+              "u32"
+            ],
+            "documentation": [
+              " One validator (and their nominators) has been given a offline-warning (they're still",
+              " within their grace). The accrued number of slashes is recorded, too."
+            ]
+          },
+          {
+            "name": "OfflineSlash",
+            "arguments": [
+              "AccountId",
+              "Balance"
+            ],
+            "documentation": [
+              " One validator (and their nominators) has been slashed by the given amount."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "democracy",
+        "events": [
+          {
+            "name": "Tabled",
+            "arguments": [
+              "PropIndex",
+              "Balance",
+              "Vec<AccountId>"
+            ],
+            "documentation": []
+          },
+          {
+            "name": "Started",
+            "arguments": [
+              "ReferendumIndex",
+              "VoteThreshold"
+            ],
+            "documentation": []
+          },
+          {
+            "name": "Passed",
+            "arguments": [
+              "ReferendumIndex"
+            ],
+            "documentation": []
+          },
+          {
+            "name": "NotPassed",
+            "arguments": [
+              "ReferendumIndex"
+            ],
+            "documentation": []
+          },
+          {
+            "name": "Cancelled",
+            "arguments": [
+              "ReferendumIndex"
+            ],
+            "documentation": []
+          },
+          {
+            "name": "Executed",
+            "arguments": [
+              "ReferendumIndex",
+              "bool"
+            ],
+            "documentation": []
+          }
+        ]
+      },
+      {
+        "name": "council",
+        "events": [
+          {
+            "name": "VoterReaped",
+            "arguments": [
+              "AccountId",
+              "AccountId"
+            ],
+            "documentation": [
+              " reaped voter, reaper"
+            ]
+          },
+          {
+            "name": "BadReaperSlashed",
+            "arguments": [
+              "AccountId"
+            ],
+            "documentation": [
+              " slashed reaper"
+            ]
+          },
+          {
+            "name": "TallyStarted",
+            "arguments": [
+              "u32"
+            ],
+            "documentation": [
+              " A tally (for approval votes of council seat(s)) has started."
+            ]
+          },
+          {
+            "name": "TallyFinalised",
+            "arguments": [
+              "Vec<AccountId>",
+              "Vec<AccountId>"
+            ],
+            "documentation": [
+              " A tally (for approval votes of council seat(s)) has ended (with one or more new members)."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "council_voting",
+        "events": [
+          {
+            "name": "TallyCancelation",
+            "arguments": [
+              "Hash",
+              "u32",
+              "u32",
+              "u32"
+            ],
+            "documentation": [
+              " A voting tally has happened for a referendum cancelation vote.",
+              " Last three are yes, no, abstain counts."
+            ]
+          },
+          {
+            "name": "TallyReferendum",
+            "arguments": [
+              "Hash",
+              "u32",
+              "u32",
+              "u32"
+            ],
+            "documentation": [
+              " A voting tally has happened for a referendum vote.",
+              " Last three are yes, no, abstain counts."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "council_motions",
+        "events": [
+          {
+            "name": "Proposed",
+            "arguments": [
+              "AccountId",
+              "ProposalIndex",
+              "Hash",
+              "u32"
+            ],
+            "documentation": [
+              " A motion (given hash) has been proposed (by given account) with a threshold (given u32)."
+            ]
+          },
+          {
+            "name": "Voted",
+            "arguments": [
+              "AccountId",
+              "Hash",
+              "bool",
+              "u32",
+              "u32"
+            ],
+            "documentation": [
+              " A motion (given hash) has been voted on by given account, leaving",
+              " a tally (yes votes and no votes given as u32s respectively)."
+            ]
+          },
+          {
+            "name": "Approved",
+            "arguments": [
+              "Hash"
+            ],
+            "documentation": [
+              " A motion was approved by the required threshold."
+            ]
+          },
+          {
+            "name": "Disapproved",
+            "arguments": [
+              "Hash"
+            ],
+            "documentation": [
+              " A motion was not approved by the required threshold."
+            ]
+          },
+          {
+            "name": "Executed",
+            "arguments": [
+              "Hash",
+              "bool"
+            ],
+            "documentation": [
+              " A motion was executed; `bool` is true if returned without error."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "treasury",
+        "events": [
+          {
+            "name": "Proposed",
+            "arguments": [
+              "ProposalIndex"
+            ],
+            "documentation": [
+              " New proposal."
+            ]
+          },
+          {
+            "name": "Spending",
+            "arguments": [
+              "Balance"
+            ],
+            "documentation": [
+              " We have ended a spend period and will now allocate funds."
+            ]
+          },
+          {
+            "name": "Awarded",
+            "arguments": [
+              "ProposalIndex",
+              "Balance",
+              "AccountId"
+            ],
+            "documentation": [
+              " Some funds have been allocated."
+            ]
+          },
+          {
+            "name": "Burnt",
+            "arguments": [
+              "Balance"
+            ],
+            "documentation": [
+              " Some of our funds have been burnt."
+            ]
+          },
+          {
+            "name": "Rollover",
+            "arguments": [
+              "Balance"
+            ],
+            "documentation": [
+              " Spending has finished; this is the amount that rolls over until next spend."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "modules": [
+    {
+      "prefix": "system",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": []
+        }
+      },
+      "storage": {
+        "prefix": "System",
+        "functions": [
+          {
+            "name": "AccountNonce",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::Index"
+            },
+            "documentation": []
+          },
+          {
+            "name": "ExtrinsicCount",
+            "modifier": 0,
+            "type": "u32",
+            "documentation": []
+          },
+          {
+            "name": "BlockHash",
+            "modifier": 2,
+            "type": {
+              "key": "T::BlockNumber",
+              "value": "T::Hash"
+            },
+            "documentation": []
+          },
+          {
+            "name": "ExtrinsicData",
+            "modifier": 2,
+            "type": {
+              "key": "u32",
+              "value": "Vec<u8>"
+            },
+            "documentation": []
+          },
+          {
+            "name": "RandomSeed",
+            "modifier": 2,
+            "type": "T::Hash",
+            "documentation": []
+          },
+          {
+            "name": "Number",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The current block number being processed. Set by `execute_block`."
+            ]
+          },
+          {
+            "name": "ParentHash",
+            "modifier": 2,
+            "type": "T::Hash",
+            "documentation": []
+          },
+          {
+            "name": "ExtrinsicsRoot",
+            "modifier": 2,
+            "type": "T::Hash",
+            "documentation": []
+          },
+          {
+            "name": "Digest",
+            "modifier": 1,
+            "type": "T::Digest",
+            "documentation": []
+          },
+          {
+            "name": "Events",
+            "modifier": 1,
+            "type": "Vec<EventRecord<T::Event>>",
+            "documentation": []
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "consensus",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "report_misbehavior",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "report",
+                  "type": "MisbehaviorReport<T::Hash, T::BlockNumber>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "note_offline",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "offline_val_indices",
+                  "type": "Vec<u32>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "remark",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "remark",
+                  "type": "Vec<u8>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "set_code",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "Vec<u8>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "set_storage",
+              "arguments": [
+                {
+                  "name": "items",
+                  "type": "Vec<KeyValue>"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Consensus",
+        "functions": [
+          {
+            "name": "OriginalAuthorities",
+            "modifier": 0,
+            "type": "Vec<T::SessionKey>",
+            "documentation": []
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "balances",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "transfer",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "dest",
+                  "type": "RawAddress<T::AccountId, T::AccountIndex>"
+                },
+                {
+                  "name": "value",
+                  "type": "T::Balance"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "set_balance",
+              "arguments": [
+                {
+                  "name": "who",
+                  "type": "RawAddress<T::AccountId, T::AccountIndex>"
+                },
+                {
+                  "name": "free",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "reserved",
+                  "type": "T::Balance"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Balances",
+        "functions": [
+          {
+            "name": "TotalIssuance",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The total amount of stake on the system."
+            ]
+          },
+          {
+            "name": "ExistentialDeposit",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The minimum amount allowed to keep an account open."
+            ]
+          },
+          {
+            "name": "ReclaimRebate",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The amount credited to a destination's account whose index was reclaimed."
+            ]
+          },
+          {
+            "name": "TransferFee",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The fee required to make a transfer."
+            ]
+          },
+          {
+            "name": "CreationFee",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The fee required to create an account. At least as big as ReclaimRebate."
+            ]
+          },
+          {
+            "name": "NextEnumSet",
+            "modifier": 2,
+            "type": "T::AccountIndex",
+            "documentation": [
+              " The next free enumeration set."
+            ]
+          },
+          {
+            "name": "EnumSet",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountIndex",
+              "value": "Vec<T::AccountId>"
+            },
+            "documentation": [
+              " The enumeration sets."
+            ]
+          },
+          {
+            "name": "FreeBalance",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::Balance"
+            },
+            "documentation": [
+              " The 'free' balance of a given account.",
+              "",
+              " This is the only balance that matters in terms of most operations on tokens. It is",
+              " alone used to determine the balance when in the contract execution environment. When this",
+              " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
+              " deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback",
+              " is invoked, giving a chance to external modules to cleanup data associated with",
+              " the deleted account.",
+              "",
+              " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
+              " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+            ]
+          },
+          {
+            "name": "ReservedBalance",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::Balance"
+            },
+            "documentation": [
+              " The amount of the balance of a given account that is exterally reserved; this can still get",
+              " slashed, but gets slashed last of all.",
+              "",
+              " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
+              " that are still 'owned' by the account holder, but which are unspendable. (This is different",
+              " and wholly unrelated to the `Bondage` system used in the staking module.)",
+              "",
+              " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
+              " is deleted: specifically, `ReservedBalance`.",
+              "",
+              " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
+              " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+            ]
+          },
+          {
+            "name": "TransactionCodecBaseFee",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The fee to be paid for making a transaction; the base."
+            ]
+          },
+          {
+            "name": "TransactionByteFee",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The fee to be paid for making a transaction; the per-byte portion."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "timestamp",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "set",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "now",
+                  "type": "T::Moment"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Timestamp",
+        "functions": [
+          {
+            "name": "Now",
+            "modifier": 2,
+            "type": "T::Moment",
+            "documentation": [
+              " Current time for the current block."
+            ]
+          },
+          {
+            "name": "BlockPeriod",
+            "modifier": 2,
+            "type": "T::Moment",
+            "documentation": [
+              " The minimum (and advised) period between blocks."
+            ]
+          },
+          {
+            "name": "DidUpdate",
+            "modifier": 1,
+            "type": "bool",
+            "documentation": [
+              " Did the timestamp get updated in this block?"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "session",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "set_key",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "key",
+                  "type": "T::SessionKey"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "set_length",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "force_new_session",
+              "arguments": [
+                {
+                  "name": "apply_rewards",
+                  "type": "bool"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Session",
+        "functions": [
+          {
+            "name": "Validators",
+            "modifier": 2,
+            "type": "Vec<T::AccountId>",
+            "documentation": [
+              " The current set of validators."
+            ]
+          },
+          {
+            "name": "SessionLength",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " Current length of the session."
+            ]
+          },
+          {
+            "name": "CurrentIndex",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " Current index of the session."
+            ]
+          },
+          {
+            "name": "CurrentStart",
+            "modifier": 2,
+            "type": "T::Moment",
+            "documentation": [
+              " Timestamp when current session started."
+            ]
+          },
+          {
+            "name": "ForcingNewSession",
+            "modifier": 0,
+            "type": "bool",
+            "documentation": [
+              " New session is being forced is this entry exists; in which case, the boolean value is whether",
+              " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
+            ]
+          },
+          {
+            "name": "LastLengthChange",
+            "modifier": 0,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " Block at which the session length last changed."
+            ]
+          },
+          {
+            "name": "NextKeyFor",
+            "modifier": 0,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::SessionKey"
+            },
+            "documentation": [
+              " The next key for a given validator."
+            ]
+          },
+          {
+            "name": "NextSessionLength",
+            "modifier": 0,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The next session length."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "staking",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "stake",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "unstake",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "intentions_index",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "nominate",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "target",
+                  "type": "Address<T::AccountId, T::AccountIndex>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "unnominate",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "target_index",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "register_preferences",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "intentions_index",
+                  "type": "u32"
+                },
+                {
+                  "name": "prefs",
+                  "type": "ValidatorPrefs<T::Balance>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0005",
+              "name": "set_sessions_per_era",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0006",
+              "name": "set_bonding_duration",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0007",
+              "name": "set_validator_count",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0008",
+              "name": "force_new_era",
+              "arguments": [
+                {
+                  "name": "apply_rewards",
+                  "type": "bool"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0009",
+              "name": "set_offline_slash_grace",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Staking",
+        "functions": [
+          {
+            "name": "ValidatorCount",
+            "modifier": 2,
+            "type": "u32",
+            "documentation": [
+              " The ideal number of staking participants."
+            ]
+          },
+          {
+            "name": "MinimumValidatorCount",
+            "modifier": 0,
+            "type": "u32",
+            "documentation": [
+              " Minimum number of staking participants before emergency conditions are imposed."
+            ]
+          },
+          {
+            "name": "SessionsPerEra",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The length of a staking era in sessions."
+            ]
+          },
+          {
+            "name": "SessionReward",
+            "modifier": 2,
+            "type": "Perbill",
+            "documentation": [
+              " Maximum reward, per validator, that is provided per acceptable session."
+            ]
+          },
+          {
+            "name": "OfflineSlash",
+            "modifier": 2,
+            "type": "Perbill",
+            "documentation": [
+              " Slash, per validator that is taken for the first time they are found to be offline."
+            ]
+          },
+          {
+            "name": "OfflineSlashGrace",
+            "modifier": 1,
+            "type": "u32",
+            "documentation": [
+              " Number of instances of offline reports before slashing begins for validators."
+            ]
+          },
+          {
+            "name": "BondingDuration",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The length of the bonding duration in blocks."
+            ]
+          },
+          {
+            "name": "CurrentEra",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The current era index."
+            ]
+          },
+          {
+            "name": "ValidatorPreferences",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "ValidatorPrefs<T::Balance>"
+            },
+            "documentation": [
+              " Preferences that a validator has."
+            ]
+          },
+          {
+            "name": "Intentions",
+            "modifier": 1,
+            "type": "Vec<T::AccountId>",
+            "documentation": [
+              " All the accounts with a desire to stake."
+            ]
+          },
+          {
+            "name": "Nominating",
+            "modifier": 0,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::AccountId"
+            },
+            "documentation": [
+              " All nominator -> nominee relationships."
+            ]
+          },
+          {
+            "name": "NominatorsFor",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "Vec<T::AccountId>"
+            },
+            "documentation": [
+              " Nominators for a particular account."
+            ]
+          },
+          {
+            "name": "CurrentNominatorsFor",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "Vec<T::AccountId>"
+            },
+            "documentation": [
+              " Nominators for a particular account that is in action right now."
+            ]
+          },
+          {
+            "name": "CurrentSessionReward",
+            "modifier": 1,
+            "type": "T::Balance",
+            "documentation": [
+              " Maximum reward, per validator, that is provided per acceptable session."
+            ]
+          },
+          {
+            "name": "CurrentOfflineSlash",
+            "modifier": 1,
+            "type": "T::Balance",
+            "documentation": [
+              " Slash, per validator that is taken for the first time they are found to be offline."
+            ]
+          },
+          {
+            "name": "NextSessionsPerEra",
+            "modifier": 0,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The next value of sessions per era."
+            ]
+          },
+          {
+            "name": "LastEraLengthChange",
+            "modifier": 1,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " The session index at which the era length last changed."
+            ]
+          },
+          {
+            "name": "StakeRange",
+            "modifier": 1,
+            "type": "PairOf<T::Balance>",
+            "documentation": [
+              " The highest and lowest staked validator slashable balances."
+            ]
+          },
+          {
+            "name": "Bondage",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "T::BlockNumber"
+            },
+            "documentation": [
+              " The block at which the `who`'s funds become entirely liquid."
+            ]
+          },
+          {
+            "name": "SlashCount",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "u32"
+            },
+            "documentation": [
+              " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
+            ]
+          },
+          {
+            "name": "ForcingNewEra",
+            "modifier": 0,
+            "type": "()",
+            "documentation": [
+              " We are forcing a new era."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "democracy",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "propose",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Box<T::Proposal>"
+                },
+                {
+                  "name": "value",
+                  "type": "T::Balance"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "second",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal",
+                  "type": "PropIndex"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "vote",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "ref_index",
+                  "type": "ReferendumIndex"
+                },
+                {
+                  "name": "approve_proposal",
+                  "type": "bool"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "start_referendum",
+              "arguments": [
+                {
+                  "name": "proposal",
+                  "type": "Box<T::Proposal>"
+                },
+                {
+                  "name": "vote_threshold",
+                  "type": "VoteThreshold"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "cancel_referendum",
+              "arguments": [
+                {
+                  "name": "ref_index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Democracy",
+        "functions": [
+          {
+            "name": "PublicPropCount",
+            "modifier": 1,
+            "type": "PropIndex",
+            "documentation": [
+              " The number of (public) proposals that have been made so far."
+            ]
+          },
+          {
+            "name": "PublicProps",
+            "modifier": 1,
+            "type": "Vec<(PropIndex, T::Proposal, T::AccountId)>",
+            "documentation": [
+              " The public proposals. Unsorted."
+            ]
+          },
+          {
+            "name": "DepositOf",
+            "modifier": 0,
+            "type": {
+              "key": "PropIndex",
+              "value": "(T::Balance, Vec<T::AccountId>)"
+            },
+            "documentation": [
+              " Those who have locked a deposit."
+            ]
+          },
+          {
+            "name": "LaunchPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " How often (in blocks) new public referenda are launched."
+            ]
+          },
+          {
+            "name": "MinimumDeposit",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The minimum amount to be used as a deposit for a public referendum proposal."
+            ]
+          },
+          {
+            "name": "VotingPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " How often (in blocks) to check for new votes."
+            ]
+          },
+          {
+            "name": "ReferendumCount",
+            "modifier": 2,
+            "type": "ReferendumIndex",
+            "documentation": [
+              " The next free referendum index, aka the number of referendums started so far."
+            ]
+          },
+          {
+            "name": "NextTally",
+            "modifier": 2,
+            "type": "ReferendumIndex",
+            "documentation": [
+              " The next referendum index that should be tallied."
+            ]
+          },
+          {
+            "name": "ReferendumInfoOf",
+            "modifier": 0,
+            "type": {
+              "key": "ReferendumIndex",
+              "value": "(T::BlockNumber, T::Proposal, VoteThreshold)"
+            },
+            "documentation": [
+              " Information concerning any given referendum."
+            ]
+          },
+          {
+            "name": "VotersFor",
+            "modifier": 1,
+            "type": {
+              "key": "ReferendumIndex",
+              "value": "Vec<T::AccountId>"
+            },
+            "documentation": [
+              " Get the voters for the current proposal."
+            ]
+          },
+          {
+            "name": "VoteOf",
+            "modifier": 0,
+            "type": {
+              "key": "(ReferendumIndex, T::AccountId)",
+              "value": "bool"
+            },
+            "documentation": [
+              " Get the vote, if Some, of `who`."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "council",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "set_approvals",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "votes",
+                  "type": "Vec<bool>"
+                },
+                {
+                  "name": "index",
+                  "type": "VoteIndex"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "reap_inactive_voter",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "reporter_index",
+                  "type": "u32"
+                },
+                {
+                  "name": "who",
+                  "type": "Address<T::AccountId, T::AccountIndex>"
+                },
+                {
+                  "name": "who_index",
+                  "type": "u32"
+                },
+                {
+                  "name": "assumed_vote_index",
+                  "type": "VoteIndex"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "retract_voter",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "index",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "submit_candidacy",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "slot",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "present_winner",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "candidate",
+                  "type": "Address<T::AccountId, T::AccountIndex>"
+                },
+                {
+                  "name": "total",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "index",
+                  "type": "VoteIndex"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0005",
+              "name": "set_desired_seats",
+              "arguments": [
+                {
+                  "name": "count",
+                  "type": "u32"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0006",
+              "name": "remove_member",
+              "arguments": [
+                {
+                  "name": "who",
+                  "type": "Address<T::AccountId, T::AccountIndex>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0007",
+              "name": "set_presentation_duration",
+              "arguments": [
+                {
+                  "name": "count",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0008",
+              "name": "set_term_duration",
+              "arguments": [
+                {
+                  "name": "count",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Council",
+        "functions": [
+          {
+            "name": "CandidacyBond",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " How much should be locked up in order to submit one's candidacy."
+            ]
+          },
+          {
+            "name": "VotingBond",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " How much should be locked up in order to be able to submit votes."
+            ]
+          },
+          {
+            "name": "PresentSlashPerVoter",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " The punishment, per voter, if you provide an invalid presentation."
+            ]
+          },
+          {
+            "name": "CarryCount",
+            "modifier": 2,
+            "type": "u32",
+            "documentation": [
+              " How many runners-up should have their approvals persist until the next vote."
+            ]
+          },
+          {
+            "name": "PresentationDuration",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " How long to give each top candidate to present themselves after the vote ends."
+            ]
+          },
+          {
+            "name": "InactiveGracePeriod",
+            "modifier": 2,
+            "type": "VoteIndex",
+            "documentation": [
+              " How many votes need to go by after a voter's last vote before they can be reaped if their",
+              " approvals are moot."
+            ]
+          },
+          {
+            "name": "VotingPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " How often (in blocks) to check for new votes."
+            ]
+          },
+          {
+            "name": "TermDuration",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " How long each position is active for."
+            ]
+          },
+          {
+            "name": "DesiredSeats",
+            "modifier": 2,
+            "type": "u32",
+            "documentation": [
+              " Number of accounts that should be sitting on the council."
+            ]
+          },
+          {
+            "name": "ActiveCouncil",
+            "modifier": 1,
+            "type": "Vec<(T::AccountId, T::BlockNumber)>",
+            "documentation": [
+              " The current council. When there's a vote going on, this should still be used for executive",
+              " matters."
+            ]
+          },
+          {
+            "name": "VoteCount",
+            "modifier": 1,
+            "type": "VoteIndex",
+            "documentation": [
+              " The total number of votes that have happened or are in progress."
+            ]
+          },
+          {
+            "name": "ApprovalsOf",
+            "modifier": 1,
+            "type": {
+              "key": "T::AccountId",
+              "value": "Vec<bool>"
+            },
+            "documentation": [
+              " The last cleared vote index that this voter was last active at."
+            ]
+          },
+          {
+            "name": "RegisterInfoOf",
+            "modifier": 0,
+            "type": {
+              "key": "T::AccountId",
+              "value": "(VoteIndex, u32)"
+            },
+            "documentation": [
+              " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
+              " currently registered."
+            ]
+          },
+          {
+            "name": "LastActiveOf",
+            "modifier": 0,
+            "type": {
+              "key": "T::AccountId",
+              "value": "VoteIndex"
+            },
+            "documentation": [
+              " The last cleared vote index that this voter was last active at."
+            ]
+          },
+          {
+            "name": "Voters",
+            "modifier": 1,
+            "type": "Vec<T::AccountId>",
+            "documentation": [
+              " The present voter list."
+            ]
+          },
+          {
+            "name": "Candidates",
+            "modifier": 1,
+            "type": "Vec<T::AccountId>",
+            "documentation": [
+              " The present candidate list."
+            ]
+          },
+          {
+            "name": "CandidateCount",
+            "modifier": 1,
+            "type": "u32",
+            "documentation": []
+          },
+          {
+            "name": "NextFinalise",
+            "modifier": 0,
+            "type": "(T::BlockNumber, u32, Vec<T::AccountId>)",
+            "documentation": [
+              " The accounts holding the seats that will become free on the next tally."
+            ]
+          },
+          {
+            "name": "SnapshotedStakes",
+            "modifier": 2,
+            "type": "Vec<T::Balance>",
+            "documentation": [
+              " The stakes as they were at the point that the vote ended."
+            ]
+          },
+          {
+            "name": "Leaderboard",
+            "modifier": 0,
+            "type": "Vec<(T::Balance, T::AccountId)>",
+            "documentation": [
+              " Get the leaderboard if we;re in the presentation phase."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "council_voting",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "propose",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Box<T::Proposal>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "vote",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal",
+                  "type": "T::Hash"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "veto",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal_hash",
+                  "type": "T::Hash"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "set_cooloff_period",
+              "arguments": [
+                {
+                  "name": "blocks",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "set_voting_period",
+              "arguments": [
+                {
+                  "name": "blocks",
+                  "type": "T::BlockNumber"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "CouncilVoting",
+        "functions": [
+          {
+            "name": "CooloffPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": []
+          },
+          {
+            "name": "VotingPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": []
+          },
+          {
+            "name": "Proposals",
+            "modifier": 2,
+            "type": "Vec<(T::BlockNumber, T::Hash)>",
+            "documentation": []
+          },
+          {
+            "name": "ProposalOf",
+            "modifier": 0,
+            "type": {
+              "key": "T::Hash",
+              "value": "T::Proposal"
+            },
+            "documentation": []
+          },
+          {
+            "name": "ProposalVoters",
+            "modifier": 1,
+            "type": {
+              "key": "T::Hash",
+              "value": "Vec<T::AccountId>"
+            },
+            "documentation": []
+          },
+          {
+            "name": "CouncilVoteOf",
+            "modifier": 0,
+            "type": {
+              "key": "(T::Hash, T::AccountId)",
+              "value": "bool"
+            },
+            "documentation": []
+          },
+          {
+            "name": "VetoedProposal",
+            "modifier": 0,
+            "type": {
+              "key": "T::Hash",
+              "value": "(T::BlockNumber, Vec<T::AccountId>)"
+            },
+            "documentation": []
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "council_motions",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "propose",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "<T as system::Trait>::Origin"
+                },
+                {
+                  "name": "threshold",
+                  "type": "u32"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Box<<T as Trait>::Proposal>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "vote",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "<T as system::Trait>::Origin"
+                },
+                {
+                  "name": "proposal",
+                  "type": "T::Hash"
+                },
+                {
+                  "name": "index",
+                  "type": "ProposalIndex"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "CouncilMotions",
+        "functions": [
+          {
+            "name": "Proposals",
+            "modifier": 1,
+            "type": "Vec<T::Hash>",
+            "documentation": [
+              " The (hashes of) the active proposals."
+            ]
+          },
+          {
+            "name": "ProposalOf",
+            "modifier": 0,
+            "type": {
+              "key": "T::Hash",
+              "value": "<T as Trait>::Proposal"
+            },
+            "documentation": [
+              " Actual proposal for a given hash, if it's current."
+            ]
+          },
+          {
+            "name": "Voting",
+            "modifier": 0,
+            "type": {
+              "key": "T::Hash",
+              "value": "(ProposalIndex, u32, Vec<T::AccountId>, Vec<T::AccountId>)"
+            },
+            "documentation": [
+              " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
+            ]
+          },
+          {
+            "name": "ProposalCount",
+            "modifier": 1,
+            "type": "u32",
+            "documentation": [
+              " Proposals so far."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "treasury",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "propose_spend",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "value",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "beneficiary",
+                  "type": "T::AccountId"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "set_pot",
+              "arguments": [
+                {
+                  "name": "new_pot",
+                  "type": "T::Balance"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0002",
+              "name": "configure",
+              "arguments": [
+                {
+                  "name": "proposal_bond",
+                  "type": "Permill"
+                },
+                {
+                  "name": "proposal_bond_minimum",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "spend_period",
+                  "type": "T::BlockNumber"
+                },
+                {
+                  "name": "burn",
+                  "type": "Permill"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0003",
+              "name": "reject_proposal",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "roposal_id",
+                  "type": "ProposalIndex"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0004",
+              "name": "approve_proposal",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "proposal_id",
+                  "type": "ProposalIndex"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Treasury",
+        "functions": [
+          {
+            "name": "ProposalBond",
+            "modifier": 2,
+            "type": "Permill",
+            "documentation": [
+              " Proportion of funds that should be bonded in order to place a proposal. An accepted",
+              " proposal gets these back. A rejected proposal doesn't."
+            ]
+          },
+          {
+            "name": "ProposalBondMinimum",
+            "modifier": 2,
+            "type": "T::Balance",
+            "documentation": [
+              " Minimum amount of funds that should be placed in a deposit for making a proposal."
+            ]
+          },
+          {
+            "name": "SpendPeriod",
+            "modifier": 2,
+            "type": "T::BlockNumber",
+            "documentation": [
+              " Period between successive spends."
+            ]
+          },
+          {
+            "name": "Burn",
+            "modifier": 2,
+            "type": "Permill",
+            "documentation": [
+              " Percentage of spare funds (if any) that are burnt per spend period."
+            ]
+          },
+          {
+            "name": "Pot",
+            "modifier": 1,
+            "type": "T::Balance",
+            "documentation": [
+              " Total funds available to this module for spending."
+            ]
+          },
+          {
+            "name": "ProposalCount",
+            "modifier": 1,
+            "type": "ProposalIndex",
+            "documentation": [
+              " Number of proposals that have been made."
+            ]
+          },
+          {
+            "name": "Proposals",
+            "modifier": 0,
+            "type": {
+              "key": "ProposalIndex",
+              "value": "Proposal<T::AccountId, T::Balance>"
+            },
+            "documentation": [
+              " Proposals that have been made."
+            ]
+          },
+          {
+            "name": "Approvals",
+            "modifier": 1,
+            "type": "Vec<ProposalIndex>",
+            "documentation": [
+              " Proposal indices that have been approved but not yet awarded."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "prefix": "contract",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": "0x0000",
+              "name": "call",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "dest",
+                  "type": "T::AccountId"
+                },
+                {
+                  "name": "value",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "T::Gas"
+                },
+                {
+                  "name": "data",
+                  "type": "Vec<u8>"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": "0x0001",
+              "name": "create",
+              "arguments": [
+                {
+                  "name": "origin",
+                  "type": "T::Origin"
+                },
+                {
+                  "name": "value",
+                  "type": "T::Balance"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "T::Gas"
+                },
+                {
+                  "name": "init_code",
+                  "type": "Vec<u8>"
+                },
+                {
+                  "name": "data",
+                  "type": "Vec<u8>"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

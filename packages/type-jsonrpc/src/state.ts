@@ -27,6 +27,20 @@ const callAt: CreateItemOptions = {
   type: 'Bytes'
 };
 
+const getMetadata: CreateItemOptions = {
+  description: 'Returns the runtime metadata',
+  params: [],
+  type: 'MetaData'
+};
+
+const getMetadataAt: CreateItemOptions = {
+  description: 'Returns the runtime metadata',
+  params: [
+    param('block', 'Hash')
+  ],
+  type: 'MetaData'
+};
+
 const getStorage: CreateItemOptions = {
   description: 'Retrieves the storage for a key',
   params: [
@@ -110,6 +124,10 @@ export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, P
         createMethod('call')(call),
       callAt:
         createMethod('callAt')(callAt),
+      getMetadata:
+        createMethod('getMetadata')(getMetadata),
+      getMetadataAt:
+        createMethod('getMetadataAt')(getMetadataAt),
       getStorage:
         createMethod('getStorage')(getStorage),
       getStorageAt:

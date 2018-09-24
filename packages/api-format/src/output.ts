@@ -5,6 +5,7 @@
 import { Param$Types } from '@polkadot/params/types';
 import { FormatterFunction } from './types';
 
+import Metadata from '@polkadot/api-codec/Metadata';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import bnDecode from '@polkadot/primitives/json/bn/decode';
 import bytesDecode from '@polkadot/primitives/json/bytes/decode';
@@ -16,6 +17,27 @@ import isUndefined from '@polkadot/util/is/undefined';
 
 import format from './format';
 
+// NOTE Here we are trying to do things a bit differently, i.e. more in line with where we think things
+// could go with the primitive classes. (Good testbed anyway for the decoding, although maybe a bit messy
+// with duplication). Overall, bit hackly since it shoehorns in a potential new implementation into an
+// original way of doing things
+
+const metaDecode = (input: Array<number>) => {
+  const metadata = new Metadata();
+
+  try {
+    metadata.fromU8a(
+      Uint8Array.from(input)
+    );
+  } catch (error) {
+    console.error('current', JSON.stringify(metadata.toJSON()), error);
+
+    throw error;
+  }
+
+  return metadata;
+};
+
 const formatters = new Map<Param$Types, FormatterFunction>([
   // publicKey -> address
   ['AccountId', addressEncode],
@@ -23,6 +45,7 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   ['Bytes', bytesDecode],
   ['Hash', hashDecode],
   ['Header', headerDecode],
+  ['MetaData', metaDecode],
   ['SignedBlock', blockDecode],
   ['u64', bnDecode]
 ]);
