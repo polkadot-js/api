@@ -20,7 +20,7 @@ import AccountIndex from './AccountIndex';
 export default class Address extends CodecBase<AccountId | AccountIndex> {
   constructor (value: AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
     super(
-      AccountId.decode(value)
+      Address.decode(value)
     );
   }
 
@@ -33,7 +33,7 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
   }
 
   static decode (value: AccountId | AccountIndex | string | Uint8Array | Array<number>): AccountId | AccountIndex {
-    if (isInstanceOf(value, AccountId) || isInstanceOf(value, AccountIndex)) {
+    if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
     } else if (isU8a(value) || Array.isArray(value)) {
       return value.length === 32
