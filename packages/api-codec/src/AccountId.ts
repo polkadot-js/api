@@ -15,9 +15,11 @@ import CodecU8aFixed from './base/U8aFixed';
 // underlying PublicKeys (32 bytes in length), we extend from CodecU8aFixed which is
 // basically just a Uint8Array wrapper with a fixed length.
 export default class AccountId extends CodecU8aFixed {
-  constructor (value: string | Uint8Array = new Uint8Array()) {
+  constructor (value: AccountId | string | Uint8Array = new Uint8Array()) {
     super(
-      AccountId.decode(value),
+      value instanceof AccountId
+        ? value.raw
+        : AccountId.decode(value),
       256
     );
   }

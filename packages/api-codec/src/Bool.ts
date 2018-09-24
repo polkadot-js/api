@@ -5,8 +5,11 @@
 import Base from './base/Base';
 
 export default class Bool extends Base<boolean> {
-  constructor (value: boolean = false) {
-    super(value);
+  constructor (value: Bool | boolean = false) {
+    super(
+      value instanceof Bool
+        ? value.raw
+        : value);
   }
 
   byteLength (): number {

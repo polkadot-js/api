@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import CodecNumber from './base/Number';
 
 export default class U64 extends CodecNumber {
-  constructor (value?: BN | number) {
+  constructor (value?: CodecNumber | BN | number) {
     super(value, 64);
   }
 }

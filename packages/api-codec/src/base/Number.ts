@@ -25,9 +25,11 @@ const DEFAULT_VALUE = new BN(0);
 export default class CodecNumber extends CodecBase<BN> {
   private _bitLength: BitLength;
 
-  constructor (value: BN | number = DEFAULT_VALUE, bitLength: BitLength = 64) {
+  constructor (value: CodecNumber | BN | number = DEFAULT_VALUE, bitLength: BitLength = 64) {
     super(
-      bnToBn(value)
+      value instanceof CodecNumber
+        ? value.raw
+        : bnToBn(value)
     );
 
     this._bitLength = bitLength;

@@ -11,8 +11,12 @@ type BitLength = 256 | 512;
 export default class CodecU8aFixed extends CodecU8a {
   protected _bitLength: number;
 
-  constructor (value: Uint8Array = new Uint8Array(), bitLength: BitLength = 256) {
-    super(value);
+  constructor (value: CodecU8aFixed | Uint8Array = new Uint8Array(), bitLength: BitLength = 256) {
+    super(
+      value instanceof CodecU8aFixed
+        ? value.raw
+        : value
+    );
 
     this._bitLength = bitLength;
   }

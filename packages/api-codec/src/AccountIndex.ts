@@ -14,9 +14,11 @@ import CodecU8a from './base/U8a';
 // for an Account. We extends from CodecU8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends CodecU8a {
-  constructor (value: string | Uint8Array = new Uint8Array()) {
+  constructor (value: AccountIndex | string | Uint8Array = new Uint8Array()) {
     super(
-      AccountIndex.decode(value)
+      value instanceof AccountIndex
+        ? value.raw
+        : AccountIndex.decode(value)
     );
   }
 

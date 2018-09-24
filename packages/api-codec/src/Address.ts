@@ -18,9 +18,11 @@ import AccountIndex from './AccountIndex';
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends CodecBase<AccountId | AccountIndex> {
-  constructor (value: AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
+  constructor (value: Address | AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
     super(
-      Address.decode(value)
+      value instanceof Address
+        ? value.raw
+        : Address.decode(value)
     );
   }
 
