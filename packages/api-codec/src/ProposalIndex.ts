@@ -4,5 +4,5 @@
 
 import U32 from './U32';
 
-export default class PropIndex extends U32 {
+export default class ProposalIndex extends U32 {
 }

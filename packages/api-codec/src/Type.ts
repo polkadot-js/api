@@ -23,6 +23,14 @@ function findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
+function unalias (value: string, src: string, dest: string): string {
+  while (value.indexOf(src) !== -1) {
+    value = value.replace(src, dest);
+  }
+
+  return value;
+}
+
 function ungeneric (value: string): string {
   for (let index = 0; index < value.length; index++) {
     if (value[index] === '<') {
@@ -50,7 +58,7 @@ function untrait (value: string): string {
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
-function unwrap (check: string, value: string): string {
+function unwrap (value: string, check: string): string {
   let index = 0;
 
   while (index !== -1) {
@@ -67,6 +75,18 @@ function unwrap (check: string, value: string): string {
   return value;
 }
 
+type Mapping = [
+  (...args: Array<any>) => string,
+  Array<any>
+];
+
+function applyMappings (initial: string, mappings: Array<Mapping>): string {
+  return mappings.reduce((result, [fn, args]: Mapping) => {
+    console.error(fn, args);
+    return fn(result, ...args);
+  }, initial);
+}
+
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
@@ -74,15 +94,19 @@ export default class Type extends String {
   fromU8a (input: Uint8Array): String {
     super.fromU8a(input);
 
-    // Hack around the Rust types to make them consistent for actual use
-    let result = untrait(this.raw);
-
-    // `Box<Proposal>` -> `Proposal`
-    result = unwrap('Box<', result);
-    // `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-    result = ungeneric(result);
-
-    this.raw = result;
+    // HACK(ery) Take the types and tweak them (slightly?) for consistency
+    this.raw = applyMappings(this.raw, [
+      // Remova ell the trait prefixes
+      [untrait, []],
+      // remove boxing, `Box<Proposal>` -> `Proposal`
+      [unwrap, ['Box<']],
+      // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
+      [ungeneric, []],
+      // convert `RawAddress` -> `Address`
+      [unalias, ['RawAddress', 'Address']],
+      // convert `PropIndex` -> `ProposalIndex`
+      [unalias, ['PropIndex', 'ProposalIndex']]
+    ]);
 
     return this;
   }
