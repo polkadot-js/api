@@ -2,25 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isNull from '@polkadot/util/is/null';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import CodecBase from './Base';
 
-// An Option is an optional field. Basically the first byte (if zero) indicates that there is
-// is value to follow. If the byte is non-zero, there is an actual value. So the CodecOption
-// implements that - decodes, checks for optionality and wraps the required structure with a
-// value if/as required/found.
-export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
-  private Value: { new(value?: any): CodecBase<T> };
+// An Option is an optional field. Basically the first byte indicates that there is
+// is value to follow. If the byte is `1` there is an actual value. So the CodecOption
+// implements that - decodes, checks for optionality and wraps the required structure
+// with a value if/as required/found.
+export default class CodecOption <T> extends CodecBase<CodecBase<T>> {
+  private _hasValue: boolean;
 
-  constructor (Value: { new(value?: any): CodecBase<T> }, value: any = null) {
+  constructor (Value: { new(value?: any): CodecBase<T> }, value?: any) {
     super(
-      isNull(value)
-      ? new Value(value)
-      : null
+      new Value(value)
     );
 
-    this.Value = Value;
+    this._hasValue = !isUndefined(value);
   }
 
   static with <O> (Type: { new(value?: any): CodecBase<O> }): { new(value?: any): CodecOption<O> } {
@@ -32,13 +30,13 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
   }
 
   get value (): T | undefined {
-    return isNull(this.raw)
-      ? undefined
-      : this.raw.raw;
+    return this._hasValue
+      ? this.raw.raw
+      : undefined;
   }
 
   byteLength (): number {
-    const childLength = this.raw
+    const childLength = this._hasValue
       ? this.raw.byteLength()
       : 0;
 
@@ -46,23 +44,27 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
   }
 
   fromJSON (input: any): CodecOption<T> {
-    this.raw = input
-      ? new this.Value().fromJSON(input) as CodecBase
-      : null;
+    this._hasValue = !isUndefined(input);
+
+    if (this._hasValue) {
+      this.raw.fromJSON(input);
+    }
 
     return this;
   }
 
   fromU8a (input: Uint8Array): CodecOption<T> {
-    this.raw = input[0] === 1
-      ? new this.Value().fromU8a(input.subarray(1)) as CodecBase
-      : null;
+    this._hasValue = input[0] === 1;
+
+    if (this._hasValue) {
+      this.raw.fromU8a(input.subarray(1));
+    }
 
     return this;
   }
 
   toJSON (): any {
-    return this.raw
+    return this._hasValue
       ? this.raw.toJSON()
       : undefined;
   }
@@ -70,7 +72,7 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
   toU8a (): Uint8Array {
     const u8a = new Uint8Array(this.byteLength());
 
-    if (this.raw) {
+    if (this._hasValue) {
       u8a.set([1]);
       u8a.set(this.raw.toU8a(), 1);
     }
@@ -79,7 +81,7 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T> | null> {
   }
 
   toString (): string {
-    return this.raw
+    return this._hasValue
       ? this.raw.toString()
       : '';
   }
