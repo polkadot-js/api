@@ -12,7 +12,7 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import CodecBase from './Base';
 
-type BitLength = 8 | 16 | 32 | 64 | 128;
+type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 const DEFAULT_VALUE = new BN(0);
 
