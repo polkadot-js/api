@@ -4,6 +4,8 @@
 
 import String from './String';
 
+type Mapper = (value: string) => string;
+
 // given a starting index, find the closing >
 function findClosing (value: string, start: number): number {
   let depth = 0;
@@ -23,67 +25,69 @@ function findClosing (value: string, start: number): number {
   throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
 }
 
-function unalias (value: string, src: string, dest: string): string {
-  while (value.indexOf(src) !== -1) {
-    value = value.replace(src, dest);
-  }
+function unalias (src: string, dest: string): Mapper {
+  return (value: string): string => {
+    while (value.indexOf(src) !== -1) {
+      value = value.replace(src, dest);
+    }
 
-  return value;
+    return value;
+  };
 }
 
-function ungeneric (value: string): string {
-  for (let index = 0; index < value.length; index++) {
-    if (value[index] === '<') {
-      if (value.substr(index - 3, 3) !== 'Vec') {
-        const start = index + 1;
-        const end = findClosing(value, start);
+function ungeneric (): Mapper {
+  return (value: string): string => {
+    for (let index = 0; index < value.length; index++) {
+      if (value[index] === '<') {
+        if (value.substr(index - 3, 3) !== 'Vec') {
+          const start = index + 1;
+          const end = findClosing(value, start);
 
-        value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+        }
       }
     }
-  }
 
-  return value;
+    return value;
+  };
 }
 
 // remove the type traits
-function untrait (value: string): string {
-  return value
-    // anything `T::<type>` to end up as `<type>`
-    .replace(/T::/g, '')
-    // `system::` with `` - basically we find `<T as system::Trait>`
-    .replace(/system::/g, '')
-    // replace `<T as Trait>::` (possibly sanitiused just above)
-    .replace(/<T as Trait>::/g, '');
+function untrait (): Mapper {
+  return (value: string): string => {
+    return value
+      // anything `T::<type>` to end up as `<type>`
+      .replace(/T::/g, '')
+      // `system::` with `` - basically we find `<T as system::Trait>`
+      .replace(/system::/g, '')
+      // replace `<T as Trait>::` (possibly sanitiused just above)
+      .replace(/<T as Trait>::/g, '');
+  };
 }
 
 // remove wrapping values, i.e. Box<Proposal> -> Proposal
-function unwrap (value: string, check: string): string {
-  let index = 0;
+function unwrap (check: string): Mapper {
+  return (value: string): string => {
+    let index = 0;
 
-  while (index !== -1) {
-    index = value.indexOf(check);
+    while (index !== -1) {
+      index = value.indexOf(check);
 
-    if (index !== -1) {
-      const start = index + check.length;
-      const end = findClosing(value, start);
+      if (index !== -1) {
+        const start = index + check.length;
+        const end = findClosing(value, start);
 
-      value = `${value.substr(start, end - start)}`;
+        value = `${value.substr(start, end - start)}`;
+      }
     }
-  }
 
-  return value;
+    return value;
+  };
 }
 
-type Mapping = [
-  (...args: Array<any>) => string,
-  Array<any>
-];
-
-function applyMappings (initial: string, mappings: Array<Mapping>): string {
-  return mappings.reduce((result, [fn, args]: Mapping) => {
-    console.error(fn, args);
-    return fn(result, ...args);
+function applyMappings (initial: string, mappings: Array<Mapper>): string {
+  return mappings.reduce((result, fn: Mapper) => {
+    return fn(result);
   }, initial);
 }
 
@@ -96,16 +100,16 @@ export default class Type extends String {
 
     // HACK(ery) Take the types and tweak them (slightly?) for consistency
     this.raw = applyMappings(this.raw, [
-      // Remova ell the trait prefixes
-      [untrait, []],
+      // Remove all the trait prefixes
+      untrait(),
       // remove boxing, `Box<Proposal>` -> `Proposal`
-      [unwrap, ['Box<']],
+      unwrap('Box<'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      [ungeneric, []],
+      ungeneric(),
       // convert `RawAddress` -> `Address`
-      [unalias, ['RawAddress', 'Address']],
+      unalias('RawAddress', 'Address'),
       // convert `PropIndex` -> `ProposalIndex`
-      [unalias, ['PropIndex', 'ProposalIndex']]
+      unalias('PropIndex', 'ProposalIndex')
     ]);
 
     return this;
