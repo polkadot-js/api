@@ -7,11 +7,11 @@ import decodeAddress from '@polkadot/util-keyring/address/decode';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
+import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import CodecHash from './base/Hash';
-import u8aConcat from '@polkadot/util/u8a/concat';
 
 // A wrapper around an AccountId. Since we are dealing with underlying publicKeys
 // (or shorter encoded addresses), we extends from CodecHash which is basically
