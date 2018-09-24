@@ -95,9 +95,7 @@ function applyMappings (initial: string, mappings: Array<Mapper>): string {
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
 export default class Type extends String {
-  fromU8a (input: Uint8Array): String {
-    super.fromU8a(input);
-
+  private cleanupTypes (): Type {
     // HACK(ery) Take the types and tweak them (slightly?) for consistency
     this.raw = applyMappings(this.raw, [
       // Remove all the trait prefixes
@@ -113,6 +111,18 @@ export default class Type extends String {
     ]);
 
     return this;
+  }
+
+  fromJSON (input: any): Type {
+    super.fromJSON(input);
+
+    return this.cleanupTypes();
+  }
+
+  fromU8a (input: Uint8Array): Type {
+    super.fromU8a(input);
+
+    return this.cleanupTypes();
   }
 
   toU8a (): Uint8Array {
