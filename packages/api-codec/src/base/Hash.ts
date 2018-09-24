@@ -12,7 +12,7 @@ type BitLength = 256 | 512;
 // A Hash that manages a a sequence of bytes up to the specified bitLength. Not meant
 // to be used directly, rather is should be subclassed with the specific lengths.
 export default class CodecHash extends Base<Uint8Array> {
-  private _bitLength: number;
+  protected _bitLength: number;
 
   constructor (value: Uint8Array = new Uint8Array(), bitLength: BitLength = 256) {
     super(value);
