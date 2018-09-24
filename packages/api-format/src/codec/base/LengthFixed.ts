@@ -12,7 +12,7 @@ import CodecBase from './Base';
 // A basic u32 LE length-encoder. It is basically used in Vectors, Arrays and String
 // (anything variable) to do the encoding/decoding for the length prefixes. (It has
 // been superceded in use by the compact encoder, i.e. LengthCompact)
-export default class CodecLength extends CodecBase<BN> {
+export default class CodecLengthFixed extends CodecBase<BN> {
   constructor (value: BN | number = new BN(0)) {
     super(
       bnToBn(value)
@@ -23,17 +23,17 @@ export default class CodecLength extends CodecBase<BN> {
     return 4;
   }
 
-  fromJSON (): CodecLength {
+  fromJSON (): CodecLengthFixed {
     throw new Error('CodecLength::fromJSON: unimplemented');
   }
 
-  fromNumber (value: BN | number): CodecLength {
+  fromNumber (value: BN | number): CodecLengthFixed {
     this.raw = bnToBn(value);
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecLength {
+  fromU8a (input: Uint8Array): CodecLengthFixed {
     this.raw = u8aToBn(input.subarray(0, 4), true);
 
     return this;
@@ -53,5 +53,9 @@ export default class CodecLength extends CodecBase<BN> {
 
   toU8a (): Uint8Array {
     return bnToU8a(this.raw, 32, true);
+  }
+
+  setValue (value: BN | number): void {
+    this.raw = bnToBn(value);
   }
 }

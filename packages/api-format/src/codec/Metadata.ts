@@ -8,6 +8,7 @@ import CodecEnumType from './base/EnumType';
 import CodecOption from './base/Option';
 import CodecStruct from './base/Struct';
 import String from './String';
+import Type from './Type';
 import U16 from './U16';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
@@ -104,12 +105,12 @@ class OuterEventMetadata extends CodecStruct<{
 
 class FunctionArgumentMetadata extends CodecStruct<{
   name: String,
-  type: String
+  type: Type
 }> {
   constructor () {
     super({
       name: String,
-      type: String
+      type: Type
     });
   }
 
@@ -200,13 +201,13 @@ class StorageFunctionModifier extends CodecEnum {
   }
 }
 
-class StorageFunctionType extends CodecEnumType<String | CodecStruct> {
+class StorageFunctionType extends CodecEnumType<Type | CodecStruct> {
   constructor () {
     super([
-      String,
+      Type,
       CodecStruct.with({
-        key: String,
-        value: String
+        key: Type,
+        value: Type
       })
     ], ['Plain', 'KeyValue']);
   }

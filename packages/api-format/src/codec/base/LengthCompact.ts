@@ -7,7 +7,7 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import CodecLength from './Length';
+import CodecBaseLength from './LengthFixed';
 
 const MAX_VAL_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_VAL_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
@@ -28,7 +28,7 @@ const MAX_VAL_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class CodecLengthCompact extends CodecLength {
+export default class CodecLengthCompact extends CodecBaseLength {
   byteLength (): number {
     return this.toU8a().length;
   }

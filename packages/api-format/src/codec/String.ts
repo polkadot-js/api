@@ -18,7 +18,7 @@ import Length from './base/LengthCompact';
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
 export default class String extends CodecBase<string> {
-  private _length: Length;
+  protected _length: Length;
 
   constructor (value: string = '') {
     super(value);
@@ -27,11 +27,13 @@ export default class String extends CodecBase<string> {
   }
 
   get length (): number {
-    return this._length.toNumber();
+    return this.raw.length;
   }
 
   byteLength (): number {
-    return this.raw.length +
+    // NOTE String gets trimmed in the fromU8a, so get the original length from the length
+    // placeholder and the associtated byteLength from that encoding
+    return this._length.toNumber() +
       this._length.byteLength();
   }
 
@@ -45,7 +47,7 @@ export default class String extends CodecBase<string> {
     const length = this._length.toNumber();
     const offset = this._length.byteLength();
 
-    this.raw = u8aToUtf8(input.subarray(offset, offset + length));
+    this.raw = u8aToUtf8(input.subarray(offset, offset + length)).trim();
 
     return this;
   }
@@ -59,9 +61,14 @@ export default class String extends CodecBase<string> {
   }
 
   toU8a (): Uint8Array {
+    // NOTE Since we trim in the fromU8a, here we re-calculate the actual length
+    const encoded = u8aFromUtf8(this.raw);
+
+    this._length.setValue(encoded.length);
+
     return u8aConcat(
       this._length.toU8a(),
-      u8aFromUtf8(this.raw)
+      encoded
     );
   }
 }
