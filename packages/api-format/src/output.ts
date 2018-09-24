@@ -5,6 +5,7 @@
 import { Param$Types } from '@polkadot/params/types';
 import { FormatterFunction } from './types';
 
+import Metadata from '@polkadot/api-codec/Metadata';
 import addressEncode from '@polkadot/util-keyring/address/encode';
 import bnDecode from '@polkadot/primitives/json/bn/decode';
 import bytesDecode from '@polkadot/primitives/json/bytes/decode';
@@ -15,7 +16,6 @@ import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import format from './format';
-import Metadata from './codec/Metadata';
 
 // NOTE Here we are trying to do things a bit differently, i.e. more in line with where we think things
 // could go with the primitive classes. (Good testbed anyway for the decoding, although maybe a bit messy
