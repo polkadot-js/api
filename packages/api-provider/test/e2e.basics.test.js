@@ -5,7 +5,7 @@
 import Api from '../../api/src';
 import Ws from '../src/ws';
 
-describe('e2e basics', () => {
+describe.skip('e2e basics', () => {
   let api;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('e2e basics', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it.skip('subscribes to chain_newHead', (done) => {
+  it('subscribes to chain_newHead', (done) => {
     let count = 0;
 
     // tslint:disable-next-line
@@ -34,7 +34,7 @@ describe('e2e basics', () => {
       });
   });
 
-  it.skip('retrieves the pending extrinsics', () => {
+  it('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()
       .then((extrinsics) => {

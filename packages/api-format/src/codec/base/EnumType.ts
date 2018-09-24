@@ -36,7 +36,7 @@ export default class CodecEnumType <T> extends CodecBase<CodecBase<T>> {
 
   fromU8a (input: Uint8Array): CodecEnumType<T> {
     this._index = input[0];
-    this.raw = new this._Type[this._index]().fromU8a(input.subarray(1)) as CodecBase;
+    this.raw = new this._Type[this._index]().fromU8a(input.subarray(1));
 
     return this;
   }

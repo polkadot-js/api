@@ -12,28 +12,9 @@ import String from './String';
 import Type from './Type';
 import U16 from './U16';
 
-// Decodes the runtime metadata as passed through from the `state_getMetadata` call.
-export default class RuntimeMetadata extends CodecStruct {
-  constructor (value?: any) {
-    super({
-      outerEvent: OuterEventMetadata,
-      modules: CodecArray.with(RuntimeModuleMetadata)
-    }, value);
-  }
-
-  // FIXME Really not crazy about having to manually add all the getters. Preferably it should
-  // be done automagically in the actual CodecStruct - however what is really important here
-  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
-  // we have to choose between the 2, manual defs it would have to be.
-
-  get events (): CodecArray<OuterEventMetadataEvent> {
-    return (this.raw.outerEvent as OuterEventMetadata).events;
-  }
-
-  get modules (): CodecArray<RuntimeModuleMetadata> {
-    return this.raw.modules as CodecArray<RuntimeModuleMetadata>;
-  }
-}
+// Decodes the runtime metadata as passed through from the `state_getMetadata` call. This
+// file is probably best understood from the bottom-up, i.e. start reading right at the
+// end and work up. (Just so we don't use before definition)
 
 class EventMetadata extends CodecStruct {
   constructor () {
@@ -276,5 +257,27 @@ class RuntimeModuleMetadata extends CodecStruct {
 
   get storage (): StorageMetadata | undefined {
     return (this.raw.storage as CodecOption<StorageMetadata>).value;
+  }
+}
+
+export default class RuntimeMetadata extends CodecStruct {
+  constructor (value?: any) {
+    super({
+      outerEvent: OuterEventMetadata,
+      modules: CodecArray.with(RuntimeModuleMetadata)
+    }, value);
+  }
+
+  // FIXME Really not crazy about having to manually add all the getters. Preferably it should
+  // be done automagically in the actual CodecStruct - however what is really important here
+  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
+  // we have to choose between the 2, manual defs it would have to be.
+
+  get events (): CodecArray<OuterEventMetadataEvent> {
+    return (this.raw.outerEvent as OuterEventMetadata).events;
+  }
+
+  get modules (): CodecArray<RuntimeModuleMetadata> {
+    return this.raw.modules as CodecArray<RuntimeModuleMetadata>;
   }
 }
