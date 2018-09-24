@@ -4,5 +4,7 @@
 
 import U32 from './U32';
 
+// The Nonce or number of transactiosn sent by a specific account. Generally used
+// with extrinsics to determine the order of execution.
 export default class Index extends U32 {
 }

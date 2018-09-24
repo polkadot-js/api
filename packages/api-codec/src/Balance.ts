@@ -4,5 +4,6 @@
 
 import U128 from './U128';
 
+// The Substrate Balance representation.
 export default class Balance extends U128 {
 }

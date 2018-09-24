@@ -4,5 +4,6 @@
 
 import U32 from './U32';
 
+// An increasing number that represents a specific proposal in the system
 export default class ProposalIndex extends U32 {
 }

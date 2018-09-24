@@ -4,5 +4,7 @@
 
 import U32 from './U32';
 
+// An increasing number that represents a specific referendum in the system. It
+// is unique per chain.
 export default class ReferendumIndex extends U32 {
 }

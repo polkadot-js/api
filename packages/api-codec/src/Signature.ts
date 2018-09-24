@@ -4,5 +4,7 @@
 
 import H512 from './H512';
 
-export default class Hash extends H512 {
+// The default signature that is used accross the system. It is currectly defined
+// as a 512-bit value, represented by a hash.
+export default class Signature extends H512 {
 }
