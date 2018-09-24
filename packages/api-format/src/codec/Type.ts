@@ -4,8 +4,6 @@
 
 import String from './String';
 
-const REPLACE_TYPE_PREFIX = /T\:\:/g;
-
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
@@ -13,7 +11,21 @@ export default class Type extends String {
   fromU8a (input: Uint8Array): String {
     super.fromU8a(input);
 
-    this.raw = this.raw.replace(REPLACE_TYPE_PREFIX, '');
+    // NOTE Hack around the Rust types to make them consistent for actual use
+    // FIXME we are still missing quite a bit of cleanups -
+    //   - MisbehaviorReport<Hash, BlockNumber> -> MisbehaviorReport
+    //   - RawAddress<AccountId, AccountIndex> - as above, strip generics
+    //   - More of the same ValidatorPrefs<Balance>
+    //   - Actually, anything that is not Box (i.e. wrap) or Vec (i.e. array), should have some magic
+    this.raw = this.raw
+      // anything `T::<type>` to end up as `<type>`
+      .replace(/T::/g, '')
+      // `system::` with `` - basically we find `<T as system::Trait>`
+      .replace(/system::/g, '')
+      // replace `<T as Trait>::` (possibly sanitiused just above)
+      .replace(/<T as Trait>::/g, '')
+      // `Box<Proposal>` -> `Proposal`
+      .replace(/Box<Proposal>/g, 'Proposal');
 
     return this;
   }
