@@ -15,9 +15,9 @@ import CodecBase from './Base';
 // TODO:
 //   - Check the constructor, something is really, really wrong with the way the defs are used
 export default class CodecStruct <
-  T = { [index: string]: CodecBase },
-  S = { [K in keyof T]: { new(value?: any): CodecBase } },
-  V = { [K in keyof T]: any }
+  S = { [index: string]: { new(value?: any): CodecBase } },
+  T = { [K in keyof S]: CodecBase },
+  V = { [K in keyof S]: any }
 > extends CodecBase<T> {
   constructor (Struct: S, value: V = {} as V) {
     super(
@@ -34,9 +34,9 @@ export default class CodecStruct <
   }
 
   static with <
-    O = { [index: string]: CodecBase }
-  > (Struct: { [K in keyof O]: { new(value?: any): CodecBase } }): { new(value?: any): CodecStruct<O> } {
-    return class extends CodecStruct<O> {
+    S = { [index: string]: { new(value?: any): CodecBase } }
+  > (Struct: S): { new(value?: any): CodecStruct<S> } {
+    return class extends CodecStruct<S> {
       constructor (value?: any) {
         super(Struct, value);
       }
@@ -49,7 +49,7 @@ export default class CodecStruct <
     }, 0);
   }
 
-  fromJSON (input: any): CodecStruct<T> {
+  fromJSON (input: any): CodecStruct<S, T, V> {
     Object.keys(this.raw).forEach((key) => {
       // @ts-ignore as above...
       this.raw[key].fromJSON(input[key]);
@@ -58,7 +58,7 @@ export default class CodecStruct <
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecStruct<T> {
+  fromU8a (input: Uint8Array): CodecStruct<S, T, V> {
     Object.keys(this.raw).reduce((offset, key) => {
       // @ts-ignore as above...
       this.raw[key].fromU8a(input.subarray(offset));

@@ -12,10 +12,7 @@ import Type from './Type';
 import U16 from './U16';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
-export default class RuntimeMetadata extends CodecStruct<{
-  outerEvent: OuterEventMetadata,
-  modules: CodecArray<RuntimeModuleMetadata>
-}> {
+export default class RuntimeMetadata extends CodecStruct {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
@@ -29,19 +26,15 @@ export default class RuntimeMetadata extends CodecStruct<{
   // we have to choose between the 2, manual defs it would have to be.
 
   get events (): CodecArray<OuterEventMetadataEvent> {
-    return this.raw.outerEvent.events;
+    return (this.raw.outerEvent as OuterEventMetadata).events;
   }
 
   get modules (): CodecArray<RuntimeModuleMetadata> {
-    return this.raw.modules;
+    return this.raw.modules as CodecArray<RuntimeModuleMetadata>;
   }
 }
 
-class EventMetadata extends CodecStruct<{
-  name: String,
-  arguments: CodecArray<String>,
-  documentation: CodecArray<String>
-}> {
+class EventMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -51,22 +44,19 @@ class EventMetadata extends CodecStruct<{
   }
 
   get arguments (): CodecArray<String> {
-    return this.raw.arguments;
+    return this.raw.arguments as CodecArray<String>;
   }
 
   get documentation (): CodecArray<String> {
-    return this.raw.documentation;
+    return this.raw.documentation as CodecArray<String>;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
-class OuterEventMetadataEvent extends CodecStruct<{
-  name: String,
-  events: CodecArray<EventMetadata>
-}> {
+class OuterEventMetadataEvent extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -75,18 +65,15 @@ class OuterEventMetadataEvent extends CodecStruct<{
   }
 
   get events (): CodecArray<EventMetadata> {
-    return this.raw.events;
+    return this.raw.events as CodecArray<EventMetadata>;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
-class OuterEventMetadata extends CodecStruct<{
-  name: String,
-  events: CodecArray<OuterEventMetadataEvent>
-}> {
+class OuterEventMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -95,18 +82,15 @@ class OuterEventMetadata extends CodecStruct<{
   }
 
   get events (): CodecArray<OuterEventMetadataEvent> {
-    return this.raw.events;
+    return this.raw.events as CodecArray<OuterEventMetadataEvent>;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
-class FunctionArgumentMetadata extends CodecStruct<{
-  name: String,
-  type: Type
-}> {
+class FunctionArgumentMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -115,20 +99,15 @@ class FunctionArgumentMetadata extends CodecStruct<{
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 
-  get type (): String {
-    return this.raw.type;
+  get type (): Type {
+    return this.raw.type as Type;
   }
 }
 
-class FunctionMetadata extends CodecStruct<{
-  id: U16,
-  name: String,
-  arguments: CodecArray<FunctionArgumentMetadata>,
-  documentation: CodecArray<String>
-}> {
+class FunctionMetadata extends CodecStruct {
   constructor () {
     super({
       id: U16,
@@ -139,26 +118,23 @@ class FunctionMetadata extends CodecStruct<{
   }
 
   get arguments (): CodecArray<FunctionArgumentMetadata> {
-    return this.raw.arguments;
+    return this.raw.arguments as CodecArray<FunctionArgumentMetadata>;
   }
 
   get documentation (): CodecArray<String> {
-    return this.raw.documentation;
+    return this.raw.documentation as CodecArray<String>;
   }
 
   get id (): U16 {
-    return this.raw.id;
+    return this.raw.id as U16;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
-class CallMetadata extends CodecStruct<{
-  name: String,
-  functions: CodecArray<FunctionMetadata>
-}> {
+class CallMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -167,18 +143,15 @@ class CallMetadata extends CodecStruct<{
   }
 
   get functions (): CodecArray<FunctionMetadata> {
-    return this.raw.functions;
+    return this.raw.functions as CodecArray<FunctionMetadata>;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
-class ModuleMetadata extends CodecStruct<{
-  name: String,
-  call: CallMetadata
-}> {
+class ModuleMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -187,11 +160,11 @@ class ModuleMetadata extends CodecStruct<{
   }
 
   get call (): CallMetadata {
-    return this.raw.call;
+    return this.raw.call as CallMetadata;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 }
 
@@ -211,14 +184,13 @@ class StorageFunctionType extends CodecEnumType<Type | CodecStruct> {
       })
     ], ['Plain', 'KeyValue']);
   }
+
+  get isMap (): boolean {
+    return this.toNumber() === 1;
+  }
 }
 
-class StorageFunctionMetadata extends CodecStruct<{
-  name: String,
-  modifier: StorageFunctionModifier,
-  type: StorageFunctionType,
-  documentation: CodecArray<String>
-}> {
+class StorageFunctionMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
@@ -229,26 +201,23 @@ class StorageFunctionMetadata extends CodecStruct<{
   }
 
   get documentation (): CodecArray<String> {
-    return this.raw.documentation;
+    return this.raw.documentation as CodecArray<String>;
   }
 
   get name (): String {
-    return this.raw.name;
+    return this.raw.name as String;
   }
 
   get modifier (): StorageFunctionModifier {
-    return this.raw.modifier;
+    return this.raw.modifier as StorageFunctionModifier;
   }
 
   get type (): StorageFunctionType {
-    return this.raw.type;
+    return this.raw.type as StorageFunctionType;
   }
 }
 
-class StorageMetadata extends CodecStruct<{
-  prefix: String,
-  functions: CodecArray<StorageFunctionMetadata>
-}> {
+class StorageMetadata extends CodecStruct {
   constructor () {
     super({
       prefix: String,
@@ -257,19 +226,15 @@ class StorageMetadata extends CodecStruct<{
   }
 
   get functions (): CodecArray<StorageFunctionMetadata> {
-    return this.raw.functions;
+    return this.raw.functions as CodecArray<StorageFunctionMetadata>;
   }
 
   get prefix (): String {
-    return this.raw.prefix;
+    return this.raw.prefix as String;
   }
 }
 
-class RuntimeModuleMetadata extends CodecStruct<{
-  prefix: String,
-  module: ModuleMetadata,
-  storage: CodecOption<StorageMetadata>
-}> {
+class RuntimeModuleMetadata extends CodecStruct {
   constructor () {
     super({
       prefix: String,
@@ -279,14 +244,14 @@ class RuntimeModuleMetadata extends CodecStruct<{
   }
 
   get module (): ModuleMetadata {
-    return this.raw.module;
+    return this.raw.module as ModuleMetadata;
   }
 
   get prefix (): String {
-    return this.raw.prefix;
+    return this.raw.prefix as String;
   }
 
   get storage (): StorageMetadata | undefined {
-    return this.raw.storage.value;
+    return (this.raw.storage as CodecOption<StorageMetadata>).value;
   }
 }
