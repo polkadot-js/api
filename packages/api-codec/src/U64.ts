@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import Unsigned from './codec/Unsigned';
+import Long from './codec/Long';
 
-export default class U64 extends Unsigned {
-  constructor (value?: Unsigned | BN | string | number) {
+export default class U64 extends Long {
+  constructor (value?: Long | BN | string | number) {
     super(value, 64);
   }
 }
