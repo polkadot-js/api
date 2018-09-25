@@ -268,6 +268,14 @@ export default class RuntimeMetadata extends CodecStruct {
     }, value);
   }
 
+  // We receive this a an Array<number> in the JSON output from the Node. Convert
+  // to u8a and use the fromU8a to do the actual parsing
+  fromJSON (input: Array<number>): RuntimeMetadata {
+    return this.fromU8a(
+      Uint8Array.from(input)
+    ) as RuntimeMetadata;
+  }
+
   // FIXME Really not crazy about having to manually add all the getters. Preferably it should
   // be done automagically in the actual CodecStruct - however what is really important here
   // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
@@ -300,7 +308,7 @@ export default class RuntimeMetadata extends CodecStruct {
         }
 
         return result;
-      }, [] as Array<any>);
+      }, []);
 
     const events = this.events.map((module) =>
       module.events.map((event) =>

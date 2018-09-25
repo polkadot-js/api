@@ -26,9 +26,7 @@ const metaDecode = (input: Array<number>) => {
   const metadata = new Metadata();
 
   try {
-    metadata.fromU8a(
-      Uint8Array.from(input)
-    );
+    metadata.fromJSON(input);
   } catch (error) {
     console.error('current', JSON.stringify(metadata.toJSON()), error);
 
