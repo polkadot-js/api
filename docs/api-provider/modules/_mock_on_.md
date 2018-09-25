@@ -8,7 +8,7 @@
 
 ▸ **on**(self: *[MockState](_mock_types_d_.md#mockstate)*, type: *[ProviderInterface$Emitted](_types_d_.md#providerinterface_emitted)*, sub: *[ProviderInterface$EmitCb](_types_d_.md#providerinterface_emitcb)*): `void`
 
-*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/d9b05cf/packages/api-provider/src/mock/on.ts#L8)*
+*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/60d3d63/packages/api-provider/src/mock/on.ts#L8)*
 
 **Parameters:**
 
