@@ -11,7 +11,6 @@
 //   - Not convinced about abstratc - there are a number of extensions to this class that
 //     don't provide some implementations (e.g. Length, good example and should not be
 //     used-as-is). In those case it just relies in the throw in here.
-
 export default class Base <T = any> {
   raw: T;
 
