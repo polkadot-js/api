@@ -11,7 +11,6 @@ import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import CodecU8a from './base/U8a';
 import CodecU8aFixed from './base/U8aFixed';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
 // underlying PublicKeys (32 bytes in length), we extend from CodecU8aFixed which is
