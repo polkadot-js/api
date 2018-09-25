@@ -16,7 +16,7 @@ import U16 from './U16';
 // file is probably best understood from the bottom-up, i.e. start reading right at the
 // end and work up. (Just so we don't use before definition)
 
-class EventMetadata extends Struct {
+export class EventMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -38,7 +38,7 @@ class EventMetadata extends Struct {
   }
 }
 
-class OuterEventMetadataEvent extends Struct {
+export class OuterEventMetadataEvent extends Struct {
   constructor () {
     super({
       name: Text,
@@ -55,7 +55,7 @@ class OuterEventMetadataEvent extends Struct {
   }
 }
 
-class OuterEventMetadata extends Struct {
+export class OuterEventMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -72,7 +72,7 @@ class OuterEventMetadata extends Struct {
   }
 }
 
-class FunctionArgumentMetadata extends Struct {
+export class FunctionArgumentMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -89,7 +89,7 @@ class FunctionArgumentMetadata extends Struct {
   }
 }
 
-class FunctionMetadata extends Struct {
+export class FunctionMetadata extends Struct {
   constructor () {
     super({
       id: U16,
@@ -116,7 +116,7 @@ class FunctionMetadata extends Struct {
   }
 }
 
-class CallMetadata extends Struct {
+export class CallMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -133,7 +133,7 @@ class CallMetadata extends Struct {
   }
 }
 
-class ModuleMetadata extends Struct {
+export class ModuleMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -150,13 +150,13 @@ class ModuleMetadata extends Struct {
   }
 }
 
-class StorageFunctionModifier extends Enum {
+export class StorageFunctionModifier extends Enum {
   constructor () {
     super(['None', 'Default', 'Required']);
   }
 }
 
-class StorageFunctionType$Map extends Struct {
+export class StorageFunctionType$Map extends Struct {
   constructor () {
     super({
       key: Type,
@@ -173,7 +173,7 @@ class StorageFunctionType$Map extends Struct {
   }
 }
 
-class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
+export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
   constructor () {
     super([
       Type,
@@ -194,7 +194,7 @@ class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
   }
 }
 
-class StorageFunctionMetadata extends Struct {
+export class StorageFunctionMetadata extends Struct {
   constructor () {
     super({
       name: Text,
@@ -221,7 +221,7 @@ class StorageFunctionMetadata extends Struct {
   }
 }
 
-class StorageMetadata extends Struct {
+export class StorageMetadata extends Struct {
   constructor () {
     super({
       prefix: Text,
@@ -238,7 +238,7 @@ class StorageMetadata extends Struct {
   }
 }
 
-class RuntimeModuleMetadata extends Struct {
+export class RuntimeModuleMetadata extends Struct {
   constructor () {
     super({
       prefix: Text,
