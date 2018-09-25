@@ -2,18 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
 import Bytes from './codec/Bytes';
+import Long from './codec/Long';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
 
+type DigestStruct = {
+  logs?: Array<Uint8Array | string>
+};
+
+type HeaderStruct = {
+  digest?: DigestStruct,
+  extrinsicsRoot?: Hash | Uint8Array | string,
+  number?: Long | BN | number | string,
+  parentHash?: Hash | Uint8Array | string,
+  stateRoot?: Hash | Uint8Array | string
+};
+
 // A block header digest.
 export class Digest extends Struct {
-  constructor (value?: any) {
+  constructor (value: DigestStruct = {}) {
     super({
       logs: Vector.with(Bytes)
     }, value);
@@ -26,7 +40,7 @@ export class Digest extends Struct {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value?: any) {
+  constructor (value: HeaderStruct = {}) {
     super({
       parentHash: Hash,
       number: BlockNumber,

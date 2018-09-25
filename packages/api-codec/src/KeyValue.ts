@@ -6,8 +6,8 @@ import Bytes from './codec/Bytes';
 import Struct from './codec/Struct';
 
 type KeyValueStruct = {
-  key: Uint8Array,
-  value: Uint8Array
+  key?: Uint8Array | string,
+  value?: Uint8Array | string
 };
 
 // KeyValue structure. Since most of the keys and resultant values in Subtrate is
@@ -15,7 +15,7 @@ type KeyValueStruct = {
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
 // is actually for Maps, whereas this is a representation of actaul storage values)
 export default class KeyValue extends Struct {
-  constructor (value: KeyValueStruct = {} as KeyValueStruct) {
+  constructor (value: KeyValueStruct = {}) {
     super({
       key: Bytes,
       value: Bytes
