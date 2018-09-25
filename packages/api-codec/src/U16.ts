@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import CodecNumber from './base/Number';
 
 export default class U16 extends CodecNumber {
-  constructor (value?: CodecNumber | BN | number) {
+  constructor (value?: CodecNumber | BN | string | number) {
     super(value, 16);
   }
 }
