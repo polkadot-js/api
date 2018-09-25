@@ -2,21 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import CodecU8a from './codec/U8a';
+import U8a from './codec/U8a';
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
-// for an Account. We extends from CodecU8a which is basically
+// for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
-export default class AccountIndex extends CodecU8a {
-  constructor (value: CodecU8a | string | Uint8Array = new Uint8Array()) {
+export default class AccountIndex extends U8a {
+  constructor (value: U8a | string | Uint8Array = new Uint8Array()) {
     super(
-      value instanceof CodecU8a
+      value instanceof U8a
         ? value.raw
         : AccountIndex.decode(value)
     );
@@ -29,13 +26,7 @@ export default class AccountIndex extends CodecU8a {
   }
 
   static decode (value: string | Uint8Array | Array<number>): Uint8Array {
-    if (isU8a(value) || Array.isArray(value)) {
-      return u8aToU8a(value);
-    } else if (isHex(value)) {
-      return hexToU8a(value);
-    }
-
-    throw new Error(`Unable to decode AccountIndex for [${value.toString()}]`);
+    return u8aToU8a(value);
   }
 
   fromJSON (input: any): AccountIndex {

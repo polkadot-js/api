@@ -4,16 +4,16 @@
 
 import isUndefined from '@polkadot/util/is/undefined';
 
-import CodecBase from './Base';
+import Base from './Base';
 
 // An Option is an optional field. Basically the first byte indicates that there is
-// is value to follow. If the byte is `1` there is an actual value. So the CodecOption
+// is value to follow. If the byte is `1` there is an actual value. So the Option
 // implements that - decodes, checks for optionality and wraps the required structure
 // with a value if/as required/found.
-export default class CodecOption <T> extends CodecBase<CodecBase<T>> {
+export default class Option <T> extends Base<Base<T>> {
   private _hasValue: boolean;
 
-  constructor (Value: { new(value?: any): CodecBase<T> }, value?: any) {
+  constructor (Value: { new(value?: any): Base<T> }, value?: any) {
     super(
       new Value(value)
     );
@@ -21,8 +21,8 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T>> {
     this._hasValue = !isUndefined(value);
   }
 
-  static with <O> (Type: { new(value?: any): CodecBase<O> }): { new(value?: any): CodecOption<O> } {
-    return class extends CodecOption<O> {
+  static with <O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
+    return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);
       }
@@ -43,7 +43,7 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T>> {
     return 1 + childLength;
   }
 
-  fromJSON (input: any): CodecOption<T> {
+  fromJSON (input: any): Option<T> {
     this._hasValue = !isUndefined(input);
 
     if (this._hasValue) {
@@ -53,7 +53,7 @@ export default class CodecOption <T> extends CodecBase<CodecBase<T>> {
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecOption<T> {
+  fromU8a (input: Uint8Array): Option<T> {
     this._hasValue = input[0] === 1;
 
     if (this._hasValue) {

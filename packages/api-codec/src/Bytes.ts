@@ -4,31 +4,30 @@
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import CodecU8a from './U8a';
-import Length from './Length';
+import Length from './codec/Length';
+import U8a from './codec/U8a';
 
-// A CodecBytes. The significant difference between this and a normal Uint8Array is that
+// A Bytes. The significant difference between this and a normal Uint8Array is that
 // this version allows for length-encoding. (i.e. it is a variable-item codec, the same
 // as what is found in String and Array)
-export default class CodecBytes extends CodecU8a {
+export default class Bytes extends U8a {
   protected _length: Length;
 
-  constructor (value: CodecU8a | Uint8Array = new Uint8Array()) {
-    super(
-      value instanceof CodecU8a
-        ? value.raw
-        : value
-    );
+  constructor (value?: U8a | string | Uint8Array) {
+    super(value);
 
-    this._length = new Length(value.length);
+    this._length = new Length(this.raw.length);
+  }
+
+  get length (): number {
+    return this._length.toNumber();
   }
 
   byteLength (): number {
-    return this._length.byteLength() +
-      this._length.toNumber();
+    return this._length.byteLength() + this.length;
   }
 
-  fromJSON (input: any): CodecBytes {
+  fromJSON (input: any): Bytes {
     super.fromJSON(input);
 
     this._length.setValue(this.raw.length);
@@ -36,7 +35,7 @@ export default class CodecBytes extends CodecU8a {
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecBytes {
+  fromU8a (input: Uint8Array): Bytes {
     this._length.fromU8a(input);
 
     const length = this._length.toNumber();

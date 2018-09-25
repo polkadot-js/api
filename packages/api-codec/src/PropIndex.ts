@@ -2,12 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import U32 from './U32';
 
-import UInt from './codec/UInt';
-
-export default class U8 extends UInt {
-  constructor (value?: UInt | BN | string | number) {
-    super(value, 8);
-  }
+// An increasing number that represents a specific proposal in the system
+export default class PropIndex extends U32 {
 }

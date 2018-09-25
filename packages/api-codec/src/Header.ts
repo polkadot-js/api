@@ -2,29 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './codec/Array';
-import CodecBytes from './codec/Bytes';
-import CodecStruct from './codec/Struct';
+import BN from 'bn.js';
+import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
+
+import UInt from './codec/UInt';
+import Struct from './codec/Struct';
+import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
+import Bytes from './Bytes';
 import Hash from './Hash';
 
+type DigestStruct = {
+  logs?: Array<Uint8Array | string>
+};
+
+type HeaderStruct = {
+  digest?: DigestStruct,
+  extrinsicsRoot?: Hash | Uint8Array | string,
+  number?: UInt | BN | number | string,
+  parentHash?: Hash | Uint8Array | string,
+  stateRoot?: Hash | Uint8Array | string
+};
+
 // A block header digest.
-export class Digest extends CodecStruct {
-  constructor (value?: any) {
+export class Digest extends Struct {
+  constructor (value: DigestStruct = {}) {
     super({
-      logs: CodecArray.with(CodecBytes)
+      logs: Vector.with(Bytes)
     }, value);
   }
 
-  get logs (): CodecArray<CodecBytes> {
-    return this.raw.logs as CodecArray<CodecBytes>;
+  get logs (): Vector<Bytes> {
+    return this.raw.logs as Vector<Bytes>;
   }
 }
 
 // A block header.
-export default class Header extends CodecStruct {
-  constructor (value?: any) {
+export default class Header extends Struct {
+  constructor (value: HeaderStruct = {}) {
     super({
       parentHash: Hash,
       number: BlockNumber,
@@ -44,6 +60,13 @@ export default class Header extends CodecStruct {
 
   get extrinsicsRoot (): Hash {
     return this.raw.extrinsicsRoot as Hash;
+  }
+
+  // convernience, encodes the header and returns the actual hash
+  get hash (): Hash {
+    return new Hash(
+      blake2Asu8a(this.toU8a(), 256)
+    );
   }
 
   get parentHash (): Hash {

@@ -2,12 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import Address from './Address';
 
-import UInt from './codec/UInt';
-
-export default class U8 extends UInt {
-  constructor (value?: UInt | BN | string | number) {
-    super(value, 8);
-  }
+// Wrapper for a RawAddress.
+// NOTE Not 100% on the differences between this and Address in the runtime
+export default class RawAddress extends Address {
 }

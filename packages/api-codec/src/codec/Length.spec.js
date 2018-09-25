@@ -4,7 +4,7 @@
 
 import Length from './Length';
 
-describe('Compact', () => {
+describe('Length', () => {
   it('encodes short u8', () => {
     expect(
       new Length(18).toU8a()
@@ -29,14 +29,18 @@ describe('Compact', () => {
     );
   });
 
+  it('encodes basic ua6 (not at edge)', () => {
+    expect(
+      new Length(111).toHex()
+    ).toEqual('0xbd01');
+  });
+
   it('decodes from same u16 encoded value', () => {
     expect(
       new Length()
         .fromU8a(new Uint8Array([0b11111101, 0b00000111]))
         .toNumber()
-    ).toEqual(
-      511
-    );
+    ).toEqual(511);
   });
 
   it('encodes basic u32 values (short)', () => {
@@ -52,9 +56,7 @@ describe('Compact', () => {
       new Length()
         .fromU8a(new Uint8Array([254, 255, 3, 0]))
         .toNumber()
-    ).toEqual(
-      0xffff
-    );
+    ).toEqual(0xffff);
   });
 
   it('encodes basic u32 values (full)', () => {
@@ -70,8 +72,6 @@ describe('Compact', () => {
       new Length()
         .fromU8a(new Uint8Array([3, 249, 255, 255, 255]))
         .toNumber()
-    ).toEqual(
-      0xfffffff9
-    );
+    ).toEqual(0xfffffff9);
   });
 });

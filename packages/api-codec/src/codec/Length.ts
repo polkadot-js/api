@@ -7,8 +7,9 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import CodecBase from './Base';
+import Base from './Base';
 
 const MAX_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
@@ -29,10 +30,10 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class CodecLength extends CodecBase<BN> {
-  constructor (value: CodecLength | BN | number = new BN(0)) {
+export default class Length extends Base<BN> {
+  constructor (value: Length | BN | number = new BN(0)) {
     super(
-      value instanceof CodecLength
+      value instanceof Length
         ? value.raw
         : bnToBn(value)
     );
@@ -69,32 +70,32 @@ export default class CodecLength extends CodecBase<BN> {
     );
   }
 
-  get length (): number {
-    return this.raw.toNumber();
-  }
-
   byteLength (): number {
     return this.toU8a().length;
   }
 
-  fromJSON (): CodecLength {
-    throw new Error('CodecLength::fromJSON: unimplemented');
+  fromJSON (): Length {
+    throw new Error('Length::fromJSON: unimplemented');
   }
 
-  fromNumber (value: BN | number): CodecLength {
+  fromNumber (value: BN | number): Length {
     this.raw = bnToBn(value);
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecLength {
-    this.raw = CodecLength.decode(input);
+  fromU8a (input: Uint8Array): Length {
+    this.raw = Length.decode(input);
 
     return this;
   }
 
   toJSON (): any {
-    throw new Error('CodecLength::toJSON: unimplemented');
+    throw new Error('Length::toJSON: unimplemented');
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toNumber (): number {
@@ -102,11 +103,11 @@ export default class CodecLength extends CodecBase<BN> {
   }
 
   toString (): string {
-    throw new Error('CodecLength::toString: unimplemented');
+    throw new Error('Length::toString: unimplemented');
   }
 
   toU8a (): Uint8Array {
-    return CodecLength.encode(this.raw);
+    return Length.encode(this.raw);
   }
 
   setValue (value: BN | number): void {
