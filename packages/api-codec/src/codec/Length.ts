@@ -7,6 +7,7 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import CodecBase from './Base';
 
@@ -69,10 +70,6 @@ export default class CodecLength extends CodecBase<BN> {
     );
   }
 
-  get length (): number {
-    return this.raw.toNumber();
-  }
-
   byteLength (): number {
     return this.toU8a().length;
   }
@@ -95,6 +92,10 @@ export default class CodecLength extends CodecBase<BN> {
 
   toJSON (): any {
     throw new Error('CodecLength::toJSON: unimplemented');
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toNumber (): number {

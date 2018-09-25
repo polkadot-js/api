@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
+
 import CodecArray from './codec/Array';
 import CodecBytes from './codec/Bytes';
 import CodecStruct from './codec/Struct';
@@ -44,6 +46,13 @@ export default class Header extends CodecStruct {
 
   get extrinsicsRoot (): Hash {
     return this.raw.extrinsicsRoot as Hash;
+  }
+
+  // convernience, encodes the header and returns the actual hash
+  get hash (): Hash {
+    return new Hash(
+      blake2Asu8a(this.toU8a(), 256)
+    );
   }
 
   get parentHash (): Hash {

@@ -19,9 +19,12 @@ export default class CodecBytes extends CodecU8a {
     this._length = new Length(this.raw.length);
   }
 
+  get length (): number {
+    return this._length.toNumber();
+  }
+
   byteLength (): number {
-    return this._length.byteLength() +
-      this._length.toNumber();
+    return this._length.byteLength() + this.length;
   }
 
   fromJSON (input: any): CodecBytes {
