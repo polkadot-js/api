@@ -6,7 +6,7 @@ import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import CodecBase from './codec/Base';
+import Base from './codec/Base';
 import Length from './codec/Length';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
@@ -17,7 +17,7 @@ import Length from './codec/Length';
 //   - Potentially we want a "TypeString" extension to this. Basically something that
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
-export default class Text extends CodecBase<string> {
+export default class Text extends Base<string> {
   protected _length: Length;
 
   constructor (value: Text | string = '') {

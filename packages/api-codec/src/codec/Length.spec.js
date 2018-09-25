@@ -4,7 +4,7 @@
 
 import Length from './Length';
 
-describe('Compact', () => {
+describe('Length', () => {
   it('encodes short u8', () => {
     expect(
       new Length(18).toU8a()

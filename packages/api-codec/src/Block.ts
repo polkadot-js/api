@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecStruct from './codec/Struct';
+import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
 import Extrinsic from './Extrinsic';
 import Header from './Header';
 
 // A block encoded with header and extrinsics
-export default class Block extends CodecStruct {
+export default class Block extends Struct {
   constructor (value?: any) {
     super({
       header: Header,

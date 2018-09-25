@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecU8aFixed from './U8aFixed';
+import U8aFixed from './U8aFixed';
 
-describe('CodecU8aFixed', () => {
+describe('U8aFixed', () => {
   let u8a;
 
   beforeEach(() => {
-    u8a = new CodecU8aFixed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
+    u8a = new U8aFixed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
   });
 
   it('limits the length', () => {
@@ -23,7 +23,7 @@ describe('CodecU8aFixed', () => {
 
   it('allows empty values', () => {
     expect(
-      new CodecU8aFixed().toHex()
+      new U8aFixed().toHex()
     ).toEqual('0x');
   });
 });

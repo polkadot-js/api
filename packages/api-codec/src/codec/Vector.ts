@@ -4,7 +4,7 @@
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import CodecBase from './Base';
+import Base from './Base';
 import Length from './Length';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
@@ -13,8 +13,8 @@ import Length from './Length';
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
 export default class Vector <
-  T extends CodecBase
-> extends CodecBase<Array<T>> {
+  T extends Base
+> extends Base<Array<T>> {
   private _length: Length;
   private _Type: { new(value?: any): T };
 
@@ -31,7 +31,7 @@ export default class Vector <
     this._Type = Type;
   }
 
-  static with <O extends CodecBase> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static with <O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);

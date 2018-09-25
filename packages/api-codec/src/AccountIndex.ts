@@ -5,15 +5,15 @@
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import CodecU8a from './codec/U8a';
+import U8a from './codec/U8a';
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
-// for an Account. We extends from CodecU8a which is basically
+// for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
-export default class AccountIndex extends CodecU8a {
-  constructor (value: CodecU8a | string | Uint8Array = new Uint8Array()) {
+export default class AccountIndex extends U8a {
+  constructor (value: U8a | string | Uint8Array = new Uint8Array()) {
     super(
-      value instanceof CodecU8a
+      value instanceof U8a
         ? value.raw
         : AccountIndex.decode(value)
     );

@@ -4,28 +4,28 @@
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import CodecBytes from './codec/Bytes';
-import CodecStruct from './codec/Struct';
+import Bytes from './codec/Bytes';
+import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
 
 // A block header digest.
-export class Digest extends CodecStruct {
+export class Digest extends Struct {
   constructor (value?: any) {
     super({
-      logs: Vector.with(CodecBytes)
+      logs: Vector.with(Bytes)
     }, value);
   }
 
-  get logs (): Vector<CodecBytes> {
-    return this.raw.logs as Vector<CodecBytes>;
+  get logs (): Vector<Bytes> {
+    return this.raw.logs as Vector<Bytes>;
   }
 }
 
 // A block header.
-export default class Header extends CodecStruct {
+export default class Header extends Struct {
   constructor (value?: any) {
     super({
       parentHash: Hash,

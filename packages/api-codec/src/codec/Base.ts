@@ -8,7 +8,7 @@
 //
 // TODO
 //   - This could probably be abstract, as long as we have the functions abstract as well
-export default class CodecBase <T = any> {
+export default class Base <T = any> {
   raw: T;
 
   constructor (value?: any) {
@@ -16,26 +16,26 @@ export default class CodecBase <T = any> {
   }
 
   byteLength (): number {
-    throw new Error('CodecBase::byteLength: unimplemented');
+    throw new Error('Base::byteLength: unimplemented');
   }
 
-  fromJSON (input: any): CodecBase <T> {
-    throw new Error('CodecBase::fromJSON: unimplemented');
+  fromJSON (input: any): Base <T> {
+    throw new Error('Base::fromJSON: unimplemented');
   }
 
-  fromU8a (input: Uint8Array): CodecBase <T> {
-    throw new Error('CodecBase::fromU8a: unimplemented');
+  fromU8a (input: Uint8Array): Base <T> {
+    throw new Error('Base::fromU8a: unimplemented');
   }
 
   toJSON (): any {
-    throw new Error('CodecBase::toJSON: unimplemented');
+    throw new Error('Base::toJSON: unimplemented');
   }
 
   toString (): string {
-    throw new Error('CodecBase::toString: unimplemented');
+    throw new Error('Base::toString: unimplemented');
   }
 
   toU8a (): Uint8Array {
-    throw new Error('CodecBase::toU8a: unimplemented');
+    throw new Error('Base::toU8a: unimplemented');
   }
 }

@@ -4,7 +4,7 @@
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import CodecBytes from './codec/Bytes';
+import Bytes from './codec/Bytes';
 
 import Hash from './Hash';
 
@@ -12,7 +12,7 @@ import Hash from './Hash';
 //
 // NOTE At this point we are just keeping to a bare-bones Vec<u8> structure,
 // this should be expanded to do the automatic decoding of an extrinsic
-export default class Extrinsic extends CodecBytes {
+export default class Extrinsic extends Bytes {
   // convernience, encodes the extrinsic and returns the actual hash
   get hash (): Hash {
     return new Hash(

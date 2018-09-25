@@ -11,7 +11,7 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import CodecBase from './Base';
+import Base from './Base';
 
 type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
@@ -21,19 +21,19 @@ type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 //
 // TODO:
 //   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
-export default class CodecNumber extends CodecBase<BN> {
+export default class Unsigned extends Base<BN> {
   private _bitLength: BitLength;
 
-  constructor (value: CodecNumber | BN | string | number = 0, bitLength: BitLength = 64) {
+  constructor (value: Unsigned | BN | string | number = 0, bitLength: BitLength = 64) {
     super(
-      CodecNumber.decode(value)
+      Unsigned.decode(value)
     );
 
     this._bitLength = bitLength;
   }
 
-  static decode (value: CodecNumber | BN | string | number): BN {
-    if (value instanceof CodecNumber) {
+  static decode (value: Unsigned | BN | string | number): BN {
+    if (value instanceof Unsigned) {
       return value.raw;
     } else if (isHex(value)) {
       return hexToBn(value as string);
@@ -48,13 +48,13 @@ export default class CodecNumber extends CodecBase<BN> {
     return this._bitLength / 8;
   }
 
-  fromJSON (input: any): CodecNumber {
-    this.raw = CodecNumber.decode(input);
+  fromJSON (input: any): Unsigned {
+    this.raw = Unsigned.decode(input);
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecNumber {
+  fromU8a (input: Uint8Array): Unsigned {
     this.raw = u8aToBn(input.subarray(0, this.byteLength()), true);
 
     return this;

@@ -7,7 +7,7 @@ import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import CodecBase from './codec/Base';
+import Base from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
@@ -16,7 +16,7 @@ import AccountIndex from './AccountIndex';
 // we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
-export default class Address extends CodecBase<AccountId | AccountIndex> {
+export default class Address extends Base<AccountId | AccountIndex> {
   constructor (value: Address | AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
     super(
       value instanceof Address
