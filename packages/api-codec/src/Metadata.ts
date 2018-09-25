@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './base/Array';
-import CodecBase from './base/Base';
-import CodecEnum from './base/Enum';
-import CodecEnumType from './base/EnumType';
-import CodecOption from './base/Option';
-import CodecStruct from './base/Struct';
+import CodecArray from './codec/Array';
+import CodecBase from './codec/Base';
+import CodecEnum from './codec/Enum';
+import CodecEnumType from './codec/EnumType';
+import CodecOption from './codec/Option';
+import CodecStruct from './codec/Struct';
 import String from './String';
 import Type from './Type';
 import U16 from './U16';

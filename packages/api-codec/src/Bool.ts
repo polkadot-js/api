@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Base from './base/Base';
+import CodecBase from './codec/Base';
 
-export default class Bool extends Base<boolean> {
+export default class Bool extends CodecBase<boolean> {
   constructor (value: Bool | boolean = false) {
     super(
       value instanceof Bool

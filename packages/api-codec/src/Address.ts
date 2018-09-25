@@ -7,7 +7,7 @@ import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import CodecBase from './base/Base';
+import CodecBase from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 

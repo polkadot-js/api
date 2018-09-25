@@ -8,7 +8,7 @@ import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import CodecU8a from './base/U8a';
+import CodecU8a from './codec/U8a';
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from CodecU8a which is basically

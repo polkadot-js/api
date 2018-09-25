@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import CodecNumber from './base/Number';
+import CodecNumber from './codec/Number';
 
 export default class U64 extends CodecNumber {
   constructor (value?: CodecNumber | BN | string | number) {

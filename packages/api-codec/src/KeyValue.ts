@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecBytes from './base/Bytes';
-import CodecStruct from './base/Struct';
+import CodecBytes from './codec/Bytes';
+import CodecStruct from './codec/Struct';
 
 type KeyValueStruct = {
   key: Uint8Array,

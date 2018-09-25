@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './base/Array';
-import CodecBytes from './base/Bytes';
-import CodecStruct from './base/Struct';
+import CodecArray from './codec/Array';
+import CodecBytes from './codec/Bytes';
+import CodecStruct from './codec/Struct';
 
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
