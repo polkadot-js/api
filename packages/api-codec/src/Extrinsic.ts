@@ -4,8 +4,7 @@
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import Bytes from './codec/Bytes';
-
+import Bytes from './Bytes';
 import Hash from './Hash';
 
 // Representation of an Extrinsic in the system.

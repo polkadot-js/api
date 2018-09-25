@@ -18,12 +18,11 @@ describe('Type', () => {
     ).toEqual('Vec<AccountId>');
   });
 
-  // currently no aliasses, code left as a comment, as here
-  // it('handles aliasses, multiples per line', () => {
-  //   expect(
-  //     new Type().fromJSON('(PropIndex, AccountId, PropIndex)').toString()
-  //   ).toEqual('(ProposalIndex, AccountId, ProposalIndex)');
-  // });
+  it('handles aliasses, multiples per line', () => {
+    expect(
+      new Type().fromJSON('(Vec<u8>, AccountId, Vec<u8>)').toString()
+    ).toEqual('(Bytes, AccountId, Bytes)');
+  });
 
   it('does not allow toU8a', () => {
     expect(

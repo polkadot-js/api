@@ -43,7 +43,11 @@ export default class Type extends Text {
       // remove boxing, `Box<Proposal>` -> `Proposal`
       this._unwrap('Box<'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      this._ungeneric()
+      this._ungeneric(),
+      // convert `RawAddress` -> `Address`
+      // convert `PropIndex` -> `ProposalIndex`
+      // alias Vec<u8> -> Bytes
+      this._unalias('Vec<u8>', 'Bytes')
     ];
 
     this.raw = mappings.reduce((result, fn) => {
@@ -72,17 +76,15 @@ export default class Type extends Text {
     throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
   }
 
-  // convert `RawAddress` -> `Address`
-  // convert `PropIndex` -> `ProposalIndex`
-  // private _unalias (src: string, dest: string): Mapper {
-  //   return (value: string): string => {
-  //     while (value.indexOf(src) !== -1) {
-  //       value = value.replace(src, dest);
-  //     }
+  private _unalias (src: string, dest: string): Mapper {
+    return (value: string): string => {
+      while (value.indexOf(src) !== -1) {
+        value = value.replace(src, dest);
+      }
 
-  //     return value;
-  //   };
-  // }
+      return value;
+    };
+  }
 
   private _ungeneric (): Mapper {
     return (value: string): string => {

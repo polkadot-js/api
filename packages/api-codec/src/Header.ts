@@ -5,12 +5,12 @@
 import BN from 'bn.js';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import Bytes from './codec/Bytes';
 import UInt from './codec/UInt';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
+import Bytes from './Bytes';
 import Hash from './Hash';
 
 type DigestStruct = {
