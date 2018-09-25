@@ -10,6 +10,7 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import Base from './Base';
+import UInt from './UInt';
 
 const MAX_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
@@ -37,9 +38,9 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 // code and a more generic implementation around the use of Length. Looking at
 // Array or Struct, the same type of wrapper would be useful here.
 export default class Length extends Base<BN> {
-  constructor (value: Length | BN | number = new BN(0)) {
+  constructor (value: UInt | BN | number = new BN(0)) {
     super(
-      value instanceof Length
+      value instanceof UInt
         ? value.raw
         : bnToBn(value)
     );
@@ -80,24 +81,10 @@ export default class Length extends Base<BN> {
     return this.toU8a().length;
   }
 
-  fromJSON (): Length {
-    throw new Error('Length::fromJSON: unimplemented');
-  }
-
-  fromNumber (value: BN | number): Length {
-    this.raw = bnToBn(value);
-
-    return this;
-  }
-
   fromU8a (input: Uint8Array): Length {
     this.raw = Length.decode(input);
 
     return this;
-  }
-
-  toJSON (): any {
-    throw new Error('Length::toJSON: unimplemented');
   }
 
   toHex (): string {
@@ -106,10 +93,6 @@ export default class Length extends Base<BN> {
 
   toNumber (): number {
     return this.raw.toNumber();
-  }
-
-  toString (): string {
-    throw new Error('Length::toString: unimplemented');
   }
 
   toU8a (): Uint8Array {
