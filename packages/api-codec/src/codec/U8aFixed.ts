@@ -15,10 +15,24 @@ export default class CodecU8aFixed extends CodecU8a {
     super(value);
 
     this._bitLength = bitLength;
+
+    this._trimLength();
+  }
+
+  private _trimLength (): void {
+    this.raw = this.raw.subarray(0, this.byteLength());
   }
 
   byteLength (): number {
     return this._bitLength / 8;
+  }
+
+  fromJSON (input: any): CodecU8aFixed {
+    super.fromJSON(input);
+
+    this._trimLength();
+
+    return this;
   }
 
   fromU8a (input: Uint8Array): CodecU8aFixed {

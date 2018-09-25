@@ -10,6 +10,12 @@ type Mapper = (value: string) => string;
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
 export default class Type extends CodecString {
+  constructor (value?: CodecString | string) {
+    super(value);
+
+    this._cleanupTypes();
+  }
+
   fromJSON (input: any): Type {
     super.fromJSON(input);
 

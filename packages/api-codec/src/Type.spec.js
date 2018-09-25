@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import CodecString from './String';
 import Type from './Type';
 
 describe('Type', () => {
@@ -27,5 +28,13 @@ describe('Type', () => {
     expect(
       () => new Type().toU8a()
     ).toThrow(/unimplemented/);
+  });
+
+  it('has a length for the type', () => {
+    expect(
+      new Type(
+        new CodecString(' Box<Proposal> ')
+      ).length
+    ).toEqual('Proposal'.length); // eslint-disable-line
   });
 });

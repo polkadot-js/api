@@ -7,7 +7,7 @@ import CodecU8aFixed from './codec/U8aFixed';
 
 // Hash containing 512 bits (64 bytes), typically used for signatures
 export default class H512 extends CodecU8aFixed {
-  constructor (value?: CodecU8a | Uint8Array) {
+  constructor (value?: CodecU8a | string | Uint8Array) {
     super(value, 512);
   }
 }

@@ -2,9 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
@@ -29,13 +26,7 @@ export default class AccountIndex extends CodecU8a {
   }
 
   static decode (value: string | Uint8Array | Array<number>): Uint8Array {
-    if (isU8a(value) || Array.isArray(value)) {
-      return u8aToU8a(value);
-    } else if (isHex(value)) {
-      return hexToU8a(value);
-    }
-
-    throw new Error(`Unable to decode AccountIndex for [${value.toString()}]`);
+    return u8aToU8a(value);
   }
 
   fromJSON (input: any): AccountIndex {

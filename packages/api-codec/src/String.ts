@@ -24,7 +24,7 @@ export default class CodecString extends CodecBase<string> {
     super(
       value instanceof CodecString
         ? value.raw
-        : value
+        : value.trim()
     );
 
     this._length = new Length(value.length);

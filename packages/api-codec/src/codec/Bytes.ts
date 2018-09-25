@@ -13,14 +13,10 @@ import Length from './Length';
 export default class CodecBytes extends CodecU8a {
   protected _length: Length;
 
-  constructor (value: CodecU8a | Uint8Array = new Uint8Array()) {
-    super(
-      value instanceof CodecU8a
-        ? value.raw
-        : value
-    );
+  constructor (value?: CodecU8a | string | Uint8Array) {
+    super(value);
 
-    this._length = new Length(value.length);
+    this._length = new Length(this.raw.length);
   }
 
   byteLength (): number {

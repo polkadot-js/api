@@ -8,7 +8,7 @@ import CodecU8aFixed from './codec/U8aFixed';
 // Hash containing 256 bits (32 bytes), typically used in blocks, extrinsics and
 // as a sane default for fixed-length hash representations.
 export default class H256 extends CodecU8aFixed {
-  constructor (value?: CodecU8a | Uint8Array) {
+  constructor (value?: CodecU8a | string | Uint8Array) {
     super(value, 256);
   }
 }
