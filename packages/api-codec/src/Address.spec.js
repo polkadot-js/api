@@ -30,4 +30,46 @@ describe('Address', () => {
         .toString()
     ).toEqual('0x11');
   });
+
+  it('codes with a prefix (2-bytes)', () => {
+    expect(
+      new Address()
+        .fromU8a(
+          new Uint8Array([
+            0xfc, 17, 18
+          ])
+        )
+        .toString()
+    ).toEqual('0x1112');
+  });
+
+  it('codes with a prefix (4-bytes)', () => {
+    expect(
+      new Address()
+        .fromU8a(
+          new Uint8Array([
+            0xfd, 17, 18, 19, 20
+          ])
+        )
+        .toString()
+    ).toEqual('0x11121314');
+  });
+
+  it('codes with a prefix (8-bytes)', () => {
+    expect(
+      new Address()
+        .fromU8a(
+          new Uint8Array([
+            0xfe, 17, 18, 19, 20, 21, 22, 23, 24
+          ])
+        )
+        .toString()
+    ).toEqual('0x1112131415161718');
+  });
+
+  it('fails to code invalid lengths', () => {
+    expect(
+      () => Address.writeLength(34)
+    ).toThrow(/Invalid bitLength/);
+  });
 });

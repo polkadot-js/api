@@ -44,6 +44,45 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
     return new AccountId(value);
   }
 
+  // TODO
+  //   - Double-check this logic again - if really <= 0xef, the throw
+  //     is unneeded since all cases are catered for here
+  //   - We probably want to clean the read/write up with enums if it
+  //     is an exact check and not a <= check (first item)
+  static readLength (input: Uint8Array): number {
+    const first = input[0];
+
+    if (first <= 0xef) {
+      return 1;
+    } else if (first === 0xfc) {
+      return 2;
+    } else if (first === 0xfd) {
+      return 4;
+    } else if (first === 0xfe) {
+      return 8;
+    } else if (first === 0xff) {
+      return 32;
+    }
+
+    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
+  }
+
+  static writeLength (length: number): Uint8Array {
+    if (length === 8) {
+      return new Uint8Array([0xef]);
+    } else if (length === 16) {
+      return new Uint8Array([0xfc]);
+    } else if (length === 32) {
+      return new Uint8Array([0xfd]);
+    } else if (length === 64) {
+      return new Uint8Array([0xfe]);
+    } else if (length === 256) {
+      return new Uint8Array([0xff]);
+    }
+
+    throw new Error(`Invalid bitLength, ${length * 8}`);
+  }
+
   byteLength (): number {
     return 1 + super.byteLength();
   }
@@ -55,7 +94,7 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
   }
 
   fromU8a (input: Uint8Array): Address {
-    this.raw = this.readLength(input) === 32
+    this.raw = Address.readLength(input) === 32
       ? new AccountId().fromU8a(input.subarray(1))
       : new AccountIndex().fromU8a(input.subarray(1));
 
@@ -72,48 +111,8 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      this.writeLength(this.raw.byteLength()),
+      Address.writeLength(this.raw.byteLength()),
       super.toU8a()
     );
-  }
-
-  // TODO
-  //   - Double-check this logic again - if really <= 0xef, the throw
-  //     is unneeded since all cases are catered for here
-  //   - We probably want to clean the read/write up with enums if it
-  //     is an exact check and not a <= check (first item)
-  private readLength (input: Uint8Array): number {
-    const first = input[0];
-
-    // TODO
-    if (first <= 0xef) {
-      return 1;
-    } else if (first === 0xfc) {
-      return 2;
-    } else if (first === 0xfd) {
-      return 4;
-    } else if (first === 0xfe) {
-      return 8;
-    } else if (first === 0xff) {
-      return 32;
-    }
-
-    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
-  }
-
-  private writeLength (length: number): Uint8Array {
-    if (length === 8) {
-      return new Uint8Array([0xef]);
-    } else if (length === 16) {
-      return new Uint8Array([0xfc]);
-    } else if (length === 32) {
-      return new Uint8Array([0xfd]);
-    } else if (length === 64) {
-      return new Uint8Array([0xfe]);
-    } else if (length === 256) {
-      return new Uint8Array([0xff]);
-    }
-
-    throw new Error(`Invalid bitLength, ${length}`);
   }
 }

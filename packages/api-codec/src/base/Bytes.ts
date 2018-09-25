@@ -5,7 +5,7 @@
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import CodecU8a from './U8a';
-import Length from './LengthCompact';
+import Length from './Length';
 
 // A CodecBytes. The significant difference between this and a normal Uint8Array is that
 // this version allows for length-encoding. (i.e. it is a variable-item codec, the same

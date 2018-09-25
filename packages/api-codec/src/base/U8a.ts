@@ -40,6 +40,10 @@ export default class CodecU8a extends Base<Uint8Array> {
     return this;
   }
 
+  toHex (): string {
+    return u8aToHex(this.raw);
+  }
+
   toJSON (): any {
     return this.raw.map((value) =>
       value
@@ -51,6 +55,6 @@ export default class CodecU8a extends Base<Uint8Array> {
   }
 
   toString (): string {
-    return u8aToHex(this.raw);
+    return this.toHex();
   }
 }

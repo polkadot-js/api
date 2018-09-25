@@ -7,7 +7,7 @@ import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import CodecBase from './base/Base';
-import Length from './base/LengthCompact';
+import Length from './base/Length';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.

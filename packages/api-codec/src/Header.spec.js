@@ -14,7 +14,7 @@ describe('Header', () => {
     ).toEqual(0);
     expect(
       header.extrinsicsRoot.toString()
-    ).toEqual('0x294c3470ae3be7555240b9d034ec19c3715ba2c3f20b92441f8cea0cab66ab56');
+    ).toEqual('0x45b0cfc220ceec5b7c1c62c4d4193d38e4eba48e8815729ce75f9c0ab0e4c1c0');
     expect(
       header.parentHash.toString()
     ).toEqual('0x0000000000000000000000000000000000000000000000000000000000000000');

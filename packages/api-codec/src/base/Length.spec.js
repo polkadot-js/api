@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import LengthCompact from './LengthCompact';
+import Length from './Length';
 
 describe('Compact', () => {
   it('encodes short u8', () => {
     expect(
-      new LengthCompact(18).toU8a()
+      new Length(18).toU8a()
     ).toEqual(
       new Uint8Array([18 << 2])
     );
@@ -15,7 +15,7 @@ describe('Compact', () => {
 
   it('encodes max u8 values', () => {
     expect(
-      new LengthCompact(63).toU8a()
+      new Length(63).toU8a()
     ).toEqual(
       new Uint8Array([0b11111100])
     );
@@ -23,7 +23,7 @@ describe('Compact', () => {
 
   it('encodes basic u16 value', () => {
     expect(
-      new LengthCompact(511).toU8a()
+      new Length(511).toU8a()
     ).toEqual(
       new Uint8Array([0b11111101, 0b00000111])
     );
@@ -31,7 +31,7 @@ describe('Compact', () => {
 
   it('decodes from same u16 encoded value', () => {
     expect(
-      new LengthCompact()
+      new Length()
         .fromU8a(new Uint8Array([0b11111101, 0b00000111]))
         .toNumber()
     ).toEqual(
@@ -41,7 +41,7 @@ describe('Compact', () => {
 
   it('encodes basic u32 values (short)', () => {
     expect(
-      new LengthCompact(0xffff).toU8a()
+      new Length(0xffff).toU8a()
     ).toEqual(
       new Uint8Array([254, 255, 3, 0])
     );
@@ -49,7 +49,7 @@ describe('Compact', () => {
 
   it('decodes from same u32 encoded value (short)', () => {
     expect(
-      new LengthCompact()
+      new Length()
         .fromU8a(new Uint8Array([254, 255, 3, 0]))
         .toNumber()
     ).toEqual(
@@ -59,7 +59,7 @@ describe('Compact', () => {
 
   it('encodes basic u32 values (full)', () => {
     expect(
-      new LengthCompact(0xfffffff9).toU8a()
+      new Length(0xfffffff9).toU8a()
     ).toEqual(
       new Uint8Array([3, 249, 255, 255, 255])
     );
@@ -67,7 +67,7 @@ describe('Compact', () => {
 
   it('decodes from same u32 encoded value (full)', () => {
     expect(
-      new LengthCompact()
+      new Length()
         .fromU8a(new Uint8Array([3, 249, 255, 255, 255]))
         .toNumber()
     ).toEqual(
