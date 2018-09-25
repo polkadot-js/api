@@ -21,7 +21,9 @@ export default class CodecArray <
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
     super(
       value.map((entry) =>
-        new Type(entry)
+        entry instanceof Type
+          ? entry
+          : new Type(entry)
       )
     );
 
@@ -110,8 +112,8 @@ export default class CodecArray <
   toString (): string {
     const data = this.raw.map((entry) =>
       entry.toString()
-    ).join(', ');
+    );
 
-    return `[${data}]`;
+    return `[${data.join(', ')}]`;
   }
 }
