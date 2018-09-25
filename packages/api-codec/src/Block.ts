@@ -2,15 +2,23 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
+
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
-
+import U8a from './codec/U8a';
 import Extrinsic from './Extrinsic';
-import Header from './Header';
+import Hash from './Hash';
+import Header, { HeaderStruct } from './Header';
+
+type BlockStruct = {
+  extrinsics?: Array<U8a | Uint8Array | Array<number> | string>
+  header?: HeaderStruct
+};
 
 // A block encoded with header and extrinsics
 export default class Block extends Struct {
-  constructor (value?: any) {
+  constructor (value: BlockStruct = {}) {
     super({
       header: Header,
       extrinsics: Vector.with(Extrinsic)
@@ -19,6 +27,13 @@ export default class Block extends Struct {
 
   get extrinsics (): Vector<Extrinsic> {
     return this.raw.extrinsics as Vector<Extrinsic>;
+  }
+
+  // convenience, encodes the header and returns the actual hash
+  get hash (): Hash {
+    return new Hash(
+      blake2Asu8a(this.toU8a(), 256)
+    );
   }
 
   get header (): Header {

@@ -48,4 +48,25 @@ describe('Block', () => {
       block.extrinsics.at(0).length
     ).toEqual(111); // eslint-disable-line
   });
+
+  // FIXME check again when we have a valid chain/UI
+  it.skip('has a valid block hash', () => {
+    expect(
+      new Block({
+        extrinsics: [
+          [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 139, 165, 170, 91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ],
+        header: {
+          digest: {
+            logs: []
+          },
+          extrinsicsRoot: '0x5ce1a2c55efaf371f06fd94672779daf130591a12f7513ae786bea4fa7bd499e',
+          number: 1556355,
+          parentHash: '0x09223919f63b5ded0c7bf7d953ba22bf30ea8a19e6be4de35f25163b2b268490',
+          stateRoot: '0xd45159e04f36955ecb9c73d6ca514ac2d0e3ce00f58588b7c142d36cf7d237ec'
+        }
+      }).hash.toHex()
+    ).toEqual('0xd1b7e2c8f1ba2665d89dba334dcf45caa12e34d22587a09e2d03372366a81d8b');
+  });
 });

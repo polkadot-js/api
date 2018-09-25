@@ -17,7 +17,8 @@ type DigestStruct = {
   logs?: Array<Uint8Array | string>
 };
 
-type HeaderStruct = {
+// TODO Not convinced about the *Struct naming
+export type HeaderStruct = {
   digest?: DigestStruct,
   extrinsicsRoot?: Hash | Uint8Array | string,
   number?: UInt | BN | number | string,

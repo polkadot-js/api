@@ -13,7 +13,7 @@ import U8a from './codec/U8a';
 export default class Bytes extends U8a {
   protected _length: Length;
 
-  constructor (value?: U8a | string | Uint8Array) {
+  constructor (value?: U8a | string | Uint8Array | Array<number>) {
     super(value);
 
     this._length = new Length(this.raw.length);
