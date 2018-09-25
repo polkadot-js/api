@@ -14,7 +14,7 @@ import U8aFixed from './codec/U8aFixed';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
 // underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
-// basically just a Uint8Array wrapper with a fixed length.
+// just a Uint8Array wrapper with a fixed length.
 export default class AccountId extends U8aFixed {
   constructor (value: U8a | string | Uint8Array = new Uint8Array()) {
     super(
