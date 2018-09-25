@@ -42,7 +42,9 @@ export default class String extends CodecBase<string> {
   }
 
   fromJSON (input: any): String {
-    throw new Error('String::fromJSON: unimplemented');
+    this.raw = `${input}`;
+
+    return this;
   }
 
   fromU8a (input: Uint8Array): String {
