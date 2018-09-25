@@ -44,10 +44,11 @@ export default class Type extends Text {
       this._unwrap('Box<'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
       this._ungeneric(),
-      // convert `RawAddress` -> `Address`
-      // convert `PropIndex` -> `ProposalIndex`
       // alias Vec<u8> -> Bytes
       this._unalias('Vec<u8>', 'Bytes')
+      // TODO Check these for possibly matching -
+      //   `RawAddress` -> `Address` (implementation looks the same)
+      //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
 
     this.raw = mappings.reduce((result, fn) => {
@@ -78,11 +79,9 @@ export default class Type extends Text {
 
   private _unalias (src: string, dest: string): Mapper {
     return (value: string): string => {
-      while (value.indexOf(src) !== -1) {
-        value = value.replace(src, dest);
-      }
-
-      return value;
+      return value.replace(
+        new RegExp(src, 'g'), dest
+      );
     };
   }
 
