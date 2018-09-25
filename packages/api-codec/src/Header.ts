@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
 import Bytes from './codec/Bytes';
-import Long from './codec/Long';
+import UInt from './codec/UInt';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
@@ -20,7 +20,7 @@ type DigestStruct = {
 type HeaderStruct = {
   digest?: DigestStruct,
   extrinsicsRoot?: Hash | Uint8Array | string,
-  number?: Long | BN | number | string,
+  number?: UInt | BN | number | string,
   parentHash?: Hash | Uint8Array | string,
   stateRoot?: Hash | Uint8Array | string
 };

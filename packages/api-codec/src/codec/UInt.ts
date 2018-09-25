@@ -21,19 +21,19 @@ type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 //
 // TODO:
 //   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
-export default class Long extends Base<BN> {
+export default class UInt extends Base<BN> {
   private _bitLength: BitLength;
 
-  constructor (value: Long | BN | string | number = 0, bitLength: BitLength = 64) {
+  constructor (value: UInt | BN | string | number = 0, bitLength: BitLength = 64) {
     super(
-      Long.decode(value)
+      UInt.decode(value)
     );
 
     this._bitLength = bitLength;
   }
 
-  static decode (value: Long | BN | string | number): BN {
-    if (value instanceof Long) {
+  static decode (value: UInt | BN | string | number): BN {
+    if (value instanceof UInt) {
       return value.raw;
     } else if (isHex(value)) {
       return hexToBn(value as string);
@@ -48,13 +48,13 @@ export default class Long extends Base<BN> {
     return this._bitLength / 8;
   }
 
-  fromJSON (input: any): Long {
-    this.raw = Long.decode(input);
+  fromJSON (input: any): UInt {
+    this.raw = UInt.decode(input);
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): Long {
+  fromU8a (input: Uint8Array): UInt {
     this.raw = u8aToBn(input.subarray(0, this.byteLength()), true);
 
     return this;

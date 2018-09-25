@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import Long from './codec/Long';
+import UInt from './codec/UInt';
 
-export default class U32 extends Long {
-  constructor (value?: Long | BN | string | number) {
+export default class U32 extends UInt {
+  constructor (value?: UInt | BN | string | number) {
     super(value, 32);
   }
 }
