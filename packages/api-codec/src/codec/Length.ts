@@ -30,6 +30,12 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
+//
+// FIXME Not crazy about the use of Length. If we look at Vector, Bytes & String,
+// the implementations are basically the same. Vector is slightly different since
+// it iterates over the length. We need a cleaner way where we have less copied
+// code and a more generic implementation around the use of Length. Looking at
+// Array or Struct, the same type of wrapper would be useful here.
 export default class Length extends Base<BN> {
   constructor (value: Length | BN | number = new BN(0)) {
     super(

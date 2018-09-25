@@ -60,6 +60,10 @@ export default class UInt extends Base<BN> {
     return this;
   }
 
+  toHex (): string {
+    return bnToHex(this.raw, this._bitLength);
+  }
+
   toJSON (): any {
     return this.toString();
   }
@@ -69,7 +73,7 @@ export default class UInt extends Base<BN> {
   }
 
   toString (): string {
-    return bnToHex(this.raw, this._bitLength);
+    return this.toHex();
   }
 
   toBn (): BN {
