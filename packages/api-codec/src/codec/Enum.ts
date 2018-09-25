@@ -14,8 +14,12 @@ import Base from './Base';
 export default class Enum extends Base<number> {
   private _strings: Array<string>;
 
-  constructor (strings: Array<string>, value: number = 0) {
-    super(value);
+  constructor (strings: Array<string>, value: Enum | number = 0) {
+    super(
+      value instanceof Enum
+        ? value.raw
+        : value
+    );
 
     this._strings = strings;
   }
@@ -49,6 +53,6 @@ export default class Enum extends Base<number> {
   }
 
   toString (): string {
-    return this._strings[this.raw];
+    return this._strings[this.raw] || `${this.raw}`;
   }
 }

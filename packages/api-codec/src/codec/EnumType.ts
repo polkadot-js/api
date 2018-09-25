@@ -12,41 +12,35 @@ import Base from './Base';
 //   - It should rather probably extend Enum instead of copying code
 //   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
 export default class EnumType <T> extends Base<Base<T>> {
-  private _Type: Array<{ new(value?: any): Base }>;
+  private _Types: Array<{ new(value?: any): Base }>;
   private _index: number;
   private _strings: Array<string>;
 
-  constructor (Type: Array<{ new(value?: any): Base }>, strings: Array<string>, index: number = 0) {
+  constructor (Types: Array<{ new(value?: any): Base }>, strings: Array<string>, index: number = 0) {
     super(
-      new Type[index]()
+      new Types[index]()
     );
 
-    this._Type = Type;
+    this._Types = Types;
     this._index = index;
-    this._strings = strings;
+    this._strings = Types.map((Type, index) =>
+      strings[index] || Type.name
+    );
   }
 
   byteLength (): number {
     return 1 + this.raw.byteLength();
   }
 
-  fromJSON (input: any): EnumType<T> {
-    throw new Error('EnumType:fromJSON: unimplemented');
-  }
-
   fromU8a (input: Uint8Array): EnumType<T> {
     this._index = input[0];
-    this.raw = new this._Type[this._index]().fromU8a(input.subarray(1));
+    this.raw = new this._Types[this._index]().fromU8a(input.subarray(1));
 
     return this;
   }
 
   toJSON (): any {
     return this.raw;
-  }
-
-  toU8a (): Uint8Array {
-    throw new Error('EnumType:toU8a: unimplemented');
   }
 
   toNumber (): number {
