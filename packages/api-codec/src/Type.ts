@@ -43,11 +43,7 @@ export default class Type extends CodecString {
       // remove boxing, `Box<Proposal>` -> `Proposal`
       this._unwrap('Box<'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      this._ungeneric(),
-      // convert `RawAddress` -> `Address`
-      this._unalias('RawAddress', 'Address'),
-      // convert `PropIndex` -> `ProposalIndex`
-      this._unalias('PropIndex', 'ProposalIndex')
+      this._ungeneric()
     ];
 
     this.raw = mappings.reduce((result, fn) => {
@@ -76,15 +72,17 @@ export default class Type extends CodecString {
     throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
   }
 
-  private _unalias (src: string, dest: string): Mapper {
-    return (value: string): string => {
-      while (value.indexOf(src) !== -1) {
-        value = value.replace(src, dest);
-      }
+  // convert `RawAddress` -> `Address`
+  // convert `PropIndex` -> `ProposalIndex`
+  // private _unalias (src: string, dest: string): Mapper {
+  //   return (value: string): string => {
+  //     while (value.indexOf(src) !== -1) {
+  //       value = value.replace(src, dest);
+  //     }
 
-      return value;
-    };
-  }
+  //     return value;
+  //   };
+  // }
 
   private _ungeneric (): Mapper {
     return (value: string): string => {
