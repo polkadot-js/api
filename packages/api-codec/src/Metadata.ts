@@ -273,7 +273,7 @@ export default class RuntimeMetadata extends CodecStruct {
   //
   // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
   // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match. (Howevr for now, it is useful in debugging)
+  // match. (However for now, it is useful in debugging)
   fromJSON (input: Array<number>): RuntimeMetadata {
     return this.fromU8a(
       Uint8Array.from(input)

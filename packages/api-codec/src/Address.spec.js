@@ -19,7 +19,21 @@ describe('Address', () => {
     ).toEqual('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
   });
 
-  it('codes with a prefix (1-byte)', () => {
+  it('encodes with a prefix', () => {
+    expect(
+      new Address()
+        .fromJSON('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s')
+        .toU8a()
+    ).toEqual(
+      new Uint8Array([
+        255,
+        1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
+        1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
+      ])
+    );
+  });
+
+  it('decodes with a prefix (1-byte)', () => {
     expect(
       new Address()
         .fromU8a(
@@ -31,7 +45,7 @@ describe('Address', () => {
     ).toEqual('0x11');
   });
 
-  it('codes with a prefix (2-bytes)', () => {
+  it('decodes with a prefix (2-bytes)', () => {
     expect(
       new Address()
         .fromU8a(
@@ -43,7 +57,7 @@ describe('Address', () => {
     ).toEqual('0x1112');
   });
 
-  it('codes with a prefix (4-bytes)', () => {
+  it('decodes with a prefix (4-bytes)', () => {
     expect(
       new Address()
         .fromU8a(
@@ -55,7 +69,7 @@ describe('Address', () => {
     ).toEqual('0x11121314');
   });
 
-  it('codes with a prefix (8-bytes)', () => {
+  it('decodes with a prefix (8-bytes)', () => {
     expect(
       new Address()
         .fromU8a(

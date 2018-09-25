@@ -22,4 +22,10 @@ describe('Type', () => {
       new Type().fromJSON('(PropIndex, AccountId, PropIndex)').toString()
     ).toEqual('(ProposalIndex, AccountId, ProposalIndex)');
   });
+
+  it('does not allow toU8a', () => {
+    expect(
+      () => new Type().toU8a()
+    ).toThrow(/unimplemented/);
+  });
 });

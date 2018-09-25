@@ -68,15 +68,15 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
   }
 
   static writeLength (length: number): Uint8Array {
-    if (length === 8) {
+    if (length === 1) {
       return new Uint8Array([0xef]);
-    } else if (length === 16) {
+    } else if (length === 2) {
       return new Uint8Array([0xfc]);
-    } else if (length === 32) {
+    } else if (length === 4) {
       return new Uint8Array([0xfd]);
-    } else if (length === 64) {
+    } else if (length === 8) {
       return new Uint8Array([0xfe]);
-    } else if (length === 256) {
+    } else if (length === 32) {
       return new Uint8Array([0xff]);
     }
 
@@ -112,7 +112,7 @@ export default class Address extends CodecBase<AccountId | AccountIndex> {
   toU8a (): Uint8Array {
     return u8aConcat(
       Address.writeLength(this.raw.byteLength()),
-      super.toU8a()
+      this.raw.toU8a()
     );
   }
 }

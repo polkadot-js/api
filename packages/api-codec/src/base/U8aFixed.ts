@@ -26,8 +26,4 @@ export default class CodecU8aFixed extends CodecU8a {
 
     return this;
   }
-
-  toJSON (): any {
-    return this.toString();
-  }
 }

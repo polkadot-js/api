@@ -45,9 +45,7 @@ export default class CodecU8a extends Base<Uint8Array> {
   }
 
   toJSON (): any {
-    return this.raw.map((value) =>
-      value
-    );
+    return this.toHex();
   }
 
   toU8a (): Uint8Array {

@@ -7,7 +7,9 @@ import json from './Header.only.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
-    const header = new Header().fromJSON(json);
+    const header = new Header();
+
+    header.fromJSON(json);
 
     expect(
       header.blockNumber.toNumber()
@@ -21,5 +23,8 @@ describe('Header', () => {
     expect(
       header.stateRoot.toString()
     ).toEqual('0x294c3470ae3be7555240b9d034ec19c3715ba2c3f20b92441f8cea0cab66ab56');
+    expect(
+      header.digest.logs.toString()
+    ).toEqual('[]');
   });
 });
