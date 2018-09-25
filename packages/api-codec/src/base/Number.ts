@@ -49,9 +49,7 @@ export default class CodecNumber extends CodecBase<BN> {
   }
 
   fromJSON (input: any): CodecNumber {
-    this.raw = isHex(input)
-      ? hexToBn(input)
-      : new BN(input);
+    this.raw = CodecNumber.decode(input);
 
     return this;
   }
