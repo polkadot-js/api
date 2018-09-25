@@ -11,7 +11,7 @@ import bnToU8a from '@polkadot/util/bn/toU8a';
 import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
-import Base from '@polkadot/api-codec/codec/Base';
+import Base from './Base';
 
 type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 

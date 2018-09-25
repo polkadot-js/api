@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-import Long from '@polkadot/api-codec/codec/Long';
+import Long from './codec/Long';
 
 export default class U256 extends Long {
   constructor (value?: Long | BN | string | number) {
