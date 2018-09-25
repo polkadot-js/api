@@ -11,7 +11,7 @@ type KeyValueStruct = {
 };
 
 // KeyValue structure. Since most of the keys and resultant values in Subtrate is
-// hashed and/or encoded, this does not wrap a CodecString, but rather a CodecBytes
+// hashed and/or encoded, this does not wrap a Text, but rather a CodecBytes
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
 // is actually for Maps, whereas this is a representation of actaul storage values)
 export default class KeyValue extends CodecStruct {

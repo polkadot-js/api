@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './Array';
-import CodecString from '../String';
+import Text from '../Text';
+import Vector from './Vector';
 
-describe('CodecArray', () => {
+describe('Vector', () => {
   let array;
 
   beforeEach(() => {
-    array = new CodecArray(CodecString, [ '1', '23', '345', '4567', new CodecString('56789') ]);
+    array = new Vector(Text, [ '1', '23', '345', '4567', new Text('56789') ]);
   });
 
   it('wraps a sequence of values', () => {
@@ -33,7 +33,7 @@ describe('CodecArray', () => {
 
   it('allows contruction via JSON', () => {
     expect(
-      new CodecArray(CodecString).fromJSON(['6', '7']).toString()
+      new Vector(Text).fromJSON(['6', '7']).toString()
     ).toEqual('[6, 7]');
   });
 

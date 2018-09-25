@@ -17,12 +17,12 @@ import Length from './codec/Length';
 //   - Potentially we want a "TypeString" extension to this. Basically something that
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
-export default class CodecString extends CodecBase<string> {
+export default class Text extends CodecBase<string> {
   protected _length: Length;
 
-  constructor (value: CodecString | string = '') {
+  constructor (value: Text | string = '') {
     super(
-      value instanceof CodecString
+      value instanceof Text
         ? value.raw
         : value.trim()
     );
@@ -41,13 +41,13 @@ export default class CodecString extends CodecBase<string> {
       this._length.byteLength();
   }
 
-  fromJSON (input: any): CodecString {
+  fromJSON (input: any): Text {
     this.raw = `${input}`;
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecString {
+  fromU8a (input: Uint8Array): Text {
     this._length.fromU8a(input);
 
     const length = this._length.toNumber();

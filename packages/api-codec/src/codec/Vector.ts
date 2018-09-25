@@ -12,7 +12,7 @@ import Length from './Length';
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
-export default class CodecArray <
+export default class Vector <
   T extends CodecBase
 > extends CodecBase<Array<T>> {
   private _length: Length;
@@ -31,8 +31,8 @@ export default class CodecArray <
     this._Type = Type;
   }
 
-  static with <O extends CodecBase> (Type: { new(value?: any): O }): { new(value?: any): CodecArray<O> } {
-    return class extends CodecArray<O> {
+  static with <O extends CodecBase> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+    return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
       }
@@ -61,7 +61,7 @@ export default class CodecArray <
     return this.raw.forEach(fn);
   }
 
-  fromJSON (input: any): CodecArray<T> {
+  fromJSON (input: any): Vector<T> {
     this.raw = input.map((input: any) =>
       new this._Type().fromJSON(input)
     );
@@ -69,7 +69,7 @@ export default class CodecArray <
     return this;
   }
 
-  fromU8a (input: Uint8Array): CodecArray<T> {
+  fromU8a (input: Uint8Array): Vector<T> {
     this._length.fromU8a(input);
 
     const length = this._length.toNumber();

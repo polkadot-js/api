@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './codec/Array';
+import Vector from './codec/Vector';
 import CodecBase from './codec/Base';
 import CodecEnum from './codec/Enum';
 import CodecEnumType from './codec/EnumType';
 import CodecOption from './codec/Option';
 import CodecStruct from './codec/Struct';
-import String from './String';
+import String from './Text';
 import Type from './Type';
 import U16 from './U16';
 
@@ -20,17 +20,17 @@ class EventMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
-      arguments: CodecArray.with(Type),
-      documentation: CodecArray.with(String)
+      arguments: Vector.with(Type),
+      documentation: Vector.with(String)
     });
   }
 
-  get arguments (): CodecArray<Type> {
-    return this.raw.arguments as CodecArray<Type>;
+  get arguments (): Vector<Type> {
+    return this.raw.arguments as Vector<Type>;
   }
 
-  get documentation (): CodecArray<String> {
-    return this.raw.documentation as CodecArray<String>;
+  get documentation (): Vector<String> {
+    return this.raw.documentation as Vector<String>;
   }
 
   get name (): String {
@@ -42,12 +42,12 @@ class OuterEventMetadataEvent extends CodecStruct {
   constructor () {
     super({
       name: String,
-      events: CodecArray.with(EventMetadata)
+      events: Vector.with(EventMetadata)
     });
   }
 
-  get events (): CodecArray<EventMetadata> {
-    return this.raw.events as CodecArray<EventMetadata>;
+  get events (): Vector<EventMetadata> {
+    return this.raw.events as Vector<EventMetadata>;
   }
 
   get name (): String {
@@ -59,12 +59,12 @@ class OuterEventMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
-      events: CodecArray.with(OuterEventMetadataEvent)
+      events: Vector.with(OuterEventMetadataEvent)
     });
   }
 
-  get events (): CodecArray<OuterEventMetadataEvent> {
-    return this.raw.events as CodecArray<OuterEventMetadataEvent>;
+  get events (): Vector<OuterEventMetadataEvent> {
+    return this.raw.events as Vector<OuterEventMetadataEvent>;
   }
 
   get name (): String {
@@ -94,17 +94,17 @@ class FunctionMetadata extends CodecStruct {
     super({
       id: U16,
       name: String,
-      arguments: CodecArray.with(FunctionArgumentMetadata),
-      documentation: CodecArray.with(String)
+      arguments: Vector.with(FunctionArgumentMetadata),
+      documentation: Vector.with(String)
     });
   }
 
-  get arguments (): CodecArray<FunctionArgumentMetadata> {
-    return this.raw.arguments as CodecArray<FunctionArgumentMetadata>;
+  get arguments (): Vector<FunctionArgumentMetadata> {
+    return this.raw.arguments as Vector<FunctionArgumentMetadata>;
   }
 
-  get documentation (): CodecArray<String> {
-    return this.raw.documentation as CodecArray<String>;
+  get documentation (): Vector<String> {
+    return this.raw.documentation as Vector<String>;
   }
 
   get id (): U16 {
@@ -120,12 +120,12 @@ class CallMetadata extends CodecStruct {
   constructor () {
     super({
       name: String,
-      functions: CodecArray.with(FunctionMetadata)
+      functions: Vector.with(FunctionMetadata)
     });
   }
 
-  get functions (): CodecArray<FunctionMetadata> {
-    return this.raw.functions as CodecArray<FunctionMetadata>;
+  get functions (): Vector<FunctionMetadata> {
+    return this.raw.functions as Vector<FunctionMetadata>;
   }
 
   get name (): String {
@@ -200,12 +200,12 @@ class StorageFunctionMetadata extends CodecStruct {
       name: String,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      documentation: CodecArray.with(String)
+      documentation: Vector.with(String)
     });
   }
 
-  get documentation (): CodecArray<String> {
-    return this.raw.documentation as CodecArray<String>;
+  get documentation (): Vector<String> {
+    return this.raw.documentation as Vector<String>;
   }
 
   get name (): String {
@@ -225,12 +225,12 @@ class StorageMetadata extends CodecStruct {
   constructor () {
     super({
       prefix: String,
-      functions: CodecArray.with(StorageFunctionMetadata)
+      functions: Vector.with(StorageFunctionMetadata)
     });
   }
 
-  get functions (): CodecArray<StorageFunctionMetadata> {
-    return this.raw.functions as CodecArray<StorageFunctionMetadata>;
+  get functions (): Vector<StorageFunctionMetadata> {
+    return this.raw.functions as Vector<StorageFunctionMetadata>;
   }
 
   get prefix (): String {
@@ -264,7 +264,7 @@ export default class RuntimeMetadata extends CodecStruct {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: CodecArray.with(RuntimeModuleMetadata)
+      modules: Vector.with(RuntimeModuleMetadata)
     }, value);
   }
 
@@ -285,12 +285,12 @@ export default class RuntimeMetadata extends CodecStruct {
   // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
   // we have to choose between the 2, manual defs it would have to be.
 
-  get events (): CodecArray<OuterEventMetadataEvent> {
+  get events (): Vector<OuterEventMetadataEvent> {
     return (this.raw.outerEvent as OuterEventMetadata).events;
   }
 
-  get modules (): CodecArray<RuntimeModuleMetadata> {
-    return this.raw.modules as CodecArray<RuntimeModuleMetadata>;
+  get modules (): Vector<RuntimeModuleMetadata> {
+    return this.raw.modules as Vector<RuntimeModuleMetadata>;
   }
 
   // Helper to retrieve a list of all type that are found, sorted and de-deuplicated

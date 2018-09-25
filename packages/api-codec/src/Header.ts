@@ -4,9 +4,9 @@
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import CodecArray from './codec/Array';
 import CodecBytes from './codec/Bytes';
 import CodecStruct from './codec/Struct';
+import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
@@ -15,12 +15,12 @@ import Hash from './Hash';
 export class Digest extends CodecStruct {
   constructor (value?: any) {
     super({
-      logs: CodecArray.with(CodecBytes)
+      logs: Vector.with(CodecBytes)
     }, value);
   }
 
-  get logs (): CodecArray<CodecBytes> {
-    return this.raw.logs as CodecArray<CodecBytes>;
+  get logs (): Vector<CodecBytes> {
+    return this.raw.logs as Vector<CodecBytes>;
   }
 }
 

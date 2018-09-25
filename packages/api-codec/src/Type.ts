@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecString from './String';
+import Text from './Text';
 
 type Mapper = (value: string) => string;
 
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
-export default class Type extends CodecString {
-  constructor (value?: CodecString | string) {
+export default class Type extends Text {
+  constructor (value?: Text | string) {
     super(value);
 
     this._cleanupTypes();
