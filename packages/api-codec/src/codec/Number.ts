@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 import isHex from '@polkadot/util/is/hex';
+import isString from '@polkadot/util/is/string';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToHex from '@polkadot/util/bn/toHex';
 import bnToU8a from '@polkadot/util/bn/toU8a';
@@ -12,9 +13,7 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import CodecBase from './Base';
 
-type BitLength = 8 | 16 | 32 | 64 | 128;
-
-const DEFAULT_VALUE = new BN(0);
+type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 // A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
 // and decoding of those numbers. Upon construction the bitLength is provided and any additional
@@ -25,12 +24,24 @@ const DEFAULT_VALUE = new BN(0);
 export default class CodecNumber extends CodecBase<BN> {
   private _bitLength: BitLength;
 
-  constructor (value: BN | number = DEFAULT_VALUE, bitLength: BitLength = 64) {
+  constructor (value: CodecNumber | BN | string | number = 0, bitLength: BitLength = 64) {
     super(
-      bnToBn(value)
+      CodecNumber.decode(value)
     );
 
     this._bitLength = bitLength;
+  }
+
+  static decode (value: CodecNumber | BN | string | number): BN {
+    if (value instanceof CodecNumber) {
+      return value.raw;
+    } else if (isHex(value)) {
+      return hexToBn(value as string);
+    } else if (isString(value)) {
+      return new BN(value, 10);
+    }
+
+    return bnToBn(value);
   }
 
   byteLength (): number {
@@ -38,9 +49,7 @@ export default class CodecNumber extends CodecBase<BN> {
   }
 
   fromJSON (input: any): CodecNumber {
-    this.raw = isHex(input)
-      ? hexToBn(input)
-      : new BN(input);
+    this.raw = CodecNumber.decode(input);
 
     return this;
   }

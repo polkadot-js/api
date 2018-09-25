@@ -6,8 +6,8 @@ import BN from 'bn.js';
 
 import CodecNumber from './codec/Number';
 
-export default class U16 extends CodecNumber {
+export default class U8 extends CodecNumber {
   constructor (value?: CodecNumber | BN | string | number) {
-    super(value, 16);
+    super(value, 8);
   }
 }

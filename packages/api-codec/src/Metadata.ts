@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import CodecArray from './base/Array';
-import CodecBase from './base/Base';
-import CodecEnum from './base/Enum';
-import CodecEnumType from './base/EnumType';
-import CodecOption from './base/Option';
-import CodecStruct from './base/Struct';
+import CodecArray from './codec/Array';
+import CodecBase from './codec/Base';
+import CodecEnum from './codec/Enum';
+import CodecEnumType from './codec/EnumType';
+import CodecOption from './codec/Option';
+import CodecStruct from './codec/Struct';
 import String from './String';
 import Type from './Type';
 import U16 from './U16';
@@ -268,6 +268,18 @@ export default class RuntimeMetadata extends CodecStruct {
     }, value);
   }
 
+  // We receive this a an Array<number> in the JSON output from the Node. Convert
+  // to u8a and use the fromU8a to do the actual parsing
+  //
+  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
+  // with what is actually found on the RPC layer. This needs to be adjusted to
+  // match. (However for now, it is useful in debugging)
+  fromJSON (input: Array<number>): RuntimeMetadata {
+    return this.fromU8a(
+      Uint8Array.from(input)
+    ) as RuntimeMetadata;
+  }
+
   // FIXME Really not crazy about having to manually add all the getters. Preferably it should
   // be done automagically in the actual CodecStruct - however what is really important here
   // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
@@ -292,15 +304,6 @@ export default class RuntimeMetadata extends CodecStruct {
             : entry
         );
       }, []);
-    // Quick and dirty uniq
-    const uniq = (list: Array<any>): Array<any> =>
-      list.reduce((result, entry) => {
-        if (!result.includes(entry)) {
-          result.push(entry);
-        }
-
-        return result;
-      }, [] as Array<any>);
 
     const events = this.events.map((module) =>
       module.events.map((event) =>
@@ -326,8 +329,8 @@ export default class RuntimeMetadata extends CodecStruct {
       )
     );
 
-    return uniq(
+    return [...new Set(
       flatten([events, storages, args]).filter((value) => value)
-    ).sort();
+    )].sort();
   }
 }

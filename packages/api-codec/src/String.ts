@@ -6,8 +6,8 @@ import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import CodecBase from './base/Base';
-import Length from './base/LengthCompact';
+import CodecBase from './codec/Base';
+import Length from './codec/Length';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.
@@ -20,8 +20,12 @@ import Length from './base/LengthCompact';
 export default class String extends CodecBase<string> {
   protected _length: Length;
 
-  constructor (value: string = '') {
-    super(value);
+  constructor (value: String | string = '') {
+    super(
+      value instanceof String
+        ? value.raw
+        : value
+    );
 
     this._length = new Length(value.length);
   }
@@ -38,7 +42,9 @@ export default class String extends CodecBase<string> {
   }
 
   fromJSON (input: any): String {
-    throw new Error('String::fromJSON: unimplemented');
+    this.raw = `${input}`;
+
+    return this;
   }
 
   fromU8a (input: Uint8Array): String {

@@ -5,7 +5,7 @@
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import CodecBase from './Base';
-import Length from './LengthCompact';
+import Length from './Length';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
