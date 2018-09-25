@@ -304,15 +304,6 @@ export default class RuntimeMetadata extends CodecStruct {
             : entry
         );
       }, []);
-    // Quick and dirty uniq
-    const uniq = (list: Array<any>): Array<any> =>
-      list.reduce((result, entry) => {
-        if (!result.includes(entry)) {
-          result.push(entry);
-        }
-
-        return result;
-      }, []);
 
     const events = this.events.map((module) =>
       module.events.map((event) =>
@@ -338,8 +329,8 @@ export default class RuntimeMetadata extends CodecStruct {
       )
     );
 
-    return uniq(
+    return [...new Set(
       flatten([events, storages, args]).filter((value) => value)
-    ).sort();
+    )].sort();
   }
 }

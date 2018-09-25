@@ -16,4 +16,10 @@ describe('Type', () => {
       new Type().fromJSON('Box<Vec<AccountId>>').toString()
     ).toEqual('Vec<AccountId>');
   });
+
+  it('handles aliasses, multiples per line', () => {
+    expect(
+      new Type().fromJSON('(PropIndex, AccountId, PropIndex)').toString()
+    ).toEqual('(ProposalIndex, AccountId, ProposalIndex)');
+  });
 });
