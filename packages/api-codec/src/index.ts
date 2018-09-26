@@ -33,6 +33,8 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';
+export { default as Permill } from './Permill';
+export { default as Perbill } from './Perbill';
 export { default as PropIndex } from './PropIndex';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
