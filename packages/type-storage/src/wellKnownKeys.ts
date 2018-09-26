@@ -21,7 +21,7 @@ const createWKKFunction = (prefix: string, functionMetadata: WKKMetadata) =>
     {
       documentation: new Vector(Text, [functionMetadata.documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),
-      type: functionMetadata.type
+      type: new StorageFunctionType(0, functionMetadata.type)
     } as any,
     { isUnhashed: true }
   );
