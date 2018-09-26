@@ -6,41 +6,60 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base from './Base';
 
-// A Struct defines an Object with key/values - where the values are CodecBase values. It removes
+// A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
 // values in the constructor and it manages the decoding. It is important that the constructor
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
-//
-// TODO:
-//   - Check the constructor, something is really, really wrong with the way the defs are used
 export default class Struct <
+  // The actual Class structure, i.e. key -> Class
   S = { [index: string]: { new(value?: any): Base } },
+  // internal type, instance of classes mapped by key
   T = { [K in keyof S]: Base },
-  V = { [K in keyof S]: any }
+  // input values, mapped by key can be anything (construction)
+  V = { [K in keyof S]: any },
+  // type names, mapped by key, name of Class in S
+  E = { [K in keyof S]: string }
 > extends Base<T> {
-  constructor (Def: S, value: V = {} as V) {
-    super(
-      Object.keys(Def).reduce((raw: T, key) => {
-        // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
-        // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
-        // was added, the idea is to provide better checks, which does backfire here, but works
-        // externally.)
-        raw[key] = new Def[key](value[key]);
+  private _Types: E;
 
-        return raw;
-      }, {} as T)
+  constructor (Types: S, value: V = {} as V) {
+    super(
+      Object
+        .keys(Types)
+        .reduce((raw: T, key) => {
+          // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
+          // it works, so ignore the checker, although it drives me batty. (It started when
+          // the [key in keyof T] was added, the idea is to provide better checks, which
+          // does backfire here, but works externally.)
+          raw[key] = new Types[key](value[key]);
+
+          return raw;
+        }, {} as T)
     );
+
+    this._Types = Object
+      .keys(Types)
+      .reduce((result: E, key) => {
+        // @ts-ignore Same as above, can't do a simple one, I'm missing something simple
+        result[key] = Types[key].name;
+
+        return result;
+      }, {} as E);
   }
 
   static with <
     S = { [index: string]: { new(value?: any): Base } }
-  > (Def: S): { new(value?: any): Struct<S> } {
+  > (Types: S): { new(value?: any): Struct<S> } {
     return class extends Struct<S> {
       constructor (value?: any) {
-        super(Def, value);
+        super(Types, value);
       }
     };
+  }
+
+  get Type (): E {
+    return this._Types;
   }
 
   byteLength (): number {
@@ -49,16 +68,25 @@ export default class Struct <
     }, 0);
   }
 
-  fromJSON (input: any): Struct<S, T, V> {
-    Object.keys(this.raw).forEach((key) => {
+  fromJSON (input: any): Struct<S, T, V, E> {
+    // NOTE From Rust, anonymous structures are encoded to Arrays, here
+    // we handle that case, taking each value in the array and passing it
+    // (in order) to the actual decoders (See e.g. SignedBlock.spec.json)
+    const isArrayIn = Array.isArray(input);
+
+    Object.keys(this.raw).forEach((key, index) => {
       // @ts-ignore as above...
-      this.raw[key].fromJSON(input[key]);
+      this.raw[key].fromJSON(
+        isArrayIn
+          ? input[index]
+          : input[key]
+      );
     });
 
     return this;
   }
 
-  fromU8a (input: Uint8Array): Struct<S, T, V> {
+  fromU8a (input: Uint8Array): Struct<S, T, V, E> {
     Object.keys(this.raw).reduce((offset, key) => {
       // @ts-ignore as above...
       this.raw[key].fromU8a(input.subarray(offset));

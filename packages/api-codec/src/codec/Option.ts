@@ -11,14 +11,14 @@ import Base from './Base';
 // implements that - decodes, checks for optionality and wraps the required structure
 // with a value if/as required/found.
 export default class Option <T> extends Base<Base<T>> {
-  private _hasValue: boolean;
+  private _isEmpty: boolean;
 
   constructor (Value: { new(value?: any): Base<T> }, value?: any) {
     super(
       new Value(value)
     );
 
-    this._hasValue = !isUndefined(value);
+    this._isEmpty = isUndefined(value);
   }
 
   static with <O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
@@ -29,24 +29,28 @@ export default class Option <T> extends Base<Base<T>> {
     };
   }
 
+  get isEmpty (): boolean {
+    return this._isEmpty;
+  }
+
   get value (): T | undefined {
-    return this._hasValue
-      ? this.raw.raw
-      : undefined;
+    return this._isEmpty
+      ? undefined
+      : this.raw.raw;
   }
 
   byteLength (): number {
-    const childLength = this._hasValue
-      ? this.raw.byteLength()
-      : 0;
+    const childLength = this._isEmpty
+      ? 0
+      : this.raw.byteLength();
 
     return 1 + childLength;
   }
 
   fromJSON (input: any): Option<T> {
-    this._hasValue = !isUndefined(input);
+    this._isEmpty = isUndefined(input);
 
-    if (this._hasValue) {
+    if (!this._isEmpty) {
       this.raw.fromJSON(input);
     }
 
@@ -54,9 +58,9 @@ export default class Option <T> extends Base<Base<T>> {
   }
 
   fromU8a (input: Uint8Array): Option<T> {
-    this._hasValue = input[0] === 1;
+    this._isEmpty = input[0] === 0;
 
-    if (this._hasValue) {
+    if (!this._isEmpty) {
       this.raw.fromU8a(input.subarray(1));
     }
 
@@ -64,15 +68,15 @@ export default class Option <T> extends Base<Base<T>> {
   }
 
   toJSON (): any {
-    return this._hasValue
-      ? this.raw.toJSON()
-      : undefined;
+    return this._isEmpty
+      ? undefined
+      : this.raw.toJSON();
   }
 
   toU8a (): Uint8Array {
     const u8a = new Uint8Array(this.byteLength());
 
-    if (this._hasValue) {
+    if (!this._isEmpty) {
       u8a.set([1]);
       u8a.set(this.raw.toU8a(), 1);
     }
@@ -81,8 +85,8 @@ export default class Option <T> extends Base<Base<T>> {
   }
 
   toString (): string {
-    return this._hasValue
-      ? this.raw.toString()
-      : '';
+    return this._isEmpty
+      ? ''
+      : this.raw.toString();
   }
 }

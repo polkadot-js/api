@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import encodeAddress from '@polkadot/util-keyring/address/encode';
 import decodeAddress from '@polkadot/util-keyring/address/decode';
 import hexToU8a from '@polkadot/util/hex/toU8a';
@@ -14,9 +16,9 @@ import U8aFixed from './codec/U8aFixed';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
 // underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
-// basically just a Uint8Array wrapper with a fixed length.
+// just a Uint8Array wrapper with a fixed length.
 export default class AccountId extends U8aFixed {
-  constructor (value: U8a | string | Uint8Array = new Uint8Array()) {
+  constructor (value: AnyU8a = new Uint8Array()) {
     super(
       value instanceof U8a
         ? value.raw

@@ -27,4 +27,19 @@ describe('Header', () => {
       header.digest.logs.toString()
     ).toEqual('[]');
   });
+
+  // FIXME check again when we have a valid chain/UI
+  it.skip('creates actual valid hash', () => {
+    expect(
+      new Header({
+        digest: {
+          logs: []
+        },
+        extrinsicsRoot: '0x5ce1a2c55efaf371f06fd94672779daf130591a12f7513ae786bea4fa7bd499e',
+        number: 1556355,
+        parentHash: '0x09223919f63b5ded0c7bf7d953ba22bf30ea8a19e6be4de35f25163b2b268490',
+        stateRoot: '0xd45159e04f36955ecb9c73d6ca514ac2d0e3ce00f58588b7c142d36cf7d237ec'
+      }).hash.toHex()
+    ).toEqual('0x3a91467e3d298684c2d3ee68362615e9b21fa9e37739c02c25f8075918e1ab11');
+  });
 });

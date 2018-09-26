@@ -12,41 +12,49 @@ import Base from './Base';
 //   - It should rather probably extend Enum instead of copying code
 //   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
 export default class EnumType <T> extends Base<Base<T>> {
-  private _Type: Array<{ new(value?: any): Base }>;
+  private _Types: Array<{ new(value?: any): Base }>;
   private _index: number;
+  private _indexes: Array<number>;
   private _strings: Array<string>;
 
-  constructor (Type: Array<{ new(value?: any): Base }>, strings: Array<string>, index: number = 0) {
+  constructor (Types: Array<{ new(value?: any): Base }>, strings: Array<string> = [], indexes: Array<number> = []) {
     super(
-      new Type[index]()
+      new Types[0]()
     );
 
-    this._Type = Type;
-    this._index = index;
-    this._strings = strings;
+    this._Types = Types;
+    this._indexes = Types.map((Type, index) =>
+      indexes[index] || index
+    );
+    this._index = this._indexes[0];
+    this._strings = Types.map((Type, index) =>
+      strings[index] || Type.name
+    );
+  }
+
+  get Type (): string {
+    return this._Types[this._index].name;
   }
 
   byteLength (): number {
     return 1 + this.raw.byteLength();
   }
 
-  fromJSON (input: any): EnumType<T> {
-    throw new Error('EnumType:fromJSON: unimplemented');
-  }
-
   fromU8a (input: Uint8Array): EnumType<T> {
-    this._index = input[0];
-    this.raw = new this._Type[this._index]().fromU8a(input.subarray(1));
+    this._index = this._indexes.indexOf(input[0]);
+    this.raw = new this._Types[this._index]().fromU8a(input.subarray(1));
 
     return this;
   }
 
-  toJSON (): any {
-    return this.raw;
+  setValue (index?: number, value?: any): void {
+    // NOTE If this is called from constructors, we may have empty values...
+    this._index = this._indexes.indexOf(index || 0) || 0;
+    this.raw = new this._Types[this._index](value);
   }
 
-  toU8a (): Uint8Array {
-    throw new Error('EnumType:toU8a: unimplemented');
+  toJSON (): any {
+    return this.raw;
   }
 
   toNumber (): number {

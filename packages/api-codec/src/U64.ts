@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { AnyNumber } from './types';
 
 import UInt from './codec/UInt';
 
 export default class U64 extends UInt {
-  constructor (value?: UInt | BN | string | number) {
+  constructor (value?: AnyNumber) {
     super(value, 64);
   }
 }

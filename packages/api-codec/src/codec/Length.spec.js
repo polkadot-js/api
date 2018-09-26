@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Length from './Length';
+import UInt from './UInt';
 
 describe('Length', () => {
   it('encodes short u8', () => {
@@ -15,7 +16,7 @@ describe('Length', () => {
 
   it('encodes max u8 values', () => {
     expect(
-      new Length(63).toU8a()
+      new Length(new UInt(63)).toU8a()
     ).toEqual(
       new Uint8Array([0b11111100])
     );

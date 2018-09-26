@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyNumber } from '../types';
+
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
@@ -10,6 +12,7 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import Base from './Base';
+import UInt from './UInt';
 
 const MAX_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
@@ -30,12 +33,16 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
+//
+// FIXME Not crazy about the use of Length. If we look at Vector, Bytes & String,
+// the implementations are basically the same. Vector is slightly different since
+// it iterates over the length. We need a cleaner way where we have less copied
+// code and a more generic implementation around the use of Length. Looking at
+// Array or Struct, the same type of wrapper would be useful here.
 export default class Length extends Base<BN> {
-  constructor (value: Length | BN | number = new BN(0)) {
+  constructor (value: AnyNumber = new BN(0)) {
     super(
-      value instanceof Length
-        ? value.raw
-        : bnToBn(value)
+      UInt.decode(value)
     );
   }
 
@@ -74,24 +81,10 @@ export default class Length extends Base<BN> {
     return this.toU8a().length;
   }
 
-  fromJSON (): Length {
-    throw new Error('Length::fromJSON: unimplemented');
-  }
-
-  fromNumber (value: BN | number): Length {
-    this.raw = bnToBn(value);
-
-    return this;
-  }
-
   fromU8a (input: Uint8Array): Length {
     this.raw = Length.decode(input);
 
     return this;
-  }
-
-  toJSON (): any {
-    throw new Error('Length::toJSON: unimplemented');
   }
 
   toHex (): string {
@@ -100,10 +93,6 @@ export default class Length extends Base<BN> {
 
   toNumber (): number {
     return this.raw.toNumber();
-  }
-
-  toString (): string {
-    throw new Error('Length::toString: unimplemented');
   }
 
   toU8a (): Uint8Array {

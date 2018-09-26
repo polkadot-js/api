@@ -39,15 +39,16 @@ export default class Type extends Text {
   private _cleanupTypes (): Type {
     const mappings: Array<Mapper> = [
       // Remove all the trait prefixes
-      this._untrait(),
+      this._removeTraits(),
       // remove boxing, `Box<Proposal>` -> `Proposal`
-      this._unwrap('Box<'),
+      this._removeWrap('Box'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      this._ungeneric(),
-      // convert `RawAddress` -> `Address`
-      // convert `PropIndex` -> `ProposalIndex`
+      this._removeGenerics(),
       // alias Vec<u8> -> Bytes
-      this._unalias('Vec<u8>', 'Bytes')
+      this._alias('Vec<u8>', 'Bytes')
+      // TODO Check these for possibly matching -
+      //   `RawAddress` -> `Address` (implementation looks the same)
+      //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
 
     this.raw = mappings.reduce((result, fn) => {
@@ -76,17 +77,15 @@ export default class Type extends Text {
     throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
   }
 
-  private _unalias (src: string, dest: string): Mapper {
+  private _alias (src: string, dest: string): Mapper {
     return (value: string): string => {
-      while (value.indexOf(src) !== -1) {
-        value = value.replace(src, dest);
-      }
-
-      return value;
+      return value.replace(
+        new RegExp(src, 'g'), dest
+      );
     };
   }
 
-  private _ungeneric (): Mapper {
+  private _removeGenerics (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value[index] === '<') {
@@ -104,7 +103,7 @@ export default class Type extends Text {
   }
 
   // remove the type traits
-  private _untrait (): Mapper {
+  private _removeTraits (): Mapper {
     return (value: string): string => {
       return value
         // anything `T::<type>` to end up as `<type>`
@@ -117,7 +116,9 @@ export default class Type extends Text {
   }
 
   // remove wrapping values, i.e. Box<Proposal> -> Proposal
-  private _unwrap (check: string): Mapper {
+  private _removeWrap (_check: string): Mapper {
+    const check = `${_check}<`;
+
     return (value: string): string => {
       let index = 0;
 

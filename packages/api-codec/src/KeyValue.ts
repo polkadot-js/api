@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import Struct from './codec/Struct';
 
 import Bytes from './Bytes';
 
-type KeyValueStruct = {
-  key?: Uint8Array | string,
-  value?: Uint8Array | string
+type KeyValueValue = {
+  key?: AnyU8a,
+  value?: AnyU8a
 };
 
 // KeyValue structure. Since most of the keys and resultant values in Subtrate is
@@ -16,7 +18,7 @@ type KeyValueStruct = {
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
 // is actually for Maps, whereas this is a representation of actaul storage values)
 export default class KeyValue extends Struct {
-  constructor (value: KeyValueStruct = {}) {
+  constructor (value: KeyValueValue = {}) {
     super({
       key: Bytes,
       value: Bytes
