@@ -1,6 +1,7 @@
 // Copyright 2017-2018 @polkadot/storage authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
+
 import { SectionItem } from '@polkadot/params/types';
 import { Storage$Key$Value } from '../types';
 
@@ -12,14 +13,17 @@ import formatParams from './params';
 
 export type Keygen = (...keyParams: Array<Storage$Key$Value>) => Uint8Array;
 
-export default function bindKey<T> ({ isUnhashed, key, params }: SectionItem<T>): Keygen {
+export default function bindKey <T> ({ isUnhashed, key, params }: SectionItem<T>): Keygen {
   const prefix = u8aFromString(key);
 
   return (...keyParams: Array<Storage$Key$Value>): Uint8Array => {
-    const postfix =
-      keyParams.length !== 0 ? u8aConcat.apply(null, formatParams(params, keyParams)) : new Uint8Array([]);
+    const postfix = keyParams.length !== 0
+      ? u8aConcat.apply(null, formatParams(params, keyParams))
+      : new Uint8Array([]);
     const prefixedKey = u8aConcat(prefix, postfix);
 
-    return isUnhashed ? prefixedKey : xxhash(prefixedKey, 128);
+    return isUnhashed
+      ? prefixedKey
+      : xxhash(prefixedKey, 128);
   };
 }
