@@ -2,22 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { Section } from '@polkadot/params/types';
+import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 
-export type Storage$Key$Value = number | BN | Uint8Array | string;
+import * as wellKnownKeys from './wellKnownKeys';
 
-export type Storages = {
-  consensus: Section<Storages, any, any>,
-  // contract: Section<Storages, any, any>,
-  council: Section<Storages, any, any>,
-  councilVoting: Section<Storages, any, any>,
-  democracy: Section<Storages, any, any>,
-  parachains: Section<Storages, any, any>,
-  session: Section<Storages, any, any>,
-  staking: Section<Storages, any, any>,
-  system: Section<Storages, any, any>,
-  timestamp: Section<Storages, any, any>
-};
+type WellKnownKeys = keyof typeof wellKnownKeys;
 
-export type Storage$Sections = keyof Storages;
+export interface StorageFunction extends StorageFunctionMetadata {
+  (arg: any): Uint8Array;
+}
+
+export interface ModuleStorage {
+  [key: string]: StorageFunction;
+}
+
+export interface Storage {
+  [key: string]: ModuleStorage; // Will hold modules returned by state_getMetadata
+  wellKnownKeys: { [key in WellKnownKeys]: StorageFunction };
+}
