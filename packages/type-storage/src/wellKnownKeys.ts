@@ -13,11 +13,15 @@ interface WKKMetadata {
 
 // Small helper function to factorize code on this page.
 const createWKKFunction = (prefix: Text | U8a, functionMetadata: WKKMetadata) =>
-  // TODO The expected 2nd argument is a StorageFunctionMetadata, but we actually only need the fields `documentation`
-  // and `type` of it, so in order to not input other fields (byteLength, fromJSON...) we lazily cast as any.
-  createFunction(prefix, { ...functionMetadata, modifier: new StorageFunctionModifier().fromJSON(0) } as any, {
-    isUnhashed: true
-  });
+  // TODO The expected 2nd argument is a StorageFunctionMetadata, but we
+  // actually only need the fields `documentation` and `type` of it, so in
+  // order to not input other fields (byteLength, fromJSON...) we lazily cast
+  // as any.
+  createFunction(
+    prefix,
+    { ...functionMetadata, modifier: new StorageFunctionModifier().fromJSON(0) } as any,
+    { isUnhashed: true }
+    );
 
 export const code = createWKKFunction(new U8a(':code'), {
   documentation: new Vector(Text, ['Wasm code of the runtime.']),
