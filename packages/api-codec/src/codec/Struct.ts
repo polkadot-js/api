@@ -12,9 +12,13 @@ import Base from './Base';
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
 export default class Struct <
+  // The actual Class structure, i.e. key -> Class
   S = { [index: string]: { new(value?: any): Base } },
+  // internal type, instance of classes mapped by key
   T = { [K in keyof S]: Base },
+  // input values, mapped by key can be anything (construction)
   V = { [K in keyof S]: any },
+  // external types, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
 > extends Base<T> {
   private _Types: E;
