@@ -368,27 +368,26 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="tranfer-dots">Tranfer DOTs</h1>
-<p>This sample is more &apos;straight to the point&apos; and shows the easiest way to transfer DOTs from an account to another.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Api = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api&apos;</span>).default
-<span class="hljs-keyword">const</span> WsProvider = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>).default
-<span class="hljs-keyword">const</span> extrinsics = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/extrinsics&apos;</span>).default
-<span class="hljs-keyword">const</span> encodeExtrinsic = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/extrinsics/codec/encode/uncheckedLength&apos;</span>).default
-<span class="hljs-keyword">const</span> encodeLength = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/extrinsics/codec/encode/length&apos;</span>).default
-<span class="hljs-keyword">const</span> Keyring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/util-keyring&apos;</span>).default
-<span class="hljs-keyword">const</span> storage = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/storage&apos;</span>).default
-<span class="hljs-keyword">const</span> BN = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;bn.js&apos;</span>)
+<p>This sample is more &apos;straight to the point&apos; and shows the easiest way to transfer DOTs from one an account to another.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> BN = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;bn.js&apos;</span>);
+<span class="hljs-keyword">const</span> Api = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api&apos;</span>).default;
+<span class="hljs-keyword">const</span> WsProvider = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>).default;
+<span class="hljs-keyword">const</span> extrinsics = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/extrinsics&apos;</span>).default;
+<span class="hljs-keyword">const</span> encodeExtrinsic = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/extrinsics/codec/encode/uncheckedLength&apos;</span>).default;
+<span class="hljs-keyword">const</span> Keyring = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/util-keyring&apos;</span>).default;
+<span class="hljs-keyword">const</span> storage = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/storage&apos;</span>).default;
 
-<span class="hljs-keyword">const</span> Encoder = <span class="hljs-keyword">new</span> TextEncoder()
-<span class="hljs-keyword">const</span> keyring = <span class="hljs-keyword">new</span> Keyring()
-<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;ws://127.0.0.1:9944&apos;</span>)
-<span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> Api(provider)
+<span class="hljs-keyword">const</span> Encoder = <span class="hljs-keyword">new</span> TextEncoder();
+<span class="hljs-keyword">const</span> keyring = <span class="hljs-keyword">new</span> Keyring();
+<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;ws://127.0.0.1:9944&apos;</span>);
+<span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> Api(provider);
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAccountIndex</span> (<span class="hljs-params">address</span>) </span>{
-  <span class="hljs-keyword">return</span> api.state.getStorage([storage.system.public.accountIndexOf, address])
+  <span class="hljs-keyword">return</span> api.state.getStorage([storage.system.public.accountIndexOf, address]);
 }
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">transfer</span> (<span class="hljs-params">keyRingFrom, addressTo, amount</span>) </span>{
-  <span class="hljs-keyword">const</span> nextAccountIndex = <span class="hljs-keyword">await</span> getAccountIndex(keyRingFrom.address())
+  <span class="hljs-keyword">const</span> nextAccountIndex = <span class="hljs-keyword">await</span> getAccountIndex(keyRingFrom.address());
 
   <span class="hljs-comment">// encode the call for signing</span>
   <span class="hljs-keyword">const</span> encoded = encodeExtrinsic(
@@ -396,22 +395,22 @@
     nextAccountIndex,
     extrinsics.staking.public.transfer,
     [addressTo, amount]
-  )
+  );
 
   <span class="hljs-keyword">await</span> api.author.submitExtrinsic(encoded)
-    .catch(e =&gt; <span class="hljs-built_in">console</span>.log)
+    .catch(e =&gt; <span class="hljs-built_in">console</span>.log);
 }
 
-<span class="hljs-keyword">const</span> Alice = keyring.addFromSeed(Encoder.encode(<span class="hljs-string">&apos;Alice                           &apos;</span>))
-<span class="hljs-keyword">const</span> addressBob = <span class="hljs-string">&apos;5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE&apos;</span>
-<span class="hljs-keyword">const</span> amount = <span class="hljs-keyword">new</span> BN(<span class="hljs-number">999</span>) <span class="hljs-comment">// on dev chain, the fee is 1, that makes it a round 1000</span>
+<span class="hljs-keyword">const</span> Alice = keyring.addFromSeed(Encoder.encode(<span class="hljs-string">&apos;Alice                           &apos;</span>));
+<span class="hljs-keyword">const</span> addressBob = <span class="hljs-string">&apos;5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE&apos;</span>;
+<span class="hljs-keyword">const</span> amount = <span class="hljs-keyword">new</span> BN(<span class="hljs-number">999</span>); <span class="hljs-comment">// on dev chain, the fee is 1, that makes it a round 1000</span>
 
-<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Crafting and sending an extrinsic for Alice to send Bob <span class="hljs-subst">${amount}</span> DOTs`</span>)
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Crafting and sending an extrinsic for Alice to send Bob <span class="hljs-subst">${amount}</span> DOTs`</span>);
 
 transfer(Alice, addressBob, amount)
   .then(() =&gt; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Done&apos;</span>))
-  .catch((e) =&gt; <span class="hljs-built_in">console</span>.log(e))
-  .finally(_ =&gt; process.exit(<span class="hljs-number">0</span>))
+  .catch((error) =&gt; <span class="hljs-built_in">console</span>.log(error))
+  .finally(_ =&gt; process.exit(<span class="hljs-number">0</span>));
 </code></pre>
 
                                 
@@ -452,7 +451,7 @@ transfer(Alice, addressBob, amount)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transfer DOTs","level":"2.8","depth":1,"previous":{"title":"Craft Extrinsic","level":"2.7","depth":1,"path":"examples/06_craft_extrinsic/README.md","ref":"examples/06_craft_extrinsic/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/07_transfer_dots/README.md","mtime":"2018-09-25T16:22:52.658Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-25T16:27:51.734Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Transfer DOTs","level":"2.8","depth":1,"previous":{"title":"Craft Extrinsic","level":"2.7","depth":1,"path":"examples/06_craft_extrinsic/README.md","ref":"examples/06_craft_extrinsic/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/07_transfer_dots/README.md","mtime":"2018-09-26T05:25:07.927Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-26T05:30:25.997Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

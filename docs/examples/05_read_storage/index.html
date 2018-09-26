@@ -370,39 +370,39 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="read-storage">Read storage</h1>
-<p>Many important variable are available through the storage API. This example shows how to call a few of those APIs.</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> Api = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api&apos;</span>).default
-<span class="hljs-keyword">const</span> WsProvider = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>).default
-<span class="hljs-keyword">const</span> storage = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/storage&apos;</span>).default
-<span class="hljs-keyword">const</span> BN = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;bn.js&apos;</span>)
+<p>Many important variables are available through the storage API. This example shows how to call a few of those APIs.</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> BN = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;bn.js&apos;</span>);
+<span class="hljs-keyword">const</span> Api = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api&apos;</span>).default;
+<span class="hljs-keyword">const</span> WsProvider = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>).default;
+<span class="hljs-keyword">const</span> storage = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;@polkadot/storage&apos;</span>).default;
 
-<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;ws://127.0.0.1:9944&apos;</span>)
-<span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> Api(provider)
+<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;ws://127.0.0.1:9944&apos;</span>);
+<span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> Api(provider);
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getAccountIndex</span> (<span class="hljs-params">address</span>) </span>{
-  <span class="hljs-keyword">return</span> api.state.getStorage([storage.system.public.accountIndexOf, address])
+  <span class="hljs-keyword">return</span> api.state.getStorage([storage.system.public.accountIndexOf, address]);
 }
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getValidators</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> api.state.getStorage([storage.session.public.validators])
+  <span class="hljs-keyword">return</span> api.state.getStorage([storage.session.public.validators]);
 }
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getBlockPeriod</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">return</span> api.state.getStorage([storage.timestamp.public.blockPeriod])
+  <span class="hljs-keyword">return</span> api.state.getStorage([storage.timestamp.public.blockPeriod]);
 }
 
 <span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span> (<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">const</span> address = <span class="hljs-string">&apos;5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ&apos;</span>
-  <span class="hljs-keyword">const</span> validators = <span class="hljs-keyword">await</span> getValidators()
-  <span class="hljs-keyword">const</span> index = <span class="hljs-keyword">await</span> getAccountIndex(address)
-  <span class="hljs-keyword">const</span> blockPeriod = <span class="hljs-keyword">await</span> getBlockPeriod()
+  <span class="hljs-keyword">const</span> address = <span class="hljs-string">&apos;5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ&apos;</span>;
+  <span class="hljs-keyword">const</span> validators = <span class="hljs-keyword">await</span> getValidators();
+  <span class="hljs-keyword">const</span> index = <span class="hljs-keyword">await</span> getAccountIndex(address);
+  <span class="hljs-keyword">const</span> blockPeriod = <span class="hljs-keyword">await</span> getBlockPeriod();
 
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`BlockPeriod: <span class="hljs-subst">${new BN(blockPeriod).toString(10)}</span> seconds`</span>)
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account Index of <span class="hljs-subst">${address}</span>: <span class="hljs-subst">${index.toString(10)}</span>`</span>)
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Current validators&apos;</span>, validators)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`BlockPeriod: <span class="hljs-subst">${new BN(blockPeriod).toString(10)}</span> seconds`</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`Account Index of <span class="hljs-subst">${address}</span>: <span class="hljs-subst">${index.toString(10)}</span>`</span>);
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;Current validators&apos;</span>, validators);
 }
 
-main().finally(_ =&gt; process.exit())
+main().finally(_ =&gt; process.exit());
 </code></pre>
 
                                 
@@ -447,7 +447,7 @@ main().finally(_ =&gt; process.exit())
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Read Storage","level":"2.6","depth":1,"next":{"title":"Craft Extrinsic","level":"2.7","depth":1,"path":"examples/06_craft_extrinsic/README.md","ref":"examples/06_craft_extrinsic/README.md","articles":[]},"previous":{"title":"Generate Accounts","level":"2.5","depth":1,"path":"examples/04_generate_account/README.md","ref":"examples/04_generate_account/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/05_read_storage/README.md","mtime":"2018-09-25T16:22:52.658Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-25T16:27:51.734Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Read Storage","level":"2.6","depth":1,"next":{"title":"Craft Extrinsic","level":"2.7","depth":1,"path":"examples/06_craft_extrinsic/README.md","ref":"examples/06_craft_extrinsic/README.md","articles":[]},"previous":{"title":"Generate Accounts","level":"2.5","depth":1,"path":"examples/04_generate_account/README.md","ref":"examples/04_generate_account/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/05_read_storage/README.md","mtime":"2018-09-26T05:25:07.927Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-09-26T05:30:25.997Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

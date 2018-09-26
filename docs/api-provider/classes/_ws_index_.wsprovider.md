@@ -2,12 +2,18 @@
 
 The WebSocket Provider allows sending requests using WebSocket. Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
 
-*__example__*:
-
 ```javascript
 import createApi from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 
+const provider = new WsProvider('ws://127.0.0.1:9944');
+const api = createApi(provider);
+```
+
+.
+*__example__*: ```javascript
+import createApi from '@polkadot/api';
+import WsProvider from '@polkadot/api-provider/ws';
 const provider = new WsProvider('ws://127.0.0.1:9944');
 const api = createApi(provider);
 ```
@@ -35,7 +41,7 @@ const api = createApi(provider);
 
 ⊕ **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:69](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L69)*
+*Defined in [ws/index.ts:69](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L69)*
 
 **Parameters:**
 
@@ -59,7 +65,7 @@ ___
 
 *Inherited from EventEmitter.prefixed*
 
-*Defined in [index.d.ts:6](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L6)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:6*
 
 ___
 
@@ -73,7 +79,7 @@ ___
 
 *Inherited from EventEmitter.addListener*
 
-*Defined in [index.d.ts:33](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L33)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:33*
 
 **Parameters:**
 
@@ -92,7 +98,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:99](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L99)*
+*Defined in [ws/index.ts:99](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L99)*
 
 The [WsProvider](_ws_index_.wsprovider.md) connects automatically by default. if you decided otherwise, you may connect manually using this method.
 
@@ -107,7 +113,7 @@ ___
 
 *Inherited from EventEmitter.emit*
 
-*Defined in [index.d.ts:27](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L27)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:27*
 
 Calls each of the listeners registered for a given event.
 
@@ -129,7 +135,7 @@ ___
 
 *Inherited from EventEmitter.eventNames*
 
-*Defined in [index.d.ts:12](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L12)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:12*
 
 Return an array listing the events for which the emitter has registered listeners.
 
@@ -142,7 +148,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:116](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L116)*
+*Defined in [ws/index.ts:116](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L116)*
 
 Whether the node is connected or not.
 
@@ -158,7 +164,7 @@ ___
 
 *Inherited from EventEmitter.listenerCount*
 
-*Defined in [index.d.ts:22](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L22)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:22*
 
 Return the number of listeners listening to a given event.
 
@@ -179,7 +185,7 @@ ___
 
 *Inherited from EventEmitter.listeners*
 
-*Defined in [index.d.ts:17](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L17)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:17*
 
 Return the listeners registered for a given event.
 
@@ -200,7 +206,7 @@ ___
 
 *Inherited from EventEmitter.off*
 
-*Defined in [index.d.ts:44](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L44)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44*
 
 **Parameters:**
 
@@ -222,7 +228,7 @@ ___
 
 *Overrides EventEmitter.on*
 
-*Defined in [ws/index.ts:126](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L126)*
+*Defined in [ws/index.ts:126](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L126)*
 
 Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
@@ -245,7 +251,7 @@ ___
 
 *Inherited from EventEmitter.once*
 
-*Defined in [index.d.ts:38](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L38)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:38*
 
 Add a one-time listener for a given event.
 
@@ -268,7 +274,7 @@ ___
 
 *Inherited from EventEmitter.removeAllListeners*
 
-*Defined in [index.d.ts:49](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L49)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:49*
 
 Remove all listeners, or those of the specified event.
 
@@ -289,7 +295,7 @@ ___
 
 *Inherited from EventEmitter.removeListener*
 
-*Defined in [index.d.ts:43](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L43)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43*
 
 Remove the listeners of a given event.
 
@@ -311,7 +317,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:130](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L130)*
+*Defined in [ws/index.ts:130](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L130)*
 
 **Parameters:**
 
@@ -330,13 +336,10 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *[ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:182](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L182)*
+*Defined in [ws/index.ts:183](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L183)*
 
 Allows subscribing to a specific event.
-
-*__example__*:
-
-```javascript
+*__example__*: ```javascript
 const provider = new WsProvider('ws://127.0.0.1:9944');
 const api = createApi(provider);
 
@@ -357,7 +360,7 @@ api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, value
 | callback | [ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback) |  Callback |
 
 **Returns:** `Promise`<`number`>
-Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
+Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
 
 ___
 <a id="unsubscribe"></a>
@@ -366,7 +369,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:191](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L191)*
+*Defined in [ws/index.ts:192](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/ws/index.ts#L192)*
 
 Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
