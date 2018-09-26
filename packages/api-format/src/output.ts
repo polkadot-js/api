@@ -43,7 +43,7 @@ const formatters = new Map<Param$Types, FormatterFunction>([
   ['Bytes', bytesDecode],
   ['Hash', hashDecode],
   ['Header', headerDecode],
-  ['MetaData', metaDecode],
+  ['Metadata', metaDecode],
   ['SignedBlock', blockDecode],
   ['u64', bnDecode]
 ]);

@@ -30,7 +30,7 @@ const callAt: CreateItemOptions = {
 const getMetadata: CreateItemOptions = {
   description: 'Returns the runtime metadata',
   params: [],
-  type: 'MetaData'
+  type: 'Metadata'
 };
 
 const getMetadataAt: CreateItemOptions = {
@@ -38,7 +38,7 @@ const getMetadataAt: CreateItemOptions = {
   params: [
     param('block', 'Hash')
   ],
-  type: 'MetaData'
+  type: 'Metadata'
 };
 
 const getStorage: CreateItemOptions = {

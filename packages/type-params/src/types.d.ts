@@ -14,7 +14,7 @@ export type EncodingVersions = 'poc-1' | 'latest';
 // - @polkadot/storage/key/params.ts
 // - decode/value/index.js
 // - encode/type/index.js
-export type Param$Type = 'AccountId' | 'AccountIndex' | 'Balance' | 'BlockNumber' | 'bool' | 'Bytes' | 'Call' | 'CandidateReceipt' | 'Code' | 'Digest' | 'Gas' | 'Hash' | 'Header'  | 'KeyValue' | 'MetaData' | 'MisbehaviorReport' | 'ParachainId' | 'PendingExtrinsics' | 'PropIndex' | 'Proposal' | 'ReferendumIndex' | 'SessionKey' | 'Signature' | 'SignedBlock' | 'StorageKey' | 'StorageKeyValue' | 'StorageResult' | 'StorageResultSet' | 'String' | 'Timestamp' | 'u32' | 'u64' | 'u128' | 'VoteIndex' | 'VoteThreshold';
+export type Param$Type = 'AccountId' | 'AccountIndex' | 'Balance' | 'BlockNumber' | 'bool' | 'Bytes' | 'Call' | 'CandidateReceipt' | 'Code' | 'Digest' | 'Gas' | 'Hash' | 'Header'  | 'KeyValue' | 'Metadata' | 'MisbehaviorReport' | 'ParachainId' | 'PendingExtrinsics' | 'PropIndex' | 'Proposal' | 'ReferendumIndex' | 'SessionKey' | 'Signature' | 'SignedBlock' | 'StorageKey' | 'StorageKeyValue' | 'StorageResult' | 'StorageResultSet' | 'String' | 'Timestamp' | 'u32' | 'u64' | 'u128' | 'VoteIndex' | 'VoteThreshold';
 
 export type Param$Type$Array = Array<Param$Type | Array<Param$Type | Array<Param$Type>>>;
 
@@ -48,7 +48,7 @@ export type BlockDecoded = {
   justification: BlockJustificationDecoded
 };
 
-export type MetaData = {
+export type Metadata = {
 };
 
 export type KeyValue = {
@@ -56,7 +56,7 @@ export type KeyValue = {
   value: Uint8Array
 }
 
-export type Param$Value = Digest | Header | KeyValue | MetaData | MisbehaviorReport | ExtrinsicDecoded | BN | Date | Uint8Array | boolean | number | string | null;
+export type Param$Value = Digest | Header | KeyValue | Metadata | MisbehaviorReport | ExtrinsicDecoded | BN | Date | Uint8Array | boolean | number | string | null;
 
 export type Param$Value$Array = Array<Param$Value | Array<Param$Value | Array<Param$Value>>>;
 

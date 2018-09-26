@@ -81,7 +81,7 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
         return keyValue(input);
 
       // HACKY, but a stopgap...
-      case 'MetaData':
+      case 'Metadata':
         return u8a(input, (input as Uint8Array).length * 8, 0);
 
       case 'MisbehaviorReport':
