@@ -65,9 +65,18 @@ export default class Struct <
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
-    Object.keys(this.raw).forEach((key) => {
+    // NOTE From Rust, anonymous structures are encoded to Arrays, here
+    // we handle that case, taking each value in the array and passing it
+    // (in order) to the actual decoders (See e.g. SignedBlock.spec.json)
+    const isArrayIn = Array.isArray(input);
+
+    Object.keys(this.raw).forEach((key, index) => {
       // @ts-ignore as above...
-      this.raw[key].fromJSON(input[key]);
+      this.raw[key].fromJSON(
+        isArrayIn
+          ? input[index]
+          : input[key]
+      );
     });
 
     return this;

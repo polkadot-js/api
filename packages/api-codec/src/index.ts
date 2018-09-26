@@ -12,6 +12,8 @@ export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
 export { default as AuthorityId } from './AuthorityId';
 export { default as Balance } from './Balance';
+// NOTE Bft items are only used in internal structures
+// export * from './Bft;
 export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
 export { default as Bool } from './Bool';
@@ -32,6 +34,7 @@ export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as Signature } from './Signature';
+export { default as SignedBlock } from './SignedBlock';
 // NOTE Text is currently only used internally, export not needed
 // export { default as Text } from './Text';
 // NOTE Type is currently only used internally (possibly in codec-related work)

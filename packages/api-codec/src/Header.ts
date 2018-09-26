@@ -63,7 +63,7 @@ export default class Header extends Struct {
     return this.raw.extrinsicsRoot as Hash;
   }
 
-  // convernience, encodes the header and returns the actual hash
+  // convenience, encodes the header and returns the actual hash
   get hash (): Hash {
     return new Hash(
       blake2Asu8a(this.toU8a(), 256)

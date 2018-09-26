@@ -11,7 +11,7 @@ import Extrinsic from './Extrinsic';
 import Hash from './Hash';
 import Header, { HeaderStruct } from './Header';
 
-type BlockStruct = {
+export type BlockStruct = {
   extrinsics?: Array<U8a | Uint8Array | Array<number> | string>
   header?: HeaderStruct
 };

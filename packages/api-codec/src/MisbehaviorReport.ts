@@ -6,42 +6,17 @@ import BN from 'bn.js';
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 import UInt from './codec/UInt';
 import AuthorityId from './AuthorityId';
+import { BftHashSignature, BftHashSignatureStruct } from './Bft';
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
-import Signature from './Signature';
 import U32 from './U32';
-
-type HashSignatureStruct = {
-  hash?: U8a | Uint8Array | string,
-  signature?: U8a | Uint8Array | string
-};
-
-// Represents a Bft Hash and Signature pairing, typically used in reporting
-// network behaviour.
-export class HashSignature extends Struct {
-  constructor (value: HashSignatureStruct = {}) {
-    super({
-      hash: Hash,
-      signature: Signature
-    }, value);
-  }
-
-  get hash (): Hash {
-    return this.raw.hash as Hash;
-  }
-
-  get signature (): Signature {
-    return this.raw.signature as Signature;
-  }
-}
 
 type BftAtReportStruct = {
   round?: UInt | BN | number,
-  a?: HashSignatureStruct,
-  b?: HashSignatureStruct
+  a?: BftHashSignatureStruct,
+  b?: BftHashSignatureStruct
 };
 
 // A report of a/b hash-signature pairs for a specific index. This is the same
@@ -54,17 +29,17 @@ export class BftAtReport extends Struct {
   constructor (value: BftAtReportStruct = {}) {
     super({
       round: U32,
-      a: HashSignature,
-      b: HashSignature
+      a: BftHashSignature,
+      b: BftHashSignature
     }, value);
   }
 
-  get a (): HashSignature {
-    return this.raw.a as HashSignature;
+  get a (): BftHashSignature {
+    return this.raw.a as BftHashSignature;
   }
 
-  get b (): HashSignature {
-    return this.raw.b as HashSignature;
+  get b (): BftHashSignature {
+    return this.raw.b as BftHashSignature;
   }
 
   get round (): U32 {
