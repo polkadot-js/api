@@ -34,7 +34,7 @@ export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as Signature } from './Signature';
 // NOTE Text is currently only used internally, export not needed
 // export { default as Text } from './Text';
-// NOTE Type is currently only used internally (pobbibly in codec-ralated work)
+// NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';
 export { default as U8 } from './U8';
 export { default as U16 } from './U16';
