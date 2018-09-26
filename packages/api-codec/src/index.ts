@@ -30,7 +30,7 @@ export { default as Index } from './Nonce';
 export { default as PropIndex } from './PropIndex';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
-export { default as ReferenduumIndex } from './ReferendumIndex';
+export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as Signature } from './Signature';
 // NOTE Text is currently only used internally, export not needed
 // export { default as Text } from './Text';
