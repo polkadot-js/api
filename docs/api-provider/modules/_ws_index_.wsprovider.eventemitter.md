@@ -21,7 +21,7 @@
 
 **● EventEmitter**: *`EventEmitterStatic`*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:61*
+*Defined in [index.d.ts:57](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L57)*
 
 ___
 

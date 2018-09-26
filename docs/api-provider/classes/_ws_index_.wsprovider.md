@@ -2,15 +2,12 @@
 
 The WebSocket Provider allows sending requests using WebSocket. Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
 
+*__example__*:
+
 ```javascript
 import createApi from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
-const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = createApi(provider);
-```
-*__example__*: ```javascript
-import createApi from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
+
 const provider = new WsProvider('ws://127.0.0.1:9944');
 const api = createApi(provider);
 ```
@@ -62,7 +59,7 @@ ___
 
 *Inherited from EventEmitter.prefixed*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:6*
+*Defined in [index.d.ts:6](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L6)*
 
 ___
 
@@ -76,7 +73,7 @@ ___
 
 *Inherited from EventEmitter.addListener*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:33*
+*Defined in [index.d.ts:33](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L33)*
 
 **Parameters:**
 
@@ -110,7 +107,7 @@ ___
 
 *Inherited from EventEmitter.emit*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:27*
+*Defined in [index.d.ts:27](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L27)*
 
 Calls each of the listeners registered for a given event.
 
@@ -132,7 +129,7 @@ ___
 
 *Inherited from EventEmitter.eventNames*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:12*
+*Defined in [index.d.ts:12](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L12)*
 
 Return an array listing the events for which the emitter has registered listeners.
 
@@ -161,7 +158,7 @@ ___
 
 *Inherited from EventEmitter.listenerCount*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:22*
+*Defined in [index.d.ts:22](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L22)*
 
 Return the number of listeners listening to a given event.
 
@@ -182,7 +179,7 @@ ___
 
 *Inherited from EventEmitter.listeners*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:17*
+*Defined in [index.d.ts:17](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L17)*
 
 Return the listeners registered for a given event.
 
@@ -203,7 +200,7 @@ ___
 
 *Inherited from EventEmitter.off*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44*
+*Defined in [index.d.ts:44](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L44)*
 
 **Parameters:**
 
@@ -248,7 +245,7 @@ ___
 
 *Inherited from EventEmitter.once*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:38*
+*Defined in [index.d.ts:38](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L38)*
 
 Add a one-time listener for a given event.
 
@@ -271,7 +268,7 @@ ___
 
 *Inherited from EventEmitter.removeAllListeners*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:49*
+*Defined in [index.d.ts:49](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L49)*
 
 Remove all listeners, or those of the specified event.
 
@@ -292,7 +289,7 @@ ___
 
 *Inherited from EventEmitter.removeListener*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43*
+*Defined in [index.d.ts:43](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L43)*
 
 Remove the listeners of a given event.
 
@@ -336,9 +333,13 @@ ___
 *Defined in [ws/index.ts:182](https://github.com/polkadot-js/api/blob/964bf84/packages/api-provider/src/ws/index.ts#L182)*
 
 Allows subscribing to a specific event.
-*__example__*: ```javascript
-const provider = new WsProvider('ws://127.0.0.1:9944')
-const api = createApi(provider)
+
+*__example__*:
+
+```javascript
+const provider = new WsProvider('ws://127.0.0.1:9944');
+const api = createApi(provider);
+
 api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
   console.log(values)
 }).then((subscriptionId) => {

@@ -40,7 +40,7 @@ interface WSProviderInterface extends ProviderInterface {
 /**
  * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
  * it does support subscriptions and allows listening to events such as new blocks or balance changes.
- * [[include:create_api.adoc]]
+ * [[include:create_api.adoc]].
  * @example
  * ```javascript
  *
@@ -166,12 +166,13 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @param  {string}                     method   Subscription method
    * @param  {Array<any>}                 params   Parameters
    * @param  {ProviderInterface$Callback} callback Callback
-   * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
+   * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    * @example
    * ```javascript
    *
-   * const provider = new WsProvider('ws://127.0.0.1:9944')
-   * const api = createApi(provider)
+   * const provider = new WsProvider('ws://127.0.0.1:9944');
+   * const api = createApi(provider);
+   *
    * api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
