@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
+import U8a from './codec/U8a';
 import UInt from './codec/UInt';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
@@ -13,13 +14,12 @@ import BlockNumber from './BlockNumber';
 import Bytes from './Bytes';
 import Hash from './Hash';
 
-type DigestStruct = {
-  logs?: Array<Uint8Array | string>
+type DigestValue = {
+  logs?: Array<U8a | Uint8Array | string>
 };
 
-// TODO Not convinced about the *Struct naming
-export type HeaderStruct = {
-  digest?: DigestStruct,
+export type HeaderValue = {
+  digest?: DigestValue,
   extrinsicsRoot?: Hash | Uint8Array | string,
   number?: UInt | BN | number | string,
   parentHash?: Hash | Uint8Array | string,
@@ -28,7 +28,7 @@ export type HeaderStruct = {
 
 // A block header digest.
 export class Digest extends Struct {
-  constructor (value: DigestStruct = {}) {
+  constructor (value: DigestValue = {}) {
     super({
       logs: Vector.with(Bytes)
     }, value);
@@ -41,7 +41,7 @@ export class Digest extends Struct {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value: HeaderStruct = {}) {
+  constructor (value: HeaderValue = {}) {
     super({
       parentHash: Hash,
       number: BlockNumber,

@@ -3,16 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Struct from './codec/Struct';
-import { Justification, JustificationStruct } from './Bft';
-import Block, { BlockStruct } from './Block';
+import { Justification, JustificationValue } from './Bft';
+import Block, { BlockValue } from './Block';
 
-type SignedBlockStruct = {
-  block?: BlockStruct,
-  justification?: JustificationStruct
+type SignedBlockValue = {
+  block?: BlockValue,
+  justification?: JustificationValue
 };
 
 export default class SignedBlock extends Struct {
-  constructor (value: SignedBlockStruct = {}) {
+  constructor (value: SignedBlockValue = {}) {
     super({
       block: Block,
       justification: Justification

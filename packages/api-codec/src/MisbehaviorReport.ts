@@ -8,15 +8,15 @@ import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
 import UInt from './codec/UInt';
 import AuthorityId from './AuthorityId';
-import { BftHashSignature, BftHashSignatureStruct } from './Bft';
+import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
 import U32 from './U32';
 
-type BftAtReportStruct = {
+type BftAtReportValue = {
   round?: UInt | BN | number,
-  a?: BftHashSignatureStruct,
-  b?: BftHashSignatureStruct
+  a?: BftHashSignatureValue,
+  b?: BftHashSignatureValue
 };
 
 // A report of a/b hash-signature pairs for a specific index. This is the same
@@ -26,7 +26,7 @@ type BftAtReportStruct = {
 // items in the structure is called, except a & b (one should be expected, the
 // other actual)
 export class BftAtReport extends Struct {
-  constructor (value: BftAtReportStruct = {}) {
+  constructor (value: BftAtReportValue = {}) {
     super({
       round: U32,
       a: BftHashSignature,
@@ -56,7 +56,7 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (index: number, value: BftAtReportStruct = {}) {
+  constructor (index: number, value: BftAtReportValue = {}) {
     super([
       BftDoublePrepare,
       BftDoubleCommit
@@ -66,14 +66,14 @@ export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit
   }
 }
 
-type MisbehaviorReportStruct = {
+type MisbehaviorReportValue = {
   unstakeThreshold?: UInt | BN | number,
   validatorPayment?: UInt | BN | number
 };
 
 // A Misbehaviour report against a specific AuthorityId
 export default class MisbehaviorReport extends Struct {
-  constructor (value: MisbehaviorReportStruct = {}) {
+  constructor (value: MisbehaviorReportValue = {}) {
     super({
       parentHash: Hash,
 	    parentNumber: BlockNumber,

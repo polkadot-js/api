@@ -9,13 +9,13 @@ import UInt from './codec/UInt';
 import Balance from './Balance';
 import U32 from './U32';
 
-type ValidatorPrefsStruct = {
+type ValidatorPrefsValue = {
   unstakeThreshold?: UInt | BN | number,
   validatorPayment?: UInt | BN | number
 };
 
 export default class ValidatorPrefs extends Struct {
-  constructor (value: ValidatorPrefsStruct = {}) {
+  constructor (value: ValidatorPrefsValue = {}) {
     super({
       unstakeThreshold: U32,
       validatorPayment: Balance

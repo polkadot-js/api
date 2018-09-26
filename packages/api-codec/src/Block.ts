@@ -9,16 +9,16 @@ import Vector from './codec/Vector';
 import U8a from './codec/U8a';
 import Extrinsic from './Extrinsic';
 import Hash from './Hash';
-import Header, { HeaderStruct } from './Header';
+import Header, { HeaderValue } from './Header';
 
-export type BlockStruct = {
+export type BlockValue = {
   extrinsics?: Array<U8a | Uint8Array | Array<number> | string>
-  header?: HeaderStruct
+  header?: HeaderValue
 };
 
 // A block encoded with header and extrinsics
 export default class Block extends Struct {
-  constructor (value: BlockStruct = {}) {
+  constructor (value: BlockValue = {}) {
     super({
       header: Header,
       extrinsics: Vector.with(Extrinsic)

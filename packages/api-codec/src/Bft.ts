@@ -13,7 +13,7 @@ import Hash from './Hash';
 import Signature from './Signature';
 import U32 from './U32';
 
-export type BftAuthoritySignatureStruct = {
+export type BftAuthoritySignatureValue = {
   authorityId?: U8a | Uint8Array | string,
   signature?: U8a | Uint8Array | string
 };
@@ -21,7 +21,7 @@ export type BftAuthoritySignatureStruct = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftAuthoritySignature extends Struct {
-  constructor (value: BftAuthoritySignatureStruct = {}) {
+  constructor (value: BftAuthoritySignatureValue = {}) {
     super({
       authorityId: AuthorityId,
       signature: Signature
@@ -37,7 +37,7 @@ export class BftAuthoritySignature extends Struct {
   }
 }
 
-export type BftHashSignatureStruct = {
+export type BftHashSignatureValue = {
   hash?: U8a | Uint8Array | string,
   signature?: U8a | Uint8Array | string
 };
@@ -45,7 +45,7 @@ export type BftHashSignatureStruct = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftHashSignature extends Struct {
-  constructor (value: BftHashSignatureStruct = {}) {
+  constructor (value: BftHashSignatureValue = {}) {
     super({
       hash: Hash,
       signature: Signature
@@ -61,14 +61,14 @@ export class BftHashSignature extends Struct {
   }
 }
 
-export type JustificationStruct = {
+export type JustificationValue = {
   round_number?: UInt | BN | number | string,
   hash?: U8a | Uint8Array | string,
-  signatures?: Array<BftAuthoritySignatureStruct>
+  signatures?: Array<BftAuthoritySignatureValue>
 };
 
 export class Justification extends Struct {
-  constructor (value: JustificationStruct = {}) {
+  constructor (value: JustificationValue = {}) {
     super({
       // FIXME Rust returns this as "round_number", we actually want a JSON alias
       // in the structure to take care of these renames...
