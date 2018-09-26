@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { AnyNumber, AnyU8a } from './types';
+
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
-import U8a from './codec/U8a';
-import UInt from './codec/UInt';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
@@ -15,15 +14,15 @@ import Bytes from './Bytes';
 import Hash from './Hash';
 
 type DigestValue = {
-  logs?: Array<U8a | Uint8Array | string>
+  logs?: Array<AnyU8a>
 };
 
 export type HeaderValue = {
   digest?: DigestValue,
-  extrinsicsRoot?: Hash | Uint8Array | string,
-  number?: UInt | BN | number | string,
-  parentHash?: Hash | Uint8Array | string,
-  stateRoot?: Hash | Uint8Array | string
+  extrinsicsRoot?: AnyU8a,
+  number?: AnyNumber,
+  parentHash?: AnyU8a,
+  stateRoot?: AnyU8a
 };
 
 // A block header digest.

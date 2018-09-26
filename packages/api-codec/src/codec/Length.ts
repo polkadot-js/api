@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyNumber } from '../types';
+
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
@@ -38,11 +40,9 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 // code and a more generic implementation around the use of Length. Looking at
 // Array or Struct, the same type of wrapper would be useful here.
 export default class Length extends Base<BN> {
-  constructor (value: UInt | BN | number = new BN(0)) {
+  constructor (value: AnyNumber = new BN(0)) {
     super(
-      value instanceof UInt
-        ? value.raw
-        : bnToBn(value)
+      UInt.decode(value)
     );
   }
 

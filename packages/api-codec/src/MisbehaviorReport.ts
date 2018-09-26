@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { AnyNumber } from './types';
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
-import UInt from './codec/UInt';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
@@ -14,7 +13,7 @@ import Hash from './Hash';
 import U32 from './U32';
 
 type BftAtReportValue = {
-  round?: UInt | BN | number,
+  round?: AnyNumber,
   a?: BftHashSignatureValue,
   b?: BftHashSignatureValue
 };
@@ -67,8 +66,8 @@ export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit
 }
 
 type MisbehaviorReportValue = {
-  unstakeThreshold?: UInt | BN | number,
-  validatorPayment?: UInt | BN | number
+  unstakeThreshold?: AnyNumber,
+  validatorPayment?: AnyNumber
 };
 
 // A Misbehaviour report against a specific AuthorityId

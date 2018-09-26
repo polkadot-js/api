@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 
 import Bytes from './Bytes';
 
 type KeyValueValue = {
-  key?: U8a | Uint8Array | string,
-  value?: U8a | Uint8Array | string
+  key?: AnyU8a,
+  value?: AnyU8a
 };
 
 // KeyValue structure. Since most of the keys and resultant values in Subtrate is

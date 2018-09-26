@@ -2,11 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
-import UInt from './codec/UInt';
 import Vector from './codec/Vector';
 import AuthorityId from './AuthorityId';
 import Hash from './Hash';
@@ -14,8 +12,8 @@ import Signature from './Signature';
 import U32 from './U32';
 
 export type BftAuthoritySignatureValue = {
-  authorityId?: U8a | Uint8Array | string,
-  signature?: U8a | Uint8Array | string
+  authorityId?: AnyU8a,
+  signature?: AnyU8a
 };
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
@@ -38,8 +36,8 @@ export class BftAuthoritySignature extends Struct {
 }
 
 export type BftHashSignatureValue = {
-  hash?: U8a | Uint8Array | string,
-  signature?: U8a | Uint8Array | string
+  hash?: AnyU8a,
+  signature?: AnyU8a
 };
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
@@ -62,8 +60,8 @@ export class BftHashSignature extends Struct {
 }
 
 export type JustificationValue = {
-  round_number?: UInt | BN | number | string,
-  hash?: U8a | Uint8Array | string,
+  round_number?: AnyNumber,
+  hash?: AnyU8a,
   signatures?: Array<BftAuthoritySignatureValue>
 };
 

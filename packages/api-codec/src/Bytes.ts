@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Length from './codec/Length';
@@ -13,7 +15,7 @@ import U8a from './codec/U8a';
 export default class Bytes extends U8a {
   protected _length: Length;
 
-  constructor (value?: U8a | string | Uint8Array | Array<number>) {
+  constructor (value?: AnyU8a) {
     super(value);
 
     this._length = new Length(this.raw.length);

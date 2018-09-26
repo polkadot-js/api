@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
-import U8a from './codec/U8a';
 import Extrinsic from './Extrinsic';
 import Hash from './Hash';
 import Header, { HeaderValue } from './Header';
 
 export type BlockValue = {
-  extrinsics?: Array<U8a | Uint8Array | Array<number> | string>
+  extrinsics?: Array<AnyU8a>
   header?: HeaderValue
 };
 

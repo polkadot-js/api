@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
@@ -11,7 +13,7 @@ import U8a from './codec/U8a';
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends U8a {
-  constructor (value: U8a | string | Uint8Array = new Uint8Array()) {
+  constructor (value: AnyU8a = new Uint8Array()) {
     super(
       value instanceof U8a
         ? value.raw

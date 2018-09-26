@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from '../types';
+
 import U8a from './U8a';
 
 type BitLength = 256 | 512;
@@ -11,7 +13,7 @@ type BitLength = 256 | 512;
 export default class U8aFixed extends U8a {
   protected _bitLength: number;
 
-  constructor (value: U8a | string | Uint8Array = new Uint8Array(), bitLength: BitLength = 256) {
+  constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(value);
 
     this._bitLength = bitLength;

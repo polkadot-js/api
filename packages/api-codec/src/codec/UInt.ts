@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyNumber } from '../types';
+
 import BN from 'bn.js';
 import isHex from '@polkadot/util/is/hex';
 import isString from '@polkadot/util/is/string';
@@ -24,7 +26,7 @@ type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 export default class UInt extends Base<BN> {
   private _bitLength: BitLength;
 
-  constructor (value: UInt | BN | string | number = 0, bitLength: BitLength = 64) {
+  constructor (value: AnyNumber = 0, bitLength: BitLength = 64) {
     super(
       UInt.decode(value)
     );
@@ -32,7 +34,7 @@ export default class UInt extends Base<BN> {
     this._bitLength = bitLength;
   }
 
-  static decode (value: UInt | BN | string | number): BN {
+  static decode (value: AnyNumber): BN {
     if (value instanceof UInt) {
       return value.raw;
     } else if (isHex(value)) {

@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { AnyNumber } from './types';
 
 import Struct from './codec/Struct';
-import UInt from './codec/UInt';
 import Balance from './Balance';
 import U32 from './U32';
 
 type ValidatorPrefsValue = {
-  unstakeThreshold?: UInt | BN | number,
-  validatorPayment?: UInt | BN | number
+  unstakeThreshold?: AnyNumber,
+  validatorPayment?: AnyNumber
 };
 
 export default class ValidatorPrefs extends Struct {
