@@ -39,14 +39,18 @@ export default class Vector <
     };
   }
 
-  byteLength (): number {
-    return this.raw.reduce((total, raw) => {
-      return total + raw.byteLength();
-    }, this._length.byteLength());
+  get Type (): string {
+    return this._Type.name;
   }
 
   get length (): number {
     return this.raw.length;
+  }
+
+  byteLength (): number {
+    return this.raw.reduce((total, raw) => {
+      return total + raw.byteLength();
+    }, this._length.byteLength());
   }
 
   at (index: number): T {

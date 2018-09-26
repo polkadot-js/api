@@ -17,16 +17,21 @@ import Base from './Base';
 export default class Struct <
   S = { [index: string]: { new(value?: any): Base } },
   T = { [K in keyof S]: Base },
-  V = { [K in keyof S]: any }
+  V = { [K in keyof S]: any },
+  E = { [K in keyof S]: string }
 > extends Base<T> {
-  constructor (Def: S, value: V = {} as V) {
+  private _Types: E = {} as E;
+
+  constructor (Types: S, value: V = {} as V) {
     super(
-      Object.keys(Def).reduce((raw: T, key) => {
+      Object.keys(Types).reduce((raw: T, key) => {
         // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
         // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
         // was added, the idea is to provide better checks, which does backfire here, but works
         // externally.)
-        raw[key] = new Def[key](value[key]);
+        raw[key] = new Types[key](value[key]);
+        // @ts-ignore Same as above, can't do a simple one, I'm missing something simple
+        this._Types[key] = Types[key].name;
 
         return raw;
       }, {} as T)
@@ -43,13 +48,17 @@ export default class Struct <
     };
   }
 
+  get Types (): E {
+    return this._Types;
+  }
+
   byteLength (): number {
     return Object.values(this.raw).reduce((length, entry) => {
       return length += entry.byteLength();
     }, 0);
   }
 
-  fromJSON (input: any): Struct<S, T, V> {
+  fromJSON (input: any): Struct<S, T, V, E> {
     Object.keys(this.raw).forEach((key) => {
       // @ts-ignore as above...
       this.raw[key].fromJSON(input[key]);
@@ -58,7 +67,7 @@ export default class Struct <
     return this;
   }
 
-  fromU8a (input: Uint8Array): Struct<S, T, V> {
+  fromU8a (input: Uint8Array): Struct<S, T, V, E> {
     Object.keys(this.raw).reduce((offset, key) => {
       // @ts-ignore as above...
       this.raw[key].fromU8a(input.subarray(offset));
