@@ -18,7 +18,7 @@ export default class Struct <
   T = { [K in keyof S]: Base },
   // input values, mapped by key can be anything (construction)
   V = { [K in keyof S]: any },
-  // external types, mapped by key, name of Class in S
+  // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
 > extends Base<T> {
   private _Types: E;
