@@ -6,6 +6,8 @@ import Text from './Text';
 
 type Mapper = (value: string) => string;
 
+const ALLOWED_BOXES = ['Vec', 'Option'];
+
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
@@ -91,9 +93,16 @@ export default class Type extends Text {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value[index] === '<') {
-          if (value.substr(index - 3, 3) !== 'Vec') {
-            const start = index + 1;
-            const end = this._findClosing(value, start);
+          // check agains the allowed wrappers, be it Vec<..> or Option<...>
+          const box = ALLOWED_BOXES.find((box) => {
+            const start = index - box.length;
+
+            return start >= 0 && value.substr(start, box.length) === box;
+          });
+
+          // we have not found something, remove innards
+          if (!box) {
+            const end = this._findClosing(value, index + 1);
 
             value = `${value.substr(0, index)}${value.substr(end + 1)}`;
           }

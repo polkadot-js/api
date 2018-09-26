@@ -4,9 +4,10 @@
 
 import { AnyU8a } from './types';
 
+import Option from './codec/Option';
 import Struct from './codec/Struct';
-
-import Bytes from './Bytes';
+import StorageData from './StorageData';
+import StorageKey from './StorageKey';
 
 type KeyValueValue = {
   key?: AnyU8a,
@@ -20,16 +21,40 @@ type KeyValueValue = {
 export default class KeyValue extends Struct {
   constructor (value?: KeyValueValue) {
     super({
-      key: Bytes,
-      value: Bytes
+      key: StorageKey,
+      value: StorageData
     }, value);
   }
 
-  get key (): Bytes {
-    return this.raw.key as Bytes;
+  get key (): StorageKey {
+    return this.raw.key as StorageKey;
   }
 
-  get value (): Bytes {
-    return this.raw.value as Bytes;
+  get value (): StorageData {
+    return this.raw.value as StorageData;
+  }
+}
+
+export type KeyValueOptionValue = {
+  key?: AnyU8a,
+  value?: AnyU8a
+};
+
+// A key/value change. This is similar to the KeyValue structure,
+// however in this case the value could be optional.
+export class KeyValueOption extends Struct {
+  constructor (value?: KeyValueOptionValue) {
+    super({
+      key: StorageKey,
+      value: Option.with(StorageData)
+    }, value);
+  }
+
+  get key (): StorageKey {
+    return this.raw.key as StorageKey;
+  }
+
+  get value (): Option<StorageData> {
+    return this.raw.value as Option<StorageData>;
   }
 }

@@ -44,6 +44,9 @@ export { default as RawAddress } from './RawAddress';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
+export { default as StorageChangeSet } from './StorageChangeSet';
+export { default as StorageData } from './StorageData';
+export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
 // NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';

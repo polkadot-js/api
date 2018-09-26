@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import KeyValue from './KeyValue';
+import KeyValue, { KeyValueOption } from './KeyValue';
 
 describe('KeyValue', () => {
   it('decodes KeyValue from u8a', () => {
@@ -45,5 +45,16 @@ describe('KeyValue', () => {
 
     expect(kv.key.toHex()).toEqual('0x11223344');
     expect(kv.value.toHex()).toEqual('0x998877665544332211');
+  });
+});
+
+describe('KeyValueOption', () => {
+  it('exposes the properties for key/value', () => {
+    const kv = new KeyValueOption({
+      key: '0x11223344'
+    });
+
+    expect(kv.key.toHex()).toEqual('0x11223344');
+    expect(kv.value.isEmpty).toEqual(true);
   });
 });
