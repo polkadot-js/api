@@ -1,6 +1,8 @@
 
 
-*__example__*: ```javascript
+*__example__*:
+
+```javascript
 import Api from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 

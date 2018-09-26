@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...args: *`Array`<`any`>*): `void`
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:53*
+*Defined in [index.d.ts:53](https://github.com/primus/eventemitter3/blob/master/index.d.ts#L53)*
 
 **Parameters:**
 

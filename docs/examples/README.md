@@ -11,9 +11,9 @@ Some of the examples use the following accounts:
 - Alice: `5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ`
 - Bob: `5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE`
 
-Those accounts are easy to add if you don´t have/see them. The seed of Alice´s account is `Alice␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣` and the seed of Bob is... well you guess...
+Those accounts are easy to add if you don't have/see them. The seed of Alice's account is `Alice␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣` and the seed of Bob is... well you guess...
 
-NOTE: Note the spaces padding Alice´s key up to 32 chars.
+NOTE: Note the spaces padding Alice's key up to 32 chars.
 
 ## Install
 

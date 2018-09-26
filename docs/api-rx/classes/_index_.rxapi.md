@@ -1,7 +1,10 @@
 
 
 An RxJs wrapper around the \[\[api\]\].
-*__example__*: ```javascript
+
+*__example__*:
+
+```javascript
 import RxApi from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 
@@ -31,7 +34,7 @@ const rxapi = new RxApi(provider);
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| `Default value` provider | `ProviderInterface` |  new Ws(defaults.WS_URL) |  An API provider using HTTP or WebSocket |
+| `Default value` provider | `ProviderInterface` |  `new Ws(defaults.WS_URL)` |  An API provider using HTTP or WebSocket |
 
 **Returns:** [RxApi](_index_.rxapi.md)
 

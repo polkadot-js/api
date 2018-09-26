@@ -24,6 +24,7 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  *
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
+ *
  * const provider = new WsProvider('http://127.0.0.1:9933');
  * const api = createApi(provider);
  * ```
