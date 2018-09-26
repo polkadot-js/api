@@ -174,11 +174,13 @@ export class StorageFunctionType$Map extends Struct {
 }
 
 export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
-  constructor () {
+  constructor (index: number, value: any) {
     super([
       Type,
       StorageFunctionType$Map
     ], ['Plain', 'Map']);
+
+    this.setValue(index, value);
   }
 
   get isMap (): boolean {
