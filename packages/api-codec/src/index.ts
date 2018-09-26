@@ -29,6 +29,7 @@ export { default as Metadata } from './Metadata';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
+export { default as Origin } from './Origin';
 export { default as PropIndex } from './PropIndex';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
