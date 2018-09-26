@@ -19,7 +19,7 @@ type HashSignatureStruct = {
   signature?: U8a | Uint8Array | string
 };
 
-// Represents a Bft Hash ans Signature pairing, typically used in reporting
+// Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class HashSignature extends Struct {
   constructor (value: HashSignatureStruct = {}) {
