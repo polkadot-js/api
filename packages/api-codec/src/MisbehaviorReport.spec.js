@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import MisbheaviorReport, { BftAtReport } from './MisbehaviorReport';
+import MisbehaviorReport, { BftAtReport } from './MisbehaviorReport';
 
 describe('BftAtReport', () => {
   const report = new BftAtReport({
@@ -30,8 +30,8 @@ describe('BftAtReport', () => {
   });
 });
 
-describe('MisbheaviorReport', () => {
-  const report = new MisbheaviorReport({
+describe('MisbehaviorReport', () => {
+  const report = new MisbehaviorReport({
     parentHash: '0x01020304',
     parentNumber: 78,
     target: '0x11112222',
