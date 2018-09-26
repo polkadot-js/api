@@ -22,35 +22,35 @@ const createWKKFunction = (prefix: Text | U8a, functionMetadata: WKKMetadata) =>
 export const code = createWKKFunction(new U8a(':code'), {
   documentation: new Vector(Text, ['Wasm code of the runtime.']),
   name: new Text('code'),
-  type: new StorageFunctionType().fromJSON('Vec<u8>')
+  type: new StorageFunctionType(0, 'Bytes')
 });
 
 export const heapPages = createWKKFunction(new U8a(':heappages'), {
   documentation: new Vector(Text, ['Number of wasm linear memory pages required for execution of the runtime.']),
   name: new Text('heapPages'),
-  type: new StorageFunctionType().fromJSON('u64')
+  type: new StorageFunctionType(0, 'u64')
 });
 
 export const authorityCount = createWKKFunction(new U8a(':auth:len'), {
   documentation: new Vector(Text, ['Number of authorities.']),
   name: new Text('authorityCount'),
-  type: new StorageFunctionType().fromJSON('u32')
+  type: new StorageFunctionType(0, 'u32')
 });
 
 export const authorityPrefix = createWKKFunction(new U8a(':auth:'), {
   documentation: new Vector(Text, ['Prefix under which authorities are storied.']),
   name: new Text('authorityPrefix'),
-  type: new StorageFunctionType().fromJSON('u32')
+  type: new StorageFunctionType(0, 'u32')
 });
 
 export const extrinsicIndex = createWKKFunction(new U8a(':extrinsic_index'), {
   documentation: new Vector(Text, ['Current extrinsic index (u32) is stored under this key.']),
   name: new Text('extrinsicIndex'),
-  type: new StorageFunctionType().fromJSON('u32')
+  type: new StorageFunctionType(0, 'u32')
 });
 
 export const changesTrieConfig = createWKKFunction(new U8a(':changes_trie'), {
   documentation: new Vector(Text, ['Changes trie configuration is stored under this key.']),
   name: new Text('changesTrieConfig'),
-  type: new StorageFunctionType().fromJSON('u32')
+  type: new StorageFunctionType(0, 'u32')
 });
