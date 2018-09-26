@@ -27,7 +27,7 @@ const api = createApi(provider);
 
 ⊕ **new HttpProvider**(endpoint: *`string`*): [HttpProvider](_http_index_.httpprovider.md)
 
-*Defined in [http/index.ts:36](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L36)*
+*Defined in [http/index.ts:36](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L36)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[isConnected](../interfaces/_types_d_.providerinterface.md#isconnected)*
 
-*Defined in [http/index.ts:50](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L50)*
+*Defined in [http/index.ts:50](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L50)*
 
 Whether the node is connected or not.
 
@@ -65,7 +65,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[on](../interfaces/_types_d_.providerinterface.md#on)*
 
-*Defined in [http/index.ts:57](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L57)*
+*Defined in [http/index.ts:57](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L57)*
 
 Events are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -87,7 +87,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[send](../interfaces/_types_d_.providerinterface.md#send)*
 
-*Defined in [http/index.ts:61](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L61)*
+*Defined in [http/index.ts:61](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L61)*
 
 **Parameters:**
 
@@ -107,7 +107,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[subscribe](../interfaces/_types_d_.providerinterface.md#subscribe)*
 
-*Defined in [http/index.ts:83](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L83)*
+*Defined in [http/index.ts:83](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L83)*
 
 Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -131,7 +131,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[unsubscribe](../interfaces/_types_d_.providerinterface.md#unsubscribe)*
 
-*Defined in [http/index.ts:92](https://github.com/polkadot-js/api/blob/f399bb6/packages/api-provider/src/http/index.ts#L92)*
+*Defined in [http/index.ts:92](https://github.com/polkadot-js/api/blob/dfd2e70/packages/api-provider/src/http/index.ts#L92)*
 
 Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
