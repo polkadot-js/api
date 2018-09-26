@@ -17,4 +17,18 @@ describe('Struct', () => {
       )({ txt: 'foo', u32: 0x123456 }).toString()
     ).toEqual(`{txt: foo, u32: 0x00123456}`);
   });
+
+  it('exposes the types', () => {
+    expect(
+      new Struct({
+        foo: Text,
+        bar: Text,
+        baz: U32
+      }).Type
+    ).toEqual({
+      foo: 'Text',
+      bar: 'Text',
+      baz: 'U32'
+    });
+  });
 });

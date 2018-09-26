@@ -37,6 +37,10 @@ describe('Vector', () => {
     ).toEqual('[6, 7]');
   });
 
+  it('exposes the type', () => {
+    expect(array.Type).toEqual('Text');
+  });
+
   describe('array-like functions', () => {
     it('allows retrieval of a specific item', () => {
       expect(

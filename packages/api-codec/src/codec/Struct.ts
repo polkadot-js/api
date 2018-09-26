@@ -20,22 +20,31 @@ export default class Struct <
   V = { [K in keyof S]: any },
   E = { [K in keyof S]: string }
 > extends Base<T> {
-  private _Types: E = {} as E;
+  private _Types: E;
 
   constructor (Types: S, value: V = {} as V) {
     super(
-      Object.keys(Types).reduce((raw: T, key) => {
-        // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
-        // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
-        // was added, the idea is to provide better checks, which does backfire here, but works
-        // externally.)
-        raw[key] = new Types[key](value[key]);
-        // @ts-ignore Same as above, can't do a simple one, I'm missing something simple
-        this._Types[key] = Types[key].name;
+      Object
+        .keys(Types)
+        .reduce((raw: T, key) => {
+          // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
+          // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
+          // was added, the idea is to provide better checks, which does backfire here, but works
+          // externally.)
+          raw[key] = new Types[key](value[key]);
 
-        return raw;
-      }, {} as T)
+          return raw;
+        }, {} as T)
     );
+
+    this._Types = Object
+      .keys(Types)
+      .reduce((result: E, key) => {
+        // @ts-ignore Same as above, can't do a simple one, I'm missing something simple
+        result[key] = Types[key].name;
+
+        return result;
+      }, {} as E);
   }
 
   static with <
@@ -48,7 +57,7 @@ export default class Struct <
     };
   }
 
-  get Types (): E {
+  get Type (): E {
     return this._Types;
   }
 
