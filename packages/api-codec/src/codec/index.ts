@@ -4,7 +4,7 @@
 
 // NOTE We are not exporting everything here. These _should_ be enough to use the
 // actual interfaces from a "create-a-working-coder" perspective. If not, we should
-// expand withj slight care (for instance, Length is really only used internally to
+// expand with slight care (for instance, Length is really only used internally to
 // others, so there _should_ not be need for direct use)
 
 export { default as Base } from './Base';
