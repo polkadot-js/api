@@ -18,7 +18,7 @@ type KeyValueValue = {
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
 // is actually for Maps, whereas this is a representation of actaul storage values)
 export default class KeyValue extends Struct {
-  constructor (value: KeyValueValue = {}) {
+  constructor (value?: KeyValueValue) {
     super({
       key: Bytes,
       value: Bytes

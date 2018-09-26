@@ -19,7 +19,7 @@ export type BlockValue = {
 
 // A block encoded with header and extrinsics
 export default class Block extends Struct {
-  constructor (value: BlockValue = {}) {
+  constructor (value?: BlockValue) {
     super({
       header: Header,
       extrinsics: Vector.with(Extrinsic)

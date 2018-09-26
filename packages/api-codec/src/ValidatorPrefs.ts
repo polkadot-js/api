@@ -14,7 +14,7 @@ type ValidatorPrefsValue = {
 };
 
 export default class ValidatorPrefs extends Struct {
-  constructor (value: ValidatorPrefsValue = {}) {
+  constructor (value?: ValidatorPrefsValue) {
     super({
       unstakeThreshold: U32,
       validatorPayment: Balance

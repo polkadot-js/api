@@ -3,21 +3,20 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import isHex from '@polkadot/util/is/hex';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
-import hexToBn from '@polkadot/util/hex/toBn';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import Base from './codec/Base';
 
 const BITLENGTH = 64;
 
-// A wrapper around seconds/timestamps
+// A wrapper around seconds/timestamps. Internally the representation only has
+// second precicion (aligning with Rust), so any numbers passed an/out are always
+// per-second. For any encoding/decoding the 1000 multiplier would be applied to
+// get it in line with JavaScript formats
 export default class Moment extends Base<Date> {
-  // NOTE Unlike normal date constructors, the value here is provided as a per-second value.
-  // For any encoding/decoding the 1000 multiplier would be applied to get it in line with
-  // JavaScript formats
+  // NOTE
   constructor (value: Moment | Date | number = 0) {
     super(
       value instanceof Date

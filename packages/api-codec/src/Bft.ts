@@ -19,7 +19,7 @@ export type BftAuthoritySignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftAuthoritySignature extends Struct {
-  constructor (value: BftAuthoritySignatureValue = {}) {
+  constructor (value?: BftAuthoritySignatureValue) {
     super({
       authorityId: AuthorityId,
       signature: Signature
@@ -43,7 +43,7 @@ export type BftHashSignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftHashSignature extends Struct {
-  constructor (value: BftHashSignatureValue = {}) {
+  constructor (value?: BftHashSignatureValue) {
     super({
       hash: Hash,
       signature: Signature
@@ -66,7 +66,7 @@ export type JustificationValue = {
 };
 
 export class Justification extends Struct {
-  constructor (value: JustificationValue = {}) {
+  constructor (value?: JustificationValue) {
     super({
       // FIXME Rust returns this as "round_number", we actually want a JSON alias
       // in the structure to take care of these renames...

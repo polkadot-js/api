@@ -12,7 +12,7 @@ type SignedBlockValue = {
 };
 
 export default class SignedBlock extends Struct {
-  constructor (value: SignedBlockValue = {}) {
+  constructor (value?: SignedBlockValue) {
     super({
       block: Block,
       justification: Justification
