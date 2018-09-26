@@ -174,7 +174,7 @@ export class StorageFunctionType$Map extends Struct {
 }
 
 export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
-  constructor (index: number, value: any) {
+  constructor (index: number, value?: any) {
     super([
       Type,
       StorageFunctionType$Map
