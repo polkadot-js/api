@@ -4,13 +4,13 @@
 
 import Enum from './codec/Enum';
 
-// Voting threshold, used inside proposals to set change the voting tally
-export default class VoteThreshold extends Enum {
+// Enum to track the outcome for creation of an account
+export default class NewAccountOutcome extends Enum {
   constructor (index?: number) {
     super([
-      'Super majority approval',
-      'Super majority rejection',
-      'Simple majority'
+      'NoHint',
+      'GoodHint',
+      'BadHint'
     ], index);
   }
 }
