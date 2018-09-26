@@ -93,6 +93,11 @@ export default class Address extends Base<AccountId | AccountIndex> {
     return this;
   }
 
+  // FIXME I actually believe this is wrong, it needs to be checked. Here 1-byte
+  // addresses are actually 2 bytes, 2-byte is 3-bytes, etc. I believe the actual
+  // short-encoding should be left completely inside AccountId (For now, leaving
+  // as-is until we can actually pull storage data and check - and/or read the
+  // actual code again to check the implementation)
   fromU8a (input: Uint8Array): Address {
     this.raw = Address.readLength(input) === 32
       ? new AccountId().fromU8a(input.subarray(1))

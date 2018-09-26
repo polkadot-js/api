@@ -33,6 +33,20 @@ describe('Address', () => {
     );
   });
 
+  it('encodes address to ss-58 format', () => {
+    expect(
+      new Address()
+        .fromU8a(
+          new Uint8Array([
+            255,
+            1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
+            1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
+          ])
+        )
+        .toString()
+    ).toEqual('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
+  });
+
   it('decodes with a prefix (1-byte)', () => {
     expect(
       new Address()
