@@ -1,5 +1,5 @@
 import Metadata from '@polkadot/api-codec/Metadata';
-import json from '@polkadot/api-codec/Metadata.decoded.json';
+import json from '@polkadot/api-codec/Metadata.rpc.json';
 
 import { fromMetadata } from './fromMetadata';
 
