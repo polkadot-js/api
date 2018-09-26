@@ -14,18 +14,26 @@ import Base from './Base';
 export default class EnumType <T> extends Base<Base<T>> {
   private _Types: Array<{ new(value?: any): Base }>;
   private _index: number;
+  private _indexes: Array<number>;
   private _strings: Array<string>;
 
-  constructor (Types: Array<{ new(value?: any): Base }>, strings: Array<string>, index: number = 0) {
+  constructor (Types: Array<{ new(value?: any): Base }>, strings: Array<string> = [], indexes: Array<number> = []) {
     super(
-      new Types[index]()
+      new Types[0]()
     );
 
     this._Types = Types;
-    this._index = index;
+    this._indexes = Types.map((Type, index) =>
+      indexes[index] || index
+    );
+    this._index = this._indexes[0];
     this._strings = Types.map((Type, index) =>
       strings[index] || Type.name
     );
+  }
+
+  get Type (): string {
+    return this._Types[this._index].name;
   }
 
   byteLength (): number {
@@ -33,10 +41,15 @@ export default class EnumType <T> extends Base<Base<T>> {
   }
 
   fromU8a (input: Uint8Array): EnumType<T> {
-    this._index = input[0];
+    this._index = this._indexes.indexOf(input[0]);
     this.raw = new this._Types[this._index]().fromU8a(input.subarray(1));
 
     return this;
+  }
+
+  setValue (index: number, value?: any): void {
+    this._index = this._indexes.indexOf(index);
+    this.raw = new this._Types[this._index](value);
   }
 
   toJSON (): any {

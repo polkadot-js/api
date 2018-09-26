@@ -9,13 +9,25 @@ import U32 from '../U32';
 describe('Struct', () => {
   it('provides a clean toString() (raw)', () => {
     expect(
-      new EnumType([Text, U32], ['Stringy']).fromU8a(new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
+      new EnumType(
+        [Text, U32], ['Stringy', 'Inty']
+      ).fromU8a(new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
     ).toEqual('12');
   });
 
   it('provides a clean toString() (enum)', () => {
     expect(
-      new EnumType([Text, U32], ['Stringy']).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
+      new EnumType(
+        [Text, U32]
+      ).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
     ).toEqual('U32');
+  });
+
+  it('allows checking against defined indexes', () => {
+    expect(
+      new EnumType(
+        [Text, U32], [], [1, 5]
+      ).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
+    ).toEqual('Text');
   });
 });
