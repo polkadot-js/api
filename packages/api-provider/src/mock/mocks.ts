@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-// FIME: This file is way too long and way too messy
+// FIXME: This file is way too long and way too messy
 
 import { Storages } from '@polkadot/storage/types';
 import { SectionItem } from '@polkadot/params/types';
@@ -20,6 +20,7 @@ import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
+// FIXME No more .public
 const stateStaking = state.staking.public;
 const stateSystem = state.staking.public;
 const stateTimestamp = state.timestamp.public;
@@ -36,9 +37,7 @@ function makeBlockHeader (prevNumber: BN) {
     },
     extrinsicsRoot: randomAsU8a(),
     number: blockNumber,
-    parentHash: prevNumber.eqn(-1)
-      ? new Uint8Array(32)
-      : bnToU8a(prevNumber, 256, false),
+    parentHash: prevNumber.eqn(-1) ? new Uint8Array(32) : bnToU8a(prevNumber, 256, false),
     stateRoot: bnToU8a(blockNumber, 256, false)
   };
 }
@@ -46,21 +45,22 @@ function makeBlockHeader (prevNumber: BN) {
 function updateSubs (subscriptions: MockState$Subscriptions, method: string, value: any) {
   subscriptions[method].lastValue = value;
 
-  Object
-    .values(subscriptions[method].callbacks)
-    .forEach((cb) => {
-      try {
-        cb(null, value);
-      } catch (error) {
-        console.error(`Error on '${method}' subscription`, error);
-      }
-    });
+  Object.values(subscriptions[method].callbacks).forEach(cb => {
+    try {
+      cb(null, value);
+    } catch (error) {
+      console.error(`Error on '${method}' subscription`, error);
+    }
+  });
 }
 
-function setStorageBn (storage: MockState$Storage, key: SectionItem<Storages>, value: BN | number, ...keyParams: Array<Uint8Array>): void {
-  const keyValue = u8aToHex(
-    createKey(key).apply(null, keyParams)
-  );
+function setStorageBn (
+  storage: MockState$Storage,
+  key: SectionItem<Storages>,
+  value: BN | number,
+  ...keyParams: Array<Uint8Array>
+): void {
+  const keyValue = u8aToHex(createKey(key).apply(null, keyParams));
 
   storage[keyValue] = bnToU8a(value, 64, true);
 }
@@ -78,10 +78,13 @@ export default function mocks ({ emitter, storage, subscriptions }: MockState): 
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
+      // @ts-ignore FIXME This does not exist anymore
       setStorageBn(storage, stateStaking.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
+      // @ts-ignore FIXME This does not exist anymore
       setStorageBn(storage, stateSystem.accountIndexOf, newHead.number.addn(index), publicKey());
     });
 
+    // @ts-ignore FIXME This does not exist anymore
     setStorageBn(storage, stateTimestamp.current, Math.floor(Date.now() / 1000));
 
     updateSubs(subscriptions, 'chain_newHead', headerEncode(newHead));
