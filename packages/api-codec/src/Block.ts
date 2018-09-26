@@ -7,8 +7,7 @@ import { AnyU8a } from './types';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
 import Struct from './codec/Struct';
-import Vector from './codec/Vector';
-import Extrinsic from './Extrinsic';
+import Extrinsics from './Extrinsics';
 import Hash from './Hash';
 import Header, { HeaderValue } from './Header';
 
@@ -22,12 +21,12 @@ export default class Block extends Struct {
   constructor (value?: BlockValue) {
     super({
       header: Header,
-      extrinsics: Vector.with(Extrinsic)
+      extrinsics: Extrinsics
     }, value);
   }
 
-  get extrinsics (): Vector<Extrinsic> {
-    return this.raw.extrinsics as Vector<Extrinsic>;
+  get extrinsics (): Extrinsics {
+    return this.raw.extrinsics as Extrinsics;
   }
 
   // convenience, encodes the header and returns the actual hash

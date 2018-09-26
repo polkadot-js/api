@@ -19,6 +19,8 @@ export { default as BlockNumber } from './BlockNumber';
 export { default as Bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Extrinsic } from './Extrinsic';
+// NOTE Only used here internall, exported as PendingExtrinsics
+// export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
 // NOTE These are currently only used internally, no direct mapping to Rust strings
 // export { default as H256 } from './H256';
@@ -33,6 +35,7 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';
+export { default as PendingExtrinsics } from './PendingExtrinsics';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
 export { default as PropIndex } from './PropIndex';
