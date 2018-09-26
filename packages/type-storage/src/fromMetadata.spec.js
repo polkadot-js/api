@@ -1,10 +1,10 @@
 import Metadata from '@polkadot/api-codec/Metadata';
-import json from '@polkadot/api-codec/Metadata.rpc.json';
+import json from '@polkadot/api-codec/Metadata.decoded.json';
 
 import { fromMetadata } from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata().fromU8a(Uint8Array.from(json.result));
+const metadata = new Metadata().fromJSON(json.result);
 const newStorage = fromMetadata({}, metadata);
 
 describe('fromMetadata', () => {
