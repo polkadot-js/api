@@ -44,6 +44,8 @@ export default class Type extends Text {
       this._removeWrap('Box'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
       this._removeGenerics(),
+      // alias String -> Text (compat with jsonrpc methods)
+      this._alias('String', 'Text'),
       // alias Vec<u8> -> Bytes
       this._alias('Vec<u8>', 'Bytes')
       // TODO Check these for possibly matching -
