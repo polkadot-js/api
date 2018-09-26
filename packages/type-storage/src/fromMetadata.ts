@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Metadata from '@polkadot/api-codec/Metadata';
+import Metadata, { RuntimeModuleMetadata } from '@polkadot/api-codec/Metadata';
 
 import { createFunction } from './utils/createFunction';
 import { ModuleStorage, Storage } from './types';
@@ -25,7 +25,7 @@ function lowerFirstLetter (s: string) {
  * @param metadata - The metadata to extend the storage object against.
  */
 export const fromMetadata = (storage: Storage, metadata: Metadata) => {
-  metadata.modules.forEach(moduleMetadata => {
+  metadata.modules.forEach((moduleMetadata: RuntimeModuleMetadata) => {
     if (!moduleMetadata.storage) {
       return;
     }
