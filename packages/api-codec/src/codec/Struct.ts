@@ -6,14 +6,11 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base from './Base';
 
-// A Struct defines an Object with key/values - where the values are CodecBase values. It removes
+// A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
 // values in the constructor and it manages the decoding. It is important that the constructor
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
-//
-// TODO:
-//   - Check the constructor, something is really, really wrong with the way the defs are used
 export default class Struct <
   S = { [index: string]: { new(value?: any): Base } },
   T = { [K in keyof S]: Base },
@@ -27,10 +24,10 @@ export default class Struct <
       Object
         .keys(Types)
         .reduce((raw: T, key) => {
-          // @ts-ignore Ok, something weid is going on here or I just don't get it... it works,
-          // so ignore the checker, although it drives me batty. (It started when the [key in keyof T]
-          // was added, the idea is to provide better checks, which does backfire here, but works
-          // externally.)
+          // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
+          // it works, so ignore the checker, although it drives me batty. (It started when
+          // the [key in keyof T] was added, the idea is to provide better checks, which
+          // does backfire here, but works externally.)
           raw[key] = new Types[key](value[key]);
 
           return raw;
@@ -49,10 +46,10 @@ export default class Struct <
 
   static with <
     S = { [index: string]: { new(value?: any): Base } }
-  > (Def: S): { new(value?: any): Struct<S> } {
+  > (Types: S): { new(value?: any): Struct<S> } {
     return class extends Struct<S> {
       constructor (value?: any) {
-        super(Def, value);
+        super(Types, value);
       }
     };
   }
