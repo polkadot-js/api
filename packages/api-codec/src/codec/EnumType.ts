@@ -47,8 +47,9 @@ export default class EnumType <T> extends Base<Base<T>> {
     return this;
   }
 
-  setValue (index: number, value?: any): void {
-    this._index = this._indexes.indexOf(index);
+  setValue (index?: number, value?: any): void {
+    // NOTE If this is called from constructors, we may have empty values...
+    this._index = this._indexes.indexOf(index || 0) || 0;
     this.raw = new this._Types[this._index](value);
   }
 
