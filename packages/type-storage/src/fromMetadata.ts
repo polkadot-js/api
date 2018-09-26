@@ -11,6 +11,7 @@ import { ModuleStorage, Storage } from './types';
  * Sets the 1st letter of a string to lowercase.
  *
  * @param s - The string to lower first letter.
+ * TODO Move to @polkadot/util
  */
 function lowerFirstLetter (s: string) {
   return s.charAt(0).toLowerCase() + s.slice(1);
