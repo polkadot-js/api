@@ -21,7 +21,6 @@ export interface Storage {
 
 // TODO Below is legacy code, used in:
 // - api-provider
-// - api-format
 export type Storage$Key$Value = number | BN | Uint8Array | string;
 export type Storages = {
   consensus: Section<Storages, any, any>;
