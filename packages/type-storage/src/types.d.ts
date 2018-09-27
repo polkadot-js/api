@@ -6,9 +6,9 @@ import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import BN from 'bn.js';
 import { Section } from '@polkadot/params/types';
 
-import * as wellKnownKeys from './wellKnownKeys';
+import * as substrate from './substrate';
 
-type WellKnownKeys = keyof typeof wellKnownKeys;
+type Substrate = keyof typeof substrate;
 
 export interface StorageFunction extends StorageFunctionMetadata {
   (arg: any): Uint8Array;
@@ -20,7 +20,7 @@ export interface ModuleStorage {
 
 export interface Storage {
   [key: string]: ModuleStorage; // Will hold modules returned by state_getMetadata
-  wellKnownKeys: { [key in WellKnownKeys]: StorageFunction };
+  substrate: { [key in Substrate]: StorageFunction };
 }
 
 // TODO Below is legacy code, used in:

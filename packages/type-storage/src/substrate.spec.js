@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { authorityCount, authorityPrefix, changesTrieConfig, code, extrinsicIndex, heapPages } from './wellKnownKeys';
+import { authorityCount, authorityPrefix, changesTrieConfig, code, extrinsicIndex, heapPages } from './substrate';
 
-describe('wellKnownKeys', () => {
+describe('substrate', () => {
   it('authorityCount should return the correct storage key', () => {
     expect(authorityCount()).toEqual(Uint8Array.from([58, 97, 117, 116, 104, 58, 108, 101, 110]));
   });

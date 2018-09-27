@@ -6,12 +6,12 @@ import { storage } from './storage';
 
 describe('storage', () => {
   it('should return well known keys', () => {
-    expect(typeof storage.wellKnownKeys).toBe('object');
-    expect(storage.wellKnownKeys.authorityCount).toBeTruthy();
-    expect(storage.wellKnownKeys.authorityPrefix).toBeTruthy();
-    expect(storage.wellKnownKeys.changesTrieConfig).toBeTruthy();
-    expect(storage.wellKnownKeys.code).toBeTruthy();
-    expect(storage.wellKnownKeys.extrinsicIndex).toBeTruthy();
-    expect(storage.wellKnownKeys.heapPages).toBeTruthy();
+    expect(typeof storage.substrate).toBe('object');
+    expect(storage.substrate.authorityCount).toBeTruthy();
+    expect(storage.substrate.authorityPrefix).toBeTruthy();
+    expect(storage.substrate.changesTrieConfig).toBeTruthy();
+    expect(storage.substrate.code).toBeTruthy();
+    expect(storage.substrate.extrinsicIndex).toBeTruthy();
+    expect(storage.substrate.heapPages).toBeTruthy();
   });
 });

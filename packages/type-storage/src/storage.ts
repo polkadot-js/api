@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Storage } from './types';
-import * as wellKnownKeys from './wellKnownKeys';
+import * as substrate from './substrate';
 
 export const storage: Storage = {
-  wellKnownKeys // Prefill storage with wellKnownKeys, as not returned by state_getMetadata
+  substrate // Prefill storage with well known keys, as not returned by state_getMetadata
 };
