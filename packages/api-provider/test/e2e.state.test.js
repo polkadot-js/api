@@ -30,7 +30,7 @@ describe.skip('e2e state', () => {
       });
   });
 
-  it('retrieves code', () => {
+  it.skip('retrieves code', () => {
     return api.state
       .getStorage([
         storage.substrate.code
@@ -54,6 +54,23 @@ describe.skip('e2e state', () => {
         console.error(balance);
 
         expect(balance.toNumber()).not.toEqual(0);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
+  it('retrieves timetstamp', () => {
+    return api.state
+      .getStorage([
+        storage.timestamp.now
+      ])
+      .then((moment) => {
+        console.error(moment);
+
+        expect(moment.toNumber()).not.toEqual(0);
       })
       .catch((error) => {
         console.error(error);

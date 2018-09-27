@@ -17,6 +17,10 @@ function lowerFirstLetter (s: string) {
   return s.charAt(0).toLowerCase() + s.slice(1);
 }
 
+function upperFirstLetter (s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+
 /**
  * Extend a storage object with the storage modules & module functions present
  * in the metadata.
@@ -37,9 +41,14 @@ export function fromMetadata (storage: Storage, metadata: Metadata) {
       return result;
     }
 
+    console.error(moduleMetadata);
+
+    const modname = moduleMetadata.prefix.toString().toLowerCase();
+    const prefix = upperFirstLetter(modname);
+
     result[moduleMetadata.prefix.toString()] = moduleMetadata.storage.functions.reduce((newModule, func) => {
       // Lowercase the 'f' in storage.balances.freeBalance
-      newModule[lowerFirstLetter(func.name.toString())] = createFunction(moduleMetadata.prefix, func.name, func);
+      newModule[lowerFirstLetter(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;
     }, {} as ModuleStorage);
