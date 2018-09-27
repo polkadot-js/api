@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
-import U8a from '@polkadot/api-codec/codec/U8a';
-
 import { createType } from '@polkadot/api-codec/codec';
+import U8a from '@polkadot/api-codec/codec/U8a';
+import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
+import StorageKey, { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
@@ -34,15 +33,18 @@ export function createFunction (
   const storageFn = meta as StorageFunction;
 
   if (options.isUnhashed) {
-    storageFn.create = () => prefix.toU8a();
+    storageFn.create = () =>
+      new StorageKey(prefix.toU8a());
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
     // - storage.balances.freeBalance(address)
     // - storage.timestamp.blockPeriod()
-    storageFn.create = (arg?: any) => {
+    storageFn.create = (arg?: any): StorageKey => {
       if (!functionMetadata.type.isMap) {
-        return xxhash(prefix.toU8a(), 128);
+        return new StorageKey(
+          xxhash(prefix.toU8a(), 128)
+        );
       }
 
       if (!arg) {
@@ -51,12 +53,14 @@ export function createFunction (
 
       const type = functionMetadata.type.asMap.key.toString(); // Argument type, as string
 
-      return xxhash(
-        u8aConcat(
-          prefix.toU8a(),
-          createType(type, arg).toU8a()
-        ),
-        128
+      return new StorageKey(
+        xxhash(
+          u8aConcat(
+            prefix.toU8a(),
+            createType(type, arg).toU8a()
+          ),
+          128
+        )
       );
     };
   }

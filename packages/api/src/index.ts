@@ -122,13 +122,18 @@ export default class Api implements ApiInterface {
     );
   }
 
-  private formatOutput (method: SectionItem<Interfaces>, params: Array<Base>, result?: any): any {
+  private formatOutput (method: SectionItem<Interfaces>, params: Array<Base>, result?: any): Base {
+    const base = createType(method.type as string, result);
+
     if (method.type === 'StorageData') {
-      return this.formatStorageOutput(params[0] as StorageKey, result);
+      const outputType = (params[0] as StorageKey).outputType;
+
+      if (outputType) {
+        return createType(outputType as string, base.raw);
+      }
     }
 
-    throw new Error(`Unable to format API result from '${method.type}'`);
-
+    // TODO
     // if (method.type === 'StorageResultSet') {
     //   return params[0].map((key: string, index: number) => {
     //     const input = inputs[0][index][0];
@@ -143,10 +148,9 @@ export default class Api implements ApiInterface {
     //   });
     // }
 
-    // return formatOutput(method.type, result);
-  }
+    // TODO For now, just throw, we will get there
+    throw new Error(`Unable to format API result from '${method.type}'`);
 
-  private formatStorageOutput (key: StorageKey, result?: any): Base {
-    return createType(key.outputType, result);
+    // return base;
   }
 }

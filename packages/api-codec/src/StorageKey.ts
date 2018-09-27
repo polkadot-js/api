@@ -4,43 +4,66 @@
 
 import { AnyU8a } from './types';
 
-import { StorageFunctionMetadata, StorageFunctionType } from './Metadata';
+import isFunction from '@polkadot/util/is/function';
+
 import Bytes from './Bytes';
+import { StorageFunctionMetadata } from './Metadata';
+import ValidatorPrefs from '@polkadot/api-codec/ValidatorPrefs';
 
 export interface StorageFunction extends StorageFunctionMetadata {
-  create (arg?: any): Uint8Array;
+  create (arg?: any): StorageKey;
 }
 
-type StorageFunctionWithArg = [StorageFunction, any];
+export type StorageFunctionWithArg = [StorageFunction, any];
 
-const DEFAULT_TYPE = new StorageFunctionType(0, 'Bytes');
+function isStorageFunction (value?: any): value is StorageFunction {
+  return value && isFunction(value.create);
+}
 
 // A representation of a storage key (typically hashed) in the system. It can be constructed
 // by passing in a raw key or a StorageFunction with (optional) arguments.
 export default class StorageKey extends Bytes {
-  private _outputType: StorageFunctionType;
+  private _outputType: string | null;
 
-  constructor (value?: AnyU8a | StorageFunctionWithArg, outputType?: StorageFunctionType) {
-    super(StorageKey.encode(value));
+  constructor (value: AnyU8a | StorageKey | StorageFunction | StorageFunctionWithArg = new Uint8Array(), ...args: Array<any>) {
+    super(StorageKey.encode(value, args));
 
-    this._outputType = outputType
-      ? outputType
-      : Array.isArray(value)
-        ? (value[0] as StorageFunction).type
-        : DEFAULT_TYPE;
+    this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static encode (value?: AnyU8a | StorageFunctionWithArg): AnyU8a {
-    if (Array.isArray(value)) {
-      const [fn, ...args] = value as StorageFunctionWithArg;
+  static encode (value: AnyU8a | StorageKey | StorageFunction | StorageFunctionWithArg, args: Array<any>): AnyU8a {
+    if (value instanceof StorageKey) {
+      return value;
+    } else if (isStorageFunction(value)) {
+      return value.create(...args);
+    } else if (Array.isArray(value)) {
+      const [fn, arg] = value;
 
-      return fn.create(...args);
+      if (isStorageFunction(fn)) {
+        return fn.create(arg);
+      }
     }
 
     return value as AnyU8a;
   }
 
-  get outputType (): string {
-    return this._outputType.toString();
+  static getType (value: StorageKey | StorageFunction | StorageFunctionWithArg): string | null {
+    if (value instanceof StorageKey) {
+      return value.outputType;
+    } else if (isStorageFunction(value)) {
+      return value.type.toString();
+    } else if (Array.isArray(value)) {
+      const [fn] = value;
+
+      if (isStorageFunction(fn)) {
+        return fn.type.toString();
+      }
+    }
+
+    return null;
+  }
+
+  get outputType (): string | null {
+    return this._outputType;
   }
 }

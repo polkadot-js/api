@@ -43,10 +43,4 @@ describe('UInt', () => {
       new UInt(a).toNumber()
     ).toEqual(123);
   });
-
-  it('properly reads value from JSON', () => {
-    expect(
-      new UInt().fromJSON('0x0102').toNumber()
-    ).toEqual(513);
-  });
 });
