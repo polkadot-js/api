@@ -17,7 +17,7 @@ describe.skip('e2e state', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('retrieves the wasm metadata', () => {
+  it.skip('retrieves the wasm metadata', () => {
     return api.state
       .getMetadata()
       .then((meta) => {

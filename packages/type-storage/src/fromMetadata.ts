@@ -41,7 +41,7 @@ export function fromMetadata (storage: Storage, metadata: Metadata) {
       return result;
     }
 
-    console.error(moduleMetadata);
+    console.error(moduleMetadata, moduleMetadata.prefix);
 
     const modname = moduleMetadata.prefix.toString().toLowerCase();
     const prefix = upperFirstLetter(modname);
