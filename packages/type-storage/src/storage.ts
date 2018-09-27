@@ -1,0 +1,10 @@
+// Copyright 2017-2018 @polkadot/storage authors & contributors
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+
+import { Storage } from './types';
+import * as substrate from './substrate';
+
+export const storage: Storage = {
+  substrate // Prefill storage with well known keys, as not returned by state_getMetadata
+};
