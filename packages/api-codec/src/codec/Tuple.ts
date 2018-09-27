@@ -23,10 +23,6 @@ export default class Tuple <
     };
   }
 
-  get values (): Array<Base> {
-    return Object.values(this.raw);
-  }
-
   fromJSON (input: any): Tuple<S, T> {
     Object.values(this.raw).forEach((entry, index) => {
       entry.fromJSON(input[index]);

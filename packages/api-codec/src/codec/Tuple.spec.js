@@ -16,17 +16,6 @@ describe('Tuple', () => {
     }, { foo: 'foo', bar: 69 });
   });
 
-  it('contains the values', () => {
-    expect(
-      tuple.values.map((v) =>
-        v.toString()
-      )
-    ).toEqual([
-      'foo',
-      '0x00000045'
-    ]);
-  });
-
   it('returns array with toJSON', () => {
     expect(
       tuple.toJSON()
