@@ -10,7 +10,7 @@ describe('Struct', () => {
   it('provides a clean toString() (raw)', () => {
     expect(
       new EnumType(
-        [Text, U32], ['Stringy', 'Inty']
+        [Text, U32]
       ).fromU8a(new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
     ).toEqual('12');
   });
@@ -26,7 +26,7 @@ describe('Struct', () => {
   it('allows checking against defined indexes', () => {
     expect(
       new EnumType(
-        [Text, U32], [], [1, 5]
+        { 1: Text, 5: U32 }
       ).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
     ).toEqual('Text');
   });

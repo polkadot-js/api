@@ -55,13 +55,11 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (index: number, value?: BftAtReportValue) {
-    super([
-      BftDoublePrepare,
-      BftDoubleCommit
-    ], [], [0x11, 0x12]);
-
-    this.setValue(index, value);
+  constructor (index: number = 0x11, value?: BftAtReportValue) {
+    super({
+      0x11: BftDoublePrepare,
+      0x12: BftDoubleCommit
+    }, index, value);
   }
 }
 
