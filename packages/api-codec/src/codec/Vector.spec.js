@@ -44,7 +44,7 @@ describe('Vector', () => {
   describe('array-like functions', () => {
     it('allows retrieval of a specific item', () => {
       expect(
-        array.at(2).toString()
+        array.get(2).toString()
       ).toEqual('345');
     });
 

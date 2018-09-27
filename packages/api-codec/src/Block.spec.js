@@ -45,7 +45,7 @@ describe('Block', () => {
       block.extrinsics.length
     ).toEqual(1); // eslint-disable-line
     expect(
-      block.extrinsics.at(0).length
+      block.extrinsics.get(0).length
     ).toEqual(111); // eslint-disable-line
   });
 

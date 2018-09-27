@@ -53,10 +53,6 @@ export default class Vector <
     }, this._length.byteLength());
   }
 
-  at (index: number): T {
-    return this.raw[index];
-  }
-
   filter (fn: (entry: T, index?: number) => any): Array<T> {
     return this.raw.filter(fn);
   }
@@ -88,6 +84,10 @@ export default class Vector <
     }
 
     return this;
+  }
+
+  get (index: number): T {
+    return this.raw[index];
   }
 
   map <O> (fn: (entry: T, index?: number) => O): Array<O> {

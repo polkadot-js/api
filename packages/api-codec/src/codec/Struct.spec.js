@@ -38,9 +38,9 @@ describe('Struct', () => {
       bar: U32
     }, { foo: 'bazzing', bar: 69 });
 
-    expect(test.keys).toEqual(['foo', 'bar']);
+    expect(test.keys()).toEqual(['foo', 'bar']);
     expect(
-      test.values.map((v) =>
+      test.values().map((v) =>
         v.toString()
       )
     ).toEqual(['bazzing', '0x00000045']);

@@ -65,14 +65,6 @@ export default class Struct <
     return this._Types;
   }
 
-  get keys (): Array<string> {
-    return Object.keys(this.raw);
-  }
-
-  get values (): Array<Base> {
-    return Object.values(this.raw);
-  }
-
   byteLength (): number {
     return Object.values(this.raw).reduce((length, entry) => {
       return length += entry.byteLength();
@@ -107,6 +99,10 @@ export default class Struct <
     }, {} as any);
   }
 
+  keys (): Array<string> {
+    return Object.keys(this.raw);
+  }
+
   toU8a (): Uint8Array {
     return u8aConcat(
       ...Object.values(this.raw).map((entry) =>
@@ -122,5 +118,9 @@ export default class Struct <
     ).join(', ');
 
     return `{${data}}`;
+  }
+
+  values (): Array<Base> {
+    return Object.values(this.raw);
   }
 }

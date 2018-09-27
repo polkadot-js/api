@@ -53,7 +53,7 @@ describe('Justification', () => {
   });
 
   it('has the correct signatures', () => {
-    const sig = just.signatures.at(1);
+    const sig = just.signatures.get(1);
 
     expect(sig.authorityId.toHex()).toEqual('0x9876');
   });

@@ -20,7 +20,7 @@ describe('StorageChangeSet', () => {
 
   it('wraps key/value', () => {
     expect(
-      set.changes.at(0).value.toString()
+      set.changes.get(0).value.toString()
     ).toEqual('0xcd');
   });
 });
