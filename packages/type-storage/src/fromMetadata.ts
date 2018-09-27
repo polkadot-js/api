@@ -29,7 +29,9 @@ export const fromMetadata = (storage: Storage, metadata: Metadata) => {
     if (!moduleMetadata.storage) {
       return;
     }
+
     const newModule: ModuleStorage = {};
+
     moduleMetadata.storage.functions.forEach(func => {
       // Lowercase the 'f' in storage.balances.freeBalance
       newModule[lowerFirstLetter(func.name.toString())] = createFunction(moduleMetadata.prefix, func);

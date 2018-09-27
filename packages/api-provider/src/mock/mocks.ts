@@ -37,7 +37,9 @@ function makeBlockHeader (prevNumber: BN) {
     },
     extrinsicsRoot: randomAsU8a(),
     number: blockNumber,
-    parentHash: prevNumber.eqn(-1) ? new Uint8Array(32) : bnToU8a(prevNumber, 256, false),
+    parentHash: prevNumber.eqn(-1)
+      ? new Uint8Array(32)
+      : bnToU8a(prevNumber, 256, false),
     stateRoot: bnToU8a(blockNumber, 256, false)
   };
 }
@@ -45,22 +47,21 @@ function makeBlockHeader (prevNumber: BN) {
 function updateSubs (subscriptions: MockState$Subscriptions, method: string, value: any) {
   subscriptions[method].lastValue = value;
 
-  Object.values(subscriptions[method].callbacks).forEach(cb => {
-    try {
-      cb(null, value);
-    } catch (error) {
-      console.error(`Error on '${method}' subscription`, error);
-    }
-  });
+  Object
+    .values(subscriptions[method].callbacks)
+    .forEach((cb) => {
+      try {
+        cb(null, value);
+      } catch (error) {
+        console.error(`Error on '${method}' subscription`, error);
+      }
+    });
 }
 
-function setStorageBn (
-  storage: MockState$Storage,
-  key: SectionItem<Storages>,
-  value: BN | number,
-  ...keyParams: Array<Uint8Array>
-): void {
-  const keyValue = u8aToHex(createKey(key).apply(null, keyParams));
+function setStorageBn (storage: MockState$Storage, key: SectionItem<Storages>, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+  const keyValue = u8aToHex(
+    createKey(key).apply(null, keyParams)
+  );
 
   storage[keyValue] = bnToU8a(value, 64, true);
 }
