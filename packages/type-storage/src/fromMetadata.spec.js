@@ -23,7 +23,7 @@ describe('fromMetadata', () => {
   // FIXME check again when we have a valid chain/UI
   it('should return the correct storage key', () => {
     expect(newStorage.balances.freeBalance('5GwPuAgYgP6q58uWTXp4uSg6FwfzQv9HfFZwAFEREUrQjCvy')).toEqual(
-      Uint8Array.from([237, 14, 33, 216, 167, 215, 237, 69, 175, 111, 52, 40, 57, 42, 106, 40])
+      Uint8Array.from([151, 98, 64, 111, 96, 253, 221, 186, 188, 189, 172, 49, 71, 221, 146, 249])
     );
   });
 });

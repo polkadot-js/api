@@ -33,7 +33,7 @@ export default class Type extends Text {
   // Note Since we are mangling what we get in beyond recognition, we really should
   // not allow the re-encoding. Additionally, this is probably more of a decoder-only
   // helper, so treat it as such.
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     throw new Error('Type::toU8a: unimplemented');
   }
 

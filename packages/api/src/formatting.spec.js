@@ -9,7 +9,7 @@ import Api from './index';
 const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
 const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';
 
-const ENC_ONE = '0xe541e84609054b9504b8316ea839b366';
+const ENC_ONE = '0x9cf849648828db2946a1b5639a8f0edd';
 const ENC_TWO = '0x924776c687da8e30afdd2ac87d2c67da';
 
 describe('formatting', () => {

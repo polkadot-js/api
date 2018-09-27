@@ -36,7 +36,7 @@ describe.skip('e2e state', () => {
         storage.substrate.code
       ])
       .then((code) => {
-        console.error(code);
+        console.error(code.toHex().substr(0, 256), '...');
       })
       .catch((error) => {
         console.error(error);

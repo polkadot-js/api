@@ -8,6 +8,7 @@ import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
 
 export interface CreateItemOptions {
@@ -26,6 +27,7 @@ export interface CreateItemOptions {
  */
 export function createFunction (
   prefix: Text | U8a,
+  name: Text | U8a,
   meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
 ): StorageFunction {
@@ -41,7 +43,12 @@ export function createFunction (
     // - storage.timestamp.blockPeriod()
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
-        return xxhash(prefix.toU8a(), 128);
+        return xxhash(
+          u8aConcat(
+            prefix.toU8a(true),
+            name.toU8a(true)
+         ),
+         128);
       }
 
       if (!arg) {
@@ -50,10 +57,21 @@ export function createFunction (
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
+      console.error('prefix', prefix, name);
+
+      const u8a = u8aConcat(
+        prefix.toU8a(true),
+        name.toU8a(true),
+        createType(type, arg).toU8a(true)
+      );
+
+      console.error(u8aToUtf8(u8a));
+
       return xxhash(
         u8aConcat(
-          prefix.toU8a(),
-          createType(type, arg).toU8a()
+          prefix.toU8a(true),
+          name.toU8a(true),
+          createType(type, arg).toU8a(true)
         ),
         128
       );

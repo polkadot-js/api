@@ -39,7 +39,7 @@ export function fromMetadata (storage: Storage, metadata: Metadata) {
 
     result[moduleMetadata.prefix.toString()] = moduleMetadata.storage.functions.reduce((newModule, func) => {
       // Lowercase the 'f' in storage.balances.freeBalance
-      newModule[lowerFirstLetter(func.name.toString())] = createFunction(moduleMetadata.prefix, func);
+      newModule[lowerFirstLetter(func.name.toString())] = createFunction(moduleMetadata.prefix, func.name, func);
 
       return newModule;
     }, {} as ModuleStorage);

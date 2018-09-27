@@ -104,11 +104,11 @@ export default class Vector <
     );
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      this._length.toU8a(),
+      this._length.toU8a(isBare),
       ...this.raw.map((entry) =>
-        entry.toU8a()
+        entry.toU8a(isBare)
       )
     );
   }

@@ -95,8 +95,10 @@ export default class Length extends Base<BN> {
     return this.raw.toNumber();
   }
 
-  toU8a (): Uint8Array {
-    return Length.encode(this.raw);
+  toU8a (isBare?: boolean): Uint8Array {
+    return isBare
+      ? new Uint8Array()
+      : Length.encode(this.raw);
   }
 
   setValue (value: BN | number): void {

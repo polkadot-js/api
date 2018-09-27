@@ -22,6 +22,7 @@ const createRuntimeFunction = (prefix: string, functionMetadata: SubstrateMetada
   // as any.
   createFunction(
     new U8a(prefix),
+    new U8a(),
     {
       documentation: new Vector(Text, [functionMetadata.documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),

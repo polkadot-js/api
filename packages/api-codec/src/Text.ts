@@ -66,14 +66,14 @@ export default class Text extends Base<string> {
     return this.raw;
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     // NOTE Since we trim in the fromU8a, here we re-calculate the actual length
     const encoded = u8aFromUtf8(this.raw);
 
     this._length.setValue(encoded.length);
 
     return u8aConcat(
-      this._length.toU8a(),
+      this._length.toU8a(isBare),
       encoded
     );
   }

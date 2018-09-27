@@ -106,10 +106,10 @@ export default class Struct <
     return Object.keys(this.raw);
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...Object.values(this.raw).map((entry) =>
-        entry.toU8a()
+        entry.toU8a(isBare)
       )
     );
   }

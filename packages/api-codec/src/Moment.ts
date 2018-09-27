@@ -55,7 +55,7 @@ export default class Moment extends Base<Date> {
     return this.toNumber();
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 

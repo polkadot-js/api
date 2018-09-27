@@ -38,7 +38,7 @@ export default class Base <T = any> {
     throw new Error('Base::toString: unimplemented');
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     throw new Error('Base::toU8a: unimplemented');
   }
 }

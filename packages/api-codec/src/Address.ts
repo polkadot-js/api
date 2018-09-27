@@ -114,10 +114,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
     return this.raw.toString();
   }
 
-  toU8a (): Uint8Array {
-    return u8aConcat(
-      Address.writeLength(this.raw.byteLength()),
-      this.raw.toU8a()
-    );
+  toU8a (isBare?: boolean): Uint8Array {
+    return isBare
+      ? this.raw.toU8a(true)
+      : u8aConcat(
+        Address.writeLength(this.raw.byteLength()),
+        this.raw.toU8a(isBare)
+      );
   }
 }

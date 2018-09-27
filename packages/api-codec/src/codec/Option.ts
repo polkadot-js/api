@@ -73,7 +73,11 @@ export default class Option <T> extends Base<Base<T>> {
       : this.raw.toJSON();
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
+    if (isBare) {
+      return this.raw.toU8a(true);
+    }
+
     const u8a = new Uint8Array(this.byteLength());
 
     if (!this._isEmpty) {

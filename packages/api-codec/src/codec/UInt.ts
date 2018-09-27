@@ -74,7 +74,7 @@ export default class UInt extends Base<BN> {
     return this.toString();
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this.raw, this._bitLength, true);
   }
 
