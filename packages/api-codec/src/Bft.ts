@@ -5,6 +5,7 @@
 import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
+import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
 import AuthorityId from './AuthorityId';
 import Hash from './Hash';
@@ -18,7 +19,7 @@ export type BftAuthoritySignatureValue = {
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
-export class BftAuthoritySignature extends Struct {
+export class BftAuthoritySignature extends Tuple {
   constructor (value?: BftAuthoritySignatureValue) {
     super({
       authorityId: AuthorityId,
@@ -42,7 +43,7 @@ export type BftHashSignatureValue = {
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
-export class BftHashSignature extends Struct {
+export class BftHashSignature extends Tuple {
   constructor (value?: BftHashSignatureValue) {
     super({
       hash: Hash,

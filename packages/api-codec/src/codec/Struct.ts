@@ -21,7 +21,7 @@ export default class Struct <
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
 > extends Base<T> {
-  private _Types: E;
+  protected _Types: E;
 
   // TODO We either need to make a extension for StructAnon (that JSON encodes to array,
   // or add a flag for anon encoding. See the decoder for an example, where it can go
@@ -72,30 +72,19 @@ export default class Struct <
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
-    // NOTE From Rust, anonymous structures are encoded to Arrays, here
-    // we handle that case, taking each value in the array and passing it
-    // (in order) to the actual decoders (See e.g. SignedBlock.spec.json)
-    const isArrayIn = Array.isArray(input);
-
-    Object.keys(this.raw).forEach((key, index) => {
+    Object.keys(this.raw).forEach((key) => {
       // @ts-ignore as above...
-      this.raw[key].fromJSON(
-        isArrayIn
-          ? input[index]
-          : input[key]
-      );
+      this.raw[key].fromJSON(input[key]);
     });
 
     return this;
   }
 
   fromU8a (input: Uint8Array): Struct<S, T, V, E> {
-    Object.keys(this.raw).reduce((offset, key) => {
-      // @ts-ignore as above...
-      this.raw[key].fromU8a(input.subarray(offset));
+    Object.values(this.raw).reduce((offset, entry) => {
+      entry.fromU8a(input.subarray(offset));
 
-      // @ts-ignore as above...
-      return offset + this.raw[key].byteLength();
+      return offset + entry.byteLength();
     }, 0);
 
     return this;
@@ -112,9 +101,8 @@ export default class Struct <
 
   toU8a (): Uint8Array {
     return u8aConcat(
-      ...Object.keys(this.raw).map((key) =>
-        // @ts-ignore as above...
-        this.raw[key].toU8a()
+      ...Object.values(this.raw).map((entry) =>
+        entry.toU8a()
       )
     );
   }

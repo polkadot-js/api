@@ -273,14 +273,17 @@ export default class RuntimeMetadata extends Struct {
 
   // We receive this as an Array<number> in the JSON output from the Node. Convert
   // to u8a and use the fromU8a to do the actual parsing
-  //
-  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
-  // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match. (However for now, it is useful in debugging)
   fromJSON (input: Array<number>): RuntimeMetadata {
     return this.fromU8a(
       Uint8Array.from(input)
     ) as RuntimeMetadata;
+  }
+
+  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
+  // with what is actually found on the RPC layer. This needs to be adjusted to
+  // match fromJSON. (However for now, it is useful in debugging)
+  toJSON (): any {
+    return super.toJSON();
   }
 
   get events (): Vector<OuterEventMetadataEvent> {
