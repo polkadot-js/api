@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { createTypeInstance } from '@polkadot/api-codec/codec';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
 import { Storages } from '@polkadot/storage/types';
 import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
 
-import formatInputs from '@polkadot/api-format/input';
 import formatOutput from '@polkadot/api-format/output';
 import interfaces from '@polkadot/jsonrpc/index';
 import decodeParams from '@polkadot/params/decode';
@@ -17,6 +17,7 @@ import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 /**
  * @example
@@ -78,10 +79,12 @@ export default class Api implements ApiInterface {
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
-        const params = formatInputs(method.params, values);
+        console.error(method, values);
+
+        const params = this.formatInputs(method, values);
         const result = await this._provider.send(rpcName, params);
 
-        return this.formatResult(method, params, values, result);
+        return this.formatOutput(method, params, values, result);
       } catch (error) {
         throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
       }
@@ -99,9 +102,9 @@ export default class Api implements ApiInterface {
 
         assert(isFunction(cb), `Expected callback in last position of params`);
 
-        const params = formatInputs(method.params, values);
+        const params = this.formatInputs(method, values);
         const update = (error: Error | null, result?: any) => {
-          cb(error, this.formatResult(method, params, values, result));
+          cb(error, this.formatOutput(method, params, values, result));
         };
 
         return this._provider.subscribe(rpcName, method.subscribe[0], params, update);
@@ -117,7 +120,17 @@ export default class Api implements ApiInterface {
     return call;
   }
 
-  private formatResult (method: SectionItem<Interfaces>, params: Array<any>, inputs: Array<any>, result?: any): any {
+  private formatInputs (method: SectionItem<Interfaces>, inputs: Array<any>): Array<any> {
+    assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
+
+    return method.params.map(({ type }, index) =>
+      createTypeInstance(type as string, inputs[index]).toJSON()
+    );
+  }
+
+  private formatOutput (method: SectionItem<Interfaces>, params: Array<any>, inputs: Array<any>, result?: any): any {
+    console.error(method, result);
+
     if (method.type === 'StorageResult') {
       return this.formatStorageOutput(inputs[0][0], result);
     }

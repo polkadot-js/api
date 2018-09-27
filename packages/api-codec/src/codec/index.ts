@@ -11,3 +11,5 @@ export { default as Base } from './Base';
 export { default as Struct } from './Struct';
 export { default as Tuple } from './Tuple';
 export { default as Vector } from './Vector';
+
+export { default as createTypeInstance } from './createTypeInstance';

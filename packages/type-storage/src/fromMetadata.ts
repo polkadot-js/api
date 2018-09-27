@@ -24,20 +24,26 @@ function lowerFirstLetter (s: string) {
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export const fromMetadata = (storage: Storage, metadata: Metadata) => {
-  metadata.modules.forEach((moduleMetadata: RuntimeModuleMetadata) => {
+export function fromMetadata (storage: Storage, metadata: Metadata) {
+  // Dont' clobber the input, create new
+  const result = Object.keys(storage).reduce((result, key) => {
+    result[key] = storage[key];
+
+    return result;
+  }, {} as Storage);
+
+  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata) => {
     if (!moduleMetadata.storage) {
-      return;
+      return result;
     }
 
-    const newModule: ModuleStorage = {
-    };
-
-    moduleMetadata.storage.functions.forEach(func => {
+    result[moduleMetadata.prefix.toString()] = moduleMetadata.storage.functions.reduce((newModule, func) => {
       // Lowercase the 'f' in storage.balances.freeBalance
       newModule[lowerFirstLetter(func.name.toString())] = createFunction(moduleMetadata.prefix, func);
-    });
-    storage[moduleMetadata.prefix.toString()] = newModule;
-  });
-  return storage;
-};
+
+      return newModule;
+    }, {} as ModuleStorage);
+
+    return result;
+  }, result);
+}

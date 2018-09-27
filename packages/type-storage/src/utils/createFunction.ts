@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import * as CodecTypes from '@polkadot/api-codec/index';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
-import Text from '@polkadot/api-codec/Text';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import U8a from '@polkadot/api-codec/codec/U8a';
+
+import { createTypeInstance } from '@polkadot/api-codec/codec';
+import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
-
-import { StorageFunction } from '../types';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -45,9 +45,15 @@ export function createFunction (
           throw new Error(`${functionMetadata.name} expects one argument.`);
         }
 
-        const argType = functionMetadata.type.asMap.key.toString(); // Argument type, as string
-        const ArgType = (CodecTypes as any)[argType]; // Argument type, as Class
-        return xxhash(u8aConcat(prefix.toU8a(), new ArgType(arg).toU8a()), 128);
+        const type = functionMetadata.type.asMap.key.toString(); // Argument type, as string
+
+        return xxhash(
+          u8aConcat(
+            prefix.toU8a(),
+            createTypeInstance(type, arg).toU8a()
+          ),
+          128
+        );
       }
 
       return xxhash(prefix.toU8a(), 128);

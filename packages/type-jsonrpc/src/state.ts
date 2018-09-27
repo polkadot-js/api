@@ -46,7 +46,7 @@ const getStorage: CreateItemOptions = {
   params: [
     param('key', 'StorageKey')
   ],
-  type: 'StorageResult'
+  type: 'StorageData'
 };
 
 const getStorageAt: CreateItemOptions = {
