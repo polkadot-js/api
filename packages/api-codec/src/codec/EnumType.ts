@@ -46,8 +46,8 @@ export default class EnumType <T> extends Base<Base<T>> {
   }
 
   fromU8a (input: Uint8Array): EnumType<T> {
-    this._index = this._indexes.indexOf(input[0]);
-    this.raw = new this._Types[this._index]().fromU8a(input.subarray(1));
+    this.setValue(input[0]);
+    this.raw.fromU8a(input.subarray(1));
 
     return this;
   }
