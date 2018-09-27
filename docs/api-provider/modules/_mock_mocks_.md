@@ -8,7 +8,7 @@
 
 ▸ **mocks**(__namedParameters: *`object`*): `void`
 
-*Defined in [mock/mocks.ts:69](https://github.com/polkadot-js/api/blob/cbd3246/packages/api-provider/src/mock/mocks.ts#L69)*
+*Defined in [mock/mocks.ts:69](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/mock/mocks.ts#L69)*
 
 **Parameters:**
 
