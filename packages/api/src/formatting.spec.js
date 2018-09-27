@@ -36,9 +36,9 @@ describe('formatting', () => {
 
   it('encodes key (with params), decoding response', () => {
     return api.state
-      .getStorage([
-        storage.balances.freeBalance, ADDR_ONE
-      ])
+      .getStorage(
+        [storage.balances.freeBalance, ADDR_ONE]
+      )
       .then((value) => {
         expect(
           provider.send

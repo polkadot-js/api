@@ -5,7 +5,7 @@
 import { createType } from '@polkadot/api-codec/codec';
 import U8a from '@polkadot/api-codec/codec/U8a';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
-import StorageKey, { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
@@ -26,44 +26,41 @@ export interface CreateItemOptions {
  */
 export function createFunction (
   prefix: Text | U8a,
-  functionMetadata: StorageFunctionMetadata,
+  meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
 ): StorageFunction {
-  const meta = new StorageFunctionMetadata(functionMetadata);
-  const storageFn = meta as StorageFunction;
+  let storageFn: any;
 
   if (options.isUnhashed) {
-    storageFn.create = () =>
-      new StorageKey(prefix.toU8a());
+    storageFn = (): Uint8Array =>
+      prefix.toU8a();
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
     // - storage.balances.freeBalance(address)
     // - storage.timestamp.blockPeriod()
-    storageFn.create = (arg?: any): StorageKey => {
-      if (!functionMetadata.type.isMap) {
-        return new StorageKey(
-          xxhash(prefix.toU8a(), 128)
-        );
+    storageFn = (arg?: any): Uint8Array => {
+      if (!meta.type.isMap) {
+        return xxhash(prefix.toU8a(), 128);
       }
 
       if (!arg) {
-        throw new Error(`${functionMetadata.name} expects one argument.`);
+        throw new Error(`${meta.name} expects one argument.`);
       }
 
-      const type = functionMetadata.type.asMap.key.toString(); // Argument type, as string
+      const type = meta.type.asMap.key.toString(); // Argument type, as string
 
-      return new StorageKey(
-        xxhash(
-          u8aConcat(
-            prefix.toU8a(),
-            createType(type, arg).toU8a()
-          ),
-          128
-        )
+      return xxhash(
+        u8aConcat(
+          prefix.toU8a(),
+          createType(type, arg).toU8a()
+        ),
+        128
       );
     };
   }
 
-  return storageFn;
+  storageFn.meta = meta;
+
+  return storageFn as StorageFunction;
 }
