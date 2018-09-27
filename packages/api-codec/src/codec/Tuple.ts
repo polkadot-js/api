@@ -9,7 +9,7 @@ import Struct from './Struct';
 // is a specialization of the Struct type where the toJSON/fromJSON operates on Array structures,
 // while the U8a encoding is handled in the same way as a Struct
 export default class Tuple <
-  // S, T, V here maps to what we have in Struct (definitions there)
+  // S & T definitions maps to what we have in Struct (naming expanded there)
   S = { [index: string]: { new(value?: any): Base } },
   T = { [K in keyof S]: Base }
 > extends Struct<S, T> {
