@@ -13,27 +13,6 @@ describe.skip('e2e basics', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('subscribes to chain_newHead', (done) => {
-    let count = 0;
-
-    // tslint:disable-next-line
-    api.chain
-      .newHead((error, data) => {
-        if (error) {
-          return done(error);
-        }
-
-        expect(data).toBeDefined();
-
-        if (++count === 3) {
-          done();
-        }
-      })
-      .then((subscriptionId) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
-      });
-  });
-
   it('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()

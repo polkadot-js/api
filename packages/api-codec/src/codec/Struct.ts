@@ -21,12 +21,10 @@ export default class Struct <
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
 > extends Base<T> {
+  protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  // TODO We either need to make a extension for StructAnon (that JSON encodes to array,
-  // or add a flag for anon encoding. See the decoder for an example, where it can go
-  // from a supplied array in the case of Tuples)
-  constructor (Types: S, value: V = {} as V) {
+  constructor (Types: S, value: V = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
       Object
         .keys(Types)
@@ -41,6 +39,7 @@ export default class Struct <
         }, {} as T)
     );
 
+    this._jsonMap = jsonMap;
     this._Types = Object
       .keys(Types)
       .reduce((result: E, key) => {
@@ -55,8 +54,8 @@ export default class Struct <
     S = { [index: string]: { new(value?: any): Base } }
   > (Types: S): { new(value?: any): Struct<S> } {
     return class extends Struct<S> {
-      constructor (value?: any) {
-        super(Types, value);
+      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
+        super(Types, value, jsonMap);
       }
     };
   }
@@ -73,8 +72,10 @@ export default class Struct <
 
   fromJSON (input: any): Struct<S, T, V, E> {
     Object.keys(this.raw).forEach((key) => {
+      const jsonKey = this._jsonMap.get(key as any) || key;
+
       // @ts-ignore as above...
-      this.raw[key].fromJSON(input[key]);
+      this.raw[key].fromJSON(input[jsonKey]);
     });
 
     return this;
@@ -92,8 +93,10 @@ export default class Struct <
 
   toJSON (): any {
     return Object.keys(this.raw).reduce((json, key) => {
+      const jsonKey = this._jsonMap.get(key as any) || key;
+
       // @ts-ignore as above...
-      json[key] = this.raw[key].toJSON();
+      json[jsonKey] = this.raw[key].toJSON();
 
       return json;
     }, {} as any);

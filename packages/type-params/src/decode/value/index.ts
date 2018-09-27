@@ -94,6 +94,9 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
       case 'VoteIndex':
         return bn(input, 32);
 
+      case 'RuntimeVersion':
+        return u8a(input, 256, 0);
+
       case 'Signature':
         return u8a(input, 512, 0);
 

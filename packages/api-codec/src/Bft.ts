@@ -61,7 +61,7 @@ export class BftHashSignature extends Tuple {
 }
 
 export type JustificationValue = {
-  round_number?: AnyNumber,
+  round?: AnyNumber,
   hash?: AnyU8a,
   signatures?: Array<BftAuthoritySignatureValue>
 };
@@ -71,10 +71,10 @@ export class Justification extends Struct {
     super({
       // FIXME Rust returns this as "round_number", we actually want a JSON alias
       // in the structure to take care of these renames...
-      round_number: U32,
+      round: U32,
       hash: Hash,
       signatures: Vector.with(BftAuthoritySignature)
-    }, value);
+    }, value, new Map([['round', 'round_number']]));
   }
 
   get hash (): Hash {
@@ -82,7 +82,7 @@ export class Justification extends Struct {
   }
 
   get round (): U32 {
-    return this.raw.round_number as U32;
+    return this.raw.round as U32;
   }
 
   get signatures (): Vector<BftAuthoritySignature> {
