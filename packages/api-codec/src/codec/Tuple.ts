@@ -21,11 +21,15 @@ export default class Tuple <
   static with <
     S = { [index: string]: { new(value?: any): Base } }
   > (Types: S): { new(value?: any): Tuple<S> } {
-    return class extends Struct<S> {
+    return class extends Tuple<S> {
       constructor (value?: any) {
         super(Types, value);
       }
     };
+  }
+
+  get values (): Array<Base> {
+    return Object.values(this.raw);
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
