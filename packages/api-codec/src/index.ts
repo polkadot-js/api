@@ -43,6 +43,7 @@ export { default as PropIndex } from './PropIndex';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
 export { default as ReferendumIndex } from './ReferendumIndex';
+export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
 export { default as StorageChangeSet } from './StorageChangeSet';
