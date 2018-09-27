@@ -30,6 +30,21 @@ describe.skip('e2e state', () => {
       });
   });
 
+  it('retrieves code', () => {
+    return api.state
+      .getStorage([
+        storage.substrate.code
+      ])
+      .then((code) => {
+        console.error(code);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
   it('retrieves balances', () => {
     return api.state
       .getStorage([
@@ -37,6 +52,8 @@ describe.skip('e2e state', () => {
       ])
       .then((balance) => {
         console.error(balance);
+
+        expect(balance.toNumber()).not.toEqual(0);
       })
       .catch((error) => {
         console.error(error);
