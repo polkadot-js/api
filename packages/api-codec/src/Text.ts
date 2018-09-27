@@ -42,7 +42,7 @@ export default class Text extends Base<string> {
   }
 
   fromJSON (input: any): Text {
-    this.raw = `${input}`;
+    this.raw = `${input || ''}`;
 
     return this;
   }

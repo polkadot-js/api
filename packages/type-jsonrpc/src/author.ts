@@ -11,7 +11,7 @@ import createSection from '@polkadot/params/section';
 const pendingExtrinsics: CreateItemOptions = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
-  type: 'PrendingExtrinsics'
+  type: 'PendingExtrinsics'
 };
 
 const submitExtrinsic: CreateItemOptions = {

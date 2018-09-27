@@ -4,6 +4,11 @@
 
 import Base from './Base';
 
+type TypesArray = Array<{ new(value?: any): Base }>;
+type TypesDef = {
+  [index: number]: { new(value?: any): Base }
+} | TypesArray;
+
 // This implements an enum, that based on the value wraps a different type. It is effectively an
 // extension to enum where the value type is determined by the actual index.
 //
@@ -12,24 +17,24 @@ import Base from './Base';
 //   - It should rather probably extend Enum instead of copying code
 //   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
 export default class EnumType <T> extends Base<Base<T>> {
-  private _Types: Array<{ new(value?: any): Base }>;
+  private _Types: TypesArray;
   private _index: number;
   private _indexes: Array<number>;
-  private _strings: Array<string>;
 
-  constructor (Types: Array<{ new(value?: any): Base }>, strings: Array<string> = [], indexes: Array<number> = []) {
+  constructor (def: TypesDef, index?: number, value?: any) {
     super(
-      new Types[0]()
+      new (Object.values(def)[0])()
     );
 
-    this._Types = Types;
-    this._indexes = Types.map((Type, index) =>
-      indexes[index] || index
+    this._Types = Array.isArray(def)
+      ? def
+      : Object.values(def);
+    this._indexes = Object.keys(def).map((index) =>
+      parseInt(index, 10)
     );
     this._index = this._indexes[0];
-    this._strings = Types.map((Type, index) =>
-      strings[index] || Type.name
-    );
+
+    this.setValue(index, value);
   }
 
   get Type (): string {
@@ -41,15 +46,19 @@ export default class EnumType <T> extends Base<Base<T>> {
   }
 
   fromU8a (input: Uint8Array): EnumType<T> {
-    this._index = this._indexes.indexOf(input[0]);
-    this.raw = new this._Types[this._index]().fromU8a(input.subarray(1));
+    this.setValue(input[0]);
+    this.raw.fromU8a(input.subarray(1));
 
     return this;
   }
 
   setValue (index?: number, value?: any): void {
-    // NOTE If this is called from constructors, we may have empty values...
-    this._index = this._indexes.indexOf(index || 0) || 0;
+    this._index = this._indexes.indexOf(index || 0);
+
+    if (this._index === -1) {
+      this._index = this._indexes[0];
+    }
+
     this.raw = new this._Types[this._index](value);
   }
 
@@ -62,6 +71,6 @@ export default class EnumType <T> extends Base<Base<T>> {
   }
 
   toString (): string {
-    return this._strings[this._index];
+    return this._Types[this._index].name;
   }
 }

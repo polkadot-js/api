@@ -31,4 +31,18 @@ describe('Struct', () => {
       baz: 'U32'
     });
   });
+
+  it('exposes the keys/values', () => {
+    const test = new Struct({
+      foo: Text,
+      bar: U32
+    }, { foo: 'bazzing', bar: 69 });
+
+    expect(test.keys()).toEqual(['foo', 'bar']);
+    expect(
+      test.values().map((v) =>
+        v.toString()
+      )
+    ).toEqual(['bazzing', '0x00000045']);
+  });
 });

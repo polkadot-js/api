@@ -30,6 +30,20 @@ const getHeader: CreateItemOptions = {
   type: 'Header'
 };
 
+const getRuntimeVersion: CreateItemOptions = {
+  description: ' Get the runtime version',
+  params: [],
+  type: 'RuntimeVersion'
+};
+
+const getRuntimeVersionAt: CreateItemOptions = {
+  description: ' Get the runtime version at a specific block',
+  params: [
+    param('hash', 'Hash')
+  ],
+  type: 'RuntimeVersion'
+};
+
 const newHead: CreateItemOptions = {
   description: 'Retrieves the best header via subscription',
   subscribe: [
@@ -43,7 +57,7 @@ const newHead: CreateItemOptions = {
 const privateMethods: CreateItemOptionsMap = {};
 
 const publicMethods: CreateItemOptionsMap = {
-  getBlock, getHead, getHeader, newHead
+  getBlock, getHead, getHeader, getRuntimeVersion, getRuntimeVersionAt, newHead
 };
 
 export type PublicMethods = typeof publicMethods;

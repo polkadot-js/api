@@ -21,9 +21,10 @@ export default class Struct <
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
 > extends Base<T> {
-  private _Types: E;
+  protected _jsonMap: Map<keyof S, string>;
+  protected _Types: E;
 
-  constructor (Types: S, value: V = {} as V) {
+  constructor (Types: S, value: V = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
       Object
         .keys(Types)
@@ -38,6 +39,7 @@ export default class Struct <
         }, {} as T)
     );
 
+    this._jsonMap = jsonMap;
     this._Types = Object
       .keys(Types)
       .reduce((result: E, key) => {
@@ -52,8 +54,8 @@ export default class Struct <
     S = { [index: string]: { new(value?: any): Base } }
   > (Types: S): { new(value?: any): Struct<S> } {
     return class extends Struct<S> {
-      constructor (value?: any) {
-        super(Types, value);
+      constructor (value?: any, jsonMap?: Map<keyof S, string>) {
+        super(Types, value, jsonMap);
       }
     };
   }
@@ -69,30 +71,21 @@ export default class Struct <
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
-    // NOTE From Rust, anonymous structures are encoded to Arrays, here
-    // we handle that case, taking each value in the array and passing it
-    // (in order) to the actual decoders (See e.g. SignedBlock.spec.json)
-    const isArrayIn = Array.isArray(input);
+    Object.keys(this.raw).forEach((key) => {
+      const jsonKey = this._jsonMap.get(key as any) || key;
 
-    Object.keys(this.raw).forEach((key, index) => {
       // @ts-ignore as above...
-      this.raw[key].fromJSON(
-        isArrayIn
-          ? input[index]
-          : input[key]
-      );
+      this.raw[key].fromJSON(input[jsonKey]);
     });
 
     return this;
   }
 
   fromU8a (input: Uint8Array): Struct<S, T, V, E> {
-    Object.keys(this.raw).reduce((offset, key) => {
-      // @ts-ignore as above...
-      this.raw[key].fromU8a(input.subarray(offset));
+    Object.values(this.raw).reduce((offset, entry) => {
+      entry.fromU8a(input.subarray(offset));
 
-      // @ts-ignore as above...
-      return offset + this.raw[key].byteLength();
+      return offset + entry.byteLength();
     }, 0);
 
     return this;
@@ -100,18 +93,23 @@ export default class Struct <
 
   toJSON (): any {
     return Object.keys(this.raw).reduce((json, key) => {
+      const jsonKey = this._jsonMap.get(key as any) || key;
+
       // @ts-ignore as above...
-      json[key] = this.raw[key].toJSON();
+      json[jsonKey] = this.raw[key].toJSON();
 
       return json;
     }, {} as any);
   }
 
+  keys (): Array<string> {
+    return Object.keys(this.raw);
+  }
+
   toU8a (): Uint8Array {
     return u8aConcat(
-      ...Object.keys(this.raw).map((key) =>
-        // @ts-ignore as above...
-        this.raw[key].toU8a()
+      ...Object.values(this.raw).map((entry) =>
+        entry.toU8a()
       )
     );
   }
@@ -123,5 +121,9 @@ export default class Struct <
     ).join(', ');
 
     return `{${data}}`;
+  }
+
+  values (): Array<Base> {
+    return Object.values(this.raw);
   }
 }

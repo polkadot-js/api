@@ -36,7 +36,7 @@ describe('BftHashSignature', () => {
 
 describe('Justification', () => {
   const just = new Justification({
-    round_number: 32,
+    round: 32,
     hash: '0xabcd',
     signatures: [
       { authorityId: '0x1234', signature: '0x5678' },
@@ -53,7 +53,7 @@ describe('Justification', () => {
   });
 
   it('has the correct signatures', () => {
-    const sig = just.signatures.at(1);
+    const sig = just.signatures.get(1);
 
     expect(sig.authorityId.toHex()).toEqual('0x9876');
   });

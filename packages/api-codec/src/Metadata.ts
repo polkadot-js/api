@@ -174,14 +174,11 @@ export class StorageFunctionType$Map extends Struct {
 }
 
 export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
-  // NOTE Since this is called dynamically, we may have empty values here
   constructor (index?: number, value?: any) {
     super([
       Type,
       StorageFunctionType$Map
-    ], ['Plain', 'Map']);
-
-    this.setValue(index, value);
+    ], index, value);
   }
 
   get isMap (): boolean {
@@ -271,22 +268,20 @@ export default class RuntimeMetadata extends Struct {
     }, value);
   }
 
-  // We receive this a an Array<number> in the JSON output from the Node. Convert
+  // We receive this as an Array<number> in the JSON output from the Node. Convert
   // to u8a and use the fromU8a to do the actual parsing
-  //
-  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
-  // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match. (However for now, it is useful in debugging)
   fromJSON (input: Array<number>): RuntimeMetadata {
     return this.fromU8a(
       Uint8Array.from(input)
     ) as RuntimeMetadata;
   }
 
-  // FIXME Really not crazy about having to manually add all the getters. Preferably it should
-  // be done automagically in the actual Struct - however what is really important here
-  // here is that we should nbot lose the autocompletion and checking that TS gives us. So if
-  // we have to choose between the 2, manual defs it would have to be.
+  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
+  // with what is actually found on the RPC layer. This needs to be adjusted to
+  // match fromJSON. (However for now, it is useful in debugging)
+  toJSON (): any {
+    return super.toJSON();
+  }
 
   get events (): Vector<OuterEventMetadataEvent> {
     return (this.raw.outerEvent as OuterEventMetadata).events;

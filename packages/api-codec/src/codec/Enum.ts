@@ -4,6 +4,10 @@
 
 import Base from './Base';
 
+type EnumDef = {
+  [index: number]: string
+} | Array<string>;
+
 // A codec wrapper for an enum. Enums are encoded as a single byte, where the byte
 // is a zero-indexed value. This class allows you to retrieve the value either
 // by `toNumber()` exposing the actual raw index, or `toString()` returning a
@@ -12,16 +16,16 @@ import Base from './Base';
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
 export default class Enum extends Base<number> {
-  private _strings: Array<string>;
+  private _enum: EnumDef;
 
-  constructor (strings: Array<string>, value: Enum | number = 0) {
+  constructor (def: EnumDef, value: Enum | number = 0) {
     super(
       value instanceof Enum
         ? value.raw
         : value
     );
 
-    this._strings = strings;
+    this._enum = def;
   }
 
   byteLength (): number {
@@ -29,12 +33,14 @@ export default class Enum extends Base<number> {
   }
 
   fromJSON (input: any): Enum {
+    // FIXME We potentially want to assert that the value is actually inside this._enum
     this.raw = input;
 
     return this;
   }
 
   fromU8a (input: Uint8Array): Enum {
+    // FIXME We potentially want to assert that the value is actually inside this._enum
     this.raw = input[0];
 
     return this;
@@ -53,6 +59,6 @@ export default class Enum extends Base<number> {
   }
 
   toString (): string {
-    return this._strings[this.raw] || `${this.raw}`;
+    return this._enum[this.raw] || `${this.raw}`;
   }
 }

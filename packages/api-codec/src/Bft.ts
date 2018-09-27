@@ -5,6 +5,7 @@
 import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
+import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
 import AuthorityId from './AuthorityId';
 import Hash from './Hash';
@@ -18,8 +19,8 @@ export type BftAuthoritySignatureValue = {
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
-export class BftAuthoritySignature extends Struct {
-  constructor (value: BftAuthoritySignatureValue = {}) {
+export class BftAuthoritySignature extends Tuple {
+  constructor (value?: BftAuthoritySignatureValue) {
     super({
       authorityId: AuthorityId,
       signature: Signature
@@ -42,8 +43,8 @@ export type BftHashSignatureValue = {
 
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
-export class BftHashSignature extends Struct {
-  constructor (value: BftHashSignatureValue = {}) {
+export class BftHashSignature extends Tuple {
+  constructor (value?: BftHashSignatureValue) {
     super({
       hash: Hash,
       signature: Signature
@@ -60,20 +61,20 @@ export class BftHashSignature extends Struct {
 }
 
 export type JustificationValue = {
-  round_number?: AnyNumber,
+  round?: AnyNumber,
   hash?: AnyU8a,
   signatures?: Array<BftAuthoritySignatureValue>
 };
 
 export class Justification extends Struct {
-  constructor (value: JustificationValue = {}) {
+  constructor (value?: JustificationValue) {
     super({
       // FIXME Rust returns this as "round_number", we actually want a JSON alias
       // in the structure to take care of these renames...
-      round_number: U32,
+      round: U32,
       hash: Hash,
       signatures: Vector.with(BftAuthoritySignature)
-    }, value);
+    }, value, new Map([['round', 'round_number']]));
   }
 
   get hash (): Hash {
@@ -81,7 +82,7 @@ export class Justification extends Struct {
   }
 
   get round (): U32 {
-    return this.raw.round_number as U32;
+    return this.raw.round as U32;
   }
 
   get signatures (): Vector<BftAuthoritySignature> {

@@ -25,7 +25,7 @@ type BftAtReportValue = {
 // items in the structure is called, except a & b (one should be expected, the
 // other actual)
 export class BftAtReport extends Struct {
-  constructor (value: BftAtReportValue = {}) {
+  constructor (value?: BftAtReportValue) {
     super({
       round: U32,
       a: BftHashSignature,
@@ -55,13 +55,11 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (index: number, value: BftAtReportValue = {}) {
-    super([
-      BftDoublePrepare,
-      BftDoubleCommit
-    ], [], [0x11, 0x12]);
-
-    this.setValue(index, value);
+  constructor (index: number = 0x11, value?: BftAtReportValue) {
+    super({
+      0x11: BftDoublePrepare,
+      0x12: BftDoubleCommit
+    }, index, value);
   }
 }
 
@@ -72,7 +70,7 @@ type MisbehaviorReportValue = {
 
 // A Misbehaviour report against a specific AuthorityId
 export default class MisbehaviorReport extends Struct {
-  constructor (value: MisbehaviorReportValue = {}) {
+  constructor (value?: MisbehaviorReportValue) {
     super({
       parentHash: Hash,
 	    parentNumber: BlockNumber,

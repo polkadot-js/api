@@ -27,7 +27,7 @@ export type HeaderValue = {
 
 // A block header digest.
 export class Digest extends Struct {
-  constructor (value: DigestValue = {}) {
+  constructor (value?: DigestValue) {
     super({
       logs: Vector.with(Bytes)
     }, value);
@@ -40,7 +40,7 @@ export class Digest extends Struct {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value: HeaderValue = {}) {
+  constructor (value?: HeaderValue) {
     super({
       parentHash: Hash,
       number: BlockNumber,
