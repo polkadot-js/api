@@ -129,11 +129,11 @@ export default class Api implements ApiInterface {
       const outputType = (params[0] as StorageKey).outputType;
 
       if (outputType) {
-        return createType(outputType as string, base.raw);
+        return createType(outputType, base.raw);
       }
     }
 
-    // TODO
+    // TODO, TODO, TODO
     // if (method.type === 'StorageResultSet') {
     //   return params[0].map((key: string, index: number) => {
     //     const input = inputs[0][index][0];
@@ -148,9 +148,6 @@ export default class Api implements ApiInterface {
     //   });
     // }
 
-    // TODO For now, just throw, we will get there
-    throw new Error(`Unable to format API result from '${method.type}'`);
-
-    // return base;
+    return base;
   }
 }

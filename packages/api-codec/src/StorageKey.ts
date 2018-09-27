@@ -8,7 +8,6 @@ import isFunction from '@polkadot/util/is/function';
 
 import Bytes from './Bytes';
 import { StorageFunctionMetadata } from './Metadata';
-import ValidatorPrefs from '@polkadot/api-codec/ValidatorPrefs';
 
 export interface StorageFunction extends StorageFunctionMetadata {
   create (arg?: any): StorageKey;
