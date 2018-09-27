@@ -34,11 +34,11 @@ export default class UInt extends Base<BN> {
     this._bitLength = bitLength;
   }
 
-  static decode (value: AnyNumber): BN {
+  static decode (value: AnyNumber, isLE: boolean = false): BN {
     if (value instanceof UInt) {
       return value.raw;
     } else if (isHex(value)) {
-      return hexToBn(value as string);
+      return hexToBn(value as string, true);
     } else if (isString(value)) {
       return new BN(value, 10);
     }

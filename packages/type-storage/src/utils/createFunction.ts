@@ -29,42 +29,37 @@ export function createFunction (
   prefix: Text | U8a,
   functionMetadata: StorageFunctionMetadata,
   options: CreateItemOptions = {}
-) {
-  let func: any; // The return value, it's a function that has metadata.
+): StorageFunction {
+  const meta = new StorageFunctionMetadata(functionMetadata);
+  const storageFn = meta as StorageFunction;
 
   if (options.isUnhashed) {
-    func = () => prefix.toU8a();
+    storageFn.create = () => prefix.toU8a();
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
     // - storage.balances.freeBalance(address)
     // - storage.timestamp.blockPeriod()
-    func = (arg?: any) => {
-      if (functionMetadata.type.isMap) {
-        if (!arg) {
-          throw new Error(`${functionMetadata.name} expects one argument.`);
-        }
-
-        const type = functionMetadata.type.asMap.key.toString(); // Argument type, as string
-
-        return xxhash(
-          u8aConcat(
-            prefix.toU8a(),
-            createType(type, arg).toU8a()
-          ),
-          128
-        );
+    storageFn.create = (arg?: any) => {
+      if (!functionMetadata.type.isMap) {
+        return xxhash(prefix.toU8a(), 128);
       }
 
-      return xxhash(prefix.toU8a(), 128);
+      if (!arg) {
+        throw new Error(`${functionMetadata.name} expects one argument.`);
+      }
+
+      const type = functionMetadata.type.asMap.key.toString(); // Argument type, as string
+
+      return xxhash(
+        u8aConcat(
+          prefix.toU8a(),
+          createType(type, arg).toU8a()
+        ),
+        128
+      );
     };
   }
 
-  // Add metadata to the storage function
-  Object.assign(func as StorageFunction, {
-    documentation: functionMetadata.documentation,
-    type: functionMetadata.type
-  });
-
-  return func as StorageFunction;
+  return storageFn;
 }

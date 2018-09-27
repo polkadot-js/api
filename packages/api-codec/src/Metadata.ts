@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyNumber } from './types';
+
 import Vector from './codec/Vector';
 import Base from './codec/Base';
 import Enum from './codec/Enum';
@@ -17,12 +19,12 @@ import U16 from './U16';
 // end and work up. (Just so we don't use before definition)
 
 export class EventMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       arguments: Vector.with(Type),
       documentation: Vector.with(Text)
-    });
+    }, value);
   }
 
   get arguments (): Vector<Type> {
@@ -39,11 +41,11 @@ export class EventMetadata extends Struct {
 }
 
 export class OuterEventMetadataEvent extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       events: Vector.with(EventMetadata)
-    });
+    }, value);
   }
 
   get events (): Vector<EventMetadata> {
@@ -56,11 +58,11 @@ export class OuterEventMetadataEvent extends Struct {
 }
 
 export class OuterEventMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       events: Vector.with(OuterEventMetadataEvent)
-    });
+    }, value);
   }
 
   get events (): Vector<OuterEventMetadataEvent> {
@@ -73,11 +75,11 @@ export class OuterEventMetadata extends Struct {
 }
 
 export class FunctionArgumentMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       type: Type
-    });
+    }, value);
   }
 
   get name (): Text {
@@ -90,13 +92,13 @@ export class FunctionArgumentMetadata extends Struct {
 }
 
 export class FunctionMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       id: U16,
       name: Text,
       arguments: Vector.with(FunctionArgumentMetadata),
       documentation: Vector.with(Text)
-    });
+    }, value);
   }
 
   get arguments (): Vector<FunctionArgumentMetadata> {
@@ -117,11 +119,11 @@ export class FunctionMetadata extends Struct {
 }
 
 export class CallMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       functions: Vector.with(FunctionMetadata)
-    });
+    }, value);
   }
 
   get functions (): Vector<FunctionMetadata> {
@@ -134,11 +136,11 @@ export class CallMetadata extends Struct {
 }
 
 export class ModuleMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       name: Text,
       call: CallMetadata
-    });
+    }, value);
   }
 
   get call (): CallMetadata {
@@ -151,17 +153,17 @@ export class ModuleMetadata extends Struct {
 }
 
 export class StorageFunctionModifier extends Enum {
-  constructor () {
-    super(['None', 'Default', 'Required']);
+  constructor (value?: any) {
+    super(['None', 'Default', 'Required'], value);
   }
 }
 
 export class StorageFunctionType$Map extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       key: Type,
       value: Type
-    });
+    }, value);
   }
 
   get key (): Type {
@@ -192,16 +194,29 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
   get asType (): Type {
     return (this.raw as Base<Type>).raw;
   }
+
+  toString (): string {
+    return this.isMap
+      ? this.asMap.value.toString()
+      : this.asType.toString();
+  }
 }
 
+type StorageFunctionMetadataValue = {
+  name?: string | Text,
+  modifier?: StorageFunctionModifier | AnyNumber,
+  type?: StorageFunctionType,
+  documentation?: Vector<Text> | Array<string>
+};
+
 export class StorageFunctionMetadata extends Struct {
-  constructor () {
+  constructor (value?: StorageFunctionMetadataValue) {
     super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
       documentation: Vector.with(Text)
-    });
+    }, value);
   }
 
   get documentation (): Vector<Text> {
@@ -222,11 +237,11 @@ export class StorageFunctionMetadata extends Struct {
 }
 
 export class StorageMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       prefix: Text,
       functions: Vector.with(StorageFunctionMetadata)
-    });
+    }, value);
   }
 
   get functions (): Vector<StorageFunctionMetadata> {
@@ -239,12 +254,12 @@ export class StorageMetadata extends Struct {
 }
 
 export class RuntimeModuleMetadata extends Struct {
-  constructor () {
+  constructor (value?: any) {
     super({
       prefix: Text,
       module: ModuleMetadata,
       storage: Option.with(StorageMetadata)
-    });
+    }, value);
   }
 
   get module (): ModuleMetadata {

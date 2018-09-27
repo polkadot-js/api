@@ -21,7 +21,7 @@ export default class EnumType <T> extends Base<Base<T>> {
   private _index: number;
   private _indexes: Array<number>;
 
-  constructor (def: TypesDef, index?: number, value?: any) {
+  constructor (def: TypesDef, index?: number | EnumType<T>, value?: any) {
     super(
       new (Object.values(def)[0])()
     );
@@ -52,7 +52,14 @@ export default class EnumType <T> extends Base<Base<T>> {
     return this;
   }
 
-  setValue (index?: number, value?: any): void {
+  setValue (index?: | EnumType<T> | number, value?: any): void {
+    if (index instanceof EnumType) {
+      this._index = index._index;
+      this.raw = new this._Types[this._index](index.raw);
+
+      return;
+    }
+
     this._index = this._indexes.indexOf(index || 0);
 
     if (this._index === -1) {
