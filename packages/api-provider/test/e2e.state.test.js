@@ -1,0 +1,47 @@
+// Copyright 2017-2018 @polkadot/api-provider authors & contributors
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+
+import storage from '@polkadot/storage/testing';
+
+import Api from '../../api/src';
+import Ws from '../src/ws';
+
+const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+
+describe.skip('e2e state', () => {
+  let api;
+
+  beforeEach(() => {
+    jest.setTimeout(30000);
+    api = new Api(new Ws('ws://127.0.0.1:9944'));
+  });
+
+  it('retrieves the wasm metadata', () => {
+    return api.state
+      .getMetadata()
+      .then((meta) => {
+        console.error(JSON.stringify(meta.toJSON()));
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
+  it('retrieves balances', () => {
+    return api.state
+      .getStorage([
+        storage.balances.freeBalance, ALICE
+      ])
+      .then((balance) => {
+        console.error(balance);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+});
