@@ -23,6 +23,9 @@ export default class Struct <
 > extends Base<T> {
   private _Types: E;
 
+  // TODO We either need to make a extension for StructAnon (that JSON encodes to array,
+  // or add a flag for anon encoding. See the decoder for an example, where it can go
+  // from a supplied array in the case of Tuples)
   constructor (Types: S, value: V = {} as V) {
     super(
       Object
