@@ -30,7 +30,8 @@ export const fromMetadata = (storage: Storage, metadata: Metadata) => {
       return;
     }
 
-    const newModule: ModuleStorage = {};
+    const newModule: ModuleStorage = {
+    };
 
     moduleMetadata.storage.functions.forEach(func => {
       // Lowercase the 'f' in storage.balances.freeBalance
