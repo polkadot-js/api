@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { createTypeInstance } from '@polkadot/api-codec/codec';
+import { createType } from '@polkadot/api-codec/codec';
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
@@ -17,18 +17,14 @@ import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
-import u8aToHex from '@polkadot/util/u8a/toHex';
 
 /**
  * @example
- * ```javascript
- *
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
  * const provider = new WsProvider('http://127.0.0.1:9944');
  * const api = new Api(provider);
- * ```
  */
 export default class Api implements ApiInterface {
   private _provider: ProviderInterface;
@@ -124,7 +120,7 @@ export default class Api implements ApiInterface {
     assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
 
     return method.params.map(({ type }, index) =>
-      createTypeInstance(type as string, inputs[index]).toJSON()
+      createType(type as string, inputs[index]).toJSON()
     );
   }
 

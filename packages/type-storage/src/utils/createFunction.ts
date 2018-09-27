@@ -6,7 +6,7 @@ import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import U8a from '@polkadot/api-codec/codec/U8a';
 
-import { createTypeInstance } from '@polkadot/api-codec/codec';
+import { createType } from '@polkadot/api-codec/codec';
 import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
@@ -50,7 +50,7 @@ export function createFunction (
         return xxhash(
           u8aConcat(
             prefix.toU8a(),
-            createTypeInstance(type, arg).toU8a()
+            createType(type, arg).toU8a()
           ),
           128
         );

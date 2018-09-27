@@ -7,7 +7,7 @@ import Base from './Base';
 
 // TODO Here we just cater for single values. We need to add Vectors, Tuples and the
 // whole shebang to be compliant... it is a start
-export default function createTypeInstance (type: string, value?: any): Base {
+export default function createType (type: string, value?: any): Base {
   console.error('createTypeInstance', type, value);
 
   const Type = (Types as any)[type];
