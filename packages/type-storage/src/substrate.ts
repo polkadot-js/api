@@ -7,7 +7,7 @@ import Text from '@polkadot/api-codec/Text';
 import U8a from '@polkadot/api-codec/codec/U8a';
 import Vector from '@polkadot/api-codec/codec/Vector';
 
-import { createFunction } from './utils/createFunction';
+import createFunction from './utils/createFunction';
 
 interface SubstrateMetadata {
   documentation: string;
@@ -21,8 +21,7 @@ const createRuntimeFunction = (name: string, functionMetadata: SubstrateMetadata
   // order to not input other fields (byteLength, fromJSON...) we lazily cast
   // as any.
   createFunction(
-    '',
-    new U8a(name),
+    '', name,
     {
       documentation: new Vector(Text, [functionMetadata.documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),

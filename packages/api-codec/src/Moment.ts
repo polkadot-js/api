@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import Base from './codec/Base';
@@ -16,8 +17,7 @@ const BITLENGTH = 64;
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
 export default class Moment extends Base<Date> {
-  // NOTE
-  constructor (value: Moment | Date | number = 0) {
+  constructor (value: Uint8Array | Moment | Date | number = 0) {
     super(
       value instanceof Date
         ? new Date(Math.ceil(value.getTime() / 1000) * 1000)
@@ -25,12 +25,16 @@ export default class Moment extends Base<Date> {
     );
   }
 
-  static decode (value: Moment | number | BN): Date {
-    return value instanceof Moment
-      ? value.raw
-      : new Date(
-        bnToBn(value).toNumber() * 1000
-      );
+  static decode (value: Uint8Array | Moment | number | BN): Date {
+    if (value instanceof Moment) {
+      return value.raw;
+    } if (isU8a(value)) {
+      value = u8aToBn(value, true);
+    }
+
+    return new Date(
+      bnToBn(value).toNumber() * 1000
+    );
   }
 
   byteLength (): number {

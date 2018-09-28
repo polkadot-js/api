@@ -38,7 +38,6 @@ export default class StorageKey extends Bytes {
   }
 
   static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
-    console.error('getType', value);
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {

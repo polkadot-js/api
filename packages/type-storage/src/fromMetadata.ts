@@ -4,7 +4,7 @@
 
 import Metadata, { RuntimeModuleMetadata } from '@polkadot/api-codec/Metadata';
 
-import { createFunction } from './utils/createFunction';
+import createFunction from './utils/createFunction';
 import { ModuleStorage, Storage } from './types';
 
 /**
@@ -41,9 +41,8 @@ export function fromMetadata (storage: Storage, metadata: Metadata) {
       return result;
     }
 
-    console.error(moduleMetadata, moduleMetadata.prefix);
-
     const modname = moduleMetadata.prefix.toString().toLowerCase();
+    // FIXME we also get in council_voting, should be CouncilVoting (AFAIK)
     const prefix = upperFirstLetter(modname);
 
     result[moduleMetadata.prefix.toString()] = moduleMetadata.storage.functions.reduce((newModule, func) => {

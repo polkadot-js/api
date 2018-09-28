@@ -3,20 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { createType } from '@polkadot/api-codec/codec';
-import U8a from '@polkadot/api-codec/codec/U8a';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
-import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
 }
-
-const SPACE = u8aFromUtf8(' ');
 
 /**
  * From the schema of a function in the module's storage, generate the function
@@ -28,9 +24,9 @@ const SPACE = u8aFromUtf8(' ');
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export function createFunction (
-  _prefix: string,
-  name: Text | U8a,
+export default function createFunction (
+  prefix: string | Text,
+  name: string | Text,
   meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
 ): StorageFunction {
@@ -38,33 +34,18 @@ export function createFunction (
 
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      name.toU8a();
+      u8aFromUtf8(name.toString());
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
     // - storage.balances.freeBalance(address)
     // - storage.timestamp.blockPeriod()
     storageFn = (arg?: any): Uint8Array => {
-      console.error('prefix', _prefix, name);
-
-      const prefix = u8aFromUtf8(_prefix);
-
       if (!meta.type.isMap) {
-        const u8a = u8aConcat(
-          prefix,
-          SPACE,
-          name.toU8a(true)
-        );
-
-        console.error(u8aToUtf8(u8a));
-
         return xxhash(
-          u8aConcat(
-            prefix,
-            new Uint8Array([0x3a]),
-            name.toU8a(true)
-         ),
-         128);
+          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
+          128
+        );
       }
 
       if (!arg) {
@@ -73,22 +54,9 @@ export function createFunction (
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
-      const u8a = u8aConcat(
-        prefix,
-        SPACE,
-        name.toU8a(true),
-        SPACE,
-        createType(type, arg).toU8a(true)
-      );
-
-      console.error(u8aToUtf8(u8a));
-
       return xxhash(
         u8aConcat(
-          prefix,
-          SPACE,
-          name.toU8a(true),
-          SPACE,
+          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
           createType(type, arg).toU8a(true)
         ),
         128

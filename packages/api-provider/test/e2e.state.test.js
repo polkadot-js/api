@@ -53,7 +53,7 @@ describe.skip('e2e state', () => {
       .then((balance) => {
         console.error(balance);
 
-        expect(balance.toNumber()).not.toEqual(0);
+        expect(balance.toBn().isZero()).not.toEqual(true);
       })
       .catch((error) => {
         console.error(error);
@@ -62,7 +62,7 @@ describe.skip('e2e state', () => {
       });
   });
 
-  it('retrieves timetstamp', () => {
+  it('retrieves timestamp', () => {
     return api.state
       .getStorage([
         storage.timestamp.now
