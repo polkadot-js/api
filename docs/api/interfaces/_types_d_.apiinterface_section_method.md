@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [types.d.ts:7](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/types.d.ts#L7)*
+*Defined in [types.d.ts:7](https://github.com/polkadot-js/api/blob/b3a95b5/packages/api/src/types.d.ts#L7)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● subscription**: *`string`*
 
-*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/types.d.ts#L10)*
+*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/b3a95b5/packages/api/src/types.d.ts#L10)*
 
 ___
 <a id="unsubscribe"></a>
@@ -34,7 +34,7 @@ ___
 
 **● unsubscribe**: *`function`*
 
-*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/b3a95b5/packages/api/src/types.d.ts#L11)*
 
 #### Type declaration
 ▸(id: *`number`*): `Promise`<`any`>
