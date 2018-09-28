@@ -4,7 +4,6 @@
 
 import { StorageFunctionModifier, StorageFunctionType } from '@polkadot/api-codec/Metadata';
 import Text from '@polkadot/api-codec/Text';
-import U8a from '@polkadot/api-codec/codec/U8a';
 import Vector from '@polkadot/api-codec/codec/Vector';
 
 import createFunction from './utils/createFunction';
