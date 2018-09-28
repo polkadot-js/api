@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/extrinsics';
+import { extrinsicsLegacy as extrinsics } from '@polkadot/extrinsics';
 import encodeUnchecked from '@polkadot/extrinsics/codec/encode/unchecked';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
@@ -27,7 +27,7 @@ describe('encodeBlock', () => {
               (keyring.nobody, 0,
               extrinsics.timestamp.public.set,
               [0x5b13c3a4]
-            ),
+              ),
             encodeUnchecked(
               keyring.nobody, 0,
               extrinsics.parachains.public.setHeads,

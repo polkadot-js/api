@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import extrinsics from '@polkadot/extrinsics';
+import { extrinsicsLegacy as extrinsics } from '@polkadot/extrinsics';
 import encodeUnchecked from '@polkadot/extrinsics/codec/encode/unchecked';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
