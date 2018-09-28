@@ -12,10 +12,11 @@ export type RxApiInterface$Section = {
   [index: string]: RxApiInterface$Method
 };
 
-type RxApiInterface$Keys = {
-  readonly [key in keyof typeof interfaces]: RxApiInterface$Section;
-};
+export type RxApiInterface = {
+  readonly author: RxApiInterface$Section;
+  readonly chain: RxApiInterface$Section;
+  readonly state: RxApiInterface$Section;
+  readonly system: RxApiInterface$Section;
 
-export type RxApiInterface = RxApiInterface$Keys & {
   isConnected: () => BehaviorSubject<boolean>
 }
