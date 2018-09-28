@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { CreateItems, Section } from '@polkadot/params/types';
-import { Extrinsics, ExtrinsicLegacy$Sections } from '../types';
+import { ExtrinsicsLegacy as Extrinsics, ExtrinsicLegacy$Sections } from '../types';
 
 import createSection from '@polkadot/params/section';
 

@@ -20,16 +20,16 @@ export interface Extrinsics {
 // Legacy types
 export type ExtrinsicsLegacy = {
   // substrate
-  consensus: Section<Extrinsics, any, any>,
-  council: Section<Extrinsics, any, any>,
-  councilVoting: Section<Extrinsics, any, any>,
-  democracy: Section<Extrinsics, any, any>,
-  session: Section<Extrinsics, any, any>,
-  staking: Section<Extrinsics, any, any>,
-  timestamp: Section<Extrinsics, any, any>,
-  treasury: Section<Extrinsics, any, any>,
+  consensus: Section<ExtrinsicsLegacy, any, any>,
+  council: Section<ExtrinsicsLegacy, any, any>,
+  councilVoting: Section<ExtrinsicsLegacy, any, any>,
+  democracy: Section<ExtrinsicsLegacy, any, any>,
+  session: Section<ExtrinsicsLegacy, any, any>,
+  staking: Section<ExtrinsicsLegacy, any, any>,
+  timestamp: Section<ExtrinsicsLegacy, any, any>,
+  treasury: Section<ExtrinsicsLegacy, any, any>,
   // polkadot
-  parachains: Section<Extrinsics, any, any>
+  parachains: Section<ExtrinsicsLegacy, any, any>
 };
 
-export type ExtrinsicLegacy$Sections = keyof Extrinsics;
+export type ExtrinsicLegacy$Sections = keyof ExtrinsicsLegacy;

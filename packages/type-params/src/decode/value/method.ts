@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { ExtrinsicsLegacy as Extrinsics } from '@polkadot/extrinsics/types';
 import { EncodingVersions, ExtrinsicDecoded, Param, Param$Decoded, Section } from '../../types';
 import { Decoder } from '../types';
 
 import assert from '@polkadot/util/assert';
-import extrinsics from '@polkadot/extrinsics/index';
+import { extrinsicsLegacy as extrinsics } from '@polkadot/extrinsics/index';
 import isUndefined from '@polkadot/util/is/undefined';
 
 // type Section =
