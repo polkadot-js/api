@@ -3,11 +3,14 @@
 // of the ISC license. See the LICENSE file for details.
 
 import assert from '@polkadot/util/assert';
+import logger from '@polkadot/util/logger';
 
 import * as Types from '../index';
 import Base from './Base';
 import Tuple from './Tuple';
 import Vector from './Vector';
+
+const l = logger('codec/createType');
 
 type Constructor = { new (value?: any): Base };
 
@@ -53,6 +56,9 @@ export function typeSplit (type: string): Array<string> {
     }
   }
 
+  assert(tDepth === 0, `Invalid nested tuple in ${type}`);
+  assert(vDepth === 0, `Invalid nested Vec<> in ${type}`);
+
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
 
@@ -61,6 +67,8 @@ export function typeSplit (type: string): Array<string> {
 
 // Handle Vector types, i.e Vec<AccountId> or Vec<(AccountId, Balance)>
 export function getVectorType (type: string): Constructor {
+  l.debug(() => ['getVectorType', { type }]);
+
   assert(type.substr(0, 4) === 'Vec<' && type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
 
   // strip wrapping Vec<>
@@ -74,6 +82,8 @@ export function getVectorType (type: string): Constructor {
 // Handle tuple types, (u32, String, AccountId). It could be nested and wrapped in other
 // types, i.e. (u32, Vec<(AccountId, Balance)>)
 export function getTupleType (type: string): Constructor {
+  l.debug(() => ['getTupleType', { type }]);
+
   assert(type[0] === '(' && type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
 
   // strip wrapping ()'s
@@ -92,6 +102,8 @@ export function getTupleType (type: string): Constructor {
 export function getType (_type: string): Constructor {
   const type = _type.trim();
 
+  l.debug(() => ['getType', { type }]);
+
   if (type[0] === '(') {
     return getTupleType(type);
   } else if (type.substr(0, 4) === 'Vec<') {
@@ -106,6 +118,8 @@ export function getType (_type: string): Constructor {
 }
 
 export default function createType (type: string, value?: any): Base {
+  l.debug(() => ['createType', { type, value }]);
+
   const Type = getType(type);
 
   return new Type(value);

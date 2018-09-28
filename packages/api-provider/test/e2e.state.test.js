@@ -17,11 +17,13 @@ describe.skip('e2e state', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('retrieves the wasm metadata', () => {
+  it('retrieves code', () => {
     return api.state
-      .getMetadata()
-      .then((meta) => {
-        console.error(JSON.stringify(meta.toJSON()));
+      .getStorage([
+        storage.substrate.code
+      ])
+      .then((code) => {
+        console.error(code.toHex().substr(0, 256), '...');
       })
       .catch((error) => {
         console.error(error);
@@ -30,13 +32,11 @@ describe.skip('e2e state', () => {
       });
   });
 
-  it.skip('retrieves code', () => {
+  it('retrieves the wasm metadata', () => {
     return api.state
-      .getStorage([
-        storage.substrate.code
-      ])
-      .then((code) => {
-        console.error(code.toHex().substr(0, 256), '...');
+      .getMetadata()
+      .then((meta) => {
+        console.error(JSON.stringify(meta.toJSON()));
       })
       .catch((error) => {
         console.error(error);

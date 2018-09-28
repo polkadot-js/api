@@ -6,6 +6,7 @@ import { AnyU8a } from './types';
 
 import Option from './codec/Option';
 import Struct from './codec/Struct';
+import Tuple from './codec/Tuple';
 import StorageData from './StorageData';
 import StorageKey from './StorageKey';
 
@@ -41,8 +42,9 @@ export type KeyValueOptionValue = {
 };
 
 // A key/value change. This is similar to the KeyValue structure,
-// however in this case the value could be optional.
-export class KeyValueOption extends Struct {
+// however in this case the value could be optional. Here it extends
+// from a Tuple, indicating the use inside areas such as StorageChangeSet
+export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue) {
     super({
       key: StorageKey,

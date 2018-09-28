@@ -2,6 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import logger from '@polkadot/util/logger';
+
+export const l = logger('codec/Base');
+
 // The actual base class for any type. As it stands, this should not be used on it's own,
 // so we expose the interface, but throw on anything. This allows subclasses to actaully
 // only implement part (things that are unused/unexpected should just error-out)
