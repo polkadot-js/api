@@ -34,7 +34,7 @@ export default function createExtrinsic (
 
     return new Extrinsic(
       u8aConcat(
-        new Uint8Array([index, meta.id.toU8a()[1]]),
+        new Uint8Array([index, meta.id.toNumber()]),
         ...expectedArgs.map((argument, index) => {
           const type = argument.type.toString(); // Argument type, as string
 
