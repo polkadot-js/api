@@ -33,8 +33,8 @@
     "@polkadot/api-codec": "^0.30.1",
     "@polkadot/params": "^0.30.1",
     "@polkadot/primitives": "^0.30.1",
-    "@polkadot/util": "^0.30.6",
-    "@polkadot/util-crypto": "^0.30.6",
-    "@polkadot/util-keyring": "^0.30.6"
+    "@polkadot/util": "^0.30.7",
+    "@polkadot/util-crypto": "^0.30.7",
+    "@polkadot/util-keyring": "^0.30.7"
   }
 }
