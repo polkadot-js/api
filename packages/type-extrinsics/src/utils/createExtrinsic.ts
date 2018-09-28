@@ -16,6 +16,7 @@ import { ExtrinsicFunction } from '../types';
 export default function createExtrinsic (
   prefix: string | Text,
   name: string | Text,
+  index: number,
   meta: FunctionMetadata
 ): ExtrinsicFunction {
   let extrinsicFn: any;

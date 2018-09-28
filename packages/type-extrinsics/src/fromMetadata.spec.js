@@ -24,7 +24,7 @@ describe('fromMetadata', () => {
     expect(newExtrinsics.timestamp.set([10101]).toU8a(true)).toEqual(
       new Uint8Array([
         // index
-        0, 0,
+        3, 0,
         // values
         117, 39, 0, 0, 0, 0, 0, 0
       ])
