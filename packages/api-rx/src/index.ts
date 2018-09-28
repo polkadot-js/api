@@ -4,7 +4,6 @@
 
 import { ApiInterface, ApiInterface$Section } from '@polkadot/api/types';
 import { ProviderInterface } from '@polkadot/api-provider/types';
-import { Interface$Sections } from '@polkadot/jsonrpc/types';
 import { RxApiInterface, RxApiInterface$Section } from './types';
 
 import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
@@ -51,19 +50,17 @@ export default class RxApi implements RxApiInterface {
     provider.on('connected', () => this._isConnected.next(true));
     provider.on('disconnected', () => this._isConnected.next(false));
 
-    this.author = this.createInterface('author');
-    this.chain = this.createInterface('chain');
-    this.state = this.createInterface('state');
-    this.system = this.createInterface('system');
+    this.author = this.createInterface('author', this._api.author);
+    this.chain = this.createInterface('chain', this._api.chain);
+    this.state = this.createInterface('state', this._api.state);
+    this.system = this.createInterface('system', this._api.system);
   }
 
   isConnected (): BehaviorSubject<boolean> {
     return this._isConnected;
   }
 
-  private createInterface (sectionName: Interface$Sections): RxApiInterface$Section {
-    const section: ApiInterface$Section = this._api[sectionName];
-
+  private createInterface (sectionName: string, section: ApiInterface$Section): RxApiInterface$Section {
     return Object
       .keys(section)
       .filter((name) => !['subscribe', 'unsubscribe'].includes(name))

@@ -16,19 +16,19 @@ export type MockState$Subscriptions = {
   }
 };
 
-export type MockState$Storage = {
+export type MockState$Db = {
   [index: string]: Uint8Array
 };
 
 export type MockState$Requests = {
-  [index: string]: (storage: MockState$Storage, params: Array<any>) => string
+  [index: string]: (db: MockState$Db, params: Array<any>) => string
 };
 
 export type MockState = {
   emitter: EventEmitter,
   l: Logger,
   requests: MockState$Requests,
-  storage: MockState$Storage,
+  db: MockState$Db,
   subscriptionId: number,
   subscriptionMap: {
     [index: number]: string

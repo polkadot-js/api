@@ -2,45 +2,43 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section, SectionItems } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from './types';
+import { MethodOpt, Section, SectionMethods } from './types';
 
-import param from '@polkadot/params/param';
-import createSection from '@polkadot/params/section';
+import createMethod from './create/method';
+import createParam from './create/param';
 
-const pendingExtrinsics: CreateItemOptions = {
+const pendingExtrinsics: MethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
   type: 'PendingExtrinsics'
 };
 
-const submitExtrinsic: CreateItemOptions = {
+const submitExtrinsic: MethodOpt = {
   isSigned: true,
   description: 'Submit a fully formatted extrinsic for block inclusion',
   params: [
-    param('extrinsic', 'Bytes')
+    createParam('extrinsic', 'Bytes')
   ],
   type: 'Hash'
 };
 
-const privateMethods: CreateItemOptionsMap = {};
-
-const publicMethods: CreateItemOptionsMap = {
+const methods: { [index: string]: MethodOpt } = {
   pendingExtrinsics, submitExtrinsic
 };
 
-export type PrivateMethods = typeof privateMethods;
-export type PublicMethods = typeof publicMethods;
+export type Methods = typeof methods;
 
 /**
  * @summary Methods to work with authors & contributors.
  */
-export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
-  createSection(name)((createMethod: CreateItems<Interfaces>) => ({
-    description: 'Authoring of network items',
-    public: Object.keys(publicMethods).reduce((result, key) => {
-      result[key] = createMethod(key)(publicMethods[key]);
+export default {
+  isDeprecated: false,
+  isHidden: false,
+  description: 'Authoring of network items',
+  name: 'author',
+  methods: Object.keys(methods).reduce((result, key) => {
+    result[key] = createMethod('author', key, methods[key]);
 
-      return result;
-    }, {} as SectionItems<Interfaces, PublicMethods>)
-  }));
+    return result;
+  }, {} as SectionMethods<Methods>)
+} as Section<Methods>;

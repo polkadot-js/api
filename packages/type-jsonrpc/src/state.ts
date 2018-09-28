@@ -2,145 +2,125 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from './types';
+import { MethodOpt, Section, SectionMethods } from './types';
 
-import param from '@polkadot/params/param';
-import createSection from '@polkadot/params/section';
+import createMethod from './create/method';
+import createParam from './create/param';
 
-const call: CreateItemOptions = {
+const call: MethodOpt = {
   description: 'Perform a call to a builtin on the chain',
   params: [
-    param('method', 'String'),
-    param('data', 'Bytes')
+    createParam('method', 'Text'),
+    createParam('data', 'Bytes')
   ],
   type: 'Bytes'
 };
 
-const callAt: CreateItemOptions = {
+const callAt: MethodOpt = {
   description: 'Perform a call to a builtin on the chain (At block)',
   params: [
-    param('method', 'String'),
-    param('data', 'Bytes'),
-    param('block', 'Hash')
+    createParam('method', 'Text'),
+    createParam('data', 'Bytes'),
+    createParam('block', 'Hash')
   ],
   type: 'Bytes'
 };
 
-const getMetadata: CreateItemOptions = {
+const getMetadata: MethodOpt = {
   description: 'Returns the runtime metadata',
   params: [],
   type: 'Metadata'
 };
 
-const getMetadataAt: CreateItemOptions = {
+const getMetadataAt: MethodOpt = {
   description: 'Returns the runtime metadata',
   params: [
-    param('block', 'Hash')
+    createParam('block', 'Hash')
   ],
   type: 'Metadata'
 };
 
-const getStorage: CreateItemOptions = {
+const getStorage: MethodOpt = {
   description: 'Retrieves the storage for a key',
   params: [
-    param('key', 'StorageKey')
+    createParam('key', 'StorageKey')
   ],
   type: 'StorageData'
 };
 
-const getStorageAt: CreateItemOptions = {
+const getStorageAt: MethodOpt = {
   description: 'Retrieves the storage for a key at a specific block',
   params: [
-    param('key', 'Bytes'),
-    param('block', 'Hash')
+    createParam('key', 'Bytes'),
+    createParam('block', 'Hash')
   ],
   type: 'Bytes'
 };
 
-const getStorageHash: CreateItemOptions = {
+const getStorageHash: MethodOpt = {
   description: 'Retrieves the storage hash',
   params: [
-    param('key', 'Bytes')
+    createParam('key', 'Bytes')
   ],
   type: 'Hash'
 };
 
-const getStorageHashAt: CreateItemOptions = {
+const getStorageHashAt: MethodOpt = {
   description: 'Retrieves the storage hash at a specific block',
   params: [
-    param('key', 'Bytes'),
-    param('block', 'Hash')
+    createParam('key', 'Bytes'),
+    createParam('block', 'Hash')
   ],
   type: 'Hash'
 };
 
-const getStorageSize: CreateItemOptions = {
+const getStorageSize: MethodOpt = {
   description: 'Retrieves the storage size',
   params: [
-    param('key', 'Bytes')
+    createParam('key', 'Bytes')
   ],
   type: 'u64'
 };
 
-const getStorageSizeAt: CreateItemOptions = {
+const getStorageSizeAt: MethodOpt = {
   description: 'Retrieves the storage size at a specific block',
   params: [
-    param('key', 'Bytes'),
-    param('block', 'Hash')
+    createParam('key', 'Bytes'),
+    createParam('block', 'Hash')
   ],
   type: 'u64'
 };
 
-const storage: CreateItemOptions = {
+const storage: MethodOpt = {
   description: 'Subscribes to storage changes for the provided keys',
   subscribe: [
     'state_subscribeStorage',
     'state_unsubscribeStorage'
   ],
   params: [
-    param('keys', 'Vec<StorageKey>')
+    // @ts-ignore The Vec<> wrap is fine
+    createParam('keys', 'Vec<StorageKey>')
   ],
   type: 'StorageChangeSet'
 };
 
-const privateMethods: CreateItemOptionsMap = {};
-
-const publicMethods: CreateItemOptionsMap = {
-  call, callAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, storage
+const methods: { [index: string]: MethodOpt } = {
+  call, callAt, getMetadata, getMetadataAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, storage
 };
 
-export type PrivateMethods = typeof privateMethods;
-export type PublicMethods = typeof publicMethods;
+export type Methods = typeof methods;
 
 /**
  * @summary Query the state and state storage.
  */
-export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
-  createSection(name)((createMethod: CreateItems<Interfaces>) => ({
-    description: 'Query of state',
-    public: {
-      call:
-        createMethod('call')(call),
-      callAt:
-        createMethod('callAt')(callAt),
-      getMetadata:
-        createMethod('getMetadata')(getMetadata),
-      getMetadataAt:
-        createMethod('getMetadataAt')(getMetadataAt),
-      getStorage:
-        createMethod('getStorage')(getStorage),
-      getStorageAt:
-        createMethod('getStorageAt')(getStorageAt),
-      getStorageHash:
-        createMethod('getStorageHash')(getStorageHash),
-      getStorageHashAt:
-        createMethod('getStrorageHashAt')(getStorageHashAt),
-      getStorageSize:
-        createMethod('getStorageSize')(getStorageSize),
-      getStorageSizeAt:
-        createMethod('getStorageSizeAt')(getStorageSizeAt),
-      storage:
-        createMethod('storage')(storage)
-    }
-  }));
+export default {
+  isDeprecated: false,
+  isHidden: false,
+  description: 'Query of state',
+  name: 'state',
+  methods: Object.keys(methods).reduce((result, key) => {
+    result[key] = createMethod('state', key, methods[key]);
+
+    return result;
+  }, {} as SectionMethods<Methods>)
+} as Section<Methods>;

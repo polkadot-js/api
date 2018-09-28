@@ -2,50 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from './types';
+import { MethodOpt, Section, SectionMethods } from './types';
 
-import createSection from '@polkadot/params/section';
+import createMethod from './create/method';
 
-const chain: CreateItemOptions = {
+const chain: MethodOpt = {
   description: 'Retrieves the chain',
   params: [],
-  type: 'String'
+  type: 'Text'
 };
 
-const name: CreateItemOptions = {
+const name: MethodOpt = {
   description: 'Retrieves the node name',
   params: [],
-  type: 'String'
+  type: 'Text'
 };
 
-const version: CreateItemOptions = {
+const version: MethodOpt = {
   description: 'Retrieves the version of the node',
   params: [],
-  type: 'String'
+  type: 'Text'
 };
 
-const privateMethods: CreateItemOptionsMap = {};
-
-const publicMethods: CreateItemOptionsMap = {
+const methods: { [index: string]: MethodOpt } = {
   chain, name, version
 };
 
-export type PrivateMethods = typeof privateMethods;
-export type PublicMethods = typeof publicMethods;
+export type Methods = typeof methods;
 
 /**
  * @summary Methods to retrieve system info.
  */
-export default (sname: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
-  createSection(sname)((createMethod: CreateItems<Interfaces>) => ({
-    description: 'Methods to retrieve system info',
-    public: {
-      chain:
-        createMethod('chain')(chain),
-      name:
-        createMethod('name')(name),
-      version:
-        createMethod('version')(version)
-    }
-  }));
+export default {
+  isDeprecated: false,
+  isHidden: false,
+  description: 'Methods to retrieve system info',
+  name: 'system',
+  methods: Object.keys(methods).reduce((result, key) => {
+    result[key] = createMethod('system', key, methods[key]);
+
+    return result;
+  }, {} as SectionMethods<Methods>)
+} as Section<Methods>;
