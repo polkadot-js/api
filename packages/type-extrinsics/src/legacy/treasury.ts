@@ -3,11 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { CreateItems, Section } from '@polkadot/params/types';
-import { Extrinsics, Extrinsic$Sections } from './types';
+import { Extrinsics, ExtrinsicLegacy$Sections } from '../types';
 
 import createSection from '@polkadot/params/section';
 
-export default (name: Extrinsic$Sections, index: number): Section<Extrinsics, any, any> =>
+export default (name: ExtrinsicLegacy$Sections, index: number): Section<Extrinsics, any, any> =>
   createSection(name, index)((createMethod: CreateItems<Extrinsics>) => ({
     description: 'Timestamp'
   }));
