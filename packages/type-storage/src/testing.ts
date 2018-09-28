@@ -5,8 +5,8 @@
 import metadataJson from '@polkadot/api-codec/Metadata.rpc.json';
 import Metadata from '@polkadot/api-codec/Metadata';
 
-import { storage } from './storage';
-import { fromMetadata } from './fromMetadata';
+import storage from './index';
+import fromMetadata from './fromMetadata';
 
 export default fromMetadata(
   storage,

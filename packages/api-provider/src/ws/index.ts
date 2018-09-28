@@ -170,7 +170,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const api = createApi(provider);
    *
-   * api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
+   * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)

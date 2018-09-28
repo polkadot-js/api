@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/api-codec/Metadata';
 import json from '@polkadot/api-codec/Metadata.rpc.json';
 
-import { fromMetadata } from './fromMetadata';
+import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const metadata = new Metadata().fromJSON(json.result);

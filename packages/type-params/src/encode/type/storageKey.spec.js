@@ -7,11 +7,11 @@ import toU8a from '@polkadot/util/u8a/toU8a';
 
 import encode from './index';
 
-describe('storageKey', () => {
-  it.skip('encodes storageKey -> Uint8Array properly', () => {
+describe.skip('storageKey', () => {
+  it('encodes storageKey -> Uint8Array properly', () => {
     expect(
       encode('StorageKey', [
-        storage.staking.public.freeBalanceOf,
+        storage.balances.freeBalance,
         '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY'
       ])
     ).toEqual(

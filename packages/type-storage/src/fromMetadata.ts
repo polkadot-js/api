@@ -2,24 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Metadata, { RuntimeModuleMetadata } from '@polkadot/api-codec/Metadata';
-
-import createFunction from './utils/createFunction';
 import { ModuleStorage, Storage } from './types';
 
-/**
- * Sets the 1st letter of a string to lowercase.
- *
- * @param s - The string to lower first letter.
- * TODO Move to @polkadot/util
- */
-function lowerFirstLetter (s: string) {
-  return s.charAt(0).toLowerCase() + s.slice(1);
-}
+import Metadata from '@polkadot/api-codec/Metadata';
+import { stringLowerFirst } from '@polkadot/util/string';
 
-function upperFirstLetter (s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+import createFunction from './utils/createFunction';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -28,26 +16,23 @@ function upperFirstLetter (s: string) {
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export function fromMetadata (storage: Storage, metadata: Metadata) {
-  // Dont' clobber the input, create new
+export default function fromMetadata (storage: Storage, metadata: Metadata) {
   const result = Object.keys(storage).reduce((result, key) => {
     result[key] = storage[key];
 
     return result;
   }, {} as Storage);
 
-  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata) => {
+  return metadata.modules.reduce((result, moduleMetadata) => {
     if (!moduleMetadata.storage) {
       return result;
     }
 
-    const modname = moduleMetadata.prefix.toString().toLowerCase();
-    // FIXME we also get in council_voting, should be CouncilVoting (AFAIK)
-    const prefix = upperFirstLetter(modname);
+    const prefix = moduleMetadata.storage.prefix.toString();
 
-    result[moduleMetadata.prefix.toString()] = moduleMetadata.storage.functions.reduce((newModule, func) => {
+    result[stringLowerFirst(prefix)] = moduleMetadata.storage.functions.reduce((newModule, func) => {
       // Lowercase the 'f' in storage.balances.freeBalance
-      newModule[lowerFirstLetter(func.name.toString())] = createFunction(prefix, func.name, func);
+      newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;
     }, {} as ModuleStorage);
