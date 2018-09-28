@@ -5,10 +5,10 @@
 import Metadata from '@polkadot/api-codec/Metadata';
 import json from '@polkadot/api-codec/Metadata.rpc';
 
-import { fromMetadata } from './fromMetadata';
+import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata().fromJSON(json.result);
+const metadata = new Metadata().fromJSON(json);
 const newExtrinsics = fromMetadata({}, metadata);
 
 describe('fromMetadata', () => {
