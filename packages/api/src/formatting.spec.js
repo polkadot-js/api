@@ -32,6 +32,8 @@ describe('formatting', () => {
       )
     };
     api = new Api(provider);
+
+    console.error('api', api, api.author, api.state);
   });
 
   it('encodes key (with params), decoding response', () => {
