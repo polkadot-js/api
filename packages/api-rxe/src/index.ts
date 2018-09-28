@@ -583,7 +583,7 @@ export default class ObservableApi {
   votingBalances = (...addresses: Array<string>): Observable<RxBalance[]> => {
     return this.combine(
       addresses.map((address) =>
-        this.votingBalance(address)
+        this.balanceVotingOf(address)
       )
     );
   }
