@@ -12,6 +12,8 @@ import { ExtrinsicFunction } from '../types';
 /**
  * From the metadata of a function in the module's storage, generate the function
  * that will return the correctly-encoded Extrinsic.
+ *
+ * @param index - Index of the module section in the modules array.
  */
 export default function createExtrinsic (
   prefix: string | Text,
@@ -32,7 +34,7 @@ export default function createExtrinsic (
 
     return new Extrinsic(
       u8aConcat(
-        meta.id.toU8a(),
+        new Uint8Array([index, meta.id.toU8a()[1]]),
         ...expectedArgs.map((argument, index) => {
           const type = argument.type.toString(); // Argument type, as string
 

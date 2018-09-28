@@ -23,7 +23,7 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
     return result;
   }, {} as Extrinsics);
 
-  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata) => {
+  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata, index) => {
     if (!moduleMetadata.module.call) {
       return result;
     }
@@ -31,7 +31,7 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
     const prefix = moduleMetadata.prefix.toString();
 
     result[moduleMetadata.prefix.toString()] = moduleMetadata.module.call.functions
-      .reduce((newModule, func, index) => {
+      .reduce((newModule, func) => {
         // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
         newModule[camelCase(func.name.toString())] = createExtrinsic(prefix, func.name, index as number, func);
 
