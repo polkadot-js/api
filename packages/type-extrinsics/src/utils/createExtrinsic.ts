@@ -10,14 +10,8 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import { ExtrinsicFunction } from '../types';
 
 /**
- * From the schema of a function in the module's storage, generate the function
- * that will return the correct storage key.
- *
- * @param schema - The function's definition schema to create the function from.
- * The schema is taken from state_getMetadata.
- * @param options - Additional options when creating the function. These options
- * are not known at runtime (from state_getMetadata), they need to be supplied
- * by us manually at compile time.
+ * From the metadata of a function in the module's storage, generate the function
+ * that will return the correctly-encoded Extrinsic.
  */
 export default function createExtrinsic (
   prefix: string | Text,
@@ -41,7 +35,7 @@ export default function createExtrinsic (
         ...expectedArgs.map((argument, index) => {
           const type = argument.type.toString(); // Argument type, as string
 
-          return createType(type, args[index]).toU8a();
+          return createType(type, args[index]).toU8a(true);
         })
       )
     );
