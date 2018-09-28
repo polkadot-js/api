@@ -5,25 +5,25 @@
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { BlockDecoded, ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
-import { Header } from '@polkadot/primitives/header';
+import { Balance, BlockNumber, Header } from '@polkadot/api-codec/index';
 import ObservableApi from './index';
 
 export type RxBalance = {
   address: string,
-  freeBalance: BN,
-  nominatedBalance: BN,
-  reservedBalance: BN,
-  votingBalance: BN,
-  stakingBalance: BN,
+  freeBalance: Balance,
+  nominatedBalance: Balance,
+  reservedBalance: Balance,
+  votingBalance: Balance,
+  stakingBalance: Balance,
   nominators?: Array<RxBalance>
 }
 
 export type RxFees = {
-  baseFee: BN,
-  byteFee: BN,
-  creationFee: BN,
-  existentialDeposit: BN,
-  transferFee: BN,
+  baseFee: Balance,
+  byteFee: Balance,
+  creationFee: Balance,
+  existentialDeposit: Balance,
+  transferFee: Balance,
 };
 
 export type RxProposal = {
@@ -33,12 +33,12 @@ export type RxProposal = {
 };
 
 export type RxProposalDeposits = {
-  balance: BN,
+  balance: Balance,
   addresses: Array<string>
 }
 
 export type RxReferendum = {
-  blockNumber: BN,
+  blockNumber: BlockNumber,
   id: BN,
   proposal: ExtrinsicDecoded,
   voteThreshold: number
@@ -53,8 +53,5 @@ export type RxReferendumVote = {
 export type RxBalanceMap = {
   [index: string]: RxBalance
 }
-
-export type KeyWithoutParams = [SectionItem<Storages>];
-export type KeyWithParams = [SectionItem<Storages>, any];
 
 export type ObservableApiNames = keyof ObservableApi;
