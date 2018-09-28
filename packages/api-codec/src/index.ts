@@ -40,6 +40,7 @@ export { default as PendingExtrinsics } from './PendingExtrinsics';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
 export { default as PropIndex } from './PropIndex';
+export { default as Proposal } from './Proposal';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as RawAddress } from './RawAddress';
 export { default as ReferendumIndex } from './ReferendumIndex';

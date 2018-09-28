@@ -2,14 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { Observable } from 'rxjs';
-import { BlockDecoded, ExtrinsicDecoded, SectionItem } from '@polkadot/params/types';
-import { Balance, BlockNumber, Header } from '@polkadot/api-codec/index';
+import { AccountId, Balance, BlockNumber, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/api-codec/index';
 import ObservableApi from './index';
 
 export type RxBalance = {
-  address: string,
+  address: AccountId,
   freeBalance: Balance,
   nominatedBalance: Balance,
   reservedBalance: Balance,
@@ -27,26 +25,26 @@ export type RxFees = {
 };
 
 export type RxProposal = {
-  address: string,
-  id: BN,
-  proposal: ExtrinsicDecoded
+  address: AccountId,
+  id: PropIndex,
+  proposal: Proposal
 };
 
 export type RxProposalDeposits = {
   balance: Balance,
-  addresses: Array<string>
+  addresses: Array<AccountId>
 }
 
 export type RxReferendum = {
   blockNumber: BlockNumber,
-  id: BN,
-  proposal: ExtrinsicDecoded,
-  voteThreshold: number
+  id: ReferendumIndex,
+  proposal: Proposal,
+  voteThreshold: VoteThreshold
 }
 
 export type RxReferendumVote = {
-  address: string,
-  balance: BN,
+  address: AccountId,
+  balance: Balance,
   vote: boolean
 };
 
