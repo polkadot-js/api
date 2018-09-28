@@ -1,12 +1,8 @@
 
 
-*__example__*: ```javascript
-import Api from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
+*__example__*: import Api from '@polkadot/api'; import WsProvider from '@polkadot/api-provider/ws';
 
-const provider = new WsProvider('http://127.0.0.1:9944');
-const api = new Api(provider);
-```
+const provider = new WsProvider('[http://127.0.0.1:9944')](http://127.0.0.1:9944')); const api = new Api(provider);
 
 # Hierarchy
 
@@ -24,7 +20,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](_index_.api.md)
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/170c337/packages/api/src/index.ts#L37)*
+*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/index.ts#L32)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -46,7 +42,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/170c337/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:29](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/index.ts#L29)*
 
 ___
 <a id="chain"></a>
@@ -55,7 +51,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/170c337/packages/api/src/index.ts#L35)*
+*Defined in [index.ts:30](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/index.ts#L30)*
 
 ___
 <a id="state"></a>
@@ -64,7 +60,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/170c337/packages/api/src/index.ts#L36)*
+*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/index.ts#L31)*
 
 ___
 <a id="system"></a>
@@ -73,7 +69,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/170c337/packages/api/src/index.ts#L37)*
+*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/74737b6/packages/api/src/index.ts#L32)*
 
 ___
 

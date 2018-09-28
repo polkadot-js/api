@@ -1,22 +1,7 @@
 
 
 The WebSocket Provider allows sending requests using WebSocket. Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
-
-```javascript
-import createApi from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
-
-const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = createApi(provider);
-```
-
-.
-*__example__*: ```javascript
-import createApi from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
-const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = createApi(provider);
-```
+*__example__*: import createApi from '@polkadot/api'; import WsProvider from '@polkadot/api-provider/ws'; const provider = new WsProvider('ws://127.0.0.1:9944'); const api = createApi(provider);
 
 *__see__*: [HttpProvider](_http_index_.httpprovider.md)
 
@@ -41,7 +26,7 @@ const api = createApi(provider);
 
 ⊕ **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:69](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L69)*
+*Defined in [ws/index.ts:67](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L67)*
 
 **Parameters:**
 
@@ -98,7 +83,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:99](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L99)*
+*Defined in [ws/index.ts:97](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L97)*
 
 The [WsProvider](_ws_index_.wsprovider.md) connects automatically by default. if you decided otherwise, you may connect manually using this method.
 
@@ -148,7 +133,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:116](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L116)*
+*Defined in [ws/index.ts:114](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L114)*
 
 Whether the node is connected or not.
 
@@ -228,7 +213,7 @@ ___
 
 *Overrides EventEmitter.on*
 
-*Defined in [ws/index.ts:126](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L126)*
+*Defined in [ws/index.ts:124](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L124)*
 
 Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
@@ -317,7 +302,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:130](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L130)*
+*Defined in [ws/index.ts:128](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L128)*
 
 **Parameters:**
 
@@ -336,19 +321,14 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *[ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:183](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L183)*
+*Defined in [ws/index.ts:179](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L179)*
 
 Allows subscribing to a specific event.
-*__example__*: ```javascript
-const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = createApi(provider);
+*__example__*: const provider = new WsProvider('ws://127.0.0.1:9944'); const api = createApi(provider);
 
-api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
-  console.log(values)
-}).then((subscriptionId) => {
-  console.log('balance changes subscription id: ', subscriptionId)
-})
-```
+api.state.storage(\[\[storage.balances.freeBalance,
+
+\]\], (_, values) => { console.log(values) }).then((subscriptionId) => { console.log('balance changes subscription id: ', subscriptionId) })
 
 **Parameters:**
 
@@ -369,7 +349,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:192](https://github.com/polkadot-js/api/blob/170c337/packages/api-provider/src/ws/index.ts#L192)*
+*Defined in [ws/index.ts:188](https://github.com/polkadot-js/api/blob/74737b6/packages/api-provider/src/ws/index.ts#L188)*
 
 Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
