@@ -53,11 +53,15 @@ export default class Vector <
     }, this._length.byteLength());
   }
 
-  filter (fn: (entry: T, index?: number) => any): Array<T> {
+  filter (fn: (item: T, index?: number) => any): Array<T> {
     return this.raw.filter(fn);
   }
 
-  forEach (fn: (entry: T, index?: number) => any): any {
+  find (fn: (item: T, index?: number) => any): T | undefined {
+    return this.raw.find(fn);
+  }
+
+  forEach (fn: (item: T, index?: number) => any): any {
     return this.raw.forEach(fn);
   }
 
@@ -90,11 +94,16 @@ export default class Vector <
     return this.raw[index];
   }
 
-  map <O> (fn: (entry: T, index?: number) => O): Array<O> {
+  map <O> (fn: (item: T, index?: number) => O): Array<O> {
     return this.raw.map(fn);
   }
 
-  reduce <O> (fn: (result: O, entry: T, index?: number) => O, initial: O): O {
+  push (item: T): void {
+    this.raw.push(item);
+    this._length.setValue(this.raw.length);
+  }
+
+  reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
     return this.raw.reduce(fn, initial);
   }
 
@@ -104,11 +113,11 @@ export default class Vector <
     );
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      this._length.toU8a(),
+      this._length.toU8a(isBare),
       ...this.raw.map((entry) =>
-        entry.toU8a()
+        entry.toU8a(isBare)
       )
     );
   }

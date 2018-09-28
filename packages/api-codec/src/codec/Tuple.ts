@@ -9,10 +9,15 @@ import Struct from './Struct';
 // is a specialization of the Struct type where the toJSON/fromJSON operates on Array structures,
 // while the U8a encoding is handled in the same way as a Struct
 export default class Tuple <
-  // S & T definitions maps to what we have in Struct (naming expanded there)
+  // S & T definitions maps to what we have in Struct (naming documented there)
   S = { [index: string]: { new(value?: any): Base } },
-  T = { [K in keyof S]: Base }
-> extends Struct<S, T> {
+  T = { [K in keyof S]: Base },
+  V = { [K in keyof S]: any }
+> extends Struct<S, T, V> {
+  constructor (Types: S, value?: V | Array<any>, jsonMap?: Map<keyof S, string>) {
+    super(Types, value, jsonMap, true);
+  }
+
   static with <
     S = { [index: string]: { new(value?: any): Base } }
   > (Types: S): { new(value?: any): Tuple<S> } {
@@ -23,7 +28,7 @@ export default class Tuple <
     };
   }
 
-  fromJSON (input: any): Tuple<S, T> {
+  fromJSON (input: any): Tuple<S, T, V> {
     Object.values(this.raw).forEach((entry, index) => {
       entry.fromJSON(input[index]);
     });

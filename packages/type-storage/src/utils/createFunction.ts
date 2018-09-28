@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import * as CodecTypes from '@polkadot/api-codec/index';
+import { createType } from '@polkadot/api-codec/codec';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
-import Text from '@polkadot/api-codec/Text';
-import U8a from '@polkadot/api-codec/codec/U8a';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { Text } from '@polkadot/api-codec/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
-
-import { StorageFunction } from '../types';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -25,40 +24,47 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export function createFunction (
-  prefix: Text | U8a,
-  functionMetadata: StorageFunctionMetadata,
+export default function createFunction (
+  prefix: string | Text,
+  name: string | Text,
+  meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
-) {
-  let func: any; // The return value, it's a function that has metadata.
+): StorageFunction {
+  let storageFn: any;
 
   if (options.isUnhashed) {
-    func = () => prefix.toU8a();
+    storageFn = (): Uint8Array =>
+      u8aFromUtf8(name.toString());
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
     // - storage.balances.freeBalance(address)
     // - storage.timestamp.blockPeriod()
-    func = (arg?: any) => {
-      if (functionMetadata.type.isMap) {
-        if (!arg) {
-          throw new Error(`${functionMetadata.name} expects one argument.`);
-        }
-
-        const argType = functionMetadata.type.asMap.key.toString(); // Argument type, as string
-        const ArgType = (CodecTypes as any)[argType]; // Argument type, as Class
-        return xxhash(u8aConcat(prefix.toU8a(), new ArgType(arg).toU8a()), 128);
+    storageFn = (arg?: any): Uint8Array => {
+      if (!meta.type.isMap) {
+        return xxhash(
+          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
+          128
+        );
       }
 
-      return xxhash(prefix.toU8a(), 128);
+      if (!arg) {
+        throw new Error(`${meta.name} expects one argument`);
+      }
+
+      const type = meta.type.asMap.key.toString(); // Argument type, as string
+
+      return xxhash(
+        u8aConcat(
+          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
+          createType(type, arg).toU8a(true)
+        ),
+        128
+      );
     };
   }
 
-  // Add metadata to the storage function
-  Object.assign(func as StorageFunction, {
-    documentation: functionMetadata.documentation,
-    type: functionMetadata.type
-  });
+  storageFn.meta = meta;
 
-  return func as StorageFunction;
+  return storageFn as StorageFunction;
 }

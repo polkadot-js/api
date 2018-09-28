@@ -112,8 +112,8 @@ export default function decodeValue (decode: Decoder, type: Param$Type, _input: 
       case 'VoteThreshold':
         return byte(input);
 
-      case 'StorageResult':
-      case 'StorageResultSet':
+      case 'StorageData':
+      case 'StorageChangeSet':
       default:
         // tslint:disable-next-line
         (type as never);

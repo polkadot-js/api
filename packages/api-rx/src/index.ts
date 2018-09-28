@@ -23,15 +23,13 @@ type CachedMap = {
 
 /**
  * An RxJs wrapper around the [[api]].
- * @example
- * ```javascript
  *
+ * @example
  * import RxApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
  * const provider = new WsProvider('http://127.0.0.1:9944');
  * const rxapi = new RxApi(provider);
- * ```
  */
 export default class RxApi implements RxApiInterface {
   private _api: ApiInterface;

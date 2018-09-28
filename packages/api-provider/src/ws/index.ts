@@ -40,15 +40,13 @@ interface WSProviderInterface extends ProviderInterface {
 /**
  * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
  * it does support subscriptions and allows listening to events such as new blocks or balance changes.
- * [[include:create_api.adoc]].
- * @example
- * ```javascript
  *
+ * @example
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = createApi(provider);
- * ```
+ *
  * @see [[HttpProvider]]
  */
 export default class WsProvider extends E3.EventEmitter implements WSProviderInterface {
@@ -167,18 +165,16 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @param  {Array<any>}                 params   Parameters
    * @param  {ProviderInterface$Callback} callback Callback
    * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
-   * @example
-   * ```javascript
    *
+   * @example
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const api = createApi(provider);
    *
-   * api.state.storage([[storage.staking.public.freeBalanceOf, <Address>]], (_, values) => {
+   * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)
    * })
-   * ```
    */
   async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });

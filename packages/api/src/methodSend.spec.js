@@ -46,7 +46,7 @@ describe('methodSend', () => {
     const method = api.createMethodSend('test_bleh', methods.bleh);
 
     return method(1).catch((error) => {
-      expect(error.message).toMatch(/no params expected, found 1 instead/);
+      expect(error.message).toMatch(/parameters, 1 found instead/);
     });
   });
 

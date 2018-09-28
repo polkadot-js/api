@@ -5,13 +5,11 @@
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
 import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
-import { Storages } from '@polkadot/storage/types';
 import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
 
-import formatInputs from '@polkadot/api-format/input';
-import formatOutput from '@polkadot/api-format/output';
+import { Base, Vector, createType } from '@polkadot/api-codec/codec';
+import { StorageChangeSet, StorageKey } from '@polkadot/api-codec/index';
 import interfaces from '@polkadot/jsonrpc/index';
-import decodeParams from '@polkadot/params/decode';
 import signature from '@polkadot/params/signature';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
@@ -20,14 +18,11 @@ import isUndefined from '@polkadot/util/is/undefined';
 
 /**
  * @example
- * ```javascript
- *
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
  * const provider = new WsProvider('http://127.0.0.1:9944');
  * const api = new Api(provider);
- * ```
  */
 export default class Api implements ApiInterface {
   private _provider: ProviderInterface;
@@ -78,12 +73,17 @@ export default class Api implements ApiInterface {
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
-        const params = formatInputs(method.params, values);
-        const result = await this._provider.send(rpcName, params);
+        const params = this.formatInputs(method, values);
+        const paramsJson = params.map((param) => param.toJSON());
+        const result = await this._provider.send(rpcName, paramsJson);
 
-        return this.formatResult(method, params, values, result);
+        return this.formatOutput(method, params, result);
       } catch (error) {
-        throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
+        const message = `${signature(method)}:: ${error.message}`;
+
+        console.error(message, error);
+
+        throw new ExtError(message, (error as ExtError).code, undefined);
       }
     };
 
@@ -99,14 +99,19 @@ export default class Api implements ApiInterface {
 
         assert(isFunction(cb), `Expected callback in last position of params`);
 
-        const params = formatInputs(method.params, values);
+        const params = this.formatInputs(method, values);
+        const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
-          cb(error, this.formatResult(method, params, values, result));
+          cb(error, this.formatOutput(method, params, result));
         };
 
-        return this._provider.subscribe(rpcName, method.subscribe[0], params, update);
+        return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
       } catch (error) {
-        throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
+        const message = `${signature(method)}:: ${error.message}`;
+
+        console.error(message, error);
+
+        throw new ExtError(message, (error as ExtError).code, undefined);
       }
     };
 
@@ -117,29 +122,47 @@ export default class Api implements ApiInterface {
     return call;
   }
 
-  private formatResult (method: SectionItem<Interfaces>, params: Array<any>, inputs: Array<any>, result?: any): any {
-    if (method.type === 'StorageResult') {
-      return this.formatStorageOutput(inputs[0][0], result);
-    }
+  private formatInputs (method: SectionItem<Interfaces>, inputs: Array<any>): Array<Base> {
+    assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
 
-    if (method.type === 'StorageResultSet') {
-      return params[0].map((key: string, index: number) => {
-        const input = inputs[0][index][0];
-        const { changes = [] }: { block: string, changes: Array<[string, string]> } = result || {};
-        const value = changes.find(([_key]) => key === _key);
-
-        if (!value) {
-          return undefined;
-        }
-
-        return this.formatStorageOutput(input, value[1]);
-      });
-    }
-
-    return formatOutput(method.type, result);
+    return method.params.map(({ type }, index) =>
+      createType(type as string, inputs[index])
+    );
   }
 
-  private formatStorageOutput (key: SectionItem<Storages>, result?: any): any {
-    return decodeParams(key.type, result, 'latest', true).value;
+  private formatOutput (method: SectionItem<Interfaces>, params: Array<Base>, result?: any): Base {
+    const base = createType(method.type as string, result);
+
+    if (method.type === 'StorageData') {
+      const type = (params[0] as StorageKey).outputType;
+
+      if (type) {
+        return createType(type, base.raw);
+      }
+    } else if (method.type === 'StorageChangeSet') {
+      return (params[0] as Vector<StorageKey>).reduce((vector, _key: StorageKey) => {
+        const type = _key.outputType;
+
+        if (!type) {
+          throw new Error('Cannot format StorageChangeSet, output type missing for key');
+        }
+
+        const key = _key.toHex();
+
+        const item = (base as StorageChangeSet).changes.find((item) =>
+          item.key.toHex() === key
+        );
+
+        if (!item) {
+          throw new Error('No result found for key in StorageChangeSet');
+        }
+
+        vector.push(createType(type, item.value.value));
+
+        return vector;
+      }, new (Vector.with(Base))());
+    }
+
+    return base;
   }
 }

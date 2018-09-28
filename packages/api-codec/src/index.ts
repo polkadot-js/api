@@ -52,12 +52,13 @@ export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
 // NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';
-export { default as U8 } from './U8';
-export { default as U16 } from './U16';
-export { default as U32 } from './U32';
-export { default as U64 } from './U64';
-export { default as U128 } from './U128';
-export { default as U256 } from './U256';
+// NOTE We are exporting the U* classes as lowercase, matching with Rust
+export { default as u8 } from './U8';
+export { default as u16 } from './U16';
+export { default as u32 } from './U32';
+export { default as u64 } from './U64';
+export { default as u128 } from './U128';
+export { default as u256 } from './U256';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VoteThreshold } from './VoteThreshold';
 export { default as VoteIndex } from './VoteIndex';

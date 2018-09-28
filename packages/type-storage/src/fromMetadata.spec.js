@@ -5,7 +5,7 @@
 import Metadata from '@polkadot/api-codec/Metadata';
 import json from '@polkadot/api-codec/Metadata.rpc.json';
 
-import { fromMetadata } from './fromMetadata';
+import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const metadata = new Metadata().fromJSON(json.result);
@@ -23,7 +23,7 @@ describe('fromMetadata', () => {
   // FIXME check again when we have a valid chain/UI
   it('should return the correct storage key', () => {
     expect(newStorage.balances.freeBalance('5GwPuAgYgP6q58uWTXp4uSg6FwfzQv9HfFZwAFEREUrQjCvy')).toEqual(
-      Uint8Array.from([237, 14, 33, 216, 167, 215, 237, 69, 175, 111, 52, 40, 57, 42, 106, 40])
+      Uint8Array.from([52, 103, 23, 10, 157, 95, 244, 9, 70, 215, 120, 149, 1, 238, 109, 69])
     );
   });
 });

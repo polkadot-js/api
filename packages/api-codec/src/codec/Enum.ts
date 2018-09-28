@@ -50,7 +50,7 @@ export default class Enum extends Base<number> {
     return this.raw;
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array([this.raw]);
   }
 

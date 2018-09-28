@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import storage from '@polkadot/storage';
+import storage from '@polkadot/storage/testing';
 
 import Api from './index';
 
 const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
 const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';
 
-const ENC_ONE = '0x11cf1094db4db43356b7787c3e59c39f';
-const ENC_TWO = '0x924776c687da8e30afdd2ac87d2c67da';
+const ENC_ONE = '0x24988a82b3bbaae58680bc9de5dea5aa';
+const ENC_TWO = '0xdb190750267d8849c35316ec9d342111';
 
-describe('formatResult', () => {
+describe('formatting', () => {
   let api;
   let provider;
 
@@ -25,8 +25,8 @@ describe('formatResult', () => {
         subscription(null, {
           block: '0x1234',
           changes: [
-            ['0x11cf1094db4db43356b7787c3e59c39f', '0x0102'],
-            ['0x924776c687da8e30afdd2ac87d2c67da', '0x0201']
+            [ENC_ONE, '0x0102'],
+            [ENC_TWO, '0x0201']
           ]
         })
       )
@@ -34,12 +34,11 @@ describe('formatResult', () => {
     api = new Api(provider);
   });
 
-  it.skip('encodes key (with params), decoding response', () => {
+  it('encodes key (with params), decoding response', () => {
     return api.state
-      .getStorage([
-        // FIXME changed storage api
-        storage.staking.public.freeBalanceOf, ADDR_ONE
-      ])
+      .getStorage(
+        [storage.balances.freeBalance, ADDR_ONE]
+      )
       .then((value) => {
         expect(
           provider.send
@@ -51,15 +50,16 @@ describe('formatResult', () => {
       });
   });
 
-  it.skip('encodes multiple keys, decoding multiple results', (done) => {
+  it('encodes multiple keys, decoding multiple results', (done) => {
     api.state
       .storage(
         [
-          // FIXME changed storage api 
-          [storage.staking.public.freeBalanceOf, ADDR_ONE],
-          [storage.staking.public.freeBalanceOf, ADDR_TWO]
+          [storage.balances.freeBalance, ADDR_ONE],
+          [storage.balances.freeBalance, ADDR_TWO]
         ],
         (error, value) => {
+          console.error(value);
+
           expect(
             provider.subscribe
           ).toHaveBeenCalledWith(
@@ -69,7 +69,9 @@ describe('formatResult', () => {
             expect.anything()
           );
           expect(
-            value.map((bn) => bn.toNumber())
+            value.map((balance) =>
+              balance.toNumber()
+            )
           ).toEqual([513, 258]);
 
           done(error);

@@ -19,8 +19,8 @@ describe.skip('e2e krumme lanke', () => {
     api.state
       .subscribeStorage(
         [
-          [storage.system.public.accountIndexOf, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
-          [storage.staking.public.freeBalanceOf, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
+          [storage.system.accountNonce, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
+          [storage.balances.freeBalance, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
         ],
         (error, data) => {
           if (error) {

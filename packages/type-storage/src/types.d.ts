@@ -2,17 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import BN from 'bn.js';
 import { Section } from '@polkadot/params/types';
 
 import * as substrate from './substrate';
 
 type Substrate = keyof typeof substrate;
-
-export interface StorageFunction extends StorageFunctionMetadata {
-  (arg: any): Uint8Array;
-}
 
 export interface ModuleStorage {
   [key: string]: StorageFunction;
@@ -25,7 +21,6 @@ export interface Storage {
 
 // TODO Below is legacy code, used in:
 // - api-provider
-// - api-format
 export type Storage$Key$Value = number | BN | Uint8Array | string;
 export type Storages = {
   consensus: Section<Storages, any, any>;

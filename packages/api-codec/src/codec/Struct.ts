@@ -4,7 +4,7 @@
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import Base from './Base';
+import Base, { l } from './Base';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -24,19 +24,9 @@ export default class Struct <
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map(), isTuple: boolean = false) {
     super(
-      Object
-        .keys(Types)
-        .reduce((raw: T, key) => {
-          // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
-          // it works, so ignore the checker, although it drives me batty. (It started when
-          // the [key in keyof T] was added, the idea is to provide better checks, which
-          // does backfire here, but works externally.)
-          raw[key] = new Types[key](value[key]);
-
-          return raw;
-        }, {} as T)
+      Struct.decode(Types, value, isTuple)
     );
 
     this._jsonMap = jsonMap;
@@ -48,6 +38,27 @@ export default class Struct <
 
         return result;
       }, {} as E);
+  }
+
+  static decode <S, V, T> (Types: S, value: V | Array<any>, isTuple: boolean): T {
+    l.debug(() => ['Struct.decode', { Types, value }]);
+
+    return Object
+      .keys(Types)
+      .reduce((raw: T, key, index) => {
+        // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
+        // it works, so ignore the checker, although it drives me batty. (It started when
+        // the [key in keyof T] was added, the idea is to provide better checks, which
+        // does backfire here, but works externally.)
+        raw[key] = new Types[key](
+          isTuple && Array.isArray(value)
+            ? value[index]
+            // @ts-ignore as above
+            : value[key]
+        );
+
+        return raw;
+      }, {} as T);
   }
 
   static with <
@@ -106,10 +117,10 @@ export default class Struct <
     return Object.keys(this.raw);
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...Object.values(this.raw).map((entry) =>
-        entry.toU8a()
+        entry.toU8a(isBare)
       )
     );
   }

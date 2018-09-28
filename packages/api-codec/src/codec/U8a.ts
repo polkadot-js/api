@@ -50,7 +50,7 @@ export default class U8a extends Base<Uint8Array> {
     return this.toHex();
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return this.raw;
   }
 

@@ -33,7 +33,7 @@ export default class Bool extends Base<boolean> {
     return this.raw;
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array([this.raw ? 1 : 0]);
   }
 

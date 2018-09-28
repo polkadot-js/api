@@ -4,10 +4,9 @@
 
 import { StorageFunctionModifier, StorageFunctionType } from '@polkadot/api-codec/Metadata';
 import Text from '@polkadot/api-codec/Text';
-import U8a from '@polkadot/api-codec/codec/U8a';
 import Vector from '@polkadot/api-codec/codec/Vector';
 
-import { createFunction } from './utils/createFunction';
+import createFunction from './utils/createFunction';
 
 interface SubstrateMetadata {
   documentation: string;
@@ -15,13 +14,13 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (prefix: string, functionMetadata: SubstrateMetadata) =>
+const createRuntimeFunction = (name: string, functionMetadata: SubstrateMetadata) =>
   // TODO The expected 2nd argument is a StorageFunctionMetadata, but we
   // actually only need the fields `documentation` and `type` of it, so in
   // order to not input other fields (byteLength, fromJSON...) we lazily cast
   // as any.
   createFunction(
-    new U8a(prefix),
+    '', name,
     {
       documentation: new Vector(Text, [functionMetadata.documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),

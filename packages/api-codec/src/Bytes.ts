@@ -48,9 +48,9 @@ export default class Bytes extends U8a {
     return this;
   }
 
-  toU8a (): Uint8Array {
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      this._length.toU8a(),
+      this._length.toU8a(isBare),
       this.raw
     );
   }

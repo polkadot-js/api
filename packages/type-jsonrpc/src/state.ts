@@ -46,7 +46,7 @@ const getStorage: CreateItemOptions = {
   params: [
     param('key', 'StorageKey')
   ],
-  type: 'StorageResult'
+  type: 'StorageData'
 };
 
 const getStorageAt: CreateItemOptions = {
@@ -99,9 +99,9 @@ const storage: CreateItemOptions = {
     'state_unsubscribeStorage'
   ],
   params: [
-    param('keys', ['StorageKey'])
+    param('keys', 'Vec<StorageKey>')
   ],
-  type: 'StorageResultSet'
+  type: 'StorageChangeSet'
 };
 
 const privateMethods: CreateItemOptionsMap = {};

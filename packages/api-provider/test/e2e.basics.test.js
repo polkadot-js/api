@@ -25,17 +25,4 @@ describe.skip('e2e basics', () => {
         throw error;
       });
   });
-
-  it('retrieves the wasm metadata', () => {
-    return api.state
-      .getMetadata()
-      .then((meta) => {
-        console.error(JSON.stringify(meta.toJSON()));
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
-      });
-  });
 });
