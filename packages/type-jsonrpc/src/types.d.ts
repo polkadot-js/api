@@ -2,17 +2,46 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Section } from '@polkadot/params/types';
-import { PrivateMethods as AuthorPrivate, PublicMethods as AuthorPublic}  from './author';
-import { PrivateMethods as ChainPrivate, PublicMethods as ChainPublic}  from './chain';
-import { PrivateMethods as StatePrivate, PublicMethods as StatePublic}  from './state';
-import { PrivateMethods as SystemPrivate, PublicMethods as SystemPublic}  from './system';
+import { CodecTypes } from '@polkadot/api-codec/types';
 
-export type Interfaces = {
-  author: Section<Interfaces, AuthorPrivate, AuthorPrivate>,
-  chain: Section<Interfaces, ChainPrivate, ChainPublic>,
-  state: Section<Interfaces, StatePrivate, StatePublic>,
-  system: Section<Interfaces, SystemPrivate, SystemPublic>
-}
+export type Param = {
+  isOptional: boolean,
+  name: string,
+  type: CodecTypes
+};
 
-export type Interface$Sections = keyof Interfaces;
+export type MethodOpt = {
+  description: string,
+  isDeprecated?: boolean,
+  isHidden?: boolean,
+  isSigned?: boolean,
+  isSubscription?: boolean,
+  params: Array<Param>,
+  subscribe?: [string, string],
+  type: CodecTypes
+};
+
+export type Method = {
+  description: string,
+  isDeprecated: boolean,
+  isHidden: boolean,
+  isSigned: boolean,
+  isSubscription: boolean,
+  name: string,
+  params: Array<Param>,
+  section: string,
+  subscribe: [string, string],
+  type: CodecTypes
+};
+
+export type SectionMethods<M> = {
+  [key in keyof M]: Method
+};
+
+export type Section<M> = {
+  isDeprecated: boolean,
+  isHidden: boolean,
+  description: string,
+  name: string,
+  methods: SectionMethods<M>
+};

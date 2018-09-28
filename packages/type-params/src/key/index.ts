@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { SectionItem } from '@polkadot/params/types';
-import { Storage$Key$Value } from '../types';
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromString from '@polkadot/util/u8a/fromString';
@@ -11,12 +10,12 @@ import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
 
 import formatParams from './params';
 
-export type Keygen = (...keyParams: Array<Storage$Key$Value>) => Uint8Array;
+export type Keygen = (...keyParams: Array<any>) => Uint8Array;
 
 export default function bindKey <T> ({ isUnhashed, key, params }: SectionItem<T>): Keygen {
   const prefix = u8aFromString(key);
 
-  return (...keyParams: Array<Storage$Key$Value>): Uint8Array => {
+  return (...keyParams: Array<any>): Uint8Array => {
     const postfix = keyParams.length !== 0
       ? u8aConcat.apply(null, formatParams(params, keyParams))
       : new Uint8Array([]);

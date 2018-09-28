@@ -3,13 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Metadata from './Metadata';
-import rpcdata from './Metadata.rpc.json';
+import rpcdata from './Metadata.rpc';
 
 describe('Metadata', () => {
   it('decodes properly', () => {
-    const decoded = new Metadata().fromJSON(
-      rpcdata.result
-    );
+    const decoded = new Metadata().fromJSON(rpcdata);
 
     const str = JSON.stringify(decoded.toJSON());
 

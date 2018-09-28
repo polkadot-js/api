@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
+import interfaces from '@polkadot/jsonrpc/index';
 
 export interface ApiInterface$Section$Method {
   (...params: Array<any>): Promise<any>;
@@ -16,5 +16,5 @@ export type ApiInterface$Section = {
 };
 
 export type ApiInterface = {
-  readonly [key in keyof Interfaces]: ApiInterface$Section
+  readonly [key in keyof typeof interfaces]: ApiInterface$Section
 }

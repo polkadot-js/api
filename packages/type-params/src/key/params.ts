@@ -4,7 +4,6 @@
 
 import BN from 'bn.js';
 import { Param, Params } from '@polkadot/params/types';
-import { Storage$Key$Value } from '../types';
 
 import sizes from '@polkadot/primitives/sizes';
 import bnToU8a from '@polkadot/util/bn/toU8a';
@@ -12,7 +11,7 @@ import u8aToU8a from '@polkadot/util/u8a/toU8a';
 import u8aFromString from '@polkadot/util/u8a/fromString';
 import addressDecode from '@polkadot/util-keyring/address/decode';
 
-export default function formatParams (params: Params, values: Storage$Key$Value[] = []): Array<Uint8Array> {
+export default function formatParams (params: Params, values: Array<any> = []): Array<Uint8Array> {
   const paramTypes = Object.values(params).map(({ type }: Param) => type);
 
   return values.map((value: any, index: number): Uint8Array => {

@@ -2,49 +2,48 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CreateItems, CreateItemOptions, CreateItemOptionsMap, Section, SectionItems } from '@polkadot/params/types';
-import { Interfaces, Interface$Sections } from './types';
+import { MethodOpt, Section, SectionMethods } from './types';
 
-import param from '@polkadot/params/param';
-import createSection from '@polkadot/params/section';
+import createMethod from './create/method';
+import createParam from './create/param';
 
-const getBlock: CreateItemOptions = {
+const getBlock: MethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
-    param('hash', 'Hash')
+    createParam('hash', 'Hash')
   ],
   type: 'SignedBlock'
 };
 
-const getHead: CreateItemOptions = {
+const getHead: MethodOpt = {
   description: 'Retrieves the best headerHash',
   params: [],
   type: 'Hash'
 };
 
-const getHeader: CreateItemOptions = {
+const getHeader: MethodOpt = {
   description: 'Retrieves the header for a specific block',
   params: [
-    param('hash', 'Hash')
+    createParam('hash', 'Hash')
   ],
   type: 'Header'
 };
 
-const getRuntimeVersion: CreateItemOptions = {
+const getRuntimeVersion: MethodOpt = {
   description: ' Get the runtime version',
   params: [],
   type: 'RuntimeVersion'
 };
 
-const getRuntimeVersionAt: CreateItemOptions = {
+const getRuntimeVersionAt: MethodOpt = {
   description: ' Get the runtime version at a specific block',
   params: [
-    param('hash', 'Hash')
+    createParam('hash', 'Hash')
   ],
   type: 'RuntimeVersion'
 };
 
-const newHead: CreateItemOptions = {
+const newHead: MethodOpt = {
   description: 'Retrieves the best header via subscription',
   subscribe: [
     'chain_subscribeNewHead',
@@ -54,24 +53,23 @@ const newHead: CreateItemOptions = {
   type: 'Header'
 };
 
-const privateMethods: CreateItemOptionsMap = {};
-
-const publicMethods: CreateItemOptionsMap = {
+const methods: { [index: string]: MethodOpt } = {
   getBlock, getHead, getHeader, getRuntimeVersion, getRuntimeVersionAt, newHead
 };
 
-export type PublicMethods = typeof publicMethods;
-export type PrivateMethods = typeof privateMethods;
+export type Methods = typeof methods;
 
 /**
  * @summary Methods to retrieve chain data.
  */
-export default (name: Interface$Sections): Section<Interfaces, PrivateMethods, PublicMethods> =>
-  createSection(name)((createMethod: CreateItems<Interfaces>) => ({
-    description: 'Retrieval of chain data',
-    public: Object.keys(publicMethods).reduce((result, key) => {
-      result[key] = createMethod(key)(publicMethods[key]);
+export default {
+  isDeprecated: false,
+  isHidden: false,
+  description: 'Retrieval of chain data',
+  name: 'chain',
+  methods: Object.keys(methods).reduce((result, key) => {
+    result[key] = createMethod('chain', key, methods[key]);
 
-      return result;
-    }, {} as SectionItems<Interfaces, PublicMethods>)
-  }));
+    return result;
+  }, {} as SectionMethods<Methods>)
+} as Section<Methods>;

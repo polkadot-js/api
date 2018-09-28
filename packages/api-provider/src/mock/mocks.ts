@@ -4,26 +4,20 @@
 
 // FIXME: This file is way too long and way too messy
 
-import { Storages } from '@polkadot/storage/types';
-import { SectionItem } from '@polkadot/params/types';
+import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { ProviderInterface$Emitted } from '../types';
-import { MockState, MockState$Storage, MockState$Subscriptions } from './types';
+import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
 import BN from 'bn.js';
-import headerEncode from '@polkadot/primitives/json/header/encode';
-import createKey from '@polkadot/storage/key';
-import state from '@polkadot/storage/index';
+import Header from '@polkadot/api-codec/Header';
+import storage from '@polkadot/storage/testing';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
 import testKeyring from '@polkadot/util-keyring/testing';
 
 const keyring = testKeyring();
-// FIXME No more .public
-const stateStaking = state.staking.public;
-const stateSystem = state.staking.public;
-const stateTimestamp = state.timestamp.public;
 
 const emitEvents: Array<ProviderInterface$Emitted> = ['connected', 'disconnected'];
 let emitIndex = 0;
@@ -58,15 +52,15 @@ function updateSubs (subscriptions: MockState$Subscriptions, method: string, val
     });
 }
 
-function setStorageBn (storage: MockState$Storage, key: SectionItem<Storages>, value: BN | number, ...keyParams: Array<Uint8Array>): void {
+function setStorageBn (db: MockState$Db, createKey: StorageFunction, value: BN | number, ...keyParams: Array<Uint8Array>): void {
   const keyValue = u8aToHex(
-    createKey(key).apply(null, keyParams)
+    createKey(...keyParams)
   );
 
-  storage[keyValue] = bnToU8a(value, 64, true);
+  db[keyValue] = bnToU8a(value, 64, true);
 }
 
-export default function mocks ({ emitter, storage, subscriptions }: MockState): void {
+export default function mocks ({ emitter, db, subscriptions }: MockState): void {
   let newHead = makeBlockHeader(new BN(-1));
 
   setInterval(() => {
@@ -79,15 +73,12 @@ export default function mocks ({ emitter, storage, subscriptions }: MockState): 
     newHead = makeBlockHeader(newHead.number);
 
     keyring.getPairs().forEach(({ publicKey }: KeyringPair, index: number) => {
-      // @ts-ignore FIXME This does not exist anymore
-      setStorageBn(storage, stateStaking.freeBalanceOf, newHead.number.muln(3).iaddn(index), publicKey());
-      // @ts-ignore FIXME This does not exist anymore
-      setStorageBn(storage, stateSystem.accountIndexOf, newHead.number.addn(index), publicKey());
+      setStorageBn(db, storage.balances.freeBalance, newHead.number.muln(3).iaddn(index), publicKey());
+      setStorageBn(db, storage.system.accountNonce, newHead.number.addn(index), publicKey());
     });
 
-    // @ts-ignore FIXME This does not exist anymore
-    setStorageBn(storage, stateTimestamp.current, Math.floor(Date.now() / 1000));
+    setStorageBn(db, storage.timestamp.now, Math.floor(Date.now() / 1000));
 
-    updateSubs(subscriptions, 'chain_newHead', headerEncode(newHead));
+    updateSubs(subscriptions, 'chain_newHead', new Header(newHead).toJSON());
   }, 5000);
 }

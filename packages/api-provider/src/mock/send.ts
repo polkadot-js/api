@@ -4,10 +4,10 @@
 
 import { MockState } from './types';
 
-export default async function send ({ requests, storage }: MockState, method: string, params: Array<any>): Promise<any> {
+export default async function send ({ requests, db }: MockState, method: string, params: Array<any>): Promise<any> {
   if (!requests[method]) {
     throw new Error(`provider.send: Invalid method '${method}'`);
   }
 
-  return requests[method](storage, params);
+  return requests[method](db, params);
 }

@@ -3,18 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-provider/types';
-import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
-import { SectionItem } from '@polkadot/params/types';
+import { Section, Method } from '@polkadot/jsonrpc/types';
 import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
 
 import { Base, Vector, createType } from '@polkadot/api-codec/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/api-codec/index';
 import interfaces from '@polkadot/jsonrpc/index';
-import signature from '@polkadot/params/signature';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
-import isUndefined from '@polkadot/util/is/undefined';
 
 /**
  * @example
@@ -41,27 +38,39 @@ export default class Api implements ApiInterface {
 
     this._provider = provider;
 
-    this.author = this.createInterface('author');
-    this.chain = this.createInterface('chain');
-    this.state = this.createInterface('state');
-    this.system = this.createInterface('system');
+    this.author = this.createInterface(interfaces.author);
+    this.chain = this.createInterface(interfaces.chain);
+    this.state = this.createInterface(interfaces.state);
+    this.system = this.createInterface(interfaces.system);
   }
 
-  private createInterface (section: Interface$Sections): ApiInterface$Section {
-    const definition = interfaces[section];
+  /**
+   * @name signature
+   * @signature jsonrpcSignature (method: InterfaceMethodDefinition): string
+   * @summary Returns a string representation of the method with inputs and outputs.
+   * @description
+   * Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
+   * @example
+   *   import Api from '@polkadot/Api';
+   *
+   *   Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
+   */
+  static signature ({ name, params, type }: Method): string {
+    const inputs = params.map(({ name, type }) =>
+      `${name}: ${type}`
+    ).join(', ');
 
-    assert(!isUndefined(definition), `Unable to find section '${section}`);
+    return `${name} (${inputs}): ${type}`;
+  }
 
-    // @ts-ignore undefined check done in assert
-    const methods = definition.public;
-
+  private createInterface ({ methods, name }: Section<any>): ApiInterface$Section {
     return Object
       .keys(methods)
-      .reduce((exposed, name) => {
-        const rpcName = `${section}_${name}`;
-        const def = methods[name];
+      .reduce((exposed, method) => {
+        const rpcName = `${name}_${method}`;
+        const def = methods[method];
 
-        exposed[name] = def.isSubscription
+        exposed[method] = def.isSubscription
           ? this.createMethodSubscribe(rpcName, def)
           : this.createMethodSend(rpcName, def);
 
@@ -69,7 +78,7 @@ export default class Api implements ApiInterface {
       }, {} as ApiInterface$Section);
   }
 
-  private createMethodSend (rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+  private createMethodSend (rpcName: string, method: Method): ApiInterface$Section$Method {
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
@@ -79,7 +88,7 @@ export default class Api implements ApiInterface {
 
         return this.formatOutput(method, params, result);
       } catch (error) {
-        const message = `${signature(method)}:: ${error.message}`;
+        const message = `${Api.signature(method)}:: ${error.message}`;
 
         console.error(message, error);
 
@@ -90,7 +99,7 @@ export default class Api implements ApiInterface {
     return call as ApiInterface$Section$Method;
   }
 
-  private createMethodSubscribe (rpcName: string, method: SectionItem<Interfaces>): ApiInterface$Section$Method {
+  private createMethodSubscribe (rpcName: string, method: Method): ApiInterface$Section$Method {
     const unsubscribe = (subscriptionId: any): Promise<any> =>
       this._provider.unsubscribe(rpcName, method.subscribe[1], subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
@@ -107,7 +116,7 @@ export default class Api implements ApiInterface {
 
         return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
       } catch (error) {
-        const message = `${signature(method)}:: ${error.message}`;
+        const message = `${Api.signature(method)}:: ${error.message}`;
 
         console.error(message, error);
 
@@ -122,7 +131,7 @@ export default class Api implements ApiInterface {
     return call;
   }
 
-  private formatInputs (method: SectionItem<Interfaces>, inputs: Array<any>): Array<Base> {
+  private formatInputs (method: Method, inputs: Array<any>): Array<Base> {
     assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
 
     return method.params.map(({ type }, index) =>
@@ -130,7 +139,7 @@ export default class Api implements ApiInterface {
     );
   }
 
-  private formatOutput (method: SectionItem<Interfaces>, params: Array<Base>, result?: any): Base {
+  private formatOutput (method: Method, params: Array<Base>, result?: any): Base {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {

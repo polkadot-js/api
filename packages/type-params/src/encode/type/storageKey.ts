@@ -3,10 +3,9 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { SectionItem } from '@polkadot/params/types';
-import { Storages } from '@polkadot/storage/types';
 
-import createStorageKey from '@polkadot/storage/key';
+import createStorageKey from '../../key';
 
-export default function storageKey ([key, ...params]: [SectionItem<Storages>, any]): Uint8Array {
+export default function storageKey ([key, ...params]: [SectionItem<any>, any]): Uint8Array {
   return createStorageKey(key).apply(null, params);
 }

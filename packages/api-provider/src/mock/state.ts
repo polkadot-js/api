@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MockState, MockState$Storage, MockState$Subscriptions } from './types';
+import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
 import E3 from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc/index';
@@ -14,7 +14,7 @@ const l = logger('api-mock');
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   [], Object.values(interfaces).map((area) =>
     Object
-      .values(area.public)
+      .values(area.methods)
       .filter((method) =>
         method.isSubscription
       )
@@ -25,7 +25,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
 );
 
 const REQUESTS = {
-  'state_getStorage': (storage: MockState$Storage, params: Array<any>): string => {
+  'state_getStorage': (storage: MockState$Db, params: Array<any>): string => {
     return u8aToHex(
       storage[(params[0] as string)]
     );
@@ -36,7 +36,7 @@ const REQUESTS = {
 };
 
 export default function state (): MockState {
-  const storage = {};
+  const db = {};
   const subscriptions: MockState$Subscriptions = SUBSCRIPTIONS.reduce((subs, name) => {
     subs[name] = {
       callbacks: {},
@@ -50,7 +50,7 @@ export default function state (): MockState {
     emitter: new E3.EventEmitter(),
     l,
     requests: Object.assign({}, REQUESTS),
-    storage,
+    db,
     subscriptionId: 0,
     subscriptionMap: {},
     subscriptions
