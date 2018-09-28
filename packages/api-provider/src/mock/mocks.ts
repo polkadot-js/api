@@ -10,7 +10,7 @@ import { ProviderInterface$Emitted } from '../types';
 import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
 import BN from 'bn.js';
-import headerEncode from '@polkadot/primitives/json/header/encode';
+import Header from '@polkadot/api-codec/Header';
 import storage from '@polkadot/storage/testing';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
@@ -79,6 +79,6 @@ export default function mocks ({ emitter, db, subscriptions }: MockState): void 
 
     setStorageBn(db, storage.timestamp.now, Math.floor(Date.now() / 1000));
 
-    updateSubs(subscriptions, 'chain_newHead', headerEncode(newHead));
+    updateSubs(subscriptions, 'chain_newHead', new Header(newHead).toJSON());
   }, 5000);
 }
