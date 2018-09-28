@@ -30,7 +30,7 @@ const blockPoc1 = {
   }
 };
 
-describe('blockDecode', () => {
+describe.skip('blockDecode', () => {
   it('decodes poc-1 blocks properly', () => {
     expect(
       decode(blockPoc1).extrinsics[0].extrinsic
