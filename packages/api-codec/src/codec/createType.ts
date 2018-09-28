@@ -3,14 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import assert from '@polkadot/util/assert';
-import logger from '@polkadot/util/logger';
 
 import * as Types from '../index';
-import Base from './Base';
+import Base, { l } from './Base';
 import Tuple from './Tuple';
 import Vector from './Vector';
-
-const l = logger('codec/createType');
 
 type Constructor = { new (value?: any): Base };
 
@@ -56,8 +53,8 @@ export function typeSplit (type: string): Array<string> {
     }
   }
 
-  assert(tDepth === 0, `Invalid nested tuple in ${type}`);
-  assert(vDepth === 0, `Invalid nested Vec<> in ${type}`);
+  assert(tDepth === 0, `Invalid Tuple in ${type}`);
+  assert(vDepth === 0, `Invalid Vector in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());

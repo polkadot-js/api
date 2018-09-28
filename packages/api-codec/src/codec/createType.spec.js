@@ -34,6 +34,18 @@ describe('typeSplit', () => {
       typeSplit('Text, (u32, (u128, u8)), Vec<(u64, (u32, u32))>')
     ).toEqual(['Text', '(u32, (u128, u8))', 'Vec<(u64, (u32, u32))>']);
   });
+
+  it('checks for unclosed vec', () => {
+    expect(
+      () => typeSplit('Text, Vec<u64')
+    ).toThrow(/Invalid Vector/);
+  });
+
+  it('checks for unclosed tuple', () => {
+    expect(
+      () => typeSplit('Text, (u64, u32')
+    ).toThrow(/Invalid Tuple/);
+  });
 });
 
 describe('getTupleType', () => {

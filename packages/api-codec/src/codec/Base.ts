@@ -4,7 +4,7 @@
 
 import logger from '@polkadot/util/logger';
 
-export const l = logger('codec/Base');
+export const l = logger('codec');
 
 // The actual base class for any type. As it stands, this should not be used on it's own,
 // so we expose the interface, but throw on anything. This allows subclasses to actaully
