@@ -21,11 +21,10 @@ describe('fromMetadata', () => {
   });
 
   it('should return the correct storage key', () => {
-    expect(newExtrinsics.timestamp.set([10101]).toU8a()).toEqual(
+    expect(newExtrinsics.timestamp.set([10101]).toU8a(true)).toEqual(
       new Uint8Array([
         // index
-        // 3, 0, // FIXME This was taken from the old tests, should work, but doesn't
-        40, 0, 0,
+        0, 0,
         // values
         117, 39, 0, 0, 0, 0, 0, 0
       ])
