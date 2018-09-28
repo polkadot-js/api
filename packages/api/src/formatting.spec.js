@@ -9,8 +9,8 @@ import Api from './index';
 const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
 const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';
 
-const ENC_ONE = '0x9cf849648828db2946a1b5639a8f0edd';
-const ENC_TWO = '0x924776c687da8e30afdd2ac87d2c67da';
+const ENC_ONE = '0x24988a82b3bbaae58680bc9de5dea5aa';
+const ENC_TWO = '0xdb190750267d8849c35316ec9d342111';
 
 describe('formatting', () => {
   let api;
@@ -50,7 +50,7 @@ describe('formatting', () => {
       });
   });
 
-  it.skip('encodes multiple keys, decoding multiple results', (done) => {
+  it('encodes multiple keys, decoding multiple results', (done) => {
     api.state
       .storage(
         [
@@ -58,6 +58,8 @@ describe('formatting', () => {
           [storage.balances.freeBalance, ADDR_TWO]
         ],
         (error, value) => {
+          console.error(value);
+
           expect(
             provider.subscribe
           ).toHaveBeenCalledWith(
@@ -67,7 +69,9 @@ describe('formatting', () => {
             expect.anything()
           );
           expect(
-            value.map((bn) => bn.toNumber())
+            value.map((balance) =>
+              balance.toNumber()
+            )
           ).toEqual([513, 258]);
 
           done(error);

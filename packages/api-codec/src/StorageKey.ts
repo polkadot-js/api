@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isFunction from '@polkadot/util/is/function';
+import { AnyU8a } from './types';
 
+import isFunction from '@polkadot/util/is/function';
+import toU8a from '@polkadot/util/u8a/toU8a';
+
+import U8a from './codec/U8a';
 import Bytes from './Bytes';
 import { StorageFunctionMetadata } from './Metadata';
 
@@ -17,24 +21,26 @@ export interface StorageFunction {
 export default class StorageKey extends Bytes {
   private _outputType: string | null;
 
-  constructor (value: Uint8Array | StorageKey | StorageFunction | [StorageFunction, any]) {
+  constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.encode(value));
 
     this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static encode (value: Uint8Array | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
-    if (value instanceof StorageKey) {
+  static encode (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
+    if (value instanceof StorageKey || value instanceof U8a) {
       return value.raw;
     } else if (isFunction(value)) {
       return value();
     } else if (Array.isArray(value)) {
       const [fn, arg] = value;
 
-      return fn(arg);
+      if (isFunction(fn)) {
+        return fn(arg);
+      }
     }
 
-    return value;
+    return toU8a(value);
   }
 
   static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {

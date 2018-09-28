@@ -7,8 +7,8 @@ import { Interfaces, Interface$Sections } from '@polkadot/jsonrpc/types';
 import { SectionItem } from '@polkadot/params/types';
 import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
 
-import { Base, createType } from '@polkadot/api-codec/codec';
-import { StorageKey } from '@polkadot/api-codec/index';
+import { Base, Vector, createType } from '@polkadot/api-codec/codec';
+import { StorageChangeSet, StorageKey } from '@polkadot/api-codec/index';
 import interfaces from '@polkadot/jsonrpc/index';
 import signature from '@polkadot/params/signature';
 import assert from '@polkadot/util/assert';
@@ -79,7 +79,11 @@ export default class Api implements ApiInterface {
 
         return this.formatOutput(method, params, result);
       } catch (error) {
-        throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
+        const message = `${signature(method)}:: ${error.message}`;
+
+        console.error(message, error);
+
+        throw new ExtError(message, (error as ExtError).code, undefined);
       }
     };
 
@@ -103,7 +107,11 @@ export default class Api implements ApiInterface {
 
         return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
       } catch (error) {
-        throw new ExtError(`${signature(method)}:: ${error.message}`, (error as ExtError).code, undefined);
+        const message = `${signature(method)}:: ${error.message}`;
+
+        console.error(message, error);
+
+        throw new ExtError(message, (error as ExtError).code, undefined);
       }
     };
 
@@ -126,27 +134,34 @@ export default class Api implements ApiInterface {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
-      const outputType = (params[0] as StorageKey).outputType;
+      const type = (params[0] as StorageKey).outputType;
 
-      if (outputType) {
-        return createType(outputType, base.raw);
+      if (type) {
+        return createType(type, base.raw);
       }
+    } else if (method.type === 'StorageChangeSet') {
+      return (params[0] as Vector<StorageKey>).reduce((vector, _key: StorageKey) => {
+        const type = _key.outputType;
+
+        if (!type) {
+          throw new Error('Cannot format StorageChangeSet, output type missing for key');
+        }
+
+        const key = _key.toHex();
+
+        const item = (base as StorageChangeSet).changes.find((item) =>
+          item.key.toHex() === key
+        );
+
+        if (!item) {
+          throw new Error('No result found for key in StorageChangeSet');
+        }
+
+        vector.push(createType(type, item.value.value));
+
+        return vector;
+      }, new (Vector.with(Base))());
     }
-
-    // TODO, TODO, TODO
-    // if (method.type === 'StorageResultSet') {
-    //   return params[0].map((key: string, index: number) => {
-    //     const input = inputs[0][index][0];
-    //     const { changes = [] }: { block: string, changes: Array<[string, string]> } = result || {};
-    //     const value = changes.find(([_key]) => key === _key);
-
-    //     if (!value) {
-    //       return undefined;
-    //     }
-
-    //     return this.formatStorageOutput(input, value[1]);
-    //   });
-    // }
 
     return base;
   }

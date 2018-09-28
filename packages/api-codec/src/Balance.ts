@@ -6,4 +6,9 @@ import U128 from './U128';
 
 // The Substrate Balance representation.
 export default class Balance extends U128 {
+  constructor (value?: any) {
+    super(value);
+
+    console.error('Balance: value=', value);
+  }
 }

@@ -24,16 +24,21 @@ export default class Struct <
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Array<any> = [], jsonMap: Map<keyof S, string> = new Map()) {
     super(
       Object
         .keys(Types)
-        .reduce((raw: T, key) => {
+        .reduce((raw: T, key, index) => {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
           // the [key in keyof T] was added, the idea is to provide better checks, which
           // does backfire here, but works externally.)
-          raw[key] = new Types[key](value[key]);
+          raw[key] = new Types[key](
+            Array.isArray(value)
+              ? value[index]
+              // @ts-ignore as above
+              : value[key]
+          );
 
           return raw;
         }, {} as T)

@@ -49,7 +49,7 @@ export default function createFunction (
       }
 
       if (!arg) {
-        throw new Error(`${meta.name} expects one argument.`);
+        throw new Error(`${meta.name} expects one argument`);
       }
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
