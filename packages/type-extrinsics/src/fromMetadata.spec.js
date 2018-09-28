@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Metadata from '@polkadot/api-codec/Metadata';
-import json from '@polkadot/api-codec/Metadata.rpc.json';
+import json from '@polkadot/api-codec/Metadata.rpc';
 
 import { fromMetadata } from './fromMetadata';
 
