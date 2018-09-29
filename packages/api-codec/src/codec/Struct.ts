@@ -102,6 +102,10 @@ export default class Struct <
     return this;
   }
 
+  get (index: number): Base {
+    return this.values()[index];
+  }
+
   toJSON (): any {
     return Object.keys(this.raw).reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key as any) || key;

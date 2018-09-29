@@ -4,26 +4,86 @@
 
 import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
 import { Method } from '@polkadot/jsonrpc/types';
-import { RxBalance, RxBalanceMap, RxFees, RxProposal, RxProposalDeposits, RxReferendum, RxReferendumVote } from './types';
+import { RxBalance, RxBalanceMap, RxFees, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
 import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
-import { AccountId, Balance, Bool, BlockNumber, Header, Index, Moment, PropIndex, Proposal, ReferendumIndex, SignedBlock, u32, VoteThreshold } from '@polkadot/api-codec/index';
-import { Tuple, Vector } from '@polkadot/api-codec/codec';
+import { AccountId, Balance, Bool, BlockNumber, Header, Index, Moment, Perbill, PropIndex, Proposal, ReferendumIndex, SignedBlock, u32, VoteThreshold } from '@polkadot/api-codec/index';
+import { Struct, Tuple, Vector } from '@polkadot/api-codec/codec';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import storage from '@polkadot/storage/testing';
 import assert from '@polkadot/util/assert';
 import isString from '@polkadot/util/is/string';
 import isUndefined from '@polkadot/util/is/undefined';
 
-type OptBN = BN | undefined;
-type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
 
-const ResultReferendum = Tuple.with({ Balance, Proposal, VoteThreshold });
-const ResultProposal = Tuple.with({ PropIndex, Proposal, AccountId });
-const ResultProposalDeposits = Tuple.with({ Balance, AccountIds: Vector.with(AccountId) });
+class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId }) {
+  constructor (value: Tuple) {
+    super({
+      id: value.get(0),
+      proposal: value.get(1),
+      address: value.get(2)
+    });
+  }
+
+  get address (): AccountId {
+    return this.get(2) as AccountId;
+  }
+
+  get id (): PropIndex {
+    return this.get(0) as PropIndex;
+  }
+
+  get proposal (): Proposal {
+    return this.get(1) as Proposal;
+  }
+}
+
+class RxReferendum extends Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex }) {
+  constructor (value: Tuple, id: ReferendumIndex | BN | number) {
+    super({
+      blockNumber: value.get(0),
+      proposal: value.get(1),
+      voteThreshold: value.get(2),
+      id
+    });
+  }
+
+  get blockNumber (): BlockNumber {
+    return this.raw.blockNumber as BlockNumber;
+  }
+
+  get id (): ReferendumIndex {
+    return this.raw.id as ReferendumIndex;
+  }
+
+  get proposal (): Proposal {
+    return this.raw.proposal as Proposal;
+  }
+
+  get voteThreshold (): VoteThreshold {
+    return this.raw.voteThreshold as VoteThreshold;
+  }
+}
+
+class RxProposalDeposits extends Struct.with({ balance: Balance, addresses: Vector.with(AccountId) }) {
+  constructor (value: Tuple) {
+    super({
+      balance: value.get(0),
+      addresses: value.get(1)
+    });
+  }
+
+  get addresses (): Vector<AccountId> {
+    return this.raw.addresses as Vector<AccountId>;
+  }
+
+  get balance (): Balance {
+    return this.raw.balance as Balance;
+  }
+}
 
 const defaultMapFn = (result: any): any =>
   result;
@@ -117,15 +177,11 @@ export default class ObservableApi {
       .rawStorage(storage.democracy.publicProps)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((proposals: Array<ResultProposal> = []) =>
+        map((proposals: Array<Tuple> = []) =>
           proposals
-            .map((result: typeof ResultProposal): RxProposal | undefined =>
-              result && result[1]
-                ? {
-                  address: result[2],
-                  id: result[0],
-                  proposal: result[1]
-                }
+            .map((result: Tuple): RxProposal | undefined =>
+              result
+                ? new RxProposal(result)
                 : undefined
             )
             .filter((proposal) =>
@@ -150,12 +206,9 @@ export default class ObservableApi {
       .rawStorage(storage.democracy.depositOf, proposalId)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((result: ResultProposalDeposits): RxProposalDeposits | undefined =>
-          result && result[0]
-            ? {
-              addresses: result[1] || [],
-              balance: result[0]
-            }
+        map((result: Tuple): RxProposalDeposits | undefined =>
+          result
+            ? new RxProposalDeposits(result)
             : undefined
         )
       );
@@ -165,19 +218,14 @@ export default class ObservableApi {
     return this.rawStorage(storage.democracy.referendumCount);
   }
 
-  democracyReferendumInfoOf = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum> => {
+  democracyReferendumInfoOf = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum | undefined> => {
     return this
       .rawStorage(storage.democracy.referendumInfoOf, referendumId)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((result: typeof ResultReferendum) =>
-          result && result[1]
-            ? {
-              blockNumber: result[0],
-              id: new ReferendumIndex(referendumId),
-              proposal: result[1],
-              voteThreshold: result[2]
-            }
+        map((result: Tuple): RxReferendum | undefined =>
+          result
+            ? new RxReferendum(result, referendumId)
             : undefined
         )
       );
@@ -205,8 +253,8 @@ export default class ObservableApi {
       ([voters, balances, votes]: [Array<AccountId>, Array<Balance>, Array<Bool>]): Array<RxReferendumVote> =>
         voters.map((address, index): RxReferendumVote => ({
           address,
-          balance: balances[index] || new BN(0),
-          vote: votes[index] || false
+          balance: balances[index] || new Balance(0),
+          vote: votes[index] || new Bool(false)
         }))
     );
   }
@@ -219,11 +267,11 @@ export default class ObservableApi {
       ]
     ).pipe(
       // @ts-ignore After upgrade to 6.3.2
-      switchMap(([referendumCount, nextTally]: [OptBN, OptBN]): Observable<Array<RxReferendum>> =>
-        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
+      switchMap(([referendumCount, nextTally]: [ReferendumIndex | undefined, ReferendumIndex | undefined]): Observable<Array<RxReferendum>> =>
+        referendumCount && nextTally && referendumCount.toBn().gt(nextTally.toBn()) && referendumCount.toBn().gtn(0)
           ? this.democracyReferendumInfos(
-            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
-              nextTally.addn(i).toNumber()
+            [...Array(referendumCount.toBn().sub(nextTally.toBn()).toNumber())].map((_, i) =>
+              nextTally.toBn().addn(i).toNumber()
             )
           )
           : EMPTY
@@ -286,20 +334,22 @@ export default class ObservableApi {
     return this.rawStorage(storage.democracy.votingPeriod);
   }
 
-  eraBlockLength = (): Observable<OptBN> => {
+  eraBlockLength = (): Observable<BlockNumber | undefined> => {
     return this.combine(
       [
         this.sessionLength(),
         this.sessionsPerEra()
       ],
-      ([sessionLength, sessionsPerEra]: [OptBN, OptBN]): OptBN =>
+      ([sessionLength, sessionsPerEra]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionLength && sessionsPerEra
-          ? sessionLength.mul(sessionsPerEra)
+          ? new BlockNumber(
+            sessionLength.toBn().mul(sessionsPerEra.toBn())
+          )
           : undefined
     );
   }
 
-  eraBlockProgress = (): Observable<OptBN> => {
+  eraBlockProgress = (): Observable<BlockNumber | undefined> => {
     return this.combine(
       [
         this.sessionBlockProgress(),
@@ -308,26 +358,30 @@ export default class ObservableApi {
         this.sessionsPerEra(),
         this.eraLastLengthChange()
       ],
-      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange = new BN(0)]: [OptBN, OptBN, OptBN, OptBN, OptBN]): OptBN =>
+      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange = new BlockNumber(0)]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress && eraLastLengthChange
-          ? sessionCurrentIndex
-              .sub(eraLastLengthChange)
-              .mod(sessionsPerEra)
-              .mul(sessionLength)
-              .add(sessionBlockProgress)
+          ? new BlockNumber(
+            sessionCurrentIndex.toBn()
+              .sub(eraLastLengthChange.toBn())
+              .mod(sessionsPerEra.toBn())
+              .mul(sessionLength.toBn())
+              .add(sessionBlockProgress.toBn())
+          )
           : undefined
     );
   }
 
-  eraBlockRemaining = (): Observable<OptBN> => {
+  eraBlockRemaining = (): Observable<BlockNumber | undefined> => {
     return this.combine(
       [
         this.eraBlockLength(),
         this.eraBlockProgress()
       ],
-      ([eraBlockLength, eraBlockProgress]: [OptBN, OptBN]): OptBN =>
+      ([eraBlockLength, eraBlockProgress]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         eraBlockLength && eraBlockProgress
-          ? eraBlockLength.sub(eraBlockProgress)
+          ? new BlockNumber(
+            eraBlockLength.toBn().sub(eraBlockProgress.toBn())
+          )
           : undefined
     );
   }
@@ -335,15 +389,15 @@ export default class ObservableApi {
   fees = (): Observable<RxFees> => {
     return this
       .rawStorageMulti(
-        [storage.staking.public.transactionBaseFee],
-        [storage.staking.public.transactionByteFee],
-        [storage.staking.public.creationFee],
-        [storage.staking.public.existentialDeposit ],
-        [storage.staking.public.transferFee ]
+        [storage.balances.transactionBaseFee],
+        [storage.balances.transactionByteFee],
+        [storage.balances.creationFee],
+        [storage.balances.existentialDeposit ],
+        [storage.balances.transferFee ]
       )
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map(([baseFee = new BN(0), byteFee = new BN(0), creationFee = new BN(0), existentialDeposit = new BN(0), transferFee = new BN(0)]: [OptBN, OptBN, OptBN, OptBN, OptBN]) => ({
+        map(([baseFee = new Balance(0), byteFee = new Balance(0), creationFee = new Balance(0), existentialDeposit = new Balance(0), transferFee = new Balance(0)]: [Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined]) => ({
           baseFee,
           byteFee,
           creationFee,
@@ -353,45 +407,53 @@ export default class ObservableApi {
       );
   }
 
-  eraLastLengthChange = (): Observable<OptBN> => {
-    return this.rawStorage(storage.staking.public.lastEraLengthChange);
+  eraLastLengthChange = (): Observable<BlockNumber | undefined> => {
+    return this.rawStorage(storage.staking.lastEraLengthChange);
   }
 
-  sessionBlockProgress = (): Observable<OptBN> => {
+  sessionBlockProgress = (): Observable<BlockNumber | undefined> => {
     return this.combine(
       [
         this.bestNumber(),
         this.sessionLength(),
         this.sessionLastLengthChange()
       ],
-      ([bestNumber, sessionLength, lastSessionLengthChange]: [OptBN, OptBN, OptBN]): OptBN =>
+      ([bestNumber, sessionLength, lastSessionLengthChange]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         bestNumber && sessionLength && lastSessionLengthChange
-          ? bestNumber
-              .sub(lastSessionLengthChange)
-              .add(sessionLength)
-              .mod(sessionLength)
+          ? new BlockNumber(
+            bestNumber.toBn()
+              .sub(lastSessionLengthChange.toBn())
+              .add(sessionLength.toBn())
+              .mod(sessionLength.toBn())
+          )
           : undefined
     );
   }
 
-  sessionBlockRemaining = (): Observable<OptBN> => {
+  sessionBlockRemaining = (): Observable<BlockNumber | undefined> => {
     return this.combine(
       [
         this.sessionBlockProgress(),
         this.sessionLength()
       ],
-      ([sessionBlockProgress, sessionLength]: [OptBN, OptBN]): OptBN =>
+      ([sessionBlockProgress, sessionLength]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionBlockProgress && sessionLength
-          ? sessionLength.sub(sessionBlockProgress)
+          ? new BlockNumber(
+            sessionLength.toBn().sub(sessionBlockProgress.toBn())
+          )
           : undefined
     );
   }
 
-  sessionBrokenPercentLate = (): Observable<OptBN> => {
-    return this.rawStorage(storage.session.public.brokenPercentLate);
+  sessionReward = (): Observable<Perbill | undefined> => {
+    return this.rawStorage(storage.staking.sessionReward);
   }
 
-  sessionBrokenValue = (): Observable<OptBN> => {
+  sessionRewardCurrent = (): Observable<Balance | undefined> => {
+    return this.rawStorage(storage.staking.currentSessionReward);
+  }
+
+  sessionBrokenValue = (): Observable<Moment | undefined> => {
     return this.combine(
       [
         this.timestampNow(),
@@ -399,9 +461,9 @@ export default class ObservableApi {
         this.sessionTimeRemaining(),
         this.sessionCurrentStart()
       ],
-      ([now, sessionTimeExpected, sessionTimeRemaining, sessionCurrentStart]: [OptDate, OptBN, OptBN, OptDate]): OptBN =>
+      ([now, sessionTimeExpected, sessionTimeRemaining, sessionCurrentStart]: [Moment | undefined, Moment | undefined, Moment | undefined, Moment | undefined]): Moment | undefined =>
         sessionTimeExpected && sessionTimeRemaining && sessionCurrentStart && now
-          ? new BN(
+          ? new Moment(
             Math.round(
               100 * (now.getTime() + sessionTimeRemaining.toNumber() - sessionCurrentStart.getTime()) / sessionTimeExpected.toNumber() - 100
             )
@@ -410,35 +472,37 @@ export default class ObservableApi {
     );
   }
 
-  sessionCurrentIndex = (): Observable<OptBN> => {
-    return this.rawStorage(storage.session.public.currentIndex);
+  sessionCurrentIndex = (): Observable<BlockNumber | undefined> => {
+    return this.rawStorage(storage.session.currentIndex);
   }
 
-  sessionCurrentStart = (): Observable<OptBN> => {
-    return this.rawStorage(storage.session.public.currentStart);
+  sessionCurrentStart = (): Observable<Moment | undefined> => {
+    return this.rawStorage(storage.session.currentStart);
   }
 
-  sessionLastLengthChange = (): Observable<OptBN> => {
-    return this.rawStorage(storage.session.public.lastLengthChange);
+  sessionLastLengthChange = (): Observable<BlockNumber | undefined> => {
+    return this.rawStorage(storage.session.lastLengthChange);
   }
 
-  sessionLength = (): Observable<OptBN> => {
-    return this.rawStorage(storage.session.public.length);
+  sessionLength = (): Observable<BlockNumber | undefined> => {
+    return this.rawStorage(storage.session.sessionLength);
   }
 
-  sessionsPerEra = (): Observable<OptBN> => {
-    return this.rawStorage(storage.staking.public.sessionsPerEra);
+  sessionsPerEra = (): Observable<BlockNumber | undefined> => {
+    return this.rawStorage(storage.staking.sessionsPerEra);
   }
 
-  sessionTimeExpected = (): Observable<OptBN> => {
+  sessionTimeExpected = (): Observable<Moment | undefined> => {
     return this.combine(
       [
         this.sessionLength(),
         this.timestampBlockPeriod()
       ],
-      ([sessionLength, blockPeriod]: [OptBN, OptBN]): OptBN =>
+      ([sessionLength, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         sessionLength && blockPeriod
-          ? blockPeriod.mul(sessionLength).muln(1000)
+          ? new Moment(
+            blockPeriod.toBn().mul(sessionLength.toBn()).muln(1000)
+          )
           : undefined
     );
   }
@@ -449,10 +513,10 @@ export default class ObservableApi {
         this.sessionBlockRemaining(),
         this.timestampBlockPeriod()
       ],
-      ([sessionBlockRemaining, blockPeriod]: [OptBN, Moment | undefined]): Moment | undefined =>
+      ([sessionBlockRemaining, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         blockPeriod && sessionBlockRemaining
           ? new Moment(
-            blockPeriod.toBn().mul(sessionBlockRemaining).muln(1000)
+            blockPeriod.toBn().mul(sessionBlockRemaining.toBn()).muln(1000)
           )
           : undefined
     );

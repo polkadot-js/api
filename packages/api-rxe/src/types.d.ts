@@ -3,7 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { AccountId, Balance, BlockNumber, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/api-codec/index';
+import { AccountId, Balance, BlockNumber, Bool, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/api-codec/index';
+import { Tuple } from '@polkadot/api-codec/codec';
 import ObservableApi from './index';
 
 export type RxBalance = {
@@ -24,28 +25,10 @@ export type RxFees = {
   transferFee: Balance,
 };
 
-export type RxProposal = {
-  address: AccountId,
-  id: PropIndex,
-  proposal: Proposal
-};
-
-export type RxProposalDeposits = {
-  balance: Balance,
-  addresses: Array<AccountId>
-}
-
-export type RxReferendum = {
-  blockNumber: BlockNumber,
-  id: ReferendumIndex,
-  proposal: Proposal,
-  voteThreshold: VoteThreshold
-}
-
 export type RxReferendumVote = {
   address: AccountId,
   balance: Balance,
-  vote: boolean
+  vote: Bool
 };
 
 export type RxBalanceMap = {
