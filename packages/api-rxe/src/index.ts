@@ -16,7 +16,6 @@ import storage from '@polkadot/storage/testing';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 
-type OptDate = Date | undefined;
 type MapFn<R, T> = (combined: R) => T;
 
 type ResultReferendum = [BlockNumber, Proposal, VoteThreshold];
@@ -80,19 +79,29 @@ export default class ObservableApi {
       );
   }
 
-  balanceFreeOf = (address: AccountId | string): Observable<Balance | undefined> => {
+  // timestamp
+  blockPeriod = (): Observable<Moment | undefined> => {
+    return this.rawStorage(storage.timestamp.blockPeriod);
+  }
+
+  blockNow = (): Observable<Moment | undefined> => {
+    return this.rawStorage(storage.timestamp.now);
+  }
+
+  // balances
+  freeBalance = (address: AccountId | string): Observable<Balance | undefined> => {
     return this.rawStorage(storage.balances.freeBalance, address);
   }
 
-  balanceReservedOf = (address: AccountId | string): Observable<Balance | undefined> => {
+  recervedBalance = (address: AccountId | string): Observable<Balance | undefined> => {
     return this.rawStorage(storage.balances.reservedBalance, address);
   }
 
-  balanceVotingOf = (address: AccountId | string): Observable<RxBalance> => {
+  votingBalance = (address: AccountId | string): Observable<RxBalance> => {
     return this.combine(
       [
-        this.balanceFreeOf(address),
-        this.balanceReservedOf(address)
+        this.freeBalance(address),
+        this.recervedBalance(address)
       ],
       ([freeBalance = new Balance(0), reservedBalance = new Balance(0)]: [Balance | undefined, Balance | undefined]): RxBalance => ({
         address: new AccountId(address),
@@ -105,9 +114,28 @@ export default class ObservableApi {
     );
   }
 
+  votingBalances = (...addresses: Array<AccountId | string>): Observable<RxBalance[]> => {
+    return this.combine(
+      addresses.map((address) =>
+        this.votingBalance(address)
+      )
+    );
+  }
+
+  // chain
+  getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
+    return this.api.chain.getBlock(hash);
+  }
+
+  newHead = (): Observable<Header | undefined> => {
+    return this.api.chain.newHead().pipe(
+      defaultIfEmpty()
+    );
+  }
+
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
-      .chainNewHead()
+      .newHead()
       .pipe(
         map((header?: Header): BlockNumber | undefined =>
           header && header.blockNumber
@@ -117,25 +145,16 @@ export default class ObservableApi {
       );
   }
 
-  chainGetBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
-    return this.api.chain.getBlock(hash);
-  }
-
-  chainNewHead = (): Observable<Header | undefined> => {
-    return this.api.chain.newHead().pipe(
-      defaultIfEmpty()
-    );
-  }
-
-  democracyLaunchPeriod = (): Observable<BlockNumber | undefined> => {
+  // democracy
+  launchPeriod = (): Observable<BlockNumber | undefined> => {
     return this.rawStorage(storage.democracy.launchPeriod);
   }
 
-  democracyNextTally = (): Observable<BlockNumber | undefined> => {
+  nextTally = (): Observable<BlockNumber | undefined> => {
     return this.rawStorage(storage.democracy.nextTally);
   }
 
-  democracyPublicProposals = (): Observable<Array<RxProposal>> => {
+  publicProposals = (): Observable<Array<RxProposal>> => {
     return this
       .rawStorage(storage.democracy.publicProps)
       .pipe(
@@ -158,9 +177,9 @@ export default class ObservableApi {
     );
   }
 
-  democracyPublicProposalCount = (): Observable<number> => {
+  publicProposalsCount = (): Observable<number> => {
     return this
-      .democracyPublicProposals()
+      .publicProposals()
       .pipe(
         map((proposals: Array<RxProposal>) =>
           proposals.length
@@ -238,7 +257,7 @@ export default class ObservableApi {
     return this.combine(
       [
         this.democracyReferendumCount(),
-        this.democracyNextTally()
+        this.nextTally()
       ]
     ).pipe(
       // @ts-ignore After upgrade to 6.3.2
@@ -457,9 +476,9 @@ export default class ObservableApi {
     return this.combine(
       [
         this.sessionLength(),
-        this.timestampBlockPeriod()
+        this.blockPeriod()
       ],
-      ([sessionLength, blockPeriod]: [OptBN, OptBN]): OptBN =>
+      ([sessionLength, blockPeriod]: [OptBN, Moment]): OptBN =>
         sessionLength && blockPeriod
           ? blockPeriod.mul(sessionLength).muln(1000)
           : undefined
@@ -470,32 +489,32 @@ export default class ObservableApi {
     return this.combine(
       [
         this.sessionBlockRemaining(),
-        this.timestampBlockPeriod()
+        this.blockPeriod()
       ],
-      ([sessionBlockRemaining, blockPeriod]: [OptBN, OptBN]): OptBN =>
+      ([sessionBlockRemaining, blockPeriod]: [OptBN, Moment]): OptBN =>
         blockPeriod && sessionBlockRemaining
           ? blockPeriod.mul(sessionBlockRemaining).muln(1000)
           : undefined
     );
   }
 
-  sessionValidators = (): Observable<Array<string>> => {
+  sessionValidators = (): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.session.public.validators)
+      .rawStorage(storage.session.validators)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((validators: Array<string> = []) =>
+        map((validators: Array<AccountId> = []) =>
           validators
         )
       );
   }
 
-  stakingIntentions = (): Observable<Array<string>> => {
+  stakingIntentions = (): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.staking.public.intentions)
+      .rawStorage(storage.staking.intentions)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((intentions: Array<string> = []) =>
+        map((intentions: Array<AccountId> = []) =>
           intentions
         )
       );
@@ -516,15 +535,7 @@ export default class ObservableApi {
     return this.rawStorage(storage.staking.nominating, address);
   }
 
-  timestampBlockPeriod = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.blockPeriod);
-  }
-
-  timestampNow = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.now);
-  }
-
-  systemAccountIndexOf = (address: AccountId | string): Observable<Index | undefined> => {
+  systemAccountNonceOf = (address: AccountId | string): Observable<Index | undefined> => {
     return this.rawStorage(storage.system.accountNonce, address);
   }
 
@@ -578,13 +589,5 @@ export default class ObservableApi {
         ),
         defaultIfEmpty([] as any)
       );
-  }
-
-  votingBalances = (...addresses: Array<AccountId | string>): Observable<RxBalance[]> => {
-    return this.combine(
-      addresses.map((address) =>
-        this.balanceVotingOf(address)
-      )
-    );
   }
 }

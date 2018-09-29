@@ -67,6 +67,10 @@ export default class Moment extends Base<Date> {
     return this.raw.toISOString();
   }
 
+  toBn (): BN {
+    return new BN(this.toNumber());
+  }
+
   toNumber (): number {
     return Math.ceil(this.raw.getTime() / 1000);
   }
