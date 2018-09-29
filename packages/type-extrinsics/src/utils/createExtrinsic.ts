@@ -38,7 +38,7 @@ export default function createExtrinsic (
         ...expectedArgs.map((argument, index) => {
           const type = argument.type.toString(); // Argument type, as string
 
-          return createType(type, args[index]).toU8a(true);
+          return createType(type, args[index]).toU8a();
         })
       )
     );
