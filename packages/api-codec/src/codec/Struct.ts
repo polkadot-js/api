@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import hexToU8a from '@polkadot/util/hex/toU8a';
+import isHex from '@polkadot/util/is/hex';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base, { l } from './Base';
@@ -82,6 +84,10 @@ export default class Struct <
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
+    if (isHex(input)) {
+      return this.fromU8a(hexToU8a(input));
+    }
+
     Object.keys(this.raw).forEach((key) => {
       const jsonKey = this._jsonMap.get(key as any) || key;
 

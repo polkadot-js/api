@@ -4,6 +4,8 @@
 
 import { AnyNumber } from './types';
 
+import toU8a from '@polkadot/util/u8a/toU8a';
+
 import Vector from './codec/Vector';
 import Base from './codec/Base';
 import Enum from './codec/Enum';
@@ -285,9 +287,9 @@ export default class RuntimeMetadata extends Struct {
 
   // We receive this as an Array<number> in the JSON output from the Node. Convert
   // to u8a and use the fromU8a to do the actual parsing
-  fromJSON (input: Array<number>): RuntimeMetadata {
+  fromJSON (input: Uint8Array | string | Array<number>): RuntimeMetadata {
     return this.fromU8a(
-      Uint8Array.from(input)
+      toU8a(input)
     ) as RuntimeMetadata;
   }
 
