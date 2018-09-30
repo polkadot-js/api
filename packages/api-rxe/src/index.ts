@@ -29,15 +29,15 @@ class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, addres
   }
 
   get address (): AccountId {
-    return this.get(2) as AccountId;
+    return this.raw.address as AccountId;
   }
 
   get id (): PropIndex {
-    return this.get(0) as PropIndex;
+    return this.raw.id as PropIndex;
   }
 
   get proposal (): Proposal {
-    return this.get(1) as Proposal;
+    return this.raw.proposal as Proposal;
   }
 }
 
@@ -268,10 +268,10 @@ export default class ObservableApi {
     ).pipe(
       // @ts-ignore After upgrade to 6.3.2
       switchMap(([referendumCount, nextTally]: [ReferendumIndex | undefined, ReferendumIndex | undefined]): Observable<Array<RxReferendum>> =>
-        referendumCount && nextTally && referendumCount.toBn().gt(nextTally.toBn()) && referendumCount.toBn().gtn(0)
+        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gt(0)
           ? this.democracyReferendumInfos(
             [...Array(referendumCount.toBn().sub(nextTally.toBn()).toNumber())].map((_, i) =>
-              nextTally.toBn().addn(i).toNumber()
+              nextTally.add(i).toNumber()
             )
           )
           : EMPTY
@@ -343,7 +343,7 @@ export default class ObservableApi {
       ([sessionLength, sessionsPerEra]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionLength && sessionsPerEra
           ? new BlockNumber(
-            sessionLength.toBn().mul(sessionsPerEra.toBn())
+            sessionLength.mul(sessionsPerEra)
           )
           : undefined
     );
@@ -361,8 +361,8 @@ export default class ObservableApi {
       ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange = new BlockNumber(0)]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress && eraLastLengthChange
           ? new BlockNumber(
-            sessionCurrentIndex.toBn()
-              .sub(eraLastLengthChange.toBn())
+            sessionCurrentIndex
+              .sub(eraLastLengthChange)
               .mod(sessionsPerEra.toBn())
               .mul(sessionLength.toBn())
               .add(sessionBlockProgress.toBn())
@@ -380,7 +380,7 @@ export default class ObservableApi {
       ([eraBlockLength, eraBlockProgress]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         eraBlockLength && eraBlockProgress
           ? new BlockNumber(
-            eraBlockLength.toBn().sub(eraBlockProgress.toBn())
+            eraBlockLength.sub(eraBlockProgress)
           )
           : undefined
     );
@@ -421,8 +421,8 @@ export default class ObservableApi {
       ([bestNumber, sessionLength, lastSessionLengthChange]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         bestNumber && sessionLength && lastSessionLengthChange
           ? new BlockNumber(
-            bestNumber.toBn()
-              .sub(lastSessionLengthChange.toBn())
+            bestNumber
+              .sub(lastSessionLengthChange)
               .add(sessionLength.toBn())
               .mod(sessionLength.toBn())
           )
@@ -439,7 +439,7 @@ export default class ObservableApi {
       ([sessionBlockProgress, sessionLength]: [BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
         sessionBlockProgress && sessionLength
           ? new BlockNumber(
-            sessionLength.toBn().sub(sessionBlockProgress.toBn())
+            sessionLength.sub(sessionBlockProgress)
           )
           : undefined
     );
@@ -501,7 +501,7 @@ export default class ObservableApi {
       ([sessionLength, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         sessionLength && blockPeriod
           ? new Moment(
-            blockPeriod.toBn().mul(sessionLength.toBn()).muln(1000)
+            sessionLength.mul(blockPeriod.toBn()).muln(1000)
           )
           : undefined
     );
@@ -516,7 +516,7 @@ export default class ObservableApi {
       ([sessionBlockRemaining, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         blockPeriod && sessionBlockRemaining
           ? new Moment(
-            blockPeriod.toBn().mul(sessionBlockRemaining.toBn()).muln(1000)
+            sessionBlockRemaining.mul(blockPeriod.toBn()).muln(1000)
           )
           : undefined
     );
@@ -639,7 +639,7 @@ export default class ObservableApi {
         reservedBalance,
         stakingBalance: new Balance(0),
         votingBalance: new Balance(
-          freeBalance.toBn().add(reservedBalance.toBn())
+          freeBalance.add(reservedBalance)
         )
       })
     );
