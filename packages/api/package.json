@@ -33,9 +33,5 @@
     "@polkadot/api-provider": "^0.30.5",
     "@polkadot/jsonrpc": "^0.30.5",
     "@polkadot/util": "^0.30.7"
-  },
-  "devDependencies": {
-    "mock-socket": "^8.0.2",
-    "nock": "^9.6.1"
   }
 }

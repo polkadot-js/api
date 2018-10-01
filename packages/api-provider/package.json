@@ -38,5 +38,9 @@
     "eventemitter3": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.25"
+  },
+  "devDependencies": {
+    "mock-socket": "^8.0.2",
+    "nock": "^9.6.1"
   }
 }

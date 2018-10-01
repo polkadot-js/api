@@ -9,7 +9,7 @@ import Api from '../../src';
 
 const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-describe('e2e state', () => {
+describe.skip('e2e state', () => {
   let api;
 
   beforeEach(() => {

@@ -6,7 +6,7 @@ import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import Base, { l } from './Base';
+import Base from './Base';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -43,7 +43,7 @@ export default class Struct <
   }
 
   static decode <S, V, T> (Types: S, value: V | Array<any>, isTuple: boolean): T {
-    l.debug(() => ['Struct.decode', { Types, value }]);
+    // l.debug(() => ['Struct.decode', { Types, value }]);
 
     return Object
       .keys(Types)
