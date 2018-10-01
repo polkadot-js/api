@@ -1,11 +1,11 @@
-// Copyright 2017-2018 @polkadot/api-provider authors & contributors
+// Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
 import storage from '@polkadot/storage';
+import Ws from '@polkadot/api-provider/ws';
 
-import Api from '../../api/src';
-import Ws from '../src/ws';
+import Api from '../../src';
 
 describe.skip('e2e krumme lanke', () => {
   let api;

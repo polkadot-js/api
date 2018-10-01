@@ -1,11 +1,11 @@
-// Copyright 2017-2018 @polkadot/api-provider authors & contributors
+// Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
 import storage from '@polkadot/storage/testing';
+import Ws from '@polkadot/api-provider/ws';
 
-import Api from '../../api/src';
-import Ws from '../src/ws';
+import Api from '../../src';
 
 const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 

@@ -28,10 +28,6 @@
     "url": "https://github.com/polkadot-js/api/issues"
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-provider#readme",
-  "devDependencies": {
-    "mock-socket": "^8.0.2",
-    "nock": "^9.6.1"
-  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@polkadot/storage": "^0.30.5",
@@ -42,5 +38,9 @@
     "eventemitter3": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.25"
+  },
+  "devDependencies": {
+    "mock-socket": "^8.0.2",
+    "nock": "^9.6.1"
   }
 }

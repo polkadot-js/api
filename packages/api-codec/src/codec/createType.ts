@@ -5,7 +5,7 @@
 import assert from '@polkadot/util/assert';
 
 import * as Types from '../index';
-import Base, { l } from './Base';
+import Base from './Base';
 import Tuple from './Tuple';
 import Vector from './Vector';
 
@@ -64,7 +64,7 @@ export function typeSplit (type: string): Array<string> {
 
 // Handle Vector types, i.e Vec<AccountId> or Vec<(AccountId, Balance)>
 export function getVectorType (type: string): Constructor {
-  l.debug(() => ['getVectorType', { type }]);
+  // l.debug(() => ['getVectorType', { type }]);
 
   assert(type.substr(0, 4) === 'Vec<' && type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
 
@@ -79,7 +79,7 @@ export function getVectorType (type: string): Constructor {
 // Handle tuple types, (u32, String, AccountId). It could be nested and wrapped in other
 // types, i.e. (u32, Vec<(AccountId, Balance)>)
 export function getTupleType (type: string): Constructor {
-  l.debug(() => ['getTupleType', { type }]);
+  // l.debug(() => ['getTupleType', { type }]);
 
   assert(type[0] === '(' && type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
 
@@ -99,7 +99,7 @@ export function getTupleType (type: string): Constructor {
 export function getType (_type: string): Constructor {
   const type = _type.trim();
 
-  l.debug(() => ['getType', { type }]);
+  // l.debug(() => ['getType', { type }]);
 
   if (type[0] === '(') {
     return getTupleType(type);
@@ -115,7 +115,7 @@ export function getType (_type: string): Constructor {
 }
 
 export default function createType (type: string, value?: any): Base {
-  l.debug(() => ['createType', { type, value }]);
+  // l.debug(() => ['createType', { type, value }]);
 
   const Type = getType(type);
 
