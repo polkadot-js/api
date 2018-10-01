@@ -14,6 +14,7 @@ import storage from '@polkadot/storage/testing';
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
 
+// Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
   democracyLaunchPeriod = (): Observable<BlockNumber | undefined> => {
     return this.rawStorage(storage.democracy.launchPeriod);
@@ -81,7 +82,7 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.democracy.votersFor, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((voters: Array<string> = []) =>
+        map((voters: Array<AccountId> = []) =>
           voters
         )
       );
@@ -97,7 +98,7 @@ export default class ApiQueries extends ApiBase {
         [storage.balances.transactionBaseFee],
         [storage.balances.transactionByteFee],
         [storage.balances.creationFee],
-        [storage.balances.existentialDeposit ],
+        [storage.balances.existentialDeposit],
         [storage.balances.transferFee ]
       )
       .pipe(
@@ -144,7 +145,7 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(storage.staking.sessionsPerEra);
   }
 
-  sessionValidators = (): Observable<Array<AccountId | string>> => {
+  sessionValidators = (): Observable<Array<AccountId>> => {
     return this
       .rawStorage(storage.session.validators)
       .pipe(
@@ -155,7 +156,7 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
-  stakingIntentions = (): Observable<Array<AccountId | string>> => {
+  stakingIntentions = (): Observable<Array<AccountId>> => {
     return this
       .rawStorage(storage.staking.intentions)
       .pipe(
@@ -166,6 +167,7 @@ export default class ApiQueries extends ApiBase {
       );
   }
 
+  // FIXME -> freeBalance
   stakingFreeBalanceOf = (address: AccountId | string): Observable<Balance | undefined> => {
     return this.rawStorage(storage.balances.freeBalance, address);
   }
@@ -185,6 +187,7 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(storage.staking.nominating, address);
   }
 
+  // FIXME -> reservedBalance
   stakingReservedBalanceOf = (address: AccountId | string): Observable<Balance | undefined> => {
     return this.rawStorage(storage.balances.reservedBalance, address);
   }

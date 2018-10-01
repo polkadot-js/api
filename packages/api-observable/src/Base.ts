@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RxApiInterface, RxApiInterface$Method } from '@polkadot/api-rx/types';
+import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
 import { Method } from '@polkadot/jsonrpc/types';
 
 import { Observable, combineLatest } from 'rxjs';
@@ -16,6 +16,8 @@ type MapFn<R, T> = (combined: R) => T;
 const defaultMapFn = (result: any): any =>
   result;
 
+// Raw base implementation for the observable API. It simply provides access to raw calls, allowing
+// decendants to make direct queries to either API methods or actual storage
 export default class ApiBase {
   protected api: RxApiInterface;
 
@@ -31,18 +33,18 @@ export default class ApiBase {
     );
   }
 
+  isConnected = (): Observable<boolean> => {
+    return this.api.isConnected();
+  }
+
   rawCall = <T> ({ name, section }: Method, ...params: Array<any>): Observable<T> => {
-    // @ts-ignore
-    const apiSection = this.api[section];
+    const apiSection = this.api[section as keyof RxApiInterface] as RxApiInterface$Section;
 
-    assert(section && apiSection, `Unable to find 'api.${section}'`);
+    assert(apiSection, `Unable to find 'api.${section}'`);
 
-    const fn: RxApiInterface$Method = apiSection
-      ? apiSection[name]
-      // @ts-ignore This one is done for 'isConnected'
-      : this.api[name];
+    const fn: RxApiInterface$Method = apiSection[name];
 
-    assert(fn, `Unable to find 'api${section ? '.' : ''}${section || ''}.${name}'`);
+    assert(fn, `Unable to find 'api.${section}.${name}'`);
 
     return fn.apply(null, params);
   }

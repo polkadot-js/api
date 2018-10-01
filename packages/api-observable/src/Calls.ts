@@ -8,6 +8,7 @@ import { BlockNumber, Header, SignedBlock } from '@polkadot/api-codec/index';
 
 import ApiQueries from './Queries';
 
+// Implementation of calls to API endpoints.
 export default class ApiCalls extends ApiQueries {
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
