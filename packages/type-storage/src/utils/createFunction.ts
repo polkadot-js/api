@@ -65,6 +65,7 @@ export default function createFunction (
   }
 
   storageFn.meta = meta;
+  storageFn.toJSON = meta.toJSON;
 
   return storageFn as StorageFunction;
 }

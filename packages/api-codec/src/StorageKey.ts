@@ -14,6 +14,7 @@ import { StorageFunctionMetadata } from './Metadata';
 export interface StorageFunction {
   (arg?: any): Uint8Array;
   meta: StorageFunctionMetadata;
+  toJSON: () => any;
 }
 
 // A representation of a storage key (typically hashed) in the system. It can be constructed
