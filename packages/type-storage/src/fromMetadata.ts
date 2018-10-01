@@ -28,9 +28,9 @@ export default function fromMetadata (storage: Storage, metadata: Metadata) {
       return result;
     }
 
-    const prefix = moduleMetadata.storage.prefix.toString();
+    const prefix = moduleMetadata.storage.prefix;
 
-    result[stringLowerFirst(prefix)] = moduleMetadata.storage.functions.reduce((newModule, func) => {
+    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.functions.reduce((newModule, func) => {
       // Lowercase the 'f' in storage.balances.freeBalance
       newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 

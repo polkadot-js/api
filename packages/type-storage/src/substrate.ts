@@ -14,13 +14,14 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (name: string, functionMetadata: SubstrateMetadata) =>
+const createRuntimeFunction = (method: string, functionMetadata: SubstrateMetadata) =>
   // TODO The expected 2nd argument is a StorageFunctionMetadata, but we
   // actually only need the fields `documentation` and `type` of it, so in
   // order to not input other fields (byteLength, fromJSON...) we lazily cast
   // as any.
   createFunction(
-    '', name,
+    new Text('Substrate'),
+    new Text(method),
     {
       documentation: new Vector(Text, [functionMetadata.documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),
