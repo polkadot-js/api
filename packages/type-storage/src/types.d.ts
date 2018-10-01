@@ -4,7 +4,6 @@
 
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import BN from 'bn.js';
-import { Section } from '@polkadot/params/types';
 
 import * as substrate from './substrate';
 

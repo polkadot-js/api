@@ -11,8 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/params": "^0.30.3",
-    "@polkadot/primitives": "^0.30.3",
     "@polkadot/util": "^0.30.7"
   }
 }
