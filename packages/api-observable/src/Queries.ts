@@ -99,7 +99,7 @@ export default class ApiQueries extends ApiBase {
         [storage.balances.transactionByteFee],
         [storage.balances.creationFee],
         [storage.balances.existentialDeposit],
-        [storage.balances.transferFee ]
+        [storage.balances.transferFee]
       )
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
