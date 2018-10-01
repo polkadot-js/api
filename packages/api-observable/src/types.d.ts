@@ -5,7 +5,13 @@
 import { Observable } from 'rxjs';
 import { AccountId, Balance, BlockNumber, Bool, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/api-codec/index';
 import { Tuple } from '@polkadot/api-codec/codec';
-import ObservableApi from './index';
+
+import ApiBase from './Base';
+import ApiCalls from './Calls';
+import ApiCombined from './Combined';
+import ApiQueries from './Queries';
+
+export type ApiFunctions = keyof ApiBase | keyof ApiCalls | keyof ApiCombined | keyof ApiQueries;
 
 export type RxBalance = {
   address: AccountId,
@@ -34,5 +40,3 @@ export type RxReferendumVote = {
 export type RxBalanceMap = {
   [index: string]: RxBalance
 }
-
-export type ObservableApiNames = keyof ObservableApi;
