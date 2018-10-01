@@ -22,6 +22,15 @@ const submitExtrinsic: MethodOpt = {
   type: 'Hash'
 };
 
+const extrinsicUpdate: MethodOpt = {
+  isSigned: true,
+  description: 'Subscribe and watch an extrinsic',
+  params: [
+    createParam('metadata', 'subscriber', 'Bytes')
+  ],
+  type: 'extrinsicUpdate'
+};
+
 const methods: { [index: string]: MethodOpt } = {
   pendingExtrinsics, submitExtrinsic
 };
