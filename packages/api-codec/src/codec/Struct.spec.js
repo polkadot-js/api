@@ -15,7 +15,7 @@ describe('Struct', () => {
           u32: U32
         })
       )({ txt: 'foo', u32: 0x123456 }).toString()
-    ).toEqual(`{txt: foo, u32: 0x00123456}`);
+    ).toEqual(`{txt: foo, u32: 1193046}`);
   });
 
   it('exposes the types', () => {
@@ -43,6 +43,6 @@ describe('Struct', () => {
       test.values().map((v) =>
         v.toString()
       )
-    ).toEqual(['bazzing', '0x00000045']);
+    ).toEqual(['bazzing', '69']);
   });
 });
