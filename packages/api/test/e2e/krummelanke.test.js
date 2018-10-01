@@ -4,8 +4,8 @@
 
 import storage from '@polkadot/storage';
 
-import Api from '../../api/src';
-import Ws from '../src/ws';
+import Ws from '../../../api-provider/src/ws';
+import Api from '../../src';
 
 describe.skip('e2e krumme lanke', () => {
   let api;

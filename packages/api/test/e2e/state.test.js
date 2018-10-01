@@ -4,12 +4,12 @@
 
 import storage from '@polkadot/storage/testing';
 
-import Api from '../../api/src';
-import Ws from '../src/ws';
+import Ws from '../../../api-provider/src/ws';
+import Api from '../../src';
 
 const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-describe.skip('e2e state', () => {
+describe('e2e state', () => {
   let api;
 
   beforeEach(() => {

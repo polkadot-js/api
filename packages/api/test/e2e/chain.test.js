@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Api from '../../api/src';
-import Ws from '../src/ws';
+import Ws from '../../../api-provider/src/ws';
+import Api from '../../src';
 
 describe.skip('e2e chain', () => {
   let api;
