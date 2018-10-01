@@ -8,7 +8,7 @@
 
 ▸ **subscribe**(self: *[MockState](_mock_types_d_.md#mockstate)*, type: *`string`*, method: *`string`*, params: *`Array`<`any`>*): `Promise`<`number`>
 
-*Defined in [mock/subscribe.ts:7](https://github.com/polkadot-js/api/blob/782bb80/packages/api-provider/src/mock/subscribe.ts#L7)*
+*Defined in [mock/subscribe.ts:7](https://github.com/polkadot-js/api/blob/876c34c/packages/api-provider/src/mock/subscribe.ts#L7)*
 
 **Parameters:**
 
