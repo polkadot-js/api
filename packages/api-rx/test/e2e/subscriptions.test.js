@@ -5,33 +5,28 @@
 import storage from '@polkadot/storage/testing';
 
 import Ws from '../../../api-provider/src/ws';
-import Api from '../../src';
+import RxApi from '../../src';
 
 describe.skip('e2e subscriptions', () => {
   let api;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Api(new Ws('ws://127.0.0.1:9944'));
+
+    api = new RxApi(new Ws('ws://127.0.0.1:9944'));
   });
 
   it('retrieves current timestamp', (done) => {
     let count = 0;
 
-    return api.state
-      .storage([[storage.timestamp.now]], (error, data) => {
-        if (error) {
-          return done(error);
-        }
+    api.state
+      .storage([[storage.timestamp.now]])
+      .subscribe((data) => {
+        console.error('subscribe', data);
 
-        expect(data).toBeDefined();
-
-        if (++count === 3) {
+        if (++count === 4) {
           done();
         }
-      })
-      .then((subscriptionId) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
 });
