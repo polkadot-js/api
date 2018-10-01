@@ -33,7 +33,7 @@ describe('UInt', () => {
     const u = new UInt('0x12', 16);
 
     expect(u.toHex()).toEqual('0x0012');
-    expect(u.toString()).toEqual('0x0012');
+    expect(u.toString()).toEqual('18');
   });
 
   it('converts to equivalents', () => {
