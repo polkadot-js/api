@@ -89,4 +89,54 @@ export default class UInt extends Base<BN> {
   toNumber (): number {
     return this.raw.toNumber();
   }
+
+  // helpers from BN, this would be great as a "don't do this", i.e. extending properly
+  // from BN. Underlying these will always return BN (unless it is compare checks)
+  add (other: UInt | BN | number): BN {
+    return other instanceof UInt
+      ? this.raw.add(other.raw)
+      : this.raw.add(bnToBn(other));
+  }
+
+  div (other: UInt | BN | number): BN {
+    return other instanceof UInt
+      ? this.raw.div(other.raw)
+      : this.raw.div(bnToBn(other));
+  }
+
+  lt (test: UInt | BN | number): boolean {
+    return test instanceof UInt
+      ? this.raw.lt(test.raw)
+      : this.raw.lt(bnToBn(test));
+  }
+
+  lte (test: UInt | BN | number): boolean {
+    return test instanceof UInt
+      ? this.raw.lte(test.raw)
+      : this.raw.lte(bnToBn(test));
+  }
+
+  gt (test: UInt | BN | number): boolean {
+    return test instanceof UInt
+      ? this.raw.gt(test.raw)
+      : this.raw.gt(bnToBn(test));
+  }
+
+  gte (test: UInt | BN | number): boolean {
+    return test instanceof UInt
+      ? this.raw.gte(test.raw)
+      : this.raw.gte(bnToBn(test));
+  }
+
+  mul (other: UInt | BN | number): BN {
+    return other instanceof UInt
+      ? this.raw.mul(other.raw)
+      : this.raw.mul(bnToBn(other));
+  }
+
+  sub (other: UInt | BN | number): BN {
+    return other instanceof UInt
+      ? this.raw.sub(other.raw)
+      : this.raw.sub(bnToBn(other));
+  }
 }
