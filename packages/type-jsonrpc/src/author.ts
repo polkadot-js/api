@@ -23,12 +23,16 @@ const submitExtrinsic: MethodOpt = {
 };
 
 const extrinsicUpdate: MethodOpt = {
+  description: 'Subscribe and watch an extrinsic until unsubscribed',
   isSigned: true,
-  description: 'Subscribe and watch an extrinsic',
-  params: [
-    createParam('metadata', 'subscriber', 'Bytes')
-  ],
   isSubscription: true,
+  subscribe: [
+    'author_submitAndWatchExtrinsic',
+    'author_unwatchExtrinsic'
+  ],
+  params: [
+    createParam('Bytes')
+  ],
   type: 'ExtrinsicUpdate'
 };
 
