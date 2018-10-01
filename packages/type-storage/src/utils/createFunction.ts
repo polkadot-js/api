@@ -6,6 +6,7 @@ import { createType } from '@polkadot/api-codec/codec';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
+import { stringLowerFirst } from '@polkadot/util/string';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
@@ -68,8 +69,8 @@ export default function createFunction (
   }
 
   storageFn.meta = meta;
-  storageFn.method = method;
-  storageFn.prefix = prefix;
+  storageFn.method = stringLowerFirst(method.toString());
+  storageFn.section = stringLowerFirst(prefix.toString());
   storageFn.toJSON = (): any =>
     meta.toJSON();
 

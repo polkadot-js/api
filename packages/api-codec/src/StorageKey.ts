@@ -14,8 +14,8 @@ import { StorageFunctionMetadata } from './Metadata';
 export interface StorageFunction {
   (arg?: any): Uint8Array;
   meta: StorageFunctionMetadata;
-  method: Text;
-  prefix: Text;
+  method: string;
+  section: string;
   toJSON: () => any;
 }
 
