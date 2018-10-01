@@ -22,9 +22,25 @@ describe.skip('e2e subscriptions', () => {
     api.state
       .storage([[storage.timestamp.now]])
       .subscribe((data) => {
-        console.error('subscribe', data);
+        console.error('timestamp.now', data);
 
         if (++count === 4) {
+          done();
+        }
+      });
+  });
+
+  it('retrieves multiple values', (done) => {
+    api.state
+      .storage([
+        [storage.timestamp.now],
+        [storage.session.sessionLength],
+        [storage.staking.sessionsPerEra]
+      ])
+      .subscribe((data) => {
+        console.error('multiples', data);
+
+        if (data !== undefined && data.filter((item) => item).length === 3) {
           done();
         }
       });
