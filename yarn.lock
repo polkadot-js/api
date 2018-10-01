@@ -1219,6 +1219,25 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
+"@polkadot/params@^0.30.3":
+  version "0.30.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.30.3.tgz#1f94f938306e7e30c009d501c527dfc322622f5a"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    "@polkadot/extrinsics" "^0.30.3"
+    "@polkadot/params" "^0.30.3"
+    "@polkadot/primitives" "^0.30.3"
+    "@polkadot/util" "^0.30.7"
+    "@polkadot/util-keyring" "^0.30.7"
+
+"@polkadot/primitives@^0.30.3":
+  version "0.30.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.30.3.tgz#9b5cb18d084f0c2ba860cacece7e81fa6309613e"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    "@polkadot/trie-hash" "^0.30.7"
+    "@polkadot/util" "^0.30.7"
+
 "@polkadot/trie-hash@^0.30.7":
   version "0.30.7"
   resolved "https://registry.yarnpkg.com/@polkadot/trie-hash/-/trie-hash-0.30.7.tgz#b68102736d03a2a4cd673f113a90a7cd2b21bc69"

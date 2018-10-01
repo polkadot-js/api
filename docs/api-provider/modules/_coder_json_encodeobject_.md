@@ -8,7 +8,7 @@
 
 ▸ **encodeObject**(self: *[RpcCoderState](_coder_json_types_d_.md#rpccoderstate)*, method: *`string`*, params: *`Array`<`any`>*): [JsonRpcRequest](_types_d_.md#jsonrpcrequest)
 
-*Defined in [coder/json/encodeObject.ts:8](https://github.com/polkadot-js/api/blob/b3a95b5/packages/api-provider/src/coder/json/encodeObject.ts#L8)*
+*Defined in [coder/json/encodeObject.ts:8](https://github.com/polkadot-js/api/blob/8840f33/packages/api-provider/src/coder/json/encodeObject.ts#L8)*
 
 **Parameters:**
 
