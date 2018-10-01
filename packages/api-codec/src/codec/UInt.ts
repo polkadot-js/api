@@ -71,7 +71,7 @@ export default class UInt extends Base<BN> {
   }
 
   toJSON (): any {
-    return this.toString();
+    return this.toHex();
   }
 
   toU8a (isBare?: boolean): Uint8Array {
@@ -79,7 +79,7 @@ export default class UInt extends Base<BN> {
   }
 
   toString (): string {
-    return this.toHex();
+    return this.raw.toString();
   }
 
   toBn (): BN {
@@ -98,10 +98,20 @@ export default class UInt extends Base<BN> {
       : this.raw.add(bnToBn(other));
   }
 
+  cmp (other: UInt | BN | number): number {
+    return other instanceof UInt
+      ? this.raw.cmp(other.raw)
+      : this.raw.cmp(bnToBn(other));
+  }
+
   div (other: UInt | BN | number): BN {
     return other instanceof UInt
       ? this.raw.div(other.raw)
       : this.raw.div(bnToBn(other));
+  }
+
+  isZero (): boolean {
+    return this.raw.isZero();
   }
 
   lt (test: UInt | BN | number): boolean {
