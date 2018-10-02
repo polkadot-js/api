@@ -52,7 +52,7 @@ describe('Address', () => {
       new Address()
         .fromU8a(
           new Uint8Array([
-            1, 17
+            17
           ])
         )
         .toString()
@@ -68,7 +68,7 @@ describe('Address', () => {
           ])
         )
         .toString()
-    ).toEqual('0x1112');
+    ).toEqual('0xfc1112');
   });
 
   it('decodes with a prefix (4-bytes)', () => {
@@ -80,7 +80,7 @@ describe('Address', () => {
           ])
         )
         .toString()
-    ).toEqual('0x11121314');
+    ).toEqual('0xfd11121314');
   });
 
   it('decodes with a prefix (8-bytes)', () => {
@@ -92,12 +92,6 @@ describe('Address', () => {
           ])
         )
         .toString()
-    ).toEqual('0x1112131415161718');
-  });
-
-  it('fails to code invalid lengths', () => {
-    expect(
-      () => Address.writeLength(34)
-    ).toThrow(/Invalid bitLength/);
+    ).toEqual('0xfe1112131415161718');
   });
 });
