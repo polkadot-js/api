@@ -8,7 +8,7 @@
 
 **Ƭ HttpState**: *`object`*
 
-*Defined in [http/types.d.ts:8](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-provider/src/http/types.d.ts#L8)*
+*Defined in [http/types.d.ts:8](https://github.com/polkadot-js/api/blob/29b221b/packages/api-provider/src/http/types.d.ts#L8)*
 
 #### Type declaration
 

@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-observable",
-  "version": "0.30.11",
+  "version": "0.30.12",
   "description": "An Observable wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -30,8 +30,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/api": "^0.30.11",
-    "@polkadot/api-provider": "^0.30.11",
+    "@polkadot/api": "^0.30.12",
+    "@polkadot/api-provider": "^0.30.12",
     "@types/rx": "^4.1.1",
     "rxjs": "^6.3.2"
   }

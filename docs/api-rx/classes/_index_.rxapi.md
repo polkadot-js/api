@@ -21,7 +21,7 @@ const provider = new WsProvider('[http://127.0.0.1:9944')](http://127.0.0.1:9944
 
 ⊕ **new RxApi**(provider?: *`ProviderInterface`*): [RxApi](_index_.rxapi.md)
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L40)*
+*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L40)*
 
 **Parameters:**
 
@@ -41,7 +41,7 @@ ___
 
 **● author**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L37)*
+*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L37)*
 
 ___
 <a id="chain"></a>
@@ -50,7 +50,7 @@ ___
 
 **● chain**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:38](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L38)*
+*Defined in [index.ts:38](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L38)*
 
 ___
 <a id="state"></a>
@@ -59,7 +59,7 @@ ___
 
 **● state**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:39](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L39)*
+*Defined in [index.ts:39](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L39)*
 
 ___
 <a id="system"></a>
@@ -68,7 +68,7 @@ ___
 
 **● system**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L40)*
+*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L40)*
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:59](https://github.com/polkadot-js/api/blob/c7cd9cd/packages/api-rx/src/index.ts#L59)*
+*Defined in [index.ts:59](https://github.com/polkadot-js/api/blob/29b221b/packages/api-rx/src/index.ts#L59)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
