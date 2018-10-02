@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { TypeValueInfo, typeSplit, getType, getTypeValue, getTupleTypeValue, getVectorTypeValue } from './createType';
+import { TypeValueInfo, typeSplit, getType, getTypeValue } from './createType';
 
 describe('typeSplit', () => {
   it('splits simple types into an array', () => {
@@ -48,35 +48,19 @@ describe('typeSplit', () => {
   });
 });
 
-describe('getTupleTypeValue', () => {
+describe('getTypeValue', () => {
   it('does not allow invalid tuples, end )', () => {
     expect(
-      () => getTupleTypeValue('(u64, u32')
+      () => getTypeValue('(u64, u32')
     ).toThrow(/tuple wrapped/);
   });
 
-  it('does not allow invalid tuples, start (', () => {
-    expect(
-      () => getTupleTypeValue('u64, u32)')
-    ).toThrow(/tuple wrapped/);
-  });
-});
-
-describe('getVectorTypeValue', () => {
   it('does not allow invalid vectors, end >', () => {
     expect(
-      () => getVectorTypeValue('Vec<u64')
+      () => getTypeValue('Vec<u64')
     ).toThrow(/Vec wrapped/);
   });
 
-  it('does not allow invalid vectors, start Vec<', () => {
-    expect(
-      () => getVectorTypeValue('u64>')
-    ).toThrow(/Vec wrapped/);
-  });
-});
-
-describe('getTypeValue', () => {
   it('returns a type structure', () => {
     expect(
       getTypeValue('(u32, Vec<u64>, (Text, Vec<Bool>))')

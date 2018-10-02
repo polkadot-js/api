@@ -74,35 +74,6 @@ export function typeSplit (type: string): Array<string> {
   return result;
 }
 
-// Handle Vector types, i.e Vec<AccountId> or Vec<(AccountId, Balance)>
-export function getVectorTypeValue (type: string, value: TypeValue): TypeValue {
-  assert(type.substr(0, 4) === 'Vec<' && type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
-
-  // strip wrapping Vec<>
-  const subType = type.substr(4, type.length - 5);
-
-  value.info = TypeValueInfo.Vector;
-  value.sub = getTypeValue(subType);
-
-  return value;
-}
-
-// Handle tuple types, (u32, String, AccountId). It could be nested and wrapped in other
-// types, i.e. (u32, Vec<(AccountId, Balance)>)
-export function getTupleTypeValue (type: string, value: TypeValue): TypeValue {
-  assert(type[0] === '(' && type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
-
-  // strip wrapping ()'s
-  const innerTypes = typeSplit(type.substr(1, type.length - 2));
-
-  value.info = TypeValueInfo.Tuple;
-  value.sub = innerTypes.map((inner) =>
-    getTypeValue(inner)
-  );
-
-  return value;
-}
-
 export function getTypeValue (type: string): TypeValue {
   const value: TypeValue = {
     info: TypeValueInfo.Plain,
@@ -110,9 +81,23 @@ export function getTypeValue (type: string): TypeValue {
   };
 
   if (type[0] === '(') {
-    return getTupleTypeValue(type, value);
+    assert(type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
+
+    // strip wrapping ()'s
+    const innerTypes = typeSplit(type.substr(1, type.length - 2));
+
+    value.info = TypeValueInfo.Tuple;
+    value.sub = innerTypes.map((inner) =>
+      getTypeValue(inner)
+    );
   } else if (type.substr(0, 4) === 'Vec<') {
-    return getVectorTypeValue(type, value);
+    assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
+
+    // strip wrapping Vec<>
+    const subType = type.substr(4, type.length - 5);
+
+    value.info = TypeValueInfo.Vector;
+    value.sub = getTypeValue(subType);
   }
 
   return value;
@@ -120,14 +105,12 @@ export function getTypeValue (type: string): TypeValue {
 
 // Returns the type Class for construction
 export function getType (value: TypeValue): Constructor {
-  let Type: Constructor;
-
   if (value.info === TypeValueInfo.Tuple) {
     if (!Array.isArray(value.sub)) {
-      throw new Error(`Expecetd nested subtypes for Tuple`);
+      throw new Error(`Expected nested subtypes for Tuple`);
     }
 
-    Type = Tuple.with(
+    return Tuple.with(
       value.sub.reduce((result, type, index) => {
         result[`entry${index}`] = getType(type);
 
@@ -136,15 +119,15 @@ export function getType (value: TypeValue): Constructor {
     );
   } else if (value.info === TypeValueInfo.Vector) {
     if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expecetd subtype for Vector`);
+      throw new Error(`Expected subtype for Vector`);
     }
 
-    Type = Vector.with(
+    return Vector.with(
       getType(value.sub)
     );
-  } else {
-    Type = (Types as any)[value.type];
   }
+
+  const Type = (Types as any)[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
