@@ -7,7 +7,8 @@ import ExtrinsicIndex from '@polkadot/types/ExtrinsicIndex';
 import Text from '@polkadot/types/Text';
 
 import { ExtrinsicFunction } from '../types';
-import SignableExtrinsic from '../SignableExtrinsic';
+import Descriptor from '../Descriptor';
+import UncheckedMortalExtrinsic from '../UncheckedMortalExtrinsic';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
@@ -15,7 +16,7 @@ import SignableExtrinsic from '../SignableExtrinsic';
  *
  * @param index - Index of the module section in the modules array.
  */
-export default function createUnchecked (
+export default function createDescriptor (
   prefix: Text,
   name: Text,
   index: number,
@@ -27,16 +28,18 @@ export default function createUnchecked (
   // FIXME should be `arg.type !== Origin`, but doesn't work...
   const expectedArgs = meta.arguments.filter((arg) => arg.type.toString() !== 'Origin');
 
-  extrinsicFn = (...args: any[]): SignableExtrinsic => {
+  extrinsicFn = (...args: any[]): UncheckedMortalExtrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {
       throw new Error(`Extrinsic ${prefix}.${name} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
-    return new SignableExtrinsic(
+    const descriptor = new Descriptor(
       new ExtrinsicIndex().fromU8a(new Uint8Array([index, meta.id.toNumber()])),
       meta,
       args
     );
+
+    return new UncheckedMortalExtrinsic(descriptor);
 
   };
 
