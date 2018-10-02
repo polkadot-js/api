@@ -5,8 +5,7 @@
 import BN from 'bn.js';
 import * as Classes from './index';
 
-import U8a from './codec/U8a';
-import UInt from './codec/UInt';
+import { U8a, UInt } from './codec';
 
 export type AnyNumber = UInt | BN | Uint8Array | number | string;
 

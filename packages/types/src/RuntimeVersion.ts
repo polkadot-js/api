@@ -6,10 +6,10 @@ import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
+import U8aFixed from './codec/U8aFixed';
 import Vector from './codec/Vector';
 import Text from './Text';
 import U32 from './U32';
-import U8aFixed from '@polkadot/types/codec/U8aFixed';
 
 class ApiId extends U8aFixed {
   constructor (value?: AnyU8a) {
