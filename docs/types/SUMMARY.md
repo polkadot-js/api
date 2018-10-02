@@ -146,6 +146,7 @@
 * [&quot;codec/Vector&quot;](modules/_codec_vector_.md)
   * [Vector](classes/_codec_vector_.vector.md)
 * [&quot;codec/createType&quot;](modules/_codec_createtype_.md)
+  * [TypeValueInfo](enums/_codec_createtype_.typevalueinfo.md)
 * [&quot;codec/index&quot;](modules/_codec_index_.md)
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;types.d&quot;](modules/_types_d_.md)
