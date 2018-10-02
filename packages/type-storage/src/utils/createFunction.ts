@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { createType } from '@polkadot/api-codec/codec';
-import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
-import { Text } from '@polkadot/api-codec/index';
+import { createType } from '@polkadot/types/codec';
+import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
+import { StorageFunction } from '@polkadot/types/StorageKey';
+import { Text } from '@polkadot/types/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';

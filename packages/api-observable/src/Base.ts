@@ -7,7 +7,7 @@ import { Method } from '@polkadot/jsonrpc/types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 

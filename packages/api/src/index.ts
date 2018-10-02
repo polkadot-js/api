@@ -6,8 +6,8 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/api-pro
 import { Section, Method } from '@polkadot/jsonrpc/types';
 import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
 
-import { Base, Vector, createType } from '@polkadot/api-codec/codec';
-import { StorageChangeSet, StorageKey } from '@polkadot/api-codec/index';
+import { Base, Vector, createType } from '@polkadot/types/codec';
+import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import interfaces from '@polkadot/jsonrpc/index';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
