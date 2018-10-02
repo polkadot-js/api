@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { TypeValueInfo, typeSplit, getType, getTypeValue } from './createType';
+import { TypeDefInfo, typeSplit, getTypeClass, getTypeDef } from './createType';
 
 describe('typeSplit', () => {
   it('splits simple types into an array', () => {
@@ -51,56 +51,56 @@ describe('typeSplit', () => {
 describe('getTypeValue', () => {
   it('does not allow invalid tuples, end )', () => {
     expect(
-      () => getTypeValue('(u64, u32')
+      () => getTypeDef('(u64, u32')
     ).toThrow(/tuple wrapped/);
   });
 
   it('does not allow invalid vectors, end >', () => {
     expect(
-      () => getTypeValue('Vec<u64')
+      () => getTypeDef('Vec<u64')
     ).toThrow(/Vec wrapped/);
   });
 
   it('returns a type structure', () => {
     expect(
-      getTypeValue('(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
-      info: TypeValueInfo.Tuple,
+      info: TypeDefInfo.Tuple,
       type: '(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
-          info: TypeValueInfo.Plain,
+          info: TypeDefInfo.Plain,
           type: 'u32'
         },
         {
-          info: TypeValueInfo.Vector,
+          info: TypeDefInfo.Vector,
           type: 'Vec<u64>',
           sub: {
-            info: TypeValueInfo.Plain,
+            info: TypeDefInfo.Plain,
             type: 'u64'
           }
         },
         {
-          info: TypeValueInfo.Tuple,
+          info: TypeDefInfo.Tuple,
           type: '(Text, Vec<(Bool, u128)>)',
           sub: [
             {
-              info: TypeValueInfo.Plain,
+              info: TypeDefInfo.Plain,
               type: 'Text'
             },
             {
-              info: TypeValueInfo.Vector,
+              info: TypeDefInfo.Vector,
               type: 'Vec<(Bool, u128)>',
               sub: {
-                info: TypeValueInfo.Tuple,
+                info: TypeDefInfo.Tuple,
                 type: '(Bool, u128)',
                 sub: [
                   {
-                    info: TypeValueInfo.Plain,
+                    info: TypeDefInfo.Plain,
                     type: 'Bool'
                   },
                   {
-                    info: TypeValueInfo.Plain,
+                    info: TypeDefInfo.Plain,
                     type: 'u128'
                   }
                 ]
@@ -113,10 +113,10 @@ describe('getTypeValue', () => {
   });
 });
 
-describe('getType', () => {
+describe('getTypeClass', () => {
   it('does not allow invalid types', () => {
     expect(
-      () => getType('SomethingInvalid')
+      () => getTypeClass('SomethingInvalid')
     ).toThrow(/determine type/);
   });
 });
