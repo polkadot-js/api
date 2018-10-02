@@ -80,19 +80,4 @@ describe('unchecked', () => {
       )
     );
   });
-
-  // FIXME parachains module not in state_getMetadata
-  it.skip('encoded parachains.setHeads correctly (actual values)', () => {
-    expect(
-      extrinsics.parachains.setHeads(
-      ).sign(
-        keyring.nobody,
-        new Index(0)
-      ).toU8a(true)
-    ).toEqual(
-      hexToU8a(
-        '0xff00000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'
-      )
-    );
-  });
 });
