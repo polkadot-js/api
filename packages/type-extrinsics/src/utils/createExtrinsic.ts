@@ -16,7 +16,7 @@ import { ExtrinsicFunction } from '../types';
  * @param index - Index of the module section in the modules array.
  */
 export default function createExtrinsic (
-  prefix: string | Text,
+  section: string | Text,
   method: string | Text,
   index: number,
   meta: FunctionMetadata
@@ -29,7 +29,7 @@ export default function createExtrinsic (
 
   extrinsicFn = (...args: any[]): Extrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {
-      throw new Error(`Extrinsic ${prefix}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+      throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
     return new Extrinsic(
@@ -46,7 +46,7 @@ export default function createExtrinsic (
 
   extrinsicFn.meta = meta;
   extrinsicFn.method = method.toString();
-  extrinsicFn.section = prefix.toString();
+  extrinsicFn.section = section.toString();
 
   return extrinsicFn as ExtrinsicFunction;
 }

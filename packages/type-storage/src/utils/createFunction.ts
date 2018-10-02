@@ -26,7 +26,7 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (
-  prefix: Text,
+  section: Text,
   method: Text,
   meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
@@ -47,7 +47,7 @@ export default function createFunction (
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
         return xxhash(
-          u8aFromUtf8(`${prefix.toString()} ${method.toString()}`),
+          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
           128
         );
       }
@@ -60,7 +60,7 @@ export default function createFunction (
 
       return xxhash(
         u8aConcat(
-          u8aFromUtf8(`${prefix.toString()} ${method.toString()}`),
+          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
           createType(type, arg).toU8a(true)
         ),
         128
@@ -70,7 +70,7 @@ export default function createFunction (
 
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method.toString());
-  storageFn.section = stringLowerFirst(prefix.toString());
+  storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any =>
     meta.toJSON();
 
