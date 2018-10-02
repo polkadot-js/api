@@ -6,14 +6,14 @@ import { MethodOpt, Method } from '../types';
 
 import isUndefined from '@polkadot/util/is/undefined';
 
-export default function createMethod (section: string, name: string, { description, params, type, isDeprecated = false, isHidden = false, isSigned = false, subscribe }: MethodOpt): Method {
+export default function createMethod (section: string, method: string, { description, params, type, isDeprecated = false, isHidden = false, isSigned = false, subscribe }: MethodOpt): Method {
   return {
     description,
     isDeprecated,
     isHidden,
     isSigned,
     isSubscription: !isUndefined(subscribe),
-    name,
+    method,
     params,
     section,
     subscribe: subscribe || ['', ''],

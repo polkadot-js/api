@@ -6,6 +6,7 @@ import { createType } from '@polkadot/api-codec/codec';
 import { StorageFunctionMetadata } from '@polkadot/api-codec/Metadata';
 import { StorageFunction } from '@polkadot/api-codec/StorageKey';
 import { Text } from '@polkadot/api-codec/index';
+import { stringLowerFirst } from '@polkadot/util/string';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
@@ -25,16 +26,19 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (
-  prefix: string | Text,
-  name: string | Text,
+  section: Text,
+  method: Text,
   meta: StorageFunctionMetadata,
   options: CreateItemOptions = {}
 ): StorageFunction {
   let storageFn: any;
 
+  // NOTE Here we assume everything in the 'Substrate' prefix is unhashed. (Despite not passing empty, i.e. '',
+  // the actual "prefix + name" below won't work even when we have an empty prefix.) For now, this is a safe
+  // assumption, but will break if the base substrate keys employ hashing as well
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      u8aFromUtf8(name.toString());
+      u8aFromUtf8(method.toString());
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
@@ -43,7 +47,7 @@ export default function createFunction (
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
         return xxhash(
-          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
+          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
           128
         );
       }
@@ -56,7 +60,7 @@ export default function createFunction (
 
       return xxhash(
         u8aConcat(
-          u8aFromUtf8(`${prefix.toString()} ${name.toString()}`),
+          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
           createType(type, arg).toU8a(true)
         ),
         128
@@ -65,6 +69,8 @@ export default function createFunction (
   }
 
   storageFn.meta = meta;
+  storageFn.method = stringLowerFirst(method.toString());
+  storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any =>
     meta.toJSON();
 
