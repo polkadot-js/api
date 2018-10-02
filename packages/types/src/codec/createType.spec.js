@@ -63,10 +63,10 @@ describe('getTypeValue', () => {
 
   it('returns a type structure', () => {
     expect(
-      getTypeValue('(u32, Vec<u64>, (Text, Vec<Bool>))')
+      getTypeValue('(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
       info: TypeValueInfo.Tuple,
-      type: '(u32, Vec<u64>, (Text, Vec<Bool>))',
+      type: '(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
           info: TypeValueInfo.Plain,
@@ -82,7 +82,7 @@ describe('getTypeValue', () => {
         },
         {
           info: TypeValueInfo.Tuple,
-          type: '(Text, Vec<Bool>)',
+          type: '(Text, Vec<(Bool, u128)>)',
           sub: [
             {
               info: TypeValueInfo.Plain,
@@ -90,10 +90,20 @@ describe('getTypeValue', () => {
             },
             {
               info: TypeValueInfo.Vector,
-              type: 'Vec<Bool>',
+              type: 'Vec<(Bool, u128)>',
               sub: {
-                info: TypeValueInfo.Plain,
-                type: 'Bool'
+                info: TypeValueInfo.Tuple,
+                type: '(Bool, u128)',
+                sub: [
+                  {
+                    info: TypeValueInfo.Plain,
+                    type: 'Bool'
+                  },
+                  {
+                    info: TypeValueInfo.Plain,
+                    type: 'u128'
+                  }
+                ]
               }
             }
           ]
