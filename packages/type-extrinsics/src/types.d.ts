@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import SignableExtrinsic from './SignableExtrinsic'
+import UncheckedMortalExtrinsic from './UncheckedMortalExtrinsic'
 
 export interface ExtrinsicFunction {
-  (...args: any[]): SignableExtrinsic
+  (...args: any[]): UncheckedMortalExtrinsic
 }
 
 export interface ModuleExtrinsics {
