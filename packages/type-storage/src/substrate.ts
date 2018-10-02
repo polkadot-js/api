@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata';
+import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata';
 import Text from '@polkadot/types/Text';
 import Vector from '@polkadot/types/codec/Vector';
 
@@ -15,18 +15,16 @@ interface SubstrateMetadata {
 
 // Small helper function to factorize code on this page.
 const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata) =>
-  // TODO The expected 2nd argument is a StorageFunctionMetadata, but we
-  // actually only need the fields `documentation` and `type` of it, so in
-  // order to not input other fields (byteLength, fromJSON...) we lazily cast
-  // as any.
   createFunction(
     new Text('Substrate'),
     new Text(key),
     {
       documentation: new Vector(Text, [documentation]),
       modifier: new StorageFunctionModifier().fromJSON(0),
-      type: new StorageFunctionType(0, type)
-    } as any,
+      type: new StorageFunctionType(0, type),
+      toJSON: (): any =>
+        key
+    } as StorageFunctionMetadata,
     {
       isUnhashed: true,
       method
