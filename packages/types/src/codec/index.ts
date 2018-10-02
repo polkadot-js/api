@@ -18,4 +18,4 @@ export { default as U8a } from './U8a';
 export { default as UInt } from './UInt';
 
 // Type management helper functions
-export { default as createType } from './createType';
+export { default as createType, getType, getTypeValue, TypeValue, TypeValueInfo } from './createType';
