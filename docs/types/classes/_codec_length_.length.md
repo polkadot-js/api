@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Length.ts:26](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L26)*
+*Defined in [codec/Length.ts:26](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L26)*
 
 **Parameters:**
 
@@ -39,7 +39,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [codec/Length.ts:36](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L36)*
+*Defined in [codec/Length.ts:36](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L36)*
 
 **Returns:** `number`
 
@@ -66,7 +66,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Base.ts#L29)*
+*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Base.ts#L29)*
 
 **Parameters:**
 
@@ -85,7 +85,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [codec/Length.ts:40](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L40)*
+*Defined in [codec/Length.ts:40](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L40)*
 
 **Parameters:**
 
@@ -102,7 +102,7 @@ ___
 
 ▸ **setValue**(value: * `BN` &#124; `number`*): `void`
 
-*Defined in [codec/Length.ts:60](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L60)*
+*Defined in [codec/Length.ts:60](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L60)*
 
 **Parameters:**
 
@@ -119,7 +119,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/Length.ts:46](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L46)*
+*Defined in [codec/Length.ts:46](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L46)*
 
 **Returns:** `string`
 
@@ -132,7 +132,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Base.ts#L37)*
+*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Base.ts#L37)*
 
 **Returns:** `any`
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/Length.ts:50](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L50)*
+*Defined in [codec/Length.ts:50](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L50)*
 
 **Returns:** `number`
 
@@ -156,7 +156,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Base.ts:41](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Base.ts#L41)*
+*Defined in [codec/Base.ts:41](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Base.ts#L41)*
 
 **Returns:** `string`
 
@@ -169,7 +169,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/Length.ts:54](https://github.com/polkadot-js/api/blob/29b221b/packages/types/src/codec/Length.ts#L54)*
+*Defined in [codec/Length.ts:54](https://github.com/polkadot-js/api/blob/16bf230/packages/types/src/codec/Length.ts#L54)*
 
 **Parameters:**
 
