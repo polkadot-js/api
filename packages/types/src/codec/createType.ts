@@ -74,7 +74,8 @@ export function typeSplit (type: string): Array<string> {
   return result;
 }
 
-export function getTypeValue (type: string): TypeValue {
+export function getTypeValue (_type: string): TypeValue {
+  const type = _type.trim();
   const value: TypeValue = {
     info: TypeValueInfo.Plain,
     type
@@ -138,7 +139,7 @@ export default function createType (type: string, value?: any): Base {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getType(
-    getTypeValue(type.trim())
+    getTypeValue(type)
   );
 
   return new Type(value);
