@@ -4,13 +4,13 @@
 
 // FIXME: This file is way too long and way too messy
 
-import { StorageFunction } from '@polkadot/api-codec/StorageKey';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { ProviderInterface$Emitted } from '../types';
 import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
 import BN from 'bn.js';
-import Header from '@polkadot/api-codec/Header';
+import Header from '@polkadot/types/Header';
 import storage from '@polkadot/storage/testing';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';

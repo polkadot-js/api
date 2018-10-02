@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { createType } from '@polkadot/api-codec/codec';
-import { FunctionMetadata } from '@polkadot/api-codec/Metadata';
-import { Extrinsic, Text } from '@polkadot/api-codec/index';
+import { createType } from '@polkadot/types/codec';
+import { FunctionMetadata } from '@polkadot/types/Metadata';
+import { Extrinsic, Text } from '@polkadot/types/index';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import { ExtrinsicFunction } from '../types';

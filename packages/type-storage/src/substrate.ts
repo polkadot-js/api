@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { StorageFunctionModifier, StorageFunctionType } from '@polkadot/api-codec/Metadata';
-import Text from '@polkadot/api-codec/Text';
-import Vector from '@polkadot/api-codec/codec/Vector';
+import { StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata';
+import Text from '@polkadot/types/Text';
+import Vector from '@polkadot/types/codec/Vector';
 
 import createFunction from './utils/createFunction';
 

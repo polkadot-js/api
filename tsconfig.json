@@ -5,7 +5,6 @@
     "baseUrl": ".",
     "paths":
     {
-      "@polkadot/api-codec/*": ["packages/api-codec/src/*"],
       "@polkadot/api-observable/*": ["packages/api-observable/src/*"],
       "@polkadot/api-provider/*": ["packages/api-provider/src/*"],
       "@polkadot/api-rx/*": ["packages/api-rx/src/*"],
@@ -15,6 +14,7 @@
       "@polkadot/params/*": ["packages/type-params/src/*"],
       "@polkadot/primitives/*": ["packages/type-primitives/src/*"],
       "@polkadot/storage/*": ["packages/type-storage/src/*"],
+      "@polkadot/types/*": ["packages/types/src/*"]
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",

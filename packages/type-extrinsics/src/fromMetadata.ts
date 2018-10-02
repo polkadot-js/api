@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import camelCase from '@polkadot/util/string/camelCase';
-import Metadata, { RuntimeModuleMetadata } from '@polkadot/api-codec/Metadata';
+import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 
 import createExtrinsic from './utils/createExtrinsic';
 import { Extrinsics, ModuleExtrinsics } from './types';

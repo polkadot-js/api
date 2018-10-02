@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { CodecTypes } from '@polkadot/api-codec/types';
+import { CodecTypes } from '@polkadot/types/types';
 
 export type Param = {
   isOptional: boolean,
