@@ -5,7 +5,7 @@
 import camelCase from '@polkadot/util/string/camelCase';
 import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 
-import createExtrinsic from './utils/createExtrinsic';
+import createUnchecked from './utils/createUnchecked';
 import { Extrinsics, ModuleExtrinsics } from './types';
 
 /**
@@ -28,12 +28,12 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
       return result;
     }
 
-    const prefix = moduleMetadata.prefix.toString();
+    const prefix = moduleMetadata.prefix;
 
     result[moduleMetadata.prefix.toString()] = moduleMetadata.module.call.functions
       .reduce((newModule, func) => {
         // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
-        newModule[camelCase(func.name.toString())] = createExtrinsic(prefix, func.name, index as number, func);
+        newModule[camelCase(func.name.toString())] = createUnchecked(prefix, func.name, index as number, func);
 
         return newModule;
       }, {} as ModuleExtrinsics);
