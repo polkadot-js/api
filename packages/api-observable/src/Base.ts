@@ -5,8 +5,9 @@
 import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
 import { Method } from '@polkadot/jsonrpc/types';
 
-import { Observable, combineLatest } from 'rxjs';
+import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
+import { Vector } from '@polkadot/types/codec';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -27,7 +28,6 @@ export default class ApiBase {
 
   protected combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
     return combineLatest(...observables).pipe(
-      // FIXME There are a couple of places now where this casting happens after rxjs 6.3.2
       defaultIfEmpty([] as any),
       map(mapfn)
     );
@@ -49,26 +49,35 @@ export default class ApiBase {
     return fn.apply(null, params);
   }
 
-  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T> => {
+  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
       .rawStorageMulti([key, ...params] as [StorageFunction, any])
       .pipe(
-        // @ts-ignore After upgrade to 6.3.2
-        map(([result]: Array<T>): T =>
+        map((result: Array<T>): T | undefined =>
           result
+            ? result[0] as T
+            : undefined
         )
       );
   }
 
-  rawStorageMulti = <T> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
-    return this.api.state
-      .storage(keys)
-      .pipe(
-        map((result?: any) =>
-          isUndefined(result)
-            ? []
-            : result
-        )
-      );
+  rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
+    let observable;
+
+    try {
+      observable = this.api.state.storage(keys);
+    } catch (error) {
+      observable = EMPTY;
+    }
+
+    return observable.pipe(
+      defaultIfEmpty(),
+      map((result?: Vector<any>): T =>
+        isUndefined(result)
+          ? [] as T
+          // FIXME When Vector extends Array, this mapping can be removed
+          : result.map((item: any) => item) as T
+      )
+    );
   }
 }

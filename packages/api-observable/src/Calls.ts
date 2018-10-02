@@ -12,7 +12,7 @@ import ApiQueries from './Queries';
 export default class ApiCalls extends ApiQueries {
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
-      .chainNewHead()
+      .newHead()
       .pipe(
         map((header?: Header): BlockNumber | undefined =>
           header && header.blockNumber
@@ -22,13 +22,25 @@ export default class ApiCalls extends ApiQueries {
       );
   }
 
-  chainGetBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
+  chain = (): Observable<Text | undefined> => {
+    return this.api.system.chain();
+  }
+
+  getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
     return this.api.chain.getBlock(hash);
   }
 
-  chainNewHead = (): Observable<Header | undefined> => {
+  newHead = (): Observable<Header | undefined> => {
     return this.api.chain.newHead().pipe(
       defaultIfEmpty()
     );
+  }
+
+  systemName = (): Observable<Text | undefined> => {
+    return this.api.system.name();
+  }
+
+  systemVersion = (): Observable<Text | undefined> => {
+    return this.api.system.version();
   }
 }

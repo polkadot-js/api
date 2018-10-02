@@ -17,9 +17,9 @@ import { RxProposal, RxReferendum } from './classes';
 // useful extensions, i.e. queries can be made that returns the results from multiple observables,
 // make the noise for the API users significantly less
 export default class ApiCombined extends ApiCalls {
-  democracyProposalCount = (): Observable<number> => {
+  publicProposalCount = (): Observable<number> => {
     return this
-      .democracyPublicProposals()
+      .publicProposals()
       .pipe(
         map((proposals: Array<RxProposal>) =>
           proposals.length
@@ -27,10 +27,10 @@ export default class ApiCombined extends ApiCalls {
       );
   }
 
-  democracyReferendumInfos = (referendumIds: Array<ReferendumIndex | BN | number>): Observable<Array<RxReferendum>> => {
+  referendumsInfo = (referendumIds: Array<ReferendumIndex | BN | number>): Observable<Array<RxReferendum>> => {
     return this.combine(
       referendumIds.map((referendumId) =>
-        this.democracyReferendumInfoOf(referendumId)
+        this.referendumInfo(referendumId)
       ),
       (referendums: Array<RxReferendum> = []): Array<RxReferendum> =>
         referendums.filter((referendum) =>
@@ -42,7 +42,7 @@ export default class ApiCombined extends ApiCalls {
   democracyReferendumVoters = (referendumId: ReferendumIndex | BN | number): Observable<Array<RxReferendumVote>> => {
     return this.combine(
       [
-        this.democacyVotersFor(referendumId),
+        this.referendumVoters(referendumId),
         this.democracyVotersBalancesOf(referendumId),
         this.democracyVotersVotesOf(referendumId)
       ],
@@ -55,17 +55,17 @@ export default class ApiCombined extends ApiCalls {
     );
   }
 
-  democracyReferendums = (): Observable<Array<RxReferendum>> => {
+  referendums = (): Observable<Array<RxReferendum>> => {
     return this.combine(
       [
-        this.democracyReferendumCount(),
+        this.referendumCount(),
         this.democracyNextTally()
       ]
     ).pipe(
       // @ts-ignore After upgrade to 6.3.2
       switchMap(([referendumCount, nextTally]: [ReferendumIndex | undefined, ReferendumIndex | undefined]): Observable<Array<RxReferendum>> =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gt(0)
-          ? this.democracyReferendumInfos(
+          ? this.referendumsInfo(
             [...Array(referendumCount.toBn().sub(nextTally.toBn()).toNumber())].map((_, i) =>
               nextTally.add(i).toNumber()
             )
@@ -76,17 +76,17 @@ export default class ApiCombined extends ApiCalls {
     );
   }
 
-  democracyVotesOf = (index: ReferendumIndex | BN | number, addresses: Array<AccountId | string>): Observable<boolean> => {
+  referendumVotes = (index: ReferendumIndex | BN | number, addresses: Array<AccountId | string>): Observable<boolean> => {
     return this.combine(
       addresses.map((address) =>
-        this.democacyVoteOf(index, address)
+        this.referendumVote(index, address)
       )
     );
   }
 
   democracyVotersBalancesOf = (referendumId: ReferendumIndex | BN | number): Observable<Array<Balance>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .referendumVoters(referendumId)
       .pipe(
         switchMap((voters: Array<AccountId> = []) =>
           this.votingBalances(...voters)
@@ -102,10 +102,10 @@ export default class ApiCombined extends ApiCalls {
 
   democracyVotersVotesOf = (referendumId: ReferendumIndex | BN | number): Observable<Array<Bool>> => {
     return this
-      .democacyVotersFor(referendumId)
+      .referendumVoters(referendumId)
       .pipe(
         switchMap((voters: Array<AccountId> = []) =>
-          this.democracyVotesOf(referendumId, voters)
+          this.referendumVotes(referendumId, voters)
         ),
         defaultIfEmpty([] as any)
       );
@@ -200,7 +200,7 @@ export default class ApiCombined extends ApiCalls {
   sessionBrokenValue = (): Observable<Moment | undefined> => {
     return this.combine(
       [
-        this.timestampNow(),
+        this.blockNow(),
         this.sessionTimeExpected(),
         this.sessionTimeRemaining(),
         this.sessionCurrentStart()
@@ -220,7 +220,7 @@ export default class ApiCombined extends ApiCalls {
     return this.combine(
       [
         this.sessionLength(),
-        this.timestampBlockPeriod()
+        this.blockPeriod()
       ],
       ([sessionLength, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         sessionLength && blockPeriod
@@ -235,7 +235,7 @@ export default class ApiCombined extends ApiCalls {
     return this.combine(
       [
         this.sessionBlockRemaining(),
-        this.timestampBlockPeriod()
+        this.blockPeriod()
       ],
       ([sessionBlockRemaining, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         blockPeriod && sessionBlockRemaining
@@ -292,8 +292,8 @@ export default class ApiCombined extends ApiCalls {
 
     return this.combine(
       [
-        this.stakingFreeBalanceOf(address),
-        this.stakingReservedBalanceOf(address)
+        this.balanceFree(address),
+        this.balanceReserved(address)
       ],
       ([freeBalance = new Balance(0), reservedBalance = new Balance(0)]: [Balance | undefined, Balance | undefined]): RxBalance => ({
         address,
