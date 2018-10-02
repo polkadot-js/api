@@ -12,14 +12,14 @@ describe('methodSend', () => {
   beforeEach(() => {
     methods = {
       blah: {
-        name: 'blah',
+        method: 'blah',
         params: [
           { name: 'foo', type: 'Bytes' }
         ],
         type: 'Bytes'
       },
       bleh: {
-        name: 'bleh',
+        method: 'bleh',
         params: [],
         type: 'Bytes'
       }

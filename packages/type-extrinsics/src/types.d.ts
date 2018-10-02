@@ -5,7 +5,9 @@
 import BN from 'bn.js';
 
 export interface ExtrinsicFunction {
-  (...args: any[]): void
+  (...args: any[]): void,
+  method: string,
+  section: string
 }
 
 export interface ModuleExtrinsics {
