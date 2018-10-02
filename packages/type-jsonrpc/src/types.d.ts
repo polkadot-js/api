@@ -27,7 +27,7 @@ export type Method = {
   isHidden: boolean,
   isSigned: boolean,
   isSubscription: boolean,
-  name: string,
+  method: string,
   params: Array<Param>,
   section: string,
   subscribe: [string, string],

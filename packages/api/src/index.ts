@@ -55,12 +55,12 @@ export default class Api implements ApiInterface {
    *
    *   Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
    */
-  static signature ({ name, params, type }: Method): string {
+  static signature ({ method, params, type }: Method): string {
     const inputs = params.map(({ name, type }) =>
       `${name}: ${type}`
     ).join(', ');
 
-    return `${name} (${inputs}): ${type}`;
+    return `${method} (${inputs}): ${type}`;
   }
 
   private createInterface ({ methods, name }: Section<any>): ApiInterface$Section {
