@@ -18,4 +18,18 @@ describe('createFunction', () => {
       hexToU8a('0x0e4944cfd98d6f4cc374d16f5a4e3f9c')
     );
   });
+
+  it('allows overrides on method name', () => {
+    expect(
+      createFunction(
+        'Substrate',
+        ':auth:len',
+        { type: {} },
+        {
+          isUnhashed: true,
+          method: 'authorityCount'
+        }
+      ).method
+    ).toEqual('authorityCount');
+  });
 });

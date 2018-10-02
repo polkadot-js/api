@@ -13,6 +13,7 @@ import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
+  method?: string;
 }
 
 /**
@@ -69,7 +70,7 @@ export default function createFunction (
   }
 
   storageFn.meta = meta;
-  storageFn.method = stringLowerFirst(method.toString());
+  storageFn.method = stringLowerFirst((options.method || method).toString());
   storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any =>
     meta.toJSON();
