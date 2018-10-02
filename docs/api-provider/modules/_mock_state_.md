@@ -8,7 +8,7 @@
 
 ▸ **state**(): [MockState](_mock_types_d_.md#mockstate)
 
-*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/2f60ba0/packages/api-provider/src/mock/state.ts#L38)*
+*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/48e57f9/packages/api-provider/src/mock/state.ts#L38)*
 
 **Returns:** [MockState](_mock_types_d_.md#mockstate)
 
