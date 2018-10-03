@@ -33,7 +33,7 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Methods to retrieve system info',
-  name: section,
+  section,
   methods: {
     chain: createMethod(section, 'chain', chain),
     name: createMethod(section, 'name', name),

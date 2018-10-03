@@ -113,7 +113,7 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Query of state',
-  name: section,
+  section,
   methods: {
     call: createMethod(section, 'call', call),
     callAt: createMethod(section, 'callAt', callAt),

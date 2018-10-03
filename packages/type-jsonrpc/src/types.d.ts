@@ -38,7 +38,7 @@ export type Section = {
   isDeprecated: boolean,
   isHidden: boolean,
   description: string,
-  name: string,
+  section: string,
   methods: {
     [index: string]: Method
   }

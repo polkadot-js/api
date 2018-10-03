@@ -62,7 +62,7 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Retrieval of chain data',
-  name: section,
+  section,
   methods: {
     getBlock: createMethod(section, 'getBlock', getBlock),
     getHead: createMethod(section, 'getHead', getHead),

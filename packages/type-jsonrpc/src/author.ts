@@ -31,7 +31,7 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Authoring of network items',
-  name: section,
+  section,
   methods: {
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic)
