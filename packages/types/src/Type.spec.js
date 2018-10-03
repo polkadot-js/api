@@ -34,7 +34,7 @@ describe('Type', () => {
     expect(
       new Type(
         new Text(' Box<Proposal> ')
-      ).length
-    ).toEqual('Proposal'.length); // eslint-disable-line
+      ).toString()
+    ).toEqual('Proposal'); // eslint-disable-line
   });
 });
