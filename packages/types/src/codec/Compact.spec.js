@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import Compact from './Compact';
 import UInt from './UInt';
 
-describe('Length', () => {
+describe('Compact', () => {
   describe('encode', () => {
     it('encodes short u8', () => {
       expect(
