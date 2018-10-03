@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MethodOpt, Section, SectionMethods } from './types';
+import { MethodOpt, Section } from './types';
 
 import createMethod from './create/method';
 
@@ -24,11 +24,7 @@ const version: MethodOpt = {
   type: 'Text'
 };
 
-const methods: { [index: string]: MethodOpt } = {
-  chain, name, version
-};
-
-export type Methods = typeof methods;
+const section = 'system';
 
 /**
  * @summary Methods to retrieve system info.
@@ -37,10 +33,10 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Methods to retrieve system info',
-  name: 'system',
-  methods: Object.keys(methods).reduce((result, key) => {
-    result[key] = createMethod('system', key, methods[key]);
-
-    return result;
-  }, {} as SectionMethods<Methods>)
-} as Section<Methods>;
+  name: section,
+  methods: {
+    chain: createMethod(section, 'chain', chain),
+    name: createMethod(section, 'name', name),
+    version: createMethod(section, 'version', version)
+  }
+} as Section;

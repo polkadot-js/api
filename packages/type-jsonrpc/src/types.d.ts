@@ -34,14 +34,12 @@ export type Method = {
   type: CodecTypes
 };
 
-export type SectionMethods<M> = {
-  [key in keyof M]: Method
-};
-
-export type Section<M> = {
+export type Section = {
   isDeprecated: boolean,
   isHidden: boolean,
   description: string,
   name: string,
-  methods: SectionMethods<M>
+  methods: {
+    [index: string]: Method
+  }
 };
