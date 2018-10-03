@@ -12,7 +12,7 @@ import extrinsics from '../../src/testing'
 
 const keyring = testingPairs()
 
-describe('e2e transfer', () => {
+describe.skip('e2e transfer', () => {
   let api;
 
   beforeAll(() => {
