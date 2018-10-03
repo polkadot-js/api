@@ -11,6 +11,7 @@ import u8aConcat from '@polkadot/util/u8a/concat';
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
+// FIXME Move to types so we can use it in decoding (struct with values)
 export default class Descriptor {
   protected _args: any[];
   protected _index: ExtrinsicIndex; // This is the extrinsic's index

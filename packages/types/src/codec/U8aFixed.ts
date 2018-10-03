@@ -6,7 +6,7 @@ import { AnyU8a } from '../types';
 
 import U8a from './U8a';
 
-type BitLength = 64 | 128 | 256 | 512;
+type BitLength = 8 | 16 | 32 | 64 | 128 | 256 | 512;
 
 // A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
 // to be used directly, rather is should be subclassed with the specific lengths.

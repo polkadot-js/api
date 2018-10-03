@@ -6,8 +6,10 @@ import { AnyU8a } from './types';
 
 import U8aFixed from './codec/U8aFixed';
 
-export default class ExtrinsicIndex extends U8aFixed {
+// Description of a transaction era
+// FIXME should be a enum?
+export default class TransactionEra extends U8aFixed {
   constructor (value?: AnyU8a) {
-    super(value, 16);
+    super(value, 8); // this actuall indicates an Immortal (i.e. 1 byte)
   }
 }

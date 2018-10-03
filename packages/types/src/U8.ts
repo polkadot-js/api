@@ -10,4 +10,9 @@ export default class U8 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 8);
   }
+
+  // NOTE Serde expect a number
+  toJSON (): any {
+    return this.raw.toNumber();
+  }
 }

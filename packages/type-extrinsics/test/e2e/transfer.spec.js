@@ -10,7 +10,7 @@ import extrinsics from '../../src/testing';
 
 const keyring = testingPairs();
 
-describe('e2e transfer', () => {
+describe.skip('e2e transfer', () => {
   let api;
 
   beforeAll(() => {
@@ -18,17 +18,23 @@ describe('e2e transfer', () => {
     api = new Api(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('makes a transfer for an inherent', () => {
-    const inherent = extrinsics.balances.transfer(keyring.bob.publicKey(), 12345);
+  // Error: [1002]: Inherent transactions cannot be queued.
+  it.skip('inherent test', () => {
+    const inherent = extrinsics.timestamp.set(Math.round(Date.now() / 1000));
 
     return api.author.submitExtrinsic(inherent.toU8a()).then(console.log);
   });
 
   it('makes a transfer for a transaction', () => {
-    const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 12345);
+    return api.chain
+      .getBlockHash(0)
+      .then((genesisHash) => {
+        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 69);
 
-    extrinsic.sign(keyring.alice, 1);
+        extrinsic.sign(keyring.alice, 0, genesisHash);
 
-    return api.author.submitExtrinsic(extrinsic.toU8a()).then(console.log);
+        return api.author.submitExtrinsic(extrinsic.toU8a());
+      })
+      .then(console.log);
   });
 });

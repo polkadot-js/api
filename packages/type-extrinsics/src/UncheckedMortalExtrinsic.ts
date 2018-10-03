@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Address, Extrinsic, Index } from '@polkadot/types/index';
-import { AnyNumber } from '@polkadot/types/types';
-import isUndefined from '@polkadot/util/is/undefined';
+import { Address, Extrinsic, Hash, Index, TransactionSignature, TransactionEra } from '@polkadot/types/index';
+import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Descriptor from './Descriptor';
 
 const EMPTY_U8A = new Uint8Array();
-const DEFAULT_ERA = new Uint8Array([0, 0]);
+const IMMORTAL_ERA = new Uint8Array([0]);
 
 /**
  * Unchecked mortal extrinsic, as defined here:
@@ -26,61 +25,24 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
 
   constructor (descriptor: Descriptor) {
     super();
+
     this._descriptor = descriptor;
-    this.raw = UncheckedMortalExtrinsic.encode(false, descriptor);
+    this.raw = UncheckedMortalExtrinsic.encode(descriptor);
   }
 
-  static encode (isSigned: boolean, descriptor: Descriptor, keyring?: KeyringPair, _nonce?: AnyNumber): Uint8Array {
+  static encode (descriptor: Descriptor, signature?: TransactionSignature): Uint8Array {
     // Version Information.
     // 1 byte: version information:
     // - 7 low bits: version identifier (should be 0b0000001).
     // - 1 high bit: signed flag: 1 if this is a transaction (e.g. contains a signature).
-    const highBit = isSigned ? 0b10000000 : 0;
+    const highBit = signature ? 0b10000000 : 0;
     const version = 0b00000001;
-    const versionInformation = new Uint8Array([highBit | version]);
-
-    // Signature Information.
-    // 1/3/5/9/33 bytes: The signing account identity, in Address format:
-    // 64 bytes: The Ed25519 signature of the Signing Payload (detailed below).
-    // 8 bytes: The Transaction Index of the signing account (number of signed transactions from the account preceeding this one).
-    // 2 bytes: The Transaction Era (detailed below).
-    let signatureInformation = EMPTY_U8A;
-
-    if (isSigned) {
-      if (isUndefined(keyring) || isUndefined(_nonce)) {
-        throw new Error('Please provide a keyring and a nonce if you want to sign an Extrinsic.');
-      }
-
-      const address = new Address(keyring.publicKey());
-      const nonce = new Index(_nonce);
-      // TODO Allow era specificcation
-      const era = DEFAULT_ERA;
-
-      // Signing Payload.
-      // 8 bytes: The Transaction Index as provided in the transaction itself.
-      // 2+ bytes: The Function Descriptor as provided in the transaction itself.
-      // 2 bytes: The Transaction Era as provided in the transaction itself.
-      // 32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
-      // @ts-ignore keyring -> "Object is possibly undefined", no it's not
-      const signingPayload = keyring.sign(
-        u8aConcat(
-          nonce.toU8a(),
-          descriptor.toU8a(),
-          era
-        )
-      );
-
-      signatureInformation = u8aConcat(
-        address.toU8a(),
-        signingPayload,
-        nonce.toU8a(),
-        era
-      );
-    }
 
     return u8aConcat(
-      versionInformation,
-      signatureInformation,
+      new Uint8Array([highBit | version]),
+      signature
+        ? signature.toU8a()
+        : EMPTY_U8A,
       descriptor.toU8a()
     );
   }
@@ -89,8 +51,38 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     return this._isSigned;
   }
 
-  sign (keyring: KeyringPair, nonce: AnyNumber) {
-    this.raw = UncheckedMortalExtrinsic.encode(true, this._descriptor, keyring, nonce);
+  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a) {
+    const signature = this.createSignature(this._descriptor, signerPair, nonce, blockHash);
+
+    this.raw = UncheckedMortalExtrinsic.encode(this._descriptor, signature);
     this._isSigned = true;
+  }
+
+  private createSignature (descriptor: Descriptor, signerPair: KeyringPair, _nonce: AnyNumber, _blockHash: AnyU8a, _era: Uint8Array = IMMORTAL_ERA): TransactionSignature {
+    const signer = new Address(signerPair.publicKey());
+    const index = new Index(_nonce);
+    const blockHash = new Hash(_blockHash);
+    const era = new TransactionEra(_era);
+
+    // Signing Payload.
+    //   8 bytes: The Transaction Index as provided in the transaction itself.
+    //   2+ bytes: The Function Descriptor as provided in the transaction itself.
+    //   2 bytes: The Transaction Era as provided in the transaction itself.
+    //   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
+    // FIXME Add this as a type to types as well (struct, no need to .toU8a() all)
+    const signingPayload = u8aConcat(
+      index.toU8a(),
+      descriptor.toU8a(),
+      era.toU8a(),
+      blockHash.toU8a()
+    );
+    const signature = signerPair.sign(signingPayload);
+
+    return new TransactionSignature({
+      era,
+      index,
+      signer,
+      signature
+    });
   }
 }

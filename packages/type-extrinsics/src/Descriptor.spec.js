@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Index } from '@polkadot/types/index';
-import hexToU8a from '@polkadot/util/hex/toU8a'
+import hexToU8a from '@polkadot/util/hex/toU8a';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 
 import extrinsics from './testing';
@@ -40,10 +40,10 @@ describe('unchecked', () => {
     expect(
       extrinsics.balances.transfer(
         keyring.two.publicKey(),
-        69,
+        69
       ).sign(
         keyring.one,
-        new Index(258),
+        new Index(258)
       ).toU8a(true)
     ).toEqual(
       new Uint8Array([

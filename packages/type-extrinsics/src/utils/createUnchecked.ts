@@ -4,7 +4,6 @@
 
 import { FunctionMetadata } from '@polkadot/types/Metadata';
 import ExtrinsicIndex from '@polkadot/types/ExtrinsicIndex';
-import Text from '@polkadot/types/Text';
 
 import { ExtrinsicFunction } from '../types';
 import Descriptor from '../Descriptor';
@@ -17,8 +16,8 @@ import UncheckedMortalExtrinsic from '../UncheckedMortalExtrinsic';
  * @param index - Index of the module section in the modules array.
  */
 export default function createDescriptor (
-  prefix: Text,
-  name: Text,
+  section: string,
+  method: string,
   index: number,
   meta: FunctionMetadata
 ): ExtrinsicFunction {
@@ -30,7 +29,7 @@ export default function createDescriptor (
 
   extrinsicFn = (...args: any[]): UncheckedMortalExtrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {
-      throw new Error(`Extrinsic ${prefix}.${name} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+      throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
     const descriptor = new Descriptor(
@@ -44,6 +43,10 @@ export default function createDescriptor (
   };
 
   extrinsicFn.meta = meta;
+  extrinsicFn.method = method.toString();
+  extrinsicFn.section = section.toString();
+  extrinsicFn.toJSON = (): any =>
+    meta.toJSON();
 
   return extrinsicFn as ExtrinsicFunction;
 }

@@ -3,11 +3,16 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { FunctionMetadata } from '@polkadot/types/Metadata';
 
 import UncheckedMortalExtrinsic from './UncheckedMortalExtrinsic'
 
 export interface ExtrinsicFunction {
-  (...args: any[]): UncheckedMortalExtrinsic
+  (...args: any[]): UncheckedMortalExtrinsic,
+  meta: FunctionMetadata,
+  method: string;
+  section: string;
+  toJSON: () => any;
 }
 
 export interface ModuleExtrinsics {

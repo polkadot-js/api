@@ -23,20 +23,26 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
     return result;
   }, {} as Extrinsics);
 
-  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata, index) => {
-    if (!moduleMetadata.module.call) {
+  // Only increment indexes (starting at 0), for modules with actual functions
+  let index = 0;
+
+  return metadata.modules.reduce((result, meta: RuntimeModuleMetadata) => {
+    if (!meta.module.call || !meta.module.call.functions.length) {
       return result;
     }
 
-    const prefix = moduleMetadata.prefix;
+    const prefix = camelCase(meta.prefix.toString());
 
-    result[moduleMetadata.prefix.toString()] = moduleMetadata.module.call.functions
-      .reduce((newModule, func) => {
-        // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
-        newModule[camelCase(func.name.toString())] = createUnchecked(prefix, func.name, index as number, func);
+    result[prefix] = meta.module.call.functions.reduce((newModule, func) => {
+      // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
+      const funcName = camelCase(func.name.toString());
 
-        return newModule;
-      }, {} as ModuleExtrinsics);
+      newModule[funcName] = createUnchecked(prefix, funcName, index, func);
+
+      return newModule;
+    }, {} as ModuleExtrinsics);
+
+    index++;
 
     return result;
   }, result);

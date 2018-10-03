@@ -15,6 +15,14 @@ const getBlock: MethodOpt = {
   type: 'SignedBlock'
 };
 
+const getBlockHash: MethodOpt = {
+  description: 'Get the block hash for a specific block',
+  params: [
+    createParam('blockNumber', 'BlockNumber', { isOptional: true })
+  ],
+  type: 'Hash'
+};
+
 const getHead: MethodOpt = {
   description: 'Retrieves the best headerHash',
   params: [],
@@ -54,7 +62,7 @@ const newHead: MethodOpt = {
 };
 
 const methods: { [index: string]: MethodOpt } = {
-  getBlock, getHead, getHeader, getRuntimeVersion, getRuntimeVersionAt, newHead
+  getBlock, getBlockHash, getHead, getHeader, getRuntimeVersion, getRuntimeVersionAt, newHead
 };
 
 export type Methods = typeof methods;
