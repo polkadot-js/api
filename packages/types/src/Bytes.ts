@@ -2,56 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from './types';
-
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import Length from './codec/Length';
+import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 
 // A Bytes. The significant difference between this and a normal Uint8Array is that
 // this version allows for length-encoding. (i.e. it is a variable-item codec, the same
-// as what is found in String and Array)
+// as what is found in Text and Vector)
 export default class Bytes extends U8a {
-  protected _length: Length;
-
-  constructor (value?: AnyU8a) {
-    super(value);
-
-    this._length = new Length(this.raw.length);
-  }
-
   get length (): number {
-    return this._length.toNumber();
+    return this.raw.length;
   }
 
   byteLength (): number {
-    return this._length.byteLength() + this.length;
-  }
-
-  fromJSON (input: any): Bytes {
-    super.fromJSON(input);
-
-    this._length.setValue(this.raw.length);
-
-    return this;
+    return this.length + Compact.encode(this.length).length;
   }
 
   fromU8a (input: Uint8Array): Bytes {
-    this._length.fromU8a(input);
+    const [offset, length] = Compact.decode(input);
 
-    const length = this._length.toNumber();
-    const offset = this._length.byteLength();
-
-    super.fromU8a(input.subarray(offset, offset + length));
+    super.fromU8a(input.subarray(offset, offset + length.toNumber()));
 
     return this;
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(
-      this._length.toU8a(isBare),
-      this.raw
-    );
+    return isBare
+      ? this.raw
+      : u8aConcat(
+        Compact.encode(this.length),
+        this.raw
+      );
   }
 }
