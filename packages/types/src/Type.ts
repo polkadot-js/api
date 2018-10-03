@@ -12,7 +12,7 @@ const ALLOWED_BOXES = ['Vec', 'Option'];
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
 export default class Type extends Text {
-  private _original: string = '';
+  private _originalLength: number = 0;
 
   constructor (value?: Text | string) {
     super(value);
@@ -24,7 +24,7 @@ export default class Type extends Text {
   // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
   // only the decoding leg, allowing the decoders to work with original pointers
   get length (): number {
-    return this._original.length;
+    return this._originalLength;
   }
 
   fromJSON (input: any): Type {
@@ -64,7 +64,7 @@ export default class Type extends Text {
       //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
 
-    this._original = this.raw;
+    this._originalLength = this.raw.length;
     this.raw = mappings.reduce((result, fn) => {
       return fn(result);
     }, this.raw);
