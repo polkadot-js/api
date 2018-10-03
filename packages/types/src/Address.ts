@@ -11,6 +11,8 @@ import Base from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
+const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
+
 // A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix.
 // Since we are dealing with underlying publicKeys (or shorter encoded addresses),
 // we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
@@ -38,53 +40,17 @@ export default class Address extends Base<AccountId | AccountIndex> {
         : new AccountIndex(value);
     }
 
-    // FIXME This _may_ be an issue. Depending on how the actual AccountIndex is
-    // actually encoded as a string. Here we just assume that it is an ss-58 value
-    // and use the stock-stand AccountId as PublicKey
+    // FIXME This is an issue. If AccountIndex is encoded with ss-58, it will not
+    // have the correct length. We need encoders/decoders for ss-58 AccountIndex
     return new AccountId(value);
   }
 
-  // TODO
-  //   - Double-check this logic again - if really <= 0xef, the throw
-  //     is unneeded since all cases are catered for here
-  //   - We probably want to clean the read/write up with enums if it
-  //     is an exact check and not a <= check (first item)
-  static readLength (input: Uint8Array): number {
-    const first = input[0];
-
-    if (first <= 0xef) {
-      return 1;
-    } else if (first === 0xfc) {
-      return 2;
-    } else if (first === 0xfd) {
-      return 4;
-    } else if (first === 0xfe) {
-      return 8;
-    } else if (first === 0xff) {
-      return 32;
-    }
-
-    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
-  }
-
-  static writeLength (length: number): Uint8Array {
-    if (length === 1) {
-      return new Uint8Array([0xef]);
-    } else if (length === 2) {
-      return new Uint8Array([0xfc]);
-    } else if (length === 4) {
-      return new Uint8Array([0xfd]);
-    } else if (length === 8) {
-      return new Uint8Array([0xfe]);
-    } else if (length === 32) {
-      return new Uint8Array([0xff]);
-    }
-
-    throw new Error(`Invalid bitLength, ${length * 8}`);
-  }
-
   byteLength (): number {
-    return 1 + super.byteLength();
+    return super.byteLength() + (
+      this.raw instanceof AccountIndex
+        ? 0
+        : 1
+    );
   }
 
   fromJSON (input: any): Address {
@@ -93,15 +59,10 @@ export default class Address extends Base<AccountId | AccountIndex> {
     return this;
   }
 
-  // FIXME I actually believe this is wrong, it needs to be checked. Here 1-byte
-  // addresses are actually 2 bytes, 2-byte is 3-bytes, etc. I believe the actual
-  // short-encoding should be left completely inside AccountId (For now, leaving
-  // as-is until we can actually pull storage data and check - and/or read the
-  // actual code again to check the implementation)
   fromU8a (input: Uint8Array): Address {
-    this.raw = Address.readLength(input) === 32
+    this.raw = input[0] === 0xff
       ? new AccountId().fromU8a(input.subarray(1))
-      : new AccountIndex().fromU8a(input.subarray(1));
+      : new AccountIndex().fromU8a(input);
 
     return this;
   }
@@ -115,10 +76,10 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    return isBare
-      ? this.raw.toU8a(true)
+    return isBare || this.raw instanceof AccountIndex
+      ? this.raw.toU8a(isBare)
       : u8aConcat(
-        Address.writeLength(this.raw.byteLength()),
+        ACCOUNT_ID_PREFIX,
         this.raw.toU8a(isBare)
       );
   }

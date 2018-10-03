@@ -63,11 +63,11 @@ export default class Api implements ApiInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
-  private createInterface ({ methods, name }: Section<any>): ApiInterface$Section {
+  private createInterface ({ methods, section }: Section): ApiInterface$Section {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {
-        const rpcName = `${name}_${method}`;
+        const rpcName = `${section}_${method}`;
         const def = methods[method];
 
         exposed[method] = def.isSubscription
