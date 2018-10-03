@@ -21,7 +21,7 @@ describe('fromMetadata', () => {
   });
 
   it('should return the correct storage key', () => {
-    expect(newExtrinsics.timestamp.set([10101]).toU8a(true)).toEqual(
+    expect(newExtrinsics.timestamp.set(10101).toU8a(true)).toEqual(
       new Uint8Array([
         // index
         3, 0,

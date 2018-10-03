@@ -19,6 +19,7 @@ export { default as BlockNumber } from './BlockNumber';
 export { default as Bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Extrinsic } from './Extrinsic';
+export { default as ExtrinsicIndex } from './ExtrinsicIndex';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
