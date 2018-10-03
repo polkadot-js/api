@@ -129,8 +129,6 @@
   * [Enum](classes/_codec_enum_.enum.md)
 * [&quot;codec/EnumType&quot;](modules/_codec_enumtype_.md)
   * [EnumType](classes/_codec_enumtype_.enumtype.md)
-* [&quot;codec/Length&quot;](modules/_codec_length_.md)
-  * [Length](classes/_codec_length_.length.md)
 * [&quot;codec/Option&quot;](modules/_codec_option_.md)
   * [Option](classes/_codec_option_.option.md)
 * [&quot;codec/Struct&quot;](modules/_codec_struct_.md)
