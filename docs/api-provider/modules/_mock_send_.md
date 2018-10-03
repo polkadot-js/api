@@ -8,7 +8,7 @@
 
 ▸ **send**(__namedParameters: *`object`*, method: *`string`*, params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [mock/send.ts:7](https://github.com/polkadot-js/api/blob/a38d1fa/packages/api-provider/src/mock/send.ts#L7)*
+*Defined in [mock/send.ts:7](https://github.com/polkadot-js/api/blob/e9030fa/packages/api-provider/src/mock/send.ts#L7)*
 
 **Parameters:**
 

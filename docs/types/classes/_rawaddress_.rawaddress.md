@@ -18,7 +18,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:19](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L19)*
+*Defined in [Address.ts:21](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L21)*
 
 **Parameters:**
 
@@ -41,7 +41,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Address.ts:86](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L86)*
+*Defined in [Address.ts:48](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L48)*
 
 **Returns:** `number`
 
@@ -72,7 +72,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L90)*
+*Defined in [Address.ts:56](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L56)*
 
 **Parameters:**
 
@@ -93,7 +93,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [Address.ts:101](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L101)*
+*Defined in [Address.ts:62](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L62)*
 
 **Parameters:**
 
@@ -114,7 +114,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Address.ts:109](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L109)*
+*Defined in [Address.ts:70](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L70)*
 
 **Returns:** `any`
 
@@ -129,7 +129,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Address.ts:113](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L113)*
+*Defined in [Address.ts:74](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L74)*
 
 **Returns:** `string`
 
@@ -144,7 +144,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Address.ts:117](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L117)*
+*Defined in [Address.ts:78](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L78)*
 
 **Parameters:**
 
@@ -163,7 +163,7 @@ ___
 
 *Inherited from [Address](_address_.address.md).[decode](_address_.address.md#decode)*
 
-*Defined in [Address.ts:28](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L28)*
+*Defined in [Address.ts:30](https://github.com/polkadot-js/api/blob/e9030fa/packages/types/src/Address.ts#L30)*
 
 **Parameters:**
 
@@ -172,44 +172,6 @@ ___
 | value |  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md) &#124; `string` &#124; `Uint8Array` &#124; `Array`<`number`>|
 
 **Returns:**  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
-
-___
-<a id="readlength"></a>
-
-## `<Static>` readLength
-
-▸ **readLength**(input: *`Uint8Array`*): `number`
-
-*Inherited from [Address](_address_.address.md).[readLength](_address_.address.md#readlength)*
-
-*Defined in [Address.ts:52](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L52)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `Uint8Array` |
-
-**Returns:** `number`
-
-___
-<a id="writelength"></a>
-
-## `<Static>` writeLength
-
-▸ **writeLength**(length: *`number`*): `Uint8Array`
-
-*Inherited from [Address](_address_.address.md).[writeLength](_address_.address.md#writelength)*
-
-*Defined in [Address.ts:70](https://github.com/polkadot-js/api/blob/a38d1fa/packages/types/src/Address.ts#L70)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| length | `number` |
-
-**Returns:** `Uint8Array`
 
 ___
 
