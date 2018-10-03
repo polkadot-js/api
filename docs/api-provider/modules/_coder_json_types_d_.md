@@ -8,7 +8,7 @@
 
 **Ƭ RpcCoder**: *`object`*
 
-*Defined in [coder/json/types.d.ts:7](https://github.com/polkadot-js/api/blob/e9030fa/packages/api-provider/src/coder/json/types.d.ts#L7)*
+*Defined in [coder/json/types.d.ts:7](https://github.com/polkadot-js/api/blob/6ff8471/packages/api-provider/src/coder/json/types.d.ts#L7)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ RpcCoderState**: *`object`*
 
-*Defined in [coder/json/types.d.ts:14](https://github.com/polkadot-js/api/blob/e9030fa/packages/api-provider/src/coder/json/types.d.ts#L14)*
+*Defined in [coder/json/types.d.ts:14](https://github.com/polkadot-js/api/blob/6ff8471/packages/api-provider/src/coder/json/types.d.ts#L14)*
 
 #### Type declaration
 
