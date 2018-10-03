@@ -2,17 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Api from '@polkadot/api'
+import Api from '@polkadot/api';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 import Ws from '@polkadot/api-provider/ws';
 
-import u8aConcat from '@polkadot/util/u8a/concat';
+import extrinsics from '../../src/testing';
 
-import extrinsics from '../../src/testing'
+const keyring = testingPairs();
 
-const keyring = testingPairs()
-
-describe.skip('e2e transfer', () => {
+describe('e2e transfer', () => {
   let api;
 
   beforeAll(() => {
@@ -26,11 +24,11 @@ describe.skip('e2e transfer', () => {
     return api.author.submitExtrinsic(inherent.toU8a()).then(console.log);
   });
 
-  it.skip('makes a transfer for a transaction', () => {
+  it('makes a transfer for a transaction', () => {
     const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 12345);
-    const signed = extrinsic.sign(keyring.alice, 1);
 
-    return api.author.submitExtrinsic(signed.toU8a()).then(console.log);
+    extrinsic.sign(keyring.alice, 1);
+
+    return api.author.submitExtrinsic(extrinsic.toU8a()).then(console.log);
   });
-
 });

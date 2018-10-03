@@ -3,11 +3,15 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Address, Extrinsic, Index } from '@polkadot/types/index';
+import { AnyNumber } from '@polkadot/types/types';
 import isUndefined from '@polkadot/util/is/undefined';
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Descriptor from './Descriptor';
+
+const EMPTY_U8A = new Uint8Array();
+const DEFAULT_ERA = new Uint8Array([0, 0]);
 
 /**
  * Unchecked mortal extrinsic, as defined here:
@@ -26,11 +30,7 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     this.raw = UncheckedMortalExtrinsic.encode(false, descriptor);
   }
 
-  static encode (isSigned: boolean, descriptor: Descriptor, keyring?: KeyringPair, nonce?: Index) {
-    if (isSigned && (isUndefined(keyring) || isUndefined(nonce))) {
-      throw new Error('Please provide a keyring and a nonce if you want to sign an Extrinsic.');
-    }
-
+  static encode (isSigned: boolean, descriptor: Descriptor, keyring?: KeyringPair, _nonce?: AnyNumber): Uint8Array {
     // Version Information.
     // 1 byte: version information:
     // - 7 low bits: version identifier (should be 0b0000001).
@@ -44,14 +44,17 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     // 64 bytes: The Ed25519 signature of the Signing Payload (detailed below).
     // 8 bytes: The Transaction Index of the signing account (number of signed transactions from the account preceeding this one).
     // 2 bytes: The Transaction Era (detailed below).
-    let signatureInformation;
-    if (!isSigned) {
-      // Nothing if it's an inherent.
-      signatureInformation = new Uint8Array();
-    } else {
-      // Address.
-      // @ts-ignore keyring -> "Object is possibly undefined", no it's not
+    let signatureInformation = EMPTY_U8A;
+
+    if (isSigned) {
+      if (isUndefined(keyring) || isUndefined(_nonce)) {
+        throw new Error('Please provide a keyring and a nonce if you want to sign an Extrinsic.');
+      }
+
       const address = new Address(keyring.publicKey());
+      const nonce = new Index(_nonce);
+      // TODO Allow era specificcation
+      const era = DEFAULT_ERA;
 
       // Signing Payload.
       // 8 bytes: The Transaction Index as provided in the transaction itself.
@@ -61,20 +64,17 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
       // @ts-ignore keyring -> "Object is possibly undefined", no it's not
       const signingPayload = keyring.sign(
         u8aConcat(
-          // @ts-ignore nonce -> "Object is possibly undefined", no it's not
           nonce.toU8a(),
-          descriptor.toU8a()
-          // era,
-          // hash of authoring block
+          descriptor.toU8a(),
+          era
         )
       );
 
       signatureInformation = u8aConcat(
         address.toU8a(),
         signingPayload,
-        // @ts-ignore nonce -> "Object is possibly undefined", no it's not
-        nonce.toU8a()
-        // era
+        nonce.toU8a(),
+        era
       );
     }
 
@@ -89,8 +89,8 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     return this._isSigned;
   }
 
-  sign (keyring: KeyringPair, nonce: Index) {
-    this._isSigned = true;
+  sign (keyring: KeyringPair, nonce: AnyNumber) {
     this.raw = UncheckedMortalExtrinsic.encode(true, this._descriptor, keyring, nonce);
+    this._isSigned = true;
   }
 }

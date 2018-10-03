@@ -41,11 +41,9 @@ export default class Descriptor {
 
     return u8aConcat(
       this._index.toU8a(),
-      ...expectedArgs.map((argument, index) => {
-        const type = argument.type.toString(); // Argument type, as string
-
-        return createType(type, this._args[index]).toU8a();
-      })
+      ...expectedArgs.map((argument, index) =>
+        createType(argument.type, this._args[index]).toU8a()
+      )
     );
   }
 }
