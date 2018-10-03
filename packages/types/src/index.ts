@@ -18,8 +18,9 @@ export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
 export { default as Bool } from './Bool';
 export { default as Bytes } from './Bytes';
+export { default as Call } from './Call';
+export { default as CallIndex } from './CallIndex';
 export { default as Extrinsic } from './Extrinsic';
-export { default as ExtrinsicIndex } from './ExtrinsicIndex';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
@@ -62,6 +63,7 @@ export { default as u32 } from './U32';
 export { default as u64 } from './U64';
 export { default as u128 } from './U128';
 export { default as u256 } from './U256';
+export { default as UncheckedMortalExtrinsic } from './UncheckedMortalExtrinsic';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VoteThreshold } from './VoteThreshold';
 export { default as VoteIndex } from './VoteIndex';

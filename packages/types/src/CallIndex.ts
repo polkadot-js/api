@@ -6,8 +6,16 @@ import { AnyU8a } from './types';
 
 import U8aFixed from './codec/U8aFixed';
 
-export default class ExtrinsicIndex extends U8aFixed {
+export default class CallIndex extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 16);
+  }
+
+  get callIndex (): number {
+    return this.raw[1];
+  }
+
+  get sectionIndex (): number {
+    return this.raw[0];
   }
 }

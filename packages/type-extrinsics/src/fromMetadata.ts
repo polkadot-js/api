@@ -33,11 +33,11 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
 
     const prefix = camelCase(meta.prefix.toString());
 
-    result[prefix] = meta.module.call.functions.reduce((newModule, func) => {
+    result[prefix] = meta.module.call.functions.reduce((newModule, funcMeta) => {
       // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
-      const funcName = camelCase(func.name.toString());
+      const funcName = camelCase(funcMeta.name.toString());
 
-      newModule[funcName] = createUnchecked(prefix, funcName, index, func);
+      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta);
 
       return newModule;
     }, {} as ModuleExtrinsics);

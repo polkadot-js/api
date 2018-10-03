@@ -13,7 +13,7 @@ import Signature from './Signature';
 type TransactionSignatureValue = {
   signer?: AnyU8a | Address,
   signature?: AnyU8a
-  index?: AnyNumber,
+  nonce?: AnyNumber,
   era?: AnyU8a
 };
 
@@ -27,7 +27,7 @@ export default class TransactionSignature extends Struct {
     super({
       signer: Address,
       signature: Signature,
-      index: Nonce,
+      nonce: Nonce,
       era: TransactionEra
     }, value);
   }
@@ -36,8 +36,8 @@ export default class TransactionSignature extends Struct {
     return this.raw.era as TransactionEra;
   }
 
-  get index (): Nonce {
-    return this.raw.index as Nonce;
+  get nonce (): Nonce {
+    return this.raw.nonce as Nonce;
   }
 
   get signature (): Signature {

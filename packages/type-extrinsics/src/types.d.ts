@@ -2,10 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import BN from 'bn.js';
+import { UncheckedMortalExtrinsic } from '@polkadot/types/index';
 import { FunctionMetadata } from '@polkadot/types/Metadata';
-
-import UncheckedMortalExtrinsic from './UncheckedMortalExtrinsic'
 
 export interface ExtrinsicFunction {
   (...args: any[]): UncheckedMortalExtrinsic,

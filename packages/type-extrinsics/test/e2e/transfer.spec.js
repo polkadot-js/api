@@ -29,7 +29,7 @@ describe.skip('e2e transfer', () => {
     return api.chain
       .getBlockHash(0)
       .then((genesisHash) => {
-        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 69);
+        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
 
         extrinsic.sign(keyring.alice, 0, genesisHash);
 

@@ -10,6 +10,7 @@ import U8aFixed from './codec/U8aFixed';
 // FIXME should be a enum?
 export default class TransactionEra extends U8aFixed {
   constructor (value?: AnyU8a) {
-    super(value, 8); // this actuall indicates an Immortal (i.e. 1 byte)
+    // FIXME this actually indicates an Immortal (i.e. 1 byte)
+    super(value, 8);
   }
 }

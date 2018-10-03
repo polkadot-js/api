@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { FunctionMetadata } from '@polkadot/types/Metadata';
-import ExtrinsicIndex from '@polkadot/types/ExtrinsicIndex';
-
 import { ExtrinsicFunction } from '../types';
-import Descriptor from '../Descriptor';
-import UncheckedMortalExtrinsic from '../UncheckedMortalExtrinsic';
+
+import { FunctionMetadata } from '@polkadot/types/Metadata';
+import { Call, UncheckedMortalExtrinsic } from '@polkadot/types/index';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
@@ -25,26 +23,27 @@ export default function createDescriptor (
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
   // FIXME should be `arg.type !== Origin`, but doesn't work...
-  const expectedArgs = meta.arguments.filter((arg) => arg.type.toString() !== 'Origin');
+  const expectedArgs = meta.arguments.filter((arg) =>
+    arg.type.toString() !== 'Origin'
+  );
 
   extrinsicFn = (...args: any[]): UncheckedMortalExtrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {
       throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
-    const descriptor = new Descriptor(
-      new ExtrinsicIndex().fromU8a(new Uint8Array([index, meta.id.toNumber()])),
+    const call = new Call(
+      new Uint8Array([index, meta.id.toNumber()]),
       meta,
       args
     );
 
-    return new UncheckedMortalExtrinsic(descriptor);
-
+    return new UncheckedMortalExtrinsic(call);
   };
 
   extrinsicFn.meta = meta;
-  extrinsicFn.method = method.toString();
-  extrinsicFn.section = section.toString();
+  extrinsicFn.method = method;
+  extrinsicFn.section = section;
   extrinsicFn.toJSON = (): any =>
     meta.toJSON();
 
