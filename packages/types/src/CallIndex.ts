@@ -11,7 +11,7 @@ export default class CallIndex extends U8aFixed {
     super(value, 16);
   }
 
-  get callIndex (): number {
+  get methodIndex (): number {
     return this.raw[1];
   }
 

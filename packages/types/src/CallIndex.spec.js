@@ -10,4 +10,11 @@ describe('CallIndex', () => {
       new CallIndex([1, 2]).toU8a()
     ).toEqual(new Uint8Array([1, 2]));
   });
+
+  it('provides access to section/method indexes', () => {
+    const ci = new CallIndex([1, 2]);
+
+    expect(ci.methodIndex).toEqual(2);
+    expect(ci.sectionIndex).toEqual(1);
+  });
 });

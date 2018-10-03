@@ -8,11 +8,6 @@ import UInt from './codec/UInt';
 
 export default class U64 extends UInt {
   constructor (value?: AnyNumber) {
-    super(value, 64);
-  }
-
-  // NOTE Serde expect a number
-  toJSON (): any {
-    return this.raw.toNumber();
+    super(value, 64, false);
   }
 }

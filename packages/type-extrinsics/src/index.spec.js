@@ -32,7 +32,7 @@ describe('extrinsics', () => {
         210, 4, 0, 0, 0, 0, 0, 0,
         // era
         0,
-        // extrinsic index
+        // call index
         2, 0,
         // values
         117, 39, 0, 0, 0, 0, 0, 0
@@ -48,7 +48,25 @@ describe('extrinsics', () => {
         .toU8a()
     ).toEqual(
       hexToU8a(
-        '0x790281ffd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f2b0d3b52ed0c145542f7b20a2fee2cf082b1d90c2a7bf7b3ec1e20a3eaf2aa929349c137d5df7f8499532fe3d4abe4e15f0ffd1c184b4c0277729d549120e8050000000000000000000100ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9391b0000000000000000000000000000'
+        '0x' +
+        // length
+        '7902' +
+        // version
+        '81' +
+        // prefix + alice's publicKey
+        'ffd172a74cda4c865912c32ba0a80a57ae69abae410e5ccb59dee84e2f4432db4f' +
+        // signature
+        '2b0d3b52ed0c145542f7b20a2fee2cf082b1d90c2a7bf7b3ec1e20a3eaf2aa92' +
+        '9349c137d5df7f8499532fe3d4abe4e15f0ffd1c184b4c0277729d549120e805' +
+        // nonce
+        '0000000000000000' +
+        // era
+        '00' +
+        // call index
+        '0100' +
+        // prefix + bob's publicKey
+        'ffd7568e5f0a7eda67a82691ff379ac4bba4f9c9b859fe779b5d46363b61ad2db9' +
+        '391b0000000000000000000000000000'
       )
     );
   });
