@@ -20,7 +20,7 @@ const provider = new WsProvider('[http://127.0.0.1:9944')](http://127.0.0.1:9944
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](_index_.api.md)
 
-*Defined in [index.ts:29](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L29)*
+*Defined in [index.ts:29](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L29)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -42,7 +42,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L26)*
+*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L26)*
 
 ___
 <a id="chain"></a>
@@ -51,7 +51,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L27)*
+*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L27)*
 
 ___
 <a id="state"></a>
@@ -60,7 +60,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:28](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L28)*
+*Defined in [index.ts:28](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L28)*
 
 ___
 <a id="system"></a>
@@ -69,7 +69,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:29](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L29)*
+*Defined in [index.ts:29](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L29)*
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:58](https://github.com/polkadot-js/api/blob/a4572e4/packages/api/src/index.ts#L58)*
+*Defined in [index.ts:58](https://github.com/polkadot-js/api/blob/cce329b/packages/api/src/index.ts#L58)*
 
 *__name__*: signature
 
