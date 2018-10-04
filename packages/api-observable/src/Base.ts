@@ -44,7 +44,11 @@ export default class ApiBase {
 
     return new Promise((resolveReady) => {
       // On connection, load data from chain
-      this.isConnected().subscribe(async () => {
+      this.isConnected().subscribe(async (isConnected) => {
+        if (!isConnected) {
+          return;
+        }
+
         try {
           const meta = await this._api.state.getMetadata().toPromise();
 
