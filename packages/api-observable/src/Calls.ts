@@ -23,11 +23,11 @@ export default class ApiCalls extends ApiQueries {
   }
 
   chainGetBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
-    return this.api.chain.getBlock(hash);
+    return this._api.chain.getBlock(hash);
   }
 
   chainNewHead = (): Observable<Header | undefined> => {
-    return this.api.chain.newHead().pipe(
+    return this._api.chain.newHead().pipe(
       defaultIfEmpty()
     );
   }

@@ -8,6 +8,7 @@ import Metadata from '@polkadot/types/Metadata';
 import { stringLowerFirst } from '@polkadot/util/string';
 
 import createFunction from './utils/createFunction';
+import storage from './index';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -16,7 +17,7 @@ import createFunction from './utils/createFunction';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (storage: Storage, metadata: Metadata) {
+export default function fromMetadata (metadata: Metadata): Storage {
   const result = Object.keys(storage).reduce((result, key) => {
     result[key] = storage[key];
 

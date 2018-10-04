@@ -5,7 +5,7 @@
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 
-import extrinsics from './testing';
+import extrinsics from './static';
 
 const keyring = testingPairs();
 

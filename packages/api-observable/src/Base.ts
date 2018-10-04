@@ -7,6 +7,10 @@ import { Method } from '@polkadot/jsonrpc/types';
 
 import { Observable, combineLatest } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import extrinsicsStatic from '@polkadot/extrinsics/static';
+import storageFromMeta from '@polkadot/storage/fromMetadata';
+import storageStatic from '@polkadot/storage/static';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -19,10 +23,42 @@ const defaultMapFn = (result: any): any =>
 // Raw base implementation for the observable API. It simply provides access to raw calls, allowing
 // decendants to make direct queries to either API methods or actual storage
 export default class ApiBase {
-  protected api: RxApiInterface;
+  protected _api: RxApiInterface;
+
+  // Promise that resolves the first time we are connected and loaded
+  whenReady: Promise<boolean>;
 
   constructor (api: RxApiInterface) {
-    this.api = api;
+    this._api = api;
+    this.whenReady = this.init();
+  }
+
+  static extrinsics = extrinsicsStatic;
+  static storage = storageStatic;
+
+  private init (): Promise<boolean> {
+    let isReady: boolean = false;
+
+    return new Promise((resolveReady) => {
+      this.isConnected().subscribe(async () => {
+        try {
+          // On connection, load the metadata from chain
+          const meta = await this._api.state.getMetadata().toPromise();
+          const extrinsics = extrinsicsFromMeta(meta);
+          const storage = storageFromMeta(meta);
+
+          ApiBase.extrinsics = extrinsics;
+          ApiBase.storage = storage;
+
+          if (!isReady) {
+            isReady = true;
+            resolveReady(true);
+          }
+        } catch (error) {
+          // swallow
+        }
+      });
+    });
   }
 
   protected combine = <T, R> (observables: Array<Observable<any>>, mapfn: MapFn<R, T> = defaultMapFn): Observable<T> => {
@@ -34,11 +70,11 @@ export default class ApiBase {
   }
 
   isConnected = (): Observable<boolean> => {
-    return this.api.isConnected();
+    return this._api.isConnected();
   }
 
   rawCall = <T> ({ method, section }: Method, ...params: Array<any>): Observable<T> => {
-    const apiSection = this.api[section as keyof RxApiInterface] as RxApiInterface$Section;
+    const apiSection = this._api[section as keyof RxApiInterface] as RxApiInterface$Section;
 
     assert(apiSection, `Unable to find 'api.${section}'`);
 
@@ -61,7 +97,7 @@ export default class ApiBase {
   }
 
   rawStorageMulti = <T> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
-    return this.api.state
+    return this._api.state
       .storage(keys)
       .pipe(
         map((result?: any) =>

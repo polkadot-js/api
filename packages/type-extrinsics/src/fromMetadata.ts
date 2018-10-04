@@ -7,6 +7,7 @@ import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 
 import createUnchecked from './utils/createUnchecked';
 import { Extrinsics, ModuleExtrinsics } from './types';
+import extrinsics from './index';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -15,7 +16,7 @@ import { Extrinsics, ModuleExtrinsics } from './types';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata) {
+export default function fromMetadata (metadata: Metadata): Extrinsics {
   // Dont' clobber the input, create new
   const result = Object.keys(extrinsics).reduce((result, key) => {
     result[key] = extrinsics[key];

@@ -9,7 +9,7 @@ import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const metadata = new Metadata().fromJSON(json);
-const newStorage = fromMetadata({}, metadata);
+const newStorage = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
   it('should throw if the storage function expects an argument', () => {

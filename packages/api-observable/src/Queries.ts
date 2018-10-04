@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AccountId, Balance, Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
-import storage from '@polkadot/storage/testing';
+import storage from '@polkadot/storage/static';
 
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
