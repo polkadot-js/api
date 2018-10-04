@@ -10,7 +10,6 @@ import Compact from './Compact';
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure.
 export default class Vector<T extends Codec<T>> extends Array<T> implements Codec<Vector<T>> {
-  private _length: Compact;
   private _Type: { new(value?: any): T };
 
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
