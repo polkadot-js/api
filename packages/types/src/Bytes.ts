@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
@@ -17,6 +18,14 @@ export default class Bytes extends U8a {
 
   byteLength (): number {
     return this.length + Compact.encode(this.length).length;
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  toJSON (): any {
+    return this.toHex();
   }
 
   fromU8a (input: Uint8Array): Bytes {
