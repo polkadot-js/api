@@ -143,5 +143,7 @@ export default function createType (type: Text | string, value?: any): Base {
     getTypeDef(type)
   );
 
-  return new Type(value);
+  return value instanceof Type
+    ? value
+    : new Type(value);
 }
