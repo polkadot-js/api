@@ -16,16 +16,19 @@ import coder from '../coder/json';
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
 /**
- * The HTTP Provider allows sending requests using HTTP. it does not support subscriptions
- * so you won´t be able to listen to events such as new blocks or balance changes.
- * It is usually preferrable using the [[WsProvider]].
+ * @name HttpProvider
+ * @summary The HTTP Provider allows sending requests using HTTP.
+ * @description It does not support subscriptions so you won't be able to listen to events
+ * such as new blocks or balance changes. It is usually preferrable using the [[WsProvider]].
  *
  * @example
+ * <BR><PRE><CODE>
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
- *
+ * <BR>
  * const provider = new WsProvider('http://127.0.0.1:9933');
  * const api = createApi(provider);
+ * </CODE></PRE>
  *
  * @see [[WsProvider]]
  */
@@ -34,6 +37,9 @@ export default class HttpProvider implements ProviderInterface {
   private endpoint: string;
   private l: Logger;
 
+  /**
+   * @param {string} endpoint The endpoint url starting with http://
+   */
   constructor (endpoint: string) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
@@ -43,7 +49,7 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
-   * Whether the node is connected or not.
+   * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
   isConnected (): boolean {
@@ -51,12 +57,16 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
-   * Events are not supported with the HttpProvider, see [[WsProvider]].
+   * @summary Events are not supported with the HttpProvider, see [[WsProvider]].
+   * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
     this.l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
+  /**
+   * @summary Send HTTP POST Request with Body to configured HTTP Endpoint.
+   */
   async send (method: string, params: Array<any>): Promise<any> {
     const body = this.coder.encodeJson(method, params);
     const response = await fetch(this.endpoint, {
@@ -77,7 +87,7 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
-   * Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
+   * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
     this.l.error(ERROR_SUBSCRIBE);
@@ -86,7 +96,7 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
-   * Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
+   * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     this.l.error(ERROR_SUBSCRIBE);

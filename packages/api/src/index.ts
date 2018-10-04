@@ -14,12 +14,17 @@ import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
 /**
+ * @name Api
+ * @summary The API may use a HTTP or WebSockets provider.
+ * @description It allows for querying a Polkadot Client Node.
  * @example
+ * <BR><PRE><CODE>
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
- *
+ * <BR>
  * const provider = new WsProvider('http://127.0.0.1:9944');
  * const api = new Api(provider);
+ * </CODE></PRE>
  */
 export default class Api implements ApiInterface {
   private _provider: ProviderInterface;
@@ -46,14 +51,17 @@ export default class Api implements ApiInterface {
 
   /**
    * @name signature
-   * @signature jsonrpcSignature (method: InterfaceMethodDefinition): string
+   * @signature `jsonrpcSignature (method: InterfaceMethodDefinition): string`
    * @summary Returns a string representation of the method with inputs and outputs.
    * @description
    * Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
-   * @example
-   *   import Api from '@polkadot/Api';
    *
-   *   Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
+   * @example
+   * <BR><PRE><CODE>
+   * import Api from '@polkadot/Api';
+   * <BR>
+   * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
+   * </CODE></PRE>
    */
   static signature ({ method, params, type }: Method): string {
     const inputs = params.map(({ name, type }) =>
