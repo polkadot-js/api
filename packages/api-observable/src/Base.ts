@@ -101,7 +101,7 @@ export default class ApiBase {
       .pipe(
         map((result: Array<T>): T | undefined =>
           result
-            ? result[0] as T
+            ? result[0]
             : undefined
         )
       );
