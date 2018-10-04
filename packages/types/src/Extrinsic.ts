@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import u8aToHex from '@polkadot/util/u8a/toHex';
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 
 import Bytes from './Bytes';
@@ -17,5 +18,13 @@ export default class Extrinsic extends Bytes {
     return new Hash(
       blake2Asu8a(this.toU8a(), 256)
     );
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  toJSON (): any {
+    return this.toHex();
   }
 }
