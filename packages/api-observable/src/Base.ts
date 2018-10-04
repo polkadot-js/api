@@ -11,6 +11,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
+import { Hash } from '@polkadot/types';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -24,12 +25,14 @@ const defaultMapFn = (result: any): any =>
 // decendants to make direct queries to either API methods or actual storage
 export default class ApiBase {
   protected _api: RxApiInterface;
+  protected _genesisHash: Hash;
 
   // Promise that resolves the first time we are connected and loaded
   whenReady: Promise<boolean>;
 
   constructor (api: RxApiInterface) {
     this._api = api;
+    this._genesisHash = new Hash();
     this.whenReady = this.init();
   }
 
@@ -40,15 +43,14 @@ export default class ApiBase {
     let isReady: boolean = false;
 
     return new Promise((resolveReady) => {
+      // On connection, load data from chain
       this.isConnected().subscribe(async () => {
         try {
-          // On connection, load the metadata from chain
           const meta = await this._api.state.getMetadata().toPromise();
-          const extrinsics = extrinsicsFromMeta(meta);
-          const storage = storageFromMeta(meta);
 
-          ApiBase.extrinsics = extrinsics;
-          ApiBase.storage = storage;
+          this._genesisHash = await this._api.state.getBlockHash(0).toPromise();
+          ApiBase.extrinsics = extrinsicsFromMeta(meta);
+          ApiBase.storage = storageFromMeta(meta);
 
           if (!isReady) {
             isReady = true;
@@ -67,6 +69,10 @@ export default class ApiBase {
       defaultIfEmpty([] as any),
       map(mapfn)
     );
+  }
+
+  get genesisHash (): Hash {
+    return this._genesisHash;
   }
 
   isConnected = (): Observable<boolean> => {
