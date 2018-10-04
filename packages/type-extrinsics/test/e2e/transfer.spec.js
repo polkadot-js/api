@@ -6,7 +6,7 @@ import Api from '@polkadot/api';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 import Ws from '@polkadot/api-provider/ws';
 
-import extrinsics from '../../src/testing';
+import extrinsics from '../../src/static';
 
 const keyring = testingPairs();
 

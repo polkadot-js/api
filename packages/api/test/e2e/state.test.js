@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import storage from '@polkadot/storage/testing';
 import Ws from '@polkadot/api-provider/ws';
+import storage from '@polkadot/storage/static';
 
 import Api from '../../src';
 

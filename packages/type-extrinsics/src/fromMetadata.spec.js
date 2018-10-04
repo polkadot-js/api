@@ -9,7 +9,7 @@ import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const metadata = new Metadata().fromJSON(json);
-const newExtrinsics = fromMetadata({}, metadata);
+const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
   it('should throw if an incorrect number of args is supplied', () => {
