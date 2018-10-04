@@ -5,7 +5,7 @@
 import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
 import { Method } from '@polkadot/jsonrpc/types';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
@@ -27,13 +27,13 @@ export default class ApiBase {
   protected _api: RxApiInterface;
   protected _genesisHash: Hash;
 
-  // Promise that resolves the first time we are connected and loaded
-  whenReady: Promise<boolean>;
+  // Observable that returns the first time we are connected and loaded
+  whenReady: Observable<boolean>;
 
   constructor (api: RxApiInterface) {
     this._api = api;
     this._genesisHash = new Hash();
-    this.whenReady = this.init();
+    this.whenReady = from(this.init());
   }
 
   static extrinsics = extrinsicsStatic;
