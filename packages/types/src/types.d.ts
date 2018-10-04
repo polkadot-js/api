@@ -21,4 +21,6 @@ export interface Codec<T> {
   toU8a(isBare?: boolean): Uint8Array;
 }
 
+export type Constructor<T = Codec<any>> = { new(value?: any): T };
+
 export type CodecTypes = keyof typeof Classes;

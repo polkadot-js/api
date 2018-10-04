@@ -53,7 +53,7 @@ export default class Vector<T extends Codec<T>> extends Array<T> implements Code
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    let [offset, _length] = Compact.decode(input);
+    let [offset] = Compact.decode(input);
     this.length = 0; // Clear array
 
     for (let index = 0; index < length; index++) {
