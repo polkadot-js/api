@@ -26,13 +26,15 @@ type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 //   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
 export default class UInt extends Base<BN> {
   private _bitLength: BitLength;
+  private _isHexJson: boolean;
 
-  constructor (value: AnyNumber = 0, bitLength: BitLength = 64) {
+  constructor (value: AnyNumber = 0, bitLength: BitLength = 64, isHexJson: boolean = true) {
     super(
       UInt.decode(value)
     );
 
     this._bitLength = bitLength;
+    this._isHexJson = isHexJson;
   }
 
   static decode (value: AnyNumber): BN {
@@ -71,7 +73,9 @@ export default class UInt extends Base<BN> {
   }
 
   toJSON (): any {
-    return this.toHex();
+    return this._isHexJson
+      ? this.toHex()
+      : this.toNumber();
   }
 
   toU8a (isBare?: boolean): Uint8Array {

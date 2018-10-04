@@ -5,10 +5,8 @@
 import metadataRpc from '@polkadot/types/Metadata.rpc';
 import Metadata from '@polkadot/types/Metadata';
 
-import storage from './index';
 import fromMetadata from './fromMetadata';
 
 export default fromMetadata(
-  storage,
   new Metadata().fromJSON(metadataRpc)
 );

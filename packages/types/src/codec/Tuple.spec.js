@@ -21,7 +21,7 @@ describe('Tuple', () => {
       tuple.toJSON()
     ).toEqual([
       'foo',
-      '0x00000045'
+      69
     ]);
   });
 
@@ -38,7 +38,7 @@ describe('Tuple', () => {
       ]).toJSON()
     ).toEqual([
       'bazzing',
-      '0x00000020',
+      32,
       ''
     ]);
   });

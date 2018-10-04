@@ -8,6 +8,6 @@ import UInt from './codec/UInt';
 
 export default class U32 extends UInt {
   constructor (value?: AnyNumber) {
-    super(value, 32);
+    super(value, 32, false);
   }
 }

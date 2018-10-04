@@ -5,7 +5,7 @@
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base from './Base';
-import Length from './Length';
+import Compact from './Compact';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
@@ -15,7 +15,6 @@ import Length from './Length';
 export default class Vector <
   T extends Base
 > extends Base<Array<T>> {
-  private _length: Length;
   private _Type: { new(value?: any): T };
 
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
@@ -27,7 +26,6 @@ export default class Vector <
       )
     );
 
-    this._length = new Length(value.length);
     this._Type = Type;
   }
 
@@ -50,7 +48,7 @@ export default class Vector <
   byteLength (): number {
     return this.raw.reduce((total, raw) => {
       return total + raw.byteLength();
-    }, this._length.byteLength());
+    }, Compact.encode(this.length).length);
   }
 
   filter (fn: (item: T, index?: number) => any): Array<T> {
@@ -74,10 +72,9 @@ export default class Vector <
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    this._length.fromU8a(input);
+    let [offset, _length] = Compact.decode(input);
+    const length = _length.toNumber();
 
-    const length = this._length.toNumber();
-    let offset = this._length.byteLength();
     this.raw = [];
 
     for (let index = 0; index < length; index++) {
@@ -100,7 +97,6 @@ export default class Vector <
 
   push (item: T): void {
     this.raw.push(item);
-    this._length.setValue(this.raw.length);
   }
 
   reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
@@ -114,12 +110,16 @@ export default class Vector <
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(
-      this._length.toU8a(isBare),
-      ...this.raw.map((entry) =>
-        entry.toU8a(isBare)
-      )
+    const encoded = this.raw.map((entry) =>
+      entry.toU8a(isBare)
     );
+
+    return isBare
+      ? u8aConcat(...encoded)
+      : u8aConcat(
+        Compact.encode(this.length),
+        ...encoded
+      );
   }
 
   toString (): string {

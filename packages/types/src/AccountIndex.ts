@@ -31,17 +31,33 @@ export default class AccountIndex extends U8a {
     return u8aToU8a(value);
   }
 
+  // TODO Double check the +1 with actual e2e data
+  static readLength (input: Uint8Array): number {
+    const first = input[0];
+
+    if (first <= 0xef) {
+      return 1;
+    } else if (first === 0xfc) {
+      return 2 + 1;
+    } else if (first === 0xfd) {
+      return 4 + 1;
+    } else if (first === 0xfe) {
+      return 8 + 1;
+    }
+
+    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
+  }
+
   fromJSON (input: any): AccountIndex {
     super.fromJSON(AccountIndex.decode(input));
 
     return this;
   }
 
-  // TODO Without specific data and actual real-world tests, unsure about how the
-  // actual encoding here fits together. It is quite possibly prefix-encoded, so
-  // prefixes may have to be stripped.
   fromU8a (input: Uint8Array): AccountIndex {
-    super.fromU8a(input);
+    super.fromU8a(
+      input.subarray(0, AccountIndex.readLength(input))
+    );
 
     return this;
   }

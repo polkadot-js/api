@@ -5,6 +5,7 @@
 import assert from '@polkadot/util/assert';
 
 import * as Types from '../index';
+import Text from '../Text';
 import Base from './Base';
 import Tuple from './Tuple';
 import Vector from './Vector';
@@ -74,8 +75,8 @@ export function typeSplit (type: string): Array<string> {
   return result;
 }
 
-export function getTypeDef (_type: string): TypeDef {
-  const type = _type.trim();
+export function getTypeDef (_type: Text | string): TypeDef {
+  const type = _type.toString().trim();
   const value: TypeDef = {
     info: TypeDefInfo.Plain,
     type
@@ -135,7 +136,7 @@ export function getTypeClass (value: TypeDef): Constructor {
   return Type;
 }
 
-export default function createType (type: string, value?: any): Base {
+export default function createType (type: Text | string, value?: any): Base {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getTypeClass(

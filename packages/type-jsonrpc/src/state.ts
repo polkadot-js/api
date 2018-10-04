@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MethodOpt, Section, SectionMethods } from './types';
+import { MethodOpt, Section } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
@@ -104,11 +104,7 @@ const storage: MethodOpt = {
   type: 'StorageChangeSet'
 };
 
-const methods: { [index: string]: MethodOpt } = {
-  call, callAt, getMetadata, getMetadataAt, getStorage, getStorageAt, getStorageHash, getStorageHashAt, getStorageSize, getStorageSizeAt, storage
-};
-
-export type Methods = typeof methods;
+const section = 'state';
 
 /**
  * @summary Query the state and state storage.
@@ -117,10 +113,18 @@ export default {
   isDeprecated: false,
   isHidden: false,
   description: 'Query of state',
-  name: 'state',
-  methods: Object.keys(methods).reduce((result, key) => {
-    result[key] = createMethod('state', key, methods[key]);
-
-    return result;
-  }, {} as SectionMethods<Methods>)
-} as Section<Methods>;
+  section,
+  methods: {
+    call: createMethod(section, 'call', call),
+    callAt: createMethod(section, 'callAt', callAt),
+    getMetadata: createMethod(section, 'getMetadata', getMetadata),
+    getMetadataAt: createMethod(section, 'getMetadataAt', getMetadataAt),
+    getStorage: createMethod(section, 'getStorage', getStorage),
+    getStorageAt: createMethod(section, 'getStorageAt', getStorageAt),
+    getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
+    getStorageHashAt: createMethod(section, 'getStorageHashAt', getStorageHashAt),
+    getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
+    getStorageSizeAt: createMethod(section, 'getStorageSizeAt', getStorageSizeAt),
+    storage: createMethod(section, 'storage', storage)
+  }
+} as Section;

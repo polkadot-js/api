@@ -10,34 +10,34 @@
 
 ## `<Static>` decode
 
-▸ **decode**(input: *`Uint8Array`*, bitLength: *`BitLength`*): `BN`
+▸ **decode**(_input: * `Uint8Array` &#124; `string`*, bitLength?: *`BitLength`*): [`number`, `BN`]
 
-*Defined in [codec/Compact.ts:32](https://github.com/polkadot-js/api/blob/51d4c45/packages/types/src/codec/Compact.ts#L32)*
+*Defined in [codec/Compact.ts:38](https://github.com/polkadot-js/api/blob/cce329b/packages/types/src/codec/Compact.ts#L38)*
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| input | `Uint8Array` |
-| bitLength | `BitLength` |
+| Param | Type | Default value |
+| ------ | ------ | ------ |
+| _input |  `Uint8Array` &#124; `string`| - |
+| `Default value` bitLength | `BitLength` |  DEFAULT_BITLENGTH |
 
-**Returns:** `BN`
+**Returns:** [`number`, `BN`]
 
 ___
 <a id="encode"></a>
 
 ## `<Static>` encode
 
-▸ **encode**(length: *`BN`*, bitLength: *`BitLength`*): `Uint8Array`
+▸ **encode**(_length: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*, bitLength?: *`BitLength`*): `Uint8Array`
 
-*Defined in [codec/Compact.ts:48](https://github.com/polkadot-js/api/blob/51d4c45/packages/types/src/codec/Compact.ts#L48)*
+*Defined in [codec/Compact.ts:55](https://github.com/polkadot-js/api/blob/cce329b/packages/types/src/codec/Compact.ts#L55)*
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| length | `BN` |
-| bitLength | `BitLength` |
+| Param | Type | Default value |
+| ------ | ------ | ------ |
+| _length |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`| - |
+| `Default value` bitLength | `BitLength` |  DEFAULT_BITLENGTH |
 
 **Returns:** `Uint8Array`
 

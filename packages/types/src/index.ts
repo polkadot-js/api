@@ -18,6 +18,8 @@ export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
 export { default as Bool } from './Bool';
 export { default as Bytes } from './Bytes';
+export { default as Call } from './Call';
+export { default as CallIndex } from './CallIndex';
 export { default as Extrinsic } from './Extrinsic';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
@@ -42,7 +44,6 @@ export { default as Perbill } from './Perbill';
 export { default as PropIndex } from './PropIndex';
 export { default as Proposal } from './Proposal';
 export { default as ProposalIndex } from './ProposalIndex';
-export { default as RawAddress } from './RawAddress';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Signature } from './Signature';
@@ -51,6 +52,8 @@ export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
+export { default as TransactionEra } from './TransactionEra';
+export { default as TransactionSignature } from './TransactionSignature';
 // NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust
@@ -60,6 +63,7 @@ export { default as u32 } from './U32';
 export { default as u64 } from './U64';
 export { default as u128 } from './U128';
 export { default as u256 } from './U256';
+export { default as UncheckedMortalExtrinsic } from './UncheckedMortalExtrinsic';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VoteThreshold } from './VoteThreshold';
 export { default as VoteIndex } from './VoteIndex';

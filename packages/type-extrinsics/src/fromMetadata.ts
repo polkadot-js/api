@@ -5,8 +5,9 @@
 import camelCase from '@polkadot/util/string/camelCase';
 import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 
-import createExtrinsic from './utils/createExtrinsic';
+import createUnchecked from './utils/createUnchecked';
 import { Extrinsics, ModuleExtrinsics } from './types';
+import extrinsics from './index';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -15,7 +16,7 @@ import { Extrinsics, ModuleExtrinsics } from './types';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata) {
+export default function fromMetadata (metadata: Metadata): Extrinsics {
   // Dont' clobber the input, create new
   const result = Object.keys(extrinsics).reduce((result, key) => {
     result[key] = extrinsics[key];
@@ -23,20 +24,26 @@ export default function fromMetadata (extrinsics: Extrinsics, metadata: Metadata
     return result;
   }, {} as Extrinsics);
 
-  return metadata.modules.reduce((result, moduleMetadata: RuntimeModuleMetadata, index) => {
-    if (!moduleMetadata.module.call) {
+  // Only increment indexes (starting at 0), for modules with actual functions
+  let index = 0;
+
+  return metadata.modules.reduce((result, meta: RuntimeModuleMetadata) => {
+    if (!meta.module.call || !meta.module.call.functions.length) {
       return result;
     }
 
-    const prefix = moduleMetadata.prefix.toString();
+    const prefix = camelCase(meta.prefix.toString());
 
-    result[moduleMetadata.prefix.toString()] = moduleMetadata.module.call.functions
-      .reduce((newModule, func) => {
-        // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
-        newModule[camelCase(func.name.toString())] = createExtrinsic(prefix, func.name, index as number, func);
+    result[prefix] = meta.module.call.functions.reduce((newModule, funcMeta) => {
+      // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
+      const funcName = camelCase(funcMeta.name.toString());
 
-        return newModule;
-      }, {} as ModuleExtrinsics);
+      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta);
+
+      return newModule;
+    }, {} as ModuleExtrinsics);
+
+    index++;
 
     return result;
   }, result);

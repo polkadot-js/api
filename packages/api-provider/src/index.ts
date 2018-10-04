@@ -2,10 +2,5 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import http from './http';
-import ws from './ws';
-
-export {
-  http,
-  ws
-};
+export { default as HttpProvider } from './http';
+export { default as WsProvider } from './ws';

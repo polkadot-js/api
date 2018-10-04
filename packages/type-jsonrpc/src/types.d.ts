@@ -22,6 +22,7 @@ export type MethodOpt = {
 };
 
 export type Method = {
+  alias?: string,
   description: string,
   isDeprecated: boolean,
   isHidden: boolean,
@@ -34,14 +35,12 @@ export type Method = {
   type: CodecTypes
 };
 
-export type SectionMethods<M> = {
-  [key in keyof M]: Method
-};
-
-export type Section<M> = {
+export type Section = {
   isDeprecated: boolean,
   isHidden: boolean,
   description: string,
-  name: string,
-  methods: SectionMethods<M>
+  section: string,
+  methods: {
+    [index: string]: Method
+  }
 };

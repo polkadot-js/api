@@ -23,11 +23,11 @@ export default class U8a extends Base<Uint8Array> {
   }
 
   get length (): number {
-    return this.byteLength();
+    return this.raw.length;
   }
 
   byteLength (): number {
-    return this.raw.length;
+    return this.length;
   }
 
   fromJSON (input: any): U8a {

@@ -43,4 +43,9 @@ describe('UInt', () => {
       new UInt(a).toNumber()
     ).toEqual(123);
   });
+
+  it('converts to JSON depending on flags', () => {
+    expect(new UInt(0x12, 16).toJSON()).toEqual('0x0012');
+    expect(new UInt(0x12, 16, false).toJSON()).toEqual(0x12);
+  });
 });
