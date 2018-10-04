@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Header, SignedBlock } from '@polkadot/types/index';
+import { BlockNumber, Hash, Header, SignedBlock, UncheckedMortalExtrinsic } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
@@ -12,7 +12,7 @@ import ApiQueries from './Queries';
 export default class ApiCalls extends ApiQueries {
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
-      .chainNewHead()
+      .newHead()
       .pipe(
         map((header?: Header): BlockNumber | undefined =>
           header && header.blockNumber
@@ -22,13 +22,29 @@ export default class ApiCalls extends ApiQueries {
       );
   }
 
-  chainGetBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
+  chain = (): Observable<Text | undefined> => {
+    return this._api.system.chain();
+  }
+
+  getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
     return this._api.chain.getBlock(hash);
   }
 
-  chainNewHead = (): Observable<Header | undefined> => {
+  newHead = (): Observable<Header | undefined> => {
     return this._api.chain.newHead().pipe(
       defaultIfEmpty()
     );
+  }
+
+  systemName = (): Observable<Text | undefined> => {
+    return this._api.system.name();
+  }
+
+  systemVersion = (): Observable<Text | undefined> => {
+    return this._api.system.version();
+  }
+
+  submitExtrinsic = (extrinsic: UncheckedMortalExtrinsic): Observable<Hash | undefined> => {
+    return this._api.author.submitExtrinsic(extrinsic);
   }
 }
