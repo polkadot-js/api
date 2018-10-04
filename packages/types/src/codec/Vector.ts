@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
 import { Codec } from '../types';
 import Compact from './Compact';
@@ -65,6 +66,10 @@ export default class Vector<T extends Codec<T>> extends Array<T> implements Code
     return this;
   }
 
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
   toJSON (): any {
     return this.map((entry) =>
       entry.toJSON()
@@ -82,11 +87,5 @@ export default class Vector<T extends Codec<T>> extends Array<T> implements Code
         Compact.encode(this.length),
         ...encoded
       );
-  }
-
-  toString (): string {
-    const data = this.map((entry) => entry.toString());
-
-    return `[${data.join(', ')}]`;
   }
 }
