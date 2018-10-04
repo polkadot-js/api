@@ -12,7 +12,7 @@
 
 ▸ **decode**(_input: * `Uint8Array` &#124; `string`*, bitLength?: *`BitLength`*): [`number`, `BN`]
 
-*Defined in [codec/Compact.ts:38](https://github.com/polkadot-js/api/blob/81348c6/packages/types/src/codec/Compact.ts#L38)*
+*Defined in [codec/Compact.ts:38](https://github.com/polkadot-js/api/blob/605f11d/packages/types/src/codec/Compact.ts#L38)*
 
 **Parameters:**
 
@@ -30,7 +30,7 @@ ___
 
 ▸ **encode**(_length: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*, bitLength?: *`BitLength`*): `Uint8Array`
 
-*Defined in [codec/Compact.ts:55](https://github.com/polkadot-js/api/blob/81348c6/packages/types/src/codec/Compact.ts#L55)*
+*Defined in [codec/Compact.ts:55](https://github.com/polkadot-js/api/blob/605f11d/packages/types/src/codec/Compact.ts#L55)*
 
 **Parameters:**
 
