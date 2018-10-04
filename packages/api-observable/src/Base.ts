@@ -11,7 +11,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
-import { Hash } from '@polkadot/types';
+import { Hash } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
