@@ -140,7 +140,7 @@ export default class Api implements ApiInterface {
   }
 
   private formatOutput (method: Method, params: Array<Base>, result?: any): Base {
-    const base = createType(method.type as string, result);
+    const base = createType(method.type as string).fromJSON(result);
 
     if (method.type === 'StorageData') {
       const type = (params[0] as StorageKey).outputType;
