@@ -53,7 +53,7 @@ export default class ApiBase {
         try {
           const meta = await this._api.state.getMetadata().toPromise();
 
-          this._genesisHash = await this._api.state.getBlockHash(0).toPromise();
+          this._genesisHash = await this._api.chain.getBlockHash(0).toPromise();
           ApiBase.extrinsics = extrinsicsFromMeta(meta);
           ApiBase.storage = storageFromMeta(meta);
 
