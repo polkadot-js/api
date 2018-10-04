@@ -58,7 +58,7 @@ export default class UInt extends BN implements Codec<UInt> {
     // FIXME this returns a new Object unfortunately, can't "replace" current value
     // Two solutions:
     // - either use static
-    // - or completely remove from*, and force constructor
+    // - or completely remove from*, and force to use constructor
     return new UInt(input);
   }
 
