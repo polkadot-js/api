@@ -8,6 +8,6 @@ import UInt from './codec/UInt';
 
 export default class U64 extends UInt {
   constructor (value?: AnyNumber) {
-    super(value, 64);
+    super(value, 64, false);
   }
 }

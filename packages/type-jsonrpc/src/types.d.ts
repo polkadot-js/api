@@ -22,6 +22,7 @@ export type MethodOpt = {
 };
 
 export type Method = {
+  alias?: string,
   description: string,
   isDeprecated: boolean,
   isHidden: boolean,

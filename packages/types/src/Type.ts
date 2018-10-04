@@ -58,9 +58,10 @@ export default class Type extends Text {
       // alias String -> Text (compat with jsonrpc methods)
       this._alias('String', 'Text'),
       // alias Vec<u8> -> Bytes
-      this._alias('Vec<u8>', 'Bytes')
+      this._alias('Vec<u8>', 'Bytes'),
+      // alias RawAddress -> Address
+      this._alias('RawAddress', 'Address')
       // TODO Check these for possibly matching -
-      //   `RawAddress` -> `Address` (implementation looks the same)
       //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
 

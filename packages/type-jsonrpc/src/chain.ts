@@ -15,6 +15,14 @@ const getBlock: MethodOpt = {
   type: 'SignedBlock'
 };
 
+const getBlockHash: MethodOpt = {
+  description: 'Get the block hash for a specific block',
+  params: [
+    createParam('blockNumber', 'BlockNumber', { isOptional: true })
+  ],
+  type: 'Hash'
+};
+
 const getHead: MethodOpt = {
   description: 'Retrieves the best headerHash',
   params: [],
@@ -65,6 +73,7 @@ export default {
   section,
   methods: {
     getBlock: createMethod(section, 'getBlock', getBlock),
+    getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
     getHead: createMethod(section, 'getHead', getHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
