@@ -5,12 +5,6 @@
 import UInt from './UInt';
 
 describe('UInt', () => {
-  it('provides a toBn interface', () => {
-    expect(
-      new UInt(987).toBn().toNumber()
-    ).toEqual(987);
-  });
-
   it('provides a toNumber interface', () => {
     expect(
       new UInt(4567).toNumber()
