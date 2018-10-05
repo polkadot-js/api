@@ -17,7 +17,7 @@
     
             
                 
-                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-sunlight-highlighter/sunlight.css">
                 
             
                 
@@ -373,12 +373,13 @@
 <p><em><strong>summary</strong></em>: The HTTP Provider allows sending requests using HTTP.</p>
 <p><em><strong>description</strong></em>: It does not support subscriptions so you won&apos;t be able to listen to events such as new blocks or balance changes. It is usually preferrable using the <a href="_ws_index_.wsprovider.html">WsProvider</a>.</p>
 <p><em><strong>example</strong></em>:   </p>
-<pre><code>import createApi from &apos;@polkadot/api&apos;;
-import WsProvider from &apos;@polkadot/api-provider/ws&apos;;
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">createApi</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api-provider/ws&apos;</span><span class="sunlight-punctuation">;</span>
 
-const provider = new WsProvider(&apos;http://127.0.0.1:9933&apos;);
-const api = createApi(provider);
-</code></pre><p><em><strong>see</strong></em>: <a href="_ws_index_.wsprovider.html">WsProvider</a></p>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;http://127.0.0.1:9933&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">createApi</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
+<p><em><strong>see</strong></em>: <a href="_ws_index_.wsprovider.html">WsProvider</a></p>
 <h1 id="hierarchy">Hierarchy</h1>
 <p><strong>HttpProvider</strong></p>
 <h1 id="implements">Implements</h1>
@@ -389,7 +390,7 @@ const api = createApi(provider);
 <p><a id="constructor"></a></p>
 <h2 id="constructor">constructor</h2>
 <p>&#x2295; <strong>new HttpProvider</strong>(endpoint: <em><code>string</code></em>): <a href="_http_index_.httpprovider.html">HttpProvider</a></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L38" target="_blank">http/index.ts:38</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L40" target="_blank">http/index.ts:40</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -414,7 +415,7 @@ const api = createApi(provider);
 <h2 id="isconnected">isConnected</h2>
 <p>&#x25B8; <strong>isConnected</strong>(): <code>boolean</code></p>
 <p><em>Implementation of <a href="../interfaces/_types_d_.providerinterface.md">ProviderInterface</a>.<a href="../interfaces/_types_d_.providerinterface.md#isconnected">isConnected</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L55" target="_blank">http/index.ts:55</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L57" target="_blank">http/index.ts:57</a></em></p>
 <p><em><strong>summary</strong></em>: Whether the node is connected or not.</p>
 <p><strong>Returns:</strong> <code>boolean</code>
 true if connected</p>
@@ -423,7 +424,7 @@ true if connected</p>
 <h2 id="on">on</h2>
 <p>&#x25B8; <strong>on</strong>(type: <em><a href="../modules/_types_d_.md#providerinterface_emitted">ProviderInterface$Emitted</a></em>, sub: <em><a href="../modules/_types_d_.md#providerinterface_emitcb">ProviderInterface$EmitCb</a></em>): <code>void</code></p>
 <p><em>Implementation of <a href="../interfaces/_types_d_.providerinterface.md">ProviderInterface</a>.<a href="../interfaces/_types_d_.providerinterface.md#on">on</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L63" target="_blank">http/index.ts:63</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L65" target="_blank">http/index.ts:65</a></em></p>
 <p><em><strong>summary</strong></em>: Events are not supported with the HttpProvider, see <a href="_ws_index_.wsprovider.html">WsProvider</a>.</p>
 <p><em><strong>description</strong></em>: HTTP Provider does not have &apos;on&apos; emitters. WebSockets should be used instead.</p>
 <p><strong>Parameters:</strong></p>
@@ -451,7 +452,7 @@ true if connected</p>
 <h2 id="send">send</h2>
 <p>&#x25B8; <strong>send</strong>(method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
 <p><em>Implementation of <a href="../interfaces/_types_d_.providerinterface.md">ProviderInterface</a>.<a href="../interfaces/_types_d_.providerinterface.md#send">send</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L70" target="_blank">http/index.ts:70</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L72" target="_blank">http/index.ts:72</a></em></p>
 <p><em><strong>summary</strong></em>: Send HTTP POST Request with Body to configured HTTP Endpoint.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -478,7 +479,7 @@ true if connected</p>
 <h2 id="subscribe">subscribe</h2>
 <p>&#x25B8; <strong>subscribe</strong>(types: <em><code>string</code></em>, method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, cb: <em><a href="../modules/_types_d_.md#providerinterface_callback">ProviderInterface$Callback</a></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
 <p><em>Implementation of <a href="../interfaces/_types_d_.providerinterface.md">ProviderInterface</a>.<a href="../interfaces/_types_d_.providerinterface.md#subscribe">subscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L92" target="_blank">http/index.ts:92</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L94" target="_blank">http/index.ts:94</a></em></p>
 <p><em><strong>summary</strong></em>: Subscriptions are not supported with the HttpProvider, see <a href="_ws_index_.wsprovider.html">WsProvider</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -513,7 +514,7 @@ true if connected</p>
 <h2 id="unsubscribe">unsubscribe</h2>
 <p>&#x25B8; <strong>unsubscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, id: <em><code>number</code></em>): <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
 <p><em>Implementation of <a href="../interfaces/_types_d_.providerinterface.md">ProviderInterface</a>.<a href="../interfaces/_types_d_.providerinterface.md#unsubscribe">unsubscribe</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5b5caa1/packages/api-provider/src/http/index.ts#L101" target="_blank">http/index.ts:101</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/d4990f8/packages/api-provider/src/http/index.ts#L103" target="_blank">http/index.ts:103</a></em></p>
 <p><em><strong>summary</strong></em>: Subscriptions are not supported with the HttpProvider, see <a href="_ws_index_.wsprovider.html">WsProvider</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -583,7 +584,7 @@ true if connected</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"HttpProvider","level":"1.3.1","depth":2,"next":{"title":"WsProvider","level":"1.3.2","depth":2,"path":"api-provider/classes/_ws_index_.wsprovider.md","ref":"api-provider/classes/_ws_index_.wsprovider.md","articles":[]},"previous":{"title":"api-provider","level":"1.3","depth":1,"path":"api-provider/README.md","ref":"api-provider/README.md","articles":[{"title":"HttpProvider","level":"1.3.1","depth":2,"path":"api-provider/classes/_http_index_.httpprovider.md","ref":"api-provider/classes/_http_index_.httpprovider.md","articles":[]},{"title":"WsProvider","level":"1.3.2","depth":2,"path":"api-provider/classes/_ws_index_.wsprovider.md","ref":"api-provider/classes/_ws_index_.wsprovider.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api-provider/classes/_http_index_.httpprovider.md","mtime":"2018-10-05T13:47:39.778Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T13:48:27.452Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"HttpProvider","level":"1.3.1","depth":2,"next":{"title":"WsProvider","level":"1.3.2","depth":2,"path":"api-provider/classes/_ws_index_.wsprovider.md","ref":"api-provider/classes/_ws_index_.wsprovider.md","articles":[]},"previous":{"title":"api-provider","level":"1.3","depth":1,"path":"api-provider/README.md","ref":"api-provider/README.md","articles":[{"title":"HttpProvider","level":"1.3.1","depth":2,"path":"api-provider/classes/_http_index_.httpprovider.md","ref":"api-provider/classes/_http_index_.httpprovider.md","articles":[]},{"title":"WsProvider","level":"1.3.2","depth":2,"path":"api-provider/classes/_ws_index_.wsprovider.md","ref":"api-provider/classes/_ws_index_.wsprovider.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api-provider/classes/_http_index_.httpprovider.md","mtime":"2018-10-05T15:37:33.716Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T15:38:17.599Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

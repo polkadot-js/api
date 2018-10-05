@@ -17,7 +17,7 @@
     
             
                 
-                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-sunlight-highlighter/sunlight.css">
                 
             
                 
@@ -376,48 +376,48 @@
 <p>Installation -</p>
 <pre><code>npm install --save @polkadot/api
 </code></pre><p>Initialisation -</p>
-<pre><code class="lang-js"><span class="hljs-keyword">import</span> Api <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@polkadot/api&apos;</span>;
-<span class="hljs-keyword">import</span> WsProvider <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@polkadot/api-provider/ws&apos;</span>;
+<pre><code class="lang-js"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api-provider/ws&apos;</span><span class="sunlight-punctuation">;</span>
 
-<span class="hljs-keyword">const</span> provider = <span class="hljs-keyword">new</span> WsProvider(<span class="hljs-string">&apos;http://127.0.0.1:9944&apos;</span>);
-<span class="hljs-keyword">const</span> api = <span class="hljs-keyword">new</span> Api(provider);
-</code></pre>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;http://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">Api</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
 <p>Making calls -</p>
-<pre><code class="lang-js">api.chain
-  .getHeader(<span class="hljs-string">&apos;0x1234567890&apos;</span>)
-  .then((header) =&gt; <span class="hljs-built_in">console</span>.log(header))
-  .catch((error) =&gt; <span class="hljs-built_in">console</span>.error(error));
-</code></pre>
+<pre><code class="lang-js"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">getHeader</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;0x1234567890&apos;</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
 <p>Retrieving the best block (once-off) -</p>
-<pre><code class="lang-js">api.chain
-  .getHead()
-  .then((headerHash) =&gt; {
-    <span class="hljs-keyword">return</span> api.chain.getHeader(headerHash);
-  })
-  .then((header) =&gt; {
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`best #<span class="hljs-subst">${header.number.toString()}</span>`</span>);
-  })
-  .catch((error) =&gt; {
-    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&apos;error:&apos;</span>, error);
-  });
-</code></pre>
+<pre><code class="lang-js"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">getHead</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">headerHash</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-keyword">return</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-operator">.</span><span class="sunlight-ident">getHeader</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">headerHash</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">best</span>&#xA0;<span class="sunlight-punctuation">#</span><span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">header</span><span class="sunlight-operator">.</span><span class="sunlight-ident">number</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;error:&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
 <p>Retrieving best header via subscription -</p>
-<pre><code class="lang-js">api.chain
-  .newHead((error, header) =&gt; {
-    <span class="hljs-keyword">if</span> (error) {
-      <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&apos;error:&apos;</span>, error);
-    }
+<pre><code class="lang-js"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">newHead</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-keyword">if</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;error:&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">}</span>
 
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`best #<span class="hljs-subst">${header.number.toString()}</span>`</span>);
-  })
-  .then((subscriptionId) =&gt; {
-    <span class="hljs-comment">// id for the subscription, can unsubscribe via</span>
-    <span class="hljs-comment">// api.chain.newHead.unsubscribe(subscriptionId)</span>
-  })
-  .catch((error) =&gt; {
-    <span class="hljs-built_in">console</span>.error(<span class="hljs-string">&apos;error subscribing:&apos;</span>, error);
-  });
-</code></pre>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">best</span>&#xA0;<span class="sunlight-punctuation">#</span><span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">header</span><span class="sunlight-operator">.</span><span class="sunlight-ident">number</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">subscriptionId</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;id&#xA0;for&#xA0;the&#xA0;subscription,&#xA0;can&#xA0;unsubscribe&#xA0;via</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;api.chain.newHead.unsubscribe(subscriptionId)</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;error&#xA0;subscribing:&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
 
                                 
                                 </section>
@@ -461,7 +461,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"Api","level":"1.2.1","depth":2,"path":"api/classes/_index_.api.md","ref":"api/classes/_index_.api.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-05T13:47:22.514Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T13:48:27.452Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"Api","level":"1.2.1","depth":2,"path":"api/classes/_index_.api.md","ref":"api/classes/_index_.api.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-05T15:37:17.780Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-05T15:38:17.599Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

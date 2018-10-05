@@ -7,8 +7,7 @@
 *__description__*: It allows for querying a Polkadot Client Node.
 
 *__example__*:   
-
-```
+```javascript
 import Api from '@polkadot/api';
 import WsProvider from '@polkadot/api-provider/ws';
 
@@ -32,7 +31,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](_index_.api.md)
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L36)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -54,7 +53,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L31)*
+*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L33)*
 
 ___
 <a id="chain"></a>
@@ -63,7 +62,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L32)*
+*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L34)*
 
 ___
 <a id="state"></a>
@@ -72,7 +71,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L33)*
+*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L35)*
 
 ___
 <a id="system"></a>
@@ -81,7 +80,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L36)*
 
 ___
 
@@ -93,7 +92,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/5b5caa1/packages/api/src/index.ts#L65)*
+*Defined in [index.ts:69](https://github.com/polkadot-js/api/blob/d4990f8/packages/api/src/index.ts#L69)*
 
 *__name__*: signature
 
@@ -102,8 +101,7 @@ ___
 *__description__*: Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
 
 *__example__*:   
-
-```
+```javascript
 import Api from '@polkadot/Api';
 
 Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
