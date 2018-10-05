@@ -8,21 +8,21 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 
 import createType from './codec/createType';
 import Base from './codec/Base';
-import CallIndex from './CallIndex';
+import MethodIndex from './MethodIndex';
 import { FunctionMetadata } from './Metadata';
 
 /**
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
-export default class Call extends CallIndex {
+export default class Method extends MethodIndex {
   protected _args: Array<Base>;
   protected _meta: FunctionMetadata;
 
-  constructor (index: Call | AnyU8a, meta: FunctionMetadata, args: Array<any>) {
+  constructor (index: Method | AnyU8a, meta: FunctionMetadata, args: Array<any>) {
     super(index);
 
-    if (index instanceof Call) {
+    if (index instanceof Method) {
       this._args = args || index.args;
       this._meta = meta || index.meta;
     } else {
@@ -44,13 +44,16 @@ export default class Call extends CallIndex {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    const args = this._meta.arguments
-      .filter((arg) =>
-        arg.type.toString() !== 'Origin'
-      )
-      .map((argument, index) =>
-        createType(argument.type, this._args[index]).toU8a(isBare)
-      );
+    // FIXME Even when decoded, we will need access to the meta
+    const args = this.meta
+      ? this.meta.arguments
+        .filter((arg) =>
+          arg.type.toString() !== 'Origin'
+        )
+        .map((argument, index) =>
+          createType(argument.type, this.args[index]).toU8a(isBare)
+        )
+      : [];
 
     return u8aConcat(
       super.toU8a(isBare),

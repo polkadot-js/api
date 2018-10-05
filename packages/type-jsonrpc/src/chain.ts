@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MethodOpt, Section } from './types';
+import { RpcMethodOpt, RpcSection } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
 
-const getBlock: MethodOpt = {
+const getBlock: RpcMethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
     createParam('hash', 'Hash')
@@ -15,7 +15,7 @@ const getBlock: MethodOpt = {
   type: 'SignedBlock'
 };
 
-const getBlockHash: MethodOpt = {
+const getBlockHash: RpcMethodOpt = {
   description: 'Get the block hash for a specific block',
   params: [
     createParam('blockNumber', 'BlockNumber', { isOptional: true })
@@ -23,13 +23,13 @@ const getBlockHash: MethodOpt = {
   type: 'Hash'
 };
 
-const getHead: MethodOpt = {
+const getHead: RpcMethodOpt = {
   description: 'Retrieves the best headerHash',
   params: [],
   type: 'Hash'
 };
 
-const getHeader: MethodOpt = {
+const getHeader: RpcMethodOpt = {
   description: 'Retrieves the header for a specific block',
   params: [
     createParam('hash', 'Hash')
@@ -37,13 +37,13 @@ const getHeader: MethodOpt = {
   type: 'Header'
 };
 
-const getRuntimeVersion: MethodOpt = {
+const getRuntimeVersion: RpcMethodOpt = {
   description: ' Get the runtime version',
   params: [],
   type: 'RuntimeVersion'
 };
 
-const getRuntimeVersionAt: MethodOpt = {
+const getRuntimeVersionAt: RpcMethodOpt = {
   description: ' Get the runtime version at a specific block',
   params: [
     createParam('hash', 'Hash')
@@ -51,7 +51,7 @@ const getRuntimeVersionAt: MethodOpt = {
   type: 'RuntimeVersion'
 };
 
-const newHead: MethodOpt = {
+const newHead: RpcMethodOpt = {
   description: 'Retrieves the best header via subscription',
   subscribe: [
     'chain_subscribeNewHead',
@@ -80,4 +80,4 @@ export default {
     getRuntimeVersionAt: createMethod(section, 'getRuntimeVersionAt', getRuntimeVersionAt),
     newHead: createMethod(section, 'newHead', newHead)
   }
-} as Section;
+} as RpcSection;

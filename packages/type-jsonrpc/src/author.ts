@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MethodOpt, Section } from './types';
+import { RpcMethodOpt, RpcSection } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
 
-const pendingExtrinsics: MethodOpt = {
+const pendingExtrinsics: RpcMethodOpt = {
   description: 'Returns all pending extrinsics, potentially grouped by sender',
   params: [],
   type: 'PendingExtrinsics'
 };
 
-const submitExtrinsic: MethodOpt = {
+const submitExtrinsic: RpcMethodOpt = {
   isSigned: true,
   description: 'Submit a fully formatted extrinsic for block inclusion',
   params: [
@@ -36,4 +36,4 @@ export default {
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic)
   }
-} as Section;
+} as RpcSection;

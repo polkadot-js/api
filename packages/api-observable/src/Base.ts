@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
-import { Method } from '@polkadot/jsonrpc/types';
+import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 import { EMPTY, Observable, combineLatest, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
@@ -83,7 +83,7 @@ export default class ApiBase {
     return this._api.isConnected();
   }
 
-  rawCall = <T> ({ method, section }: Method, ...params: Array<any>): Observable<T> => {
+  rawCall = <T> ({ method, section }: RpcMethod, ...params: Array<any>): Observable<T> => {
     const apiSection = this._api[section as keyof RxApiInterface] as RxApiInterface$Section;
 
     assert(apiSection, `Unable to find 'api.${section}'`);
