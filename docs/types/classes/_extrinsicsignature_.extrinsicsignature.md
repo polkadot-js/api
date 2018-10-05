@@ -9,7 +9,7 @@
 
 ↳  [Struct](_codec_struct_.struct.md)
 
-**↳ RuntimeModuleMetadata**
+**↳ ExtrinsicSignature**
 
 # Constructors
 
@@ -17,19 +17,19 @@
 
 ##  constructor
 
-⊕ **new RuntimeModuleMetadata**(value?: *`any`*): [RuntimeModuleMetadata](_metadata_.runtimemodulemetadata.md)
+⊕ **new ExtrinsicSignature**(value?: *`ExtrinsicSignatureValue`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Metadata.ts:258](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/Metadata.ts#L258)*
+*Defined in [ExtrinsicSignature.ts:36](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L36)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| `Optional` value | `any` |
+| `Optional` value | `ExtrinsicSignatureValue` |
 
-**Returns:** [RuntimeModuleMetadata](_metadata_.runtimemodulemetadata.md)
+**Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
 ___
 
@@ -84,42 +84,96 @@ getType(): `E`
 **Returns:** `E`
 
 ___
-<a id="module"></a>
+<a id="era"></a>
 
-##  module
+##  era
 
-getmodule(): [ModuleMetadata](_metadata_.modulemetadata.md)
+getera(): [ExtrinsicEra](_extrinsicera_.extrinsicera.md)
 
-*Defined in [Metadata.ts:267](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/Metadata.ts#L267)*
+*Defined in [ExtrinsicSignature.ts:50](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L50)*
 
-**Returns:** [ModuleMetadata](_metadata_.modulemetadata.md)
-
-___
-<a id="prefix"></a>
-
-##  prefix
-
-getprefix(): [Text](_text_.text.md)
-
-*Defined in [Metadata.ts:271](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/Metadata.ts#L271)*
-
-**Returns:** [Text](_text_.text.md)
+**Returns:** [ExtrinsicEra](_extrinsicera_.extrinsicera.md)
 
 ___
-<a id="storage"></a>
+<a id="issigned"></a>
 
-##  storage
+##  isSigned
 
-getstorage():  [StorageMetadata](_metadata_.storagemetadata.md) &#124; `undefined`
+getisSigned(): `boolean`
 
-*Defined in [Metadata.ts:275](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/Metadata.ts#L275)*
+*Defined in [ExtrinsicSignature.ts:46](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L46)*
 
-**Returns:**  [StorageMetadata](_metadata_.storagemetadata.md) &#124; `undefined`
+**Returns:** `boolean`
+
+___
+<a id="nonce"></a>
+
+##  nonce
+
+getnonce(): `Nonce`
+
+*Defined in [ExtrinsicSignature.ts:54](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L54)*
+
+**Returns:** `Nonce`
+
+___
+<a id="signature"></a>
+
+##  signature
+
+getsignature(): [Signature](_signature_.signature.md)
+
+*Defined in [ExtrinsicSignature.ts:58](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L58)*
+
+**Returns:** [Signature](_signature_.signature.md)
+
+___
+<a id="signer"></a>
+
+##  signer
+
+getsigner(): [Address](_address_.address.md)
+
+*Defined in [ExtrinsicSignature.ts:62](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L62)*
+
+**Returns:** [Address](_address_.address.md)
+
+___
+<a id="version"></a>
+
+##  version
+
+getversion(): `number`
+
+*Defined in [ExtrinsicSignature.ts:66](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L66)*
+
+**Returns:** `number`
 
 ___
 
 # Methods
 
+<a id="addsignature"></a>
+
+##  addSignature
+
+▸ **addSignature**(method: *[Method](_method_.method.md)*, signerPair: *`KeyringPair`*, nonce: *[AnyNumber](../modules/_types_d_.md#anynumber)*, blockHash: *[AnyU8a](../modules/_types_d_.md#anyu8a)*, era?: *`Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
+
+*Defined in [ExtrinsicSignature.ts:78](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L78)*
+
+**Parameters:**
+
+| Param | Type | Default value |
+| ------ | ------ | ------ |
+| method | [Method](_method_.method.md) | - |
+| signerPair | `KeyringPair` | - |
+| nonce | [AnyNumber](../modules/_types_d_.md#anynumber) | - |
+| blockHash | [AnyU8a](../modules/_types_d_.md#anyu8a) | - |
+| `Default value` era | `Uint8Array` |  IMMORTAL_ERA |
+
+**Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
+
+___
 <a id="bytelength"></a>
 
 ##  byteLength
@@ -160,13 +214,11 @@ ___
 
 ##  fromU8a
 
-▸ **fromU8a**(input: *`Uint8Array`*): [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
+▸ **fromU8a**(input: *`Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
-*Inherited from [Struct](_codec_struct_.struct.md).[fromU8a](_codec_struct_.struct.md#fromu8a)*
+*Overrides [Struct](_codec_struct_.struct.md).[fromU8a](_codec_struct_.struct.md#fromu8a)*
 
-*Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
-
-*Defined in [codec/Struct.ts:102](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/codec/Struct.ts#L102)*
+*Defined in [ExtrinsicSignature.ts:97](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L97)*
 
 **Parameters:**
 
@@ -174,7 +226,7 @@ ___
 | ------ | ------ |
 | input | `Uint8Array` |
 
-**Returns:** [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
+**Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
 ___
 <a id="get"></a>
@@ -245,11 +297,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
+*Overrides [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
-
-*Defined in [codec/Struct.ts:131](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/codec/Struct.ts#L131)*
+*Defined in [ExtrinsicSignature.ts:110](https://github.com/polkadot-js/api/blob/82dbc93/packages/types/src/ExtrinsicSignature.ts#L110)*
 
 **Parameters:**
 

@@ -32,7 +32,7 @@ const api = new Api(provider);
 
 ⊕ **new Api**(provider: *`ProviderInterface`*): [Api](_index_.api.md)
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L34)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -54,7 +54,7 @@ ___
 
 **● author**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L31)*
+*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L31)*
 
 ___
 <a id="chain"></a>
@@ -63,7 +63,7 @@ ___
 
 **● chain**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L32)*
+*Defined in [index.ts:32](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L32)*
 
 ___
 <a id="state"></a>
@@ -72,7 +72,7 @@ ___
 
 **● state**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L33)*
+*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L33)*
 
 ___
 <a id="system"></a>
@@ -81,7 +81,7 @@ ___
 
 **● system**: *[ApiInterface$Section](../modules/_types_d_.md#apiinterface_section)*
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L34)*
+*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L34)*
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/427c38e/packages/api/src/index.ts#L65)*
+*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/82dbc93/packages/api/src/index.ts#L65)*
 
 *__name__*: signature
 
