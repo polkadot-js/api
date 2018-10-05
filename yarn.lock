@@ -1170,9 +1170,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.0.tgz#50c1e2260ac0ed9439a181de3725a0168d59c48a"
 
-"@polkadot/dev@^0.20.21":
-  version "0.20.21"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.20.21.tgz#81d707d5aeb4b32e22fea1e1653ab238c77eefeb"
+"@polkadot/dev@^0.20.24":
+  version "0.20.24"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.20.24.tgz#e88af950aa4e0e1a549d0a4860b2b3f8d63ce723"
   dependencies:
     "@babel/cli" "^7.0.0"
     "@babel/core" "^7.0.0"

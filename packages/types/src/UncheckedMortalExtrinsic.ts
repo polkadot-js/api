@@ -10,6 +10,7 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import Address from './Address';
 import Call from './Call';
 import Extrinsic from './Extrinsic';
+import { FunctionMetadata } from './Metadata';
 import SignaturePayload from './SignaturePayload';
 import TransactionSignature from './TransactionSignature';
 
@@ -53,6 +54,22 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
 
   get isSigned () {
     return this._signature;
+  }
+
+  get meta (): FunctionMetadata {
+    return this._call.meta;
+  }
+
+  get callIndex (): Uint8Array {
+    return this._call.callIndex;
+  }
+
+  get methodIndex (): number {
+    return this._call.methodIndex;
+  }
+
+  get sectionIndex (): number {
+    return this._call.sectionIndex;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): UncheckedMortalExtrinsic {
