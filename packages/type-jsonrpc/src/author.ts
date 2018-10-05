@@ -17,7 +17,7 @@ const submitExtrinsic: RpcMethodOpt = {
   isSigned: true,
   description: 'Submit a fully formatted extrinsic for block inclusion',
   params: [
-    createParam('extrinsic', 'Bytes')
+    createParam('extrinsic', 'Extrinsic')
   ],
   type: 'Hash'
 };
