@@ -5,7 +5,7 @@
 import { ExtrinsicFunction } from '../types';
 
 import { FunctionMetadata } from '@polkadot/types/Metadata';
-import { Call, UncheckedMortalExtrinsic } from '@polkadot/types/index';
+import { Extrinsic, Method } from '@polkadot/types/index';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
@@ -28,14 +28,14 @@ export default function createDescriptor (
     arg.type.toString() !== 'Origin'
   );
 
-  extrinsicFn = (...args: any[]): UncheckedMortalExtrinsic => {
+  extrinsicFn = (...args: any[]): Extrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {
       throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
-    const call = new Call(callIndex, meta, args);
-
-    return new UncheckedMortalExtrinsic(call);
+    return new Extrinsic({
+      method: new Method(callIndex, meta, args)
+    });
   };
 
   extrinsicFn.callIndex = callIndex;
