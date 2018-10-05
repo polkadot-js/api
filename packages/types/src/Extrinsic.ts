@@ -61,16 +61,9 @@ export default class Extrinsic extends Struct {
     return this.method.meta;
   }
 
+  // the actual [sectionIndex, methodIndex] as used
   get callIndex (): Uint8Array {
     return this.method.callIndex;
-  }
-
-  get methodIndex (): number {
-    return this.method.methodIndex;
-  }
-
-  get sectionIndex (): number {
-    return this.method.sectionIndex;
   }
 
   get signature (): ExtrinsicSignature {
