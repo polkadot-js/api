@@ -29,21 +29,21 @@ export default class Text extends Base<string> {
   }
 
   static decode (input: any): string {
-    if (input instanceof Text) {
-      return input.raw;
-    } else if (isString(input)) {
+    if (isString(input)) {
       return input;
+    } else if (input instanceof Text) {
+      return input.raw;
     } else if (input instanceof Uint8Array) {
       const [offset, length] = Compact.decode(input);
       return u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
     } else if (Array.isArray(input)) {
-      return Text.decode(new Uint8Array(input));
+      return Text.decode(Uint8Array.from(input));
     } else if (input instanceof U8a) {
       return Text.decode(input.raw);
     } else if (isFunction(input.toString)) {
       return input.toString();
     } else {
-      throw new Error(`Text: cannot decode input: "${input}"`);
+      return `${input}`;
     }
   }
 
