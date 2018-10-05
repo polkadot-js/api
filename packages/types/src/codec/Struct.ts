@@ -57,18 +57,18 @@ export default class Struct<
       .keys(Types)
       .reduce((raw: T, key, index) => {
         if (value instanceof Uint8Array) {
-          const [compactLength, typeLength] = Compact.decode(value.subarray(currentIndex));
+          const [offset, typeLength] = Compact.decode(value.subarray(currentIndex));
 
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](
             value.subarray(
               currentIndex,
-              currentIndex + compactLength + typeLength.toNumber()
+              currentIndex + offset + typeLength.toNumber()
             )
           );
 
           // Move the currentIndex forward
-          currentIndex += compactLength + typeLength.toNumber();
+          currentIndex += offset + typeLength.toNumber();
         } else if (isTuple && Array.isArray(value)) {
           // @ts-ignore FIXME see below
           raw[key] = new Types[key](
