@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { MethodOpt, Section } from './types';
+import { RpcMethodOpt, RpcSection } from './types';
 
 import createMethod from './create/method';
 import createParam from './create/param';
 
-const call: MethodOpt = {
+const call: RpcMethodOpt = {
   description: 'Perform a call to a builtin on the chain',
   params: [
     createParam('method', 'Text'),
@@ -16,7 +16,7 @@ const call: MethodOpt = {
   type: 'Bytes'
 };
 
-const callAt: MethodOpt = {
+const callAt: RpcMethodOpt = {
   description: 'Perform a call to a builtin on the chain (At block)',
   params: [
     createParam('method', 'Text'),
@@ -26,13 +26,13 @@ const callAt: MethodOpt = {
   type: 'Bytes'
 };
 
-const getMetadata: MethodOpt = {
+const getMetadata: RpcMethodOpt = {
   description: 'Returns the runtime metadata',
   params: [],
   type: 'Metadata'
 };
 
-const getMetadataAt: MethodOpt = {
+const getMetadataAt: RpcMethodOpt = {
   description: 'Returns the runtime metadata',
   params: [
     createParam('block', 'Hash')
@@ -40,7 +40,7 @@ const getMetadataAt: MethodOpt = {
   type: 'Metadata'
 };
 
-const getStorage: MethodOpt = {
+const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
   params: [
     createParam('key', 'StorageKey')
@@ -48,7 +48,7 @@ const getStorage: MethodOpt = {
   type: 'StorageData'
 };
 
-const getStorageAt: MethodOpt = {
+const getStorageAt: RpcMethodOpt = {
   description: 'Retrieves the storage for a key at a specific block',
   params: [
     createParam('key', 'Bytes'),
@@ -57,7 +57,7 @@ const getStorageAt: MethodOpt = {
   type: 'Bytes'
 };
 
-const getStorageHash: MethodOpt = {
+const getStorageHash: RpcMethodOpt = {
   description: 'Retrieves the storage hash',
   params: [
     createParam('key', 'Bytes')
@@ -65,7 +65,7 @@ const getStorageHash: MethodOpt = {
   type: 'Hash'
 };
 
-const getStorageHashAt: MethodOpt = {
+const getStorageHashAt: RpcMethodOpt = {
   description: 'Retrieves the storage hash at a specific block',
   params: [
     createParam('key', 'Bytes'),
@@ -74,7 +74,7 @@ const getStorageHashAt: MethodOpt = {
   type: 'Hash'
 };
 
-const getStorageSize: MethodOpt = {
+const getStorageSize: RpcMethodOpt = {
   description: 'Retrieves the storage size',
   params: [
     createParam('key', 'Bytes')
@@ -82,7 +82,7 @@ const getStorageSize: MethodOpt = {
   type: 'u64'
 };
 
-const getStorageSizeAt: MethodOpt = {
+const getStorageSizeAt: RpcMethodOpt = {
   description: 'Retrieves the storage size at a specific block',
   params: [
     createParam('key', 'Bytes'),
@@ -91,7 +91,7 @@ const getStorageSizeAt: MethodOpt = {
   type: 'u64'
 };
 
-const storage: MethodOpt = {
+const storage: RpcMethodOpt = {
   description: 'Subscribes to storage changes for the provided keys',
   subscribe: [
     'state_subscribeStorage',
@@ -127,4 +127,4 @@ export default {
     getStorageSizeAt: createMethod(section, 'getStorageSizeAt', getStorageSizeAt),
     storage: createMethod(section, 'storage', storage)
   }
-} as Section;
+} as RpcSection;

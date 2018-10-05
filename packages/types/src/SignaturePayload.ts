@@ -6,15 +6,15 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
-import Call from './Call';
+import Method from './Method';
 import Hash from './Hash';
 import Nonce from './Nonce';
-import TransactionEra from './TransactionEra';
+import ExtrinsicEra from './ExtrinsicEra';
 
 type SignaturePayloadValue = {
   nonce?: AnyNumber,
-  call?: Call,
-  era?: AnyU8a | TransactionEra
+  method?: Method,
+  era?: AnyU8a | ExtrinsicEra
   blockHash?: AnyU8a
 };
 
@@ -29,8 +29,8 @@ export default class SignaturePayload extends Struct {
   constructor (value?: SignaturePayloadValue) {
     super({
       nonce: Nonce,
-      call: Call,
-      era: TransactionEra,
+      method: Method,
+      era: ExtrinsicEra,
       blockHash: Hash
     }, value);
   }
@@ -43,12 +43,12 @@ export default class SignaturePayload extends Struct {
     return this.raw.blockHash as Hash;
   }
 
-  get call (): Call {
-    return this.raw.call as Call;
+  get method (): Method {
+    return this.raw.method as Method;
   }
 
-  get era (): TransactionEra {
-    return this.raw.era as TransactionEra;
+  get era (): ExtrinsicEra {
+    return this.raw.era as ExtrinsicEra;
   }
 
   get nonce (): Nonce {
