@@ -25,6 +25,7 @@
     "@polkadot/ts": "^0.1.30"
   },
   "dependencies": {
-    "gitbook-plugin-include-codeblock": "^3.2.2"
+    "gitbook-plugin-include-codeblock": "^3.2.2",
+    "gitbook-plugin-mermaid-gb3": "^2.1.0"
   }
 }

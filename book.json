@@ -2,7 +2,8 @@
   "title": "Polkadot API Book",
   "gitbook": ">=2.4.0",
   "plugins": [
-    "include-codeblock"
+    "include-codeblock",
+    "mermaid-gb3"
   ],
   "root": "docs",
   "pluginsConfig": {}

@@ -17,6 +17,16 @@ import isFunction from '@polkadot/util/is/function';
  * @name Api
  * @summary The API may use a HTTP or WebSockets provider.
  * @description It allows for querying a Polkadot Client Node.
+ *
+ * ```mermaid
+ * graph LR;
+ *   A[Api] --> |protocol| B{Decision};
+ *   B --> |Http| D[HttpProvider];
+ *   B --> |WebSockets| E[WsProvider];
+ *   D --> |endpoint| F[https://127.0.0.1:9933]
+ *   E --> |endpoint| G[ws://127.0.0.1:9944]
+ * ```
+ *
  * @example
  * <BR><PRE><CODE>
  * import Api from '@polkadot/api';
