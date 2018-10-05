@@ -28,7 +28,7 @@ type CachedMap = {
  * @example
  * <BR>
  *
- * ```javascript+lineNumbers:false
+ * ```javascript
  * import RxApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *

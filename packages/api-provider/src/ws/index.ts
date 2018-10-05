@@ -45,7 +45,7 @@ interface WSProviderInterface extends ProviderInterface {
  * @example
  * <BR>
  *
- * ```javascript+lineNumbers:false
+ * ```javascript
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *

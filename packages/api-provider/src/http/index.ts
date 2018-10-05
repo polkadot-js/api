@@ -24,7 +24,7 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * @example
  * <BR>
  *
- * ```javascript+lineNumbers:false
+ * ```javascript
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *

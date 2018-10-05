@@ -20,7 +20,7 @@ import isFunction from '@polkadot/util/is/function';
  * @example
  * <BR>
  *
- * ```javascript+lineNumbers:false
+ * ```javascript
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
@@ -60,7 +60,7 @@ export default class Api implements ApiInterface {
    * @example
    * <BR>
    *
-   * ```javascript+lineNumbers:false
+   * ```javascript
    * import Api from '@polkadot/Api';
    *
    * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
