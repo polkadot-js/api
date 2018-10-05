@@ -5,6 +5,7 @@
 import Struct from './Struct';
 import Text from '../Text';
 import U32 from '../U32';
+import Vector from './Vector';
 
 
 /**
@@ -28,6 +29,15 @@ describe('Struct', () => {
 
   testDecode('object', { foo: 'bazzing', bar: 69 });
   testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
+  it('decoded a more complicated type', () => {
+    const s = new Struct({
+      foo: Vector.with(Struct.with({
+        bar: Text
+      }))
+    }, { foo: [{ bar: 1 }, { bar: 2 }] });
+    expect(s.toString()).toBe('{foo: [{bar: 1}, {bar: 2}]}');
+  })
 
   it('provides a clean toString()', () => {
     expect(
