@@ -9,7 +9,7 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import createType from './codec/createType';
 import Base from './codec/Base';
 import MethodIndex from './MethodIndex';
-import { FunctionMetadata } from './Metadata';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 
 /**
  * Extrinsic function descriptor, as defined in
@@ -17,6 +17,7 @@ import { FunctionMetadata } from './Metadata';
  */
 export default class Method extends MethodIndex {
   protected _args: Array<Base>;
+  protected _data: Uint8Array;
   protected _meta: FunctionMetadata;
 
   constructor (index: Method | AnyU8a, meta: FunctionMetadata, args: Array<any>) {
@@ -29,35 +30,72 @@ export default class Method extends MethodIndex {
       this._args = args;
       this._meta = meta;
     }
+
+    this._data = Method.encode(this._meta, this._args);
   }
 
-  get args () {
+  static decode (meta: FunctionMetadata, data: Uint8Array): Array<Base> {
+    let offset = 0;
+
+    return Method.filterOrigin(meta).map(({ type }) => {
+      const base = createType(type).fromU8a(data.subarray(offset));
+
+      offset += base.byteLength();
+
+      return base;
+    });
+  }
+
+  static encode (meta: FunctionMetadata, args: Array<any>): Uint8Array {
+    const encoded = Method.filterOrigin(meta).map(({ type }, index) =>
+      createType(type, args[index]).toU8a()
+    );
+
+    return u8aConcat(...encoded);
+  }
+
+  // If the extrinsic function has an argument of type `Origin`, we ignore it
+  static filterOrigin (meta?: FunctionMetadata): Array<FunctionArgumentMetadata> {
+    // FIXME should be `arg.type !== Origin`, but doesn't work...
+    return meta
+      ? meta.arguments.filter(({ type }) =>
+        type.toString() !== 'Origin'
+      )
+      : [];
+  }
+
+  byteLength (): number {
+    return super.byteLength() + this.data.length;
+  }
+
+  get args (): Array<any> {
     return this._args;
   }
 
-  get index () {
+  get data (): Uint8Array {
+    return this._data;
+  }
+
+  get index (): Uint8Array {
     return this.raw;
   }
 
-  get meta () {
+  get meta (): FunctionMetadata {
     return this._meta;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    // FIXME Even when decoded, we will need access to the meta
-    const args = this.meta
-      ? this.meta.arguments
-        .filter((arg) =>
-          arg.type.toString() !== 'Origin'
-        )
-        .map((argument, index) =>
-          createType(argument.type, this.args[index]).toU8a(isBare)
-        )
-      : [];
+  fromU8a (input: Uint8Array): Method {
+    super.fromU8a(input);
 
+    this._data = input.subarray(super.byteLength());
+
+    return this;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       super.toU8a(isBare),
-      ...args
+      this.data
     );
   }
 }

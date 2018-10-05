@@ -43,6 +43,15 @@ export default class ExtrinsicSignature extends Struct {
     }, value);
   }
 
+  byteLength (): number {
+    // version has 1 byte, signature takes the rest
+    return 1 + (
+      this.isSigned
+        ? super.byteLength()
+        : 0
+    );
+  }
+
   get isSigned (): boolean {
     return this.signature.length !== 0;
   }

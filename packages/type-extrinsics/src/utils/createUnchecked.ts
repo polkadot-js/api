@@ -22,11 +22,7 @@ export default function createDescriptor (
   const callIndex = new Uint8Array([index, meta.id.toNumber()]);
   let extrinsicFn: any;
 
-  // If the extrinsic function has an argument of type `Origin`, we ignore it
-  // FIXME should be `arg.type !== Origin`, but doesn't work...
-  const expectedArgs = meta.arguments.filter((arg) =>
-    arg.type.toString() !== 'Origin'
-  );
+  const expectedArgs = Method.filterOrigin(meta);
 
   extrinsicFn = (...args: any[]): Extrinsic => {
     if (expectedArgs.length.valueOf() !== args.length) {

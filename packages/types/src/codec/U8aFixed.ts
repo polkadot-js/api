@@ -18,27 +18,31 @@ export default class U8aFixed extends U8a {
 
     this._bitLength = bitLength;
 
-    this._trimLength();
+    this._trim();
   }
 
-  private _trimLength (): void {
-    this.raw = this.raw.subarray(0, this.byteLength());
+  private _trimLength (): number {
+    return this._bitLength / 8;
+  }
+
+  private _trim (): void {
+    this.raw = this.raw.subarray(0, this._trimLength());
   }
 
   byteLength (): number {
-    return this._bitLength / 8;
+    return this._trimLength();
   }
 
   fromJSON (input: any): U8aFixed {
     super.fromJSON(input);
 
-    this._trimLength();
+    this._trim();
 
     return this;
   }
 
   fromU8a (input: Uint8Array): U8aFixed {
-    super.fromU8a(input.subarray(0, this.byteLength()));
+    super.fromU8a(input.subarray(0, this._trimLength()));
 
     return this;
   }
