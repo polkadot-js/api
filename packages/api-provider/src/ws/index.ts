@@ -38,14 +38,18 @@ interface WSProviderInterface extends ProviderInterface {
 }
 
 /**
- * The WebSocket Provider allows sending requests using WebSocket. Unlike the [[HttpProvider]],
- * it does support subscriptions and allows listening to events such as new blocks or balance changes.
- *
+ * @name WsProvider
+ * @summary The WebSocket Provider allows sending requests using WebSocket.
+ * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
+ * listening to events such as new blocks or balance changes.
  * @example
+ * <BR><PRE><CODE>
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
+ * <BR>
  * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = createApi(provider);
+ * </CODE></PRE>
  *
  * @see [[HttpProvider]]
  */
@@ -67,8 +71,8 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   private websocket: WebSocket | null;
 
   /**
-   * @param {string}     endpoint The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
-   * @param {boolean =        true}        autoConnect Whether to connect automatically or not.
+   * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
+   * @param {boolean} autoConnect Whether to connect automatically or not.
    */
   constructor (endpoint: string, autoConnect: boolean = true) {
     super();
@@ -91,7 +95,8 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   /**
-   * The [[WsProvider]] connects automatically by default. if you decided otherwise, you may
+   * @summary Manually connect
+   * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
    */
   connect (): void {
@@ -108,7 +113,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   /**
-   * Whether the node is connected or not.
+   * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
   isConnected (): boolean {
@@ -116,7 +121,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   /**
-   * Listens on events after having subscribed using the [[subscribe]] function.
+   * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterface$Emitted} type Event
    * @param  {ProviderInterface$EmitCb}  sub  Callback
    * @return {this}                           [description]
@@ -125,6 +130,9 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     return super.on(type, sub);
   }
 
+  /**
+   * @summary Send JSON data using WebSockets to configured HTTP Endpoint or queue.
+   */
   async send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
@@ -159,7 +167,8 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   /**
-   * Allows subscribing to a specific event.
+   * @name subscribe
+   * @summary Allows subscribing to a specific event.
    * @param  {string}                     type     Subscription type
    * @param  {string}                     method   Subscription method
    * @param  {Array<any>}                 params   Parameters
@@ -167,14 +176,16 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    *
    * @example
+   * <BR><PRE><CODE>
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const api = createApi(provider);
-   *
+   * <BR>
    * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)
    * })
+   * </CODE></PRE>
    */
   async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
@@ -183,7 +194,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
   }
 
   /**
-   * Allows unsubscribing to subscriptions made with [[subscribe]].
+   * @summary Allows unsubscribing to subscriptions made with [[subscribe]].
    */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
