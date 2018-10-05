@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
+import hexToU8a from '@polkadot/util/hex/toU8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -42,8 +43,13 @@ export default class Extrinsic extends Struct {
     }, value);
   }
 
-  get method (): Method {
-    return this.raw.method as Method;
+  // the actual [sectionIndex, methodIndex] as used
+  get callIndex (): Uint8Array {
+    return this.method.callIndex;
+  }
+
+  get data (): Uint8Array {
+    return this.method.data;
   }
 
   // convernience, encodes the extrinsic and returns the actual hash
@@ -51,6 +57,10 @@ export default class Extrinsic extends Struct {
     return new Hash(
       blake2Asu8a(this.toU8a(), 256)
     );
+  }
+
+  get isSigned (): boolean {
+    return this.signature.isSigned;
   }
 
   get length (): number {
@@ -61,9 +71,8 @@ export default class Extrinsic extends Struct {
     return this.method.meta;
   }
 
-  // the actual [sectionIndex, methodIndex] as used
-  get callIndex (): Uint8Array {
-    return this.method.callIndex;
+  get method (): Method {
+    return this.raw.method as Method;
   }
 
   get signature (): ExtrinsicSignature {
@@ -74,6 +83,12 @@ export default class Extrinsic extends Struct {
     const length = this.length;
 
     return length + Compact.encode(length).length;
+  }
+
+  fromJSON (input: any): Extrinsic {
+    super.fromU8a(hexToU8a(input));
+
+    return this;
   }
 
   fromU8a (input: Uint8Array): Extrinsic {
@@ -102,7 +117,7 @@ export default class Extrinsic extends Struct {
   }
 
   toHex (): string {
-    return u8aToHex(this.toU8a());
+    return u8aToHex(this.toU8a(true));
   }
 
   toJSON (): any {
