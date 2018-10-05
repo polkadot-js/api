@@ -117,7 +117,7 @@ export default class Extrinsic extends Struct {
   }
 
   toHex (): string {
-    return u8aToHex(this.toU8a(true));
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
