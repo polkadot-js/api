@@ -7,6 +7,7 @@ import { FunctionMetadata } from '@polkadot/types/Metadata';
 
 export interface ExtrinsicFunction {
   (...args: any[]): UncheckedMortalExtrinsic,
+  callId: Uint8Array,
   meta: FunctionMetadata,
   method: string;
   section: string;

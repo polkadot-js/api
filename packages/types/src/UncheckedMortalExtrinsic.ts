@@ -55,6 +55,14 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     return this._signature;
   }
 
+  get methodIndex (): number {
+    return this._call.methodIndex;
+  }
+
+  get sectionIndex (): number {
+    return this._call.sectionIndex;
+  }
+
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): UncheckedMortalExtrinsic {
     const signature = this.createSignature(this._call, signerPair, nonce, blockHash);
 
