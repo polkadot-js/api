@@ -60,6 +60,10 @@ export default class UncheckedMortalExtrinsic extends Extrinsic {
     return this._call.meta;
   }
 
+  get callIndex (): Uint8Array {
+    return this._call.callIndex;
+  }
+
   get methodIndex (): number {
     return this._call.methodIndex;
   }

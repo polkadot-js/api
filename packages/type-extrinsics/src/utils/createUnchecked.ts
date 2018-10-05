@@ -19,7 +19,7 @@ export default function createDescriptor (
   index: number,
   meta: FunctionMetadata
 ): ExtrinsicFunction {
-  const callId = new Uint8Array([index, meta.id.toNumber()]);
+  const callIndex = new Uint8Array([index, meta.id.toNumber()]);
   let extrinsicFn: any;
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
@@ -33,12 +33,12 @@ export default function createDescriptor (
       throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
-    const call = new Call(callId, meta, args);
+    const call = new Call(callIndex, meta, args);
 
     return new UncheckedMortalExtrinsic(call);
   };
 
-  extrinsicFn.callId = callId;
+  extrinsicFn.callIndex = callIndex;
   extrinsicFn.meta = meta;
   extrinsicFn.method = method;
   extrinsicFn.section = section;
