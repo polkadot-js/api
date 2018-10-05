@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { UncheckedMortalExtrinsic } from '@polkadot/types/index';
+import { Extrinsic } from '@polkadot/types/index';
 import { FunctionMetadata } from '@polkadot/types/Metadata';
 
 export interface ExtrinsicFunction {
-  (...args: any[]): UncheckedMortalExtrinsic,
+  (...args: any[]): Extrinsic,
   callIndex: Uint8Array,
   meta: FunctionMetadata,
   method: string;

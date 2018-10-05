@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Hash, Header, SignedBlock, UncheckedMortalExtrinsic } from '@polkadot/types/index';
+import { BlockNumber, Hash, Header, SignedBlock, Extrinsic } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
@@ -44,7 +44,7 @@ export default class ApiCalls extends ApiQueries {
     return this._api.system.version();
   }
 
-  submitExtrinsic = (extrinsic: UncheckedMortalExtrinsic): Observable<Hash | undefined> => {
+  submitExtrinsic = (extrinsic: Extrinsic): Observable<Hash | undefined> => {
     return this._api.author.submitExtrinsic(extrinsic);
   }
 }

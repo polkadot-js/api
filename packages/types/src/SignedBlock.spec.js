@@ -11,12 +11,12 @@ describe('SignedBlock', () => {
   it('has the correct stateRoot', () => {
     expect(
       block.block.header.stateRoot.toString()
-    ).toEqual('0xc372e08fa6edddd0ee415742eb551b8475100a40fe47a3d6470ad46b9b7b460d');
+    ).toEqual('0x6e4e88dc766d13c8975e7806e30cc1627e9553a2ebe59ab123f985d1c925c5ff');
   });
 
   it('has the justification', () => {
     expect(
       block.justification.hash.toHex()
-    ).toEqual('0x737f58ac7f964353c56160187821ef4d2295d196c8479c21c7ae37f708550b57');
+    ).toEqual('0x7ac267bb86a5b674582fba9e84d3e3e9988621124c3e33358f7771224d176795');
   });
 });

@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
+import isU8a from '@polkadot/util/is/u8a';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -84,8 +85,8 @@ export default class Struct <
   }
 
   fromJSON (input: any): Struct<S, T, V, E> {
-    if (isHex(input)) {
-      return this.fromU8a(hexToU8a(input));
+    if (isHex(input) || isU8a(input)) {
+      return this.fromU8a(u8aToU8a(input));
     }
 
     Object.keys(this.raw).forEach((key) => {
