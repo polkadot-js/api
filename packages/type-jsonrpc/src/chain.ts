@@ -38,13 +38,13 @@ const getHeader: MethodOpt = {
 };
 
 const getRuntimeVersion: MethodOpt = {
-  description: ' Get the runtime version',
+  description: 'Get the runtime version',
   params: [],
   type: 'RuntimeVersion'
 };
 
 const getRuntimeVersionAt: MethodOpt = {
-  description: ' Get the runtime version at a specific block',
+  description: 'Get the runtime version at a specific block',
   params: [
     createParam('hash', 'Hash')
   ],
