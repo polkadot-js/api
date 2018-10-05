@@ -24,7 +24,7 @@ import isFunction from '@polkadot/util/is/function';
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
- * const provider = new WsProvider('http://127.0.0.1:9944');
+ * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = new Api(provider);
  * ```
  */
@@ -61,7 +61,7 @@ export default class Api implements ApiInterface {
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/Api';
+   * import Api from '@polkadot/api';
    *
    * Api.signature({ name: 'test_method', params: [ { name: 'dest', type: 'Address' } ], type: 'Address' }); // => test_method (dest: Address): Address
    * ```

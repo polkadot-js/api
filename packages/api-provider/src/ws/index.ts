@@ -39,18 +39,18 @@ interface WSProviderInterface extends ProviderInterface {
 
 /**
  * @name WsProvider
- * @summary The WebSocket Provider allows sending requests using WebSocket.
+ * @summary The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
  * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
  * listening to events such as new blocks or balance changes.
  * @example
  * <BR>
  *
  * ```javascript
- * import createApi from '@polkadot/api';
+ * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = createApi(provider);
+ * const api = new Api(provider);
  * ```
  *
  * @see [[HttpProvider]]
@@ -182,7 +182,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    *
    * ```javascript
    * const provider = new WsProvider('ws://127.0.0.1:9944');
-   * const api = createApi(provider);
+   * const api = new Api(provider);
    *
    * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
