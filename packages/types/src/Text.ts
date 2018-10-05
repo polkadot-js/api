@@ -2,12 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isFunction from '@polkadot/util/is/function';
+import isString from '@polkadot/util/is/string';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
 import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
+import { AnyU8a } from '@polkadot/types/types';
 import Base from './codec/Base';
 import Compact from './codec/Compact';
+import U8a from './codec/U8a';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.
@@ -18,12 +22,29 @@ import Compact from './codec/Compact';
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
 export default class Text extends Base<string> {
-  constructor (value: Text | string = '') {
+  constructor (value: Text | string | AnyU8a = '') {
     super(
-      value instanceof Text
-        ? value.raw
-        : value.trim()
+      Text.decode(value)
     );
+  }
+
+  static decode (input: any): string {
+    if (input instanceof Text) {
+      return input.raw;
+    } else if (isString(input)) {
+      return input;
+    } else if (input instanceof Uint8Array) {
+      const [offset, length] = Compact.decode(input);
+      return u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
+    } else if (Array.isArray(input)) {
+      return Text.decode(new Uint8Array(input));
+    } else if (input instanceof U8a) {
+      return Text.decode(input.raw);
+    } else if (isFunction(input.toString)) {
+      return input.toString();
+    } else {
+      throw new Error(`Text: cannot decode input: "${input}"`);
+    }
   }
 
   get length (): number {
