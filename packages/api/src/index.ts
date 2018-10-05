@@ -22,7 +22,7 @@ import isFunction from '@polkadot/util/is/function';
  * import Api from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
  * <BR>
- * const provider = new WsProvider('http://127.0.0.1:9944');
+ * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = new Api(provider);
  * </CODE></PRE>
  */
