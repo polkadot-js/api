@@ -4,7 +4,7 @@
 
 import MethodIndex from './MethodIndex';
 
-describe('CallIndex', () => {
+describe('MethodIndex', () => {
   it('handles u8a encoding correctly', () => {
     expect(
       new MethodIndex([1, 2]).toU8a()
