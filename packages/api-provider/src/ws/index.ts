@@ -180,7 +180,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @example
    * <BR>
    *
-   * ```javascript+lineNumbers:true+lineNumberStart:1
+   * ```javascript
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const api = createApi(provider);
    *
