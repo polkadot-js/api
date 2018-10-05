@@ -1,5 +1,5 @@
 {
-  "version": "0.30.26",
+  "version": "0.30.27",
   "private": true,
   "engines": {
     "node": "^10.1.0",

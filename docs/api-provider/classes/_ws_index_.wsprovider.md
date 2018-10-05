@@ -39,7 +39,7 @@ const api = createApi(provider);
 
 ⊕ **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:71](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L71)*
+*Defined in [ws/index.ts:71](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L71)*
 
 **Parameters:**
 
@@ -96,7 +96,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:102](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L102)*
+*Defined in [ws/index.ts:102](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L102)*
 
 *__summary__*: Manually connect
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:119](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L119)*
+*Defined in [ws/index.ts:119](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L119)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -228,7 +228,7 @@ ___
 
 *Overrides EventEmitter.on*
 
-*Defined in [ws/index.ts:129](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L129)*
+*Defined in [ws/index.ts:129](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L129)*
 
 *__summary__*: Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
@@ -317,7 +317,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:136](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L136)*
+*Defined in [ws/index.ts:136](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L136)*
 
 *__summary__*: Send JSON data using WebSockets to configured HTTP Endpoint or queue.
 
@@ -338,7 +338,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *[ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:190](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L190)*
+*Defined in [ws/index.ts:190](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L190)*
 
 *__name__*: subscribe
 
@@ -372,7 +372,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:199](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L199)*
+*Defined in [ws/index.ts:199](https://github.com/polkadot-js/api/blob/427c38e/packages/api-provider/src/ws/index.ts#L199)*
 
 *__summary__*: Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 

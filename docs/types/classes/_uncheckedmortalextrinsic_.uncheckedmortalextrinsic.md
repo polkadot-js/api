@@ -21,7 +21,7 @@ Unchecked mortal extrinsic, as defined here: [https://github.com/paritytech/wiki
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [UncheckedMortalExtrinsic.ts:28](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L28)*
+*Defined in [UncheckedMortalExtrinsic.ts:29](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L29)*
 
 **Parameters:**
 
@@ -41,7 +41,7 @@ ___
 
 **● _call**: *[Call](_call_.call.md)*
 
-*Defined in [UncheckedMortalExtrinsic.ts:27](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L27)*
+*Defined in [UncheckedMortalExtrinsic.ts:28](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L28)*
 
 ___
 <a id="_signature"></a>
@@ -50,7 +50,7 @@ ___
 
 **● _signature**: *`Uint8Array`*
 
-*Defined in [UncheckedMortalExtrinsic.ts:28](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L28)*
+*Defined in [UncheckedMortalExtrinsic.ts:29](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L29)*
 
 ___
 <a id="raw"></a>
@@ -61,12 +61,23 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
 # Accessors
 
+<a id="callindex"></a>
+
+##  callIndex
+
+getcallIndex(): `Uint8Array`
+
+*Defined in [UncheckedMortalExtrinsic.ts:63](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L63)*
+
+**Returns:** `Uint8Array`
+
+___
 <a id="hash"></a>
 
 ##  hash
@@ -75,7 +86,7 @@ gethash(): [Hash](_hash_.hash.md)
 
 *Inherited from [Extrinsic](_extrinsic_.extrinsic.md).[hash](_extrinsic_.extrinsic.md#hash)*
 
-*Defined in [Extrinsic.ts:17](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Extrinsic.ts#L17)*
+*Defined in [Extrinsic.ts:17](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Extrinsic.ts#L17)*
 
 **Returns:** [Hash](_hash_.hash.md)
 
@@ -86,7 +97,7 @@ ___
 
 getisSigned():  `undefined` &#124; `Uint8Array`
 
-*Defined in [UncheckedMortalExtrinsic.ts:54](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L54)*
+*Defined in [UncheckedMortalExtrinsic.ts:55](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L55)*
 
 **Returns:**  `undefined` &#124; `Uint8Array`
 
@@ -101,7 +112,40 @@ getlength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Bytes.ts#L14)*
+*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Bytes.ts#L14)*
+
+**Returns:** `number`
+
+___
+<a id="meta"></a>
+
+##  meta
+
+getmeta(): [FunctionMetadata](_metadata_.functionmetadata.md)
+
+*Defined in [UncheckedMortalExtrinsic.ts:59](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L59)*
+
+**Returns:** [FunctionMetadata](_metadata_.functionmetadata.md)
+
+___
+<a id="methodindex"></a>
+
+##  methodIndex
+
+getmethodIndex(): `number`
+
+*Defined in [UncheckedMortalExtrinsic.ts:67](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L67)*
+
+**Returns:** `number`
+
+___
+<a id="sectionindex"></a>
+
+##  sectionIndex
+
+getsectionIndex(): `number`
+
+*Defined in [UncheckedMortalExtrinsic.ts:71](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L71)*
 
 **Returns:** `number`
 
@@ -119,7 +163,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[byteLength](_codec_u8a_.u8a.md#bytelength)*
 
-*Defined in [Bytes.ts:18](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Bytes.ts#L18)*
+*Defined in [Bytes.ts:18](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Bytes.ts#L18)*
 
 **Returns:** `number`
 
@@ -134,7 +178,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/codec/U8a.ts#L33)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/codec/U8a.ts#L33)*
 
 **Parameters:**
 
@@ -155,7 +199,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[fromU8a](_codec_u8a_.u8a.md#fromu8a)*
 
-*Defined in [Bytes.ts:22](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Bytes.ts#L22)*
+*Defined in [Bytes.ts:22](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Bytes.ts#L22)*
 
 **Parameters:**
 
@@ -172,7 +216,7 @@ ___
 
 ▸ **sign**(signerPair: *`KeyringPair`*, nonce: *[AnyNumber](../modules/_types_d_.md#anynumber)*, blockHash: *[AnyU8a](../modules/_types_d_.md#anyu8a)*): [UncheckedMortalExtrinsic](_uncheckedmortalextrinsic_.uncheckedmortalextrinsic.md)
 
-*Defined in [UncheckedMortalExtrinsic.ts:58](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L58)*
+*Defined in [UncheckedMortalExtrinsic.ts:75](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L75)*
 
 **Parameters:**
 
@@ -195,7 +239,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [Extrinsic.ts:23](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Extrinsic.ts#L23)*
+*Defined in [Extrinsic.ts:23](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Extrinsic.ts#L23)*
 
 **Returns:** `string`
 
@@ -210,7 +254,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [Extrinsic.ts:27](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Extrinsic.ts#L27)*
+*Defined in [Extrinsic.ts:27](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Extrinsic.ts#L27)*
 
 **Returns:** `any`
 
@@ -225,7 +269,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/U8a.ts:57](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/codec/U8a.ts#L57)*
+*Defined in [codec/U8a.ts:57](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/codec/U8a.ts#L57)*
 
 **Returns:** `string`
 
@@ -240,7 +284,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:30](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/Bytes.ts#L30)*
+*Defined in [Bytes.ts:30](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/Bytes.ts#L30)*
 
 **Parameters:**
 
@@ -257,7 +301,7 @@ ___
 
 ▸ **encode**(call: *[Call](_call_.call.md)*, signature?: *[TransactionSignature](_transactionsignature_.transactionsignature.md)*): `Uint8Array`
 
-*Defined in [UncheckedMortalExtrinsic.ts:37](https://github.com/polkadot-js/api/blob/fd596a1/packages/types/src/UncheckedMortalExtrinsic.ts#L37)*
+*Defined in [UncheckedMortalExtrinsic.ts:38](https://github.com/polkadot-js/api/blob/427c38e/packages/types/src/UncheckedMortalExtrinsic.ts#L38)*
 
 **Parameters:**
 
