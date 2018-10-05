@@ -27,7 +27,8 @@ export default class U8a extends Uint8Array implements Codec<U8a> {
   }
 
   fromJSON (input: any): U8a {
-    // FIXME this returns a new Object unfortunately, can't "replace" current value
+    // FIXME this returns a new Object unfortunately, can't "replace" current
+    // because length is fixed at construction.
     // Two solutions:
     // - either use static
     // - or completely remove from*, and force to use constructor

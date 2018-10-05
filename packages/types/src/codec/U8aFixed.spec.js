@@ -15,10 +15,16 @@ describe('U8aFixed', () => {
     expect(u8a.length).toEqual(4); // eslint-disable-line
   });
 
+  it('is an instance of Uint8Array', () => {
+    expect(
+      u8a instanceof Uint8Array
+    ).toBe(true);
+  });
+
   it('allows wrapping of a pre-existing instance', () => {
     expect(
-      u8a.toU8a()
-    ).toEqual(new Uint8Array([1, 2, 3, 4]));
+      u8a.toHex()
+    ).toEqual('0x01020304');
   });
 
   it('allows empty values', () => {
