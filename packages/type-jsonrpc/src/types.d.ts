@@ -4,24 +4,24 @@
 
 import { CodecTypes } from '@polkadot/types/types';
 
-export type Param = {
+export type RpcParam = {
   isOptional: boolean,
   name: string,
   type: CodecTypes
 };
 
-export type MethodOpt = {
+export type RpcMethodOpt = {
   description: string,
   isDeprecated?: boolean,
   isHidden?: boolean,
   isSigned?: boolean,
   isSubscription?: boolean,
-  params: Array<Param>,
+  params: Array<RpcParam>,
   subscribe?: [string, string],
   type: CodecTypes
 };
 
-export type Method = {
+export type RpcMethod = {
   alias?: string,
   description: string,
   isDeprecated: boolean,
@@ -29,18 +29,18 @@ export type Method = {
   isSigned: boolean,
   isSubscription: boolean,
   method: string,
-  params: Array<Param>,
+  params: Array<RpcParam>,
   section: string,
   subscribe: [string, string],
   type: CodecTypes
 };
 
-export type Section = {
+export type RpcSection = {
   isDeprecated: boolean,
   isHidden: boolean,
   description: string,
   section: string,
   methods: {
-    [index: string]: Method
+    [index: string]: RpcMethod
   }
 };
