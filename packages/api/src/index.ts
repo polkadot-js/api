@@ -51,7 +51,6 @@ export default class Api implements ApiInterface {
 
   /**
    * @name signature
-   * @signature `jsonrpcSignature (method: InterfaceMethodDefinition): string`
    * @summary Returns a string representation of the method with inputs and outputs.
    * @description
    * Formats the name, inputs and outputs into a human-readable string. This contains the input parameter names input types and output type.
