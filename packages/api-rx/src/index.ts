@@ -26,13 +26,15 @@ type CachedMap = {
  * @description It allows wrapping API components with observables using RxJS.
  *
  * @example
- * <BR><PRE><CODE>
+ * <BR>
+ *
+ * ```javascript
  * import RxApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
- * <BR>
+ *
  * const provider = new WsProvider('http://127.0.0.1:9944');
  * const rxapi = new RxApi(provider);
- * </CODE></PRE>
+ * ```
  */
 export default class RxApi implements RxApiInterface {
   private _api: ApiInterface;

@@ -3,13 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { CodecTypes } from '@polkadot/types/types';
-import { Param } from '../types';
+import { RpcParam } from '../types';
 
-type ParamOptions = {
+type RpcParamOptions = {
   isOptional?: boolean
 };
 
-export default function createParam (name: string, type: CodecTypes, { isOptional = false }: ParamOptions = { isOptional: false }): Param {
+export default function createParam (name: string, type: CodecTypes, { isOptional = false }: RpcParamOptions = { isOptional: false }): RpcParam {
   return {
     isOptional,
     name,

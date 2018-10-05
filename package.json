@@ -1,5 +1,5 @@
 {
-  "version": "0.30.27",
+  "version": "0.30.32",
   "private": true,
   "engines": {
     "node": "^10.1.0",
@@ -25,6 +25,7 @@
     "@polkadot/ts": "^0.1.30"
   },
   "dependencies": {
-    "gitbook-plugin-include-codeblock": "^3.2.2"
+    "gitbook-plugin-include-codeblock": "^3.2.2",
+    "gitbook-plugin-sunlight-highlighter": "^0.4.3"
   }
 }

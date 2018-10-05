@@ -22,13 +22,15 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * such as new blocks or balance changes. It is usually preferrable using the [[WsProvider]].
  *
  * @example
- * <BR><PRE><CODE>
- * import createApi from '@polkadot/api';
- * import HttpProvider from '@polkadot/api-provider/http';
  * <BR>
+ *
+ * ```javascript
+ * import Api from '@polkadot/api';
+ * import HttpProvider from '@polkadot/api-provider/http';
+ *
  * const provider = new HttpProvider('http://127.0.0.1:9933');
- * const api = createApi(provider);
- * </CODE></PRE>
+ * const api = new Api(provider);
+ * ```
  *
  * @see [[WsProvider]]
  */

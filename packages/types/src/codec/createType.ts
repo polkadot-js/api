@@ -4,7 +4,6 @@
 
 import assert from '@polkadot/util/assert';
 
-import * as Types from '../index';
 import Text from '../Text';
 import Base from './Base';
 import Tuple from './Tuple';
@@ -129,7 +128,9 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  const Type = (Types as any)[value.type];
+  // We are dynamically loading as to avoid circular dependencies
+  const Types = require('../index');
+  const Type = Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
