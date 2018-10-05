@@ -2,8 +2,14 @@
   "title": "Polkadot API Book",
   "gitbook": ">=2.4.0",
   "plugins": [
-    "include-codeblock"
+    "include-codeblock",
+    "-highlight",
+    "sunlight-highlighter"
   ],
   "root": "docs",
-  "pluginsConfig": {}
+  "pluginsConfig": {
+    "sunlight-highlighter": {
+      "theme": "gitbook"
+    }
+  }
 }

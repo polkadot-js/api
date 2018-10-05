@@ -43,13 +43,15 @@ interface WSProviderInterface extends ProviderInterface {
  * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
  * listening to events such as new blocks or balance changes.
  * @example
- * <BR><PRE><CODE>
+ * <BR>
+ *
+ * ```javascript+lineNumbers:false
  * import createApi from '@polkadot/api';
  * import WsProvider from '@polkadot/api-provider/ws';
- * <BR>
+ *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
  * const api = createApi(provider);
- * </CODE></PRE>
+ * ```
  *
  * @see [[HttpProvider]]
  */
@@ -176,16 +178,18 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @return {Promise<number>}                     Promise resolving to the dd of the subscription you can use with [[unsubscribe]].
    *
    * @example
-   * <BR><PRE><CODE>
+   * <BR>
+   *
+   * ```javascript+lineNumbers:true+lineNumberStart:1
    * const provider = new WsProvider('ws://127.0.0.1:9944');
    * const api = createApi(provider);
-   * <BR>
+   *
    * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)
    * })
-   * </CODE></PRE>
+   * ```
    */
   async subscribe (type: string, method: string, params: Array<any>, callback: ProviderInterface$Callback): Promise<number> {
     const id = await this.send(method, params, { callback, type });
