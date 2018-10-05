@@ -10,5 +10,6 @@ module.exports = Object.assign({}, config, {
     '@polkadot/primitives(.*)$': '<rootDir>/packages/type-primitives/src/$1',
     '@polkadot/storage(.*)$': '<rootDir>/packages/type-storage/src/$1',
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
-  }
+  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.[jt]sx?$'
 });

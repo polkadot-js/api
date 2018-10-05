@@ -4,13 +4,11 @@
 
 import assert from '@polkadot/util/assert';
 
-import * as Types from '../index';
+import { Codec, Constructor } from '../types';
 import Text from '../Text';
-import Base from './Base';
 import Tuple from './Tuple';
+import * as Types from '../index';
 import Vector from './Vector';
-
-type Constructor = { new (value?: any): Base };
 
 export enum TypeDefInfo {
   Plain,
@@ -136,7 +134,7 @@ export function getTypeClass (value: TypeDef): Constructor {
   return Type;
 }
 
-export default function createType (type: Text | string, value?: any): Base {
+export default function createType (type: Text | string, value?: any): Codec<any> {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getTypeClass(

@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Base from './Base';
+import u8aToHex from '@polkadot/util/u8a/toHex';
+
+import { Codec } from '../types';
 
 type EnumDef = {
   [index: number]: string
@@ -15,15 +17,14 @@ type EnumDef = {
 //
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
-export default class Enum extends Base<number> {
+export default class Enum implements Codec<Enum> {
   private _enum: EnumDef;
+  protected raw: number;
 
   constructor (def: EnumDef, value: Enum | number = 0) {
-    super(
-      value instanceof Enum
-        ? value.raw
-        : value
-    );
+    this.raw = value instanceof Enum
+      ? value.raw
+      : value;
 
     this._enum = def;
   }
@@ -34,7 +35,7 @@ export default class Enum extends Base<number> {
 
   fromJSON (input: any): Enum {
     // FIXME We potentially want to assert that the value is actually inside this._enum
-    this.raw = input;
+    this.raw = input as number;
 
     return this;
   }
@@ -44,6 +45,10 @@ export default class Enum extends Base<number> {
     this.raw = input[0];
 
     return this;
+  }
+
+  toHex () {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {

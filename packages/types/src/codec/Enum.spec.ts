@@ -4,6 +4,11 @@
 
 import Enum from './Enum';
 
+enum TestEnum {
+  foo,
+  bar
+}
+
 describe('Struct', () => {
   it('provides a clean toString()', () => {
     expect(
@@ -27,5 +32,17 @@ describe('Struct', () => {
     expect(
       new Enum(['foo', 'bar']).fromJSON(5).toString()
     ).toEqual('5');
+  });
+
+  it('allows to create enum with TypeScript enum', () => {
+    expect(
+      new Enum(TestEnum).toNumber()
+    ).toEqual(0);
+  });
+
+  it('allows to create enum with TypeScript enum, with initial value', () => {
+    expect(
+      new Enum(TestEnum, TestEnum.bar).toNumber()
+    ).toEqual(1);
   });
 });

@@ -54,7 +54,7 @@ export default class Compact {
 
   static encode (_length: UInt | BN | number, bitLength: BitLength = DEFAULT_BITLENGTH): Uint8Array {
     const length = _length instanceof UInt
-      ? _length.toBn()
+      ? _length
       : bnToBn(_length);
 
     if (length.lte(MAX_U8)) {

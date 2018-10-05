@@ -9,7 +9,7 @@ describe('Vector', () => {
   let array;
 
   beforeEach(() => {
-    array = new Vector(Text, [ '1', '23', '345', '4567', new Text('56789') ]);
+    array = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
   });
 
   it('wraps a sequence of values', () => {
@@ -17,7 +17,7 @@ describe('Vector', () => {
   });
 
   it('has a sane representation for toString', () => {
-    expect(array.toString()).toEqual('[1, 23, 345, 4567, 56789]');
+    expect(array.toString()).toEqual('1,23,345,4567,56789');
   });
 
   it('encodes with length prefix', () => {
@@ -34,7 +34,7 @@ describe('Vector', () => {
   it('allows contruction via JSON', () => {
     expect(
       new Vector(Text).fromJSON(['6', '7']).toString()
-    ).toEqual('[6, 7]');
+    ).toEqual('6,7');
   });
 
   it('exposes the type', () => {
@@ -44,7 +44,7 @@ describe('Vector', () => {
   describe('array-like functions', () => {
     it('allows retrieval of a specific item', () => {
       expect(
-        array.get(2).toString()
+        array[2].toString()
       ).toEqual('345');
     });
 
@@ -72,8 +72,8 @@ describe('Vector', () => {
 
     it('exposes a working map', () => {
       expect(
-        array.map((e) => e.toString().substr(0, 1))
-      ).toEqual(['1', '2', '3', '4', '5']);
+        array.map((e) => e.toString().substr(0, 1)).toString()
+      ).toEqual('1,2,3,4,5');
     });
 
     it('exposes a working reduce', () => {

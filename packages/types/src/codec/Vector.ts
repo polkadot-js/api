@@ -3,33 +3,27 @@
 // of the ISC license. See the LICENSE file for details.
 
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import Base from './Base';
+import { Codec } from '../types';
 import Compact from './Compact';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
-// construction with the passed `Type` in the constructor. It aims to be an array-like structure,
-// i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
-// to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
-// `reduce` is exposed on the interface.
-export default class Vector <
-  T extends Base
-> extends Base<Array<T>> {
+// construction with the passed `Type` in the constructor. It aims to be an array-like structure.
+export default class Vector<T extends Codec<T>> extends Array<T> implements Codec<Vector<T>> {
   private _Type: { new(value?: any): T };
 
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
-    super(
-      value.map((entry) =>
-        entry instanceof Type
-          ? entry
-          : new Type(entry)
-      )
-    );
+    super(...value.map((entry) =>
+      entry instanceof Type
+        ? entry
+        : new Type(entry)
+    ));
 
     this._Type = Type;
   }
 
-  static with <O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static with<O extends Codec<O>> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
@@ -41,76 +35,49 @@ export default class Vector <
     return this._Type.name;
   }
 
-  get length (): number {
-    return this.raw.length;
-  }
-
   byteLength (): number {
-    return this.raw.reduce((total, raw) => {
-      return total + raw.byteLength();
+    return this.reduce((total, element) => {
+      return total + element.byteLength();
     }, Compact.encode(this.length).length);
   }
 
-  filter (fn: (item: T, index?: number) => any): Array<T> {
-    return this.raw.filter(fn);
-  }
-
-  find (fn: (item: T, index?: number) => any): T | undefined {
-    return this.raw.find(fn);
-  }
-
-  forEach (fn: (item: T, index?: number) => any): any {
-    return this.raw.forEach(fn);
-  }
-
   fromJSON (input: any): Vector<T> {
-    this.raw = input.map((input: any) =>
-      new this._Type().fromJSON(input)
+    // Clear array, https://stackoverflow.com/questions/1232040/how-do-i-empty-an-array-in-javascript
+    this.length = 0;
+
+    input.forEach((inputElement: any) =>
+      this.push(new this._Type().fromJSON(inputElement))
     );
 
     return this;
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    let [offset, _length] = Compact.decode(input);
-    const length = _length.toNumber();
-
-    this.raw = [];
+    let [offset] = Compact.decode(input);
+    this.length = 0; // Clear array
 
     for (let index = 0; index < length; index++) {
       const raw = new this._Type().fromU8a(input.subarray(offset));
 
-      this.raw.push(raw as T);
+      this.push(raw as T);
       offset += raw.byteLength();
     }
 
     return this;
   }
 
-  get (index: number): T {
-    return this.raw[index];
-  }
-
-  map <O> (fn: (item: T, index?: number) => O): Array<O> {
-    return this.raw.map(fn);
-  }
-
-  push (item: T): void {
-    this.raw.push(item);
-  }
-
-  reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
-    return this.raw.reduce(fn, initial);
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
-    return this.raw.map((entry) =>
+    return this.map((entry) =>
       entry.toJSON()
     );
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.raw.map((entry) =>
+    const encoded = this.map((entry) =>
       entry.toU8a(isBare)
     );
 
@@ -120,13 +87,5 @@ export default class Vector <
         Compact.encode(this.length),
         ...encoded
       );
-  }
-
-  toString (): string {
-    const data = this.raw.map((entry) =>
-      entry.toString()
-    );
-
-    return `[${data.join(', ')}]`;
   }
 }
