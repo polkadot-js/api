@@ -1,7 +1,20 @@
 
 
-The WebSocket Provider allows sending requests using WebSocket. Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
-*__example__*: import createApi from '@polkadot/api'; import WsProvider from '@polkadot/api-provider/ws'; const provider = new WsProvider('ws://127.0.0.1:9944'); const api = createApi(provider);
+*__name__*: WsProvider
+
+*__summary__*: The WebSocket Provider allows sending requests using WebSocket.
+
+*__description__*: Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
+
+*__example__*:   
+
+```
+import createApi from '@polkadot/api';
+import WsProvider from '@polkadot/api-provider/ws';
+
+const provider = new WsProvider('ws://127.0.0.1:9944');
+const api = createApi(provider);
+```
 
 *__see__*: [HttpProvider](_http_index_.httpprovider.md)
 
@@ -26,7 +39,7 @@ The WebSocket Provider allows sending requests using WebSocket. Unlike the [Http
 
 ⊕ **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:67](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L67)*
+*Defined in [ws/index.ts:71](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L71)*
 
 **Parameters:**
 
@@ -83,9 +96,11 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:97](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L97)*
+*Defined in [ws/index.ts:102](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L102)*
 
-The [WsProvider](_ws_index_.wsprovider.md) connects automatically by default. if you decided otherwise, you may connect manually using this method.
+*__summary__*: Manually connect
+
+*__description__*: The [WsProvider](_ws_index_.wsprovider.md) connects automatically by default, however if you decided otherwise, you may connect manually using this method.
 
 **Returns:** `void`
 
@@ -133,9 +148,9 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:114](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L114)*
+*Defined in [ws/index.ts:119](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L119)*
 
-Whether the node is connected or not.
+*__summary__*: Whether the node is connected or not.
 
 **Returns:** `boolean`
 true if connected
@@ -213,9 +228,9 @@ ___
 
 *Overrides EventEmitter.on*
 
-*Defined in [ws/index.ts:124](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L124)*
+*Defined in [ws/index.ts:129](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L129)*
 
-Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
+*__summary__*: Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
 **Parameters:**
 
@@ -302,7 +317,9 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:128](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L128)*
+*Defined in [ws/index.ts:136](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L136)*
+
+*__summary__*: Send JSON data using WebSockets to configured HTTP Endpoint or queue.
 
 **Parameters:**
 
@@ -321,14 +338,20 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *[ProviderInterface$Callback](../modules/_types_d_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:179](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L179)*
+*Defined in [ws/index.ts:190](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L190)*
 
-Allows subscribing to a specific event.
-*__example__*: const provider = new WsProvider('ws://127.0.0.1:9944'); const api = createApi(provider);
+*__name__*: subscribe
 
-api.state.storage(\[\[storage.balances.freeBalance,
+*__summary__*: Allows subscribing to a specific event.
 
-\]\], (_, values) => { console.log(values) }).then((subscriptionId) => { console.log('balance changes subscription id: ', subscriptionId) })
+*__example__*:   
+
+```
+const provider = new WsProvider('ws://127.0.0.1:9944');
+const api = createApi(provider);
+
+api.state.storage([[storage.balances.freeBalance,
+```
 
 **Parameters:**
 
@@ -349,9 +372,9 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:188](https://github.com/polkadot-js/api/blob/522eae6/packages/api-provider/src/ws/index.ts#L188)*
+*Defined in [ws/index.ts:199](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-provider/src/ws/index.ts#L199)*
 
-Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
+*__summary__*: Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
 **Parameters:**
 

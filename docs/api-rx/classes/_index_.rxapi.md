@@ -1,9 +1,20 @@
 
 
-An RxJs wrapper around the \[\[api\]\].
-*__example__*: import RxApi from '@polkadot/api'; import WsProvider from '@polkadot/api-provider/ws';
+*__name__*: RxApi
 
-const provider = new WsProvider('[http://127.0.0.1:9944')](http://127.0.0.1:9944')); const rxapi = new RxApi(provider);
+*__summary__*: The RxJS API is a wrapper around the API.
+
+*__description__*: It allows wrapping API components with observables using RxJS.
+
+*__example__*:   
+
+```
+import RxApi from '@polkadot/api';
+import WsProvider from '@polkadot/api-provider/ws';
+
+const provider = new WsProvider('http://127.0.0.1:9944');
+const rxapi = new RxApi(provider);
+```
 
 # Hierarchy
 
@@ -21,7 +32,7 @@ const provider = new WsProvider('[http://127.0.0.1:9944')](http://127.0.0.1:9944
 
 ⊕ **new RxApi**(provider?: *`ProviderInterface`*): [RxApi](_index_.rxapi.md)
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L40)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L44)*
 
 **Parameters:**
 
@@ -41,7 +52,7 @@ ___
 
 **● author**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L37)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L41)*
 
 ___
 <a id="chain"></a>
@@ -50,7 +61,7 @@ ___
 
 **● chain**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:38](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L38)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L42)*
 
 ___
 <a id="state"></a>
@@ -59,7 +70,7 @@ ___
 
 **● state**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:39](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L39)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L43)*
 
 ___
 <a id="system"></a>
@@ -68,7 +79,7 @@ ___
 
 **● system**: *[RxApiInterface$Section](../modules/_types_d_.md#rxapiinterface_section)*
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L40)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L44)*
 
 ___
 
@@ -80,7 +91,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:59](https://github.com/polkadot-js/api/blob/522eae6/packages/api-rx/src/index.ts#L59)*
+*Defined in [index.ts:63](https://github.com/polkadot-js/api/blob/fd596a1/packages/api-rx/src/index.ts#L63)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
