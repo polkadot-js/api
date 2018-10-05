@@ -7,8 +7,9 @@ import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 
-import Base from './codec/Base';
+import { Codec } from './types';
 
 const BITLENGTH = 64;
 
@@ -16,7 +17,7 @@ const BITLENGTH = 64;
 // second precicion (aligning with Rust), so any numbers passed an/out are always
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
-export default class Moment extends Base<Date> {
+export default class Moment extends Date implements Codec<Moment> {
   constructor (value: Uint8Array | Moment | Date | BN | number = 0) {
     super(
       value instanceof Date
@@ -27,7 +28,7 @@ export default class Moment extends Base<Date> {
 
   static decode (value: Uint8Array | Moment | number | BN): Date {
     if (value instanceof Moment) {
-      return value.raw;
+      return value;
     } if (isU8a(value)) {
       value = u8aToBn(value, true);
     }
@@ -42,21 +43,24 @@ export default class Moment extends Base<Date> {
   }
 
   fromJSON (input: any): Moment {
-    this.raw = Moment.decode(input);
-
-    return this;
+    // FIXME this returns a new Object unfortunately, can't "replace" current value
+    // Two solutions:
+    // - either use static
+    // - or completely remove from*, and force to use constructor
+    return new Moment(Moment.decode(input));
   }
 
   fromU8a (input: Uint8Array): Moment {
-    this.raw = Moment.decode(
-      u8aToBn(input.subarray(0, this.byteLength()), true)
+    // FIXME as above.
+    return new Moment(
+      Moment.decode(
+        u8aToBn(input.subarray(0, this.byteLength()), true)
+      )
     );
-
-    return this;
   }
 
-  getTime (): number {
-    return this.raw.getTime();
+  toHex () {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
@@ -67,15 +71,11 @@ export default class Moment extends Base<Date> {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 
-  toString (): string {
-    return this.raw.toISOString();
-  }
-
   toBn (): BN {
     return new BN(this.toNumber());
   }
 
   toNumber (): number {
-    return Math.ceil(this.raw.getTime() / 1000);
+    return Math.ceil(this.getTime() / 1000);
   }
 }

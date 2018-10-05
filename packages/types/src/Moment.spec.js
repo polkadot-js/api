@@ -10,7 +10,7 @@ describe('Moment', () => {
     expect(
       new Moment(
         new Date(1537968546280)
-      ).toString()
+      ).toISOString()
     ).toEqual('2018-09-26T13:29:07.000Z');
   });
 
