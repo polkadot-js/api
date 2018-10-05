@@ -6,7 +6,29 @@ import Struct from './Struct';
 import Text from '../Text';
 import U32 from '../U32';
 
+
+/**
+ * Helper function to test decoding.
+ */
+const testDecode = (type, input) =>
+  it(`can decode from ${type}`, () => {
+    const s = new Struct({
+      foo: Text,
+      bar: U32
+    }, input);
+    expect(s.keys()).toEqual(['foo', 'bar']);
+    expect(
+      s.values().map((v) =>
+        v.toString()
+      )
+    ).toEqual(['bazzing', '69']);
+  });
+
 describe('Struct', () => {
+
+  testDecode('object', { foo: 'bazzing', bar: 69 });
+  testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
   it('provides a clean toString()', () => {
     expect(
       new (
@@ -45,18 +67,4 @@ describe('Struct', () => {
       )
     ).toEqual(['bazzing', '69']);
   });
-
-  it('decoded correctly', () => {
-    const encoded = new Uint8Array([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]);
-    const test = new Struct({
-      foo: Text,
-      bar: U32
-    }, encoded);
-    expect(test.keys()).toEqual(['foo', 'bar']);
-    expect(
-      test.values().map((v) =>
-        v.toString()
-      )
-    ).toEqual(['bazzing', '69']);
-  })
 });

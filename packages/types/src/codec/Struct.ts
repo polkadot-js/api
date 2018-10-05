@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import isHex from '@polkadot/util/is/hex';
+import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
@@ -58,8 +59,8 @@ export default class Struct<
         if (value instanceof Uint8Array) {
           const [compactLength, typeLength] = Compact.decode(value.subarray(currentIndex));
 
-          // @ts-ignore See below
-          raw[key] = new Types[key]().fromU8a(
+          // @ts-ignore FIXME See below
+          raw[key] = new Types[key](
             value.subarray(
               currentIndex,
               currentIndex + compactLength + typeLength.toNumber()
@@ -68,17 +69,22 @@ export default class Struct<
 
           // Move the currentIndex forward
           currentIndex += compactLength + typeLength.toNumber();
-        } else {
+        } else if (isTuple && Array.isArray(value)) {
+          // @ts-ignore FIXME see below
+          raw[key] = new Types[key](
+            value[index]
+          );
+        } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
           // the [key in keyof T] was added, the idea is to provide better checks, which
           // does backfire here, but works externally.)
           raw[key] = new Types[key](
-            isTuple && Array.isArray(value)
-              ? value[index]
-              // @ts-ignore as above
-              : value[key]
+            // @ts-ignore FIXME
+            value[key]
           );
+        } else {
+          throw new Error(`Struct: cannot decode "${value}".`);
         }
 
         return raw;
