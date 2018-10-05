@@ -45,4 +45,18 @@ describe('Struct', () => {
       )
     ).toEqual(['bazzing', '69']);
   });
+
+  it('decoded correctly', () => {
+    const encoded = new Uint8Array([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]);
+    const test = new Struct({
+      foo: Text,
+      bar: U32
+    }, encoded);
+    expect(test.keys()).toEqual(['foo', 'bar']);
+    expect(
+      test.values().map((v) =>
+        v.toString()
+      )
+    ).toEqual(['bazzing', '69']);
+  })
 });
