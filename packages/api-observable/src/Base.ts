@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
+import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/rpc-rx/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 import { EMPTY, Observable, combineLatest, from } from 'rxjs';

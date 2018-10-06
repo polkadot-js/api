@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Api from '@polkadot/api';
+import Api from '@polkadot/rpc-core';
+import Ws from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
-import Ws from '@polkadot/api-provider/ws';
 
 import extrinsics from '../../src/static';
 

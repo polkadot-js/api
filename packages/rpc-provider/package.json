@@ -1,11 +1,11 @@
 {
-  "name": "@polkadot/api-observable",
+  "name": "@polkadot/rpc-provider",
   "version": "0.30.33",
-  "description": "An Observable wrapper around the Polkadot JS API",
+  "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
     "Polkadot",
-    "RxJs"
+    "JsonRPC"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
@@ -14,7 +14,7 @@
   "contributors": [],
   "license": "ISC",
   "engines": {
-    "node": ">=8.0"
+    "node": ">=6.4"
   },
   "publishConfig": {
     "access": "public",
@@ -27,14 +27,20 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/rpc-core": "^0.30.33",
-    "@polkadot/rpc-provider": "^0.30.33",
-    "@polkadot/extrinsics": "^0.30.33",
     "@polkadot/storage": "^0.30.33",
-    "@types/rx": "^4.1.1",
-    "rxjs": "^6.3.2"
+    "@polkadot/util": "^0.30.7",
+    "@polkadot/util-crypto": "^0.30.7",
+    "@polkadot/util-keyring": "^0.30.7",
+    "@types/nock": "^9.1.3",
+    "eventemitter3": "^3.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "websocket": "^1.0.25"
+  },
+  "devDependencies": {
+    "mock-socket": "^8.0.2",
+    "nock": "^9.6.1"
   }
 }
