@@ -4,17 +4,17 @@
 
 import interfaces from '@polkadot/jsonrpc/index';
 
-export interface ApiInterface$Section$Method {
+export interface RpcInterface$Section$Method {
   (...params: Array<any>): Promise<any>;
 
   subscription: string;
   unsubscribe: (id: number) => Promise<any>;
 }
 
-export type ApiInterface$Section = {
-  [index: string]: ApiInterface$Section$Method
+export type RpcInterface$Section = {
+  [index: string]: RpcInterface$Section$Method
 };
 
-export type ApiInterface = {
-  readonly [key in keyof typeof interfaces]: ApiInterface$Section
+export type RpcInterface = {
+  readonly [key in keyof typeof interfaces]: RpcInterface$Section
 }

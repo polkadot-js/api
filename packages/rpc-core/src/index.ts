@@ -4,7 +4,7 @@
 
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
-import { ApiInterface, ApiInterface$Section, ApiInterface$Section$Method } from './types';
+import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
 import { Base, Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
@@ -14,7 +14,7 @@ import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
 /**
- * @name Api
+ * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
  * @description It allows for querying a Polkadot Client Node.
  * @example
@@ -28,12 +28,12 @@ import isFunction from '@polkadot/util/is/function';
  * const api = new Api(provider);
  * ```
  */
-export default class Api implements ApiInterface {
+export default class Rpc implements RpcInterface {
   private _provider: ProviderInterface;
-  readonly author: ApiInterface$Section;
-  readonly chain: ApiInterface$Section;
-  readonly state: ApiInterface$Section;
-  readonly system: ApiInterface$Section;
+  readonly author: RpcInterface$Section;
+  readonly chain: RpcInterface$Section;
+  readonly state: RpcInterface$Section;
+  readonly system: RpcInterface$Section;
 
   /**
    * @constructor
@@ -74,7 +74,7 @@ export default class Api implements ApiInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
-  private createInterface ({ methods, section }: RpcSection): ApiInterface$Section {
+  private createInterface ({ methods, section }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {
@@ -86,10 +86,10 @@ export default class Api implements ApiInterface {
           : this.createMethodSend(rpcName, def);
 
         return exposed;
-      }, {} as ApiInterface$Section);
+      }, {} as RpcInterface$Section);
   }
 
-  private createMethodSend (rpcName: string, method: RpcMethod): ApiInterface$Section$Method {
+  private createMethodSend (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
@@ -99,7 +99,7 @@ export default class Api implements ApiInterface {
 
         return this.formatOutput(method, params, result);
       } catch (error) {
-        const message = `${Api.signature(method)}:: ${error.message}`;
+        const message = `${Rpc.signature(method)}:: ${error.message}`;
 
         console.error(message, error);
 
@@ -107,10 +107,10 @@ export default class Api implements ApiInterface {
       }
     };
 
-    return call as ApiInterface$Section$Method;
+    return call as RpcInterface$Section$Method;
   }
 
-  private createMethodSubscribe (rpcName: string, method: RpcMethod): ApiInterface$Section$Method {
+  private createMethodSubscribe (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
     const unsubscribe = (subscriptionId: any): Promise<any> =>
       this._provider.unsubscribe(rpcName, method.subscribe[1], subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
@@ -127,7 +127,7 @@ export default class Api implements ApiInterface {
 
         return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
       } catch (error) {
-        const message = `${Api.signature(method)}:: ${error.message}`;
+        const message = `${Rpc.signature(method)}:: ${error.message}`;
 
         console.error(message, error);
 
@@ -135,7 +135,7 @@ export default class Api implements ApiInterface {
       }
     };
 
-    const call = _call as ApiInterface$Section$Method;
+    const call = _call as RpcInterface$Section$Method;
 
     call.unsubscribe = unsubscribe;
 

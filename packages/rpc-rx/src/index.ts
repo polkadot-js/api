@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ApiInterface, ApiInterface$Section } from '@polkadot/rpc-core/types';
+import { RpcInterface, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RxApiInterface, RxApiInterface$Section } from './types';
+import { RxRpcInterface, RxRpcInterface$Section } from './types';
 
 import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
-import Api from '@polkadot/rpc-core/index';
+import Rpc from '@polkadot/rpc-core/index';
 import Ws from '@polkadot/rpc-provider/ws';
 import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -21,7 +21,7 @@ type CachedMap = {
 };
 
 /**
- * @name RxApi
+ * @name RpcRx
  * @summary The RxJS API is a wrapper around the API.
  * @description It allows wrapping API components with observables using RxJS.
  *
@@ -29,27 +29,27 @@ type CachedMap = {
  * <BR>
  *
  * ```javascript
- * import RxApi from '@polkadot/rpc-core';
+ * import Rpc from '@polkadot/rpc-rx';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('http://127.0.0.1:9944');
- * const rxapi = new RxApi(provider);
+ * const api = new Rpc(provider);
  * ```
  */
-export default class RxApi implements RxApiInterface {
-  private _api: ApiInterface;
+export default class RpcRx implements RxRpcInterface {
+  private _api: RpcInterface;
   private _cacheMap: CachedMap;
   private _isConnected: BehaviorSubject<boolean>;
-  readonly author: RxApiInterface$Section;
-  readonly chain: RxApiInterface$Section;
-  readonly state: RxApiInterface$Section;
-  readonly system: RxApiInterface$Section;
+  readonly author: RxRpcInterface$Section;
+  readonly chain: RxRpcInterface$Section;
+  readonly state: RxRpcInterface$Section;
+  readonly system: RxRpcInterface$Section;
 
   /**
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   constructor (provider: ProviderInterface = new Ws(defaults.WS_URL)) {
-    this._api = new Api(provider);
+    this._api = new Rpc(provider);
     this._cacheMap = {};
     this._isConnected = new BehaviorSubject(provider.isConnected());
 
@@ -66,7 +66,7 @@ export default class RxApi implements RxApiInterface {
     return this._isConnected;
   }
 
-  private createInterface (sectionName: string, section: ApiInterface$Section): RxApiInterface$Section {
+  private createInterface (sectionName: string, section: RpcInterface$Section): RxRpcInterface$Section {
     return Object
       .keys(section)
       .filter((name) => !['subscribe', 'unsubscribe'].includes(name))
@@ -74,10 +74,10 @@ export default class RxApi implements RxApiInterface {
         observables[name] = this.createObservable(`${sectionName}_${name}`, name, section);
 
         return observables;
-      }, ({} as RxApiInterface$Section));
+      }, ({} as RxRpcInterface$Section));
   }
 
-  private createObservable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => Observable<any> | BehaviorSubject<any> {
+  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> | BehaviorSubject<any> {
     if (isFunction(section[name].unsubscribe)) {
       return this.createCachedObservable(subName, name, section);
     }
@@ -92,7 +92,7 @@ export default class RxApi implements RxApiInterface {
       );
   }
 
-  private createCachedObservable (subName: string, name: string, section: ApiInterface$Section): (...params: Array<any>) => BehaviorSubject<any> {
+  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => BehaviorSubject<any> {
     if (!this._cacheMap[subName]) {
       this._cacheMap[subName] = {};
     }
@@ -108,7 +108,7 @@ export default class RxApi implements RxApiInterface {
     };
   }
 
-  private createSubject (name: string, params: Array<any>, section: ApiInterface$Section, unsubCallback?: () => void): BehaviorSubject<any> {
+  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section, unsubCallback?: () => void): BehaviorSubject<any> {
     const subject = new BehaviorSubject(undefined);
 
     Observable

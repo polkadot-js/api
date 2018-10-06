@@ -6,17 +6,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import interfaces from '@polkadot/jsonrpc/types';
 
-export type RxApiInterface$Method = (...params: Array<any>) => Observable<any> | BehaviorSubject<any>;
+export type RxRpcInterface$Method = (...params: Array<any>) => Observable<any> | BehaviorSubject<any>;
 
-export type RxApiInterface$Section = {
-  [index: string]: RxApiInterface$Method
+export type RxRpcInterface$Section = {
+  [index: string]: RxRpcInterface$Method
 };
 
-export type RxApiInterface = {
-  readonly author: RxApiInterface$Section;
-  readonly chain: RxApiInterface$Section;
-  readonly state: RxApiInterface$Section;
-  readonly system: RxApiInterface$Section;
+export type RxRpcInterface = {
+  readonly author: RxRpcInterface$Section;
+  readonly chain: RxRpcInterface$Section;
+  readonly state: RxRpcInterface$Section;
+  readonly system: RxRpcInterface$Section;
 
   isConnected: () => BehaviorSubject<boolean>
 }
