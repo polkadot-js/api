@@ -1,9 +1,10 @@
 const BN = require('bn.js');
-const Api = require('@polkadot/api').default;
-const WsProvider = require('@polkadot/api-provider/ws').default;
+const Rpc = require('@polkadot/rpc-core').default;
+const WsProvider = require('@polkadot/rpc-provider/ws').default;
 const storage = require('@polkadot/storage').default;
 const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = new Api(provider);
+const api = new Rpc(provider);
+
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 console.log('You may leave this example running and start example 06 or send DOTs to ' + Alice);
