@@ -16,11 +16,11 @@ export default class Bytes extends U8a {
   }
 
   byteLength (): number {
-    return this.length + Compact.encode(this.length).length;
+    return this.length + Compact.encodeU8a(this.length).length;
   }
 
   fromU8a (input: Uint8Array): Bytes {
-    const [offset, length] = Compact.decode(input);
+    const [offset, length] = Compact.decodeU8a(input);
 
     super.fromU8a(input.subarray(offset, offset + length.toNumber()));
 
@@ -31,7 +31,7 @@ export default class Bytes extends U8a {
     return isBare
       ? this.raw
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length),
         this.raw
       );
   }

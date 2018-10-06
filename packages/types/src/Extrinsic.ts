@@ -82,7 +82,7 @@ export default class Extrinsic extends Struct {
   byteLength (): number {
     const length = this.length;
 
-    return length + Compact.encode(length).length;
+    return length + Compact.encodeU8a(length).length;
   }
 
   fromJSON (input: any): Extrinsic {
@@ -92,7 +92,7 @@ export default class Extrinsic extends Struct {
   }
 
   fromU8a (input: Uint8Array): Extrinsic {
-    const [offset, length] = Compact.decode(input);
+    const [offset, length] = Compact.decodeU8a(input);
 
     super.fromU8a(input.subarray(offset, offset + length.toNumber()));
 
@@ -111,7 +111,7 @@ export default class Extrinsic extends Struct {
     return isBare
       ? encoded
       : u8aConcat(
-        Compact.encode(encoded.length),
+        Compact.encodeU8a(encoded.length),
         encoded
       );
   }

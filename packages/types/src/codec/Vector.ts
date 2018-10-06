@@ -48,7 +48,7 @@ export default class Vector <
   byteLength (): number {
     return this.raw.reduce((total, raw) => {
       return total + raw.byteLength();
-    }, Compact.encode(this.length).length);
+    }, Compact.encodeU8a(this.length).length);
   }
 
   filter (fn: (item: T, index?: number) => any): Array<T> {
@@ -72,7 +72,7 @@ export default class Vector <
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    let [offset, _length] = Compact.decode(input);
+    let [offset, _length] = Compact.decodeU8a(input);
     const length = _length.toNumber();
 
     this.raw = [];
@@ -117,7 +117,7 @@ export default class Vector <
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length),
         ...encoded
       );
   }

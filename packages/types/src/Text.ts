@@ -31,11 +31,11 @@ export default class Text extends Base<string> {
   }
 
   byteLength (): number {
-    return this.length + Compact.encode(this.length).length;
+    return this.length + Compact.encodeU8a(this.length).length;
   }
 
   fromU8a (input: Uint8Array): Text {
-    const [offset, length] = Compact.decode(input);
+    const [offset, length] = Compact.decodeU8a(input);
 
     this.raw = u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
 
@@ -62,7 +62,7 @@ export default class Text extends Base<string> {
     return isBare
       ? encoded
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length),
         encoded
       );
   }
