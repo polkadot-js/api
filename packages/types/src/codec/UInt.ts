@@ -18,7 +18,7 @@ import Base from './Base';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
-export const DEFAULT_BITLENGTH = 64;
+export const DEFAULT_UINT_BITS = 64;
 
 // A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
 // and decoding of those numbers. Upon construction the bitLength is provided and any additional
@@ -30,7 +30,7 @@ export default class UInt extends Base<BN> {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
 
-  constructor (value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_BITLENGTH, isHexJson: boolean = true) {
+  constructor (value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
       UInt.decode(value)
     );
