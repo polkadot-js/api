@@ -9,7 +9,9 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
-import UInt, { UIntBitLength, DEFAULT_BITLENGTH } from './UInt';
+import UInt, { UIntBitLength } from './UInt';
+
+export const DEFAULT_LENGTH_BITS = 32;
 
 const MAX_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
@@ -31,7 +33,7 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
 export default class Compact extends UInt {
-  static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength = DEFAULT_BITLENGTH): [number, BN] {
+  static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
     const input = toU8a(_input);
     const flag = input[0] & 0b11;
 
@@ -48,7 +50,7 @@ export default class Compact extends UInt {
     return [byteLength + 1, u8aToBn(input.subarray(1, 1 + byteLength), true)];
   }
 
-  static encodeU8a (_value: UInt | BN | number, bitLength: UIntBitLength = DEFAULT_BITLENGTH): Uint8Array {
+  static encodeU8a (_value: UInt | BN | number, bitLength: UIntBitLength): Uint8Array {
     const value = _value instanceof UInt
       ? _value.toBn()
       : bnToBn(_value);
