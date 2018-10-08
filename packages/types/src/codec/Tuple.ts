@@ -11,19 +11,19 @@ import Struct from './Struct';
 // A Tuple defines an anonymous Object with key/values - where the values are Base<T> values.It
 // is a specialization of the Struct type where the toJSON/fromJSON operates on Array structures,
 // while the U8a encoding is handled in the same way as a Struct
-export default class Tuple <
+export default class Tuple<
   // S & T definitions maps to what we have in Struct (naming documented there)
   S = { [index: string]: { new(value?: any): Base } },
   T = { [K in keyof S]: Base },
   V = { [K in keyof S]: any }
-> extends Struct<S, T, V> {
+  > extends Struct<S, T, V> {
   constructor (Types: S, value?: V | Array<any>, jsonMap?: Map<keyof S, string>) {
-    super(Types, value, jsonMap, true);
+    super(Types, value, jsonMap);
   }
 
-  static with <
+  static with<
     S = { [index: string]: { new(value?: any): Base } }
-  > (Types: S): { new(value?: any): Tuple<S> } {
+    > (Types: S): { new(value?: any): Tuple<S> } {
     return class extends Tuple<S> {
       constructor (value?: any) {
         super(Types, value);
