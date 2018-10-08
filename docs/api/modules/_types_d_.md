@@ -8,7 +8,7 @@
 
 **Ƭ ApiInterface**: *`object`*
 
-*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/ae54a71/packages/api/src/types.d.ts#L18)*
+*Defined in [types.d.ts:18](https://github.com/polkadot-js/api/blob/e8b1225/packages/api/src/types.d.ts#L18)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ ApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/ae54a71/packages/api/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/e8b1225/packages/api/src/types.d.ts#L14)*
 
 #### Type declaration
 
