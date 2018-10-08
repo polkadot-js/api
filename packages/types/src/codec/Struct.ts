@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
@@ -48,6 +49,10 @@ export default class Struct<
   static decode<S, V, T> (Types: S, value: V | Array<any> | AnyU8a): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
+    if (isHex(value)) {
+      return Struct.decode(Types, hexToU8a(value as string));
+    }
+
     // `currentIndex` is only used when we have a UintArray/U8a as value. It's
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
@@ -76,7 +81,8 @@ export default class Struct<
             value[key]
           );
         } else {
-          throw new Error(`Struct: cannot decode "${value}".`);
+          // @ts-ignore FIXME
+          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${value}".`);
         }
 
         return raw;
