@@ -10,5 +10,15 @@ module.exports = Object.assign({}, config, {
     '@polkadot/primitives(.*)$': '<rootDir>/packages/type-primitives/src/$1',
     '@polkadot/storage(.*)$': '<rootDir>/packages/type-storage/src/$1',
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
-  }
+  },
+  modulePathIgnorePatterns: [
+    '<rootDir>/packages/api/build',
+    '<rootDir>/packages/api-observable/build',
+    '<rootDir>/packages/api-provider/build',
+    '<rootDir>/packages/api-rx/build',
+    '<rootDir>/packages/types/build',
+    '<rootDir>/packages/type-extrinsics/build',
+    '<rootDir>/packages/type-jsonrpc/build',
+    '<rootDir>/packages/type-storage/build/'
+  ]
 });
