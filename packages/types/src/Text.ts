@@ -36,8 +36,6 @@ export default class Text extends Base<string> {
     } else if (input instanceof Uint8Array) {
       const [offset, length] = Compact.decode(input);
       return u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
-    } else if (Array.isArray(input)) {
-      return Text.decode(Uint8Array.from(input));
     } else if (input instanceof U8a) {
       return Text.decode(input.raw);
     } else if (isFunction(input.toString)) {
