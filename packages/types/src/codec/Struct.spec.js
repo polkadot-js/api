@@ -7,10 +7,6 @@ import Text from '../Text';
 import U32 from '../U32';
 import Vector from './Vector';
 
-
-/**
- * Helper function to test decoding.
- */
 const testDecode = (type, input) =>
   it(`can decode from ${type}`, () => {
     const s = new Struct({
@@ -30,7 +26,7 @@ describe('Struct', () => {
   testDecode('object', { foo: 'bazzing', bar: 69 });
   testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
 
-  it('decoded a more complicated type', () => {
+  it('decodes a more complicated type', () => {
     const s = new Struct({
       foo: Vector.with(Struct.with({
         bar: Text

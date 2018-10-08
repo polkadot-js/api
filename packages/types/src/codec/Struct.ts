@@ -10,7 +10,6 @@ import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import { AnyU8a } from '../types';
 import Base from './Base';
-import Compact from './Compact';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -55,20 +54,18 @@ export default class Struct<
 
     return Object
       .keys(Types)
-      .reduce((raw: T, key, index) => {
+      .reduce((raw: T, key) => {
         if (value instanceof Uint8Array) {
-          const [offset, typeLength] = Compact.decode(value.subarray(currentIndex));
-
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](
             value.subarray(
-              currentIndex,
-              currentIndex + offset + typeLength.toNumber()
+              currentIndex
             )
           );
 
           // Move the currentIndex forward
-          currentIndex += offset + typeLength.toNumber();
+          // @ts-ignore FIXME See below
+          currentIndex += raw[key].byteLength();
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
