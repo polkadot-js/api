@@ -16,7 +16,8 @@ export { default as Balance } from './Balance';
 // export * from './Bft;
 export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
-export { default as Bool } from './Bool';
+// NOTE We are exporting Bool as bool to match with Rust
+export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
