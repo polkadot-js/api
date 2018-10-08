@@ -10,6 +10,11 @@ const testDecode = (type, input) =>
     expect(new Text(input).toString()).toBe('foo');
   });
 
+const testEncode = (to, expected) =>
+  it(`can encode ${to}`, () => {
+    expect(new Text('foo')[to]()).toEqual(expected);
+  });
+
 describe('Text', () => {
 
   testDecode('string', 'foo');
@@ -18,4 +23,7 @@ describe('Text', () => {
   testDecode('U8a', new U8a(Uint8Array.from([12, 102, 111, 111])));
   testDecode('object with `toString()`', { toString() { return 'foo'; } });
 
+  // testEncode('toHex', '0x0c666f6f'); // FIXME Add this
+  testEncode('toString', 'foo');
+  testEncode('toU8a', Uint8Array.from([12, 102, 111, 111]));
 });

@@ -21,10 +21,24 @@ const testDecode = (type, input) =>
     ).toEqual(['bazzing', '69']);
   });
 
+const testEncode = (to, expected) =>
+  it(`can encode ${to}`, () => {
+    const s = new Struct({
+      foo: Text,
+      bar: U32
+    }, { foo: 'bazzing', bar: 69 });
+    expect(s[to]()).toEqual(expected);
+  });
+
 describe('Struct', () => {
 
   testDecode('object', { foo: 'bazzing', bar: 69 });
   testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
+  // testEncode('toHex', '0x1c62617a7a696e6745000000'); // FIXME Add this
+  testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+  testEncode('toString', '{foo: bazzing, bar: 69}');
+
 
   it('decodes a more complicated type', () => {
     const s = new Struct({
