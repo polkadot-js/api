@@ -7,7 +7,7 @@ import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base from './codec/Base';
-import Compact from './codec/Compact';
+import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.
@@ -31,11 +31,11 @@ export default class Text extends Base<string> {
   }
 
   byteLength (): number {
-    return this.length + Compact.encode(this.length).length;
+    return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 
   fromU8a (input: Uint8Array): Text {
-    const [offset, length] = Compact.decode(input);
+    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
 
     this.raw = u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
 
@@ -62,7 +62,7 @@ export default class Text extends Base<string> {
     return isBare
       ? encoded
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
         encoded
       );
   }

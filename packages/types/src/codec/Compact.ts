@@ -9,15 +9,13 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
-import UInt from './UInt';
+import UInt, { UIntBitLength } from './UInt';
 
-// TODO Could allow for 64 & 128 https://github.com/paritytech/parity-codec/pull/6
-type BitLength = 32;
+export const DEFAULT_LENGTH_BITS = 32;
 
 const MAX_U8 = new BN(2).pow(new BN(8 - 2)).subn(1);
 const MAX_U16 = new BN(2).pow(new BN(16 - 2)).subn(1);
 const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
-const DEFAULT_BITLENGTH = 32;
 
 // A new compact length-encoding algorithm. It performs the same function as Length, however
 // differs in that it uses a variable number of bytes to do the actual encoding. From the Rust
@@ -34,8 +32,8 @@ const DEFAULT_BITLENGTH = 32;
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class Compact {
-  static decode (_input: Uint8Array | string, bitLength: BitLength = DEFAULT_BITLENGTH): [number, BN] {
+export default class Compact extends UInt {
+  static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
     const input = toU8a(_input);
     const flag = input[0] & 0b11;
 
@@ -52,24 +50,40 @@ export default class Compact {
     return [byteLength + 1, u8aToBn(input.subarray(1, 1 + byteLength), true)];
   }
 
-  static encode (_length: UInt | BN | number, bitLength: BitLength = DEFAULT_BITLENGTH): Uint8Array {
-    const length = _length instanceof UInt
-      ? _length.toBn()
-      : bnToBn(_length);
+  static encodeU8a (_value: UInt | BN | number, bitLength: UIntBitLength): Uint8Array {
+    const value = _value instanceof UInt
+      ? _value.toBn()
+      : bnToBn(_value);
 
-    if (length.lte(MAX_U8)) {
-      return new Uint8Array([length.toNumber() << 2]);
-    } else if (length.lte(MAX_U16)) {
-      return bnToU8a(length.shln(2).addn(0b01), 16, true);
-    } else if (length.lte(MAX_U32)) {
-      return bnToU8a(length.shln(2).addn(0b10), 32, true);
+    if (value.lte(MAX_U8)) {
+      return new Uint8Array([value.toNumber() << 2]);
+    } else if (value.lte(MAX_U16)) {
+      return bnToU8a(value.shln(2).addn(0b01), 16, true);
+    } else if (value.lte(MAX_U32)) {
+      return bnToU8a(value.shln(2).addn(0b10), 32, true);
     }
 
     return u8aConcat(
       new Uint8Array([
         0b11
       ]),
-      bnToU8a(length, bitLength, true)
+      bnToU8a(value, bitLength, true)
     );
+  }
+
+  byteLength (): number {
+    return this.toU8a().length;
+  }
+
+  fromU8a (input: Uint8Array): UInt {
+    const [, value] = Compact.decodeU8a(input, this._bitLength);
+
+    this.raw = value;
+
+    return this;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    return Compact.encodeU8a(this.raw, this._bitLength);
   }
 }
