@@ -22,6 +22,9 @@ type ExtrinsicValue = {
   signature?: ExtrinsicSignature
 };
 
+// console.error('ExtrinsicSignature', ExtrinsicSignature);
+// console.error('Method', Method);
+
 /**
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
