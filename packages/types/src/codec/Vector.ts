@@ -27,7 +27,7 @@ export default class Vector<
     this._Type = Type;
   }
 
-  static decode<O extends Base> (Type: { new(value?: any): O }, value: any): Array<O> {
+  static decode<T extends Base> (Type: { new(value?: any): T }, value: any): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -42,9 +42,11 @@ export default class Vector<
       let currentOffset = offset;
       let result = [];
       for (let index = 0; index < length; index++) {
-        const raw = new Type(value.subarray(currentOffset));
+        // FIXME replace by:
+        // const raw = new Type(value.subarray(currentOffset));
+        const raw = new Type().fromU8a(value.subarray(currentOffset));
 
-        result.push(raw);
+        result.push(raw as T);
         currentOffset += raw.byteLength();
       }
       return result;
