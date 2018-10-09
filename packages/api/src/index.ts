@@ -169,7 +169,7 @@ export default class Api implements ApiInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | undefined> {
+  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | null | undefined> {
     const base = createType(method.type as string).fromJSON(result);
 
     if (method.type === 'StorageData') {
@@ -182,7 +182,10 @@ export default class Api implements ApiInterface {
       }
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
-      // one at a time, all based on the query types
+      // one at a time, all based on the query types. Three values can be resturned -
+      //   - Base - There is a valid value, non-empty
+      //   - null - The storage key is empty (but in the resultset)
+      //   - undefined - The storage value is not in the resultset
       return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
         const type = _key.outputType;
 
@@ -199,13 +202,17 @@ export default class Api implements ApiInterface {
         // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
         result.push(
-          item && !item.value.isEmpty
-            ? createType(type, item.value.value)
-            : undefined
+          !item
+            ? undefined
+            : (
+              item.value.isEmpty
+                ? null
+                : createType(type, item.value.value)
+            )
         );
 
         return result;
-      }, [] as Array<Base | undefined>);
+      }, [] as Array<Base | null | undefined>);
     }
 
     return base;
