@@ -60,7 +60,7 @@ export default class Struct<
     return Object
       .keys(Types)
       .reduce((raw: T, key, index) => {
-        if (value instanceof Uint8Array) {
+        if (isU8a(value)) {
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](
             value.subarray(
