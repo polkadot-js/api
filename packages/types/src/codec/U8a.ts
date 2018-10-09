@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
 import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyU8a } from '../types';
 import Base from './Base';
 
 // A U8a. A basic wrapper around Uint8Array, with no frills and no fuss. It
