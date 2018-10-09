@@ -27,9 +27,9 @@ export default class Struct <
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map(), isTuple: boolean = false) {
+  constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
-      Struct.decode(Types, value, isTuple)
+      Struct.decode(Types, value)
     );
 
     this._jsonMap = jsonMap;
@@ -43,22 +43,22 @@ export default class Struct <
       }, {} as E);
   }
 
-  static decode <S, V, T> (Types: S, value: V | Array<any>, isTuple: boolean): T {
+  static decode <S, V, T> (Types: S, value: V | Array<any>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     return Object
       .keys(Types)
       .reduce((raw: T, key, index) => {
-        // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
+        // FIXME Ok, something weird is going on here or I just don't get it...
         // it works, so ignore the checker, although it drives me batty. (It started when
         // the [key in keyof T] was added, the idea is to provide better checks, which
         // does backfire here, but works externally.)
-        raw[key] = new Types[key](
-          isTuple && Array.isArray(value)
-            ? value[index]
-            // @ts-ignore as above
-            : value[key]
-        );
+        // @ts-ignore
+        raw[key] = value[key] instanceof Types[key]
+          // @ts-ignore
+          ? value[key]
+          // @ts-ignore
+          : new Types[key](value[key]);
 
         return raw;
       }, {} as T);
@@ -87,6 +87,11 @@ export default class Struct <
   fromJSON (input: any): Struct<S, T, V, E> {
     if (isHex(input) || isU8a(input)) {
       return this.fromU8a(u8aToU8a(input));
+    }
+
+    // null & undefined yields empty
+    if (!input) {
+      input = {};
     }
 
     Object.keys(this.raw).forEach((key) => {
