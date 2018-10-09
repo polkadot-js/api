@@ -4,12 +4,20 @@
 
 import { AnyU8a } from './types';
 
+import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import createType from './codec/createType';
 import Base from './codec/Base';
 import MethodIndex from './MethodIndex';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
+
+const FN_UNKNOWN = {
+  method: 'unknown',
+  section: 'unknown'
+} as ExtrinsicFunction;
+
+const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 
 /**
  * Extrinsic function descriptor, as defined in
@@ -20,15 +28,15 @@ export default class Method extends MethodIndex {
   protected _data: Uint8Array;
   protected _meta: FunctionMetadata;
 
-  constructor (index: Method | AnyU8a, meta: FunctionMetadata, args: Array<any>) {
+  constructor (index: Method | AnyU8a, meta?: FunctionMetadata, args?: Array<any>) {
     super(index);
 
     if (index instanceof Method) {
       this._args = args || index.args;
       this._meta = meta || index.meta;
     } else {
-      this._args = args;
-      this._meta = meta;
+      this._args = args || [];
+      this._meta = meta || Method.findFunction(this.callIndex).meta;
     }
 
     this._data = Method.encode(this._meta, this._args);
@@ -64,6 +72,27 @@ export default class Method extends MethodIndex {
       : [];
   }
 
+  // We could only inject the meta (see injectExtrinsics below) and then do a
+  // meta-only lookup via
+  //
+  //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
+  //
+  // As a convenience helper though, we return the full constructor function,
+  // which includes the meta, name, section & actual interface for calling
+  static findFunction (callIndex: Uint8Array): ExtrinsicFunction {
+    return extrinsicFns[callIndex.toString()] || FN_UNKNOWN;
+  }
+
+  // This is called/injected by the API on init, allowing a snapshot of
+  // the available system extrinsics to be used in lookups
+  static injectExtrinsics (extrinsics: Extrinsics): void {
+    Object.values(extrinsics).forEach((methods) =>
+      Object.values(methods).forEach((method) =>
+        extrinsicFns[method.callIndex.toString()] = method
+      )
+    );
+  }
+
   byteLength (): number {
     return super.byteLength() + this.data.length;
   }
@@ -76,10 +105,6 @@ export default class Method extends MethodIndex {
     return this._data;
   }
 
-  get index (): Uint8Array {
-    return this.raw;
-  }
-
   get meta (): FunctionMetadata {
     return this._meta;
   }
@@ -87,7 +112,14 @@ export default class Method extends MethodIndex {
   fromU8a (input: Uint8Array): Method {
     super.fromU8a(input);
 
-    this._data = input.subarray(super.byteLength());
+    const startData = super.byteLength();
+
+    this._meta = Method.findFunction(this.callIndex).meta;
+    this._args = Method.decode(this._meta, input.subarray(startData));
+
+    const argsLength = this._args.reduce((length, arg) => length + arg.byteLength(), 0);
+
+    this._data = input.subarray(startData, startData + argsLength);
 
     return this;
   }
