@@ -42,7 +42,7 @@ export default class Method extends MethodIndex {
     this._data = Method.encode(this._meta, this._args);
   }
 
-  static decode (meta: FunctionMetadata, data: Uint8Array): Array<Base> {
+  static decodeMethod (meta: FunctionMetadata, data: Uint8Array): Array<Base> {
     let offset = 0;
 
     return Method.filterOrigin(meta).map(({ type }) => {
@@ -115,7 +115,7 @@ export default class Method extends MethodIndex {
     const startData = super.byteLength();
 
     this._meta = Method.findFunction(this.callIndex).meta;
-    this._args = Method.decode(this._meta, input.subarray(startData));
+    this._args = Method.decodeMethod(this._meta, input.subarray(startData));
 
     const argsLength = this._args.reduce((length, arg) => length + arg.byteLength(), 0);
 

@@ -2,19 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
+import isObject from '@polkadot/util/is/object';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
-import isU8a from '@polkadot/util/is/u8a';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
 // values in the constructor and it manages the decoding. It is important that the constructor
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
-export default class Struct <
+export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S = { [index: string]: { new(...value: Array<any>): Base } },
   // internal type, instance of classes mapped by key
@@ -23,13 +25,13 @@ export default class Struct <
   V = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
-> extends Base<T> {
+  > extends Base<T> {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
-      Struct.decode(Types, value)
+      Struct.decodeStruct(Types, value)
     );
 
     this._jsonMap = jsonMap;
@@ -43,30 +45,59 @@ export default class Struct <
       }, {} as E);
   }
 
-  static decode <S, V, T> (Types: S, value: V | Array<any>): T {
+  static decodeStruct<S, V, T> (Types: S, value: any): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
+
+    if (isHex(value)) {
+      return Struct.decodeStruct(Types, hexToU8a(value as string));
+    } else if (!value) {
+      return {} as T;
+    }
+
+    // `currentIndex` is only used when we have a UintArray/U8a as value. It's
+    // used to track at which index we are currently parsing in that array.
+    let currentIndex = 0;
 
     return Object
       .keys(Types)
       .reduce((raw: T, key, index) => {
-        // FIXME Ok, something weird is going on here or I just don't get it...
-        // it works, so ignore the checker, although it drives me batty. (It started when
-        // the [key in keyof T] was added, the idea is to provide better checks, which
-        // does backfire here, but works externally.)
-        // @ts-ignore
-        raw[key] = value[key] instanceof Types[key]
-          // @ts-ignore
-          ? value[key]
-          // @ts-ignore
-          : new Types[key](value[key]);
+        if (isU8a(value)) {
+          // @ts-ignore FIXME See below
+          raw[key] = new Types[key](
+            value.subarray(
+              currentIndex
+            )
+          );
+
+          // Move the currentIndex forward
+          // @ts-ignore FIXME See below
+          currentIndex += raw[key].byteLength();
+
+          // @ts-ignore FIXME See below
+        } else if (value[key] instanceof Types[key]) {
+          // @ts-ignore FIXME See below
+          raw[key] = value[key];
+        } else if (isObject(value)) {
+          // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
+          // it works, so ignore the checker, although it drives me batty. (It started when
+          // the [key in keyof T] was added, the idea is to provide better checks, which
+          // does backfire here, but works externally.)
+          raw[key] = new Types[key](
+            // @ts-ignore FIXME
+            value[key]
+          );
+        } else {
+          // @ts-ignore FIXME
+          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${value}".`);
+        }
 
         return raw;
       }, {} as T);
   }
 
-  static with <
+  static with<
     S = { [index: string]: { new(value?: any): Base } }
-  > (Types: S): { new(value?: any): Struct<S> } {
+    > (Types: S): { new(value?: any): Struct<S> } {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

@@ -13,9 +13,9 @@ import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
-export default class Vector <
+export default class Vector<
   T extends Base
-> extends Base<Array<T>> {
+  > extends Base<Array<T>> {
   private _Type: { new(value?: any): T };
 
   constructor (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any> = [] as Array<any>) {
@@ -26,7 +26,7 @@ export default class Vector <
     this._Type = Type;
   }
 
-  static decode <T> (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any>): Array<T> {
+  static decode<T> (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -43,6 +43,8 @@ export default class Vector <
     const result = [];
 
     for (let index = 0; index < length; index++) {
+      // FIXME replace by
+      // const decoded = new Type(u8a.subarray(offset));
       // @ts-ignore Not sure why we get "Property 'fromU8a' does not exist on type 'T'.", T extends Base in def?
       const decoded = new Type().fromU8a(u8a.subarray(offset));
 
@@ -53,7 +55,7 @@ export default class Vector <
     return result;
   }
 
-  static with <O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static with<O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
@@ -106,7 +108,7 @@ export default class Vector <
     return this.raw[index];
   }
 
-  map <O> (fn: (item: T, index?: number) => O): Array<O> {
+  map<O> (fn: (item: T, index?: number) => O): Array<O> {
     return this.raw.map(fn);
   }
 
@@ -114,7 +116,7 @@ export default class Vector <
     this.raw.push(item);
   }
 
-  reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
+  reduce<O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
     return this.raw.reduce(fn, initial);
   }
 
