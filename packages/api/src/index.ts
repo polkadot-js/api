@@ -182,7 +182,7 @@ export default class Api implements ApiInterface {
       }
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
-      // one at a time, all based on the query types. Three values can be resturned -
+      // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
