@@ -8,7 +8,7 @@
 
 **Ƭ JsonRpcObject**: *`object`*
 
-*Defined in [types.d.ts:5](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L5)*
+*Defined in [types.d.ts:5](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L5)*
 
 #### Type declaration
 
@@ -20,7 +20,7 @@ ___
 **Ƭ JsonRpcRequest**: * [JsonRpcObject](_types_d_.md#jsonrpcobject) & `object`
 *
 
-*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L10)*
+*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L10)*
 
 ___
 <a id="jsonrpcresponse"></a>
@@ -30,7 +30,7 @@ ___
 **Ƭ JsonRpcResponse**: * [JsonRpcObject](_types_d_.md#jsonrpcobject) & [JsonRpcResponseBase](_types_d_.md#jsonrpcresponsebase)
 *
 
-*Defined in [types.d.ts:36](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L36)*
+*Defined in [types.d.ts:36](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L36)*
 
 ___
 <a id="jsonrpcresponsebase"></a>
@@ -40,7 +40,7 @@ ___
 **Ƭ JsonRpcResponseBase**: * `JsonRpcResponse$Single` & `JsonRpcResponse$Subscription`
 *
 
-*Defined in [types.d.ts:34](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L34)*
+*Defined in [types.d.ts:34](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L34)*
 
 ___
 <a id="jsonrpcresponsebase_error"></a>
@@ -49,7 +49,7 @@ ___
 
 **Ƭ JsonRpcResponseBase$Error**: *`object`*
 
-*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L15)*
+*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L15)*
 
 #### Type declaration
 
@@ -60,7 +60,7 @@ ___
 
 **Ƭ ProviderInterface$Callback**: *`function`*
 
-*Defined in [types.d.ts:38](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L38)*
+*Defined in [types.d.ts:38](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L38)*
 
 #### Type declaration
 ▸(error: * `Error` &#124; `null`*, result: *`any`*): `void`
@@ -81,7 +81,7 @@ ___
 
 **Ƭ ProviderInterface$EmitCb**: *`function`*
 
-*Defined in [types.d.ts:42](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L42)*
+*Defined in [types.d.ts:42](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L42)*
 
 #### Type declaration
 ▸(value?: *`any`*): `any`
@@ -102,7 +102,7 @@ ___
 **Ƭ ProviderInterface$Emitted**: * "connected" &#124; "disconnected"
 *
 
-*Defined in [types.d.ts:40](https://github.com/polkadot-js/api/blob/17aa24c/packages/api-provider/src/types.d.ts#L40)*
+*Defined in [types.d.ts:40](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-provider/src/types.d.ts#L40)*
 
 ___
 
