@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
 import { AccountId, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
-import { Tuple } from '@polkadot/types/codec';
+import { Tuple, Vector } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
@@ -62,7 +62,7 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.democracy.publicProps)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((proposals: Array<Tuple> = []) =>
+        map((proposals: Vector<Tuple> = []) =>
           proposals
             .map((result: Tuple): RxProposal | undefined =>
               result
@@ -102,8 +102,10 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.democracy.votersFor, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((voters: Array<AccountId> = []) =>
-          voters
+        map((voters: Vector<AccountId> = []) =>
+          voters.map((accountId) =>
+            accountId
+          )
         )
       );
   }
@@ -170,8 +172,10 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.session.validators)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((validators: Array<AccountId> = []) =>
-          validators
+        map((validators: Vector<AccountId> = []) =>
+          validators.map((authorityId) =>
+            authorityId
+          )
         )
       );
   }
@@ -181,8 +185,10 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.staking.intentions)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((intentions: Array<AccountId> = []) =>
-          intentions
+        map((intentions: Vector<AccountId> = []) =>
+          intentions.map((accountId) =>
+            accountId
+          )
         )
       );
   }
@@ -192,8 +198,10 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.staking.nominatorsFor, address)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((nominators: Array<AccountId> = []) =>
-          nominators
+        map((nominators: Vector<AccountId> = []) =>
+          nominators.map((accountId) =>
+            accountId
+          )
         )
       );
   }
