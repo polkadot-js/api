@@ -33,7 +33,7 @@ export default class Vector<
           ? entry
           : new Type(entry));
     } else if (isU8a(value)) {
-      const [offset, _length] = Compact.decode(value);
+      const [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
       const length = _length.toNumber();
 
       // `currentOffset` is the current index we're at while parsing the bytes
