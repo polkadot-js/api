@@ -2,6 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
+import createType from './createType';
+import Method from '../Method';
 import Text from '../Text';
 import Vector from './Vector';
 
@@ -10,6 +14,8 @@ describe('Vector', () => {
 
   beforeEach(() => {
     array = new Vector(Text, [ '1', '23', '345', '4567', new Text('56789') ]);
+
+    Method.injectExtrinsics(extrinsics);
   });
 
   it('wraps a sequence of values', () => {
@@ -39,6 +45,17 @@ describe('Vector', () => {
 
   it('exposes the type', () => {
     expect(array.Type).toEqual('Text');
+  });
+
+  it('decodes a complex type via construction', () => {
+    const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
+      4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
+    ]));
+    const first = test.get(0);
+
+    expect(first.get(0).toNumber()).toEqual(10);
+    expect(first.get(1).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect(first.get(2).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
   describe('array-like functions', () => {

@@ -1,0 +1,555 @@
+Struct [ 'outerEvent', 'modules' ] decoding outerEvent offset 0
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'Event' } offset 6
+Struct [ 'name', 'events' ] decoding events offset 6
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'system' } offset 7
+Struct [ 'name', 'events' ] decoding events offset 7
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'ExtrinsicSuccess' } offset 17
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 17
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector { raw: [], _Type: [Function: Type] } offset 18
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 18
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' An extrinsic completed successfully.' } ],
+  _Type: [Function: Text] } offset 57
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'ExtrinsicFailed' } offset 16
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 16
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector { raw: [], _Type: [Function: Type] } offset 17
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 17
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' An extrinsic failed.' } ],
+  _Type: [Function: Text] } offset 40
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 105
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'balances' } offset 9
+Struct [ 'name', 'events' ] decoding events offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'NewAccount' } offset 11
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 11
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'AccountIndex', _originalLength: 12 },
+     Type { raw: 'NewAccountOutcome', _originalLength: 17 } ],
+  _Type: [Function: Type] } offset 53
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 53
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' A new account was created.' } ],
+  _Type: [Function: Text] } offset 82
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'ReapedAccount' } offset 14
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 14
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'AccountId', _originalLength: 9 } ],
+  _Type: [Function: Type] } offset 25
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 25
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' An account was reaped.' } ],
+  _Type: [Function: Text] } offset 50
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Transfer' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'Balance', _originalLength: 7 },
+     Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 46
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 46
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text { raw: ' Transfer succeeded (from, to, value, fees).' } ],
+  _Type: [Function: Text] } offset 92
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 234
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'session' } offset 8
+Struct [ 'name', 'events' ] decoding events offset 8
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'NewSession' } offset 11
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 11
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'BlockNumber', _originalLength: 11 } ],
+  _Type: [Function: Type] } offset 24
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 24
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' New session has happened. Note that the argument is the session index, not the block' },
+     Text { raw: ' number as the type might suggest.' } ],
+  _Type: [Function: Text] } offset 147
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 156
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'staking' } offset 8
+Struct [ 'name', 'events' ] decoding events offset 8
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Reward' } offset 7
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 7
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 16
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 16
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw: ' All validators have been rewarded by the given balance.' } ],
+  _Type: [Function: Text] } offset 74
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'OfflineWarning' } offset 15
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 15
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 30
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 30
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' One validator (and their nominators) has been given a offline-warning (they\'re still' },
+     Text {
+       raw:
+        ' within their grace). The accrued number of slashes is recorded, too.' } ],
+  _Type: [Function: Text] } offset 189
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'OfflineSlash' } offset 13
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 13
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 32
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 32
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' One validator (and their nominators) has been slashed by the given amount.' } ],
+  _Type: [Function: Text] } offset 110
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 382
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'democracy' } offset 10
+Struct [ 'name', 'events' ] decoding events offset 10
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Tabled' } offset 7
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 7
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'PropIndex', _originalLength: 9 },
+     Type { raw: 'Balance', _originalLength: 7 },
+     Type { raw: 'Vec<AccountId>', _originalLength: 14 } ],
+  _Type: [Function: Type] } offset 41
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 41
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 42
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Started' } offset 8
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 8
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'ReferendumIndex', _originalLength: 15 },
+     Type { raw: 'VoteThreshold', _originalLength: 13 } ],
+  _Type: [Function: Type] } offset 39
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 39
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 40
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Passed' } offset 7
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 7
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'ReferendumIndex', _originalLength: 15 } ],
+  _Type: [Function: Type] } offset 24
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 24
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 25
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'NotPassed' } offset 10
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 10
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'ReferendumIndex', _originalLength: 15 } ],
+  _Type: [Function: Type] } offset 27
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 27
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 28
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Cancelled' } offset 10
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 10
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'ReferendumIndex', _originalLength: 15 } ],
+  _Type: [Function: Type] } offset 27
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 27
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 28
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Executed' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'ReferendumIndex', _originalLength: 15 },
+     Type { raw: 'bool', _originalLength: 4 } ],
+  _Type: [Function: Type] } offset 31
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 31
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector { raw: [], _Type: [Function: Text] } offset 32
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 206
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'council' } offset 8
+Struct [ 'name', 'events' ] decoding events offset 8
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'VoterReaped' } offset 12
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 12
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'AccountId', _originalLength: 9 } ],
+  _Type: [Function: Type] } offset 33
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 33
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' reaped voter, reaper' } ],
+  _Type: [Function: Text] } offset 56
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'BadReaperSlashed' } offset 17
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 17
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'AccountId', _originalLength: 9 } ],
+  _Type: [Function: Type] } offset 28
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 28
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' slashed reaper' } ],
+  _Type: [Function: Text] } offset 45
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'TallyStarted' } offset 13
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 13
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 18
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 18
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A tally (for approval votes of council seat(s)) has started.' } ],
+  _Type: [Function: Text] } offset 81
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'TallyFinalised' } offset 15
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 15
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'Vec<AccountId>', _originalLength: 14 },
+     Type { raw: 'Vec<AccountId>', _originalLength: 14 } ],
+  _Type: [Function: Type] } offset 46
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 46
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A tally (for approval votes of council seat(s)) has ended (with one or more new members).' } ],
+  _Type: [Function: Text] } offset 139
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 330
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'council_voting' } offset 15
+Struct [ 'name', 'events' ] decoding events offset 15
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'TallyCancelation' } offset 17
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 17
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'Hash', _originalLength: 4 },
+     Type { raw: 'u32', _originalLength: 3 },
+     Type { raw: 'u32', _originalLength: 3 },
+     Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 35
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 35
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A voting tally has happened for a referendum cancelation vote.' },
+     Text { raw: ' Last three are yes, no, abstain counts.' } ],
+  _Type: [Function: Text] } offset 141
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'TallyReferendum' } offset 16
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 16
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'Hash', _originalLength: 4 },
+     Type { raw: 'u32', _originalLength: 3 },
+     Type { raw: 'u32', _originalLength: 3 },
+     Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 34
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 34
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text { raw: ' A voting tally has happened for a referendum vote.' },
+     Text { raw: ' Last three are yes, no, abstain counts.' } ],
+  _Type: [Function: Text] } offset 128
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 285
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'council_motions' } offset 16
+Struct [ 'name', 'events' ] decoding events offset 16
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Proposed' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'ProposalIndex', _originalLength: 13 },
+     Type { raw: 'Hash', _originalLength: 4 },
+     Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 43
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 43
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A motion (given hash) has been proposed (by given account) with a threshold (given u32).' } ],
+  _Type: [Function: Text] } offset 135
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Voted' } offset 6
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 6
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'Hash', _originalLength: 4 },
+     Type { raw: 'bool', _originalLength: 4 },
+     Type { raw: 'u32', _originalLength: 3 },
+     Type { raw: 'u32', _originalLength: 3 } ],
+  _Type: [Function: Type] } offset 35
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 35
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A motion (given hash) has been voted on by given account, leaving' },
+     Text {
+       raw:
+        ' a tally (yes votes and no votes given as u32s respectively).' } ],
+  _Type: [Function: Text] } offset 166
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Approved' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Hash', _originalLength: 4 } ],
+  _Type: [Function: Type] } offset 15
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 15
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text { raw: ' A motion was approved by the required threshold.' } ],
+  _Type: [Function: Text] } offset 66
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Disapproved' } offset 12
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 12
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Hash', _originalLength: 4 } ],
+  _Type: [Function: Type] } offset 18
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 18
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw: ' A motion was not approved by the required threshold.' } ],
+  _Type: [Function: Text] } offset 73
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Executed' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'Hash', _originalLength: 4 },
+     Type { raw: 'bool', _originalLength: 4 } ],
+  _Type: [Function: Type] } offset 20
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 20
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' A motion was executed; `bool` is true if returned without error.' } ],
+  _Type: [Function: Text] } offset 88
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 545
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'treasury' } offset 9
+Struct [ 'name', 'events' ] decoding events offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Proposed' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'ProposalIndex', _originalLength: 13 } ],
+  _Type: [Function: Type] } offset 24
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 24
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' New proposal.' } ],
+  _Type: [Function: Text] } offset 40
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Spending' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 18
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 18
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw: ' We have ended a spend period and will now allocate funds.' } ],
+  _Type: [Function: Text] } offset 78
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Awarded' } offset 8
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 8
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'ProposalIndex', _originalLength: 13 },
+     Type { raw: 'Balance', _originalLength: 7 },
+     Type { raw: 'AccountId', _originalLength: 9 } ],
+  _Type: [Function: Type] } offset 41
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 41
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' Some funds have been allocated.' } ],
+  _Type: [Function: Text] } offset 75
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Burnt' } offset 6
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 6
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 15
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 15
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw: [ Text { raw: ' Some of our funds have been burnt.' } ],
+  _Type: [Function: Text] } offset 52
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Rollover' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw: [ Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 18
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 18
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' Spending has finished; this is the amount that rolls over until next spend.' } ],
+  _Type: [Function: Text] } offset 97
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 352
+Struct [ 'name', 'events' ] decoding name offset 0
+OK [ 'name', 'events' ] decoded name = Text { raw: 'contract' } offset 9
+Struct [ 'name', 'events' ] decoding events offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding name offset 0
+OK [ 'name', 'arguments', 'documentation' ] decoded name = Text { raw: 'Transfer' } offset 9
+Struct [ 'name', 'arguments', 'documentation' ] decoding arguments offset 9
+OK [ 'name', 'arguments', 'documentation' ] decoded arguments = Vector {
+  raw:
+   [ Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'AccountId', _originalLength: 9 },
+     Type { raw: 'Balance', _originalLength: 7 } ],
+  _Type: [Function: Type] } offset 38
+Struct [ 'name', 'arguments', 'documentation' ] decoding documentation offset 38
+OK [ 'name', 'arguments', 'documentation' ] decoded documentation = Vector {
+  raw:
+   [ Text {
+       raw:
+        ' Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.' } ],
+  _Type: [Function: Text] } offset 134
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ EventMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: EventMetadata] } offset 144
+OK [ 'name', 'events' ] decoded events = Vector {
+  raw:
+   [ OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] },
+     OuterEventMetadataEvent { raw: [Object], _jsonMap: Map {}, _Types: [Object] } ],
+  _Type: [Function: OuterEventMetadataEvent] } offset 2746
+OK [ 'outerEvent', 'modules' ] decoded outerEvent = OuterEventMetadata {
+  raw:
+   { name: Text { raw: 'Event' },
+     events:
+      Vector { raw: [Array], _Type: [Function: OuterEventMetadataEvent] } },
+  _jsonMap: Map {},
+  _Types: { name: 'Text', events: 'Vector' } } offset 2746
+Struct [ 'outerEvent', 'modules' ] decoding modules offset 2746
+Struct [ 'prefix', 'module', 'storage' ] decoding prefix offset 0
+OK [ 'prefix', 'module', 'storage' ] decoded prefix = Text { raw: 'system' } offset 7
+Struct [ 'prefix', 'module', 'storage' ] decoding module offset 7
+Struct [ 'name', 'call' ] decoding name offset 0
+OK [ 'name', 'call' ] decoded name = Text { raw: 'Module' } offset 7
+Struct [ 'name', 'call' ] decoding call offset 7
+Struct [ 'name', 'functions' ] decoding name offset 0
+OK [ 'name', 'functions' ] decoded name = Text { raw: 'Call' } offset 5
+Struct [ 'name', 'functions' ] decoding functions offset 5
+OK [ 'name', 'functions' ] decoded functions = Vector { raw: [], _Type: [Function: FunctionMetadata] } offset 6
+OK [ 'name', 'call' ] decoded call = CallMetadata {
+  raw:
+   { name: Text { raw: 'Call' },
+     functions: Vector { raw: [], _Type: [Function: FunctionMetadata] } },
+  _jsonMap: Map {},
+  _Types: { name: 'Text', functions: 'Vector' } } offset 13
+OK [ 'prefix', 'module', 'storage' ] decoded module = ModuleMetadata {
+  raw:
+   { name: Text { raw: 'Module' },
+     call:
+      CallMetadata { raw: [Object], _jsonMap: Map {}, _Types: [Object] } },
+  _jsonMap: Map {},
+  _Types: { name: 'Text', call: 'CallMetadata' } } offset 20
+Struct [ 'prefix', 'module', 'storage' ] decoding storage offset 20
+Struct [ 'prefix', 'functions' ] decoding prefix offset 0
+OK [ 'prefix', 'functions' ] decoded prefix = Text { raw: 'System' } offset 7
+Struct [ 'prefix', 'functions' ] decoding functions offset 7
+Struct [ 'name', 'modifier', 'type', 'documentation' ] decoding name offset 0
+OK [ 'name', 'modifier', 'type', 'documentation' ] decoded name = Text { raw: 'AccountNonce' } offset 13
+Struct [ 'name', 'modifier', 'type', 'documentation' ] decoding modifier offset 13
+OK [ 'name', 'modifier', 'type', 'documentation' ] decoded modifier = StorageFunctionModifier { raw: 1, _enum: [ 'None', 'Default', 'Required' ] } offset 14
+Struct [ 'name', 'modifier', 'type', 'documentation' ] decoding type offset 14
+Struct [ 'key', 'value' ] decoding key offset 0
+OK [ 'key', 'value' ] decoded key = Type { raw: 'AccountId', _originalLength: 12 } offset 13
+Struct [ 'key', 'value' ] decoding value offset 13
+OK [ 'key', 'value' ] decoded value = Type { raw: 'Index', _originalLength: 8 } offset 22

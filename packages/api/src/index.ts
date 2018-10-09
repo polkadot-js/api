@@ -169,37 +169,43 @@ export default class Api implements ApiInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base {
+  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | undefined> {
     const base = createType(method.type as string).fromJSON(result);
 
     if (method.type === 'StorageData') {
+      // single return value (via state.getStorage), decode the value based on the
+      // outputType that we have specified
       const type = (params[0] as StorageKey).outputType;
 
       if (type) {
         return createType(type, base.raw);
       }
     } else if (method.type === 'StorageChangeSet') {
-      return (params[0] as Vector<StorageKey>).reduce((vector, _key: StorageKey) => {
+      // multiple return values (via state.storage subscription), decode the values
+      // one at a time, all based on the query types
+      return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
         const type = _key.outputType;
 
         if (!type) {
           throw new Error('Cannot format StorageChangeSet, output type missing for key');
         }
 
+        // see if we have a result value for this specific key
         const key = _key.toHex();
-
         const item = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === key
         );
 
-        if (!item) {
-          throw new Error('No result found for key in StorageChangeSet');
-        }
+        // if we don't have a value, do not fill in the entry, it will be up to the
+        // caller to sort this out, either ignoring or having a cache for older values
+        result.push(
+          item
+            ? createType(type, item.value.value)
+            : undefined
+        );
 
-        vector.push(createType(type, item.value.value));
-
-        return vector;
-      }, new (Vector.with(Base))());
+        return result;
+      }, [] as Array<Base | undefined>);
     }
 
     return base;

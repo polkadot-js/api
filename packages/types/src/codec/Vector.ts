@@ -4,6 +4,7 @@
 
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
@@ -18,7 +19,7 @@ export default class Vector<
   > extends Base<Array<T>> {
   private _Type: { new(value?: any): T };
 
-  constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
+  constructor (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
       Vector.decode(Type, value)
     );
@@ -26,7 +27,7 @@ export default class Vector<
     this._Type = Type;
   }
 
-  static decode<O extends Base> (Type: { new(value?: any): O }, value: any) {
+  static decode<O extends Base> (Type: { new(value?: any): O }, value: any): Array<O> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -47,6 +48,8 @@ export default class Vector<
         currentOffset += raw.byteLength();
       }
       return result;
+    } else {
+      return Vector.decode(Type, toU8a(value));
     }
   }
 
@@ -85,7 +88,8 @@ export default class Vector<
   }
 
   fromJSON (input: any): Vector<T> {
-    this.raw = input.map((input: any) =>
+    // input could be null/undefined to indicate empty
+    this.raw = (input || []).map((input: any) =>
       new this._Type().fromJSON(input)
     );
 
@@ -93,17 +97,7 @@ export default class Vector<
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    let [offset, _length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-    const length = _length.toNumber();
-
-    this.raw = [];
-
-    for (let index = 0; index < length; index++) {
-      const raw = new this._Type().fromU8a(input.subarray(offset));
-
-      this.raw.push(raw as T);
-      offset += raw.byteLength();
-    }
+    this.raw = Vector.decode(this._Type, input);
 
     return this;
   }
