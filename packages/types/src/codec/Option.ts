@@ -16,13 +16,13 @@ export default class Option<T> extends Base<Base<T>> {
 
   constructor (Type: { new(value?: any): Base<T> }, value?: any) {
     super(
-      Option.decode(Type, value)
+      Option.decodeOption(Type, value)
     );
 
     this._isEmpty = isUndefined(value) || value.length <= 1;
   }
 
-  static decode<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
+  static decodeOption<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
     if (isU8a(value)) {
       return new Type(value.subarray(1));
     }

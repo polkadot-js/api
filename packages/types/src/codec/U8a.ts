@@ -16,11 +16,11 @@ import Base from './Base';
 export default class U8a extends Base<Uint8Array> {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
-      U8a.decode(value)
+      U8a.decodeU8a(value)
     );
   }
 
-  static decode (value: any): Uint8Array {
+  static decodeU8a (value: any): Uint8Array {
     if (isU8a(value)) {
       return value;
     } else if (value instanceof U8a) {

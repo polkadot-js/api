@@ -24,11 +24,11 @@ import U8a from './codec/U8a';
 export default class Text extends Base<string> {
   constructor (value: Text | string | AnyU8a = '') {
     super(
-      Text.decode(value)
+      Text.decodeText(value)
     );
   }
 
-  static decode (input: any): string {
+  static decodeText (input: any): string {
     if (isString(input)) {
       return input;
     } else if (input instanceof Text) {
@@ -37,7 +37,7 @@ export default class Text extends Base<string> {
       const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
       return u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
     } else if (input instanceof U8a) {
-      return Text.decode(input.raw);
+      return Text.decodeText(input.raw);
     } else if (isFunction(input.toString)) {
       return input.toString();
     } else {

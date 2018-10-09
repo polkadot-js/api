@@ -31,7 +31,7 @@ export default class Struct<
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
-      Struct.decode(Types, value)
+      Struct.decodeStruct(Types, value)
     );
 
     this._jsonMap = jsonMap;
@@ -45,11 +45,11 @@ export default class Struct<
       }, {} as E);
   }
 
-  static decode<S, V, T> (Types: S, value: any): T {
+  static decodeStruct<S, V, T> (Types: S, value: any): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
-      return Struct.decode(Types, hexToU8a(value as string));
+      return Struct.decodeStruct(Types, hexToU8a(value as string));
     } else if (!value) {
       return {} as T;
     }
