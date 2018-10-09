@@ -199,7 +199,7 @@ export default class Api implements ApiInterface {
         // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
         result.push(
-          item
+          item && !item.value.isEmpty
             ? createType(type, item.value.value)
             : undefined
         );

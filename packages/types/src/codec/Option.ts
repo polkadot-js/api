@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isNull from '@polkadot/util/is/null';
 import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -19,14 +20,19 @@ export default class Option<T> extends Base<Base<T>> {
       Option.decodeOption(Type, value)
     );
 
-    this._isEmpty = isUndefined(value) || value.length <= 1;
+    this._isEmpty = isNull(value) || isUndefined(value);
   }
 
   static decodeOption<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
     if (isU8a(value)) {
       return new Type(value.subarray(1));
     }
-    return new Type(value);
+
+    return new Type(
+      isNull(value) || isUndefined(value)
+        ? undefined
+        : value
+      );
   }
 
   static with<O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
@@ -56,7 +62,7 @@ export default class Option<T> extends Base<Base<T>> {
   }
 
   fromJSON (input: any): Option<T> {
-    this._isEmpty = isUndefined(input);
+    this._isEmpty = isNull(input) || isUndefined(input);
 
     if (!this._isEmpty) {
       this.raw.fromJSON(input);
