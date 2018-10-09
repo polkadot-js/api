@@ -30,9 +30,9 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V | Array<any> | AnyU8a = {} as V, jsonMap: Map<keyof S, string> = new Map(), isTuple: boolean = false) {
+  constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
-      Struct.decode(Types, value, isTuple)
+      Struct.decode(Types, value)
     );
 
     this._jsonMap = jsonMap;
@@ -46,11 +46,13 @@ export default class Struct<
       }, {} as E);
   }
 
-  static decode<S, V, T> (Types: S, value: V | Array<any> | AnyU8a, isTuple: boolean): T {
+  static decode<S, V, T> (Types: S, value: any): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
-      return Struct.decode(Types, hexToU8a(value as string), isTuple);
+      return Struct.decode(Types, hexToU8a(value as string));
+    } else if (!value) {
+      return {} as T;
     }
 
     // `currentIndex` is only used when we have a UintArray/U8a as value. It's
@@ -72,11 +74,10 @@ export default class Struct<
           // @ts-ignore FIXME See below
           currentIndex += raw[key].byteLength();
 
-        } else if (isTuple && Array.isArray(value)) {
-          // @ts-ignore FIXME
-          raw[key] = new Types[key](
-            value[index]
-          );
+          // @ts-ignore FIXME See below
+        } else if (value[key] instanceof Types[key]) {
+          // @ts-ignore FIXME See below
+          raw[key] = value[key];
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
@@ -118,6 +119,11 @@ export default class Struct<
   fromJSON (input: any): Struct<S, T, V, E> {
     if (isHex(input) || isU8a(input)) {
       return this.fromU8a(u8aToU8a(input));
+    }
+
+    // null & undefined yields empty
+    if (!input) {
+      input = {};
     }
 
     Object.keys(this.raw).forEach((key) => {

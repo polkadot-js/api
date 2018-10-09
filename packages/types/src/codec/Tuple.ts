@@ -2,8 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { AnyU8a } from '../types';
+
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
+import isString from '@polkadot/util/is/string';
+import isU8a from '@polkadot/util/is/u8a';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
 import Struct from './Struct';
@@ -17,8 +22,29 @@ export default class Tuple<
   T = { [K in keyof S]: Base },
   V = { [K in keyof S]: any }
   > extends Struct<S, T, V> {
-  constructor (Types: S, value?: V | Array<any>, jsonMap?: Map<keyof S, string>) {
-    super(Types, value, jsonMap);
+  constructor (Types: S, value?: V | AnyU8a, jsonMap?: Map<keyof S, string>) {
+    super(Types, Tuple.decodeU8a(Types, value), jsonMap);
+  }
+
+  static decodeU8a<S, V> (Types: S, _value: V | AnyU8a): V {
+    if (!isU8a(_value) && !isString(_value) && !Array.isArray(_value)) {
+      return _value as V;
+    }
+
+    const value = toU8a(_value);
+    let offset = 0;
+
+    return Object
+      .keys(Types)
+      .reduce((result: V, key) => {
+        // @ts-ignore
+        result[key] = new Types[key]().fromU8a(value.subarray(offset));
+
+        // @ts-ignore
+        offset += result[key].byteLength();
+
+        return result;
+      }, {} as V);
   }
 
   static with<

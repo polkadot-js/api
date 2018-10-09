@@ -8,7 +8,7 @@
 
 **Ƭ RxApiInterface**: *`object`*
 
-*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/5a770c7/packages/api-rx/src/types.d.ts#L15)*
+*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-rx/src/types.d.ts#L15)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ RxApiInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/5a770c7/packages/api-rx/src/types.d.ts#L9)*
+*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-rx/src/types.d.ts#L9)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `BehaviorSubject`<`any`>
@@ -39,7 +39,7 @@ ___
 
 **Ƭ RxApiInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/5a770c7/packages/api-rx/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/e96ed94/packages/api-rx/src/types.d.ts#L11)*
 
 #### Type declaration
 

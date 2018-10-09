@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
-import { AccountId, Balance, Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
