@@ -5,9 +5,9 @@
 import Text from './Text';
 import U8a from './codec/U8a';
 
-const testDecode = (type, input) =>
+const testDecode = (type, input, expected) =>
   it(`can decode from ${type}`, () => {
-    expect(new Text(input).toString()).toBe('foo');
+    expect(new Text(input).toString()).toBe(expected);
   });
 
 const testEncode = (to, expected) =>
@@ -17,11 +17,11 @@ const testEncode = (to, expected) =>
 
 describe('Text', () => {
 
-  testDecode('string', 'foo');
-  testDecode('Text', new Text('foo'));
-  testDecode('Uint8Array', Uint8Array.from([12, 102, 111, 111]));
-  testDecode('U8a', new U8a(Uint8Array.from([12, 102, 111, 111])));
-  testDecode('object with `toString()`', { toString() { return 'foo'; } });
+  testDecode('string', 'foo', 'foo');
+  testDecode('Text', new Text('foo'), 'foo');
+  testDecode('Uint8Array', Uint8Array.from([12, 102, 111, 111]), 'foo');
+  testDecode('U8a', new U8a(Uint8Array.from([12, 102, 111, 111])), 'foo');
+  testDecode('object with `toString()`', { toString() { return 'foo'; } }, 'foo');
 
   // testEncode('toHex', '0x0c666f6f'); // FIXME Add this
   testEncode('toString', 'foo');

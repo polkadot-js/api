@@ -22,13 +22,13 @@ export default class Enum extends Base<number> {
 
   constructor (def: EnumDef, value: Enum | number = 0) {
     super(
-      Enum.decode(def, value)
+      Enum.decode(value)
     );
 
     this._enum = def;
   }
 
-  static decode (def: EnumDef, value: Enum | number = 0): number {
+  static decode (value: Enum | number = 0): number {
     if (value instanceof Enum) {
       return value.raw;
     } else if (isU8a(value)) {

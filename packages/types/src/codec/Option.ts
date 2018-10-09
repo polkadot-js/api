@@ -19,7 +19,7 @@ export default class Option<T> extends Base<Base<T>> {
       Option.decode(Type, value)
     );
 
-    this._isEmpty = isUndefined(value);
+    this._isEmpty = isUndefined(value) || value.length <= 1;
   }
 
   static decode<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
