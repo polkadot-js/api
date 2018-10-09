@@ -30,9 +30,9 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V | Array<any> | AnyU8a = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Array<any> | AnyU8a = {} as V, jsonMap: Map<keyof S, string> = new Map(), isTuple: boolean = false) {
     super(
-      Struct.decode(Types, value)
+      Struct.decode(Types, value, isTuple)
     );
 
     this._jsonMap = jsonMap;
@@ -46,11 +46,11 @@ export default class Struct<
       }, {} as E);
   }
 
-  static decode<S, V, T> (Types: S, value: V | Array<any> | AnyU8a): T {
+  static decode<S, V, T> (Types: S, value: V | Array<any> | AnyU8a, isTuple: boolean): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
-      return Struct.decode(Types, hexToU8a(value as string));
+      return Struct.decode(Types, hexToU8a(value as string), isTuple);
     }
 
     // `currentIndex` is only used when we have a UintArray/U8a as value. It's
@@ -59,7 +59,7 @@ export default class Struct<
 
     return Object
       .keys(Types)
-      .reduce((raw: T, key) => {
+      .reduce((raw: T, key, index) => {
         if (value instanceof Uint8Array) {
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](
@@ -71,6 +71,12 @@ export default class Struct<
           // Move the currentIndex forward
           // @ts-ignore FIXME See below
           currentIndex += raw[key].byteLength();
+
+        } else if (isTuple && Array.isArray(value)) {
+          // @ts-ignore FIXME
+          raw[key] = new Types[key](
+            value[index]
+          );
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
