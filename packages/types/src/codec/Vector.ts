@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Base from './Base';
@@ -12,24 +13,44 @@ import Compact from './Compact';
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
-export default class Vector <
+export default class Vector<
   T extends Base
-> extends Base<Array<T>> {
+  > extends Base<Array<T>> {
   private _Type: { new(value?: any): T };
 
   constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
     super(
-      value.map((entry) =>
-        entry instanceof Type
-          ? entry
-          : new Type(entry)
-      )
+      Vector.decode(Type, value)
     );
 
     this._Type = Type;
   }
 
-  static with <O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static decode<O extends Base> (Type: { new(value?: any): O }, value: any) {
+    if (Array.isArray(value)) {
+      return value.map((entry) =>
+        entry instanceof Type
+          ? entry
+          : new Type(entry));
+    } else if (isU8a(value)) {
+      const [offset, _length] = Compact.decode(value);
+      const length = _length.toNumber();
+
+      // `currentOffset` is the current index we're at while parsing the bytes
+      // array.
+      let currentOffset = offset;
+      let result = [];
+      for (let index = 0; index < length; index++) {
+        const raw = new Type(value.subarray(currentOffset));
+
+        result.push(raw as O);
+        currentOffset += raw.byteLength();
+      }
+      return result;
+    }
+  }
+
+  static with<O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
@@ -91,7 +112,7 @@ export default class Vector <
     return this.raw[index];
   }
 
-  map <O> (fn: (item: T, index?: number) => O): Array<O> {
+  map<O> (fn: (item: T, index?: number) => O): Array<O> {
     return this.raw.map(fn);
   }
 
@@ -99,7 +120,7 @@ export default class Vector <
     this.raw.push(item);
   }
 
-  reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
+  reduce<O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
     return this.raw.reduce(fn, initial);
   }
 
