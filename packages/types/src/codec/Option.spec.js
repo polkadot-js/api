@@ -6,6 +6,12 @@ import Option from './Option';
 import Text from '../Text';
 
 describe('Option', () => {
+  it('converts undefined/null to empty', () => {
+    expect(new Option(Text, undefined).isEmpty).toBe(true);
+    expect(new Option(Text, null).isEmpty).toBe(true);
+    expect(new Option(Text, 'test').isEmpty).toBe(false);
+  });
+
   it('converts fromJSON() with', () => {
     const o = new Option(Text).fromJSON('1234');
 

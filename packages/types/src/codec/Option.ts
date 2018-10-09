@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
@@ -15,10 +16,14 @@ export default class Option <T> extends Base<Base<T>> {
 
   constructor (Value: { new(value?: any): Base<T> }, value?: any) {
     super(
-      new Value(value)
+      new Value(
+        isNull(value) || isUndefined(value)
+          ? undefined
+          : value
+      )
     );
 
-    this._isEmpty = isUndefined(value);
+    this._isEmpty = isNull(value) || isUndefined(value);
   }
 
   static with <O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
@@ -48,7 +53,7 @@ export default class Option <T> extends Base<Base<T>> {
   }
 
   fromJSON (input: any): Option<T> {
-    this._isEmpty = isUndefined(input);
+    this._isEmpty = isNull(input) || isUndefined(input);
 
     if (!this._isEmpty) {
       this.raw.fromJSON(input);
