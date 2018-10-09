@@ -9,7 +9,6 @@ import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import { AnyU8a } from '../types';
 import Base from './Base';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes

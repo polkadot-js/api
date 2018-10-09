@@ -43,7 +43,7 @@ export default class Vector<
       for (let index = 0; index < length; index++) {
         const raw = new Type(value.subarray(currentOffset));
 
-        result.push(raw as O);
+        result.push(raw);
         currentOffset += raw.byteLength();
       }
       return result;
