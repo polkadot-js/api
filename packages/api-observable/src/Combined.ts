@@ -135,11 +135,12 @@ export default class ApiCombined extends ApiCalls {
         this.sessionsPerEra(),
         this.eraLastLengthChange()
       ],
-      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange = new BlockNumber(0)]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
-        sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress && eraLastLengthChange
+      ([sessionBlockProgress, sessionLength, sessionCurrentIndex, sessionsPerEra, eraLastLengthChange]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
+        sessionsPerEra && sessionCurrentIndex && sessionLength && sessionBlockProgress
           ? new BlockNumber(
             sessionCurrentIndex
-              .sub(eraLastLengthChange)
+              // last era can be null (i.e. new chain, valid key, no value set yet)
+              .sub(eraLastLengthChange || new BlockNumber(0))
               .mod(sessionsPerEra.toBn())
               .mul(sessionLength.toBn())
               .add(sessionBlockProgress.toBn())
@@ -171,10 +172,11 @@ export default class ApiCombined extends ApiCalls {
         this.sessionLastLengthChange()
       ],
       ([bestNumber, sessionLength, lastSessionLengthChange]: [BlockNumber | undefined, BlockNumber | undefined, BlockNumber | undefined]): BlockNumber | undefined =>
-        bestNumber && sessionLength && lastSessionLengthChange
+        bestNumber && sessionLength
           ? new BlockNumber(
             bestNumber
-              .sub(lastSessionLengthChange)
+              // last change can be null (i.e. new chain, valid key, no value set yet)
+              .sub(lastSessionLengthChange || new BlockNumber(0))
               .add(sessionLength.toBn())
               .mod(sessionLength.toBn())
           )
