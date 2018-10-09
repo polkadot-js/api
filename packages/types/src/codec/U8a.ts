@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
+import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyU8a } from '../types';
 import Base from './Base';
 
 // A U8a. A basic wrapper around Uint8Array, with no frills and no fuss. It
@@ -16,10 +16,18 @@ import Base from './Base';
 export default class U8a extends Base<Uint8Array> {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
-      value instanceof U8a
-        ? value.raw
-        : toU8a(value)
+      U8a.decodeU8a(value)
     );
+  }
+
+  static decodeU8a (value: any): Uint8Array {
+    if (isU8a(value)) {
+      return value;
+    } else if (value instanceof U8a) {
+      return value.raw;
+    } else {
+      return toU8a(value);
+    }
   }
 
   get length (): number {
