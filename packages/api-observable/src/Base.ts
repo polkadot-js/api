@@ -51,6 +51,8 @@ export default class ApiBase {
         }
 
         try {
+          // FIXME This now gets done in api-core/rpc-core as well, cleanup as soon as we
+          // have apis based on api-rx & api-promise (For now a bit of inefficiency)
           const meta = await this._api.state.getMetadata().toPromise();
 
           this._genesisHash = await this._api.chain.getBlockHash(0).toPromise();

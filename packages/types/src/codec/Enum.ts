@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isU8a from '@polkadot/util/is/u8a';
+
 import Base from './Base';
 
 type EnumDef = {
@@ -20,12 +22,20 @@ export default class Enum extends Base<number> {
 
   constructor (def: EnumDef, value: Enum | number = 0) {
     super(
-      value instanceof Enum
-        ? value.raw
-        : value
+      Enum.decodeEnum(value)
     );
 
     this._enum = def;
+  }
+
+  static decodeEnum (value: Enum | number = 0): number {
+    if (value instanceof Enum) {
+      return value.raw;
+    } else if (isU8a(value)) {
+      return value[0];
+    } else {
+      return value;
+    }
   }
 
   byteLength (): number {

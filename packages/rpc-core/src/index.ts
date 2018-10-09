@@ -6,9 +6,10 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-pro
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
-import { Base, Vector, createType } from '@polkadot/types/codec';
-import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import interfaces from '@polkadot/jsonrpc/index';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import { Base, Vector, createType } from '@polkadot/types/codec';
+import { Method, StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
@@ -49,6 +50,8 @@ export default class Rpc implements RpcInterface {
     this.chain = this.createInterface(interfaces.chain);
     this.state = this.createInterface(interfaces.state);
     this.system = this.createInterface(interfaces.system);
+
+    this.init();
   }
 
   /**
@@ -72,6 +75,22 @@ export default class Rpc implements RpcInterface {
     ).join(', ');
 
     return `${method} (${inputs}): ${type}`;
+  }
+
+  private init (): void {
+    // load metadata and and setup the Method static so we are able to use
+    // decoding at any point going forward. This is not great, but the best
+    // we can come up with for now
+    this.state
+      .getMetadata()
+      .then((metadata) => {
+        Method.injectExtrinsics(
+          extrinsicsFromMeta(metadata)
+        );
+      })
+      .catch((error) => {
+        console.error('Unable to retrieve metadata', error);
+      });
   }
 
   private createInterface ({ methods, section }: RpcSection): RpcInterface$Section {
@@ -150,37 +169,50 @@ export default class Rpc implements RpcInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base {
+  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | null | undefined> {
     const base = createType(method.type as string).fromJSON(result);
 
     if (method.type === 'StorageData') {
+      // single return value (via state.getStorage), decode the value based on the
+      // outputType that we have specified
       const type = (params[0] as StorageKey).outputType;
 
       if (type) {
         return createType(type, base.raw);
       }
     } else if (method.type === 'StorageChangeSet') {
-      return (params[0] as Vector<StorageKey>).reduce((vector, _key: StorageKey) => {
+      // multiple return values (via state.storage subscription), decode the values
+      // one at a time, all based on the query types. Three values can be returned -
+      //   - Base - There is a valid value, non-empty
+      //   - null - The storage key is empty (but in the resultset)
+      //   - undefined - The storage value is not in the resultset
+      return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
         const type = _key.outputType;
 
         if (!type) {
           throw new Error('Cannot format StorageChangeSet, output type missing for key');
         }
 
+        // see if we have a result value for this specific key
         const key = _key.toHex();
-
         const item = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === key
         );
 
-        if (!item) {
-          throw new Error('No result found for key in StorageChangeSet');
-        }
+        // if we don't have a value, do not fill in the entry, it will be up to the
+        // caller to sort this out, either ignoring or having a cache for older values
+        result.push(
+          !item
+            ? undefined
+            : (
+              item.value.isEmpty
+                ? null
+                : createType(type, item.value.value)
+            )
+        );
 
-        vector.push(createType(type, item.value.value));
-
-        return vector;
-      }, new (Vector.with(Base))());
+        return result;
+      }, [] as Array<Base | null | undefined>);
     }
 
     return base;
