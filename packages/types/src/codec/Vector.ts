@@ -27,32 +27,33 @@ export default class Vector<
     this._Type = Type;
   }
 
-  static decode<T extends Base> (Type: { new(value?: any): T }, value: any): Array<T> {
+  static decode<T> (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
           ? entry
-          : new Type(entry));
-    } else if (isU8a(value)) {
-      const [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
-      const length = _length.toNumber();
-
-      // `currentOffset` is the current index we're at while parsing the bytes
-      // array.
-      let currentOffset = offset;
-      let result = [];
-      for (let index = 0; index < length; index++) {
-        // FIXME replace by:
-        // const raw = new Type(value.subarray(currentOffset));
-        const raw = new Type().fromU8a(value.subarray(currentOffset));
-
-        result.push(raw as T);
-        currentOffset += raw.byteLength();
-      }
-      return result;
-    } else {
-      return Vector.decode(Type, toU8a(value));
+          : new Type(entry)
+      );
     }
+
+    const u8a = toU8a(value);
+
+    let [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+    const length = _length.toNumber();
+
+    const result = [];
+
+    for (let index = 0; index < length; index++) {
+      // FIXME replace by
+      // const decoded = new Type(u8a.subarray(offset));
+      // @ts-ignore Not sure why we get "Property 'fromU8a' does not exist on type 'T'.", T extends Base in def?
+      const decoded = new Type().fromU8a(u8a.subarray(offset));
+
+      result.push(decoded as T);
+      offset += decoded.byteLength();
+    }
+
+    return result;
   }
 
   static with<O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
