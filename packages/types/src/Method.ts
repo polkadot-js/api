@@ -74,13 +74,17 @@ export default class Method extends MethodIndex {
 
   // We could only inject the meta (see injectExtrinsics below) and then do a
   // meta-only lookup via
+  //
   //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
-  // As a conveinece helper though, we return the full constructor function,
+  //
+  // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
   static findFunction (callIndex: Uint8Array): ExtrinsicFunction {
     return extrinsicFns[callIndex.toString()] || FN_UNKNOWN;
   }
 
+  // This is called/injected by the API on init, allowing a snapshot of
+  // the available system extrinsics to be used in lookups
   static injectExtrinsics (extrinsics: Extrinsics): void {
     Object.values(extrinsics).forEach((methods) =>
       Object.values(methods).forEach((method) =>
