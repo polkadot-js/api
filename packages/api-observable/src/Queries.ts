@@ -14,6 +14,8 @@ import { Tuple, Vector } from '@polkadot/types/codec';
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
 
+// FIXME Revert Vector -> Array mappings in here once https://github.com/polkadot-js/api/pull/172 is in
+
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
   accountNonce = (address: AccountId | string): Observable<Index | undefined> => {
