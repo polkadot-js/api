@@ -10,7 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/rpc-core": "^0.30.1",
+    "@polkadot/rpc-core": "^0.31.1",
     "bn.js": "^4.11.8"
   },
   "devDependencies": {

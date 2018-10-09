@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-observable",
-  "version": "0.30.44",
+  "version": "0.31.0",
   "description": "An Observable wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -32,8 +32,8 @@
     "@babel/runtime": "^7.0.0",
     "@polkadot/api": "^0.30.44",
     "@polkadot/api-provider": "^0.30.44",
-    "@polkadot/extrinsics": "^0.30.44",
-    "@polkadot/storage": "^0.30.44",
+    "@polkadot/extrinsics": "^0.31.0",
+    "@polkadot/storage": "^0.31.0",
     "@types/rx": "^4.1.1",
     "rxjs": "^6.3.2"
   }
