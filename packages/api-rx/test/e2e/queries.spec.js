@@ -15,8 +15,10 @@ describe.skip('e2e queries', () => {
     api = await Api.create().toPromise();
   });
 
-  it('makes the runtime metadata, rpc, state & extrinsics available', () => {
-    expect(api.metadata).toBeDefined();
+  it('makes the runtime, rpc, state & extrinsics available', () => {
+    expect(api.genesisHash).toBeDefined();
+    expect(api.runtimeMetadata).toBeDefined();
+    expect(api.runtimeVersion).toBeDefined();
     expect(api.rpc).toBeDefined();
     expect(api.st).toBeDefined();
     expect(api.tx).toBeDefined();
