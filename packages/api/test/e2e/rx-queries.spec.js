@@ -8,11 +8,13 @@ import Api from '../../src/rx';
 
 const keyring = testingPairs();
 
-describe('e2e queries', () => {
+describe.skip('e2e queries', () => {
   let api;
 
   beforeEach(async () => {
     api = await Api.create().toPromise();
+
+    console.error(api);
   });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {

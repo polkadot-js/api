@@ -9,7 +9,7 @@ import Api from '../../src/rx';
 
 const keyring = testingPairs();
 
-describe('e2e transfer', () => {
+describe.skip('e2e transfer', () => {
   let api;
 
   beforeEach(async () => {

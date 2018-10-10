@@ -27,13 +27,14 @@ type MetaDecoration = {
 
 const l = logger('api');
 
-const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenReady'`;
+const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<S, T> extends E3.EventEmitter implements ApiBaseInterface<S, T> {
+export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implements ApiBaseInterface<R, S, T> {
   private _extrinsics?: T;
   private _genesisHash?: Hash;
   private _storage?: S;
-  private _rpc: RpcRx;
+  private _rpc: R;
+  private _rpcBase: RpcRx;
   private _runtimeMetadata?: RuntimeMetadata;
   private _runtimeVersion?: RuntimeVersion;
 
@@ -55,7 +56,10 @@ export default abstract class ApiBase<S, T> extends E3.EventEmitter implements A
   constructor (wsProvider?: WsProvider) {
     super();
 
-    this._rpc = new RpcRx(wsProvider);
+    this._rpcBase = new RpcRx(wsProvider);
+    this._rpc = this.decorateRpc(this._rpcBase);
+
+    this.init();
   }
 
   /**
@@ -98,7 +102,7 @@ export default abstract class ApiBase<S, T> extends E3.EventEmitter implements A
    *   });
    * ```
    */
-  get rpc (): RpcRx {
+  get rpc (): R {
     return this._rpc;
   }
 
@@ -145,11 +149,11 @@ export default abstract class ApiBase<S, T> extends E3.EventEmitter implements A
   private init (): void {
     let isReady: boolean = false;
 
-    this.rpc.on('disconnected', () => {
+    this._rpcBase.on('disconnected', () => {
       this.emit('disconnected');
     });
 
-    this.rpc.on('connected', async () => {
+    this._rpcBase.on('connected', async () => {
       this.emit('connected');
 
       // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
@@ -161,28 +165,36 @@ export default abstract class ApiBase<S, T> extends E3.EventEmitter implements A
         return;
       }
 
-      try {
-        this._runtimeMetadata = await this.rpc.state.getMetadata().toPromise();
-        this._runtimeVersion = await this.rpc.chain.getRuntimeVersion().toPromise();
-        this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
+      const hasMeta = await this.loadMeta();
 
-        const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-        const storage = storageFromMeta(this.runtimeMetadata);
+      if (hasMeta && !isReady) {
+        isReady = true;
 
-        this._extrinsics = this.decorateExtrinsics(extrinsics);
-        this._storage = this.decorateStorage(storage);
-
-        Method.injectExtrinsics(extrinsics);
-
-        if (!isReady) {
-          isReady = true;
-
-          this.emit('ready', this);
-        }
-      } catch (error) {
-        l.error('init', error);
+        this.emit('ready', this);
       }
     });
+  }
+
+  private async loadMeta (): Promise<boolean> {
+    try {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata().toPromise();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion().toPromise();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0).toPromise();
+
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+      const storage = storageFromMeta(this.runtimeMetadata);
+
+      this._extrinsics = this.decorateExtrinsics(extrinsics);
+      this._storage = this.decorateStorage(storage);
+
+      Method.injectExtrinsics(extrinsics);
+
+      return true;
+    } catch (error) {
+      l.error('loadMeta', error);
+
+      return false;
+    }
   }
 
   protected decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -195,9 +207,12 @@ export default abstract class ApiBase<S, T> extends E3.EventEmitter implements A
       output.callIndex = input.callIndex;
     }
 
+    // console.error(output);
+
     return output;
   }
 
+  protected abstract decorateRpc (rpc: RpcRx): R;
   protected abstract decorateExtrinsics (extrinsics: Extrinsics): T;
   protected abstract decorateStorage (storage: Storage): S;
 }

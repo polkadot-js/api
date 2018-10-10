@@ -13,11 +13,11 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 
 export type ApiInterface$Events = RxRpcInterface$Events | 'ready';
 
-export interface ApiBaseInterface <S, E> {
+export interface ApiBaseInterface <R, S, E> {
   readonly genesisHash: Hash;
   readonly runtimeMetadata: RuntimeMetadata;
   readonly runtimeVersion: RuntimeVersion;
-  readonly rpc: RpcRx;
+  readonly rpc: R;
   readonly st: S;
   readonly tx: E
 

@@ -38,7 +38,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface RxApiInterface extends ApiBaseInterface<QueryableStorage, SubmittableExtrinsics>  {
+export interface RxApiInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics>  {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<RxApiInterface>;
 }

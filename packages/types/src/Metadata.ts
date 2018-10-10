@@ -6,12 +6,14 @@ import { AnyNumber } from './types';
 
 import toU8a from '@polkadot/util/u8a/toU8a';
 
-import Vector from './codec/Vector';
 import Base from './codec/Base';
+import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Enum from './codec/Enum';
 import EnumType from './codec/EnumType';
 import Option from './codec/Option';
 import Struct from './codec/Struct';
+import Tuple from './codec/Tuple';
+import Vector from './codec/Vector';
 import Text from './Text';
 import Type from './Type';
 import U16 from './U16';
@@ -19,6 +21,45 @@ import U16 from './U16';
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call. This
 // file is probably best understood from the bottom-up, i.e. start reading right at the
 // end and work up. (Just so we don't use before definition)
+
+export class OuterDispatchCall extends Struct {
+  constructor (value?: any) {
+    super({
+      name: Text,
+      prefix: Text,
+      index: U16
+    }, value);
+  }
+
+  get index (): U16 {
+    return this.raw.index as U16;
+  }
+
+  get name (): Text {
+    return this.raw.name as Text;
+  }
+
+  get prefix (): Text {
+    return this.raw.prefix as Text;
+  }
+}
+
+export class OuterDispatchMetadata extends Struct {
+  constructor (value?: any) {
+    super({
+      name: Text,
+      calls: Vector.with(OuterDispatchCall)
+    }, value);
+  }
+
+  get calls (): Vector<OuterDispatchCall> {
+    return this.raw.calls as Vector<OuterDispatchCall>;
+  }
+
+  get name (): Text {
+    return this.raw.name as Text;
+  }
+}
 
 export class EventMetadata extends Struct {
   constructor (value?: any) {
@@ -42,7 +83,7 @@ export class EventMetadata extends Struct {
   }
 }
 
-export class OuterEventMetadataEvent extends Struct {
+export class OuterEventMetadataEvent extends Tuple {
   constructor (value?: any) {
     super({
       name: Text,
@@ -51,11 +92,11 @@ export class OuterEventMetadataEvent extends Struct {
   }
 
   get events (): Vector<EventMetadata> {
-    return this.raw.events as Vector<EventMetadata>;
+    return this.get(1) as Vector<EventMetadata>;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get(0) as Text;
   }
 }
 
@@ -281,7 +322,8 @@ export default class RuntimeMetadata extends Struct {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: Vector.with(RuntimeModuleMetadata)
+      modules: Vector.with(RuntimeModuleMetadata),
+      outerDispatch: OuterDispatchMetadata
     }, value);
   }
 
@@ -290,7 +332,16 @@ export default class RuntimeMetadata extends Struct {
   fromJSON (input: Uint8Array | string | Array<number>): RuntimeMetadata {
     return this.fromU8a(
       toU8a(input)
-    ) as RuntimeMetadata;
+    );
+  }
+
+  fromU8a (input: Uint8Array): RuntimeMetadata {
+    // this does not look correct, metadata now has a length prefix. Strip, move on.
+    const [offset] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
+
+    super.fromU8a(input.subarray(offset));
+
+    return this;
   }
 
   // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
@@ -298,6 +349,10 @@ export default class RuntimeMetadata extends Struct {
   // match fromJSON. (However for now, it is useful in debugging)
   toJSON (): any {
     return super.toJSON();
+  }
+
+  get calls (): Vector<OuterDispatchCall> {
+    return (this.raw.outerDispatch as OuterDispatchMetadata).calls;
   }
 
   get events (): Vector<OuterEventMetadataEvent> {
