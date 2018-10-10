@@ -4,7 +4,11 @@ const provider = new WsProvider('ws://127.0.0.1:9944');
 const api = new Rpc(provider);
 
 api.chain
-  .newHead((_, header) => {
+  .newHead((error, header) => {
+    if (error) {
+      console.error('error:', error);
+    }
+
     console.log(`best #${header.blockNumber.toString()}`);
   })
   .then((subscriptionId) => {
