@@ -66,7 +66,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    * ```javascript
    * import Api from '@polkadot/api-rx';
    *
-   * new Api().whenReady.subscribe((api) => {
+   * new Api().isReady.subscribe((api) => {
    *   api.rpc.newHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
