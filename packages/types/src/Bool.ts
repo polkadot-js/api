@@ -2,15 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isU8a from '@polkadot/util/is/u8a';
+
 import Base from './codec/Base';
 
 export default class Bool extends Base<boolean> {
   constructor (value: Bool | boolean = false) {
     super(
-      value instanceof Bool
-        ? value.raw
-        : value
+      Bool.decode(value)
     );
+  }
+
+  static decode (value: any): boolean {
+    if (value instanceof Bool) {
+      return value.raw;
+    } else if (isU8a(value)) {
+      return value[0] === 1;
+    }
+    return !!value;
   }
 
   byteLength (): number {
