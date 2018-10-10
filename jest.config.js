@@ -9,5 +9,16 @@ module.exports = Object.assign({}, config, {
     '@polkadot/jsonrpc(.*)$': '<rootDir>/packages/type-jsonrpc/src/$1',
     '@polkadot/storage(.*)$': '<rootDir>/packages/type-storage/src/$1',
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
-  }
+  },
+  modulePathIgnorePatterns: [
+    '<rootDir>/packages/api/build',
+    '<rootDir>/packages/api-observable/build',
+    '<rootDir>/packages/rpc-core/build',
+    '<rootDir>/packages/rpc-provider/build',
+    '<rootDir>/packages/rpc-rx/build',
+    '<rootDir>/packages/type-extrinsics/build',
+    '<rootDir>/packages/type-jsonrpc/build',
+    '<rootDir>/packages/type-storage/build/',
+    '<rootDir>/packages/types/build'
+  ]
 });
