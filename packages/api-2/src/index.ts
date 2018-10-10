@@ -47,7 +47,9 @@ export default class ApiRx implements RxApiInterface {
    * ```javascript
    * api.rpc.chain
    *   .newHead()
-   *   .subscribe((header) => console.log('new header', header));
+   *   .subscribe((header) => {
+   *     console.log('new header', header);
+   *   });
    * ```
    */
   get rpc (): RpcRx {
@@ -59,7 +61,9 @@ export default class ApiRx implements RxApiInterface {
    * ```javascript
    * api.st.balances
    *   .freeBalance(<accountId>)
-   *   .subscribe((balance) => console.log('new balance', balance));
+   *   .subscribe((balance) => {
+   *     console.log('new balance', balance);
+   *   });
    * ```
    */
   get st (): QueryableStorage {
@@ -75,7 +79,9 @@ export default class ApiRx implements RxApiInterface {
    *   .transfer(<recipientId>, <balance>)
    *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
    *   .send()
-   *   .subscribe((status) => console.log('tx status', status));
+   *   .subscribe((status) => {
+   *     console.log('tx status', status);
+   *   });
    * ```
    */
   get tx (): SubmittableExtrinsics {
