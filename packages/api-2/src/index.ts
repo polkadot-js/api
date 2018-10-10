@@ -45,7 +45,7 @@ export default class ApiRx {
   /**
    * @example
    * ```javascript
-   * api.rpx.chain
+   * api.rpc.chain
    *   .newHead()
    *   .subscribe((header) => console.log('new header', header));
    * ```
