@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from './types';
-
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyU8a } from './types';
 import U8a from './codec/U8a';
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
@@ -15,9 +14,7 @@ import U8a from './codec/U8a';
 export default class AccountIndex extends U8a {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
-      value instanceof U8a
-        ? value.raw
-        : AccountIndex.decode(value)
+      AccountIndex.decode(value)
     );
   }
 
@@ -27,7 +24,10 @@ export default class AccountIndex extends U8a {
     return u8aToHex(value);
   }
 
-  static decode (value: string | Uint8Array | Array<number>): Uint8Array {
+  static decode (value: AnyU8a): Uint8Array {
+    if (value instanceof U8a) {
+      return value.raw;
+    }
     return u8aToU8a(value);
   }
 
