@@ -10,7 +10,6 @@ import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
-
 export type ApiInterface$Events = RxRpcInterface$Events | 'ready';
 
 export interface ApiBaseInterface <R, S, E> {
