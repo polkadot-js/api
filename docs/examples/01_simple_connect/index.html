@@ -12,9 +12,14 @@
         
         
     
+    
     <link rel="stylesheet" href="../../gitbook/style.css">
 
     
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
+                
             
                 
                 <link rel="stylesheet" href="../../gitbook/gitbook-plugin-sunlight-highlighter/sunlight.css">
@@ -44,6 +49,9 @@
         
     
         
+    
+
+
     
 
         
@@ -104,12 +112,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="../../api/">
+        <li class="chapter " data-level="1.2" data-path="../../rpc-core/">
             
-                <a href="../../api/">
+                <a href="../../rpc-core/">
             
                     
-                    api
+                    rpc-core
             
                 </a>
             
@@ -118,12 +126,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.2.1" data-path="../../api/classes/_index_.api.html">
+        <li class="chapter " data-level="1.2.1" data-path="../../rpc-core/classes/_index_.rpc.html">
             
-                <a href="../../api/classes/_index_.api.html">
+                <a href="../../rpc-core/classes/_index_.rpc.html">
             
                     
-                    Api
+                    Rpc
             
                 </a>
             
@@ -136,12 +144,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="../../api-provider/">
+        <li class="chapter " data-level="1.3" data-path="../../rpc-provider/">
             
-                <a href="../../api-provider/">
+                <a href="../../rpc-provider/">
             
                     
-                    api-provider
+                    rpc-provider
             
                 </a>
             
@@ -150,9 +158,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="../../api-provider/classes/_http_index_.httpprovider.html">
+        <li class="chapter " data-level="1.3.1" data-path="../../rpc-provider/classes/_http_index_.httpprovider.html">
             
-                <a href="../../api-provider/classes/_http_index_.httpprovider.html">
+                <a href="../../rpc-provider/classes/_http_index_.httpprovider.html">
             
                     
                     HttpProvider
@@ -163,9 +171,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2" data-path="../../api-provider/classes/_ws_index_.wsprovider.html">
+        <li class="chapter " data-level="1.3.2" data-path="../../rpc-provider/classes/_ws_index_.wsprovider.html">
             
-                <a href="../../api-provider/classes/_ws_index_.wsprovider.html">
+                <a href="../../rpc-provider/classes/_ws_index_.wsprovider.html">
             
                     
                     WsProvider
@@ -181,12 +189,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../../api-rx/">
+        <li class="chapter " data-level="1.4" data-path="../../rpc-rx/">
             
-                <a href="../../api-rx/">
+                <a href="../../rpc-rx/">
             
                     
-                    api-rx
+                    rpc-rx
             
                 </a>
             
@@ -195,12 +203,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.4.1" data-path="../../api-rx/classes/_index_.rxapi.html">
+        <li class="chapter " data-level="1.4.1" data-path="../../rpc-rx/classes/_index_.rxapi.md">
             
-                <a href="../../api-rx/classes/_index_.rxapi.html">
+                <span>
             
                     
-                    ApiRx
+                    RpcRx
             
                 </a>
             
@@ -371,10 +379,10 @@
                                 
                                 <h1 id="simple-connect">Simple Connect</h1>
 <p>The following example shows how to instantiate a Polkadot API object and use it to connect to a node.</p>
-<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">default</span><span class="sunlight-punctuation">;</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/api-provider/ws&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">default</span><span class="sunlight-punctuation">;</span>
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">Rpc</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/rpc-core&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">default</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/rpc-provider/ws&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">default</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;ws://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">Api</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">Rpc</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 <span class="sunlight-ident">async</span>&#xA0;<span class="sunlight-keyword">function</span>&#xA0;<span class="sunlight-named-ident">getChain</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
 &#xA0;&#xA0;<span class="sunlight-keyword">return</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
@@ -431,14 +439,19 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"2.2","depth":1,"next":{"title":"Listen to blocks","level":"2.3","depth":1,"path":"examples/02_listen_to_blocks/README.md","ref":"examples/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"Overview","level":"2.1","depth":1,"path":"examples/README.md","ref":"examples/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/01_simple_connect/README.md","mtime":"2018-10-10T07:28:28.440Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-10T07:31:27.069Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"2.2","depth":1,"next":{"title":"Listen to blocks","level":"2.3","depth":1,"path":"examples/02_listen_to_blocks/README.md","ref":"examples/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"Overview","level":"2.1","depth":1,"path":"examples/README.md","ref":"examples/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/01_simple_connect/README.md","mtime":"2018-10-10T11:17:29.251Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-10T11:21:03.075Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
 
         
+    
     <script src="../../gitbook/gitbook.js"></script>
     <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
+        
     
         
         <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
@@ -464,6 +477,8 @@
         <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
         
     
+
+    <script src="../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.min.js"></script>
 
     </body>
 </html>

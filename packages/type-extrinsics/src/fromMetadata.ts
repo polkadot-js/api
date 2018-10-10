@@ -4,9 +4,9 @@
 
 import camelCase from '@polkadot/util/string/camelCase';
 import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
+import { Extrinsics, ModuleExtrinsics } from './types';
 
 import createUnchecked from './utils/createUnchecked';
-import { Extrinsics, ModuleExtrinsics } from './types';
 import extrinsics from './index';
 
 /**

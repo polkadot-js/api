@@ -12,7 +12,7 @@ import subscribe from './subscribe';
 import unsubscribe from './unsubscribe';
 
 /**
- * A moock provider mainly used for testing.
+ * A mock provider mainly used for testing.
  * @return {ProviderInterface} The mock provider
  */
 export default function mockProvider (): ProviderInterface {

@@ -3,8 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import BN from 'bn.js';
 
+import BN from 'bn.js';
 import * as substrate from './substrate';
 
 type Substrate = keyof typeof substrate;

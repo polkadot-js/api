@@ -30,11 +30,11 @@ type CachedMap = {
  * <BR>
  *
  * ```javascript
- * import Rpc from '@polkadot/rpc-rx';
+ * import RpcRx from '@polkadot/rpc-rx';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('http://127.0.0.1:9944');
- * const api = new Rpc(provider);
+ * const api = new RpcRx(provider);
  * ```
  */
 export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {

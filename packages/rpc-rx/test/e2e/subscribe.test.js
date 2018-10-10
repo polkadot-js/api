@@ -5,7 +5,7 @@
 import Ws from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/storage/static';
 
-import RxApi from '../../src';
+import RpcRx from '../../src';
 
 describe.skip('e2e subscriptions', () => {
   let api;
@@ -13,7 +13,7 @@ describe.skip('e2e subscriptions', () => {
   beforeEach(() => {
     jest.setTimeout(30000);
 
-    api = new RxApi(new Ws('ws://127.0.0.1:9944'));
+    api = new RpcRx(new Ws('ws://127.0.0.1:9944'));
   });
 
   it('retrieves current timestamp', (done) => {

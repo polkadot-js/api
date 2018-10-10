@@ -17,6 +17,14 @@ import isFunction from '@polkadot/util/is/function';
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
  * @description It allows for querying a Polkadot Client Node.
+ * WebSockets provider is recommended since HTTP provider only supports basic querying.
+ *
+ * ```mermaid
+ * graph LR;
+ *   A[Api] --> |WebSockets| B[WsProvider];
+ *   B --> |endpoint| C[ws://127.0.0.1:9944]
+ * ```
+ *
  * @example
  * <BR>
  *
