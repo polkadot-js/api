@@ -15,6 +15,9 @@ export type RpcInterface$Section = {
   [index: string]: RpcInterface$Section$Method
 };
 
-export type RpcInterface = {
-  readonly [key in keyof typeof interfaces]: RpcInterface$Section
+export interface RpcInterface {
+  readonly author: RpcInterface$Section;
+  readonly chain: RpcInterface$Section;
+  readonly state: RpcInterface$Section;
+  readonly system: RpcInterface$Section;
 }

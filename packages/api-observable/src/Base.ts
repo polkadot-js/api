@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/ui-observable authors & contributors
+// Copyright 2017-2018 @polkadot/api-observable authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -12,7 +12,7 @@ import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
 import { Vector } from '@polkadot/types/codec';
-import { Hash } from '@polkadot/types/index';
+import { Hash, Method } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -40,6 +40,8 @@ export default class ApiBase {
   static extrinsics = extrinsicsStatic;
   static storage = storageStatic;
 
+  // FIXME This logic is duplicated in api-rx, since that should derive
+  // from that base, it should be removed when the actual extend is done
   private init (): Promise<boolean> {
     let isReady: boolean = false;
 
@@ -56,8 +58,11 @@ export default class ApiBase {
           const meta = await this._api.state.getMetadata().toPromise();
 
           this._genesisHash = await this._api.chain.getBlockHash(0).toPromise();
+
           ApiBase.extrinsics = extrinsicsFromMeta(meta);
           ApiBase.storage = storageFromMeta(meta);
+
+          Method.injectExtrinsics(ApiBase.extrinsics);
 
           if (!isReady) {
             isReady = true;
@@ -97,6 +102,7 @@ export default class ApiBase {
     return fn.apply(null, params);
   }
 
+  // FIXME Remove when extending from api-rx
   rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
       .rawStorageMulti([key, ...params] as [StorageFunction, any])
@@ -109,6 +115,7 @@ export default class ApiBase {
       );
   }
 
+  // FIXME Remove when extending from api-rx
   rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
     let observable;
 

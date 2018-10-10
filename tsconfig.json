@@ -6,13 +6,13 @@
     "paths":
     {
       "@polkadot/api-observable/*": ["packages/api-observable/src/*"],
+      "@polkadot/api/*": ["packages/api/src/*"],
+      "@polkadot/api-rx/*": ["packages/api-rx/src/*"],
       "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
       "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
       "@polkadot/rpc-rx/*": ["packages/rpc-rx/src/*"],
       "@polkadot/extrinsics/*": ["packages/type-extrinsics/src/*"],
       "@polkadot/jsonrpc/*": ["packages/type-jsonrpc/src/*"],
-      "@polkadot/params/*": ["packages/type-params/src/*"],
-      "@polkadot/primitives/*": ["packages/type-primitives/src/*"],
       "@polkadot/storage/*": ["packages/type-storage/src/*"],
       "@polkadot/types/*": ["packages/types/src/*"]
     },

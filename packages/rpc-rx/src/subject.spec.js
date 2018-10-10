@@ -8,7 +8,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
   send = () => true;
 });
 
-const Api = require('./index').default;
+const RpcRx = require('./index').default;
 
 describe('subject', () => {
   const params = [123, false];
@@ -19,7 +19,7 @@ describe('subject', () => {
   let observable;
 
   beforeEach(() => {
-    api = new Api();
+    api = new RpcRx();
   });
 
   beforeEach(() => {

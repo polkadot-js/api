@@ -12,7 +12,7 @@ Usage
 Installation -
 
 ```
-npm install --save @polkadot/rpc-provider
+yarn add @polkadot/rpc-provider
 ```
 
 Initialisation -

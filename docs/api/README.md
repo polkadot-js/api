@@ -4,69 +4,44 @@
 @polkadot/api
 =============
 
-This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
+An RxJs wrapper around [@polkadot/rpc-core](../rpc-core).
 
 Usage
------
+=====
 
 Installation -
 
 ```
-npm install --save @polkadot/api
+npm install --save @polkadot/api/rx
 ```
 
-Initialisation -
+Making rpc calls -
 
-```js
+```javascript
+import ApiRx from '@polkadot/api/rx';
+// alternatively
+// import { ApiRx } from '@polkadot/api';
+
+// initialise via Promise & static create
+const api = await ApiRx.create().toPromise();
+
+// make a call to retrieve the current network head
+api.rpc.chain.newHead().subscribe((header) => {
+  console.log(`Chain is at #${header.blockNumber}`);
+});
+```
+
+Subscribing to chain state -
+
+```javascript
 import Api from '@polkadot/api';
-import WsProvider from '@polkadot/api-provider/ws';
 
-const provider = new WsProvider('http://127.0.0.1:9944');
-const api = new Api(provider);
-```
-
-Making calls -
-
-```js
-api.chain
-  .getHeader('0x1234567890')
-  .then((header) => console.log(header))
-  .catch((error) => console.error(error));
-```
-
-Retrieving the best block (once-off) -
-
-```js
-api.chain
-  .getHead()
-  .then((headerHash) => {
-    return api.chain.getHeader(headerHash);
-  })
-  .then((header) => {
-    console.log(`best #${header.number.toString()}`);
-  })
-  .catch((error) => {
-    console.error('error:', error);
+// initialise via isReady & new
+new Api().isReady.subscribe((api) => {
+  // make a call to retrieve the current network head
+  api.st.timestamp.now().subscribe((timestamp) => {
+    console.log(`Current block timestamp ${timestamp}`);
   });
-```
-
-Retrieving best header via subscription -
-
-```js
-api.chain
-  .newHead((error, header) => {
-    if (error) {
-      console.error('error:', error);
-    }
-
-    console.log(`best #${header.number.toString()}`);
-  })
-  .then((subscriptionId) => {
-    // id for the subscription, can unsubscribe via
-    // api.chain.newHead.unsubscribe(subscriptionId)
-  })
-  .catch((error) => {
-    console.error('error subscribing:', error);
-  });
+});
 ```
 

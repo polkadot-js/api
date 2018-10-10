@@ -8,11 +8,11 @@
 
 *__example__*:   
 ```javascript
-import Api from '@polkadot/rpc-core';
+import Rpc from '@polkadot/rpc-core';
 import HttpProvider from '@polkadot/rpc-provider/http';
 
 const provider = new HttpProvider('http://127.0.0.1:9933');
-const api = new Api(provider);
+const api = new Rpc(provider);
 ```
 
 *__see__*: [WsProvider](_ws_index_.wsprovider.md)
@@ -33,7 +33,7 @@ const api = new Api(provider);
 
 ⊕ **new HttpProvider**(endpoint: *`string`*): [HttpProvider](_http_index_.httpprovider.md)
 
-*Defined in [http/index.ts:40](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L40)*
+*Defined in [http/index.ts:40](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L40)*
 
 **Parameters:**
 
@@ -55,7 +55,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[isConnected](../interfaces/_types_d_.providerinterface.md#isconnected)*
 
-*Defined in [http/index.ts:57](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L57)*
+*Defined in [http/index.ts:57](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L57)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -71,7 +71,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[on](../interfaces/_types_d_.providerinterface.md#on)*
 
-*Defined in [http/index.ts:65](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L65)*
+*Defined in [http/index.ts:65](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L65)*
 
 *__summary__*: Events are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -95,7 +95,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[send](../interfaces/_types_d_.providerinterface.md#send)*
 
-*Defined in [http/index.ts:72](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L72)*
+*Defined in [http/index.ts:72](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L72)*
 
 *__summary__*: Send HTTP POST Request with Body to configured HTTP Endpoint.
 
@@ -117,7 +117,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[subscribe](../interfaces/_types_d_.providerinterface.md#subscribe)*
 
-*Defined in [http/index.ts:94](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L94)*
+*Defined in [http/index.ts:94](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L94)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -141,7 +141,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_d_.providerinterface.md).[unsubscribe](../interfaces/_types_d_.providerinterface.md#unsubscribe)*
 
-*Defined in [http/index.ts:103](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-provider/src/http/index.ts#L103)*
+*Defined in [http/index.ts:103](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-provider/src/http/index.ts#L103)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 

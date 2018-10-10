@@ -10,13 +10,13 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
   send = () => true;
 });
 
-const Api = require('./index').default;
+const RpcRx = require('./index').default;
 
-describe('Api', () => {
+describe('RpcRx', () => {
   let api;
 
   beforeEach(() => {
-    api = new Api();
+    api = new RpcRx();
   });
 
   it('creates an instance with all sections', () => {
