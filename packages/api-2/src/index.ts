@@ -36,26 +36,52 @@ export default class ApiRx {
     this.init().then().catch();
   }
 
-  get extrinsics (): SubmittableExtrinsics {
-    assert(!isUndefined(this._extrinsics), INIT_ERROR);
-
-    return this._extrinsics as SubmittableExtrinsics;
-  }
-
   get genesisHash (): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
   }
 
+  /**
+   * @example
+   * ```javascript
+   * api.rpx.chain
+   *   .newHead()
+   *   .subscribe((header) => console.log('new header', header));
+   * ```
+   */
   get rpc (): RpcRx {
     return this._rpc;
   }
 
-  get state (): QueryableStorage {
+  /**
+   * @example
+   * ```javascript
+   * api.st.balances
+   *   .freeBalance(<accountId>)
+   *   .subscribe((balance) => console.log('new balance', balance));
+   * ```
+   */
+  get st (): QueryableStorage {
     assert(!isUndefined(this._state), INIT_ERROR);
 
     return this._state as QueryableStorage;
+  }
+
+  /**
+   * @example
+   * ```javascript
+   * api.tx.balances
+   *   .transfer(<recipeintId>, <balance>)
+   *   .sign(<keyPair>, <genesisHash>)
+   *   .send()
+   *   .subscribe((statuc) => console.log('tx status', status));
+   * ```
+   */
+  get tx (): SubmittableExtrinsics {
+    assert(!isUndefined(this._extrinsics), INIT_ERROR);
+
+    return this._extrinsics as SubmittableExtrinsics;
   }
 
   private async init (): Promise<void> {
