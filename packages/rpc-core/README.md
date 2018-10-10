@@ -8,7 +8,7 @@
 [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=package/rpc-core)](https://david-dm.org/polkadot-js/api?path=package/rpc-core)
 [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=package/rpc-core)](https://david-dm.org/polkadot-js/api?path=package/rpc-core#info=devDependencies)
 
-# @polkadot/api
+# @polkadot/rpc-core
 
 This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
 
@@ -17,20 +17,20 @@ This library provides a clean wrapper around all the methods exposed by a Polkad
 Installation -
 
 ```
-npm install --save @polkadot/rpc-core
+yarn add @polkadot/rpc-core
 ```
 
 Initialisation -
 
 ```js
-import Api from '@polkadot/rpc-core';
+import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
-const api = new Api(provider);
+const api = new Rpc(provider);
 ```
 
-Making calls -
+Retrieving the block header object for a given block header hash (a 0x-prefixed hex string with length of 64) -
 
 ```js
 api.chain
@@ -39,7 +39,7 @@ api.chain
   .catch((error) => console.error(error));
 ```
 
-Retrieving the best block (once-off) -
+Retrieving the best block number, parent hash, state root hash, extrinsics root hash, and digest (once-off) -
 
 ```js
 api.chain
@@ -48,7 +48,11 @@ api.chain
     return api.chain.getHeader(headerHash);
   })
   .then((header) => {
-    console.log(`best #${header.number.toString()}`);
+    console.log(`best #${header.raw.number.toString()}`);
+    console.log(`parentHash: ${header.raw.parentHash.toString()}`);
+    console.log(`stateRoot: ${header.raw.stateRoot.toString()}`);
+    console.log(`extrinsicsRoot: ${header.raw.extrinsicsRoot.toString()}`);
+    console.log(`digest: ${header.raw.digest.toString()}`);
   })
   .catch((error) => {
     console.error('error:', error);
@@ -64,11 +68,12 @@ api.chain
       console.error('error:', error);
     }
 
-    console.log(`best #${header.number.toString()}`);
+    console.log(`best #${header.raw.number.toString()}`);
   })
   .then((subscriptionId) => {
+    console.log(`subscriptionId: ${subscriptionId}`);
     // id for the subscription, can unsubscribe via
-    // api.chain.newHead.unsubscribe(subscriptionId)
+    // api.chain.newHead.unsubscribe(subscriptionId);
   })
   .catch((error) => {
     console.error('error subscribing:', error);
