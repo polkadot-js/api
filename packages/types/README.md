@@ -1,3 +1,3 @@
 # @polkadot/types
 
-Implementation of the types and their serialisation via parity-codec
+Implementation of the types and their (de-)serialisation via parity-codec.
