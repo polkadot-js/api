@@ -8,7 +8,6 @@ import E3 from 'eventemitter3';
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import defaults from '@polkadot/rpc-rx/defaults';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
@@ -26,7 +25,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 
 const l = logger('api-rx');
 
-const INIT_ERROR = 'Api needs to be initialised before using';
+const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenReady'`;
 
 export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private _extrinsics?: SubmittableExtrinsics;
@@ -35,14 +34,36 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private _rpc: RpcRx;
 
   // Observable that returns the first time we are connected and loaded
-  whenReady: Observable<ApiRx>;
+  readonly isReady: Observable<ApiRx>;
 
-  constructor (wsProvider: WsProvider = new WsProvider(defaults.WS_URL)) {
+  /**
+   * @param wsProvider An optional WebSocket provider from rx-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import Api from '@polkadot/api-rx';
+   *
+   * new Api().whenReady.subscribe((api) => {
+   *   api.rpc.newHead().subscribe((header) => {
+   *     console.log(`new block #{header.blockNumber.toNumber()}`);
+   *   });
+   * });
+   * ```
+   */
+  constructor (wsProvider?: WsProvider) {
     super();
 
     this._rpc = new RpcRx(wsProvider);
 
-    this.whenReady = from(this.init());
+    this.isReady = from(this.init());
+  }
+
+  /**
+   * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
+   */
+  get isConnected (): Observable<boolean> {
+    return this.rpc.isConnected();
   }
 
   /**
@@ -114,6 +135,8 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private init (): Promise<ApiRx> {
     let isReady: boolean = false;
 
+    this.initEmitters();
+
     return new Promise((resolveReady) => {
       this.rpc.on('metadata', async (metadata: RuntimeMetadata) => {
         try {
@@ -124,11 +147,27 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
           if (!isReady) {
             isReady = true;
             resolveReady(this);
+
+            this.emit('ready', this);
           }
         } catch (error) {
           l.error('init', error);
         }
       });
+    });
+  }
+
+  private initEmitters (): void {
+    this.rpc.on('connected', () => {
+      this.emit('connected');
+    });
+
+    this.rpc.on('disconnected', () => {
+      this.emit('disconnected');
+    });
+
+    this.rpc.on('metadata', (metadata: RuntimeMetadata): void => {
+      this.emit('metadata', metadata);
     });
   }
 

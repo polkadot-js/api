@@ -5,6 +5,7 @@
 import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import RpcRx from '@polkadot/rpc-rx/index';
+import { RxRpcInterface$Events } from '@polkadot/rpc-rx/types';
 import { Base } from '@polkadot/types/codec';
 import { Hash } from '@polkadot/types/index';
 import { FunctionMetadata } from '@polkadot/types/Metadata';
@@ -37,9 +38,15 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
+export type RxApiInterface$Events = RxRpcInterface$Events | 'ready';
+
 export interface RxApiInterface {
   readonly genesisHash: Hash;
+  readonly isConnected: Observable<boolean>;
+  readonly isReady: Observable<RxApiInterface>;
   readonly rpc: RpcRx;
   readonly st: QueryableStorage;
   readonly tx: SubmittableExtrinsics
+
+  on: (type: RxApiInterface$Events, handler: (...args: Array<any>) => any) => void;
 }
