@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/api-rx authors & contributors
+// Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
@@ -23,7 +23,7 @@ import logger from '@polkadot/util/logger';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
-const l = logger('api-rx');
+const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenReady'`;
 
@@ -45,7 +45,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api-rx';
+   * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
    *   api.st.timestamp.now((timestamp) => {
@@ -64,7 +64,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api-rx';
+   * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady.subscribe((api) => {
    *   api.rpc.newHead().subscribe((header) => {

@@ -1,10 +1,10 @@
-// Copyright 2017-2018 @polkadot/api-rx authors & contributors
+// Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 
-import Api from '../../src';
+import Api from '../../src/rx';
 
 const keyring = testingPairs();
 
