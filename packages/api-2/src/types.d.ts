@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
+import RpcRx from '@polkadot/rpc-rx/index';
+import { Hash } from '@polkadot/types/index';
 import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-
-import { Observable } from 'rxjs';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -32,4 +33,11 @@ export interface SubmittableModuleExtrinsics {
 
 export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
+}
+
+export interface RxApiInterface {
+  readonly genesisHash: Hash;
+  readonly rpc: RpcRx;
+  readonly st: QueryableStorage;
+  readonly tx: SubmittableExtrinsics
 }

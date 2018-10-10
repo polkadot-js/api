@@ -2,24 +2,33 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { KeyringPair } from '@polkadot/util-keyring/types';
+import { AnyNumber, AnyU8a } from '@polkadot/types/types';
+import { RxApiInterface } from './types';
+
 import { Observable } from 'rxjs';
-import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsic } from '@polkadot/types/index';
 
 export default class SubmittableExtrinsic extends Extrinsic {
-  private _rpc: RpcRx;
+  private _api: RxApiInterface;
 
-  constructor (rpc: RpcRx, extrinsic: Extrinsic) {
+  constructor (api: RxApiInterface, extrinsic: Extrinsic) {
     super({
       method: extrinsic.method,
       signature: extrinsic.signature
     });
 
-    this._rpc = rpc;
+    this._api = api;
   }
 
   // TODO needs to be submitAndWatch
   send (): Observable<any> {
-    return this._rpc.author.submitExtrinsic(this);
+    return this._api.rpc.author.submitExtrinsic(this);
+  }
+
+  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {
+    super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
+
+    return this;
   }
 }

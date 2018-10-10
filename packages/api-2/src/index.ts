@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { RxApiInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import { Observable } from 'rxjs';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -23,7 +23,7 @@ const l = logger('api-rx');
 
 const INIT_ERROR = 'Api needs to be initialised before using';
 
-export default class ApiRx {
+export default class ApiRx implements RxApiInterface {
   private _extrinsics?: SubmittableExtrinsics;
   private _genesisHash?: Hash;
   private _state?: QueryableStorage;
@@ -73,7 +73,7 @@ export default class ApiRx {
    * ```javascript
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
-   *   .sign(<keyPair>, <genesisHash>)
+   *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
    *   .send()
    *   .subscribe((status) => console.log('tx status', status));
    * ```
@@ -111,7 +111,7 @@ export default class ApiRx {
           .reduce((result, methodName) => {
             const method = section[methodName];
             const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-              new SubmittableExtrinsic(this.rpc, method(...args));
+              new SubmittableExtrinsic(this, method(...args));
 
             decorated.callIndex = method.callIndex;
             decorated.meta = method.meta;
