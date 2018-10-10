@@ -5,6 +5,7 @@
 import { AnyU8a } from './types';
 
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import createType from './codec/createType';
@@ -40,6 +41,13 @@ export default class Method extends MethodIndex {
     }
 
     this._data = Method.encode(this._meta, this._args);
+
+    // FIXME this is really not clean
+    // This class should extend Struct({ callIndex, args });
+    if (isU8a(index)) {
+      this.fromU8a(index);
+    }
+
   }
 
   static decodeMethod (meta: FunctionMetadata, data: Uint8Array): Array<Base> {
