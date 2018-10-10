@@ -7,8 +7,8 @@ import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { RxRpcInterface$Events } from '@polkadot/rpc-rx/types';
 import { Base } from '@polkadot/types/codec';
-import { Hash } from '@polkadot/types/index';
-import { FunctionMetadata } from '@polkadot/types/Metadata';
+import { Hash, RuntimeVersion } from '@polkadot/types/index';
+import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
@@ -45,6 +45,8 @@ export interface RxApiInterface {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<RxApiInterface>;
   readonly rpc: RpcRx;
+  readonly runtimeMetadata: RuntimeMetadata;
+  readonly runtimeVersion: RuntimeVersion;
   readonly st: QueryableStorage;
   readonly tx: SubmittableExtrinsics
 

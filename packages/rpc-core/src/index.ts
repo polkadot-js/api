@@ -74,26 +74,6 @@ export default class Rpc implements RpcInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
-  private init (): void {
-    // load metadata and and setup the Method static so we are able to use
-    // decoding at any point going forward. This is not great, but the best
-    // we can come up with for now
-    this.state
-      .getMetadata()
-      .then((metadata) => {
-        console.error('metadata', metadata);
-
-        // Method.injectExtrinsics(
-        //   extrinsicsFromMeta(metadata)
-        // );
-
-        // this.emit('metadata', metadata);
-      })
-      .catch((error) => {
-        console.error('Unable to retrieve metadata', error);
-      });
-  }
-
   private createInterface ({ methods, section }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)

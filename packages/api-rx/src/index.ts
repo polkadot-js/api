@@ -14,7 +14,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Base } from '@polkadot/types/codec';
-import { Hash, Method } from '@polkadot/types/index';
+import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -30,9 +30,10 @@ const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenRea
 export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private _extrinsics?: SubmittableExtrinsics;
   private _genesisHash?: Hash;
-  private _metadata?: RuntimeMetadata;
   private _storage?: QueryableStorage;
   private _rpc: RpcRx;
+  private _runtimeMetadata?: RuntimeMetadata;
+  private _runtimeVersion?: RuntimeVersion;
 
   // Observable that returns the first time we are connected and loaded
   readonly isReady: Observable<ApiRx>;
@@ -97,15 +98,6 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
-   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
-   */
-  get metadata (): RuntimeMetadata {
-    assert(!isUndefined(this._metadata), INIT_ERROR);
-
-    return this._metadata as RuntimeMetadata;
-  }
-
-  /**
    * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
    * @example
    * <BR>
@@ -120,6 +112,24 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    */
   get rpc (): RpcRx {
     return this._rpc;
+  }
+
+  /**
+   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
+   */
+  get runtimeMetadata (): RuntimeMetadata {
+    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
+
+    return this._runtimeMetadata as RuntimeMetadata;
+  }
+
+  /**
+   * @description Contains the version information for the current runtime.
+   */
+  get runtimeVersion (): RuntimeVersion {
+    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
+
+    return this._runtimeVersion as RuntimeVersion;
   }
 
   /**
@@ -179,11 +189,12 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
         }
 
         try {
-          this._metadata = await this.rpc.state.getMetadata().toPromise();
+          this._runtimeMetadata = await this.rpc.state.getMetadata().toPromise();
+          this._runtimeVersion = await this.rpc.chain.getRuntimeVersion().toPromise();
           this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
 
-          const extrinsics = extrinsicsFromMeta(this.metadata);
-          const storage = storageFromMeta(this.metadata);
+          const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+          const storage = storageFromMeta(this.runtimeMetadata);
 
           this._extrinsics = this.decorateExtrinsics(extrinsics);
           this._storage = this.decorateStorage(storage);
@@ -270,10 +281,9 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
       // a single entry, we pull that from the array and return it as-is
       return observable.pipe(
         defaultIfEmpty([]),
-        map((result: Array<Base | null | undefined> = []): Base | null | undefined => {
-          console.error('foo', result[0]);
-          return result[0];
-        })
+        map((result: Array<Base | null | undefined> = []): Base | null | undefined =>
+          result[0]
+        )
       );
     };
 
