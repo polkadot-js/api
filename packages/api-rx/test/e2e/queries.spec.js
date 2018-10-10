@@ -22,13 +22,13 @@ describe('e2e queries', () => {
     expect(api.tx).toBeDefined();
   });
 
-  it('queries state for a balance', async () => {
-    const balance = await api.st.balances.freeBalance(keyring.alice.address()).toPromise();
+  it('queries state for a balance', (done) => {
+    api.st.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
+      expect(
+        balance.isZero()
+      ).toBe(false);
 
-    console.error('balance', balance);
-
-    expect(
-      balance.isZero()
-    ).toBe(false);
+      done();
+    });
   });
 });

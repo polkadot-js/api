@@ -40,7 +40,8 @@ export default class ApiBase {
   static extrinsics = extrinsicsStatic;
   static storage = storageStatic;
 
-  // FIXME This is now duplicated in ApiRx, use that
+  // FIXME This logic is duplicated in api-rx, since that should derive
+  // from that base, it should be removed when the actual extend is done
   private init (): Promise<boolean> {
     let isReady: boolean = false;
 
@@ -101,6 +102,7 @@ export default class ApiBase {
     return fn.apply(null, params);
   }
 
+  // FIXME Remove when extending from api-rx
   rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
       .rawStorageMulti([key, ...params] as [StorageFunction, any])
@@ -113,6 +115,7 @@ export default class ApiBase {
       );
   }
 
+  // FIXME Remove when extending from api-rx
   rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
     let observable;
 

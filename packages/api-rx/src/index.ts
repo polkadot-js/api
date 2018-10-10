@@ -167,8 +167,6 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
 
     this.initEmitters();
 
-    // FIXME This logic is duplicated in api-observable, since that should derive
-    // from this, it should be removed there when the actual extend is done
     return new Promise((resolveReady) => {
       this.isConnected.subscribe(async (isConnected) => {
         // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
@@ -265,6 +263,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
       } catch (error) {
         // in the case of an exception (upon creation of key), just return an empty
         observable = EMPTY;
+        l.warn(`${method.section}.${method.method}: storage subscription:`, error);
       }
 
       // state_storage returns an array of values, since we have just subscribed to
