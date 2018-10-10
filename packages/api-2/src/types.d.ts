@@ -24,11 +24,6 @@ export interface QueryableStorage {
 
 export interface SubmittableExtrinsicFunction extends ExtrinsicFunction {
   (...args: any[]): SubmittableExtrinsic;
-  callIndex: Uint8Array;
-  meta: FunctionMetadata;
-  method: string;
-  section: string;
-  toJSON: () => any;
 }
 
 export interface SubmittableModuleExtrinsics {
