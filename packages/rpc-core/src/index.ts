@@ -6,6 +6,7 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-pro
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
+import E3 from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Base, Vector, createType } from '@polkadot/types/codec';
@@ -29,7 +30,7 @@ import isFunction from '@polkadot/util/is/function';
  * const api = new Api(provider);
  * ```
  */
-export default class Rpc implements RpcInterface {
+export default class Rpc extends E3.EventEmitter implements RpcInterface {
   private _provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
@@ -42,6 +43,8 @@ export default class Rpc implements RpcInterface {
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   constructor (provider: ProviderInterface) {
+    super();
+
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
@@ -87,6 +90,8 @@ export default class Rpc implements RpcInterface {
         Method.injectExtrinsics(
           extrinsicsFromMeta(metadata)
         );
+
+        this.emit('metadata', metadata);
       })
       .catch((error) => {
         console.error('Unable to retrieve metadata', error);

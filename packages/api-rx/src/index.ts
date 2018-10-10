@@ -1,10 +1,11 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2018 @polkadot/api-rx authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
 import { RxApiInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
-import { Observable } from 'rxjs';
+import E3 from 'eventemitter3';
+import { Observable, from } from 'rxjs';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import defaults from '@polkadot/rpc-rx/defaults';
 import RpcRx from '@polkadot/rpc-rx/index';
@@ -12,7 +13,8 @@ import { Extrinsics } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Method, Hash } from '@polkadot/types/index';
+import { Hash } from '@polkadot/types/index';
+import RuntimeMetadata from '@polkadot/types/Metadata';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
@@ -23,17 +25,21 @@ const l = logger('api-rx');
 
 const INIT_ERROR = 'Api needs to be initialised before using';
 
-export default class ApiRx implements RxApiInterface {
+export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private _extrinsics?: SubmittableExtrinsics;
   private _genesisHash?: Hash;
   private _state?: QueryableStorage;
   private _rpc: RpcRx;
 
+  // Observable that returns the first time we are connected and loaded
+  whenReady: Observable<ApiRx>;
+
   constructor (wsProvider: WsProvider = new WsProvider(defaults.WS_URL)) {
+    super();
+
     this._rpc = new RpcRx(wsProvider);
 
-    // !#$%@ But yes, handling promises here
-    this.init().then().catch();
+    this.whenReady = from(this.init());
   }
 
   get genesisHash (): Hash {
@@ -44,6 +50,8 @@ export default class ApiRx implements RxApiInterface {
 
   /**
    * @example
+   * <BR>
+   *
    * ```javascript
    * api.rpc.chain
    *   .newHead()
@@ -58,6 +66,8 @@ export default class ApiRx implements RxApiInterface {
 
   /**
    * @example
+   * <BR>
+   *
    * ```javascript
    * api.st.balances
    *   .freeBalance(<accountId>)
@@ -74,6 +84,8 @@ export default class ApiRx implements RxApiInterface {
 
   /**
    * @example
+   * <BR>
+   *
    * ```javascript
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
@@ -90,20 +102,25 @@ export default class ApiRx implements RxApiInterface {
     return this._extrinsics as SubmittableExtrinsics;
   }
 
-  private async init (): Promise<void> {
-    // TODO We should really have a whenReady in rpc-core (or onMetadata event) and pass
-    // up the metadata on that.
-    try {
-      const metadata = await this.rpc.state.getMetadata().toPromise();
+  private init (): Promise<ApiRx> {
+    let isReady: boolean = false;
 
-      this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
-      this._extrinsics = this.decorateExtrinsics(extrinsicsFromMeta(metadata));
-      this._state = this.decorateStorage(storageFromMeta(metadata));
+    return new Promise((resolveReady) => {
+      this.rpc.on('metadata', async (metadata: RuntimeMetadata) => {
+        try {
+          this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
+          this._extrinsics = this.decorateExtrinsics(extrinsicsFromMeta(metadata));
+          this._state = this.decorateStorage(storageFromMeta(metadata));
 
-      Method.injectExtrinsics(this._extrinsics);
-    } catch (error) {
-      l.error('init', error);
-    }
+          if (!isReady) {
+            isReady = true;
+            resolveReady(this);
+          }
+        } catch (error) {
+          l.error('init', error);
+        }
+      });
+    });
   }
 
   private decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {

@@ -40,6 +40,7 @@ export default class ApiBase {
   static extrinsics = extrinsicsStatic;
   static storage = storageStatic;
 
+  // FIXME This is now duplicated in ApiRx, use that
   private init (): Promise<boolean> {
     let isReady: boolean = false;
 

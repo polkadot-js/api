@@ -6,6 +6,7 @@ import { RpcInterface, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RxRpcInterface, RxRpcInterface$Section } from './types';
 
+import E3 from 'eventemitter3';
 import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
 import Ws from '@polkadot/rpc-provider/ws';
@@ -13,6 +14,7 @@ import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import defaults from './defaults';
+import RuntimeMetadata from '@polkadot/types/Metadata';
 
 type CachedMap = {
   [index: string]: {
@@ -36,7 +38,7 @@ type CachedMap = {
  * const api = new Rpc(provider);
  * ```
  */
-export default class RpcRx implements RxRpcInterface {
+export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
   private _api: RpcInterface;
   private _cacheMap: CachedMap;
   private _isConnected: BehaviorSubject<boolean>;
@@ -49,9 +51,15 @@ export default class RpcRx implements RxRpcInterface {
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   constructor (provider: ProviderInterface = new Ws(defaults.WS_URL)) {
+    super();
+
     this._api = new Rpc(provider);
     this._cacheMap = {};
     this._isConnected = new BehaviorSubject(provider.isConnected());
+
+    this._api.on('metadata', (metadata: RuntimeMetadata): void => {
+      this.emit('metadata', metadata);
+    });
 
     provider.on('connected', () => this._isConnected.next(true));
     provider.on('disconnected', () => this._isConnected.next(false));

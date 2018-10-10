@@ -19,4 +19,5 @@ export type RxRpcInterface = {
   readonly system: RxRpcInterface$Section;
 
   isConnected: () => BehaviorSubject<boolean>
+  on: (type: 'metadata', handler: (...args: Array<any>) => any) => void;
 }
