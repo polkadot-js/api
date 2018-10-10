@@ -3,6 +3,7 @@
   "gitbook": ">=2.4.0",
   "plugins": [
     "include-codeblock",
+    "mermaid-gb3",
     "-highlight",
     "sunlight-highlighter"
   ],
