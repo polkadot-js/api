@@ -25,7 +25,7 @@ Making rpc calls -
 ```javascript
 import Api from '@polkadot/api-rx';
 
-// initialise via Promise
+// initialise via Promise & static create
 const api = await Api.create().toPromise();
 
 // make a call to retrieve the current network head
@@ -39,11 +39,11 @@ Subscribing to chain state -
 ```javascript
 import Api from '@polkadot/api-rx';
 
-// initialise via Promise
-const api = await Api.create().toPromise();
-
-// make a call to retrieve the current network head
-api.st.timestamp.now().subscribe((timestamp) => {
-  console.log(`Current block timestamp ${timestamp}`);
+// initialise via isReady & new
+new Api().isReady.subscribe((api) => {
+  // make a call to retrieve the current network head
+  api.st.timestamp.now().subscribe((timestamp) => {
+    console.log(`Current block timestamp ${timestamp}`);
+  });
 });
 ```
