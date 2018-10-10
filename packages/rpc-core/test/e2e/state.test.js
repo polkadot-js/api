@@ -1,11 +1,11 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2018 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
 import Ws from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/storage/static';
 
-import Api from '../../src';
+import Rpc from '../../src';
 
 const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
@@ -14,7 +14,7 @@ describe.skip('e2e state', () => {
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Api(new Ws('ws://127.0.0.1:9944'));
+    api = new Rpc(new Ws('ws://127.0.0.1:9944'));
   });
 
   it('retrieves code', () => {
