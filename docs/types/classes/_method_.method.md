@@ -20,7 +20,7 @@ Extrinsic function descriptor, as defined in [https://github.com/paritytech/wiki
 
 *Overrides [MethodIndex](_methodindex_.methodindex.md).[constructor](_methodindex_.methodindex.md#constructor)*
 
-*Defined in [Method.ts:29](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L29)*
+*Defined in [Method.ts:29](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L29)*
 
 **Parameters:**
 
@@ -42,7 +42,7 @@ ___
 
 **● _args**: *`Array`<[Base](_codec_base_.base.md)>*
 
-*Defined in [Method.ts:27](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L27)*
+*Defined in [Method.ts:27](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L27)*
 
 ___
 <a id="_bitlength"></a>
@@ -53,7 +53,7 @@ ___
 
 *Inherited from [U8aFixed](_codec_u8afixed_.u8afixed.md).[_bitLength](_codec_u8afixed_.u8afixed.md#_bitlength)*
 
-*Defined in [codec/U8aFixed.ts:14](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8aFixed.ts#L14)*
+*Defined in [codec/U8aFixed.ts:14](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8aFixed.ts#L14)*
 
 ___
 <a id="_data"></a>
@@ -62,7 +62,7 @@ ___
 
 **● _data**: *`Uint8Array`*
 
-*Defined in [Method.ts:28](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L28)*
+*Defined in [Method.ts:28](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L28)*
 
 ___
 <a id="_meta"></a>
@@ -71,7 +71,7 @@ ___
 
 **● _meta**: *[FunctionMetadata](_metadata_.functionmetadata.md)*
 
-*Defined in [Method.ts:29](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L29)*
+*Defined in [Method.ts:29](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L29)*
 
 ___
 <a id="raw"></a>
@@ -82,7 +82,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -94,7 +94,7 @@ ___
 
 getargs(): `Array`<`any`>
 
-*Defined in [Method.ts:100](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L100)*
+*Defined in [Method.ts:100](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L100)*
 
 **Returns:** `Array`<`any`>
 
@@ -107,7 +107,7 @@ getcallIndex(): `Uint8Array`
 
 *Inherited from [MethodIndex](_methodindex_.methodindex.md).[callIndex](_methodindex_.methodindex.md#callindex)*
 
-*Defined in [MethodIndex.ts:14](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/MethodIndex.ts#L14)*
+*Defined in [MethodIndex.ts:14](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/MethodIndex.ts#L14)*
 
 **Returns:** `Uint8Array`
 
@@ -118,7 +118,7 @@ ___
 
 getdata(): `Uint8Array`
 
-*Defined in [Method.ts:104](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L104)*
+*Defined in [Method.ts:104](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L104)*
 
 **Returns:** `Uint8Array`
 
@@ -131,7 +131,7 @@ getlength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8a.ts#L33)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8a.ts#L33)*
 
 **Returns:** `number`
 
@@ -142,7 +142,7 @@ ___
 
 getmeta(): [FunctionMetadata](_metadata_.functionmetadata.md)
 
-*Defined in [Method.ts:108](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L108)*
+*Defined in [Method.ts:108](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L108)*
 
 **Returns:** [FunctionMetadata](_metadata_.functionmetadata.md)
 
@@ -155,7 +155,7 @@ getmethodIndex(): `number`
 
 *Inherited from [MethodIndex](_methodindex_.methodindex.md).[methodIndex](_methodindex_.methodindex.md#methodindex)*
 
-*Defined in [MethodIndex.ts:18](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/MethodIndex.ts#L18)*
+*Defined in [MethodIndex.ts:18](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/MethodIndex.ts#L18)*
 
 **Returns:** `number`
 
@@ -168,7 +168,7 @@ getsectionIndex(): `number`
 
 *Inherited from [MethodIndex](_methodindex_.methodindex.md).[sectionIndex](_methodindex_.methodindex.md#sectionindex)*
 
-*Defined in [MethodIndex.ts:22](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/MethodIndex.ts#L22)*
+*Defined in [MethodIndex.ts:22](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/MethodIndex.ts#L22)*
 
 **Returns:** `number`
 
@@ -184,7 +184,7 @@ ___
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[byteLength](_codec_u8afixed_.u8afixed.md#bytelength)*
 
-*Defined in [Method.ts:96](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L96)*
+*Defined in [Method.ts:96](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L96)*
 
 **Returns:** `number`
 
@@ -199,7 +199,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[fromJSON](_codec_u8a_.u8a.md#fromjson)*
 
-*Defined in [codec/U8aFixed.ts:36](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8aFixed.ts#L36)*
+*Defined in [codec/U8aFixed.ts:36](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8aFixed.ts#L36)*
 
 **Parameters:**
 
@@ -218,7 +218,7 @@ ___
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[fromU8a](_codec_u8afixed_.u8afixed.md#fromu8a)*
 
-*Defined in [Method.ts:112](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L112)*
+*Defined in [Method.ts:112](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L112)*
 
 **Parameters:**
 
@@ -237,7 +237,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8a.ts#L53)*
 
 **Returns:** `string`
 
@@ -252,7 +252,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/U8a.ts:57](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8a.ts#L57)*
+*Defined in [codec/U8a.ts:57](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8a.ts#L57)*
 
 **Returns:** `any`
 
@@ -267,7 +267,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/U8a.ts:65](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8a.ts#L65)*
+*Defined in [codec/U8a.ts:65](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8a.ts#L65)*
 
 **Returns:** `string`
 
@@ -280,7 +280,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Method.ts:127](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L127)*
+*Defined in [Method.ts:127](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L127)*
 
 **Parameters:**
 
@@ -297,7 +297,7 @@ ___
 
 ▸ **decodeMethod**(meta: *[FunctionMetadata](_metadata_.functionmetadata.md)*, data: *`Uint8Array`*): `Array`<[Base](_codec_base_.base.md)>
 
-*Defined in [Method.ts:45](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L45)*
+*Defined in [Method.ts:45](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L45)*
 
 **Parameters:**
 
@@ -317,7 +317,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
 
-*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/codec/U8a.ts#L23)*
+*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/codec/U8a.ts#L23)*
 
 **Parameters:**
 
@@ -334,7 +334,7 @@ ___
 
 ▸ **encode**(meta: *[FunctionMetadata](_metadata_.functionmetadata.md)*, args: *`Array`<`any`>*): `Uint8Array`
 
-*Defined in [Method.ts:57](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L57)*
+*Defined in [Method.ts:57](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L57)*
 
 **Parameters:**
 
@@ -352,7 +352,7 @@ ___
 
 ▸ **filterOrigin**(meta?: *[FunctionMetadata](_metadata_.functionmetadata.md)*): `Array`<[FunctionArgumentMetadata](_metadata_.functionargumentmetadata.md)>
 
-*Defined in [Method.ts:66](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L66)*
+*Defined in [Method.ts:66](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L66)*
 
 **Parameters:**
 
@@ -369,7 +369,7 @@ ___
 
 ▸ **findFunction**(callIndex: *`Uint8Array`*): `ExtrinsicFunction`
 
-*Defined in [Method.ts:82](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L82)*
+*Defined in [Method.ts:82](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L82)*
 
 **Parameters:**
 
@@ -386,7 +386,7 @@ ___
 
 ▸ **injectExtrinsics**(extrinsics: *`Extrinsics`*): `void`
 
-*Defined in [Method.ts:88](https://github.com/polkadot-js/api/blob/e8c834f/packages/types/src/Method.ts#L88)*
+*Defined in [Method.ts:88](https://github.com/polkadot-js/api/blob/7f270cb/packages/types/src/Method.ts#L88)*
 
 **Parameters:**
 
