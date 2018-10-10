@@ -75,7 +75,7 @@ export default class ApiRx {
    *   .transfer(<recipeintId>, <balance>)
    *   .sign(<keyPair>, <genesisHash>)
    *   .send()
-   *   .subscribe((statuc) => console.log('tx status', status));
+   *   .subscribe((status) => console.log('tx status', status));
    * ```
    */
   get tx (): SubmittableExtrinsics {
