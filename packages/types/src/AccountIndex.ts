@@ -15,7 +15,7 @@ import U8a from './codec/U8a';
 export default class AccountIndex extends U8a {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
-      AccountIndex.decode(value)
+      AccountIndex.decodeAccountIndex(value)
     );
   }
 
@@ -25,7 +25,7 @@ export default class AccountIndex extends U8a {
     return u8aToHex(value);
   }
 
-  static decode (value: AnyU8a): Uint8Array {
+  static decodeAccountIndex (value: AnyU8a): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
     } else if (isU8a(value)) {
@@ -52,7 +52,7 @@ export default class AccountIndex extends U8a {
   }
 
   fromJSON (input: any): AccountIndex {
-    super.fromJSON(AccountIndex.decode(input));
+    super.fromJSON(AccountIndex.decodeAccountIndex(input));
 
     return this;
   }

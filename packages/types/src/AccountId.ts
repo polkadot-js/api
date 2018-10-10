@@ -20,7 +20,7 @@ import U8aFixed from './codec/U8aFixed';
 export default class AccountId extends U8aFixed {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
-      AccountId.decode(value),
+      AccountId.decodeAccountId(value),
       256
     );
   }
@@ -29,7 +29,7 @@ export default class AccountId extends U8aFixed {
     return encodeAddress(value);
   }
 
-  static decode (value: AnyU8a): Uint8Array {
+  static decodeAccountId (value: AnyU8a): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
     } else if (isU8a(value) || Array.isArray(value)) {
@@ -42,7 +42,7 @@ export default class AccountId extends U8aFixed {
   }
 
   fromJSON (input: any): AccountId {
-    super.fromJSON(AccountId.decode(input));
+    super.fromJSON(AccountId.decodeAccountId(input));
 
     return this;
   }
