@@ -23,6 +23,7 @@ const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 /**
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
+ * // FIXME This class should extend Struct({ callIndex, method })
  */
 export default class Method extends MethodIndex {
   protected _args: Array<Base>;
@@ -42,9 +43,9 @@ export default class Method extends MethodIndex {
 
     this._data = Method.encode(this._meta, this._args);
 
-    // FIXME this is really not clean
-    // This class should extend Struct({ callIndex, args });
-    if (isU8a(index)) {
+    // FIXME this is really not clean, we're saying that if the callIndex is
+    // longer than 2 bytes, then we need to decode the rest too.
+    if (isU8a(index) && index.length > 2) {
       this.fromU8a(index);
     }
 
