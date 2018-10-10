@@ -5,10 +5,13 @@
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
+import isString from '@polkadot/util/is/string';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 
+import { AnyNumber } from './types';
 import Base from './codec/Base';
+import U64 from './U64';
 
 const BITLENGTH = 64;
 
@@ -19,21 +22,25 @@ const BITLENGTH = 64;
 export default class Moment extends Base<Date> {
   constructor (value: Uint8Array | Moment | Date | BN | number = 0) {
     super(
-      value instanceof Date
-        ? new Date(Math.ceil(value.getTime() / 1000) * 1000)
-        : Moment.decode(value)
+      Moment.decodeMoment(value)
     );
   }
 
-  static decode (value: Uint8Array | Moment | number | BN): Date {
+  static decodeMoment (value: Moment | Date | AnyNumber): Date {
     if (value instanceof Moment) {
       return value.raw;
-    } if (isU8a(value)) {
-      value = u8aToBn(value, true);
+    } else if (value instanceof Date) {
+      return new Date(Math.ceil(value.getTime() / 1000) * 1000);
+    } else if (value instanceof U64) {
+      value = value.toBn();
+    } else if (isU8a(value)) {
+      value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
+    } else if (isString(value)) {
+      value = new BN(value, 10, 'le');
     }
 
     return new Date(
-      bnToBn(value).toNumber() * 1000
+      bnToBn(value as BN).toNumber() * 1000
     );
   }
 
@@ -42,13 +49,13 @@ export default class Moment extends Base<Date> {
   }
 
   fromJSON (input: any): Moment {
-    this.raw = Moment.decode(input);
+    this.raw = Moment.decodeMoment(input);
 
     return this;
   }
 
   fromU8a (input: Uint8Array): Moment {
-    this.raw = Moment.decode(
+    this.raw = Moment.decodeMoment(
       u8aToBn(input.subarray(0, this.byteLength()), true)
     );
 
