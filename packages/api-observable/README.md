@@ -8,6 +8,6 @@
 [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/api-observable)](https://david-dm.org/polkadot-js/api?path=packages/api-observable)
 [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/api-observable)](https://david-dm.org/polkadot-js/api?path=packages/api-observable#info=devDependencies)
 
-# @polkadot/api-observable
+# @polkadot/api
 
-An RxJs wrapper around the [@polkadot/rpc-core](../rpc-core).
+An Observable wrapper around [@polkadot/rpc-core](../rpc-core).

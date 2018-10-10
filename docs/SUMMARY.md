@@ -1,5 +1,7 @@
 ## Packages
 
+- [api](api/README.md)
+  - [ApiRx](api/classes/_rx_index_.apirx.md)
 - [rpc-core](rpc-core/README.md)
   - [Rpc](rpc-core/classes/_index_.rpc.md)
 - [rpc-provider](rpc-provider/README.md)
