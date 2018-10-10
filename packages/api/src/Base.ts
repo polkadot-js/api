@@ -207,8 +207,6 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
       output.callIndex = input.callIndex;
     }
 
-    // console.error(output);
-
     return output;
   }
 
