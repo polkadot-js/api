@@ -48,11 +48,11 @@ api.chain
     return api.chain.getHeader(headerHash);
   })
   .then((header) => {
-    console.log(`best #${header.raw.number.toString()}`);
-    console.log(`parentHash: ${header.raw.parentHash.toString()}`);
-    console.log(`stateRoot: ${header.raw.stateRoot.toString()}`);
-    console.log(`extrinsicsRoot: ${header.raw.extrinsicsRoot.toString()}`);
-    console.log(`digest: ${header.raw.digest.toString()}`);
+    console.log(`best #${header.blockNumber.toString()}`);
+    console.log(`parentHash: ${header.parentHash.toString()}`);
+    console.log(`stateRoot: ${header.stateRoot.toString()}`);
+    console.log(`extrinsicsRoot: ${header.extrinsicsRoot.toString()}`);
+    console.log(`digest: ${header.digest.toString()}`);
   })
   .catch((error) => {
     console.error('error:', error);
@@ -68,7 +68,7 @@ api.chain
       console.error('error:', error);
     }
 
-    console.log(`best #${header.raw.number.toString()}`);
+    console.log(`best #${header.blockNumber.toString()}`);
   })
   .then((subscriptionId) => {
     console.log(`subscriptionId: ${subscriptionId}`);
