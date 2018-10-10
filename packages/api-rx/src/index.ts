@@ -5,14 +5,16 @@
 import { RxApiInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import E3 from 'eventemitter3';
-import { Observable, from } from 'rxjs';
+import { EMPTY, Observable, from } from 'rxjs';
+import { defaultIfEmpty, map } from 'rxjs/operators';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import defaults from '@polkadot/rpc-rx/defaults';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
+import { Base } from '@polkadot/types/codec';
 import { Hash } from '@polkadot/types/index';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import assert from '@polkadot/util/assert';
@@ -20,6 +22,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 
 const l = logger('api-rx');
 
@@ -42,6 +45,9 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
     this.whenReady = from(this.init());
   }
 
+  /**
+   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
+   */
   get genesisHash (): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
@@ -49,6 +55,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
+   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
    * @example
    * <BR>
    *
@@ -65,6 +72,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
+   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    * @example
    * <BR>
    *
@@ -83,6 +91,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
+   * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
    * @example
    * <BR>
    *
@@ -132,23 +141,26 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
         result[sectionName] = Object
           .keys(section)
           .reduce((result, methodName) => {
-            const method = section[methodName];
-            const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-              new SubmittableExtrinsic(this, method(...args));
-
-            decorated.callIndex = method.callIndex;
-            decorated.meta = method.meta;
-            decorated.method = method.method;
-            decorated.section = method.section;
-            decorated.toJSON = method.toJSON;
-
-            result[methodName] = decorated as SubmittableExtrinsicFunction;
+            result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
 
             return result;
           }, {} as SubmittableModuleExtrinsics);
 
         return result;
       }, {} as SubmittableExtrinsics);
+  }
+
+  private decorateExtrinsicEntry (method: ExtrinsicFunction): SubmittableExtrinsicFunction {
+    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
+      new SubmittableExtrinsic(this, method(...args));
+
+    decorated.callIndex = method.callIndex;
+    decorated.meta = method.meta;
+    decorated.method = method.method;
+    decorated.section = method.section;
+    decorated.toJSON = method.toJSON;
+
+    return decorated as SubmittableExtrinsicFunction;
   }
 
   private decorateStorage (storage: Storage): QueryableStorage {
@@ -160,21 +172,41 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
         result[sectionName] = Object
           .keys(section)
           .reduce((result, methodName) => {
-            const method = section[methodName];
-            const decorated: any = (arg?: any): Observable<any> =>
-              this.rpc.state.storage([[method, arg]]);
-
-            decorated.meta = method.meta;
-            decorated.method = method.method;
-            decorated.section = method.section;
-            decorated.toJSON = method.toJSON;
-
-            result[methodName] = decorated as QueryableStorageFunction;
+            result[methodName] = this.decorateStorageEntry(section[methodName]);
 
             return result;
           }, {} as QueryableModuleStorage);
 
         return result;
       }, {} as QueryableStorage);
+  }
+
+  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
+    const decorated: any = (arg: any): Observable<Base | null | undefined> => {
+      let observable;
+
+      try {
+        observable = this.rpc.state.storage([[method, arg]]);
+      } catch (error) {
+        // in the case of an exception (upon creation of key), just return an empty
+        observable = EMPTY;
+      }
+
+      // state_storage returns an array of values, since we have just subscribed to
+      // a single entry, we pull that from the array and return it as-is
+      return observable.pipe(
+        defaultIfEmpty([]),
+        map((result: Array<Base | null | undefined> = []): Base | null | undefined =>
+          result[0]
+        )
+      );
+    };
+
+    decorated.meta = method.meta;
+    decorated.method = method.method;
+    decorated.section = method.section;
+    decorated.toJSON = method.toJSON;
+
+    return decorated as QueryableStorageFunction;
   }
 }

@@ -5,6 +5,7 @@
 import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import RpcRx from '@polkadot/rpc-rx/index';
+import { Base } from '@polkadot/types/codec';
 import { Hash } from '@polkadot/types/index';
 import { FunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -13,7 +14,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
 import on from '@polkadot/rpc-provider/mock/on';
 
 export interface QueryableStorageFunction extends StorageFunction {
-  (arg?: any): Observable<any>;
+  (arg?: any): Observable<Base | null | undefined>;
 }
 
 export interface QueryableModuleStorage {
