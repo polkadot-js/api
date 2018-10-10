@@ -46,11 +46,11 @@ interface WSProviderInterface extends ProviderInterface {
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/rpc-core';
+ * import Rpc from '@polkadot/rpc-core';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = new Api(provider);
+ * const api = new Rpc(provider);
  * ```
  *
  * @see [[HttpProvider]]
@@ -182,7 +182,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    *
    * ```javascript
    * const provider = new WsProvider('ws://127.0.0.1:9944');
-   * const api = new Api(provider);
+   * const api = new Rpc(provider);
    *
    * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)

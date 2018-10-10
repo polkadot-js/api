@@ -10,4 +10,4 @@
 
 # @polkadot/api-observable
 
-An RxJs wrapper around the [@polkadot/api](../api).
+An RxJs wrapper around the [@polkadot/rpc-core](../rpc-core).
