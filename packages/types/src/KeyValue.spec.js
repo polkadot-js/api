@@ -7,8 +7,8 @@ import KeyValue, { KeyValueOption } from './KeyValue';
 describe('KeyValue', () => {
   it('decodes KeyValue from u8a', () => {
     expect(
-      new KeyValue().fromU8a(
-        new Uint8Array([
+      new KeyValue(
+        Uint8Array.from([
           4 << 2,
           0x11, 0x22, 0x33, 0x44,
           9 << 2,
@@ -23,7 +23,7 @@ describe('KeyValue', () => {
 
   it('encodes KeyValue from JSON', () => {
     expect(
-      new KeyValue().fromJSON({
+      new KeyValue({
         key: '0x11223344',
         value: '0x998877665544332211'
       }).toU8a()
