@@ -9,11 +9,11 @@ import Base from './codec/Base';
 export default class Bool extends Base<boolean> {
   constructor (value: Bool | boolean = false) {
     super(
-      Bool.decode(value)
+      Bool.decodeBool(value)
     );
   }
 
-  static decode (value: any): boolean {
+  static decodeBool (value: any): boolean {
     if (value instanceof Bool) {
       return value.raw;
     } else if (isU8a(value)) {

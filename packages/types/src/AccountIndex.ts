@@ -29,6 +29,9 @@ export default class AccountIndex extends U8a {
     if (value instanceof U8a) {
       return value.raw;
     } else if (isU8a(value)) {
+      if (!value.length) {
+        return value;
+      }
       return value.subarray(0, AccountIndex.readLength(value));
     }
     return u8aToU8a(value);
