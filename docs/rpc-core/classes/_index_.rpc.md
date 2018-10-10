@@ -27,7 +27,7 @@ const api = new Api(provider);
 
 # Implements
 
-* `object`
+* [RpcInterface](../interfaces/_types_d_.rpcinterface.md)
 
 # Constructors
 
@@ -37,7 +37,7 @@ const api = new Api(provider);
 
 ⊕ **new Rpc**(provider: *`ProviderInterface`*): [Rpc](_index_.rpc.md)
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L45)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L44)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -59,7 +59,9 @@ ___
 
 **● author**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L42)*
+*Implementation of [RpcInterface](../interfaces/_types_d_.rpcinterface.md).[author](../interfaces/_types_d_.rpcinterface.md#author)*
+
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L41)*
 
 ___
 <a id="chain"></a>
@@ -68,7 +70,9 @@ ___
 
 **● chain**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L43)*
+*Implementation of [RpcInterface](../interfaces/_types_d_.rpcinterface.md).[chain](../interfaces/_types_d_.rpcinterface.md#chain)*
+
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L42)*
 
 ___
 <a id="state"></a>
@@ -77,7 +81,9 @@ ___
 
 **● state**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L44)*
+*Implementation of [RpcInterface](../interfaces/_types_d_.rpcinterface.md).[state](../interfaces/_types_d_.rpcinterface.md#state)*
+
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L43)*
 
 ___
 <a id="system"></a>
@@ -86,7 +92,9 @@ ___
 
 **● system**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L45)*
+*Implementation of [RpcInterface](../interfaces/_types_d_.rpcinterface.md).[system](../interfaces/_types_d_.rpcinterface.md#system)*
+
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L44)*
 
 ___
 
@@ -98,7 +106,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:80](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-core/src/index.ts#L80)*
+*Defined in [index.ts:77](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/index.ts#L77)*
 
 *__name__*: signature
 

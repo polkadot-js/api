@@ -20,7 +20,7 @@
 
 **● DEFAULT_LENGTH_BITS**: *`32`* = 32
 
-*Defined in [codec/Compact.ts:14](https://github.com/polkadot-js/api/blob/267411d/packages/types/src/codec/Compact.ts#L14)*
+*Defined in [codec/Compact.ts:14](https://github.com/polkadot-js/api/blob/7180f89/packages/types/src/codec/Compact.ts#L14)*
 
 ___
 
