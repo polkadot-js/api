@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isU8a from '@polkadot/util/is/u8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
@@ -27,6 +28,8 @@ export default class AccountIndex extends U8a {
   static decode (value: AnyU8a): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
+    } else if (isU8a(value)) {
+      return value.subarray(0, AccountIndex.readLength(value));
     }
     return u8aToU8a(value);
   }
