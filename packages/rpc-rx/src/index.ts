@@ -57,12 +57,7 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
     this._cacheMap = {};
     this._isConnected = new BehaviorSubject(provider.isConnected());
 
-    this._api.on('metadata', (metadata: RuntimeMetadata): void => {
-      this.emit('metadata', metadata);
-    });
-
-    provider.on('connected', () => this._isConnected.next(true));
-    provider.on('disconnected', () => this._isConnected.next(false));
+    this.initEmitters(provider);
 
     this.author = this.createInterface('author', this._api.author);
     this.chain = this.createInterface('chain', this._api.chain);
@@ -72,6 +67,24 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
 
   isConnected (): BehaviorSubject<boolean> {
     return this._isConnected;
+  }
+
+  private initEmitters (provider: ProviderInterface): void {
+    this._api.on('metadata', (metadata: RuntimeMetadata): void => {
+      this.emit('metadata', metadata);
+    });
+
+    provider.on('connected', () => {
+      this._isConnected.next(true);
+
+      this.emit('connected');
+    });
+
+    provider.on('disconnected', () => {
+      this._isConnected.next(false);
+
+      this.emit('disconnected');
+    });
   }
 
   private createInterface (sectionName: string, section: RpcInterface$Section): RxRpcInterface$Section {

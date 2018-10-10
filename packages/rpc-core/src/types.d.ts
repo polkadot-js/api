@@ -3,7 +3,6 @@
 // of the ISC license. See the LICENSE file for details.
 
 import interfaces from '@polkadot/jsonrpc/index';
-import on from '@polkadot/rpc-provider/mock/on';
 
 export interface RpcInterface$Section$Method {
   (...params: Array<any>): Promise<any>;
