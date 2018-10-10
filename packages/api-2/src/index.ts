@@ -138,8 +138,8 @@ export default class ApiRx {
           .keys(section)
           .reduce((result, methodName) => {
             const method = section[methodName];
-            const decorated: any = (...args: Array<any>): Observable<any> =>
-              this.rpc.state.storage([method, ...args]);
+            const decorated: any = (arg?: any): Observable<any> =>
+              this.rpc.state.storage([[method, arg]]);
 
             decorated.meta = method.meta;
             decorated.method = method.method;
