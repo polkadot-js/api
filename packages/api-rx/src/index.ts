@@ -38,7 +38,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param wsProvider Optiona WebSocket provider that is passed to the class contructor
+   * @param wsProvider Optional WebSocket provider that is passed to the class contructor
    * @example
    * <BR>
    *
@@ -57,7 +57,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
-   * @param wsProvider An optional WebSocket provider from rx-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
    * @example
    * <BR>
    *
