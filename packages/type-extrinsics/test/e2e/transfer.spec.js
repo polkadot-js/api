@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Api from '@polkadot/rpc-core';
+import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 
@@ -15,7 +15,7 @@ describe.skip('e2e transfer', () => {
 
   beforeAll(() => {
     // check other e2e tests here...
-    api = new Api(new Ws('ws://127.0.0.1:9944'));
+    api = new Rpc(new Ws('ws://127.0.0.1:9944'));
   });
 
   // Error: [1002]: Inherent transactions cannot be queued.
