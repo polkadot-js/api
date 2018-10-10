@@ -1,5 +1,5 @@
 {
-  "version": "0.30.33",
+  "version": "0.31.2",
   "private": true,
   "engines": {
     "node": "^10.1.0",
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "gitbook-plugin-include-codeblock": "^3.2.2",
+    "gitbook-plugin-mermaid-gb3": "^2.1.0",
     "gitbook-plugin-sunlight-highlighter": "^0.4.3"
   }
 }

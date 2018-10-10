@@ -16,7 +16,9 @@ import u8aToBn from '@polkadot/util/u8a/toBn';
 
 import Base from './Base';
 
-type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
+export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
+
+export const DEFAULT_UINT_BITS = 64;
 
 // A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
 // and decoding of those numbers. Upon construction the bitLength is provided and any additional
@@ -25,19 +27,19 @@ type BitLength = 8 | 16 | 32 | 64 | 128 | 256;
 // TODO:
 //   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
 export default class UInt extends Base<BN> {
-  private _bitLength: BitLength;
+  protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
 
-  constructor (value: AnyNumber = 0, bitLength: BitLength = 64, isHexJson: boolean = true) {
+  constructor (value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
-      UInt.decode(value)
+      UInt.decodeUInt(value)
     );
 
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
   }
 
-  static decode (value: AnyNumber): BN {
+  static decodeUInt (value: AnyNumber): BN {
     if (value instanceof UInt) {
       return value.raw;
     } else if (isHex(value)) {
@@ -57,7 +59,7 @@ export default class UInt extends Base<BN> {
   }
 
   fromJSON (input: any): UInt {
-    this.raw = UInt.decode(input);
+    this.raw = UInt.decodeUInt(input);
 
     return this;
   }

@@ -1,12 +1,12 @@
 ## Packages
 
-- [api](api/README.md)
-  - [Api](api/classes/_index_.api.md)
-- [api-provider](api-provider/README.md)
-  - [HttpProvider](api-provider/classes/_http_index_.httpprovider.md)
-  - [WsProvider](api-provider/classes/_ws_index_.wsprovider.md)
-- [api-rx](api-rx/README.md)
-  - [ApiRx](api-rx/classes/_index_.rxapi.md)
+- [rpc-core](rpc-core/README.md)
+  - [Rpc](rpc-core/classes/_index_.rpc.md)
+- [rpc-provider](rpc-provider/README.md)
+  - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
+  - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
+- [rpc-rx](rpc-rx/README.md)
+  - [RpcRx](rpc-rx/classes/_index_.rxapi.md)
 
 ## Examples
 

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isNull from '@polkadot/util/is/null';
+import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
@@ -10,18 +12,30 @@ import Base from './Base';
 // is value to follow. If the byte is `1` there is an actual value. So the Option
 // implements that - decodes, checks for optionality and wraps the required structure
 // with a value if/as required/found.
-export default class Option <T> extends Base<Base<T>> {
+export default class Option<T> extends Base<Base<T>> {
   private _isEmpty: boolean;
 
-  constructor (Value: { new(value?: any): Base<T> }, value?: any) {
+  constructor (Type: { new(value?: any): Base<T> }, value?: any) {
     super(
-      new Value(value)
+      Option.decodeOption(Type, value)
     );
 
-    this._isEmpty = isUndefined(value);
+    this._isEmpty = isNull(value) || isUndefined(value);
   }
 
-  static with <O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
+  static decodeOption<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
+    if (isU8a(value)) {
+      return new Type(value.subarray(1));
+    }
+
+    return new Type(
+      isNull(value) || isUndefined(value)
+        ? undefined
+        : value
+      );
+  }
+
+  static with<O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
     return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);
@@ -48,7 +62,7 @@ export default class Option <T> extends Base<Base<T>> {
   }
 
   fromJSON (input: any): Option<T> {
-    this._isEmpty = isUndefined(input);
+    this._isEmpty = isNull(input) || isUndefined(input);
 
     if (!this._isEmpty) {
       this.raw.fromJSON(input);
