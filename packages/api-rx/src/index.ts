@@ -37,6 +37,26 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   readonly isReady: Observable<ApiRx>;
 
   /**
+   * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
+   * @param wsProvider Optiona WebSocket provider that is passed to the class contructor
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import Api from '@polkadot/api-rx';
+   *
+   * Api.create().subscribe((api) => {
+   *   api.st.timestamp.now((timestamp) => {
+   *     console.log(`lastest block timestamp ${timestamp}`);
+   *   });
+   * });
+   * ```
+   */
+  static create (wsProvider?: WsProvider): Observable<ApiRx> {
+    return new ApiRx(wsProvider).isReady;
+  }
+
+  /**
    * @param wsProvider An optional WebSocket provider from rx-provider/ws. If not specified, it will default to connecting to the localhost with the default port
    * @example
    * <BR>
@@ -46,7 +66,7 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    *
    * new Api().whenReady.subscribe((api) => {
    *   api.rpc.newHead().subscribe((header) => {
-   *     console.log(`new block #{header.blockNumber.toNumber()}`);
+   *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
    * ```
