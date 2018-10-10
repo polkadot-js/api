@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RxApiInterface, RxApiInterface$Method, RxApiInterface$Section } from '@polkadot/api-rx/types';
+import { RxRpcInterface, RxRpcInterface$Method, RxRpcInterface$Section } from '@polkadot/rpc-rx/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 
 import { EMPTY, Observable, combineLatest, from } from 'rxjs';
@@ -25,13 +25,13 @@ const defaultMapFn = (result: any): any =>
 // Raw base implementation for the observable API. It simply provides access to raw calls, allowing
 // decendants to make direct queries to either API methods or actual storage
 export default class ApiBase {
-  protected _api: RxApiInterface;
+  protected _api: RxRpcInterface;
   protected _genesisHash: Hash;
 
   // Observable that returns the first time we are connected and loaded
   whenReady: Observable<boolean>;
 
-  constructor (api: RxApiInterface) {
+  constructor (api: RxRpcInterface) {
     this._api = api;
     this._genesisHash = new Hash();
     this.whenReady = from(this.init());
@@ -86,11 +86,11 @@ export default class ApiBase {
   }
 
   rawCall = <T> ({ method, section }: RpcMethod, ...params: Array<any>): Observable<T> => {
-    const apiSection = this._api[section as keyof RxApiInterface] as RxApiInterface$Section;
+    const apiSection = this._api[section as keyof RxRpcInterface] as RxRpcInterface$Section;
 
     assert(apiSection, `Unable to find 'api.${section}'`);
 
-    const fn: RxApiInterface$Method = apiSection[method];
+    const fn: RxRpcInterface$Method = apiSection[method];
 
     assert(fn, `Unable to find 'api.${section}.${method}'`);
 
