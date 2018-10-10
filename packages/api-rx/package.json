@@ -27,7 +27,7 @@
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@polkadot/rpc-rx": "^0.31.0",
