@@ -17,7 +17,7 @@ Generic transport providers to handle the transport of method calls to and from 
 Installation -
 
 ```
-npm install --save @polkadot/rpc-provider
+yarn add @polkadot/rpc-provider
 ```
 
 Initialisation -
