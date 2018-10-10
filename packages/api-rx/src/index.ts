@@ -179,6 +179,11 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
 
   private initEmitters (): void {
     this.rpc.on('connected', () => {
+      // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
+      //   - refresh metadata as needed, decorating again (metadata this may need to be in the rpc-base)
+      //   - re-create storage subscriptions for those we already have
+      //   - re-watch extrinsics where we have subscriptions already
+      //   - need to refresh genesisHash, extrinsic resub only when it matches
       this.emit('connected');
     });
 
@@ -192,21 +197,17 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   private decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {
-    return Object
-      .keys(extrinsics)
-      .reduce((result, sectionName) => {
-        const section = extrinsics[sectionName];
+    return Object.keys(extrinsics).reduce((result, sectionName) => {
+      const section = extrinsics[sectionName];
 
-        result[sectionName] = Object
-          .keys(section)
-          .reduce((result, methodName) => {
-            result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
-
-            return result;
-          }, {} as SubmittableModuleExtrinsics);
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
 
         return result;
-      }, {} as SubmittableExtrinsics);
+      }, {} as SubmittableModuleExtrinsics);
+
+      return result;
+    }, {} as SubmittableExtrinsics);
   }
 
   private decorateExtrinsicEntry (method: ExtrinsicFunction): SubmittableExtrinsicFunction {
@@ -223,21 +224,17 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   private decorateStorage (storage: Storage): QueryableStorage {
-    return Object
-      .keys(storage)
-      .reduce((result, sectionName) => {
-        const section = storage[sectionName];
+    return Object.keys(storage).reduce((result, sectionName) => {
+      const section = storage[sectionName];
 
-        result[sectionName] = Object
-          .keys(section)
-          .reduce((result, methodName) => {
-            result[methodName] = this.decorateStorageEntry(section[methodName]);
-
-            return result;
-          }, {} as QueryableModuleStorage);
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.decorateStorageEntry(section[methodName]);
 
         return result;
-      }, {} as QueryableStorage);
+      }, {} as QueryableModuleStorage);
+
+      return result;
+    }, {} as QueryableStorage);
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
