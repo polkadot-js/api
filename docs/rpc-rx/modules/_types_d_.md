@@ -8,7 +8,7 @@
 
 **Ƭ RxRpcInterface**: *`object`*
 
-*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/types.d.ts#L15)*
+*Defined in [types.d.ts:15](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-rx/src/types.d.ts#L15)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ RxRpcInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/types.d.ts#L9)*
+*Defined in [types.d.ts:9](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-rx/src/types.d.ts#L9)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `BehaviorSubject`<`any`>
@@ -39,7 +39,7 @@ ___
 
 **Ƭ RxRpcInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/types.d.ts#L11)*
+*Defined in [types.d.ts:11](https://github.com/polkadot-js/api/blob/267411d/packages/rpc-rx/src/types.d.ts#L11)*
 
 #### Type declaration
 
