@@ -5,7 +5,6 @@ module.exports = {
   excludeNotExported: true,
   excludePrivate: true,
   hideGenerator: true,
-  includes: './docs/guides',
   includeDeclarations: true,
   out: 'docs',
   module: 'commonjs',
