@@ -37,17 +37,17 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export type RxApiInterface$Events = RxRpcInterface$Events | 'ready';
+export type ApiRxInterface$Events = RxRpcInterface$Events | 'ready';
 
-export interface RxApiInterface {
+export interface ApiRxInterface {
   readonly genesisHash: Hash;
   readonly isConnected: Observable<boolean>;
-  readonly isReady: Observable<RxApiInterface>;
+  readonly isReady: Observable<ApiRxInterface>;
   readonly rpc: RpcRx;
   readonly runtimeMetadata: RuntimeMetadata;
   readonly runtimeVersion: RuntimeVersion;
   readonly st: QueryableStorage;
   readonly tx: SubmittableExtrinsics
 
-  on: (type: RxApiInterface$Events, handler: (...args: Array<any>) => any) => void;
+  on: (type: ApiRxInterface$Events, handler: (...args: Array<any>) => any) => void;
 }

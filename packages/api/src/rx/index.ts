@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RxApiInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import E3 from 'eventemitter3';
 import { EMPTY, Observable, from } from 'rxjs';
@@ -27,7 +27,7 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenReady'`;
 
-export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
+export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
   private _extrinsics?: SubmittableExtrinsics;
   private _genesisHash?: Hash;
   private _storage?: QueryableStorage;
