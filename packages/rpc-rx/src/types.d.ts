@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 import interfaces from '@polkadot/jsonrpc/types';
-import { RpcInterface$Events } from '@polkadot/rpc-core/types';
 
-export type RxRpcInterface$Method = (...params: Array<any>) => Observable<any> | BehaviorSubject<any>;
+export type RxRpcInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
 
 export type RxRpcInterface$Section = {
   [index: string]: RxRpcInterface$Method
 };
 
-export type RxRpcInterface$Events = RpcInterface$Events | 'connected' | 'disconnected';
+export type RxRpcInterface$Events = 'connected' | 'disconnected';
 
 export type RxRpcInterface = {
   readonly author: RxRpcInterface$Section;

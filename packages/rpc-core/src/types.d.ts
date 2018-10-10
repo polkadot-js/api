@@ -15,13 +15,9 @@ export type RpcInterface$Section = {
   [index: string]: RpcInterface$Section$Method
 };
 
-export type RpcInterface$Events = 'metadata';
-
 export interface RpcInterface {
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
   readonly system: RpcInterface$Section;
-
-  on: (type: RpcInterface$Events, handler: (...args: Array<any>) => any) => void;
 }

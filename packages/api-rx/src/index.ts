@@ -14,7 +14,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Base } from '@polkadot/types/codec';
-import { Hash } from '@polkadot/types/index';
+import { Hash, Method } from '@polkadot/types/index';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -30,7 +30,8 @@ const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenRea
 export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   private _extrinsics?: SubmittableExtrinsics;
   private _genesisHash?: Hash;
-  private _state?: QueryableStorage;
+  private _metadata?: RuntimeMetadata;
+  private _storage?: QueryableStorage;
   private _rpc: RpcRx;
 
   // Observable that returns the first time we are connected and loaded
@@ -96,6 +97,15 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
   }
 
   /**
+   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
+   */
+  get metadata (): RuntimeMetadata {
+    assert(!isUndefined(this._metadata), INIT_ERROR);
+
+    return this._metadata as RuntimeMetadata;
+  }
+
+  /**
    * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
    * @example
    * <BR>
@@ -126,9 +136,9 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
    * ```
    */
   get st (): QueryableStorage {
-    assert(!isUndefined(this._state), INIT_ERROR);
+    assert(!isUndefined(this._storage), INIT_ERROR);
 
-    return this._state as QueryableStorage;
+    return this._storage as QueryableStorage;
   }
 
   /**
@@ -157,12 +167,30 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
 
     this.initEmitters();
 
+    // FIXME This logic is duplicated in api-observable, since that should derive
+    // from this, it should be removed there when the actual extend is done
     return new Promise((resolveReady) => {
-      this.rpc.on('metadata', async (metadata: RuntimeMetadata) => {
+      this.isConnected.subscribe(async (isConnected) => {
+        // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
+        //   - refresh metadata as needed, decorating again
+        //   - re-create storage subscriptions for those we already have
+        //   - re-watch extrinsics where we have subscriptions already
+        //   - need to refresh genesisHash, extrinsic resub only when it matches
+        if (isReady || !isConnected) {
+          return;
+        }
+
         try {
+          this._metadata = await this.rpc.state.getMetadata().toPromise();
           this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
-          this._extrinsics = this.decorateExtrinsics(extrinsicsFromMeta(metadata));
-          this._state = this.decorateStorage(storageFromMeta(metadata));
+
+          const extrinsics = extrinsicsFromMeta(this.metadata);
+          const storage = storageFromMeta(this.metadata);
+
+          this._extrinsics = this.decorateExtrinsics(extrinsics);
+          this._storage = this.decorateStorage(storage);
+
+          Method.injectExtrinsics(extrinsics);
 
           if (!isReady) {
             isReady = true;
@@ -179,20 +207,11 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
 
   private initEmitters (): void {
     this.rpc.on('connected', () => {
-      // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
-      //   - refresh metadata as needed, decorating again (metadata this may need to be in the rpc-base)
-      //   - re-create storage subscriptions for those we already have
-      //   - re-watch extrinsics where we have subscriptions already
-      //   - need to refresh genesisHash, extrinsic resub only when it matches
       this.emit('connected');
     });
 
     this.rpc.on('disconnected', () => {
       this.emit('disconnected');
-    });
-
-    this.rpc.on('metadata', (metadata: RuntimeMetadata): void => {
-      this.emit('metadata', metadata);
     });
   }
 
@@ -252,9 +271,10 @@ export default class ApiRx extends E3.EventEmitter implements RxApiInterface {
       // a single entry, we pull that from the array and return it as-is
       return observable.pipe(
         defaultIfEmpty([]),
-        map((result: Array<Base | null | undefined> = []): Base | null | undefined =>
-          result[0]
-        )
+        map((result: Array<Base | null | undefined> = []): Base | null | undefined => {
+          console.error('foo', result[0]);
+          return result[0];
+        })
       );
     };
 

@@ -12,7 +12,7 @@ import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
 import { Vector } from '@polkadot/types/codec';
-import { Hash } from '@polkadot/types/index';
+import { Hash, Method } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import assert from '@polkadot/util/assert';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -57,8 +57,11 @@ export default class ApiBase {
           const meta = await this._api.state.getMetadata().toPromise();
 
           this._genesisHash = await this._api.chain.getBlockHash(0).toPromise();
+
           ApiBase.extrinsics = extrinsicsFromMeta(meta);
           ApiBase.storage = storageFromMeta(meta);
+
+          Method.injectExtrinsics(ApiBase.extrinsics);
 
           if (!isReady) {
             isReady = true;

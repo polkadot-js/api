@@ -6,11 +6,9 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-pro
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
-import E3 from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc/index';
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Base, Vector, createType } from '@polkadot/types/codec';
-import { Method, StorageChangeSet, StorageKey } from '@polkadot/types/index';
+import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
@@ -30,7 +28,7 @@ import isFunction from '@polkadot/util/is/function';
  * const api = new Api(provider);
  * ```
  */
-export default class Rpc extends E3.EventEmitter implements RpcInterface {
+export default class Rpc implements RpcInterface {
   private _provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
@@ -43,8 +41,6 @@ export default class Rpc extends E3.EventEmitter implements RpcInterface {
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   constructor (provider: ProviderInterface) {
-    super();
-
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
@@ -53,8 +49,6 @@ export default class Rpc extends E3.EventEmitter implements RpcInterface {
     this.chain = this.createInterface(interfaces.chain);
     this.state = this.createInterface(interfaces.state);
     this.system = this.createInterface(interfaces.system);
-
-    this.init();
   }
 
   /**
@@ -87,11 +81,13 @@ export default class Rpc extends E3.EventEmitter implements RpcInterface {
     this.state
       .getMetadata()
       .then((metadata) => {
-        Method.injectExtrinsics(
-          extrinsicsFromMeta(metadata)
-        );
+        console.error('metadata', metadata);
 
-        this.emit('metadata', metadata);
+        // Method.injectExtrinsics(
+        //   extrinsicsFromMeta(metadata)
+        // );
+
+        // this.emit('metadata', metadata);
       })
       .catch((error) => {
         console.error('Unable to retrieve metadata', error);

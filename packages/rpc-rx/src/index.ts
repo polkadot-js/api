@@ -7,18 +7,17 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RxRpcInterface, RxRpcInterface$Section } from './types';
 
 import E3 from 'eventemitter3';
-import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
 import Ws from '@polkadot/rpc-provider/ws';
 import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import defaults from './defaults';
-import RuntimeMetadata from '@polkadot/types/Metadata';
 
 type CachedMap = {
   [index: string]: {
-    [index: string]: BehaviorSubject<any>
+    [index: string]: ReplaySubject<any>
   }
 };
 
@@ -70,10 +69,6 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
   }
 
   private initEmitters (provider: ProviderInterface): void {
-    this._api.on('metadata', (metadata: RuntimeMetadata): void => {
-      this.emit('metadata', metadata);
-    });
-
     provider.on('connected', () => {
       this._isConnected.next(true);
 
@@ -98,7 +93,7 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
       }, ({} as RxRpcInterface$Section));
   }
 
-  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> | BehaviorSubject<any> {
+  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> | ReplaySubject<any> {
     if (isFunction(section[name].unsubscribe)) {
       return this.createCachedObservable(subName, name, section);
     }
@@ -113,12 +108,12 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
       );
   }
 
-  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => BehaviorSubject<any> {
+  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => ReplaySubject<any> {
     if (!this._cacheMap[subName]) {
       this._cacheMap[subName] = {};
     }
 
-    return (...params: Array<any>): BehaviorSubject<any> => {
+    return (...params: Array<any>): ReplaySubject<any> => {
       const paramStr = JSON.stringify(params);
 
       if (!this._cacheMap[subName][paramStr]) {
@@ -129,8 +124,8 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
     };
   }
 
-  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section, unsubCallback?: () => void): BehaviorSubject<any> {
-    const subject = new BehaviorSubject(undefined);
+  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section, unsubCallback?: () => void): ReplaySubject<any> {
+    const subject = new ReplaySubject(1);
 
     Observable
       .create((observer: Subscriber<any>): Function => {
