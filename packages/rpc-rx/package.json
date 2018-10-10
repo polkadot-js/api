@@ -1,0 +1,38 @@
+{
+  "name": "@polkadot/rpc-rx",
+  "version": "0.31.1",
+  "description": "An RxJs wrapper around the Polkadot JS API",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "ISC",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0",
+    "@polkadot/rpc-core": "^0.31.1",
+    "@polkadot/rpc-provider": "^0.31.1",
+    "@types/rx": "^4.1.1",
+    "rxjs": "^6.3.2"
+  }
+}

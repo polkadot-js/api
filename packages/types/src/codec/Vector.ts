@@ -3,33 +3,59 @@
 // of the ISC license. See the LICENSE file for details.
 
 import u8aConcat from '@polkadot/util/u8a/concat';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
-import Compact from './Compact';
+import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
-export default class Vector <
+export default class Vector<
   T extends Base
-> extends Base<Array<T>> {
+  > extends Base<Array<T>> {
   private _Type: { new(value?: any): T };
 
-  constructor (Type: { new(value?: any): T }, value: Array<any> = [] as Array<any>) {
+  constructor (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
-      value.map((entry) =>
-        entry instanceof Type
-          ? entry
-          : new Type(entry)
-      )
+      Vector.decode(Type, value)
     );
 
     this._Type = Type;
   }
 
-  static with <O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static decode<T> (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any>): Array<T> {
+    if (Array.isArray(value)) {
+      return value.map((entry) =>
+        entry instanceof Type
+          ? entry
+          : new Type(entry)
+      );
+    }
+
+    const u8a = toU8a(value);
+
+    let [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+    const length = _length.toNumber();
+
+    const result = [];
+
+    for (let index = 0; index < length; index++) {
+      // FIXME replace by
+      // const decoded = new Type(u8a.subarray(offset));
+      // @ts-ignore Not sure why we get "Property 'fromU8a' does not exist on type 'T'.", T extends Base in def?
+      const decoded = new Type().fromU8a(u8a.subarray(offset));
+
+      result.push(decoded as T);
+      offset += decoded.byteLength();
+    }
+
+    return result;
+  }
+
+  static with<O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
@@ -48,7 +74,7 @@ export default class Vector <
   byteLength (): number {
     return this.raw.reduce((total, raw) => {
       return total + raw.byteLength();
-    }, Compact.encode(this.length).length);
+    }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
   }
 
   filter (fn: (item: T, index?: number) => any): Array<T> {
@@ -64,7 +90,8 @@ export default class Vector <
   }
 
   fromJSON (input: any): Vector<T> {
-    this.raw = input.map((input: any) =>
+    // input could be null/undefined to indicate empty
+    this.raw = (input || []).map((input: any) =>
       new this._Type().fromJSON(input)
     );
 
@@ -72,17 +99,7 @@ export default class Vector <
   }
 
   fromU8a (input: Uint8Array): Vector<T> {
-    let [offset, _length] = Compact.decode(input);
-    const length = _length.toNumber();
-
-    this.raw = [];
-
-    for (let index = 0; index < length; index++) {
-      const raw = new this._Type().fromU8a(input.subarray(offset));
-
-      this.raw.push(raw as T);
-      offset += raw.byteLength();
-    }
+    this.raw = Vector.decode(this._Type, input);
 
     return this;
   }
@@ -91,7 +108,7 @@ export default class Vector <
     return this.raw[index];
   }
 
-  map <O> (fn: (item: T, index?: number) => O): Array<O> {
+  map<O> (fn: (item: T, index?: number) => O): Array<O> {
     return this.raw.map(fn);
   }
 
@@ -99,7 +116,7 @@ export default class Vector <
     this.raw.push(item);
   }
 
-  reduce <O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
+  reduce<O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
     return this.raw.reduce(fn, initial);
   }
 
@@ -117,7 +134,7 @@ export default class Vector <
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
         ...encoded
       );
   }

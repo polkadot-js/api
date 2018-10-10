@@ -111,6 +111,33 @@ describe('getTypeValue', () => {
       ]
     });
   });
+
+  it('returns a type structure (actual)', () => {
+    expect(
+      getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
+    ).toEqual({
+      info: TypeDefInfo.Vector,
+      type: 'Vec<(PropIndex, Proposal, AccountId)>',
+      sub: {
+        info: TypeDefInfo.Tuple,
+        type: '(PropIndex, Proposal, AccountId)',
+        sub: [
+          {
+            info: TypeDefInfo.Plain,
+            type: 'PropIndex'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'Proposal'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'AccountId'
+          }
+        ]
+      }
+    });
+  });
 });
 
 describe('getTypeClass', () => {

@@ -8,10 +8,10 @@ import Compact from './Compact';
 import UInt from './UInt';
 
 describe('Compact', () => {
-  describe('encode', () => {
+  describe('encodeU8a', () => {
     it('encodes short u8', () => {
       expect(
-        Compact.encode(18)
+        Compact.encodeU8a(18, 8)
       ).toEqual(
         new Uint8Array([18 << 2])
       );
@@ -19,7 +19,7 @@ describe('Compact', () => {
 
     it('encodes max u8 values', () => {
       expect(
-        Compact.encode(new UInt(63))
+        Compact.encodeU8a(new UInt(63), 16)
       ).toEqual(
         new Uint8Array([0b11111100])
       );
@@ -27,7 +27,7 @@ describe('Compact', () => {
 
     it('encodes basic u16 value', () => {
       expect(
-        Compact.encode(511)
+        Compact.encodeU8a(511, 32)
       ).toEqual(
         new Uint8Array([0b11111101, 0b00000111])
       );
@@ -35,7 +35,7 @@ describe('Compact', () => {
 
     it('encodes basic ua6 (not at edge)', () => {
       expect(
-        Compact.encode(111)
+        Compact.encodeU8a(111, 32)
       ).toEqual(
         new Uint8Array([0xbd, 0x01])
       );
@@ -43,7 +43,7 @@ describe('Compact', () => {
 
     it('encodes basic u32 values (short)', () => {
       expect(
-        Compact.encode(0xffff)
+        Compact.encodeU8a(0xffff, 32)
       ).toEqual(
         new Uint8Array([254, 255, 3, 0])
       );
@@ -51,36 +51,60 @@ describe('Compact', () => {
 
     it('encodes basic u32 values (full)', () => {
       expect(
-        Compact.encode(0xfffffff9)
+        Compact.encodeU8a(0xfffffff9, 32)
       ).toEqual(
         new Uint8Array([3, 249, 255, 255, 255])
       );
     });
   });
 
-  describe('decode', () => {
+  describe('decodeU8a', () => {
     it('decoded u8 value', () => {
       expect(
-        Compact.decode(new Uint8Array([0b11111100]))
+        Compact.decodeU8a(new Uint8Array([0b11111100]), 32)
       ).toEqual([1, new BN(63)]);
     });
 
     it('decodes from same u16 encoded value', () => {
       expect(
-        Compact.decode(new Uint8Array([0b11111101, 0b00000111]))
+        Compact.decodeU8a(new Uint8Array([0b11111101, 0b00000111]), 32)
       ).toEqual([2, new BN(511)]);
     });
 
     it('decodes from same u32 encoded value (short)', () => {
       expect(
-        Compact.decode(new Uint8Array([254, 255, 3, 0]))
+        Compact.decodeU8a(new Uint8Array([254, 255, 3, 0]), 32)
       ).toEqual([4, new BN(0xffff)]);
     });
 
     it('decodes from same u32 encoded value (full)', () => {
       expect(
-        Compact.decode(new Uint8Array([3, 249, 255, 255, 255]))
+        Compact.decodeU8a(new Uint8Array([3, 249, 255, 255, 255]), 32)
       ).toEqual([5, new BN(0xfffffff9)]);
     });
+
+    it('decodes from same u32 as u64 encoded value (full, default)', () => {
+      expect(
+        Compact.decodeU8a(new Uint8Array([3, 249, 255, 255, 255]), 64)
+      ).toEqual([9, new BN(0xfffffff9)]);
+    });
+  });
+
+  it('has the correct byteLength for constructor values (default)', () => {
+    expect(
+      new Compact(0xfffffff9).byteLength()
+    ).toEqual(9);
+  });
+
+  it('has the correct byteLength for constructor values (u32)', () => {
+    expect(
+      new Compact(0xfffffff9, 32).byteLength()
+    ).toEqual(5);
+  });
+
+  it('constructs properly via fromU8a', () => {
+    expect(
+      new Compact().fromU8a(new Uint8Array([254, 255, 3, 0])).raw
+    ).toEqual(new BN(0xffff));
   });
 });

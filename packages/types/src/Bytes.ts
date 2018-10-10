@@ -4,7 +4,7 @@
 
 import u8aConcat from '@polkadot/util/u8a/concat';
 
-import Compact from './codec/Compact';
+import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import U8a from './codec/U8a';
 
 // A Bytes. The significant difference between this and a normal Uint8Array is that
@@ -16,11 +16,11 @@ export default class Bytes extends U8a {
   }
 
   byteLength (): number {
-    return this.length + Compact.encode(this.length).length;
+    return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 
   fromU8a (input: Uint8Array): Bytes {
-    const [offset, length] = Compact.decode(input);
+    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
 
     super.fromU8a(input.subarray(offset, offset + length.toNumber()));
 
@@ -31,7 +31,7 @@ export default class Bytes extends U8a {
     return isBare
       ? this.raw
       : u8aConcat(
-        Compact.encode(this.length),
+        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
         this.raw
       );
   }

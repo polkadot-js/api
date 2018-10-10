@@ -5,8 +5,50 @@
 import Struct from './Struct';
 import Text from '../Text';
 import U32 from '../U32';
+import Vector from './Vector';
+
+const testDecode = (type, input) =>
+  it(`can decode from ${type}`, () => {
+    const s = new Struct({
+      foo: Text,
+      bar: U32
+    }, input);
+    expect(s.keys()).toEqual(['foo', 'bar']);
+    expect(
+      s.values().map((v) =>
+        v.toString()
+      )
+    ).toEqual(['bazzing', '69']);
+  });
+
+const testEncode = (to, expected) =>
+  it(`can encode ${to}`, () => {
+    const s = new Struct({
+      foo: Text,
+      bar: U32
+    }, { foo: 'bazzing', bar: 69 });
+    expect(s[to]()).toEqual(expected);
+  });
 
 describe('Struct', () => {
+
+  testDecode('object', { foo: 'bazzing', bar: 69 });
+  testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+
+  // testEncode('toHex', '0x1c62617a7a696e6745000000'); // FIXME Add this
+  testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+  testEncode('toString', '{foo: bazzing, bar: 69}');
+
+
+  it('decodes a more complicated type', () => {
+    const s = new Struct({
+      foo: Vector.with(Struct.with({
+        bar: Text
+      }))
+    }, { foo: [{ bar: 1 }, { bar: 2 }] });
+    expect(s.toString()).toBe('{foo: [{bar: 1}, {bar: 2}]}');
+  })
+
   it('provides a clean toString()', () => {
     expect(
       new (

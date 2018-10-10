@@ -1219,6 +1219,13 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
+"@polkadot/extrinsics@^0.30.3":
+  version "0.30.45"
+  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.30.45.tgz#f17db714420fd3350a94c09b6cde51848cadd58b"
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    "@polkadot/util" "^0.30.7"
+
 "@polkadot/params@^0.30.3":
   version "0.30.3"
   resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.30.3.tgz#1f94f938306e7e30c009d501c527dfc322622f5a"
