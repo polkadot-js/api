@@ -11,6 +11,7 @@ module.exports = Object.assign({}, config, {
     '@polkadot/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
   modulePathIgnorePatterns: [
+    '<rootDir>/packages/api/build',
     '<rootDir>/packages/api-observable/build',
     '<rootDir>/packages/rpc-core/build',
     '<rootDir>/packages/rpc-provider/build',
