@@ -11,3 +11,39 @@
 # @polkadot/api-rx
 
 An RxJs wrapper around [@polkadot/rpc-core](../rpc-core).
+
+# Usage
+
+Installation -
+
+```
+npm install --save @polkadot/api-rx
+```
+
+Making rpc calls -
+
+```javascript
+import Api from '@polkadot/api-rx';
+
+// initialise via Promise
+const api = await Api.create().toPromise();
+
+// make a call to retrieve the current network head
+api.rpc.chain.newHead().subscribe((header) => {
+  console.log(`Chain is at #${header.blockNumber}`);
+});
+```
+
+Subscribing to chain state -
+
+```javascript
+import Api from '@polkadot/api-rx';
+
+// initialise via Promise
+const api = await Api.create().toPromise();
+
+// make a call to retrieve the current network head
+api.st.timestamp.now().subscribe((timestamp) => {
+  console.log(`Current block timestamp ${timestamp}`);
+});
+```
