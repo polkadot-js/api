@@ -72,7 +72,7 @@ export default class ApiRx {
    * @example
    * ```javascript
    * api.tx.balances
-   *   .transfer(<recipeintId>, <balance>)
+   *   .transfer(<recipientId>, <balance>)
    *   .sign(<keyPair>, <genesisHash>)
    *   .send()
    *   .subscribe((status) => console.log('tx status', status));
