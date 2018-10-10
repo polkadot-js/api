@@ -4,7 +4,13 @@
 
 *__summary__*: The API may use a HTTP or WebSockets provider.
 
-*__description__*: It allows for querying a Polkadot Client Node.
+*__description__*: It allows for querying a Polkadot Client Node. WebSockets provider is recommended since HTTP provider only supports basic querying.
+
+```mermaid
+graph LR;
+  A[Api] --> |WebSockets| B[WsProvider];
+  B --> |endpoint| C[ws://127.0.0.1:9944]
+```
 
 *__example__*:   
 ```javascript
@@ -31,7 +37,7 @@ const api = new Api(provider);
 
 ⊕ **new Rpc**(provider: *`ProviderInterface`*): [Rpc](_index_.rpc.md)
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L37)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L45)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -53,7 +59,7 @@ ___
 
 **● author**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:34](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L34)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L42)*
 
 ___
 <a id="chain"></a>
@@ -62,7 +68,7 @@ ___
 
 **● chain**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L35)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L43)*
 
 ___
 <a id="state"></a>
@@ -71,7 +77,7 @@ ___
 
 **● state**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:36](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L36)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L44)*
 
 ___
 <a id="system"></a>
@@ -80,7 +86,7 @@ ___
 
 **● system**: *[RpcInterface$Section](../modules/_types_d_.md#rpcinterface_section)*
 
-*Defined in [index.ts:37](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L37)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L45)*
 
 ___
 
@@ -92,7 +98,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:72](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-core/src/index.ts#L72)*
+*Defined in [index.ts:80](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-core/src/index.ts#L80)*
 
 *__name__*: signature
 

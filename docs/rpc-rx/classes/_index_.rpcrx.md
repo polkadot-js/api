@@ -31,7 +31,7 @@ const api = new Rpc(provider);
 
 ⊕ **new RpcRx**(provider?: *`ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
 
-*Defined in [index.ts:46](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L46)*
+*Defined in [index.ts:46](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L46)*
 
 **Parameters:**
 
@@ -51,7 +51,7 @@ ___
 
 **● author**: *[RxRpcInterface$Section](../modules/_types_d_.md#rxrpcinterface_section)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L43)*
 
 ___
 <a id="chain"></a>
@@ -60,7 +60,7 @@ ___
 
 **● chain**: *[RxRpcInterface$Section](../modules/_types_d_.md#rxrpcinterface_section)*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L44)*
 
 ___
 <a id="state"></a>
@@ -69,7 +69,7 @@ ___
 
 **● state**: *[RxRpcInterface$Section](../modules/_types_d_.md#rxrpcinterface_section)*
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L45)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L45)*
 
 ___
 <a id="system"></a>
@@ -78,7 +78,7 @@ ___
 
 **● system**: *[RxRpcInterface$Section](../modules/_types_d_.md#rxrpcinterface_section)*
 
-*Defined in [index.ts:46](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L46)*
+*Defined in [index.ts:46](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L46)*
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/4344f33/packages/rpc-rx/src/index.ts#L65)*
+*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/bba764b/packages/rpc-rx/src/index.ts#L65)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
