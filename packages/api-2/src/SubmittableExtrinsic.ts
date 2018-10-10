@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import RpcRx from '@polkadot/api-rx/index';
+import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsic } from '@polkadot/types/index';
 
 export default class SubmittableExtrinsic extends Extrinsic {

@@ -5,36 +5,47 @@
 import { QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import { Observable } from 'rxjs';
-import WsProvider from '@polkadot/api-provider/ws';
-import defaults from '@polkadot/api-rx/defaults';
-import RpcRx from '@polkadot/api-rx/index';
+import WsProvider from '@polkadot/rpc-provider/ws';
+import defaults from '@polkadot/rpc-rx/defaults';
+import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Method } from '@polkadot/types/index';
+import { Method, Hash } from '@polkadot/types/index';
+import assert from '@polkadot/util/assert';
+import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 const l = logger('api-rx');
 
+const INIT_ERROR = 'Api needs to be initialised before using';
+
 export default class ApiRx {
-  // @ts-ignore Indirectly decorated inside the constructor
-  private _extrinsics: SubmittableExtrinsics;
-  // @ts-ignore Indirectly decorated inside the constructor
-  private _state: QueryableStorage;
+  private _extrinsics?: SubmittableExtrinsics;
+  private _genesisHash?: Hash;
+  private _state?: QueryableStorage;
   private _rpc: RpcRx;
 
   constructor (wsProvider: WsProvider = new WsProvider(defaults.WS_URL)) {
     this._rpc = new RpcRx(wsProvider);
 
     // !#$%@ But yes, handling promises here
-    this.initMetadata().then().catch();
+    this.init().then().catch();
   }
 
   get extrinsics (): SubmittableExtrinsics {
-    return this._extrinsics;
+    assert(!isUndefined(this._extrinsics), INIT_ERROR);
+
+    return this._extrinsics as SubmittableExtrinsics;
+  }
+
+  get genesisHash (): Hash {
+    assert(!isUndefined(this._genesisHash), INIT_ERROR);
+
+    return this._genesisHash as Hash;
   }
 
   get rpc (): RpcRx {
@@ -42,19 +53,24 @@ export default class ApiRx {
   }
 
   get state (): QueryableStorage {
-    return this._state;
+    assert(!isUndefined(this._state), INIT_ERROR);
+
+    return this._state as QueryableStorage;
   }
 
-  private async initMetadata (): Promise<void> {
+  private async init (): Promise<void> {
+    // TODO We should really have a whenReady in rpc-core (or onMetadata event) and pass
+    // up the metadata on that.
     try {
       const metadata = await this.rpc.state.getMetadata().toPromise();
 
+      this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
       this._extrinsics = this.decorateExtrinsics(extrinsicsFromMeta(metadata));
       this._state = this.decorateStorage(storageFromMeta(metadata));
 
       Method.injectExtrinsics(this._extrinsics);
     } catch (error) {
-      l.error('initMetadata', error);
+      l.error('init', error);
     }
   }
 
@@ -108,7 +124,7 @@ export default class ApiRx {
 
             return result;
           }, {} as QueryableModuleStorage);
-                                         
+
         return result;
       }, {} as QueryableStorage);
   }
