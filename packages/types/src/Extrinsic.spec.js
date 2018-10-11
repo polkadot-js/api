@@ -8,12 +8,12 @@ import Extrinsic from './Extrinsic';
 import Method from './Method';
 
 describe('Extrinsic', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     Method.injectExtrinsics(extrinsics);
   });
 
   it('decodes a non-signed properly via fromJSON', () => {
-    const extrinsic = new Extrinsic().fromJSON('0x010200ea51b75b00000000');
+    const extrinsic = new Extrinsic('0x010200ea51b75b00000000');
 
     expect(extrinsic.isSigned).toEqual(false);
     expect(extrinsic.callIndex).toEqual(new Uint8Array([2, 0]));

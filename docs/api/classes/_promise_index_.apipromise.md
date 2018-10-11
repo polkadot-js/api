@@ -24,7 +24,7 @@
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:38](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L38)*
+*Defined in [promise/index.ts:38](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L38)*
 
 *__example__*:   
 ```javascript
@@ -57,7 +57,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_extrinsics](_base_.apibase.md#_extrinsics)*
 
-*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L33)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L33)*
 
 ___
 <a id="_genesishash"></a>
@@ -68,7 +68,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_genesisHash](_base_.apibase.md#_genesishash)*
 
-*Defined in [Base.ts:34](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L34)*
+*Defined in [Base.ts:34](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L34)*
 
 ___
 <a id="_rpc"></a>
@@ -79,7 +79,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_rpc](_base_.apibase.md#_rpc)*
 
-*Defined in [Base.ts:36](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L36)*
+*Defined in [Base.ts:36](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L36)*
 
 ___
 <a id="_rpcbase"></a>
@@ -90,7 +90,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_rpcBase](_base_.apibase.md#_rpcbase)*
 
-*Defined in [Base.ts:37](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L37)*
+*Defined in [Base.ts:37](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L37)*
 
 ___
 <a id="_runtimemetadata"></a>
@@ -101,7 +101,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_runtimeMetadata](_base_.apibase.md#_runtimemetadata)*
 
-*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L38)*
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L38)*
 
 ___
 <a id="_runtimeversion"></a>
@@ -112,7 +112,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_runtimeVersion](_base_.apibase.md#_runtimeversion)*
 
-*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L39)*
+*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L39)*
 
 ___
 <a id="_storage"></a>
@@ -123,7 +123,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[_storage](_base_.apibase.md#_storage)*
 
-*Defined in [Base.ts:35](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L35)*
+*Defined in [Base.ts:35](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L35)*
 
 ___
 <a id="prefixed"></a>
@@ -149,7 +149,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L68)*
+*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L68)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -162,7 +162,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:68](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L68)*
+*Defined in [promise/index.ts:68](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L68)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -177,7 +177,7 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L105)*
+*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L105)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
 
@@ -201,7 +201,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L77)*
+*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L77)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -216,7 +216,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L86)*
+*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L86)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -231,7 +231,7 @@ getst(): [QueryableStorage](../interfaces/_promise_types_d_.queryablestorage.md)
 
 *Inherited from [ApiBase](_base_.apibase.md).[st](_base_.apibase.md#st)*
 
-*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L122)*
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L122)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -255,7 +255,7 @@ gettx(): [SubmittableExtrinsics](../interfaces/_promise_types_d_.submittableextr
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L143)*
+*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L143)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -305,7 +305,7 @@ ___
 
 *Overrides [ApiBase](_base_.apibase.md).[decorateExtrinsics](_base_.apibase.md#decorateextrinsics)*
 
-*Defined in [promise/index.ts:76](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L76)*
+*Defined in [promise/index.ts:76](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L76)*
 
 **Parameters:**
 
@@ -324,7 +324,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[decorateFunctionMeta](_base_.apibase.md#decoratefunctionmeta)*
 
-*Defined in [Base.ts:200](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L200)*
+*Defined in [Base.ts:200](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/Base.ts#L200)*
 
 **Parameters:**
 
@@ -344,7 +344,7 @@ ___
 
 *Overrides [ApiBase](_base_.apibase.md).[decorateRpc](_base_.apibase.md#decoraterpc)*
 
-*Defined in [promise/index.ts:72](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L72)*
+*Defined in [promise/index.ts:72](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L72)*
 
 **Parameters:**
 
@@ -363,7 +363,7 @@ ___
 
 *Overrides [ApiBase](_base_.apibase.md).[decorateStorage](_base_.apibase.md#decoratestorage)*
 
-*Defined in [promise/index.ts:97](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L97)*
+*Defined in [promise/index.ts:97](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L97)*
 
 **Parameters:**
 
@@ -572,7 +572,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:36](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/promise/index.ts#L36)*
+*Defined in [promise/index.ts:36](https://github.com/polkadot-js/api/blob/f5948fe/packages/api/src/promise/index.ts#L36)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
