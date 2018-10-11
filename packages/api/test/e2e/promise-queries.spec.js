@@ -1,0 +1,45 @@
+// Copyright 2017-2018 @polkadot/api authors & contributors
+// This software may be modified and distributed under the terms
+// of the ISC license. See the LICENSE file for details.
+
+import testingPairs from '@polkadot/util-keyring/testingPairs';
+
+import Api from '../../src/promise';
+
+const keyring = testingPairs();
+
+describe.skip('e2e queries', () => {
+  let api;
+
+  beforeEach(async () => {
+    api = await Api.create();
+
+    console.error(api);
+  });
+
+  it('makes the runtime, rpc, state & extrinsics available', () => {
+    expect(api.genesisHash).toBeDefined();
+    expect(api.runtimeMetadata).toBeDefined();
+    expect(api.runtimeVersion).toBeDefined();
+    expect(api.rpc).toBeDefined();
+    expect(api.st).toBeDefined();
+    expect(api.tx).toBeDefined();
+  });
+
+  it('queries state for a balance', async () => {
+    const balance = await api.st.balances.freeBalance(keyring.alice.address());
+
+    expect(
+      balance.isZero()
+    ).toBe(false);
+  });
+
+  it('subscribes to queries', (done) => {
+    api.rpc.chain.newHead((error, header) => {
+      expect(error).toBe(null);
+      expect(header.blockNumber.isZero()).toBe(false);
+
+      done();
+    });
+  });
+});

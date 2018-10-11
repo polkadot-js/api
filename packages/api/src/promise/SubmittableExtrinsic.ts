@@ -4,22 +4,22 @@
 
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { ApiRxInterface } from './types';
+import { ApiPromiseInterface } from './types';
 
-import { Observable } from 'rxjs';
-import { Extrinsic } from '@polkadot/types/index';
+import { Extrinsic, Hash } from '@polkadot/types/index';
 
 export default class SubmittableExtrinsic extends Extrinsic {
-  private _api: ApiRxInterface;
+  private _api: ApiPromiseInterface;
 
-  constructor (api: ApiRxInterface, extrinsic: Extrinsic) {
+  constructor (api: ApiPromiseInterface, extrinsic: Extrinsic) {
     super(extrinsic);
 
     this._api = api;
   }
 
-  // TODO needs to be submitAndWatch
-  send (): Observable<any> {
+  // TODO We probably want a subscriptable sendAndWatch here as well
+
+  send (): Promise<Hash> {
     return this._api.rpc.author.submitExtrinsic(this);
   }
 
