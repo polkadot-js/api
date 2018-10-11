@@ -2,34 +2,34 @@
 
 # Type aliases
 
-<a id="rxrpcinterface"></a>
+<a id="rpcrxinterface"></a>
 
-##  RxRpcInterface
+##  RpcRxInterface
 
-**Ƭ RxRpcInterface**: *`object`*
+**Ƭ RpcRxInterface**: *`object`*
 
-*Defined in [types.d.ts:16](https://github.com/polkadot-js/api/blob/1e9b69c/packages/rpc-rx/src/types.d.ts#L16)*
+*Defined in [types.d.ts:16](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/types.d.ts#L16)*
 
 #### Type declaration
 
 ___
-<a id="rxrpcinterface_events"></a>
+<a id="rpcrxinterface_events"></a>
 
-##  RxRpcInterface$Events
+##  RpcRxInterface$Events
 
-**Ƭ RxRpcInterface$Events**: * "connected" &#124; "disconnected"
+**Ƭ RpcRxInterface$Events**: * "connected" &#124; "disconnected"
 *
 
-*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/1e9b69c/packages/rpc-rx/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/types.d.ts#L14)*
 
 ___
-<a id="rxrpcinterface_method"></a>
+<a id="rpcrxinterface_method"></a>
 
-##  RxRpcInterface$Method
+##  RpcRxInterface$Method
 
-**Ƭ RxRpcInterface$Method**: *`function`*
+**Ƭ RpcRxInterface$Method**: *`function`*
 
-*Defined in [types.d.ts:8](https://github.com/polkadot-js/api/blob/1e9b69c/packages/rpc-rx/src/types.d.ts#L8)*
+*Defined in [types.d.ts:8](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/types.d.ts#L8)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Observable`<`any`> &#124; `ReplaySubject`<`any`>
@@ -43,17 +43,17 @@ ___
 **Returns:**  `Observable`<`any`> &#124; `ReplaySubject`<`any`>
 
 ___
-<a id="rxrpcinterface_section"></a>
+<a id="rpcrxinterface_section"></a>
 
-##  RxRpcInterface$Section
+##  RpcRxInterface$Section
 
-**Ƭ RxRpcInterface$Section**: *`object`*
+**Ƭ RpcRxInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/1e9b69c/packages/rpc-rx/src/types.d.ts#L10)*
+*Defined in [types.d.ts:10](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/types.d.ts#L10)*
 
 #### Type declaration
 
-[index: `string`]: [RxRpcInterface$Method](_types_d_.md#rxrpcinterface_method)
+[index: `string`]: [RpcRxInterface$Method](_types_d_.md#rpcrxinterface_method)
 
 ___
 
