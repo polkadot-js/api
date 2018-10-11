@@ -20,9 +20,8 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * # @polkadot/rpc-provider/https
  *
  * @name HttpProvider
- * @summary The HTTP Provider allows sending requests using HTTP to a HTTP RPC server TCP port.
- * @description It does not support subscriptions so you won't be able to listen to events
- * such as new blocks or balance changes. It is usually preferrable using the [[WsProvider]].
+ *
+ * @description The HTTP Provider allows sending requests using HTTP to a HTTP RPC server TCP port. It does not support subscriptions so you won't be able to listen to events such as new blocks or balance changes. It is usually preferrable using the [[WsProvider]].
  *
  * @example
  * <BR>

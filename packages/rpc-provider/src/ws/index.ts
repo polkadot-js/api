@@ -42,9 +42,9 @@ interface WSProviderInterface extends ProviderInterface {
  * # @polkadot/rpc-provider/ws
  *
  * @name WsProvider
- * @summary The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
- * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
- * listening to events such as new blocks or balance changes.
+ *
+ * @description The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port. Unlike the [[HttpProvider]], it does support subscriptions and allows listening to events such as new blocks or balance changes.
+ *
  * @example
  * <BR>
  *

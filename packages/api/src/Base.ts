@@ -40,6 +40,8 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   protected _runtimeVersion?: RuntimeVersion;
 
   /**
+   * @description Create an instance of the class
+   *
    * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
    *
    * @example
@@ -155,10 +157,13 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   }
 
   /**
-   * @description
-   * @param type The type of event to listen to. Availble events are `connected`, `disconnected` and `ready`
+   * @description Attach an eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected` and `ready`
    * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-   * @example<BR>
+   *
+   * @example
+   * <BR>
    *
    * ```javascript
    * * api.on('disconnected', () => {
