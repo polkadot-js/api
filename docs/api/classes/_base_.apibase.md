@@ -12,6 +12,8 @@
 
 **↳ ApiBase**
 
+↳  [ApiPromise](_promise_index_.apipromise.md)
+
 ↳  [ApiRx](_rx_index_.apirx.md)
 
 # Implements
@@ -26,7 +28,7 @@
 
 ⊕ **new ApiBase**(wsProvider?: *`WsProvider`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L39)*
+*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L39)*
 
 *__example__*:   
 ```javascript
@@ -57,7 +59,7 @@ ___
 
 **● _extrinsics**: *[E]()*
 
-*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L33)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L33)*
 
 ___
 <a id="_genesishash"></a>
@@ -66,7 +68,7 @@ ___
 
 **● _genesisHash**: *`Hash`*
 
-*Defined in [Base.ts:34](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L34)*
+*Defined in [Base.ts:34](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L34)*
 
 ___
 <a id="_rpc"></a>
@@ -75,7 +77,7 @@ ___
 
 **● _rpc**: *`R`*
 
-*Defined in [Base.ts:36](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L36)*
+*Defined in [Base.ts:36](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L36)*
 
 ___
 <a id="_rpcbase"></a>
@@ -84,7 +86,7 @@ ___
 
 **● _rpcBase**: *`Rpc`*
 
-*Defined in [Base.ts:37](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L37)*
+*Defined in [Base.ts:37](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L37)*
 
 ___
 <a id="_runtimemetadata"></a>
@@ -93,7 +95,7 @@ ___
 
 **● _runtimeMetadata**: *`RuntimeMetadata`*
 
-*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L38)*
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L38)*
 
 ___
 <a id="_runtimeversion"></a>
@@ -102,7 +104,7 @@ ___
 
 **● _runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L39)*
+*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L39)*
 
 ___
 <a id="_storage"></a>
@@ -111,7 +113,7 @@ ___
 
 **● _storage**: *[S]()*
 
-*Defined in [Base.ts:35](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L35)*
+*Defined in [Base.ts:35](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L35)*
 
 ___
 <a id="prefixed"></a>
@@ -135,7 +137,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L68)*
+*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L68)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -148,7 +150,7 @@ ___
 
 getrpc(): `R`
 
-*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L105)*
+*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L105)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
 
@@ -170,7 +172,7 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L77)*
+*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L77)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -183,7 +185,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L86)*
+*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L86)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -196,7 +198,7 @@ ___
 
 getst(): `S`
 
-*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L122)*
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L122)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -218,7 +220,7 @@ ___
 
 gettx(): `E`
 
-*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L143)*
+*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L143)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -266,7 +268,7 @@ ___
 
 ▸ **decorateExtrinsics**(extrinsics: *`Extrinsics`*): `E`
 
-*Defined in [Base.ts:214](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L214)*
+*Defined in [Base.ts:214](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L214)*
 
 **Parameters:**
 
@@ -283,7 +285,7 @@ ___
 
 ▸ **decorateFunctionMeta**(input: *`MetaDecoration`*, output: *`MetaDecoration`*): `MetaDecoration`
 
-*Defined in [Base.ts:200](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L200)*
+*Defined in [Base.ts:200](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L200)*
 
 **Parameters:**
 
@@ -301,7 +303,7 @@ ___
 
 ▸ **decorateRpc**(rpc: *`Rpc`*): `R`
 
-*Defined in [Base.ts:213](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L213)*
+*Defined in [Base.ts:213](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L213)*
 
 **Parameters:**
 
@@ -318,7 +320,7 @@ ___
 
 ▸ **decorateStorage**(storage: *`Storage`*): `S`
 
-*Defined in [Base.ts:215](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L215)*
+*Defined in [Base.ts:215](https://github.com/polkadot-js/api/blob/bcf06cd/packages/api/src/Base.ts#L215)*
 
 **Parameters:**
 

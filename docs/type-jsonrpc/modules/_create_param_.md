@@ -8,7 +8,7 @@
 
 ▸ **createParam**(name: *`string`*, type: *`CodecTypes`*, __namedParameters?: *`object`*): [RpcParam](_types_d_.md#rpcparam)
 
-*Defined in [create/param.ts:12](https://github.com/polkadot-js/api/blob/27b2885/packages/type-jsonrpc/src/create/param.ts#L12)*
+*Defined in [create/param.ts:12](https://github.com/polkadot-js/api/blob/bcf06cd/packages/type-jsonrpc/src/create/param.ts#L12)*
 
 **Parameters:**
 

@@ -36,7 +36,7 @@ const api = new RpcRx(provider);
 
 ⊕ **new RpcRx**(providerOrRpc?: * `Rpc` &#124; `ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L44)*
 
 **Parameters:**
 
@@ -56,7 +56,7 @@ ___
 
 **● author**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L41)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L41)*
 
 ___
 <a id="chain"></a>
@@ -65,7 +65,7 @@ ___
 
 **● chain**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L42)*
 
 ___
 <a id="state"></a>
@@ -74,7 +74,7 @@ ___
 
 **● state**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L43)*
 
 ___
 <a id="system"></a>
@@ -83,7 +83,7 @@ ___
 
 **● system**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L44)*
 
 ___
 <a id="prefixed"></a>
@@ -165,7 +165,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:66](https://github.com/polkadot-js/api/blob/27b2885/packages/rpc-rx/src/index.ts#L66)*
+*Defined in [index.ts:66](https://github.com/polkadot-js/api/blob/bcf06cd/packages/rpc-rx/src/index.ts#L66)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
