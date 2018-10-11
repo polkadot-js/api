@@ -13,10 +13,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiRxInterface;
 
   constructor (api: ApiRxInterface, extrinsic: Extrinsic) {
-    super({
-      method: extrinsic.method,
-      signature: extrinsic.signature
-    });
+    super(extrinsic);
 
     this._api = api;
   }
