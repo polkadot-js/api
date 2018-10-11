@@ -40,7 +40,8 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   protected _runtimeVersion?: RuntimeVersion;
 
   /**
-   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   *
    * @example
    * <BR>
    *
@@ -90,7 +91,10 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   }
 
   /**
-   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
+   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+   *
+   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
+   *
    * @example
    * <BR>
    *
@@ -108,6 +112,9 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+   *
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   *
    * @example
    * <BR>
    *
@@ -127,6 +134,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
   /**
    * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
+   *
    * @example
    * <BR>
    *
@@ -146,6 +154,22 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     return this._extrinsics as E;
   }
 
+  /**
+   * @description
+   * @param type The type of event to listen to. Availble events are `connected`, `disconnected` and `ready`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   * @example<BR>
+   *
+   * ```javascript
+   * * api.on('disconnected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.on('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
   on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): void {
     this._eventemitter.on(type, handler);
   }

@@ -12,10 +12,13 @@ import assert from '@polkadot/util/assert';
 import logger from '@polkadot/util/logger';
 
 import coder from '../coder/json';
+import defaults from '../defaults';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
 
 /**
+ * # @polkadot/rpc-provider/https
+ *
  * @name HttpProvider
  * @summary The HTTP Provider allows sending requests using HTTP to a HTTP RPC server TCP port.
  * @description It does not support subscriptions so you won't be able to listen to events
@@ -25,11 +28,11 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * <BR>
  *
  * ```javascript
- * import Rpc from '@polkadot/rpc-core';
+ * import Api from '@polkadot/api/promise';
  * import HttpProvider from '@polkadot/rpc-provider/http';
  *
  * const provider = new HttpProvider('http://127.0.0.1:9933');
- * const api = new Rpc(provider);
+ * const api = new Api(provider);
  * ```
  *
  * @see [[WsProvider]]
@@ -42,7 +45,7 @@ export default class HttpProvider implements ProviderInterface {
   /**
    * @param {string} endpoint The endpoint url starting with http://
    */
-  constructor (endpoint: string) {
+  constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
     this.coder = coder();
