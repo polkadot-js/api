@@ -23,10 +23,10 @@ export default class Tuple<
   V = { [K in keyof S]: any }
   > extends Struct<S, T, V> {
   constructor (Types: S, value?: V | AnyU8a, jsonMap?: Map<keyof S, string>) {
-    super(Types, Tuple.decodeU8a(Types, value), jsonMap);
+    super(Types, Tuple.decodeTuple(Types, value), jsonMap);
   }
 
-  static decodeU8a<S, V> (Types: S, _value: V | AnyU8a): V {
+  static decodeTuple<S, V> (Types: S, _value: V | AnyU8a): V {
     if (!isU8a(_value) && !isString(_value) && !Array.isArray(_value)) {
       return _value as V;
     }

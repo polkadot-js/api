@@ -60,7 +60,7 @@ export default class Struct<
 
     return Object
       .keys(Types)
-      .reduce((raw: T, key, index) => {
+      .reduce((raw: T, key) => {
         if (isU8a(value)) {
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](

@@ -7,9 +7,10 @@ import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
-import Base from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
+import { AnyU8a } from './types';
+import Base from './codec/Base';
 
 const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -19,21 +20,26 @@ const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends Base<AccountId | AccountIndex> {
-  constructor (value: Address | AccountId | AccountIndex | string | Uint8Array = new Uint8Array()) {
+  constructor (value: Address | AccountId | AccountIndex | AnyU8a = new Uint8Array()) {
     super(
-      value instanceof Address
-        ? value.raw
-        : Address.decode(value)
+      Address.decodeAddress(value)
     );
   }
 
-  static decode (value: AccountId | AccountIndex | string | Uint8Array | Array<number>): AccountId | AccountIndex {
-    if (value instanceof AccountId || value instanceof AccountIndex) {
+  static decodeAddress (value: Address | AccountId | AccountIndex | AnyU8a): AccountId | AccountIndex {
+    if (value instanceof Address) {
+      return value.raw;
+    } else if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
-    } else if (isU8a(value) || Array.isArray(value)) {
+    } else if (Array.isArray(value)) {
+      return Address.decodeAddress(u8aToU8a(value));
+    } else if (isU8a(value)) {
+      if (value.length === 33 && value[0] === 0xff) {
+        return new AccountId(value.subarray(1));
+      }
       return value.length === 32
-        ? new AccountId(u8aToU8a(value))
-        : new AccountIndex(u8aToU8a(value));
+        ? new AccountId(value)
+        : new AccountIndex(value);
     } else if (isHex(value)) {
       return value.length === 66
         ? new AccountId(value)
@@ -54,7 +60,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   fromJSON (input: any): Address {
-    this.raw = Address.decode(input);
+    this.raw = Address.decodeAddress(input);
 
     return this;
   }
