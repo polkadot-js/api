@@ -9,11 +9,86 @@ import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
 import { Base } from '@polkadot/types/codec';
+import isFunction from '@polkadot/util/is/function';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
+/**
+ * @description
+ * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
+ *
+ * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of  athe subscription-based features of Polkadot (and Substrate) clients.
+ *
+ * @example
+ * <BR>
+ *
+ * Making rpc calls -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiPromise from '@polkadot/api/promise';
+ *
+ * // initialise via static create
+ * const api = await ApiPromise.create();
+ *
+ * // make a subscription to the network head
+ * api.rpc.chain.newHead((error, header) => {
+ *   console.log(`Chain is at #${header.blockNumber}`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Subscribing to chain state -
+ * <BR>
+ *
+ * ```javascript
+ * import { ApiPromise } from '@polkadot/api';
+ * import WsProvider from '@polkadot/rpc-provider/ws';
+ *
+ * // initialise via isReady & new with specific non-local endpoint
+ * const api = await new ApiPromise(new WsProvider('wss://example.com:9944')).isReady;
+ *
+ * // retrieve the block target time
+ * const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
+ * let last = 0;
+ *
+ * // subscribe to the current block timestamp, updates automatically
+ * api.st.timestamp.now((error, timestamp) => {
+ *   const elapsed = last
+ *     ? `, ${timestamp.toNumber() - last}s since last`
+ *     : '';
+ *
+ *   last = timestamp.toNumber();
+ *   console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Submitting a transaction -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiPromise from '@polkadot/api/promise';
+ *
+ * ApiPromise.create().then((api) => {
+ *   const nonce = await api.st.system.accountNonce(keyring.alice.address());
+ *
+ *   api.tx.balances
+ *     // create transfer
+ *     transfer(keyring.bob.address(), 12345)
+ *     // sign the transcation
+ *     .sign(keyring.alice, nonce)
+ *     // send the transaction
+ *     .send()
+ *     // retrieve the overall result
+ *     .then((hash) => {
+ *       console.log(`submitted with hash ${hash}`);
+ *     });
+ * });
+ * ```
+ */
 export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
@@ -109,8 +184,16 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg: any): Promise<Base | null | undefined> =>
-      this.rpc.state.getStorage([method, arg]);
+    const decorated: any = (...args: Array<any>): Promise<Base | null | undefined> => {
+      if (args.length === 0 || !isFunction(args[args.length - 1])) {
+        return this.rpc.state.getStorage([method, args[0]]);
+      }
+
+      return this.rpc.state.storage(
+        [[method, args.length === 1 ? undefined : args[0]]],
+        args[args.length - 1]
+      );
+    };
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }

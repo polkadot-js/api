@@ -20,6 +20,92 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 
 const l = logger('api-rx');
 
+/**
+ * @description
+ * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+ *
+ * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
+ *
+ * @example
+ * <BR>
+ *
+ * Making rpc calls -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiRx from '@polkadot/api/rx';
+ *
+ * // initialise via Promise & static create
+ * const api = await ApiRx.create().toPromise();
+ *
+ * // make a call to retrieve the current network head
+ * api.rpc.chain.newHead().subscribe((header) => {
+ *   console.log(`Chain is at #${header.blockNumber}`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Subscribing to chain state -
+ * <BR>
+ *
+ * ```javascript
+ * import { ApiRx } from '@polkadot/api';
+ * import WsProvider from '@polkadot/rpc-provider/ws';
+ * import { combineLatest } from 'rxjs';
+ *
+ * let last = 0;
+ *
+ * // initialise via isReady & new with specific non-local endpoint
+ * new ApiRx(new WsProvider('wss://example.com:9944'))
+ *   .isReady
+ *   .pipe(
+ *     switchMap((api) =>
+ *       combineLatest([
+ *         api.st.timestamp.blockPeriod(),
+ *         api.st.timestamp.now()
+ *       ])
+ *   )
+ *   .subscribe(([blockPeriod, timestamp]) => {
+ *     const elapsed = last
+ *       ? `, ${timestamp.toNumber() - last}s since last`
+ *       : '';
+ *
+ *     last = timestamp.toNumber();
+ *     console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+ *   });
+ * ```
+ * <BR>
+ *
+ * Submitting a transaction -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiRx from '@polkadot/api/rx';
+ *
+ * // get api via Promise
+ * const api = await ApiRx.create().toPromise();
+ *
+ * // retrieve nonce for the account
+ * api.st.system
+ *   .accountNonce(keyring.alice.address())
+ *   .pipe(
+ *      // pipe nonce into transfer
+ *      switchMap((nonce) =>
+ *        api.tx.balances
+ *          // create transfer
+ *          .transfer(keyring.bob.address(), 12345)
+ *          // sign the transcation
+ *          .sign(keyring.alice, nonce)
+ *          // send the transaction
+ *          .send()
+ *      )
+ *   )
+ *   // subscribe to overall result
+ *   .subscribe((hash) => {
+ *     console.log(`submitted with hash ${hash}`);
+ *   });
+ * ```
+ */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
   private _isReady: Observable<ApiRx>;
 
@@ -33,7 +119,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
-   *   api.st.timestamp.now((timestamp) => {
+   *   api.st.timestamp.now.subscribe((timestamp) => {
    *     console.log(`lastest block timestamp ${timestamp}`);
    *   });
    * });
