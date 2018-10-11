@@ -202,70 +202,6 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../rpc-core/">
-            
-                <a href="../rpc-core/">
-            
-                    
-                    rpc-core
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.4.1" data-path="../rpc-core/classes/_index_.rpc.html">
-            
-                <a href="../rpc-core/classes/_index_.rpc.html">
-            
-                    
-                    Rpc
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5" data-path="../rpc-rx/">
-            
-                <a href="../rpc-rx/">
-            
-                    
-                    rpc-rx
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.5.1" data-path="../rpc-rx/classes/_index_.rpcrx.html">
-            
-                <a href="../rpc-rx/classes/_index_.rpcrx.html">
-            
-                    
-                    RpcRx
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
 
     
         
@@ -434,19 +370,22 @@
 <ul>
 <li>A static <code>.create(&lt;optional WsProvider&gt;)</code> that returns an API istance when connected, decorated and ready-to use</li>
 <li>The above is just a wrapper for <code>new Api(&lt;optional WsProvider&gt;)</code>, exposing the <code>isReady</code> getter</li>
-<li><code>api.rpc.*</code> provides access to actual RPC calls, be it for queries, submission or retrieving chain information</li>
-<li><code>api.st.*</code> provides access to chain state queries. These are dynamically populated based on what the runtime provides</li>
-<li><code>api.tx.*</code> provides the ability to create transaction, like chain state, this list is populated from a runtime query</li>
+<li><code>api.rpc.&lt;section&gt;.&lt;method&gt;</code> provides access to actual RPC calls, be it for queries, submission or retrieving chain information</li>
+<li><code>api.st.&lt;section&gt;.&lt;method&gt;</code> provides access to chain state queries. These are dynamically populated based on what the runtime provides</li>
+<li><code>api.tx.&lt;section&gt;.&lt;method&gt;</code> provides the ability to create transaction, like chain state, this list is populated from a runtime query</li>
 </ul>
 <h2 id="api-selection">API Selection</h2>
 <p>There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using <a href="https://github.com/ReactiveX/rxjs" target="_blank">RxJS</a>. Depending on your use-case and familiarity, you can choose either (or even both) for your application.</p>
 <ul>
-<li><a href="promise">ApiPromise</a> All interface calls returns Promises, including the static <code>.create(...)</code>. Additionally any subscription method use standard JavaScript <code>(error, value) =&gt; {}</code> callbacks.</li>
-<li><a href="rx">ApiRx</a> All interface calls return RxJS Observables, including the static <code>.create(...)</code>. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.</li>
+<li><a href="classes/_promise_index_.apipromise.html">ApiPromise</a> All interface calls returns Promises, including the static <code>.create(...)</code>. Additionally any subscription method use standard JavaScript <code>(error, value) =&gt; {}</code> callbacks.</li>
+<li><a href="classes/_rx_index_.apirx.html">ApiRx</a> All interface calls return RxJS Observables, including the static <code>.create(...)</code>. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.</li>
 </ul>
+<h2 id="dynamic-by-default">Dynamic by default</h2>
+<p>Subtrate (on which Polkadot is built) used on-chain on-chain WASM runtimes, allowing for upgradability. Each runtime defining the actual chain extrinsics (submitted transactions and block intrinsics) as well as available entries in the chain state. Due to this, the API endpoints for queries and transactions are dynamically populated from the running chain.</p>
+<p>Due to this dynamic nature, this API departs from traditional APIs which only has fixed endpoints, driving use by what is available by the runtime. As a start, this generic nature has a learning curve, although the provided documentation, examples and linked documentation tries to make that experience as seamless as possible.</p>
 <h2 id="installation--import">Installation &amp; import</h2>
 <p>Installation -</p>
-<pre><code>npm install --save @polkadot/api/rx
+<pre><code>npm install --save @polkadot/api
 </code></pre><p>Subscribing to blocks via Promise-based API -</p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">ApiPromise</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">;</span>
 
@@ -518,7 +457,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-11T16:50:43.936Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T16:52:14.838Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-11T18:59:46.709Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T19:01:29.429Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

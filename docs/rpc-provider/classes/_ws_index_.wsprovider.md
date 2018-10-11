@@ -1,5 +1,7 @@
 
 
+@polkadot/rpc-provider/ws
+=========================
 *__name__*: WsProvider
 
 *__summary__*: The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
@@ -8,11 +10,11 @@
 
 *__example__*:   
 ```javascript
-import Rpc from '@polkadot/rpc-core';
+import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 const provider = new WsProvider('ws://127.0.0.1:9944');
-const api = new Rpc(provider);
+const api = new Api(provider);
 ```
 
 *__see__*: [HttpProvider](_http_index_.httpprovider.md)
@@ -31,15 +33,15 @@ const api = new Rpc(provider);
 
 ##  constructor
 
-⊕ **new WsProvider**(endpoint: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
+⊕ **new WsProvider**(endpoint?: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:74](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L74)*
+*Defined in [ws/index.ts:77](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L77)*
 
 **Parameters:**
 
 | Param | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| endpoint | `string` | - |  The endpoint url. Usually \`ws://ip:9944\` or \`wss://ip:9944\` |
+| `Default value` endpoint | `string` |  defaults.WS_URL |  The endpoint url. Usually \`ws://ip:9944\` or \`wss://ip:9944\` |
 | `Default value` autoConnect | `boolean` | true |  Whether to connect automatically or not. |
 
 **Returns:** [WsProvider](_ws_index_.wsprovider.md)
@@ -54,7 +56,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:104](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L104)*
+*Defined in [ws/index.ts:107](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L107)*
 
 *__summary__*: Manually connect
 
@@ -69,7 +71,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:121](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L121)*
+*Defined in [ws/index.ts:124](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L124)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -83,7 +85,7 @@ ___
 
 ▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [ws/index.ts:130](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L130)*
+*Defined in [ws/index.ts:133](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L133)*
 
 *__summary__*: Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
@@ -103,7 +105,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:137](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L137)*
+*Defined in [ws/index.ts:140](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L140)*
 
 *__summary__*: Send JSON data using WebSockets to configured HTTP Endpoint or queue.
 
@@ -124,7 +126,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *`ProviderInterface$Callback`*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:193](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L193)*
+*Defined in [ws/index.ts:196](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L196)*
 
 *__name__*: subscribe
 
@@ -161,7 +163,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:202](https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-provider/src/ws/index.ts#L202)*
+*Defined in [ws/index.ts:205](https://github.com/polkadot-js/api/blob/2b88a8f/packages/rpc-provider/src/ws/index.ts#L205)*
 
 *__summary__*: Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
