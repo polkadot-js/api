@@ -1,8 +1,4 @@
 * [&quot;fromMetadata&quot;](modules/_frommetadata_.md)
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;static&quot;](modules/_static_.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)
-  * [ExtrinsicFunction](interfaces/_types_d_.extrinsicfunction.md)
-  * [Extrinsics](interfaces/_types_d_.extrinsics.md)
-  * [ModuleExtrinsics](interfaces/_types_d_.moduleextrinsics.md)
 * [&quot;utils/createUnchecked&quot;](modules/_utils_createunchecked_.md)

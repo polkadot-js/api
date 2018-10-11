@@ -3,8 +3,5 @@
 * [&quot;static&quot;](modules/_static_.md)
 * [&quot;storage&quot;](modules/_storage_.md)
 * [&quot;substrate&quot;](modules/_substrate_.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)
-  * [ModuleStorage](interfaces/_types_d_.modulestorage.md)
-  * [Storage](interfaces/_types_d_.storage.md)
 * [&quot;utils/createFunction&quot;](modules/_utils_createfunction_.md)
   * [CreateItemOptions](interfaces/_utils_createfunction_.createitemoptions.md)

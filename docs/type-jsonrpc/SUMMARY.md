@@ -5,4 +5,3 @@
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;state&quot;](modules/_state_.md)
 * [&quot;system&quot;](modules/_system_.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)

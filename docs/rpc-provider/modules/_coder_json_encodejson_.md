@@ -6,15 +6,15 @@
 
 ##  encodeJson
 
-▸ **encodeJson**(self: *[RpcCoderState](_coder_json_types_d_.md#rpccoderstate)*, method: *`string`*, params: *`Array`<`any`>*): `string`
+▸ **encodeJson**(self: *`RpcCoderState`*, method: *`string`*, params: *`Array`<`any`>*): `string`
 
-*Defined in [coder/json/encodeJson.ts:9](https://github.com/polkadot-js/api/blob/f5948fe/packages/rpc-provider/src/coder/json/encodeJson.ts#L9)*
+*Defined in [coder/json/encodeJson.ts:9](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/coder/json/encodeJson.ts#L9)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| self | [RpcCoderState](_coder_json_types_d_.md#rpccoderstate) |
+| self | `RpcCoderState` |
 | method | `string` |
 | params | `Array`<`any`> |
 

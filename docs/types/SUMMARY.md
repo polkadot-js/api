@@ -167,4 +167,3 @@
   * [TypeDefInfo](enums/_codec_createtype_.typedefinfo.md)
 * [&quot;codec/index&quot;](modules/_codec_index_.md)
 * [&quot;index&quot;](modules/_index_.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)
