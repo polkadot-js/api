@@ -82,27 +82,28 @@ const l = logger('api-rx');
  * ```javascript
  * import ApiRx from '@polkadot/api/rx';
  *
- * ApiRx.create().subscribe((api) => {
- *   // retrieve nonce for the account
- *   api.st.system
- *     .accountNonce(keyring.alice.address())
- *     .pipe(
- *        // pipe nonce into transfer
- *        switchMap((nonce) =>
- *          api.tx.balances
- *            // create transfer
- *            .transfer(keyring.bob.address(), 12345)
- *            // sign the transcation
- *            .sign(keyring.alice, nonce)
- *            // send the transaction
- *            .send()
- *        )
- *     )
- *     // subscribe to overall result
- *     .subscribe((hash) => {
- *       console.log(`submitted with hash ${hash}`);
- *     });
- * });
+ * // get api via Promise
+ * const api = await ApiRx.create().toPromise();
+ *
+ * // retrieve nonce for the account
+ * api.st.system
+ *   .accountNonce(keyring.alice.address())
+ *   .pipe(
+ *      // pipe nonce into transfer
+ *      switchMap((nonce) =>
+ *        api.tx.balances
+ *          // create transfer
+ *          .transfer(keyring.bob.address(), 12345)
+ *          // sign the transcation
+ *          .sign(keyring.alice, nonce)
+ *          // send the transaction
+ *          .send()
+ *      )
+ *   )
+ *   // subscribe to overall result
+ *   .subscribe((hash) => {
+ *     console.log(`submitted with hash ${hash}`);
+ *   });
  * ```
  */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
