@@ -7,11 +7,14 @@ import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
 import interfaces from '@polkadot/jsonrpc/index';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Base, Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
+
+import defaults from './defaults';
 
 /**
  * @name Rpc
@@ -37,7 +40,7 @@ import isFunction from '@polkadot/util/is/function';
  * ```
  */
 export default class Rpc implements RpcInterface {
-  private _provider: ProviderInterface;
+  readonly _provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
@@ -48,7 +51,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface) {
+  constructor (provider: ProviderInterface = new WsProvider(defaults.WS_URL)) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;

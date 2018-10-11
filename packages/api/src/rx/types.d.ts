@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { ApiBaseInterface } from '../types';
+
 import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Base } from '@polkadot/types/codec';
 import { Hash, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
@@ -37,17 +38,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export type RxApiInterface$Events = RpcRxInterface$Events | 'ready';
-
-export interface RxApiInterface {
-  readonly genesisHash: Hash;
+export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics>  {
   readonly isConnected: Observable<boolean>;
-  readonly isReady: Observable<RxApiInterface>;
-  readonly rpc: RpcRx;
-  readonly runtimeMetadata: RuntimeMetadata;
-  readonly runtimeVersion: RuntimeVersion;
-  readonly st: QueryableStorage;
-  readonly tx: SubmittableExtrinsics
-
-  on: (type: RxApiInterface$Events, handler: (...args: Array<any>) => any) => void;
+  readonly isReady: Observable<ApiRxInterface>;
 }
