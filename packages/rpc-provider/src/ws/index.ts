@@ -126,7 +126,6 @@ export default class WsProvider implements WSProviderInterface {
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterface$Emitted} type Event
    * @param  {ProviderInterface$EmitCb}  sub  Callback
-   * @return {this}                           [description]
    */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
     this._eventemitter.on(type, sub);
