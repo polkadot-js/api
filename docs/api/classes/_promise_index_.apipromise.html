@@ -482,10 +482,8 @@
 &#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 </span></pre></div></div></code></pre>
-<h1 id="type-parameters">Type parameters</h1>
-<h4 id="eventtypes----string--symbol">EventTypes :   <code>string</code> | <code>symbol</code></h4>
 <h1 id="hierarchy">Hierarchy</h1>
-<p>&#x21B3;  <a href="_base_.apibase.md">ApiBase</a>&lt;<code>Rpc</code>, <code>QueryableStorage</code>, <code>SubmittableExtrinsics</code>&gt;</p>
+<p> <a href="_base_.apibase.md">ApiBase</a>&lt;<code>Rpc</code>, <code>QueryableStorage</code>, <code>SubmittableExtrinsics</code>&gt;</p>
 <p><strong>&#x21B3; ApiPromise</strong></p>
 <h1 id="implements">Implements</h1>
 <ul>
@@ -497,7 +495,7 @@
 <h2 id="constructor">constructor</h2>
 <p>&#x2295; <strong>new ApiPromise</strong>(wsProvider?: <em><code>WsProvider</code></em>): <a href="_promise_index_.apipromise.html">ApiPromise</a></p>
 <p><em>Overrides <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L113" target="_blank">promise/index.ts:113</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/promise/index.ts#L113" target="_blank">promise/index.ts:113</a></em></p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api/promise&apos;</span><span class="sunlight-punctuation">;</span>
 
@@ -526,27 +524,19 @@
 </table>
 <p><strong>Returns:</strong> <a href="_promise_index_.apipromise.html">ApiPromise</a></p>
 <hr>
-<h1 id="properties">Properties</h1>
-<p><a id="prefixed"></a></p>
-<h2 id="static-prefixed"><code>&lt;Static&gt;</code> prefixed</h2>
-<p><strong>&#x25CF; prefixed</strong>: <em> <code>string</code> | <code>boolean</code>
-</em></p>
-<p><em>Inherited from EventEmitter.prefixed</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:6</em></p>
-<hr>
 <h1 id="accessors">Accessors</h1>
 <p><a id="genesishash"></a></p>
 <h2 id="genesishash">genesisHash</h2>
 <p>getgenesisHash(): <code>Hash</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#genesishash">genesisHash</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L68" target="_blank">Base.ts:68</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L68" target="_blank">Base.ts:68</a></em></p>
 <p><em><strong>description</strong></em>: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.</p>
 <p><strong>Returns:</strong> <code>Hash</code></p>
 <hr>
 <p><a id="isready"></a></p>
 <h2 id="isready">isReady</h2>
 <p>getisReady(): <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L143" target="_blank">promise/index.ts:143</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/promise/index.ts#L143" target="_blank">promise/index.ts:143</a></em></p>
 <p><em><strong>description</strong></em>: Promise that returns the first time we are connected and loaded</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
 <hr>
@@ -554,7 +544,7 @@
 <h2 id="rpc">rpc</h2>
 <p>getrpc(): <code>Rpc</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#rpc">rpc</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L105" target="_blank">Base.ts:105</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L105" target="_blank">Base.ts:105</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span>
@@ -569,7 +559,7 @@
 <h2 id="runtimemetadata">runtimeMetadata</h2>
 <p>getruntimeMetadata(): <code>RuntimeMetadata</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#runtimemetadata">runtimeMetadata</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L77" target="_blank">Base.ts:77</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L77" target="_blank">Base.ts:77</a></em></p>
 <p><em><strong>description</strong></em>: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics &amp; storage, but is useful for current runtime inspection.</p>
 <p><strong>Returns:</strong> <code>RuntimeMetadata</code></p>
 <hr>
@@ -577,7 +567,7 @@
 <h2 id="runtimeversion">runtimeVersion</h2>
 <p>getruntimeVersion(): <code>RuntimeVersion</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#runtimeversion">runtimeVersion</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L86" target="_blank">Base.ts:86</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L86" target="_blank">Base.ts:86</a></em></p>
 <p><em><strong>description</strong></em>: Contains the version information for the current runtime.</p>
 <p><strong>Returns:</strong> <code>RuntimeVersion</code></p>
 <hr>
@@ -585,7 +575,7 @@
 <h2 id="st">st</h2>
 <p>getst(): <code>QueryableStorage</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#st">st</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L122" target="_blank">Base.ts:122</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L122" target="_blank">Base.ts:122</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">st</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span>
@@ -600,7 +590,7 @@
 <h2 id="tx">tx</h2>
 <p>gettx(): <code>SubmittableExtrinsics</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#tx">tx</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L143" target="_blank">Base.ts:143</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L143" target="_blank">Base.ts:143</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">tx</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span>
@@ -614,157 +604,11 @@
 <p><strong>Returns:</strong> <code>SubmittableExtrinsics</code></p>
 <hr>
 <h1 id="methods">Methods</h1>
-<p><a id="addlistener"></a></p>
-<h2 id="addlistener">addListener</h2>
-<p>&#x25B8; <strong>addListener</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.addListener</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:33</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="emit"></a></p>
-<h2 id="emit">emit</h2>
-<p>&#x25B8; <strong>emit</strong>(event: <em><code>EventTypes</code></em>, ...args: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>boolean</code></p>
-<p><em>Inherited from EventEmitter.emit</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:27</em></p>
-<p>Calls each of the listeners registered for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Rest</code> args</td>
-<td><code>Array</code>&lt;<code>any</code>&gt;</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>boolean</code></p>
-<hr>
-<p><a id="eventnames"></a></p>
-<h2 id="eventnames">eventNames</h2>
-<p>&#x25B8; <strong>eventNames</strong>(): <code>Array</code>&lt;<code>EventTypes</code>&gt;</p>
-<p><em>Inherited from EventEmitter.eventNames</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:12</em></p>
-<p>Return an array listing the events for which the emitter has registered listeners.</p>
-<p><strong>Returns:</strong> <code>Array</code>&lt;<code>EventTypes</code>&gt;</p>
-<hr>
-<p><a id="listenercount"></a></p>
-<h2 id="listenercount">listenerCount</h2>
-<p>&#x25B8; <strong>listenerCount</strong>(event: <em><code>EventTypes</code></em>): <code>number</code></p>
-<p><em>Inherited from EventEmitter.listenerCount</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:22</em></p>
-<p>Return the number of listeners listening to a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>number</code></p>
-<hr>
-<p><a id="listeners"></a></p>
-<h2 id="listeners">listeners</h2>
-<p>&#x25B8; <strong>listeners</strong>(event: <em><code>EventTypes</code></em>): <code>Array</code>&lt;<code>ListenerFn</code>&gt;</p>
-<p><em>Inherited from EventEmitter.listeners</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:17</em></p>
-<p>Return the listeners registered for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Array</code>&lt;<code>ListenerFn</code>&gt;</p>
-<hr>
-<p><a id="off"></a></p>
-<h2 id="off">off</h2>
-<p>&#x25B8; <strong>off</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_base_.apibase.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.off</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_base_.apibase.eventemitter.listenerfn.md">ListenerFn</a></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> once</td>
-<td><code>undefined</code> | <code>false</code> | <code>true</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
 <p><a id="on"></a></p>
 <h2 id="on">on</h2>
-<p>&#x25B8; <strong>on</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.on</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:32</em></p>
-<p>Add a listener for a given event.</p>
+<p>&#x25B8; <strong>on</strong>(type: <em><code>ApiInterface$Events</code></em>, handler: <em><code>function</code></em>): <code>void</code></p>
+<p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#on">on</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/Base.ts#L149" target="_blank">Base.ts:149</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -775,114 +619,21 @@
 </thead>
 <tbody>
 <tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
+<td>type</td>
+<td><code>ApiInterface$Events</code></td>
 </tr>
 <tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
+<td>handler</td>
+<td><code>function</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="once"></a></p>
-<h2 id="once">once</h2>
-<p>&#x25B8; <strong>once</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.once</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:38</em></p>
-<p>Add a one-time listener for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="removealllisteners"></a></p>
-<h2 id="removealllisteners">removeAllListeners</h2>
-<p>&#x25B8; <strong>removeAllListeners</strong>(event?: <em><a href="">EventTypes</a></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.removeAllListeners</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:49</em></p>
-<p>Remove all listeners, or those of the specified event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Optional</code> event</td>
-<td><a href="">EventTypes</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="removelistener"></a></p>
-<h2 id="removelistener">removeListener</h2>
-<p>&#x25B8; <strong>removeListener</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_base_.apibase.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.removeListener</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43</em></p>
-<p>Remove the listeners of a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_base_.apibase.eventemitter.listenerfn.md">ListenerFn</a></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> once</td>
-<td><code>undefined</code> | <code>false</code> | <code>true</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
+<p><strong>Returns:</strong> <code>void</code></p>
 <hr>
 <p><a id="create"></a></p>
 <h2 id="static-create"><code>&lt;Static&gt;</code> create</h2>
 <p>&#x25B8; <strong>create</strong>(wsProvider?: <em><code>WsProvider</code></em>): <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L111" target="_blank">promise/index.ts:111</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/api/src/promise/index.ts#L111" target="_blank">promise/index.ts:111</a></em></p>
 <p><em><strong>description</strong></em>: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api/promise&apos;</span><span class="sunlight-punctuation">;</span>
@@ -955,7 +706,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ApiPromise","level":"1.2.1","depth":2,"next":{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]},"previous":{"title":"api","level":"1.2","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/classes/_promise_index_.apipromise.md","mtime":"2018-10-11T13:30:00.325Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T13:31:41.446Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ApiPromise","level":"1.2.1","depth":2,"next":{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]},"previous":{"title":"api","level":"1.2","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/classes/_promise_index_.apipromise.md","mtime":"2018-10-11T16:50:44.179Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T16:52:14.838Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

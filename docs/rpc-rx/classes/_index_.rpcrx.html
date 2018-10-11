@@ -438,11 +438,8 @@
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;http://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">RpcRx</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 </span></pre></div></div></code></pre>
-<h1 id="type-parameters">Type parameters</h1>
-<h4 id="eventtypes----string--symbol">EventTypes :   <code>string</code> | <code>symbol</code></h4>
 <h1 id="hierarchy">Hierarchy</h1>
-<p> <code>EventEmitter</code></p>
-<p><strong>&#x21B3; RpcRx</strong></p>
+<p><strong>RpcRx</strong></p>
 <h1 id="implements">Implements</h1>
 <ul>
 <li><code>object</code></li>
@@ -451,7 +448,7 @@
 <p><a id="constructor"></a></p>
 <h2 id="constructor">constructor</h2>
 <p>&#x2295; <strong>new RpcRx</strong>(providerOrRpc?: <em> <code>Rpc</code> | <code>ProviderInterface</code></em>): <a href="_index_.rpcrx.html">RpcRx</a></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L44" target="_blank">index.ts:44</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L45" target="_blank">index.ts:45</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -473,188 +470,34 @@
 <p><a id="author"></a></p>
 <h2 id="author">author</h2>
 <p><strong>&#x25CF; author</strong>: <em><code>RpcRxInterface$Section</code></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L41" target="_blank">index.ts:41</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L42" target="_blank">index.ts:42</a></em></p>
 <hr>
 <p><a id="chain"></a></p>
 <h2 id="chain">chain</h2>
 <p><strong>&#x25CF; chain</strong>: <em><code>RpcRxInterface$Section</code></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L42" target="_blank">index.ts:42</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L43" target="_blank">index.ts:43</a></em></p>
 <hr>
 <p><a id="state"></a></p>
 <h2 id="state">state</h2>
 <p><strong>&#x25CF; state</strong>: <em><code>RpcRxInterface$Section</code></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L43" target="_blank">index.ts:43</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L44" target="_blank">index.ts:44</a></em></p>
 <hr>
 <p><a id="system"></a></p>
 <h2 id="system">system</h2>
 <p><strong>&#x25CF; system</strong>: <em><code>RpcRxInterface$Section</code></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L44" target="_blank">index.ts:44</a></em></p>
-<hr>
-<p><a id="prefixed"></a></p>
-<h2 id="static-prefixed"><code>&lt;Static&gt;</code> prefixed</h2>
-<p><strong>&#x25CF; prefixed</strong>: <em> <code>string</code> | <code>boolean</code>
-</em></p>
-<p><em>Inherited from EventEmitter.prefixed</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:6</em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L45" target="_blank">index.ts:45</a></em></p>
 <hr>
 <h1 id="methods">Methods</h1>
-<p><a id="addlistener"></a></p>
-<h2 id="addlistener">addListener</h2>
-<p>&#x25B8; <strong>addListener</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.addListener</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:33</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="emit"></a></p>
-<h2 id="emit">emit</h2>
-<p>&#x25B8; <strong>emit</strong>(event: <em><code>EventTypes</code></em>, ...args: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>boolean</code></p>
-<p><em>Inherited from EventEmitter.emit</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:27</em></p>
-<p>Calls each of the listeners registered for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Rest</code> args</td>
-<td><code>Array</code>&lt;<code>any</code>&gt;</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>boolean</code></p>
-<hr>
-<p><a id="eventnames"></a></p>
-<h2 id="eventnames">eventNames</h2>
-<p>&#x25B8; <strong>eventNames</strong>(): <code>Array</code>&lt;<code>EventTypes</code>&gt;</p>
-<p><em>Inherited from EventEmitter.eventNames</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:12</em></p>
-<p>Return an array listing the events for which the emitter has registered listeners.</p>
-<p><strong>Returns:</strong> <code>Array</code>&lt;<code>EventTypes</code>&gt;</p>
-<hr>
 <p><a id="isconnected"></a></p>
 <h2 id="isconnected">isConnected</h2>
 <p>&#x25B8; <strong>isConnected</strong>(): <code>BehaviorSubject</code>&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L66" target="_blank">index.ts:66</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L66" target="_blank">index.ts:66</a></em></p>
 <p><strong>Returns:</strong> <code>BehaviorSubject</code>&lt;<code>boolean</code>&gt;</p>
-<hr>
-<p><a id="listenercount"></a></p>
-<h2 id="listenercount">listenerCount</h2>
-<p>&#x25B8; <strong>listenerCount</strong>(event: <em><code>EventTypes</code></em>): <code>number</code></p>
-<p><em>Inherited from EventEmitter.listenerCount</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:22</em></p>
-<p>Return the number of listeners listening to a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>number</code></p>
-<hr>
-<p><a id="listeners"></a></p>
-<h2 id="listeners">listeners</h2>
-<p>&#x25B8; <strong>listeners</strong>(event: <em><code>EventTypes</code></em>): <code>Array</code>&lt;<code>ListenerFn</code>&gt;</p>
-<p><em>Inherited from EventEmitter.listeners</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:17</em></p>
-<p>Return the listeners registered for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Array</code>&lt;<code>ListenerFn</code>&gt;</p>
-<hr>
-<p><a id="off"></a></p>
-<h2 id="off">off</h2>
-<p>&#x25B8; <strong>off</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.off</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44</em></p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> once</td>
-<td><code>undefined</code> | <code>false</code> | <code>true</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
 <hr>
 <p><a id="on"></a></p>
 <h2 id="on">on</h2>
-<p>&#x25B8; <strong>on</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.on</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:32</em></p>
-<p>Add a listener for a given event.</p>
+<p>&#x25B8; <strong>on</strong>(type: <em><code>RpcRxInterface$Events</code></em>, handler: <em><code>function</code></em>): <code>void</code></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e103e98/packages/rpc-rx/src/index.ts#L70" target="_blank">index.ts:70</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -665,109 +508,16 @@
 </thead>
 <tbody>
 <tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
+<td>type</td>
+<td><code>RpcRxInterface$Events</code></td>
 </tr>
 <tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
+<td>handler</td>
+<td><code>function</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="once"></a></p>
-<h2 id="once">once</h2>
-<p>&#x25B8; <strong>once</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.once</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:38</em></p>
-<p>Add a one-time listener for a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td>fn</td>
-<td><code>ListenerFn</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="removealllisteners"></a></p>
-<h2 id="removealllisteners">removeAllListeners</h2>
-<p>&#x25B8; <strong>removeAllListeners</strong>(event?: <em><a href="">EventTypes</a></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.removeAllListeners</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:49</em></p>
-<p>Remove all listeners, or those of the specified event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Optional</code> event</td>
-<td><a href="">EventTypes</a></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="removelistener"></a></p>
-<h2 id="removelistener">removeListener</h2>
-<p>&#x25B8; <strong>removeListener</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
-<p><em>Inherited from EventEmitter.removeListener</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43</em></p>
-<p>Remove the listeners of a given event.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>event</td>
-<td><code>EventTypes</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></td>
-</tr>
-<tr>
-<td><code>Optional</code> context</td>
-<td><code>any</code></td>
-</tr>
-<tr>
-<td><code>Optional</code> once</td>
-<td><code>undefined</code> | <code>false</code> | <code>true</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>this</code></p>
+<p><strong>Returns:</strong> <code>void</code></p>
 <hr>
 
                                 
@@ -812,7 +562,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"RpcRx","level":"1.5.1","depth":2,"next":{"title":"RPC","level":"2.1","depth":1,"path":"examples-rpc/README.md","ref":"examples-rpc/README.md","articles":[{"title":"Simple connect","level":"2.1.1","depth":2,"path":"examples-rpc/01_simple_connect/README.md","ref":"examples-rpc/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples-rpc/02_listen_to_blocks/README.md","ref":"examples-rpc/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"2.1.3","depth":2,"path":"examples-rpc/03_listen_to_balance_change/README.md","ref":"examples-rpc/03_listen_to_balance_change/README.md","articles":[]},{"title":"Generate Accounts","level":"2.1.4","depth":2,"path":"examples-rpc/04_generate_account/README.md","ref":"examples-rpc/04_generate_account/README.md","articles":[]},{"title":"Read Storage","level":"2.1.5","depth":2,"path":"examples-rpc/05_read_storage/README.md","ref":"examples-rpc/05_read_storage/README.md","articles":[]},{"title":"Craft Extrinsic","level":"2.1.6","depth":2,"path":"examples-rpc/06_craft_extrinsic/README.md","ref":"examples-rpc/06_craft_extrinsic/README.md","articles":[]},{"title":"Transfer DOTs","level":"2.1.7","depth":2,"path":"examples-rpc/07_transfer_dots/README.md","ref":"examples-rpc/07_transfer_dots/README.md","articles":[]}]},"previous":{"title":"rpc-rx","level":"1.5","depth":1,"path":"rpc-rx/README.md","ref":"rpc-rx/README.md","articles":[{"title":"RpcRx","level":"1.5.1","depth":2,"path":"rpc-rx/classes/_index_.rpcrx.md","ref":"rpc-rx/classes/_index_.rpcrx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-rx/classes/_index_.rpcrx.md","mtime":"2018-10-11T13:30:35.531Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T13:31:41.446Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"RpcRx","level":"1.5.1","depth":2,"next":{"title":"RPC","level":"2.1","depth":1,"path":"examples-rpc/README.md","ref":"examples-rpc/README.md","articles":[{"title":"Simple connect","level":"2.1.1","depth":2,"path":"examples-rpc/01_simple_connect/README.md","ref":"examples-rpc/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples-rpc/02_listen_to_blocks/README.md","ref":"examples-rpc/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"2.1.3","depth":2,"path":"examples-rpc/03_listen_to_balance_change/README.md","ref":"examples-rpc/03_listen_to_balance_change/README.md","articles":[]},{"title":"Generate Accounts","level":"2.1.4","depth":2,"path":"examples-rpc/04_generate_account/README.md","ref":"examples-rpc/04_generate_account/README.md","articles":[]},{"title":"Read Storage","level":"2.1.5","depth":2,"path":"examples-rpc/05_read_storage/README.md","ref":"examples-rpc/05_read_storage/README.md","articles":[]},{"title":"Craft Extrinsic","level":"2.1.6","depth":2,"path":"examples-rpc/06_craft_extrinsic/README.md","ref":"examples-rpc/06_craft_extrinsic/README.md","articles":[]},{"title":"Transfer DOTs","level":"2.1.7","depth":2,"path":"examples-rpc/07_transfer_dots/README.md","ref":"examples-rpc/07_transfer_dots/README.md","articles":[]}]},"previous":{"title":"rpc-rx","level":"1.5","depth":1,"path":"rpc-rx/README.md","ref":"rpc-rx/README.md","articles":[{"title":"RpcRx","level":"1.5.1","depth":2,"path":"rpc-rx/classes/_index_.rpcrx.md","ref":"rpc-rx/classes/_index_.rpcrx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-rx/classes/_index_.rpcrx.md","mtime":"2018-10-11T16:51:15.905Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T16:52:14.838Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
