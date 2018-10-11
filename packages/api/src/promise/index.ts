@@ -63,7 +63,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   /**
-   * @description Observable that returns the first time we are connected and loaded
+   * @description Promise that returns the first time we are connected and loaded
    */
   get isReady (): Promise<ApiPromise> {
     return this._isReady;
