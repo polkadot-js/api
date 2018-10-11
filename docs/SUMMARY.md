@@ -11,6 +11,10 @@
 - [rpc-rx](rpc-rx/README.md)
   - [RpcRx](rpc-rx/classes/_index_.rpcrx.md)
 
+## Methods
+
+- [methods](METHODS.md)
+
 ## Examples
 
 - [RPC](examples-rpc/README.md)
