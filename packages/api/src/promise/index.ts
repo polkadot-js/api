@@ -20,7 +20,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  *
  * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
  *
- * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of  the subscription-based features of Polkadot (and Substrate) clients.
+ * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
  *
  * ## Usage
  *
@@ -47,14 +47,17 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * import { ApiPromise } from '@polkadot/api';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * // initialise via isReady & new with specific non-local endpoint
- * const api = await new ApiPromise(new WsProvider('wss://example.com:9944')).isReady;
+ * // initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // initialise via isReady & new with specific provider
+ * const api = await new ApiPromise(provider).isReady;
  *
  * // retrieve the block target time
  * const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
  * let last = 0;
  *
- * // subscribe to the current block timestamp, updates automatically
+ * // subscribe to the current block timestamp, updates automatically (callback provided)
  * api.st.timestamp.now((error, timestamp) => {
  *   const elapsed = last
  *     ? `, ${timestamp.toNumber() - last}s since last`

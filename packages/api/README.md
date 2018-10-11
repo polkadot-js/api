@@ -6,16 +6,16 @@ The API wrappers provide a standard interface for use -
 
 - A static `.create(<optional WsProvider>)` that returns an API istance when connected, decorated and ready-to use
 - The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter
-- `api.rpc.*` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-- `api.st.*` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-- `api.tx.*` provides the ability to create transaction, like chain state, this list is populated from a runtime query
+- `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
+- `api.st.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
+- `api.tx.<section>.<method>` provides the ability to create transaction, like chain state, this list is populated from a runtime query
 
 ## API Selection
 
 There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using [RxJS](https://github.com/ReactiveX/rxjs). Depending on your use-case and familiarity, you can choose either (or even both) for your application.
 
-- [ApiPromise](promise/) All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use standard JavaScript `(error, value) => {}` callbacks.
-- [ApiRx](rx/) All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+- [[ApiPromise]] All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use standard JavaScript `(error, value) => {}` callbacks.
+- [[ApiRx]] All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
 
 ## Dynamic by default
 

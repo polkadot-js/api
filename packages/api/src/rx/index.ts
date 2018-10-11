@@ -49,14 +49,18 @@ const l = logger('api-rx');
  * <BR>
  *
  * ```javascript
- * import { ApiRx } from '@polkadot/api';
- * import WsProvider from '@polkadot/rpc-provider/ws';
  * import { combineLatest } from 'rxjs';
+ * import { ApiRx } from '@polkadot/api';
+ * import { WsProvider } from '@polkadot/rpc-provider';
  *
+ * // last block timestamp
  * let last = 0;
  *
- * // initialise via isReady & new with specific non-local endpoint
- * new ApiRx(new WsProvider('wss://example.com:9944'))
+ * // initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // initialise via isReady & new with specific provider
+ * new ApiRx(provider)
  *   .isReady
  *   .pipe(
  *     switchMap((api) =>
