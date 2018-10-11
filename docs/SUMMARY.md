@@ -6,10 +6,6 @@
 - [rpc-provider](rpc-provider/README.md)
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
-- [rpc-core](rpc-core/README.md)
-  - [Rpc](rpc-core/classes/_index_.rpc.md)
-- [rpc-rx](rpc-rx/README.md)
-  - [RpcRx](rpc-rx/classes/_index_.rpcrx.md)
 
 ## Examples
 

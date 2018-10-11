@@ -18,9 +18,14 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 /**
  * # @polkadot/api/promise
  *
+ * ## Overview
+ *
+ * @name ApiPromise
+ * @description
  * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
  *
  * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
+ * @see [[ApiRx]]
  *
  * ## Usage
  *

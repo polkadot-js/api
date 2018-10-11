@@ -14,8 +14,6 @@ import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
-import defaults from './defaults';
-
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
@@ -51,7 +49,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface = new WsProvider(defaults.WS_URL)) {
+  constructor (provider: ProviderInterface = new WsProvider()) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;

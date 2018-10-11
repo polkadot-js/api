@@ -23,9 +23,14 @@ const l = logger('api-rx');
 /**
  * # @polkadot/api/rx
  *
+ *  ## Overview
+ *
+ * @name ApiRx
+ * @description
  * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
  * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
+ * @see [[ApiPromise]]
  *
  * ## Usage
  *

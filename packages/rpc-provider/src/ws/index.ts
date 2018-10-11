@@ -15,6 +15,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
 import coder from '../coder/json';
+import defaults from '../defaults';
 
 type SubscriptionHandler = {
   callback: ProviderInterface$Callback,
@@ -38,6 +39,8 @@ interface WSProviderInterface extends ProviderInterface {
 }
 
 /**
+ * # @polkadot/rpc-provider/ws
+ *
  * @name WsProvider
  * @summary The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
  * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
@@ -46,11 +49,11 @@ interface WSProviderInterface extends ProviderInterface {
  * <BR>
  *
  * ```javascript
- * import Rpc from '@polkadot/rpc-core';
+ * import Api from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = new Rpc(provider);
+ * const api = new Api(provider);
  * ```
  *
  * @see [[HttpProvider]]
@@ -77,7 +80,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string, autoConnect: boolean = true) {
+  constructor (endpoint: string = defaults.WS_URL, autoConnect: boolean = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
     this._eventemitter = new EventEmitter();
