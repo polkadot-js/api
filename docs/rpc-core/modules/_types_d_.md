@@ -8,7 +8,7 @@
 
 **Ƭ RpcInterface$Section**: *`object`*
 
-*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/7180f89/packages/rpc-core/src/types.d.ts#L14)*
+*Defined in [types.d.ts:14](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-core/src/types.d.ts#L14)*
 
 #### Type declaration
 

@@ -5,20 +5,20 @@
 import { ReplaySubject, Observable } from 'rxjs';
 import interfaces from '@polkadot/jsonrpc/types';
 
-export type RxRpcInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
+export type RpcRxInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
 
-export type RxRpcInterface$Section = {
-  [index: string]: RxRpcInterface$Method
+export type RpcRxInterface$Section = {
+  [index: string]: RpcRxInterface$Method
 };
 
-export type RxRpcInterface$Events = 'connected' | 'disconnected';
+export type RpcRxInterface$Events = 'connected' | 'disconnected';
 
-export type RxRpcInterface = {
-  readonly author: RxRpcInterface$Section;
-  readonly chain: RxRpcInterface$Section;
-  readonly state: RxRpcInterface$Section;
-  readonly system: RxRpcInterface$Section;
+export type RpcRxInterface = {
+  readonly author: RpcRxInterface$Section;
+  readonly chain: RpcRxInterface$Section;
+  readonly state: RpcRxInterface$Section;
+  readonly system: RpcRxInterface$Section;
 
   isConnected: () => Observable<boolean>
-  on: (type: RxRpcInterface$Events, handler: (...args: Array<any>) => any) => void;
+  on: (type: RpcRxInterface$Events, handler: (...args: Array<any>) => any) => void;
 }

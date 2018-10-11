@@ -8,7 +8,7 @@
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
 - [rpc-rx](rpc-rx/README.md)
-  - [RpcRx](rpc-rx/classes/_index_.rxapi.md)
+  - [RpcRx](rpc-rx/classes/_index_.rpcrx.md)
 
 ## Examples
 

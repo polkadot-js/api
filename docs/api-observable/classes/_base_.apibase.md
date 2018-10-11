@@ -12,15 +12,15 @@
 
 ##  constructor
 
-⊕ **new ApiBase**(api: *`RxRpcInterface`*): [ApiBase](_base_.apibase.md)
+⊕ **new ApiBase**(api: *`RpcRxInterface`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L32)*
+*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L32)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| api | `RxRpcInterface` |
+| api | `RpcRxInterface` |
 
 **Returns:** [ApiBase](_base_.apibase.md)
 
@@ -32,9 +32,9 @@ ___
 
 ## `<Protected>` _api
 
-**● _api**: *`RxRpcInterface`*
+**● _api**: *`RpcRxInterface`*
 
-*Defined in [Base.ts:28](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L28)*
+*Defined in [Base.ts:28](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L28)*
 
 ___
 <a id="_genesishash"></a>
@@ -43,7 +43,7 @@ ___
 
 **● _genesisHash**: *`Hash`*
 
-*Defined in [Base.ts:29](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L29)*
+*Defined in [Base.ts:29](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L29)*
 
 ___
 <a id="whenready"></a>
@@ -52,7 +52,7 @@ ___
 
 **● whenReady**: *`Observable`<`boolean`>*
 
-*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L32)*
+*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L32)*
 
 ___
 <a id="extrinsics"></a>
@@ -61,7 +61,7 @@ ___
 
 **● extrinsics**: *`Extrinsics`* =  extrinsicsStatic
 
-*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L40)*
+*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L40)*
 
 ___
 <a id="storage"></a>
@@ -70,7 +70,7 @@ ___
 
 **● storage**: *`Storage`* =  storageStatic
 
-*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L41)*
+*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L41)*
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:85](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L85)*
+*Defined in [Base.ts:85](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L85)*
 
 **Returns:** `Hash`
 
@@ -96,7 +96,7 @@ ___
 
 ▸ **combine**<`T`,`R`>(observables: *`Array`<`Observable`<`any`>>*, mapfn?: *`MapFn`<`R`, `T`>*): `Observable`<`T`>
 
-*Defined in [Base.ts:78](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L78)*
+*Defined in [Base.ts:78](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L78)*
 
 **Type parameters:**
 
@@ -118,7 +118,7 @@ ___
 
 ▸ **isConnected**(): `Observable`<`boolean`>
 
-*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L89)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L89)*
 
 **Returns:** `Observable`<`boolean`>
 
@@ -129,7 +129,7 @@ ___
 
 ▸ **rawCall**<`T`>(__namedParameters: *`object`*, ...params: *`Array`<`any`>*): `Observable`<`T`>
 
-*Defined in [Base.ts:93](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L93)*
+*Defined in [Base.ts:93](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L93)*
 
 **Type parameters:**
 
@@ -150,7 +150,7 @@ ___
 
 ▸ **rawStorage**<`T`>(key: *`StorageFunction`*, ...params: *`Array`<`any`>*): `Observable`< `T` &#124; `undefined`>
 
-*Defined in [Base.ts:106](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L106)*
+*Defined in [Base.ts:106](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L106)*
 
 **Type parameters:**
 
@@ -171,7 +171,7 @@ ___
 
 ▸ **rawStorageMulti**<`T`>(...keys: *`Array`< [`StorageFunction`] &#124; [`StorageFunction`, `any`]>*): `Observable`<`T`>
 
-*Defined in [Base.ts:119](https://github.com/polkadot-js/api/blob/7180f89/packages/api-observable/src/Base.ts#L119)*
+*Defined in [Base.ts:119](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api-observable/src/Base.ts#L119)*
 
 **Type parameters:**
 
