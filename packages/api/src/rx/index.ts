@@ -22,9 +22,9 @@ const l = logger('api-rx');
 
 /**
  * @description
- * ApiRx is a powerfull RxJS Observable wrapper around the RPC class and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+ * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
- * The API is well quited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) client. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
+ * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
  *
  * @example
  * <BR>
@@ -51,14 +51,28 @@ const l = logger('api-rx');
  * ```javascript
  * import { ApiRx } from '@polkadot/api';
  * import WsProvider from '@polkadot/rpc-provider/ws';
+ * import { combineLatest } from 'rxjs';
+ *
+ * let last = 0;
  *
  * // initialise via isReady & new with specific non-local endpoint
- * new Api(new WsProvider('wss://example.com:9944')).isReady.subscribe((api) => {
- *   // subscribe to the current block timestamp, updates automatically
- *   api.st.timestamp.now().subscribe((timestamp) => {
- *     console.log(`Current block timestamp ${timestamp}`);
+ * new ApiRx(new WsProvider('wss://example.com:9944'))
+ *   .isReady
+ *   .pipe(
+ *     switchMap((api) =>
+ *       combineLatest([
+ *         api.st.timestamp.blockPeriod(),
+ *         api.st.timestamp.now()
+ *       ])
+ *   )
+ *   .subscribe(([blockPeriod, timestamp]) => {
+ *     const elapsed = last
+ *       ? `, ${timestamp.toNumber() - last}s since last`
+ *       : '';
+ *
+ *     last = timestamp.toNumber();
+ *     console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
  *   });
- * });
  * ```
  * <BR>
  *
@@ -68,7 +82,7 @@ const l = logger('api-rx');
  * ```javascript
  * import ApiRx from '@polkadot/api/rx';
  *
- * Api.create().subscribe((api) => {
+ * ApiRx.create().subscribe((api) => {
  *   // retrieve nonce for the account
  *   api.st.system
  *     .accountNonce(keyring.alice.address())
@@ -104,7 +118,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
-   *   api.st.timestamp.now((timestamp) => {
+   *   api.st.timestamp.now.subscribe((timestamp) => {
    *     console.log(`lastest block timestamp ${timestamp}`);
    *   });
    * });
