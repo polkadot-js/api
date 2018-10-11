@@ -7,6 +7,7 @@ import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, Query
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
@@ -84,8 +85,8 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: RpcRx): RpcRx {
-    return rpc;
+  protected decorateRpc (rpc: Rpc): RpcRx {
+    return new RpcRx(rpc);
   }
 
   protected decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {
@@ -110,8 +111,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   protected decorateStorage (storage: Storage): QueryableStorage {
-    console.error('storage', storage);
-
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 

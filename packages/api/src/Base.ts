@@ -6,7 +6,7 @@ import { ApiBaseInterface } from './types';
 
 import E3 from 'eventemitter3';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import RpcRx from '@polkadot/rpc-rx/index';
+import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
@@ -34,7 +34,7 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
   private _genesisHash?: Hash;
   private _storage?: S;
   private _rpc: R;
-  private _rpcBase: RpcRx;
+  private _rpcBase: Rpc;
   private _runtimeMetadata?: RuntimeMetadata;
   private _runtimeVersion?: RuntimeVersion;
 
@@ -56,7 +56,7 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
   constructor (wsProvider?: WsProvider) {
     super();
 
-    this._rpcBase = new RpcRx(wsProvider);
+    this._rpcBase = new Rpc(wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
     this.init();
@@ -149,11 +149,11 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
   private init (): void {
     let isReady: boolean = false;
 
-    this._rpcBase.on('disconnected', () => {
+    this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
     });
 
-    this._rpcBase.on('connected', async () => {
+    this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
 
       // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
@@ -177,9 +177,9 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
 
   private async loadMeta (): Promise<boolean> {
     try {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata().toPromise();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion().toPromise();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0).toPromise();
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
       const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
       const storage = storageFromMeta(this.runtimeMetadata);
@@ -210,7 +210,7 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
     return output;
   }
 
-  protected abstract decorateRpc (rpc: RpcRx): R;
+  protected abstract decorateRpc (rpc: Rpc): R;
   protected abstract decorateExtrinsics (extrinsics: Extrinsics): T;
   protected abstract decorateStorage (storage: Storage): S;
 }
