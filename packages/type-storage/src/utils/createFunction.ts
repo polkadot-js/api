@@ -68,6 +68,7 @@ export default function createFunction (
         128
       );
 
+      // StorageKey is a Bytes, so is length-prefixed
       return u8aConcat(
         Compact.encodeU8a(methodAndArgs.length, DEFAULT_LENGTH_BITS),
         methodAndArgs
