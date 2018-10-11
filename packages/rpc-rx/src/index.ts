@@ -4,7 +4,7 @@
 
 import { RpcInterface, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RxRpcInterface, RxRpcInterface$Section } from './types';
+import { RpcRxInterface, RpcRxInterface$Section } from './types';
 
 import E3 from 'eventemitter3';
 import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
@@ -37,14 +37,14 @@ type CachedMap = {
  * const api = new RpcRx(provider);
  * ```
  */
-export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
+export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
   private _api: RpcInterface;
   private _cacheMap: CachedMap;
   private _isConnected: BehaviorSubject<boolean>;
-  readonly author: RxRpcInterface$Section;
-  readonly chain: RxRpcInterface$Section;
-  readonly state: RxRpcInterface$Section;
-  readonly system: RxRpcInterface$Section;
+  readonly author: RpcRxInterface$Section;
+  readonly chain: RpcRxInterface$Section;
+  readonly state: RpcRxInterface$Section;
+  readonly system: RpcRxInterface$Section;
 
   /**
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
@@ -82,7 +82,7 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
     });
   }
 
-  private createInterface (sectionName: string, section: RpcInterface$Section): RxRpcInterface$Section {
+  private createInterface (sectionName: string, section: RpcInterface$Section): RpcRxInterface$Section {
     return Object
       .keys(section)
       .filter((name) => !['subscribe', 'unsubscribe'].includes(name))
@@ -90,7 +90,7 @@ export default class RpcRx extends E3.EventEmitter implements RxRpcInterface {
         observables[name] = this.createObservable(`${sectionName}_${name}`, name, section);
 
         return observables;
-      }, ({} as RxRpcInterface$Section));
+      }, ({} as RpcRxInterface$Section));
   }
 
   private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> | ReplaySubject<any> {
