@@ -10,6 +10,10 @@
 - [rpc-rx](rpc-rx/README.md)
   - [RpcRx](rpc-rx/classes/_index_.rxapi.md)
 
+## Methods
+
+- [methods](METHODS.md)
+
 ## Examples
 
 - [Overview](examples/README.md)
