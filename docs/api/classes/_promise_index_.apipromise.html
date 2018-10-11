@@ -438,7 +438,8 @@
 <h2 id="constructor">constructor</h2>
 <p>&#x2295; <strong>new ApiPromise</strong>(wsProvider?: <em><code>WsProvider</code></em>): <a href="_promise_index_.apipromise.html">ApiPromise</a></p>
 <p><em>Overrides <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/promise/index.ts#L121" target="_blank">promise/index.ts:121</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/promise/index.ts#L125" target="_blank">promise/index.ts:125</a></em></p>
+<p><em><strong>description</strong></em>: Creates an instance of the ApiPromise class</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api/promise&apos;</span><span class="sunlight-punctuation">;</span>
 
@@ -472,14 +473,14 @@
 <h2 id="genesishash">genesisHash</h2>
 <p>getgenesisHash(): <code>Hash</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#genesishash">genesisHash</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L69" target="_blank">Base.ts:69</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L71" target="_blank">Base.ts:71</a></em></p>
 <p><em><strong>description</strong></em>: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.</p>
 <p><strong>Returns:</strong> <code>Hash</code></p>
 <hr>
 <p><a id="isready"></a></p>
 <h2 id="isready">isReady</h2>
 <p>getisReady(): <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/promise/index.ts#L151" target="_blank">promise/index.ts:151</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/promise/index.ts#L158" target="_blank">promise/index.ts:158</a></em></p>
 <p><em><strong>description</strong></em>: Promise that returns the first time we are connected and loaded</p>
 <p><strong>Returns:</strong> <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
 <hr>
@@ -487,7 +488,7 @@
 <h2 id="rpc">rpc</h2>
 <p>getrpc(): <code>Rpc</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#rpc">rpc</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L109" target="_blank">Base.ts:109</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L111" target="_blank">Base.ts:111</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic <code>api.st</code> and <code>api.tx</code> sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.</p>
 <p>RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.</p>
 <p><em><strong>example</strong></em>:   </p>
@@ -503,7 +504,7 @@
 <h2 id="runtimemetadata">runtimeMetadata</h2>
 <p>getruntimeMetadata(): <code>RuntimeMetadata</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#runtimemetadata">runtimeMetadata</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L78" target="_blank">Base.ts:78</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L80" target="_blank">Base.ts:80</a></em></p>
 <p><em><strong>description</strong></em>: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics &amp; storage, but is useful for current runtime inspection.</p>
 <p><strong>Returns:</strong> <code>RuntimeMetadata</code></p>
 <hr>
@@ -511,7 +512,7 @@
 <h2 id="runtimeversion">runtimeVersion</h2>
 <p>getruntimeVersion(): <code>RuntimeVersion</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#runtimeversion">runtimeVersion</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L87" target="_blank">Base.ts:87</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L89" target="_blank">Base.ts:89</a></em></p>
 <p><em><strong>description</strong></em>: Contains the version information for the current runtime.</p>
 <p><strong>Returns:</strong> <code>RuntimeVersion</code></p>
 <hr>
@@ -519,7 +520,7 @@
 <h2 id="st">st</h2>
 <p>getst(): <code>QueryableStorage</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#st">st</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L129" target="_blank">Base.ts:129</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L131" target="_blank">Base.ts:131</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.</p>
 <p>All calls inside the namespace, is denoted by <code>section</code>.<code>method</code> and may take an optional query parameter. As an example, <code>api.st.timestamp.now()</code> (current block timestamp) does not take parameters, while <code>api.st.system.accountNonce(&lt;accountId&gt;)</code> (retrieving the associated nonce for an account), takes the <code>AccountId</code> as a parameter.</p>
 <p><em><strong>example</strong></em>:   </p>
@@ -535,7 +536,7 @@
 <h2 id="tx">tx</h2>
 <p>gettx(): <code>SubmittableExtrinsics</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#tx">tx</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L151" target="_blank">Base.ts:151</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L153" target="_blank">Base.ts:153</a></em></p>
 <p><em><strong>description</strong></em>: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.</p>
 <p><em><strong>example</strong></em>:   </p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">tx</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span>
@@ -553,48 +554,56 @@
 <h2 id="on">on</h2>
 <p>&#x25B8; <strong>on</strong>(type: <em><code>ApiInterface$Events</code></em>, handler: <em><code>function</code></em>): <code>void</code></p>
 <p><em>Inherited from <a href="_base_.apibase.md">ApiBase</a>.<a href="_base_.apibase.md#on">on</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/5207285/packages/api/src/Base.ts#L173" target="_blank">Base.ts:173</a></em></p>
-<p><em><strong>description</strong></em>: </p>
-<p><em><strong>example&lt;br&gt;</strong></em>: ```javascript</p>
-<ul>
-<li>api.on(&apos;disconnected&apos;, () =&gt; {
-console.log(&apos;API has been connected to the endpoint&apos;);
-});</li>
-</ul>
-<p>api.on(&apos;disconnected&apos;, () =&gt; {
-  console.log(&apos;API has been disconnected from the endpoint&apos;);
-});</p>
-<pre><code>
-**Parameters:**
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/Base.ts#L178" target="_blank">Base.ts:178</a></em></p>
+<p><em><strong>description</strong></em>: Attach an eventemitter handler to listen to a specific event</p>
+<p><em><strong>example</strong></em>:   </p>
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-operator">*</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">on</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;disconnected&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;API&#xA0;has&#xA0;been&#xA0;connected&#xA0;to&#xA0;the&#xA0;endpoint&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| type | `ApiInterface$Events` |  The type of event to listen to. Availble events are \`connected\`, \`disconnected\` and \`ready\` |
-| handler | `function` |  The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments. |
+<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">on</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;disconnected&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;API&#xA0;has&#xA0;been&#xA0;disconnected&#xA0;from&#xA0;the&#xA0;endpoint&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Param</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><code>ApiInterface$Events</code></td>
+<td>The type of event to listen to. Available events are `connected`, `disconnected` and `ready`</td>
+</tr>
+<tr>
+<td>handler</td>
+<td><code>function</code></td>
+<td>The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong> <code>void</code></p>
+<hr>
+<p><a id="create"></a></p>
+<h2 id="static-create"><code>&lt;Static&gt;</code> create</h2>
+<p>&#x25B8; <strong>create</strong>(wsProvider?: <em><code>WsProvider</code></em>): <code>Promise</code>&lt;<a href="_promise_index_.apipromise.html">ApiPromise</a>&gt;</p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/dd521f0/packages/api/src/promise/index.ts#L123" target="_blank">promise/index.ts:123</a></em></p>
+<p><em><strong>description</strong></em>: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.</p>
+<p><em><strong>example</strong></em>:   </p>
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Api</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/api/promise&apos;</span><span class="sunlight-punctuation">;</span>
 
-**Returns:** `void`
+<span class="sunlight-ident">Api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">create</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">async</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-ident">api</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">timestamp</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">st</span><span class="sunlight-operator">.</span><span class="sunlight-ident">timestamp</span><span class="sunlight-operator">.</span><span class="sunlight-ident">now</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-___
-&lt;a id=&quot;create&quot;&gt;&lt;/a&gt;
-
-## `&lt;Static&gt;` create
-
-&#x25B8; **create**(wsProvider?: *`WsProvider`*): `Promise`&lt;[ApiPromise](_promise_index_.apipromise.md)&gt;
-
-*Defined in [promise/index.ts:119](https://github.com/polkadot-js/api/blob/5207285/packages/api/src/promise/index.ts#L119)*
-
-*__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
-
-*__example__*:   
-```javascript
-import Api from &apos;@polkadot/api/promise&apos;;
-
-Api.create().then(async (api) =&gt; {
-  const timestamp = await api.st.timestamp.now();
-
-  console.log(`lastest block timestamp ${timestamp}`);
-});
-</code></pre><p><strong>Parameters:</strong></p>
+&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">lastest</span>&#xA0;<span class="sunlight-ident">block</span>&#xA0;<span class="sunlight-ident">timestamp</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">timestamp</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+</span></pre></div></div></code></pre>
+<p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
@@ -656,7 +665,7 @@ Api.create().then(async (api) =&gt; {
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"ApiPromise","level":"1.2.1","depth":2,"next":{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]},"previous":{"title":"api","level":"1.2","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/classes/_promise_index_.apipromise.md","mtime":"2018-10-11T19:31:39.752Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T19:33:14.938Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"ApiPromise","level":"1.2.1","depth":2,"next":{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]},"previous":{"title":"api","level":"1.2","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},{"title":"ApiRx","level":"1.2.2","depth":2,"path":"api/classes/_rx_index_.apirx.md","ref":"api/classes/_rx_index_.apirx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/classes/_promise_index_.apipromise.md","mtime":"2018-10-11T19:38:50.523Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T19:40:38.728Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

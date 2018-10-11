@@ -4,9 +4,7 @@
 =========================
 *__name__*: WsProvider
 
-*__summary__*: The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
-
-*__description__*: Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
+*__description__*: The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port. Unlike the [HttpProvider](_http_index_.httpprovider.md), it does support subscriptions and allows listening to events such as new blocks or balance changes.
 
 *__example__*:   
 ```javascript
@@ -35,7 +33,7 @@ const api = new Api(provider);
 
 ⊕ **new WsProvider**(endpoint?: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:77](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L77)*
+*Defined in [ws/index.ts:77](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L77)*
 
 **Parameters:**
 
@@ -56,7 +54,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:107](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L107)*
+*Defined in [ws/index.ts:107](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L107)*
 
 *__summary__*: Manually connect
 
@@ -71,7 +69,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:124](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L124)*
+*Defined in [ws/index.ts:124](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L124)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -85,7 +83,7 @@ ___
 
 ▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [ws/index.ts:133](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L133)*
+*Defined in [ws/index.ts:133](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L133)*
 
 *__summary__*: Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
@@ -105,7 +103,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:140](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L140)*
+*Defined in [ws/index.ts:140](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L140)*
 
 *__summary__*: Send JSON data using WebSockets to configured HTTP Endpoint or queue.
 
@@ -126,7 +124,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *`ProviderInterface$Callback`*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:196](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L196)*
+*Defined in [ws/index.ts:196](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L196)*
 
 *__name__*: subscribe
 
@@ -163,7 +161,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:205](https://github.com/polkadot-js/api/blob/5207285/packages/rpc-provider/src/ws/index.ts#L205)*
+*Defined in [ws/index.ts:205](https://github.com/polkadot-js/api/blob/dd521f0/packages/rpc-provider/src/ws/index.ts#L205)*
 
 *__summary__*: Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
