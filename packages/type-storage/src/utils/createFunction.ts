@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Compact, { DEFAULT_LENGTH_BITS } from '@polkadot/types/codec/Compact';
+import Compact from '@polkadot/types/codec/Compact';
 import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -15,18 +15,6 @@ import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
 export interface CreateItemOptions {
   isUnhashed?: boolean;
   method?: string;
-}
-
-/**
- * Prepend a Uint8Array with its compact length.
- *
- * @param u8a - The Uint8Array to be prefixed
- */
-function addLengthPrefix (u8a: Uint8Array): Uint8Array {
-  return u8aConcat(
-    Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
-    u8a
-  );
 }
 
 /**
@@ -52,7 +40,7 @@ export default function createFunction (
   // assumption, but will break if the base substrate keys employ hashing as well
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      addLengthPrefix(u8aFromUtf8(method.toString()));
+      Compact.addLengthPrefix(u8aFromUtf8(method.toString()));
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
@@ -60,7 +48,7 @@ export default function createFunction (
     // - storage.timestamp.blockPeriod()
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
-        return addLengthPrefix(
+        return Compact.addLengthPrefix(
           xxhash(
             u8aFromUtf8(`${section.toString()} ${method.toString()}`),
             128
@@ -75,7 +63,7 @@ export default function createFunction (
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
       // StorageKey is a Bytes, so is length-prefixed
-      return addLengthPrefix(
+      return Compact.addLengthPrefix(
         xxhash(
           u8aConcat(
             u8aFromUtf8(`${section.toString()} ${method.toString()}`),
