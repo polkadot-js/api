@@ -29,14 +29,14 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implements ApiBaseInterface<R, S, T> {
-  private _extrinsics?: T;
-  private _genesisHash?: Hash;
-  private _storage?: S;
-  private _rpc: R;
-  private _rpcBase: Rpc;
-  private _runtimeMetadata?: RuntimeMetadata;
-  private _runtimeVersion?: RuntimeVersion;
+export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implements ApiBaseInterface<R, S, E> {
+  protected _extrinsics?: E;
+  protected _genesisHash?: Hash;
+  protected _storage?: S;
+  protected _rpc: R;
+  protected _rpcBase: Rpc;
+  protected _runtimeMetadata?: RuntimeMetadata;
+  protected _runtimeVersion?: RuntimeVersion;
 
   /**
    * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
@@ -140,10 +140,10 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
    *   });
    * ```
    */
-  get tx (): T {
+  get tx (): E {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
-    return this._extrinsics as T;
+    return this._extrinsics as E;
   }
 
   private init (): void {
@@ -211,6 +211,6 @@ export default abstract class ApiBase<R, S, T> extends E3.EventEmitter implement
   }
 
   protected abstract decorateRpc (rpc: Rpc): R;
-  protected abstract decorateExtrinsics (extrinsics: Extrinsics): T;
+  protected abstract decorateExtrinsics (extrinsics: Extrinsics): E;
   protected abstract decorateStorage (storage: Storage): S;
 }
