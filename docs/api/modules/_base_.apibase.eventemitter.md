@@ -4,12 +4,12 @@
 
 ### Interfaces
 
-* [EventEmitterStatic](../interfaces/_rx_index_.apirx.eventemitter.eventemitterstatic.md)
-* [ListenerFn](../interfaces/_rx_index_.apirx.eventemitter.listenerfn.md)
+* [EventEmitterStatic](../interfaces/_base_.apibase.eventemitter.eventemitterstatic.md)
+* [ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md)
 
 ### Variables
 
-* [EventEmitter](_rx_index_.apirx.eventemitter.md#eventemitter)
+* [EventEmitter](_base_.apibase.eventemitter.md#eventemitter)
 
 ---
 

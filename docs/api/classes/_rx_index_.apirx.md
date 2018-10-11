@@ -5,13 +5,14 @@
 
 # Hierarchy
 
- `EventEmitter`
+↳  [ApiBase](_base_.apibase.md)<`RpcRx`, [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)>
 
 **↳ ApiRx**
 
 # Implements
 
-* [RxApiInterface](../interfaces/_rx_types_d_.rxapiinterface.md)
+* [ApiBaseInterface](../interfaces/_types_d_.apibaseinterface.md)<`RpcRx`, [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)>
+* [ApiRxInterface](../interfaces/_rx_types_d_.apirxinterface.md)
 
 # Constructors
 
@@ -21,7 +22,9 @@
 
 ⊕ **new ApiRx**(wsProvider?: *`WsProvider`*): [ApiRx](_rx_index_.apirx.md)
 
-*Defined in [rx/index.ts:59](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L59)*
+*Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
+
+*Defined in [rx/index.ts:44](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L44)*
 
 *__example__*:   
 ```javascript
@@ -46,15 +49,81 @@ ___
 
 # Properties
 
-<a id="isready"></a>
+<a id="_extrinsics"></a>
 
-##  isReady
+## `<Protected>``<Optional>` _extrinsics
 
-**● isReady**: *`Observable`<[ApiRx](_rx_index_.apirx.md)>*
+**● _extrinsics**: *[E]()*
 
-*Implementation of [RxApiInterface](../interfaces/_rx_types_d_.rxapiinterface.md).[isReady](../interfaces/_rx_types_d_.rxapiinterface.md#isready)*
+*Inherited from [ApiBase](_base_.apibase.md).[_extrinsics](_base_.apibase.md#_extrinsics)*
 
-*Defined in [rx/index.ts:39](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L39)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L33)*
+
+___
+<a id="_genesishash"></a>
+
+## `<Protected>``<Optional>` _genesisHash
+
+**● _genesisHash**: *`Hash`*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_genesisHash](_base_.apibase.md#_genesishash)*
+
+*Defined in [Base.ts:34](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L34)*
+
+___
+<a id="_rpc"></a>
+
+## `<Protected>` _rpc
+
+**● _rpc**: *`RpcRx`*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_rpc](_base_.apibase.md#_rpc)*
+
+*Defined in [Base.ts:36](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L36)*
+
+___
+<a id="_rpcbase"></a>
+
+## `<Protected>` _rpcBase
+
+**● _rpcBase**: *`Rpc`*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_rpcBase](_base_.apibase.md#_rpcbase)*
+
+*Defined in [Base.ts:37](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L37)*
+
+___
+<a id="_runtimemetadata"></a>
+
+## `<Protected>``<Optional>` _runtimeMetadata
+
+**● _runtimeMetadata**: *`RuntimeMetadata`*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_runtimeMetadata](_base_.apibase.md#_runtimemetadata)*
+
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L38)*
+
+___
+<a id="_runtimeversion"></a>
+
+## `<Protected>``<Optional>` _runtimeVersion
+
+**● _runtimeVersion**: *`RuntimeVersion`*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_runtimeVersion](_base_.apibase.md#_runtimeversion)*
+
+*Defined in [Base.ts:39](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L39)*
+
+___
+<a id="_storage"></a>
+
+## `<Protected>``<Optional>` _storage
+
+**● _storage**: *[S]()*
+
+*Inherited from [ApiBase](_base_.apibase.md).[_storage](_base_.apibase.md#_storage)*
+
+*Defined in [Base.ts:35](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L35)*
 
 ___
 <a id="prefixed"></a>
@@ -78,7 +147,9 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [rx/index.ts:94](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L94)*
+*Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
+
+*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L68)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -91,11 +162,24 @@ ___
 
 getisConnected(): `Observable`<`boolean`>
 
-*Defined in [rx/index.ts:87](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L87)*
+*Defined in [rx/index.ts:77](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L77)*
 
 *__description__*: Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
 
 **Returns:** `Observable`<`boolean`>
+
+___
+<a id="isready"></a>
+
+##  isReady
+
+getisReady(): `Observable`<[ApiRx](_rx_index_.apirx.md)>
+
+*Defined in [rx/index.ts:84](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L84)*
+
+*__description__*: Observable that returns the first time we are connected and loaded
+
+**Returns:** `Observable`<[ApiRx](_rx_index_.apirx.md)>
 
 ___
 <a id="rpc"></a>
@@ -104,7 +188,9 @@ ___
 
 getrpc(): `RpcRx`
 
-*Defined in [rx/index.ts:113](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L113)*
+*Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
+
+*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L105)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
 
@@ -126,7 +212,9 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [rx/index.ts:120](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L120)*
+*Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
+
+*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L77)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -139,7 +227,9 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [rx/index.ts:129](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L129)*
+*Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
+
+*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L86)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -152,7 +242,9 @@ ___
 
 getst(): [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md)
 
-*Defined in [rx/index.ts:148](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L148)*
+*Inherited from [ApiBase](_base_.apibase.md).[st](_base_.apibase.md#st)*
+
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L122)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -174,7 +266,9 @@ ___
 
 gettx(): [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)
 
-*Defined in [rx/index.ts:169](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L169)*
+*Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
+
+*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L143)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -214,6 +308,83 @@ ___
 | `Optional` context | `any` |
 
 **Returns:** `this`
+
+___
+<a id="decorateextrinsics"></a>
+
+## `<Protected>` decorateExtrinsics
+
+▸ **decorateExtrinsics**(extrinsics: *`Extrinsics`*): [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)
+
+*Overrides [ApiBase](_base_.apibase.md).[decorateExtrinsics](_base_.apibase.md#decorateextrinsics)*
+
+*Defined in [rx/index.ts:92](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L92)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| extrinsics | `Extrinsics` |
+
+**Returns:** [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)
+
+___
+<a id="decoratefunctionmeta"></a>
+
+## `<Protected>` decorateFunctionMeta
+
+▸ **decorateFunctionMeta**(input: *`MetaDecoration`*, output: *`MetaDecoration`*): `MetaDecoration`
+
+*Inherited from [ApiBase](_base_.apibase.md).[decorateFunctionMeta](_base_.apibase.md#decoratefunctionmeta)*
+
+*Defined in [Base.ts:200](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/Base.ts#L200)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| input | `MetaDecoration` |
+| output | `MetaDecoration` |
+
+**Returns:** `MetaDecoration`
+
+___
+<a id="decoraterpc"></a>
+
+## `<Protected>` decorateRpc
+
+▸ **decorateRpc**(rpc: *`Rpc`*): `RpcRx`
+
+*Overrides [ApiBase](_base_.apibase.md).[decorateRpc](_base_.apibase.md#decoraterpc)*
+
+*Defined in [rx/index.ts:88](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L88)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| rpc | `Rpc` |
+
+**Returns:** `RpcRx`
+
+___
+<a id="decoratestorage"></a>
+
+## `<Protected>` decorateStorage
+
+▸ **decorateStorage**(storage: *`Storage`*): [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md)
+
+*Overrides [ApiBase](_base_.apibase.md).[decorateStorage](_base_.apibase.md#decoratestorage)*
+
+*Defined in [rx/index.ts:113](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L113)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| storage | `Storage` |
+
+**Returns:** [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md)
 
 ___
 <a id="emit"></a>
@@ -299,7 +470,7 @@ ___
 
 ##  off
 
-▸ **off**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_rx_index_.apirx.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
+▸ **off**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
 
 *Inherited from EventEmitter.off*
 
@@ -310,7 +481,7 @@ ___
 | Param | Type |
 | ------ | ------ |
 | event | `EventTypes` |
-| `Optional` fn | [ListenerFn](../interfaces/_rx_index_.apirx.eventemitter.listenerfn.md) |
+| `Optional` fn | [ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md) |
 | `Optional` context | `any` |
 | `Optional` once |  `undefined` &#124; `false` &#124; `true`|
 
@@ -388,7 +559,7 @@ ___
 
 ##  removeListener
 
-▸ **removeListener**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_rx_index_.apirx.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
+▸ **removeListener**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
 
 *Inherited from EventEmitter.removeListener*
 
@@ -401,7 +572,7 @@ Remove the listeners of a given event.
 | Param | Type |
 | ------ | ------ |
 | event | `EventTypes` |
-| `Optional` fn | [ListenerFn](../interfaces/_rx_index_.apirx.eventemitter.listenerfn.md) |
+| `Optional` fn | [ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md) |
 | `Optional` context | `any` |
 | `Optional` once |  `undefined` &#124; `false` &#124; `true`|
 
@@ -414,7 +585,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Observable`<[ApiRx](_rx_index_.apirx.md)>
 
-*Defined in [rx/index.ts:57](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L57)*
+*Defined in [rx/index.ts:42](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/index.ts#L42)*
 
 *__description__*: Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
 

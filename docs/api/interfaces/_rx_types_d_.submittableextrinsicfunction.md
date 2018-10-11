@@ -11,7 +11,7 @@
 
 ▸ **__call**(...args: *`any`[]*): `Extrinsic`
 
-*Defined in [rx/types.d.ts:28](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L28)*
+*Defined in [rx/types.d.ts:29](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/types.d.ts#L29)*
 
 **Parameters:**
 
@@ -21,7 +21,7 @@
 
 **Returns:** [SubmittableExtrinsic](../classes/_rx_submittableextrinsic_.submittableextrinsic.md)
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:8](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L8)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:8](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L8)*
 
 **Parameters:**
 
@@ -41,7 +41,7 @@
 
 *Inherited from ExtrinsicFunction.callIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:10](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L10)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:10](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L10)*
 
 ___
 <a id="meta"></a>
@@ -52,7 +52,7 @@ ___
 
 *Inherited from ExtrinsicFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:11](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L11)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:11](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L11)*
 
 ___
 <a id="method"></a>
@@ -63,7 +63,7 @@ ___
 
 *Inherited from ExtrinsicFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:12](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L12)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:12](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L12)*
 
 ___
 <a id="section"></a>
@@ -74,7 +74,7 @@ ___
 
 *Inherited from ExtrinsicFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:13](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L13)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:13](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L13)*
 
 ___
 <a id="tojson"></a>
@@ -85,7 +85,7 @@ ___
 
 *Inherited from ExtrinsicFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:14](https://github.com/polkadot-js/api/blob/82baafb/packages/type-extrinsics/src/types.d.ts#L14)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/type-extrinsics/src/types.d.ts:14](https://github.com/polkadot-js/api/blob/27b2885/packages/type-extrinsics/src/types.d.ts#L14)*
 
 #### Type declaration
 ▸(): `any`

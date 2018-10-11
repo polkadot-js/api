@@ -11,7 +11,7 @@
 
 ▸ **__call**(arg?: *`any`*): `Uint8Array`
 
-*Defined in [rx/types.d.ts:16](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L16)*
+*Defined in [rx/types.d.ts:17](https://github.com/polkadot-js/api/blob/27b2885/packages/api/src/rx/types.d.ts#L17)*
 
 **Parameters:**
 
@@ -21,7 +21,7 @@
 
 **Returns:** `Observable`< `Base` &#124; `null` &#124; `undefined`>
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/StorageKey.ts#L14)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/27b2885/packages/types/src/StorageKey.ts#L14)*
 
 **Parameters:**
 
@@ -41,7 +41,7 @@
 
 *Inherited from StorageFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/StorageKey.ts#L16)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/27b2885/packages/types/src/StorageKey.ts#L16)*
 
 ___
 <a id="method"></a>
@@ -52,7 +52,7 @@ ___
 
 *Inherited from StorageFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/StorageKey.ts#L17)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/27b2885/packages/types/src/StorageKey.ts#L17)*
 
 ___
 <a id="section"></a>
@@ -63,7 +63,7 @@ ___
 
 *Inherited from StorageFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:18](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/StorageKey.ts#L18)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:18](https://github.com/polkadot-js/api/blob/27b2885/packages/types/src/StorageKey.ts#L18)*
 
 ___
 <a id="tojson"></a>
@@ -74,7 +74,7 @@ ___
 
 *Inherited from StorageFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:19](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/StorageKey.ts#L19)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:19](https://github.com/polkadot-js/api/blob/27b2885/packages/types/src/StorageKey.ts#L19)*
 
 #### Type declaration
 ▸(): `any`
