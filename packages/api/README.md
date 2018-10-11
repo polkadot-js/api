@@ -17,12 +17,18 @@ There are two flavours of the API provided, one allowing a standard interface vi
 - [ApiPromise](promise/) All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use standard JavaScript `(error, value) => {}` callbacks.
 - [ApiRx](rx/) All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
 
+## Dynamic by default
+
+Subtrate (on which Polkadot is built) used on-chain on-chain WASM runtimes, allowing for upgradability. Each runtime defining the actual chain extrinsics (submitted transactions and block intrinsics) as well as available entries in the chain state. Due to this, the API endpoints for queries and transactions are dynamically populated from the running chain.
+
+Due to this dynamic nature, this API departs from traditional APIs which only has fixed endpoints, driving use by what is available by the runtime. As a start, this generic nature has a learning curve, although the provided documentation, examples and linked documentation tries to make that experience as seamless as possible.
+
 ## Installation & import
 
 Installation -
 
 ```
-npm install --save @polkadot/api/rx
+npm install --save @polkadot/api
 ```
 
 Subscribing to blocks via Promise-based API -

@@ -21,13 +21,13 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 const l = logger('api-rx');
 
 /**
- * @description
+ * # @polkadot/api/rx
+ *
  * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
  * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
  *
- * @example
- * <BR>
+ * ## Usage
  *
  * Making rpc calls -
  * <BR>
@@ -111,7 +111,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param wsProvider Optional WebSocket provider that is passed to the class contructor
+   * @param wsProvider WebSocket provider that is passed to the class contructor
    * @example
    * <BR>
    *
@@ -130,7 +130,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   /**
-   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
    * @example
    * <BR>
    *
