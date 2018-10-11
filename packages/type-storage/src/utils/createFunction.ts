@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import Compact, { DEFAULT_LENGTH_BITS } from '@polkadot/types/codec/Compact';
 import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -59,12 +60,17 @@ export default function createFunction (
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
-      return xxhash(
+      const methodAndArgs = xxhash(
         u8aConcat(
           u8aFromUtf8(`${section.toString()} ${method.toString()}`),
           createType(type, arg).toU8a(true)
         ),
         128
+      );
+
+      return u8aConcat(
+        Compact.encodeU8a(methodAndArgs.length, DEFAULT_LENGTH_BITS),
+        methodAndArgs
       );
     };
   }
