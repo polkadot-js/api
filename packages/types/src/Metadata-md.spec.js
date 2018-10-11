@@ -9,6 +9,7 @@ import Metadata from './Metadata';
 import rpcdata from './Metadata.rpc';
 
 // some intro text goes in here
+const DESC_INTRO = '\n\n...';
 const DESC_EXTRINSICS = '\n\n...';
 const DESC_STORAGE = '\n\n...';
 
@@ -50,7 +51,7 @@ function addStorage (metadata) {
 
 const metadata = new Metadata().fromJSON(rpcdata);
 
-console.error('# Metadata', addStorage(metadata), addExtrinsics(metadata));
+console.error(`# Metadata\n\n${DESC_INTRO}`, addStorage(metadata), addExtrinsics(metadata));
 
 describe('Metadata (md)', () => {
   it('does something', () => {
