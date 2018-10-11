@@ -44,7 +44,7 @@ function addStorage (metadata) {
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
 
-      return `${md}\n${methodName}(${arg}): ` + '`' + func.type + '`' + `\n\t${doc}`;
+      return `${md}\n${methodName}(${arg}): ` + '`' + func.type + '`' + `\n${doc}`;
     }, `${md}\n\n### ${sectionName}`);
   }, `\n\n## Storage${DESC_STORAGE}`);
 }
