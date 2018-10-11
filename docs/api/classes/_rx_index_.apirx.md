@@ -21,7 +21,7 @@
 
 ⊕ **new ApiRx**(wsProvider?: *`WsProvider`*): [ApiRx](_rx_index_.apirx.md)
 
-*Defined in [rx/index.ts:59](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L59)*
+*Defined in [rx/index.ts:59](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L59)*
 
 *__example__*:   
 ```javascript
@@ -54,7 +54,7 @@ ___
 
 *Implementation of [RxApiInterface](../interfaces/_rx_types_d_.rxapiinterface.md).[isReady](../interfaces/_rx_types_d_.rxapiinterface.md#isready)*
 
-*Defined in [rx/index.ts:39](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L39)*
+*Defined in [rx/index.ts:39](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L39)*
 
 ___
 <a id="prefixed"></a>
@@ -78,7 +78,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [rx/index.ts:94](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L94)*
+*Defined in [rx/index.ts:94](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L94)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -91,7 +91,7 @@ ___
 
 getisConnected(): `Observable`<`boolean`>
 
-*Defined in [rx/index.ts:87](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L87)*
+*Defined in [rx/index.ts:87](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L87)*
 
 *__description__*: Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
 
@@ -104,7 +104,7 @@ ___
 
 getrpc(): `RpcRx`
 
-*Defined in [rx/index.ts:113](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L113)*
+*Defined in [rx/index.ts:113](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L113)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
 
@@ -126,7 +126,7 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [rx/index.ts:120](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L120)*
+*Defined in [rx/index.ts:120](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L120)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -139,7 +139,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [rx/index.ts:129](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L129)*
+*Defined in [rx/index.ts:129](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L129)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -152,7 +152,7 @@ ___
 
 getst(): [QueryableStorage](../interfaces/_rx_types_d_.queryablestorage.md)
 
-*Defined in [rx/index.ts:148](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L148)*
+*Defined in [rx/index.ts:148](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L148)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -174,7 +174,7 @@ ___
 
 gettx(): [SubmittableExtrinsics](../interfaces/_rx_types_d_.submittableextrinsics.md)
 
-*Defined in [rx/index.ts:169](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L169)*
+*Defined in [rx/index.ts:169](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L169)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -414,7 +414,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Observable`<[ApiRx](_rx_index_.apirx.md)>
 
-*Defined in [rx/index.ts:57](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/index.ts#L57)*
+*Defined in [rx/index.ts:57](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/index.ts#L57)*
 
 *__description__*: Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
 

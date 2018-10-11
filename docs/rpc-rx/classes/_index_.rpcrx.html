@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>WsProvider · Polkadot API Book</title>
+        <title>RpcRx · Polkadot API Book</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -65,10 +65,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../rpc-rx/" />
+    <link rel="next" href="../../examples/" />
     
     
-    <link rel="prev" href="_http_index_.httpprovider.html" />
+    <link rel="prev" href="../" />
     
 
     </head>
@@ -176,9 +176,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../">
+        <li class="chapter " data-level="1.4" data-path="../../rpc-provider/">
             
-                <a href="../">
+                <a href="../../rpc-provider/">
             
                     
                     rpc-provider
@@ -190,9 +190,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.4.1" data-path="_http_index_.httpprovider.html">
+        <li class="chapter " data-level="1.4.1" data-path="../../rpc-provider/classes/_http_index_.httpprovider.html">
             
-                <a href="_http_index_.httpprovider.html">
+                <a href="../../rpc-provider/classes/_http_index_.httpprovider.html">
             
                     
                     HttpProvider
@@ -203,9 +203,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4.2" data-path="_ws_index_.wsprovider.html">
+        <li class="chapter " data-level="1.4.2" data-path="../../rpc-provider/classes/_ws_index_.wsprovider.html">
             
-                <a href="_ws_index_.wsprovider.html">
+                <a href="../../rpc-provider/classes/_ws_index_.wsprovider.html">
             
                     
                     WsProvider
@@ -221,9 +221,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="../../rpc-rx/">
+        <li class="chapter " data-level="1.5" data-path="../">
             
-                <a href="../../rpc-rx/">
+                <a href="../">
             
                     
                     rpc-rx
@@ -235,9 +235,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.5.1" data-path="../../rpc-rx/classes/_index_.rpcrx.html">
+        <li class="chapter active" data-level="1.5.1" data-path="_index_.rpcrx.html">
             
-                <a href="../../rpc-rx/classes/_index_.rpcrx.html">
+                <a href="_index_.rpcrx.html">
             
                     
                     RpcRx
@@ -394,7 +394,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >WsProvider</a>
+        <a href="../.." >RpcRx</a>
     </h1>
 </div>
 
@@ -409,31 +409,30 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <p><em><strong>name</strong></em>: WsProvider</p>
-<p><em><strong>summary</strong></em>: The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.</p>
-<p><em><strong>description</strong></em>: Unlike the <a href="_http_index_.httpprovider.html">HttpProvider</a>, it does support subscriptions and allows listening to events such as new blocks or balance changes.</p>
+                                <p><em><strong>name</strong></em>: RpcRx</p>
+<p><em><strong>summary</strong></em>: The RxJS API is a wrapper around the API.</p>
+<p><em><strong>description</strong></em>: It allows wrapping API components with observables using RxJS.</p>
 <p><em><strong>example</strong></em>:   </p>
-<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">Rpc</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/rpc-core&apos;</span><span class="sunlight-punctuation">;</span>
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">RpcRx</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/rpc-rx&apos;</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">import</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-ident">from</span>&#xA0;<span class="sunlight-string">&apos;@polkadot/rpc-provider/ws&apos;</span><span class="sunlight-punctuation">;</span>
 
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;ws://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">Rpc</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;http://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">RpcRx</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 </span></pre></div></div></code></pre>
-<p><em><strong>see</strong></em>: <a href="_http_index_.httpprovider.html">HttpProvider</a></p>
 <h1 id="type-parameters">Type parameters</h1>
 <h4 id="eventtypes----string--symbol">EventTypes :   <code>string</code> | <code>symbol</code></h4>
 <h1 id="hierarchy">Hierarchy</h1>
 <p> <code>EventEmitter</code></p>
-<p><strong>&#x21B3; WsProvider</strong></p>
+<p><strong>&#x21B3; RpcRx</strong></p>
 <h1 id="implements">Implements</h1>
 <ul>
-<li><code>WSProviderInterface</code></li>
+<li><code>object</code></li>
 </ul>
 <h1 id="constructors">Constructors</h1>
 <p><a id="constructor"></a></p>
 <h2 id="constructor">constructor</h2>
-<p>&#x2295; <strong>new WsProvider</strong>(endpoint: <em><code>string</code></em>, autoConnect?: <em><code>boolean</code></em>): <a href="_ws_index_.wsprovider.html">WsProvider</a></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L73" target="_blank">ws/index.ts:73</a></em></p>
+<p>&#x2295; <strong>new RpcRx</strong>(provider?: <em><code>ProviderInterface</code></em>): <a href="_index_.rpcrx.html">RpcRx</a></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L47" target="_blank">index.ts:47</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -446,22 +445,36 @@
 </thead>
 <tbody>
 <tr>
-<td>endpoint</td>
-<td><code>string</code></td>
-<td>-</td>
-<td>The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`</td>
-</tr>
-<tr>
-<td><code>Default value</code> autoConnect</td>
-<td><code>boolean</code></td>
-<td>true</td>
-<td>Whether to connect automatically or not.</td>
+<td><code>Default value</code> provider</td>
+<td><code>ProviderInterface</code></td>
+<td>new Ws(defaults.WS_URL)</td>
+<td>An API provider using HTTP or WebSocket</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong> <a href="_ws_index_.wsprovider.html">WsProvider</a></p>
+<p><strong>Returns:</strong> <a href="_index_.rpcrx.html">RpcRx</a></p>
 <hr>
 <h1 id="properties">Properties</h1>
+<p><a id="author"></a></p>
+<h2 id="author">author</h2>
+<p><strong>&#x25CF; author</strong>: <em><a href="../modules/_types_d_.md#rpcrxinterface_section">RpcRxInterface$Section</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L44" target="_blank">index.ts:44</a></em></p>
+<hr>
+<p><a id="chain"></a></p>
+<h2 id="chain">chain</h2>
+<p><strong>&#x25CF; chain</strong>: <em><a href="../modules/_types_d_.md#rpcrxinterface_section">RpcRxInterface$Section</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L45" target="_blank">index.ts:45</a></em></p>
+<hr>
+<p><a id="state"></a></p>
+<h2 id="state">state</h2>
+<p><strong>&#x25CF; state</strong>: <em><a href="../modules/_types_d_.md#rpcrxinterface_section">RpcRxInterface$Section</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L46" target="_blank">index.ts:46</a></em></p>
+<hr>
+<p><a id="system"></a></p>
+<h2 id="system">system</h2>
+<p><strong>&#x25CF; system</strong>: <em><a href="../modules/_types_d_.md#rpcrxinterface_section">RpcRxInterface$Section</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L47" target="_blank">index.ts:47</a></em></p>
+<hr>
 <p><a id="prefixed"></a></p>
 <h2 id="static-prefixed"><code>&lt;Static&gt;</code> prefixed</h2>
 <p><strong>&#x25CF; prefixed</strong>: <em> <code>string</code> | <code>boolean</code>
@@ -500,14 +513,6 @@
 </table>
 <p><strong>Returns:</strong> <code>this</code></p>
 <hr>
-<p><a id="connect"></a></p>
-<h2 id="connect">connect</h2>
-<p>&#x25B8; <strong>connect</strong>(): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L104" target="_blank">ws/index.ts:104</a></em></p>
-<p><em><strong>summary</strong></em>: Manually connect</p>
-<p><em><strong>description</strong></em>: The <a href="_ws_index_.wsprovider.html">WsProvider</a> connects automatically by default, however if you decided otherwise, you may connect manually using this method.</p>
-<p><strong>Returns:</strong> <code>void</code></p>
-<hr>
 <p><a id="emit"></a></p>
 <h2 id="emit">emit</h2>
 <p>&#x25B8; <strong>emit</strong>(event: <em><code>EventTypes</code></em>, ...args: <em><code>Array</code>&lt;<code>any</code>&gt;</em>): <code>boolean</code></p>
@@ -545,11 +550,9 @@
 <hr>
 <p><a id="isconnected"></a></p>
 <h2 id="isconnected">isConnected</h2>
-<p>&#x25B8; <strong>isConnected</strong>(): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L121" target="_blank">ws/index.ts:121</a></em></p>
-<p><em><strong>summary</strong></em>: Whether the node is connected or not.</p>
-<p><strong>Returns:</strong> <code>boolean</code>
-true if connected</p>
+<p>&#x25B8; <strong>isConnected</strong>(): <code>BehaviorSubject</code>&lt;<code>boolean</code>&gt;</p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-rx/src/index.ts#L67" target="_blank">index.ts:67</a></em></p>
+<p><strong>Returns:</strong> <code>BehaviorSubject</code>&lt;<code>boolean</code>&gt;</p>
 <hr>
 <p><a id="listenercount"></a></p>
 <h2 id="listenercount">listenerCount</h2>
@@ -599,7 +602,7 @@ true if connected</p>
 <hr>
 <p><a id="off"></a></p>
 <h2 id="off">off</h2>
-<p>&#x25B8; <strong>off</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
+<p>&#x25B8; <strong>off</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
 <p><em>Inherited from EventEmitter.off</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44</em></p>
 <p><strong>Parameters:</strong></p>
@@ -617,7 +620,7 @@ true if connected</p>
 </tr>
 <tr>
 <td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md">ListenerFn</a></td>
+<td><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></td>
 </tr>
 <tr>
 <td><code>Optional</code> context</td>
@@ -633,34 +636,34 @@ true if connected</p>
 <hr>
 <p><a id="on"></a></p>
 <h2 id="on">on</h2>
-<p>&#x25B8; <strong>on</strong>(type: <em><a href="../modules/_types_d_.md#providerinterface_emitted">ProviderInterface$Emitted</a></em>, sub: <em><a href="../modules/_types_d_.md#providerinterface_emitcb">ProviderInterface$EmitCb</a></em>): <code>this</code></p>
-<p><em>Overrides EventEmitter.on</em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L131" target="_blank">ws/index.ts:131</a></em></p>
-<p><em><strong>summary</strong></em>: Listens on events after having subscribed using the <a href="_ws_index_.wsprovider.html#subscribe">subscribe</a> function.</p>
+<p>&#x25B8; <strong>on</strong>(event: <em><code>EventTypes</code></em>, fn: <em><code>ListenerFn</code></em>, context?: <em><code>any</code></em>): <code>this</code></p>
+<p><em>Inherited from EventEmitter.on</em></p>
+<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:32</em></p>
+<p>Add a listener for a given event.</p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
 <tr>
 <th>Param</th>
 <th>Type</th>
-<th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>type</td>
-<td><a href="../modules/_types_d_.md#providerinterface_emitted">ProviderInterface$Emitted</a></td>
-<td>Event</td>
+<td>event</td>
+<td><code>EventTypes</code></td>
 </tr>
 <tr>
-<td>sub</td>
-<td><a href="../modules/_types_d_.md#providerinterface_emitcb">ProviderInterface$EmitCb</a></td>
-<td>Callback</td>
+<td>fn</td>
+<td><code>ListenerFn</code></td>
+</tr>
+<tr>
+<td><code>Optional</code> context</td>
+<td><code>any</code></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong> <code>this</code>
-[description]</p>
+<p><strong>Returns:</strong> <code>this</code></p>
 <hr>
 <p><a id="once"></a></p>
 <h2 id="once">once</h2>
@@ -718,7 +721,7 @@ true if connected</p>
 <hr>
 <p><a id="removelistener"></a></p>
 <h2 id="removelistener">removeListener</h2>
-<p>&#x25B8; <strong>removeListener</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
+<p>&#x25B8; <strong>removeListener</strong>(event: <em><code>EventTypes</code></em>, fn?: <em><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></em>, context?: <em><code>any</code></em>, once?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>this</code></p>
 <p><em>Inherited from EventEmitter.removeListener</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43</em></p>
 <p>Remove the listeners of a given event.</p>
@@ -737,7 +740,7 @@ true if connected</p>
 </tr>
 <tr>
 <td><code>Optional</code> fn</td>
-<td><a href="../interfaces/_ws_index_.wsprovider.eventemitter.listenerfn.md">ListenerFn</a></td>
+<td><a href="../interfaces/_index_.rpcrx.eventemitter.listenerfn.md">ListenerFn</a></td>
 </tr>
 <tr>
 <td><code>Optional</code> context</td>
@@ -750,117 +753,6 @@ true if connected</p>
 </tbody>
 </table>
 <p><strong>Returns:</strong> <code>this</code></p>
-<hr>
-<p><a id="send"></a></p>
-<h2 id="send">send</h2>
-<p>&#x25B8; <strong>send</strong>(method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, subscription?: <em><code>SubscriptionHandler</code></em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L138" target="_blank">ws/index.ts:138</a></em></p>
-<p><em><strong>summary</strong></em>: Send JSON data using WebSockets to configured HTTP Endpoint or queue.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>method</td>
-<td><code>string</code></td>
-</tr>
-<tr>
-<td>params</td>
-<td><code>Array</code>&lt;<code>any</code>&gt;</td>
-</tr>
-<tr>
-<td><code>Optional</code> subscription</td>
-<td><code>SubscriptionHandler</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>any</code>&gt;</p>
-<hr>
-<p><a id="subscribe"></a></p>
-<h2 id="subscribe">subscribe</h2>
-<p>&#x25B8; <strong>subscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, callback: <em><a href="../modules/_types_d_.md#providerinterface_callback">ProviderInterface$Callback</a></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L194" target="_blank">ws/index.ts:194</a></em></p>
-<p><em><strong>name</strong></em>: subscribe</p>
-<p><em><strong>summary</strong></em>: Allows subscribing to a specific event.</p>
-<p><em><strong>example</strong></em>:   </p>
-<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;ws://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">Rpc</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-
-<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">state</span><span class="sunlight-operator">.</span><span class="sunlight-ident">storage</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">[</span><span class="sunlight-punctuation">[</span><span class="sunlight-ident">storage</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span><span class="sunlight-operator">.</span><span class="sunlight-ident">freeBalance</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-operator">&lt;</span><span class="sunlight-ident">Address</span><span class="sunlight-operator">&gt;</span><span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-ident">_</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">values</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">values</span><span class="sunlight-punctuation">)</span>
-<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-ident">then</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">subscriptionId</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;balance&#xA0;changes&#xA0;subscription&#xA0;id:&#xA0;&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">subscriptionId</span><span class="sunlight-punctuation">)</span>
-<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>
-</span></pre></div></div></code></pre>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-<td>Subscription type</td>
-</tr>
-<tr>
-<td>method</td>
-<td><code>string</code></td>
-<td>Subscription method</td>
-</tr>
-<tr>
-<td>params</td>
-<td><code>Array</code>&lt;<code>any</code>&gt;</td>
-<td>Parameters</td>
-</tr>
-<tr>
-<td>callback</td>
-<td><a href="../modules/_types_d_.md#providerinterface_callback">ProviderInterface$Callback</a></td>
-<td>Callback</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>number</code>&gt;
-Promise resolving to the dd of the subscription you can use with [[unsubscribe]].</p>
-<hr>
-<p><a id="unsubscribe"></a></p>
-<h2 id="unsubscribe">unsubscribe</h2>
-<p>&#x25B8; <strong>unsubscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, id: <em><code>number</code></em>): <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/82baafb/packages/rpc-provider/src/ws/index.ts#L203" target="_blank">ws/index.ts:203</a></em></p>
-<p><em><strong>summary</strong></em>: Allows unsubscribing to subscriptions made with <a href="_ws_index_.wsprovider.html#subscribe">subscribe</a>.</p>
-<p><strong>Parameters:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Param</th>
-<th>Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>type</td>
-<td><code>string</code></td>
-</tr>
-<tr>
-<td>method</td>
-<td><code>string</code></td>
-</tr>
-<tr>
-<td>id</td>
-<td><code>number</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>Returns:</strong> <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
 <hr>
 
                                 
@@ -889,12 +781,12 @@ Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
 
             
                 
-                <a href="_http_index_.httpprovider.html" class="navigation navigation-prev " aria-label="Previous page: HttpProvider">
+                <a href="../" class="navigation navigation-prev " aria-label="Previous page: rpc-rx">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../../rpc-rx/" class="navigation navigation-next " aria-label="Next page: rpc-rx">
+                <a href="../../examples/" class="navigation navigation-next " aria-label="Next page: Overview">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -905,7 +797,7 @@ Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"WsProvider","level":"1.4.2","depth":2,"next":{"title":"rpc-rx","level":"1.5","depth":1,"path":"rpc-rx/README.md","ref":"rpc-rx/README.md","articles":[{"title":"RpcRx","level":"1.5.1","depth":2,"path":"rpc-rx/classes/_index_.rpcrx.md","ref":"rpc-rx/classes/_index_.rpcrx.md","articles":[]}]},"previous":{"title":"HttpProvider","level":"1.4.1","depth":2,"path":"rpc-provider/classes/_http_index_.httpprovider.md","ref":"rpc-provider/classes/_http_index_.httpprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-provider/classes/_ws_index_.wsprovider.md","mtime":"2018-10-11T07:37:24.656Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T07:38:28.407Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"RpcRx","level":"1.5.1","depth":2,"next":{"title":"Overview","level":"2.1","depth":1,"path":"examples/README.md","ref":"examples/README.md","articles":[]},"previous":{"title":"rpc-rx","level":"1.5","depth":1,"path":"rpc-rx/README.md","ref":"rpc-rx/README.md","articles":[{"title":"RpcRx","level":"1.5.1","depth":2,"path":"rpc-rx/classes/_index_.rpcrx.md","ref":"rpc-rx/classes/_index_.rpcrx.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-rx/classes/_index_.rpcrx.md","mtime":"2018-10-11T07:37:32.316Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-11T07:38:28.407Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -16,7 +16,7 @@
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [rx/types.d.ts:43](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L43)*
+*Defined in [rx/types.d.ts:43](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L43)*
 
 ___
 <a id="isconnected"></a>
@@ -25,7 +25,7 @@ ___
 
 **● isConnected**: *`Observable`<`boolean`>*
 
-*Defined in [rx/types.d.ts:44](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L44)*
+*Defined in [rx/types.d.ts:44](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L44)*
 
 ___
 <a id="isready"></a>
@@ -34,7 +34,7 @@ ___
 
 **● isReady**: *`Observable`<[RxApiInterface](_rx_types_d_.rxapiinterface.md)>*
 
-*Defined in [rx/types.d.ts:45](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L45)*
+*Defined in [rx/types.d.ts:45](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L45)*
 
 ___
 <a id="on"></a>
@@ -43,7 +43,7 @@ ___
 
 **● on**: *`function`*
 
-*Defined in [rx/types.d.ts:52](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L52)*
+*Defined in [rx/types.d.ts:52](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L52)*
 
 #### Type declaration
 ▸(type: *[RxApiInterface$Events](../modules/_rx_types_d_.md#rxapiinterface_events)*, handler: *`function`*): `void`
@@ -64,7 +64,7 @@ ___
 
 **● rpc**: *`RpcRx`*
 
-*Defined in [rx/types.d.ts:46](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L46)*
+*Defined in [rx/types.d.ts:46](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L46)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -73,7 +73,7 @@ ___
 
 **● runtimeMetadata**: *`RuntimeMetadata`*
 
-*Defined in [rx/types.d.ts:47](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L47)*
+*Defined in [rx/types.d.ts:47](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L47)*
 
 ___
 <a id="runtimeversion"></a>
@@ -82,7 +82,7 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [rx/types.d.ts:48](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L48)*
+*Defined in [rx/types.d.ts:48](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L48)*
 
 ___
 <a id="st"></a>
@@ -91,7 +91,7 @@ ___
 
 **● st**: *[QueryableStorage](_rx_types_d_.queryablestorage.md)*
 
-*Defined in [rx/types.d.ts:49](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L49)*
+*Defined in [rx/types.d.ts:49](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L49)*
 
 ___
 <a id="tx"></a>
@@ -100,7 +100,7 @@ ___
 
 **● tx**: *[SubmittableExtrinsics](_rx_types_d_.submittableextrinsics.md)*
 
-*Defined in [rx/types.d.ts:50](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/api/src/rx/types.d.ts#L50)*
+*Defined in [rx/types.d.ts:50](https://github.com/polkadot-js/api/blob/82baafb/packages/api/src/rx/types.d.ts#L50)*
 
 ___
 

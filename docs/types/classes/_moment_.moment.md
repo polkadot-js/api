@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Moment.ts:19](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L19)*
+*Defined in [Moment.ts:19](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L19)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Moment.ts:40](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L40)*
+*Defined in [Moment.ts:40](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L40)*
 
 **Returns:** `number`
 
@@ -65,7 +65,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [Moment.ts:44](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L44)*
+*Defined in [Moment.ts:44](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L44)*
 
 **Parameters:**
 
@@ -84,7 +84,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [Moment.ts:50](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L50)*
+*Defined in [Moment.ts:50](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L50)*
 
 **Parameters:**
 
@@ -101,7 +101,7 @@ ___
 
 ▸ **getTime**(): `number`
 
-*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L58)*
+*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L58)*
 
 **Returns:** `number`
 
@@ -112,7 +112,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [Moment.ts:74](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L74)*
+*Defined in [Moment.ts:74](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L74)*
 
 **Returns:** `BN`
 
@@ -125,7 +125,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Moment.ts:62](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L62)*
+*Defined in [Moment.ts:62](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L62)*
 
 **Returns:** `any`
 
@@ -136,7 +136,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [Moment.ts:78](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L78)*
+*Defined in [Moment.ts:78](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L78)*
 
 **Returns:** `number`
 
@@ -149,7 +149,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Moment.ts:70](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L70)*
+*Defined in [Moment.ts:70](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L70)*
 
 **Returns:** `string`
 
@@ -162,7 +162,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Moment.ts:66](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L66)*
+*Defined in [Moment.ts:66](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L66)*
 
 **Parameters:**
 
@@ -179,7 +179,7 @@ ___
 
 ▸ **decode**(value: * `Uint8Array` &#124; [Moment](_moment_.moment.md) &#124; `number` &#124; `BN`*): `Date`
 
-*Defined in [Moment.ts:28](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Moment.ts#L28)*
+*Defined in [Moment.ts:28](https://github.com/polkadot-js/api/blob/82baafb/packages/types/src/Moment.ts#L28)*
 
 **Parameters:**
 
