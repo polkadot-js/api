@@ -58,6 +58,8 @@
   * [FunctionArgumentMetadata](classes/_metadata_.functionargumentmetadata.md)
   * [FunctionMetadata](classes/_metadata_.functionmetadata.md)
   * [ModuleMetadata](classes/_metadata_.modulemetadata.md)
+  * [OuterDispatchCall](classes/_metadata_.outerdispatchcall.md)
+  * [OuterDispatchMetadata](classes/_metadata_.outerdispatchmetadata.md)
   * [OuterEventMetadata](classes/_metadata_.outereventmetadata.md)
   * [OuterEventMetadataEvent](classes/_metadata_.outereventmetadataevent.md)
   * [RuntimeMetadata](classes/_metadata_.runtimemetadata.md)
@@ -165,4 +167,3 @@
   * [TypeDefInfo](enums/_codec_createtype_.typedefinfo.md)
 * [&quot;codec/index&quot;](modules/_codec_index_.md)
 * [&quot;index&quot;](modules/_index_.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)

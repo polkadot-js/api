@@ -13,6 +13,8 @@ describe.skip('e2e queries', () => {
 
   beforeEach(async () => {
     api = await Api.create().toPromise();
+
+    console.error(api);
   });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {

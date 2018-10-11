@@ -26,17 +26,17 @@
 
 ##  constructor
 
-⊕ **new UInt**(value?: *[AnyNumber](../modules/_types_d_.md#anynumber)*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
+⊕ **new UInt**(value?: *`AnyNumber`*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/UInt.ts:31](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L31)*
+*Defined in [codec/UInt.ts:31](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L31)*
 
 **Parameters:**
 
 | Param | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | [AnyNumber](../modules/_types_d_.md#anynumber) | 0 |
+| `Default value` value | `AnyNumber` | 0 |
 | `Default value` bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |  DEFAULT_UINT_BITS |
 | `Default value` isHexJson | `boolean` | true |
 
@@ -46,15 +46,6 @@ ___
 
 # Properties
 
-<a id="_bitlength"></a>
-
-## `<Protected>` _bitLength
-
-**● _bitLength**: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*
-
-*Defined in [codec/UInt.ts:30](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L30)*
-
-___
 <a id="raw"></a>
 
 ##  raw
@@ -63,7 +54,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -75,7 +66,7 @@ ___
 
 ▸ **add**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
 
-*Defined in [codec/UInt.ts:101](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L101)*
+*Defined in [codec/UInt.ts:101](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L101)*
 
 **Parameters:**
 
@@ -94,7 +85,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L57)*
+*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L57)*
 
 **Returns:** `number`
 
@@ -105,7 +96,7 @@ ___
 
 ▸ **cmp**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `number`
 
-*Defined in [codec/UInt.ts:107](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L107)*
+*Defined in [codec/UInt.ts:107](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L107)*
 
 **Parameters:**
 
@@ -122,7 +113,7 @@ ___
 
 ▸ **div**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
 
-*Defined in [codec/UInt.ts:113](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L113)*
+*Defined in [codec/UInt.ts:113](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L113)*
 
 **Parameters:**
 
@@ -141,7 +132,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L61)*
+*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L61)*
 
 **Parameters:**
 
@@ -160,7 +151,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L67)*
+*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L67)*
 
 **Parameters:**
 
@@ -177,7 +168,7 @@ ___
 
 ▸ **gt**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
 
-*Defined in [codec/UInt.ts:135](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L135)*
+*Defined in [codec/UInt.ts:135](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L135)*
 
 **Parameters:**
 
@@ -194,7 +185,7 @@ ___
 
 ▸ **gte**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
 
-*Defined in [codec/UInt.ts:141](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L141)*
+*Defined in [codec/UInt.ts:141](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L141)*
 
 **Parameters:**
 
@@ -211,7 +202,7 @@ ___
 
 ▸ **isZero**(): `boolean`
 
-*Defined in [codec/UInt.ts:119](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L119)*
+*Defined in [codec/UInt.ts:119](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L119)*
 
 **Returns:** `boolean`
 
@@ -222,7 +213,7 @@ ___
 
 ▸ **lt**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
 
-*Defined in [codec/UInt.ts:123](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L123)*
+*Defined in [codec/UInt.ts:123](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L123)*
 
 **Parameters:**
 
@@ -239,7 +230,7 @@ ___
 
 ▸ **lte**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
 
-*Defined in [codec/UInt.ts:129](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L129)*
+*Defined in [codec/UInt.ts:129](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L129)*
 
 **Parameters:**
 
@@ -256,7 +247,7 @@ ___
 
 ▸ **mul**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
 
-*Defined in [codec/UInt.ts:147](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L147)*
+*Defined in [codec/UInt.ts:147](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L147)*
 
 **Parameters:**
 
@@ -273,7 +264,7 @@ ___
 
 ▸ **sub**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
 
-*Defined in [codec/UInt.ts:153](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L153)*
+*Defined in [codec/UInt.ts:153](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L153)*
 
 **Parameters:**
 
@@ -290,7 +281,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [codec/UInt.ts:91](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L91)*
+*Defined in [codec/UInt.ts:91](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L91)*
 
 **Returns:** `BN`
 
@@ -301,7 +292,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L73)*
+*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L73)*
 
 **Returns:** `string`
 
@@ -314,7 +305,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/UInt.ts:77](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L77)*
+*Defined in [codec/UInt.ts:77](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L77)*
 
 **Returns:** `any`
 
@@ -325,7 +316,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/UInt.ts:95](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L95)*
+*Defined in [codec/UInt.ts:95](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L95)*
 
 **Returns:** `number`
 
@@ -338,7 +329,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/UInt.ts:87](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L87)*
+*Defined in [codec/UInt.ts:87](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L87)*
 
 **Returns:** `string`
 
@@ -351,7 +342,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/UInt.ts:83](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L83)*
+*Defined in [codec/UInt.ts:83](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L83)*
 
 **Parameters:**
 
@@ -366,15 +357,15 @@ ___
 
 ## `<Static>` decodeUInt
 
-▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_d_.md#anynumber)*): `BN`
+▸ **decodeUInt**(value: *`AnyNumber`*): `BN`
 
-*Defined in [codec/UInt.ts:42](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/UInt.ts#L42)*
+*Defined in [codec/UInt.ts:42](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/types/src/codec/UInt.ts#L42)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| value | [AnyNumber](../modules/_types_d_.md#anynumber) |
+| value | `AnyNumber` |
 
 **Returns:** `BN`
 

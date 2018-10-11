@@ -4,19 +4,16 @@
 
 import { KeyringPair } from '@polkadot/util-keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { RxApiInterface } from './types';
+import { ApiRxInterface } from './types';
 
 import { Observable } from 'rxjs';
 import { Extrinsic } from '@polkadot/types/index';
 
 export default class SubmittableExtrinsic extends Extrinsic {
-  private _api: RxApiInterface;
+  private _api: ApiRxInterface;
 
-  constructor (api: RxApiInterface, extrinsic: Extrinsic) {
-    super({
-      method: extrinsic.method,
-      signature: extrinsic.signature
-    });
+  constructor (api: ApiRxInterface, extrinsic: Extrinsic) {
+    super(extrinsic);
 
     this._api = api;
   }

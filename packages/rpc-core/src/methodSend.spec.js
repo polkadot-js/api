@@ -53,7 +53,8 @@ describe('methodSend', () => {
   it('calls the provider with the correct parameters', () => {
     const method = api.createMethodSend('test_blah', methods.blah);
 
-    return method(new Uint8Array([0x12, 0x34])).then(() => {
+    // Args are length-prefixed, because it's a Bytes
+    return method(new Uint8Array([2 << 2, 0x12, 0x34])).then(() => {
       expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);
     });
   });

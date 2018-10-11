@@ -1,13 +1,27 @@
 
-[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org) ![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square) [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard) [![npm](https://img.shields.io/npm/v/@polkadot/api.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/api) [![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api) [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability) [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master) [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/api)](https://david-dm.org/polkadot-js/api?path=packages/api) [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/api)](https://david-dm.org/polkadot-js/api?path=packages/api#info=devDependencies)
-
 @polkadot/api
 =============
 
-An RxJs wrapper around [@polkadot/rpc-core](../rpc-core).
+The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
 
-Usage
-=====
+The API wrappers provide a standard interface for use -
+
+*   A static `.create(<optional WsProvider>)` that returns an API istance when connected, decorated and ready-to use
+*   The above is just a wrapper for `new Api(<optional WsProvider>)`, exposing the `isReady` getter
+*   `api.rpc.*` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
+*   `api.st.*` provides access to chain state queries. These are dynamically populated based on what the runtime provides
+*   `api.tx.*` provides the ability to create transaction, like chain state, this list is populated from a runtime query
+
+API Selection
+-------------
+
+There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using [RxJS](https://github.com/ReactiveX/rxjs). Depending on your use-case and familiarity, you can choose either (or even both) for your application.
+
+*   [ApiPromise](promise/) All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use standard JavaScript `(error, value) => {}` callbacks.
+*   [ApiRx](rx/) All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+
+Installation & import
+---------------------
 
 Installation -
 
@@ -15,14 +29,26 @@ Installation -
 npm install --save @polkadot/api/rx
 ```
 
-Making rpc calls -
+Subscribing to blocks via Promise-based API -
 
 ```javascript
-import ApiRx from '@polkadot/api/rx';
-// alternatively
-// import { ApiRx } from '@polkadot/api';
+import { ApiPromise } from '@polkadot/api';
 
-// initialise via Promise & static create
+// initialise via static create
+const api = await ApiPromise.create();
+
+// make a call to retrieve the current network head
+api.rpc.chain.newHead((error, header) => {
+  console.log(`Chain is at #${header.blockNumber}`);
+});
+```
+
+Subscribing to blocks via RxJS-based API -
+
+```javascript
+import { ApiRx } from '@polkadot/api';
+
+// initialise via static create
 const api = await ApiRx.create().toPromise();
 
 // make a call to retrieve the current network head
@@ -31,17 +57,11 @@ api.rpc.chain.newHead().subscribe((header) => {
 });
 ```
 
-Subscribing to chain state -
+Users
+-----
 
-```javascript
-import Api from '@polkadot/api';
+Some of the users of the API (let us know if you are missing from the list), include -
 
-// initialise via isReady & new
-new Api().isReady.subscribe((api) => {
-  // make a call to retrieve the current network head
-  api.st.timestamp.now().subscribe((timestamp) => {
-    console.log(`Current block timestamp ${timestamp}`);
-  });
-});
-```
+*   [Polkadot-JS UI](https://github.com/polkadot-js/apps) A user-interface that allows you to make transactions, query the network or participate in actions on the network such as referendums and staking
+*   [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in [https://matrix.to/#/#polkadot-network-status:matrix.org](https://matrix.to/#/#polkadot-network-status:matrix.org)
 

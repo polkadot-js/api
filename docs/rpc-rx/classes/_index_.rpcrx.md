@@ -34,15 +34,15 @@ const api = new RpcRx(provider);
 
 ##  constructor
 
-⊕ **new RpcRx**(provider?: *`ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
+⊕ **new RpcRx**(providerOrRpc?: * `Rpc` &#124; `ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
 
-*Defined in [index.ts:47](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L47)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L44)*
 
 **Parameters:**
 
-| Param | Type | Default value | Description |
-| ------ | ------ | ------ | ------ |
-| `Default value` provider | `ProviderInterface` |  new Ws(defaults.WS_URL) |  An API provider using HTTP or WebSocket |
+| Param | Type |
+| ------ | ------ |
+| `Optional` providerOrRpc |  `Rpc` &#124; `ProviderInterface`|
 
 **Returns:** [RpcRx](_index_.rpcrx.md)
 
@@ -54,36 +54,36 @@ ___
 
 ##  author
 
-**● author**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
+**● author**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L41)*
 
 ___
 <a id="chain"></a>
 
 ##  chain
 
-**● chain**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
+**● chain**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L45)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L42)*
 
 ___
 <a id="state"></a>
 
 ##  state
 
-**● state**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
+**● state**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:46](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L46)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L43)*
 
 ___
 <a id="system"></a>
 
 ##  system
 
-**● system**: *[RpcRxInterface$Section](../modules/_types_d_.md#rpcrxinterface_section)*
+**● system**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:47](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L47)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L44)*
 
 ___
 <a id="prefixed"></a>
@@ -165,7 +165,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:67](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-rx/src/index.ts#L67)*
+*Defined in [index.ts:66](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-rx/src/index.ts#L66)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 

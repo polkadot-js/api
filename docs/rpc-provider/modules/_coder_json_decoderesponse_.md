@@ -6,16 +6,16 @@
 
 ##  decodeResponse
 
-▸ **decodeResponse**(self: *[RpcCoderState](_coder_json_types_d_.md#rpccoderstate)*, response: *[JsonRpcResponse](_types_d_.md#jsonrpcresponse)*): `any`
+▸ **decodeResponse**(self: *`RpcCoderState`*, response: *`JsonRpcResponse`*): `any`
 
-*Defined in [coder/json/decodeResponse.ts:22](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-provider/src/coder/json/decodeResponse.ts#L22)*
+*Defined in [coder/json/decodeResponse.ts:22](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/coder/json/decodeResponse.ts#L22)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| self | [RpcCoderState](_coder_json_types_d_.md#rpccoderstate) |
-| response | [JsonRpcResponse](_types_d_.md#jsonrpcresponse) |
+| self | `RpcCoderState` |
+| response | `JsonRpcResponse` |
 
 **Returns:** `any`
 

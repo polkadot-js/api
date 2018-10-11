@@ -6,11 +6,11 @@
 
 ##  state
 
-▸ **state**(): [MockState](_mock_types_d_.md#mockstate)
+▸ **state**(): `MockState`
 
-*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-provider/src/mock/state.ts#L38)*
+*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/mock/state.ts#L38)*
 
-**Returns:** [MockState](_mock_types_d_.md#mockstate)
+**Returns:** `MockState`
 
 ___
 

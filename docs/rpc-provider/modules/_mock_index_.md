@@ -6,13 +6,13 @@
 
 ##  mockProvider
 
-▸ **mockProvider**(): [ProviderInterface](../interfaces/_types_d_.providerinterface.md)
+▸ **mockProvider**(): `ProviderInterface`
 
-*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-provider/src/mock/index.ts#L18)*
+*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/mock/index.ts#L18)*
 
 A mock provider mainly used for testing.
 
-**Returns:** [ProviderInterface](../interfaces/_types_d_.providerinterface.md)
+**Returns:** `ProviderInterface`
 The mock provider
 
 ___

@@ -2,18 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RpcInterface, RpcInterface$Section } from '@polkadot/rpc-core/types';
+import { RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Section } from './types';
 
 import E3 from 'eventemitter3';
 import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
-import Ws from '@polkadot/rpc-provider/ws';
 import isFunction from '@polkadot/util/is/function';
 import isUndefined from '@polkadot/util/is/undefined';
-
-import defaults from './defaults';
 
 type CachedMap = {
   [index: string]: {
@@ -38,7 +35,7 @@ type CachedMap = {
  * ```
  */
 export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
-  private _api: RpcInterface;
+  private _api: Rpc;
   private _cacheMap: CachedMap;
   private _isConnected: BehaviorSubject<boolean>;
   readonly author: RpcRxInterface$Section;
@@ -49,14 +46,16 @@ export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
   /**
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface = new Ws(defaults.WS_URL)) {
+  constructor (providerOrRpc?: Rpc | ProviderInterface) {
     super();
 
-    this._api = new Rpc(provider);
+    this._api = providerOrRpc instanceof Rpc
+      ? providerOrRpc
+      : new Rpc(providerOrRpc);
     this._cacheMap = {};
-    this._isConnected = new BehaviorSubject(provider.isConnected());
+    this._isConnected = new BehaviorSubject(this._api._provider.isConnected());
 
-    this.initEmitters(provider);
+    this.initEmitters(this._api._provider);
 
     this.author = this.createInterface('author', this._api.author);
     this.chain = this.createInterface('chain', this._api.chain);

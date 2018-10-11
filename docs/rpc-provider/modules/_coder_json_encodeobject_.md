@@ -6,19 +6,19 @@
 
 ##  encodeObject
 
-▸ **encodeObject**(self: *[RpcCoderState](_coder_json_types_d_.md#rpccoderstate)*, method: *`string`*, params: *`Array`<`any`>*): [JsonRpcRequest](_types_d_.md#jsonrpcrequest)
+▸ **encodeObject**(self: *`RpcCoderState`*, method: *`string`*, params: *`Array`<`any`>*): `JsonRpcRequest`
 
-*Defined in [coder/json/encodeObject.ts:8](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-provider/src/coder/json/encodeObject.ts#L8)*
+*Defined in [coder/json/encodeObject.ts:8](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/coder/json/encodeObject.ts#L8)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| self | [RpcCoderState](_coder_json_types_d_.md#rpccoderstate) |
+| self | `RpcCoderState` |
 | method | `string` |
 | params | `Array`<`any`> |
 
-**Returns:** [JsonRpcRequest](_types_d_.md#jsonrpcrequest)
+**Returns:** `JsonRpcRequest`
 
 ___
 
