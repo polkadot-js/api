@@ -39,7 +39,6 @@ export interface SubmittableExtrinsics {
 }
 
 export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics>  {
-  readonly genesisHash: Hash;
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }
