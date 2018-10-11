@@ -8,7 +8,7 @@ import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, Provide
 
 import './polyfill';
 
-import E3 from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import assert from '@polkadot/util/assert';
 import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
@@ -55,7 +55,8 @@ interface WSProviderInterface extends ProviderInterface {
  *
  * @see [[HttpProvider]]
  */
-export default class WsProvider extends E3.EventEmitter implements WSProviderInterface {
+export default class WsProvider implements WSProviderInterface {
+  private _eventemitter: EventEmitter;
   private autoConnect: boolean;
   private coder: RpcCoder;
   private endpoint: string;
@@ -77,10 +78,9 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
   constructor (endpoint: string, autoConnect: boolean = true) {
-    super();
-
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
+    this._eventemitter = new EventEmitter();
     this.autoConnect = autoConnect;
     this.coder = coder();
     this.endpoint = endpoint;
@@ -128,8 +128,8 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @param  {ProviderInterface$EmitCb}  sub  Callback
    * @return {this}                           [description]
    */
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): this {
-    return super.on(type, sub);
+  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+    this._eventemitter.on(type, sub);
   }
 
   /**
@@ -210,6 +210,10 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     const result = await this.send(method, [id]);
 
     return result as boolean;
+  }
+
+  private emit (type: ProviderInterface$Emitted, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   private onSocketClose = (): void => {

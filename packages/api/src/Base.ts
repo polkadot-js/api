@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ApiBaseInterface } from './types';
+import { ApiBaseInterface, ApiInterface$Events } from './types';
 
-import E3 from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics } from '@polkadot/extrinsics/types';
@@ -29,7 +29,8 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implements ApiBaseInterface<R, S, E> {
+export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
+  private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
   protected _storage?: S;
@@ -54,8 +55,7 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
    * ```
    */
   constructor (wsProvider?: WsProvider) {
-    super();
-
+    this._eventemitter = new EventEmitter();
     this._rpcBase = new Rpc(wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
@@ -144,6 +144,14 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
     return this._extrinsics as E;
+  }
+
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): void {
+    this._eventemitter.on(type, handler);
+  }
+
+  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   private init (): void {
