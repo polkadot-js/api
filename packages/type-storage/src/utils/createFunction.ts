@@ -18,6 +18,18 @@ export interface CreateItemOptions {
 }
 
 /**
+ * Prepend a Uint8Array with its compact length.
+ *
+ * @param u8a - The Uint8Array to be prefixed
+ */
+function addLengthPrefix (u8a: Uint8Array): Uint8Array {
+  return u8aConcat(
+    Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
+    u8a
+  );
+}
+
+/**
  * From the schema of a function in the module's storage, generate the function
  * that will return the correct storage key.
  *
@@ -40,7 +52,7 @@ export default function createFunction (
   // assumption, but will break if the base substrate keys employ hashing as well
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      u8aFromUtf8(method.toString());
+      addLengthPrefix(u8aFromUtf8(method.toString()));
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
@@ -48,9 +60,11 @@ export default function createFunction (
     // - storage.timestamp.blockPeriod()
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
-        return xxhash(
-          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
-          128
+        return addLengthPrefix(
+          xxhash(
+            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+            128
+          )
         );
       }
 
@@ -60,18 +74,15 @@ export default function createFunction (
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
-      const methodAndArgs = xxhash(
-        u8aConcat(
-          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
-          createType(type, arg).toU8a(true)
-        ),
-        128
-      );
-
       // StorageKey is a Bytes, so is length-prefixed
-      return u8aConcat(
-        Compact.encodeU8a(methodAndArgs.length, DEFAULT_LENGTH_BITS),
-        methodAndArgs
+      return addLengthPrefix(
+        xxhash(
+          u8aConcat(
+            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+            createType(type, arg).toU8a(true)
+          ),
+          128
+        )
       );
     };
   }
