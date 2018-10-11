@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import fs from 'fs';
+const fs = require('fs');
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util/string';
 
 import Metadata from './Metadata';
@@ -28,7 +28,8 @@ function addExtrinsics (metadata: any) {
 
     return meta.module.call.functions.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
-      const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ${type}`).join(', ');
+      const args = '';
+    //   const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ${type}`).join(', ');
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
 
       return `${md}\n${sectionName}.${methodName}(${args})\n${doc}`;
@@ -56,7 +57,7 @@ function addStorage (metadata: any) {
 
 function metadataMethodsAsText () {
   const metadata = new Metadata().fromJSON(rpcdata);
-  return addIntro().concat(addStorage(metadata), addExtrinsics(metadata));
+  return addIntro()//.concat(addStorage(metadata), addExtrinsics(metadata));
 }
 
 export function writeToMd () {
