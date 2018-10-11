@@ -23,10 +23,10 @@ function addExtrinsics (metadata) {
 
     return meta.module.call.functions.reduce((md, func) => {
       const methodName = stringCamelCase(func.name.toString());
-      const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ${type}`).join(', ');
+      const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
 
-      return `${md}\n${sectionName}.${methodName}(${args})\n${doc}`;
+      return `${md}\n${methodName}(${args})\n${doc}`;
     }, `${md}\n\n### ${sectionName}`);
   }, `\n\n## Extrinsics${DESC_EXTRINSICS}`);
 }
@@ -41,10 +41,10 @@ function addStorage (metadata) {
 
     return moduleMetadata.storage.functions.reduce((md, func) => {
       const methodName = stringLowerFirst(func.name.toString());
-      const arg = func.type.isMap ? func.type.asMap.key.toString() : '';
+      const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
 
-      return `${md}\n${sectionName}.${methodName}(${arg}): ${func.type}\n${doc}`;
+      return `${md}\n${methodName}(${arg}): ` + '`' + func.type + '`' + `\n\t${doc}`;
     }, `${md}\n\n### ${sectionName}`);
   }, `\n\n## Storage${DESC_STORAGE}`);
 }
