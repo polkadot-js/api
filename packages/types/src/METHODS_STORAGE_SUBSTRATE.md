@@ -3,7 +3,7 @@
 
 ### substrate
 
-_Well known keys that are not returned by state.getMetadata()_
+_These are keys that are always available to the runtime implementation_
 
 ▸ **code**(): `Bytes`
 - **summary**: Wasm code of the runtime.
