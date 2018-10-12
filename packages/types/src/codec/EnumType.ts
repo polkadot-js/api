@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isUndefined from '@polkadot/util/is/undefined';
 import isNumber from '@polkadot/util/is/number';
+import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
@@ -57,6 +57,20 @@ export default class EnumType<T> extends Base<Base<T>> {
       return { index: value[0], value: new def[value[0]](value.subarray(1)) };
     } else if (isNumber(value) && !isUndefined(def[value])) {
       return { index: value, value: new def[value]() };
+    } else if (isObject(value)) {
+      // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+      // additionally force to lower to ensure forward compat
+      const key = Object.keys(value)[0];
+      const lowerKey = key.toLowerCase();
+      const index = Object
+        .keys(def)
+        .find((k) => def[+k].name.toLowerCase() === lowerKey);
+
+      if (isUndefined(index)) {
+        throw new Error('Unable to reliably map input on JSON');
+      }
+
+      return { index: +index, value: new def[+index](value[key]) };
     }
 
     // Worst-case scenario, return this
