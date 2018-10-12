@@ -5,7 +5,7 @@
 // FIXME: This file is way too long and way too messy
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { ProviderInterface$Emitted } from '../types';
 import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
@@ -15,7 +15,7 @@ import Header from '@polkadot/types/Header';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import testKeyring from '@polkadot/util-keyring/testing';
+import testKeyring from '@polkadot/keyring/testing';
 
 const keyring = testKeyring();
 

@@ -1,6 +1,6 @@
 // Import our API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
-const Keyring = require('@polkadot/util-keyring').default;
+const Keyring = require('@polkadot/keyring').default;
 const u8aFromUtf8 = require('@polkadot/util/u8a/fromUtf8').default;
 
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
