@@ -22,7 +22,7 @@ describe.skip('e2e queries', () => {
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
     expect(api.rpc).toBeDefined();
-    expect(api.st).toBeDefined();
+    expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
   });
 
