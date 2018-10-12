@@ -2,9 +2,9 @@
 
 # Hierarchy
 
-↳  [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+↳  [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
-**↳ StorageFunctionType**
+**↳ ExtrinsicStatus**
 
 # Constructors
 
@@ -12,20 +12,19 @@
 
 ##  constructor
 
-⊕ **new StorageFunctionType**(index?: * `undefined` &#124; `number`*, value?: *`any`*): [StorageFunctionType](_metadata_.storagefunctiontype.md)
+⊕ **new ExtrinsicStatus**(index?: * `undefined` &#124; `number`*): [ExtrinsicStatus](_extrinsicstatus_.extrinsicstatus.md)
 
 *Overrides [EnumType](_codec_enumtype_.enumtype.md).[constructor](_codec_enumtype_.enumtype.md#constructor)*
 
-*Defined in [Metadata.ts:221](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/Metadata.ts#L221)*
+*Defined in [ExtrinsicStatus.ts:23](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/ExtrinsicStatus.ts#L23)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
 | `Optional` index |  `undefined` &#124; `number`|
-| `Optional` value | `any` |
 
-**Returns:** [StorageFunctionType](_metadata_.storagefunctiontype.md)
+**Returns:** [ExtrinsicStatus](_extrinsicstatus_.extrinsicstatus.md)
 
 ___
 
@@ -35,7 +34,7 @@ ___
 
 ##  raw
 
-**● raw**: *[Base](_codec_base_.base.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>*
+**● raw**: *[Base](_codec_base_.base.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>*
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
@@ -45,39 +44,6 @@ ___
 
 # Accessors
 
-<a id="asmap"></a>
-
-##  asMap
-
-getasMap(): [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)
-
-*Defined in [Metadata.ts:233](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/Metadata.ts#L233)*
-
-**Returns:** [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)
-
-___
-<a id="astype"></a>
-
-##  asType
-
-getasType(): [Type](_type_.type.md)
-
-*Defined in [Metadata.ts:237](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/Metadata.ts#L237)*
-
-**Returns:** [Type](_type_.type.md)
-
-___
-<a id="ismap"></a>
-
-##  isMap
-
-getisMap(): `boolean`
-
-*Defined in [Metadata.ts:229](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/Metadata.ts#L229)*
-
-**Returns:** `boolean`
-
-___
 <a id="type"></a>
 
 ##  type
@@ -95,13 +61,13 @@ ___
 
 ##  value
 
-getvalue(): [Base](_codec_base_.base.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+getvalue(): [Base](_codec_base_.base.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[value](_codec_enumtype_.enumtype.md#value)*
 
 *Defined in [codec/EnumType.ts:46](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/codec/EnumType.ts#L46)*
 
-**Returns:** [Base](_codec_base_.base.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+**Returns:** [Base](_codec_base_.base.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 ___
 
@@ -126,7 +92,7 @@ ___
 
 ##  fromJSON
 
-▸ **fromJSON**(input?: *`any`*): [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+▸ **fromJSON**(input?: *`any`*): [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[fromJSON](_codec_enumtype_.enumtype.md#fromjson)*
 
@@ -140,14 +106,14 @@ ___
 | ------ | ------ | ------ |
 | `Default value` input | `any` |  {} |
 
-**Returns:** [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+**Returns:** [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 ___
 <a id="fromu8a"></a>
 
 ##  fromU8a
 
-▸ **fromU8a**(input: *`Uint8Array`*): [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+▸ **fromU8a**(input: *`Uint8Array`*): [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[fromU8a](_codec_enumtype_.enumtype.md#fromu8a)*
 
@@ -161,14 +127,14 @@ ___
 | ------ | ------ |
 | input | `Uint8Array` |
 
-**Returns:** [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)>
+**Returns:** [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
 ___
 <a id="setvalue"></a>
 
 ##  setValue
 
-▸ **setValue**(index?: * [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)> &#124; `number`*, value?: *`any`*): `void`
+▸ **setValue**(index?: * [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)> &#124; `number`*, value?: *`any`*): `void`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[setValue](_codec_enumtype_.enumtype.md#setvalue)*
 
@@ -178,7 +144,7 @@ ___
 
 | Param | Type |
 | ------ | ------ |
-| `Optional` index |  [EnumType](_codec_enumtype_.enumtype.md)< [Type](_type_.type.md) &#124; [StorageFunctionType$Map](_metadata_.storagefunctiontype_map.md)> &#124; `number`|
+| `Optional` index |  [EnumType](_codec_enumtype_.enumtype.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)> &#124; `number`|
 | `Optional` value | `any` |
 
 **Returns:** `void`
@@ -218,9 +184,11 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [EnumType](_codec_enumtype_.enumtype.md).[toString](_codec_enumtype_.enumtype.md#tostring)*
+*Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toString](_codec_enumtype_.enumtype.md#tostring)*
 
-*Defined in [Metadata.ts:241](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/Metadata.ts#L241)*
+*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
+
+*Defined in [codec/EnumType.ts:105](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/types/src/codec/EnumType.ts#L105)*
 
 **Returns:** `string`
 
