@@ -4,7 +4,7 @@
 
 import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from '../../src/static';
 

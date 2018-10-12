@@ -4,8 +4,8 @@
 
 import { AnyU8a } from './types';
 
-import encodeAddress from '@polkadot/util-keyring/address/encode';
-import decodeAddress from '@polkadot/util-keyring/address/decode';
+import encodeAddress from '@polkadot/keyring/address/encode';
+import decodeAddress from '@polkadot/keyring/address/decode';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
