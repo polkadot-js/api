@@ -4,8 +4,8 @@
 
 const fs = require('fs');
 
-import Metadata from './Metadata';
-import rpcdata from './Metadata.rpc';
+import Metadata from '../Metadata';
+import rpcdata from '../Metadata.rpc';
 
 function metadataStringifyAsJson () {
   const decoded = new Metadata().fromJSON(rpcdata);

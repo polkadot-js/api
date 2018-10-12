@@ -5,9 +5,9 @@
 const fs = require('fs');
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util/string';
 
-import Metadata from './Metadata';
-import rpcdata from './Metadata.rpc';
-import Method from './Method';
+import Metadata from '../Metadata';
+import rpcdata from '../Metadata.rpc';
+import Method from '../Method';
 
 // some intro text goes in here
 const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._';
@@ -65,7 +65,7 @@ function metadataExtrinsicsMethodsAsText () {
 
 function writeToStorageMd () {
   const optionsRead = { flags: 'r', encoding: 'utf8' };
-  fs.readFile('packages/types/src/METHODS_STORAGE_SUBSTRATE.md', optionsRead, function read (err: Error, data: string) {
+  fs.readFile('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', optionsRead, function read (err: Error, data: string) {
     if (err) {
       throw err;
     }
