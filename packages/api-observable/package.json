@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-observable",
-  "version": "0.31.26",
+  "version": "0.31.27",
   "description": "An Observable wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -30,10 +30,10 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
-    "@polkadot/extrinsics": "^0.31.26",
-    "@polkadot/rpc-core": "^0.31.26",
-    "@polkadot/rpc-provider": "^0.31.26",
-    "@polkadot/storage": "^0.31.26",
+    "@polkadot/extrinsics": "^0.31.27",
+    "@polkadot/rpc-core": "^0.31.27",
+    "@polkadot/rpc-provider": "^0.31.27",
+    "@polkadot/storage": "^0.31.27",
     "@types/rx": "^4.1.1",
     "rxjs": "^6.3.2"
   }
