@@ -4,6 +4,8 @@
 
 import { AnyNumber } from './types';
 
+import hexToU8a from '@polkadot/util/hex/toU8a';
+import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
@@ -329,7 +331,9 @@ export default class RuntimeMetadata extends Struct {
   }
 
   static decodeMetadata (value: any): object | Uint8Array {
-    if (isU8a(value)) {
+    if (isHex(value)) {
+      return RuntimeMetadata.decodeMetadata(hexToU8a(value));
+    } else if (isU8a(value)) {
       // this does not look correct, metadata now has a length prefix. Strip, move on.
       const [offset] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
       return value.subarray(offset);
