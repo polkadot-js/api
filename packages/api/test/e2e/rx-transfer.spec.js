@@ -17,7 +17,7 @@ describe.skip('e2e transfer', () => {
   });
 
   it('makes a transfer', (done) => {
-    api.st.system
+    api.query.system
       .accountNonce(keyring.alice.address())
       .pipe(
         switchMap((nonce) =>

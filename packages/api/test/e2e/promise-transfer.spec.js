@@ -16,7 +16,7 @@ describe.skip('e2e transfer', () => {
   });
 
   it('makes a transfer', async () => {
-    const nonce = await api.st.system.accountNonce(keyring.alice.address());
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
     const hash = await api.tx.balances
       .transfer(keyring.bob.address(), 12345)
       .sign(keyring.alice, nonce)

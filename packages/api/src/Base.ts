@@ -115,13 +115,13 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
    *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.st.balances
+   * api.query.balances
    *   .freeBalance(<accountId>)
    *   .subscribe((balance) => {
    *     console.log('new balance', balance);

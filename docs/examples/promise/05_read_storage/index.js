@@ -10,9 +10,9 @@ async function main () {
 
   // Make our basic chain state/storage queries, all in one go
   const [accountNonce, blockPeriod, validators] = await Promise.all([
-    api.st.system.accountNonce(Alice),
-    api.st.timestamp.blockPeriod(),
-    api.st.session.validators()
+    api.query.system.accountNonce(Alice),
+    api.query.timestamp.blockPeriod(),
+    api.query.session.validators()
   ]);
 
   console.log(`accountNonce(${Alice}) ${accountNonce}`);
@@ -21,7 +21,7 @@ async function main () {
   // get the balances for all validators
   const validatorBalances = await Promise.all(
     validators.map((authorityId) =>
-      api.st.balances.freeBalance(authorityId)
+      api.query.balances.freeBalance(authorityId)
     )
   );
 
