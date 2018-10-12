@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import decodeAddress from '@polkadot/keyring/address/decode';
+import encodeAddress from '@polkadot/keyring/address/encode';
 import isU8a from '@polkadot/util/is/u8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import u8aConcat from '@polkadot/util/u8a/concat';
 
 import { AnyU8a } from './types';
 import U8a from './codec/U8a';
@@ -19,39 +20,49 @@ export default class AccountIndex extends U8a {
     );
   }
 
-  // FIXME Not 100% sure how to handle the encoding of short addresses. It is (mostly)
-  // unused atm, options are to go to hex or to utf8. Here we go the hex route.
-  static encode (value: Uint8Array): string {
-    return u8aToHex(value);
-  }
-
   static decodeAccountIndex (value: AnyU8a): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
+    } else if (Array.isArray(value)) {
+      return AccountIndex.decodeAccountIndex(Uint8Array.from(value));
     } else if (isU8a(value)) {
       if (!value.length) {
         return value;
       }
-      return value.subarray(0, AccountIndex.readLength(value));
+
+      const [offset, length] = AccountIndex.readLength(value);
+
+      return value.subarray(offset, offset + length);
     }
-    return u8aToU8a(value);
+
+    return decodeAddress(value);
   }
 
-  // TODO Double check the +1 with actual e2e data
-  static readLength (input: Uint8Array): number {
+  static readLength (input: Uint8Array): [number, number] {
     const first = input[0];
 
     if (first <= 0xef) {
-      return 1;
+      return [0, 1];
     } else if (first === 0xfc) {
-      return 2 + 1;
+      return [1, 2];
     } else if (first === 0xfd) {
-      return 4 + 1;
+      return [1, 4];
     } else if (first === 0xfe) {
-      return 8 + 1;
+      return [1, 8];
     }
 
     throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
+  }
+
+  static writeLength (input: Uint8Array): Uint8Array {
+    switch (input.length) {
+      case 1: return new Uint8Array([]);
+      case 2: return new Uint8Array([0xfc]);
+      case 4: return new Uint8Array([0xfd]);
+      case 8: return new Uint8Array([0xfe]);
+    }
+
+    throw new Error(`Invalid account index length, ${input.length}`);
   }
 
   fromJSON (input: any): AccountIndex {
@@ -61,9 +72,9 @@ export default class AccountIndex extends U8a {
   }
 
   fromU8a (input: Uint8Array): AccountIndex {
-    super.fromU8a(
-      input.subarray(0, AccountIndex.readLength(input))
-    );
+    const [offset, length] = AccountIndex.readLength(input);
+
+    super.fromU8a(input.subarray(offset, offset + length));
 
     return this;
   }
@@ -72,7 +83,16 @@ export default class AccountIndex extends U8a {
     return this.toString();
   }
 
+  toU8a (isBare?: boolean): Uint8Array {
+    return isBare
+      ? this.raw
+      : u8aConcat(
+        AccountIndex.writeLength(this.raw),
+        this.raw
+      );
+  }
+
   toString (): string {
-    return AccountIndex.encode(this.raw);
+    return encodeAddress(this.raw);
   }
 }
