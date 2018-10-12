@@ -42,6 +42,8 @@ export { default as MethodIndex } from './MethodIndex';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
+// NOTE only used internally atm
+// export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';
@@ -56,6 +58,7 @@ export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
+export { default as Status } from './Status';
 export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
