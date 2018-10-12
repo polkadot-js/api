@@ -51,7 +51,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady.subscribe((api) => {
-   *   api.rpc.newHead().subscribe((header) => {
+   *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
@@ -102,7 +102,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    *
    * ```javascript
    * api.rpc.chain
-   *   .newHead()
+   *   .subscribeNewHead()
    *   .subscribe((header) => {
    *     console.log('new header', header);
    *   });

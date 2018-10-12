@@ -12,7 +12,7 @@ import ApiQueries from './Queries';
 export default class ApiCalls extends ApiQueries {
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
-      .newHead()
+      .subscribeNewHead()
       .pipe(
         map((header?: Header): BlockNumber | undefined =>
           header && header.blockNumber
@@ -30,8 +30,8 @@ export default class ApiCalls extends ApiQueries {
     return this._api.chain.getBlock(hash);
   }
 
-  newHead = (): Observable<Header | undefined> => {
-    return this._api.chain.newHead().pipe(
+  subscribeNewHead = (): Observable<Header | undefined> => {
+    return this._api.chain.subscribeNewHead().pipe(
       defaultIfEmpty()
     );
   }

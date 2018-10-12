@@ -22,11 +22,7 @@ describe.skip('e2e krumme lanke', () => {
           [storage.system.accountNonce, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
           [storage.balances.freeBalance, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
         ],
-        (error, data) => {
-          if (error) {
-            return done(error);
-          }
-
+        (data) => {
           expect(data).toHaveLength(2);
           expect(data[0].toNumber()).toEqual(0);
           expect(data[1].toNumber()).not.toEqual(0);
@@ -35,7 +31,7 @@ describe.skip('e2e krumme lanke', () => {
         }
       )
       .then((subscriptionId) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
+        console.log('stoarge subscriptionId =', subscriptionId);
       });
   });
 

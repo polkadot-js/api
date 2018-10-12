@@ -35,7 +35,7 @@ describe.skip('e2e queries', () => {
   });
 
   it('subscribes to queries', (done) => {
-    api.rpc.chain.newHead((error, header) => {
+    api.rpc.chain.subscribeNewHead((error, header) => {
       expect(error).toBe(null);
       expect(header.blockNumber.isZero()).toBe(false);
 

@@ -186,9 +186,9 @@ export default class WsProvider implements WSProviderInterface {
    *
    * ```javascript
    * const provider = new WsProvider('ws://127.0.0.1:9944');
-   * const api = new Rpc(provider);
+   * const rpc = new Rpc(provider);
    *
-   * api.state.storage([[storage.balances.freeBalance, <Address>]], (_, values) => {
+   * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values)
    * }).then((subscriptionId) => {
    *   console.log('balance changes subscription id: ', subscriptionId)

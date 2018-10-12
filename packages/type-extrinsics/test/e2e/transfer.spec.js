@@ -45,7 +45,7 @@ describe.skip('e2e transfer', () => {
 
         extrinsic.sign(keyring.alice, 0, genesisHash);
 
-        return api.author.extrinsicUpdate(extrinsic, (status) => {
+        return api.author.submitAndWatchExtrinsic(extrinsic, (status) => {
           console.log(status);
 
           if (status.type === 'Finalised') {
