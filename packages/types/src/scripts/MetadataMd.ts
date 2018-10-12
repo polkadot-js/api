@@ -29,11 +29,13 @@ function addRpc () {
       }).join(', ');
       const type = '`' + method.type + '`';
       const isSub = method.isSubscription;
-      const renderSignature = `${md}\n▸ **${methodName}**(${args}): ${type}`;
-      const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}` : `\n`}`;
-      const renderSubscription = `${isSub ? `\n- **isSubscription**: ${isSub}\n` : `\n`}`;
+      const renderMethod = `${md}\n▸ **${methodName}**(${args})`;
+      const renderReturnType = `: ${type}`;
+      const renderSignature = `${renderMethod}${renderReturnType}`;
+      const renderSignatureSub = `${renderMethod}**.subscribe**(CALLBACK)${renderReturnType}`;
+      const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}\n` : `\n\n`}`;
 
-      return renderSignature + renderSummary + renderSubscription;
+      return isSub ? `${renderSignatureSub}${renderSummary}` : `${renderSignature}${renderSummary}`;
     }, renderSection);
   }, renderHeading);
 }
