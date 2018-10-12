@@ -11,6 +11,10 @@
 - [rpc-rx](rpc-rx/README.md)
   - [RpcRx](rpc-rx/classes/_index_.rpcrx.md)
 
+## Substrate Interfaces
+- [Storage](METHODS_STORAGE.md)
+- [Extrinsics](METHODS_EXTRINSICS.md)
+
 ## Examples
 
 - [RPC](examples-rpc/README.md)
