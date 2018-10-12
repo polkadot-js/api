@@ -10,6 +10,7 @@
 ## Examples
 
 - [ApiPromise](examples/promise/README.md)
+  - [Simple connect](examples/promise/01_simple_connect/README.md)
 - [RPC](examples/rpc/README.md)
   - [Simple connect](examples/rpc/01_simple_connect/README.md)
   - [Listen to blocks](examples/rpc/02_listen_to_blocks/README.md)
