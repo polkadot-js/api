@@ -15,6 +15,4 @@ async function main () {
   console.log(`You are connected to chain: ${chain}`);
 }
 
-main()
-  .catch(console.error)
-  .finally(() => process.exit());
+main().catch(console.error).finally(() => process.exit());
