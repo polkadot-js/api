@@ -4,9 +4,9 @@
 
 import { RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface, RpcRxInterface$Section } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
-import E3 from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
 import isFunction from '@polkadot/util/is/function';
@@ -34,9 +34,10 @@ type CachedMap = {
  * const api = new RpcRx(provider);
  * ```
  */
-export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
+export default class RpcRx implements RpcRxInterface {
   private _api: Rpc;
   private _cacheMap: CachedMap;
+  private _eventemitter: EventEmitter;
   private _isConnected: BehaviorSubject<boolean>;
   readonly author: RpcRxInterface$Section;
   readonly chain: RpcRxInterface$Section;
@@ -47,12 +48,11 @@ export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
   constructor (providerOrRpc?: Rpc | ProviderInterface) {
-    super();
-
     this._api = providerOrRpc instanceof Rpc
       ? providerOrRpc
       : new Rpc(providerOrRpc);
     this._cacheMap = {};
+    this._eventemitter = new EventEmitter();
     this._isConnected = new BehaviorSubject(this._api._provider.isConnected());
 
     this.initEmitters(this._api._provider);
@@ -65,6 +65,14 @@ export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
 
   isConnected (): BehaviorSubject<boolean> {
     return this._isConnected;
+  }
+
+  on (type: RpcRxInterface$Events, handler: (...args: Array<any>) => any): void {
+    this._eventemitter.on(type, handler);
+  }
+
+  protected emit (type: RpcRxInterface$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   private initEmitters (provider: ProviderInterface): void {
@@ -160,13 +168,7 @@ export default class RpcRx extends E3.EventEmitter implements RpcRxInterface {
   private createSubjectCallback (observer: Subscriber<any>) {
     let cachedResult: any;
 
-    return (error: Error | null, result: any) => {
-      if (error) {
-        console.error(error);
-        observer.next();
-        return;
-      }
-
+    return (result: any) => {
       if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
         cachedResult = result;
       } else {

@@ -14,8 +14,6 @@ import assert from '@polkadot/util/assert';
 import ExtError from '@polkadot/util/ext/error';
 import isFunction from '@polkadot/util/is/function';
 
-import defaults from './defaults';
-
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
@@ -51,7 +49,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface = new WsProvider(defaults.WS_URL)) {
+  constructor (provider: ProviderInterface = new WsProvider()) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
@@ -133,7 +131,12 @@ export default class Rpc implements RpcInterface {
         const params = this.formatInputs(method, values);
         const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
-          cb(error, this.formatOutput(method, params, result));
+          if (error) {
+            console.error(`${Rpc.signature(method)}:: ${error.message}`, error);
+            return;
+          }
+
+          cb(this.formatOutput(method, params, result));
         };
 
         return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
@@ -154,10 +157,15 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Base> {
-    assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
+    const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
+    const optText = reqArgCount === method.params.length
+      ? ''
+      : ` (${method.params.length - reqArgCount} optional)`;
 
-    return method.params.map(({ type }, index) =>
-      createType(type as string, inputs[index])
+    assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
+
+    return inputs.map((input, index) =>
+      createType(method.params[index].type, input)
     );
   }
 

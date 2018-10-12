@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import isUndefined from '@polkadot/util/is/undefined';
+
 import Base from './Base';
 
 type TypesArray = Array<{ new(value?: any): Base }>;
@@ -37,12 +39,35 @@ export default class EnumType <T> extends Base<Base<T>> {
     this.setValue(index, value);
   }
 
-  get Type (): string {
+  get type (): string {
     return this._Types[this._index].name;
+  }
+
+  get value (): Base<T> {
+    return this.raw;
   }
 
   byteLength (): number {
     return 1 + this.raw.byteLength();
+  }
+
+  fromJSON (input: any = {}): EnumType<T> {
+    // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+    // additionally force to lower to ensure forward compat
+    const key = Object.keys(input)[0];
+    const lowerKey = key.toLowerCase();
+    const index = this._indexes.find((value, index) =>
+      this._Types[index].name.toLowerCase() === lowerKey
+    );
+
+    if (isUndefined(index)) {
+      throw new Error('Unable to reliably map input on JSON');
+    }
+
+    this.setValue(index);
+    this.raw.fromJSON(input[key]);
+
+    return this;
   }
 
   fromU8a (input: Uint8Array): EnumType<T> {
@@ -78,6 +103,6 @@ export default class EnumType <T> extends Base<Base<T>> {
   }
 
   toString (): string {
-    return this._Types[this._index].name;
+    return this.type;
   }
 }

@@ -8,21 +8,24 @@ import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, Provide
 
 import './polyfill';
 
-import E3 from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import assert from '@polkadot/util/assert';
 import isNull from '@polkadot/util/is/null';
 import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
 import coder from '../coder/json';
+import defaults from '../defaults';
+
+type CallbackHandler = (error?: null | Error, value?: any) => void;
 
 type SubscriptionHandler = {
-  callback: ProviderInterface$Callback,
+  callback: CallbackHandler,
   type: string
 };
 
 type WsState$Awaiting = {
-  callback: ProviderInterface$Callback,
+  callback: CallbackHandler,
   method: string,
   params: Array<any>,
   subscription?: SubscriptionHandler
@@ -38,24 +41,27 @@ interface WSProviderInterface extends ProviderInterface {
 }
 
 /**
+ * # @polkadot/rpc-provider/ws
+ *
  * @name WsProvider
- * @summary The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port.
- * @description Unlike the [[HttpProvider]], it does support subscriptions and allows
- * listening to events such as new blocks or balance changes.
+ *
+ * @description The WebSocket Provider allows sending requests using WebSocket to a WebSocket RPC server TCP port. Unlike the [[HttpProvider]], it does support subscriptions and allows listening to events such as new blocks or balance changes.
+ *
  * @example
  * <BR>
  *
  * ```javascript
- * import Rpc from '@polkadot/rpc-core';
+ * import Api from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = new Rpc(provider);
+ * const api = new Api(provider);
  * ```
  *
  * @see [[HttpProvider]]
  */
-export default class WsProvider extends E3.EventEmitter implements WSProviderInterface {
+export default class WsProvider implements WSProviderInterface {
+  private _eventemitter: EventEmitter;
   private autoConnect: boolean;
   private coder: RpcCoder;
   private endpoint: string;
@@ -76,11 +82,10 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
    * @param {boolean} autoConnect Whether to connect automatically or not.
    */
-  constructor (endpoint: string, autoConnect: boolean = true) {
-    super();
-
+  constructor (endpoint: string = defaults.WS_URL, autoConnect: boolean = true) {
     assert(/^(wss|ws):\/\//.test(endpoint), `Endpoint should start with 'ws://', received '${endpoint}'`);
 
+    this._eventemitter = new EventEmitter();
     this.autoConnect = autoConnect;
     this.coder = coder();
     this.endpoint = endpoint;
@@ -126,10 +131,9 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
    * @summary Listens on events after having subscribed using the [[subscribe]] function.
    * @param  {ProviderInterface$Emitted} type Event
    * @param  {ProviderInterface$EmitCb}  sub  Callback
-   * @return {this}                           [description]
    */
-  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): this {
-    return super.on(type, sub);
+  on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
+    this._eventemitter.on(type, sub);
   }
 
   /**
@@ -140,7 +144,7 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
       try {
         const json = this.coder.encodeJson(method, params);
         const id = this.coder.getId();
-        const callback = (error: Error | null, result: any) => {
+        const callback = (error?: Error | null, result?: any) => {
           if (error) {
             reject(error);
           } else {
@@ -210,6 +214,10 @@ export default class WsProvider extends E3.EventEmitter implements WSProviderInt
     const result = await this.send(method, [id]);
 
     return result as boolean;
+  }
+
+  private emit (type: ProviderInterface$Emitted, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   private onSocketClose = (): void => {

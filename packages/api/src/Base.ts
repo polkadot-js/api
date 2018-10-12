@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { ApiBaseInterface } from './types';
+import { ApiBaseInterface, ApiInterface$Events } from './types';
 
-import E3 from 'eventemitter3';
+import EventEmitter from 'eventemitter3';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics } from '@polkadot/extrinsics/types';
@@ -29,7 +29,8 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implements ApiBaseInterface<R, S, E> {
+export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
+  private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
   protected _storage?: S;
@@ -39,7 +40,10 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
   protected _runtimeVersion?: RuntimeVersion;
 
   /**
-   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @description Create an instance of the class
+   *
+   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   *
    * @example
    * <BR>
    *
@@ -54,8 +58,7 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
    * ```
    */
   constructor (wsProvider?: WsProvider) {
-    super();
-
+    this._eventemitter = new EventEmitter();
     this._rpcBase = new Rpc(wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
@@ -90,7 +93,10 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
   }
 
   /**
-   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
+   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+   *
+   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
+   *
    * @example
    * <BR>
    *
@@ -108,6 +114,9 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
 
   /**
    * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+   *
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   *
    * @example
    * <BR>
    *
@@ -127,6 +136,7 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
 
   /**
    * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
+   *
    * @example
    * <BR>
    *
@@ -144,6 +154,33 @@ export default abstract class ApiBase<R, S, E> extends E3.EventEmitter implement
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
     return this._extrinsics as E;
+  }
+
+  /**
+   * @description Attach an eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected` and `ready`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * * api.on('disconnected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.on('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): void {
+    this._eventemitter.on(type, handler);
+  }
+
+  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   private init (): void {

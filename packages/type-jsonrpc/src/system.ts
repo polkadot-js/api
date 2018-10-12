@@ -6,11 +6,7 @@ import { RpcMethodOpt, RpcSection } from './types';
 
 import createMethod from './create/method';
 
-const chain: RpcMethodOpt = {
-  description: 'Retrieves the chain',
-  params: [],
-  type: 'Text'
-};
+// NOTE order here is the same as in Rust, alphabetical below
 
 const name: RpcMethodOpt = {
   description: 'Retrieves the node name',
@@ -20,6 +16,12 @@ const name: RpcMethodOpt = {
 
 const version: RpcMethodOpt = {
   description: 'Retrieves the version of the node',
+  params: [],
+  type: 'Text'
+};
+
+const chain: RpcMethodOpt = {
+  description: 'Retrieves the chain',
   params: [],
   type: 'Text'
 };

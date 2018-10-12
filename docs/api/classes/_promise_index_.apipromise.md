@@ -1,10 +1,20 @@
 
 
-*__description__*: ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
+@polkadot/api/promise
+=====================
 
-The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of athe subscription-based features of Polkadot (and Substrate) clients.
+Overview
+--------
+*__name__*: ApiPromise
 
-*__example__*:   
+*__description__*: ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise `(value) => {}` callbacks to pass through the latest values.
+
+The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
+
+*__see__*: [ApiRx](_rx_index_.apirx.md)
+
+Usage
+-----
 
 Making rpc calls -  
 
@@ -15,7 +25,7 @@ import ApiPromise from '@polkadot/api/promise';
 const api = await ApiPromise.create();
 
 // make a subscription to the network head
-api.rpc.chain.newHead((error, header) => {
+api.rpc.chain.newHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```
@@ -27,15 +37,18 @@ Subscribing to chain state -
 import { ApiPromise } from '@polkadot/api';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-// initialise via isReady & new with specific non-local endpoint
-const api = await new ApiPromise(new WsProvider('wss://example.com:9944')).isReady;
+// initialise a provider with a specific endpoint
+const provider = new WsProvider('wss://example.com:9944')
+
+// initialise via isReady & new with specific provider
+const api = await new ApiPromise(provider).isReady;
 
 // retrieve the block target time
 const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
 let last = 0;
 
-// subscribe to the current block timestamp, updates automatically
-api.st.timestamp.now((error, timestamp) => {
+// subscribe to the current block timestamp, updates automatically (callback provided)
+api.st.timestamp.now((timestamp) => {
   const elapsed = last
     ? `, ${timestamp.toNumber() - last}s since last`
     : '';
@@ -59,21 +72,20 @@ ApiPromise.create().then((api) => {
     transfer(keyring.bob.address(), 12345)
     // sign the transcation
     .sign(keyring.alice, nonce)
-    // send the transaction
-    .send()
-    // retrieve the overall result
+    // send the transaction (optional status callback)
+    .send((status) => {
+      console.log(`current status ${status.type}`);
+    })
+    // retrieve the submitted extrinsic hash
     .then((hash) => {
       console.log(`submitted with hash ${hash}`);
     });
 });
 ```
 
-# Type parameters
-#### EventTypes :   `string` &#124; `symbol`
-
 # Hierarchy
 
-↳  [ApiBase](_base_.apibase.md)<`Rpc`, `QueryableStorage`, `SubmittableExtrinsics`>
+ [ApiBase](_base_.apibase.md)<`Rpc`, `QueryableStorage`, `SubmittableExtrinsics`>
 
 **↳ ApiPromise**
 
@@ -92,14 +104,16 @@ ApiPromise.create().then((api) => {
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:113](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L113)*
+*Defined in [promise/index.ts:127](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/promise/index.ts#L127)*
+
+*__description__*: Creates an instance of the ApiPromise class
 
 *__example__*:   
 ```javascript
 import Api from '@polkadot/api/promise';
 
 new Api().isReady.then((api) => {
-  api.rpc.newHead((error, header) => {
+  api.rpc.newHead((header) => {
     console.log(`new block #${header.blockNumber.toNumber()}`);
   });
 });
@@ -109,24 +123,9 @@ new Api().isReady.then((api) => {
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` wsProvider | `WsProvider` |  An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port |
+| `Optional` wsProvider | `WsProvider` |  WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. \`ws://127.0.0.1:9944\` |
 
 **Returns:** [ApiPromise](_promise_index_.apipromise.md)
-
-___
-
-# Properties
-
-<a id="prefixed"></a>
-
-## `<Static>` prefixed
-
-**● prefixed**: * `string` &#124; `boolean`
-*
-
-*Inherited from EventEmitter.prefixed*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:6*
 
 ___
 
@@ -140,7 +139,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L68)*
+*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L71)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -153,7 +152,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:143](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L143)*
+*Defined in [promise/index.ts:160](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/promise/index.ts#L160)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -168,9 +167,11 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:105](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L105)*
+*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L111)*
 
-*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
+*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+
+RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
 
 *__example__*:   
 ```javascript
@@ -192,7 +193,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L77)*
+*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L80)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -207,7 +208,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L86)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L89)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -222,9 +223,11 @@ getst(): `QueryableStorage`
 
 *Inherited from [ApiBase](_base_.apibase.md).[st](_base_.apibase.md#st)*
 
-*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L122)*
+*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L131)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+
+All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
 
 *__example__*:   
 ```javascript
@@ -246,7 +249,7 @@ gettx(): `SubmittableExtrinsics`
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:143](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/Base.ts#L143)*
+*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L153)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -267,217 +270,37 @@ ___
 
 # Methods
 
-<a id="addlistener"></a>
-
-##  addListener
-
-▸ **addListener**(event: *`EventTypes`*, fn: *`ListenerFn`*, context?: *`any`*): `this`
-
-*Inherited from EventEmitter.addListener*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:33*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| fn | `ListenerFn` |
-| `Optional` context | `any` |
-
-**Returns:** `this`
-
-___
-<a id="emit"></a>
-
-##  emit
-
-▸ **emit**(event: *`EventTypes`*, ...args: *`Array`<`any`>*): `boolean`
-
-*Inherited from EventEmitter.emit*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:27*
-
-Calls each of the listeners registered for a given event.
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| `Rest` args | `Array`<`any`> |
-
-**Returns:** `boolean`
-
-___
-<a id="eventnames"></a>
-
-##  eventNames
-
-▸ **eventNames**(): `Array`<`EventTypes`>
-
-*Inherited from EventEmitter.eventNames*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:12*
-
-Return an array listing the events for which the emitter has registered listeners.
-
-**Returns:** `Array`<`EventTypes`>
-
-___
-<a id="listenercount"></a>
-
-##  listenerCount
-
-▸ **listenerCount**(event: *`EventTypes`*): `number`
-
-*Inherited from EventEmitter.listenerCount*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:22*
-
-Return the number of listeners listening to a given event.
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-
-**Returns:** `number`
-
-___
-<a id="listeners"></a>
-
-##  listeners
-
-▸ **listeners**(event: *`EventTypes`*): `Array`<`ListenerFn`>
-
-*Inherited from EventEmitter.listeners*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:17*
-
-Return the listeners registered for a given event.
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-
-**Returns:** `Array`<`ListenerFn`>
-
-___
-<a id="off"></a>
-
-##  off
-
-▸ **off**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
-
-*Inherited from EventEmitter.off*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:44*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| `Optional` fn | [ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md) |
-| `Optional` context | `any` |
-| `Optional` once |  `undefined` &#124; `false` &#124; `true`|
-
-**Returns:** `this`
-
-___
 <a id="on"></a>
 
 ##  on
 
-▸ **on**(event: *`EventTypes`*, fn: *`ListenerFn`*, context?: *`any`*): `this`
+▸ **on**(type: *`ApiInterface$Events`*, handler: *`function`*): `void`
 
-*Inherited from EventEmitter.on*
+*Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:32*
+*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/Base.ts#L178)*
 
-Add a listener for a given event.
+*__description__*: Attach an eventemitter handler to listen to a specific event
 
-**Parameters:**
+*__example__*:   
+```javascript
+* api.on('disconnected', () => {
+  console.log('API has been connected to the endpoint');
+});
 
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| fn | `ListenerFn` |
-| `Optional` context | `any` |
-
-**Returns:** `this`
-
-___
-<a id="once"></a>
-
-##  once
-
-▸ **once**(event: *`EventTypes`*, fn: *`ListenerFn`*, context?: *`any`*): `this`
-
-*Inherited from EventEmitter.once*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:38*
-
-Add a one-time listener for a given event.
+api.on('disconnected', () => {
+  console.log('API has been disconnected from the endpoint');
+});
+```
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| fn | `ListenerFn` |
-| `Optional` context | `any` |
+| Param | Type | Description |
+| ------ | ------ | ------ |
+| type | `ApiInterface$Events` |  The type of event to listen to. Available events are \`connected\`, \`disconnected\` and \`ready\` |
+| handler | `function` |  The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments. |
 
-**Returns:** `this`
-
-___
-<a id="removealllisteners"></a>
-
-##  removeAllListeners
-
-▸ **removeAllListeners**(event?: *[EventTypes]()*): `this`
-
-*Inherited from EventEmitter.removeAllListeners*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:49*
-
-Remove all listeners, or those of the specified event.
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| `Optional` event | [EventTypes]() |
-
-**Returns:** `this`
-
-___
-<a id="removelistener"></a>
-
-##  removeListener
-
-▸ **removeListener**(event: *`EventTypes`*, fn?: *[ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md)*, context?: *`any`*, once?: * `undefined` &#124; `false` &#124; `true`*): `this`
-
-*Inherited from EventEmitter.removeListener*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/eventemitter3/index.d.ts:43*
-
-Remove the listeners of a given event.
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| event | `EventTypes` |
-| `Optional` fn | [ListenerFn](../interfaces/_base_.apibase.eventemitter.listenerfn.md) |
-| `Optional` context | `any` |
-| `Optional` once |  `undefined` &#124; `false` &#124; `true`|
-
-**Returns:** `this`
+**Returns:** `void`
 
 ___
 <a id="create"></a>
@@ -486,7 +309,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:111](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/api/src/promise/index.ts#L111)*
+*Defined in [promise/index.ts:125](https://github.com/polkadot-js/api/blob/64c5868/packages/api/src/promise/index.ts#L125)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
@@ -505,7 +328,7 @@ Api.create().then(async (api) => {
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` wsProvider | `WsProvider` |  Optional WebSocket provider that is passed to the class contructor |
+| `Optional` wsProvider | `WsProvider` |  WebSocket provider that is passed to the class contructor |
 
 **Returns:** `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 

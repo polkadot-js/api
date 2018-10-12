@@ -8,7 +8,7 @@
 
 ▸ **encodeJson**(self: *`RpcCoderState`*, method: *`string`*, params: *`Array`<`any`>*): `string`
 
-*Defined in [coder/json/encodeJson.ts:9](https://github.com/polkadot-js/api/blob/a4fc2c5/packages/rpc-provider/src/coder/json/encodeJson.ts#L9)*
+*Defined in [coder/json/encodeJson.ts:9](https://github.com/polkadot-js/api/blob/64c5868/packages/rpc-provider/src/coder/json/encodeJson.ts#L9)*
 
 **Parameters:**
 

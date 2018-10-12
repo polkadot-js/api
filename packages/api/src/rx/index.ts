@@ -21,13 +21,20 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 const l = logger('api-rx');
 
 /**
+ * # @polkadot/api/rx
+ *
+ *  ## Overview
+ *
+ * @name ApiRx
+ *
  * @description
  * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
  * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
  *
- * @example
- * <BR>
+ * @see [[ApiPromise]]
+ *
+ * ## Usage
  *
  * Making rpc calls -
  * <BR>
@@ -49,14 +56,18 @@ const l = logger('api-rx');
  * <BR>
  *
  * ```javascript
- * import { ApiRx } from '@polkadot/api';
- * import WsProvider from '@polkadot/rpc-provider/ws';
  * import { combineLatest } from 'rxjs';
+ * import { ApiRx } from '@polkadot/api';
+ * import { WsProvider } from '@polkadot/rpc-provider';
  *
+ * // last block timestamp
  * let last = 0;
  *
- * // initialise via isReady & new with specific non-local endpoint
- * new ApiRx(new WsProvider('wss://example.com:9944'))
+ * // initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // initialise via isReady & new with specific provider
+ * new ApiRx(provider)
  *   .isReady
  *   .pipe(
  *     switchMap((api) =>
@@ -111,7 +122,9 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param wsProvider Optional WebSocket provider that is passed to the class contructor
+   *
+   * @param wsProvider WebSocket provider that is passed to the class contructor
+   *
    * @example
    * <BR>
    *
@@ -130,7 +143,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   /**
-   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @description Create an instance of the ApiRx class
+   *
+   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   *
    * @example
    * <BR>
    *

@@ -2,6 +2,7 @@
 * [&quot;coder/json/encodeJson&quot;](modules/_coder_json_encodejson_.md)
 * [&quot;coder/json/encodeObject&quot;](modules/_coder_json_encodeobject_.md)
 * [&quot;coder/json/index&quot;](modules/_coder_json_index_.md)
+* [&quot;defaults&quot;](modules/_defaults_.md)
 * [&quot;http/index&quot;](modules/_http_index_.md)
   * [HttpProvider](classes/_http_index_.httpprovider.md)
 * [&quot;http/polyfill&quot;](modules/_http_polyfill_.md)

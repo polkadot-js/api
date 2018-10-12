@@ -50,6 +50,18 @@ export default class Compact extends UInt {
     return [byteLength + 1, u8aToBn(input.subarray(1, 1 + byteLength), true)];
   }
 
+  /**
+   * Prepend a Uint8Array with its compact length.
+   *
+   * @param u8a - The Uint8Array to be prefixed
+   */
+  static addLengthPrefix (u8a: Uint8Array): Uint8Array {
+    return u8aConcat(
+      Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
+      u8a
+    );
+  }
+
   static encodeU8a (_value: UInt | BN | number, bitLength: UIntBitLength): Uint8Array {
     const value = _value instanceof UInt
       ? _value.toBn()
