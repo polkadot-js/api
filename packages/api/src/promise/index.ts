@@ -90,9 +90,11 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  *     transfer(keyring.bob.address(), 12345)
  *     // sign the transcation
  *     .sign(keyring.alice, nonce)
- *     // send the transaction
- *     .send()
- *     // retrieve the overall result
+ *     // send the transaction (optional status callback)
+ *     .send((status) => {
+ *       console.log(`current status ${status.type}`);
+ *     })
+ *     // retrieve the submitted extrinsic hash
  *     .then((hash) => {
  *       console.log(`submitted with hash ${hash}`);
  *     });

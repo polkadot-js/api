@@ -6,7 +6,7 @@ import { KeyringPair } from '@polkadot/util-keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { ApiPromiseInterface } from './types';
 
-import { Extrinsic, Hash } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
@@ -17,9 +17,11 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  // TODO We probably want a subscriptable sendAndWatch here as well
+  send (statusCb?: (status: ExtrinsicStatus) => any): Promise<Hash> {
+    if (status) {
+      return this._api.rpc.author.extrinsicUpdate(this, statusCb);
+    }
 
-  send (): Promise<Hash> {
     return this._api.rpc.author.submitExtrinsic(this);
   }
 

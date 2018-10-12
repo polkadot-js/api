@@ -20,7 +20,7 @@ export class Finalised extends Hash {
 export class Usurped extends Hash {
 }
 
-export default class Status extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
+export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
   constructor (index?: number) {
     super([
       Finalised,
