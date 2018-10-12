@@ -5,12 +5,13 @@
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyNumber, AnyU8a } from '../types';
 import UInt, { UIntBitLength } from './UInt';
-import isU8a from '@polkadot/util/is/u8a';
 
 export const DEFAULT_LENGTH_BITS = 32;
 
@@ -34,8 +35,8 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
 export default class Compact extends UInt {
-  constructor (value: Uint8Array | string, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS) {
-    super(Compact.decodeCompact(value, bitLength), bitLength);
+  constructor (value?: AnyU8a | AnyNumber, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS, isHexJson: boolean = false) {
+    super(Compact.decodeCompact(value, bitLength), bitLength, isHexJson);
   }
 
   /**
@@ -50,13 +51,13 @@ export default class Compact extends UInt {
     );
   }
 
-  static decodeCompact (value: Uint8Array | string, bitLength: UIntBitLength): BN | string {
+  static decodeCompact (value: AnyU8a | AnyNumber | undefined, bitLength: UIntBitLength): any {
     if (isU8a(value)) {
       const [, length] = Compact.decodeU8a(value, bitLength);
 
       return length;
     }
-    return value;
+    return value as any;
   }
 
   static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
