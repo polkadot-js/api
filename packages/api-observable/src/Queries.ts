@@ -127,12 +127,12 @@ export default class ApiQueries extends ApiBase {
       )
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map(([baseFee = new Balance(0), byteFee = new Balance(0), creationFee = new Balance(0), existentialDeposit = new Balance(0), transferFee = new Balance(0)]: [Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined]) => ({
-          baseFee,
-          byteFee,
-          creationFee,
-          existentialDeposit,
-          transferFee
+        map(([baseFee, byteFee, creationFee, existentialDeposit, transferFee]: [Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined, Balance | undefined]) => ({
+          baseFee: baseFee || new Balance(0),
+          byteFee: byteFee || new Balance(0),
+          creationFee: creationFee || new Balance(0),
+          existentialDeposit: existentialDeposit || new Balance(0),
+          transferFee: transferFee || new Balance(0)
         }))
       );
   }
