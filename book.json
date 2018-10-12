@@ -12,7 +12,7 @@
   "pluginsConfig": {
     "insert-logo-link": {
       "src": "/logo.png",
-      "url": "http://localhost:4000"
+      "url": "https://polkadot.js.org"
     },
     "sunlight-highlighter": {
       "theme": "gitbook"
