@@ -16,8 +16,11 @@ const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the d
 const DESC_STORAGE = '\n\n_The following Storage methods are part of the default Substrate runtime._';
 
 function addRpc () {
+  const renderHeading = `## JSON-RPC${DESC_RPC}\n`;
+
   return Object.keys(interfaces).reduce((md, sectionName) => {
     const section = interfaces[sectionName];
+    const renderSection = `${md}\n___\n\n### ${sectionName}\n\n_${section.description}_\n`;
 
     return Object.keys(section.methods).reduce((md, methodName) => {
       const method = section.methods[methodName];
@@ -26,46 +29,59 @@ function addRpc () {
       }).join(', ');
       const type = '`' + method.type + '`';
       const isSub = method.isSubscription;
+      const renderSignature = `${md}\n▸ **${methodName}**(${args}): ${type}`;
+      const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}` : `\n`}`;
+      const renderSubscription = `${isSub ? `\n- **isSubscription**: ${isSub}\n` : `\n`}`;
 
-      return `${md}\n▸ **${methodName}**(${args}): ${type}` + `${method && method.description ? `\n- **summary**: ${method.description}` : `\n`}` + `${isSub ? `\n- **isSubscription**: ${isSub}\n` : `\n`}`;
-    }, `${md}\n___\n\n### ${sectionName}\n\n_${section.description}_\n`);
-  }, `## JSON-RPC${DESC_RPC}\n`);
+      return renderSignature + renderSummary + renderSubscription;
+    }, renderSection);
+  }, renderHeading);
 }
 
 function addExtrinsics (metadata: any) {
+  const renderHeading = `## Extrinsics${DESC_EXTRINSICS}`;
+
   return metadata.modules.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
       return md;
     }
 
     const sectionName = stringCamelCase(meta.prefix.toString());
+    const renderSection = `${md}\n___\n### ${sectionName}\n`;
 
     return meta.module.call.functions.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
+      const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
+      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
-      return `${md}\n▸ **${methodName}**(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, `${md}\n___\n### ${sectionName}\n`);
-  }, `## Extrinsics${DESC_EXTRINSICS}`);
+      return renderSignature + renderSummary;
+    }, renderSection);
+  }, renderHeading);
 }
 
 function addStorage (metadata: any) {
+  const renderHeading = `## Storage${DESC_STORAGE}`;
+
   return metadata.modules.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
       return md;
     }
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
+    const renderSection = `${md}\n___\n### ${sectionName}\n`;
 
     return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
+      const renderSignature = `${md}\n▸ **${methodName}**(${arg}): ` + '`' + func.type + '`';
+      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
-      return `${md}\n▸ **${methodName}**(${arg}): ` + '`' + func.type + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
-    }, `${md}\n___\n### ${sectionName}\n`);
-  }, `## Storage${DESC_STORAGE}`);
+      return renderSignature + renderSummary;
+    }, renderSection);
+  }, renderHeading);
 }
 
 function metadataStorageMethodsAsText () {
