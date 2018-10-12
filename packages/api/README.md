@@ -14,7 +14,7 @@ The API wrappers provide a standard interface for use -
 
 There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using [RxJS](https://github.com/ReactiveX/rxjs). Depending on your use-case and familiarity, you can choose either (or even both) for your application.
 
-- [[ApiPromise]] All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use standard JavaScript `(error, value) => {}` callbacks.
+- [[ApiPromise]] All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method use `(value) => {}` callbacks, returning the value as the subscription is updated.
 - [[ApiRx]] All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
 
 ## Dynamic by default
@@ -40,7 +40,7 @@ import { ApiPromise } from '@polkadot/api';
 const api = await ApiPromise.create();
 
 // make a call to retrieve the current network head
-api.rpc.chain.newHead((error, header) => {
+api.rpc.chain.newHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```

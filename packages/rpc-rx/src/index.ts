@@ -168,13 +168,7 @@ export default class RpcRx implements RpcRxInterface {
   private createSubjectCallback (observer: Subscriber<any>) {
     let cachedResult: any;
 
-    return (error: Error | null, result: any) => {
-      if (error) {
-        console.error(error);
-        observer.next();
-        return;
-      }
-
+    return (result: any) => {
       if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
         cachedResult = result;
       } else {

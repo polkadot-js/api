@@ -57,7 +57,7 @@ describe('formatting', () => {
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
         ],
-        (error, value) => {
+        (value) => {
           console.error(value);
 
           expect(
@@ -74,7 +74,7 @@ describe('formatting', () => {
             )
           ).toEqual([513, 258]);
 
-          done(error);
+          done();
         });
   });
 });

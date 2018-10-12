@@ -9,11 +9,11 @@
 
 ## Examples
 
-- [RPC](examples-rpc/README.md)
-  - [Simple connect](examples-rpc/01_simple_connect/README.md)
-  - [Listen to blocks](examples-rpc/02_listen_to_blocks/README.md)
-  - [Listen to balance change](examples-rpc/03_listen_to_balance_change/README.md)
-  - [Generate Accounts](examples-rpc/04_generate_account/README.md)
-  - [Read Storage](examples-rpc/05_read_storage/README.md)
-  - [Craft Extrinsic](examples-rpc/06_craft_extrinsic/README.md)
-  - [Transfer DOTs](examples-rpc/07_transfer_dots/README.md)
+- [ApiPromise](examples/promise/README.md)
+  - [Simple connect](examples/promise/01_simple_connect/README.md)
+  - [Listen to blocks](examples/promise/02_listen_to_blocks/README.md)
+  - [Listen to balance change](examples/deprecated-rpc/03_listen_to_balance_change/README.md)
+  - [Generate Accounts](examples/deprecated-rpc/04_generate_account/README.md)
+  - [Read Storage](examples/deprecated-rpc/05_read_storage/README.md)
+  - [Craft Extrinsic](examples/deprecated-rpc/06_craft_extrinsic/README.md)
+  - [Transfer DOTs](examples/deprecated-rpc/07_transfer_dots/README.md)

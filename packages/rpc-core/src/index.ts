@@ -131,7 +131,12 @@ export default class Rpc implements RpcInterface {
         const params = this.formatInputs(method, values);
         const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
-          cb(error, this.formatOutput(method, params, result));
+          if (error) {
+            console.error(`${Rpc.signature(method)}:: ${error.message}`, error);
+            return;
+          }
+
+          cb(this.formatOutput(method, params, result));
         };
 
         return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
