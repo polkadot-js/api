@@ -336,8 +336,10 @@ export default class RuntimeMetadata extends Struct {
     } else if (isU8a(value)) {
       // this does not look correct, metadata now has a length prefix. Strip, move on.
       const [offset] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+
       return value.subarray(offset);
     }
+
     // Decode as normal struct
     return value;
   }

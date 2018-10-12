@@ -29,6 +29,7 @@ export default class EnumType<T> extends Base<Base<T>> {
 
   constructor (def: TypesDef, value?: any, index?: number | EnumType<T>) {
     const decoded = EnumType.decodeEnumType(def, value, index);
+
     super(
       decoded.value
     );

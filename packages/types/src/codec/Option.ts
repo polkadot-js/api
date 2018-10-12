@@ -30,6 +30,7 @@ export default class Option<T> extends Base<Base<T>> {
       if (value[0] === 0) {
         return new Null();
       }
+
       return new Type(value.subarray(1));
     }
 
