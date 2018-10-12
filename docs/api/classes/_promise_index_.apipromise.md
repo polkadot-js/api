@@ -104,7 +104,7 @@ ApiPromise.create().then((api) => {
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:127](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/promise/index.ts#L127)*
+*Defined in [promise/index.ts:127](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/promise/index.ts#L127)*
 
 *__description__*: Creates an instance of the ApiPromise class
 
@@ -139,7 +139,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L71)*
+*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L71)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -152,11 +152,37 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:160](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/promise/index.ts#L160)*
+*Defined in [promise/index.ts:160](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/promise/index.ts#L160)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
 **Returns:** `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
+
+___
+<a id="query"></a>
+
+##  query
+
+getquery(): `QueryableStorage`
+
+*Inherited from [ApiBase](_base_.apibase.md).[query](_base_.apibase.md#query)*
+
+*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L111)*
+
+*__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+
+All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+
+*__example__*:   
+```javascript
+api.query.balances
+  .freeBalance(<accountId>)
+  .subscribe((balance) => {
+    console.log('new balance', balance);
+  });
+```
+
+**Returns:** `QueryableStorage`
 
 ___
 <a id="rpc"></a>
@@ -167,9 +193,9 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L111)*
+*Defined in [Base.ts:133](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L133)*
 
-*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
 RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
 
@@ -193,7 +219,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L80)*
+*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L80)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -208,37 +234,11 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L89)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L89)*
 
 *__description__*: Contains the version information for the current runtime.
 
 **Returns:** `RuntimeVersion`
-
-___
-<a id="st"></a>
-
-##  st
-
-getst(): `QueryableStorage`
-
-*Inherited from [ApiBase](_base_.apibase.md).[st](_base_.apibase.md#st)*
-
-*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L131)*
-
-*__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
-
-All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
-
-*__example__*:   
-```javascript
-api.query.balances
-  .freeBalance(<accountId>)
-  .subscribe((balance) => {
-    console.log('new balance', balance);
-  });
-```
-
-**Returns:** `QueryableStorage`
 
 ___
 <a id="tx"></a>
@@ -249,7 +249,7 @@ gettx(): `SubmittableExtrinsics`
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L153)*
+*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L153)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -278,7 +278,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L178)*
+*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/Base.ts#L178)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -309,7 +309,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:125](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/promise/index.ts#L125)*
+*Defined in [promise/index.ts:125](https://github.com/polkadot-js/api/blob/64e3ca6/packages/api/src/promise/index.ts#L125)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
