@@ -7,11 +7,11 @@ The API wrappers provide a standard interface for use -
 - A static `.create(<optional WsProvider>)` that returns an API instance when connected, decorated and ready-to use
 - The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
-  - [RPC (Runtime Node Interface)](../METHODS_RPC.md)
+  - [RPC (node interface)](../METHODS_RPC.md)
 - `api.st.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
-  - [Storage (Runtime Node Interface)](../METHODS_STORAGE.md)
+  - [Storage chain state (runtime node interface)](../METHODS_STORAGE.md)
 - `api.tx.<section>.<method>` provides the ability to create a transaction, like chain state, this list is populated from a runtime query
-  - [Extrinsics (Runtime Node Interface)](../METHODS_EXTRINSICS.md)
+  - [Extrinsics (runtime node interface)](../METHODS_EXTRINSICS.md)
 
 
 ## API Selection
