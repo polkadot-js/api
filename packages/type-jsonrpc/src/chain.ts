@@ -40,7 +40,7 @@ const getHead: RpcMethodOpt = {
 };
 
 const getRuntimeVersion: RpcMethodOpt = {
-  description: ' Get the runtime version',
+  description: 'Get the runtime version',
   params: [
     createParam('hash', 'Hash', { isOptional: true })
   ],
