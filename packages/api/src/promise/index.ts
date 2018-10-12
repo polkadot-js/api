@@ -41,7 +41,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * const api = await ApiPromise.create();
  *
  * // make a subscription to the network head
- * api.rpc.chain.newHead((header) => {
+ * api.rpc.chain.subscribeNewHead((header) => {
  *   console.log(`Chain is at #${header.blockNumber}`);
  * });
  * ```
@@ -138,7 +138,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * import Api from '@polkadot/api/promise';
    *
    * new Api().isReady.then((api) => {
-   *   api.rpc.newHead((header) => {
+   *   api.rpc.subscribeNewHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
@@ -206,7 +206,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
         return this.rpc.state.getStorage([method, args[0]]);
       }
 
-      return this.rpc.state.storage(
+      return this.rpc.state.subscribeStorage(
         [[method, args.length === 1 ? undefined : args[0]]],
         (result: Array<Base | null | undefined> = []) =>
           args[args.length - 1](result[0])

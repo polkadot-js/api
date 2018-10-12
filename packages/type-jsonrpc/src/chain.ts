@@ -47,13 +47,14 @@ const getRuntimeVersion: RpcMethodOpt = {
   type: 'RuntimeVersion'
 };
 
-const newHead: RpcMethodOpt = {
+const subscribeNewHead: RpcMethodOpt = {
   description: 'Retrieves the best header via subscription',
-  subscribe: [
-    'chain_subscribeNewHead',
-    'chain_unsubscribeNewHead'
-  ],
   params: [],
+  pubsub: [
+    'newHead',
+    'subscribeNewHead',
+    'unsubscribeNewHead'
+  ],
   type: 'Header'
 };
 
@@ -73,6 +74,6 @@ export default {
     getHead: createMethod(section, 'getHead', getHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
-    newHead: createMethod(section, 'newHead', newHead)
+    subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
   }
 } as RpcSection;

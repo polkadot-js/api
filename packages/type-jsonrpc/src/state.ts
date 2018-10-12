@@ -99,15 +99,16 @@ const queryStorage: RpcMethodOpt = {
   type: 'Vec<StorageChangeSet>'
 };
 
-const storage: RpcMethodOpt = {
+const subscribeStorage: RpcMethodOpt = {
   description: 'Subscribes to storage changes for the provided keys',
-  subscribe: [
-    'state_subscribeStorage',
-    'state_unsubscribeStorage'
-  ],
   params: [
     // @ts-ignore The Vec<> wrap is fine
     createParam('keys', 'Vec<StorageKey>')
+  ],
+  pubsub: [
+    'storage',
+    'subscribeStorage',
+    'unsubscribeStorage'
   ],
   type: 'StorageChangeSet'
 };
@@ -133,6 +134,6 @@ export default {
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
     getStorageSizeAt: createMethod(section, 'getStorageSizeAt', getStorageSizeAt),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
-    storage: createMethod(section, 'storage', storage)
+    subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
 } as RpcSection;

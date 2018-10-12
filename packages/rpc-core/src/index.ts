@@ -87,18 +87,20 @@ export default class Rpc implements RpcInterface {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {
-        const rpcName = `${section}_${method}`;
+
         const def = methods[method];
 
         exposed[method] = def.isSubscription
-          ? this.createMethodSubscribe(rpcName, def)
-          : this.createMethodSend(rpcName, def);
+          ? this.createMethodSubscribe(def)
+          : this.createMethodSend(def);
 
         return exposed;
       }, {} as RpcInterface$Section);
   }
 
-  private createMethodSend (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSend (method: RpcMethod): RpcInterface$Section$Method {
+    const rpcName = `${method.section}_${method.method}`;
+
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
@@ -119,9 +121,14 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterface$Section$Method;
   }
 
-  private createMethodSubscribe (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSubscribe (method: RpcMethod): RpcInterface$Section$Method {
+    const [updateType, subMethod, unsubMethod] = method.pubsub;
+    const subName = `${method.section}_${subMethod}`;
+    const unsubName = `${method.section}_${unsubMethod}`;
+    const subscriptionType = `${method.section}_${updateType}`;
+
     const unsubscribe = (subscriptionId: any): Promise<any> =>
-      this._provider.unsubscribe(rpcName, method.subscribe[1], subscriptionId);
+      this._provider.unsubscribe(subscriptionType, unsubName, subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
       try {
         const cb: ProviderInterface$Callback = values.pop();
@@ -139,7 +146,7 @@ export default class Rpc implements RpcInterface {
           cb(this.formatOutput(method, params, result));
         };
 
-        return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
+        return this._provider.subscribe(subscriptionType, subName, paramsJson, update);
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 

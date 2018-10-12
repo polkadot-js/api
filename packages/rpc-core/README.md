@@ -53,17 +53,13 @@ Retrieving best header via subscription -
 
 ```js
 api.chain
-  .newHead((error, header) => {
-    if (error) {
-      console.error('error:', error);
-    }
-
-    console.log(`best #${header.blockNumber.toString()}`);
+  .subscribeNewHead((header) => {
+    console.log(`best #${header.blockNumber}`);
   })
   .then((subscriptionId) => {
     console.log(`subscriptionId: ${subscriptionId}`);
     // id for the subscription, can unsubscribe via
-    // api.chain.newHead.unsubscribe(subscriptionId);
+    // api.chain.subscribeNewHead.unsubscribe(subscriptionId);
   })
   .catch((error) => {
     console.error('error subscribing:', error);

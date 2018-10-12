@@ -19,7 +19,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   send (): Observable<ExtrinsicStatus> {
-    return this._api.rpc.author.extrinsicUpdate(this);
+    return this._api.rpc.author.submitAndWatchExtrinsic(this);
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

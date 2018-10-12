@@ -79,6 +79,6 @@ export default function mocks ({ emitter, db, subscriptions }: MockState): void 
 
     setStorageBn(db, storage.timestamp.now, Math.floor(Date.now() / 1000));
 
-    updateSubs(subscriptions, 'chain_newHead', new Header(newHead).toJSON());
+    updateSubs(subscriptions, 'chain_subscribeNewHead', new Header(newHead).toJSON());
   }, 5000);
 }

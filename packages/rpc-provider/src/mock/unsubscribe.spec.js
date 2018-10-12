@@ -13,23 +13,23 @@ describe('unsubscribe', () => {
   beforeEach(() => {
     state = createState();
 
-    return subscribe(state, 'chain_newHead', 'chain_newHead', [() => void 0]).then((_id) => {
+    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [() => void 0]).then((_id) => {
       id = _id;
     });
   });
 
   it('fails on unknown ids', () => {
-    return unsubscribe(state, 'chain_newHead', 'chain_newHead', 5).catch((error) => {
+    return unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', 5).catch((error) => {
       expect(error.message).toMatch(/Unable to find/);
     });
   });
 
   it('unsubscribes successfully', () => {
-    return unsubscribe(state, 'chain_newHead', 'chain_newHead', id);
+    return unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', id);
   });
 
   it('fails on double unsubscribe', () => {
-    return unsubscribe(state, 'chain_newHead', 'chain_newHead', id)
+    return unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', id)
       .then(() => unsubscribe(state, id))
       .catch((error) => {
         expect(error.message).toMatch(/Unable to find/);
@@ -37,9 +37,9 @@ describe('unsubscribe', () => {
   });
 
   it('clears the subscriptions', () => {
-    return unsubscribe(state, 'chain_newHead', 'chain_newHead', id).then(() => {
+    return unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', id).then(() => {
       expect(state.subscriptionMap[id]).not.toBeDefined();
-      expect(state.subscriptions['chain_newHead'].callbacks[id]).not.toBeDefined();
+      expect(state.subscriptions['chain_subscribeNewHead'].callbacks[id]).not.toBeDefined();
     });
   });
 });
