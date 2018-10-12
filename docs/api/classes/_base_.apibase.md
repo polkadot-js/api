@@ -24,7 +24,7 @@
 
 ⊕ **new ApiBase**(wsProvider?: *`WsProvider`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L40)*
+*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L40)*
 
 *__description__*: Create an instance of the class
 
@@ -57,7 +57,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L71)*
+*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L71)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -70,7 +70,7 @@ ___
 
 getrpc(): `R`
 
-*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L111)*
+*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L111)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -94,7 +94,7 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L80)*
+*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L80)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -107,7 +107,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L89)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L89)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -120,7 +120,7 @@ ___
 
 getst(): `S`
 
-*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L131)*
+*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L131)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -144,7 +144,7 @@ ___
 
 gettx(): `E`
 
-*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L153)*
+*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L153)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -171,7 +171,7 @@ ___
 
 ▸ **on**(type: *`ApiInterface$Events`*, handler: *`function`*): `void`
 
-*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/2b5169c/packages/api/src/Base.ts#L178)*
+*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/6056fbc/packages/api/src/Base.ts#L178)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
