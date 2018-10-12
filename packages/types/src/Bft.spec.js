@@ -36,7 +36,7 @@ describe('BftHashSignature', () => {
 
 describe('Justification', () => {
   const just = new Justification({
-    round: 32,
+    round_number: 32, // We get round_number from JSON, and change it to round
     hash: '0xabcd',
     signatures: [
       { authorityId: '0x1234', signature: '0x5678' },
