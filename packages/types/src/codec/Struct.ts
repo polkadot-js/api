@@ -66,7 +66,7 @@ export default class Struct<
       .reduce((raw: T, key) => {
         // The key in the JSON can be snake_case (or other cases), but in our
         // Types, result or any other maps, it's camelCase
-        const jsonKey = jsonMap.get(key as any) || key;
+        const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
         if (isU8a(value)) {
           // @ts-ignore FIXME See below
