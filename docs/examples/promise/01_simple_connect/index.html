@@ -249,9 +249,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.3" data-path="../../deprecated-rpc/03_listen_to_balance_change/">
+        <li class="chapter " data-level="2.1.3" data-path="../03_listen_to_balance_change/">
             
-                <a href="../../deprecated-rpc/03_listen_to_balance_change/">
+                <a href="../03_listen_to_balance_change/">
             
                     
                     Listen to balance change
@@ -262,12 +262,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4" data-path="../../deprecated-rpc/04_generate_account/">
+        <li class="chapter " data-level="2.1.4" data-path="../05_read_storage/">
             
-                <a href="../../deprecated-rpc/04_generate_account/">
+                <a href="../05_read_storage/">
             
                     
-                    Generate Accounts
+                    Read chain state
             
                 </a>
             
@@ -275,38 +275,12 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5" data-path="../../deprecated-rpc/05_read_storage/">
+        <li class="chapter " data-level="2.1.5" data-path="../07_transfer_dots/">
             
-                <a href="../../deprecated-rpc/05_read_storage/">
-            
-                    
-                    Read Storage
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.6" data-path="../../deprecated-rpc/06_craft_extrinsic/">
-            
-                <a href="../../deprecated-rpc/06_craft_extrinsic/">
+                <a href="../07_transfer_dots/">
             
                     
-                    Craft Extrinsic
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="2.1.7" data-path="../../deprecated-rpc/07_transfer_dots/">
-            
-                <a href="../../deprecated-rpc/07_transfer_dots/">
-            
-                    
-                    Transfer DOTs
+                    Make a transfer
             
                 </a>
             
@@ -377,10 +351,14 @@
 &#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;create&#xA0;the&#xA0;API&#xA0;and&#xA0;wait&#xA0;until&#xA0;ready</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">ApiPromise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">create</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;retrieve&#xA0;the&#xA0;chain&#xA0;information&#xA0;(rpc&#xA0;call)</span>
-&#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">chain</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;retrieve&#xA0;the&#xA0;chain&#xA0;&amp;&#xA0;node&#xA0;information&#xA0;information&#xA0;via&#xA0;rpc&#xA0;calls</span>
+&#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">[</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">nodeName</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">nodeVersion</span><span class="sunlight-punctuation">]</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">Promise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">all</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">[</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">name</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">version</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">You</span>&#xA0;<span class="sunlight-ident">are</span>&#xA0;<span class="sunlight-ident">connected</span>&#xA0;<span class="sunlight-ident">to</span>&#xA0;<span class="sunlight-ident">chain</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">You</span>&#xA0;<span class="sunlight-ident">are</span>&#xA0;<span class="sunlight-ident">connected</span>&#xA0;<span class="sunlight-ident">to</span>&#xA0;<span class="sunlight-ident">chain</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-ident">using</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">nodeName</span><span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-ident">v$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">nodeVersion</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-punctuation">}</span>
 
 <span class="sunlight-ident">main</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">finally</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-ident">process</span><span class="sunlight-operator">.</span><span class="sunlight-ident">exit</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
@@ -428,7 +406,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"2.1.1","depth":2,"next":{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"ApiPromise","level":"2.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"2.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"2.1.3","depth":2,"path":"examples/deprecated-rpc/03_listen_to_balance_change/README.md","ref":"examples/deprecated-rpc/03_listen_to_balance_change/README.md","articles":[]},{"title":"Generate Accounts","level":"2.1.4","depth":2,"path":"examples/deprecated-rpc/04_generate_account/README.md","ref":"examples/deprecated-rpc/04_generate_account/README.md","articles":[]},{"title":"Read Storage","level":"2.1.5","depth":2,"path":"examples/deprecated-rpc/05_read_storage/README.md","ref":"examples/deprecated-rpc/05_read_storage/README.md","articles":[]},{"title":"Craft Extrinsic","level":"2.1.6","depth":2,"path":"examples/deprecated-rpc/06_craft_extrinsic/README.md","ref":"examples/deprecated-rpc/06_craft_extrinsic/README.md","articles":[]},{"title":"Transfer DOTs","level":"2.1.7","depth":2,"path":"examples/deprecated-rpc/07_transfer_dots/README.md","ref":"examples/deprecated-rpc/07_transfer_dots/README.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/01_simple_connect/README.md","mtime":"2018-10-12T12:48:26.267Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-12T12:51:56.287Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"2.1.1","depth":2,"next":{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"ApiPromise","level":"2.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"2.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"2.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"2.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"2.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"2.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/01_simple_connect/README.md","mtime":"2018-10-12T12:53:32.464Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-12T12:57:01.121Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

@@ -8,7 +8,7 @@
 
 ▸ **rpcCoder**(): `RpcCoder`
 
-*Defined in [coder/json/index.ts:12](https://github.com/polkadot-js/api/blob/f8d9f1c/packages/rpc-provider/src/coder/json/index.ts#L12)*
+*Defined in [coder/json/index.ts:12](https://github.com/polkadot-js/api/blob/64c5868/packages/rpc-provider/src/coder/json/index.ts#L12)*
 
 **Returns:** `RpcCoder`
 
