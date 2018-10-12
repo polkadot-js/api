@@ -1,6 +1,6 @@
 ## RPC
 
-_The following RPC methods are not part of the default Substrate runtime. They are hard-coded in Substrate._
+_The following RPC methods are the Remote Calls that are available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._
 
 ---
 
