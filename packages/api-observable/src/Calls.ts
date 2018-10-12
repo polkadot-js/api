@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Hash, Header, SignedBlock, Extrinsic, ExtrinsicStatus } from '@polkadot/types/index';
+import { BlockNumber, Extrinsic, ExtrinsicStatus, Hash, Header, SignedBlock } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
