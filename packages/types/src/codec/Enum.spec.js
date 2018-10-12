@@ -50,7 +50,7 @@ describe('Enum', () => {
 
   it('converts from JSON', () => {
     expect(
-      new Enum(['foo', 'bar']).fromJSON(5).toString()
+      new Enum(['foo', 'bar'], 5).toString()
     ).toEqual('5');
   });
 });

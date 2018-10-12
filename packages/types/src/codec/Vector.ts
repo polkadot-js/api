@@ -46,7 +46,7 @@ export default class Vector<
     for (let index = 0; index < length; index++) {
       const decoded = new Type(u8a.subarray(offset));
 
-      result.push(decoded as T);
+      result.push(decoded);
       offset += decoded.byteLength();
     }
 

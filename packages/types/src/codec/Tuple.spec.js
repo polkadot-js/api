@@ -38,12 +38,12 @@ describe('Tuple', () => {
       a: Text,
       b: U32,
       c: Text
-    }))();
+    }))([
+      'bazzing', 32
+    ]);
 
     expect(
-      test.fromJSON([
-        'bazzing', 32
-      ]).toJSON()
+      test.toJSON()
     ).toEqual([
       'bazzing',
       32,

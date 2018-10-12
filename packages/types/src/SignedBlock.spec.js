@@ -6,7 +6,7 @@ import rpc from './SignedBlock.rpc.json';
 import SignedBlock from './SignedBlock';
 
 describe('SignedBlock', () => {
-  const block = new SignedBlock().fromJSON(rpc.result);
+  const block = new SignedBlock(rpc.result);
 
   it('has the correct stateRoot', () => {
     expect(
