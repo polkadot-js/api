@@ -7,10 +7,20 @@ import { RpcMethodOpt, RpcSection } from './types';
 import createMethod from './create/method';
 import createParam from './create/param';
 
+// NOTE Order is the same as in Rust
+
+const getHeader: RpcMethodOpt = {
+  description: 'Retrieves the header for a specific block',
+  params: [
+    createParam('hash', 'Hash', { isOptional: true })
+  ],
+  type: 'Header'
+};
+
 const getBlock: RpcMethodOpt = {
   description: 'Get header and body of a relay chain block',
   params: [
-    createParam('hash', 'Hash')
+    createParam('hash', 'Hash', { isOptional: true })
   ],
   type: 'SignedBlock'
 };
@@ -29,24 +39,10 @@ const getHead: RpcMethodOpt = {
   type: 'Hash'
 };
 
-const getHeader: RpcMethodOpt = {
-  description: 'Retrieves the header for a specific block',
-  params: [
-    createParam('hash', 'Hash')
-  ],
-  type: 'Header'
-};
-
 const getRuntimeVersion: RpcMethodOpt = {
   description: ' Get the runtime version',
-  params: [],
-  type: 'RuntimeVersion'
-};
-
-const getRuntimeVersionAt: RpcMethodOpt = {
-  description: ' Get the runtime version at a specific block',
   params: [
-    createParam('hash', 'Hash')
+    createParam('hash', 'Hash', { isOptional: true })
   ],
   type: 'RuntimeVersion'
 };
@@ -77,7 +73,6 @@ export default {
     getHead: createMethod(section, 'getHead', getHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
-    getRuntimeVersionAt: createMethod(section, 'getRuntimeVersionAt', getRuntimeVersionAt),
     newHead: createMethod(section, 'newHead', newHead)
   }
 } as RpcSection;
