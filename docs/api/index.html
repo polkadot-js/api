@@ -209,12 +209,12 @@
         
         
     
-        <li class="chapter " data-level="2.1" data-path="../examples-rpc/">
+        <li class="chapter " data-level="2.1" data-path="../examples/promise/">
             
-                <a href="../examples-rpc/">
+                <a href="../examples/promise/">
             
                     
-                    RPC
+                    ApiPromise
             
                 </a>
             
@@ -223,9 +223,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="2.1.1" data-path="../examples-rpc/01_simple_connect/">
+        <li class="chapter " data-level="2.1.1" data-path="../examples/promise/01_simple_connect/">
             
-                <a href="../examples-rpc/01_simple_connect/">
+                <a href="../examples/promise/01_simple_connect/">
             
                     
                     Simple connect
@@ -236,9 +236,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.2" data-path="../examples-rpc/02_listen_to_blocks/">
+        <li class="chapter " data-level="2.1.2" data-path="../examples/promise/02_listen_to_blocks/">
             
-                <a href="../examples-rpc/02_listen_to_blocks/">
+                <a href="../examples/promise/02_listen_to_blocks/">
             
                     
                     Listen to blocks
@@ -249,9 +249,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.3" data-path="../examples-rpc/03_listen_to_balance_change/">
+        <li class="chapter " data-level="2.1.3" data-path="../examples/deprecated-rpc/03_listen_to_balance_change/">
             
-                <a href="../examples-rpc/03_listen_to_balance_change/">
+                <a href="../examples/deprecated-rpc/03_listen_to_balance_change/">
             
                     
                     Listen to balance change
@@ -262,9 +262,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.4" data-path="../examples-rpc/04_generate_account/">
+        <li class="chapter " data-level="2.1.4" data-path="../examples/deprecated-rpc/04_generate_account/">
             
-                <a href="../examples-rpc/04_generate_account/">
+                <a href="../examples/deprecated-rpc/04_generate_account/">
             
                     
                     Generate Accounts
@@ -275,9 +275,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.5" data-path="../examples-rpc/05_read_storage/">
+        <li class="chapter " data-level="2.1.5" data-path="../examples/deprecated-rpc/05_read_storage/">
             
-                <a href="../examples-rpc/05_read_storage/">
+                <a href="../examples/deprecated-rpc/05_read_storage/">
             
                     
                     Read Storage
@@ -288,9 +288,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.6" data-path="../examples-rpc/06_craft_extrinsic/">
+        <li class="chapter " data-level="2.1.6" data-path="../examples/deprecated-rpc/06_craft_extrinsic/">
             
-                <a href="../examples-rpc/06_craft_extrinsic/">
+                <a href="../examples/deprecated-rpc/06_craft_extrinsic/">
             
                     
                     Craft Extrinsic
@@ -301,9 +301,9 @@
             
         </li>
     
-        <li class="chapter " data-level="2.1.7" data-path="../examples-rpc/07_transfer_dots/">
+        <li class="chapter " data-level="2.1.7" data-path="../examples/deprecated-rpc/07_transfer_dots/">
             
-                <a href="../examples-rpc/07_transfer_dots/">
+                <a href="../examples/deprecated-rpc/07_transfer_dots/">
             
                     
                     Transfer DOTs
@@ -377,7 +377,7 @@
 <h2 id="api-selection">API Selection</h2>
 <p>There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using <a href="https://github.com/ReactiveX/rxjs" target="_blank">RxJS</a>. Depending on your use-case and familiarity, you can choose either (or even both) for your application.</p>
 <ul>
-<li><a href="classes/_promise_index_.apipromise.html">ApiPromise</a> All interface calls returns Promises, including the static <code>.create(...)</code>. Additionally any subscription method use standard JavaScript <code>(error, value) =&gt; {}</code> callbacks.</li>
+<li><a href="classes/_promise_index_.apipromise.html">ApiPromise</a> All interface calls returns Promises, including the static <code>.create(...)</code>. Additionally any subscription method use <code>(value) =&gt; {}</code> callbacks, returning the value as the subscription is updated.</li>
 <li><a href="classes/_rx_index_.apirx.html">ApiRx</a> All interface calls return RxJS Observables, including the static <code>.create(...)</code>. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.</li>
 </ul>
 <h2 id="dynamic-by-default">Dynamic by default</h2>
@@ -393,7 +393,7 @@
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">ApiPromise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">create</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 <span class="sunlight-comment">//&#xA0;make&#xA0;a&#xA0;call&#xA0;to&#xA0;retrieve&#xA0;the&#xA0;current&#xA0;network&#xA0;head</span>
-<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-operator">.</span><span class="sunlight-ident">newHead</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-operator">.</span><span class="sunlight-ident">newHead</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">header</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
 &#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">Chain</span>&#xA0;<span class="sunlight-ident">is</span>&#xA0;<span class="sunlight-ident">at</span>&#xA0;<span class="sunlight-punctuation">#</span><span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">header</span><span class="sunlight-operator">.</span><span class="sunlight-ident">blockNumber</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 </span></pre></div></div></code></pre>
@@ -457,7 +457,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-12T07:38:22.564Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-12T07:40:02.850Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"api","level":"1.2","depth":1,"next":{"title":"ApiPromise","level":"1.2.1","depth":2,"path":"api/classes/_promise_index_.apipromise.md","ref":"api/classes/_promise_index_.apipromise.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"api/README.md","mtime":"2018-10-12T09:22:47.749Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-12T09:24:25.564Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

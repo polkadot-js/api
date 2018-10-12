@@ -7,7 +7,7 @@ Overview
 --------
 *__name__*: ApiPromise
 
-*__description__*: ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
+*__description__*: ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise `(value) => {}` callbacks to pass through the latest values.
 
 The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
 
@@ -25,7 +25,7 @@ import ApiPromise from '@polkadot/api/promise';
 const api = await ApiPromise.create();
 
 // make a subscription to the network head
-api.rpc.chain.newHead((error, header) => {
+api.rpc.chain.newHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```
@@ -48,7 +48,7 @@ const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
 let last = 0;
 
 // subscribe to the current block timestamp, updates automatically (callback provided)
-api.st.timestamp.now((error, timestamp) => {
+api.st.timestamp.now((timestamp) => {
   const elapsed = last
     ? `, ${timestamp.toNumber() - last}s since last`
     : '';
@@ -102,7 +102,7 @@ ApiPromise.create().then((api) => {
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:125](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/promise/index.ts#L125)*
+*Defined in [promise/index.ts:125](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/promise/index.ts#L125)*
 
 *__description__*: Creates an instance of the ApiPromise class
 
@@ -111,7 +111,7 @@ ApiPromise.create().then((api) => {
 import Api from '@polkadot/api/promise';
 
 new Api().isReady.then((api) => {
-  api.rpc.newHead((error, header) => {
+  api.rpc.newHead((header) => {
     console.log(`new block #${header.blockNumber.toNumber()}`);
   });
 });
@@ -137,7 +137,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L71)*
+*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L71)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -150,7 +150,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:158](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/promise/index.ts#L158)*
+*Defined in [promise/index.ts:158](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/promise/index.ts#L158)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -165,7 +165,7 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L111)*
+*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L111)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -191,7 +191,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L80)*
+*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L80)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -206,7 +206,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L89)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L89)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -221,7 +221,7 @@ getst(): `QueryableStorage`
 
 *Inherited from [ApiBase](_base_.apibase.md).[st](_base_.apibase.md#st)*
 
-*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L131)*
+*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L131)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -247,7 +247,7 @@ gettx(): `SubmittableExtrinsics`
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L153)*
+*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L153)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -276,7 +276,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/Base.ts#L178)*
+*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/Base.ts#L178)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -307,7 +307,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:123](https://github.com/polkadot-js/api/blob/5975e23/packages/api/src/promise/index.ts#L123)*
+*Defined in [promise/index.ts:123](https://github.com/polkadot-js/api/blob/8fafedc/packages/api/src/promise/index.ts#L123)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
