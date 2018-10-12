@@ -16,12 +16,12 @@ async function main () {
   // instantiate the API
   const api = await ApiPromise.create();
 
-  // retrieve the nonce for Alice, so we can sign the transaction properly
+  // retrieve the nonce for Alice, used to sign the transaction
   const aliceNonce = await api.st.system.accountNonce(alice.address());
 
-  // Create a extrinsic, transferring 12345 units to Bob. We can also create, sign and send in one
-  // operation (as per the samples in the Api documentation, here we split it out for the
-  // sake of readability)
+  // Create a extrinsic, transferring 12345 units to Bob. We can also create,
+  // sign and send in one operation (as per the samples in the Api documentation),
+  // here we split it out for the sake of readability
   const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
 
   // sign the transaction using our account
