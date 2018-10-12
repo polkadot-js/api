@@ -116,6 +116,12 @@ export default class UInt extends Base<BN> {
       : this.raw.div(bnToBn(other));
   }
 
+  eq (other: UInt | BN | number): boolean {
+    return other instanceof UInt
+      ? this.raw.eq(other.raw)
+      : this.raw.eq(bnToBn(other));
+  }
+
   isZero (): boolean {
     return this.raw.isZero();
   }
