@@ -39,7 +39,7 @@ describe('MisbehaviorReport', () => {
   });
 
   it('has the correct misbehavior type', () => {
-    expect(report.misbehavior.Type).toEqual('BftDoubleCommit');
+    expect(report.misbehavior.type).toEqual('BftDoubleCommit');
   });
 
   it('has the correct parent block', () => {

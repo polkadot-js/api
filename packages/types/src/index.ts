@@ -27,6 +27,7 @@ export { default as Compact256 } from './Compact256';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
+export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
@@ -58,7 +59,6 @@ export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
-export { default as Status } from './Status';
 export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';

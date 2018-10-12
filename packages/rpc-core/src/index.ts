@@ -157,10 +157,15 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Base> {
-    assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
+    const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
+    const optText = reqArgCount === method.params.length
+      ? ''
+      : ` (${method.params.length - reqArgCount} optional)`;
 
-    return method.params.map(({ type }, index) =>
-      createType(type as string, inputs[index])
+    assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
+
+    return inputs.map((input, index) =>
+      createType(method.params[index].type, input)
     );
   }
 
