@@ -10,6 +10,7 @@ import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
+import { Constructor } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -18,7 +19,7 @@ import Base from './Base';
 // it needs to decoded in the specific defined order.
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
-  S = { [index: string]: { new(...value: Array<any>): Base } },
+  S = { [index: string]: Constructor<Base> },
   // internal type, instance of classes mapped by key
   T = { [K in keyof S]: Base },
   // input values, mapped by key can be anything (construction)
@@ -96,8 +97,8 @@ export default class Struct<
   }
 
   static with<
-    S = { [index: string]: { new(value?: any): Base } }
-    > (Types: S): { new(value?: any): Struct<S> } {
+    S = { [index: string]: Constructor<Base> }
+    > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

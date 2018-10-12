@@ -5,10 +5,11 @@
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
+import { Constructor } from '../types';
 
-type TypesArray = Array<{ new(value?: any): Base }>;
+type TypesArray = Array<Constructor<Base>>;
 type TypesDef = {
-  [index: number]: { new(value?: any): Base }
+  [index: number]: Constructor<Base>
 } | TypesArray;
 
 // This implements an enum, that based on the value wraps a different type. It is effectively an
@@ -18,12 +19,12 @@ type TypesDef = {
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
 //   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
-export default class EnumType <T> extends Base<Base<T>> {
+export default class EnumType<T> extends Base<Base<T>> {
   private _Types: TypesArray;
   private _index: number;
   private _indexes: Array<number>;
 
-  constructor (def: TypesDef, index?: number | EnumType<T>, value?: any) {
+  constructor (def: TypesDef, value?: any, index?: number | EnumType<T>) {
     super(
       new (Object.values(def)[0])()
     );

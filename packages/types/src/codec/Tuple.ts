@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isString from '@polkadot/util/is/string';
 import isU8a from '@polkadot/util/is/u8a';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyU8a, Constructor } from '../types';
 import Base from './Base';
 import Struct from './Struct';
 
@@ -18,7 +17,7 @@ import Struct from './Struct';
 // while the U8a encoding is handled in the same way as a Struct
 export default class Tuple<
   // S & T definitions maps to what we have in Struct (naming documented there)
-  S = { [index: string]: { new(value?: any): Base } },
+  S = { [index: string]: Constructor<Base> },
   T = { [K in keyof S]: Base },
   V = { [K in keyof S]: any }
   > extends Struct<S, T, V> {
@@ -48,8 +47,8 @@ export default class Tuple<
   }
 
   static with<
-    S = { [index: string]: { new(value?: any): Base } }
-    > (Types: S): { new(value?: any): Tuple<S> } {
+    S = { [index: string]: Constructor<Base> }
+    > (Types: S): Constructor<Tuple<S>> {
     return class extends Tuple<S> {
       constructor (value?: any) {
         super(Types, value);

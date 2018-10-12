@@ -7,6 +7,7 @@ import isU8a from '@polkadot/util/is/u8a';
 import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
+import { Constructor } from '../types';
 
 // An Option is an optional field. Basically the first byte indicates that there is
 // is value to follow. If the byte is `1` there is an actual value. So the Option
@@ -15,7 +16,7 @@ import Base from './Base';
 export default class Option<T> extends Base<Base<T>> {
   private _isEmpty: boolean;
 
-  constructor (Type: { new(value?: any): Base<T> }, value?: any) {
+  constructor (Type: Constructor<Base<T>>, value?: any) {
     super(
       Option.decodeOption(Type, value)
     );
@@ -23,7 +24,7 @@ export default class Option<T> extends Base<Base<T>> {
     this._isEmpty = isNull(value) || isUndefined(value);
   }
 
-  static decodeOption<O> (Type: { new(value?: any): Base<O> }, value?: any): Base<O> {
+  static decodeOption<O> (Type: Constructor<Base<O>>, value?: any): Base<O> {
     if (isU8a(value)) {
       return new Type(value.subarray(1));
     }
@@ -32,10 +33,10 @@ export default class Option<T> extends Base<Base<T>> {
       isNull(value) || isUndefined(value)
         ? undefined
         : value
-      );
+    );
   }
 
-  static with<O> (Type: { new(value?: any): Base<O> }): { new(value?: any): Option<O> } {
+  static with<O> (Type: Constructor<Base<O>>): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);
