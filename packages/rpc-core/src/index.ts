@@ -7,6 +7,7 @@ import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
 
 import interfaces from '@polkadot/jsonrpc/index';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Base, Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import assert from '@polkadot/util/assert';
@@ -37,7 +38,7 @@ import isFunction from '@polkadot/util/is/function';
  * ```
  */
 export default class Rpc implements RpcInterface {
-  private _provider: ProviderInterface;
+  readonly _provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
@@ -48,7 +49,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface) {
+  constructor (provider: ProviderInterface = new WsProvider()) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
@@ -86,18 +87,20 @@ export default class Rpc implements RpcInterface {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {
-        const rpcName = `${section}_${method}`;
+
         const def = methods[method];
 
         exposed[method] = def.isSubscription
-          ? this.createMethodSubscribe(rpcName, def)
-          : this.createMethodSend(rpcName, def);
+          ? this.createMethodSubscribe(def)
+          : this.createMethodSend(def);
 
         return exposed;
       }, {} as RpcInterface$Section);
   }
 
-  private createMethodSend (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSend (method: RpcMethod): RpcInterface$Section$Method {
+    const rpcName = `${method.section}_${method.method}`;
+
     const call = async (...values: Array<any>): Promise<any> => {
       // TODO Warn on deprecated methods
       try {
@@ -118,9 +121,14 @@ export default class Rpc implements RpcInterface {
     return call as RpcInterface$Section$Method;
   }
 
-  private createMethodSubscribe (rpcName: string, method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSubscribe (method: RpcMethod): RpcInterface$Section$Method {
+    const [updateType, subMethod, unsubMethod] = method.pubsub;
+    const subName = `${method.section}_${subMethod}`;
+    const unsubName = `${method.section}_${unsubMethod}`;
+    const subscriptionType = `${method.section}_${updateType}`;
+
     const unsubscribe = (subscriptionId: any): Promise<any> =>
-      this._provider.unsubscribe(rpcName, method.subscribe[1], subscriptionId);
+      this._provider.unsubscribe(subscriptionType, unsubName, subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
       try {
         const cb: ProviderInterface$Callback = values.pop();
@@ -130,10 +138,15 @@ export default class Rpc implements RpcInterface {
         const params = this.formatInputs(method, values);
         const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
-          cb(error, this.formatOutput(method, params, result));
+          if (error) {
+            console.error(`${Rpc.signature(method)}:: ${error.message}`, error);
+            return;
+          }
+
+          cb(this.formatOutput(method, params, result));
         };
 
-        return this._provider.subscribe(rpcName, method.subscribe[0], paramsJson, update);
+        return this._provider.subscribe(subscriptionType, subName, paramsJson, update);
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
@@ -151,10 +164,15 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Base> {
-    assert(method.params.length === inputs.length, `Expected ${method.params.length} parameters, ${inputs.length} found instead`);
+    const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
+    const optText = reqArgCount === method.params.length
+      ? ''
+      : ` (${method.params.length - reqArgCount} optional)`;
 
-    return method.params.map(({ type }, index) =>
-      createType(type as string, inputs[index])
+    assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
+
+    return inputs.map((input, index) =>
+      createType(method.params[index].type, input)
     );
   }
 

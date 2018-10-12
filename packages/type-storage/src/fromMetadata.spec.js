@@ -21,9 +21,10 @@ describe('fromMetadata', () => {
   });
 
   // FIXME check again when we have a valid chain/UI
-  it('should return the correct storage key', () => {
+  it('should return the correct length-prefixed storage key', () => {
     expect(newStorage.balances.freeBalance('5GwPuAgYgP6q58uWTXp4uSg6FwfzQv9HfFZwAFEREUrQjCvy')).toEqual(
-      Uint8Array.from([52, 103, 23, 10, 157, 95, 244, 9, 70, 215, 120, 149, 1, 238, 109, 69])
+      // U8a is length-prefixed
+      Uint8Array.from([64, 52, 103, 23, 10, 157, 95, 244, 9, 70, 215, 120, 149, 1, 238, 109, 69])
     );
   });
 });

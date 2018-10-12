@@ -1,22 +1,22 @@
 ## Packages
 
 - [api](api/README.md)
+  - [ApiPromise](api/classes/_promise_index_.apipromise.md)
   - [ApiRx](api/classes/_rx_index_.apirx.md)
-- [rpc-core](rpc-core/README.md)
-  - [Rpc](rpc-core/classes/_index_.rpc.md)
 - [rpc-provider](rpc-provider/README.md)
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
-- [rpc-rx](rpc-rx/README.md)
-  - [RpcRx](rpc-rx/classes/_index_.rxapi.md)
+
+## Node Interfaces
+- [RPC](METHODS_RPC.md)
+- [Storage chain state (runtime)](METHODS_STORAGE.md)
+- [Extrinsics (runtime)](METHODS_EXTRINSICS.md)
 
 ## Examples
 
-- [Overview](examples/README.md)
-- [Simple connect](examples/01_simple_connect/README.md)
-- [Listen to blocks](examples/02_listen_to_blocks/README.md)
-- [Listen to balance change](examples/03_listen_to_balance_change/README.md)
-- [Generate Accounts](examples/04_generate_account/README.md)
-- [Read Storage](examples/05_read_storage/README.md)
-- [Craft Extrinsic](examples/06_craft_extrinsic/README.md)
-- [Transfer DOTs](examples/07_transfer_dots/README.md)
+- [ApiPromise](examples/promise/README.md)
+  - [Simple connect](examples/promise/01_simple_connect/README.md)
+  - [Listen to blocks](examples/promise/02_listen_to_blocks/README.md)
+  - [Listen to balance change](examples/promise/03_listen_to_balance_change/README.md)
+  - [Read chain state](examples/promise/05_read_storage/README.md)
+  - [Make a transfer](examples/promise/07_transfer_dots/README.md)

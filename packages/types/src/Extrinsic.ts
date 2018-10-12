@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
 import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 import hexToU8a from '@polkadot/util/hex/toU8a';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 
@@ -16,6 +17,7 @@ import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
 import Method from './Method';
+import isHex from '@polkadot/util/is/hex';
 
 type ExtrinsicValue = {
   method?: Method
@@ -33,11 +35,35 @@ type ExtrinsicValue = {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Struct {
-  constructor (value?: ExtrinsicValue) {
+  constructor (value?: ExtrinsicValue | AnyU8a) {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, value);
+    }, Extrinsic.decodeExtrinsic(value));
+  }
+
+  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a): object | Uint8Array {
+    if (!value) {
+      return {};
+    } else if (value instanceof Extrinsic) {
+      return value.raw;
+    } else if (isHex(value)) {
+      // FIXME We manually add the length prefix for hex for now
+      // https://github.com/paritytech/substrate/issues/889
+      // Instead of the block below, it should simply be:
+      // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
+      const u8a = hexToU8a(value as string);
+      return Extrinsic.decodeExtrinsic(
+        u8aConcat(
+          Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
+          u8a
+        )
+      );
+    } else if (isU8a(value)) {
+      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      return value.subarray(offset, offset + length.toNumber());
+    }
+    return value as any;
   }
 
   // the actual [sectionIndex, methodIndex] as used

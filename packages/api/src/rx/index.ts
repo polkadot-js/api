@@ -4,43 +4,127 @@
 
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
-import E3 from 'eventemitter3';
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import WsProvider from '@polkadot/rpc-provider/ws';
+import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
-import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Base } from '@polkadot/types/codec';
-import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
-import RuntimeMetadata from '@polkadot/types/Metadata';
-import assert from '@polkadot/util/assert';
-import isUndefined from '@polkadot/util/is/undefined';
 import logger from '@polkadot/util/logger';
 
+import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
-const l = logger('api');
+const l = logger('api-rx');
 
-const INIT_ERROR = `Api needs to be initialised before using, listen on 'whenReady'`;
-
-export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
-  private _extrinsics?: SubmittableExtrinsics;
-  private _genesisHash?: Hash;
-  private _storage?: QueryableStorage;
-  private _rpc: RpcRx;
-  private _runtimeMetadata?: RuntimeMetadata;
-  private _runtimeVersion?: RuntimeVersion;
-
-  // Observable that returns the first time we are connected and loaded
-  readonly isReady: Observable<ApiRx>;
+/**
+ * # @polkadot/api/rx
+ *
+ *  ## Overview
+ *
+ * @name ApiRx
+ *
+ * @description
+ * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+ *
+ * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
+ *
+ * @see [[ApiPromise]]
+ *
+ * ## Usage
+ *
+ * Making rpc calls -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiRx from '@polkadot/api/rx';
+ *
+ * // initialise via Promise & static create
+ * const api = await ApiRx.create().toPromise();
+ *
+ * // make a call to retrieve the current network head
+ * api.rpc.chain.subscribeNewHead().subscribe((header) => {
+ *   console.log(`Chain is at #${header.blockNumber}`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Subscribing to chain state -
+ * <BR>
+ *
+ * ```javascript
+ * import { combineLatest } from 'rxjs';
+ * import { ApiRx } from '@polkadot/api';
+ * import { WsProvider } from '@polkadot/rpc-provider';
+ *
+ * // last block timestamp
+ * let last = 0;
+ *
+ * // initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // initialise via isReady & new with specific provider
+ * new ApiRx(provider)
+ *   .isReady
+ *   .pipe(
+ *     switchMap((api) =>
+ *       combineLatest([
+ *         api.query.timestamp.blockPeriod(),
+ *         api.query.timestamp.now()
+ *       ])
+ *   )
+ *   .subscribe(([blockPeriod, timestamp]) => {
+ *     const elapsed = last
+ *       ? `, ${timestamp.toNumber() - last}s since last`
+ *       : '';
+ *
+ *     last = timestamp.toNumber();
+ *     console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+ *   });
+ * ```
+ * <BR>
+ *
+ * Submitting a transaction -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiRx from '@polkadot/api/rx';
+ *
+ * // get api via Promise
+ * const api = await ApiRx.create().toPromise();
+ *
+ * // retrieve nonce for the account
+ * api.query.system
+ *   .accountNonce(keyring.alice.address())
+ *   .pipe(
+ *      // pipe nonce into transfer
+ *      switchMap((nonce) =>
+ *        api.tx.balances
+ *          // create transfer
+ *          .transfer(keyring.bob.address(), 12345)
+ *          // sign the transcation
+ *          .sign(keyring.alice, nonce)
+ *          // send the transaction
+ *          .send()
+ *      )
+ *   )
+ *   // subscribe to overall result
+ *   .subscribe((hash) => {
+ *     console.log(`submitted with hash ${hash}`);
+ *   });
+ * ```
+ */
+export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
+  private _isReady: Observable<ApiRx>;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
-   * @param wsProvider Optional WebSocket provider that is passed to the class contructor
+   *
+   * @param wsProvider WebSocket provider that is passed to the class contructor
+   *
    * @example
    * <BR>
    *
@@ -48,7 +132,7 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
    * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
-   *   api.st.timestamp.now((timestamp) => {
+   *   api.query.timestamp.now.subscribe((timestamp) => {
    *     console.log(`lastest block timestamp ${timestamp}`);
    *   });
    * });
@@ -59,7 +143,10 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
   }
 
   /**
-   * @param wsProvider An optional WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @description Create an instance of the ApiRx class
+   *
+   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   *
    * @example
    * <BR>
    *
@@ -67,18 +154,23 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
    * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady.subscribe((api) => {
-   *   api.rpc.newHead().subscribe((header) => {
+   *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
    * ```
    */
   constructor (wsProvider?: WsProvider) {
-    super();
+    super(wsProvider);
 
-    this._rpc = new RpcRx(wsProvider);
-
-    this.isReady = from(this.init());
+    this._isReady = from(
+      // convinced you can observable from an event, however my mind groks this form better
+      new Promise((resolveReady) =>
+        super.on('ready', () =>
+          resolveReady(this)
+        )
+      )
+    );
   }
 
   /**
@@ -89,142 +181,17 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
   }
 
   /**
-   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
+   * @description Observable that returns the first time we are connected and loaded
    */
-  get genesisHash (): Hash {
-    assert(!isUndefined(this._genesisHash), INIT_ERROR);
-
-    return this._genesisHash as Hash;
+  get isReady (): Observable<ApiRx> {
+    return this._isReady;
   }
 
-  /**
-   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions.
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.rpc.chain
-   *   .newHead()
-   *   .subscribe((header) => {
-   *     console.log('new header', header);
-   *   });
-   * ```
-   */
-  get rpc (): RpcRx {
-    return this._rpc;
+  protected decorateRpc (rpc: Rpc): RpcRx {
+    return new RpcRx(rpc);
   }
 
-  /**
-   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
-   */
-  get runtimeMetadata (): RuntimeMetadata {
-    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
-
-    return this._runtimeMetadata as RuntimeMetadata;
-  }
-
-  /**
-   * @description Contains the version information for the current runtime.
-   */
-  get runtimeVersion (): RuntimeVersion {
-    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
-
-    return this._runtimeVersion as RuntimeVersion;
-  }
-
-  /**
-   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.st.balances
-   *   .freeBalance(<accountId>)
-   *   .subscribe((balance) => {
-   *     console.log('new balance', balance);
-   *   });
-   * ```
-   */
-  get st (): QueryableStorage {
-    assert(!isUndefined(this._storage), INIT_ERROR);
-
-    return this._storage as QueryableStorage;
-  }
-
-  /**
-   * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.tx.balances
-   *   .transfer(<recipientId>, <balance>)
-   *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-   *   .send()
-   *   .subscribe((status) => {
-   *     console.log('tx status', status);
-   *   });
-   * ```
-   */
-  get tx (): SubmittableExtrinsics {
-    assert(!isUndefined(this._extrinsics), INIT_ERROR);
-
-    return this._extrinsics as SubmittableExtrinsics;
-  }
-
-  private init (): Promise<ApiRx> {
-    let isReady: boolean = false;
-
-    this.initEmitters();
-
-    return new Promise((resolveReady) => {
-      this.isConnected.subscribe(async (isConnected) => {
-        // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
-        //   - refresh metadata as needed, decorating again
-        //   - re-create storage subscriptions for those we already have
-        //   - re-watch extrinsics where we have subscriptions already
-        //   - need to refresh genesisHash, extrinsic resub only when it matches
-        if (isReady || !isConnected) {
-          return;
-        }
-
-        try {
-          this._runtimeMetadata = await this.rpc.state.getMetadata().toPromise();
-          this._runtimeVersion = await this.rpc.chain.getRuntimeVersion().toPromise();
-          this._genesisHash = await this.rpc.chain.getBlockHash(0).toPromise();
-
-          const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-          const storage = storageFromMeta(this.runtimeMetadata);
-
-          this._extrinsics = this.decorateExtrinsics(extrinsics);
-          this._storage = this.decorateStorage(storage);
-
-          Method.injectExtrinsics(extrinsics);
-
-          if (!isReady) {
-            isReady = true;
-            resolveReady(this);
-
-            this.emit('ready', this);
-          }
-        } catch (error) {
-          l.error('init', error);
-        }
-      });
-    });
-  }
-
-  private initEmitters (): void {
-    this.rpc.on('connected', () => {
-      this.emit('connected');
-    });
-
-    this.rpc.on('disconnected', () => {
-      this.emit('disconnected');
-    });
-  }
-
-  private decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {
+  protected decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
@@ -242,16 +209,10 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
       new SubmittableExtrinsic(this, method(...args));
 
-    decorated.callIndex = method.callIndex;
-    decorated.meta = method.meta;
-    decorated.method = method.method;
-    decorated.section = method.section;
-    decorated.toJSON = method.toJSON;
-
-    return decorated as SubmittableExtrinsicFunction;
+    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
 
-  private decorateStorage (storage: Storage): QueryableStorage {
+  protected decorateStorage (storage: Storage): QueryableStorage {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -270,7 +231,7 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
       let observable;
 
       try {
-        observable = this.rpc.state.storage([[method, arg]]);
+        observable = this.rpc.state.subscribeStorage([[method, arg]]);
       } catch (error) {
         // in the case of an exception (upon creation of key), just return an empty
         observable = EMPTY;
@@ -287,11 +248,6 @@ export default class ApiRx extends E3.EventEmitter implements ApiRxInterface {
       );
     };
 
-    decorated.meta = method.meta;
-    decorated.method = method.method;
-    decorated.section = method.section;
-    decorated.toJSON = method.toJSON;
-
-    return decorated as QueryableStorageFunction;
+    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
 }

@@ -7,6 +7,8 @@ import { RpcMethodOpt, RpcSection } from './types';
 import createMethod from './create/method';
 import createParam from './create/param';
 
+// NOTE Order here is the same as in the Rust code
+
 const call: RpcMethodOpt = {
   description: 'Perform a call to a builtin on the chain',
   params: [
@@ -24,20 +26,6 @@ const callAt: RpcMethodOpt = {
     createParam('block', 'Hash')
   ],
   type: 'Bytes'
-};
-
-const getMetadata: RpcMethodOpt = {
-  description: 'Returns the runtime metadata',
-  params: [],
-  type: 'Metadata'
-};
-
-const getMetadataAt: RpcMethodOpt = {
-  description: 'Returns the runtime metadata',
-  params: [
-    createParam('block', 'Hash')
-  ],
-  type: 'Metadata'
 };
 
 const getStorage: RpcMethodOpt = {
@@ -91,15 +79,36 @@ const getStorageSizeAt: RpcMethodOpt = {
   type: 'u64'
 };
 
-const storage: RpcMethodOpt = {
-  description: 'Subscribes to storage changes for the provided keys',
-  subscribe: [
-    'state_subscribeStorage',
-    'state_unsubscribeStorage'
+const getMetadata: RpcMethodOpt = {
+  description: 'Returns the runtime metadata',
+  params: [
+    createParam('block', 'Hash', { isOptional: true })
   ],
+  type: 'Metadata'
+};
+
+const queryStorage: RpcMethodOpt = {
+  description: 'Query historical storage entries (by key) starting from a start block',
+  params: [
+    // @ts-ignore The Vec<> wrap is fine
+    createParam('keys', 'Vec<StorageKey>'),
+    createParam('startBlock', 'Hash'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageChangeSet>'
+};
+
+const subscribeStorage: RpcMethodOpt = {
+  description: 'Subscribes to storage changes for the provided keys',
   params: [
     // @ts-ignore The Vec<> wrap is fine
     createParam('keys', 'Vec<StorageKey>')
+  ],
+  pubsub: [
+    'storage',
+    'subscribeStorage',
+    'unsubscribeStorage'
   ],
   type: 'StorageChangeSet'
 };
@@ -118,13 +127,13 @@ export default {
     call: createMethod(section, 'call', call),
     callAt: createMethod(section, 'callAt', callAt),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
-    getMetadataAt: createMethod(section, 'getMetadataAt', getMetadataAt),
     getStorage: createMethod(section, 'getStorage', getStorage),
     getStorageAt: createMethod(section, 'getStorageAt', getStorageAt),
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageHashAt: createMethod(section, 'getStorageHashAt', getStorageHashAt),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
     getStorageSizeAt: createMethod(section, 'getStorageSizeAt', getStorageSizeAt),
-    storage: createMethod(section, 'storage', storage)
+    queryStorage: createMethod(section, 'queryStorage', queryStorage),
+    subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
 } as RpcSection;

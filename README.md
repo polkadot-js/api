@@ -41,8 +41,8 @@ To get started -
 3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.3.2](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
 5. Build the API Docs, via `yarn run build`
-5. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
-6. Access the API Docs via [http://localhost:4000](http://localhost:4000)
+6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
+7. Access the API Docs via [http://localhost:4000](http://localhost:4000)
 
 ## tutorials
 

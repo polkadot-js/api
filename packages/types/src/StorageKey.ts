@@ -5,9 +5,7 @@
 import { AnyU8a } from './types';
 
 import isFunction from '@polkadot/util/is/function';
-import toU8a from '@polkadot/util/u8a/toU8a';
 
-import U8a from './codec/U8a';
 import Bytes from './Bytes';
 import { StorageFunctionMetadata } from './Metadata';
 
@@ -25,15 +23,13 @@ export default class StorageKey extends Bytes {
   private _outputType: string | null;
 
   constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
-    super(StorageKey.encode(value));
+    super(StorageKey.decodeStorageKey(value));
 
     this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static encode (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
-    if (value instanceof StorageKey || value instanceof U8a) {
-      return value.raw;
-    } else if (isFunction(value)) {
+  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
+    if (isFunction(value)) {
       return value();
     } else if (Array.isArray(value)) {
       const [fn, arg] = value;
@@ -42,8 +38,7 @@ export default class StorageKey extends Bytes {
         return fn(arg);
       }
     }
-
-    return toU8a(value);
+    return value as Uint8Array;
   }
 
   static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {

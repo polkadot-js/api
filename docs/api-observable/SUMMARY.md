@@ -12,4 +12,3 @@
   * [RxReferendum](classes/_classes_.rxreferendum.md)
 * [&quot;index&quot;](modules/_index_.md)
   * [Api](classes/_index_.api.md)
-* [&quot;types.d&quot;](modules/_types_d_.md)

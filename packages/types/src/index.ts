@@ -27,6 +27,7 @@ export { default as Compact256 } from './Compact256';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
+export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
@@ -42,6 +43,8 @@ export { default as MethodIndex } from './MethodIndex';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
+// NOTE only used internally atm
+// export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';

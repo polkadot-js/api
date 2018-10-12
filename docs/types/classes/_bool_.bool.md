@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Bool.ts:7](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L7)*
+*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L9)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,7 +52,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Bool.ts:16](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L16)*
+*Defined in [Bool.ts:25](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L25)*
 
 **Returns:** `number`
 
@@ -65,7 +65,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [Bool.ts:20](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L20)*
+*Defined in [Bool.ts:29](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L29)*
 
 **Parameters:**
 
@@ -84,7 +84,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L26)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L35)*
 
 **Parameters:**
 
@@ -103,7 +103,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Bool.ts:32](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L32)*
+*Defined in [Bool.ts:41](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L41)*
 
 **Returns:** `any`
 
@@ -116,7 +116,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Bool.ts:40](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L40)*
+*Defined in [Bool.ts:49](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L49)*
 
 **Returns:** `string`
 
@@ -129,7 +129,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Bool.ts:36](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/types/src/Bool.ts#L36)*
+*Defined in [Bool.ts:45](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L45)*
 
 **Parameters:**
 
@@ -138,6 +138,23 @@ ___
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
 **Returns:** `Uint8Array`
+
+___
+<a id="decodebool"></a>
+
+## `<Static>` decodeBool
+
+▸ **decodeBool**(value: *`any`*): `boolean`
+
+*Defined in [Bool.ts:16](https://github.com/polkadot-js/api/blob/64e3ca6/packages/types/src/Bool.ts#L16)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| value | `any` |
+
+**Returns:** `boolean`
 
 ___
 

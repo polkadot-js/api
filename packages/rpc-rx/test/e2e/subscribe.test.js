@@ -20,7 +20,7 @@ describe.skip('e2e subscriptions', () => {
     let count = 0;
 
     api.state
-      .storage([[storage.timestamp.now]])
+      .subscribeStorage([[storage.timestamp.now]])
       .subscribe((data) => {
         console.error('timestamp.now', data);
 
@@ -32,7 +32,7 @@ describe.skip('e2e subscriptions', () => {
 
   it('retrieves multiple values', (done) => {
     api.state
-      .storage([
+      .subscribeStorage([
         [storage.timestamp.now],
         [storage.session.sessionLength],
         [storage.staking.sessionsPerEra]

@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Hash, Header, SignedBlock, Extrinsic } from '@polkadot/types/index';
+import { BlockNumber, Extrinsic, ExtrinsicStatus, Hash, Header, SignedBlock } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
@@ -12,7 +12,7 @@ import ApiQueries from './Queries';
 export default class ApiCalls extends ApiQueries {
   bestNumber = (): Observable<BlockNumber | undefined> => {
     return this
-      .newHead()
+      .subscribeNewHead()
       .pipe(
         map((header?: Header): BlockNumber | undefined =>
           header && header.blockNumber
@@ -30,8 +30,8 @@ export default class ApiCalls extends ApiQueries {
     return this._api.chain.getBlock(hash);
   }
 
-  newHead = (): Observable<Header | undefined> => {
-    return this._api.chain.newHead().pipe(
+  subscribeNewHead = (): Observable<Header | undefined> => {
+    return this._api.chain.subscribeNewHead().pipe(
       defaultIfEmpty()
     );
   }
@@ -46,5 +46,9 @@ export default class ApiCalls extends ApiQueries {
 
   submitExtrinsic = (extrinsic: Extrinsic): Observable<Hash | undefined> => {
     return this._api.author.submitExtrinsic(extrinsic);
+  }
+
+  submitAndWatchExtrinsic = (extrinsic: Extrinsic): Observable<ExtrinsicStatus | undefined> => {
+    return this._api.author.submitAndWatchExtrinsic(extrinsic);
   }
 }

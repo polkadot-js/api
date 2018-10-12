@@ -8,7 +8,6 @@ import rpcdata from './Metadata.rpc';
 describe('Metadata', () => {
   it('decodes properly', () => {
     const decoded = new Metadata().fromJSON(rpcdata);
-
     const str = JSON.stringify(decoded.toJSON());
 
     console.error(str);

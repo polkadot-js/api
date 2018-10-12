@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import Struct from './codec/Struct';
@@ -40,7 +41,24 @@ export default class ExtrinsicSignature extends Struct {
       signature: Signature,
       nonce: Nonce,
       era: ExtrinsicEra
-    }, value);
+    }, ExtrinsicSignature.decodeExtrinsicSignature(value));
+  }
+
+  static decodeExtrinsicSignature (value: ExtrinsicSignature | ExtrinsicSignatureValue | AnyU8a | undefined): object | Uint8Array {
+    if (!value) {
+      return {};
+    } else if (value instanceof Struct) {
+      return value.raw;
+    } else if (isU8a(value)) {
+      const version = value[0];
+
+      if ((version & BIT_SIGNED) === BIT_SIGNED) {
+        return value.subarray(1);
+      } else {
+        return {};
+      }
+    }
+    return value as any;
   }
 
   byteLength (): number {
@@ -73,7 +91,7 @@ export default class ExtrinsicSignature extends Struct {
   }
 
   get version (): number {
-     // Version Information.
+    // Version Information.
     // 1 byte: version information:
     // - 7 low bits: version identifier (should be 0b0000001).
     // - 1 high bit: signed flag: 1 if this is a transaction (e.g. contains a signature).

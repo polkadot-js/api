@@ -4,7 +4,7 @@
 
 import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from '../../src/static';
 
@@ -14,7 +14,6 @@ describe.skip('e2e transfer', () => {
   let api;
 
   beforeAll(() => {
-    // check other e2e tests here...
     api = new Rpc(new Ws('ws://127.0.0.1:9944'));
   });
 
@@ -25,7 +24,7 @@ describe.skip('e2e transfer', () => {
     return api.author.submitExtrinsic(inherent.toU8a()).then(console.log);
   });
 
-  it('makes a transfer for a transaction', () => {
+  it.skip('makes a transfer for a transaction', () => {
     return api.chain
       .getBlockHash(0)
       .then((genesisHash) => {
@@ -34,6 +33,25 @@ describe.skip('e2e transfer', () => {
         extrinsic.sign(keyring.alice, 0, genesisHash);
 
         return api.author.submitExtrinsic(extrinsic.toU8a());
+      })
+      .then(console.log);
+  });
+
+  it('makes a transfer via watch', (done) => {
+    return api.chain
+      .getBlockHash(0)
+      .then((genesisHash) => {
+        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
+
+        extrinsic.sign(keyring.alice, 0, genesisHash);
+
+        return api.author.submitAndWatchExtrinsic(extrinsic, (status) => {
+          console.log(status);
+
+          if (status.type === 'Finalised') {
+            done();
+          }
+        });
       })
       .then(console.log);
   });

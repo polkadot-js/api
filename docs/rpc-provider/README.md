@@ -1,10 +1,15 @@
 
-[![polkadotjs](https://img.shields.io/badge/polkadot-js-orange.svg?style=flat-square)](https://polkadot.js.org) ![isc](https://img.shields.io/badge/license-ISC-lightgrey.svg?style=flat-square) [![style](https://img.shields.io/badge/code%20style-semistandard-lightgrey.svg?style=flat-square)](https://github.com/Flet/semistandard) [![npm](https://img.shields.io/npm/v/@polkadot/rpc-provider.svg?style=flat-square)](https://www.npmjs.com/package/@polkadot/rpc-provider) [![travis](https://img.shields.io/travis/polkadot-js/api.svg?style=flat-square)](https://travis-ci.org/polkadot-js/api) [![maintainability](https://img.shields.io/codeclimate/maintainability/polkadot-js/api.svg?style=flat-square)](https://codeclimate.com/github/polkadot-js/api/maintainability) [![coverage](https://img.shields.io/coveralls/polkadot-js/api.svg?style=flat-square)](https://coveralls.io/github/polkadot-js/api?branch=master) [![dependency](https://david-dm.org/polkadot-js/api.svg?style=flat-square&path=packages/rpc-provider)](https://david-dm.org/polkadot-js/api?path=packages/rpc-provider) [![devDependency](https://david-dm.org/polkadot-js/api/dev-status.svg?style=flat-square&path=packages/rpc-provider)](https://david-dm.org/polkadot-js/api?path=packages/rpc-provider#info=devDependencies)
-
 @polkadot/rpc-provider
 ======================
 
-Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. Generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used. API interfaces building on top these providers can support various transports with the same underlying interfaces.
+Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. It provides an interface to making RPC class and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
+
+Provider Selection
+------------------
+
+There are two flavours of the providers provided, one allowing for using HTTP as a transport machanism, the other using WebSockets. It is generally recommended to use the [WsProvider](classes/_ws_index_.wsprovider.md) since in addition to standard calls, it allows for subscriptions where all changes to state can be pushed from the node to the client.
+
+Both providers are usable (as is the API), in both browser-based and Node.js environments. Polyfills for unsupported functionality are automatically applied based on feature-detection.
 
 Usage
 -----
@@ -15,14 +20,27 @@ Installation -
 yarn add @polkadot/rpc-provider
 ```
 
-Initialisation -
+WebSocket Initialisation -
 
-```js
+```javascript
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-const provider = new WsProvider('http://127.0.0.1:9944');
+// this is the actual default endpoint
+const provider = new WsProvider('ws://127.0.0.1:9944');
 const version = await provider.send('client_version', []);
 
-console.log('clientVersion', version);
+console.log('client version', version);
+```
+
+HTTP Initialisation -
+
+```javascript
+import { HttpProvider } from '@polkadot/rpc-provider';
+
+// this is the actual default endpoint
+const provider = new HttpProvider('http://127.0.0.1:9933');
+const version = await provider.send('chain_getBlockHash', []);
+
+console.log('latest block Hash', hash);
 ```
 

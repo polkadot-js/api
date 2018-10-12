@@ -6,17 +6,17 @@
 
 ##  on
 
-▸ **on**(self: *[MockState](_mock_types_d_.md#mockstate)*, type: *[ProviderInterface$Emitted](_types_d_.md#providerinterface_emitted)*, sub: *[ProviderInterface$EmitCb](_types_d_.md#providerinterface_emitcb)*): `void`
+▸ **on**(self: *`MockState`*, type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/rpc-provider/src/mock/on.ts#L8)*
+*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/64e3ca6/packages/rpc-provider/src/mock/on.ts#L8)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| self | [MockState](_mock_types_d_.md#mockstate) |
-| type | [ProviderInterface$Emitted](_types_d_.md#providerinterface_emitted) |
-| sub | [ProviderInterface$EmitCb](_types_d_.md#providerinterface_emitcb) |
+| self | `MockState` |
+| type | `ProviderInterface$Emitted` |
+| sub | `ProviderInterface$EmitCb` |
 
 **Returns:** `void`
 

@@ -6,9 +6,9 @@
 
 ##  fromMetadata
 
-▸ **fromMetadata**(metadata: *`Metadata`*): [Extrinsics](../interfaces/_types_d_.extrinsics.md)
+▸ **fromMetadata**(metadata: *`Metadata`*): `Extrinsics`
 
-*Defined in [fromMetadata.ts:19](https://github.com/polkadot-js/api/blob/3c8c4b0/packages/type-extrinsics/src/fromMetadata.ts#L19)*
+*Defined in [fromMetadata.ts:19](https://github.com/polkadot-js/api/blob/64e3ca6/packages/type-extrinsics/src/fromMetadata.ts#L19)*
 
 Extend a storage object with the storage modules & module functions present in the metadata.
 
@@ -18,7 +18,7 @@ Extend a storage object with the storage modules & module functions present in t
 | ------ | ------ | ------ |
 | metadata | `Metadata` |  The metadata to extend the storage object against. |
 
-**Returns:** [Extrinsics](../interfaces/_types_d_.extrinsics.md)
+**Returns:** `Extrinsics`
 
 ___
 

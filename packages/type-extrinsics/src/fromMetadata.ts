@@ -17,6 +17,18 @@ import extrinsics from './index';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): Extrinsics {
+  const findIndex = (prefix: string): number => {
+    const mod = metadata.calls.find((item) =>
+      item.prefix.toString() === prefix
+    );
+
+    if (!mod) {
+      throw new Error(`Unable to find module index for '${prefix}'`);
+    }
+
+    return mod.index.toNumber();
+  };
+
   // Dont' clobber the input, create new
   const result = Object.keys(extrinsics).reduce((result, key) => {
     result[key] = extrinsics[key];
@@ -24,15 +36,13 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
     return result;
   }, {} as Extrinsics);
 
-  // Only increment indexes (starting at 0), for modules with actual functions
-  let index = 0;
-
   return metadata.modules.reduce((result, meta: RuntimeModuleMetadata) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
       return result;
     }
 
     const prefix = camelCase(meta.prefix.toString());
+    const index = findIndex(meta.prefix.toString());
 
     result[prefix] = meta.module.call.functions.reduce((newModule, funcMeta) => {
       // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
@@ -42,8 +52,6 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
 
       return newModule;
     }, {} as ModuleExtrinsics);
-
-    index++;
 
     return result;
   }, result);

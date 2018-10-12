@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import Compact from '@polkadot/types/codec/Compact';
 import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -39,7 +40,7 @@ export default function createFunction (
   // assumption, but will break if the base substrate keys employ hashing as well
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      u8aFromUtf8(method.toString());
+      Compact.addLengthPrefix(u8aFromUtf8(method.toString()));
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
@@ -47,9 +48,11 @@ export default function createFunction (
     // - storage.timestamp.blockPeriod()
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
-        return xxhash(
-          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
-          128
+        return Compact.addLengthPrefix(
+          xxhash(
+            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+            128
+          )
         );
       }
 
@@ -59,12 +62,15 @@ export default function createFunction (
 
       const type = meta.type.asMap.key.toString(); // Argument type, as string
 
-      return xxhash(
-        u8aConcat(
-          u8aFromUtf8(`${section.toString()} ${method.toString()}`),
-          createType(type, arg).toU8a(true)
-        ),
-        128
+      // StorageKey is a Bytes, so is length-prefixed
+      return Compact.addLengthPrefix(
+        xxhash(
+          u8aConcat(
+            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+            createType(type, arg).toU8a(true)
+          ),
+          128
+        )
       );
     };
   }

@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import hexToU8a from '@polkadot/util/hex/toU8a';
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from './static';
 
