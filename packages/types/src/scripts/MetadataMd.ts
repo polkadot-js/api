@@ -15,10 +15,6 @@ const DESC_RPC = '\n\n_The following RPC methods are the Remote Calls that are a
 const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._';
 const DESC_STORAGE = '\n\n_The following Storage methods are part of the default Substrate runtime._';
 
-function docFromFunc (func: any) {
-  return func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
-}
-
 function addRpc () {
   return Object.keys(interfaces).reduce((md, sectionName) => {
     const section = interfaces[sectionName];
@@ -47,7 +43,7 @@ function addExtrinsics (metadata: any) {
     return meta.module.call.functions.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
-      const doc = docFromFunc(func);
+      const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
 
       return `${md}\n▸ **${methodName}**(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, `${md}\n___\n### ${sectionName}\n`);
@@ -65,7 +61,7 @@ function addStorage (metadata: any) {
     return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
-      const doc = docFromFunc(func);
+      const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
 
       return `${md}\n▸ **${methodName}**(${arg}): ` + '`' + func.type + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
     }, `${md}\n___\n### ${sectionName}\n`);
