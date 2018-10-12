@@ -3,7 +3,7 @@ const { ApiPromise } = require('@polkadot/api');
 const Keyring = require('@polkadot/util-keyring').default;
 const u8aFromUtf8 = require('@polkadot/util/u8a/fromUtf8').default;
 
-const ALICE_SEED = 'Alice                           ';
+const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
 
 async function main () {
