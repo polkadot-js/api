@@ -206,7 +206,8 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
 
       return this.rpc.state.storage(
         [[method, args.length === 1 ? undefined : args[0]]],
-        args[args.length - 1]
+        (result: Array<Base | null | undefined> = []) =>
+          args[args.length - 1](result[0])
       );
     };
 
