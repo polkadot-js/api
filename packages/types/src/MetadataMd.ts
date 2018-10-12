@@ -10,8 +10,8 @@ import rpcdata from './Metadata.rpc';
 import Method from './Method';
 
 // some intro text goes in here
-const DESC_EXTRINSICS = '\n\n...';
-const DESC_STORAGE = '\n\n...';
+const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._';
+const DESC_STORAGE = '\n\n_The following Storage methods are part of the default Substrate runtime._';
 
 function addExtrinsics (metadata: any) {
   return metadata.modules.reduce((md: string, meta: any) => {
@@ -26,8 +26,8 @@ function addExtrinsics (metadata: any) {
       const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
 
-      return `${md}\n${methodName}(${args})\n${doc}`;
-    }, `${md}\n\n### ${sectionName}`);
+      return `${md}\n▸ **${methodName}**(${args})` + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+    }, `${md}\n___\n### ${sectionName}\n`);
   }, `## Extrinsics${DESC_EXTRINSICS}`);
 }
 
@@ -44,8 +44,8 @@ function addStorage (metadata: any) {
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
 
-      return `${md}\n${methodName}(${arg}): ` + '`' + func.type + '`' + `\n${doc}`;
-    }, `${md}\n\n### ${sectionName}`);
+      return `${md}\n▸ **${methodName}**(${arg}): ` + '`' + func.type + '`' + `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+    }, `${md}\n___\n### ${sectionName}\n`);
   }, `## Storage${DESC_STORAGE}`);
 }
 
@@ -60,22 +60,30 @@ function metadataExtrinsicsMethodsAsText () {
 }
 
 function writeToStorageMd () {
-  // 'utf8', 'ascii', 'binary', 'hex', 'base64', or 'utf16le'
-  const options = { encoding: 'ascii' };
-  const writeStream = fs.createWriteStream('docs/METHODS_STORAGE.md', options);
+  const optionsRead = { flags: 'r', encoding: 'utf8' };
+  fs.readFile('packages/types/src/METHODS_STORAGE_SUBSTRATE.md', optionsRead, function read (err: Error, data: string) {
+    if (err) {
+      throw err;
+    }
 
-  writeStream.write(metadataStorageMethodsAsText());
+    // 'utf8', 'ascii', 'binary', 'hex', 'base64', or 'utf16le'
+    const options = { flags: 'w', encoding: 'utf8' };
+    const writeStream = fs.createWriteStream('docs/METHODS_STORAGE.md', options);
 
-  // finish emitting event when all data flushed from stream
-  writeStream.on('finish', () => {
-    console.log('wrote all storage method metadata to Gitbook Markdown file');
+    writeStream.write(metadataStorageMethodsAsText());
+    writeStream.write(data);
+
+    // finish emitting event when all data flushed from stream
+    writeStream.on('finish', () => {
+      console.log('wrote all storage method metadata to Gitbook Markdown file');
+    });
+
+    writeStream.end();
   });
-
-  writeStream.end();
 }
 
 function writeToExtrinsicsMd () {
-  const options = { encoding: 'ascii' };
+  const options = { flags: 'w', encoding: 'utf8' };
   const writeStream = fs.createWriteStream('docs/METHODS_EXTRINSICS.md', options);
 
   writeStream.write(metadataExtrinsicsMethodsAsText());

@@ -1,5 +1,8 @@
 ## RPC
 
+_The following RPC methods are not part of the default Substrate runtime. They are hard-coded in Substrate._
+
+---
 
 ### author
 
