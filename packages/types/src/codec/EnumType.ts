@@ -3,6 +3,8 @@
 // of the ISC license. See the LICENSE file for details.
 
 import isUndefined from '@polkadot/util/is/undefined';
+import isNumber from '@polkadot/util/is/number';
+import isU8a from '@polkadot/util/is/u8a';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -25,8 +27,9 @@ export default class EnumType<T> extends Base<Base<T>> {
   private _indexes: Array<number>;
 
   constructor (def: TypesDef, value?: any, index?: number | EnumType<T>) {
+    const decoded = EnumType.decodeEnumType(def, value, index);
     super(
-      new (Object.values(def)[0])()
+      decoded.value
     );
 
     this._Types = Array.isArray(def)
@@ -35,9 +38,26 @@ export default class EnumType<T> extends Base<Base<T>> {
     this._indexes = Object.keys(def).map((index) =>
       parseInt(index, 10)
     );
-    this._index = this._indexes[0];
 
-    this.setValue(index, value);
+    this._index = this._indexes.indexOf(decoded.index) || 0;
+  }
+
+  static decodeEnumType<T> (def: TypesDef, value?: any, index?: number | EnumType<T>): { index: number, value: any } {
+    // If `index` is set, we parse it.
+    if (index instanceof EnumType) {
+      return { index: index._index, value: new def[index._index](index.raw) };
+    }
+    if (isNumber(index)) {
+      return { index, value: new def[index](value) };
+    }
+
+    // Or else, we just look at `value`
+    if (isU8a(value)) {
+      return { index: value[0], value: new def[value[0]](value.subarray(1)) };
+    }
+
+    // Worst-case scenario, return this
+    return { index: 0, value: new (Object.values(def)[0])() };
   }
 
   get type (): string {

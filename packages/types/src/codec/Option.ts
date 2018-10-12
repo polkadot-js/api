@@ -8,6 +8,7 @@ import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
 import { Constructor } from '../types';
+import Null from '../Null';
 
 // An Option is an optional field. Basically the first byte indicates that there is
 // is value to follow. If the byte is `1` there is an actual value. So the Option
@@ -24,8 +25,11 @@ export default class Option<T> extends Base<Base<T>> {
     this._isEmpty = isNull(value) || isUndefined(value);
   }
 
-  static decodeOption<O> (Type: Constructor<Base<O>>, value?: any): Base<O> {
+  static decodeOption<O> (Type: Constructor<Base<O>>, value?: any): Base {
     if (isU8a(value)) {
+      if (value[0] === 0) {
+        return new Null();
+      }
       return new Type(value.subarray(1));
     }
 

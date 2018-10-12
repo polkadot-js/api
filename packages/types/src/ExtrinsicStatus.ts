@@ -27,6 +27,6 @@ export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broa
       Usurped,
       Broadcast,
       Dropped
-    ], index);
+    ], undefined, index);
   }
 }

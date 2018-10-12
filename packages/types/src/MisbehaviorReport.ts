@@ -55,11 +55,11 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (index: number = 0x11, value?: BftAtReportValue) {
+  constructor (value?: BftAtReportValue, index: number = 0x11) {
     super({
       0x11: BftDoublePrepare,
       0x12: BftDoubleCommit
-    }, index, value);
+    }, value, index);
   }
 }
 
@@ -73,8 +73,8 @@ export default class MisbehaviorReport extends Struct {
   constructor (value?: MisbehaviorReportValue) {
     super({
       parentHash: Hash,
-	    parentNumber: BlockNumber,
-	    target: AuthorityId,
+      parentNumber: BlockNumber,
+      target: AuthorityId,
       misbehavior: MisbehaviorKind
     }, value);
   }
