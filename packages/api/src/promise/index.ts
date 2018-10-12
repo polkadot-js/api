@@ -61,11 +61,11 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * const api = await new ApiPromise(provider).isReady;
  *
  * // retrieve the block target time
- * const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
+ * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
  * let last = 0;
  *
  * // subscribe to the current block timestamp, updates automatically (callback provided)
- * api.st.timestamp.now((timestamp) => {
+ * api.query.timestamp.now((timestamp) => {
  *   const elapsed = last
  *     ? `, ${timestamp.toNumber() - last}s since last`
  *     : '';
@@ -83,7 +83,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * import ApiPromise from '@polkadot/api/promise';
  *
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.st.system.accountNonce(keyring.alice.address());
+ *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
  *
  *   api.tx.balances
  *     // create transfer
@@ -116,7 +116,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * import Api from '@polkadot/api/promise';
    *
    * Api.create().then(async (api) => {
-   *   const timestamp = await api.st.timestamp.now();
+   *   const timestamp = await api.query.timestamp.now();
    *
    *   console.log(`lastest block timestamp ${timestamp}`);
    * });

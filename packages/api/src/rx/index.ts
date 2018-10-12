@@ -72,8 +72,8 @@ const l = logger('api-rx');
  *   .pipe(
  *     switchMap((api) =>
  *       combineLatest([
- *         api.st.timestamp.blockPeriod(),
- *         api.st.timestamp.now()
+ *         api.query.timestamp.blockPeriod(),
+ *         api.query.timestamp.now()
  *       ])
  *   )
  *   .subscribe(([blockPeriod, timestamp]) => {
@@ -97,7 +97,7 @@ const l = logger('api-rx');
  * const api = await ApiRx.create().toPromise();
  *
  * // retrieve nonce for the account
- * api.st.system
+ * api.query.system
  *   .accountNonce(keyring.alice.address())
  *   .pipe(
  *      // pipe nonce into transfer
@@ -132,7 +132,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
-   *   api.st.timestamp.now.subscribe((timestamp) => {
+   *   api.query.timestamp.now.subscribe((timestamp) => {
    *     console.log(`lastest block timestamp ${timestamp}`);
    *   });
    * });

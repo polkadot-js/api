@@ -27,7 +27,7 @@ describe.skip('e2e queries', () => {
   });
 
   it('queries state for a balance', (done) => {
-    api.st.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
+    api.query.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
       expect(
         balance.isZero()
       ).toBe(false);
