@@ -25,25 +25,20 @@ export default class Tuple<
     super(Types, Tuple.decodeTuple(Types, value), jsonMap);
   }
 
-  static decodeTuple<S, V> (Types: S, _value: V | AnyU8a): V {
-    if (!isU8a(_value) && !isString(_value) && !Array.isArray(_value)) {
-      return _value as V;
+  static decodeTuple<S, V> (Types: S, value: V | AnyU8a): V {
+    // If the input is an array, we convert it to a map
+    if (Array.isArray(value)) {
+      return Object
+        .keys(Types)
+        .reduce((result, key, index) => {
+          // @ts-ignore FIXME these types are a headache
+          result[key] = value[index];
+          return result;
+        }, {} as V);
     }
 
-    const value = toU8a(_value);
-    let offset = 0;
-
-    return Object
-      .keys(Types)
-      .reduce((result: V, key) => {
-        // @ts-ignore
-        result[key] = new Types[key]().fromU8a(value.subarray(offset));
-
-        // @ts-ignore
-        offset += result[key].byteLength();
-
-        return result;
-      }, {} as V);
+    // Or else, just decode like a normal Struct
+    return value as V;
   }
 
   static with<
