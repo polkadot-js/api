@@ -23,7 +23,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * @name ApiPromise
  *
  * @description
- * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise standard JavaScript-convention `(error, value)` callbacks.
+ * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise `(value) => {}` callbacks to pass through the latest values.
  *
  * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
  *
@@ -41,7 +41,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * const api = await ApiPromise.create();
  *
  * // make a subscription to the network head
- * api.rpc.chain.newHead((error, header) => {
+ * api.rpc.chain.newHead((header) => {
  *   console.log(`Chain is at #${header.blockNumber}`);
  * });
  * ```
@@ -65,7 +65,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * let last = 0;
  *
  * // subscribe to the current block timestamp, updates automatically (callback provided)
- * api.st.timestamp.now((error, timestamp) => {
+ * api.st.timestamp.now((timestamp) => {
  *   const elapsed = last
  *     ? `, ${timestamp.toNumber() - last}s since last`
  *     : '';
@@ -136,7 +136,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * import Api from '@polkadot/api/promise';
    *
    * new Api().isReady.then((api) => {
-   *   api.rpc.newHead((error, header) => {
+   *   api.rpc.newHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });

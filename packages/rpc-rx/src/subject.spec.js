@@ -13,7 +13,7 @@ const RpcRx = require('./index').default;
 describe('subject', () => {
   const params = [123, false];
   let api;
-  let callback;
+  let update;
   let section;
   let subscription;
   let observable;
@@ -24,7 +24,7 @@ describe('subject', () => {
 
   beforeEach(() => {
     const subMethod = jest.fn((name, ...params) => {
-      callback = params.pop();
+      update = params.pop();
 
       return Promise.resolve(12345);
     });
@@ -56,7 +56,8 @@ describe('subject', () => {
         done();
       }
     });
-    callback(null, 'test');
+
+    update('test');
   });
 
   it('returns the observable value', (done) => {
@@ -67,18 +68,6 @@ describe('subject', () => {
       }
     });
 
-    callback(null, 'test');
-  });
-
-  it('ignores errors, returns the observable value', (done) => {
-    subscription = observable.subscribe((value) => {
-      if (value) {
-        expect(value).toEqual('test');
-        done();
-      }
-    });
-
-    callback(new Error('error'));
-    callback(null, 'test');
+    update('test');
   });
 });

@@ -17,13 +17,15 @@ import logger from '@polkadot/util/logger';
 import coder from '../coder/json';
 import defaults from '../defaults';
 
+type CallbackHandler = (error?: null | Error, value?: any) => void;
+
 type SubscriptionHandler = {
-  callback: ProviderInterface$Callback,
+  callback: CallbackHandler,
   type: string
 };
 
 type WsState$Awaiting = {
-  callback: ProviderInterface$Callback,
+  callback: CallbackHandler,
   method: string,
   params: Array<any>,
   subscription?: SubscriptionHandler
@@ -142,7 +144,7 @@ export default class WsProvider implements WSProviderInterface {
       try {
         const json = this.coder.encodeJson(method, params);
         const id = this.coder.getId();
-        const callback = (error: Error | null, result: any) => {
+        const callback = (error?: Error | null, result?: any) => {
           if (error) {
             reject(error);
           } else {
