@@ -5,16 +5,35 @@
 const fs = require('fs');
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util/string';
 
+import interfaces from '../../../type-jsonrpc/src';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata.rpc';
 import Method from '../Method';
 
 // some intro text goes in here
+const DESC_RPC = '\n\n_The following RPC methods are the Remote Calls that are available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
 const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._';
 const DESC_STORAGE = '\n\n_The following Storage methods are part of the default Substrate runtime._';
 
 function docFromFunc (func: any) {
   return func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
+}
+
+function addRpc () {
+  return Object.keys(interfaces).reduce((md, sectionName) => {
+    const section = interfaces[sectionName];
+
+    return Object.keys(section.methods).reduce((md, methodName) => {
+      const method = section.methods[methodName];
+      const args = method.params.map(({ name, isOptional, type }) => {
+        return name + (isOptional ? '?' : '') + ': `' + type + '`';
+      }).join(', ');
+      const type = '`' + method.type + '`';
+      const isSub = method.isSubscription;
+
+      return `${md}\n▸ **${methodName}**(${args}): ${type}` + `${method && method.description ? `\n- **summary**: ${method.description}` : `\n`}` + `${isSub ? `\n- **isSubscription**: ${isSub}\n` : `\n`}`;
+    }, `${md}\n___\n\n### ${sectionName}\n\n_${section.description}_\n`);
+  }, `## JSON-RPC${DESC_RPC}\n`);
 }
 
 function addExtrinsics (metadata: any) {
@@ -63,6 +82,19 @@ function metadataExtrinsicsMethodsAsText () {
   return addExtrinsics(metadata);
 }
 
+function writeToRpcMd () {
+  const options = { flags: 'w', encoding: 'utf8' };
+  const writeStream = fs.createWriteStream('docs/METHODS_RPC.md', options);
+
+  writeStream.write(addRpc());
+
+  writeStream.on('finish', () => {
+    console.log('wrote all rpc method metadata to Gitbook Markdown file');
+  });
+
+  writeStream.end();
+}
+
 function writeToStorageMd () {
   const optionsRead = { flags: 'r', encoding: 'utf8' };
   fs.readFile('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', optionsRead, function read (err: Error, data: string) {
@@ -99,5 +131,6 @@ function writeToExtrinsicsMd () {
   writeStream.end();
 }
 
+writeToRpcMd();
 writeToStorageMd();
 writeToExtrinsicsMd();
