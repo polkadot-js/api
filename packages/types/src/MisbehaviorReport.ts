@@ -55,7 +55,7 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (value?: BftAtReportValue, index: number = 0x11) {
+  constructor (value?: BftAtReportValue, index?: number) {
     super({
       0x11: BftDoublePrepare,
       0x12: BftDoubleCommit

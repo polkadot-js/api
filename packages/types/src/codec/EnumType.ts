@@ -5,6 +5,7 @@
 import isUndefined from '@polkadot/util/is/undefined';
 import isNumber from '@polkadot/util/is/number';
 import isU8a from '@polkadot/util/is/u8a';
+import isUndefined from '@polkadot/util/is/undefined';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -54,6 +55,8 @@ export default class EnumType<T> extends Base<Base<T>> {
     // Or else, we just look at `value`
     if (isU8a(value)) {
       return { index: value[0], value: new def[value[0]](value.subarray(1)) };
+    } else if (isNumber(value) && !isUndefined(def[value])) {
+      return { index: value, value: new def[value]() };
     }
 
     // Worst-case scenario, return this
