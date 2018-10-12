@@ -7,7 +7,7 @@
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
 
-## Substrate Interfaces
+## Runtime Node Interfaces
 - [RPC](METHODS_RPC.md)
 - [Storage](METHODS_STORAGE.md)
 - [Extrinsics](METHODS_EXTRINSICS.md)
