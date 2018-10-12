@@ -13,7 +13,7 @@
     "typescript": "^3.0.1"
   },
   "scripts": {
-    "build": "polkadot-dev-build-ts && polkadot-dev-build-docs",
+    "build": "yarn run build:methodsdoc && polkadot-dev-build-ts && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/MetadataMdWrapper.js",
     "build:decodedjson": "node packages/types/src/MetadataJsonDecodeWrapper.js",
