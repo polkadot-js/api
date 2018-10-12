@@ -4,6 +4,7 @@
 
 import { AnyNumber } from './types';
 
+import isU8a from '@polkadot/util/is/u8a';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './codec/Base';
@@ -324,7 +325,17 @@ export default class RuntimeMetadata extends Struct {
       outerEvent: OuterEventMetadata,
       modules: Vector.with(RuntimeModuleMetadata),
       outerDispatch: OuterDispatchMetadata
-    }, value);
+    }, RuntimeMetadata.decodeMetadata(value));
+  }
+
+  static decodeMetadata (value: any): object | Uint8Array {
+    if (isU8a(value)) {
+      // this does not look correct, metadata now has a length prefix. Strip, move on.
+      const [offset] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      return value.subarray(offset);
+    }
+    // Decode as normal struct
+    return value;
   }
 
   // We receive this as an Array<number> in the JSON output from the Node. Convert
