@@ -18,7 +18,7 @@
 
 **Plain**: 
 
-*Defined in [codec/createType.ts:15](https://github.com/polkadot-js/api/blob/64c5868/packages/types/src/codec/createType.ts#L15)*
+*Defined in [codec/createType.ts:15](https://github.com/polkadot-js/api/blob/78101e1/packages/types/src/codec/createType.ts#L15)*
 
 ___
 <a id="tuple"></a>
@@ -27,7 +27,7 @@ ___
 
 **Tuple**: 
 
-*Defined in [codec/createType.ts:16](https://github.com/polkadot-js/api/blob/64c5868/packages/types/src/codec/createType.ts#L16)*
+*Defined in [codec/createType.ts:16](https://github.com/polkadot-js/api/blob/78101e1/packages/types/src/codec/createType.ts#L16)*
 
 ___
 <a id="vector"></a>
@@ -36,7 +36,7 @@ ___
 
 **Vector**: 
 
-*Defined in [codec/createType.ts:17](https://github.com/polkadot-js/api/blob/64c5868/packages/types/src/codec/createType.ts#L17)*
+*Defined in [codec/createType.ts:17](https://github.com/polkadot-js/api/blob/78101e1/packages/types/src/codec/createType.ts#L17)*
 
 ___
 

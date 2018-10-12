@@ -8,7 +8,7 @@
 
 ▸ **createMethod**(section: *`string`*, method: *`string`*, __namedParameters: *`object`*): `RpcMethod`
 
-*Defined in [create/method.ts:9](https://github.com/polkadot-js/api/blob/64c5868/packages/type-jsonrpc/src/create/method.ts#L9)*
+*Defined in [create/method.ts:9](https://github.com/polkadot-js/api/blob/78101e1/packages/type-jsonrpc/src/create/method.ts#L9)*
 
 **Parameters:**
 

@@ -45,7 +45,7 @@ import { ApiPromise } from '@polkadot/api';
 const api = await ApiPromise.create();
 
 // make a call to retrieve the current network head
-api.rpc.chain.newHead((header) => {
+api.rpc.chain.subscribeNewHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```
@@ -59,7 +59,7 @@ import { ApiRx } from '@polkadot/api';
 const api = await ApiRx.create().toPromise();
 
 // make a call to retrieve the current network head
-api.rpc.chain.newHead().subscribe((header) => {
+api.rpc.chain.subscribeNewHead().subscribe((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```
