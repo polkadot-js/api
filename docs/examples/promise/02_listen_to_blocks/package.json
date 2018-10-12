@@ -1,6 +1,6 @@
 {
   "name": "02_listen_to_blocks",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Example showing how to use subscriptions",
   "main": "index.js",
   "author": "chevdor",
@@ -10,7 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.31.15"
+    "@polkadot/api": "^0.31.18"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
