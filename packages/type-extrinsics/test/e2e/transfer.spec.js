@@ -4,7 +4,7 @@
 
 import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from '../../src/static';
 
@@ -45,7 +45,7 @@ describe.skip('e2e transfer', () => {
 
         extrinsic.sign(keyring.alice, 0, genesisHash);
 
-        return api.author.extrinsicUpdate(extrinsic, (status) => {
+        return api.author.submitAndWatchExtrinsic(extrinsic, (status) => {
           console.log(status);
 
           if (status.type === 'Finalised') {

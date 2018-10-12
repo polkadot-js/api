@@ -22,16 +22,16 @@ const submitExtrinsic: RpcMethodOpt = {
   type: 'Hash'
 };
 
-const extrinsicUpdate: RpcMethodOpt = {
+const submitAndWatchExtrinsic: RpcMethodOpt = {
   description: 'Subscribe and watch an extrinsic until unsubscribed',
   isSigned: true,
-  isSubscription: true,
-  subscribe: [
-    'author_submitAndWatchExtrinsic',
-    'author_unwatchExtrinsic'
-  ],
   params: [
     createParam('extinsic', 'Extrinsic')
+  ],
+  pubsub: [
+    'extrinsicUpdate',
+    'submitAndWatchExtrinsic',
+    'unwatchExtrinsic'
   ],
   type: 'ExtrinsicStatus'
 };
@@ -49,6 +49,6 @@ export default {
   methods: {
     pendingExtrinsics: createMethod(section, 'pendingExtrinsics', pendingExtrinsics),
     submitExtrinsic: createMethod(section, 'submitExtrinsic', submitExtrinsic),
-    extrinsicUpdate: createMethod(section, 'extrinsicUpdate', extrinsicUpdate)
+    submitAndWatchExtrinsic: createMethod(section, 'submitAndWatchExtrinsic', submitAndWatchExtrinsic)
   }
 } as RpcSection;

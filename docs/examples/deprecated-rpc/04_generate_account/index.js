@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const Keyring = require('@polkadot/util-keyring').default;
+const Keyring = require('@polkadot/keyring').default;
 const u8aToHex = require('@polkadot/util/u8a/toHex').default;
 const Encoder = new TextEncoder(); // always utf-8
 

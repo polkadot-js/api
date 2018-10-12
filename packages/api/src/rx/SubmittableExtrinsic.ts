@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { ApiRxInterface } from './types';
 
@@ -19,7 +19,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   send (): Observable<ExtrinsicStatus> {
-    return this._api.rpc.author.extrinsicUpdate(this);
+    return this._api.rpc.author.submitAndWatchExtrinsic(this);
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

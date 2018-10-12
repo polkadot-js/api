@@ -16,8 +16,8 @@ export interface ApiBaseInterface <R, S, E> {
   readonly genesisHash: Hash;
   readonly runtimeMetadata: RuntimeMetadata;
   readonly runtimeVersion: RuntimeVersion;
+  readonly query: S;
   readonly rpc: R;
-  readonly st: S;
   readonly tx: E
 
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => void;

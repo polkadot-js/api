@@ -46,7 +46,7 @@ const l = logger('api-rx');
  * const api = await ApiRx.create().toPromise();
  *
  * // make a call to retrieve the current network head
- * api.rpc.chain.newHead().subscribe((header) => {
+ * api.rpc.chain.subscribeNewHead().subscribe((header) => {
  *   console.log(`Chain is at #${header.blockNumber}`);
  * });
  * ```
@@ -72,8 +72,8 @@ const l = logger('api-rx');
  *   .pipe(
  *     switchMap((api) =>
  *       combineLatest([
- *         api.st.timestamp.blockPeriod(),
- *         api.st.timestamp.now()
+ *         api.query.timestamp.blockPeriod(),
+ *         api.query.timestamp.now()
  *       ])
  *   )
  *   .subscribe(([blockPeriod, timestamp]) => {
@@ -97,7 +97,7 @@ const l = logger('api-rx');
  * const api = await ApiRx.create().toPromise();
  *
  * // retrieve nonce for the account
- * api.st.system
+ * api.query.system
  *   .accountNonce(keyring.alice.address())
  *   .pipe(
  *      // pipe nonce into transfer
@@ -132,7 +132,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * import Api from '@polkadot/api/rx';
    *
    * Api.create().subscribe((api) => {
-   *   api.st.timestamp.now.subscribe((timestamp) => {
+   *   api.query.timestamp.now.subscribe((timestamp) => {
    *     console.log(`lastest block timestamp ${timestamp}`);
    *   });
    * });
@@ -154,7 +154,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady.subscribe((api) => {
-   *   api.rpc.newHead().subscribe((header) => {
+   *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
@@ -231,7 +231,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
       let observable;
 
       try {
-        observable = this.rpc.state.storage([[method, arg]]);
+        observable = this.rpc.state.subscribeStorage([[method, arg]]);
       } catch (error) {
         // in the case of an exception (upon creation of key), just return an empty
         observable = EMPTY;

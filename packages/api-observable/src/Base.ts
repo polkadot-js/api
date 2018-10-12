@@ -120,7 +120,7 @@ export default class ApiBase {
     let observable;
 
     try {
-      observable = this._api.state.storage(keys);
+      observable = this._api.state.subscribeStorage(keys);
     } catch (error) {
       observable = EMPTY;
     }

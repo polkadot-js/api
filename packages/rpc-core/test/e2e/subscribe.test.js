@@ -19,11 +19,7 @@ describe.skip('e2e subscriptions', () => {
     let count = 0;
 
     return api.state
-      .storage([[storage.timestamp.now]], (error, data) => {
-        if (error) {
-          return done(error);
-        }
-
+      .subscribeStorage([[storage.timestamp.now]], (data) => {
         expect(data).toBeDefined();
 
         if (++count === 3) {

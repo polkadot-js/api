@@ -1219,76 +1219,36 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
-"@polkadot/extrinsics@^0.30.3":
-  version "0.30.45"
-  resolved "https://registry.yarnpkg.com/@polkadot/extrinsics/-/extrinsics-0.30.45.tgz#f17db714420fd3350a94c09b6cde51848cadd58b"
+"@polkadot/keyring@^0.31.1":
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.31.1.tgz#f33cf0254f763af1d10a50db2edc21cd845a8f78"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.30.7"
-
-"@polkadot/params@^0.30.3":
-  version "0.30.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/params/-/params-0.30.3.tgz#1f94f938306e7e30c009d501c527dfc322622f5a"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@polkadot/extrinsics" "^0.30.3"
-    "@polkadot/params" "^0.30.3"
-    "@polkadot/primitives" "^0.30.3"
-    "@polkadot/util" "^0.30.7"
-    "@polkadot/util-keyring" "^0.30.7"
-
-"@polkadot/primitives@^0.30.3":
-  version "0.30.3"
-  resolved "https://registry.yarnpkg.com/@polkadot/primitives/-/primitives-0.30.3.tgz#9b5cb18d084f0c2ba860cacece7e81fa6309613e"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@polkadot/trie-hash" "^0.30.7"
-    "@polkadot/util" "^0.30.7"
-
-"@polkadot/trie-hash@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/trie-hash/-/trie-hash-0.30.7.tgz#b68102736d03a2a4cd673f113a90a7cd2b21bc69"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.30.7"
-    "@polkadot/util-crypto" "^0.30.7"
-    "@polkadot/util-rlp" "^0.30.7"
+    "@polkadot/util" "^0.31.1"
+    "@polkadot/util-crypto" "^0.31.1"
+    "@types/bs58" "^3.0.30"
+    bs58 "^4.0.1"
 
 "@polkadot/ts@^0.1.30":
   version "0.1.30"
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.30.tgz#d6d1498a5597e09de88f6117663bcf842040c801"
 
-"@polkadot/util-crypto@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.30.7.tgz#7af110c286164cd4870ba8b499c2601b7181ed4d"
+"@polkadot/util-crypto@^0.31.1":
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.31.1.tgz#f8283bd40547e5e169d35903cf8c863567a336ee"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.30.7"
+    "@polkadot/util" "^0.31.1"
+    "@types/bip39" "^2.4.0"
+    bip39 "^2.5.0"
     blakejs "^1.1.0"
     js-sha3 "^0.8.0"
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util-keyring@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-keyring/-/util-keyring-0.30.7.tgz#b98df3430937a441422e1ea788e0115d0e2a9c88"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.30.7"
-    "@polkadot/util-crypto" "^0.30.7"
-    "@types/bs58" "^3.0.30"
-    bs58 "^4.0.1"
-
-"@polkadot/util-rlp@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-rlp/-/util-rlp-0.30.7.tgz#bb314ebdbf44803a0575e067ef316f60099c274a"
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.30.7"
-
-"@polkadot/util@^0.30.7":
-  version "0.30.7"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.30.7.tgz#989e21e5b32f2a505ad0a787ce8b56da94702d32"
+"@polkadot/util@^0.31.1":
+  version "0.31.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.31.1.tgz#c5321a8c9b1625525b579e6c35dc59d5a0f3f08d"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@types/bn.js" "^4.11.1"
@@ -1306,6 +1266,12 @@
 "@types/base-x@*":
   version "1.0.29"
   resolved "https://registry.yarnpkg.com/@types/base-x/-/base-x-1.0.29.tgz#8a2d73e4a5c3121757a5f8870cfa4509655186b6"
+
+"@types/bip39@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@types/bip39/-/bip39-2.4.0.tgz#eee31a14abc8ebbb41a1ff14575c447b18346cbc"
+  dependencies:
+    "@types/node" "*"
 
 "@types/bn.js@^4.11.1":
   version "4.11.1"
@@ -1975,6 +1941,16 @@ bindings@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.2.1.tgz#14ad6113812d2d37d72e67b4cacb4bb726505f11"
 
+bip39@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/bip39/-/bip39-2.5.0.tgz#51cbd5179460504a63ea3c000db3f787ca051235"
+  dependencies:
+    create-hash "^1.1.0"
+    pbkdf2 "^3.0.9"
+    randombytes "^2.0.1"
+    safe-buffer "^5.0.1"
+    unorm "^1.3.3"
+
 bl@^1.0.0:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/bl/-/bl-1.2.2.tgz#a160911717103c07410cef63ef51b397c025af9c"
@@ -2376,6 +2352,13 @@ ci-info@^1.0.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.3.tgz#710193264bb05c77b8c90d02f5aaf22216a667b2"
 
+cipher-base@^1.0.1, cipher-base@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/cipher-base/-/cipher-base-1.0.4.tgz#8760e4ecc272f4c363532f926d874aae2c1397de"
+  dependencies:
+    inherits "^2.0.1"
+    safe-buffer "^5.0.1"
+
 circular-json@^0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
@@ -2710,6 +2693,27 @@ create-error-class@^3.0.0:
   resolved "https://registry.yarnpkg.com/create-error-class/-/create-error-class-3.0.2.tgz#06be7abef947a3f14a30fd610671d401bca8b7b6"
   dependencies:
     capture-stack-trace "^1.0.0"
+
+create-hash@^1.1.0, create-hash@^1.1.2:
+  version "1.2.0"
+  resolved "http://registry.npmjs.org/create-hash/-/create-hash-1.2.0.tgz#889078af11a63756bcfb59bd221996be3a9ef196"
+  dependencies:
+    cipher-base "^1.0.1"
+    inherits "^2.0.1"
+    md5.js "^1.3.4"
+    ripemd160 "^2.0.1"
+    sha.js "^2.4.0"
+
+create-hmac@^1.1.4:
+  version "1.1.7"
+  resolved "http://registry.npmjs.org/create-hmac/-/create-hmac-1.1.7.tgz#69170c78b3ab957147b2b8b04572e47ead2243ff"
+  dependencies:
+    cipher-base "^1.0.3"
+    create-hash "^1.1.0"
+    inherits "^2.0.1"
+    ripemd160 "^2.0.0"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
 
 cross-spawn@^5.0.1:
   version "5.1.0"
@@ -4170,6 +4174,13 @@ has@^1.0.1:
   dependencies:
     function-bind "^1.1.1"
 
+hash-base@^3.0.0:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/hash-base/-/hash-base-3.0.4.tgz#5fc8686847ecd73499403319a6b0a3f3f6ae4918"
+  dependencies:
+    inherits "^2.0.1"
+    safe-buffer "^5.0.1"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -5620,6 +5631,14 @@ math-random@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/math-random/-/math-random-1.0.1.tgz#8b3aac588b8a66e4975e3cdea67f7bb329601fac"
 
+md5.js@^1.3.4:
+  version "1.3.5"
+  resolved "https://registry.yarnpkg.com/md5.js/-/md5.js-1.3.5.tgz#b5d07b8e3216e3e27cd728d72f70d1e6a342005f"
+  dependencies:
+    hash-base "^3.0.0"
+    inherits "^2.0.1"
+    safe-buffer "^5.1.2"
+
 mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
@@ -6797,6 +6816,16 @@ pathval@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pathval/-/pathval-1.1.0.tgz#b942e6d4bde653005ef6b71361def8727d0645e0"
 
+pbkdf2@^3.0.9:
+  version "3.0.17"
+  resolved "https://registry.yarnpkg.com/pbkdf2/-/pbkdf2-3.0.17.tgz#976c206530617b14ebb32114239f7b09336e93a6"
+  dependencies:
+    create-hash "^1.1.2"
+    create-hmac "^1.1.4"
+    ripemd160 "^2.0.1"
+    safe-buffer "^5.0.1"
+    sha.js "^2.4.8"
+
 performance-now@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
@@ -7024,6 +7053,12 @@ randomatic@^3.0.0:
     is-number "^4.0.0"
     kind-of "^6.0.0"
     math-random "^1.0.1"
+
+randombytes@^2.0.1:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
+  dependencies:
+    safe-buffer "^5.1.0"
 
 rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
   version "1.2.8"
@@ -7558,6 +7593,13 @@ rimraf@~2.5.4:
   dependencies:
     glob "^7.0.5"
 
+ripemd160@^2.0.0, ripemd160@^2.0.1:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
+  dependencies:
+    hash-base "^3.0.0"
+    inherits "^2.0.1"
+
 rsvp@^3.3.3:
   version "3.6.2"
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-3.6.2.tgz#2e96491599a96cde1b515d5674a8f7a91452926a"
@@ -7670,6 +7712,13 @@ set-value@^2.0.0:
     is-extendable "^0.1.1"
     is-plain-object "^2.0.3"
     split-string "^3.0.1"
+
+sha.js@^2.4.0, sha.js@^2.4.8:
+  version "2.4.11"
+  resolved "http://registry.npmjs.org/sha.js/-/sha.js-2.4.11.tgz#37a5cf0b81ecbc6943de109ba2960d1b26584ae7"
+  dependencies:
+    inherits "^2.0.1"
+    safe-buffer "^5.0.1"
 
 sha@~2.0.1:
   version "2.0.1"
@@ -8525,6 +8574,10 @@ unique-string@^1.0.0:
 universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
+
+unorm@^1.3.3:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/unorm/-/unorm-1.4.1.tgz#364200d5f13646ca8bcd44490271335614792300"
 
 unpipe@~1.0.0:
   version "1.0.0"

@@ -5,7 +5,7 @@
 // FIXME: This file is way too long and way too messy
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { KeyringPair } from '@polkadot/util-keyring/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import { ProviderInterface$Emitted } from '../types';
 import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 
@@ -15,7 +15,7 @@ import Header from '@polkadot/types/Header';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
 import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
-import testKeyring from '@polkadot/util-keyring/testing';
+import testKeyring from '@polkadot/keyring/testing';
 
 const keyring = testKeyring();
 
@@ -79,6 +79,6 @@ export default function mocks ({ emitter, db, subscriptions }: MockState): void 
 
     setStorageBn(db, storage.timestamp.now, Math.floor(Date.now() / 1000));
 
-    updateSubs(subscriptions, 'chain_newHead', new Header(newHead).toJSON());
+    updateSubs(subscriptions, 'chain_subscribeNewHead', new Header(newHead).toJSON());
   }, 5000);
 }

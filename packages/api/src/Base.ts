@@ -33,7 +33,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
-  protected _storage?: S;
+  protected _query?: S;
   protected _rpc: R;
   protected _rpcBase: Rpc;
   protected _runtimeMetadata?: RuntimeMetadata;
@@ -51,7 +51,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * import Api from '@polkadot/api/rx';
    *
    * new Api().isReady.subscribe((api) => {
-   *   api.rpc.newHead().subscribe((header) => {
+   *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
@@ -93,7 +93,29 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   }
 
   /**
-   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+   *
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.query.balances
+   *   .freeBalance(<accountId>)
+   *   .subscribe((balance) => {
+   *     console.log('new balance', balance);
+   *   });
+   * ```
+   */
+  get query (): S {
+    assert(!isUndefined(this._query), INIT_ERROR);
+
+    return this._query as S;
+  }
+
+  /**
+   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
    *
    * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
    *
@@ -102,7 +124,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    *
    * ```javascript
    * api.rpc.chain
-   *   .newHead()
+   *   .subscribeNewHead()
    *   .subscribe((header) => {
    *     console.log('new header', header);
    *   });
@@ -110,28 +132,6 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    */
   get rpc (): R {
     return this._rpc;
-  }
-
-  /**
-   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
-   *
-   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.st.balances
-   *   .freeBalance(<accountId>)
-   *   .subscribe((balance) => {
-   *     console.log('new balance', balance);
-   *   });
-   * ```
-   */
-  get st (): S {
-    assert(!isUndefined(this._storage), INIT_ERROR);
-
-    return this._storage as S;
   }
 
   /**
@@ -222,7 +222,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
       const storage = storageFromMeta(this.runtimeMetadata);
 
       this._extrinsics = this.decorateExtrinsics(extrinsics);
-      this._storage = this.decorateStorage(storage);
+      this._query = this.decorateStorage(storage);
 
       Method.injectExtrinsics(extrinsics);
 

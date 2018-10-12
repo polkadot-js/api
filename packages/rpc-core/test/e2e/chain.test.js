@@ -14,16 +14,12 @@ describe.skip('e2e chain', () => {
     api = new Rpc(new Ws('ws://127.0.0.1:9944'));
   });
 
-  it('subscribes to chain_newHead', (done) => {
+  it('subscribes via subscribeNewHead', (done) => {
     let count = 0;
 
     // tslint:disable-next-line
     api.chain
-      .newHead((error, header) => {
-        if (error) {
-          return done(error);
-        }
-
+      .subscribeNewHead((header) => {
         expect(header).toBeDefined();
 
         if (++count === 3) {

@@ -41,7 +41,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * const api = await ApiPromise.create();
  *
  * // make a subscription to the network head
- * api.rpc.chain.newHead((header) => {
+ * api.rpc.chain.subscribeNewHead((header) => {
  *   console.log(`Chain is at #${header.blockNumber}`);
  * });
  * ```
@@ -61,11 +61,11 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * const api = await new ApiPromise(provider).isReady;
  *
  * // retrieve the block target time
- * const blockPeriod = await api.st.timestamp.blockPeriod().toNumber();
+ * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
  * let last = 0;
  *
  * // subscribe to the current block timestamp, updates automatically (callback provided)
- * api.st.timestamp.now((timestamp) => {
+ * api.query.timestamp.now((timestamp) => {
  *   const elapsed = last
  *     ? `, ${timestamp.toNumber() - last}s since last`
  *     : '';
@@ -83,7 +83,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * import ApiPromise from '@polkadot/api/promise';
  *
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.st.system.accountNonce(keyring.alice.address());
+ *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
  *
  *   api.tx.balances
  *     // create transfer
@@ -116,7 +116,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * import Api from '@polkadot/api/promise';
    *
    * Api.create().then(async (api) => {
-   *   const timestamp = await api.st.timestamp.now();
+   *   const timestamp = await api.query.timestamp.now();
    *
    *   console.log(`lastest block timestamp ${timestamp}`);
    * });
@@ -138,7 +138,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * import Api from '@polkadot/api/promise';
    *
    * new Api().isReady.then((api) => {
-   *   api.rpc.newHead((header) => {
+   *   api.rpc.subscribeNewHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
    * });
@@ -206,7 +206,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
         return this.rpc.state.getStorage([method, args[0]]);
       }
 
-      return this.rpc.state.storage(
+      return this.rpc.state.subscribeStorage(
         [[method, args.length === 1 ? undefined : args[0]]],
         (result: Array<Base | null | undefined> = []) =>
           args[args.length - 1](result[0])

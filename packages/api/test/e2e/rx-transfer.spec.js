@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { switchMap } from 'rxjs/operators';
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
@@ -17,7 +17,7 @@ describe.skip('e2e transfer', () => {
   });
 
   it('makes a transfer', (done) => {
-    api.st.system
+    api.query.system
       .accountNonce(keyring.alice.address())
       .pipe(
         switchMap((nonce) =>
