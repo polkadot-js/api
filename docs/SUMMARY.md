@@ -7,6 +7,11 @@
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
 
+## Node Interfaces
+- [RPC](METHODS_RPC.md)
+- [Storage chain state (runtime)](METHODS_STORAGE.md)
+- [Extrinsics (runtime)](METHODS_EXTRINSICS.md)
+
 ## Examples
 
 - [ApiPromise](examples/promise/README.md)

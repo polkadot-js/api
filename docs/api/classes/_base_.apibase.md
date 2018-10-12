@@ -24,7 +24,7 @@
 
 ⊕ **new ApiBase**(wsProvider?: *`WsProvider`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L40)*
+*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L40)*
 
 *__description__*: Create an instance of the class
 
@@ -57,11 +57,35 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L71)*
+*Defined in [Base.ts:71](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L71)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
 **Returns:** `Hash`
+
+___
+<a id="query"></a>
+
+##  query
+
+getquery(): `S`
+
+*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L111)*
+
+*__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+
+All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+
+*__example__*:   
+```javascript
+api.query.balances
+  .freeBalance(<accountId>)
+  .subscribe((balance) => {
+    console.log('new balance', balance);
+  });
+```
+
+**Returns:** `S`
 
 ___
 <a id="rpc"></a>
@@ -70,9 +94,9 @@ ___
 
 getrpc(): `R`
 
-*Defined in [Base.ts:111](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L111)*
+*Defined in [Base.ts:133](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L133)*
 
-*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.st` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+*__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
 RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
 
@@ -94,7 +118,7 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L80)*
+*Defined in [Base.ts:80](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L80)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -107,35 +131,11 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L89)*
+*Defined in [Base.ts:89](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L89)*
 
 *__description__*: Contains the version information for the current runtime.
 
 **Returns:** `RuntimeVersion`
-
-___
-<a id="st"></a>
-
-##  st
-
-getst(): `S`
-
-*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L131)*
-
-*__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
-
-All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.st.timestamp.now()` (current block timestamp) does not take parameters, while `api.st.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
-
-*__example__*:   
-```javascript
-api.st.balances
-  .freeBalance(<accountId>)
-  .subscribe((balance) => {
-    console.log('new balance', balance);
-  });
-```
-
-**Returns:** `S`
 
 ___
 <a id="tx"></a>
@@ -144,7 +144,7 @@ ___
 
 gettx(): `E`
 
-*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L153)*
+*Defined in [Base.ts:153](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L153)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -171,7 +171,7 @@ ___
 
 ▸ **on**(type: *`ApiInterface$Events`*, handler: *`function`*): `void`
 
-*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/78101e1/packages/api/src/Base.ts#L178)*
+*Defined in [Base.ts:178](https://github.com/polkadot-js/api/blob/4748e8c/packages/api/src/Base.ts#L178)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 

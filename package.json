@@ -1,5 +1,5 @@
 {
-  "version": "0.31.21",
+  "version": "0.31.26",
   "private": true,
   "engines": {
     "node": "^10.1.0",
@@ -13,8 +13,10 @@
     "typescript": "^3.0.1"
   },
   "scripts": {
-    "build": "polkadot-dev-build-ts && polkadot-dev-build-docs",
+    "build": "yarn run build:methodsdoc && polkadot-dev-build-ts && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
+    "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
+    "build:decodedjson": "node packages/types/src/scripts/MetadataJsonDecodeWrapper.js",
     "check": "tslint --project . && tsc --noEmit",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
@@ -25,6 +27,7 @@
     "@polkadot/ts": "^0.1.30"
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
     "gitbook-plugin-include-codeblock": "^3.2.2",
     "gitbook-plugin-mermaid-gb3": "^2.1.0",
     "gitbook-plugin-sunlight-highlighter": "^0.4.3"

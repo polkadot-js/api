@@ -175,3 +175,5 @@
   * [TypeDefInfo](enums/_codec_createtype_.typedefinfo.md)
 * [&quot;codec/index&quot;](modules/_codec_index_.md)
 * [&quot;index&quot;](modules/_index_.md)
+* [&quot;scripts/MetadataJsonDecode&quot;](modules/_scripts_metadatajsondecode_.md)
+* [&quot;scripts/MetadataMd&quot;](modules/_scripts_metadatamd_.md)

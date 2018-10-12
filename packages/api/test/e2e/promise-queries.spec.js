@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
 
@@ -22,12 +22,12 @@ describe.skip('e2e queries', () => {
     expect(api.runtimeMetadata).toBeDefined();
     expect(api.runtimeVersion).toBeDefined();
     expect(api.rpc).toBeDefined();
-    expect(api.st).toBeDefined();
+    expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
   });
 
   it('queries state for a balance', async () => {
-    const balance = await api.st.balances.freeBalance(keyring.alice.address());
+    const balance = await api.query.balances.freeBalance(keyring.alice.address());
 
     expect(
       balance.isZero()

@@ -2,12 +2,12 @@
 @polkadot/rpc-provider
 ======================
 
-Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. It provides an interface to making RPC class and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
+Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. It provides an interface to making RPC calls and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
 
 Provider Selection
 ------------------
 
-There are two flavours of the providers provided, one allowing for using HTTP as a transport machanism, the other using WebSockets. It is generally recommended to use the [WsProvider](classes/_ws_index_.wsprovider.md) since in addition to standard calls, it allows for subscriptions where all changes to state can be pushed from the node to the client.
+There are two flavours of the providers provided, one allowing for using HTTP as a transport mechanism, the other using WebSockets. It is generally recommended to use the [WsProvider](classes/_ws_index_.wsprovider.md) since in addition to standard calls, it allows for subscriptions where all changes to state can be pushed from the node to the client.
 
 Both providers are usable (as is the API), in both browser-based and Node.js environments. Polyfills for unsupported functionality are automatically applied based on feature-detection.
 

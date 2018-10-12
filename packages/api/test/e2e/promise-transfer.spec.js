@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import testingPairs from '@polkadot/util-keyring/testingPairs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
 
@@ -16,7 +16,7 @@ describe.skip('e2e transfer', () => {
   });
 
   it('makes a transfer', async () => {
-    const nonce = await api.st.system.accountNonce(keyring.alice.address());
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
     const hash = await api.tx.balances
       .transfer(keyring.bob.address(), 12345)
       .sign(keyring.alice, nonce)

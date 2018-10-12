@@ -3,7 +3,7 @@ const Rpc = require('@polkadot/rpc-core').default;
 const WsProvider = require('@polkadot/rpc-provider/ws').default;
 const extrinsics = require('@polkadot/extrinsics').default;
 const encodeExtrinsic = require('@polkadot/extrinsics/codec/encode/uncheckedLength').default;
-const Keyring = require('@polkadot/util-keyring').default;
+const Keyring = require('@polkadot/keyring').default;
 const storage = require('@polkadot/storage').default;
 
 const Encoder = new TextEncoder();
