@@ -7,7 +7,6 @@ import Ws from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/util-keyring/testingPairs';
 
 import extrinsics from '../../src/static';
-import { doesIntersect } from 'tslint';
 
 const keyring = testingPairs();
 
