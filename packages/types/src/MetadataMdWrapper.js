@@ -3,15 +3,5 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-require('@babel/register')({
-  extensions: ['.js', '.ts'],
-  plugins: [
-    ['module-resolver', {
-      alias: {
-        '^@polkadot/types(.*)': './packages/types/src\\2'
-      }
-    }]
-  ]
-});
-
+require('../babelConfig.js');
 require('./MetadataMd.ts');
