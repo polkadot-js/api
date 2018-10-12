@@ -3,14 +3,22 @@
   "gitbook": ">=2.4.0",
   "plugins": [
     "include-codeblock",
+    "insert-logo-link",
     "mermaid-gb3",
     "-highlight",
     "sunlight-highlighter"
   ],
   "root": "docs",
   "pluginsConfig": {
+    "insert-logo-link": {
+      "src": "/logo.png",
+      "url": "http://localhost:4000"
+    },
     "sunlight-highlighter": {
       "theme": "gitbook"
     }
+  },
+  "styles": {
+    "website": "styles/website.css"
   }
 }
