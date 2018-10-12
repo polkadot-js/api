@@ -4,9 +4,6 @@
 
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
-import isString from '@polkadot/util/is/string';
-import isU8a from '@polkadot/util/is/u8a';
-import toU8a from '@polkadot/util/u8a/toU8a';
 
 import { AnyU8a, Constructor } from '../types';
 import Base from './Base';
