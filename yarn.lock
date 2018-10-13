@@ -3920,6 +3920,10 @@ gitbook-plugin-include-codeblock@^3.2.2:
     meow "^4.0.0"
     winston-color "^1.0.0"
 
+gitbook-plugin-insert-logo-link@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/gitbook-plugin-insert-logo-link/-/gitbook-plugin-insert-logo-link-1.0.1.tgz#de84eb475f308fbca18a40bdc180c62ec2db4bc2"
+
 gitbook-plugin-mermaid-gb3@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/gitbook-plugin-mermaid-gb3/-/gitbook-plugin-mermaid-gb3-2.1.0.tgz#f2efc846021e527295d5fb723093e5db25f796a0"
