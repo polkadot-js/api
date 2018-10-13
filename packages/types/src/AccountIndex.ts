@@ -4,7 +4,9 @@
 
 import decodeAddress from '@polkadot/keyring/address/decode';
 import encodeAddress from '@polkadot/keyring/address/encode';
+import hexToU8a from '@polkadot/util/hex/toU8a';
 import isU8a from '@polkadot/util/is/u8a';
+import isHex from '@polkadot/util/is/hex';
 import u8aConcat from '@polkadot/util/u8a/concat';
 
 import { AnyU8a } from './types';
@@ -33,6 +35,8 @@ export default class AccountIndex extends U8a {
       const [offset, length] = AccountIndex.readLength(value);
 
       return value.subarray(offset, offset + length);
+    } else if (isHex(value)) {
+      return hexToU8a(value);
     }
 
     return decodeAddress(value);
