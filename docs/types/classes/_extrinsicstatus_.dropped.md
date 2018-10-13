@@ -18,7 +18,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Null.ts:8](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L8)*
+*Defined in [Null.ts:8](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L8)*
 
 **Returns:** [Dropped](_extrinsicstatus_.dropped.md)
 
@@ -34,7 +34,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L13)*
 
 **Returns:** `number`
 
@@ -65,7 +65,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L17)*
 
 **Parameters:**
 
@@ -86,7 +86,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L21)*
+*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L21)*
 
 **Parameters:**
 
@@ -107,7 +107,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L25)*
+*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L25)*
 
 **Returns:** `any`
 
@@ -122,7 +122,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Null.ts:33](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L33)*
+*Defined in [Null.ts:33](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L33)*
 
 **Returns:** `string`
 
@@ -137,7 +137,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Null.ts:29](https://github.com/polkadot-js/api/blob/85ebacb/packages/types/src/Null.ts#L29)*
+*Defined in [Null.ts:29](https://github.com/polkadot-js/api/blob/67f625b/packages/types/src/Null.ts#L29)*
 
 **Parameters:**
 
