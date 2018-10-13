@@ -11,7 +11,7 @@
   "root": "docs",
   "pluginsConfig": {
     "insert-logo-link": {
-      "src": "logo.png",
+      "src": "/api/logo.png",
       "url": "https://polkadot.js.org"
     },
     "sunlight-highlighter": {
