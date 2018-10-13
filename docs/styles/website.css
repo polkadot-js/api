@@ -3,7 +3,12 @@
 }
 
 .book .book-summary .book-logo {
-  padding: 25px 17px 22px 0px;
+  padding: 0.5em;
+  text-align: right;
+}
+
+.book .book-summary .book-logo img {
+  width: 50%;
 }
 
 .book-summary ul.summary li.chapter.active {
@@ -19,7 +24,7 @@
   color: #fd8824;
 }
 
-.book-summary ul.summary li.chapter a, 
+.book-summary ul.summary li.chapter a,
 .book-summary ul.summary li.chapter span {
   font-weight: 600;
   font-size: 1.1em;
