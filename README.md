@@ -18,15 +18,17 @@ This library provides a clean wrapper around all the methods exposed by a Polkad
 The API is split up into a number of internal packages -
 
 - [@polkadot/api](packages/api/) The low-level base API library
-- [@polkadot/api-codec](packages/api-codec/) Codecs for all Polkadot primitives
-- [@polkadot/api-rx](packages/api-rx/) A RxJs Observable wrapper around the API
-- [@polkadot/api-provider](packages/api-provider/) Providers for connecting
+- [@polkadot/api-observable](packages/api-observable/) An Observable wrapper around [@polkadot/rpc-core](packages/rpc-core)
+- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all methods exposed by a Polkadot network client
+- [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting including WebSockets
+- [@polkadot/rpc-rx](packages/rpc-rx/) A RxJs Observable wrapper around [@polkadot/rpc-core](packages/rpc-core)
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 
 - [@polkadot/extrinsics](packages/type-extrinsics/) Base extrinsic definitions & codecs
 - [@polkadot/jsonrpc](packages/type-jsonrpc/) Definitions for JSONRPC endpoints
 - [@polkadot/storage](packages/type-storage/) Definitions for storage entries
+- [@polkadot/types](packages/types/) Codecs for all Polkadot primitives
 
 ## development
 
@@ -46,4 +48,4 @@ To get started -
 
 ## tutorials
 
-Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/) for guides on how to use the API.
+Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API.
