@@ -18,7 +18,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   send (statusCb?: (status: ExtrinsicStatus) => any): Promise<Hash> {
-    if (status) {
+    if (statusCb) {
       return this._api.rpc.author.submitAndWatchExtrinsic(this, statusCb);
     }
 
