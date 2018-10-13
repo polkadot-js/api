@@ -18,6 +18,10 @@
     
             
                 
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-insert-logo-link/plugin.css">
+                
+            
+                
                 <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-mermaid-gb3/mermaid/mermaid.css">
                 
             
@@ -39,15 +43,7 @@
 
     
         
-    
-        
-    
-        
-    
-        
-    
-        
-    
+        <link rel="stylesheet" href="../../../styles/website.css">
         
     
 
@@ -386,18 +382,18 @@
                                 
                                 <h1 id="simple-connect">Simple Connect</h1>
 <p>The following example shows how to instantiate a Polkadot API object and use it to connect to a node.</p>
-<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-comment">//&#xA0;required&#xA0;imports</span>
+<pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-comment">//&#xA0;Required&#xA0;imports</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">ApiPromise</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">WsProvider</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/rpc-provider&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 <span class="sunlight-ident">async</span>&#xA0;<span class="sunlight-keyword">function</span>&#xA0;<span class="sunlight-named-ident">main</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;initialise&#xA0;the&#xA0;provider&#xA0;to&#xA0;connect&#xA0;to&#xA0;the&#xA0;local&#xA0;node</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Initialise&#xA0;the&#xA0;provider&#xA0;to&#xA0;connect&#xA0;to&#xA0;the&#xA0;local&#xA0;node</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">provider</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-keyword">new</span>&#xA0;<span class="sunlight-ident">WsProvider</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;ws://127.0.0.1:9944&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;create&#xA0;the&#xA0;API&#xA0;and&#xA0;wait&#xA0;until&#xA0;ready</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Create&#xA0;the&#xA0;API&#xA0;and&#xA0;wait&#xA0;until&#xA0;ready</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">ApiPromise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">create</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">provider</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;retrieve&#xA0;the&#xA0;chain&#xA0;&amp;&#xA0;node&#xA0;information&#xA0;information&#xA0;via&#xA0;rpc&#xA0;calls</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Retrieve&#xA0;the&#xA0;chain&#xA0;&amp;&#xA0;node&#xA0;information&#xA0;information&#xA0;via&#xA0;rpc&#xA0;calls</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">[</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">nodeName</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">nodeVersion</span><span class="sunlight-punctuation">]</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">Promise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">all</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">[</span>
 &#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">chain</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
 &#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">rpc</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">name</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
@@ -452,7 +448,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"3.1.1","depth":2,"next":{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"mermaid-gb3":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/01_simple_connect/README.md","mtime":"2018-10-12T19:55:00.277Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-12T19:58:43.754Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Simple connect","level":"3.1.1","depth":2,"next":{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},"previous":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/01_simple_connect/README.md","mtime":"2018-10-13T14:39:56.748Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-13T14:43:34.930Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
@@ -461,6 +457,10 @@
     
     <script src="../../../gitbook/gitbook.js"></script>
     <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-insert-logo-link/plugin.js"></script>
+        
     
         
         <script src="../../../gitbook/gitbook-plugin-mermaid-gb3/book/plugin.js"></script>
