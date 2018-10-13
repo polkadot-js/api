@@ -2,6 +2,10 @@
   background-color: #4e4e4e;
 }
 
+.book .book-summary .book-logo {
+  padding: 25px 17px 22px 0px;
+}
+
 .book-summary ul.summary li.chapter.active {
   background: #fff;
   border-radius: 1.6rem 0 0 1.6rem;
@@ -12,7 +16,7 @@
 }
 
 .book-summary ul.summary li.chapter.active > a {
-  color: #d75ea1;
+  color: #fd8824;
 }
 
 .book-summary ul.summary li.chapter a, 
@@ -30,6 +34,6 @@
 .book-summary ul.summary li.chapter > a:hover,
 .book-summary ul.summary li > a.gitbook-link:hover,
 .book-summary ul.summary li.chapter.active ul li.chapter > a:hover {
-  color: #d75ea1;
+  color: #fd8824;
   text-decoration: none;
 }
