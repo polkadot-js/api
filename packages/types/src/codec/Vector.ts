@@ -8,7 +8,7 @@ import toU8a from '@polkadot/util/u8a/toU8a';
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
 
-// This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
+// This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
 // i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
