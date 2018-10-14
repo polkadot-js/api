@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from '../../src/rx';
+import ApiRx from '../../src/rx';
 
 const keyring = testingPairs();
 
@@ -12,7 +12,7 @@ describe.skip('e2e queries', () => {
   let api;
 
   beforeEach(async () => {
-    api = await Api.create().toPromise();
+    api = await ApiRx.create().toPromise();
 
     console.error(api);
   });

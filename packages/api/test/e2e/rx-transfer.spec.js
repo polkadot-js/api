@@ -5,7 +5,7 @@
 import { switchMap } from 'rxjs/operators';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from '../../src/rx';
+import ApiRx from '../../src/rx';
 
 const keyring = testingPairs();
 
@@ -13,7 +13,7 @@ describe.skip('e2e transfer', () => {
   let api;
 
   beforeEach(async () => {
-    api = await Api.create().toPromise();
+    api = await ApiRx.create().toPromise();
   });
 
   it('makes a transfer', (done) => {
