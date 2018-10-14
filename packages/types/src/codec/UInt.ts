@@ -25,7 +25,7 @@ export const DEFAULT_UINT_BITS = 64;
 // use keeps the number to this length.
 //
 // TODO:
-//   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
+//   - Apart from encoding/decoding we don't actually keep check of the sizes, is this good enough?
 export default class UInt extends Base<BN> {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
