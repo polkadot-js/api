@@ -27,11 +27,11 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/api/promise';
+ * import ApiPromise from '@polkadot/api/promise';
  * import HttpProvider from '@polkadot/rpc-provider/http';
  *
  * const provider = new HttpProvider('http://127.0.0.1:9933');
- * const api = new Api(provider);
+ * const api = new ApiPromise(provider);
  * ```
  *
  * @see [[WsProvider]]
