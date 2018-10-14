@@ -16,7 +16,7 @@ import U64 from './U64';
 const BITLENGTH = 64;
 
 // A wrapper around seconds/timestamps. Internally the representation only has
-// second precicion (aligning with Rust), so any numbers passed an/out are always
+// second precision (aligning with Rust), so any numbers passed in/out are always
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
 export default class Moment extends Base<Date> {
