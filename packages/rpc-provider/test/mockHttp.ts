@@ -4,7 +4,7 @@
 
 import nock from 'nock';
 
-const TEST_HTTP_URL = 'http://localhost:9944';
+const TEST_HTTP_URL = 'http://localhost:9933';
 
 function mockHttp (requests: any[]) {
   nock.cleanAll();
