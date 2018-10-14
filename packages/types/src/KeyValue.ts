@@ -15,10 +15,10 @@ type KeyValueValue = {
   value?: AnyU8a
 };
 
-// KeyValue structure. Since most of the keys and resultant values in Subtrate is
+// KeyValue structure. Since most of the keys and resultant values in Substrate is
 // hashed and/or encoded, this does not wrap a Text, but rather a Bytes
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
-// is actually for Maps, whereas this is a representation of actaul storage values)
+// is actually for Maps, whereas this is a representation of actual storage values)
 export default class KeyValue extends Struct {
   constructor (value?: KeyValueValue) {
     super({
