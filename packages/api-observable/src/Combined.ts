@@ -13,9 +13,9 @@ import isString from '@polkadot/util/is/string';
 import ApiCalls from './Calls';
 import { RxProposal, RxReferendum } from './classes';
 
-// Combines API calls and queries into single results. This allos for the exposed API to have
-// useful extensions, i.e. queries can be made that returns the results from multiple observables,
-// make the noise for the API users significantly less
+// Combines API calls and queries into single results. This allows for the exposed API to have
+// useful extensions, i.e. queries can be made that return the results from multiple observables,
+// making the noise for the API users significantly less
 export default class ApiCombined extends ApiCalls {
   publicProposalCount = (): Observable<number> => {
     return this
