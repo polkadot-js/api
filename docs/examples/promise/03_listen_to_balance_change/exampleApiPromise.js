@@ -33,6 +33,6 @@ export default async function exampleApiPromise () {
 
     previous = current;
 
-    console.log(`Balance of ${Alice}: ${current}, ${change} change`);
+    console.log(`Balance of ${addressAlice}: ${current}, ${change} change`);
   });
 }
