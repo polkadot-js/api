@@ -166,12 +166,16 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * <BR>
    *
    * ```javascript
-   * * api.on('disconnected', () => {
+   * * api.on('connected', () => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
    * api.on('disconnected', () => {
    *   console.log('API has been disconnected from the endpoint');
+   * });
+   *
+   * api.on('ready', () => {
+   *   console.log('API has been connected to the endpoint and is ready');
    * });
    * ```
    */
