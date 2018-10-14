@@ -1,11 +1,12 @@
 # @polkadot/api
 
-The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
+The Polkadot-JS API provides easy-to-use wrappers around JSON-RPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
 
 The API wrappers provide a standard interface for use -
 
 - A static `.create(<optional WsProvider>)` that returns an API instance when connected, decorated and ready-to use
-- The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter
+- The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter,
+such that `Api.create()` is equivalent to `new Api().isReady`
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
   - [RPC (node interface)](../METHODS_RPC.md)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
@@ -17,7 +18,7 @@ The API wrappers provide a standard interface for use -
 
 There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using [RxJS](https://github.com/ReactiveX/rxjs). Depending on your use-case and familiarity, you can choose either (or even both) for your application.
 
-- [[ApiPromise]] All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method uses `(value) => {}` callbacks, returning the value as the subscription is updated.
+- [[ApiPromise]] All interface calls return Promises, including the static `.create(...)`. Additionally any subscription method uses `(value) => {}` callbacks, returning the value as the subscription is updated.
 - [[ApiRx]] All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion subscription-based methods return long-running Observables that update with the latest values.
 
 ## Dynamic by default
@@ -31,7 +32,7 @@ Due to this dynamic nature, this API departs from traditional APIs which only ha
 Installation -
 
 ```
-npm install --save @polkadot/api
+yarn add @polkadot/api
 ```
 
 Subscribing to blocks via Promise-based API -
@@ -39,10 +40,11 @@ Subscribing to blocks via Promise-based API -
 ```javascript
 import { ApiPromise } from '@polkadot/api';
 
-// initialise via static create
+// Initialise via static create
 const api = await ApiPromise.create();
 
-// make a call to retrieve the current network head
+// Make a call to retrieve the current network head.
+// Use the RPC Node Interface.
 api.rpc.chain.subscribeNewHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
@@ -53,10 +55,10 @@ Subscribing to blocks via RxJS-based API -
 ```javascript
 import { ApiRx } from '@polkadot/api';
 
-// initialise via static create
+// Initialise via static create
 const api = await ApiRx.create().toPromise();
 
-// make a call to retrieve the current network head
+// Make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHead().subscribe((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
