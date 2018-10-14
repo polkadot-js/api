@@ -51,11 +51,11 @@ interface WSProviderInterface extends ProviderInterface {
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/api/promise';
+ * import ApiPromise from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = new Api(provider);
+ * const api = new ApiPromise(provider);
  * ```
  *
  * @see [[HttpProvider]]
@@ -185,13 +185,13 @@ export default class WsProvider implements WSProviderInterface {
    * <BR>
    *
    * ```javascript
-   * const provider = new WsProvider('ws://127.0.0.1:9944');
-   * const rpc = new Rpc(provider);
+   * const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+   * const rpc = new Rpc(wsProvider);
    *
    * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
-   *   console.log(values)
+   *   console.log(values);
    * }).then((subscriptionId) => {
-   *   console.log('balance changes subscription id: ', subscriptionId)
+   *   console.log('balance changes subscription id: ', subscriptionId);
    * })
    * ```
    */
