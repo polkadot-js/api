@@ -3,11 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Ws from '@polkadot/rpc-provider/ws';
+import testingPairs from '@polkadot/keyring/testingPairs';
 import storage from '@polkadot/storage/static';
 
 import Rpc from '../../src';
 
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const keyring = testingPairs();
+const addressAlice = keyring.alice.address();
 
 describe.skip('e2e state', () => {
   let api;
@@ -48,7 +50,7 @@ describe.skip('e2e state', () => {
   it('retrieves balances', () => {
     return api.state
       .getStorage([
-        storage.balances.freeBalance, ALICE
+        storage.balances.freeBalance, addressAlice
       ])
       .then((balance) => {
         console.error(balance);
