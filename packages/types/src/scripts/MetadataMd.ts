@@ -17,12 +17,14 @@ const DESC_STORAGE = '\n\n_The following Storage methods are part of the default
 
 function addRpc () {
   const renderHeading = `## JSON-RPC${DESC_RPC}\n`;
+  const orderedSections = Object.keys(interfaces).sort();
 
-  return Object.keys(interfaces).reduce((md, sectionName) => {
+  return orderedSections.reduce((md, sectionName) => {
     const section = interfaces[sectionName];
     const renderSection = `${md}\n___\n\n### ${sectionName}\n\n_${section.description}_\n`;
+    const orderedMethods = Object.keys(section.methods).sort();
 
-    return Object.keys(section.methods).reduce((md, methodName) => {
+    return orderedMethods.reduce((md, methodName) => {
       const method = section.methods[methodName];
       const args = method.params.map(({ name, isOptional, type }) => {
         return name + (isOptional ? '?' : '') + ': `' + type + '`';
@@ -42,8 +44,9 @@ function addRpc () {
 
 function addExtrinsics (metadata: any) {
   const renderHeading = `## Extrinsics${DESC_EXTRINSICS}`;
+  const orderedSections = metadata.modules.raw.sort();
 
-  return metadata.modules.reduce((md: string, meta: any) => {
+  return orderedSections.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
       return md;
     }
@@ -51,7 +54,24 @@ function addExtrinsics (metadata: any) {
     const sectionName = stringCamelCase(meta.prefix.toString());
     const renderSection = `${md}\n___\n### ${sectionName}\n`;
 
-    return meta.module.call.functions.reduce((md: string, func: any) => {
+    // Sort methods by name. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+    const orderedMethods = meta.module.call.functions.raw.sort(function (a: any, b: any) {
+      const nameA = a.raw.name.raw.toUpperCase(); // ignore upper and lowercase
+      const nameB = b.raw.name.raw.toUpperCase(); // ignore upper and lowercase
+
+      if (nameA < nameB) {
+        return -1;
+      }
+
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    });
+
+    return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
@@ -65,16 +85,18 @@ function addExtrinsics (metadata: any) {
 
 function addStorage (metadata: any) {
   const renderHeading = `## Storage${DESC_STORAGE}`;
+  const orderedSections = metadata.modules.raw.sort();
 
-  return metadata.modules.reduce((md: string, moduleMetadata: any) => {
+  return orderedSections.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
       return md;
     }
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
     const renderSection = `${md}\n___\n### ${sectionName}\n`;
+    const orderedMethods = moduleMetadata.storage.functions.raw.sort();
 
-    return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
+    return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
