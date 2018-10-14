@@ -39,7 +39,6 @@ describe('Struct', () => {
   testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
   testEncode('toString', '{foo: bazzing, bar: 69}');
 
-
   it('decodes a more complicated type', () => {
     const s = new Struct({
       foo: Vector.with(Struct.with({
@@ -47,7 +46,7 @@ describe('Struct', () => {
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
     expect(s.toString()).toBe('{foo: [{bar: 1}, {bar: 2}]}');
-  })
+  });
 
   it('provides a clean toString()', () => {
     expect(
