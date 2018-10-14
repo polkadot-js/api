@@ -21,7 +21,7 @@ WebSocket Initialisation -
 ```javascript
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-// this is the actual default endpoint
+// This is the actual default endpoint
 const provider = new WsProvider('ws://127.0.0.1:9944');
 const version = await provider.send('client_version', []);
 
@@ -33,9 +33,9 @@ HTTP Initialisation -
 ```javascript
 import { HttpProvider } from '@polkadot/rpc-provider';
 
-// this is the actual default endpoint
+// This is the actual default endpoint
 const provider = new HttpProvider('http://127.0.0.1:9933');
-const version = await provider.send('chain_getBlockHash', []);
+const hash = await provider.send('chain_getBlockHash', []);
 
 console.log('latest block Hash', hash);
 ```
