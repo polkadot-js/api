@@ -42,6 +42,24 @@ function addRpc () {
   }, renderHeading);
 }
 
+function sortExtrinsicsSectionMethods () {
+  return function (a: any, b: any) {
+    const nameA = a.raw.name.raw.toUpperCase(); // ignore upper and lowercase
+    const nameB = b.raw.name.raw.toUpperCase(); // ignore upper and lowercase
+
+    if (nameA < nameB) {
+      return -1;
+    }
+
+    if (nameA > nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  };
+}
+
 function addExtrinsics (metadata: any) {
   const renderHeading = `## Extrinsics${DESC_EXTRINSICS}`;
   const orderedSections = metadata.modules.raw.sort();
@@ -55,21 +73,7 @@ function addExtrinsics (metadata: any) {
     const renderSection = `${md}\n___\n### ${sectionName}\n`;
 
     // Sort methods by name. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-    const orderedMethods = meta.module.call.functions.raw.sort(function (a: any, b: any) {
-      const nameA = a.raw.name.raw.toUpperCase(); // ignore upper and lowercase
-      const nameB = b.raw.name.raw.toUpperCase(); // ignore upper and lowercase
-
-      if (nameA < nameB) {
-        return -1;
-      }
-
-      if (nameA > nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
+    const orderedMethods = meta.module.call.functions.raw.sort(sortExtrinsicsSectionMethods());
 
     return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
