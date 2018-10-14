@@ -12,7 +12,7 @@ export const l = logger('codec');
 //
 // TODO
 //   - This could probably be abstract, as long as we have the functions abstract as well
-//   - Not convinced about abstratc - there are a number of extensions to this class that
+//   - Not convinced about abstract - there are a number of extensions to this class that
 //     don't provide some implementations (e.g. Length, good example and should not be
 //     used-as-is). In those case it just relies in the throw in here.
 export default class Base <T = any> {
