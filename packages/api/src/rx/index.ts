@@ -28,7 +28,7 @@ const l = logger('api-rx');
  * @name ApiRx
  *
  * @description
- * ApiRx is a powerfull RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
+ * ApiRx is a powerful RxJS Observable wrapper around the RPC and interfaces on the Polkadot network. As a full Observable API, all interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion and subscription-based methods return long-running Observables that update with the latest values.
  *
  * The API is well suited to real-time applications where the latest state is needed, unlocking the subscription-based features of Polkadot (and Substrate) clients. Some familiarity with RxJS is a requirement to use the API, however just understanding `.subscribe` and `.pipe` on Observables will unlock full-scale use thereof.
  *
@@ -42,13 +42,16 @@ const l = logger('api-rx');
  * ```javascript
  * import ApiRx from '@polkadot/api/rx';
  *
- * // initialise via Promise & static create
+ * // Initialise via Promise & static create
  * const api = await ApiRx.create().toPromise();
  *
- * // make a call to retrieve the current network head
- * api.rpc.chain.subscribeNewHead().subscribe((header) => {
- *   console.log(`Chain is at #${header.blockNumber}`);
- * });
+ * // Make a call to retrieve the current network head.
+ * // Use the JSON-RPC Node Interface.
+ * api.rpc.chain
+ *   .subscribeNewHead()
+ *   .subscribe((header) => {
+ *     console.log(`Chain is at #${header.blockNumber}`);
+ *   });
  * ```
  * <BR>
  *
@@ -60,13 +63,15 @@ const l = logger('api-rx');
  * import { ApiRx } from '@polkadot/api';
  * import { WsProvider } from '@polkadot/rpc-provider';
  *
- * // last block timestamp
+ * // Last block timestamp
  * let last = 0;
  *
- * // initialise a provider with a specific endpoint
+ * // Initialise a provider with a specific endpoint
  * const provider = new WsProvider('wss://example.com:9944')
  *
- * // initialise via isReady & new with specific provider
+ * // Initialise via isReady & new with specific provider.
+ * // Make calls to retrieve the elapsed timestamp since the last block period.
+ * // Using the JSON-RPC Node Interface.
  * new ApiRx(provider)
  *   .isReady
  *   .pipe(
@@ -91,29 +96,46 @@ const l = logger('api-rx');
  * <BR>
  *
  * ```javascript
+ * // Import the API, Keyring and some utility functions
  * import ApiRx from '@polkadot/api/rx';
+ * import testingPairs from '@polkadot/keyring/testingPairs';
+ * import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
  *
- * // get api via Promise
+ * // Create an instance of the keyring that includes test accounts
+ * const keyring = testingPairs();
+ *
+ * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
+ * const addressBob = keyring.bob.address();
+ *
+ * // Add Alice to our keyring (with the known seed for the account)
+ * const alice = keyring.addFromSeed(u8aFromUtf8(ALICE_SEED));
+ *
+ * // Instantiate the API via Promise
  * const api = await ApiRx.create().toPromise();
  *
- * // retrieve nonce for the account
+ * // Retrieve nonce for Alice, to be used to sign the transaction.
+ * // Use the Storage chain state (runtime) Node Interface.
  * api.query.system
- *   .accountNonce(keyring.alice.address())
+ *   .accountNonce(alice.address())
  *   .pipe(
- *      // pipe nonce into transfer
- *      switchMap((nonce) =>
+ *      // Pipe nonce into transfer.
+ *      // Use the Extrinsics (runtime) Node Interface.
+ *      switchMap((aliceNonce) =>
  *        api.tx.balances
- *          // create transfer
- *          .transfer(keyring.bob.address(), 12345)
- *          // sign the transcation
- *          .sign(keyring.alice, nonce)
- *          // send the transaction
- *          .send()
+ *          // Create an extrinsic, transferring 12345 units to Bob.
+ *          .transfer(addressBob, 12345)
+ *          // Sign the transaction using our account keypair, nonce,
+ *          // and optionally the block hash
+ *          .sign(alice, aliceNonce)
+ *          // Send the transaction (optional status callback)
+ *          .send((status) => {
+ *            console.log(`current status ${status.type}`);
+ *          })
  *      )
  *   )
- *   // subscribe to overall result
+ *   // Subscribe to overall resulting Hash
  *   .subscribe((hash) => {
- *     console.log(`submitted with hash ${hash}`);
+ *     console.log(`submitted transfer 12345 to Bob with hash ${hash}`);
  *   });
  * ```
  */
@@ -129,11 +151,12 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/rx';
+   * import ApiRx from '@polkadot/api/rx';
    *
-   * Api.create().subscribe((api) => {
+   * ApiRx.create().subscribe((api) => {
+   *   // Use the Storage chain state (runtime) Node Interface
    *   api.query.timestamp.now.subscribe((timestamp) => {
-   *     console.log(`lastest block timestamp ${timestamp}`);
+   *     console.log(`latest block timestamp ${timestamp}`);
    *   });
    * });
    * ```
@@ -151,9 +174,11 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/rx';
+   * import ApiRx from '@polkadot/api/rx';
    *
-   * new Api().isReady.subscribe((api) => {
+   * // Note that `ApiRx.create()` is equivalent to `new ApiRx().isReady`
+   * new ApiRx().isReady.subscribe((api) => {
+   *   // Use the RPC Node Interface
    *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
