@@ -5,7 +5,7 @@
 import Base from './Base';
 
 describe('Base', () => {
-  it('has the contructor value on raw', () => {
+  it('has the constructor value on raw', () => {
     expect(new Base('foo-bar').raw).toEqual('foo-bar');
   });
 
