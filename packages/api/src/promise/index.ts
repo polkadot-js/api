@@ -37,10 +37,11 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * ```javascript
  * import ApiPromise from '@polkadot/api/promise';
  *
- * // initialise via static create
+ * // Initialise via static create
  * const api = await ApiPromise.create();
  *
- * // make a subscription to the network head
+ * // Make a subscription to the network head
+ * // Use the RPC Node Interface.
  * api.rpc.chain.subscribeNewHead((header) => {
  *   console.log(`Chain is at #${header.blockNumber}`);
  * });
@@ -54,17 +55,18 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * import { ApiPromise } from '@polkadot/api';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * // initialise a provider with a specific endpoint
+ * // Initialise a provider with a specific endpoint
  * const provider = new WsProvider('wss://example.com:9944')
  *
- * // initialise via isReady & new with specific provider
+ * // Initialise via isReady & new with specific provider
  * const api = await new ApiPromise(provider).isReady;
  *
- * // retrieve the block target time
+ * // Retrieve the block target time
+ * // Use the Storage chain state (runtime) Node Interface.
  * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
  * let last = 0;
  *
- * // subscribe to the current block timestamp, updates automatically (callback provided)
+ * // Subscribe to the current block timestamp, updates automatically (callback provided)
  * api.query.timestamp.now((timestamp) => {
  *   const elapsed = last
  *     ? `, ${timestamp.toNumber() - last}s since last`
@@ -80,23 +82,40 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
  * <BR>
  *
  * ```javascript
+ * // Import the API, Keyring and some utility functions
  * import ApiPromise from '@polkadot/api/promise';
+ * import testingPairs from '@polkadot/keyring/testingPairs';
+ * import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
  *
+ * // Create an instance of the keyring that includes test accounts
+ * const keyring = testingPairs();
+ *
+ * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
+ * const addressBob = keyring.bob.address();
+ *
+ * // Add Alice to our keyring (with the known seed for the account)
+ * const alice = keyring.addFromSeed(u8aFromUtf8(ALICE_SEED));
+ *
+ * // Instantiate the API via Promise
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
+ *   // Retrieve nonce for Alice, to be used to sign the transaction.
+ *   // Use the Storage chain state (runtime) Node Interface.
+ *   const aliceNonce = await api.query.system.accountNonce(alice.address());
  *
+ *   // Use the Extrinsics (runtime) Node Interface.
  *   api.tx.balances
- *     // create transfer
- *     transfer(keyring.bob.address(), 12345)
- *     // sign the transcation
- *     .sign(keyring.alice, nonce)
- *     // send the transaction (optional status callback)
+ *     // Create an extrinsic, transferring 12345 units to Bob.
+ *     transfer(addressBob, 12345)
+ *     // Sign the transaction using our account keypair, nonce,
+ *     // and optionally the block hash
+ *     .sign(alice, aliceNonce)
+ *     // Send the transaction (optional status callback)
  *     .send((status) => {
  *       console.log(`current status ${status.type}`);
  *     })
- *     // retrieve the submitted extrinsic hash
+ *     // Retrieve the submitted extrinsic hash
  *     .then((hash) => {
- *       console.log(`submitted with hash ${hash}`);
+ *       console.log(`submitted transfer 12345 to Bob with hash ${hash}`);
  *     });
  * });
  * ```
@@ -113,9 +132,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/promise';
+   * import ApiPromise from '@polkadot/api/promise';
    *
-   * Api.create().then(async (api) => {
+   * ApiPromise.create().then(async (api) => {
    *   const timestamp = await api.query.timestamp.now();
    *
    *   console.log(`lastest block timestamp ${timestamp}`);
@@ -135,9 +154,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/promise';
+   * import ApiPromise from '@polkadot/api/promise';
    *
-   * new Api().isReady.then((api) => {
+   * new ApiPromise().isReady.then((api) => {
    *   api.rpc.subscribeNewHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
