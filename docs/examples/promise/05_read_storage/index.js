@@ -1,8 +1,12 @@
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
+const testingPairs = require('@polkadot/keyring/testingPairs').default;
 
-// Our address for Alice on the dev chain
-const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+// Create an instance of the keyring that includes test accounts
+const keyring = testingPairs();
+
+// Known account we want to use (available on dev chain, with funds)
+const addressAlice = keyring.alice.address();
 
 async function main () {
   // Create our API with a default connection to the local node
@@ -10,12 +14,12 @@ async function main () {
 
   // Make our basic chain state/storage queries, all in one go
   const [accountNonce, blockPeriod, validators] = await Promise.all([
-    api.query.system.accountNonce(Alice),
+    api.query.system.accountNonce(addressAlice),
     api.query.timestamp.blockPeriod(),
     api.query.session.validators()
   ]);
 
-  console.log(`accountNonce(${Alice}) ${accountNonce}`);
+  console.log(`accountNonce(${addressAlice}) ${accountNonce}`);
   console.log(`blockPeriod ${blockPeriod.toNumber()} seconds`);
 
   // Retrieve the balances for all validators

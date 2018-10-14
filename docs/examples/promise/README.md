@@ -24,3 +24,14 @@ Some of the examples use the following accounts:
 Those accounts are easy to add if you don't have/see them. The seed of Alice's account is `Alice␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣␣` and the seed of Bob is... well you guess...
 
 NOTE: Note the spaces padding Alice's key up to 32 chars.
+
+The address and public key of the test accounts may also be obtained as follows:
+
+```javascript
+import testingPairs from '@polkadot/keyring/testingPairs';
+
+const keyring = testingPairs();
+
+keyring.alice.address();
+keyring.alice.publicKey();
+```
