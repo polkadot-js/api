@@ -51,6 +51,25 @@ describe('Tuple', () => {
     ]);
   });
 
+  // FIXME Remove fromJSON
+  it('fromJSON still works', () => {
+    const test = new (Tuple.with({
+      a: Text,
+      b: U32,
+      c: Text
+    }))();
+
+    expect(
+      test.fromJSON([
+        'bazzing', 32
+      ]).toJSON()
+    ).toEqual([
+      'bazzing',
+      32,
+      ''
+    ]);
+  });
+
   it('creates properly via actual hex string', () => {
     const test = new (Tuple.with({
       blockNumber: BlockNumber,

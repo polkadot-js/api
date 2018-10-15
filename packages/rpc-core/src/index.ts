@@ -177,7 +177,7 @@ export default class Rpc implements RpcInterface {
   }
 
   private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | null | undefined> {
-    const base = createType(method.type as string, result);
+    const base = createType(method.type as string).fromJSON(result);
 
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
