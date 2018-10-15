@@ -7,7 +7,9 @@ import json from './Header.only.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
-    const header = new Header(json);
+    const header = new Header();
+
+    header.fromJSON(json);
 
     expect(
       header.blockNumber.toNumber()

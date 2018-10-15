@@ -8,19 +8,19 @@ import Type from './Type';
 describe('Type', () => {
   it('fails to cleanup invalid boxes', () => {
     expect(
-      () => new Type('Box<Proposal')
+      () => new Type().fromJSON('Box<Proposal')
     ).toThrow(/find closing matching/);
   });
 
   it('handles nested types', () => {
     expect(
-      new Type('Box<Vec<AccountId>>').toString()
+      new Type().fromJSON('Box<Vec<AccountId>>').toString()
     ).toEqual('Vec<AccountId>');
   });
 
   it('handles aliasses, multiples per line', () => {
     expect(
-      new Type('(Vec<u8>, AccountId, Vec<u8>)').toString()
+      new Type().fromJSON('(Vec<u8>, AccountId, Vec<u8>)').toString()
     ).toEqual('(Bytes, AccountId, Bytes)');
   });
 

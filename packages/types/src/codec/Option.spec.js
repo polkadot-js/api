@@ -44,7 +44,7 @@ describe('Option', () => {
 
   it('has value toString() (provided)', () => {
     expect(
-      new Option(Text, new Uint8Array([1, 4 << 2, 49, 50, 51, 52])).toString()
+      new Option(Text).fromU8a(new Uint8Array([1, 4 << 2, 49, 50, 51, 52])).toString()
     ).toEqual('1234');
   });
 
