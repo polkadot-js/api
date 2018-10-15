@@ -29,8 +29,8 @@ export default class ApiCombined extends ApiCalls {
             : new BN(0);
 
           return this.combine(
-            Array(lastIndex.toNumber()).map((_, i): Observable<Array<AccountId> | undefined> =>
-              this.getAccountEnumSet(i)
+            Array(lastIndex.div(ENUMSET_SIZE).toNumber()).map((_, i): Observable<Array<AccountId> | undefined> =>
+              this.getAccountEnumSet(i * ENUMSET_SIZE.toNumber())
             ),
             (...all: Array<Array<AccountId> | undefined>) => {
               return all.reduce((result, list = [], outerIndex: number) => {

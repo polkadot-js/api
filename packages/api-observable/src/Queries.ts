@@ -9,9 +9,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
-import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
-import { Tuple, U8a, Vector } from '@polkadot/types/codec';
-import bnToU8a from '@polkadot/util/bn/toU8a';
+import { Tuple, Vector } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
@@ -48,12 +46,8 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(storage.democracy.nextTally);
   }
 
-  getAccountEnumSet = (_index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
-    const index = _index instanceof AccountIndex
-      ? _index.toBn().div(ENUMSET_SIZE)
-      : _index;
-
-    return this.rawStorage(storage.balances.enumSet, new U8a(bnToU8a(index, 32, true)));
+  getAccountEnumSet = (index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
+    return this.rawStorage(storage.balances.enumSet, index);
   }
 
   nextAccountEnumSet = (): Observable<AccountIndex | undefined> => {
