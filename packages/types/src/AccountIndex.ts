@@ -91,7 +91,7 @@ export default class AccountIndex extends U8a {
   }
 
   toBn (): BN {
-    if (this.raw.length === 0) {
+    if (this.raw.length === 1) {
       return new BN(this.raw[0]);
     }
 
