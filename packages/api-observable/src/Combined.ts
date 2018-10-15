@@ -18,8 +18,8 @@ import { RxProposal, RxReferendum } from './classes';
 // useful extensions, i.e. queries can be made that returns the results from multiple observables,
 // make the noise for the API users significantly less
 export default class ApiCombined extends ApiCalls {
-  // Creates a mapping of AccountId (encoded) => AccountIndex (encoded)
-  accountIndexes = (): Observable<{ [index: string]: string }> => {
+  // Creates a mapping of AccountId (encoded) => AccountIndex
+  accountIndexes = (): Observable<{ [index: string]: AccountIndex }> => {
     return this
       .nextAccountEnumSet()
       .pipe(
@@ -37,16 +37,11 @@ export default class ApiCombined extends ApiCalls {
                 list.forEach((accountId, innerIndex) => {
                   const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
 
-                  // FIXME This is not even remotely correct, here we basically only cater
-                  // for the first 0xfd indexes, short just to get things going....
-                  // AccountIndex should allow number as a constructor input
-                  result[accountId.toString()] = new AccountIndex(
-                    new Uint8Array([index])
-                  ).toString();
+                  result[accountId.toString()] = new AccountIndex(index);
                 });
 
                 return result;
-              }, {} as { [index: string]: string });
+              }, {} as { [index: string]: AccountIndex });
             }
           );
         })
@@ -54,12 +49,27 @@ export default class ApiCombined extends ApiCalls {
   }
 
   // lookup accountId from index
-  accountIdFromIndex = (accountIndex: AccountIndex): Observable<AccountId | undefined> => {
+  accountIdFromIndex = (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
+    const accountIndex = _accountIndex instanceof AccountIndex
+      ? _accountIndex
+      : new AccountIndex(_accountIndex);
+
     return this
       .getAccountEnumSet(accountIndex)
       .pipe(
         map((accounts: Array<AccountId> = []): AccountId | undefined =>
           accounts[accountIndex.toBn().mod(ENUMSET_SIZE).toNumber()]
+        )
+      );
+  }
+
+  // lookup accountIndex from accountId
+  accountIndexFromId = (accountId: AccountId | string): Observable<AccountIndex | undefined> => {
+    return this
+      .accountIndexes()
+      .pipe(
+        map((mapping: { [index: string]: AccountIndex } = {}): AccountIndex | undefined =>
+          mapping[accountId.toString()]
         )
       );
   }
