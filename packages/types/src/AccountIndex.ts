@@ -60,13 +60,11 @@ export default class AccountIndex extends U8a {
 
   static writeLength (input: Uint8Array): Uint8Array {
     switch (input.length) {
-      case 1: return new Uint8Array([]);
       case 2: return new Uint8Array([0xfc]);
       case 4: return new Uint8Array([0xfd]);
       case 8: return new Uint8Array([0xfe]);
+      default: return new Uint8Array([]);
     }
-
-    throw new Error(`Invalid account index length, ${input.length}`);
   }
 
   fromJSON (input: any): AccountIndex {

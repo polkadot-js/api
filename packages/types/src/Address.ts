@@ -5,6 +5,7 @@
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToHex from '@polkadot/util/u8a/toHex';
 import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import AccountId from './AccountId';
@@ -71,6 +72,10 @@ export default class Address extends Base<AccountId | AccountIndex> {
       : new AccountIndex().fromU8a(input);
 
     return this;
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
