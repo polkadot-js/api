@@ -14,7 +14,7 @@ async function main () {
   ApiRx.create(wsProvider).subscribe((api) => {
     // Here we subscribe to any balance changes and update the on-screen value.
     // Use the Storage chain state (runtime) Node Interface.
-    api.query.balances.freeBalance(Alice).subscribe((current) => {
+    const subscriptionIdBalance = api.query.balances.freeBalance(Alice).subscribe((current) => {
       console.log(`${Alice} has a previous balance of ${previous || '???'}`);
       console.log(`You may leave this example running and start example 06` +
                   `or transfer any value to ${Alice}`);
@@ -32,6 +32,12 @@ async function main () {
 
       console.log(`Balance of ${Alice}: ${current}, ${change} change`);
     });
+
+    // Id of the subscription
+    console.log(`subscriptionApiRx: ${subscriptionIdBalance}`);
+
+    // Cleanup and unsubscribe from the subscription
+    subscriptionIdBalance.unsubscribe();
   });
 }
 
