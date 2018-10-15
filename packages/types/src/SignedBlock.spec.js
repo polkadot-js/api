@@ -2,11 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
+import Method from './Method';
 import rpc from './SignedBlock.rpc.json';
 import SignedBlock from './SignedBlock';
 
 describe('SignedBlock', () => {
-  const block = new SignedBlock().fromJSON(rpc.result);
+  let block;
+
+  beforeEach(() => {
+    Method.injectExtrinsics(extrinsics);
+
+    block = new SignedBlock().fromJSON(rpc.result);
+  });
 
   it('has the correct stateRoot', () => {
     expect(
@@ -21,18 +30,25 @@ describe('SignedBlock', () => {
   });
 
   describe('extrinsics', () => {
-    const extrinsics = block.block.extrinsics;
+    let extrinsics;
 
-    it('has the correct callIndex for the first', () => {
+    beforeEach(() => {
+      extrinsics = block.block.extrinsics;
+    });
+
+    it('has the correct data for the first', () => {
       const x = extrinsics.get(0);
 
       expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
+      expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([ 70, 41, 195, 91, 0, 0, 0, 0 ]));
     });
 
-    it('has the correct callIndex for the second', () => {
+    it('has the correct data for the second', () => {
       const x = extrinsics.get(1);
 
       expect(x.callIndex).toEqual(new Uint8Array([1, 0]));
+      expect(x.method.args[0].toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
+      expect(x.method.args[1].toString()).toEqual('100000000000000');
     });
   });
 });
