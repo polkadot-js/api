@@ -8,11 +8,29 @@ const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 async function main () {
+  let previous = null;
+
   // Here we pass the (optional) provider
   ApiRx.create(wsProvider).subscribe((api) => {
+    // Here we subscribe to any balance changes and update the on-screen value.
     // Use the Storage chain state (runtime) Node Interface.
-    api.query.balances.freeBalance(Alice).subscribe((balance) => {
-      console.log('new balance', balance);
+    api.query.balances.freeBalance(Alice).subscribe((current) => {
+      console.log(`${Alice} has a previous balance of ${previous || '???'}`);
+      console.log(`You may leave this example running and start example 06` +
+                  `or transfer any value to ${Alice}`);
+
+      // Calculate the delta
+      const change = current.sub(previous);
+
+      // Only display positive value changes (Since we are pulling `previous` above
+      // already, the initial balance change will also be zero)
+      if (change.isZero()) {
+        return;
+      }
+
+      previous = current;
+
+      console.log(`Balance of ${Alice}: ${current}, ${change} change`);
     });
   });
 }
