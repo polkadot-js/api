@@ -92,7 +92,7 @@ describe('Compact', () => {
 
   it('has the correct byteLength for constructor values (default)', () => {
     expect(
-      new Compact(0xfffffff9).byteLength()
+      new Compact(0xfffffff9, 64).byteLength()
     ).toEqual(9);
   });
 
@@ -106,5 +106,11 @@ describe('Compact', () => {
     expect(
       new Compact().fromU8a(new Uint8Array([254, 255, 3, 0])).raw
     ).toEqual(new BN(0xffff));
+  });
+
+  it('correctly adds the length prefix', () => {
+    expect(
+      Compact.addLengthPrefix(Uint8Array.from([12, 13]))
+    ).toEqual(Uint8Array.from([2 << 2, 12, 13]));
   });
 });

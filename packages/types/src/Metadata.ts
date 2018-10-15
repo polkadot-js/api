@@ -4,6 +4,9 @@
 
 import { AnyNumber } from './types';
 
+import hexToU8a from '@polkadot/util/hex/toU8a';
+import isHex from '@polkadot/util/is/hex';
+import isU8a from '@polkadot/util/is/u8a';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './codec/Base';
@@ -219,11 +222,11 @@ export class StorageFunctionType$Map extends Struct {
 }
 
 export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
-  constructor (index?: number, value?: any) {
+  constructor (value?: any, index?: number) {
     super([
       Type,
       StorageFunctionType$Map
-    ], index, value);
+    ], value, index);
   }
 
   get isMap (): boolean {
@@ -324,7 +327,27 @@ export default class RuntimeMetadata extends Struct {
       outerEvent: OuterEventMetadata,
       modules: Vector.with(RuntimeModuleMetadata),
       outerDispatch: OuterDispatchMetadata
-    }, value);
+    }, RuntimeMetadata.decodeMetadata(value));
+  }
+
+  static decodeMetadata (value: any): object | Uint8Array {
+    if (isHex(value)) {
+      return RuntimeMetadata.decodeMetadata(hexToU8a(value));
+    } else if (isU8a(value)) {
+      // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
+      // encoded, it does not have a length prefix. For latest substrate master, it
+      // is properly encoded. Here we pull the prefix, check it agianst the length -
+      // if matches, then we have the length, otherwise we assume it is an older node
+      // and use the whole buffer
+      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+
+      return value.length === (offset + length.toNumber())
+        ? value.subarray(offset)
+        : value;
+    }
+
+    // Decode as normal struct
+    return value;
   }
 
   // We receive this as an Array<number> in the JSON output from the Node. Convert
