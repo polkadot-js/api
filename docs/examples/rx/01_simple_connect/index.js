@@ -9,9 +9,9 @@ async function main () {
   // Create the API and wait until ready. Subscribe to API changes.
   // Here we pass the (optional) provider
   ApiRx.create(wsProvider).subscribe((api) => {
-    // Subscribe to the chain, node name, and node version. The callback's are fired when changes
-    // are found, the calls themselves each return a promise with a subscription that can be
-    // used to unsubscribe from the respective subscription.
+    // Subscribe to the chain, node name, and node version. The callback's are fired
+    // when changes are found, the calls themselves each return a promise with a
+    // subscription that can be used to unsubscribe from the respective subscription.
     // Use the RPC Node Interface
     const subscriptionIdChain = api.rpc.system.chain().subscribe((chain) => {
       console.log(`You are connected to chain #${chain.toString()}`);
@@ -34,7 +34,6 @@ async function main () {
     api.rpc.system.chain().unsubscribe(subscriptionIdChain);
     api.rpc.system.name().unsubscribe(subscriptionIdName);
     api.rpc.system.version().unsubscribe(subscriptionIdVersion);
-
   });
 }
 
