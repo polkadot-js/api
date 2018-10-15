@@ -4,7 +4,7 @@ const { WsProvider } = require('@polkadot/rpc-provider');
 
 const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 
-export default async function exampleApiRx () {
+async function main () {
   // Here we pass the (optional) provider
   ApiRx.create(wsProvider).subscribe((api) => {
     // Use the RPC Node Interface
@@ -13,3 +13,5 @@ export default async function exampleApiRx () {
     });
   });
 }
+
+main().catch(console.error).finally(_ => process.exit());

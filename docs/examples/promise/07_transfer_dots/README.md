@@ -1,5 +1,5 @@
 # Tranfer DOTs
 
-This sample shows how to create a transaction to make a transfer from one an account to another.
+This sample shows how to create a transaction to make a transfer from one an account to another using ApiPromise.
 
 [include](index.js)

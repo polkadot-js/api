@@ -98,14 +98,14 @@ const l = logger('api-rx');
  * ```javascript
  * // Import the API, Keyring and some utility functions
  * import ApiRx from '@polkadot/api/rx';
- * import testingPairs from '@polkadot/keyring/testingPairs';
+ * import Keyring from '@polkadot/keyring';
  * import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
  *
- * // Create an instance of the keyring that includes test accounts
- * const keyring = testingPairs();
- *
  * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
- * const addressBob = keyring.bob.address();
+ * const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+ *
+ * // Create an instance of the keyring
+ * const keyring = new Keyring();
  *
  * // Add Alice to our keyring (with the known seed for the account)
  * const alice = keyring.addFromSeed(u8aFromUtf8(ALICE_SEED));
@@ -123,7 +123,7 @@ const l = logger('api-rx');
  *      switchMap((aliceNonce) =>
  *        api.tx.balances
  *          // Create an extrinsic, transferring 12345 units to Bob.
- *          .transfer(addressBob, 12345)
+ *          .transfer(BOB_ADDR, 12345)
  *          // Sign the transaction using our account keypair, nonce,
  *          // and optionally the block hash
  *          .sign(alice, aliceNonce)

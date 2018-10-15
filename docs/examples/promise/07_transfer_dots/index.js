@@ -1,16 +1,14 @@
 // Import the API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
-const testingPairs = require('@polkadot/keyring/testingPairs').default;
+const Keyring = require('@polkadot/keyring').default;
 const u8aFromUtf8 = require('@polkadot/util/u8a/fromUtf8').default;
 
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
+const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
 
 async function main () {
-  // Create an instance of the keyring that includes test accounts
-  const keyring = testingPairs();
-
-  // Known account we want to use (available on dev chain, with funds)
-  const addressBob = keyring.bob.address();
+  // Create an instance of the keyring
+  const keyring = new Keyring();
 
   // Add Alice to our keyring (with the known seed for the account)
   const alice = keyring.addFromSeed(u8aFromUtf8(ALICE_SEED));
@@ -26,7 +24,7 @@ async function main () {
   // sign and send in one operation (as per the samples in the Api documentation),
   // here we split it out for the sake of readability.
   // Use the Extrinsics (runtime) Node Interface.
-  const transfer = api.tx.balances.transfer(addressBob, 12345);
+  const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
 
   // Sign the transaction using our account keypair, nonce, and optionally the
   // block hash
