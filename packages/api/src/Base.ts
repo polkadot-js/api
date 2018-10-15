@@ -166,7 +166,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * <BR>
    *
    * ```javascript
-   * * api.on('connected', () => {
+   * api.on('connected', () => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
