@@ -60,6 +60,7 @@ const l = logger('api-rx');
  *
  * ```javascript
  * import { combineLatest } from 'rxjs';
+ * import { switchMap } from 'rxjs/operators';
  * import { ApiRx } from '@polkadot/api';
  * import { WsProvider } from '@polkadot/rpc-provider';
  *
@@ -96,6 +97,8 @@ const l = logger('api-rx');
  * <BR>
  *
  * ```javascript
+ * import { switchMap } from 'rxjs/operators';
+ *
  * // Import the API, Keyring and some utility functions
  * import ApiRx from '@polkadot/api/rx';
  * import Keyring from '@polkadot/keyring';

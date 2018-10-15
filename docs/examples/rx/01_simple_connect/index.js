@@ -1,4 +1,6 @@
 // Required imports
+const { combineLatest } = require('rxjs');
+const { switchMap } = require('rxjs/operators');
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 
@@ -8,33 +10,29 @@ const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 async function main () {
   // Create the API and wait until ready. Subscribe to API changes.
   // Here we pass the (optional) provider
-  ApiRx.create(wsProvider).subscribe((api) => {
-    // Subscribe to the chain, node name, and node version. The callback's are fired
-    // when changes are found, the calls themselves each return a promise with a
-    // subscription that can be used to unsubscribe from the respective subscription.
-    // Use the RPC Node Interface
-    const subscriptionIdChain = api.rpc.system.chain().subscribe((chain) => {
-      console.log(`You are connected to chain #${chain.toString()}`);
+  // Subscribe to the chain, node name, and node version.
+  // Using the JSON-RPC Node Interface.
+  const subscriptionApiRx = ApiRx.create(wsProvider)
+    .pipe(
+      switchMap((api) =>
+        combineLatest([
+          api.rpc.system.chain(),
+          api.rpc.system.name(),
+          api.rpc.system.version()
+        ])
+      )
+    )
+    .subscribe(([chain, name, version]) => {
+      console.log(`You are connected to chain #${chain.toString()} ` +
+                  `with node name #${name.toString()} ` +
+                  `and node version v#${version.toString()}`);
     });
 
-    const subscriptionIdName = api.rpc.system.name().subscribe((name) => {
-      console.log(`You are connected to node name v#${name.toString()}`);
-    });
+  // Id of the subscription
+  console.log(`subscriptionApiRx: ${subscriptionApiRx}`);
 
-    const subscriptionIdVersion = api.rpc.system.version().subscribe((version) => {
-      console.log(`You are connected to node version v#${version.toString()}`);
-    });
-
-    // Id for each subscription
-    console.log(`subscriptionIdChain: ${subscriptionIdChain}`);
-    console.log(`subscriptionIdName: ${subscriptionIdName}`);
-    console.log(`subscriptionIdVersion: ${subscriptionIdVersion}`);
-
-    // Cleanup and unsubscribe from each subscription
-    api.rpc.system.chain().unsubscribe(subscriptionIdChain);
-    api.rpc.system.name().unsubscribe(subscriptionIdName);
-    api.rpc.system.version().unsubscribe(subscriptionIdVersion);
-  });
+  // Cleanup and unsubscribe from the subscription
+  subscriptionApiRx.unsubscribe();
 }
 
 main().catch(console.error).finally(_ => process.exit());
