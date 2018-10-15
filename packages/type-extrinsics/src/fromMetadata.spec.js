@@ -20,7 +20,7 @@ describe('fromMetadata', () => {
     expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s', 2, 3)).not.toThrow();
   });
 
-  it('should return properly-encodec trsnactions', () => {
+  it('should return properly-encodec transactions', () => {
     expect(newExtrinsics.timestamp.set([10101]).toU8a()).toEqual(
       new Uint8Array([
         // length (encoded)

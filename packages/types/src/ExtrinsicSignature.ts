@@ -33,7 +33,7 @@ const BIT_VERSION = 0b0000001;
 //   1/3/5/9/33 bytes: The signing account identity, in Address format
 //   64 bytes: The Ed25519 signature of the Signing Payload
 //   8 bytes: The Transaction Index of the signing account
-//   2 bytes: The Transaction Era
+//   1/2 bytes: The Transaction Era
 export default class ExtrinsicSignature extends Struct {
   constructor (value?: ExtrinsicSignatureValue) {
     super({
