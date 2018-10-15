@@ -10,19 +10,49 @@ import Metadata from '../Metadata';
 import rpcdata from '../Metadata.rpc';
 import Method from '../Method';
 
+const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
+const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>`;
+
 // some intro text goes in here
 const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
 const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
+function generateAnchors (sectionName: string, metadata?: any) {
+  switch (sectionName) {
+    case 'rpc': {
+      return Object.keys(interfaces)
+        .sort().map((sectionName) => {
+          return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+        }).join('');
+    }
+    case 'extrinsics':
+    case 'storage': {
+      return metadata.modules.raw
+        .sort().map((runtimeModuleMetadata: any) => {
+          const sectionName = runtimeModuleMetadata.raw.prefix.raw;
+
+          return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+        }).join('');
+    }
+    default: {
+      console.error('Unknown section name provided to generate anchors');
+      break;
+    }
+  }
+}
+
+function generateSectionHeader (md: string, sectionName: string) {
+  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n### <a id='${sectionName}'></a>${sectionName}\n`;
+}
+
 function addRpc () {
-  const renderHeading = `## <a id='top' style='text-decoration: none;'>JSON-RPC${DESC_RPC}\n`;
-  const renderAnchors = Object.keys(interfaces)
-    .sort().map((sectionName) => `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`).join('');
+  const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
+  const renderAnchors = generateAnchors('rpc');
 
   return Object.keys(interfaces).reduce((md, sectionName) => {
     const section = interfaces[sectionName];
-    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n\n### <a id='${sectionName}'></a>${sectionName}\n\n_${section.description}_\n`;
+    const renderSection = generateSectionHeader(md, sectionName) + `\n_${section.description}_\n`;
 
     return Object.keys(section.methods).reduce((md, methodName) => {
       const method = section.methods[methodName];
@@ -43,13 +73,8 @@ function addRpc () {
 }
 
 function addExtrinsics (metadata: any) {
-  const renderHeading = `## <a id='top' style='text-decoration: none;'>Extrinsics${DESC_EXTRINSICS}`;
-  const renderAnchors = metadata.modules.raw
-    .sort().map((runtimeModuleMetadata: any) => {
-      const sectionName = runtimeModuleMetadata.raw.prefix.raw;
-
-      return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
-    }).join('');
+  const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
+  const renderAnchors = generateAnchors('extrinsics', metadata);
 
   return metadata.modules.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
@@ -57,7 +82,7 @@ function addExtrinsics (metadata: any) {
     }
 
     const sectionName = stringCamelCase(meta.prefix.toString());
-    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n### <a id='${sectionName}'></a>${sectionName}\n`;
+    const renderSection = generateSectionHeader(md, sectionName);
 
     return meta.module.call.functions.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
@@ -72,13 +97,8 @@ function addExtrinsics (metadata: any) {
 }
 
 function addStorage (metadata: any) {
-  const renderHeading = `## <a id='top' style='text-decoration: none;'>Storage${DESC_STORAGE}`;
-  const renderAnchors = metadata.modules.raw
-    .sort().map((runtimeModuleMetadata: any) => {
-      const sectionName = runtimeModuleMetadata.raw.prefix.raw;
-
-      return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
-    }).join('');
+  const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
+  const renderAnchors = generateAnchors('storage', metadata);
 
   return metadata.modules.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
@@ -86,7 +106,7 @@ function addStorage (metadata: any) {
     }
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
-    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n### <a id='${sectionName}'></a>${sectionName}\n`;
+    const renderSection = generateSectionHeader(md, sectionName);
 
     return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
