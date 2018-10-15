@@ -53,6 +53,7 @@ export default class Extrinsic extends Struct {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
       const u8a = hexToU8a(value as string);
+
       return Extrinsic.decodeExtrinsic(
         u8aConcat(
           Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
@@ -61,8 +62,10 @@ export default class Extrinsic extends Struct {
       );
     } else if (isU8a(value)) {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+
       return value.subarray(offset, offset + length.toNumber());
     }
+
     return value as any;
   }
 
