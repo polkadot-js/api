@@ -1,0 +1,44 @@
+.book-summary {
+  background-color: #4e4e4e;
+}
+
+.book .book-summary .book-logo {
+  padding: 0.5em;
+  text-align: right;
+}
+
+.book .book-summary .book-logo img {
+  width: 50%;
+}
+
+.book-summary ul.summary li.chapter.active {
+  background: #fff;
+  border-radius: 1.6rem 0 0 1.6rem;
+}
+
+.book-summary ul.summary li.chapter.active ul li.chapter > a {
+  color: rgba(0,0,0,.87);
+}
+
+.book-summary ul.summary li.chapter.active > a {
+  color: #fd8824;
+}
+
+.book-summary ul.summary li.chapter a,
+.book-summary ul.summary li.chapter span {
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.book-summary ul.summary li.chapter > a,
+.book-summary ul.summary li > a.gitbook-link
+{
+  color: #eee;
+}
+
+.book-summary ul.summary li.chapter > a:hover,
+.book-summary ul.summary li > a.gitbook-link:hover,
+.book-summary ul.summary li.chapter.active ul li.chapter > a:hover {
+  color: #fd8824;
+  text-decoration: none;
+}

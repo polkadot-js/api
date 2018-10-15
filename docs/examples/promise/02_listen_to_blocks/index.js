@@ -1,4 +1,4 @@
-// API imports
+// Import the API
 const { ApiPromise } = require('@polkadot/api');
 
 async function main () {
@@ -10,13 +10,13 @@ async function main () {
   // Subscribe to the new headers on-chain. The callback is fired when new headers
   // are found, the call itself returns a promise with a subscription that can be
   // used to unsubscribe from the newHead subscription
-  const subsciptionId = await api.rpc.chain.newHead((header) => {
+  const subscriptionId = await api.rpc.chain.newHead((header) => {
     console.log(`best #${header.blockNumber}`);
   });
 
-  // id for the subscription, we can cleanup and unsubscribe via
+  // Id for the subscription, we can cleanup and unsubscribe via
   // `api.chain.newHead.unsubscribe(subscriptionId)`
-  console.log(`subsciptionId: ${subsciptionId}`);
+  console.log(`subsciptionId: ${subscriptionId}`);
 }
 
 main().catch(console.error);

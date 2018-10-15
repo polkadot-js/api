@@ -31,8 +31,8 @@ describe('Address', () => {
   );
   testDecode(
     'AccountIndex',
-    new AccountIndex('0x0102030405060708010203040506070801020304050607080102030405060708'),
-    '0x0102030405060708010203040506070801020304050607080102030405060708'
+    new AccountIndex('0x0001'),
+    '25GUyk'
   );
   testDecode(
     'Array',
@@ -54,23 +54,23 @@ describe('Address', () => {
   );
   testDecode(
     'Uint8Array (with prefix 1 byte)',
-    Uint8Array.from([17]),
-    '0x11'
+    Uint8Array.from([1]),
+    'F7L6'
   );
   testDecode(
     'Uint8Array (with prefix 2 bytes)',
-    Uint8Array.from([0xfc, 17, 18]),
-    '0xfc1112'
+    Uint8Array.from([0xfc, 0, 1]),
+    '25GUyk'
   );
   testDecode(
     'Uint8Array (with prefix 4 bytes)',
     Uint8Array.from([0xfd, 17, 18, 19, 20]),
-    '0xfd11121314'
+    'Mwz15xN8'
   );
   testDecode(
     'Uint8Array (with prefix 8 bytes)',
     Uint8Array.from([0xfe, 17, 18, 19, 20, 21, 22, 23, 24]),
-    '0xfe1112131415161718'
+    '3N5RJXxM5fLd4h'
   );
 
   // FIXME Add this

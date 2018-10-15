@@ -16,7 +16,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [AccountIndex.ts:15](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L15)*
+*Defined in [AccountIndex.ts:18](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L18)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,7 +52,7 @@ getlength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/U8a.ts#L33)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/codec/U8a.ts#L33)*
 
 **Returns:** `number`
 
@@ -70,7 +70,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [codec/U8a.ts:37](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/U8a.ts#L37)*
+*Defined in [codec/U8a.ts:37](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/codec/U8a.ts#L37)*
 
 **Returns:** `number`
 
@@ -83,7 +83,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[fromJSON](_codec_u8a_.u8a.md#fromjson)*
 
-*Defined in [AccountIndex.ts:57](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L57)*
+*Defined in [AccountIndex.ts:72](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L72)*
 
 **Parameters:**
 
@@ -102,7 +102,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[fromU8a](_codec_u8a_.u8a.md#fromu8a)*
 
-*Defined in [AccountIndex.ts:63](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L63)*
+*Defined in [AccountIndex.ts:78](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L78)*
 
 **Parameters:**
 
@@ -121,7 +121,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/codec/U8a.ts#L53)*
 
 **Returns:** `string`
 
@@ -134,7 +134,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [AccountIndex.ts:71](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L71)*
+*Defined in [AccountIndex.ts:86](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L86)*
 
 **Returns:** `any`
 
@@ -147,7 +147,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
 
-*Defined in [AccountIndex.ts:75](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L75)*
+*Defined in [AccountIndex.ts:99](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L99)*
 
 **Returns:** `string`
 
@@ -158,11 +158,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
+*Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
-
-*Defined in [codec/U8a.ts:61](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/U8a.ts#L61)*
+*Defined in [AccountIndex.ts:90](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L90)*
 
 **Parameters:**
 
@@ -179,7 +177,7 @@ ___
 
 ▸ **decodeAccountIndex**(value: *`AnyU8a`*): `Uint8Array`
 
-*Defined in [AccountIndex.ts:28](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L28)*
+*Defined in [AccountIndex.ts:25](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L25)*
 
 **Parameters:**
 
@@ -198,7 +196,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
 
-*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/codec/U8a.ts#L23)*
+*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/codec/U8a.ts#L23)*
 
 **Parameters:**
 
@@ -209,30 +207,13 @@ ___
 **Returns:** `Uint8Array`
 
 ___
-<a id="encode"></a>
-
-## `<Static>` encode
-
-▸ **encode**(value: *`Uint8Array`*): `string`
-
-*Defined in [AccountIndex.ts:24](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L24)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| value | `Uint8Array` |
-
-**Returns:** `string`
-
-___
 <a id="readlength"></a>
 
 ## `<Static>` readLength
 
-▸ **readLength**(input: *`Uint8Array`*): `number`
+▸ **readLength**(input: *`Uint8Array`*): [`number`, `number`]
 
-*Defined in [AccountIndex.ts:41](https://github.com/polkadot-js/api/blob/4748e8c/packages/types/src/AccountIndex.ts#L41)*
+*Defined in [AccountIndex.ts:45](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L45)*
 
 **Parameters:**
 
@@ -240,7 +221,24 @@ ___
 | ------ | ------ |
 | input | `Uint8Array` |
 
-**Returns:** `number`
+**Returns:** [`number`, `number`]
+
+___
+<a id="writelength"></a>
+
+## `<Static>` writeLength
+
+▸ **writeLength**(input: *`Uint8Array`*): `Uint8Array`
+
+*Defined in [AccountIndex.ts:61](https://github.com/polkadot-js/api/blob/3e20e7b/packages/types/src/AccountIndex.ts#L61)*
+
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| input | `Uint8Array` |
+
+**Returns:** `Uint8Array`
 
 ___
 

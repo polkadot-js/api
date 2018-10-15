@@ -1,5 +1,5 @@
 {
-  "version": "0.31.26",
+  "version": "0.31.36",
   "private": true,
   "engines": {
     "node": "^10.1.0",
@@ -29,6 +29,7 @@
   "dependencies": {
     "babel-plugin-module-resolver": "^3.1.1",
     "gitbook-plugin-include-codeblock": "^3.2.2",
+    "gitbook-plugin-insert-logo-link": "^1.0.1",
     "gitbook-plugin-mermaid-gb3": "^2.1.0",
     "gitbook-plugin-sunlight-highlighter": "^0.4.3"
   }

@@ -297,14 +297,14 @@ export default class ApiCombined extends ApiCalls {
         this.balanceFree(address),
         this.balanceReserved(address)
       ],
-      ([freeBalance = new Balance(0), reservedBalance = new Balance(0)]: [Balance | undefined, Balance | undefined]): RxBalance => ({
+      ([freeBalance, reservedBalance]: [Balance | undefined, Balance | undefined]): RxBalance => ({
         address,
-        freeBalance,
+        freeBalance: freeBalance || new Balance(0),
         nominatedBalance: new Balance(0),
-        reservedBalance,
+        reservedBalance: reservedBalance || new Balance(0),
         stakingBalance: new Balance(0),
         votingBalance: new Balance(
-          freeBalance.add(reservedBalance)
+          (freeBalance || new Balance(0)).add(reservedBalance || new Balance(0))
         )
       })
     );
