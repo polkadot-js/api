@@ -8,7 +8,7 @@
 
 ▸ **on**(self: *`MockState`*, type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/7a66258/packages/rpc-provider/src/mock/on.ts#L8)*
+*Defined in [mock/on.ts:8](https://github.com/polkadot-js/api/blob/8de9ea8/packages/rpc-provider/src/mock/on.ts#L8)*
 
 **Parameters:**
 
