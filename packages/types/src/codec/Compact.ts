@@ -5,10 +5,12 @@
 import BN from 'bn.js';
 import bnToBn from '@polkadot/util/bn/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
+import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
+import { AnyNumber, AnyU8a } from '../types';
 import UInt, { UIntBitLength } from './UInt';
 
 export const DEFAULT_LENGTH_BITS = 32;
@@ -33,6 +35,31 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
 export default class Compact extends UInt {
+  constructor (value?: AnyU8a | AnyNumber, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS, isHexJson: boolean = false) {
+    super(Compact.decodeCompact(value, bitLength), bitLength, isHexJson);
+  }
+
+  /**
+   * Prepend a Uint8Array with its compact length.
+   *
+   * @param u8a - The Uint8Array to be prefixed
+   */
+  static addLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS): Uint8Array {
+    return u8aConcat(
+      Compact.encodeU8a(u8a.length, bitLength),
+      u8a
+    );
+  }
+
+  static decodeCompact (value: AnyU8a | AnyNumber | undefined, bitLength: UIntBitLength): any {
+    if (isU8a(value)) {
+      const [, length] = Compact.decodeU8a(value, bitLength);
+
+      return length;
+    }
+    return value as any;
+  }
+
   static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
     const input = toU8a(_input);
     const flag = input[0] & 0b11;
@@ -48,18 +75,6 @@ export default class Compact extends UInt {
     const byteLength = bitLength / 8;
 
     return [byteLength + 1, u8aToBn(input.subarray(1, 1 + byteLength), true)];
-  }
-
-  /**
-   * Prepend a Uint8Array with its compact length.
-   *
-   * @param u8a - The Uint8Array to be prefixed
-   */
-  static addLengthPrefix (u8a: Uint8Array): Uint8Array {
-    return u8aConcat(
-      Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
-      u8a
-    );
   }
 
   static encodeU8a (_value: UInt | BN | number, bitLength: UIntBitLength): Uint8Array {

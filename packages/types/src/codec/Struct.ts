@@ -7,9 +7,10 @@ import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
+import { Constructor } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -18,7 +19,7 @@ import Base from './Base';
 // it needs to decoded in the specific defined order.
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
-  S = { [index: string]: { new(...value: Array<any>): Base } },
+  S = { [index: string]: Constructor<Base> },
   // internal type, instance of classes mapped by key
   T = { [K in keyof S]: Base },
   // input values, mapped by key can be anything (construction)
@@ -31,7 +32,7 @@ export default class Struct<
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     super(
-      Struct.decodeStruct(Types, value)
+      Struct.decodeStruct(Types, value, jsonMap)
     );
 
     this._jsonMap = jsonMap;
@@ -45,11 +46,13 @@ export default class Struct<
       }, {} as E);
   }
 
-  static decodeStruct<S, V, T> (Types: S, value: any): T {
+  static decodeStruct<S, V, T> (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
-      return Struct.decodeStruct(Types, hexToU8a(value as string));
+      return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
+    } else if (Array.isArray(value)) {
+      return Struct.decodeStruct(Types, toU8a(value), jsonMap);
     } else if (!value) {
       return {} as T;
     }
@@ -61,6 +64,10 @@ export default class Struct<
     return Object
       .keys(Types)
       .reduce((raw: T, key) => {
+        // The key in the JSON can be snake_case (or other cases), but in our
+        // Types, result or any other maps, it's camelCase
+        const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+
         if (isU8a(value)) {
           // @ts-ignore FIXME See below
           raw[key] = new Types[key](
@@ -72,11 +79,10 @@ export default class Struct<
           // Move the currentIndex forward
           // @ts-ignore FIXME See below
           currentIndex += raw[key].byteLength();
-
           // @ts-ignore FIXME See below
-        } else if (value[key] instanceof Types[key]) {
+        } else if (value[jsonKey] instanceof Types[key]) {
           // @ts-ignore FIXME See below
-          raw[key] = value[key];
+          raw[key] = value[jsonKey];
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
@@ -84,7 +90,7 @@ export default class Struct<
           // does backfire here, but works externally.)
           raw[key] = new Types[key](
             // @ts-ignore FIXME
-            value[key]
+            value[jsonKey]
           );
         } else {
           // @ts-ignore FIXME
@@ -96,8 +102,8 @@ export default class Struct<
   }
 
   static with<
-    S = { [index: string]: { new(value?: any): Base } }
-    > (Types: S): { new(value?: any): Struct<S> } {
+    S = { [index: string]: Constructor<Base> }
+    > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
@@ -117,7 +123,7 @@ export default class Struct<
 
   fromJSON (input: any): Struct<S, T, V, E> {
     if (isHex(input) || isU8a(input)) {
-      return this.fromU8a(u8aToU8a(input));
+      return this.fromU8a(toU8a(input));
     }
 
     // null & undefined yields empty

@@ -13,7 +13,7 @@ describe('Vector', () => {
   let array;
 
   beforeEach(() => {
-    array = new Vector(Text, [ '1', '23', '345', '4567', new Text('56789') ]);
+    array = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
     Method.injectExtrinsics(extrinsics);
   });
@@ -39,7 +39,7 @@ describe('Vector', () => {
 
   it('allows contruction via JSON', () => {
     expect(
-      new Vector(Text).fromJSON(['6', '7']).toString()
+      new Vector(Text, ['6', '7']).toString()
     ).toEqual('[6, 7]');
   });
 

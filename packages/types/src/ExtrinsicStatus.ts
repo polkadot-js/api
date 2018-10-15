@@ -21,12 +21,12 @@ export class Usurped extends Hash {
 }
 
 export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
-  constructor (index?: number) {
+  constructor (value: any, index?: number) {
     super([
       Finalised,
       Usurped,
       Broadcast,
       Dropped
-    ], index);
+    ], value, index);
   }
 }

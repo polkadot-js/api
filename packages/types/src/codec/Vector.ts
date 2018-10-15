@@ -7,6 +7,7 @@ import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
+import { Constructor } from '../types';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
@@ -16,9 +17,9 @@ import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
 export default class Vector<
   T extends Base
   > extends Base<Array<T>> {
-  private _Type: { new(value?: any): T };
+  private _Type: Constructor<T>;
 
-  constructor (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, value: Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
       Vector.decode(Type, value)
     );
@@ -26,7 +27,7 @@ export default class Vector<
     this._Type = Type;
   }
 
-  static decode<T> (Type: { new(value?: any): T }, value: Uint8Array | string | Array<any>): Array<T> {
+  static decode<T extends Base> (Type: Constructor<T>, value: Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -43,19 +44,16 @@ export default class Vector<
     const result = [];
 
     for (let index = 0; index < length; index++) {
-      // FIXME replace by
-      // const decoded = new Type(u8a.subarray(offset));
-      // @ts-ignore Not sure why we get "Property 'fromU8a' does not exist on type 'T'.", T extends Base in def?
-      const decoded = new Type().fromU8a(u8a.subarray(offset));
+      const decoded = new Type(u8a.subarray(offset));
 
-      result.push(decoded as T);
+      result.push(decoded);
       offset += decoded.byteLength();
     }
 
     return result;
   }
 
-  static with<O extends Base> (Type: { new(value?: any): O }): { new(value?: any): Vector<O> } {
+  static with<O extends Base> (Type: Constructor<O>): Constructor<Vector<O>> {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);

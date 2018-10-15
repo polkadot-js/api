@@ -12,3 +12,5 @@ export type AnyNumber = UInt | BN | Uint8Array | number | string;
 export type AnyU8a = U8a | Uint8Array | Array<number> | string;
 
 export type CodecTypes = keyof typeof Classes;
+
+export type Constructor<T> = { new(value?: any): T };
