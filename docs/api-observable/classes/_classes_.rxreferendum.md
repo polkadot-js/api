@@ -21,7 +21,7 @@
 
 *Overrides Struct.__constructor*
 
-*Defined in [classes.ts:48](https://github.com/polkadot-js/api/blob/076e552/packages/api-observable/src/classes.ts#L48)*
+*Defined in [classes.ts:48](https://github.com/polkadot-js/api/blob/256740e/packages/api-observable/src/classes.ts#L48)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@ ___
 
 *Inherited from Base.raw*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Base.ts:19](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Base.ts#L19)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Base.ts:19](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -58,7 +58,7 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:114](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L114)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:114](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L114)*
 
 **Returns:** `E`
 
@@ -69,7 +69,7 @@ ___
 
 getblockNumber(): `BlockNumber`
 
-*Defined in [classes.ts:58](https://github.com/polkadot-js/api/blob/076e552/packages/api-observable/src/classes.ts#L58)*
+*Defined in [classes.ts:58](https://github.com/polkadot-js/api/blob/256740e/packages/api-observable/src/classes.ts#L58)*
 
 **Returns:** `BlockNumber`
 
@@ -80,7 +80,7 @@ ___
 
 getid(): `ReferendumIndex`
 
-*Defined in [classes.ts:62](https://github.com/polkadot-js/api/blob/076e552/packages/api-observable/src/classes.ts#L62)*
+*Defined in [classes.ts:62](https://github.com/polkadot-js/api/blob/256740e/packages/api-observable/src/classes.ts#L62)*
 
 **Returns:** `ReferendumIndex`
 
@@ -91,7 +91,7 @@ ___
 
 getproposal(): `Proposal`
 
-*Defined in [classes.ts:66](https://github.com/polkadot-js/api/blob/076e552/packages/api-observable/src/classes.ts#L66)*
+*Defined in [classes.ts:66](https://github.com/polkadot-js/api/blob/256740e/packages/api-observable/src/classes.ts#L66)*
 
 **Returns:** `Proposal`
 
@@ -102,7 +102,7 @@ ___
 
 getvoteThreshold(): `VoteThreshold`
 
-*Defined in [classes.ts:70](https://github.com/polkadot-js/api/blob/076e552/packages/api-observable/src/classes.ts#L70)*
+*Defined in [classes.ts:70](https://github.com/polkadot-js/api/blob/256740e/packages/api-observable/src/classes.ts#L70)*
 
 **Returns:** `VoteThreshold`
 
@@ -120,7 +120,7 @@ ___
 
 *Overrides Base.byteLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:118](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L118)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:118](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L118)*
 
 **Returns:** `number`
 
@@ -135,7 +135,7 @@ ___
 
 *Overrides Base.fromJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:124](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L124)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:124](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L124)*
 
 **Parameters:**
 
@@ -156,7 +156,7 @@ ___
 
 *Overrides Base.fromU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L144)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L144)*
 
 **Parameters:**
 
@@ -175,7 +175,7 @@ ___
 
 *Inherited from Struct.get*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:154](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L154)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:154](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L154)*
 
 **Parameters:**
 
@@ -194,7 +194,7 @@ ___
 
 *Inherited from Struct.keys*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L169)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L169)*
 
 **Returns:** `Array`<`string`>
 
@@ -209,7 +209,7 @@ ___
 
 *Overrides Base.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L158)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L158)*
 
 **Returns:** `any`
 
@@ -224,7 +224,7 @@ ___
 
 *Overrides Base.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:181](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L181)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:181](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L181)*
 
 **Returns:** `string`
 
@@ -239,7 +239,7 @@ ___
 
 *Overrides Base.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L173)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L173)*
 
 **Parameters:**
 
@@ -258,7 +258,7 @@ ___
 
 *Inherited from Struct.values*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L190)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L190)*
 
 **Returns:** `Array`<`Base`>
 
@@ -271,7 +271,7 @@ ___
 
 *Inherited from Struct.decodeStruct*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:49](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L49)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:49](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L49)*
 
 **Type parameters:**
 
@@ -297,7 +297,7 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:104](https://github.com/polkadot-js/api/blob/076e552/packages/types/src/codec/Struct.ts#L104)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:104](https://github.com/polkadot-js/api/blob/256740e/packages/types/src/codec/Struct.ts#L104)*
 
 **Type parameters:**
 

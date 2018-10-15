@@ -8,7 +8,7 @@
 
 ▸ **state**(): `MockState`
 
-*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/076e552/packages/rpc-provider/src/mock/state.ts#L38)*
+*Defined in [mock/state.ts:38](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/mock/state.ts#L38)*
 
 **Returns:** `MockState`
 
