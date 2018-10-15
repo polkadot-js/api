@@ -36,8 +36,10 @@ async function main () {
     // Id of the subscription
     console.log(`subscriptionApiRx: ${subscriptionIdBalance}`);
 
-    // Cleanup and unsubscribe from the subscription
-    subscriptionIdBalance.unsubscribe();
+    setTimeout(() => {
+      // Cleanup and unsubscribe from the subscription
+      subscriptionIdBalance.unsubscribe();
+    }, 5000);
   });
 }
 

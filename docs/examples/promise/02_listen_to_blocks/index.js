@@ -18,6 +18,11 @@ async function main () {
   // Id for the subscription, we can cleanup and unsubscribe via
   // `api.chain.newHead.unsubscribe(subscriptionId)`
   console.log(`subscriptionId: ${subscriptionId}`);
+
+  setTimeout(() => {
+    // Cleanup and unsubscribe from the subscription
+    subscriptionId.unsubscribe();
+  }, 5000);
 }
 
 main().catch(console.error).finally(_ => process.exit());

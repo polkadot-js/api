@@ -31,8 +31,10 @@ async function main () {
   // Id of the subscription
   console.log(`subscriptionApiRx: ${subscriptionApiRx}`);
 
-  // Cleanup and unsubscribe from the subscription
-  subscriptionApiRx.unsubscribe();
+  setTimeout(() => {
+    // Cleanup and unsubscribe from the subscription
+    subscriptionApiRx.unsubscribe();
+  }, 5000);
 }
 
 main().catch(console.error).finally(_ => process.exit());
