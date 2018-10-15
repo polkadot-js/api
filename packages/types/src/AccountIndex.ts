@@ -14,6 +14,9 @@ import { AnyU8a } from './types';
 import U8a from './codec/U8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
+import isNumber from '@polkadot/util/is/number';
+import isBn from '@polkadot/util/is/bn';
+import bnToBn from '@polkadot/util/bn/toBn';
 
 export const ENUMSET_SIZE = new BN(64);
 
@@ -21,13 +24,13 @@ export const ENUMSET_SIZE = new BN(64);
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends U8a {
-  constructor (value: AnyU8a = new Uint8Array()) {
+  constructor (value: BN | number | AnyU8a = new Uint8Array()) {
     super(
       AccountIndex.decodeAccountIndex(value)
     );
   }
 
-  static decodeAccountIndex (value: AnyU8a): Uint8Array {
+  static decodeAccountIndex (value: BN | number | AnyU8a): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
     } else if (Array.isArray(value)) {
@@ -40,6 +43,21 @@ export default class AccountIndex extends U8a {
       const [offset, length] = AccountIndex.readLength(value);
 
       return value.subarray(offset, offset + length);
+    } else if (isNumber(value) || isBn(value)) {
+      const index = bnToBn(value);
+      const bitLength = index.ltn(1 << 8)
+        ? 8
+        : (
+          index.ltn(1 << 16)
+            ? 16
+            : (
+              index.ltn(1 << 32)
+                ? 32
+                : 64
+            )
+        );
+
+      return bnToU8a(index, bitLength, true);
     } else if (isHex(value)) {
       return hexToU8a(value);
     }
