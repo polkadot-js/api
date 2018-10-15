@@ -55,7 +55,7 @@ export default class Method extends MethodIndex {
     let offset = 0;
 
     return Method.filterOrigin(meta).map(({ type }) => {
-      const base = createType(type).fromU8a(data.subarray(offset));
+      const base = createType(type, data.subarray(offset));
 
       offset += base.byteLength();
 

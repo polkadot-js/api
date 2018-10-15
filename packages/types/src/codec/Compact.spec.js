@@ -104,7 +104,7 @@ describe('Compact', () => {
 
   it('constructs properly via fromU8a', () => {
     expect(
-      new Compact().fromU8a(new Uint8Array([254, 255, 3, 0])).raw
+      new Compact(new Uint8Array([254, 255, 3, 0])).raw
     ).toEqual(new BN(0xffff));
   });
 

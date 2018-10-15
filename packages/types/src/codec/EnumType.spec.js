@@ -10,24 +10,24 @@ describe('Struct', () => {
   it('provides a clean toString() (raw)', () => {
     expect(
       new EnumType(
-        [Text, U32]
-      ).fromU8a(new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
+        [Text, U32],
+        new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
     ).toEqual('12');
   });
 
   it('provides a clean toString() (enum)', () => {
     expect(
       new EnumType(
-        [Text, U32]
-      ).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
+        [Text, U32],
+        new Uint8Array([1, 2 << 2, 49, 50])).toString()
     ).toEqual('U32');
   });
 
   it('allows checking against defined indexes', () => {
     expect(
       new EnumType(
-        { 1: Text, 5: U32 }
-      ).fromU8a(new Uint8Array([1, 2 << 2, 49, 50])).toString()
+        { 1: Text, 5: U32 },
+        new Uint8Array([1, 2 << 2, 49, 50])).toString()
     ).toEqual('Text');
   });
 });

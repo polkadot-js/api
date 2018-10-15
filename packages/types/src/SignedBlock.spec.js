@@ -14,7 +14,7 @@ describe('SignedBlock', () => {
   beforeEach(() => {
     Method.injectExtrinsics(extrinsics);
 
-    block = new SignedBlock().fromJSON(rpc.result);
+    block = new SignedBlock(rpc.result);
   });
 
   it('has the correct stateRoot', () => {
@@ -40,7 +40,7 @@ describe('SignedBlock', () => {
       const x = extrinsics.get(0);
 
       expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
-      expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([ 70, 41, 195, 91, 0, 0, 0, 0 ]));
+      expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([70, 41, 195, 91, 0, 0, 0, 0]));
     });
 
     it('has the correct data for the second', () => {
