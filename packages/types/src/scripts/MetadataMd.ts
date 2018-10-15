@@ -44,19 +44,11 @@ function addRpc () {
 
 function sortExtrinsicsSectionMethods () {
   return function (a: any, b: any) {
-    const nameA = a.raw.name.raw.toUpperCase(); // ignore upper and lowercase
-    const nameB = b.raw.name.raw.toUpperCase(); // ignore upper and lowercase
+    // ignore upper and lowercase
+    const nameA = a.raw.name.raw.toUpperCase();
+    const nameB = b.raw.name.raw.toUpperCase();
 
-    if (nameA < nameB) {
-      return -1;
-    }
-
-    if (nameA > nameB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
+    return nameA.localeCompare(nameB);
   };
 }
 
