@@ -78,15 +78,15 @@ export default class Vector<
     }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
   }
 
-  filter (fn: (item: T, index?: number) => any): Array<T> {
+  filter (fn: (item: T, index: number) => any): Array<T> {
     return this.raw.filter(fn);
   }
 
-  find (fn: (item: T, index?: number) => any): T | undefined {
+  find (fn: (item: T, index: number) => any): T | undefined {
     return this.raw.find(fn);
   }
 
-  forEach (fn: (item: T, index?: number) => any): any {
+  forEach (fn: (item: T, index: number) => any): any {
     return this.raw.forEach(fn);
   }
 
@@ -109,7 +109,7 @@ export default class Vector<
     return this.raw[index];
   }
 
-  map<O> (fn: (item: T, index?: number) => O): Array<O> {
+  map<O> (fn: (item: T, index: number) => O): Array<O> {
     return this.raw.map(fn);
   }
 
@@ -117,7 +117,7 @@ export default class Vector<
     this.raw.push(item);
   }
 
-  reduce<O> (fn: (result: O, item: T, index?: number) => O, initial: O): O {
+  reduce<O> (fn: (result: O, item: T, index: number) => O, initial: O): O {
     return this.raw.reduce(fn, initial);
   }
 
