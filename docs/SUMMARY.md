@@ -21,5 +21,6 @@
   - [Read chain state](examples/promise/05_read_storage/README.md)
   - [Make a transfer](examples/promise/07_transfer_dots/README.md)
 - [ApiRx](examples/rx/README.md)
+  - [Simple connect](examples/rx/01_simple_connect/README.md)
   - [Listen to blocks](examples/rx/02_listen_to_blocks/README.md)
   - [Listen to balance change](examples/rx/03_listen_to_balance_change/README.md)
