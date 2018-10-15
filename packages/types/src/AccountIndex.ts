@@ -15,7 +15,7 @@ import U8a from './codec/U8a';
 import u8aToBn from '@polkadot/util/u8a/toBn';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 
-const ENUMSET_SIZE = new BN(64);
+export const ENUMSET_SIZE = new BN(64);
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from U8a which is basically
