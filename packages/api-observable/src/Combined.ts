@@ -7,7 +7,8 @@ import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 import BN from 'bn.js';
 import { EMPTY, Observable } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
-import { AccountId, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
+import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import isString from '@polkadot/util/is/string';
 
 import ApiCalls from './Calls';
@@ -17,6 +18,52 @@ import { RxProposal, RxReferendum } from './classes';
 // useful extensions, i.e. queries can be made that returns the results from multiple observables,
 // make the noise for the API users significantly less
 export default class ApiCombined extends ApiCalls {
+  // Creates a mapping of AccountId (encoded) => AccountIndex (encoded)
+  accountIndexes = (): Observable<{ [index: string]: string }> => {
+    return this
+      .nextAccountEnumSet()
+      .pipe(
+        switchMap((nextEnum: AccountIndex | undefined) => {
+          const lastIndex = nextEnum
+            ? nextEnum.toBn()
+            : new BN(0);
+
+          return this.combine(
+            Array(lastIndex.toNumber()).map((_, i): Observable<Array<AccountId> | undefined> =>
+              this.getAccountEnumSet(i)
+            ),
+            (...all: Array<Array<AccountId> | undefined>) => {
+              return all.reduce((result, list = [], outerIndex: number) => {
+                list.forEach((accountId, innerIndex) => {
+                  const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
+
+                  // FIXME This is not even remotely correct, here we basically only cater
+                  // for the first 0xfd indexes, short just to get things going....
+                  // AccountIndex should allow number as a constructor input
+                  result[accountId.toString()] = new AccountIndex(
+                    new Uint8Array([index])
+                  ).toString();
+                });
+
+                return result;
+              }, {} as { [index: string]: string });
+            }
+          );
+        })
+      );
+  }
+
+  // lookup accountId from index
+  accountIdFromIndex = (accountIndex: AccountIndex): Observable<AccountId | undefined> => {
+    return this
+      .getAccountEnumSet(accountIndex)
+      .pipe(
+        map((accounts: Array<AccountId> = []): AccountId | undefined =>
+          accounts[accountIndex.toBn().mod(ENUMSET_SIZE).toNumber()]
+        )
+      );
+  }
+
   publicProposalCount = (): Observable<number> => {
     return this
       .publicProposals()

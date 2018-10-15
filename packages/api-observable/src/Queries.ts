@@ -8,8 +8,10 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
-import { AccountId, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
-import { Tuple, Vector } from '@polkadot/types/codec';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
+import { Tuple, U8a, Vector } from '@polkadot/types/codec';
+import bnToU8a from '@polkadot/util/bn/toU8a';
 
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
@@ -44,6 +46,18 @@ export default class ApiQueries extends ApiBase {
 
   democracyNextTally = (): Observable<ReferendumIndex | undefined> => {
     return this.rawStorage(storage.democracy.nextTally);
+  }
+
+  getAccountEnumSet = (_index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
+    const index = _index instanceof AccountIndex
+      ? _index.toBn().div(ENUMSET_SIZE)
+      : _index;
+
+    return this.rawStorage(storage.balances.enumSet, new U8a(bnToU8a(index, 32, true)));
+  }
+
+  nextAccountEnumSet = (): Observable<AccountIndex | undefined> => {
+    return this.rawStorage(storage.balances.nextEnumSet);
   }
 
   proposalDeposits = (proposalId: PropIndex | BN | number): Observable<RxProposalDeposits | undefined> => {
