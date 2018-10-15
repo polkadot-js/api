@@ -20,7 +20,7 @@ describe('Metadata', () => {
 
   it('decodes when length not present (HACK)', () => {
     const u8a = hexToU8a(rpcdata);
-    const decoded = new Metadata().fromU8a(u8a.subarray(2));
+    const decoded = new Metadata(u8a.subarray(2));
 
     expect(decoded.events.length).not.toBe(0);
   });
