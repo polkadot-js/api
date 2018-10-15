@@ -18,13 +18,15 @@ const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remot
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
 const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
-function generateAnchors (sectionName: string, metadata?: any) {
+function sectionLink (sectionName: string) {
+  return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+}
+
+function generateSectionLinks (sectionName: string, metadata?: any) {
   switch (sectionName) {
     case 'rpc': {
       return Object.keys(interfaces)
-        .sort().map((sectionName) => {
-          return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
-        }).join('');
+        .sort().map((sectionName) => sectionLink(sectionName)).join('');
     }
     case 'extrinsics':
     case 'storage': {
@@ -32,7 +34,7 @@ function generateAnchors (sectionName: string, metadata?: any) {
         .sort().map((runtimeModuleMetadata: any) => {
           const sectionName = runtimeModuleMetadata.raw.prefix.raw;
 
-          return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+          return sectionLink(sectionName);
         }).join('');
     }
     default: {
@@ -48,7 +50,7 @@ function generateSectionHeader (md: string, sectionName: string) {
 
 function addRpc () {
   const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
-  const renderAnchors = generateAnchors('rpc');
+  const renderAnchors = generateSectionLinks('rpc');
 
   return Object.keys(interfaces).reduce((md, sectionName) => {
     const section = interfaces[sectionName];
@@ -74,7 +76,7 @@ function addRpc () {
 
 function addExtrinsics (metadata: any) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const renderAnchors = generateAnchors('extrinsics', metadata);
+  const renderAnchors = generateSectionLinks('extrinsics', metadata);
 
   return metadata.modules.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
@@ -98,7 +100,7 @@ function addExtrinsics (metadata: any) {
 
 function addStorage (metadata: any) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
-  const renderAnchors = generateAnchors('storage', metadata);
+  const renderAnchors = generateSectionLinks('storage', metadata);
 
   return metadata.modules.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
