@@ -7,6 +7,7 @@ import { AnyU8a } from './types';
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import createType from './codec/createType';
 import Base from './codec/Base';
