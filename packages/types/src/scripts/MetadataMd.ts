@@ -11,16 +11,18 @@ import rpcdata from '../Metadata.rpc';
 import Method from '../Method';
 
 // some intro text goes in here
-const DESC_RPC = '\n\n_The following RPC methods are the Remote Calls that are available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
-const DESC_EXTRINSICS = '\n\n_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._';
-const DESC_STORAGE = '\n\n_The following Storage methods are part of the default Substrate runtime._';
+const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
+const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
+const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
 function addRpc () {
-  const renderHeading = `## JSON-RPC${DESC_RPC}\n`;
+  const renderHeading = `## <a id='top' style='text-decoration: none;'>JSON-RPC${DESC_RPC}\n`;
+  const renderAnchors = Object.keys(interfaces)
+    .sort().map((sectionName) => `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`).join('');
 
   return Object.keys(interfaces).reduce((md, sectionName) => {
     const section = interfaces[sectionName];
-    const renderSection = `${md}\n___\n\n### ${sectionName}\n\n_${section.description}_\n`;
+    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n\n### <a id='${sectionName}'></a>${sectionName}\n\n_${section.description}_\n`;
 
     return Object.keys(section.methods).reduce((md, methodName) => {
       const method = section.methods[methodName];
@@ -37,11 +39,17 @@ function addRpc () {
 
       return isSub ? `${renderSignatureSub}${renderSummary}` : `${renderSignature}${renderSummary}`;
     }, renderSection);
-  }, renderHeading);
+  }, renderHeading + renderAnchors);
 }
 
 function addExtrinsics (metadata: any) {
-  const renderHeading = `## Extrinsics${DESC_EXTRINSICS}`;
+  const renderHeading = `## <a id='top' style='text-decoration: none;'>Extrinsics${DESC_EXTRINSICS}`;
+  const renderAnchors = metadata.modules.raw
+    .sort().map((runtimeModuleMetadata: any) => {
+      const sectionName = runtimeModuleMetadata.raw.prefix.raw;
+
+      return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+    }).join('');
 
   return metadata.modules.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
@@ -49,7 +57,7 @@ function addExtrinsics (metadata: any) {
     }
 
     const sectionName = stringCamelCase(meta.prefix.toString());
-    const renderSection = `${md}\n___\n### ${sectionName}\n`;
+    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n### <a id='${sectionName}'></a>${sectionName}\n`;
 
     return meta.module.call.functions.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
@@ -60,11 +68,17 @@ function addExtrinsics (metadata: any) {
 
       return renderSignature + renderSummary;
     }, renderSection);
-  }, renderHeading);
+  }, renderHeading + renderAnchors);
 }
 
 function addStorage (metadata: any) {
-  const renderHeading = `## Storage${DESC_STORAGE}`;
+  const renderHeading = `## <a id='top' style='text-decoration: none;'>Storage${DESC_STORAGE}`;
+  const renderAnchors = metadata.modules.raw
+    .sort().map((runtimeModuleMetadata: any) => {
+      const sectionName = runtimeModuleMetadata.raw.prefix.raw;
+
+      return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
+    }).join('');
 
   return metadata.modules.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
@@ -72,7 +86,7 @@ function addStorage (metadata: any) {
     }
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
-    const renderSection = `${md}\n___\n### ${sectionName}\n`;
+    const renderSection = `${md}\n___\n<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>\n### <a id='${sectionName}'></a>${sectionName}\n`;
 
     return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
@@ -83,7 +97,7 @@ function addStorage (metadata: any) {
 
       return renderSignature + renderSummary;
     }, renderSection);
-  }, renderHeading);
+  }, renderHeading + renderAnchors);
 }
 
 function metadataStorageMethodsAsText () {
