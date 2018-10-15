@@ -11,7 +11,8 @@ describe('Struct', () => {
     expect(
       new EnumType(
         [Text, U32],
-        new Uint8Array([0, 2 << 2, 49, 50])).raw.toString()
+        new Uint8Array([0, 2 << 2, 49, 50])
+      ).raw.toString()
     ).toEqual('12');
   });
 
@@ -19,7 +20,8 @@ describe('Struct', () => {
     expect(
       new EnumType(
         [Text, U32],
-        new Uint8Array([1, 2 << 2, 49, 50])).toString()
+        new Uint8Array([1, 2 << 2, 49, 50])
+      ).toString()
     ).toEqual('U32');
   });
 
@@ -27,7 +29,8 @@ describe('Struct', () => {
     expect(
       new EnumType(
         { 1: Text, 5: U32 },
-        new Uint8Array([1, 2 << 2, 49, 50])).toString()
+        new Uint8Array([1, 2 << 2, 49, 50])
+      ).toString()
     ).toEqual('Text');
   });
 });
