@@ -7,13 +7,12 @@ import { AnyU8a } from './types';
 import toU8a from '@polkadot/util/u8a/toU8a';
 
 import U8a from './codec/U8a';
-import U8aFixed from './codec/U8aFixed';
 
-export default class ExtrinsicEra extends U8aFixed {
+export default class ExtrinsicEra extends U8a {
   constructor (value?: AnyU8a) {
-    const decoded = ExtrinsicEra.decodeExtrinsicEra(value);
-
-    super(decoded, (decoded.length * 8) as any);
+    super(
+      ExtrinsicEra.decodeExtrinsicEra(value)
+    );
   }
 
   static decodeExtrinsicEra (value?: AnyU8a): Uint8Array {
@@ -28,5 +27,11 @@ export default class ExtrinsicEra extends U8aFixed {
     }
 
     return new Uint8Array([0]);
+  }
+
+  fromU8a (input: Uint8Array): ExtrinsicEra {
+    super.fromU8a(ExtrinsicEra.decodeExtrinsicEra(input));
+
+    return this;
   }
 }

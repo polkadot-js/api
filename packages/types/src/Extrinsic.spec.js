@@ -23,8 +23,6 @@ describe('Extrinsic', () => {
   it('decodes an actual transaction with indexes', () => {
     const extrinsic = new Extrinsic('0x8110f8e1ebdd3cdef7423d24fe68f3863945ea21c190907d7f3394ddf153f633c77b894af36f7a36e7ec767f4593bfd8d084b66d805605905054327a08ff604187080100000000000000270e0100ff0e6422725af0e9aede3bef6eba77bc87afadf60b9735057ae93801f4c472ad7b00407a10f35a00000000000000000000');
 
-    console.error('signature', extrinsic.args);
-
     expect(extrinsic.isSigned).toEqual(true);
     expect(extrinsic.signature.signer.toU8a()).toEqual(new Uint8Array([0x10]));
     expect(extrinsic.signature.signature.toHex()).toEqual('0xf8e1ebdd3cdef7423d24fe68f3863945ea21c190907d7f3394ddf153f633c77b894af36f7a36e7ec767f4593bfd8d084b66d805605905054327a08ff60418708');
