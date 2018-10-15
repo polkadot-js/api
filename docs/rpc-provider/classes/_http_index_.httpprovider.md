@@ -33,7 +33,7 @@ const api = new Api(provider);
 
 ⊕ **new HttpProvider**(endpoint?: *`string`*): [HttpProvider](_http_index_.httpprovider.md)
 
-*Defined in [http/index.ts:42](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L42)*
+*Defined in [http/index.ts:42](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L42)*
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [http/index.ts:59](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L59)*
+*Defined in [http/index.ts:59](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L59)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -67,7 +67,7 @@ ___
 
 ▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [http/index.ts:67](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L67)*
+*Defined in [http/index.ts:67](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L67)*
 
 *__summary__*: Events are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -89,7 +89,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [http/index.ts:74](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L74)*
+*Defined in [http/index.ts:74](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L74)*
 
 *__summary__*: Send HTTP POST Request with Body to configured HTTP Endpoint.
 
@@ -109,7 +109,7 @@ ___
 
 ▸ **subscribe**(types: *`string`*, method: *`string`*, params: *`Array`<`any`>*, cb: *`ProviderInterface$Callback`*): `Promise`<`number`>
 
-*Defined in [http/index.ts:96](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L96)*
+*Defined in [http/index.ts:96](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L96)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -131,7 +131,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [http/index.ts:105](https://github.com/polkadot-js/api/blob/256740e/packages/rpc-provider/src/http/index.ts#L105)*
+*Defined in [http/index.ts:105](https://github.com/polkadot-js/api/blob/8f35b76/packages/rpc-provider/src/http/index.ts#L105)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
