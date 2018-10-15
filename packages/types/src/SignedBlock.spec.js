@@ -11,12 +11,28 @@ describe('SignedBlock', () => {
   it('has the correct stateRoot', () => {
     expect(
       block.block.header.stateRoot.toString()
-    ).toEqual('0x6e4e88dc766d13c8975e7806e30cc1627e9553a2ebe59ab123f985d1c925c5ff');
+    ).toEqual('0xbfe02f7c26e5dad1226eccb1f4ef5306312602f7e1edbb9be50e8b87d9c7840b');
   });
 
   it('has the justification', () => {
     expect(
       block.justification.hash.toHex()
-    ).toEqual('0x7ac267bb86a5b674582fba9e84d3e3e9988621124c3e33358f7771224d176795');
+    ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
+  });
+
+  describe('extrinsics', () => {
+    const extrinsics = block.block.extrinsics;
+
+    it('has the correct callIndex for the first', () => {
+      const x = extrinsics.get(0);
+
+      expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
+    });
+
+    it('has the correct callIndex for the second', () => {
+      const x = extrinsics.get(1);
+
+      expect(x.callIndex).toEqual(new Uint8Array([1, 0]));
+    });
   });
 });
