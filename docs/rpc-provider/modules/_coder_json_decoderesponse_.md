@@ -8,7 +8,7 @@
 
 ▸ **decodeResponse**(self: *`RpcCoderState`*, response: *`JsonRpcResponse`*): `any`
 
-*Defined in [coder/json/decodeResponse.ts:22](https://github.com/polkadot-js/api/blob/99b9332/packages/rpc-provider/src/coder/json/decodeResponse.ts#L22)*
+*Defined in [coder/json/decodeResponse.ts:22](https://github.com/polkadot-js/api/blob/f31c35e/packages/rpc-provider/src/coder/json/decodeResponse.ts#L22)*
 
 **Parameters:**
 
