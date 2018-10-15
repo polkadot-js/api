@@ -47,7 +47,16 @@ export default class ApiQueries extends ApiBase {
   }
 
   getAccountEnumSet = (index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
-    return this.rawStorage(storage.balances.enumSet, index);
+    return this
+      .rawStorage(storage.balances.enumSet, index)
+      .pipe(
+        // @ts-ignore After upgrade to 6.3.2
+        map((accounts: Vector<AccountId> = []) =>
+          accounts.map((accountId) =>
+            accountId
+          )
+        )
+      );
   }
 
   nextAccountEnumSet = (): Observable<AccountIndex | undefined> => {
