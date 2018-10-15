@@ -34,4 +34,4 @@ async function main () {
   });
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error);

@@ -25,4 +25,4 @@ async function main () {
   }, 5000);
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error);
