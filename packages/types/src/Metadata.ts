@@ -334,10 +334,16 @@ export default class RuntimeMetadata extends Struct {
     if (isHex(value)) {
       return RuntimeMetadata.decodeMetadata(hexToU8a(value));
     } else if (isU8a(value)) {
-      // this does not look correct, metadata now has a length prefix. Strip, move on.
-      const [offset] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
+      // encoded, it does not have a length prefix. For latest substrate master, it
+      // is properly encoded. Here we pull the prefix, check it agianst the length -
+      // if matches, then we have the length, otherwise we assume it is an older node
+      // and use the whole buffer
+      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 
-      return value.subarray(offset);
+      return value.length === (offset + length.toNumber())
+        ? value.subarray(offset)
+        : value;
     }
 
     // Decode as normal struct
