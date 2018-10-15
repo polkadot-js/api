@@ -25,4 +25,4 @@
   - [Listen to blocks](examples/rx/02_listen_to_blocks/README.md)
   - [Listen to balance change](examples/rx/03_listen_to_balance_change/README.md)
   - [Read chain state](examples/rx/05_read_storage/README.md)
-  
+  - [Make a transfer](examples/rx/07_transfer_dots/README.md)
