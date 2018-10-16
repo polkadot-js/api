@@ -123,12 +123,12 @@ function addStorage (metadata: any) {
 }
 
 function metadataStorageMethodsAsText () {
-  const metadata = new Metadata().fromJSON(rpcdata);
+  const metadata = new Metadata(rpcdata);
   return addStorage(metadata);
 }
 
 function metadataExtrinsicsMethodsAsText () {
-  const metadata = new Metadata().fromJSON(rpcdata);
+  const metadata = new Metadata(rpcdata);
   return addExtrinsics(metadata);
 }
 

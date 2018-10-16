@@ -44,12 +44,9 @@ export default class Vector<
     const result = [];
 
     for (let index = 0; index < length; index++) {
-      // FIXME replace by
-      // const decoded = new Type(u8a.subarray(offset));
-      // @ts-ignore Not sure why we get "Property 'fromU8a' does not exist on type 'T'.", T extends Base in def?
-      const decoded = new Type().fromU8a(u8a.subarray(offset));
+      const decoded = new Type(u8a.subarray(offset));
 
-      result.push(decoded as T);
+      result.push(decoded);
       offset += decoded.byteLength();
     }
 

@@ -39,7 +39,7 @@ describe('Vector', () => {
 
   it('allows contruction via JSON', () => {
     expect(
-      new Vector(Text).fromJSON(['6', '7']).toString()
+      new Vector(Text, ['6', '7']).toString()
     ).toEqual('[6, 7]');
   });
 

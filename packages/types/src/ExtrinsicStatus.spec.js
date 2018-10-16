@@ -6,7 +6,7 @@ import rpc from './ExtrinsicStatus.rpc.json';
 import ExtrinsicStatus from './ExtrinsicStatus';
 
 describe('ExtrinsicStatus', () => {
-  const status = new ExtrinsicStatus().fromJSON(rpc.params.result);
+  const status = new ExtrinsicStatus(rpc.params.result);
 
   it('has the correct type', () => {
     expect(

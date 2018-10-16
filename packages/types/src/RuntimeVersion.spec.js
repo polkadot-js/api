@@ -6,7 +6,7 @@ import rpc from './RuntimeVersion.rpc.json';
 import RuntimeVersion from './RuntimeVersion';
 
 describe('RuntimeVersion', () => {
-  const version = new RuntimeVersion().fromJSON(rpc.result);
+  const version = new RuntimeVersion(rpc.result);
 
   it('has the correct authoring', () => {
     expect(version.authoringVersion.toNumber()).toEqual(1);
