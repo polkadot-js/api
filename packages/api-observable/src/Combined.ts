@@ -31,10 +31,10 @@ export default class ApiCombined extends ApiCalls {
             : new BN(0);
 
           return this.combine(
-            Array(lastIndex.div(ENUMSET_SIZE).toNumber()).map((_, i): Observable<Array<AccountId> | undefined> =>
+            Array(lastIndex.div(ENUMSET_SIZE).toNumber() + 1).map((_, i) =>
               this.getAccountEnumSet(i * ENUMSET_SIZE.toNumber())
             ),
-            (...all: Array<Array<AccountId> | undefined>) => {
+            (all: Array<Array<AccountId> | undefined> = []) => {
               return all.reduce((result, list = [], outerIndex: number) => {
                 list.forEach((accountId, innerIndex) => {
                   const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
