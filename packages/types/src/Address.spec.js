@@ -31,6 +31,12 @@ describe('Address', () => {
   );
   testDecode(
     'AccountIndex',
+    new Address('PrF3'),
+    // NOTE Adress here is encoded with 42, one abopve with 68 (as prefix)
+    'F7ih'
+  );
+  testDecode(
+    'AccountIndex',
     new AccountIndex('0x0001'),
     '25GUyk'
   );
