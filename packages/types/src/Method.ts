@@ -42,13 +42,13 @@ export default class Method extends Struct {
 
   constructor (value: any, meta?: FunctionMetadata) {
     const decoded = Method.decodeMethod(value, meta);
+
     super({
       methodIndex: MethodIndex,
       args: Struct.with(decoded.argsDef)
     }, decoded);
 
     this._meta = decoded.meta;
-
   }
 
   static decodeMethod (value: Uint8Array | string | DecodedMethod, _meta?: FunctionMetadata): DecodedMethod {
@@ -58,6 +58,7 @@ export default class Method extends Struct {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
 
+      // Find metadata with callIndex
       const meta = _meta || Method.findFunction(callIndex).meta;
 
       // Get Struct definition of the arguments
