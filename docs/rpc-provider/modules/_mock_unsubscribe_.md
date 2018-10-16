@@ -8,7 +8,7 @@
 
 ▸ **unsubscribe**(self: *`MockState`*, type: *`string`*, name: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [mock/unsubscribe.ts:7](https://github.com/polkadot-js/api/blob/7d303a9/packages/rpc-provider/src/mock/unsubscribe.ts#L7)*
+*Defined in [mock/unsubscribe.ts:7](https://github.com/polkadot-js/api/blob/4ff2b2d/packages/rpc-provider/src/mock/unsubscribe.ts#L7)*
 
 **Parameters:**
 
