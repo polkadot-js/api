@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import decodeAddress from '@polkadot/keyring/address/decode';
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
@@ -10,7 +11,6 @@ import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
-import { AnyU8a } from './types';
 import Base from './codec/Base';
 
 const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
@@ -21,13 +21,13 @@ const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends Base<AccountId | AccountIndex> {
-  constructor (value: Address | AccountId | AccountIndex | AnyU8a = new Uint8Array()) {
+  constructor (value: Address | AccountId | AccountIndex | Uint8Array | string = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
     );
   }
 
-  static decodeAddress (value: Address | AccountId | AccountIndex | AnyU8a): AccountId | AccountIndex {
+  static decodeAddress (value: Address | AccountId | AccountIndex | Uint8Array | string): AccountId | AccountIndex {
     if (value instanceof Address) {
       return value.raw;
     } else if (value instanceof AccountId || value instanceof AccountIndex) {
@@ -47,9 +47,18 @@ export default class Address extends Base<AccountId | AccountIndex> {
         : new AccountIndex(value);
     }
 
-    // FIXME This is an issue. If AccountIndex is encoded with ss-58, it will not
-    // have the correct length. We need encoders/decoders for ss-58 AccountIndex
-    return new AccountId(value);
+    const decoded = decodeAddress(value);
+
+    // NOTE For AccountIndex this is really not the most efficient, however in the case
+    // of u8a it expects the index to be in frony of the data. So, please it and add it.
+    return decoded.length === 32
+      ? new AccountId(decoded)
+      : new AccountIndex(
+        u8aConcat(
+          AccountIndex.writeLength(decoded),
+          decoded
+        )
+      );
   }
 
   byteLength (): number {
