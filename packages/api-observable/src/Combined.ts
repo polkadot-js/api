@@ -5,10 +5,12 @@
 import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, from } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
+import decodeAddress from '@polkadot/keyring/address/decode';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
+import assert from '@polkadot/util/assert';
 import isString from '@polkadot/util/is/string';
 
 import ApiCalls from './Calls';
@@ -18,8 +20,8 @@ import { RxProposal, RxReferendum } from './classes';
 // useful extensions, i.e. queries can be made that returns the results from multiple observables,
 // make the noise for the API users significantly less
 export default class ApiCombined extends ApiCalls {
-  // Creates a mapping of AccountId (encoded) => AccountIndex (encoded)
-  accountIndexes = (): Observable<{ [index: string]: string }> => {
+  // Creates a mapping of AccountId (encoded) => AccountIndex
+  accountIndexes = (): Observable<{ [index: string]: AccountIndex }> => {
     return this
       .nextAccountEnumSet()
       .pipe(
@@ -37,16 +39,11 @@ export default class ApiCombined extends ApiCalls {
                 list.forEach((accountId, innerIndex) => {
                   const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
 
-                  // FIXME This is not even remotely correct, here we basically only cater
-                  // for the first 0xfd indexes, short just to get things going....
-                  // AccountIndex should allow number as a constructor input
-                  result[accountId.toString()] = new AccountIndex(
-                    new Uint8Array([index])
-                  ).toString();
+                  result[accountId.toString()] = new AccountIndex(index);
                 });
 
                 return result;
-              }, {} as { [index: string]: string });
+              }, {} as { [index: string]: AccountIndex });
             }
           );
         })
@@ -54,7 +51,11 @@ export default class ApiCombined extends ApiCalls {
   }
 
   // lookup accountId from index
-  accountIdFromIndex = (accountIndex: AccountIndex): Observable<AccountId | undefined> => {
+  accountIdFromIndex = (_accountIndex: AccountIndex | string): Observable<AccountId | undefined> => {
+    const accountIndex = _accountIndex instanceof AccountIndex
+      ? _accountIndex
+      : new AccountIndex(_accountIndex);
+
     return this
       .getAccountEnumSet(accountIndex)
       .pipe(
@@ -62,6 +63,54 @@ export default class ApiCombined extends ApiCalls {
           accounts[accountIndex.toBn().mod(ENUMSET_SIZE).toNumber()]
         )
       );
+  }
+
+  // lookup accountIndex from accountId
+  accountIndexFromId = (accountId: AccountId | string): Observable<AccountIndex | undefined> => {
+    return this
+      .accountIndexes()
+      .pipe(
+        map((mapping: { [index: string]: AccountIndex } = {}): AccountIndex | undefined =>
+          mapping[accountId.toString()]
+        )
+      );
+  }
+
+  // lookup accountId & accountIndex from value
+  accountIdAndIndex = (address?: AccountId | AccountIndex | string | null): Observable<[AccountId | undefined, AccountIndex | undefined]> => {
+    try {
+      // yes, this can fail, don't care too much, catch will catch it
+      const length = decodeAddress((address as any).toString()).length;
+
+      assert([1, 2, 4, 8, 32].indexOf(length) !== -1, `Invalid length for decoded address, found ${length}`);
+
+      if (length === 32) {
+        const accountId = new AccountId(address as string);
+
+        return this
+          .accountIndexFromId(accountId)
+          .pipe(
+            map((accountIndex?: AccountIndex): [AccountId, AccountIndex | undefined] =>
+              [accountId, accountIndex]
+            )
+          );
+      }
+
+      const accountIndex = new AccountIndex(address as string);
+
+      return this
+        .accountIdFromIndex(accountIndex)
+        .pipe(
+          map((accountId?: AccountId): [AccountId | undefined, AccountIndex] =>
+          [accountId, accountIndex]
+        )
+      );
+    } catch (error) {
+      // swallow
+    }
+
+    // just return empties
+    return from([]);
   }
 
   publicProposalCount = (): Observable<number> => {
