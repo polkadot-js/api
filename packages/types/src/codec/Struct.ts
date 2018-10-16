@@ -51,8 +51,6 @@ export default class Struct<
 
     if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
-    } else if (Array.isArray(value)) {
-      return Struct.decodeStruct(Types, toU8a(value), jsonMap);
     } else if (!value) {
       return {} as T;
     }
@@ -63,7 +61,7 @@ export default class Struct<
 
     return Object
       .keys(Types)
-      .reduce((raw: T, key) => {
+      .reduce((raw: T, key, index) => {
         // The key in the JSON can be snake_case (or other cases), but in our
         // Types, result or any other maps, it's camelCase
         const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
@@ -83,6 +81,12 @@ export default class Struct<
         } else if (value[jsonKey] instanceof Types[key]) {
           // @ts-ignore FIXME See below
           raw[key] = value[jsonKey];
+        } else if (Array.isArray(value) && value.length === Object.keys(Types).length) {
+          // @ts-ignore FIXME See below
+          raw[key] = new Types[key](
+            // @ts-ignore FIXME
+            value[index]
+          );
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
