@@ -29,15 +29,17 @@ export default class ApiCombined extends ApiCalls {
           const lastIndex = nextEnum
             ? nextEnum.toBn()
             : new BN(0);
+          const setSize = ENUMSET_SIZE.toNumber();
+          const enumRange = [...Array(lastIndex.div(ENUMSET_SIZE).toNumber() + 1).keys()];
 
           return this.combine(
-            Array(lastIndex.div(ENUMSET_SIZE).toNumber() + 1).map((_, i) =>
-              this.getAccountEnumSet(i * ENUMSET_SIZE.toNumber())
+            enumRange.map((index) =>
+              this.getAccountEnumSet(1 + (index * setSize))
             ),
             (all: Array<Array<AccountId> | undefined> = []) => {
               return all.reduce((result, list = [], outerIndex: number) => {
                 list.forEach((accountId, innerIndex) => {
-                  const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
+                  const index = (outerIndex * setSize) + innerIndex;
 
                   result[accountId.toString()] = new AccountIndex(index);
                 });
