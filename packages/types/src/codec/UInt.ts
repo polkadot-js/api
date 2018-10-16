@@ -32,21 +32,21 @@ export default class UInt extends Base<BN> {
 
   constructor (value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
-      UInt.decodeUInt(value)
+      UInt.decodeUInt(value, bitLength)
     );
 
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
   }
 
-  static decodeUInt (value: AnyNumber): BN {
+  static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): BN {
     if (value instanceof UInt) {
       return value.raw;
     } else if (isHex(value)) {
       return hexToBn(value as string);
     } else if (isU8a(value)) {
       // NOTE When passing u8a in (typically from decoded data), it is always u8a
-      return u8aToBn(value, true);
+      return u8aToBn(value.subarray(0, bitLength / 8), true);
     } else if (isString(value)) {
       return new BN(value, 10);
     }
@@ -59,15 +59,13 @@ export default class UInt extends Base<BN> {
   }
 
   fromJSON (input: any): UInt {
-    this.raw = UInt.decodeUInt(input);
+    this.raw = UInt.decodeUInt(input, this._bitLength);
 
     return this;
   }
 
   fromU8a (input: Uint8Array): UInt {
-    this.raw = u8aToBn(input.subarray(0, this.byteLength()), true);
-
-    return this;
+    return this.fromJSON(input);
   }
 
   toHex (): string {

@@ -1219,13 +1219,13 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
-"@polkadot/keyring@^0.31.5":
-  version "0.31.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.31.5.tgz#f97678e7f0f6ba90be2a06a295fc1caea892033e"
+"@polkadot/keyring@^0.31.6":
+  version "0.31.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.31.6.tgz#1152dd5f7044e5cb9436cd99f002b1eb055a7398"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.31.5"
-    "@polkadot/util-crypto" "^0.31.5"
+    "@polkadot/util" "^0.31.6"
+    "@polkadot/util-crypto" "^0.31.6"
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
@@ -1233,12 +1233,12 @@
   version "0.1.30"
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.30.tgz#d6d1498a5597e09de88f6117663bcf842040c801"
 
-"@polkadot/util-crypto@^0.31.5":
-  version "0.31.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.31.5.tgz#5f5d922563be01161af159aa002bfea2c3e13711"
+"@polkadot/util-crypto@^0.31.6":
+  version "0.31.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.31.6.tgz#1f5dc22b1358023b57e96f8caceba952654a3a88"
   dependencies:
     "@babel/runtime" "^7.0.0"
-    "@polkadot/util" "^0.31.5"
+    "@polkadot/util" "^0.31.6"
     "@types/bip39" "^2.4.0"
     bip39 "^2.5.0"
     blakejs "^1.1.0"
@@ -1246,9 +1246,9 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.31.5":
-  version "0.31.5"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.31.5.tgz#27fa4611ebc2b22cbe3d59652a26692ac8761b0a"
+"@polkadot/util@^0.31.6":
+  version "0.31.6"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.31.6.tgz#d22fd6729a4c14e624083404ce75335f7cbdfddd"
   dependencies:
     "@babel/runtime" "^7.0.0"
     "@types/bn.js" "^4.11.1"

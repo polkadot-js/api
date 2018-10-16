@@ -1,3 +1,3 @@
-# @polkadot/api
+# @polkadot/api-observable
 
-An Observable wrapper around [@polkadot/rpc-core](../rpc-core).
+A combination Observable wrapper around [@polkadot/rpc-rx](packages/rpc-rx), including both [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) and [Storage methods](https://polkadot.js.org/api/METHODS_STORAGE.html)

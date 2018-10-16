@@ -1,37 +1,35 @@
-## Storage
+## <a id='top' style='text-decoration: none;'>Storage
 
-_The following Storage methods are part of the default Substrate runtime._
-___
-### system
+_The following sections contain Storage methods are part of the default Substrate runtime._
+- **[balances](#balances)**
 
-▸ **accountNonce**(`AccountId`): `Index`
+- **[consensus](#consensus)**
 
-▸ **extrinsicCount**(): `u32`
+- **[contract](#contract)**
 
-▸ **blockHash**(`BlockNumber`): `Hash`
+- **[council](#council)**
 
-▸ **extrinsicData**(`u32`): `Bytes`
+- **[councilMotions](#councilMotions)**
 
-▸ **randomSeed**(): `Hash`
+- **[councilVoting](#councilVoting)**
 
-▸ **number**(): `BlockNumber`
-- **summary**:   The current block number being processed. Set by `execute_block`.
+- **[democracy](#democracy)**
 
-▸ **parentHash**(): `Hash`
+- **[session](#session)**
 
-▸ **extrinsicsRoot**(): `Hash`
+- **[staking](#staking)**
 
-▸ **digest**(): `Digest`
+- **[system](#system)**
 
-▸ **events**(): `Vec<EventRecord>`
+- **[timestamp](#timestamp)**
 
-___
-### consensus
+- **[treasury](#treasury)**
 
-▸ **originalAuthorities**(): `Vec<SessionKey>`
 
 ___
-### balances
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='balances'></a>balances
 
 ▸ **totalIssuance**(): `Balance`
 - **summary**:   The total amount of stake on the system.
@@ -67,19 +65,154 @@ ___
 - **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ___
-### timestamp
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **now**(): `Moment`
-- **summary**:   Current time for the current block.
+### <a id='consensus'></a>consensus
 
-▸ **blockPeriod**(): `Moment`
-- **summary**:   The minimum (and advised) period between blocks.
-
-▸ **didUpdate**(): `bool`
-- **summary**:   Did the timestamp get updated in this block?
+▸ **originalAuthorities**(): `Vec<SessionKey>`
 
 ___
-### session
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='council'></a>council
+
+▸ **candidacyBond**(): `Balance`
+- **summary**:   How much should be locked up in order to submit one's candidacy.
+
+▸ **votingBond**(): `Balance`
+- **summary**:   How much should be locked up in order to be able to submit votes.
+
+▸ **presentSlashPerVoter**(): `Balance`
+- **summary**:   The punishment, per voter, if you provide an invalid presentation.
+
+▸ **carryCount**(): `u32`
+- **summary**:   How many runners-up should have their approvals persist until the next vote.
+
+▸ **presentationDuration**(): `BlockNumber`
+- **summary**:   How long to give each top candidate to present themselves after the vote ends.
+
+▸ **inactiveGracePeriod**(): `VoteIndex`
+- **summary**:   How many votes need to go by after a voter's last vote before they can be reaped if their  approvals are moot.
+
+▸ **votingPeriod**(): `BlockNumber`
+- **summary**:   How often (in blocks) to check for new votes.
+
+▸ **termDuration**(): `BlockNumber`
+- **summary**:   How long each position is active for.
+
+▸ **desiredSeats**(): `u32`
+- **summary**:   Number of accounts that should be sitting on the council.
+
+▸ **activeCouncil**(): `Vec<(AccountId, BlockNumber)>`
+- **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters.
+
+▸ **voteCount**(): `VoteIndex`
+- **summary**:   The total number of votes that have happened or are in progress.
+
+▸ **approvalsOf**(`AccountId`): `Vec<bool>`
+- **summary**:   The last cleared vote index that this voter was last active at.
+
+▸ **registerInfoOf**(`AccountId`): `(VoteIndex, u32)`
+- **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
+
+▸ **lastActiveOf**(`AccountId`): `VoteIndex`
+- **summary**:   The last cleared vote index that this voter was last active at.
+
+▸ **voters**(): `Vec<AccountId>`
+- **summary**:   The present voter list.
+
+▸ **candidates**(): `Vec<AccountId>`
+- **summary**:   The present candidate list.
+
+▸ **candidateCount**(): `u32`
+
+▸ **nextFinalise**(): `(BlockNumber, u32, Vec<AccountId>)`
+- **summary**:   The accounts holding the seats that will become free on the next tally.
+
+▸ **snapshotedStakes**(): `Vec<Balance>`
+- **summary**:   The stakes as they were at the point that the vote ended.
+
+▸ **leaderboard**(): `Vec<(Balance, AccountId)>`
+- **summary**:   Get the leaderboard if we;re in the presentation phase.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='councilMotions'></a>councilMotions
+
+▸ **proposals**(): `Vec<Hash>`
+- **summary**:   The (hashes of) the active proposals.
+
+▸ **proposalOf**(`Hash`): `Proposal`
+- **summary**:   Actual proposal for a given hash, if it's current.
+
+▸ **voting**(`Hash`): `(ProposalIndex, u32, Vec<AccountId>, Vec<AccountId>)`
+- **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
+
+▸ **proposalCount**(): `u32`
+- **summary**:   Proposals so far.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='councilVoting'></a>councilVoting
+
+▸ **cooloffPeriod**(): `BlockNumber`
+
+▸ **votingPeriod**(): `BlockNumber`
+
+▸ **proposals**(): `Vec<(BlockNumber, Hash)>`
+
+▸ **proposalOf**(`Hash`): `Proposal`
+
+▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
+
+▸ **councilVoteOf**(`(Hash, AccountId)`): `bool`
+
+▸ **vetoedProposal**(`Hash`): `(BlockNumber, Vec<AccountId>)`
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='democracy'></a>democracy
+
+▸ **publicPropCount**(): `PropIndex`
+- **summary**:   The number of (public) proposals that have been made so far.
+
+▸ **publicProps**(): `Vec<(PropIndex, Proposal, AccountId)>`
+- **summary**:   The public proposals. Unsorted.
+
+▸ **depositOf**(`PropIndex`): `(Balance, Vec<AccountId>)`
+- **summary**:   Those who have locked a deposit.
+
+▸ **launchPeriod**(): `BlockNumber`
+- **summary**:   How often (in blocks) new public referenda are launched.
+
+▸ **minimumDeposit**(): `Balance`
+- **summary**:   The minimum amount to be used as a deposit for a public referendum proposal.
+
+▸ **votingPeriod**(): `BlockNumber`
+- **summary**:   How often (in blocks) to check for new votes.
+
+▸ **referendumCount**(): `ReferendumIndex`
+- **summary**:   The next free referendum index, aka the number of referendums started so far.
+
+▸ **nextTally**(): `ReferendumIndex`
+- **summary**:   The next referendum index that should be tallied.
+
+▸ **referendumInfoOf**(`ReferendumIndex`): `(BlockNumber, Proposal, VoteThreshold)`
+- **summary**:   Information concerning any given referendum.
+
+▸ **votersFor**(`ReferendumIndex`): `Vec<AccountId>`
+- **summary**:   Get the voters for the current proposal.
+
+▸ **voteOf**(`(ReferendumIndex, AccountId)`): `bool`
+- **summary**:   Get the vote, if Some, of `who`.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='session'></a>session
 
 ▸ **validators**(): `Vec<AccountId>`
 - **summary**:   The current set of validators.
@@ -106,7 +239,9 @@ ___
 - **summary**:   The next session length.
 
 ___
-### staking
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='staking'></a>staking
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
@@ -172,137 +307,49 @@ ___
 - **summary**:   We are forcing a new era.
 
 ___
-### democracy
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **publicPropCount**(): `PropIndex`
-- **summary**:   The number of (public) proposals that have been made so far.
+### <a id='system'></a>system
 
-▸ **publicProps**(): `Vec<(PropIndex, Proposal, AccountId)>`
-- **summary**:   The public proposals. Unsorted.
+▸ **accountNonce**(`AccountId`): `Index`
 
-▸ **depositOf**(`PropIndex`): `(Balance, Vec<AccountId>)`
-- **summary**:   Those who have locked a deposit.
+▸ **extrinsicCount**(): `u32`
 
-▸ **launchPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) new public referenda are launched.
+▸ **blockHash**(`BlockNumber`): `Hash`
 
-▸ **minimumDeposit**(): `Balance`
-- **summary**:   The minimum amount to be used as a deposit for a public referendum proposal.
+▸ **extrinsicData**(`u32`): `Bytes`
 
-▸ **votingPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) to check for new votes.
+▸ **randomSeed**(): `Hash`
 
-▸ **referendumCount**(): `ReferendumIndex`
-- **summary**:   The next free referendum index, aka the number of referendums started so far.
+▸ **number**(): `BlockNumber`
+- **summary**:   The current block number being processed. Set by `execute_block`.
 
-▸ **nextTally**(): `ReferendumIndex`
-- **summary**:   The next referendum index that should be tallied.
+▸ **parentHash**(): `Hash`
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `(BlockNumber, Proposal, VoteThreshold)`
-- **summary**:   Information concerning any given referendum.
+▸ **extrinsicsRoot**(): `Hash`
 
-▸ **votersFor**(`ReferendumIndex`): `Vec<AccountId>`
-- **summary**:   Get the voters for the current proposal.
+▸ **digest**(): `Digest`
 
-▸ **voteOf**(`(ReferendumIndex, AccountId)`): `bool`
-- **summary**:   Get the vote, if Some, of `who`.
+▸ **events**(): `Vec<EventRecord>`
 
 ___
-### council
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **candidacyBond**(): `Balance`
-- **summary**:   How much should be locked up in order to submit one's candidacy.
+### <a id='timestamp'></a>timestamp
 
-▸ **votingBond**(): `Balance`
-- **summary**:   How much should be locked up in order to be able to submit votes.
+▸ **now**(): `Moment`
+- **summary**:   Current time for the current block.
 
-▸ **presentSlashPerVoter**(): `Balance`
-- **summary**:   The punishment, per voter, if you provide an invalid presentation.
+▸ **blockPeriod**(): `Moment`
+- **summary**:   The minimum (and advised) period between blocks.
 
-▸ **carryCount**(): `u32`
-- **summary**:   How many runners-up should have their approvals persist until the next vote.
-
-▸ **presentationDuration**(): `BlockNumber`
-- **summary**:   How long to give each top candidate to present themselves after the vote ends.
-
-▸ **inactiveGracePeriod**(): `VoteIndex`
-- **summary**:   How many votes need to go by after a voter's last vote before they can be reaped if their  approvals are moot.
-
-▸ **votingPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) to check for new votes.
-
-▸ **termDuration**(): `BlockNumber`
-- **summary**:   How long each position is active for.
-
-▸ **desiredSeats**(): `u32`
-- **summary**:   Number of accounts that should be sitting on the council.
-
-▸ **activeCouncil**(): `Vec<(AccountId, BlockNumber)>`
-- **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters.
-
-▸ **voteCount**(): `VoteIndex`
-- **summary**:   The total number of votes that have happened or are in progress.
-
-▸ **approvalsOf**(`AccountId`): `Vec<bool>`
-- **summary**:   The last cleared vote index that this voter was last active at.
-
-▸ **registerInfoOf**(`AccountId`): `(VoteIndex, u32)`
-- **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
-
-▸ **lastActiveOf**(`AccountId`): `VoteIndex`
-- **summary**:   The last cleared vote index that this voter was last active at.
-
-▸ **voters**(): `Vec<AccountId>`
-- **summary**:   The present voter list.
-
-▸ **candidates**(): `Vec<AccountId>`
-- **summary**:   The present candidate list.
-
-▸ **candidateCount**(): `u32`
-
-▸ **nextFinalise**(): `(BlockNumber, u32, Vec<AccountId>)`
-- **summary**:   The accounts holding the seats that will become free on the next tally.
-
-▸ **snapshotedStakes**(): `Vec<Balance>`
-- **summary**:   The stakes as they were at the point that the vote ended.
-
-▸ **leaderboard**(): `Vec<(Balance, AccountId)>`
-- **summary**:   Get the leaderboard if we;re in the presentation phase.
+▸ **didUpdate**(): `bool`
+- **summary**:   Did the timestamp get updated in this block?
 
 ___
-### councilVoting
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **cooloffPeriod**(): `BlockNumber`
-
-▸ **votingPeriod**(): `BlockNumber`
-
-▸ **proposals**(): `Vec<(BlockNumber, Hash)>`
-
-▸ **proposalOf**(`Hash`): `Proposal`
-
-▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
-
-▸ **councilVoteOf**(`(Hash, AccountId)`): `bool`
-
-▸ **vetoedProposal**(`Hash`): `(BlockNumber, Vec<AccountId>)`
-
-___
-### councilMotions
-
-▸ **proposals**(): `Vec<Hash>`
-- **summary**:   The (hashes of) the active proposals.
-
-▸ **proposalOf**(`Hash`): `Proposal`
-- **summary**:   Actual proposal for a given hash, if it's current.
-
-▸ **voting**(`Hash`): `(ProposalIndex, u32, Vec<AccountId>, Vec<AccountId>)`
-- **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
-
-▸ **proposalCount**(): `u32`
-- **summary**:   Proposals so far.
-
-___
-### treasury
+### <a id='treasury'></a>treasury
 
 ▸ **proposalBond**(): `Permill`
 - **summary**:   Proportion of funds that should be bonded in order to place a proposal. An accepted  proposal gets these back. A rejected proposal doesn't.

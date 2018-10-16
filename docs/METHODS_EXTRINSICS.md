@@ -1,8 +1,44 @@
-## Extrinsics
+## <a id='top' style='text-decoration: none;'>Extrinsics
 
-_The following Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._
+_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._
+- **[balances](#balances)**
+
+- **[consensus](#consensus)**
+
+- **[contract](#contract)**
+
+- **[council](#council)**
+
+- **[councilMotions](#councilMotions)**
+
+- **[councilVoting](#councilVoting)**
+
+- **[democracy](#democracy)**
+
+- **[session](#session)**
+
+- **[staking](#staking)**
+
+- **[system](#system)**
+
+- **[timestamp](#timestamp)**
+
+- **[treasury](#treasury)**
+
+
 ___
-### consensus
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='balances'></a>balances
+
+▸ **transfer**(dest: `Address`, value: `Balance`)
+
+▸ **setBalance**(who: `Address`, free: `Balance`, reserved: `Balance`)
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='consensus'></a>consensus
 
 ▸ **reportMisbehavior**(report: `MisbehaviorReport`)
 
@@ -15,19 +51,80 @@ ___
 ▸ **setStorage**(items: `Vec<KeyValue>`)
 
 ___
-### balances
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **transfer**(dest: `Address`, value: `Balance`)
+### <a id='contract'></a>contract
 
-▸ **setBalance**(who: `Address`, free: `Balance`, reserved: `Balance`)
+▸ **call**(dest: `AccountId`, value: `Balance`, gas_limit: `Gas`, data: `Bytes`)
 
-___
-### timestamp
-
-▸ **set**(now: `Moment`)
+▸ **create**(value: `Balance`, gas_limit: `Gas`, init_code: `Bytes`, data: `Bytes`)
 
 ___
-### session
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='council'></a>council
+
+▸ **setApprovals**(votes: `Vec<bool>`, index: `VoteIndex`)
+
+▸ **reapInactiveVoter**(reporter_index: `u32`, who: `Address`, who_index: `u32`, assumed_vote_index: `VoteIndex`)
+
+▸ **retractVoter**(index: `u32`)
+
+▸ **submitCandidacy**(slot: `u32`)
+
+▸ **presentWinner**(candidate: `Address`, total: `Balance`, index: `VoteIndex`)
+
+▸ **setDesiredSeats**(count: `u32`)
+
+▸ **removeMember**(who: `Address`)
+
+▸ **setPresentationDuration**(count: `BlockNumber`)
+
+▸ **setTermDuration**(count: `BlockNumber`)
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='councilMotions'></a>councilMotions
+
+▸ **propose**(threshold: `u32`, proposal: `Proposal`)
+
+▸ **vote**(proposal: `Hash`, index: `ProposalIndex`, approve: `bool`)
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='councilVoting'></a>councilVoting
+
+▸ **propose**(proposal: `Proposal`)
+
+▸ **vote**(proposal: `Hash`, approve: `bool`)
+
+▸ **veto**(proposal_hash: `Hash`)
+
+▸ **setCooloffPeriod**(blocks: `BlockNumber`)
+
+▸ **setVotingPeriod**(blocks: `BlockNumber`)
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='democracy'></a>democracy
+
+▸ **propose**(proposal: `Proposal`, value: `Balance`)
+
+▸ **second**(proposal: `PropIndex`)
+
+▸ **vote**(ref_index: `ReferendumIndex`, approve_proposal: `bool`)
+
+▸ **startReferendum**(proposal: `Proposal`, vote_threshold: `VoteThreshold`)
+
+▸ **cancelReferendum**(ref_index: `ReferendumIndex`)
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='session'></a>session
 
 ▸ **setKey**(key: `SessionKey`)
 
@@ -36,7 +133,9 @@ ___
 ▸ **forceNewSession**(apply_rewards: `bool`)
 
 ___
-### staking
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='staking'></a>staking
 
 ▸ **stake**()
 
@@ -59,61 +158,16 @@ ___
 ▸ **setOfflineSlashGrace**(new: `u32`)
 
 ___
-### democracy
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **propose**(proposal: `Proposal`, value: `Balance`)
+### <a id='timestamp'></a>timestamp
 
-▸ **second**(proposal: `PropIndex`)
-
-▸ **vote**(ref_index: `ReferendumIndex`, approve_proposal: `bool`)
-
-▸ **startReferendum**(proposal: `Proposal`, vote_threshold: `VoteThreshold`)
-
-▸ **cancelReferendum**(ref_index: `ReferendumIndex`)
+▸ **set**(now: `Moment`)
 
 ___
-### council
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-▸ **setApprovals**(votes: `Vec<bool>`, index: `VoteIndex`)
-
-▸ **reapInactiveVoter**(reporter_index: `u32`, who: `Address`, who_index: `u32`, assumed_vote_index: `VoteIndex`)
-
-▸ **retractVoter**(index: `u32`)
-
-▸ **submitCandidacy**(slot: `u32`)
-
-▸ **presentWinner**(candidate: `Address`, total: `Balance`, index: `VoteIndex`)
-
-▸ **setDesiredSeats**(count: `u32`)
-
-▸ **removeMember**(who: `Address`)
-
-▸ **setPresentationDuration**(count: `BlockNumber`)
-
-▸ **setTermDuration**(count: `BlockNumber`)
-
-___
-### councilVoting
-
-▸ **propose**(proposal: `Proposal`)
-
-▸ **vote**(proposal: `Hash`, approve: `bool`)
-
-▸ **veto**(proposal_hash: `Hash`)
-
-▸ **setCooloffPeriod**(blocks: `BlockNumber`)
-
-▸ **setVotingPeriod**(blocks: `BlockNumber`)
-
-___
-### councilMotions
-
-▸ **propose**(threshold: `u32`, proposal: `Proposal`)
-
-▸ **vote**(proposal: `Hash`, index: `ProposalIndex`, approve: `bool`)
-
-___
-### treasury
+### <a id='treasury'></a>treasury
 
 ▸ **proposeSpend**(value: `Balance`, beneficiary: `AccountId`)
 
@@ -124,10 +178,3 @@ ___
 ▸ **rejectProposal**(roposal_id: `ProposalIndex`)
 
 ▸ **approveProposal**(proposal_id: `ProposalIndex`)
-
-___
-### contract
-
-▸ **call**(dest: `AccountId`, value: `Balance`, gas_limit: `Gas`, data: `Bytes`)
-
-▸ **create**(value: `Balance`, gas_limit: `Gas`, init_code: `Bytes`, data: `Bytes`)

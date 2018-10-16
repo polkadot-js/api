@@ -18,9 +18,10 @@ This library provides a clean wrapper around all the methods exposed by a Polkad
 The API is split up into a number of internal packages -
 
 - [@polkadot/api](packages/api/) The API library, providing both Promise and RxJS Observable-based interfaces
-- [@polkadot/api-observable](packages/api-observable/) A combination Observable wrapper around [@polkadot/api/rx](packages/api/rs)
-- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all methods exposed by a Polkadot network client
+- [@polkadot/api-observable](packages/api-observable/) A combination Observable wrapper around [@polkadot/rpc-rx](packages/rpc-rx), including both [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) and [Storage methods](https://polkadot.js.org/api/METHODS_STORAGE.html)
+- [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) exposed by a Polkadot network client
 - [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting to nodes, including WebSockets and Http
+- [@polkadot/rpc-rx](packages/rpc-rx/) A RxJs Observable wrapper around [@polkadot/rpc-provider](packages/rpc-provider)
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 

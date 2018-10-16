@@ -8,7 +8,7 @@ import json from '@polkadot/types/Metadata.rpc';
 import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata().fromJSON(json);
+const metadata = new Metadata(json);
 const newStorage = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
