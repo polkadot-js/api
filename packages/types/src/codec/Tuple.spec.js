@@ -38,6 +38,25 @@ describe('Tuple', () => {
       a: Text,
       b: U32,
       c: Text
+    }))([
+      'bazzing', 32
+    ]);
+
+    expect(
+      test.toJSON()
+    ).toEqual([
+      'bazzing',
+      32,
+      ''
+    ]);
+  });
+
+  // FIXME Remove fromJSON
+  it('fromJSON still works', () => {
+    const test = new (Tuple.with({
+      a: Text,
+      b: U32,
+      c: Text
     }))();
 
     expect(

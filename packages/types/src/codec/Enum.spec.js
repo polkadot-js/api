@@ -44,13 +44,13 @@ describe('Enum', () => {
 
   it('converts to and from U8a', () => {
     expect(
-      new Enum(['foo', 'bar']).fromU8a(new Uint8Array([1])).toU8a()
+      new Enum(['foo', 'bar'], new Uint8Array([1])).toU8a()
     ).toEqual(new Uint8Array([1]));
   });
 
   it('converts from JSON', () => {
     expect(
-      new Enum(['foo', 'bar']).fromJSON(5).toString()
+      new Enum(['foo', 'bar'], 5).toString()
     ).toEqual('5');
   });
 });

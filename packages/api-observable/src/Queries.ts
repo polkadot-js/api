@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
-import { AccountId, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
 import { Tuple, Vector } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
@@ -44,6 +44,23 @@ export default class ApiQueries extends ApiBase {
 
   democracyNextTally = (): Observable<ReferendumIndex | undefined> => {
     return this.rawStorage(storage.democracy.nextTally);
+  }
+
+  getAccountEnumSet = (index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
+    return this
+      .rawStorage(storage.balances.enumSet, index)
+      .pipe(
+        // @ts-ignore After upgrade to 6.3.2
+        map((accounts: Vector<AccountId> = []) =>
+          accounts.map((accountId) =>
+            accountId
+          )
+        )
+      );
+  }
+
+  nextAccountEnumSet = (): Observable<AccountIndex | undefined> => {
+    return this.rawStorage(storage.balances.nextEnumSet);
   }
 
   proposalDeposits = (proposalId: PropIndex | BN | number): Observable<RxProposalDeposits | undefined> => {

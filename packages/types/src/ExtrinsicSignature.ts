@@ -7,6 +7,7 @@ import { AnyNumber, AnyU8a } from './types';
 
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
+import u8aToU8a from '@polkadot/util/u8a/toU8a';
 
 import Struct from './codec/Struct';
 import Address from './Address';
@@ -33,7 +34,7 @@ const BIT_VERSION = 0b0000001;
 //   1/3/5/9/33 bytes: The signing account identity, in Address format
 //   64 bytes: The Ed25519 signature of the Signing Payload
 //   8 bytes: The Transaction Index of the signing account
-//   2 bytes: The Transaction Era
+//   1/2 bytes: The Transaction Era
 export default class ExtrinsicSignature extends Struct {
   constructor (value?: ExtrinsicSignatureValue) {
     super({
@@ -119,6 +120,10 @@ export default class ExtrinsicSignature extends Struct {
     this.raw.signature = signature;
 
     return this;
+  }
+
+  fromJSON (input: any) {
+    return this.fromU8a(u8aToU8a(input));
   }
 
   fromU8a (input: Uint8Array): ExtrinsicSignature {

@@ -8,7 +8,7 @@ import json from '@polkadot/types/Metadata.rpc';
 import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata().fromJSON(json);
+const metadata = new Metadata(json);
 const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
@@ -20,7 +20,7 @@ describe('fromMetadata', () => {
     expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s', 2, 3)).not.toThrow();
   });
 
-  it('should return properly-encodec trsnactions', () => {
+  it('should return properly-encoded transactions', () => {
     expect(newExtrinsics.timestamp.set([10101]).toU8a()).toEqual(
       new Uint8Array([
         // length (encoded)

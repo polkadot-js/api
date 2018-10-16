@@ -380,10 +380,21 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="json-rpc">JSON-RPC</h2>
-<p><em>The following RPC methods are the Remote Calls that are available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime.</em></p>
+                                <h2 id="json-rpc"><a id="top" style="text-decoration: none;">JSON-RPC</a></h2>
+<p><em>The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime.</em></p>
+<ul>
+<li><p><strong><a href="#author">author</a></strong></p>
+</li>
+<li><p><strong><a href="#chain">chain</a></strong></p>
+</li>
+<li><p><strong><a href="#state">state</a></strong></p>
+</li>
+<li><p><strong><a href="#system">system</a></strong></p>
+</li>
+</ul>
 <hr>
-<h3 id="author">author</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="author"><a id="author"></a>author</h3>
 <p><em>Authoring of network items</em></p>
 <p>&#x25B8; <strong>pendingExtrinsics</strong>(): <code>PendingExtrinsics</code></p>
 <ul>
@@ -398,7 +409,8 @@
 <li><strong>summary</strong>: Subscribe and watch an extrinsic until unsubscribed</li>
 </ul>
 <hr>
-<h3 id="chain">chain</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="chain"><a id="chain"></a>chain</h3>
 <p><em>Retrieval of chain data</em></p>
 <p>&#x25B8; <strong>getBlock</strong>(hash?: <code>Hash</code>): <code>SignedBlock</code></p>
 <ul>
@@ -425,7 +437,8 @@
 <li><strong>summary</strong>: Retrieves the best header via subscription</li>
 </ul>
 <hr>
-<h3 id="state">state</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="state"><a id="state"></a>state</h3>
 <p><em>Query of state</em></p>
 <p>&#x25B8; <strong>call</strong>(method: <code>Text</code>, data: <code>Bytes</code>): <code>Bytes</code></p>
 <ul>
@@ -472,7 +485,8 @@
 <li><strong>summary</strong>: Subscribes to storage changes for the provided keys</li>
 </ul>
 <hr>
-<h3 id="system">system</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="system"><a id="system"></a>system</h3>
 <p><em>Methods to retrieve system info</em></p>
 <p>&#x25B8; <strong>chain</strong>(): <code>Text</code></p>
 <ul>
@@ -529,7 +543,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"RPC","level":"2.1","depth":1,"next":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"previous":{"title":"WsProvider","level":"1.3.2","depth":2,"path":"rpc-provider/classes/_ws_index_.wsprovider.md","ref":"rpc-provider/classes/_ws_index_.wsprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_RPC.md","mtime":"2018-10-14T07:35:18.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-14T07:37:15.123Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"RPC","level":"2.1","depth":1,"next":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"previous":{"title":"WsProvider","level":"1.3.2","depth":2,"path":"rpc-provider/classes/_ws_index_.wsprovider.md","ref":"rpc-provider/classes/_ws_index_.wsprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_RPC.md","mtime":"2018-10-16T10:38:10.580Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-16T10:40:12.142Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

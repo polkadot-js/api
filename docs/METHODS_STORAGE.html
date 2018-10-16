@@ -380,28 +380,37 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="storage">Storage</h2>
-<p><em>The following Storage methods are part of the default Substrate runtime.</em></p>
-<hr>
-<h3 id="system">system</h3>
-<p>&#x25B8; <strong>accountNonce</strong>(<code>AccountId</code>): <code>Index</code></p>
-<p>&#x25B8; <strong>extrinsicCount</strong>(): <code>u32</code></p>
-<p>&#x25B8; <strong>blockHash</strong>(<code>BlockNumber</code>): <code>Hash</code></p>
-<p>&#x25B8; <strong>extrinsicData</strong>(<code>u32</code>): <code>Bytes</code></p>
-<p>&#x25B8; <strong>randomSeed</strong>(): <code>Hash</code></p>
-<p>&#x25B8; <strong>number</strong>(): <code>BlockNumber</code></p>
+                                <h2 id="storage"><a id="top" style="text-decoration: none;">Storage</a></h2>
+<p><em>The following sections contain Storage methods are part of the default Substrate runtime.</em></p>
 <ul>
-<li><strong>summary</strong>:   The current block number being processed. Set by <code>execute_block</code>.</li>
+<li><p><strong><a href="#balances">balances</a></strong></p>
+</li>
+<li><p><strong><a href="#consensus">consensus</a></strong></p>
+</li>
+<li><p><strong><a href="#contract">contract</a></strong></p>
+</li>
+<li><p><strong><a href="#council">council</a></strong></p>
+</li>
+<li><p><strong><a href="#councilMotions">councilMotions</a></strong></p>
+</li>
+<li><p><strong><a href="#councilVoting">councilVoting</a></strong></p>
+</li>
+<li><p><strong><a href="#democracy">democracy</a></strong></p>
+</li>
+<li><p><strong><a href="#session">session</a></strong></p>
+</li>
+<li><p><strong><a href="#staking">staking</a></strong></p>
+</li>
+<li><p><strong><a href="#system">system</a></strong></p>
+</li>
+<li><p><strong><a href="#timestamp">timestamp</a></strong></p>
+</li>
+<li><p><strong><a href="#treasury">treasury</a></strong></p>
+</li>
 </ul>
-<p>&#x25B8; <strong>parentHash</strong>(): <code>Hash</code></p>
-<p>&#x25B8; <strong>extrinsicsRoot</strong>(): <code>Hash</code></p>
-<p>&#x25B8; <strong>digest</strong>(): <code>Digest</code></p>
-<p>&#x25B8; <strong>events</strong>(): <code>Vec&lt;EventRecord&gt;</code></p>
 <hr>
-<h3 id="consensus">consensus</h3>
-<p>&#x25B8; <strong>originalAuthorities</strong>(): <code>Vec&lt;SessionKey&gt;</code></p>
-<hr>
-<h3 id="balances">balances</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="balances"><a id="balances"></a>balances</h3>
 <p>&#x25B8; <strong>totalIssuance</strong>(): <code>Balance</code></p>
 <ul>
 <li><strong>summary</strong>:   The total amount of stake on the system.</li>
@@ -447,21 +456,168 @@
 <li><strong>summary</strong>:   The fee to be paid for making a transaction; the per-byte portion.</li>
 </ul>
 <hr>
-<h3 id="timestamp">timestamp</h3>
-<p>&#x25B8; <strong>now</strong>(): <code>Moment</code></p>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="consensus"><a id="consensus"></a>consensus</h3>
+<p>&#x25B8; <strong>originalAuthorities</strong>(): <code>Vec&lt;SessionKey&gt;</code></p>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="council"><a id="council"></a>council</h3>
+<p>&#x25B8; <strong>candidacyBond</strong>(): <code>Balance</code></p>
 <ul>
-<li><strong>summary</strong>:   Current time for the current block.</li>
+<li><strong>summary</strong>:   How much should be locked up in order to submit one&apos;s candidacy.</li>
 </ul>
-<p>&#x25B8; <strong>blockPeriod</strong>(): <code>Moment</code></p>
+<p>&#x25B8; <strong>votingBond</strong>(): <code>Balance</code></p>
 <ul>
-<li><strong>summary</strong>:   The minimum (and advised) period between blocks.</li>
+<li><strong>summary</strong>:   How much should be locked up in order to be able to submit votes.</li>
 </ul>
-<p>&#x25B8; <strong>didUpdate</strong>(): <code>bool</code></p>
+<p>&#x25B8; <strong>presentSlashPerVoter</strong>(): <code>Balance</code></p>
 <ul>
-<li><strong>summary</strong>:   Did the timestamp get updated in this block?</li>
+<li><strong>summary</strong>:   The punishment, per voter, if you provide an invalid presentation.</li>
+</ul>
+<p>&#x25B8; <strong>carryCount</strong>(): <code>u32</code></p>
+<ul>
+<li><strong>summary</strong>:   How many runners-up should have their approvals persist until the next vote.</li>
+</ul>
+<p>&#x25B8; <strong>presentationDuration</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   How long to give each top candidate to present themselves after the vote ends.</li>
+</ul>
+<p>&#x25B8; <strong>inactiveGracePeriod</strong>(): <code>VoteIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   How many votes need to go by after a voter&apos;s last vote before they can be reaped if their  approvals are moot.</li>
+</ul>
+<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   How often (in blocks) to check for new votes.</li>
+</ul>
+<p>&#x25B8; <strong>termDuration</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   How long each position is active for.</li>
+</ul>
+<p>&#x25B8; <strong>desiredSeats</strong>(): <code>u32</code></p>
+<ul>
+<li><strong>summary</strong>:   Number of accounts that should be sitting on the council.</li>
+</ul>
+<p>&#x25B8; <strong>activeCouncil</strong>(): <code>Vec&lt;(AccountId, BlockNumber)&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The current council. When there&apos;s a vote going on, this should still be used for executive  matters.</li>
+</ul>
+<p>&#x25B8; <strong>voteCount</strong>(): <code>VoteIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The total number of votes that have happened or are in progress.</li>
+</ul>
+<p>&#x25B8; <strong>approvalsOf</strong>(<code>AccountId</code>): <code>Vec&lt;bool&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
+</ul>
+<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>(VoteIndex, u32)</code></p>
+<ul>
+<li><strong>summary</strong>:   The vote index and list slot that the candidate <code>who</code> was registered or <code>None</code> if they are not  currently registered.</li>
+</ul>
+<p>&#x25B8; <strong>lastActiveOf</strong>(<code>AccountId</code>): <code>VoteIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
+</ul>
+<p>&#x25B8; <strong>voters</strong>(): <code>Vec&lt;AccountId&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The present voter list.</li>
+</ul>
+<p>&#x25B8; <strong>candidates</strong>(): <code>Vec&lt;AccountId&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The present candidate list.</li>
+</ul>
+<p>&#x25B8; <strong>candidateCount</strong>(): <code>u32</code></p>
+<p>&#x25B8; <strong>nextFinalise</strong>(): <code>(BlockNumber, u32, Vec&lt;AccountId&gt;)</code></p>
+<ul>
+<li><strong>summary</strong>:   The accounts holding the seats that will become free on the next tally.</li>
+</ul>
+<p>&#x25B8; <strong>snapshotedStakes</strong>(): <code>Vec&lt;Balance&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The stakes as they were at the point that the vote ended.</li>
+</ul>
+<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(Balance, AccountId)&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   Get the leaderboard if we;re in the presentation phase.</li>
 </ul>
 <hr>
-<h3 id="session">session</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="councilmotions"><a id="councilMotions"></a>councilMotions</h3>
+<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;Hash&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The (hashes of) the active proposals.</li>
+</ul>
+<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
+<ul>
+<li><strong>summary</strong>:   Actual proposal for a given hash, if it&apos;s current.</li>
+</ul>
+<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>(ProposalIndex, u32, Vec&lt;AccountId&gt;, Vec&lt;AccountId&gt;)</code></p>
+<ul>
+<li><strong>summary</strong>:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).</li>
+</ul>
+<p>&#x25B8; <strong>proposalCount</strong>(): <code>u32</code></p>
+<ul>
+<li><strong>summary</strong>:   Proposals so far.</li>
+</ul>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
+<p>&#x25B8; <strong>cooloffPeriod</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber, Hash)&gt;</code></p>
+<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
+<p>&#x25B8; <strong>proposalVoters</strong>(<code>Hash</code>): <code>Vec&lt;AccountId&gt;</code></p>
+<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash, AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>(BlockNumber, Vec&lt;AccountId&gt;)</code></p>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="democracy"><a id="democracy"></a>democracy</h3>
+<p>&#x25B8; <strong>publicPropCount</strong>(): <code>PropIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The number of (public) proposals that have been made so far.</li>
+</ul>
+<p>&#x25B8; <strong>publicProps</strong>(): <code>Vec&lt;(PropIndex, Proposal, AccountId)&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The public proposals. Unsorted.</li>
+</ul>
+<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance, Vec&lt;AccountId&gt;)</code></p>
+<ul>
+<li><strong>summary</strong>:   Those who have locked a deposit.</li>
+</ul>
+<p>&#x25B8; <strong>launchPeriod</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   How often (in blocks) new public referenda are launched.</li>
+</ul>
+<p>&#x25B8; <strong>minimumDeposit</strong>(): <code>Balance</code></p>
+<ul>
+<li><strong>summary</strong>:   The minimum amount to be used as a deposit for a public referendum proposal.</li>
+</ul>
+<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   How often (in blocks) to check for new votes.</li>
+</ul>
+<p>&#x25B8; <strong>referendumCount</strong>(): <code>ReferendumIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The next free referendum index, aka the number of referendums started so far.</li>
+</ul>
+<p>&#x25B8; <strong>nextTally</strong>(): <code>ReferendumIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The next referendum index that should be tallied.</li>
+</ul>
+<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(BlockNumber, Proposal, VoteThreshold)</code></p>
+<ul>
+<li><strong>summary</strong>:   Information concerning any given referendum.</li>
+</ul>
+<p>&#x25B8; <strong>votersFor</strong>(<code>ReferendumIndex</code>): <code>Vec&lt;AccountId&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   Get the voters for the current proposal.</li>
+</ul>
+<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex, AccountId)</code>): <code>bool</code></p>
+<ul>
+<li><strong>summary</strong>:   Get the vote, if Some, of <code>who</code>.</li>
+</ul>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="session"><a id="session"></a>session</h3>
 <p>&#x25B8; <strong>validators</strong>(): <code>Vec&lt;AccountId&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The current set of validators.</li>
@@ -495,7 +651,8 @@
 <li><strong>summary</strong>:   The next session length.</li>
 </ul>
 <hr>
-<h3 id="staking">staking</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="staking"><a id="staking"></a>staking</h3>
 <p>&#x25B8; <strong>validatorCount</strong>(): <code>u32</code></p>
 <ul>
 <li><strong>summary</strong>:   The ideal number of staking participants.</li>
@@ -581,159 +738,39 @@
 <li><strong>summary</strong>:   We are forcing a new era.</li>
 </ul>
 <hr>
-<h3 id="democracy">democracy</h3>
-<p>&#x25B8; <strong>publicPropCount</strong>(): <code>PropIndex</code></p>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="system"><a id="system"></a>system</h3>
+<p>&#x25B8; <strong>accountNonce</strong>(<code>AccountId</code>): <code>Index</code></p>
+<p>&#x25B8; <strong>extrinsicCount</strong>(): <code>u32</code></p>
+<p>&#x25B8; <strong>blockHash</strong>(<code>BlockNumber</code>): <code>Hash</code></p>
+<p>&#x25B8; <strong>extrinsicData</strong>(<code>u32</code>): <code>Bytes</code></p>
+<p>&#x25B8; <strong>randomSeed</strong>(): <code>Hash</code></p>
+<p>&#x25B8; <strong>number</strong>(): <code>BlockNumber</code></p>
 <ul>
-<li><strong>summary</strong>:   The number of (public) proposals that have been made so far.</li>
+<li><strong>summary</strong>:   The current block number being processed. Set by <code>execute_block</code>.</li>
 </ul>
-<p>&#x25B8; <strong>publicProps</strong>(): <code>Vec&lt;(PropIndex, Proposal, AccountId)&gt;</code></p>
+<p>&#x25B8; <strong>parentHash</strong>(): <code>Hash</code></p>
+<p>&#x25B8; <strong>extrinsicsRoot</strong>(): <code>Hash</code></p>
+<p>&#x25B8; <strong>digest</strong>(): <code>Digest</code></p>
+<p>&#x25B8; <strong>events</strong>(): <code>Vec&lt;EventRecord&gt;</code></p>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="timestamp"><a id="timestamp"></a>timestamp</h3>
+<p>&#x25B8; <strong>now</strong>(): <code>Moment</code></p>
 <ul>
-<li><strong>summary</strong>:   The public proposals. Unsorted.</li>
+<li><strong>summary</strong>:   Current time for the current block.</li>
 </ul>
-<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance, Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>blockPeriod</strong>(): <code>Moment</code></p>
 <ul>
-<li><strong>summary</strong>:   Those who have locked a deposit.</li>
+<li><strong>summary</strong>:   The minimum (and advised) period between blocks.</li>
 </ul>
-<p>&#x25B8; <strong>launchPeriod</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>didUpdate</strong>(): <code>bool</code></p>
 <ul>
-<li><strong>summary</strong>:   How often (in blocks) new public referenda are launched.</li>
-</ul>
-<p>&#x25B8; <strong>minimumDeposit</strong>(): <code>Balance</code></p>
-<ul>
-<li><strong>summary</strong>:   The minimum amount to be used as a deposit for a public referendum proposal.</li>
-</ul>
-<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
-<ul>
-<li><strong>summary</strong>:   How often (in blocks) to check for new votes.</li>
-</ul>
-<p>&#x25B8; <strong>referendumCount</strong>(): <code>ReferendumIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   The next free referendum index, aka the number of referendums started so far.</li>
-</ul>
-<p>&#x25B8; <strong>nextTally</strong>(): <code>ReferendumIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   The next referendum index that should be tallied.</li>
-</ul>
-<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(BlockNumber, Proposal, VoteThreshold)</code></p>
-<ul>
-<li><strong>summary</strong>:   Information concerning any given referendum.</li>
-</ul>
-<p>&#x25B8; <strong>votersFor</strong>(<code>ReferendumIndex</code>): <code>Vec&lt;AccountId&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   Get the voters for the current proposal.</li>
-</ul>
-<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex, AccountId)</code>): <code>bool</code></p>
-<ul>
-<li><strong>summary</strong>:   Get the vote, if Some, of <code>who</code>.</li>
+<li><strong>summary</strong>:   Did the timestamp get updated in this block?</li>
 </ul>
 <hr>
-<h3 id="council">council</h3>
-<p>&#x25B8; <strong>candidacyBond</strong>(): <code>Balance</code></p>
-<ul>
-<li><strong>summary</strong>:   How much should be locked up in order to submit one&apos;s candidacy.</li>
-</ul>
-<p>&#x25B8; <strong>votingBond</strong>(): <code>Balance</code></p>
-<ul>
-<li><strong>summary</strong>:   How much should be locked up in order to be able to submit votes.</li>
-</ul>
-<p>&#x25B8; <strong>presentSlashPerVoter</strong>(): <code>Balance</code></p>
-<ul>
-<li><strong>summary</strong>:   The punishment, per voter, if you provide an invalid presentation.</li>
-</ul>
-<p>&#x25B8; <strong>carryCount</strong>(): <code>u32</code></p>
-<ul>
-<li><strong>summary</strong>:   How many runners-up should have their approvals persist until the next vote.</li>
-</ul>
-<p>&#x25B8; <strong>presentationDuration</strong>(): <code>BlockNumber</code></p>
-<ul>
-<li><strong>summary</strong>:   How long to give each top candidate to present themselves after the vote ends.</li>
-</ul>
-<p>&#x25B8; <strong>inactiveGracePeriod</strong>(): <code>VoteIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   How many votes need to go by after a voter&apos;s last vote before they can be reaped if their  approvals are moot.</li>
-</ul>
-<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
-<ul>
-<li><strong>summary</strong>:   How often (in blocks) to check for new votes.</li>
-</ul>
-<p>&#x25B8; <strong>termDuration</strong>(): <code>BlockNumber</code></p>
-<ul>
-<li><strong>summary</strong>:   How long each position is active for.</li>
-</ul>
-<p>&#x25B8; <strong>desiredSeats</strong>(): <code>u32</code></p>
-<ul>
-<li><strong>summary</strong>:   Number of accounts that should be sitting on the council.</li>
-</ul>
-<p>&#x25B8; <strong>activeCouncil</strong>(): <code>Vec&lt;(AccountId, BlockNumber)&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The current council. When there&apos;s a vote going on, this should still be used for executive  matters.</li>
-</ul>
-<p>&#x25B8; <strong>voteCount</strong>(): <code>VoteIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   The total number of votes that have happened or are in progress.</li>
-</ul>
-<p>&#x25B8; <strong>approvalsOf</strong>(<code>AccountId</code>): <code>Vec&lt;bool&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
-</ul>
-<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>(VoteIndex, u32)</code></p>
-<ul>
-<li><strong>summary</strong>:   The vote index and list slot that the candidate <code>who</code> was registered or <code>None</code> if they are not  currently registered.</li>
-</ul>
-<p>&#x25B8; <strong>lastActiveOf</strong>(<code>AccountId</code>): <code>VoteIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
-</ul>
-<p>&#x25B8; <strong>voters</strong>(): <code>Vec&lt;AccountId&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The present voter list.</li>
-</ul>
-<p>&#x25B8; <strong>candidates</strong>(): <code>Vec&lt;AccountId&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The present candidate list.</li>
-</ul>
-<p>&#x25B8; <strong>candidateCount</strong>(): <code>u32</code></p>
-<p>&#x25B8; <strong>nextFinalise</strong>(): <code>(BlockNumber, u32, Vec&lt;AccountId&gt;)</code></p>
-<ul>
-<li><strong>summary</strong>:   The accounts holding the seats that will become free on the next tally.</li>
-</ul>
-<p>&#x25B8; <strong>snapshotedStakes</strong>(): <code>Vec&lt;Balance&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The stakes as they were at the point that the vote ended.</li>
-</ul>
-<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(Balance, AccountId)&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   Get the leaderboard if we;re in the presentation phase.</li>
-</ul>
-<hr>
-<h3 id="councilvoting">councilVoting</h3>
-<p>&#x25B8; <strong>cooloffPeriod</strong>(): <code>BlockNumber</code></p>
-<p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
-<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber, Hash)&gt;</code></p>
-<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
-<p>&#x25B8; <strong>proposalVoters</strong>(<code>Hash</code>): <code>Vec&lt;AccountId&gt;</code></p>
-<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash, AccountId)</code>): <code>bool</code></p>
-<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>(BlockNumber, Vec&lt;AccountId&gt;)</code></p>
-<hr>
-<h3 id="councilmotions">councilMotions</h3>
-<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;Hash&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The (hashes of) the active proposals.</li>
-</ul>
-<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
-<ul>
-<li><strong>summary</strong>:   Actual proposal for a given hash, if it&apos;s current.</li>
-</ul>
-<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>(ProposalIndex, u32, Vec&lt;AccountId&gt;, Vec&lt;AccountId&gt;)</code></p>
-<ul>
-<li><strong>summary</strong>:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).</li>
-</ul>
-<p>&#x25B8; <strong>proposalCount</strong>(): <code>u32</code></p>
-<ul>
-<li><strong>summary</strong>:   Proposals so far.</li>
-</ul>
-<hr>
-<h3 id="treasury">treasury</h3>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="treasury"><a id="treasury"></a>treasury</h3>
 <p>&#x25B8; <strong>proposalBond</strong>(): <code>Permill</code></p>
 <ul>
 <li><strong>summary</strong>:   Proportion of funds that should be bonded in order to place a proposal. An accepted  proposal gets these back. A rejected proposal doesn&apos;t.</li>
@@ -837,7 +874,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-10-14T07:35:18.469Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-14T07:37:15.123Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-10-16T10:38:10.652Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-16T10:40:12.142Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

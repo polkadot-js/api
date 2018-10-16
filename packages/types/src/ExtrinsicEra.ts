@@ -4,13 +4,34 @@
 
 import { AnyU8a } from './types';
 
-import U8aFixed from './codec/U8aFixed';
+import toU8a from '@polkadot/util/u8a/toU8a';
 
-// Description of a transaction era
-// FIXME should be a enum?
-export default class ExtrinsicEra extends U8aFixed {
+import U8a from './codec/U8a';
+
+export default class ExtrinsicEra extends U8a {
   constructor (value?: AnyU8a) {
-    // FIXME this actually indicates an Immortal (i.e. 1 byte)
-    super(value, 8);
+    super(
+      ExtrinsicEra.decodeExtrinsicEra(value)
+    );
+  }
+
+  static decodeExtrinsicEra (value?: AnyU8a): Uint8Array {
+    if (value instanceof U8a) {
+      return value.raw;
+    } else if (value) {
+      const u8a = toU8a(value);
+
+      // If we have a zero byte, it is immortal (1 byte in length), otherwise we have
+      // the era details following as another byte
+      return u8a.subarray(0, (u8a[0] === 0) ? 1 : 2);
+    }
+
+    return new Uint8Array([0]);
+  }
+
+  fromU8a (input: Uint8Array): ExtrinsicEra {
+    super.fromU8a(ExtrinsicEra.decodeExtrinsicEra(input));
+
+    return this;
   }
 }

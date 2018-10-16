@@ -8,5 +8,5 @@ import Metadata from '@polkadot/types/Metadata';
 import fromMetadata from './fromMetadata';
 
 export default fromMetadata(
-  new Metadata().fromJSON(metadataRpc)
+  new Metadata(metadataRpc)
 );
