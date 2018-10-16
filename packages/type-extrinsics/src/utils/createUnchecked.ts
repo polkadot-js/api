@@ -30,7 +30,10 @@ export default function createDescriptor (
     }
 
     return new Extrinsic({
-      method: new Method(callIndex, meta, args)
+      method: new Method({
+        methodIndex: callIndex,
+        args
+      }, meta)
     });
   };
 
