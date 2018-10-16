@@ -124,15 +124,15 @@ export default class Method extends Struct {
     );
   }
 
-  get args () {
+  get args (): Array<Base> {
     return (this.get(1) as Struct<Base>).values();
   }
 
-  get callIndex () {
+  get callIndex (): Uint8Array {
     return (this.get(0) as MethodIndex).callIndex;
   }
 
-  get data () {
+  get data (): Uint8Array {
     return (this.get(1) as Struct<Base>).toU8a();
   }
 
