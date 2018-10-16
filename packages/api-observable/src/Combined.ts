@@ -5,10 +5,12 @@
 import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 
 import BN from 'bn.js';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, from } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
+import decodeAddress from '@polkadot/keyring/address/decode';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
+import assert from '@polkadot/util/assert';
 import isString from '@polkadot/util/is/string';
 
 import ApiCalls from './Calls';
@@ -72,6 +74,43 @@ export default class ApiCombined extends ApiCalls {
           mapping[accountId.toString()]
         )
       );
+  }
+
+  // lookup accountId & accountIndex from value
+  accountIdAndIndex = (address?: AccountId | AccountIndex | string | null): Observable<[AccountId | undefined, AccountIndex | undefined]> => {
+    try {
+      // yes, this can fail, don't care too much, catch will catch it
+      const length = decodeAddress((address as any).toString()).length;
+
+      assert([1, 2, 4, 8, 32].indexOf(length) !== -1, `Invalid length for decoded address, found ${length}`);
+
+      if (length === 32) {
+        const accountId = new AccountId(address as string);
+
+        return this
+          .accountIndexFromId(accountId)
+          .pipe(
+            map((accountIndex?: AccountIndex): [AccountId, AccountIndex | undefined] =>
+              [accountId, accountIndex]
+            )
+          );
+      }
+
+      const accountIndex = new AccountIndex(address as string);
+
+      return this
+        .accountIdFromIndex(accountIndex)
+        .pipe(
+          map((accountId?: AccountId): [AccountId | undefined, AccountIndex] =>
+          [accountId, accountIndex]
+        )
+      );
+    } catch (error) {
+      // swallow
+    }
+
+    // just return empties
+    return from([]);
   }
 
   publicProposalCount = (): Observable<number> => {
