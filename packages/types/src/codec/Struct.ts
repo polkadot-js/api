@@ -7,7 +7,6 @@ import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
-import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
 import { Constructor } from '../types';
