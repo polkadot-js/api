@@ -11,7 +11,7 @@ import Base from './Base';
 
 // A U8a. A basic wrapper around Uint8Array, with no frills and no fuss. It
 // wraps a Uint8Array. It does differ from other implementations wher it will
-// consume the full u8a as passed to it in fromU8a. As such it is meant to be
+// consume the full u8a as passed to it in U8a. As such it is meant to be
 // subclassed where the wrapper takes care of the actual lengths.
 export default class U8a extends Base<Uint8Array> {
   constructor (value: AnyU8a = new Uint8Array()) {

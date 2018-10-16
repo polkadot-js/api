@@ -353,7 +353,8 @@ export default class RuntimeMetadata extends Struct {
 
   // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
   // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match fromJSON. (However for now, it is useful in debugging)
+  // match the constructor with JSON. (However for now, it is useful in
+  // debugging).
   toJSON (): any {
     return super.toJSON();
   }
