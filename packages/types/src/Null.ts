@@ -14,14 +14,6 @@ export default class Null extends Base<null> {
     return 0;
   }
 
-  fromJSON (input: any): Null {
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Null {
-    return this;
-  }
-
   toJSON (): any {
     return null;
   }

@@ -15,7 +15,7 @@ export const l = logger('codec');
 //   - Not convinced about abstratc - there are a number of extensions to this class that
 //     don't provide some implementations (e.g. Length, good example and should not be
 //     used-as-is). In those case it just relies in the throw in here.
-export default class Base <T = any> {
+export default class Base<T = any> {
   raw: T;
 
   constructor (value?: any) {
@@ -24,14 +24,6 @@ export default class Base <T = any> {
 
   byteLength (): number {
     throw new Error('Base::byteLength: unimplemented');
-  }
-
-  fromJSON (input: any): Base <T> {
-    throw new Error('Base::fromJSON: unimplemented');
-  }
-
-  fromU8a (input: Uint8Array): Base <T> {
-    throw new Error('Base::fromU8a: unimplemented');
   }
 
   toJSON (): any {

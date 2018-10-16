@@ -111,20 +111,6 @@ export default class Extrinsic extends Struct {
     return length + Compact.encodeU8a(length, DEFAULT_LENGTH_BITS).length;
   }
 
-  fromJSON (input: any): Extrinsic {
-    super.fromU8a(hexToU8a(input));
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Extrinsic {
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    super.fromU8a(input.subarray(offset, offset + length.toNumber()));
-
-    return this;
-  }
-
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): Extrinsic {
     this.signature.addSignature(this.method, signerPair, nonce, blockHash);
 

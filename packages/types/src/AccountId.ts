@@ -41,18 +41,6 @@ export default class AccountId extends U8aFixed {
     return decodeAddress(value);
   }
 
-  fromJSON (input: any): AccountId {
-    super.fromJSON(AccountId.decodeAccountId(input));
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): AccountId {
-    super.fromU8a(input);
-
-    return this;
-  }
-
   toJSON (): any {
     return this.toString();
   }

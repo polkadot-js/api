@@ -90,20 +90,6 @@ export default class AccountIndex extends U8a {
     }
   }
 
-  fromJSON (input: any): AccountIndex {
-    super.fromJSON(AccountIndex.decodeAccountIndex(input));
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): AccountIndex {
-    const [offset, length] = AccountIndex.readLength(input);
-
-    super.fromU8a(input.subarray(offset, offset + length));
-
-    return this;
-  }
-
   toJSON (): any {
     return this.toString();
   }

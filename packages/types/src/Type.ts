@@ -27,18 +27,6 @@ export default class Type extends Text {
     return this._originalLength;
   }
 
-  fromJSON (input: any): Type {
-    super.fromJSON(input);
-
-    return this._cleanupTypes();
-  }
-
-  fromU8a (input: Uint8Array): Type {
-    super.fromU8a(input);
-
-    return this._cleanupTypes();
-  }
-
   // Note Since we are mangling what we get in beyond recognition, we really should
   // not allow the re-encoding. Additionally, this is probably more of a decoder-only
   // helper, so treat it as such.

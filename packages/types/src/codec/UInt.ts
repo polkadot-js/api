@@ -58,16 +58,6 @@ export default class UInt extends Base<BN> {
     return this._bitLength / 8;
   }
 
-  fromJSON (input: any): UInt {
-    this.raw = UInt.decodeUInt(input, this._bitLength);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): UInt {
-    return this.fromJSON(input);
-  }
-
   toHex (): string {
     return bnToHex(this.raw, this._bitLength);
   }

@@ -67,26 +67,6 @@ export default class Option<T> extends Base<Base<T>> {
     return 1 + childLength;
   }
 
-  fromJSON (input: any): Option<T> {
-    this._isEmpty = isNull(input) || isUndefined(input);
-
-    if (!this._isEmpty) {
-      this.raw.fromJSON(input);
-    }
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Option<T> {
-    this._isEmpty = input[0] === 0;
-
-    if (!this._isEmpty) {
-      this.raw.fromU8a(input.subarray(1));
-    }
-
-    return this;
-  }
-
   toJSON (): any {
     return this._isEmpty
       ? undefined

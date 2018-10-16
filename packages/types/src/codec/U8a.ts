@@ -38,18 +38,6 @@ export default class U8a extends Base<Uint8Array> {
     return this.length;
   }
 
-  fromJSON (input: any): U8a {
-    this.raw = toU8a(input);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): U8a {
-    this.raw = input;
-
-    return this;
-  }
-
   toHex (): string {
     return u8aToHex(this.raw);
   }

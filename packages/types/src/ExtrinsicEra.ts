@@ -28,10 +28,4 @@ export default class ExtrinsicEra extends U8a {
 
     return new Uint8Array([0]);
   }
-
-  fromU8a (input: Uint8Array): ExtrinsicEra {
-    super.fromU8a(ExtrinsicEra.decodeExtrinsicEra(input));
-
-    return this;
-  }
 }

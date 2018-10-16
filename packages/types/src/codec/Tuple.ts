@@ -2,9 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-
 import { AnyU8a, Constructor } from '../types';
 import Base from './Base';
 import Struct from './Struct';
@@ -46,18 +43,6 @@ export default class Tuple<
         super(Types, value);
       }
     };
-  }
-
-  fromJSON (input: any): Tuple<S, T, V> {
-    if (isHex(input)) {
-      return this.fromU8a(hexToU8a(input));
-    }
-
-    Object.values(this.raw).forEach((entry, index) => {
-      entry.fromJSON(input[index]);
-    });
-
-    return this;
   }
 
   toJSON (): any {

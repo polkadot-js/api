@@ -26,18 +26,6 @@ export default class Bool extends Base<boolean> {
     return 1;
   }
 
-  fromJSON (input: any): Bool {
-    this.raw = input === true;
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Bool {
-    this.raw = input[0] === 1;
-
-    return this;
-  }
-
   toJSON (): any {
     return this.raw;
   }
