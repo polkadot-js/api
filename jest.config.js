@@ -20,5 +20,6 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/type-jsonrpc/build',
     '<rootDir>/packages/type-storage/build/',
     '<rootDir>/packages/types/build'
-  ]
+  ],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)']
 });
