@@ -30,7 +30,7 @@ Can be:
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Extrinsic.ts:37](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L37)*
+*Defined in [Extrinsic.ts:37](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L37)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -66,7 +66,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:117](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L117)*
+*Defined in [codec/Struct.ts:117](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L117)*
 
 **Returns:** `E`
 
@@ -77,7 +77,7 @@ ___
 
 getcallIndex(): `Uint8Array`
 
-*Defined in [Extrinsic.ts:73](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L73)*
+*Defined in [Extrinsic.ts:73](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L73)*
 
 **Returns:** `Uint8Array`
 
@@ -88,7 +88,7 @@ ___
 
 getdata(): `Uint8Array`
 
-*Defined in [Extrinsic.ts:77](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L77)*
+*Defined in [Extrinsic.ts:77](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L77)*
 
 **Returns:** `Uint8Array`
 
@@ -99,7 +99,7 @@ ___
 
 gethash(): [Hash](_hash_.hash.md)
 
-*Defined in [Extrinsic.ts:82](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L82)*
+*Defined in [Extrinsic.ts:82](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L82)*
 
 **Returns:** [Hash](_hash_.hash.md)
 
@@ -110,7 +110,7 @@ ___
 
 getisSigned(): `boolean`
 
-*Defined in [Extrinsic.ts:88](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L88)*
+*Defined in [Extrinsic.ts:88](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L88)*
 
 **Returns:** `boolean`
 
@@ -121,7 +121,7 @@ ___
 
 getlength(): `number`
 
-*Defined in [Extrinsic.ts:92](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L92)*
+*Defined in [Extrinsic.ts:92](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L92)*
 
 **Returns:** `number`
 
@@ -132,7 +132,7 @@ ___
 
 getmeta(): [FunctionMetadata](_metadata_.functionmetadata.md)
 
-*Defined in [Extrinsic.ts:96](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L96)*
+*Defined in [Extrinsic.ts:96](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L96)*
 
 **Returns:** [FunctionMetadata](_metadata_.functionmetadata.md)
 
@@ -143,7 +143,7 @@ ___
 
 getmethod(): [Method](_method_.method.md)
 
-*Defined in [Extrinsic.ts:100](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L100)*
+*Defined in [Extrinsic.ts:100](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L100)*
 
 **Returns:** [Method](_method_.method.md)
 
@@ -154,7 +154,7 @@ ___
 
 getsignature(): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
-*Defined in [Extrinsic.ts:104](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L104)*
+*Defined in [Extrinsic.ts:104](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L104)*
 
 **Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
@@ -170,20 +170,20 @@ ___
 
 *Overrides [Struct](_codec_struct_.struct.md).[byteLength](_codec_struct_.struct.md#bytelength)*
 
-*Defined in [Extrinsic.ts:108](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L108)*
+*Defined in [Extrinsic.ts:108](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L108)*
 
 **Returns:** `number`
 
 ___
-<a id="get"></a>
+<a id="getatindex"></a>
 
-##  get
+##  getAtIndex
 
-▸ **get**(index: *`number`*): [Base](_codec_base_.base.md)
+▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
 
-*Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
+*Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L127)*
 
 **Parameters:**
 
@@ -202,7 +202,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[keys](_codec_struct_.struct.md#keys)*
 
-*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L142)*
+*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L142)*
 
 **Returns:** `Array`<`string`>
 
@@ -213,7 +213,7 @@ ___
 
 ▸ **sign**(signerPair: *`KeyringPair`*, nonce: *`AnyNumber`*, blockHash: *`AnyU8a`*): [Extrinsic](_extrinsic_.extrinsic.md)
 
-*Defined in [Extrinsic.ts:114](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L114)*
+*Defined in [Extrinsic.ts:114](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L114)*
 
 **Parameters:**
 
@@ -232,7 +232,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Extrinsic.ts:131](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L131)*
+*Defined in [Extrinsic.ts:131](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L131)*
 
 **Returns:** `string`
 
@@ -245,7 +245,7 @@ ___
 
 *Overrides [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [Extrinsic.ts:135](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L135)*
+*Defined in [Extrinsic.ts:135](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L135)*
 
 **Returns:** `any`
 
@@ -260,7 +260,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Struct.ts:154](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L154)*
+*Defined in [codec/Struct.ts:154](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L154)*
 
 **Returns:** `string`
 
@@ -273,7 +273,7 @@ ___
 
 *Overrides [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [Extrinsic.ts:120](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L120)*
+*Defined in [Extrinsic.ts:120](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L120)*
 
 **Parameters:**
 
@@ -292,7 +292,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[values](_codec_struct_.struct.md#values)*
 
-*Defined in [codec/Struct.ts:163](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L163)*
+*Defined in [codec/Struct.ts:163](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L163)*
 
 **Returns:** `Array`<[Base](_codec_base_.base.md)>
 
@@ -303,7 +303,7 @@ ___
 
 ▸ **decodeExtrinsic**(value?: * `ExtrinsicValue` &#124; `AnyU8a`*):  `any` &#124; `Uint8Array`
 
-*Defined in [Extrinsic.ts:45](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Extrinsic.ts#L45)*
+*Defined in [Extrinsic.ts:45](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Extrinsic.ts#L45)*
 
 **Parameters:**
 
@@ -322,7 +322,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[decodeStruct](_codec_struct_.struct.md#decodestruct)*
 
-*Defined in [codec/Struct.ts:48](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L48)*
+*Defined in [codec/Struct.ts:48](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L48)*
 
 **Type parameters:**
 
@@ -348,7 +348,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Struct.ts#L107)*
+*Defined in [codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Struct.ts#L107)*
 
 **Type parameters:**
 

@@ -16,7 +16,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [ExtrinsicEra.ts:11](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/ExtrinsicEra.ts#L11)*
+*Defined in [ExtrinsicEra.ts:11](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/ExtrinsicEra.ts#L11)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,7 +52,7 @@ getlength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L33)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L33)*
 
 **Returns:** `number`
 
@@ -70,7 +70,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [codec/U8a.ts:37](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L37)*
+*Defined in [codec/U8a.ts:37](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L37)*
 
 **Returns:** `number`
 
@@ -83,7 +83,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L41)*
+*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L41)*
 
 **Returns:** `string`
 
@@ -98,7 +98,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/U8a.ts:45](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L45)*
+*Defined in [codec/U8a.ts:45](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L45)*
 
 **Returns:** `any`
 
@@ -113,7 +113,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L53)*
 
 **Returns:** `string`
 
@@ -128,7 +128,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/U8a.ts:49](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L49)*
+*Defined in [codec/U8a.ts:49](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L49)*
 
 **Parameters:**
 
@@ -145,7 +145,7 @@ ___
 
 ▸ **decodeExtrinsicEra**(value?: *`AnyU8a`*): `Uint8Array`
 
-*Defined in [ExtrinsicEra.ts:18](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/ExtrinsicEra.ts#L18)*
+*Defined in [ExtrinsicEra.ts:18](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/ExtrinsicEra.ts#L18)*
 
 **Parameters:**
 
@@ -164,7 +164,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
 
-*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/U8a.ts#L23)*
+*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L23)*
 
 **Parameters:**
 
