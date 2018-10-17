@@ -23,7 +23,7 @@ import U16 from './U16';
 // end and work up. (Just so we don't use before definition)
 
 export class OuterDispatchCall extends Struct {
-  constructor (value?: any) {
+  constructor(value?: any) {
     super({
       name: Text,
       prefix: Text,
@@ -31,32 +31,32 @@ export class OuterDispatchCall extends Struct {
     }, value);
   }
 
-  get index (): U16 {
+  get index(): U16 {
     return this.raw.index as U16;
   }
 
-  get name (): Text {
+  get name(): Text {
     return this.raw.name as Text;
   }
 
-  get prefix (): Text {
+  get prefix(): Text {
     return this.raw.prefix as Text;
   }
 }
 
 export class OuterDispatchMetadata extends Struct {
-  constructor (value?: any) {
+  constructor(value?: any) {
     super({
       name: Text,
       calls: Vector.with(OuterDispatchCall)
     }, value);
   }
 
-  get calls (): Vector<OuterDispatchCall> {
+  get calls(): Vector<OuterDispatchCall> {
     return this.raw.calls as Vector<OuterDispatchCall>;
   }
 
-  get name (): Text {
+  get name(): Text {
     return this.raw.name as Text;
   }
 }
