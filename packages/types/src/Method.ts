@@ -2,73 +2,77 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from './types';
-
+import assert from '@polkadot/util/assert';
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
+import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
 
-import createType from './codec/createType';
+import { AnyU8a, Constructor } from './types';
 import Base from './codec/Base';
-import MethodIndex from './MethodIndex';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
+import { getTypeDef, getTypeClass } from './codec/createType';
+import MethodIndex from './MethodIndex';
+import Struct from './codec/Struct';
+import isHex from '@polkadot/util/is/hex';
 
 const FN_UNKNOWN = {
   method: 'unknown',
   section: 'unknown'
 } as ExtrinsicFunction;
 
+interface ArgsDef {
+  [index: string]: Constructor<Base>;
+}
+
+interface DecodedMethod {
+  args: any;
+  argsDef: ArgsDef;
+  meta: FunctionMetadata;
+  methodIndex: MethodIndex | AnyU8a;
+}
+
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 
 /**
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
- * // FIXME This class should extend Struct({ callIndex, method })
  */
-export default class Method extends MethodIndex {
-  protected _args: Array<Base>;
-  protected _data: Uint8Array;
+export default class Method extends Struct {
   protected _meta: FunctionMetadata;
 
-  constructor (index: Method | AnyU8a, meta?: FunctionMetadata, args?: Array<any>) {
-    super(index);
+  constructor (value: any, meta?: FunctionMetadata) {
+    const decoded = Method.decodeMethod(value, meta);
 
-    if (index instanceof Method) {
-      this._args = args || index.args;
-      this._meta = meta || index.meta;
-    } else {
-      this._args = args || [];
-      this._meta = meta || Method.findFunction(this.callIndex).meta;
-    }
+    super({
+      methodIndex: MethodIndex,
+      args: Struct.with(decoded.argsDef)
+    }, decoded);
 
-    this._data = Method.encode(this._meta, this._args);
-
-    // FIXME this is really not clean, we're saying that if the callIndex is
-    // longer than 2 bytes, then we need to decode the rest too.
-    if (isU8a(index) && index.length > 2) {
-      this.fromU8a(index);
-    }
-
+    this._meta = decoded.meta;
   }
 
-  static decodeMethod (meta: FunctionMetadata, data: Uint8Array): Array<Base> {
-    let offset = 0;
+  static decodeMethod (value: Uint8Array | string | DecodedMethod, _meta?: FunctionMetadata): DecodedMethod {
+    if (isHex(value)) {
+      return Method.decodeMethod(value, _meta);
+    } else if (isU8a(value)) {
+      // The first 2 bytes are the callIndex
+      const callIndex = value.subarray(0, 2);
 
-    return Method.filterOrigin(meta).map(({ type }) => {
-      const base = createType(type, data.subarray(offset));
+      // Find metadata with callIndex
+      const meta = _meta || Method.findFunction(callIndex).meta;
 
-      offset += base.byteLength();
+      // Get Struct definition of the arguments
+      const argsDef = Method.getArgsDef(meta);
 
-      return base;
-    });
-  }
+      return { args: value.subarray(2), argsDef, methodIndex: callIndex, meta };
+    } else if (isObject(value) && _meta && (value as any).methodIndex && (value as any).args) {
+      // If we instantiate a Method with an object value, we require (for now)
+      // that `_meta` be specified.
+      const argsDef = Method.getArgsDef(_meta);
+      return { ...value, argsDef };
+    }
 
-  static encode (meta: FunctionMetadata, args: Array<any>): Uint8Array {
-    const encoded = Method.filterOrigin(meta).map(({ type }, index) =>
-      createType(type, args[index]).toU8a()
-    );
-
-    return u8aConcat(...encoded);
+    throw new Error(`Method: cannot decode value "${value}".`);
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
@@ -89,7 +93,25 @@ export default class Method extends MethodIndex {
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
   static findFunction (callIndex: Uint8Array): ExtrinsicFunction {
+    assert(Object.keys(extrinsicFns).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
     return extrinsicFns[callIndex.toString()] || FN_UNKNOWN;
+  }
+
+  /**
+   * Get a mapping of `argument name -> argument type` for the function, from
+   * its metadata.
+   *
+   * @param meta - The function metadata used to get the definition.
+   */
+  private static getArgsDef (meta: FunctionMetadata): ArgsDef {
+    return Method.filterOrigin(meta).reduce((result, { name, type }) => {
+      const Type = getTypeClass(
+        getTypeDef(type)
+      );
+      result[name.toString()] = Type;
+
+      return result;
+    }, {} as ArgsDef);
   }
 
   // This is called/injected by the API on init, allowing a snapshot of
@@ -102,41 +124,19 @@ export default class Method extends MethodIndex {
     );
   }
 
-  byteLength (): number {
-    return super.byteLength() + this.data.length;
+  get args (): Array<Base> {
+    return (this.get(1) as Struct<Base>).values();
   }
 
-  get args (): Array<any> {
-    return this._args;
+  get callIndex (): Uint8Array {
+    return (this.get(0) as MethodIndex).callIndex;
   }
 
   get data (): Uint8Array {
-    return this._data;
+    return (this.get(1) as Struct<Base>).toU8a();
   }
 
   get meta (): FunctionMetadata {
     return this._meta;
-  }
-
-  fromU8a (input: Uint8Array): Method {
-    super.fromU8a(input);
-
-    const startData = super.byteLength();
-
-    this._meta = Method.findFunction(this.callIndex).meta;
-    this._args = Method.decodeMethod(this._meta, input.subarray(startData));
-
-    const argsLength = this._args.reduce((length, arg) => length + arg.byteLength(), 0);
-
-    this._data = input.subarray(startData, startData + argsLength);
-
-    return this;
-  }
-
-  toU8a (isBare?: boolean): Uint8Array {
-    return u8aConcat(
-      super.toU8a(isBare),
-      this.data
-    );
   }
 }
