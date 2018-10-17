@@ -18,7 +18,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [Bytes.ts:18](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Bytes.ts#L18)*
+*Defined in [Bytes.ts:18](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/Bytes.ts#L18)*
 
 **Parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -56,7 +56,7 @@ getlength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [Bytes.ts:45](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Bytes.ts#L45)*
+*Defined in [Bytes.ts:45](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/Bytes.ts#L45)*
 
 **Returns:** `number`
 
@@ -74,7 +74,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[byteLength](_codec_u8a_.u8a.md#bytelength)*
 
-*Defined in [Bytes.ts:49](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Bytes.ts#L49)*
+*Defined in [Bytes.ts:49](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/Bytes.ts#L49)*
 
 **Returns:** `number`
 
@@ -87,7 +87,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L41)*
+*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/codec/U8a.ts#L41)*
 
 **Returns:** `string`
 
@@ -102,7 +102,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/U8a.ts:45](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L45)*
+*Defined in [codec/U8a.ts:45](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/codec/U8a.ts#L45)*
 
 **Returns:** `any`
 
@@ -117,7 +117,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/codec/U8a.ts#L53)*
 
 **Returns:** `string`
 
@@ -132,7 +132,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:53](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Bytes.ts#L53)*
+*Defined in [Bytes.ts:53](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/Bytes.ts#L53)*
 
 **Parameters:**
 
@@ -151,7 +151,7 @@ ___
 
 *Inherited from [Bytes](_bytes_.bytes.md).[decodeBytes](_bytes_.bytes.md#decodebytes)*
 
-*Defined in [Bytes.ts:23](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/Bytes.ts#L23)*
+*Defined in [Bytes.ts:23](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/Bytes.ts#L23)*
 
 **Parameters:**
 
@@ -170,7 +170,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
 
-*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/94a202f/packages/types/src/codec/U8a.ts#L23)*
+*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/38e3f8c/packages/types/src/codec/U8a.ts#L23)*
 
 **Parameters:**
 
