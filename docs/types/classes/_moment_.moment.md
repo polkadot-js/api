@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Moment.ts:22](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L22)*
+*Defined in [Moment.ts:22](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L22)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,47 +52,9 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Moment.ts:47](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L47)*
+*Defined in [Moment.ts:47](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L47)*
 
 **Returns:** `number`
-
-___
-<a id="fromjson"></a>
-
-##  fromJSON
-
-▸ **fromJSON**(input: *`any`*): [Moment](_moment_.moment.md)
-
-*Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
-
-*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L51)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `any` |
-
-**Returns:** [Moment](_moment_.moment.md)
-
-___
-<a id="fromu8a"></a>
-
-##  fromU8a
-
-▸ **fromU8a**(input: *`Uint8Array`*): [Moment](_moment_.moment.md)
-
-*Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
-
-*Defined in [Moment.ts:57](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L57)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `Uint8Array` |
-
-**Returns:** [Moment](_moment_.moment.md)
 
 ___
 <a id="gettime"></a>
@@ -101,7 +63,7 @@ ___
 
 ▸ **getTime**(): `number`
 
-*Defined in [Moment.ts:65](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L65)*
+*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L51)*
 
 **Returns:** `number`
 
@@ -112,7 +74,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [Moment.ts:81](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L81)*
+*Defined in [Moment.ts:67](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L67)*
 
 **Returns:** `BN`
 
@@ -125,7 +87,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Moment.ts:69](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L69)*
+*Defined in [Moment.ts:55](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L55)*
 
 **Returns:** `any`
 
@@ -136,7 +98,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [Moment.ts:85](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L85)*
+*Defined in [Moment.ts:71](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L71)*
 
 **Returns:** `number`
 
@@ -149,7 +111,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Moment.ts:77](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L77)*
+*Defined in [Moment.ts:63](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L63)*
 
 **Returns:** `string`
 
@@ -162,7 +124,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Moment.ts:73](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L73)*
+*Defined in [Moment.ts:59](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L59)*
 
 **Parameters:**
 
@@ -179,7 +141,7 @@ ___
 
 ▸ **decodeMoment**(value: * [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`*): `Date`
 
-*Defined in [Moment.ts:29](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Moment.ts#L29)*
+*Defined in [Moment.ts:29](https://github.com/polkadot-js/api/blob/221bfac/packages/types/src/Moment.ts#L29)*
 
 **Parameters:**
 
