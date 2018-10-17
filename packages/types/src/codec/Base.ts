@@ -23,7 +23,7 @@ export default class Base<T = any> {
   }
 
   get encodedLength (): number {
-    throw new Error('Base::byteLength: unimplemented');
+    throw new Error('Base::encodedLength: unimplemented');
   }
 
   toJSON (): any {

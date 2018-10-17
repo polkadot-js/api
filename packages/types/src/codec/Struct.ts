@@ -118,7 +118,7 @@ export default class Struct<
     return this._Types;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return Object.values(this.raw).reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);

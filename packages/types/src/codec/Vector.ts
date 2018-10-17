@@ -69,7 +69,7 @@ export default class Vector<
     return this.raw.length;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.raw.reduce((total, raw) => {
       return total + raw.encodedLength;
     }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);

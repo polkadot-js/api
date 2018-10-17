@@ -59,7 +59,7 @@ export default class Option<T> extends Base<Base<T>> {
       : this.raw.raw;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     const childLength = this._isEmpty
       ? 0
       : this.raw.encodedLength;
