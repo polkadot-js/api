@@ -128,6 +128,10 @@ export default class Method extends Struct {
     return (this.getAtIndex(1) as Struct<Base>).values();
   }
 
+  get argsDef (): ArgsDef {
+    return Method.getArgsDef(this.meta);
+  }
+
   get callIndex (): Uint8Array {
     return (this.getAtIndex(0) as MethodIndex).callIndex;
   }
