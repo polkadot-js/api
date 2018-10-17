@@ -80,8 +80,8 @@ export default class Method extends Struct {
       return { args: value.subarray(2), argsDef, methodIndex: callIndex, meta };
     } else if (
       isObject(value) &&
-      (value as DecodeMethodInput).methodIndex &&
-      (value as DecodeMethodInput).args
+      value.methodIndex &&
+      value.args
     ) {
       // Get the correct callIndex
       const callIndex = value.methodIndex instanceof MethodIndex
@@ -93,6 +93,7 @@ export default class Method extends Struct {
 
       // Get Struct definition of the arguments
       const argsDef = Method.getArgsDef(meta);
+
       return { ...value, argsDef, meta };
     }
 
