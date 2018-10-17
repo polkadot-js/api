@@ -11,7 +11,7 @@ export type AnyNumber = UInt | BN | Uint8Array | number | string;
 
 export type AnyU8a = U8a | Uint8Array | Array<number> | string;
 
-export interface Codec<T> {
+export interface Codec {
   encodedLength: number;
   toHex(): string
   toJSON(): any;

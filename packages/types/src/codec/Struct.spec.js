@@ -13,9 +13,9 @@ const testDecode = (type, input) =>
       foo: Text,
       bar: U32
     }, input);
-    expect(s.keys()).toEqual(['foo', 'bar']);
+    expect([...s.keys()]).toEqual(['foo', 'bar']);
     expect(
-      s.values().map((v) =>
+      [...s.values()].map((v) =>
         v.toString()
       )
     ).toEqual(['bazzing', '69']);
@@ -32,13 +32,14 @@ const testEncode = (to, expected) =>
 
 describe('Struct', () => {
 
+  testDecode('array', ['bazzing', 69]);
   testDecode('object', { foo: 'bazzing', bar: 69 });
   testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
 
-  // testEncode('toHex', '0x1c62617a7a696e6745000000'); // FIXME Add this
+  testEncode('toHex', '0x1c62617a7a696e6745000000');
+  testEncode('toJSON', { foo: 'bazzing', bar: 69 });
   testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
   testEncode('toString', '{foo: bazzing, bar: 69}');
-
 
   it('decodes a more complicated type', () => {
     const s = new Struct({
@@ -47,7 +48,20 @@ describe('Struct', () => {
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
     expect(s.toString()).toBe('{foo: [{bar: 1}, {bar: 2}]}');
-  })
+  });
+
+  it('gets the value at a particular index', () => {
+    expect(
+      new (
+        Struct.with({
+          txt: Text,
+          u32: U32
+        })
+      )({ txt: 'foo', u32: 0x123456 })
+        .getAtIndex(1)
+        .toString()
+    ).toEqual(`{txt: foo, u32: 1193046}`);
+  });
 
   it('provides a clean toString()', () => {
     expect(
@@ -72,19 +86,5 @@ describe('Struct', () => {
       bar: 'Text',
       baz: 'U32'
     });
-  });
-
-  it('exposes the keys/values', () => {
-    const test = new Struct({
-      foo: Text,
-      bar: U32
-    }, { foo: 'bazzing', bar: 69 });
-
-    expect(test.keys()).toEqual(['foo', 'bar']);
-    expect(
-      test.values().map((v) =>
-        v.toString()
-      )
-    ).toEqual(['bazzing', '69']);
   });
 });

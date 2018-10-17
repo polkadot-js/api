@@ -4,7 +4,6 @@
 
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
 import { Codec, Constructor } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
@@ -14,14 +13,14 @@ import { Codec, Constructor } from '../types';
 // it needs to decoded in the specific defined order.
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
-  S = { [index: string]: Constructor<Base> },
+  S = { [index: string]: Constructor<Codec> },
   // internal type, instance of classes mapped by key
-  T = { [K in keyof S]: Base },
+  T = { [K in keyof S]: Codec },
   // input values, mapped by key can be anything (construction)
   V = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
-  > extends Map<keyof S, Codec<any>> implements Codec<Struct<S, T, V, E>> {
+  > extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
@@ -103,7 +102,7 @@ export default class Struct<
   }
 
   static with<
-    S = { [index: string]: Constructor<Base> }
+    S = { [index: string]: Constructor<Codec> }
     > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
@@ -122,7 +121,7 @@ export default class Struct<
     }, 0);
   }
 
-  getAtIndex (index: number): Codec<any> {
+  getAtIndex (index: number): Codec {
     return [...this.values()][index];
   }
 
@@ -132,10 +131,10 @@ export default class Struct<
 
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
-      const jsonKey = this._jsonMap.get(key as any) || key;
+      const jsonKey = this._jsonMap.get(key) || key;
 
-      // @ts-ignore as above...
-      json[jsonKey] = this.raw[key].toJSON();
+      // @ts-ignore Possibly undefined, but it's not!
+      json[jsonKey] = this.get(key).toJSON();
 
       return json;
     }, {} as any);
@@ -152,7 +151,7 @@ export default class Struct<
   toString (): string {
     const data = [...this.keys()].map((key) =>
       // @ts-ignore as above...
-      `${key}: ${this.raw[key].toString()}`
+      `${key}: ${this.get(key).toString()}`
     ).join(', ');
 
     return `{${data}}`;
