@@ -1,5 +1,10 @@
 
 
+# Type parameters
+#### S 
+#### T 
+#### V 
+#### E 
 # Hierarchy
 
 ↳  [Method](_method_.method.md)
@@ -12,21 +17,20 @@
 
 ##  constructor
 
-⊕ **new Proposal**(index: * [Method](_method_.method.md) &#124; `AnyU8a`*, meta?: *[FunctionMetadata](_metadata_.functionmetadata.md)*, args?: *`Array`<`any`>*): [Proposal](_proposal_.proposal.md)
+⊕ **new Proposal**(value: *`any`*, meta?: *[FunctionMetadata](_metadata_.functionmetadata.md)*): [Proposal](_proposal_.proposal.md)
 
 *Inherited from [Method](_method_.method.md).[constructor](_method_.method.md#constructor)*
 
-*Overrides [MethodIndex](_methodindex_.methodindex.md).[constructor](_methodindex_.methodindex.md#constructor)*
+*Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Method.ts:31](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L31)*
+*Defined in [Method.ts:41](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L41)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| index |  [Method](_method_.method.md) &#124; `AnyU8a`|
+| value | `any` |
 | `Optional` meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
-| `Optional` args | `Array`<`any`> |
 
 **Returns:** [Proposal](_proposal_.proposal.md)
 
@@ -38,27 +42,40 @@ ___
 
 ##  raw
 
-**● raw**: *`Uint8Array`*
+**● raw**: *`T`*
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
 # Accessors
 
+<a id="type"></a>
+
+##  Type
+
+getType(): `E`
+
+*Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
+
+*Defined in [codec/Struct.ts:118](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L118)*
+
+**Returns:** `E`
+
+___
 <a id="args"></a>
 
 ##  args
 
-getargs(): `Array`<`any`>
+getargs(): `Array`<[Base](_codec_base_.base.md)>
 
 *Inherited from [Method](_method_.method.md).[args](_method_.method.md#args)*
 
-*Defined in [Method.ts:109](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L109)*
+*Defined in [Method.ts:127](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L127)*
 
-**Returns:** `Array`<`any`>
+**Returns:** `Array`<[Base](_codec_base_.base.md)>
 
 ___
 <a id="callindex"></a>
@@ -67,9 +84,9 @@ ___
 
 getcallIndex(): `Uint8Array`
 
-*Inherited from [MethodIndex](_methodindex_.methodindex.md).[callIndex](_methodindex_.methodindex.md#callindex)*
+*Inherited from [Method](_method_.method.md).[callIndex](_method_.method.md#callindex)*
 
-*Defined in [MethodIndex.ts:14](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/MethodIndex.ts#L14)*
+*Defined in [Method.ts:131](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L131)*
 
 **Returns:** `Uint8Array`
 
@@ -82,22 +99,9 @@ getdata(): `Uint8Array`
 
 *Inherited from [Method](_method_.method.md).[data](_method_.method.md#data)*
 
-*Defined in [Method.ts:113](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L113)*
+*Defined in [Method.ts:135](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L135)*
 
 **Returns:** `Uint8Array`
-
-___
-<a id="length"></a>
-
-##  length
-
-getlength(): `number`
-
-*Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
-
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8a.ts#L33)*
-
-**Returns:** `number`
 
 ___
 <a id="meta"></a>
@@ -108,35 +112,9 @@ getmeta(): [FunctionMetadata](_metadata_.functionmetadata.md)
 
 *Inherited from [Method](_method_.method.md).[meta](_method_.method.md#meta)*
 
-*Defined in [Method.ts:117](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L117)*
+*Defined in [Method.ts:139](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L139)*
 
 **Returns:** [FunctionMetadata](_metadata_.functionmetadata.md)
-
-___
-<a id="methodindex"></a>
-
-##  methodIndex
-
-getmethodIndex(): `number`
-
-*Inherited from [MethodIndex](_methodindex_.methodindex.md).[methodIndex](_methodindex_.methodindex.md#methodindex)*
-
-*Defined in [MethodIndex.ts:18](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/MethodIndex.ts#L18)*
-
-**Returns:** `number`
-
-___
-<a id="sectionindex"></a>
-
-##  sectionIndex
-
-getsectionIndex(): `number`
-
-*Inherited from [MethodIndex](_methodindex_.methodindex.md).[sectionIndex](_methodindex_.methodindex.md#sectionindex)*
-
-*Defined in [MethodIndex.ts:22](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/MethodIndex.ts#L22)*
-
-**Returns:** `number`
 
 ___
 
@@ -148,11 +126,11 @@ ___
 
 ▸ **byteLength**(): `number`
 
-*Inherited from [Method](_method_.method.md).[byteLength](_method_.method.md#bytelength)*
+*Inherited from [Struct](_codec_struct_.struct.md).[byteLength](_codec_struct_.struct.md#bytelength)*
 
-*Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[byteLength](_codec_u8afixed_.u8afixed.md#bytelength)*
+*Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
 
-*Defined in [Method.ts:105](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L105)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L122)*
 
 **Returns:** `number`
 
@@ -161,13 +139,13 @@ ___
 
 ##  fromJSON
 
-▸ **fromJSON**(input: *`any`*): [U8aFixed](_codec_u8afixed_.u8afixed.md)
+▸ **fromJSON**(input: *`any`*): [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
 
-*Inherited from [U8aFixed](_codec_u8afixed_.u8afixed.md).[fromJSON](_codec_u8afixed_.u8afixed.md#fromjson)*
+*Inherited from [Struct](_codec_struct_.struct.md).[fromJSON](_codec_struct_.struct.md#fromjson)*
 
-*Overrides [U8a](_codec_u8a_.u8a.md).[fromJSON](_codec_u8a_.u8a.md#fromjson)*
+*Overrides [Base](_codec_base_.base.md).[fromJSON](_codec_base_.base.md#fromjson)*
 
-*Defined in [codec/U8aFixed.ts:36](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8aFixed.ts#L36)*
+*Defined in [codec/Struct.ts:128](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L128)*
 
 **Parameters:**
 
@@ -175,20 +153,20 @@ ___
 | ------ | ------ |
 | input | `any` |
 
-**Returns:** [U8aFixed](_codec_u8afixed_.u8afixed.md)
+**Returns:** [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
 
 ___
 <a id="fromu8a"></a>
 
 ##  fromU8a
 
-▸ **fromU8a**(input: *`Uint8Array`*): [Method](_method_.method.md)
+▸ **fromU8a**(input: *`Uint8Array`*): [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
 
-*Inherited from [Method](_method_.method.md).[fromU8a](_method_.method.md#fromu8a)*
+*Inherited from [Struct](_codec_struct_.struct.md).[fromU8a](_codec_struct_.struct.md#fromu8a)*
 
-*Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[fromU8a](_codec_u8afixed_.u8afixed.md#fromu8a)*
+*Overrides [Base](_codec_base_.base.md).[fromU8a](_codec_base_.base.md#fromu8a)*
 
-*Defined in [Method.ts:121](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L121)*
+*Defined in [codec/Struct.ts:148](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L148)*
 
 **Parameters:**
 
@@ -196,20 +174,39 @@ ___
 | ------ | ------ |
 | input | `Uint8Array` |
 
-**Returns:** [Method](_method_.method.md)
+**Returns:** [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`, `E`>
 
 ___
-<a id="tohex"></a>
+<a id="get"></a>
 
-##  toHex
+##  get
 
-▸ **toHex**(): `string`
+▸ **get**(index: *`number`*): [Base](_codec_base_.base.md)
 
-*Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
+*Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L158)*
 
-**Returns:** `string`
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| index | `number` |
+
+**Returns:** [Base](_codec_base_.base.md)
+
+___
+<a id="keys"></a>
+
+##  keys
+
+▸ **keys**(): `Array`<`string`>
+
+*Inherited from [Struct](_codec_struct_.struct.md).[keys](_codec_struct_.struct.md#keys)*
+
+*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L173)*
+
+**Returns:** `Array`<`string`>
 
 ___
 <a id="tojson"></a>
@@ -218,11 +215,11 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
+*Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/U8a.ts:57](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8a.ts#L57)*
+*Defined in [codec/Struct.ts:162](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L162)*
 
 **Returns:** `any`
 
@@ -233,11 +230,11 @@ ___
 
 ▸ **toString**(): `string`
 
-*Inherited from [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
+*Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/U8a.ts:65](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8a.ts#L65)*
+*Defined in [codec/Struct.ts:185](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L185)*
 
 **Returns:** `string`
 
@@ -248,11 +245,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Inherited from [Method](_method_.method.md).[toU8a](_method_.method.md#tou8a)*
+*Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
+*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Method.ts:136](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L136)*
+*Defined in [codec/Struct.ts:177](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L177)*
 
 **Parameters:**
 
@@ -263,63 +260,63 @@ ___
 **Returns:** `Uint8Array`
 
 ___
-<a id="decodemethod"></a>
+<a id="values"></a>
 
-## `<Static>` decodeMethod
+##  values
 
-▸ **decodeMethod**(meta: *[FunctionMetadata](_metadata_.functionmetadata.md)*, data: *`Uint8Array`*): `Array`<[Base](_codec_base_.base.md)>
+▸ **values**(): `Array`<[Base](_codec_base_.base.md)>
 
-*Inherited from [Method](_method_.method.md).[decodeMethod](_method_.method.md#decodemethod)*
+*Inherited from [Struct](_codec_struct_.struct.md).[values](_codec_struct_.struct.md#values)*
 
-*Defined in [Method.ts:54](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L54)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
-| data | `Uint8Array` |
+*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L194)*
 
 **Returns:** `Array`<[Base](_codec_base_.base.md)>
 
 ___
-<a id="decodeu8a"></a>
+<a id="decodemethod"></a>
 
-## `<Static>` decodeU8a
+## `<Static>` decodeMethod
 
-▸ **decodeU8a**(value: *`any`*): `Uint8Array`
+▸ **decodeMethod**(value: * `Uint8Array` &#124; `string` &#124; `DecodedMethod`*, _meta?: *[FunctionMetadata](_metadata_.functionmetadata.md)*): `DecodedMethod`
 
-*Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
+*Inherited from [Method](_method_.method.md).[decodeMethod](_method_.method.md#decodemethod)*
 
-*Defined in [codec/U8a.ts:23](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/codec/U8a.ts#L23)*
+*Defined in [Method.ts:54](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L54)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| value | `any` |
+| value |  `Uint8Array` &#124; `string` &#124; `DecodedMethod`|
+| `Optional` _meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
 
-**Returns:** `Uint8Array`
+**Returns:** `DecodedMethod`
 
 ___
-<a id="encode"></a>
+<a id="decodestruct"></a>
 
-## `<Static>` encode
+## `<Static>` decodeStruct
 
-▸ **encode**(meta: *[FunctionMetadata](_metadata_.functionmetadata.md)*, args: *`Array`<`any`>*): `Uint8Array`
+▸ **decodeStruct**<`S`,`V`,`T`>(Types: *`S`*, value: *`any`*, jsonMap: *`Map`<`keyof S`, `string`>*): `T`
 
-*Inherited from [Method](_method_.method.md).[encode](_method_.method.md#encode)*
+*Inherited from [Struct](_codec_struct_.struct.md).[decodeStruct](_codec_struct_.struct.md#decodestruct)*
 
-*Defined in [Method.ts:66](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L66)*
+*Defined in [codec/Struct.ts:49](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L49)*
 
+**Type parameters:**
+
+#### S 
+#### V 
+#### T 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
-| args | `Array`<`any`> |
+| Types | `S` |
+| value | `any` |
+| jsonMap | `Map`<`keyof S`, `string`> |
 
-**Returns:** `Uint8Array`
+**Returns:** `T`
 
 ___
 <a id="filterorigin"></a>
@@ -330,7 +327,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[filterOrigin](_method_.method.md#filterorigin)*
 
-*Defined in [Method.ts:75](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L75)*
+*Defined in [Method.ts:79](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L79)*
 
 **Parameters:**
 
@@ -349,7 +346,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[findFunction](_method_.method.md#findfunction)*
 
-*Defined in [Method.ts:91](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L91)*
+*Defined in [Method.ts:95](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L95)*
 
 **Parameters:**
 
@@ -368,7 +365,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[injectExtrinsics](_method_.method.md#injectextrinsics)*
 
-*Defined in [Method.ts:97](https://github.com/polkadot-js/api/blob/e8e92cd/packages/types/src/Method.ts#L97)*
+*Defined in [Method.ts:119](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/Method.ts#L119)*
 
 **Parameters:**
 
@@ -377,6 +374,28 @@ ___
 | extrinsics | `Extrinsics` |
 
 **Returns:** `void`
+
+___
+<a id="with"></a>
+
+## `<Static>` with
+
+▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
+
+*Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
+
+*Defined in [codec/Struct.ts:108](https://github.com/polkadot-js/api/blob/471bfce/packages/types/src/codec/Struct.ts#L108)*
+
+**Type parameters:**
+
+#### S 
+**Parameters:**
+
+| Param | Type |
+| ------ | ------ |
+| Types | `S` |
+
+**Returns:** `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
 
 ___
 
