@@ -125,15 +125,15 @@ export default class Method extends Struct {
   }
 
   get args (): Array<Base> {
-    return (this.get(1) as Struct<Base>).values();
+    return (this.getAtIndex(1) as Struct<Base>).values();
   }
 
   get callIndex (): Uint8Array {
-    return (this.get(0) as MethodIndex).callIndex;
+    return (this.getAtIndex(0) as MethodIndex).callIndex;
   }
 
   get data (): Uint8Array {
-    return (this.get(1) as Struct<Base>).toU8a();
+    return (this.getAtIndex(1) as Struct<Base>).toU8a();
   }
 
   get meta (): FunctionMetadata {

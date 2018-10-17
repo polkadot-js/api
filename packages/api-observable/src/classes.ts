@@ -9,9 +9,9 @@ import { Struct, Tuple, Vector } from '@polkadot/types/codec';
 export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId }) {
   constructor (value: Tuple) {
     super({
-      id: value.get(0),
-      proposal: value.get(1),
-      address: value.get(2)
+      id: value.getAtIndex(0),
+      proposal: value.getAtIndex(1),
+      address: value.getAtIndex(2)
     });
   }
 
@@ -31,8 +31,8 @@ export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal,
 export class RxProposalDeposits extends Struct.with({ balance: Balance, addresses: Vector.with(AccountId) }) {
   constructor (value: Tuple) {
     super({
-      balance: value.get(0),
-      addresses: value.get(1)
+      balance: value.getAtIndex(0),
+      addresses: value.getAtIndex(1)
     });
   }
 
@@ -48,9 +48,9 @@ export class RxProposalDeposits extends Struct.with({ balance: Balance, addresse
 export class RxReferendum extends Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex }) {
   constructor (value: Tuple, id: ReferendumIndex | BN | number) {
     super({
-      blockNumber: value.get(0),
-      proposal: value.get(1),
-      voteThreshold: value.get(2),
+      blockNumber: value.getAtIndex(0),
+      proposal: value.getAtIndex(1),
+      voteThreshold: value.getAtIndex(2),
       id
     });
   }

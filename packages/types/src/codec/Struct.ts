@@ -124,7 +124,7 @@ export default class Struct<
     }, 0);
   }
 
-  get (index: number): Base {
+  getAtIndex (index: number): Base {
     return this.values()[index];
   }
 
