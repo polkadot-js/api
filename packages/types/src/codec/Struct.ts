@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isObject, isU8a, u8aConcat } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -21,13 +21,15 @@ export default class Struct<
   V = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E = { [K in keyof S]: string }
-  > extends Base<T> {
+  > extends Map<keyof S, Codec<any>> implements Codec<Struct<S, T, V, E>> {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+    const decoded: T = Struct.decodeStruct(Types, value, jsonMap);
     super(
-      Struct.decodeStruct(Types, value, jsonMap)
+      // @ts-ignore This should really work...
+      Object.entries(decoded)
     );
 
     this._jsonMap = jsonMap;
@@ -115,17 +117,21 @@ export default class Struct<
   }
 
   get encodedLength (): number {
-    return Object.values(this.raw).reduce((length, entry) => {
+    return [...this.values()].reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
   }
 
-  getAtIndex (index: number): Base {
-    return this.values()[index];
+  getAtIndex (index: number): Codec<any> {
+    return [...this.values()][index];
+  }
+
+  toHex () {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
-    return Object.keys(this.raw).reduce((json, key) => {
+    return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key as any) || key;
 
       // @ts-ignore as above...
@@ -135,28 +141,20 @@ export default class Struct<
     }, {} as any);
   }
 
-  keys (): Array<string> {
-    return Object.keys(this.raw);
-  }
-
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...Object.values(this.raw).map((entry) =>
+      ...[...this.values()].map((entry) =>
         entry.toU8a(isBare)
       )
     );
   }
 
   toString (): string {
-    const data = Object.keys(this.raw).map((key) =>
+    const data = [...this.keys()].map((key) =>
       // @ts-ignore as above...
       `${key}: ${this.raw[key].toString()}`
     ).join(', ');
 
     return `{${data}}`;
-  }
-
-  values (): Array<Base> {
-    return Object.values(this.raw);
   }
 }

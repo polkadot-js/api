@@ -11,6 +11,14 @@ export type AnyNumber = UInt | BN | Uint8Array | number | string;
 
 export type AnyU8a = U8a | Uint8Array | Array<number> | string;
 
+export interface Codec<T> {
+  encodedLength: number;
+  toHex(): string
+  toJSON(): any;
+  toString(): string;
+  toU8a(isBare?: boolean): Uint8Array;
+}
+
 export type CodecTypes = keyof typeof Classes;
 
 export type Constructor<T> = { new(value?: any): T };
