@@ -23,7 +23,7 @@ import U16 from './U16';
 // end and work up. (Just so we don't use before definition)
 
 export class OuterDispatchCall extends Struct {
-  constructor(value?: any) {
+  constructor (value?: any) {
     super({
       name: Text,
       prefix: Text,
@@ -31,33 +31,33 @@ export class OuterDispatchCall extends Struct {
     }, value);
   }
 
-  get index(): U16 {
-    return this.raw.index as U16;
+  get index (): U16 {
+    return this.get('index') as U16;
   }
 
-  get name(): Text {
-    return this.raw.name as Text;
+  get name (): Text {
+    return this.get('name') as Text;
   }
 
-  get prefix(): Text {
-    return this.raw.prefix as Text;
+  get prefix (): Text {
+    return this.get('prefix') as Text;
   }
 }
 
 export class OuterDispatchMetadata extends Struct {
-  constructor(value?: any) {
+  constructor (value?: any) {
     super({
       name: Text,
       calls: Vector.with(OuterDispatchCall)
     }, value);
   }
 
-  get calls(): Vector<OuterDispatchCall> {
-    return this.raw.calls as Vector<OuterDispatchCall>;
+  get calls (): Vector<OuterDispatchCall> {
+    return this.get('calls') as Vector<OuterDispatchCall>;
   }
 
-  get name(): Text {
-    return this.raw.name as Text;
+  get name (): Text {
+    return this.get('name') as Text;
   }
 }
 
@@ -71,15 +71,15 @@ export class EventMetadata extends Struct {
   }
 
   get arguments (): Vector<Type> {
-    return this.raw.arguments as Vector<Type>;
+    return this.get('arguments') as Vector<Type>;
   }
 
   get documentation (): Vector<Text> {
-    return this.raw.documentation as Vector<Text>;
+    return this.get('documentation') as Vector<Text>;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -92,11 +92,11 @@ export class OuterEventMetadataEvent extends Tuple {
   }
 
   get events (): Vector<EventMetadata> {
-    return this.getAtIndex(1) as Vector<EventMetadata>;
+    return this.get('events') as Vector<EventMetadata>;
   }
 
   get name (): Text {
-    return this.getAtIndex(0) as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -109,11 +109,11 @@ export class OuterEventMetadata extends Struct {
   }
 
   get events (): Vector<OuterEventMetadataEvent> {
-    return this.raw.events as Vector<OuterEventMetadataEvent>;
+    return this.get('events') as Vector<OuterEventMetadataEvent>;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -126,11 +126,11 @@ export class FunctionArgumentMetadata extends Struct {
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 
   get type (): Type {
-    return this.raw.type as Type;
+    return this.get('type') as Type;
   }
 }
 
@@ -145,19 +145,19 @@ export class FunctionMetadata extends Struct {
   }
 
   get arguments (): Vector<FunctionArgumentMetadata> {
-    return this.raw.arguments as Vector<FunctionArgumentMetadata>;
+    return this.get('arguments') as Vector<FunctionArgumentMetadata>;
   }
 
   get documentation (): Vector<Text> {
-    return this.raw.documentation as Vector<Text>;
+    return this.get('documentation') as Vector<Text>;
   }
 
   get id (): U16 {
-    return this.raw.id as U16;
+    return this.get('id') as U16;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -170,11 +170,11 @@ export class CallMetadata extends Struct {
   }
 
   get functions (): Vector<FunctionMetadata> {
-    return this.raw.functions as Vector<FunctionMetadata>;
+    return this.get('functions') as Vector<FunctionMetadata>;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -187,11 +187,11 @@ export class ModuleMetadata extends Struct {
   }
 
   get call (): CallMetadata {
-    return this.raw.call as CallMetadata;
+    return this.get('call') as CallMetadata;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 }
 
@@ -210,11 +210,11 @@ export class StorageFunctionType$Map extends Struct {
   }
 
   get key (): Type {
-    return this.raw.type as Type;
+    return this.get('type') as Type;
   }
 
   get value (): Type {
-    return this.raw.value as Type;
+    return this.get('value') as Type;
   }
 }
 
@@ -263,19 +263,19 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   get documentation (): Vector<Text> {
-    return this.raw.documentation as Vector<Text>;
+    return this.get('documentation') as Vector<Text>;
   }
 
   get name (): Text {
-    return this.raw.name as Text;
+    return this.get('name') as Text;
   }
 
   get modifier (): StorageFunctionModifier {
-    return this.raw.modifier as StorageFunctionModifier;
+    return this.get('modifier') as StorageFunctionModifier;
   }
 
   get type (): StorageFunctionType {
-    return this.raw.type as StorageFunctionType;
+    return this.get('type') as StorageFunctionType;
   }
 }
 
@@ -288,11 +288,11 @@ export class StorageMetadata extends Struct {
   }
 
   get functions (): Vector<StorageFunctionMetadata> {
-    return this.raw.functions as Vector<StorageFunctionMetadata>;
+    return this.get('functions') as Vector<StorageFunctionMetadata>;
   }
 
   get prefix (): Text {
-    return this.raw.prefix as Text;
+    return this.get('prefix') as Text;
   }
 }
 
@@ -306,15 +306,15 @@ export class RuntimeModuleMetadata extends Struct {
   }
 
   get module (): ModuleMetadata {
-    return this.raw.module as ModuleMetadata;
+    return this.get('module') as ModuleMetadata;
   }
 
   get prefix (): Text {
-    return this.raw.prefix as Text;
+    return this.get('prefix') as Text;
   }
 
   get storage (): StorageMetadata | undefined {
-    return (this.raw.storage as Option<StorageMetadata>).value;
+    return (this.get('storage') as Option<StorageMetadata>).value;
   }
 }
 
@@ -358,15 +358,15 @@ export default class RuntimeMetadata extends Struct {
   }
 
   get calls (): Vector<OuterDispatchCall> {
-    return (this.raw.outerDispatch as OuterDispatchMetadata).calls;
+    return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
 
   get events (): Vector<OuterEventMetadataEvent> {
-    return (this.raw.outerEvent as OuterEventMetadata).events;
+    return (this.get('outerEvent') as OuterEventMetadata).events;
   }
 
   get modules (): Vector<RuntimeModuleMetadata> {
-    return this.raw.modules as Vector<RuntimeModuleMetadata>;
+    return this.get('modules') as Vector<RuntimeModuleMetadata>;
   }
 
   // Helper to retrieve a list of all type that are found, sorted and de-deuplicated

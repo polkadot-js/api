@@ -147,7 +147,8 @@ export default class Method extends Struct {
   }
 
   get args (): Array<Base> {
-    return (this.getAtIndex(1) as Struct<Base>).values();
+    // FIXME This should return a Struct instead of an Array
+    return [...(this.get('args') as Struct).values()];
   }
 
   get argsDef (): ArgsDef {
@@ -155,11 +156,11 @@ export default class Method extends Struct {
   }
 
   get callIndex (): Uint8Array {
-    return (this.getAtIndex(0) as MethodIndex).callIndex;
+    return (this.get('methodIndex') as MethodIndex).callIndex;
   }
 
   get data (): Uint8Array {
-    return (this.getAtIndex(1) as Struct<Base>).toU8a();
+    return (this.get('args') as Struct).toU8a();
   }
 
   get meta (): FunctionMetadata {
