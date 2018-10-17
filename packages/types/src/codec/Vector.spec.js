@@ -53,9 +53,9 @@ describe('Vector', () => {
     ]));
     const first = test.get(0);
 
-    expect(first.get(0).toNumber()).toEqual(10);
-    expect(first.get(1).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect(first.get(2).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
+    expect(first.getAtIndex(0).toNumber()).toEqual(10);
+    expect(first.getAtIndex(1).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect(first.getAtIndex(2).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
   describe('array-like functions', () => {
