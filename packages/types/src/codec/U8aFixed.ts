@@ -29,7 +29,7 @@ export default class U8aFixed extends U8a {
     this.raw = this.raw.subarray(0, this._trimLength());
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this._trimLength();
   }
 }

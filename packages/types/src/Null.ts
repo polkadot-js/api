@@ -10,7 +10,7 @@ export default class Null extends Base<null> {
     super(null);
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 0;
   }
 

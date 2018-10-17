@@ -92,13 +92,13 @@ describe('Compact', () => {
 
   it('has the correct byteLength for constructor values (default)', () => {
     expect(
-      new Compact(0xfffffff9, 64).byteLength()
+      new Compact(0xfffffff9, 64).encodedLength
     ).toEqual(9);
   });
 
   it('has the correct byteLength for constructor values (u32)', () => {
     expect(
-      new Compact(0xfffffff9, 32).byteLength()
+      new Compact(0xfffffff9, 32).encodedLength
     ).toEqual(5);
   });
 

@@ -46,7 +46,7 @@ export default class Bytes extends U8a {
     return this.raw.length;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 

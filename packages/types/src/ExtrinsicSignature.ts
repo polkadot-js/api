@@ -65,7 +65,7 @@ export default class ExtrinsicSignature extends Struct {
     // version has 1 byte, signature takes the rest
     return 1 + (
       this.isSigned
-        ? super.byteLength()
+        ? super.encodedLength
         : 0
     );
   }

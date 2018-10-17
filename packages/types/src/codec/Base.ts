@@ -22,7 +22,7 @@ export default class Base<T = any> {
     this.raw = value;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     throw new Error('Base::byteLength: unimplemented');
   }
 

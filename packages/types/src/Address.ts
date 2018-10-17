@@ -62,7 +62,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   byteLength (): number {
-    return this.raw.byteLength() + (
+    return this.raw.encodedLength + (
       this.raw instanceof AccountIndex
         ? 0
         : 1

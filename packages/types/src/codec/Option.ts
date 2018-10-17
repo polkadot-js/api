@@ -62,7 +62,7 @@ export default class Option<T> extends Base<Base<T>> {
   byteLength (): number {
     const childLength = this._isEmpty
       ? 0
-      : this.raw.byteLength();
+      : this.raw.encodedLength;
 
     return 1 + childLength;
   }
@@ -78,7 +78,7 @@ export default class Option<T> extends Base<Base<T>> {
       return this.raw.toU8a(true);
     }
 
-    const u8a = new Uint8Array(this.byteLength());
+    const u8a = new Uint8Array(this.encodedLength);
 
     if (!this._isEmpty) {
       u8a.set([1]);
