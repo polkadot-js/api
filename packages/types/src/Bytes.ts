@@ -50,14 +50,6 @@ export default class Bytes extends U8a {
     return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 
-  fromU8a (input: Uint8Array): Bytes {
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    super.fromU8a(input.subarray(offset, offset + length.toNumber()));
-
-    return this;
-  }
-
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
       ? this.raw

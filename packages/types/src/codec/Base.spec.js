@@ -9,7 +9,7 @@ describe('Base', () => {
     expect(new Base('foo-bar').raw).toEqual('foo-bar');
   });
 
-  ['byteLength', 'fromJSON', 'fromU8a', 'toJSON', 'toString', 'toU8a'].forEach((method) => {
+  ['byteLength', 'toJSON', 'toString', 'toU8a'].forEach((method) => {
     it(`has abstract (?) impl for ${method}`, () => {
       expect(
         () => new Base()[method]()

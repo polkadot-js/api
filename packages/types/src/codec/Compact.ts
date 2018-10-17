@@ -102,14 +102,6 @@ export default class Compact extends UInt {
     return this.toU8a().length;
   }
 
-  fromU8a (input: Uint8Array): UInt {
-    const [, value] = Compact.decodeU8a(input, this._bitLength);
-
-    this.raw = value;
-
-    return this;
-  }
-
   toU8a (isBare?: boolean): Uint8Array {
     return Compact.encodeU8a(this.raw, this._bitLength);
   }

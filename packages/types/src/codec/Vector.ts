@@ -87,21 +87,6 @@ export default class Vector<
     return this.raw.forEach(fn);
   }
 
-  fromJSON (input: any): Vector<T> {
-    // input could be null/undefined to indicate empty
-    this.raw = (input || []).map((input: any) =>
-      new this._Type().fromJSON(input)
-    );
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Vector<T> {
-    this.raw = Vector.decode(this._Type, input);
-
-    return this;
-  }
-
   get (index: number): T {
     return this.raw[index];
   }

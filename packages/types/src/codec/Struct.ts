@@ -7,7 +7,6 @@ import isHex from '@polkadot/util/is/hex';
 import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
-import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -123,36 +122,6 @@ export default class Struct<
     return Object.values(this.raw).reduce((length, entry) => {
       return length += entry.byteLength();
     }, 0);
-  }
-
-  fromJSON (input: any): Struct<S, T, V, E> {
-    if (isHex(input) || isU8a(input)) {
-      return this.fromU8a(toU8a(input));
-    }
-
-    // null & undefined yields empty
-    if (!input) {
-      input = {};
-    }
-
-    Object.keys(this.raw).forEach((key) => {
-      const jsonKey = this._jsonMap.get(key as any) || key;
-
-      // @ts-ignore as above...
-      this.raw[key].fromJSON(input[jsonKey]);
-    });
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Struct<S, T, V, E> {
-    Object.values(this.raw).reduce((offset, entry) => {
-      entry.fromU8a(input.subarray(offset));
-
-      return offset + entry.byteLength();
-    }, 0);
-
-    return this;
   }
 
   get (index: number): Base {

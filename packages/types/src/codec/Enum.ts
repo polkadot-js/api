@@ -42,20 +42,6 @@ export default class Enum extends Base<number> {
     return 1;
   }
 
-  fromJSON (input: any): Enum {
-    // FIXME We potentially want to assert that the value is actually inside this._enum
-    this.raw = input;
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Enum {
-    // FIXME We potentially want to assert that the value is actually inside this._enum
-    this.raw = input[0];
-
-    return this;
-  }
-
   toJSON (): any {
     return this.raw;
   }

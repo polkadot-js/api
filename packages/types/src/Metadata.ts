@@ -7,7 +7,6 @@ import { AnyNumber } from './types';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isHex from '@polkadot/util/is/hex';
 import isU8a from '@polkadot/util/is/u8a';
-import toU8a from '@polkadot/util/u8a/toU8a';
 
 import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
@@ -332,6 +331,8 @@ export default class RuntimeMetadata extends Struct {
 
   static decodeMetadata (value: any): object | Uint8Array {
     if (isHex(value)) {
+      // We receive this as an Array<number> in the JSON output from the Node.
+      // Convert to u8a and use the U8a version to do the actual parsing.
       return RuntimeMetadata.decodeMetadata(hexToU8a(value));
     } else if (isU8a(value)) {
       // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
@@ -350,34 +351,10 @@ export default class RuntimeMetadata extends Struct {
     return value;
   }
 
-  // We receive this as an Array<number> in the JSON output from the Node. Convert
-  // to u8a and use the fromU8a to do the actual parsing
-  fromJSON (input: Uint8Array | string | Array<number>): RuntimeMetadata {
-    return this.fromU8a(
-      toU8a(input)
-    );
-  }
-
-  fromU8a (input: Uint8Array): RuntimeMetadata {
-    // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
-    // encoded, it does not have a length prefix. For latest substrate master, it
-    // is properly encoded. Here we pull the prefix, check it agianst the length -
-    // if matches, then we have the length, otherwise we assume it is an older node
-    // and use the whole buffer
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    super.fromU8a(
-      input.length === (offset + length.toNumber())
-        ? input.subarray(offset)
-        : input
-    );
-
-    return this;
-  }
-
   // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
   // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match fromJSON. (However for now, it is useful in debugging)
+  // match the constructor with JSON. (However for now, it is useful in
+  // debugging).
   toJSON (): any {
     return super.toJSON();
   }

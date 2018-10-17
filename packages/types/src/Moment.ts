@@ -48,20 +48,6 @@ export default class Moment extends Base<Date> {
     return BITLENGTH / 8;
   }
 
-  fromJSON (input: any): Moment {
-    this.raw = Moment.decodeMoment(input);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Moment {
-    this.raw = Moment.decodeMoment(
-      u8aToBn(input.subarray(0, this.byteLength()), true)
-    );
-
-    return this;
-  }
-
   getTime (): number {
     return this.raw.getTime();
   }

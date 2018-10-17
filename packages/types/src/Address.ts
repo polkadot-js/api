@@ -69,20 +69,6 @@ export default class Address extends Base<AccountId | AccountIndex> {
     );
   }
 
-  fromJSON (input: any): Address {
-    this.raw = Address.decodeAddress(input);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Address {
-    this.raw = input[0] === 0xff
-      ? new AccountId().fromU8a(input.subarray(1))
-      : new AccountIndex().fromU8a(input);
-
-    return this;
-  }
-
   toHex (): string {
     return u8aToHex(this.toU8a());
   }

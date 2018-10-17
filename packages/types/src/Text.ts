@@ -53,20 +53,6 @@ export default class Text extends Base<string> {
     return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 
-  fromU8a (input: Uint8Array): Text {
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    this.raw = u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
-
-    return this;
-  }
-
-  fromJSON (input: any): Text {
-    this.raw = `${input || ''}`;
-
-    return this;
-  }
-
   toJSON (): any {
     return this.toString();
   }

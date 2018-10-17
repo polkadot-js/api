@@ -102,7 +102,7 @@ describe('Compact', () => {
     ).toEqual(5);
   });
 
-  it('constructs properly via fromU8a', () => {
+  it('constructs properly via U8a', () => {
     expect(
       new Compact(new Uint8Array([254, 255, 3, 0])).raw
     ).toEqual(new BN(0xffff));
