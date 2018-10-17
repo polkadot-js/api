@@ -34,7 +34,7 @@ export class Digest extends Struct {
   }
 
   get logs (): Vector<Bytes> {
-    return this.raw.logs as Vector<Bytes>;
+    return this.get('logs') as Vector<Bytes>;
   }
 }
 
@@ -51,15 +51,15 @@ export default class Header extends Struct {
   }
 
   get blockNumber (): BlockNumber {
-    return this.raw.number as BlockNumber;
+    return this.get('number') as BlockNumber;
   }
 
   get digest (): Digest {
-    return this.raw.digest as Digest;
+    return this.get('digest') as Digest;
   }
 
   get extrinsicsRoot (): Hash {
-    return this.raw.extrinsicsRoot as Hash;
+    return this.get('extrinsicRoot') as Hash;
   }
 
   // convenience, encodes the header and returns the actual hash
@@ -70,10 +70,10 @@ export default class Header extends Struct {
   }
 
   get parentHash (): Hash {
-    return this.raw.parentHash as Hash;
+    return this.get('parentHash') as Hash;
   }
 
   get stateRoot (): Hash {
-    return this.raw.stateRoot as Hash;
+    return this.get('stateRoot') as Hash;
   }
 }

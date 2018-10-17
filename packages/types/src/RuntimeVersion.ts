@@ -31,11 +31,11 @@ class RuntimeVersionApi extends Tuple {
   }
 
   get id (): ApiId {
-    return this.raw.id as ApiId;
+    return this.getAtIndex(0) as ApiId;
   }
 
   get version (): U32 {
-    return this.raw.version as U32;
+    return this.getAtIndex(1) as U32;
   }
 }
 
@@ -67,26 +67,26 @@ export default class RuntimeVersion extends Struct {
   }
 
   get apis (): Vector<RuntimeVersionApi> {
-    return this.raw.apis as Vector<RuntimeVersionApi>;
+    return this.get('apis') as Vector<RuntimeVersionApi>;
   }
 
   get authoringVersion (): U32 {
-    return this.raw.authoringVersion as U32;
+    return this.get('authoringVersion') as U32;
   }
 
   get implName (): Text {
-    return this.raw.implName as Text;
+    return this.get('implName') as Text;
   }
 
   get implVersion (): U32 {
-    return this.raw.implVersion as U32;
+    return this.get('implVersion') as U32;
   }
 
   get specName (): Text {
-    return this.raw.specName as Text;
+    return this.get('specName') as Text;
   }
 
   get specVersion (): U32 {
-    return this.raw.specVersion as U32;
+    return this.get('specVersion') as U32;
   }
 }

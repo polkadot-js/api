@@ -92,11 +92,11 @@ export class OuterEventMetadataEvent extends Tuple {
   }
 
   get events (): Vector<EventMetadata> {
-    return this.get('events') as Vector<EventMetadata>;
+    return this.getAtIndex(1) as Vector<EventMetadata>;
   }
 
   get name (): Text {
-    return this.get('name') as Text;
+    return this.getAtIndex(0) as Text;
   }
 }
 
