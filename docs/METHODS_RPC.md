@@ -20,11 +20,11 @@ _Authoring of network items_
 ▸ **pendingExtrinsics**(): `PendingExtrinsics`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
-▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
-- **summary**: Submit a fully formatted extrinsic for block inclusion
-
 ▸ **submitAndWatchExtrinsic**(extinsic: `Extrinsic`)**.subscribe**(CALLBACK): `ExtrinsicStatus`
 - **summary**: Subscribe and watch an extrinsic until unsubscribed
+
+▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
+- **summary**: Submit a fully formatted extrinsic for block inclusion
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>

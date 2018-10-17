@@ -31,20 +31,20 @@ ___
 
 ### <a id='balances'></a>balances
 
-▸ **transfer**(dest: `Address`, value: `Balance`)
-
 ▸ **setBalance**(who: `Address`, free: `Balance`, reserved: `Balance`)
+
+▸ **transfer**(dest: `Address`, value: `Balance`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='consensus'></a>consensus
 
-▸ **reportMisbehavior**(report: `MisbehaviorReport`)
-
 ▸ **noteOffline**(offline_val_indices: `Vec<u32>`)
 
 ▸ **remark**(remark: `Bytes`)
+
+▸ **reportMisbehavior**(report: `MisbehaviorReport`)
 
 ▸ **setCode**(new: `Bytes`)
 
@@ -64,23 +64,23 @@ ___
 
 ### <a id='council'></a>council
 
-▸ **setApprovals**(votes: `Vec<bool>`, index: `VoteIndex`)
+▸ **presentWinner**(candidate: `Address`, total: `Balance`, index: `VoteIndex`)
 
 ▸ **reapInactiveVoter**(reporter_index: `u32`, who: `Address`, who_index: `u32`, assumed_vote_index: `VoteIndex`)
 
+▸ **removeMember**(who: `Address`)
+
 ▸ **retractVoter**(index: `u32`)
 
-▸ **submitCandidacy**(slot: `u32`)
-
-▸ **presentWinner**(candidate: `Address`, total: `Balance`, index: `VoteIndex`)
+▸ **setApprovals**(votes: `Vec<bool>`, index: `VoteIndex`)
 
 ▸ **setDesiredSeats**(count: `u32`)
-
-▸ **removeMember**(who: `Address`)
 
 ▸ **setPresentationDuration**(count: `BlockNumber`)
 
 ▸ **setTermDuration**(count: `BlockNumber`)
+
+▸ **submitCandidacy**(slot: `u32`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -98,64 +98,64 @@ ___
 
 ▸ **propose**(proposal: `Proposal`)
 
-▸ **vote**(proposal: `Hash`, approve: `bool`)
-
-▸ **veto**(proposal_hash: `Hash`)
-
 ▸ **setCooloffPeriod**(blocks: `BlockNumber`)
 
 ▸ **setVotingPeriod**(blocks: `BlockNumber`)
+
+▸ **veto**(proposal_hash: `Hash`)
+
+▸ **vote**(proposal: `Hash`, approve: `bool`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='democracy'></a>democracy
 
+▸ **cancelReferendum**(ref_index: `ReferendumIndex`)
+
 ▸ **propose**(proposal: `Proposal`, value: `Balance`)
 
 ▸ **second**(proposal: `PropIndex`)
 
-▸ **vote**(ref_index: `ReferendumIndex`, approve_proposal: `bool`)
-
 ▸ **startReferendum**(proposal: `Proposal`, vote_threshold: `VoteThreshold`)
 
-▸ **cancelReferendum**(ref_index: `ReferendumIndex`)
+▸ **vote**(ref_index: `ReferendumIndex`, approve_proposal: `bool`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='session'></a>session
 
+▸ **forceNewSession**(apply_rewards: `bool`)
+
 ▸ **setKey**(key: `SessionKey`)
 
 ▸ **setLength**(new: `BlockNumber`)
-
-▸ **forceNewSession**(apply_rewards: `bool`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='staking'></a>staking
 
-▸ **stake**()
-
-▸ **unstake**(intentions_index: `u32`)
+▸ **forceNewEra**(apply_rewards: `bool`)
 
 ▸ **nominate**(target: `Address`)
 
-▸ **unnominate**(target_index: `u32`)
-
 ▸ **registerPreferences**(intentions_index: `u32`, prefs: `ValidatorPrefs`)
-
-▸ **setSessionsPerEra**(new: `BlockNumber`)
 
 ▸ **setBondingDuration**(new: `BlockNumber`)
 
+▸ **setOfflineSlashGrace**(new: `u32`)
+
+▸ **setSessionsPerEra**(new: `BlockNumber`)
+
 ▸ **setValidatorCount**(new: `u32`)
 
-▸ **forceNewEra**(apply_rewards: `bool`)
+▸ **stake**()
 
-▸ **setOfflineSlashGrace**(new: `u32`)
+▸ **unnominate**(target_index: `u32`)
+
+▸ **unstake**(intentions_index: `u32`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -169,12 +169,12 @@ ___
 
 ### <a id='treasury'></a>treasury
 
-▸ **proposeSpend**(value: `Balance`, beneficiary: `AccountId`)
-
-▸ **setPot**(new_pot: `Balance`)
+▸ **approveProposal**(proposal_id: `ProposalIndex`)
 
 ▸ **configure**(proposal_bond: `Permill`, proposal_bond_minimum: `Balance`, spend_period: `BlockNumber`, burn: `Permill`)
 
+▸ **proposeSpend**(value: `Balance`, beneficiary: `AccountId`)
+
 ▸ **rejectProposal**(roposal_id: `ProposalIndex`)
 
-▸ **approveProposal**(proposal_id: `ProposalIndex`)
+▸ **setPot**(new_pot: `Balance`)

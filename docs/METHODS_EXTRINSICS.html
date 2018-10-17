@@ -411,14 +411,14 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="balances"><a id="balances"></a>balances</h3>
-<p>&#x25B8; <strong>transfer</strong>(dest: <code>Address</code>, value: <code>Balance</code>)</p>
 <p>&#x25B8; <strong>setBalance</strong>(who: <code>Address</code>, free: <code>Balance</code>, reserved: <code>Balance</code>)</p>
+<p>&#x25B8; <strong>transfer</strong>(dest: <code>Address</code>, value: <code>Balance</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="consensus"><a id="consensus"></a>consensus</h3>
-<p>&#x25B8; <strong>reportMisbehavior</strong>(report: <code>MisbehaviorReport</code>)</p>
 <p>&#x25B8; <strong>noteOffline</strong>(offline_val_indices: <code>Vec&lt;u32&gt;</code>)</p>
 <p>&#x25B8; <strong>remark</strong>(remark: <code>Bytes</code>)</p>
+<p>&#x25B8; <strong>reportMisbehavior</strong>(report: <code>MisbehaviorReport</code>)</p>
 <p>&#x25B8; <strong>setCode</strong>(new: <code>Bytes</code>)</p>
 <p>&#x25B8; <strong>setStorage</strong>(items: <code>Vec&lt;KeyValue&gt;</code>)</p>
 <hr>
@@ -429,15 +429,15 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="council"><a id="council"></a>council</h3>
-<p>&#x25B8; <strong>setApprovals</strong>(votes: <code>Vec&lt;bool&gt;</code>, index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>reapInactiveVoter</strong>(reporter_index: <code>u32</code>, who: <code>Address</code>, who_index: <code>u32</code>, assumed_vote_index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>retractVoter</strong>(index: <code>u32</code>)</p>
-<p>&#x25B8; <strong>submitCandidacy</strong>(slot: <code>u32</code>)</p>
 <p>&#x25B8; <strong>presentWinner</strong>(candidate: <code>Address</code>, total: <code>Balance</code>, index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>setDesiredSeats</strong>(count: <code>u32</code>)</p>
+<p>&#x25B8; <strong>reapInactiveVoter</strong>(reporter_index: <code>u32</code>, who: <code>Address</code>, who_index: <code>u32</code>, assumed_vote_index: <code>VoteIndex</code>)</p>
 <p>&#x25B8; <strong>removeMember</strong>(who: <code>Address</code>)</p>
+<p>&#x25B8; <strong>retractVoter</strong>(index: <code>u32</code>)</p>
+<p>&#x25B8; <strong>setApprovals</strong>(votes: <code>Vec&lt;bool&gt;</code>, index: <code>VoteIndex</code>)</p>
+<p>&#x25B8; <strong>setDesiredSeats</strong>(count: <code>u32</code>)</p>
 <p>&#x25B8; <strong>setPresentationDuration</strong>(count: <code>BlockNumber</code>)</p>
 <p>&#x25B8; <strong>setTermDuration</strong>(count: <code>BlockNumber</code>)</p>
+<p>&#x25B8; <strong>submitCandidacy</strong>(slot: <code>u32</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilmotions"><a id="councilMotions"></a>councilMotions</h3>
@@ -447,37 +447,37 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
 <p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>)</p>
-<p>&#x25B8; <strong>vote</strong>(proposal: <code>Hash</code>, approve: <code>bool</code>)</p>
-<p>&#x25B8; <strong>veto</strong>(proposal_hash: <code>Hash</code>)</p>
 <p>&#x25B8; <strong>setCooloffPeriod</strong>(blocks: <code>BlockNumber</code>)</p>
 <p>&#x25B8; <strong>setVotingPeriod</strong>(blocks: <code>BlockNumber</code>)</p>
+<p>&#x25B8; <strong>veto</strong>(proposal_hash: <code>Hash</code>)</p>
+<p>&#x25B8; <strong>vote</strong>(proposal: <code>Hash</code>, approve: <code>bool</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="democracy"><a id="democracy"></a>democracy</h3>
+<p>&#x25B8; <strong>cancelReferendum</strong>(ref_index: <code>ReferendumIndex</code>)</p>
 <p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>, value: <code>Balance</code>)</p>
 <p>&#x25B8; <strong>second</strong>(proposal: <code>PropIndex</code>)</p>
-<p>&#x25B8; <strong>vote</strong>(ref_index: <code>ReferendumIndex</code>, approve_proposal: <code>bool</code>)</p>
 <p>&#x25B8; <strong>startReferendum</strong>(proposal: <code>Proposal</code>, vote_threshold: <code>VoteThreshold</code>)</p>
-<p>&#x25B8; <strong>cancelReferendum</strong>(ref_index: <code>ReferendumIndex</code>)</p>
+<p>&#x25B8; <strong>vote</strong>(ref_index: <code>ReferendumIndex</code>, approve_proposal: <code>bool</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="session"><a id="session"></a>session</h3>
+<p>&#x25B8; <strong>forceNewSession</strong>(apply_rewards: <code>bool</code>)</p>
 <p>&#x25B8; <strong>setKey</strong>(key: <code>SessionKey</code>)</p>
 <p>&#x25B8; <strong>setLength</strong>(new: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>forceNewSession</strong>(apply_rewards: <code>bool</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="staking"><a id="staking"></a>staking</h3>
-<p>&#x25B8; <strong>stake</strong>()</p>
-<p>&#x25B8; <strong>unstake</strong>(intentions_index: <code>u32</code>)</p>
-<p>&#x25B8; <strong>nominate</strong>(target: <code>Address</code>)</p>
-<p>&#x25B8; <strong>unnominate</strong>(target_index: <code>u32</code>)</p>
-<p>&#x25B8; <strong>registerPreferences</strong>(intentions_index: <code>u32</code>, prefs: <code>ValidatorPrefs</code>)</p>
-<p>&#x25B8; <strong>setSessionsPerEra</strong>(new: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setBondingDuration</strong>(new: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setValidatorCount</strong>(new: <code>u32</code>)</p>
 <p>&#x25B8; <strong>forceNewEra</strong>(apply_rewards: <code>bool</code>)</p>
+<p>&#x25B8; <strong>nominate</strong>(target: <code>Address</code>)</p>
+<p>&#x25B8; <strong>registerPreferences</strong>(intentions_index: <code>u32</code>, prefs: <code>ValidatorPrefs</code>)</p>
+<p>&#x25B8; <strong>setBondingDuration</strong>(new: <code>BlockNumber</code>)</p>
 <p>&#x25B8; <strong>setOfflineSlashGrace</strong>(new: <code>u32</code>)</p>
+<p>&#x25B8; <strong>setSessionsPerEra</strong>(new: <code>BlockNumber</code>)</p>
+<p>&#x25B8; <strong>setValidatorCount</strong>(new: <code>u32</code>)</p>
+<p>&#x25B8; <strong>stake</strong>()</p>
+<p>&#x25B8; <strong>unnominate</strong>(target_index: <code>u32</code>)</p>
+<p>&#x25B8; <strong>unstake</strong>(intentions_index: <code>u32</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="timestamp"><a id="timestamp"></a>timestamp</h3>
@@ -485,11 +485,11 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="treasury"><a id="treasury"></a>treasury</h3>
-<p>&#x25B8; <strong>proposeSpend</strong>(value: <code>Balance</code>, beneficiary: <code>AccountId</code>)</p>
-<p>&#x25B8; <strong>setPot</strong>(new_pot: <code>Balance</code>)</p>
-<p>&#x25B8; <strong>configure</strong>(proposal_bond: <code>Permill</code>, proposal_bond_minimum: <code>Balance</code>, spend_period: <code>BlockNumber</code>, burn: <code>Permill</code>)</p>
-<p>&#x25B8; <strong>rejectProposal</strong>(roposal_id: <code>ProposalIndex</code>)</p>
 <p>&#x25B8; <strong>approveProposal</strong>(proposal_id: <code>ProposalIndex</code>)</p>
+<p>&#x25B8; <strong>configure</strong>(proposal_bond: <code>Permill</code>, proposal_bond_minimum: <code>Balance</code>, spend_period: <code>BlockNumber</code>, burn: <code>Permill</code>)</p>
+<p>&#x25B8; <strong>proposeSpend</strong>(value: <code>Balance</code>, beneficiary: <code>AccountId</code>)</p>
+<p>&#x25B8; <strong>rejectProposal</strong>(roposal_id: <code>ProposalIndex</code>)</p>
+<p>&#x25B8; <strong>setPot</strong>(new_pot: <code>Balance</code>)</p>
 
                                 
                                 </section>
@@ -533,7 +533,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"previous":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2018-10-16T10:38:10.580Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-16T10:40:12.142Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"previous":{"title":"Storage chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2018-10-17T05:15:28.119Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-17T05:17:27.422Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
