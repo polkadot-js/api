@@ -7,8 +7,8 @@ import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import isObject from '@polkadot/util/is/object';
 import isU8a from '@polkadot/util/is/u8a';
 
-import { AnyU8a, Constructor } from './types';
 import Base from './codec/Base';
+import { Constructor } from './types';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import MethodIndex from './MethodIndex';
@@ -24,11 +24,14 @@ interface ArgsDef {
   [index: string]: Constructor<Base>;
 }
 
-interface DecodedMethod {
+interface DecodeMethodInput {
   args: any;
+  methodIndex: MethodIndex | Uint8Array;
+}
+
+interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadata;
-  methodIndex: MethodIndex | AnyU8a;
 }
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
@@ -51,7 +54,17 @@ export default class Method extends Struct {
     this._meta = decoded.meta;
   }
 
-  static decodeMethod (value: Uint8Array | string | DecodedMethod, _meta?: FunctionMetadata): DecodedMethod {
+  /**
+   * Decode input to pass into constructor.
+   *
+   * @param value - Value to decode, one of:
+   * - hex
+   * - Uint8Array
+   * - {@see DecodeMethodInput}
+   * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
+   * necessary.
+   */
+  private static decodeMethod (value: Uint8Array | string | DecodeMethodInput, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(value, _meta);
     } else if (isU8a(value)) {
@@ -65,11 +78,22 @@ export default class Method extends Struct {
       const argsDef = Method.getArgsDef(meta);
 
       return { args: value.subarray(2), argsDef, methodIndex: callIndex, meta };
-    } else if (isObject(value) && _meta && (value as any).methodIndex && (value as any).args) {
-      // If we instantiate a Method with an object value, we require (for now)
-      // that `_meta` be specified.
-      const argsDef = Method.getArgsDef(_meta);
-      return { ...value, argsDef };
+    } else if (
+      isObject(value) &&
+      (value as DecodeMethodInput).methodIndex &&
+      (value as DecodeMethodInput).args
+    ) {
+      // Get the correct callIndex
+      const callIndex = value.methodIndex instanceof MethodIndex
+        ? value.methodIndex.callIndex
+        : value.methodIndex;
+
+      // Find metadata with callIndex
+      const meta = _meta || Method.findFunction(callIndex).meta;
+
+      // Get Struct definition of the arguments
+      const argsDef = Method.getArgsDef(meta);
+      return { ...value, argsDef, meta };
     }
 
     throw new Error(`Method: cannot decode value "${value}".`);
