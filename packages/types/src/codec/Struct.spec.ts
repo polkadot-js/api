@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { CodecTo } from '../types';
 import Struct from './Struct';
 import Text from '../Text';
 import U32 from '../U32';
 import Vector from './Vector';
 
-const testDecode = (type, input) =>
+const testDecode = (type: string, input: any) =>
   it(`can decode from ${type}`, () => {
     const s = new Struct({
       foo: Text,
@@ -21,7 +22,7 @@ const testDecode = (type, input) =>
     ).toEqual(['bazzing', '69']);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: CodecTo, expected: any) =>
   it(`can encode ${to}`, () => {
     const s = new Struct({
       foo: Text,
@@ -39,7 +40,7 @@ describe('Struct', () => {
   testEncode('toHex', '0x1c62617a7a696e6745000000');
   testEncode('toJSON', { foo: 'bazzing', bar: 69 });
   testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
-  testEncode('toString', '{foo: bazzing, bar: 69}');
+  testEncode('toString', '{"foo":"bazzing","bar":69}');
 
   it('decodes a more complicated type', () => {
     const s = new Struct({
@@ -47,20 +48,7 @@ describe('Struct', () => {
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
-    expect(s.toString()).toBe('{foo: [{bar: 1}, {bar: 2}]}');
-  });
-
-  it('gets the value at a particular index', () => {
-    expect(
-      new (
-        Struct.with({
-          txt: Text,
-          u32: U32
-        })
-      )({ txt: 'foo', u32: 0x123456 })
-        .getAtIndex(1)
-        .toString()
-    ).toEqual(`{txt: foo, u32: 1193046}`);
+    expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
   });
 
   it('provides a clean toString()', () => {
@@ -71,7 +59,7 @@ describe('Struct', () => {
           u32: U32
         })
       )({ txt: 'foo', u32: 0x123456 }).toString()
-    ).toEqual(`{txt: foo, u32: 1193046}`);
+    ).toEqual(`{"txt":"foo","u32":1193046}`);
   });
 
   it('exposes the types', () => {
@@ -80,11 +68,28 @@ describe('Struct', () => {
         foo: Text,
         bar: Text,
         baz: U32
+      }, {
+        foo: 'foo',
+        bar: 'bar',
+        baz: 3
       }).Type
     ).toEqual({
       foo: 'Text',
       bar: 'Text',
       baz: 'U32'
     });
+  });
+
+  it('gets the value at a particular index', () => {
+    expect(
+      new (
+        Struct.with({
+          txt: Text,
+          u32: U32
+        })
+      )({ txt: 'foo', u32: 1234 })
+        .getAtIndex(1)
+        .toString()
+    ).toEqual('1234');
   });
 });

@@ -4,7 +4,8 @@
 
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { Codec, Constructor } from '../types';
+import Base from './Base';
+import { Codec, Constructor, ConstructorDef } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
 // a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
@@ -13,21 +14,21 @@ import { Codec, Constructor } from '../types';
 // it needs to decoded in the specific defined order.
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
-  S = { [index: string]: Constructor<Codec> },
+  S extends ConstructorDef = ConstructorDef,
   // internal type, instance of classes mapped by key
-  T = { [K in keyof S]: Codec },
+  T extends { [K in keyof S]: Base } = { [K in keyof S]: Base },
   // input values, mapped by key can be anything (construction)
-  V = { [K in keyof S]: any },
+  V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
-  E = { [K in keyof S]: string }
-  > extends Map<keyof S, Codec> implements Codec {
+  E extends { [K in keyof S]: string } = { [K in keyof S]: string }
+  > extends Map<keyof S, Base> implements Codec {
+  public raw: any; // FIXME Remove this once we convert all types out of Base
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
-    const decoded: T = Struct.decodeStruct(Types, value, jsonMap);
+    const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
     super(
-      // @ts-ignore This should really work...
       Object.entries(decoded)
     );
 
@@ -35,14 +36,32 @@ export default class Struct<
     this._Types = Object
       .keys(Types)
       .reduce((result: E, key) => {
-        // @ts-ignore Same as above, can't do a simple one, I'm missing something simple
         result[key] = Types[key].name;
 
         return result;
       }, {} as E);
   }
 
-  static decodeStruct<S, V, T> (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+  /**
+   * Decode input to pass into constructor.
+   *
+   * @param Types - Types definition.
+   * @param value - Value to decode, one of:
+   * - null
+   * - undefined
+   * - hex
+   * - Uint8Array
+   * - object with `{ key1: value1, key2: value2 }`, assuming `key1` and `key2`
+   * are also keys in `Types`
+   * - array with `[value1, value2]` assuming the array has the same length as
+   * `Object.keys(Types)`
+   * @param jsonMap
+   */
+  private static decodeStruct<
+    S extends ConstructorDef,
+    _,
+    T extends { [K in keyof S]: Base }
+    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
@@ -55,15 +74,14 @@ export default class Struct<
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
 
-    return Object
-      .keys(Types)
+    return (Object
+      .keys(Types) as Array<keyof S>)
       .reduce((raw: T, key, index) => {
         // The key in the JSON can be snake_case (or other cases), but in our
         // Types, result or any other maps, it's camelCase
         const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
         if (isU8a(value)) {
-          // @ts-ignore FIXME See below
           raw[key] = new Types[key](
             value.subarray(
               currentIndex
@@ -71,30 +89,17 @@ export default class Struct<
           );
 
           // Move the currentIndex forward
-          // @ts-ignore FIXME See below
           currentIndex += raw[key].encodedLength;
-          // @ts-ignore FIXME See below
-        } else if (value[jsonKey] instanceof Types[key]) {
-          // @ts-ignore FIXME See below
-          raw[key] = value[jsonKey];
+        } else if (!isUndefined(value[jsonKey])) {
+          raw[key] = value[jsonKey] instanceof Types[key]
+            ? value[jsonKey]
+            : new Types[key](value[jsonKey]);
         } else if (Array.isArray(value) && value.length === Object.keys(Types).length) {
-          // @ts-ignore FIXME See below
-          raw[key] = new Types[key](
-            // @ts-ignore FIXME
-            value[index]
-          );
-        } else if (isObject(value)) {
-          // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
-          // it works, so ignore the checker, although it drives me batty. (It started when
-          // the [key in keyof T] was added, the idea is to provide better checks, which
-          // does backfire here, but works externally.)
-          raw[key] = new Types[key](
-            // @ts-ignore FIXME
-            value[jsonKey]
-          );
+          raw[key] = value[index] instanceof Types[key]
+            ? value[index]
+            : new Types[key](value[index]);
         } else {
-          // @ts-ignore FIXME
-          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${value}".`);
+          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${JSON.stringify(value)}".`);
         }
 
         return raw;
@@ -102,7 +107,7 @@ export default class Struct<
   }
 
   static with<
-    S = { [index: string]: Constructor<Codec> }
+    S extends ConstructorDef
     > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
@@ -121,7 +126,7 @@ export default class Struct<
     }, 0);
   }
 
-  getAtIndex (index: number): Codec {
+  getAtIndex (index: number): Base {
     return [...this.values()][index];
   }
 
@@ -133,11 +138,15 @@ export default class Struct<
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
 
-      // @ts-ignore Possibly undefined, but it's not!
-      json[jsonKey] = this.get(key).toJSON();
+      const value = this.get(key);
+      json[jsonKey] = value && value.toJSON();
 
       return json;
     }, {} as any);
+  }
+
+  toString () {
+    return JSON.stringify(this.toJSON());
   }
 
   toU8a (isBare?: boolean): Uint8Array {
@@ -146,14 +155,5 @@ export default class Struct<
         entry.toU8a(isBare)
       )
     );
-  }
-
-  toString (): string {
-    const data = [...this.keys()].map((key) =>
-      // @ts-ignore as above...
-      `${key}: ${this.get(key).toString()}`
-    ).join(', ');
-
-    return `{${data}}`;
   }
 }
