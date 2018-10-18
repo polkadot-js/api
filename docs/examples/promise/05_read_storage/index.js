@@ -15,8 +15,8 @@ async function main () {
     api.query.session.validators()
   ]);
 
-  console.log(`accountNonce(${Alice}) ${accountNonce}`);
-  console.log(`blockPeriod ${blockPeriod.toNumber()} seconds`);
+  console.log(`accountNonce of address ${Alice}: ${accountNonce}`);
+  console.log(`blockPeriod: ${blockPeriod.toNumber()} seconds`);
 
   // Retrieve the balances for all validators
   const validatorBalances = await Promise.all(
@@ -25,7 +25,7 @@ async function main () {
     )
   );
 
-  console.log('validators', validators.map((authorityId, index) => ({
+  console.log('validators: ', validators.map((authorityId, index) => ({
     address: authorityId.toString(),
     balance: validatorBalances[index].toString()
   })));
