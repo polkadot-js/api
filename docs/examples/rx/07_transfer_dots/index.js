@@ -31,7 +31,6 @@ async function main () {
               // Pipe nonce into transfer.
               // Use the Extrinsics (runtime) Node Interface.
               switchMap((aliceNonce, blockHash) => {
-                // Retrieve the balances for all validators
                 return combineLatest(
                   [aliceNonce].map((aliceNonce) =>
                     api.tx.balances
