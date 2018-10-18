@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Extrinsics (runtime) · Polkadot API Book</title>
+        <title>Events (runtime) · Polkadot API Book</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="METHODS_EVENTS.html" />
+    <link rel="next" href="examples/promise/" />
     
     
-    <link rel="prev" href="METHODS_STORAGE.html" />
+    <link rel="prev" href="METHODS_EXTRINSICS.html" />
     
 
     </head>
@@ -231,7 +231,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="2.3" data-path="METHODS_EXTRINSICS.html">
+        <li class="chapter " data-level="2.3" data-path="METHODS_EXTRINSICS.html">
             
                 <a href="METHODS_EXTRINSICS.html">
             
@@ -244,7 +244,7 @@
             
         </li>
     
-        <li class="chapter " data-level="2.4" data-path="METHODS_EVENTS.html">
+        <li class="chapter active" data-level="2.4" data-path="METHODS_EVENTS.html">
             
                 <a href="METHODS_EVENTS.html">
             
@@ -378,7 +378,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >Extrinsics (runtime)</a>
+        <a href="." >Events (runtime)</a>
     </h1>
 </div>
 
@@ -393,12 +393,10 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="extrinsics"><a id="top" style="text-decoration: none;">Extrinsics</a></h2>
-<p><em>The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return.</em></p>
+                                <h2 id="events"><a id="top" style="text-decoration: none;">Events</a></h2>
+<p>Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.</p>
 <ul>
 <li><p><strong><a href="#balances">balances</a></strong></p>
-</li>
-<li><p><strong><a href="#consensus">consensus</a></strong></p>
 </li>
 <li><p><strong><a href="#contract">contract</a></strong></p>
 </li>
@@ -416,93 +414,149 @@
 </li>
 <li><p><strong><a href="#system">system</a></strong></p>
 </li>
-<li><p><strong><a href="#timestamp">timestamp</a></strong></p>
-</li>
 <li><p><strong><a href="#treasury">treasury</a></strong></p>
 </li>
 </ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="balances"><a id="balances"></a>balances</h3>
-<p>&#x25B8; <strong>setBalance</strong>(who: <code>Address</code>, free: <code>Balance</code>, reserved: <code>Balance</code>)</p>
-<p>&#x25B8; <strong>transfer</strong>(dest: <code>Address</code>, value: <code>Balance</code>)</p>
-<hr>
-<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
-<h3 id="consensus"><a id="consensus"></a>consensus</h3>
-<p>&#x25B8; <strong>noteOffline</strong>(offline_val_indices: <code>Vec&lt;u32&gt;</code>)</p>
-<p>&#x25B8; <strong>remark</strong>(remark: <code>Bytes</code>)</p>
-<p>&#x25B8; <strong>reportMisbehavior</strong>(report: <code>MisbehaviorReport</code>)</p>
-<p>&#x25B8; <strong>setCode</strong>(new: <code>Bytes</code>)</p>
-<p>&#x25B8; <strong>setStorage</strong>(items: <code>Vec&lt;KeyValue&gt;</code>)</p>
+<p>&#x25B8; <strong>NewAccount</strong>(<code>AccountId</code>, <code>AccountIndex</code>, <code>NewAccountOutcome</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A new account was created.</li>
+</ul>
+<p>&#x25B8; <strong>ReapedAccount</strong>(<code>AccountId</code>)</p>
+<ul>
+<li><strong>summary</strong>:   An account was reaped.</li>
+</ul>
+<p>&#x25B8; <strong>Transfer</strong>(<code>AccountId</code>, <code>AccountId</code>, <code>Balance</code>, <code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Transfer succeeded (from, to, value, fees).</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="contract"><a id="contract"></a>contract</h3>
-<p>&#x25B8; <strong>call</strong>(dest: <code>AccountId</code>, value: <code>Balance</code>, gas_limit: <code>Gas</code>, data: <code>Bytes</code>)</p>
-<p>&#x25B8; <strong>create</strong>(value: <code>Balance</code>, gas_limit: <code>Gas</code>, init_code: <code>Bytes</code>, data: <code>Bytes</code>)</p>
+<p>&#x25B8; <strong>Transfer</strong>(<code>AccountId</code>, <code>AccountId</code>, <code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Transfer happened <code>from</code> -&gt; <code>to</code> with given <code>value</code> as part of a <code>message-call</code> or <code>create</code>.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="council"><a id="council"></a>council</h3>
-<p>&#x25B8; <strong>presentWinner</strong>(candidate: <code>Address</code>, total: <code>Balance</code>, index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>reapInactiveVoter</strong>(reporter_index: <code>u32</code>, who: <code>Address</code>, who_index: <code>u32</code>, assumed_vote_index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>removeMember</strong>(who: <code>Address</code>)</p>
-<p>&#x25B8; <strong>retractVoter</strong>(index: <code>u32</code>)</p>
-<p>&#x25B8; <strong>setApprovals</strong>(votes: <code>Vec&lt;bool&gt;</code>, index: <code>VoteIndex</code>)</p>
-<p>&#x25B8; <strong>setDesiredSeats</strong>(count: <code>u32</code>)</p>
-<p>&#x25B8; <strong>setPresentationDuration</strong>(count: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setTermDuration</strong>(count: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>submitCandidacy</strong>(slot: <code>u32</code>)</p>
+<p>&#x25B8; <strong>BadReaperSlashed</strong>(<code>AccountId</code>)</p>
+<ul>
+<li><strong>summary</strong>:   slashed reaper</li>
+</ul>
+<p>&#x25B8; <strong>TallyFinalised</strong>(<code>Vec&lt;AccountId&gt;</code>, <code>Vec&lt;AccountId&gt;</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A tally (for approval votes of council seat(s)) has ended (with one or more new members).</li>
+</ul>
+<p>&#x25B8; <strong>TallyStarted</strong>(<code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A tally (for approval votes of council seat(s)) has started.</li>
+</ul>
+<p>&#x25B8; <strong>VoterReaped</strong>(<code>AccountId</code>, <code>AccountId</code>)</p>
+<ul>
+<li><strong>summary</strong>:   reaped voter, reaper</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilmotions"><a id="councilMotions"></a>councilMotions</h3>
-<p>&#x25B8; <strong>propose</strong>(threshold: <code>u32</code>, proposal: <code>Proposal</code>)</p>
-<p>&#x25B8; <strong>vote</strong>(proposal: <code>Hash</code>, index: <code>ProposalIndex</code>, approve: <code>bool</code>)</p>
+<p>&#x25B8; <strong>Approved</strong>(<code>Hash</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A motion was approved by the required threshold.</li>
+</ul>
+<p>&#x25B8; <strong>Disapproved</strong>(<code>Hash</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A motion was not approved by the required threshold.</li>
+</ul>
+<p>&#x25B8; <strong>Executed</strong>(<code>Hash</code>, <code>bool</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A motion was executed; <code>bool</code> is true if returned without error.</li>
+</ul>
+<p>&#x25B8; <strong>Proposed</strong>(<code>AccountId</code>, <code>ProposalIndex</code>, <code>Hash</code>, <code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A motion (given hash) has been proposed (by given account) with a threshold (given u32).</li>
+</ul>
+<p>&#x25B8; <strong>Voted</strong>(<code>AccountId</code>, <code>Hash</code>, <code>bool</code>, <code>u32</code>, <code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given as u32s respectively).</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
-<p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>)</p>
-<p>&#x25B8; <strong>setCooloffPeriod</strong>(blocks: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setVotingPeriod</strong>(blocks: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>veto</strong>(proposal_hash: <code>Hash</code>)</p>
-<p>&#x25B8; <strong>vote</strong>(proposal: <code>Hash</code>, approve: <code>bool</code>)</p>
+<p>&#x25B8; <strong>TallyCancelation</strong>(<code>Hash</code>, <code>u32</code>, <code>u32</code>, <code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A voting tally has happened for a referendum cancellation vote.  Last three are yes, no, abstain counts.</li>
+</ul>
+<p>&#x25B8; <strong>TallyReferendum</strong>(<code>Hash</code>, <code>u32</code>, <code>u32</code>, <code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A voting tally has happened for a referendum vote.  Last three are yes, no, abstain counts.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="democracy"><a id="democracy"></a>democracy</h3>
-<p>&#x25B8; <strong>cancelReferendum</strong>(ref_index: <code>ReferendumIndex</code>)</p>
-<p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>, value: <code>Balance</code>)</p>
-<p>&#x25B8; <strong>second</strong>(proposal: <code>PropIndex</code>)</p>
-<p>&#x25B8; <strong>startReferendum</strong>(proposal: <code>Proposal</code>, vote_threshold: <code>VoteThreshold</code>)</p>
-<p>&#x25B8; <strong>vote</strong>(ref_index: <code>ReferendumIndex</code>, approve_proposal: <code>bool</code>)</p>
+<p>&#x25B8; <strong>Cancelled</strong>(<code>ReferendumIndex</code>)</p>
+<p>&#x25B8; <strong>Executed</strong>(<code>ReferendumIndex</code>, <code>bool</code>)</p>
+<p>&#x25B8; <strong>NotPassed</strong>(<code>ReferendumIndex</code>)</p>
+<p>&#x25B8; <strong>Passed</strong>(<code>ReferendumIndex</code>)</p>
+<p>&#x25B8; <strong>Started</strong>(<code>ReferendumIndex</code>, <code>VoteThreshold</code>)</p>
+<p>&#x25B8; <strong>Tabled</strong>(<code>PropIndex</code>, <code>Balance</code>, <code>Vec&lt;AccountId&gt;</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="session"><a id="session"></a>session</h3>
-<p>&#x25B8; <strong>forceNewSession</strong>(apply_rewards: <code>bool</code>)</p>
-<p>&#x25B8; <strong>setKey</strong>(key: <code>SessionKey</code>)</p>
-<p>&#x25B8; <strong>setLength</strong>(new: <code>BlockNumber</code>)</p>
+<p>&#x25B8; <strong>NewSession</strong>(<code>BlockNumber</code>)</p>
+<ul>
+<li><strong>summary</strong>:   New session has happened. Note that the argument is the session index, not the block  number as the type might suggest.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="staking"><a id="staking"></a>staking</h3>
-<p>&#x25B8; <strong>forceNewEra</strong>(apply_rewards: <code>bool</code>)</p>
-<p>&#x25B8; <strong>nominate</strong>(target: <code>Address</code>)</p>
-<p>&#x25B8; <strong>registerPreferences</strong>(intentions_index: <code>u32</code>, prefs: <code>ValidatorPrefs</code>)</p>
-<p>&#x25B8; <strong>setBondingDuration</strong>(new: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setOfflineSlashGrace</strong>(new: <code>u32</code>)</p>
-<p>&#x25B8; <strong>setSessionsPerEra</strong>(new: <code>BlockNumber</code>)</p>
-<p>&#x25B8; <strong>setValidatorCount</strong>(new: <code>u32</code>)</p>
-<p>&#x25B8; <strong>stake</strong>()</p>
-<p>&#x25B8; <strong>unnominate</strong>(target_index: <code>u32</code>)</p>
-<p>&#x25B8; <strong>unstake</strong>(intentions_index: <code>u32</code>)</p>
+<p>&#x25B8; <strong>OfflineSlash</strong>(<code>AccountId</code>, <code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   One validator (and their nominators) has been slashed by the given amount.</li>
+</ul>
+<p>&#x25B8; <strong>OfflineWarning</strong>(<code>AccountId</code>, <code>u32</code>)</p>
+<ul>
+<li><strong>summary</strong>:   One validator (and their nominators) has been given a offline-warning (they&apos;re still  within their grace). The accrued number of slashes is recorded, too.</li>
+</ul>
+<p>&#x25B8; <strong>Reward</strong>(<code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   All validators have been rewarded by the given balance.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
-<h3 id="timestamp"><a id="timestamp"></a>timestamp</h3>
-<p>&#x25B8; <strong>set</strong>(now: <code>Moment</code>)</p>
+<h3 id="system"><a id="system"></a>system</h3>
+<p>&#x25B8; <strong>ExtrinsicFailed</strong>()</p>
+<ul>
+<li><strong>summary</strong>:   An extrinsic failed.</li>
+</ul>
+<p>&#x25B8; <strong>ExtrinsicSuccess</strong>()</p>
+<ul>
+<li><strong>summary</strong>:   An extrinsic completed successfully.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="treasury"><a id="treasury"></a>treasury</h3>
-<p>&#x25B8; <strong>approveProposal</strong>(proposal_id: <code>ProposalIndex</code>)</p>
-<p>&#x25B8; <strong>configure</strong>(proposal_bond: <code>Permill</code>, proposal_bond_minimum: <code>Balance</code>, spend_period: <code>BlockNumber</code>, burn: <code>Permill</code>)</p>
-<p>&#x25B8; <strong>proposeSpend</strong>(value: <code>Balance</code>, beneficiary: <code>AccountId</code>)</p>
-<p>&#x25B8; <strong>rejectProposal</strong>(roposal_id: <code>ProposalIndex</code>)</p>
-<p>&#x25B8; <strong>setPot</strong>(new_pot: <code>Balance</code>)</p>
+<p>&#x25B8; <strong>Awarded</strong>(<code>ProposalIndex</code>, <code>Balance</code>, <code>AccountId</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Some funds have been allocated.</li>
+</ul>
+<p>&#x25B8; <strong>Burnt</strong>(<code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Some of our funds have been burnt.</li>
+</ul>
+<p>&#x25B8; <strong>Proposed</strong>(<code>ProposalIndex</code>)</p>
+<ul>
+<li><strong>summary</strong>:   New proposal.</li>
+</ul>
+<p>&#x25B8; <strong>Rollover</strong>(<code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Spending has finished; this is the amount that rolls over until next spend.</li>
+</ul>
+<p>&#x25B8; <strong>Spending</strong>(<code>Balance</code>)</p>
+<ul>
+<li><strong>summary</strong>:   We have ended a spend period and will now allocate funds.</li>
+</ul>
 
                                 
                                 </section>
@@ -530,12 +584,12 @@
 
             
                 
-                <a href="METHODS_STORAGE.html" class="navigation navigation-prev " aria-label="Previous page: Chain state (runtime)">
+                <a href="METHODS_EXTRINSICS.html" class="navigation navigation-prev " aria-label="Previous page: Extrinsics (runtime)">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="METHODS_EVENTS.html" class="navigation navigation-next " aria-label="Next page: Events (runtime)">
+                <a href="examples/promise/" class="navigation navigation-next " aria-label="Next page: ApiPromise">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -546,7 +600,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2018-10-18T14:35:42.928Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-18T14:37:45.479Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Events (runtime)","level":"2.4","depth":1,"next":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]}]},"previous":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EVENTS.md","mtime":"2018-10-18T14:35:42.928Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-10-18T14:37:45.479Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
