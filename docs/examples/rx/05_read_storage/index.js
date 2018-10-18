@@ -1,5 +1,5 @@
-import { combineLatest } from 'rxjs';
-import { switchMap, map } from 'rxjs/operators';
+const { combineLatest } = require('rxjs');
+const { switchMap, map } = require('rxjs/operators');
 
 // Import the API
 const { ApiRx } = require('@polkadot/api');
@@ -8,48 +8,50 @@ const { ApiRx } = require('@polkadot/api');
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 async function main () {
-  // Create the API and wait until ready using default provider.
-  // Subscribe to the basic chain state/storage queries
+  // Instantiate the API with default provider via Promise when ready
+  const api = await ApiRx.create();
+
+  // Subscribe to basic chain state/storage queries
   // Use the Storage chain state (runtime) Node Interface.
-  const subscriptionApiRx = ApiRx.create()
-    .pipe(
-      switchMap((api) =>
-        combineLatest([
-          api.query.system.accountNonce(Alice),
-          api.query.timestamp.blockPeriod(),
-          api.query.session.validators()
-            .pipe(
-              switchMap((validators) => {
-                // Retrieve the balances for all validators
-                return combineLatest(
-                  ...validators.map((authorityId) =>
-                    api.query.balances.freeBalance(authorityId)
-                      .pipe(
-                        map((balance) => ({
-                          address: authorityId.toString(),
-                          balance: balance.toString()
-                        }))
-                      )
-                  )
-                );
-              })
-            )
-        ])
-      )
-    )
-    .subscribe(([accountNonce, blockPeriod, validatorBalances]) => {
-      console.log(`accountNonce(${Alice}) ${accountNonce} ` +
-        `with blockPeriod ${blockPeriod.toNumber()} seconds`);
-      console.log('validators', validatorBalances);
-    });
+  const subscriptionApiRx =
+    api
+      .pipe(
+        switchMap((api) =>
+          combineLatest([
+            api.query.system.accountNonce(Alice),
+            api.query.timestamp.blockPeriod(),
+            api.query.session.validators()
+              .pipe(
+                switchMap((validators) => {
+                  // Retrieve the balances for all validators
+                  return combineLatest(
+                    ...validators.map((authorityId) =>
+                      api.query.balances.freeBalance(authorityId)
+                        .pipe(
+                          map((balance) => ({
+                            address: authorityId.toString(),
+                            balance: balance.toString()
+                          }))
+                        )
+                    )
+                  );
+                })
+              )
+          ])
+        )
+      ).subscribe(([accountNonce, blockPeriod, validatorBalances]) => {
+        console.log(`Account Nonce of ${accountNonce} for Alice with address ${Alice}`);
+        console.log(`Block Period: ${blockPeriod.toNumber()} seconds`);
+        console.log(`Validator Balances: ${JSON.stringify(validatorBalances, null, 2)}`);
 
-  // Id of the subscription
-  console.log(`subscriptionApiRx: ${subscriptionApiRx}`);
+        const isReceived = !!accountNonce && !!blockPeriod && !!validatorBalances;
 
-  setTimeout(() => {
-    // Cleanup and unsubscribe from the subscription
-    subscriptionApiRx.unsubscribe();
-  }, 5000);
+        // Cleanup and unsubscribe from the subscription if all data received
+        if (isReceived) {
+          subscriptionApiRx.unsubscribe();
+          console.log(`Unsubscribing successful? ${subscriptionApiRx.closed}`);
+        }
+      });
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error);
