@@ -12,6 +12,7 @@ import Vector from './codec/Vector';
 import BlockNumber from './BlockNumber';
 import Bytes from './Bytes';
 import Hash from './Hash';
+import Null from './Null';
 
 type DigestValue = {
   logs?: Array<AnyU8a>
@@ -29,7 +30,8 @@ export type HeaderValue = {
 export class Digest extends Struct {
   constructor (value?: DigestValue) {
     super({
-      logs: Vector.with(Bytes)
+      // FIXME decode properly
+      logs: Vector.with(Null)
     }, value);
   }
 
