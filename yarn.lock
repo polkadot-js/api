@@ -1219,7 +1219,7 @@
     typedoc-plugin-markdown "^1.1.15"
     typescript "^3.0.1"
 
-"@polkadot/keyring@^0.32.0":
+"@polkadot/keyring@^0.32.1":
   version "0.32.1"
   resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.32.1.tgz#5e545984d085024f7f51ffeae382745f9446736d"
   dependencies:
@@ -1233,7 +1233,7 @@
   version "0.1.30"
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.30.tgz#d6d1498a5597e09de88f6117663bcf842040c801"
 
-"@polkadot/util-crypto@^0.32.0", "@polkadot/util-crypto@^0.32.1":
+"@polkadot/util-crypto@^0.32.1":
   version "0.32.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.32.1.tgz#3f20951299229d13c4d6f160ee427b2cdc633f42"
   dependencies:
@@ -1246,7 +1246,7 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.32.0", "@polkadot/util@^0.32.1":
+"@polkadot/util@^0.32.1":
   version "0.32.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.32.1.tgz#9695e8ce0630db44200ad15c4b6e3df1a574c381"
   dependencies:
