@@ -51,8 +51,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.balances.enumSet, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((accounts: Vector<AccountId> = []) =>
-          accounts.map((accountId) =>
+        map((accounts: Array<AccountId> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (accounts || ([] as Array<AccountId>)).map((accountId) =>
             accountId
           )
         )
@@ -81,8 +82,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.democracy.publicProps)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((proposals: Vector<Tuple> = []) =>
-          proposals
+        map((proposals: Array<Tuple> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (proposals || ([] as Array<Tuple>))
             .map((result: Tuple): RxProposal | undefined =>
               result
                 ? new RxProposal(result)
@@ -121,8 +123,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.democracy.votersFor, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((voters: Vector<AccountId> = []) =>
-          voters.map((accountId) =>
+        map((voters: Array<AccountId> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (voters || ([] as Array<AccountId>)).map((accountId) =>
             accountId
           )
         )
@@ -191,8 +194,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.session.validators)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((validators: Vector<AccountId> = []) =>
-          validators.map((authorityId) =>
+        map((validators: Array<AccountId> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (validators || ([] as Array<AccountId>)).map((authorityId) =>
             authorityId
           )
         )
@@ -204,8 +208,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.staking.intentions)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((intentions: Vector<AccountId> = []) =>
-          intentions.map((accountId) =>
+        map((intentions: Array<AccountId> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (intentions || ([] as Array<AccountId>)).map((accountId) =>
             accountId
           )
         )
@@ -217,8 +222,9 @@ export default class ApiQueries extends ApiBase {
       .rawStorage(storage.staking.nominatorsFor, address)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((nominators: Vector<AccountId> = []) =>
-          nominators.map((accountId) =>
+        map((nominators: Array<AccountId> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (nominators || ([] as Array<AccountId>)).map((accountId) =>
             accountId
           )
         )
