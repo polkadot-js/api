@@ -4,8 +4,8 @@
 
 import { Extrinsics, ModuleExtrinsics } from './types';
 
-import { stringCamelCase } from '@polkadot/util';
 import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
+import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';
 import extrinsics from './index';
