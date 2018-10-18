@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isU8a from '@polkadot/util/is/u8a';
+import { isU8a } from '@polkadot/util';
 
 import Base from './Base';
 

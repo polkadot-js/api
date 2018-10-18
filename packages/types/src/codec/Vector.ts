@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import u8aConcat from '@polkadot/util/u8a/concat';
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
@@ -36,7 +35,7 @@ export default class Vector<
       );
     }
 
-    const u8a = toU8a(value);
+    const u8a = u8aToU8a(value);
 
     let [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
     const length = _length.toNumber();

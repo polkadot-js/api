@@ -9,8 +9,8 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Text } from '@polkadot/types/index';
 import { stringLowerFirst } from '@polkadot/util/string';
 import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
-import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
+import stringToU8a from '@polkadot/util/string/toU8a';
+import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -40,7 +40,7 @@ export default function createFunction (
   // assumption, but will break if the base substrate keys employ hashing as well
   if (options.isUnhashed) {
     storageFn = (): Uint8Array =>
-      Compact.addLengthPrefix(u8aFromUtf8(method.toString()));
+      Compact.addLengthPrefix(stringToU8a(method.toString()));
   } else {
     // TODO Find better type than any
     // Can only have zero or one argument:
@@ -49,8 +49,8 @@ export default function createFunction (
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
         return Compact.addLengthPrefix(
-          xxhash(
-            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+          xxhashAsU8a(
+            stringToU8a(`${section.toString()} ${method.toString()}`),
             128
           )
         );
@@ -64,9 +64,9 @@ export default function createFunction (
 
       // StorageKey is a Bytes, so is length-prefixed
       return Compact.addLengthPrefix(
-        xxhash(
+        xxhashAsU8a(
           u8aConcat(
-            u8aFromUtf8(`${section.toString()} ${method.toString()}`),
+            stringToU8a(`${section.toString()} ${method.toString()}`),
             createType(type, arg).toU8a(true)
           ),
           128

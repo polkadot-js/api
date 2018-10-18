@@ -4,8 +4,7 @@
 
 import assert from '@polkadot/util/assert';
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
-import isObject from '@polkadot/util/is/object';
-import isU8a from '@polkadot/util/is/u8a';
+import { isHex, isObject, isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
 import { Constructor } from './types';
@@ -13,7 +12,6 @@ import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import MethodIndex from './MethodIndex';
 import Struct from './codec/Struct';
-import isHex from '@polkadot/util/is/hex';
 
 const FN_UNKNOWN = {
   method: 'unknown',

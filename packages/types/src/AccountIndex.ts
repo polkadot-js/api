@@ -3,20 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import decodeAddress from '@polkadot/keyring/address/decode';
-import encodeAddress from '@polkadot/keyring/address/encode';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isU8a from '@polkadot/util/is/u8a';
-import isHex from '@polkadot/util/is/hex';
-import u8aConcat from '@polkadot/util/u8a/concat';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aConcat, u8aToBn } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import U8a from './codec/U8a';
-import u8aToBn from '@polkadot/util/u8a/toBn';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import isNumber from '@polkadot/util/is/number';
-import isBn from '@polkadot/util/is/bn';
-import bnToBn from '@polkadot/util/bn/toBn';
 
 export const ENUMSET_SIZE = new BN(64);
 

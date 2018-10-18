@@ -4,9 +4,7 @@
 
 import { AnyNumber } from './types';
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
+import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
