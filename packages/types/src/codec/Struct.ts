@@ -33,8 +33,8 @@ export default class Struct<
     );
 
     this._jsonMap = jsonMap;
-    this._Types = Object
-      .keys(Types)
+    this._Types = (Object
+      .keys(Types) as Array<keyof S>)
       .reduce((result: E, key) => {
         result[key] = Types[key].name;
 
