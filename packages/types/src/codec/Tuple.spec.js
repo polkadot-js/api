@@ -39,7 +39,7 @@ describe('Tuple', () => {
       b: U32,
       c: Text
     }))([
-      'bazzing', 32, ''
+      'bazzing', 32
     ]);
 
     expect(

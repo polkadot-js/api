@@ -59,7 +59,7 @@ export default class Header extends Struct {
   }
 
   get extrinsicsRoot (): Hash {
-    return this.get('extrinsicRoot') as Hash;
+    return this.get('extrinsicsRoot') as Hash;
   }
 
   // convenience, encodes the header and returns the actual hash

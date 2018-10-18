@@ -210,7 +210,7 @@ export class StorageFunctionType$Map extends Struct {
   }
 
   get key (): Type {
-    return this.get('type') as Type;
+    return this.get('key') as Type;
   }
 
   get value (): Type {

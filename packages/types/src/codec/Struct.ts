@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import { Codec, Constructor, ConstructorDef } from '../types';
@@ -22,7 +22,7 @@ export default class Struct<
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
   > extends Map<keyof S, Base> implements Codec {
-  public raw: any; // FIXME Remove this once we convert all types out of Base
+  public raw: Map<keyof S, Base>; // FIXME Remove this once we convert all types out of Base
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
@@ -40,6 +40,9 @@ export default class Struct<
 
         return result;
       }, {} as E);
+
+    // FIXME Remove this once we convert all types out of Base
+    this.raw = this;
   }
 
   /**
@@ -90,14 +93,14 @@ export default class Struct<
 
           // Move the currentIndex forward
           currentIndex += raw[key].encodedLength;
-        } else if (!isUndefined(value[jsonKey])) {
-          raw[key] = value[jsonKey] instanceof Types[key]
-            ? value[jsonKey]
-            : new Types[key](value[jsonKey]);
-        } else if (Array.isArray(value) && value.length === Object.keys(Types).length) {
+        } else if (Array.isArray(value)) {
           raw[key] = value[index] instanceof Types[key]
             ? value[index]
             : new Types[key](value[index]);
+        } else if (isObject(value)) {
+          raw[key] = value[jsonKey as string] instanceof Types[key]
+            ? value[jsonKey as string]
+            : new Types[key](value[jsonKey as string]);
         } else {
           throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${JSON.stringify(value)}".`);
         }

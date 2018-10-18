@@ -80,7 +80,7 @@ export default class MisbehaviorReport extends Struct {
   }
 
   get misbehavior (): MisbehaviorKind {
-    return this.get('mosbehavior') as MisbehaviorKind;
+    return this.get('misbehavior') as MisbehaviorKind;
   }
 
   get parentHash (): Hash {
