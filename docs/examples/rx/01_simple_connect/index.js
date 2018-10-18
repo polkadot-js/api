@@ -23,18 +23,18 @@ async function main () {
       )
     )
     .subscribe(([chain, name, version]) => {
-      console.log(`You are connected to chain #${chain.toString()} ` +
-                  `with node name #${name.toString()} ` +
-                  `and node version v#${version.toString()}`);
+      console.log(`Connected to chain ${chain}`);
+      console.log(`Connected to node name ${name}`);
+      console.log(`Connected to node version ${version}`);
+
+      const isReceived = !!chain && !!name && !!version;
+
+      // Cleanup and unsubscribe from the subscription if all data received
+      if (isReceived) {
+        subscriptionApiRx.unsubscribe();
+        console.log(`Unsubscribing successful? ${subscriptionApiRx.closed}`);
+      }
     });
-
-  // Id of the subscription
-  console.log(`subscriptionApiRx: ${subscriptionApiRx}`);
-
-  setTimeout(() => {
-    // Cleanup and unsubscribe from the subscription
-    subscriptionApiRx.unsubscribe();
-  }, 5000);
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch(console.error);
