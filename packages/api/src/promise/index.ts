@@ -9,11 +9,11 @@ import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
 import { Base } from '@polkadot/types/codec';
-import isFunction from '@polkadot/util/is/function';
+import { StorageFunction } from '@polkadot/types/StorageKey';
+import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
-import { StorageFunction } from '@polkadot/types/StorageKey';
 
 /**
  * # @polkadot/api/promise

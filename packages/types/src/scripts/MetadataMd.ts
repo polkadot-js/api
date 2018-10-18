@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const fs = require('fs');
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util/string';
+import fs from 'fs';
+import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Metadata from '../Metadata';

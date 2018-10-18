@@ -12,8 +12,7 @@ import { MockState, MockState$Db, MockState$Subscriptions } from './types';
 import BN from 'bn.js';
 import storage from '@polkadot/storage/static';
 import Header from '@polkadot/types/Header';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { bnToU8a, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
 import testKeyring from '@polkadot/keyring/testing';
 

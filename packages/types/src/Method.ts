@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import assert from '@polkadot/util/assert';
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
-import { isHex, isObject, isU8a } from '@polkadot/util';
+import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
 import { Constructor } from './types';
