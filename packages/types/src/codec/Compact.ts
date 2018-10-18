@@ -3,12 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import bnToBn from '@polkadot/util/bn/toBn';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToBn from '@polkadot/util/u8a/toBn';
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { bnToBn, bnToU8a, isU8a, u8aToBn, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AnyNumber, AnyU8a } from '../types';
 import UInt, { UIntBitLength } from './UInt';
@@ -61,7 +56,7 @@ export default class Compact extends UInt {
   }
 
   static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
-    const input = toU8a(_input);
+    const input = u8aToU8a(_input);
     const flag = input[0] & 0b11;
 
     if (flag === 0b00) {

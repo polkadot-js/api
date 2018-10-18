@@ -5,8 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
+import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Struct from './codec/Struct';
 import Address from './Address';

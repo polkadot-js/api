@@ -3,11 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import bnToBn from '@polkadot/util/bn/toBn';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import isString from '@polkadot/util/is/string';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aToBn from '@polkadot/util/u8a/toBn';
+import { bnToBn, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import { AnyNumber } from './types';
 import Base from './codec/Base';

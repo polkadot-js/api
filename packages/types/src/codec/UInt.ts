@@ -5,14 +5,7 @@
 import { AnyNumber } from '../types';
 
 import BN from 'bn.js';
-import isHex from '@polkadot/util/is/hex';
-import isString from '@polkadot/util/is/string';
-import isU8a from '@polkadot/util/is/u8a';
-import bnToBn from '@polkadot/util/bn/toBn';
-import bnToHex from '@polkadot/util/bn/toHex';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import hexToBn from '@polkadot/util/hex/toBn';
-import u8aToBn from '@polkadot/util/u8a/toBn';
+import { bnToBn, bnToHex, bnToU8a, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import Base from './Base';
 

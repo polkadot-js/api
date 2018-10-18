@@ -3,11 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { decodeAddress } from '@polkadot/keyring';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import { isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';

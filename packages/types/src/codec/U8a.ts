@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isU8a from '@polkadot/util/is/u8a';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from '../types';
 import Base from './Base';
@@ -26,7 +24,7 @@ export default class U8a extends Base<Uint8Array> {
     } else if (value instanceof U8a) {
       return value.raw;
     } else {
-      return toU8a(value);
+      return u8aToU8a(value);
     }
   }
 

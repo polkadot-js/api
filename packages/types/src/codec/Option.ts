@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isNull from '@polkadot/util/is/null';
-import isU8a from '@polkadot/util/is/u8a';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isNull, isU8a, isUndefined } from '@polkadot/util';
 
 import Base from './Base';
 import { Constructor } from '../types';
