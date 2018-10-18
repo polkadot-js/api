@@ -7,6 +7,27 @@ const { ApiRx } = require('@polkadot/api');
 // Our address for Alice on the dev chain
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
+// Separate function for retrieval of validators and their associated balance
+function validatorsWithBalance (api) {
+  return api.query.session.validators()
+    .pipe(
+      switchMap((validators) => {
+        // Retrieve the balances for all validators
+        return combineLatest(
+          ...validators.map((authorityId) =>
+            api.query.balances.freeBalance(authorityId)
+              .pipe(
+                map((balance) => ({
+                  address: authorityId.toString(),
+                  balance: balance.toString()
+                }))
+              )
+          )
+        );
+      })
+    );
+}
+
 async function main () {
   // Instantiate the API with default provider via Promise when ready
   const api = await ApiRx.create();
@@ -20,23 +41,7 @@ async function main () {
           combineLatest([
             api.query.system.accountNonce(Alice),
             api.query.timestamp.blockPeriod(),
-            api.query.session.validators()
-              .pipe(
-                switchMap((validators) => {
-                  // Retrieve the balances for all validators
-                  return combineLatest(
-                    ...validators.map((authorityId) =>
-                      api.query.balances.freeBalance(authorityId)
-                        .pipe(
-                          map((balance) => ({
-                            address: authorityId.toString(),
-                            balance: balance.toString()
-                          }))
-                        )
-                    )
-                  );
-                })
-              )
+            validatorsWithBalance(api)
           ])
         )
       ).subscribe(([accountNonce, blockPeriod, validatorBalances]) => {
