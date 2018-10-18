@@ -10,7 +10,7 @@ import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
 import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
-import { assert, isString } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
 import ApiCalls from './Calls';
 import { RxProposal, RxReferendum } from './classes';
