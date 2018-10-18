@@ -22,7 +22,7 @@ export default class Bool extends Base<boolean> {
     return !!value;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 1;
   }
 

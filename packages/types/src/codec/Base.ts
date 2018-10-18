@@ -22,8 +22,8 @@ export default class Base<T = any> {
     this.raw = value;
   }
 
-  byteLength (): number {
-    throw new Error('Base::byteLength: unimplemented');
+  get encodedLength (): number {
+    throw new Error('Base::encodedLength: unimplemented');
   }
 
   toJSON (): any {

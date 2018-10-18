@@ -32,7 +32,7 @@ export default class U8a extends Base<Uint8Array> {
     return this.raw.length;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.length;
   }
 

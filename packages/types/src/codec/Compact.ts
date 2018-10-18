@@ -93,7 +93,7 @@ export default class Compact extends UInt {
     );
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.toU8a().length;
   }
 

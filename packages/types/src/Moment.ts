@@ -40,7 +40,7 @@ export default class Moment extends Base<Date> {
     );
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return BITLENGTH / 8;
   }
 

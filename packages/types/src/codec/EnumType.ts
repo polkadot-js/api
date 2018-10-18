@@ -83,8 +83,8 @@ export default class EnumType<T> extends Base<Base<T>> {
     return this.raw;
   }
 
-  byteLength (): number {
-    return 1 + this.raw.byteLength();
+  get encodedLength (): number {
+    return 1 + this.raw.encodedLength;
   }
 
   setValue (index?: | EnumType<T> | number, value?: any): void {
