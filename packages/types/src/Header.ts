@@ -30,6 +30,7 @@ export type HeaderValue = {
 export class Digest extends Struct {
   constructor (value?: DigestValue) {
     super({
+      // FIXME decode properly
       logs: Vector.with(Null)
     }, value);
   }
