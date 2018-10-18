@@ -1,5 +1,5 @@
 const { combineLatest } = require('rxjs');
-const { switchMap, map } = require('rxjs/operators');
+const { switchMap } = require('rxjs/operators');
 
 // Import the API, Keyring and some utility functions
 const { ApiRx } = require('@polkadot/api');
