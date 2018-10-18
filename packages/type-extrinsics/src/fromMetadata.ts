@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import camelCase from '@polkadot/util/string/camelCase';
-import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 import { Extrinsics, ModuleExtrinsics } from './types';
+
+import { stringCamelCase } from '@polkadot/util';
+import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 
 import createUnchecked from './utils/createUnchecked';
 import extrinsics from './index';
@@ -41,12 +42,12 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
       return result;
     }
 
-    const prefix = camelCase(meta.prefix.toString());
+    const prefix = stringCamelCase(meta.prefix.toString());
     const index = findIndex(meta.prefix.toString());
 
     result[prefix] = meta.module.call.functions.reduce((newModule, funcMeta) => {
       // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
-      const funcName = camelCase(funcMeta.name.toString());
+      const funcName = stringCamelCase(funcMeta.name.toString());
 
       newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta);
 

@@ -5,9 +5,7 @@
 import { JsonRpcResponse, JsonRpcResponseBase$Error } from '../../types';
 import { RpcCoderState } from './types';
 
-import assert from '@polkadot/util/assert';
-import isNumber from '@polkadot/util/is/number';
-import isUndefined from '@polkadot/util/is/undefined';
+import { assert, isNumber, isUndefined } from '@polkadot/util';
 
 function checkError (error?: JsonRpcResponseBase$Error) {
   if (!error) {

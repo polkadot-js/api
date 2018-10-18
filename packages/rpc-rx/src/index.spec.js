@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isFunction from '@polkadot/util/is/function';
+import { isFunction } from '@polkadot/util';
 
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;

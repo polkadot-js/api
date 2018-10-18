@@ -10,9 +10,7 @@ import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Base, Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
-import assert from '@polkadot/util/assert';
-import ExtError from '@polkadot/util/ext/error';
-import isFunction from '@polkadot/util/is/function';
+import { ExtError, assert, isFunction } from '@polkadot/util';
 
 /**
  * @name Rpc

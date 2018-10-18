@@ -7,9 +7,7 @@ import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Text } from '@polkadot/types/index';
-import { stringLowerFirst } from '@polkadot/util/string';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import stringToU8a from '@polkadot/util/string/toU8a';
+import { stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 export interface CreateItemOptions {
