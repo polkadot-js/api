@@ -14,8 +14,7 @@ import storageStatic from '@polkadot/storage/static';
 import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import assert from '@polkadot/util/assert';
-import isUndefined from '@polkadot/util/is/undefined';
+import { assert, isUndefined } from '@polkadot/util';
 
 type MapFn<R, T> = (combined: R) => T;
 

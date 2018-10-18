@@ -9,8 +9,7 @@ import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from '.
 import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
-import isFunction from '@polkadot/util/is/function';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isFunction, isUndefined } from '@polkadot/util';
 
 type CachedMap = {
   [index: string]: {

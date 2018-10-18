@@ -8,8 +8,7 @@ import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitte
 
 import './polyfill';
 
-import assert from '@polkadot/util/assert';
-import logger from '@polkadot/util/logger';
+import { assert, logger } from '@polkadot/util';
 
 import coder from '../coder/json';
 import defaults from '../defaults';
