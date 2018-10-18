@@ -3,8 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import decodeAddress from '@polkadot/keyring/address/decode';
-import encodeAddress from '@polkadot/keyring/address/encode';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isU8a from '@polkadot/util/is/u8a';
 import isHex from '@polkadot/util/is/hex';

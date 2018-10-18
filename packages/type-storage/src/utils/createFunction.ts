@@ -10,7 +10,7 @@ import { Text } from '@polkadot/types/index';
 import { stringLowerFirst } from '@polkadot/util/string';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
-import xxhash from '@polkadot/util-crypto/xxhash/asU8a';
+import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -49,7 +49,7 @@ export default function createFunction (
     storageFn = (arg?: any): Uint8Array => {
       if (!meta.type.isMap) {
         return Compact.addLengthPrefix(
-          xxhash(
+          xxhashAsU8a(
             u8aFromUtf8(`${section.toString()} ${method.toString()}`),
             128
           )
@@ -64,7 +64,7 @@ export default function createFunction (
 
       // StorageKey is a Bytes, so is length-prefixed
       return Compact.addLengthPrefix(
-        xxhash(
+        xxhashAsU8a(
           u8aConcat(
             u8aFromUtf8(`${section.toString()} ${method.toString()}`),
             createType(type, arg).toU8a(true)

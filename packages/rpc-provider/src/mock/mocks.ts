@@ -14,7 +14,7 @@ import storage from '@polkadot/storage/static';
 import Header from '@polkadot/types/Header';
 import bnToU8a from '@polkadot/util/bn/toU8a';
 import u8aToHex from '@polkadot/util/u8a/toHex';
-import randomAsU8a from '@polkadot/util-crypto/random/asU8a';
+import { randomAsU8a } from '@polkadot/util-crypto';
 import testKeyring from '@polkadot/keyring/testing';
 
 const keyring = testKeyring();

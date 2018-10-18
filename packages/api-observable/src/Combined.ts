@@ -7,7 +7,7 @@ import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 import BN from 'bn.js';
 import { EMPTY, Observable, from } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
-import decodeAddress from '@polkadot/keyring/address/decode';
+import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import assert from '@polkadot/util/assert';

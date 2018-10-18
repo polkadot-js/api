@@ -5,11 +5,11 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
-import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
 import hexToU8a from '@polkadot/util/hex/toU8a';
 import isU8a from '@polkadot/util/is/u8a';
 import u8aConcat from '@polkadot/util/u8a/concat';
 import u8aToHex from '@polkadot/util/u8a/toHex';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Struct from './codec/Struct';
@@ -81,7 +81,7 @@ export default class Extrinsic extends Struct {
   // convernience, encodes the extrinsic and returns the actual hash
   get hash (): Hash {
     return new Hash(
-      blake2Asu8a(this.toU8a(), 256)
+      blake2AsU8a(this.toU8a(), 256)
     );
   }
 
