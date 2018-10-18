@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import { Codec, Constructor, ConstructorDef } from '../types';
