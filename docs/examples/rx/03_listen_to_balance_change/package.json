@@ -10,8 +10,8 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.31.18",
-    "@polkadot/rpc-provider": "^0.31.36"
+    "@polkadot/api": "^0.31.65",
+    "@polkadot/rpc-provider": "^0.31.65"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
