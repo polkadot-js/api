@@ -13,8 +13,8 @@ async function main () {
   let previous = await api.query.balances.freeBalance(Alice);
 
   console.log(`${Alice} has a previous balance of ${previous || '???'}`);
-  console.log(`You may leave this example running and start example 06` +
-              `or transfer any value to ${Alice}`);
+  console.log(`You may leave this example running and start example 06 ` +
+              `or transfer any value to Alice at ${Alice}`);
 
   // Here we subscribe to any balance changes and update the on-screen value.
   // Use the Storage chain state (runtime) Node Interface.
@@ -30,7 +30,7 @@ async function main () {
 
     previous = current;
 
-    console.log(`Balance of ${Alice}: ${current}, ${change} change`);
+    console.log(`Balance of Alice at ${Alice} is ${current}. It changed by: ${change}`);
   });
 }
 
