@@ -33,7 +33,7 @@ async function main () {
   // Send the transaction and retrieve the resulting Hash
   const hash = await transfer.send();
 
-  console.log(`submitted transfer 12345 to Bob with hash ${hash}`);
+  console.log(`submitted transfer of 12345 DOTs to Bob with hash ${hash}`);
 }
 
 main().catch(console.error).finally(_ => process.exit());
