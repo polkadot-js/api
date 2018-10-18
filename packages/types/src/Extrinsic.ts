@@ -105,7 +105,7 @@ export default class Extrinsic extends Struct {
     return this.raw.signature as ExtrinsicSignature;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     const length = this.length;
 
     return length + Compact.encodeU8a(length, DEFAULT_LENGTH_BITS).length;

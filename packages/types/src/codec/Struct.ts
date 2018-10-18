@@ -75,7 +75,7 @@ export default class Struct<
 
           // Move the currentIndex forward
           // @ts-ignore FIXME See below
-          currentIndex += raw[key].byteLength();
+          currentIndex += raw[key].encodedLength;
           // @ts-ignore FIXME See below
         } else if (value[jsonKey] instanceof Types[key]) {
           // @ts-ignore FIXME See below
@@ -118,9 +118,9 @@ export default class Struct<
     return this._Types;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return Object.values(this.raw).reduce((length, entry) => {
-      return length += entry.byteLength();
+      return length += entry.encodedLength;
     }, 0);
   }
 

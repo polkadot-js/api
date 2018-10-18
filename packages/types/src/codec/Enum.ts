@@ -38,7 +38,7 @@ export default class Enum extends Base<number> {
     }
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 1;
   }
 
