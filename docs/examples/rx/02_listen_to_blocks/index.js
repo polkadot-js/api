@@ -8,18 +8,33 @@ async function main () {
   // Here we pass the (optional) provider
   const subscriptionApiRx = ApiRx.create(wsProvider).subscribe((api) => {
     // Use the RPC Node Interface
-    api.rpc.subscribeNewHead().subscribe((header) => {
-      console.log(`best #${header.blockNumber.toNumber()}`);
+    api.rpc.chain.subscribeNewHead().subscribe((header) => {
+      console.log(`Chain is at best block #${header.blockNumber.toNumber()}`);
     });
   });
 
-  // Id of the subscription
-  console.log(`subscriptionApiRx: ${subscriptionApiRx}`);
+  // Support for detecting when CTRL+C (interrupt signal) received on Windows
+  if (process.platform === 'win32') {
+    var rl = require('readline').createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
 
-  setTimeout(() => {
+    rl.on('SIGINT', function () {
+      process.emit('SIGINT');
+    });
+  }
+
+  // Gracefully exist upon receiving interrupt signal (CTRL+C)
+  process.on('SIGINT', function () {
+    console.log(`\nReceived interrupt signal`);
+
     // Cleanup and unsubscribe from the subscription
     subscriptionApiRx.unsubscribe();
-  }, 5000);
+    console.log(`Unsubscribing successful? ${subscriptionApiRx.closed}`);
+
+    process.exit();
+  });
 }
 
 main().catch(console.error);
