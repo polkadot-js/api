@@ -21,7 +21,7 @@
 
 **Ƭ HeaderValue**: *`object`*
 
-*Defined in [Header.ts:20](https://github.com/polkadot-js/api/blob/ec7b96b/packages/types/src/Header.ts#L20)*
+*Defined in [Header.ts:20](https://github.com/polkadot-js/api/blob/4c04dc0/packages/types/src/Header.ts#L20)*
 
 #### Type declaration
 
