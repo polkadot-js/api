@@ -51,25 +51,6 @@ describe('Tuple', () => {
     ]);
   });
 
-  // FIXME Remove fromJSON
-  it('fromJSON still works', () => {
-    const test = new (Tuple.with({
-      a: Text,
-      b: U32,
-      c: Text
-    }))();
-
-    expect(
-      test.fromJSON([
-        'bazzing', 32
-      ]).toJSON()
-    ).toEqual([
-      'bazzing',
-      32,
-      ''
-    ]);
-  });
-
   it('creates properly via actual hex string', () => {
     const test = new (Tuple.with({
       blockNumber: BlockNumber,
@@ -77,8 +58,8 @@ describe('Tuple', () => {
       threshold: VoteThreshold
     }))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
-    expect(test.get(0).toNumber()).toEqual(6498);
-    expect(test.get(1).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect(test.get(2).toNumber()).toEqual(1);
+    expect(test.getAtIndex(0).toNumber()).toEqual(6498);
+    expect(test.getAtIndex(1).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect(test.getAtIndex(2).toNumber()).toEqual(1);
   });
 });

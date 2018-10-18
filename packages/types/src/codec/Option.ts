@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isNull from '@polkadot/util/is/null';
-import isU8a from '@polkadot/util/is/u8a';
-import isUndefined from '@polkadot/util/is/undefined';
+import { isNull, isU8a, isUndefined } from '@polkadot/util';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -59,32 +57,12 @@ export default class Option<T> extends Base<Base<T>> {
       : this.raw.raw;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     const childLength = this._isEmpty
       ? 0
-      : this.raw.byteLength();
+      : this.raw.encodedLength;
 
     return 1 + childLength;
-  }
-
-  fromJSON (input: any): Option<T> {
-    this._isEmpty = isNull(input) || isUndefined(input);
-
-    if (!this._isEmpty) {
-      this.raw.fromJSON(input);
-    }
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Option<T> {
-    this._isEmpty = input[0] === 0;
-
-    if (!this._isEmpty) {
-      this.raw.fromU8a(input.subarray(1));
-    }
-
-    return this;
   }
 
   toJSON (): any {
@@ -98,7 +76,7 @@ export default class Option<T> extends Base<Base<T>> {
       return this.raw.toU8a(true);
     }
 
-    const u8a = new Uint8Array(this.byteLength());
+    const u8a = new Uint8Array(this.encodedLength);
 
     if (!this._isEmpty) {
       u8a.set([1]);

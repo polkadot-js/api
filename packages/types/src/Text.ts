@@ -2,11 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isFunction from '@polkadot/util/is/function';
-import isString from '@polkadot/util/is/string';
-import u8aFromUtf8 from '@polkadot/util/u8a/fromUtf8';
-import u8aToUtf8 from '@polkadot/util/u8a/toUtf8';
-import u8aConcat from '@polkadot/util/u8a/concat';
+import { isFunction, isString, stringToU8a, u8aToString, u8aConcat } from '@polkadot/util';
 
 import { AnyU8a } from '@polkadot/types/types';
 import Base from './codec/Base';
@@ -35,7 +31,7 @@ export default class Text extends Base<string> {
       return input.raw;
     } else if (input instanceof Uint8Array) {
       const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-      return u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
+      return u8aToString(input.subarray(offset, offset + length.toNumber()));
     } else if (input instanceof U8a) {
       return Text.decodeText(input.raw);
     } else if (isFunction(input.toString)) {
@@ -49,22 +45,8 @@ export default class Text extends Base<string> {
     return this.raw.length;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
-  }
-
-  fromU8a (input: Uint8Array): Text {
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    this.raw = u8aToUtf8(input.subarray(offset, offset + length.toNumber()));
-
-    return this;
-  }
-
-  fromJSON (input: any): Text {
-    this.raw = `${input || ''}`;
-
-    return this;
   }
 
   toJSON (): any {
@@ -76,7 +58,7 @@ export default class Text extends Base<string> {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = u8aFromUtf8(this.raw);
+    const encoded = stringToU8a(this.raw);
 
     return isBare
       ? encoded

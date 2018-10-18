@@ -1,7 +1,7 @@
 // Import the API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
-const Keyring = require('@polkadot/keyring').default;
-const u8aFromUtf8 = require('@polkadot/util/u8a/fromUtf8').default;
+const { Keyring } = require('@polkadot/keyring');
+const { stringToU8a } = require('@polkadot/util');
 
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
@@ -11,7 +11,7 @@ async function main () {
   const keyring = new Keyring();
 
   // Add Alice to our keyring (with the known seed for the account)
-  const alice = keyring.addFromSeed(u8aFromUtf8(ALICE_SEED));
+  const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
 
   // Instantiate the API
   const api = await ApiPromise.create();

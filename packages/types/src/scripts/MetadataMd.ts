@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const fs = require('fs');
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util/string';
+import fs from 'fs';
+import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Metadata from '../Metadata';
@@ -50,13 +50,15 @@ function generateSectionHeader (md: string, sectionName: string) {
 
 function addRpc () {
   const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
+  const orderedSections = Object.keys(interfaces).sort();
   const renderAnchors = generateSectionLinks('rpc');
 
-  return Object.keys(interfaces).reduce((md, sectionName) => {
+  return orderedSections.reduce((md, sectionName) => {
     const section = interfaces[sectionName];
     const renderSection = generateSectionHeader(md, sectionName) + `\n_${section.description}_\n`;
+    const orderedMethods = Object.keys(section.methods).sort();
 
-    return Object.keys(section.methods).reduce((md, methodName) => {
+    return orderedMethods.reduce((md, methodName) => {
       const method = section.methods[methodName];
       const args = method.params.map(({ name, isOptional, type }) => {
         return name + (isOptional ? '?' : '') + ': `' + type + '`';
@@ -74,11 +76,22 @@ function addRpc () {
   }, renderHeading + renderAnchors);
 }
 
+function sortExtrinsicsSectionMethods () {
+  return function (a: any, b: any) {
+    // ignore upper and lowercase
+    const nameA = a.raw.name.raw.toUpperCase();
+    const nameB = b.raw.name.raw.toUpperCase();
+
+    return nameA.localeCompare(nameB);
+  };
+}
+
 function addExtrinsics (metadata: any) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
+  const orderedSections = metadata.modules.raw.sort();
   const renderAnchors = generateSectionLinks('extrinsics', metadata);
 
-  return metadata.modules.reduce((md: string, meta: any) => {
+  return orderedSections.reduce((md: string, meta: any) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
       return md;
     }
@@ -86,7 +99,10 @@ function addExtrinsics (metadata: any) {
     const sectionName = stringCamelCase(meta.prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
 
-    return meta.module.call.functions.reduce((md: string, func: any) => {
+    // Sort methods by name. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+    const orderedMethods = meta.module.call.functions.raw.sort(sortExtrinsicsSectionMethods());
+
+    return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
       const args = Method.filterOrigin(func).map(({ name, type }) => `${name}: ` + '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
@@ -100,17 +116,19 @@ function addExtrinsics (metadata: any) {
 
 function addStorage (metadata: any) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
+  const orderedSections = metadata.modules.raw.sort();
   const renderAnchors = generateSectionLinks('storage', metadata);
 
-  return metadata.modules.reduce((md: string, moduleMetadata: any) => {
+  return orderedSections.reduce((md: string, moduleMetadata: any) => {
     if (!moduleMetadata.storage) {
       return md;
     }
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
+    const orderedMethods = moduleMetadata.storage.functions.raw.sort();
 
-    return moduleMetadata.storage.functions.reduce((md: string, func: any) => {
+    return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');

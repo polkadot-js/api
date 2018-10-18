@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isU8a from '@polkadot/util/is/u8a';
+import { isU8a } from '@polkadot/util';
 
 import Base from './Base';
 
@@ -38,22 +38,8 @@ export default class Enum extends Base<number> {
     }
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 1;
-  }
-
-  fromJSON (input: any): Enum {
-    // FIXME We potentially want to assert that the value is actually inside this._enum
-    this.raw = input;
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Enum {
-    // FIXME We potentially want to assert that the value is actually inside this._enum
-    this.raw = input[0];
-
-    return this;
   }
 
   toJSON (): any {

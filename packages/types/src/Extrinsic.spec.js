@@ -12,7 +12,7 @@ describe('Extrinsic', () => {
     Method.injectExtrinsics(extrinsics);
   });
 
-  it('decodes a non-signed properly via fromJSON', () => {
+  it('decodes a non-signed properly via JSON', () => {
     const extrinsic = new Extrinsic('0x010200ea51b75b00000000');
 
     expect(extrinsic.isSigned).toEqual(false);

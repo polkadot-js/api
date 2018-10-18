@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import u8aConcat from '@polkadot/util/u8a/concat';
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
@@ -36,7 +35,7 @@ export default class Vector<
       );
     }
 
-    const u8a = toU8a(value);
+    const u8a = u8aToU8a(value);
 
     let [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
     const length = _length.toNumber();
@@ -47,7 +46,7 @@ export default class Vector<
       const decoded = new Type(u8a.subarray(offset));
 
       result.push(decoded);
-      offset += decoded.byteLength();
+      offset += decoded.encodedLength;
     }
 
     return result;
@@ -69,9 +68,9 @@ export default class Vector<
     return this.raw.length;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return this.raw.reduce((total, raw) => {
-      return total + raw.byteLength();
+      return total + raw.encodedLength;
     }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
   }
 
@@ -85,21 +84,6 @@ export default class Vector<
 
   forEach (fn: (item: T, index: number) => any): any {
     return this.raw.forEach(fn);
-  }
-
-  fromJSON (input: any): Vector<T> {
-    // input could be null/undefined to indicate empty
-    this.raw = (input || []).map((input: any) =>
-      new this._Type().fromJSON(input)
-    );
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Vector<T> {
-    this.raw = Vector.decode(this._Type, input);
-
-    return this;
   }
 
   get (index: number): T {

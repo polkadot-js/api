@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import logger from '@polkadot/util/logger';
+import { logger } from '@polkadot/util';
 
 export const l = logger('codec');
 
@@ -15,23 +15,15 @@ export const l = logger('codec');
 //   - Not convinced about abstract - there are a number of extensions to this class that
 //     don't provide some implementations (e.g. Length, good example and should not be
 //     used-as-is). In those case it just relies in the throw in here.
-export default class Base <T = any> {
+export default class Base<T = any> {
   raw: T;
 
   constructor (value?: any) {
     this.raw = value;
   }
 
-  byteLength (): number {
-    throw new Error('Base::byteLength: unimplemented');
-  }
-
-  fromJSON (input: any): Base <T> {
-    throw new Error('Base::fromJSON: unimplemented');
-  }
-
-  fromU8a (input: Uint8Array): Base <T> {
-    throw new Error('Base::fromU8a: unimplemented');
+  get encodedLength (): number {
+    throw new Error('Base::encodedLength: unimplemented');
   }
 
   toJSON (): any {

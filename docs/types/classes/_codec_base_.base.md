@@ -40,7 +40,7 @@
 
 ⊕ **new Base**(value?: *`any`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L19)*
 
 **Parameters:**
 
@@ -60,64 +60,33 @@ ___
 
 **● raw**: *`T`*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L19)*
+
+___
+
+# Accessors
+
+<a id="encodedlength"></a>
+
+##  encodedLength
+
+getencodedLength(): `number`
+
+*Defined in [codec/Base.ts:25](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L25)*
+
+**Returns:** `number`
 
 ___
 
 # Methods
 
-<a id="bytelength"></a>
-
-##  byteLength
-
-▸ **byteLength**(): `number`
-
-*Defined in [codec/Base.ts:25](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L25)*
-
-**Returns:** `number`
-
-___
-<a id="fromjson"></a>
-
-##  fromJSON
-
-▸ **fromJSON**(input: *`any`*): [Base](_codec_base_.base.md)<`T`>
-
-*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L29)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `any` |
-
-**Returns:** [Base](_codec_base_.base.md)<`T`>
-
-___
-<a id="fromu8a"></a>
-
-##  fromU8a
-
-▸ **fromU8a**(input: *`Uint8Array`*): [Base](_codec_base_.base.md)<`T`>
-
-*Defined in [codec/Base.ts:33](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L33)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `Uint8Array` |
-
-**Returns:** [Base](_codec_base_.base.md)<`T`>
-
-___
 <a id="tojson"></a>
 
 ##  toJSON
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L37)*
+*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L29)*
 
 **Returns:** `any`
 
@@ -128,7 +97,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [codec/Base.ts:41](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L41)*
+*Defined in [codec/Base.ts:33](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L33)*
 
 **Returns:** `string`
 
@@ -139,7 +108,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/Base.ts:45](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L45)*
+*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L37)*
 
 **Parameters:**
 

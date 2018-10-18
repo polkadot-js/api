@@ -16,7 +16,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:15](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Type.ts#L15)*
+*Defined in [Type.ts:15](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Type.ts#L15)*
 
 **Parameters:**
 
@@ -38,12 +38,27 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
 # Accessors
 
+<a id="encodedlength"></a>
+
+##  encodedLength
+
+getencodedLength(): `number`
+
+*Inherited from [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
+
+*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
+
+*Defined in [Text.ts:48](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Text.ts#L48)*
+
+**Returns:** `number`
+
+___
 <a id="length"></a>
 
 ##  length
@@ -52,7 +67,7 @@ getlength(): `number`
 
 *Overrides [Text](_text_.text.md).[length](_text_.text.md#length)*
 
-*Defined in [Type.ts:26](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Type.ts#L26)*
+*Defined in [Type.ts:26](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Type.ts#L26)*
 
 **Returns:** `number`
 
@@ -60,59 +75,6 @@ ___
 
 # Methods
 
-<a id="bytelength"></a>
-
-##  byteLength
-
-▸ **byteLength**(): `number`
-
-*Inherited from [Text](_text_.text.md).[byteLength](_text_.text.md#bytelength)*
-
-*Overrides [Base](_codec_base_.base.md).[byteLength](_codec_base_.base.md#bytelength)*
-
-*Defined in [Text.ts:52](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Text.ts#L52)*
-
-**Returns:** `number`
-
-___
-<a id="fromjson"></a>
-
-##  fromJSON
-
-▸ **fromJSON**(input: *`any`*): [Type](_type_.type.md)
-
-*Overrides [Text](_text_.text.md).[fromJSON](_text_.text.md#fromjson)*
-
-*Defined in [Type.ts:30](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Type.ts#L30)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `any` |
-
-**Returns:** [Type](_type_.type.md)
-
-___
-<a id="fromu8a"></a>
-
-##  fromU8a
-
-▸ **fromU8a**(input: *`Uint8Array`*): [Type](_type_.type.md)
-
-*Overrides [Text](_text_.text.md).[fromU8a](_text_.text.md#fromu8a)*
-
-*Defined in [Type.ts:36](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Type.ts#L36)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| input | `Uint8Array` |
-
-**Returns:** [Type](_type_.type.md)
-
-___
 <a id="tojson"></a>
 
 ##  toJSON
@@ -123,7 +85,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Text.ts:70](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Text.ts#L70)*
+*Defined in [Text.ts:52](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Text.ts#L52)*
 
 **Returns:** `any`
 
@@ -138,7 +100,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Text.ts:74](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Text.ts#L74)*
+*Defined in [Text.ts:56](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Text.ts#L56)*
 
 **Returns:** `string`
 
@@ -151,7 +113,7 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:45](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Type.ts#L45)*
+*Defined in [Type.ts:33](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Type.ts#L33)*
 
 **Parameters:**
 
@@ -170,7 +132,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[decodeText](_text_.text.md#decodetext)*
 
-*Defined in [Text.ts:31](https://github.com/polkadot-js/api/blob/106c59d/packages/types/src/Text.ts#L31)*
+*Defined in [Text.ts:27](https://github.com/polkadot-js/api/blob/389174b/packages/types/src/Text.ts#L27)*
 
 **Parameters:**
 

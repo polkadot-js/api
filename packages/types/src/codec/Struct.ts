@@ -2,12 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import isObject from '@polkadot/util/is/object';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { hexToU8a, isHex, isObject, isU8a, u8aConcat } from '@polkadot/util';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -51,8 +46,6 @@ export default class Struct<
 
     if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
-    } else if (Array.isArray(value)) {
-      return Struct.decodeStruct(Types, toU8a(value), jsonMap);
     } else if (!value) {
       return {} as T;
     }
@@ -63,7 +56,7 @@ export default class Struct<
 
     return Object
       .keys(Types)
-      .reduce((raw: T, key) => {
+      .reduce((raw: T, key, index) => {
         // The key in the JSON can be snake_case (or other cases), but in our
         // Types, result or any other maps, it's camelCase
         const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
@@ -78,11 +71,17 @@ export default class Struct<
 
           // Move the currentIndex forward
           // @ts-ignore FIXME See below
-          currentIndex += raw[key].byteLength();
+          currentIndex += raw[key].encodedLength;
           // @ts-ignore FIXME See below
         } else if (value[jsonKey] instanceof Types[key]) {
           // @ts-ignore FIXME See below
           raw[key] = value[jsonKey];
+        } else if (Array.isArray(value) && value.length === Object.keys(Types).length) {
+          // @ts-ignore FIXME See below
+          raw[key] = new Types[key](
+            // @ts-ignore FIXME
+            value[index]
+          );
         } else if (isObject(value)) {
           // @ts-ignore FIXME Ok, something weird is going on here or I just don't get it...
           // it works, so ignore the checker, although it drives me batty. (It started when
@@ -115,43 +114,13 @@ export default class Struct<
     return this._Types;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return Object.values(this.raw).reduce((length, entry) => {
-      return length += entry.byteLength();
+      return length += entry.encodedLength;
     }, 0);
   }
 
-  fromJSON (input: any): Struct<S, T, V, E> {
-    if (isHex(input) || isU8a(input)) {
-      return this.fromU8a(toU8a(input));
-    }
-
-    // null & undefined yields empty
-    if (!input) {
-      input = {};
-    }
-
-    Object.keys(this.raw).forEach((key) => {
-      const jsonKey = this._jsonMap.get(key as any) || key;
-
-      // @ts-ignore as above...
-      this.raw[key].fromJSON(input[jsonKey]);
-    });
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Struct<S, T, V, E> {
-    Object.values(this.raw).reduce((offset, entry) => {
-      entry.fromU8a(input.subarray(offset));
-
-      return offset + entry.byteLength();
-    }, 0);
-
-    return this;
-  }
-
-  get (index: number): Base {
+  getAtIndex (index: number): Base {
     return this.values()[index];
   }
 

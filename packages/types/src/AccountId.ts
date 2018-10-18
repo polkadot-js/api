@@ -4,12 +4,8 @@
 
 import { AnyU8a } from './types';
 
-import encodeAddress from '@polkadot/keyring/address/encode';
-import decodeAddress from '@polkadot/keyring/address/decode';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import { decodeAddress, encodeAddress } from '@polkadot/keyring';
+import { hexToU8a, isHex, isU8a, u8aToU8a } from '@polkadot/util';
 
 import U8a from './codec/U8a';
 import U8aFixed from './codec/U8aFixed';
@@ -39,18 +35,6 @@ export default class AccountId extends U8aFixed {
     }
 
     return decodeAddress(value);
-  }
-
-  fromJSON (input: any): AccountId {
-    super.fromJSON(AccountId.decodeAccountId(input));
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): AccountId {
-    super.fromU8a(input);
-
-    return this;
   }
 
   toJSON (): any {

@@ -5,11 +5,8 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
-import blake2Asu8a from '@polkadot/util-crypto/blake2/asU8a';
-import hexToU8a from '@polkadot/util/hex/toU8a';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
+import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Struct from './codec/Struct';
@@ -17,7 +14,6 @@ import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
 import Method from './Method';
-import isHex from '@polkadot/util/is/hex';
 
 type ExtrinsicValue = {
   method?: Method
@@ -81,7 +77,7 @@ export default class Extrinsic extends Struct {
   // convernience, encodes the extrinsic and returns the actual hash
   get hash (): Hash {
     return new Hash(
-      blake2Asu8a(this.toU8a(), 256)
+      blake2AsU8a(this.toU8a(), 256)
     );
   }
 
@@ -105,24 +101,10 @@ export default class Extrinsic extends Struct {
     return this.raw.signature as ExtrinsicSignature;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     const length = this.length;
 
     return length + Compact.encodeU8a(length, DEFAULT_LENGTH_BITS).length;
-  }
-
-  fromJSON (input: any): Extrinsic {
-    super.fromU8a(hexToU8a(input));
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Extrinsic {
-    const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-
-    super.fromU8a(input.subarray(offset, offset + length.toNumber()));
-
-    return this;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): Extrinsic {

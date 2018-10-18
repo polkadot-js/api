@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import assert from '@polkadot/util/assert';
+import { assert } from '@polkadot/util';
 
 import Text from '../Text';
 import Base from './Base';

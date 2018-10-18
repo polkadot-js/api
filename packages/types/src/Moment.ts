@@ -3,11 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import bnToBn from '@polkadot/util/bn/toBn';
-import bnToU8a from '@polkadot/util/bn/toU8a';
-import isString from '@polkadot/util/is/string';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aToBn from '@polkadot/util/u8a/toBn';
+import { bnToBn, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import { AnyNumber } from './types';
 import Base from './codec/Base';
@@ -44,22 +40,8 @@ export default class Moment extends Base<Date> {
     );
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return BITLENGTH / 8;
-  }
-
-  fromJSON (input: any): Moment {
-    this.raw = Moment.decodeMoment(input);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Moment {
-    this.raw = Moment.decodeMoment(
-      u8aToBn(input.subarray(0, this.byteLength()), true)
-    );
-
-    return this;
   }
 
   getTime (): number {

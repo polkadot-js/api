@@ -5,7 +5,7 @@
 import { ModuleStorage, Storage } from './types';
 
 import Metadata from '@polkadot/types/Metadata';
-import { stringLowerFirst } from '@polkadot/util/string';
+import { stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './utils/createFunction';
 import storage from './index';

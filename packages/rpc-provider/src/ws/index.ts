@@ -9,10 +9,7 @@ import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, Provide
 import './polyfill';
 
 import EventEmitter from 'eventemitter3';
-import assert from '@polkadot/util/assert';
-import isNull from '@polkadot/util/is/null';
-import isUndefined from '@polkadot/util/is/undefined';
-import logger from '@polkadot/util/logger';
+import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
 import coder from '../coder/json';
 import defaults from '../defaults';

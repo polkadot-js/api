@@ -13,9 +13,7 @@ import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata from '@polkadot/types/Metadata';
-import assert from '@polkadot/util/assert';
-import isUndefined from '@polkadot/util/is/undefined';
-import logger from '@polkadot/util/logger';
+import { assert, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,

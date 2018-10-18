@@ -10,16 +10,8 @@ export default class Null extends Base<null> {
     super(null);
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 0;
-  }
-
-  fromJSON (input: any): Null {
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Null {
-    return this;
   }
 
   toJSON (): any {

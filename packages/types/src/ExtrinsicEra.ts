@@ -4,7 +4,7 @@
 
 import { AnyU8a } from './types';
 
-import toU8a from '@polkadot/util/u8a/toU8a';
+import { u8aToU8a } from '@polkadot/util';
 
 import U8a from './codec/U8a';
 
@@ -19,7 +19,7 @@ export default class ExtrinsicEra extends U8a {
     if (value instanceof U8a) {
       return value.raw;
     } else if (value) {
-      const u8a = toU8a(value);
+      const u8a = u8aToU8a(value);
 
       // If we have a zero byte, it is immortal (1 byte in length), otherwise we have
       // the era details following as another byte
@@ -27,11 +27,5 @@ export default class ExtrinsicEra extends U8a {
     }
 
     return new Uint8Array([0]);
-  }
-
-  fromU8a (input: Uint8Array): ExtrinsicEra {
-    super.fromU8a(ExtrinsicEra.decodeExtrinsicEra(input));
-
-    return this;
   }
 }

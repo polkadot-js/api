@@ -2,12 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import decodeAddress from '@polkadot/keyring/address/decode';
-import isHex from '@polkadot/util/is/hex';
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToHex from '@polkadot/util/u8a/toHex';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import { decodeAddress } from '@polkadot/keyring';
+import { isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -61,26 +57,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
       );
   }
 
-  byteLength (): number {
-    return this.raw.byteLength() + (
+  get encodedLength (): number {
+    return this.raw.encodedLength + (
       this.raw instanceof AccountIndex
         ? 0
         : 1
     );
-  }
-
-  fromJSON (input: any): Address {
-    this.raw = Address.decodeAddress(input);
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Address {
-    this.raw = input[0] === 0xff
-      ? new AccountId().fromU8a(input.subarray(1))
-      : new AccountIndex().fromU8a(input);
-
-    return this;
   }
 
   toHex (): string {

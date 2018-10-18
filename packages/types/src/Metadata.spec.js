@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import hexToU8a from '@polkadot/util/hex/toU8a';
+import { hexToU8a } from '@polkadot/util';
 
 import Metadata from './Metadata';
 import rpcdata from './Metadata.rpc';

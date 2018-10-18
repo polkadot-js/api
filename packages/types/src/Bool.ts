@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import isU8a from '@polkadot/util/is/u8a';
+import { isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
 
@@ -22,20 +22,8 @@ export default class Bool extends Base<boolean> {
     return !!value;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     return 1;
-  }
-
-  fromJSON (input: any): Bool {
-    this.raw = input === true;
-
-    return this;
-  }
-
-  fromU8a (input: Uint8Array): Bool {
-    this.raw = input[0] === 1;
-
-    return this;
   }
 
   toJSON (): any {

@@ -5,9 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
-import isU8a from '@polkadot/util/is/u8a';
-import u8aConcat from '@polkadot/util/u8a/concat';
-import u8aToU8a from '@polkadot/util/u8a/toU8a';
+import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Struct from './codec/Struct';
 import Address from './Address';
@@ -62,11 +60,11 @@ export default class ExtrinsicSignature extends Struct {
     return value as any;
   }
 
-  byteLength (): number {
+  get encodedLength (): number {
     // version has 1 byte, signature takes the rest
     return 1 + (
       this.isSigned
-        ? super.byteLength()
+        ? super.encodedLength
         : 0
     );
   }
@@ -118,23 +116,6 @@ export default class ExtrinsicSignature extends Struct {
     this.raw.nonce = signingPayload.nonce;
     this.raw.signer = signer;
     this.raw.signature = signature;
-
-    return this;
-  }
-
-  fromJSON (input: any) {
-    return this.fromU8a(u8aToU8a(input));
-  }
-
-  fromU8a (input: Uint8Array): ExtrinsicSignature {
-    const version = input[0];
-
-    if ((version & BIT_SIGNED) === BIT_SIGNED) {
-      super.fromU8a(input.subarray(1));
-    } else {
-      // Just clear signature, leave others as-is
-      this.raw.signature = new Signature();
-    }
 
     return this;
   }

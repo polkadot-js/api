@@ -7,11 +7,10 @@ import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 import BN from 'bn.js';
 import { EMPTY, Observable, from } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
-import decodeAddress from '@polkadot/keyring/address/decode';
+import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
-import assert from '@polkadot/util/assert';
-import isString from '@polkadot/util/is/string';
+import { assert } from '@polkadot/util';
 
 import ApiCalls from './Calls';
 import { RxProposal, RxReferendum } from './classes';
@@ -385,27 +384,33 @@ export default class ApiCombined extends ApiCalls {
     );
   }
 
-  votingBalance = (_address: AccountId | string): Observable<RxBalance> => {
-    const address = isString(_address)
-      ? new AccountId(_address)
-      : _address;
+  votingBalance = (address: AccountIndex | AccountId | string): Observable<RxBalance> => {
+    return this
+      .accountIdAndIndex(address)
+      .pipe(
+        switchMap(([accountId]: [AccountId | undefined, AccountIndex | undefined]): Observable<RxBalance> => {
+          if (!accountId) {
+            return EMPTY;
+          }
 
-    return this.combine(
-      [
-        this.balanceFree(address),
-        this.balanceReserved(address)
-      ],
-      ([freeBalance, reservedBalance]: [Balance | undefined, Balance | undefined]): RxBalance => ({
-        address,
-        freeBalance: freeBalance || new Balance(0),
-        nominatedBalance: new Balance(0),
-        reservedBalance: reservedBalance || new Balance(0),
-        stakingBalance: new Balance(0),
-        votingBalance: new Balance(
-          (freeBalance || new Balance(0)).add(reservedBalance || new Balance(0))
-        )
-      })
-    );
+          return this.combine(
+            [
+              this.balanceFree(accountId),
+              this.balanceReserved(accountId)
+            ],
+            ([freeBalance, reservedBalance]: [Balance | undefined, Balance | undefined]): RxBalance => ({
+              address: accountId,
+              freeBalance: freeBalance || new Balance(0),
+              nominatedBalance: new Balance(0),
+              reservedBalance: reservedBalance || new Balance(0),
+              stakingBalance: new Balance(0),
+              votingBalance: new Balance(
+                (freeBalance || new Balance(0)).add(reservedBalance || new Balance(0))
+              )
+            })
+          );
+        })
+      );
   }
 
   votingBalancesNominatorsFor = (address: AccountId | string) => {

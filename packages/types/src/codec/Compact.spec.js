@@ -90,19 +90,19 @@ describe('Compact', () => {
     });
   });
 
-  it('has the correct byteLength for constructor values (default)', () => {
+  it('has the correct encodedLength for constructor values (default)', () => {
     expect(
-      new Compact(0xfffffff9, 64).byteLength()
+      new Compact(0xfffffff9, 64).encodedLength
     ).toEqual(9);
   });
 
-  it('has the correct byteLength for constructor values (u32)', () => {
+  it('has the correct encodedLength for constructor values (u32)', () => {
     expect(
-      new Compact(0xfffffff9, 32).byteLength()
+      new Compact(0xfffffff9, 32).encodedLength
     ).toEqual(5);
   });
 
-  it('constructs properly via fromU8a', () => {
+  it('constructs properly via U8a', () => {
     expect(
       new Compact(new Uint8Array([254, 255, 3, 0])).raw
     ).toEqual(new BN(0xffff));
