@@ -13,34 +13,31 @@ import Method from '../Method';
 const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
 const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>`;
 
-// some intro text goes in here
-const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
+const DESC_EVENTS = '\n\nEvents are emitted for cerain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
+const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
 const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
 function sectionLink (sectionName: string) {
   return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
 }
 
-function generateSectionLinks (sectionName: string, metadata?: any) {
+function generateSectionLinks (sectionName: string, metadata: Metadata) {
   switch (sectionName) {
-    case 'rpc': {
-      return Object.keys(interfaces)
-        .sort().map((sectionName) => sectionLink(sectionName)).join('');
-    }
-    case 'extrinsics':
-    case 'storage': {
-      return metadata.modules.raw
-        .sort().map((runtimeModuleMetadata: any) => {
-          const sectionName = runtimeModuleMetadata.raw.prefix.raw;
+    case 'events':
+      return metadata.events.map((i) => i).sort().map((data: any) =>
+        sectionLink(data.name.toString())
+      ).join('');
 
-          return sectionLink(sectionName);
-        }).join('');
-    }
-    default: {
+    case 'extrinsics':
+    case 'storage':
+      return metadata.modules.map((i) => i).sort().map((runtimeModuleMetadata: any) =>
+        sectionLink(runtimeModuleMetadata.prefix.toString())
+      ).join('');
+
+    default:
       console.error('Unknown section name provided to generate anchors');
       break;
-    }
   }
 }
 
@@ -51,7 +48,9 @@ function generateSectionHeader (md: string, sectionName: string) {
 function addRpc () {
   const renderHeading = `## ${ANCHOR_TOP}JSON-RPC${DESC_RPC}\n`;
   const orderedSections = Object.keys(interfaces).sort();
-  const renderAnchors = generateSectionLinks('rpc');
+  const renderAnchors = Object.keys(interfaces).sort().map((sectionName) =>
+    sectionLink(sectionName)
+  ).join('');
 
   return orderedSections.reduce((md, sectionName) => {
     const section = interfaces[sectionName];
@@ -79,16 +78,43 @@ function addRpc () {
 function sortExtrinsicsSectionMethods () {
   return function (a: any, b: any) {
     // ignore upper and lowercase
-    const nameA = a.raw.name.raw.toUpperCase();
-    const nameB = b.raw.name.raw.toUpperCase();
+    const nameA = a.name.toString().toUpperCase();
+    const nameB = b.name.toString().toUpperCase();
 
     return nameA.localeCompare(nameB);
   };
 }
 
-function addExtrinsics (metadata: any) {
+function addEvents (metadata: Metadata) {
+  const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
+  const orderedSections = metadata.events.map((i) => i).sort();
+  const renderAnchors = generateSectionLinks('events', metadata);
+
+  return orderedSections.reduce((md: string, meta: any) => {
+    if (!meta.events || !meta.events.length) {
+      return md;
+    }
+
+    const sectionName = stringCamelCase(meta.name.toString());
+    const renderSection = generateSectionHeader(md, sectionName);
+
+    const orderedMethods = meta.events.map((i: any) => i).sort(sortExtrinsicsSectionMethods());
+
+    return orderedMethods.reduce((md: string, func: any) => {
+      const methodName = func.name.toString();
+      const args = func.arguments.map((type: any) => '`' + type + '`').join(', ');
+      const doc = func.documentation.reduce((md: string, doc: string) => `${md} ${doc}`, '');
+      const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
+      const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
+
+      return renderSignature + renderSummary;
+    }, renderSection);
+  }, renderHeading + renderAnchors);
+}
+
+function addExtrinsics (metadata: Metadata) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.raw.sort();
+  const orderedSections = metadata.modules.map((i) => i).sort();
   const renderAnchors = generateSectionLinks('extrinsics', metadata);
 
   return orderedSections.reduce((md: string, meta: any) => {
@@ -98,9 +124,7 @@ function addExtrinsics (metadata: any) {
 
     const sectionName = stringCamelCase(meta.prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
-
-    // Sort methods by name. Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
-    const orderedMethods = meta.module.call.functions.raw.sort(sortExtrinsicsSectionMethods());
+    const orderedMethods = meta.module.call.functions.map((i: any) => i).sort(sortExtrinsicsSectionMethods());
 
     return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringCamelCase(func.name.toString());
@@ -114,9 +138,9 @@ function addExtrinsics (metadata: any) {
   }, renderHeading + renderAnchors);
 }
 
-function addStorage (metadata: any) {
+function addStorage (metadata: Metadata) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
-  const orderedSections = metadata.modules.raw.sort();
+  const orderedSections = metadata.modules.map((i: any) => i).sort();
   const renderAnchors = generateSectionLinks('storage', metadata);
 
   return orderedSections.reduce((md: string, moduleMetadata: any) => {
@@ -126,7 +150,7 @@ function addStorage (metadata: any) {
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.functions.raw.sort();
+    const orderedMethods = moduleMetadata.storage.functions.map((i: any) => i).sort();
 
     return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
@@ -138,16 +162,6 @@ function addStorage (metadata: any) {
       return renderSignature + renderSummary;
     }, renderSection);
   }, renderHeading + renderAnchors);
-}
-
-function metadataStorageMethodsAsText () {
-  const metadata = new Metadata(rpcdata);
-  return addStorage(metadata);
-}
-
-function metadataExtrinsicsMethodsAsText () {
-  const metadata = new Metadata(rpcdata);
-  return addExtrinsics(metadata);
 }
 
 function writeToRpcMd () {
@@ -163,7 +177,7 @@ function writeToRpcMd () {
   writeStream.end();
 }
 
-function writeToStorageMd () {
+function writeToStorageMd (metadata: Metadata) {
   const optionsRead = { flags: 'r', encoding: 'utf8' };
   fs.readFile('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', optionsRead, function read (err: Error, data: string) {
     if (err) {
@@ -174,31 +188,47 @@ function writeToStorageMd () {
     const options = { flags: 'w', encoding: 'utf8' };
     const writeStream = fs.createWriteStream('docs/METHODS_STORAGE.md', options);
 
-    writeStream.write(metadataStorageMethodsAsText());
+    writeStream.write(addStorage(metadata));
     writeStream.write(data);
 
     // finish emitting event when all data flushed from stream
     writeStream.on('finish', () => {
-      console.log('wrote all storage method metadata to Gitbook Markdown file');
+      console.log('wrote all storage metadata to Gitbook Markdown file');
     });
 
     writeStream.end();
   });
 }
 
-function writeToExtrinsicsMd () {
+function writeToExtrinsicsMd (metadata: Metadata) {
   const options = { flags: 'w', encoding: 'utf8' };
   const writeStream = fs.createWriteStream('docs/METHODS_EXTRINSICS.md', options);
 
-  writeStream.write(metadataExtrinsicsMethodsAsText());
+  writeStream.write(addExtrinsics(metadata));
 
   writeStream.on('finish', () => {
-    console.log('wrote all extrinsics method metadata to Gitbook Markdown file');
+    console.log('wrote all extrinsics metadata to Gitbook Markdown file');
   });
 
   writeStream.end();
 }
 
+function writeToEventsMd (metadata: Metadata) {
+  const options = { flags: 'w', encoding: 'utf8' };
+  const writeStream = fs.createWriteStream('docs/METHODS_EVENTS.md', options);
+
+  writeStream.write(addEvents(metadata));
+
+  writeStream.on('finish', () => {
+    console.log('wrote all event metadata to Gitbook Markdown file');
+  });
+
+  writeStream.end();
+}
+
+const metadata = new Metadata(rpcdata);
+
 writeToRpcMd();
-writeToStorageMd();
-writeToExtrinsicsMd();
+writeToStorageMd(metadata);
+writeToExtrinsicsMd(metadata);
+writeToEventsMd(metadata);
