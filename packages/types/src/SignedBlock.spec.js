@@ -5,8 +5,10 @@
 import extrinsics from '@polkadot/extrinsics/static';
 
 import Method from './Method';
+import events from './SignedBlock.events.json';
 import rpc from './SignedBlock.rpc.json';
 import SignedBlock from './SignedBlock';
+import Block from './Block';
 
 describe('SignedBlock', () => {
   let block;
@@ -27,6 +29,12 @@ describe('SignedBlock', () => {
     expect(
       block.justification.hash.toHex()
     ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
+  });
+
+  it('decodes a block with events', () => {
+    expect(
+      new SignedBlock(events)
+    ).toBeDefined();
   });
 
   describe('extrinsics', () => {

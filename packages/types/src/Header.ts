@@ -29,7 +29,7 @@ export type HeaderValue = {
 export class Digest extends Struct {
   constructor (value?: DigestValue) {
     super({
-      logs: Vector.with(Bytes)
+      logs: Vector.with(Struct)
     }, value);
   }
 
