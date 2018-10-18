@@ -7,10 +7,12 @@
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
 
-## Node Interfaces
+## Interfaces
+
 - [RPC](METHODS_RPC.md)
-- [Storage chain state (runtime)](METHODS_STORAGE.md)
+- [Chain state (runtime)](METHODS_STORAGE.md)
 - [Extrinsics (runtime)](METHODS_EXTRINSICS.md)
+- [Events (runtime)](METHODS_EVENTS.md)
 
 ## Examples
 
