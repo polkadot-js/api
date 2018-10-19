@@ -9,11 +9,11 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Struct from './codec/Struct';
 
 import BlockNumber from './BlockNumber';
-import Digest from './Digest';
+import Digest, { DigestItem } from './Digest';
 import Hash from './Hash';
 
 export type HeaderValue = {
-  digest?: Digest,
+  digest?: Digest | { logs: DigestItem[] },
   extrinsicsRoot?: AnyU8a,
   number?: AnyNumber,
   parentHash?: AnyU8a,
