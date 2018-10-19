@@ -161,6 +161,7 @@
   * [Option](classes/_codec_option_.option.md)
 * [&quot;codec/Struct&quot;](modules/_codec_struct_.md)
   * [Struct](classes/_codec_struct_.struct.md)
+* [&quot;codec/Struct.spec&quot;](modules/_codec_struct_spec_.md)
 * [&quot;codec/Tuple&quot;](modules/_codec_tuple_.md)
   * [Tuple](classes/_codec_tuple_.tuple.md)
 * [&quot;codec/U8a&quot;](modules/_codec_u8a_.md)
