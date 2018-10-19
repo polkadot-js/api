@@ -46,12 +46,12 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/rx';
+   * import Api from '@polkadot/api/promise';
    *
-   * new Api().isReady.subscribe((api) => {
-   *   api.rpc.subscribeNewHead().subscribe((header) => {
-   *     console.log(`new block #${header.blockNumber.toNumber()}`);
-   *   });
+   * const api = new Api().isReady();
+   *
+   * api.rpc.subscribeNewHead((header) => {
+   *   console.log(`new block #${header.blockNumber.toNumber()}`);
    * });
    * ```
    */
@@ -99,11 +99,9 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * <BR>
    *
    * ```javascript
-   * api.query.balances
-   *   .freeBalance(<accountId>)
-   *   .subscribe((balance) => {
-   *     console.log('new balance', balance);
-   *   });
+   * api.query.balances.freeBalance(<accountId>, (balance) => {
+   *   console.log('new balance', balance);
+   * });
    * ```
    */
   get query (): S {
@@ -121,11 +119,9 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * <BR>
    *
    * ```javascript
-   * api.rpc.chain
-   *   .subscribeNewHead()
-   *   .subscribe((header) => {
-   *     console.log('new header', header);
-   *   });
+   * api.rpc.chain.subscribeNewHead((header) => {
+   *   console.log('new header', header);
+   * });
    * ```
    */
   get rpc (): R {
@@ -142,8 +138,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
    *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-   *   .send()
-   *   .subscribe((status) => {
+   *   .send((status) => {
    *     console.log('tx status', status);
    *   });
    * ```

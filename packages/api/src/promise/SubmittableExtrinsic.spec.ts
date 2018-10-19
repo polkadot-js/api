@@ -9,7 +9,7 @@ import Method from '@polkadot/types/Method';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 describe('SubmittableExtrinsic', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     Method.injectExtrinsics(extrinsics);
@@ -28,7 +28,9 @@ describe('SubmittableExtrinsic', () => {
     const result = await new SubmittableExtrinsic(
       api,
       new Extrinsic('0x010200ea51b75b00000000')
-    ).send(() => { });
+    ).send(() => {
+      // ignore
+    });
 
     expect(result).toEqual('submitAndWatchExtrinsic');
   });
