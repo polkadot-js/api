@@ -22,9 +22,9 @@ export class Other extends Null {
 export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other> {
   constructor (value: any) {
     super({
-      0: AuthoritiesChange,
-      1: ChangesTrieRoot,
-      2: Other
+      0: Other,
+      1: AuthoritiesChange,
+      2: ChangesTrieRoot
     }, value);
   }
 }
