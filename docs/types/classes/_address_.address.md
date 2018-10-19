@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:19](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L19)*
+*Defined in [Address.ts:19](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L19)*
 
 **Parameters:**
 
@@ -39,7 +39,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -53,7 +53,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [Address.ts:60](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L60)*
+*Defined in [Address.ts:60](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L60)*
 
 **Returns:** `number`
 
@@ -67,7 +67,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Address.ts:68](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L68)*
+*Defined in [Address.ts:68](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L68)*
 
 **Returns:** `string`
 
@@ -80,7 +80,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Address.ts:72](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L72)*
+*Defined in [Address.ts:72](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L72)*
 
 **Returns:** `any`
 
@@ -93,7 +93,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Address.ts:76](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L76)*
+*Defined in [Address.ts:76](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L76)*
 
 **Returns:** `string`
 
@@ -106,7 +106,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Address.ts:80](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L80)*
+*Defined in [Address.ts:80](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L80)*
 
 **Parameters:**
 
@@ -123,7 +123,7 @@ ___
 
 ▸ **decodeAddress**(value: * [Address](_address_.address.md) &#124; [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md) &#124; `Uint8Array` &#124; `string`*):  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
 
-*Defined in [Address.ts:26](https://github.com/polkadot-js/api/blob/40342c6/packages/types/src/Address.ts#L26)*
+*Defined in [Address.ts:26](https://github.com/polkadot-js/api/blob/1635638/packages/types/src/Address.ts#L26)*
 
 **Parameters:**
 
