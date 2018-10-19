@@ -174,12 +174,15 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
+   * const address = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7';
+   *
    * // combines values from balance & nonce as it updates
    * api.combine([
-   *   (cb) => api.query.balances.freeBalance(<address>, cb),
-   *   (cb) => api.query.system.accountNonce(<address>, cb)
-   * ], ([balance, nonce]) => {
-   *   console.log(`You have ${balance} units, with ${nonce} transactions sent`);
+   *   (cb) => api.rpc.chain.subscribeNewHead(cb),
+   *   (cb) => api.query.balances.freeBalance(address, cb),
+   *   (cb) => api.query.system.accountNonce(address, cb)
+   * ], ([head, balance, nonce]) => {
+   *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
    * });
    * ```
    */
