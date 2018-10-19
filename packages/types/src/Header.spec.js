@@ -3,11 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import Header from './Header';
-import json from './Header.only.json';
+import json from './json/Header.001.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
-    const header = new Header(json);
+    const header = new Header(json.result);
 
     expect(
       header.blockNumber.toNumber()
