@@ -5,8 +5,8 @@
 import extrinsics from '@polkadot/extrinsics/static';
 
 import Method from './Method';
-import events from './SignedBlock.events.json';
-import rpc from './SignedBlock.rpc.json';
+import rpc from './json/SignedBlock.001.json';
+import events from './json/SignedBlock.002.json';
 import SignedBlock from './SignedBlock';
 
 describe('SignedBlock', () => {
