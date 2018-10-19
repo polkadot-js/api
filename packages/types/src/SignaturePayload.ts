@@ -40,19 +40,19 @@ export default class SignaturePayload extends Struct {
   }
 
   get blockHash (): Hash {
-    return this.raw.blockHash as Hash;
+    return this.get('blockHash') as Hash;
   }
 
   get method (): Method {
-    return this.raw.method as Method;
+    return this.get('method') as Method;
   }
 
   get era (): ExtrinsicEra {
-    return this.raw.era as ExtrinsicEra;
+    return this.get('era') as ExtrinsicEra;
   }
 
   get nonce (): Nonce {
-    return this.raw.nonce as Nonce;
+    return this.get('nonce') as Nonce;
   }
 
   get signature (): Uint8Array {

@@ -34,15 +34,15 @@ export class BftAtReport extends Struct {
   }
 
   get a (): BftHashSignature {
-    return this.raw.a as BftHashSignature;
+    return this.get('a') as BftHashSignature;
   }
 
   get b (): BftHashSignature {
-    return this.raw.b as BftHashSignature;
+    return this.get('b') as BftHashSignature;
   }
 
   get round (): U32 {
-    return this.raw.round as U32;
+    return this.get('round') as U32;
   }
 }
 
@@ -80,18 +80,18 @@ export default class MisbehaviorReport extends Struct {
   }
 
   get misbehavior (): MisbehaviorKind {
-    return this.raw.misbehavior as MisbehaviorKind;
+    return this.get('misbehavior') as MisbehaviorKind;
   }
 
   get parentHash (): Hash {
-    return this.raw.parentHash as Hash;
+    return this.get('parentHash') as Hash;
   }
 
   get parentNumber (): BlockNumber {
-    return this.raw.parentNumber as BlockNumber;
+    return this.get('parentNumber') as BlockNumber;
   }
 
   get target (): AuthorityId {
-    return this.raw.target as AuthorityId;
+    return this.get('target') as AuthorityId;
   }
 }

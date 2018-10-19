@@ -16,15 +16,15 @@ export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal,
   }
 
   get address (): AccountId {
-    return this.raw.address as AccountId;
+    return this.get('address') as AccountId;
   }
 
   get id (): PropIndex {
-    return this.raw.id as PropIndex;
+    return this.get('id') as PropIndex;
   }
 
   get proposal (): Proposal {
-    return this.raw.proposal as Proposal;
+    return this.get('proposal') as Proposal;
   }
 }
 
@@ -37,11 +37,11 @@ export class RxProposalDeposits extends Struct.with({ balance: Balance, addresse
   }
 
   get addresses (): Vector<AccountId> {
-    return this.raw.addresses as Vector<AccountId>;
+    return this.get('addresses') as Vector<AccountId>;
   }
 
   get balance (): Balance {
-    return this.raw.balance as Balance;
+    return this.get('balance') as Balance;
   }
 }
 
@@ -56,18 +56,18 @@ export class RxReferendum extends Struct.with({ blockNumber: BlockNumber, propos
   }
 
   get blockNumber (): BlockNumber {
-    return this.raw.blockNumber as BlockNumber;
+    return this.get('blockNumber') as BlockNumber;
   }
 
   get id (): ReferendumIndex {
-    return this.raw.id as ReferendumIndex;
+    return this.get('id') as ReferendumIndex;
   }
 
   get proposal (): Proposal {
-    return this.raw.proposal as Proposal;
+    return this.get('proposal') as Proposal;
   }
 
   get voteThreshold (): VoteThreshold {
-    return this.raw.voteThreshold as VoteThreshold;
+    return this.get('voteThreshold') as VoteThreshold;
   }
 }

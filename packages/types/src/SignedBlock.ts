@@ -20,10 +20,10 @@ export default class SignedBlock extends Struct {
   }
 
   get block (): Block {
-    return this.raw.block as Block;
+    return this.get('block') as Block;
   }
 
   get justification (): Justification {
-    return this.raw.justification as Justification;
+    return this.get('justification') as Justification;
   }
 }
