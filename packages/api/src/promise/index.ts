@@ -180,7 +180,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    *
    * // subscribe to balance & nonce using combinator
    * api.query.balances.freeBalance(<address>, combinator.next());
-   * api.query.sywstem.accountNonce(<address>, combinator.next());
+   * api.query.system.accountNonce(<address>, combinator.next());
    * ```
    */
   combinator (callback?: CombinatorCallback): Combinator {
