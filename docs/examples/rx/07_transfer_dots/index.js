@@ -31,20 +31,16 @@ async function main () {
               // Pipe nonce into transfer.
               // Use the Extrinsics (runtime) Node Interface.
               switchMap((aliceNonce, blockHash) => {
-                return combineLatest(
-                  [aliceNonce].map((aliceNonce) =>
-                    api.tx.balances
-                      // Create an extrinsic, transferring 12345 units to Bob.
-                      .transfer(BOB_ADDR, 12345)
-                      // Sign the transaction using our account keypair, nonce,
-                      // and optionally the block hash
-                      .sign(alice, aliceNonce, blockHash)
-                      // Send the transaction (optional status callback)
-                      // .send((status) => {
-                      //   console.log(`current status ${status.type}`);
-                      // })
-                  )
-                );
+                return api.tx.balances
+                  // Create an extrinsic, transferring 12345 units to Bob.
+                  .transfer(BOB_ADDR, 12345)
+                  // Sign the transaction using our account keypair, nonce,
+                  // and optionally the block hash
+                  .sign(alice, aliceNonce, blockHash);
+                  // Send the transaction (optional status callback)
+                  // .send((status) => {
+                  //   console.log(`current status ${status.type}`);
+                  // })
               })
             )
         ])
