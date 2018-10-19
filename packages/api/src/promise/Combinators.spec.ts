@@ -6,9 +6,8 @@ import Combinator from './Combinator';
 
 describe('Combinator', () => {
   it('it triggers on all values', (done) => {
-    const fns: Array<(value: any) => void> = [];
     let count = 0;
-
+    const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
         (cb) => fns.push(cb)
@@ -33,8 +32,6 @@ describe('Combinator', () => {
 
   it('combines values from 2 sources, firing when it has all results', (done) => {
     const fns: Array<(value: any) => void> = [];
-    let count = 0;
-
     const combinator = new Combinator(
       [
         (cb) => fns.push(cb),
@@ -54,9 +51,8 @@ describe('Combinator', () => {
   });
 
   it('combines values from 2 sources, allowing multiple updates', (done) => {
-    const fns: Array<(value: any) => void> = [];
     let count = 0;
-
+    const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
         (cb) => fns.push(cb),
