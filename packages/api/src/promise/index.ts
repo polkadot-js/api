@@ -13,7 +13,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
-import Combinator, { CombinatorCallback } from './Combinator';
+import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 /**
@@ -167,24 +167,24 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   /**
-   * @description Creats a combinator that can be used to combine the results from multiple subscriptions
+   * @description Creates a combinator that can be used to combine the results from multiple subscriptions
+   * @param fns An array of function to combine, each in the form of `(cb: (value: void)) => void`
    * @param callback A callback that will return an Array of all the values this combinator has been applied to
    * @example
    * <BR>
    *
    * ```javascript
-   * // create the combinator
-   * const combinator = api.combinator(([balance, nonce]) => {
+   * // combines values from balance & nonce as it updates
+   * api.combine([
+   *   (cb) => api.query.balances.freeBalance(<address>, cb),
+   *   (cb) => api.query.system.accountNonce(<address>, cb)
+   * ], ([balance, nonce]) => {
    *   console.log(`You have ${balance} units, with ${nonce} transactions sent`);
    * });
-   *
-   * // subscribe to balance & nonce using combinator
-   * api.query.balances.freeBalance(<address>, combinator.next());
-   * api.query.system.accountNonce(<address>, combinator.next());
    * ```
    */
-  combinator (callback?: CombinatorCallback): Combinator {
-    return new Combinator(callback);
+  combine (fns: Array<CombinatorFunction>, callback: CombinatorCallback): Combinator {
+    return new Combinator(fns, callback);
   }
 
   protected decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {

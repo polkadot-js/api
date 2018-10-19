@@ -6,92 +6,58 @@ import Combinator from './Combinator';
 
 describe('Combinator', () => {
   it('creates a simple combinator, trigerring on all values', (done) => {
+    const fns: Array<(value: any) => void> = [];
     let count = 0;
 
-    const combinator = new Combinator((value: Array<any>) => {
-      expect(value[0]).toEqual(`test${count}`);
+    const combinator = new Combinator(
+      [
+        (cb) => fns.push(cb)
+      ],
+      (value: Array<any>) => {
+        expect(value[0]).toEqual(`test${count}`);
 
-      count++;
+        count++;
 
-      if (count === 3) {
-        done();
+        if (count === 3) {
+          done();
+        }
       }
-    });
+    );
 
-    const fn = combinator.next();
+    fns[0]('test0');
+    fns[0]('test1');
+    fns[0]('test2');
 
-    fn('test0');
-    fn('test1');
-    fn('test2');
+    expect(combinator).toBeDefined();
   });
 
   it('creates a combinator that combines values from 2 sources', (done) => {
+    const fns: Array<(value: any) => void> = [];
     let count = 0;
 
-    const combinator = new Combinator((value: Array<any>) => {
-      expect(value).toEqual(
-        count === 0
-          ? ['test0']
-          : ['test0', 'test1']
-      );
+    const combinator = new Combinator(
+      [
+        (cb) => fns.push(cb),
+        (cb) => fns.push(cb)
+      ],
+      (value: Array<any>) => {
+        expect(value).toEqual(
+          count === 0
+            ? ['test0', undefined]
+            : ['test0', 'test1']
+        );
 
-      count++;
+        count++;
 
-      if (count === 2) {
-        done();
+        if (count === 2) {
+          done();
+        }
       }
-    });
+    );
 
-    combinator.next()('test0');
-    combinator.next()('test1');
-  });
+    fns[0]('test0');
+    fns[1]('test1');
 
-  it('creates a combinator that combines values from 2 sources (filling empty)', (done) => {
-    let count = 0;
-
-    const combinator = new Combinator((value: Array<any>) => {
-      expect(value).toEqual(
-        count === 0
-          ? ['test0', undefined]
-          : ['test0', 'test1']
-      );
-
-      count++;
-
-      if (count === 2) {
-        done();
-      }
-    });
-
-    const fn0 = combinator.next();
-    const fn1 = combinator.next();
-
-    fn0('test0');
-    fn1('test1');
-  });
-
-  it('allows subscription after use, and subsequent next()', (done) => {
-    let count = 0;
-    const combinator = new Combinator();
-
-    combinator.next()('test0');
-    combinator.next()('test1');
-    combinator.next()('test2');
-
-    combinator.subscribe((value: Array<any>) => {
-      expect(value).toEqual(
-        count === 0
-          ? ['test0', 'test1', 'test2']
-          : ['test0', 'test1', 'test2', 'test3']
-      );
-
-      count++;
-
-      if (count === 2) {
-        done();
-      }
-    });
-
-    combinator.next()('test3');
+    expect(combinator).toBeDefined();
   });
 });

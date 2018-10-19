@@ -5,35 +5,31 @@
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
-
-type CombinatorFunction = (value: any) => void;
+export type CombinatorFunction = (cb: (value: any) => void) => any;
 
 export default class Combinator {
-  protected _callback?: CombinatorCallback;
+  protected _callback: CombinatorCallback;
   protected _results: Array<any>;
 
-  constructor (callback?: CombinatorCallback) {
+  constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
     this._callback = callback;
-    this._results = [];
+    this._results = fns.map(() =>
+      // Be very clear on intent - initialise results
+      // array with [undefined, undefined, ...]
+      undefined
+    );
+
+    fns.forEach((fn, index) =>
+      fn(this.createCallback(index))
+    );
   }
 
-  next (): CombinatorFunction {
-    const index = this._results.length;
-
-    // Add an empty value, so we are not operating a sparse array
-    this._results[index] = undefined;
-
+  protected createCallback (index: number) {
     return (value: any): void => {
       this._results[index] = value;
 
       this.triggerUpdate();
     };
-  }
-
-  subscribe (callback: CombinatorCallback): void {
-    this._callback = callback;
-
-    this.triggerUpdate();
   }
 
   protected triggerUpdate (): void {
