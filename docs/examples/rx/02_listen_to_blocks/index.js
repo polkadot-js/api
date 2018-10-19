@@ -1,3 +1,5 @@
+const readline = require('readline');
+
 // Import the API Rx
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
@@ -15,7 +17,7 @@ async function main () {
 
   // Support for detecting when CTRL+C (interrupt signal) received on Windows
   if (process.platform === 'win32') {
-    var rl = require('readline').createInterface({
+    var rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
