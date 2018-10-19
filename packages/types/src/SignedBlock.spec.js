@@ -30,10 +30,20 @@ describe('SignedBlock', () => {
     ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
   });
 
-  it('decodes a block with events', () => {
-    expect(
-      new SignedBlock(events.result)
-    ).toBeDefined();
+  it('decodes a block with logs', () => {
+    const s = new SignedBlock(events.result);
+
+    expect(s.block.header.digest.logs.length).toBe(1);
+    expect(s.block.header.digest.logs.get(0).type).toBe('AuthoritiesChange');
+    expect(s.block.header.digest.logs.get(0).value.toJSON()).toEqual([
+      "5EyrU8k6worwXWfW2LajRvS7XF6eta286tMpHeHUwMPpzQ9F",
+      "5Dpq7rU6KAZVdRtcegvpCoeJtZzFPzieRkRz4xajRAiMRkCf",
+      "5CCtQPAYtuDXt6H4WMrn5nFNk4gemkVRD3k1r1mA7YiZLPBq",
+      "5F2ABwFm3fUhWMZT7Zeu7UjCr1dndjJD7qBeHChJhiJC949V",
+      "5CA1n5DSpE46Q9Y7NaqD39T9X7S2dRtscsPvrv2dWuYhFtWr",
+      "5CrxmsTCLbPRzHnFPs8Q6cx8jzHweegMSQYEJBGXLjDZW4NR",
+      "5EQ4ZxYew2CXPkjGCBuPdTVg7Hp3bmBXiXBwn1iDmvj6CgaF"
+    ]);
   });
 
   describe('extrinsics', () => {

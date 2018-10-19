@@ -7,38 +7,18 @@ import { AnyNumber, AnyU8a } from './types';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Struct from './codec/Struct';
-import Vector from './codec/Vector';
 
 import BlockNumber from './BlockNumber';
-import Bytes from './Bytes';
+import Digest from './Digest';
 import Hash from './Hash';
-import Null from './Null';
-
-type DigestValue = {
-  logs?: Array<AnyU8a>
-};
 
 export type HeaderValue = {
-  digest?: DigestValue,
+  digest?: Digest,
   extrinsicsRoot?: AnyU8a,
   number?: AnyNumber,
   parentHash?: AnyU8a,
   stateRoot?: AnyU8a
 };
-
-// A block header digest.
-export class Digest extends Struct {
-  constructor (value?: DigestValue) {
-    super({
-      // FIXME decode properly
-      logs: Vector.with(Null)
-    }, value);
-  }
-
-  get logs (): Vector<Bytes> {
-    return this.get('logs') as Vector<Bytes>;
-  }
-}
 
 // A block header.
 export default class Header extends Struct {
