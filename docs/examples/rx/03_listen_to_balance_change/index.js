@@ -1,3 +1,5 @@
+const { switchMap } = require('rxjs/operators');
+
 // Import the API Rx
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
@@ -11,14 +13,20 @@ async function main () {
   let previous = null;
 
   // Here we pass the (optional) provider
-  ApiRx.create(wsProvider).subscribe((api) => {
-    console.log(`${Alice} has ${previous || '???'} previous balance`);
-    console.log(`You may leave this example running and start example 06 ` +
-                `or transfer any value to Alice at ${Alice}`);
+  // We avoid having nested `.subscribe` blocks. Use `.subscribe` or
+  // `.tap` blocks for debugging with console.log
+  ApiRx
+    .create(wsProvider)
+    .pipe(
+      // Here we subscribe to any balance changes and update the on-screen value.
+      // Use the Storage chain state (runtime) Node Interface.
+      switchMap((api) => api.query.balances.freeBalance(Alice))
+    )
+    .subscribe((current) => {
+      console.log(`${Alice} has ${previous || '???'} previous balance`);
+      console.log(`You may leave this example running and start example 06 ` +
+                  `or transfer any value to Alice at ${Alice}`);
 
-    // Here we subscribe to any balance changes and update the on-screen value.
-    // Use the Storage chain state (runtime) Node Interface.
-    api.query.balances.freeBalance(Alice).subscribe((current) => {
       // Calculate the delta
       const change = current.sub(previous);
 
@@ -32,7 +40,6 @@ async function main () {
 
       console.log(`Balance of Alice at ${Alice} is ${current}. It changed by: ${change}`);
     });
-  });
 }
 
 main().catch(console.error);
