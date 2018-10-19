@@ -183,7 +183,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * api.query.sywstem.accountNonce(<address>, combinator.next());
    * ```
    */
-  combinator (callback: CombinatorCallback): Combinator {
+  combinator (callback?: CombinatorCallback): Combinator {
     return new Combinator(callback);
   }
 
