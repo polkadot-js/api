@@ -13,6 +13,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
+import Combinator, { CombinatorCallback } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 /**
@@ -163,6 +164,27 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
 
   protected decorateRpc (rpc: Rpc): Rpc {
     return rpc;
+  }
+
+  /**
+   * @description Creats a combinator that can be used to combine the results from multiple subscriptions
+   * @param callback A callback that will return an Array of all the values this combinator has been applied to
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * // create the combinator
+   * const combinator = api.combinator(([balance, nonce]) => {
+   *   console.log(`You have ${balance} units, with ${nonce} transactions sent`);
+   * });
+   *
+   * // subscribe to balance & nonce using combinator
+   * api.query.balances.freeBalance(<address>, combinator.next());
+   * api.query.sywstem.accountNonce(<address>, combinator.next());
+   * ```
+   */
+  combinator (callback: CombinatorCallback): Combinator {
+    return new Combinator(callback);
   }
 
   protected decorateExtrinsics (extrinsics: Extrinsics): SubmittableExtrinsics {
