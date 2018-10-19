@@ -74,19 +74,19 @@ export default class ExtrinsicSignature extends Struct {
   }
 
   get era (): ExtrinsicEra {
-    return this.raw.era as ExtrinsicEra;
+    return this.get('era') as ExtrinsicEra;
   }
 
   get nonce (): Nonce {
-    return this.raw.nonce as Nonce;
+    return this.get('nonce') as Nonce;
   }
 
   get signature (): Signature {
-    return this.raw.signature as Signature;
+    return this.get('signature') as Signature;
   }
 
   get signer (): Address {
-    return this.raw.signer as Address;
+    return this.get('signer') as Address;
   }
 
   get version (): number {
@@ -112,10 +112,10 @@ export default class ExtrinsicSignature extends Struct {
     });
     const signature = new Signature(signingPayload.sign(signerPair));
 
-    this.raw.era = signingPayload.era;
-    this.raw.nonce = signingPayload.nonce;
-    this.raw.signer = signer;
-    this.raw.signature = signature;
+    this.set('era', signingPayload.era);
+    this.set('nonce', signingPayload.nonce);
+    this.set('signer', signer);
+    this.set('signature', signature);
 
     return this;
   }

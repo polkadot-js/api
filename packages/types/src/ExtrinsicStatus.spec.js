@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import rpc from './ExtrinsicStatus.rpc.json';
+import rpc from './json/ExtrinsicStatus.001.json';
 import ExtrinsicStatus from './ExtrinsicStatus';
 
 describe('ExtrinsicStatus', () => {

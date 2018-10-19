@@ -26,7 +26,7 @@ export default class Block extends Struct {
   }
 
   get extrinsics (): Extrinsics {
-    return this.raw.extrinsics as Extrinsics;
+    return this.get('extrinsics') as Extrinsics;
   }
 
   // convenience, encodes the header and returns the actual hash
@@ -37,6 +37,6 @@ export default class Block extends Struct {
   }
 
   get header (): Header {
-    return this.raw.header as Header;
+    return this.get('header') as Header;
   }
 }

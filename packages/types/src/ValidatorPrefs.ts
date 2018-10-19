@@ -22,10 +22,10 @@ export default class ValidatorPrefs extends Struct {
   }
 
   get unstakeThreshold (): U32 {
-    return this.raw.unstakeThreshold as U32;
+    return this.get('unstakeThreshold') as U32;
   }
 
   get validatorPayment (): Balance {
-    return this.raw.validatorPayment as Balance;
+    return this.get('validatorPayment') as Balance;
   }
 }

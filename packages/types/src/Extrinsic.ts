@@ -94,11 +94,11 @@ export default class Extrinsic extends Struct {
   }
 
   get method (): Method {
-    return this.raw.method as Method;
+    return this.get('method') as Method;
   }
 
   get signature (): ExtrinsicSignature {
-    return this.raw.signature as ExtrinsicSignature;
+    return this.get('signature') as ExtrinsicSignature;
   }
 
   get encodedLength (): number {

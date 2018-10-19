@@ -4,12 +4,11 @@
 
 import { assert } from '@polkadot/util';
 
+import { Constructor } from '../types';
 import Text from '../Text';
 import Base from './Base';
 import Tuple from './Tuple';
 import Vector from './Vector';
-
-type Constructor = { new (value?: any): Base };
 
 export enum TypeDefInfo {
   Plain,

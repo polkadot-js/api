@@ -28,11 +28,11 @@ export class BftAuthoritySignature extends Tuple {
   }
 
   get authorityId (): AuthorityId {
-    return this.raw.authorityId as AuthorityId;
+    return this.getAtIndex(0) as AuthorityId;
   }
 
   get signature (): Signature {
-    return this.raw.signature as Signature;
+    return this.getAtIndex(1) as Signature;
   }
 }
 
@@ -52,11 +52,11 @@ export class BftHashSignature extends Tuple {
   }
 
   get hash (): Hash {
-    return this.raw.hash as Hash;
+    return this.getAtIndex(0) as Hash;
   }
 
   get signature (): Signature {
-    return this.raw.signature as Signature;
+    return this.getAtIndex(1) as Signature;
   }
 }
 
@@ -78,14 +78,14 @@ export class Justification extends Struct {
   }
 
   get hash (): Hash {
-    return this.raw.hash as Hash;
+    return this.get('hash') as Hash;
   }
 
   get round (): U32 {
-    return this.raw.round as U32;
+    return this.get('round') as U32;
   }
 
   get signatures (): Vector<BftAuthoritySignature> {
-    return this.raw.signatures as Vector<BftAuthoritySignature>;
+    return this.get('signatures') as Vector<BftAuthoritySignature>;
   }
 }

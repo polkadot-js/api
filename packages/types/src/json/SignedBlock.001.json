@@ -1,0 +1,43 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "block": {
+      "extrinsics": [
+        "0x0102004629c35b00000000",
+        "0x8110f8e1ebdd3cdef7423d24fe68f3863945ea21c190907d7f3394ddf153f633c77b894af36f7a36e7ec767f4593bfd8d084b66d805605905054327a08ff604187080100000000000000270e0100ff0e6422725af0e9aede3bef6eba77bc87afadf60b9735057ae93801f4c472ad7b00407a10f35a00000000000000000000"
+      ],
+      "header": {
+        "digest": {
+          "logs": []
+        },
+        "extrinsicsRoot": "0x79e749f5b04d6fde65503874daf1ca2a95509dfada574565fb81c11af236397c",
+        "number": 206053,
+        "parentHash": "0x6799fcd718579b07900bde8e14e2a1bde1c386f4539ef9cbb4407eebf5cb4857",
+        "stateRoot": "0xbfe02f7c26e5dad1226eccb1f4ef5306312602f7e1edbb9be50e8b87d9c7840b"
+      }
+    },
+    "justification": {
+      "hash": "0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a",
+      "round_number": 0,
+      "signatures": [
+        [
+          "0x8101764f45778d4980dadaceee6e8af2517d3ab91ac9bec9cd1714fa5994081c",
+          "0x84e343ddfd126d7c7a5c8feeac33dae947a08e4bee7b94080448fd31ae00f3a5e1a3e916926535976671ee61c430c215dbda1a781a7692a6ffc8f955b9d2d603"
+        ],
+        [
+          "0x82c39b31a2b79a90f8e66e7a77fdb85a4ed5517f2ae39f6a80565e8ecae85cf5",
+          "0x67089e8cbf4fec1c362de972c1430c468f572ceba0a26ca1ed4782155efc3ae2156cef02fb57f0012fe7766d932d2ccde9fd8d48bb4c869d7461079b66c1f002"
+        ],
+        [
+          "0x063d7787ebca768b7445dfebe7d62cbb1625ff4dba288ea34488da266dd6dca5",
+          "0x9822441c8196fe9737e8d1aa49f4c0da046c15eba695fa89f98e2736fcc747e5ae88720fb554cc509d1e405e04194fda10a956eb85c76bde057ba01ffeef8507"
+        ],
+        [
+          "0x4de37a07567ebcbf8c64568428a835269a566723687058e017b6d69db00a77e7",
+          "0x1753981ad2dd67d18ca7026b2b2e8c3e0071da561eda8e3532a5b4a713415248f1df6ef32b32136ba2cb75cd4b4165aa9e1abe259b533046fb199e41b67f9406"
+        ]
+      ]
+    }
+  },
+  "id": 8
+}

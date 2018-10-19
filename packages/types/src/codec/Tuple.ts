@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a, Constructor } from '../types';
+import { Constructor, ConstructorDef } from '../types';
 import Base from './Base';
 import Struct from './Struct';
 
@@ -11,32 +11,12 @@ import Struct from './Struct';
 // while the U8a encoding is handled in the same way as a Struct
 export default class Tuple<
   // S & T definitions maps to what we have in Struct (naming documented there)
-  S = { [index: string]: Constructor<Base> },
-  T = { [K in keyof S]: Base },
-  V = { [K in keyof S]: any }
+  S extends ConstructorDef = { [index: string]: Constructor<Base> },
+  T extends { [K in keyof S]: Base }= { [K in keyof S]: Base },
+  V extends { [K in keyof S]: any } = { [K in keyof S]: any }
   > extends Struct<S, T, V> {
-  constructor (Types: S, value?: V | AnyU8a, jsonMap?: Map<keyof S, string>) {
-    super(Types, Tuple.decodeTuple(Types, value), jsonMap);
-  }
-
-  static decodeTuple<S, V> (Types: S, value: V | AnyU8a): V {
-    // If the input is an array, we convert it to a map
-    if (Array.isArray(value)) {
-      return Object
-        .keys(Types)
-        .reduce((result, key, index) => {
-          // @ts-ignore FIXME these types are a headache
-          result[key] = value[index];
-          return result;
-        }, {} as V);
-    }
-
-    // Or else, just decode like a normal Struct
-    return value as V;
-  }
-
   static with<
-    S = { [index: string]: Constructor<Base> }
+    S extends ConstructorDef= { [index: string]: Constructor<Base> }
     > (Types: S): Constructor<Tuple<S>> {
     return class extends Tuple<S> {
       constructor (value?: any) {
@@ -46,7 +26,7 @@ export default class Tuple<
   }
 
   toJSON (): any {
-    return Object.values(this.raw).map((entry) =>
+    return [...this.values()].map((entry) =>
       entry.toJSON()
     );
   }
