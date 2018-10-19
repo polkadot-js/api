@@ -167,7 +167,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   /**
-   * @description Creates a combinator that can be used to combine the results from multiple subscriptions
+   * @description Creates a combinator that can be used to combine the latest results from multiple subscriptions
    * @param fns An array of function to combine, each in the form of `(cb: (value: void)) => void`
    * @param callback A callback that will return an Array of all the values this combinator has been applied to
    * @example
@@ -177,7 +177,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * const address = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7';
    *
    * // combines values from balance & nonce as it updates
-   * api.combine([
+   * api.combineLatest([
    *   (cb) => api.rpc.chain.subscribeNewHead(cb),
    *   (cb) => api.query.balances.freeBalance(address, cb),
    *   (cb) => api.query.system.accountNonce(address, cb)
@@ -186,7 +186,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  combine (fns: Array<CombinatorFunction>, callback: CombinatorCallback): Combinator {
+  combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): Combinator {
     return new Combinator(fns, callback);
   }
 

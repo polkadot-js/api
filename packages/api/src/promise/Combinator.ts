@@ -8,24 +8,32 @@ export type CombinatorCallback = (value: Array<any>) => any;
 export type CombinatorFunction = (cb: (value: any) => void) => any;
 
 export default class Combinator {
+  protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
-  protected _results: Array<any>;
+  protected _fired: Array<boolean> = [];
+  protected _results: Array<any> = [];
 
   constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
     this._callback = callback;
-    this._results = fns.map(() =>
-      // Be very clear on intent - initialise results
-      // array with [undefined, undefined, ...]
-      undefined
-    );
 
-    fns.forEach((fn, index) =>
-      fn(this.createCallback(index))
-    );
+    fns.forEach((fn, index) => {
+      this._fired.push(false);
+
+      fn(this.createCallback(index));
+    });
+  }
+
+  protected allHasFired (): boolean {
+    if (!this._allHasFired) {
+      this._allHasFired = this._fired.filter((hasFired) => !hasFired).length === 0;
+    }
+
+    return this._allHasFired;
   }
 
   protected createCallback (index: number) {
     return (value: any): void => {
+      this._fired[index] = true;
       this._results[index] = value;
 
       this.triggerUpdate();
@@ -33,7 +41,7 @@ export default class Combinator {
   }
 
   protected triggerUpdate (): void {
-    if (!isFunction(this._callback) || !this._results.length) {
+    if (!isFunction(this._callback) || !this.allHasFired()) {
       return;
     }
 

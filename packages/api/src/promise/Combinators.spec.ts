@@ -5,7 +5,7 @@
 import Combinator from './Combinator';
 
 describe('Combinator', () => {
-  it('creates a simple combinator, trigerring on all values', (done) => {
+  it('it triggers on all values', (done) => {
     const fns: Array<(value: any) => void> = [];
     let count = 0;
 
@@ -31,7 +31,29 @@ describe('Combinator', () => {
     expect(combinator).toBeDefined();
   });
 
-  it('creates a combinator that combines values from 2 sources', (done) => {
+  it('combines values from 2 sources, firing when it has all results', (done) => {
+    const fns: Array<(value: any) => void> = [];
+    let count = 0;
+
+    const combinator = new Combinator(
+      [
+        (cb) => fns.push(cb),
+        (cb) => fns.push(cb)
+      ],
+      (value: Array<any>) => {
+        expect(value).toEqual(['test0', 'test1']);
+
+        done();
+      }
+    );
+
+    fns[0]('test0');
+    fns[1]('test1');
+
+    expect(combinator).toBeDefined();
+  });
+
+  it('combines values from 2 sources, allowing multiple updates', (done) => {
     const fns: Array<(value: any) => void> = [];
     let count = 0;
 
@@ -43,9 +65,8 @@ describe('Combinator', () => {
       (value: Array<any>) => {
         expect(value).toEqual(
           count === 0
-            ? ['test0', undefined]
-            : ['test0', 'test1']
-        );
+            ? ['test0', 'test1']
+            : ['test2', 'test1']);
 
         count++;
 
@@ -57,6 +78,7 @@ describe('Combinator', () => {
 
     fns[0]('test0');
     fns[1]('test1');
+    fns[0]('test2');
 
     expect(combinator).toBeDefined();
   });
