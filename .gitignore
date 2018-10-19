@@ -1,16 +1,41 @@
+# ignore generated folders/files
 build/
 coverage/
 node_modules/
 tmp/
+
+# ignore generated _book folder/files
+_book/
+
+# ignore docs folder/files, however we will exclude from ignoring
+# specific files/folders within it later in this .gitignore file
+docs/*
+
+# exclude from ignoring .md and .png (logo) files in root docs
+!/docs/CONTRIBUTING.md
+!/docs/GLOSSARY.md
+!/docs/README.md
+!/docs/SUMMARY.md
+!/docs/logo.png
+
+# exclude from ignoring the styles
+!/docs/styles
+
+# exclude from ignore .js, .json, and .md files in examples folder, and .gitignore
+!/docs/examples/**/*.js
+!/docs/examples/**/*.json
+!/docs/examples/**/*.md
+
+# ignore other files
 .DS_Store
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 lerna-debug.log*
+package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-_book
-docs/html
+store.db
+store.db.compacted
