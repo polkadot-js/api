@@ -28,11 +28,11 @@ export default class KeyValue extends Struct {
   }
 
   get key (): StorageKey {
-    return this.raw.key as StorageKey;
+    return this.get('key') as StorageKey;
   }
 
   get value (): StorageData {
-    return this.raw.value as StorageData;
+    return this.get('value') as StorageData;
   }
 }
 
@@ -53,10 +53,10 @@ export class KeyValueOption extends Tuple {
   }
 
   get key (): StorageKey {
-    return this.raw.key as StorageKey;
+    return this.getAtIndex(0) as StorageKey;
   }
 
   get value (): Option<StorageData> {
-    return this.raw.value as Option<StorageData>;
+    return this.getAtIndex(1) as Option<StorageData>;
   }
 }
