@@ -26,7 +26,6 @@ export { default as Compact128 } from './Compact128';
 export { default as Compact256 } from './Compact256';
 // NOTE Only used internally,
 // export { default as Digest } from './Digest';
-// export { default as DigestItem } from './DigestItem';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
