@@ -24,18 +24,18 @@
 
 ⊕ **new ApiBase**(wsProvider?: *`WsProvider`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L38)*
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L38)*
 
 *__description__*: Create an instance of the class
 
 *__example__*:   
 ```javascript
-import Api from '@polkadot/api/rx';
+import Api from '@polkadot/api/promise';
 
-new Api().isReady.subscribe((api) => {
-  api.rpc.subscribeNewHead().subscribe((header) => {
-    console.log(`new block #${header.blockNumber.toNumber()}`);
-  });
+const api = new Api().isReady();
+
+api.rpc.subscribeNewHead((header) => {
+  console.log(`new block #${header.blockNumber.toNumber()}`);
 });
 ```
 
@@ -57,7 +57,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:69](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L69)*
+*Defined in [Base.ts:69](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L69)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -70,7 +70,7 @@ ___
 
 getquery(): `S`
 
-*Defined in [Base.ts:109](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L109)*
+*Defined in [Base.ts:107](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L107)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -78,11 +78,9 @@ All calls inside the namespace, is denoted by `section`.`method` and may take an
 
 *__example__*:   
 ```javascript
-api.query.balances
-  .freeBalance(<accountId>)
-  .subscribe((balance) => {
-    console.log('new balance', balance);
-  });
+api.query.balances.freeBalance(<accountId>, (balance) => {
+  console.log('new balance', balance);
+});
 ```
 
 **Returns:** `S`
@@ -94,7 +92,7 @@ ___
 
 getrpc(): `R`
 
-*Defined in [Base.ts:131](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L131)*
+*Defined in [Base.ts:127](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L127)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -102,11 +100,9 @@ RPC endpoints available here allow for the query of chain, node and system infor
 
 *__example__*:   
 ```javascript
-api.rpc.chain
-  .subscribeNewHead()
-  .subscribe((header) => {
-    console.log('new header', header);
-  });
+api.rpc.chain.subscribeNewHead((header) => {
+  console.log('new header', header);
+});
 ```
 
 **Returns:** `R`
@@ -118,7 +114,7 @@ ___
 
 getruntimeMetadata(): `RuntimeMetadata`
 
-*Defined in [Base.ts:78](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L78)*
+*Defined in [Base.ts:78](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L78)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -131,7 +127,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L87)*
+*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L87)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -144,7 +140,7 @@ ___
 
 gettx(): `E`
 
-*Defined in [Base.ts:151](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L151)*
+*Defined in [Base.ts:146](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L146)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -153,8 +149,7 @@ gettx(): `E`
 api.tx.balances
   .transfer(<recipientId>, <balance>)
   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-  .send()
-  .subscribe((status) => {
+  .send((status) => {
     console.log('tx status', status);
   });
 ```
@@ -171,13 +166,13 @@ ___
 
 ▸ **on**(type: *`ApiInterface$Events`*, handler: *`function`*): `void`
 
-*Defined in [Base.ts:176](https://github.com/polkadot-js/api/blob/1635638/packages/api/src/Base.ts#L176)*
+*Defined in [Base.ts:171](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L171)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
 *__example__*:   
 ```javascript
-* api.on('disconnected', () => {
+api.on('disconnected', () => {
   console.log('API has been connected to the endpoint');
 });
 

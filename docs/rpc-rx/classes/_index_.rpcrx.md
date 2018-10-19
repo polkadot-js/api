@@ -31,7 +31,7 @@ const api = new RpcRx(provider);
 
 ⊕ **new RpcRx**(providerOrRpc?: * `Rpc` &#124; `ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L44)*
 
 **Parameters:**
 
@@ -51,7 +51,7 @@ ___
 
 **● author**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L41)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L41)*
 
 ___
 <a id="chain"></a>
@@ -60,7 +60,7 @@ ___
 
 **● chain**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L42)*
 
 ___
 <a id="state"></a>
@@ -69,7 +69,7 @@ ___
 
 **● state**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L43)*
 
 ___
 <a id="system"></a>
@@ -78,7 +78,7 @@ ___
 
 **● system**: *`RpcRxInterface$Section`*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L44)*
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L65)*
+*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L65)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
@@ -101,7 +101,7 @@ ___
 
 ▸ **on**(type: *`RpcRxInterface$Events`*, handler: *`function`*): `void`
 
-*Defined in [index.ts:69](https://github.com/polkadot-js/api/blob/1635638/packages/rpc-rx/src/index.ts#L69)*
+*Defined in [index.ts:69](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/rpc-rx/src/index.ts#L69)*
 
 **Parameters:**
 
