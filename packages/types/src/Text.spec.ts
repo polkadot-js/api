@@ -21,7 +21,7 @@ describe('Text', () => {
   testDecode('Text', new Text('foo'), 'foo');
   testDecode('Uint8Array', Uint8Array.from([12, 102, 111, 111]), 'foo');
   testDecode('U8a', new U8a(Uint8Array.from([12, 102, 111, 111])), 'foo');
-  testDecode('object with `toString()`', { toString() { return 'foo'; } }, 'foo');
+  testDecode('object with `toString()`', { toString () { return 'foo'; } }, 'foo');
 
   // testEncode('toHex', '0x0c666f6f'); // FIXME Add this
   testEncode('toString', 'foo');

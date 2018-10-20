@@ -41,7 +41,7 @@ describe('createCachedObservable', () => {
   });
 
   it('creates a single observable', () => {
-    creator(123).subscribe((value) => {});
+    creator(123).subscribe((value) => {/**/});
 
     expect(
       section.subMethod
@@ -51,11 +51,11 @@ describe('createCachedObservable', () => {
   it('creates a single observable (multiple calls)', () => {
     const observable1 = creator(123);
 
-    observable1.subscribe((value) => {});
+    observable1.subscribe((value) => {/**/});
 
     const observable2 = creator(123);
 
-    observable2.subscribe((value) => {});
+    observable2.subscribe((value) => {/**/});
 
     expect(
       observable2
@@ -65,11 +65,11 @@ describe('createCachedObservable', () => {
   it('creates multiple observers for different values', () => {
     const observable1 = creator(123);
 
-    observable1.subscribe((value) => {});
+    observable1.subscribe((value) => {/**/});
 
     const observable2 = creator(456);
 
-    observable2.subscribe((value) => {});
+    observable2.subscribe((value) => {/**/});
 
     expect(
       observable2

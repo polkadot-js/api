@@ -27,7 +27,7 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {},
+      callback: (_, id) => {/**/},
       method: 'test',
       subscription: {
         callback: (_, result) => {
@@ -44,7 +44,7 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {},
+      callback: (_, id) => {/**/},
       method: 'test',
       subscription: {
         callback: (error) => {

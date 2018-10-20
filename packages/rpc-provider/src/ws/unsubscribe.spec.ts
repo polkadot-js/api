@@ -56,7 +56,7 @@ describe('subscribe', () => {
     const ws = createWs();
 
     return ws
-      .subscribe('test', 'subscribe_test', [], () => {})
+      .subscribe('test', 'subscribe_test', [], () => {/**/})
       .then((id) => {
         return ws.unsubscribe('test', 'subscribe_test', id);
       });
@@ -74,7 +74,7 @@ describe('subscribe', () => {
     const ws = createWs();
 
     return ws
-      .subscribe('test', 'subscribe_test', [], () => {})
+      .subscribe('test', 'subscribe_test', [], () => {/**/})
       .then((id) => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })

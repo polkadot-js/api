@@ -7,6 +7,7 @@ import subscribe from './subscribe';
 
 describe('subscribe', () => {
   let state;
+  const cb = () => void 0;
 
   beforeEach(() => {
     state = createState();
@@ -19,7 +20,7 @@ describe('subscribe', () => {
   });
 
   it('returns a subscription id', () => {
-    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [() => void 0]).then((id) => {
+    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [cb]).then((id) => {
       expect(id).toEqual(state.subscriptionId);
     });
   });
@@ -36,7 +37,7 @@ describe('subscribe', () => {
   it('calls back with the last known value', (done) => {
     state.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
 
-    subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [(_, value) => {
+    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [(_, value) => {
       expect(value).toEqual('testValue');
       done();
     }]);

@@ -52,29 +52,28 @@ describe('formatting', () => {
 
   it('encodes multiple keys, decoding multiple results', (done) => {
     api.state
-      .subscribeStorage(
-        [
-          [storage.balances.freeBalance, ADDR_ONE],
-          [storage.balances.freeBalance, ADDR_TWO]
-        ],
-        (value) => {
-          console.error(value);
+      .subscribeStorage([
+        [storage.balances.freeBalance, ADDR_ONE],
+        [storage.balances.freeBalance, ADDR_TWO]
+      ],
+      (value) => {
+        console.error(value);
 
-          expect(
-            provider.subscribe
-          ).toHaveBeenCalledWith(
-            'state_storage',
-            'state_subscribeStorage',
-            [[ENC_ONE, ENC_TWO]],
-            expect.anything()
-          );
-          expect(
-            value.map((balance) =>
-              balance.toNumber()
-            )
-          ).toEqual([513, 258]);
+        expect(
+          provider.subscribe
+        ).toHaveBeenCalledWith(
+          'state_storage',
+          'state_subscribeStorage',
+          [[ENC_ONE, ENC_TWO]],
+          expect.anything()
+        );
+        expect(
+          value.map((balance) =>
+            balance.toNumber()
+          )
+        ).toEqual([513, 258]);
 
-          done();
-        });
+        done();
+      });
   });
 });

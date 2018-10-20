@@ -23,7 +23,7 @@ describe('U8a', () => {
     u8a = new U8a([1, 2, 3, 4, 5]);
   });
 
-  testDecode('Array', [1, 2, 3, 4, 5], '0x0102030405')
+  testDecode('Array', [1, 2, 3, 4, 5], '0x0102030405');
   testDecode('hex', '0x0102030405', '0x0102030405');
   testDecode('U8a', new Uint8Array([1, 2, 3, 4, 5]), '0x0102030405');
   testDecode('Uint8Array', Uint8Array.from([1, 2, 3, 4, 5]), '0x0102030405');

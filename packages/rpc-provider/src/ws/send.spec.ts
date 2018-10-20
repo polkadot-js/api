@@ -104,7 +104,7 @@ describe('send', () => {
     }]);
 
     return createWs()
-      .send('test_sub', [], () => {})
+      .send('test_sub', [], () => {/**/})
       .then((id) => {
         expect(id).toEqual(1);
       });
