@@ -3,14 +3,13 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { isFunction } from '@polkadot/util';
+import RpcRx from './index';
 
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
   send = () => true;
 });
-
-const RpcRx = require('./index').default;
 
 describe('RpcRx', () => {
   let api;

@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import RpcRx from './index';
+
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
   send = () => true;
 });
-
-const RpcRx = require('./index').default;
 
 describe('subject', () => {
   const params = [123, false];

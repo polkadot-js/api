@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-const fs = require('fs');
+import fs from 'fs';
 
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata.rpc';
