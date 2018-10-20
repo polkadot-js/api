@@ -24,12 +24,12 @@
   },
   "devDependencies": {
     "@polkadot/dev": "^0.20.26",
-    "@polkadot/ts": "^0.1.30"
+    "@polkadot/ts": "^0.1.30",
+    "gitbook-plugin-insert-logo-link": "^1.0.1"
   },
   "dependencies": {
     "babel-plugin-module-resolver": "^3.1.1",
     "gitbook-plugin-include-codeblock": "^3.2.2",
-    "gitbook-plugin-insert-logo-link": "^1.0.1",
     "gitbook-plugin-mermaid-gb3": "^2.1.0",
     "gitbook-plugin-sunlight-highlighter": "^0.4.3"
   }
