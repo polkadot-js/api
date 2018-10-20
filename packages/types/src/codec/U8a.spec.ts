@@ -4,20 +4,20 @@
 
 import U8a from './U8a';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: Uint8Array | string | any[], expected: string) =>
   it(`can decode from ${type}`, () => {
     const e = new U8a(input);
     expect(e.toString()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: string, expected: Uint8Array | string) =>
   it(`can encode ${to}`, () => {
     const e = new U8a([1, 2, 3, 4, 5]);
     expect(e[to]()).toEqual(expected);
   });
 
 describe('U8a', () => {
-  let u8a;
+  let u8a: any;
 
   beforeEach(() => {
     u8a = new U8a([1, 2, 3, 4, 5]);

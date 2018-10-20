@@ -2,25 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockRequest } from '../types';
+
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import Ws from './index';
 
-let ws;
-let mock;
+let ws: any;
+let mock: any;
 
-function createMock (requests) {
+function createMock (requests: MockRequest) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
+function createWs (autoConnect: boolean) {
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
 }
 
 describe('send', () => {
-  let globalWs;
+  let globalWs: any;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -50,12 +52,12 @@ describe('send', () => {
       }
     };
 
-    ws = createWs();
+    ws = createWs(true);
     websocket.onopen();
 
     return ws
       .send('test_encoding', ['param'])
-      .catch((error) => {
+      .catch((error: any) => {
         expect(error.message).toEqual('send error');
       });
   });
@@ -69,9 +71,9 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_body', ['param'])
-      .then((result) => {
+      .then((result: any) => {
         expect(
           mock.body['test_body']
         ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
@@ -87,9 +89,9 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_error', [])
-      .catch((error) => {
+      .catch((error: any) => {
         expect(error.message).toMatch(/\[666\]: error/);
       });
   });
@@ -99,13 +101,13 @@ describe('send', () => {
       id: 1,
       method: 'test_sub',
       reply: {
-        result: 1
+        result: 'ok'
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_sub', [], () => {/**/})
-      .then((id) => {
+      .then((id: number) => {
         expect(id).toEqual(1);
       });
   });

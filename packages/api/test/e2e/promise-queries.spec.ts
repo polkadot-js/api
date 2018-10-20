@@ -9,7 +9,7 @@ import Api from '../../src/promise';
 const keyring = testingPairs();
 
 describe.skip('e2e queries', () => {
-  let api;
+  let api: any;
 
   beforeEach(async () => {
     api = await Api.create();
@@ -35,7 +35,7 @@ describe.skip('e2e queries', () => {
   });
 
   it('subscribes to queries', (done) => {
-    api.rpc.chain.subscribeNewHead((error, header) => {
+    api.rpc.chain.subscribeNewHead((error: any, header: any) => {
       expect(error).toBe(null);
       expect(header.blockNumber.isZero()).toBe(false);
 

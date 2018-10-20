@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { RpcCoder } from './types';
+
 import createCoder from './index';
 
 describe('encodeObject', () => {
-  let coder;
+  let coder: RpcCoder;
 
   beforeEach(() => {
     coder = createCoder();
@@ -17,7 +19,7 @@ describe('encodeObject', () => {
 
   it('encodes a valid JsonRPC object', () => {
     expect(
-      coder.encodeObject('method', 'params')
+      coder.encodeObject('method', ['params'])
     ).toEqual({
       id: 1,
       jsonrpc: '2.0',

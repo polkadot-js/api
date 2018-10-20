@@ -2,25 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockRequest } from '../types';
+
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import Ws from './index';
 
-let ws;
-let mock;
+let ws: any;
+let mock: any;
 
-function createMock (requests) {
+function createMock (requests: MockRequest) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
+function createWs (autoConnect: boolean) {
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
 }
 
 describe('subscribe', () => {
-  let globalWs;
+  let globalWs: any;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -41,23 +43,23 @@ describe('subscribe', () => {
         id: 1,
         method: 'subscribe_test',
         reply: {
-          result: 1
+          result: 'ok'
         }
       },
       {
         id: 2,
         method: 'unsubscribe_test',
         reply: {
-          result: true
+          result: 'ok'
         }
       }
     ]);
 
-    const ws = createWs();
+    const ws = createWs(true);
 
     return ws
       .subscribe('test', 'subscribe_test', [], () => {/**/})
-      .then((id) => {
+      .then((id: number) => {
         return ws.unsubscribe('test', 'subscribe_test', id);
       });
   });
@@ -67,18 +69,18 @@ describe('subscribe', () => {
       id: 1,
       method: 'subscribe_test',
       reply: {
-        result: 1
+        result: 'ok'
       }
     }]);
 
-    const ws = createWs();
+    const ws = createWs(true);
 
     return ws
       .subscribe('test', 'subscribe_test', [], () => {/**/})
-      .then((id) => {
+      .then((id: number) => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         expect(error.message).toMatch(/find active subscription/);
       });
   });

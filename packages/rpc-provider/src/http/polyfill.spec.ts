@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 describe('http/polyfill', () => {
-  let origFetch;
+  let origFetch: any;
 
   beforeEach(() => {
     origFetch = global.fetch;

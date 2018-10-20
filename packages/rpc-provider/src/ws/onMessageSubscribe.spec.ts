@@ -5,8 +5,8 @@
 import Ws from './index';
 
 describe('onMessageSubscribe', () => {
-  let ws;
-  let errorSpy;
+  let ws: any;
+  let errorSpy: any;
 
   beforeEach(() => {
     ws = new Ws('ws://127.0.0.1:1234', false);
@@ -27,10 +27,10 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {/**/},
+      callback: (_: any, id: number) => {/**/},
       method: 'test',
       subscription: {
-        callback: (_, result) => {
+        callback: (_: any, result: any) => {
           expect(result).toEqual('test');
           done();
         },
@@ -44,10 +44,10 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {/**/},
+      callback: (_: any, id: number) => {/**/},
       method: 'test',
       subscription: {
-        callback: (error) => {
+        callback: (error: any) => {
           expect(error.message).toMatch(/test/);
           done();
         },

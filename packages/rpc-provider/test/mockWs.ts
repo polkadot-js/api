@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockRequest } from '../src/types';
+
 import { Server } from 'mock-socket';
 
 const TEST_WS_URL = 'ws://localhost:9955';
@@ -42,7 +44,7 @@ function createReply ({ id, reply: { result } }: ReplyDef) {
   };
 }
 
-function mockWs (requests: Array<{ method: string }>) {
+function mockWs (requests: MockRequest) {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;

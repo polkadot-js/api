@@ -7,7 +7,7 @@ import Ws from '@polkadot/rpc-provider/ws';
 import Rpc from '../../src';
 
 describe.skip('e2e chain', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -19,14 +19,14 @@ describe.skip('e2e chain', () => {
 
     // tslint:disable-next-line
     api.chain
-      .subscribeNewHead((header) => {
+      .subscribeNewHead((header: any) => {
         expect(header).toBeDefined();
 
         if (++count === 3) {
           done();
         }
       })
-      .then((subscriptionId) => {
+      .then((subscriptionId: number) => {
         console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
@@ -34,10 +34,10 @@ describe.skip('e2e chain', () => {
   it('retrieves the runtime version', () => {
     return api.chain
       .getRuntimeVersion()
-      .then((version) => {
+      .then((version: string) => {
         console.error('version', version);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;

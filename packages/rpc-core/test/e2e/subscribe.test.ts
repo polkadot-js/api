@@ -8,7 +8,7 @@ import storage from '@polkadot/storage/static';
 import Rpc from '../../src';
 
 describe.skip('e2e subscriptions', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -19,14 +19,14 @@ describe.skip('e2e subscriptions', () => {
     let count = 0;
 
     return api.state
-      .subscribeStorage([[storage.timestamp.now]], (data) => {
+      .subscribeStorage([[storage.timestamp.now]], (data: any) => {
         expect(data).toBeDefined();
 
         if (++count === 3) {
           done();
         }
       })
-      .then((subscriptionId) => {
+      .then((subscriptionId: string) => {
         console.log('newHead: subscriptionId =', subscriptionId);
       });
   });

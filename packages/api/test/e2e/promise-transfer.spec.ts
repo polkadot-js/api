@@ -9,7 +9,7 @@ import Api from '../../src/promise';
 const keyring = testingPairs();
 
 describe.skip('e2e transfer', () => {
-  let api;
+  let api: any;
 
   beforeEach(async () => {
     api = await Api.create();

@@ -7,8 +7,8 @@ import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 import Http from './index';
 
 describe('send', () => {
-  let http;
-  let mock;
+  let http: any;
+  let mock: any;
 
   beforeEach(() => {
     http = new Http(TEST_HTTP_URL);
@@ -31,7 +31,7 @@ describe('send', () => {
 
     return http
       .send('test_body', ['param'])
-      .then((result) => {
+      .then((result: any) => {
         expect(mock.body['test_body']).toEqual({
           id: 1,
           jsonrpc: '2.0',
@@ -49,7 +49,7 @@ describe('send', () => {
 
     return http
       .send('test_error', [])
-      .catch((error) => {
+      .catch((error: any) => {
         expect(error.message).toMatch(/\[500\]: Internal Server/);
       });
   });

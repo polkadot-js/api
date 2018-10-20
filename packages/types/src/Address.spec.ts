@@ -6,13 +6,13 @@ import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 import Address from './Address';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: any, expected: string) =>
   it(`can decode from ${type}`, () => {
     const a = new Address(input);
     expect(a.toString()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: any, expected: any) =>
   it(`can encode ${to}`, () => {
     const a = new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
     expect(a[to]()).toEqual(expected);

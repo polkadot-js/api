@@ -11,7 +11,7 @@ import extrinsics from '../../src/static';
 const keyring = testingPairs();
 
 describe.skip('e2e transfer', () => {
-  let api;
+  let api: any;
 
   beforeAll(() => {
     api = new Rpc(new Ws('ws://127.0.0.1:9944'));
@@ -27,7 +27,7 @@ describe.skip('e2e transfer', () => {
   it.skip('makes a transfer for a transaction', () => {
     return api.chain
       .getBlockHash(0)
-      .then((genesisHash) => {
+      .then((genesisHash: string) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
 
         extrinsic.sign(keyring.alice, 0, genesisHash);
@@ -40,12 +40,12 @@ describe.skip('e2e transfer', () => {
   it('makes a transfer via watch', (done) => {
     return api.chain
       .getBlockHash(0)
-      .then((genesisHash) => {
+      .then((genesisHash: string) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
 
         extrinsic.sign(keyring.alice, 0, genesisHash);
 
-        return api.author.submitAndWatchExtrinsic(extrinsic, (status) => {
+        return api.author.submitAndWatchExtrinsic(extrinsic, (status: any) => {
           console.log(status);
 
           if (status.type === 'Finalised') {

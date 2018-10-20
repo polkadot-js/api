@@ -5,9 +5,9 @@
 import Api from './index';
 
 describe('methodSend', () => {
-  let api;
-  let methods;
-  let provider;
+  let api: any;
+  let methods: any;
+  let provider: any;
 
   beforeEach(() => {
     methods = {
@@ -39,7 +39,7 @@ describe('methodSend', () => {
   it('wraps errors with the call signature', () => {
     const method = api.createMethodSend(methods.blah);
 
-    return method().catch((error) => {
+    return method().catch((error: any) => {
       expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
     });
   });
@@ -47,7 +47,7 @@ describe('methodSend', () => {
   it('checks for mismatched parameters', () => {
     const method = api.createMethodSend(methods.bleh);
 
-    return method(1).catch((error) => {
+    return method(1).catch((error: any) => {
       expect(error.message).toMatch(/parameters, 1 found instead/);
     });
   });

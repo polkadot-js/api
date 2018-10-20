@@ -7,7 +7,7 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 import Ws from './index';
 
 describe('onConnect', () => {
-  let mock;
+  let mock: any;
 
   beforeEach(() => {
     mock = mockWs([]);

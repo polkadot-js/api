@@ -5,12 +5,12 @@
 import Text from './Text';
 import U8a from './codec/U8a';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: any, expected: string) =>
   it(`can decode from ${type}`, () => {
     expect(new Text(input).toString()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: any, expected: any) =>
   it(`can encode ${to}`, () => {
     expect(new Text('foo')[to]()).toEqual(expected);
   });

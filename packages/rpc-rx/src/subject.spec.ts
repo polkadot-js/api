@@ -12,11 +12,11 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
 
 describe('subject', () => {
   const params = [123, false];
-  let api;
-  let update;
-  let section;
-  let subscription;
-  let observable;
+  let api: any;
+  let update: any;
+  let section: any;
+  let subscription: any;
+  let observable: any;
 
   beforeEach(() => {
     api = new RpcRx();
@@ -47,7 +47,7 @@ describe('subject', () => {
   });
 
   it('subscribes via the api section', (done) => {
-    observable.subscribe((value) => {
+    observable.subscribe((value: any) => {
       if (value) {
         expect(
           section.subMethod
@@ -61,7 +61,7 @@ describe('subject', () => {
   });
 
   it('returns the observable value', (done) => {
-    subscription = observable.subscribe((value) => {
+    subscription = observable.subscribe((value: string) => {
       if (value) {
         expect(value).toEqual('test');
         done();

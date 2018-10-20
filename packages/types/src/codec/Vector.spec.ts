@@ -10,7 +10,7 @@ import Text from '../Text';
 import Vector from './Vector';
 
 describe('Vector', () => {
-  let array;
+  let array: any;
 
   beforeEach(() => {
     array = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
@@ -68,7 +68,7 @@ describe('Vector', () => {
     it('exposes a working forEach', () => {
       const result = {};
 
-      array.forEach((e, i) => {
+      array.forEach((e: number, i: number) => {
         result[i] = e.toString();
       });
 
@@ -83,19 +83,19 @@ describe('Vector', () => {
 
     it('exposes a working filter', () => {
       expect(
-        array.filter((e, i) => i >= 3).toString()
+        array.filter((e: number, i: number) => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 
     it('exposes a working map', () => {
       expect(
-        array.map((e) => e.toString().substr(0, 1))
+        array.map((e: number) => e.toString().substr(0, 1))
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
     it('exposes a working reduce', () => {
       expect(
-        array.reduce((r, e) => `${r}${e}`, '')
+        array.reduce((r: number, e: number) => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
   });

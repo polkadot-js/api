@@ -5,8 +5,8 @@
 import Ws from './index';
 
 describe('onError', () => {
-  let ws;
-  let errorSpy;
+  let ws: any;
+  let errorSpy: any;
 
   beforeEach(() => {
     ws = new Ws('ws://127.0.0.1:1234', false);

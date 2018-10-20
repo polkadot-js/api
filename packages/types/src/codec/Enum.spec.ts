@@ -4,13 +4,13 @@
 
 import Enum from './Enum';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: number | Enum | undefined, expected: string) =>
   it(`can decode from ${type}`, () => {
     const e = new Enum(['foo', 'bar'], input);
     expect(e.toString()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: string, expected: Uint8Array | string | number) =>
   it(`can encode ${to}`, () => {
     const e = new Enum(['foo', 'bar'], 1);
     expect(e[to]()).toEqual(expected);

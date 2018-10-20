@@ -7,7 +7,7 @@ import Ws from '@polkadot/rpc-provider/ws';
 import Rpc from '../../src';
 
 describe.skip('e2e basics', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -17,10 +17,10 @@ describe.skip('e2e basics', () => {
   it('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()
-      .then((extrinsics) => {
+      .then((extrinsics: any) => {
         console.error('extrinsics', extrinsics);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;

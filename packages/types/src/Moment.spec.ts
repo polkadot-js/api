@@ -7,12 +7,12 @@ import BN from 'bn.js';
 import Moment from './Moment';
 import U64 from './U64';
 
-const testDecode = (type, input, expected, toJSON = false) =>
+const testDecode = (type: string, input: any, expected: string | number, toJSON = false) =>
   it(`can decode from ${type}`, () => {
     expect(new Moment(input)[toJSON ? 'toJSON' : 'toString']()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: any, expected: any) =>
   it(`can encode ${to}`, () => {
     expect(new Moment(421)[to]()).toEqual(expected);
   });

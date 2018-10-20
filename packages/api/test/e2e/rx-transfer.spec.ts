@@ -10,7 +10,7 @@ import Api from '../../src/rx';
 const keyring = testingPairs();
 
 describe.skip('e2e transfer', () => {
-  let api;
+  let api: any;
 
   beforeEach(async () => {
     api = await Api.create().toPromise();
@@ -27,7 +27,7 @@ describe.skip('e2e transfer', () => {
             .send()
         )
       )
-      .subscribe((hash) => {
+      .subscribe((hash: Uint8Array) => {
         expect(
           hash.toString()
         ).not.toEqual('0x');

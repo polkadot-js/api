@@ -13,7 +13,7 @@ import Proposal from '../Proposal';
 import VoteThreshold from '../VoteThreshold';
 
 describe('Tuple', () => {
-  let tuple;
+  let tuple: any;
 
   beforeEach(() => {
     Method.injectExtrinsics(extrinsics);

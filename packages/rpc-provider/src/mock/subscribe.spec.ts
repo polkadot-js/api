@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockState } from './types';
+
 import createState from './state';
 import subscribe from './subscribe';
 
 describe('subscribe', () => {
-  let state;
+  let state: MockState;
   const cb = () => void 0;
 
   beforeEach(() => {
@@ -14,7 +16,7 @@ describe('subscribe', () => {
   });
 
   it('fails on unknown methods', () => {
-    return subscribe(state, 'test', 'test_notFound').catch((error) => {
+    return subscribe(state, 'test', 'test_notFound', ['params']).catch((error) => {
       expect(error.message).toMatch(/Invalid method 'test_notFound'/);
     });
   });
@@ -37,7 +39,7 @@ describe('subscribe', () => {
   it('calls back with the last known value', (done) => {
     state.subscriptions['chain_subscribeNewHead'].lastValue = 'testValue';
 
-    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [(_, value) => {
+    return subscribe(state, 'chain_newHead', 'chain_subscribeNewHead', [(_: any, value: any) => {
       expect(value).toEqual('testValue');
       done();
     }]);

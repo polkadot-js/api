@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockRequest } from '../types';
+
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import Ws from './index';
 
-let ws;
-let mock;
+let ws: any;
+let mock: any;
 
-function createWs (requests, autoConnect) {
+function createWs (requests: MockRequest, autoConnect: boolean) {
   mock = mockWs(requests);
   ws = new Ws(TEST_WS_URL, autoConnect);
 
@@ -36,7 +38,7 @@ describe('onOpen', () => {
 
     ws.connect();
 
-    return sendPromise.then((result) => {
+    return sendPromise.then((result: any) => {
       expect(result).toEqual('ok');
     });
   });

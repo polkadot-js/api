@@ -5,7 +5,7 @@
 import Option from './Option';
 import Text from '../Text';
 
-const testDecode = (type, input, expected, testLength = true) =>
+const testDecode = (type: string, input: Uint8Array | string | undefined, expected: string, testLength: boolean = true) =>
   it(`can decode from ${type}`, () => {
     const o = new Option(Text, input);
 
@@ -13,7 +13,7 @@ const testDecode = (type, input, expected, testLength = true) =>
     expect(o.isEmpty).toBe(testLength && !expected.length);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: string, expected: Uint8Array | string) =>
   it(`can encode ${to}`, () => {
     const e = new Option(Text, 'foo');
 

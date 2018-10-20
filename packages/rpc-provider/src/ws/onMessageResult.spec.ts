@@ -5,8 +5,8 @@
 import Ws from './index';
 
 describe('onMessageResult', () => {
-  let ws;
-  let errorSpy;
+  let ws: any;
+  let errorSpy: any;
 
   beforeEach(() => {
     ws = new Ws('ws://127.0.0.1:1234', false);
@@ -27,7 +27,7 @@ describe('onMessageResult', () => {
 
   it('calls the handler when found', (done) => {
     ws.handlers[5] = {
-      callback: (_, result) => {
+      callback: (_: any, result: string) => {
         expect(result).toEqual('test');
         done();
       }

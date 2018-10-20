@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
+
 import storage from '@polkadot/storage/static';
 
 import Api from './index';
@@ -13,8 +15,8 @@ const ENC_ONE = '0x24988a82b3bbaae58680bc9de5dea5aa';
 const ENC_TWO = '0xdb190750267d8849c35316ec9d342111';
 
 describe('formatting', () => {
-  let api;
-  let provider;
+  let api: any;
+  let provider: any;
 
   beforeEach(() => {
     provider = {
@@ -39,7 +41,7 @@ describe('formatting', () => {
       .getStorage(
         [storage.balances.freeBalance, ADDR_ONE]
       )
-      .then((value) => {
+      .then((value: BN) => {
         expect(
           provider.send
         ).toHaveBeenCalledWith(
@@ -56,7 +58,7 @@ describe('formatting', () => {
         [storage.balances.freeBalance, ADDR_ONE],
         [storage.balances.freeBalance, ADDR_TWO]
       ],
-      (value) => {
+      (value: Array<BN>) => {
         console.error(value);
 
         expect(

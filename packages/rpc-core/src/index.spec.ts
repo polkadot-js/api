@@ -5,13 +5,13 @@
 import Api from './index';
 
 describe('Api', () => {
-  let api;
-  let provider;
-  let sendSpy;
+  let api: any;
+  let provider: any;
+  let sendSpy: any;
 
   beforeEach(() => {
     provider = {
-      send: (method, params) => {
+      send: (method: any, params: any[]) => {
         return Promise.resolve(params[0]);
       }
     };
@@ -25,6 +25,7 @@ describe('Api', () => {
 
   it('requires a provider with a send method', () => {
     expect(
+      // @ts-ignore The expectation is that with no provider it throws
       () => new Api({})
     ).toThrow(/Expected Provider/);
   });

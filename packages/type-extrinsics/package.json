@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.0.0",
+    "@polkadot/rpc-core": "^0.31.71",
     "@polkadot/util": "^0.32.3"
   }
 }

@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockState } from './types';
+
 import createState from './state';
 
 describe('state', () => {
-  let state;
+  let state: MockState;
 
   beforeEach(() => {
     state = createState();

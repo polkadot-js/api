@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 describe('ws/polyfill', () => {
-  let origWs;
+  let origWs: any;
 
   beforeEach(() => {
     origWs = global.WebSocket;

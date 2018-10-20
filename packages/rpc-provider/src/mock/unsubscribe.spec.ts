@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { MockState } from './types';
+
 import createState from './state';
 import subscribe from './subscribe';
 import unsubscribe from './unsubscribe';
 
 describe('unsubscribe', () => {
-  let state;
-  let id;
+  let state: MockState;
+  let id: number;
 
   beforeEach(() => {
     state = createState();
@@ -30,7 +32,7 @@ describe('unsubscribe', () => {
 
   it('fails on double unsubscribe', () => {
     return unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', id)
-      .then(() => unsubscribe(state, id))
+      .then(() => unsubscribe(state, 'chain_newHead', 'chain_subscribeNewHead', id))
       .catch((error) => {
         expect(error.message).toMatch(/Unable to find/);
       });

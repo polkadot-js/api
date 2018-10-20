@@ -12,7 +12,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
 });
 
 describe('RpcRx', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     api = new RpcRx();

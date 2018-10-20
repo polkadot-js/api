@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
+
 import Ws from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/storage/static';
 
@@ -10,7 +12,7 @@ import Rpc from '../../src';
 const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 describe.skip('e2e state', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -22,10 +24,10 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.substrate.code
       ])
-      .then((code) => {
+      .then((code: any) => {
         console.error(code.toHex().substr(0, 256), '...');
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;
@@ -35,10 +37,10 @@ describe.skip('e2e state', () => {
   it('retrieves the wasm metadata', () => {
     return api.state
       .getMetadata()
-      .then((meta) => {
+      .then((meta: any) => {
         console.error(JSON.stringify(meta.toJSON()));
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;
@@ -50,12 +52,12 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.balances.freeBalance, ALICE
       ])
-      .then((balance) => {
+      .then((balance: BN) => {
         console.error(balance);
 
-        expect(balance.toBn().isZero()).not.toEqual(true);
+        expect(balance.isZero()).not.toEqual(true);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;
@@ -67,12 +69,12 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.timestamp.now
       ])
-      .then((moment) => {
+      .then((moment: BN) => {
         console.error(moment);
 
         expect(moment.toNumber()).not.toEqual(0);
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(error);
 
         throw error;

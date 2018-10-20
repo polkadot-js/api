@@ -8,7 +8,7 @@ import storage from '@polkadot/storage/static';
 import RpcRx from '../../src';
 
 describe.skip('e2e subscriptions', () => {
-  let api;
+  let api: any;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -21,7 +21,7 @@ describe.skip('e2e subscriptions', () => {
 
     api.state
       .subscribeStorage([[storage.timestamp.now]])
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.error('timestamp.now', data);
 
         if (++count === 4) {
@@ -37,10 +37,10 @@ describe.skip('e2e subscriptions', () => {
         [storage.session.sessionLength],
         [storage.staking.sessionsPerEra]
       ])
-      .subscribe((data) => {
+      .subscribe((data: any) => {
         console.error('multiples', data);
 
-        if (data !== undefined && data.filter((item) => item).length === 3) {
+        if (data !== undefined && data.filter((item: Array<any>) => item).length === 3) {
           done();
         }
       });

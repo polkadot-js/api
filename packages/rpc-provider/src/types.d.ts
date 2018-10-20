@@ -35,6 +35,16 @@ export type JsonRpcResponseBase = JsonRpcResponse$Single & JsonRpcResponse$Subsc
 
 export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
+export type MockRequest = Array<{
+  id: number,
+  error?: {
+    code: number,
+    message: string
+  },
+  method?: string,
+  reply?: { result: string }
+}>;
+
 export type ProviderInterface$Callback = (result: any) => void;
 
 export type ProviderInterface$Emitted = 'connected' | 'disconnected';
