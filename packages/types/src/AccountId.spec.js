@@ -5,7 +5,6 @@
 import AccountId from './AccountId';
 import U8a from './codec/U8a';
 
-
 const testDecode = (type, input, expected) =>
   it(`can decode from ${type}`, () => {
     const a = new AccountId(input);
@@ -17,7 +16,6 @@ const testEncode = (to, expected) =>
     const a = new AccountId('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
     expect(a[to]()).toEqual(expected);
   });
-
 
 describe('AccountId', () => {
 
