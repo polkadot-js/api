@@ -79,7 +79,6 @@ async function main () {
   console.log(`Launch period: `, launchPeriod);
 
   // Wait unit the referendum becomes an Active Referendum
-  // (aka )
   const isActiveReferendum = await api.query.democracy.isActiveReferendum(referendumPublicId);
   console.log(`Detected Referendum ID ${referendumPublicId} to be Active/Launched: `, isActiveReferendum);
 
