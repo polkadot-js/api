@@ -38,11 +38,11 @@ async function main () {
   // - new Uint8Array([4 << 2, 0xde, 0xad, 0xbe, 0xef])
   //
   const proposedNewRuntimeCode = new Uint8Array([4 << 2, 0xde, 0xad, 0xbe, 0xef]);
-  const proposal = await api.tx.consensus.setCode(proposedNewRuntimeCode);
+  const proposalToSetCode = await api.tx.consensus.setCode(proposedNewRuntimeCode);
 
   // Submit a Public Proposal to change the the Runtime Code
   // FIXME: Error: Method: cannot decode value ""0x2001000310deadbeef"".
-  const proposalSubmitted = await api.tx.democracy.propose(proposal, 1000);
+  const proposalSubmitted = await api.tx.democracy.propose(proposalToSetCode, 100000);
   console.log(`Proposal submitted: ${proposalSubmitted}`);
 
   // Query the current list of Public Proposals
@@ -55,7 +55,7 @@ async function main () {
 
   // Start a Public Referendum with a vote threshold of 'Super majority approval' (index of 0)
   // FIXME: How do we provide the minimum funding to start a public referendum?
-  const referendumPublicId = await api.tx.democracy.startReferendum(proposal, 0);
+  const referendumPublicId = await api.tx.democracy.startReferendum(proposalSubmitted, 0);
   console.log(`Public Proposed Referendum with ID started: ${referendumPublicId}`);
 
   const referendumCount = await api.query.chain.referendumCount();
@@ -63,7 +63,7 @@ async function main () {
 
   // Query information about the specific Public Referendum ID we created including its block number
   const referendumInfo = await api.query.democracy.referendumInfoOf(referendumPublicId);
-  console.log(`Information about referendum ${referendumPublicId}: `, referendumInfo);
+  console.log(`Information about public referendum ID ${referendumPublicId}: `, referendumInfo);
 
   // Query the Voting Period (frequency in blocks that it checks for new votes)
   const votingPeriod = await api.query.democracy.votingPeriod();
