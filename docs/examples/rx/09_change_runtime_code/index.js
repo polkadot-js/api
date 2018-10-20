@@ -1,5 +1,5 @@
 const { combineLatest } = require('rxjs');
-const { concatMap, concatMapTo, finalize, tap } = require('rxjs/operators');
+const { concatMap, finalize, tap } = require('rxjs/operators');
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 
@@ -42,47 +42,47 @@ async function main () {
           api.tx.consensus.setCode(proposedNewRuntimeCode)
             .pipe(
               // `concatMapTo` waits for setCode to complete before next
-              concatMapTo((proposalToSetCode) => {
+              concatMap((proposalToSetCode) => {
                 api.tx.democracy.propose(proposalToSetCode, 100000)
                   .pipe(
                     tap(proposalSubmitted => console.log(`Proposal Submitted: ${proposalSubmitted}`)),
-                    concatMapTo((proposalSubmitted) => {
+                    concatMap((proposalSubmitted) => {
                       // Query the current list of Public Proposals
                       api.query.democracy.publicProps()
                         .pipe(
                           tap(publicProposals => console.log(`Public Proposals: ${publicProposals}`)),
-                          concatMapTo((publicProposals) => {
+                          concatMap((publicProposals) => {
                             // Start a Public Referendum with a vote threshold of 'Super majority approval' (index of 0)
                             // FIXME: How do we provide the minimum funding to start a public referendum?
                             api.tx.democracy.startReferendum(proposalSubmitted, 0)
                               .pipe(
                                 tap(referendumPublicId => console.log(`Public Referendum ID Submitted: ${referendumPublicId}`)),
-                                concatMapTo((referendumPublicId) => {
+                                concatMap((referendumPublicId) => {
                                   // Query the current amount of public referendums
                                   api.query.chain.referendumCount()
                                     .pipe(
                                       tap(referendumCount => console.log(`Public Referendum Count: ${referendumCount}`)),
-                                      concatMapTo((referendumCount) => {
+                                      concatMap((referendumCount) => {
                                         // Query information about the specific Public Referendum ID we created including its block number
                                         api.query.democracy.referendumInfoOf(referendumPublicId)
                                           .pipe(
                                             tap(referendumInfo => console.log(`Information about Referendum ID ${referendumPublicId}: `, referendumInfo)),
-                                            concatMapTo((referendumInfo) => {
+                                            concatMap((referendumInfo) => {
                                               // Vote on a Referendum ID in the Proposed Public Referenda (before Voting Period expires)
                                               api.tx.democracy.vote(referendumPublicId, voteYay)
                                                 .pipe(
                                                   tap(voted => console.log(`Voted for Proposed Public Referendum ID ${referendumPublicId} with ${voteYay ? 'yay' : 'nay'} vote`)),
-                                                  concatMapTo((voted) => {
+                                                  concatMap((voted) => {
                                                     // Wait unit the referendum becomes an Active Referendum
                                                     api.query.democracy.isActiveReferendum(referendumPublicId)
                                                       .pipe(
                                                         tap(isActiveReferendum => console.log(`Detected Referendum ID ${referendumPublicId} to be Active/Launched: `, isActiveReferendum)),
-                                                        concatMapTo((isActiveReferendum) => {
+                                                        concatMap((isActiveReferendum) => {
                                                           // Query the list of Active Referendums (Launched Referenda on the Table of Referenda)
                                                           api.query.democracy.activeReferendums()
                                                             .pipe(
                                                               tap(activeReferendums => console.log(`Active Referendums: `, activeReferendums)),
-                                                              concatMapTo((activeReferendums) => {
+                                                              concatMap((activeReferendums) => {
                                                                 // Vote on the Referendum ID in the Active Referenda (before Launch Period expires)
                                                                 api.tx.democracy.vote(referendumPublicId, voteYay)
                                                                   .pipe(
@@ -124,8 +124,8 @@ async function main () {
       console.log(`Balance available for Alice: ${aliceFreeBalance}`);
       console.log('Minimum deposit required to start a referendum: ',
         minimumReferendumDeposit.toNumber());
-      console.log(`Voting period for public referendums: `, publicReferendumVotingPeriod);
-      console.log(`Launch period for active referendums: `, activeReferendumLaunchPeriod);
+      console.log(`Voting period for public referendums: `, publicReferendumVotingPeriod.raw.toNumber());
+      console.log(`Launch period for active referendums: `, activeReferendumLaunchPeriod.raw.toNumber());
       if (currentRuntimeCode === proposedNewRuntimeCode) {
         console.log('New runtime code was successfully approved and deployed');
       }
