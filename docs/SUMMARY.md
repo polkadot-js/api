@@ -23,6 +23,7 @@
   - [Read chain state](examples/promise/05_read_storage/README.md)
   - [Make a transfer](examples/promise/07_transfer_dots/README.md)
   - [Deploy smart contract](examples/promise/08_deploy_smart_contract/README.md)
+  - [Change runtime code](examples/promise/09_change_runtime_code/README.md)
 - [ApiRx](examples/rx/README.md)
   - [Simple connect](examples/rx/01_simple_connect/README.md)
   - [Listen to blocks](examples/rx/02_listen_to_blocks/README.md)
