@@ -33,8 +33,8 @@ export default function createDescriptor (
 
     return new Extrinsic({
       method: new Method({
-        methodIndex: callIndex,
-        args
+        args,
+        callIndex
       }, meta)
     });
   };

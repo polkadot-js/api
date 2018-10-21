@@ -15,7 +15,6 @@ import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
 import Method from './Method';
-import MethodIndex from './MethodIndex';
 
 type ExtrinsicValue = {
   method?: Method
@@ -67,7 +66,7 @@ export default class Extrinsic extends Struct {
     return value as any;
   }
 
-  // expose methodIndex so it is compatible with Method (as constructor value)
+  // expose args so it is compatible with Method (as constructor value)
   get args (): Array<Base> {
     return this.method.args;
   }
@@ -102,11 +101,6 @@ export default class Extrinsic extends Struct {
 
   get method (): Method {
     return this.get('method') as Method;
-  }
-
-  // expose methodIndex so it is compatible with Method (as constructor value)
-  get methodIndex (): MethodIndex {
-    return this.method.methodIndex;
   }
 
   get signature (): ExtrinsicSignature {

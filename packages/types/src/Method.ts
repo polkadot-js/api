@@ -23,7 +23,7 @@ interface ArgsDef {
 
 interface DecodeMethodInput {
   args: any;
-  methodIndex: MethodIndex | Uint8Array;
+  callIndex: MethodIndex | Uint8Array;
 }
 
 interface DecodedMethod extends DecodeMethodInput {
@@ -44,7 +44,7 @@ export default class Method extends Struct {
     const decoded = Method.decodeMethod(value, meta);
 
     super({
-      methodIndex: MethodIndex,
+      callIndex: MethodIndex,
       args: Struct.with(decoded.argsDef)
     }, decoded);
 
@@ -74,22 +74,27 @@ export default class Method extends Struct {
       // Get Struct definition of the arguments
       const argsDef = Method.getArgsDef(meta);
 
-      return { args: value.subarray(2), argsDef, methodIndex: callIndex, meta };
+      return {
+        args: value.subarray(2),
+        argsDef,
+        callIndex,
+        meta
+      };
     } else if (
       isObject(value) &&
-      value.methodIndex &&
+      value.callIndex &&
       value.args
     ) {
       // destructure value, we only pass args/methodsIndex out
-      const { args, methodIndex } = value;
+      const { args, callIndex } = value;
 
-      // Get the correct callIndex
-      const callIndex = methodIndex instanceof MethodIndex
-        ? methodIndex.callIndex
-        : methodIndex;
+      // Get the correct lookupIndex
+      const lookupIndex = callIndex instanceof MethodIndex
+        ? callIndex.toU8a()
+        : callIndex;
 
       // Find metadata with callIndex
-      const meta = _meta || Method.findFunction(callIndex).meta;
+      const meta = _meta || Method.findFunction(lookupIndex).meta;
 
       // Get Struct definition of the arguments
       const argsDef = Method.getArgsDef(meta);
@@ -98,7 +103,7 @@ export default class Method extends Struct {
         args,
         argsDef,
         meta,
-        methodIndex
+        callIndex
       };
     }
 
@@ -124,6 +129,7 @@ export default class Method extends Struct {
   // which includes the meta, name, section & actual interface for calling
   static findFunction (callIndex: Uint8Array): ExtrinsicFunction {
     assert(Object.keys(extrinsicFns).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
+
     return extrinsicFns[callIndex.toString()] || FN_UNKNOWN;
   }
 
@@ -164,7 +170,7 @@ export default class Method extends Struct {
   }
 
   get callIndex (): Uint8Array {
-    return this.methodIndex.callIndex;
+    return (this.get('callIndex') as MethodIndex).toU8a();
   }
 
   get data (): Uint8Array {
@@ -173,9 +179,5 @@ export default class Method extends Struct {
 
   get meta (): FunctionMetadata {
     return this._meta;
-  }
-
-  get methodIndex (): MethodIndex {
-    return this.get('methodIndex') as MethodIndex;
   }
 }
