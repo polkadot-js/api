@@ -29,8 +29,6 @@ export default function createDescriptor (
       throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
     }
 
-    console.error(`${section}.${method}`, args);
-
     return new Extrinsic({
       method: new Method({
         methodIndex: callIndex,
