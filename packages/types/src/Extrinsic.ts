@@ -67,7 +67,7 @@ export default class Extrinsic extends Struct {
     return value as any;
   }
 
-  // expose methodIndex so it is compatible with Method (as constructor value)
+  // expose args so it is compatible with Method (as constructor value)
   get args (): Array<Base> {
     return this.method.args;
   }
