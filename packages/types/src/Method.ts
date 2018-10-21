@@ -80,7 +80,7 @@ export default class Method extends Struct {
       value.methodIndex &&
       value.args
     ) {
-      // destructure value, we only pass args/methodsIndex out
+      // destructure value, we only pass args/methodIndex out
       const { args, methodIndex } = value;
 
       // Get the correct callIndex
