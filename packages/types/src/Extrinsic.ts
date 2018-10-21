@@ -8,12 +8,14 @@ import { AnyNumber, AnyU8a } from './types';
 import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Struct from './codec/Struct';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
 import Method from './Method';
+import MethodIndex from './MethodIndex';
 
 type ExtrinsicValue = {
   method?: Method
@@ -65,6 +67,11 @@ export default class Extrinsic extends Struct {
     return value as any;
   }
 
+  // expose methodIndex so it is compatible with Method (as constructor value)
+  get args (): Array<Base> {
+    return this.method.args;
+  }
+
   // the actual [sectionIndex, methodIndex] as used
   get callIndex (): Uint8Array {
     return this.method.callIndex;
@@ -95,6 +102,11 @@ export default class Extrinsic extends Struct {
 
   get method (): Method {
     return this.get('method') as Method;
+  }
+
+  // expose methodIndex so it is compatible with Method (as constructor value)
+  get methodIndex (): MethodIndex {
+    return this.method.methodIndex;
   }
 
   get signature (): ExtrinsicSignature {

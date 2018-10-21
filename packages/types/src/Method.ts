@@ -80,10 +80,13 @@ export default class Method extends Struct {
       value.methodIndex &&
       value.args
     ) {
+      // destructure value, we only pass args/methodsIndex out
+      const { args, methodIndex } = value;
+
       // Get the correct callIndex
-      const callIndex = value.methodIndex instanceof MethodIndex
-        ? value.methodIndex.callIndex
-        : value.methodIndex;
+      const callIndex = methodIndex instanceof MethodIndex
+        ? methodIndex.callIndex
+        : methodIndex;
 
       // Find metadata with callIndex
       const meta = _meta || Method.findFunction(callIndex).meta;
@@ -91,10 +94,15 @@ export default class Method extends Struct {
       // Get Struct definition of the arguments
       const argsDef = Method.getArgsDef(meta);
 
-      return { ...value, argsDef, meta };
+      return {
+        args,
+        argsDef,
+        meta,
+        methodIndex
+      };
     }
 
-    throw new Error(`Method: cannot decode value "${value}".`);
+    throw new Error(`Method: cannot decode value '${value}' or type ${typeof value}`);
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
@@ -156,7 +164,7 @@ export default class Method extends Struct {
   }
 
   get callIndex (): Uint8Array {
-    return (this.get('methodIndex') as MethodIndex).callIndex;
+    return this.methodIndex.callIndex;
   }
 
   get data (): Uint8Array {
@@ -165,5 +173,9 @@ export default class Method extends Struct {
 
   get meta (): FunctionMetadata {
     return this._meta;
+  }
+
+  get methodIndex (): MethodIndex {
+    return this.get('methodIndex') as MethodIndex;
   }
 }
