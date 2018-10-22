@@ -17,13 +17,13 @@ const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends Base<AccountId | AccountIndex> {
-  constructor (value: Address | AccountId | AccountIndex | Uint8Array | string = new Uint8Array()) {
+  constructor (value: Address | AccountId | AccountIndex | Array<number> | Uint8Array | string = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
     );
   }
 
-  static decodeAddress (value: Address | AccountId | AccountIndex | Uint8Array | string): AccountId | AccountIndex {
+  static decodeAddress (value: Address | AccountId | AccountIndex | Array<number> | Uint8Array | string): AccountId | AccountIndex {
     if (value instanceof Address) {
       return value.raw;
     } else if (value instanceof AccountId || value instanceof AccountIndex) {
