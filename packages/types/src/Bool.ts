@@ -37,4 +37,8 @@ export default class Bool extends Base<boolean> {
   toString (): string {
     return `${this.raw}`;
   }
+
+  valueOf (): boolean {
+    return this.raw;
+  }
 }
