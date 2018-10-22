@@ -18,7 +18,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Origin.ts:8](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/Origin.ts#L8)*
+*Defined in [Origin.ts:8](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/Origin.ts#L8)*
 
 **Returns:** [Origin](_origin_.origin.md)
 
@@ -34,7 +34,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -48,7 +48,7 @@ getencodedLength(): `number`
 
 *Inherited from [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [codec/Base.ts:25](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/codec/Base.ts#L25)*
+*Defined in [codec/Base.ts:25](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/codec/Base.ts#L25)*
 
 **Returns:** `number`
 
@@ -64,7 +64,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/codec/Base.ts#L29)*
+*Defined in [codec/Base.ts:29](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/codec/Base.ts#L29)*
 
 **Returns:** `any`
 
@@ -77,7 +77,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Base.ts:33](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/codec/Base.ts#L33)*
+*Defined in [codec/Base.ts:33](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/codec/Base.ts#L33)*
 
 **Returns:** `string`
 
@@ -90,7 +90,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/7566c31/packages/types/src/codec/Base.ts#L37)*
+*Defined in [codec/Base.ts:37](https://github.com/polkadot-js/api/blob/d2eb6e5/packages/types/src/codec/Base.ts#L37)*
 
 **Parameters:**
 
