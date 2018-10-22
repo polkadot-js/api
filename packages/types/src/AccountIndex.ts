@@ -11,13 +11,13 @@ import U8a from './codec/U8a';
 
 export const ENUMSET_SIZE = new BN(64);
 
-const MAX_1BYTE = new BN(0xef);
-const MAX_2BYTE = new BN(1).shln(16);
-const MAX_4BYTE = new BN(1).shln(32);
 const PREFIX_1BYTE = 0xef;
 const PREFIX_2BYTE = 0xfc;
 const PREFIX_4BYTE = 0xfd;
 const PREFIX_8BYTE = 0xfe;
+const MAX_1BYTE = new BN(PREFIX_1BYTE);
+const MAX_2BYTE = new BN(1).shln(16);
+const MAX_4BYTE = new BN(1).shln(32);
 
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from U8a which is basically
