@@ -11,6 +11,14 @@ import U8a from './codec/U8a';
 
 export const ENUMSET_SIZE = new BN(64);
 
+const PREFIX_1BYTE = 0xef;
+const PREFIX_2BYTE = 0xfc;
+const PREFIX_4BYTE = 0xfd;
+const PREFIX_8BYTE = 0xfe;
+const MAX_1BYTE = new BN(PREFIX_1BYTE);
+const MAX_2BYTE = new BN(1).shln(16);
+const MAX_4BYTE = new BN(1).shln(32);
+
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
@@ -35,20 +43,9 @@ export default class AccountIndex extends U8a {
 
       return value.subarray(offset, offset + length);
     } else if (isNumber(value) || isBn(value)) {
-      const index = bnToBn(value);
-      const bitLength = index.ltn(1 << 8)
-        ? 8
-        : (
-          index.ltn(1 << 16)
-            ? 16
-            : (
-              index.ltn(1 << 32)
-                ? 32
-                : 64
-            )
-        );
+      const bitLength = 8 * AccountIndex.calcLength(value);
 
-      return bnToU8a(index, bitLength, true);
+      return bnToU8a(value, bitLength, true);
     } else if (isHex(value)) {
       return hexToU8a(value);
     }
@@ -56,16 +53,30 @@ export default class AccountIndex extends U8a {
     return decodeAddress(value);
   }
 
+  static calcLength (_value: BN | number): number {
+    const value = bnToBn(_value);
+
+    if (value.lte(MAX_1BYTE)) {
+      return 1;
+    } else if (value.lt(MAX_2BYTE)) {
+      return 2;
+    } else if (value.lt(MAX_4BYTE)) {
+      return 4;
+    }
+
+    return 8;
+  }
+
   static readLength (input: Uint8Array): [number, number] {
     const first = input[0];
 
-    if (first <= 0xef) {
+    if (first <= PREFIX_1BYTE) {
       return [0, 1];
-    } else if (first === 0xfc) {
+    } else if (first === PREFIX_2BYTE) {
       return [1, 2];
-    } else if (first === 0xfd) {
+    } else if (first === PREFIX_4BYTE) {
       return [1, 4];
-    } else if (first === 0xfe) {
+    } else if (first === PREFIX_8BYTE) {
       return [1, 8];
     }
 
@@ -74,9 +85,9 @@ export default class AccountIndex extends U8a {
 
   static writeLength (input: Uint8Array): Uint8Array {
     switch (input.length) {
-      case 2: return new Uint8Array([0xfc]);
-      case 4: return new Uint8Array([0xfd]);
-      case 8: return new Uint8Array([0xfe]);
+      case 2: return new Uint8Array([PREFIX_2BYTE]);
+      case 4: return new Uint8Array([PREFIX_4BYTE]);
+      case 8: return new Uint8Array([PREFIX_8BYTE]);
       default: return new Uint8Array([]);
     }
   }
