@@ -10,15 +10,27 @@ const keyring = testingPairs();
 
 describe.skip('e2e transfer', () => {
   let api;
+  let nonce;
 
   beforeEach(async () => {
     api = await Api.create();
+    nonce = await api.query.system.accountNonce(keyring.alice.address());
   });
 
   it('makes a transfer', async () => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
     const hash = await api.tx.balances
       .transfer(keyring.bob.address(), 12345)
+      .sign(keyring.alice, nonce)
+      .send();
+
+    expect(
+      hash.toString()
+    ).not.toEqual('0x');
+  });
+
+  it('makes a proposal', async () => {
+    const hash = await api.tx.democracy
+      .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
       .sign(keyring.alice, nonce)
       .send();
 

@@ -11,15 +11,11 @@ export default class MethodIndex extends U8aFixed {
     super(value, 16);
   }
 
-  get callIndex (): Uint8Array {
-    return this.raw;
-  }
-
   get methodIndex (): number {
-    return this.callIndex[1];
+    return this.raw[1];
   }
 
   get sectionIndex (): number {
-    return this.callIndex[0];
+    return this.raw[0];
   }
 }
