@@ -8,7 +8,7 @@
 
 ▸ **createFunction**(section: *`Text`*, method: *`Text`*, meta: *`StorageFunctionMetadata`*, options?: *[CreateItemOptions](../interfaces/_utils_createfunction_.createitemoptions.md)*): `StorageFunction`
 
-*Defined in [utils/createFunction.ts:28](https://github.com/polkadot-js/api/blob/6d3de59/packages/type-storage/src/utils/createFunction.ts#L28)*
+*Defined in [utils/createFunction.ts:28](https://github.com/polkadot-js/api/blob/0c23615/packages/type-storage/src/utils/createFunction.ts#L28)*
 
 From the schema of a function in the module's storage, generate the function that will return the correct storage key.
 
