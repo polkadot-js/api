@@ -78,8 +78,8 @@ describe('subscribe', () => {
       .then((id) => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })
-      .catch((error) => {
-        expect(error.message).toMatch(/find active subscription/);
+      .then((result) => {
+        expect(result).toBe(false);
       });
   });
 });
