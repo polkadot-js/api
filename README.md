@@ -11,7 +11,7 @@
 
 # @polkadot/api
 
-This library provides a clean wrapper around all the methods exposed by a Polkadot/Subtrate network client. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/api/).
+This library provides a clean wrapper around all the methods exposed by a Polkadot/Subtrate network client and defines all the types exposed by a node. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/api/).
 
 ## overview
 
