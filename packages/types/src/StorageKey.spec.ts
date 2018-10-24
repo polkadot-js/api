@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import storage from '@polkadot/storage/static'
+import storage from '@polkadot/storage/static';
 
-import StorageKey from './StorageKey'
+import StorageKey from './StorageKey';
 
 describe('StorageKey', () => {
-  it("should correctly get Alice's freeBalance storage key (hex)", () => {
+  it(`should correctly get Alice's freeBalance storage key (hex)`, () => {
     expect(
       new StorageKey(
         storage
@@ -18,7 +18,7 @@ describe('StorageKey', () => {
     ).toBe('0xce3f3d8f09e3411403f5ca59d042a40e'); // FIXME OK this should be length-prefixed in reality
   });
 
-  it("should correctly get Alice's freeBalance storage key (u8a)", () => {
+  it(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
     expect(
       new StorageKey(
         storage

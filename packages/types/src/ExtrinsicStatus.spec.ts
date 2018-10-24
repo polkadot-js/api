@@ -16,7 +16,7 @@ describe('ExtrinsicStatus', () => {
 
   it('has the correct hash', () => {
     expect(
-      status.value.toHex()
+      status.value.toString()
     ).toEqual('0xc465b92a72b1d20918d64cd4effa70c2bb58b53a3f8c24c3ac8fd8f465f059b4');
   });
 });
