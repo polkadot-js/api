@@ -205,10 +205,10 @@ export default class WsProvider implements WSProviderInterface {
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
 
-    // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub, the
-    // assigned id now does not match what the API user originally received. It is however a
-    // slight complication in solving - since we cannot rely on the send id, but rather need to
-    // find the actual subscription id to map it. For now, just act as if nothing hapenned
+    // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub
+    // the assigned id now does not match what the API user originally received. It has
+    // a slight complication in solving - since we cannot rely on the send id, but rather
+    // need to find the actual subscription id to map it
     if (isUndefined(this.subscriptions[subscription])) {
       l.warn(`Unable to find active subscription=${subscription}`);
 
