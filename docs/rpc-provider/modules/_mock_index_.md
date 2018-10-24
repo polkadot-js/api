@@ -8,7 +8,7 @@
 
 ▸ **mockProvider**(): `ProviderInterface`
 
-*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/eb143b3/packages/rpc-provider/src/mock/index.ts#L18)*
+*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/c0e9586/packages/rpc-provider/src/mock/index.ts#L18)*
 
 A mock provider mainly used for testing.
 
