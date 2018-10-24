@@ -16,7 +16,7 @@ const BITLENGTH = 64;
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
 export default class Moment extends Base<Date> {
-  constructor (value: Uint8Array | Moment | Date | BN | number = 0) {
+  constructor (value: Moment | Date | AnyNumber = 0) {
     super(
       Moment.decodeMoment(value)
     );

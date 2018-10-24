@@ -24,6 +24,7 @@ export { default as Compact32 } from './Compact32';
 export { default as Compact64 } from './Compact64';
 export { default as Compact128 } from './Compact128';
 export { default as Compact256 } from './Compact256';
+export { default as Data } from './Data';
 // NOTE Only used internally,
 // export { default as Digest } from './Digest';
 export { default as Extrinsic } from './Extrinsic';

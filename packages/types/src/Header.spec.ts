@@ -26,18 +26,17 @@ describe('Header', () => {
     ).toEqual('[]');
   });
 
-  // FIXME check again when we have a valid chain/UI
-  it.skip('creates actual valid hash', () => {
+  it('creates actual valid hash', () => {
     expect(
       new Header({
         digest: {
           logs: []
         },
-        extrinsicsRoot: '0x5ce1a2c55efaf371f06fd94672779daf130591a12f7513ae786bea4fa7bd499e',
-        number: 1556355,
-        parentHash: '0x09223919f63b5ded0c7bf7d953ba22bf30ea8a19e6be4de35f25163b2b268490',
-        stateRoot: '0xd45159e04f36955ecb9c73d6ca514ac2d0e3ce00f58588b7c142d36cf7d237ec'
+        extrinsicsRoot: '0xfd068a7f7315e1c5529945ddd80b650abfc1643be9a79f0468673617a7c0af41',
+        number: 338571,
+        parentHash: '0x20946c40c54af3bf76a93e313d51bdcb14ee9e783cde9565d0f8c0d72727e512',
+        stateRoot: '0x6980a37d9297765aed7a67bb0147afa34ec6db387e79c096feb1708294399abd'
       }).hash.toHex()
-    ).toEqual('0x3a91467e3d298684c2d3ee68362615e9b21fa9e37739c02c25f8075918e1ab11');
+    ).toEqual('0xfefcdd5287d017f240b816bd6c43cb9f254164adb90350f2d3f3303f604b5a61');
   });
 });

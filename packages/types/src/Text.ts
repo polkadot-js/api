@@ -18,7 +18,7 @@ import U8a from './codec/U8a';
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
 export default class Text extends Base<string> {
-  constructor (value: Text | string | AnyU8a = '') {
+  constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(
       Text.decodeText(value)
     );
