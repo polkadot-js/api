@@ -120,7 +120,7 @@ export function getTypeClass (value: TypeDef): Constructor {
       throw new Error(`Expected nested subtypes for Tuple`);
     }
 
-    return Tuple.withTuple(
+    return Tuple.with(
       value.sub.reduce((result, type, index) => {
         result[`entry${index}`] = getTypeClass(type);
 
@@ -132,7 +132,7 @@ export function getTypeClass (value: TypeDef): Constructor {
       throw new Error(`Expected subtype for Vector`);
     }
 
-    return Vector.withVector(
+    return Vector.with(
       getTypeClass(value.sub)
     );
   } else if (value.info === TypeDefInfo.PairOf) {
@@ -140,7 +140,8 @@ export function getTypeClass (value: TypeDef): Constructor {
       throw new Error(`Expected subtype for PairOf`);
     }
 
-    return PairOf.withPairOf(
+    // This is not too cool... because of the static overrides we have a small issue here
+    return PairOf.with<any>(
       getTypeClass(value.sub)
     );
   }

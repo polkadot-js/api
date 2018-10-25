@@ -46,7 +46,7 @@ describe('Struct', () => {
   it('decodes null', () => {
     expect(
       new (
-        Struct.withStruct({
+        Struct.with({
           txt: Text,
           u32: U32
         })
@@ -56,7 +56,7 @@ describe('Struct', () => {
 
   it('decodes a more complicated type', () => {
     const s = new Struct({
-      foo: Vector.withVector(Struct.withStruct({
+      foo: Vector.with(Struct.with({
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
@@ -66,7 +66,7 @@ describe('Struct', () => {
   it('throws when it cannot decode', () => {
     expect(
       () => new (
-        Struct.withStruct({
+        Struct.with({
           txt: Text,
           u32: U32
         })
@@ -77,7 +77,7 @@ describe('Struct', () => {
   it('provides a clean toString()', () => {
     expect(
       new (
-        Struct.withStruct({
+        Struct.with({
           txt: Text,
           u32: U32
         })
@@ -88,7 +88,7 @@ describe('Struct', () => {
   it('correctly encodes length', () => {
     expect(
       new (
-        Struct.withStruct({
+        Struct.with({
           txt: Text,
           u32: U32
         })
@@ -117,7 +117,7 @@ describe('Struct', () => {
   it('gets the value at a particular index', () => {
     expect(
       new (
-        Struct.withStruct({
+        Struct.with({
           txt: Text,
           u32: U32
         })

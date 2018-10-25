@@ -36,7 +36,7 @@ class Phase extends EnumType<ApplyExtrinsic | Finalization> {
 class Event extends Null {
 }
 
-export class EventRecord extends Struct {
+export default class EventRecord extends Struct {
   constructor (value: any) {
     super({
       phase: Phase,

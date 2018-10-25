@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { AccountId, Balance, BlockNumber, PropIndex, Proposal, ReferendumIndex, VoteThreshold } from '@polkadot/types/index';
 import { Struct, Tuple, Vector } from '@polkadot/types/codec';
 
-export class RxProposal extends Struct.withStruct({ id: PropIndex, proposal: Proposal, address: AccountId }) {
+export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId }) {
   constructor (value: Tuple) {
     super({
       id: value.getAtIndex(0),
@@ -28,7 +28,7 @@ export class RxProposal extends Struct.withStruct({ id: PropIndex, proposal: Pro
   }
 }
 
-export class RxProposalDeposits extends Struct.withStruct({ balance: Balance, addresses: Vector.withVector(AccountId) }) {
+export class RxProposalDeposits extends Struct.with({ balance: Balance, addresses: Vector.with(AccountId) }) {
   constructor (value: Tuple) {
     super({
       balance: value.getAtIndex(0),
@@ -45,7 +45,7 @@ export class RxProposalDeposits extends Struct.withStruct({ balance: Balance, ad
   }
 }
 
-export class RxReferendum extends Struct.withStruct({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex }) {
+export class RxReferendum extends Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex }) {
   constructor (value: Tuple, id: ReferendumIndex | BN | number) {
     super({
       blockNumber: value.getAtIndex(0),

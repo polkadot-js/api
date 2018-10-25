@@ -48,7 +48,7 @@ export class OuterDispatchMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      calls: Vector.withVector(OuterDispatchCall)
+      calls: Vector.with(OuterDispatchCall)
     }, value);
   }
 
@@ -65,8 +65,8 @@ export class EventMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      arguments: Vector.withVector(Type),
-      documentation: Vector.withVector(Text)
+      arguments: Vector.with(Type),
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -87,7 +87,7 @@ export class OuterEventMetadataEvent extends Tuple {
   constructor (value?: any) {
     super({
       name: Text,
-      events: Vector.withVector(EventMetadata)
+      events: Vector.with(EventMetadata)
     }, value);
   }
 
@@ -104,7 +104,7 @@ export class OuterEventMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      events: Vector.withVector(OuterEventMetadataEvent)
+      events: Vector.with(OuterEventMetadataEvent)
     }, value);
   }
 
@@ -139,8 +139,8 @@ export class FunctionMetadata extends Struct {
     super({
       id: U16,
       name: Text,
-      arguments: Vector.withVector(FunctionArgumentMetadata),
-      documentation: Vector.withVector(Text)
+      arguments: Vector.with(FunctionArgumentMetadata),
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -165,7 +165,7 @@ export class CallMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      functions: Vector.withVector(FunctionMetadata)
+      functions: Vector.with(FunctionMetadata)
     }, value);
   }
 
@@ -258,7 +258,7 @@ export class StorageFunctionMetadata extends Struct {
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      documentation: Vector.withVector(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -283,7 +283,7 @@ export class StorageMetadata extends Struct {
   constructor (value?: any) {
     super({
       prefix: Text,
-      functions: Vector.withVector(StorageFunctionMetadata)
+      functions: Vector.with(StorageFunctionMetadata)
     }, value);
   }
 
@@ -301,7 +301,7 @@ export class RuntimeModuleMetadata extends Struct {
     super({
       prefix: Text,
       module: ModuleMetadata,
-      storage: Option.withOption(StorageMetadata)
+      storage: Option.with(StorageMetadata)
     }, value);
   }
 
@@ -322,7 +322,7 @@ export default class RuntimeMetadata extends Struct {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
-      modules: Vector.withVector(RuntimeModuleMetadata),
+      modules: Vector.with(RuntimeModuleMetadata),
       outerDispatch: OuterDispatchMetadata
     }, RuntimeMetadata.decodeMetadata(value));
   }

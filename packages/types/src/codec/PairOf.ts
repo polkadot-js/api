@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Constructor } from '../types';
+import { Constructor, ConstructorDef } from '../types';
 import Base from './Base';
 import Tuple from './Tuple';
 
@@ -10,10 +10,12 @@ import Tuple from './Tuple';
 // are accessible via the first & second getters
 export default class PairOf<
   T extends Base
-> extends Tuple<{ first: Constructor<T>, second: Constructor<T> }, { first: T, second: T }, { first: any, second: any }> {
-  static withPairOf<
-    T extends Base
-  > (Type: Constructor<T>): Constructor<PairOf<T>> {
+> extends Tuple<{ first: Constructor<T>, second: Constructor<T> }> {
+  static with<
+    S extends ConstructorDef = { [index: string]: Constructor<Base> }
+  > (Type: S): Constructor<Tuple<S>>;
+
+  static with<T extends Base> (Type: Constructor<T>): Constructor<PairOf<T>> {
     return class extends PairOf<T> {
       constructor (value?: any) {
         super({

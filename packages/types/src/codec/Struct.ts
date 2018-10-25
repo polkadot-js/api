@@ -110,7 +110,7 @@ export default class Struct<
       }, {} as T);
   }
 
-  static withStruct<
+  static with<
     S extends ConstructorDef
   > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {

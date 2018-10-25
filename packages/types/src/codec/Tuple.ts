@@ -15,7 +15,7 @@ export default class Tuple<
   T extends { [K in keyof S]: Base } = { [K in keyof S]: Base },
   V extends { [K in keyof S]: any } = { [K in keyof S]: any }
 > extends Struct<S, T, V> {
-  static withTuple<
+  static with<
     S extends ConstructorDef = { [index: string]: Constructor<Base> }
   > (Types: S): Constructor<Tuple<S>> {
     return class extends Tuple<S> {
