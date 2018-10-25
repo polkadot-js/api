@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.31.74",
+  "version": "0.31.78",
   "description": "An RxJS wrapper around the Polkadot JS RPC",
   "main": "index.js",
   "keywords": [
@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.0.0",
-    "@polkadot/extrinsics": "^0.31.74",
-    "@polkadot/rpc-provider": "^0.31.74",
-    "@polkadot/rpc-rx": "^0.31.74",
-    "@polkadot/storage": "^0.31.74",
+    "@babel/runtime": "^7.1.2",
+    "@polkadot/extrinsics": "^0.31.78",
+    "@polkadot/rpc-provider": "^0.31.78",
+    "@polkadot/rpc-rx": "^0.31.78",
+    "@polkadot/storage": "^0.31.78",
     "@types/rx": "^4.1.1",
-    "rxjs": "^6.3.2"
+    "rxjs": "^6.3.3"
   }
 }

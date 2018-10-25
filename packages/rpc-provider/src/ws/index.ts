@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RpcCoder } from '../coder/json/types';
 import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
 import './polyfill';
@@ -10,7 +9,7 @@ import './polyfill';
 import EventEmitter from 'eventemitter3';
 import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
-import coder from '../coder/json';
+import Coder from '../coder';
 import defaults from '../defaults';
 
 type CallbackHandler = (error?: null | Error, value?: any) => void;
@@ -62,7 +61,7 @@ export default class WsProvider implements WSProviderInterface {
   private _eventemitter: EventEmitter;
   private _isConnected: boolean = false;
   private autoConnect: boolean;
-  private coder: RpcCoder;
+  private coder: Coder;
   private endpoint: string;
   private handlers: {
     [index: string]: WsState$Awaiting
@@ -84,7 +83,7 @@ export default class WsProvider implements WSProviderInterface {
 
     this._eventemitter = new EventEmitter();
     this.autoConnect = autoConnect;
-    this.coder = coder();
+    this.coder = new Coder();
     this.endpoint = endpoint;
     this.handlers = {};
     this.queued = {};

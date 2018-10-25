@@ -64,8 +64,10 @@ export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit
 }
 
 type MisbehaviorReportValue = {
-  unstakeThreshold?: AnyNumber,
-  validatorPayment?: AnyNumber
+  misbehavior?: MisbehaviorKind | number,
+  parentHash?: Hash | Uint8Array | string,
+  parentNumber?: AnyNumber,
+  target?: AuthorityId | string
 };
 
 // A Misbehaviour report against a specific AuthorityId
