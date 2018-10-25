@@ -8,7 +8,7 @@ import Hash from './Hash';
 import Null from './Null';
 import Text from './Text';
 
-export class Broadcast extends Vector.with(Text) {
+export class Broadcast extends Vector.withVector(Text) {
 }
 
 export class Dropped extends Null {

@@ -6,5 +6,5 @@ import Vector from './codec/Vector';
 import Extrinsic from './Extrinsic';
 
 // A list of extrinsics
-export default class Extrinsics extends Vector.with(Extrinsic) {
+export default class Extrinsics extends Vector.withVector(Extrinsic) {
 }

@@ -45,7 +45,7 @@ export default class Method extends Struct {
 
     super({
       callIndex: MethodIndex,
-      args: Struct.with(decoded.argsDef)
+      args: Struct.withStruct(decoded.argsDef)
     }, decoded);
 
     this._meta = decoded.meta;

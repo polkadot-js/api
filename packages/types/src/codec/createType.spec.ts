@@ -13,8 +13,8 @@ describe('typeSplit', () => {
 
   it('splits nested combinations', () => {
     expect(
-      typeSplit('Text, (u32), Vec<u64>')
-    ).toEqual(['Text', '(u32)', 'Vec<u64>']);
+      typeSplit('Text, (u32), Vec<u64>, PairOf<u32>')
+    ).toEqual(['Text', '(u32)', 'Vec<u64>', 'PairOf<u32>']);
   });
 
   it('keeps nested tuples together', () => {
@@ -61,12 +61,18 @@ describe('getTypeValue', () => {
     ).toThrow(/Vec wrapped/);
   });
 
+  it('does not allow invalid Pairs, end >', () => {
+    expect(
+      () => getTypeDef('PairOf<u32')
+    ).toThrow(/PairOf wrapped/);
+  });
+
   it('returns a type structure', () => {
     expect(
-      getTypeDef('(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Vec<u64>, PairOf<u32>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))',
+      type: '(u32, Vec<u64>, PairOf<u32>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -78,6 +84,14 @@ describe('getTypeValue', () => {
           sub: {
             info: TypeDefInfo.Plain,
             type: 'u64'
+          }
+        },
+        {
+          info: TypeDefInfo.PairOf,
+          type: 'PairOf<u32>',
+          sub: {
+            info: TypeDefInfo.Plain,
+            type: 'u32'
           }
         },
         {
@@ -143,7 +157,7 @@ describe('getTypeValue', () => {
 describe('getTypeClass', () => {
   it('does not allow invalid types', () => {
     expect(
-      () => getTypeClass('SomethingInvalid')
+      () => getTypeClass('SomethingInvalid' as any)
     ).toThrow(/determine type/);
   });
 });

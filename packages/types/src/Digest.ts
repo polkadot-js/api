@@ -9,7 +9,7 @@ import Null from './Null';
 import Struct from './codec/Struct';
 import Vector from './codec/Vector';
 
-export class AuthoritiesChange extends Vector.with(AuthorityId) {
+export class AuthoritiesChange extends Vector.withVector(AuthorityId) {
 }
 
 export class ChangesTrieRoot extends Hash {
@@ -32,7 +32,7 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
 export default class Digest extends Struct {
   constructor (value: any) {
     super({
-      logs: Vector.with(DigestItem)
+      logs: Vector.withVector(DigestItem)
     }, value);
   }
 

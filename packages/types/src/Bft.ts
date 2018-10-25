@@ -73,7 +73,7 @@ export class Justification extends Struct {
       // in the structure to take care of these renames...
       round: U32,
       hash: Hash,
-      signatures: Vector.with(BftAuthoritySignature)
+      signatures: Vector.withVector(BftAuthoritySignature)
     }, value, new Map([['round', 'round_number']]));
   }
 

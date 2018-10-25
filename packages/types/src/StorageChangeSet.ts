@@ -20,7 +20,7 @@ export default class StorageChangeSet extends Struct {
   constructor (value?: StorageChangeSetValue) {
     super({
       hash: Hash,
-      changes: Vector.with(KeyValueOption)
+      changes: Vector.withVector(KeyValueOption)
     }, value);
   }
 

@@ -39,7 +39,7 @@ export default class Option<T> extends Base<Base<T>> {
     );
   }
 
-  static with<O> (Type: Constructor<Base<O>>): Constructor<Option<O>> {
+  static withOption<O> (Type: Constructor<Base<O>>): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);

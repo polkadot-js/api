@@ -52,7 +52,7 @@ export default class Vector<
     return result;
   }
 
-  static with<O extends Base> (Type: Constructor<O>): Constructor<Vector<O>> {
+  static withVector<O extends Base> (Type: Constructor<O>): Constructor<Vector<O>> {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);

@@ -34,7 +34,7 @@ describe('Tuple', () => {
   });
 
   it('initialises via JSON array', () => {
-    const test = new (Tuple.with({
+    const test = new (Tuple.withTuple({
       a: Text,
       b: U32,
       c: Text
@@ -52,7 +52,7 @@ describe('Tuple', () => {
   });
 
   it('creates properly via actual hex string', () => {
-    const test = new (Tuple.with({
+    const test = new (Tuple.withTuple({
       blockNumber: BlockNumber,
       proposal: Proposal,
       threshold: VoteThreshold

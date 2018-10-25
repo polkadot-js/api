@@ -56,7 +56,7 @@ export default class RuntimeVersion extends Struct {
       authoringVersion: U32,
       specVersion: U32,
       implVersion: U32,
-      apis: Vector.with(RuntimeVersionApi)
+      apis: Vector.withVector(RuntimeVersionApi)
     }, value, new Map([
       ['authoringVersion', 'authoring_version'],
       ['implName', 'impl_name'],
