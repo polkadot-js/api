@@ -21,13 +21,14 @@ export default class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-  > extends Map<keyof S, Base> implements Codec {
+> extends Map<keyof S, Base> implements Codec {
   public raw: Map<keyof S, Base>; // FIXME Remove this once we convert all types out of Base
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
   constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
+
     super(
       Object.entries(decoded)
     );
@@ -64,7 +65,7 @@ export default class Struct<
     S extends ConstructorDef,
     _,
     T extends { [K in keyof S]: Base }
-    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
@@ -111,7 +112,7 @@ export default class Struct<
 
   static with<
     S extends ConstructorDef
-    > (Types: S): Constructor<Struct<S>> {
+  > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

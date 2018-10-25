@@ -12,12 +12,12 @@ import Struct from './Struct';
 export default class Tuple<
   // S & T definitions maps to what we have in Struct (naming documented there)
   S extends ConstructorDef = { [index: string]: Constructor<Base> },
-  T extends { [K in keyof S]: Base }= { [K in keyof S]: Base },
+  T extends { [K in keyof S]: Base } = { [K in keyof S]: Base },
   V extends { [K in keyof S]: any } = { [K in keyof S]: any }
-  > extends Struct<S, T, V> {
+> extends Struct<S, T, V> {
   static with<
-    S extends ConstructorDef= { [index: string]: Constructor<Base> }
-    > (Types: S): Constructor<Tuple<S>> {
+    S extends ConstructorDef = { [index: string]: Constructor<Base> }
+  > (Types: S): Constructor<Tuple<S>> {
     return class extends Tuple<S> {
       constructor (value?: any) {
         super(Types, value);

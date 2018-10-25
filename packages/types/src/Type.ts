@@ -6,7 +6,7 @@ import Text from './Text';
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['Vec', 'Option'];
+const ALLOWED_BOXES = ['Option', 'PairOf', 'Vec'];
 
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.

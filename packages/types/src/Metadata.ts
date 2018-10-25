@@ -393,7 +393,7 @@ export default class RuntimeMetadata extends Struct {
         ? module.storage.functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.raw, fn.type.asMap.value.raw]
-            : [fn.type.asType.raw]
+            : [fn.type.asType]
         )
         : []
     );

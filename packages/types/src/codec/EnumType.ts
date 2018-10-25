@@ -65,7 +65,11 @@ export default class EnumType<T> extends Base<Base<T>> {
         .find((k) => def[+k].name.toLowerCase() === lowerKey);
 
       if (isUndefined(index)) {
-        throw new Error('Unable to reliably map input on JSON');
+        const message = 'Unable to reliably map input on JSON';
+
+        console.error(message, value, def);
+
+        throw new Error(message);
       }
 
       return { index: +index, value: new def[+index](value[key]) };
