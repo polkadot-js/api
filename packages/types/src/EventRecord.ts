@@ -4,20 +4,10 @@
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
-import Tuple from './codec/Tuple';
 import Null from './Null';
 import U32 from './U32';
 
-class ApplyExtrinsic extends Tuple {
-  constructor (value: any) {
-    super({
-      index: U32
-    }, value);
-  }
-
-  get index (): U32 {
-    return this.getAtIndex(0) as U32;
-  }
+class ApplyExtrinsic extends U32 {
 }
 
 class Finalization extends Null {
