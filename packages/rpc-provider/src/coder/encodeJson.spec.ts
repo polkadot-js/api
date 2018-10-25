@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import createCoder from './index';
+import Coder from './index';
 
 describe('encodeJson', () => {
-  let coder;
+  let coder: Coder;
 
   beforeEach(() => {
-    coder = createCoder();
+    coder = new Coder();
   });
 
   it('encodes a valid JsonRPC JSON string', () => {
