@@ -1,19 +1,10 @@
 
 
-# Functions
+# Index
 
-<a id="mockprovider"></a>
+### Classes
 
-##  mockProvider
+* [Mock](../classes/_mock_index_.mock.md)
 
-▸ **mockProvider**(): `ProviderInterface`
-
-*Defined in [mock/index.ts:18](https://github.com/polkadot-js/api/blob/c0e9586/packages/rpc-provider/src/mock/index.ts#L18)*
-
-A mock provider mainly used for testing.
-
-**Returns:** `ProviderInterface`
-The mock provider
-
-___
+---
 
