@@ -14,11 +14,11 @@ class Finalization extends Null {
 }
 
 class Phase extends EnumType<ApplyExtrinsic | Finalization> {
-  constructor (value: any) {
-    super({
-      0: ApplyExtrinsic,
-      1: Finalization
-    }, value);
+  constructor (value: any, index?: number) {
+    super([
+      ApplyExtrinsic,
+      Finalization
+    ], value, index);
   }
 }
 
