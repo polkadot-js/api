@@ -23,15 +23,3 @@ export type MockState$Db = {
 export type MockState$Requests = {
   [index: string]: (db: MockState$Db, params: Array<any>) => string
 };
-
-export type MockState = {
-  emitter: EventEmitter,
-  l: Logger,
-  requests: MockState$Requests,
-  db: MockState$Db,
-  subscriptionId: number,
-  subscriptionMap: {
-    [index: number]: string
-  },
-  subscriptions: MockState$Subscriptions
-};
