@@ -59,13 +59,13 @@ const l = logger('api-ws');
  */
 export default class WsProvider implements WSProviderInterface {
   private _eventemitter: EventEmitter;
+  private _isConnected: boolean = false;
   private autoConnect: boolean;
   private coder: Coder;
   private endpoint: string;
   private handlers: {
-    [index: number]: WsState$Awaiting
+    [index: string]: WsState$Awaiting
   };
-  private _isConnected: boolean;
   private queued: {
     [index: string]: string
   };
@@ -85,7 +85,6 @@ export default class WsProvider implements WSProviderInterface {
     this.autoConnect = autoConnect;
     this.coder = new Coder();
     this.endpoint = endpoint;
-    this._isConnected = false;
     this.handlers = {};
     this.queued = {};
     this.subscriptions = {};
@@ -133,6 +132,9 @@ export default class WsProvider implements WSProviderInterface {
 
   /**
    * @summary Send JSON data using WebSockets to configured HTTP Endpoint or queue.
+   * @param method The RPC methods to execute
+   * @param params Encoded paramaters as appliucable for the method
+   * @param subscription Subscription details (internally used)
    */
   async send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
@@ -202,7 +204,15 @@ export default class WsProvider implements WSProviderInterface {
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
 
-    assert(!isUndefined(this.subscriptions[subscription]), `Unable to find active subscription=${subscription}`);
+    // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub
+    // the assigned id now does not match what the API user originally received. It has
+    // a slight complication in solving - since we cannot rely on the send id, but rather
+    // need to find the actual subscription id to map it
+    if (isUndefined(this.subscriptions[subscription])) {
+      l.warn(`Unable to find active subscription=${subscription}`);
+
+      return false;
+    }
 
     delete this.subscriptions[subscription];
 
@@ -301,9 +311,32 @@ export default class WsProvider implements WSProviderInterface {
     this._isConnected = true;
     this.emit('connected');
 
+    this.sendQueue();
+    this.resubscribe();
+
+    return true;
+  }
+
+  private resubscribe (): void {
+    const subscriptions = this.subscriptions;
+
+    this.subscriptions = {};
+
+    Object.keys(subscriptions).forEach(async (id) => {
+      const { callback, method, params, type } = subscriptions[id];
+
+      try {
+        await this.subscribe(type, method, params, callback);
+      } catch (error) {
+        l.error(error);
+      }
+    });
+  }
+
+  private sendQueue (): void {
     Object.keys(this.queued).forEach((id) => {
       try {
-        // @ts-ignore checked above
+        // @ts-ignore we have done the websocket check in onSocketOpen, if an issue, will catch it
         this.websocket.send(
           this.queued[id]
         );
@@ -313,7 +346,5 @@ export default class WsProvider implements WSProviderInterface {
         l.error(error);
       }
     });
-
-    return true;
   }
 }
