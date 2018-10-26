@@ -189,8 +189,6 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
       // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
       //   - refresh metadata as needed, decorating again
-      //   - re-create storage subscriptions for those we already have
-      //   - re-watch extrinsics where we have subscriptions already
       //   - need to refresh genesisHash, extrinsic resub only when it matches
       if (isReady) {
         return;
