@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
+import { bnToBn, bnToU8a, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
 
 import { AnyNumber } from './types';
 import UInt from './codec/UInt';
@@ -93,5 +93,15 @@ export default class AccountIndex extends U32 {
     const length = AccountIndex.calcLength(this.raw);
 
     return encodeAddress(this.toU8a().subarray(0, length));
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    // HACK 15 Oct 2018 For isBare assume that we are dealing with an AccountIndex
+    // lookup (it is the only place where AccountIndex is used in such a manner to
+    // construct a query). This is needed to get enumSet(AccountIndex) queries to
+    // work in the way it was intended
+    return isBare
+      ? bnToU8a(this.toBn().div(ENUMSET_SIZE), 32, true)
+      : super.toU8a();
   }
 }
