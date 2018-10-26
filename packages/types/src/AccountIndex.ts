@@ -23,7 +23,7 @@ const MAX_4BYTE = new BN(1).shln(32);
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends U8a {
-  // The maxLength refers to the maxium input. Effectively when returned as a storage value
+  // The maxLength refers to the maximum input. Effectively when returned as a storage value
   // (see EventRecord) the actual encoded length is 4 bytes. Set that as the default,
   // however pass it through as a computed value from the Address constructors
   constructor (value: BN | number | AnyU8a = new Uint8Array(), maxLength: number = 4) {

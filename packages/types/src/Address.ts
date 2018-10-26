@@ -31,13 +31,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
     } else if (Array.isArray(value)) {
       return Address.decodeAddress(u8aToU8a(value));
     } else if (isU8a(value)) {
-      if (value[0] === 0xff) {
-        return new AccountId(value.subarray(1));
-      }
-
-      // This allows us to instantiate an address with a raw publicKey
+      // This allows us to instantiate an address with a raw publicKey. Do this first before
+      // we checking the first byte, otherwise we may split an already-existent valid address
       if (value.length === 32) {
         return new AccountId(value);
+      } else if (value[0] === 0xff) {
+        return new AccountId(value.subarray(1));
       }
 
       const [offset, length] = AccountIndex.readLength(value);
