@@ -45,12 +45,12 @@ async function main () {
   const proposalSubmitted = await api.tx.democracy.propose(proposalToSetCode, 100000);
   console.log(`Proposal submitted: ${proposalSubmitted}`);
 
-  // Query the current list of Public Proposals
-  const publicProposals = await api.query.democracy.publicProps();
-  console.log('Current public proposals: ', publicProposals);
+  const [publicProposals, minimumReferendumDeposit] = Promise.all([
+    api.query.democracy.publicProps(),
+    api.query.democracy.minimumDeposit()
+  ]);
 
-  // Query the Minimum Deposit required to start a Public Referendum
-  const minimumReferendumDeposit = await api.query.democracy.minimumDeposit();
+  console.log('Current public proposals: ', publicProposals);
   console.log('Minimum deposit required to start a referendum: ', minimumReferendumDeposit.toNumber());
 
   // Start a Public Referendum with a vote threshold of 'Super majority approval' (index of 0)
@@ -58,37 +58,35 @@ async function main () {
   const referendumPublicId = await api.tx.democracy.startReferendum(proposalSubmitted, 0);
   console.log(`Public Proposed Referendum with ID started: ${referendumPublicId}`);
 
-  const referendumCount = await api.query.chain.referendumCount();
+  const [referendumCount, referendumInfo, votingPeriod] = Promise.all([
+    api.query.chain.referendumCount(),
+    api.query.democracy.referendumInfoOf(referendumPublicId),
+    api.query.democracy.votingPeriod()
+  ]);
+
   console.log(`Current amount of public referendums: ${referendumCount}`);
-
-  // Query information about the specific Public Referendum ID we created including its block number
-  const referendumInfo = await api.query.democracy.referendumInfoOf(referendumPublicId);
-  console.log(`Information about public referendum ID ${referendumPublicId}: `, referendumInfo);
-
-  // Query the Voting Period (frequency in blocks that it checks for new votes)
-  const votingPeriod = await api.query.democracy.votingPeriod();
-  console.log(`Voting period: `, votingPeriod);
+  console.log(`Info about public referendum ID ${referendumPublicId}: `, referendumInfo);
+  console.log(`Voting period (frequency in blocks checking for new votes): `, votingPeriod);
 
   // Vote on a Referendum ID in the Proposed Public Referenda (before Voting Period expires)
   const voteYay = true;
   const votedProposedPublicReferendumHash = await api.tx.democracy.vote(referendumPublicId, voteYay);
-  console.log(`Voted for Proposed Public Referendum ID ${referendumPublicId} with ${voteYay ? 'yay' : 'nay'} vote`);
-
-  // Query Launch Period (frequency in blocks that new Proposed Public Referenda are launched active)
-  const launchPeriod = await api.query.democracy.launchPeriod();
-  console.log(`Launch period: `, launchPeriod);
+  console.log(`Voted ${voteYay ? 'yay' : 'nay'} for Proposed Public Referendum ID ${referendumPublicId}`);
 
   // Wait unit the referendum becomes an Active Referendum
-  const isActiveReferendum = await api.query.democracy.isActiveReferendum(referendumPublicId);
-  console.log(`Detected Referendum ID ${referendumPublicId} to be Active/Launched: `, isActiveReferendum);
+  const [launchPeriod, isActiveReferendum, activeReferendums] = Promise.all([
+    api.query.democracy.launchPeriod(),
+    api.query.democracy.isActiveReferendum(referendumPublicId),
+    api.query.democracy.activeReferendums()
+  ]);
 
-  // Query the list of Active Referendums (Launched Referenda on the Table of Referenda)
-  const activeReferendums = await api.query.democracy.activeReferendums();
-  console.log(`Active Referendums: `, activeReferendums);
+  console.log(`Launch period (frequency in blocks new Proposed Public Referenda are launched active): `, launchPeriod);
+  console.log(`Detected Referendum ID ${referendumPublicId} to be Active/Launched: `, isActiveReferendum);
+  console.log(`Active Referendums (Launched Referenda on the Table of Referenda): `, activeReferendums);
 
   // Vote on the Referendum ID in the Active Referenda (before Launch Period expires)
   const votedActiveReferendumHash = await api.tx.democracy.vote(referendumPublicId, voteYay);
-  console.log(`Voted for Active Referendum ID ${referendumPublicId} with ${voteYay ? 'yay' : 'nay'} vote`);
+  console.log(`Voted ${voteYay ? 'yay' : 'nay'} for Active Referendum ID ${referendumPublicId}`);
 
   // View Substrate Node logs until it says 'Super majority approval' as confirmation that
   // change to runtime code was successfully approved and deployed

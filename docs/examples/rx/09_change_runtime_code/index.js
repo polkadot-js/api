@@ -11,8 +11,8 @@ const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 // proposal and referendum creation
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-async function main () {
-  const api = await ApiRx.create(wsProvider);
+function main () {
+  const api = ApiRx.create(wsProvider);
 
   const proposedNewRuntimeCode = new Uint8Array([4 << 2, 0xde, 0xad, 0xbe, 0xef]);
   const voteYay = true;
@@ -132,4 +132,4 @@ async function main () {
     });
 }
 
-main().catch(console.error);
+main();

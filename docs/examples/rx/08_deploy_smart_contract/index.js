@@ -10,14 +10,14 @@ const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 // FIXME: How are we associating Alice's account with funding the contract creation
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-async function main () {
+function main () {
   // Declare value to send to smart contract, gas limit, initial code, and data
   const contractValue = 1000;
   const gasLimit = 0.1;
   const initCode = new Uint8Array([4 << 2, 0xde, 0xad, 0xbe, 0xef]);
   const data = new Uint8Array([4 << 2, 0xde, 0xad, 0xbe, 0xef]);
 
-  const api = await ApiRx.create(wsProvider);
+  const api = ApiRx.create(wsProvider);
 
   // Create API. Wait until ready. Subscribe to API changes. Pass optional provider.
   api
@@ -34,4 +34,4 @@ async function main () {
     });
 }
 
-main().catch(console.error);
+main();
