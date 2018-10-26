@@ -26,10 +26,6 @@ class EventData extends Tuple {
   get typeDef (): Array<TypeDef> {
     return this._typeDef;
   }
-
-  toHex (): string {
-    return u8aToHex(this.toU8a());
-  }
 }
 
 // like methods, we have the [sectionIndex, methodIndex] pairing
@@ -96,9 +92,5 @@ export default class Event extends Struct {
 
   get index (): EventIndex {
     return this.get('index') as EventIndex;
-  }
-
-  toHex (): string {
-    return u8aToHex(this.toU8a());
   }
 }
