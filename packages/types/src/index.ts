@@ -45,7 +45,6 @@ export { default as Header } from './Header';
 export { default as KeyValue } from './KeyValue';
 export { default as Metadata } from './Metadata';
 export { default as Method } from './Method';
-export { default as MethodIndex } from './MethodIndex';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
