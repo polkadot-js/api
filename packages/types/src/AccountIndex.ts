@@ -8,7 +8,7 @@ import { bnToBn, bnToU8a, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } fro
 
 import { AnyNumber } from './types';
 import UInt from './codec/UInt';
-import U32 from './u32';
+import U32 from './U32';
 
 export const ENUMSET_SIZE = new BN(64);
 
