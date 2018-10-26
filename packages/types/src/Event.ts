@@ -56,26 +56,10 @@ class EventData<
 > extends Tuple<S> {
   private _typeDef: Array<TypeDef>;
 
-  // private, we are not expecting to export this, neither to use with anything
-  // other than the provided static create function
-  private constructor (Types: S, value: V | Array<any> = {} as V, typeDef: Array<TypeDef>) {
+  constructor (Types: S, value: V | Array<any> = {} as V, typeDef: Array<TypeDef>) {
     super(Types, value);
 
     this._typeDef = typeDef;
-  }
-
-  // NOTE This is not called `with` as in Tuple since the params are different. To
-  // avoid the same hoops in PairOf, we simply call it `create` since we only use
-  // this internally here. Alternatively we could have inlined it where we are actually
-  // using it, leading to a bit of clutter...
-  static create<
-    S extends ConstructorDef = { [index: string]: Constructor<Base> }
-  > (Types: S, typeDef: Array<TypeDef>): Constructor<EventData<S>> {
-    return class extends EventData<S> {
-      constructor (value?: any) {
-        super(Types, value, typeDef);
-      }
-    };
   }
 
   get typeDef (): Array<TypeDef> {
@@ -83,6 +67,7 @@ class EventData<
   }
 }
 
+// like methods, we have the [sectionIndex, methodIndex] pairing
 class EventIndex extends U8aFixed {
   constructor (value?: any) {
     super(value, 16);
@@ -123,18 +108,19 @@ export default class Event extends Struct {
   static injectMetadata (metadata: Metadata): void {
     metadata.events.forEach((section, sectionIndex) => {
       section.events.forEach((event, methodIndex) => {
-        // like methods, we have the [sectionIndex, methodIndex] pairing
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-        const typeDefs = event.arguments.map((arg) => getTypeDef(arg));
+        const typeDef = event.arguments.map((arg) => getTypeDef(arg));
+        const Types = typeDef.reduce((result, def, index) => {
+          result[index] = getTypeClass(def);
 
-        EventTypes[eventIndex.toString()] = EventData.create(
-          typeDefs.reduce((result, def, index) => {
-            result[index] = getTypeClass(def);
+          return result;
+        }, {} as { [index: string]: Constructor });
 
-            return result;
-          }, {} as { [index: string]: Constructor }),
-          typeDefs
-        );
+        EventTypes[eventIndex.toString()] = class extends EventData {
+          constructor (value?: any) {
+            super(Types, value, typeDef);
+          }
+        };
       });
     });
   }
