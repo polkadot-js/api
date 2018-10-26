@@ -81,6 +81,8 @@ export default class AccountIndex extends U32 {
     }
   }
 
+  // Like in our decoding function, we explicitly override this to allow us to output
+  // LE-hex encoded numbers (generally UInt in JSON are expected as BE, these LE)
   toHex (): string {
     return u8aToHex(this.toU8a());
   }

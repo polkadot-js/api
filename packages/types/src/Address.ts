@@ -6,9 +6,9 @@ import BN from 'bn.js';
 import { decodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 
+import Base from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
-import Base from './codec/Base';
 
 type AnyAddress = BN | Address | AccountId | AccountIndex | Array<number> | Uint8Array | number | string;
 
