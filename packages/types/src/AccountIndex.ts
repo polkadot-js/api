@@ -4,51 +4,52 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aConcat, u8aToBn } from '@polkadot/util';
+import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aToBn } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import U8a from './codec/U8a';
 
 export const ENUMSET_SIZE = new BN(64);
 
+const PREFIX_1BYTE = 0xef;
+const PREFIX_2BYTE = 0xfc;
+const PREFIX_4BYTE = 0xfd;
+const PREFIX_8BYTE = 0xfe;
+const MAX_1BYTE = new BN(PREFIX_1BYTE);
+const MAX_2BYTE = new BN(1).shln(16);
+const MAX_4BYTE = new BN(1).shln(32);
+
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends U8a {
-  constructor (value: BN | number | AnyU8a = new Uint8Array()) {
+  // The maxLength refers to the maximum input. Effectively when returned as a storage value
+  // (see EventRecord) the actual encoded length is 4 bytes. Set that as the default,
+  // however pass it through as a computed value from the Address constructors
+  //
+  // FIXME Encoding is not handled 100% correctly with the maxLength. Change the base to be actually
+  // compilant with the Rust implementation, https://github.com/polkadot-js/api/issues/354
+  constructor (value: BN | number | AnyU8a = new Uint8Array(), maxLength: number = 4) {
     super(
-      AccountIndex.decodeAccountIndex(value)
+      AccountIndex.decodeAccountIndex(value, maxLength)
     );
   }
 
-  static decodeAccountIndex (value: BN | number | AnyU8a): Uint8Array {
+  static decodeAccountIndex (value: BN | number | AnyU8a, maxLength: number): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
     } else if (Array.isArray(value)) {
-      return AccountIndex.decodeAccountIndex(Uint8Array.from(value));
+      return AccountIndex.decodeAccountIndex(Uint8Array.from(value), maxLength);
     } else if (isU8a(value)) {
       if (!value.length) {
         return value;
       }
 
-      const [offset, length] = AccountIndex.readLength(value);
-
-      return value.subarray(offset, offset + length);
+      return value.subarray(0, Math.min(maxLength, value.length));
     } else if (isNumber(value) || isBn(value)) {
-      const index = bnToBn(value);
-      const bitLength = index.ltn(1 << 8)
-        ? 8
-        : (
-          index.ltn(1 << 16)
-            ? 16
-            : (
-              index.ltn(1 << 32)
-                ? 32
-                : 64
-            )
-        );
+      const bitLength = 8 * AccountIndex.calcLength(value);
 
-      return bnToU8a(index, bitLength, true);
+      return bnToU8a(value, bitLength, true);
     } else if (isHex(value)) {
       return hexToU8a(value);
     }
@@ -56,27 +57,39 @@ export default class AccountIndex extends U8a {
     return decodeAddress(value);
   }
 
+  static calcLength (_value: BN | number): number {
+    const value = bnToBn(_value);
+
+    if (value.lte(MAX_1BYTE)) {
+      return 1;
+    } else if (value.lt(MAX_2BYTE)) {
+      return 2;
+    } else if (value.lt(MAX_4BYTE)) {
+      return 4;
+    }
+
+    return 8;
+  }
+
   static readLength (input: Uint8Array): [number, number] {
     const first = input[0];
 
-    if (first <= 0xef) {
-      return [0, 1];
-    } else if (first === 0xfc) {
+    if (first === PREFIX_2BYTE) {
       return [1, 2];
-    } else if (first === 0xfd) {
+    } else if (first === PREFIX_4BYTE) {
       return [1, 4];
-    } else if (first === 0xfe) {
+    } else if (first === PREFIX_8BYTE) {
       return [1, 8];
     }
 
-    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
+    return [0, 1];
   }
 
   static writeLength (input: Uint8Array): Uint8Array {
     switch (input.length) {
-      case 2: return new Uint8Array([0xfc]);
-      case 4: return new Uint8Array([0xfd]);
-      case 8: return new Uint8Array([0xfe]);
+      case 2: return new Uint8Array([PREFIX_2BYTE]);
+      case 4: return new Uint8Array([PREFIX_4BYTE]);
+      case 8: return new Uint8Array([PREFIX_8BYTE]);
       default: return new Uint8Array([]);
     }
   }
@@ -100,10 +113,7 @@ export default class AccountIndex extends U8a {
     // work in the way it was intended
     return isBare
       ? bnToU8a(this.toBn().div(ENUMSET_SIZE), 32, true)
-      : u8aConcat(
-        AccountIndex.writeLength(this.raw),
-        this.raw
-      );
+      : this.raw;
   }
 
   toString (): string {

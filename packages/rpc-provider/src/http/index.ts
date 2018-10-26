@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Logger } from '@polkadot/util/types';
-import { RpcCoder } from '../coder/json/types';
 import { ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
 import './polyfill';
 
 import { assert, logger } from '@polkadot/util';
 
-import coder from '../coder/json';
+import Coder from '../coder';
 import defaults from '../defaults';
 
 const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSockets instead';
+
+const l = logger('api-http');
 
 /**
  * # @polkadot/rpc-provider/https
@@ -36,9 +36,8 @@ const ERROR_SUBSCRIBE = 'HTTP Provider does not have subscriptions, use WebSocke
  * @see [[WsProvider]]
  */
 export default class HttpProvider implements ProviderInterface {
-  private coder: RpcCoder;
+  private coder: Coder;
   private endpoint: string;
-  private l: Logger;
 
   /**
    * @param {string} endpoint The endpoint url starting with http://
@@ -46,9 +45,8 @@ export default class HttpProvider implements ProviderInterface {
   constructor (endpoint: string = defaults.HTTP_URL) {
     assert(/^(https|http):\/\//.test(endpoint), `Endpoint should start with 'http://', received '${endpoint}'`);
 
-    this.coder = coder();
+    this.coder = new Coder();
     this.endpoint = endpoint;
-    this.l = logger('api-http');
   }
 
   /**
@@ -64,7 +62,7 @@ export default class HttpProvider implements ProviderInterface {
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
-    this.l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
+    l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
   /**
@@ -93,7 +91,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
-    this.l.error(ERROR_SUBSCRIBE);
+    l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
   }
@@ -102,7 +100,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
-    this.l.error(ERROR_SUBSCRIBE);
+    l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
   }

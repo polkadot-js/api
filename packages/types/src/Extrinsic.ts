@@ -8,6 +8,7 @@ import { AnyNumber, AnyU8a } from './types';
 import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Struct from './codec/Struct';
 import ExtrinsicSignature from './ExtrinsicSignature';
@@ -63,6 +64,11 @@ export default class Extrinsic extends Struct {
     }
 
     return value as any;
+  }
+
+  // expose args so it is compatible with Method (as constructor value)
+  get args (): Array<Base> {
+    return this.method.args;
   }
 
   // the actual [sectionIndex, methodIndex] as used

@@ -24,8 +24,12 @@ export { default as Compact32 } from './Compact32';
 export { default as Compact64 } from './Compact64';
 export { default as Compact128 } from './Compact128';
 export { default as Compact256 } from './Compact256';
-// NOTE Only used internally,
+export { default as Data } from './Data';
+// NOTE Only used internally via Header
 // export { default as Digest } from './Digest';
+// NOTE Only used via EventRecord at this point
+// export { default as Event } from './Event';
+export { default as EventRecord } from './EventRecord';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
 export { default as ExtrinsicSignature } from './ExtrinsicSignature';
@@ -41,7 +45,6 @@ export { default as Header } from './Header';
 export { default as KeyValue } from './KeyValue';
 export { default as Metadata } from './Metadata';
 export { default as Method } from './Method';
-export { default as MethodIndex } from './MethodIndex';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';

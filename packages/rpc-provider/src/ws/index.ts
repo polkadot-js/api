@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { Logger } from '@polkadot/util/types';
-import { RpcCoder } from '../coder/json/types';
 import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
 import './polyfill';
@@ -11,7 +9,7 @@ import './polyfill';
 import EventEmitter from 'eventemitter3';
 import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
-import coder from '../coder/json';
+import Coder from '../coder';
 import defaults from '../defaults';
 
 type CallbackHandler = (error?: null | Error, value?: any) => void;
@@ -37,6 +35,8 @@ interface WSProviderInterface extends ProviderInterface {
   connect (): void;
 }
 
+const l = logger('api-ws');
+
 /**
  * # @polkadot/rpc-provider/ws
  *
@@ -59,14 +59,13 @@ interface WSProviderInterface extends ProviderInterface {
  */
 export default class WsProvider implements WSProviderInterface {
   private _eventemitter: EventEmitter;
+  private _isConnected: boolean = false;
   private autoConnect: boolean;
-  private coder: RpcCoder;
+  private coder: Coder;
   private endpoint: string;
   private handlers: {
-    [index: number]: WsState$Awaiting
+    [index: string]: WsState$Awaiting
   };
-  private _isConnected: boolean;
-  private l: Logger;
   private queued: {
     [index: string]: string
   };
@@ -84,11 +83,9 @@ export default class WsProvider implements WSProviderInterface {
 
     this._eventemitter = new EventEmitter();
     this.autoConnect = autoConnect;
-    this.coder = coder();
+    this.coder = new Coder();
     this.endpoint = endpoint;
-    this._isConnected = false;
     this.handlers = {};
-    this.l = logger('api-ws');
     this.queued = {};
     this.subscriptions = {};
     this.websocket = null;
@@ -112,7 +109,7 @@ export default class WsProvider implements WSProviderInterface {
       this.websocket.onmessage = this.onSocketMessage;
       this.websocket.onopen = this.onSocketOpen;
     } catch (error) {
-      this.l.error(error);
+      l.error(error);
     }
   }
 
@@ -135,6 +132,9 @@ export default class WsProvider implements WSProviderInterface {
 
   /**
    * @summary Send JSON data using WebSockets to configured HTTP Endpoint or queue.
+   * @param method The RPC methods to execute
+   * @param params Encoded paramaters as appliucable for the method
+   * @param subscription Subscription details (internally used)
    */
   async send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
@@ -149,7 +149,7 @@ export default class WsProvider implements WSProviderInterface {
           }
         };
 
-        this.l.debug(() => ['calling', method, params, json, !!subscription]);
+        l.debug(() => ['calling', method, params, json, !!subscription]);
 
         this.handlers[id] = {
           callback,
@@ -204,7 +204,15 @@ export default class WsProvider implements WSProviderInterface {
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const subscription = `${type}::${id}`;
 
-    assert(!isUndefined(this.subscriptions[subscription]), `Unable to find active subscription=${subscription}`);
+    // FIXME This now could happen with re-subscriptions. The issue is that with a re-sub
+    // the assigned id now does not match what the API user originally received. It has
+    // a slight complication in solving - since we cannot rely on the send id, but rather
+    // need to find the actual subscription id to map it
+    if (isUndefined(this.subscriptions[subscription])) {
+      l.warn(`Unable to find active subscription=${subscription}`);
+
+      return false;
+    }
 
     delete this.subscriptions[subscription];
 
@@ -218,7 +226,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketClose = (): void => {
-    this.l.debug(() => ['disconnected from', this.endpoint]);
+    l.debug(() => ['disconnected from', this.endpoint]);
 
     this._isConnected = false;
     this.emit('disconnected');
@@ -231,11 +239,11 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketError = (error: Event): void => {
-    this.l.error(error);
+    l.error(error);
   }
 
   private onSocketMessage = (message: MessageEvent): void => {
-    this.l.debug(() => ['received', message.data]);
+    l.debug(() => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);
 
@@ -245,12 +253,12 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageResult = (response: JsonRpcResponse): void => {
-    this.l.debug(() => ['handling: response =', response, 'id =', response.id]);
+    l.debug(() => ['handling: response =', response, 'id =', response.id]);
 
     const handler = this.handlers[response.id];
 
     if (!handler) {
-      this.l.error(`Unable to find handler for id=${response.id}`);
+      l.error(`Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -277,12 +285,12 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
     const subscription = `${response.method}::${response.params.subscription}`;
 
-    this.l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
+    l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
 
     const handler = this.subscriptions[subscription];
 
     if (!handler) {
-      this.l.error(`Unable to find handler for subscription=${subscription}`);
+      l.error(`Unable to find handler for subscription=${subscription}`);
       return;
     }
 
@@ -298,24 +306,45 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketOpen = (): boolean => {
     assert(!isNull(this.websocket), 'WebSocket cannot be null in onOpen');
 
-    this.l.debug(() => ['connected to', this.endpoint]);
+    l.debug(() => ['connected to', this.endpoint]);
 
     this._isConnected = true;
     this.emit('connected');
 
+    this.sendQueue();
+    this.resubscribe();
+
+    return true;
+  }
+
+  private resubscribe (): void {
+    const subscriptions = this.subscriptions;
+
+    this.subscriptions = {};
+
+    Object.keys(subscriptions).forEach(async (id) => {
+      const { callback, method, params, type } = subscriptions[id];
+
+      try {
+        await this.subscribe(type, method, params, callback);
+      } catch (error) {
+        l.error(error);
+      }
+    });
+  }
+
+  private sendQueue (): void {
     Object.keys(this.queued).forEach((id) => {
       try {
-        // @ts-ignore checked above
+        // @ts-ignore we have done the websocket check in onSocketOpen, if an issue, will catch it
         this.websocket.send(
           this.queued[id]
         );
 
         delete this.queued[id];
       } catch (error) {
-        this.l.error(error);
+        l.error(error);
       }
     });
-
-    return true;
   }
 }

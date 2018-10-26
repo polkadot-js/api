@@ -3,10 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { Logger } from '@polkadot/util/types';
-import { RpcCoder } from '../coder/json/types';
+
+import Coder from '../coder';
 
 export type HttpState = {
-  coder: RpcCoder,
+  coder: Coder,
   endpoint: string,
   l: Logger
 };
