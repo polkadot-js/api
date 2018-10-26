@@ -26,6 +26,9 @@ export default class AccountIndex extends U8a {
   // The maxLength refers to the maximum input. Effectively when returned as a storage value
   // (see EventRecord) the actual encoded length is 4 bytes. Set that as the default,
   // however pass it through as a computed value from the Address constructors
+  //
+  // FIXME Encoding is not handled 100% correctly with the maxLength. Change the base to be actually
+  // compilant with the Rust implementation, https://github.com/polkadot-js/api/issues/354
   constructor (value: BN | number | AnyU8a = new Uint8Array(), maxLength: number = 4) {
     super(
       AccountIndex.decodeAccountIndex(value, maxLength)
