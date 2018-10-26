@@ -25,8 +25,10 @@ export { default as Compact64 } from './Compact64';
 export { default as Compact128 } from './Compact128';
 export { default as Compact256 } from './Compact256';
 export { default as Data } from './Data';
-// NOTE Only used internally,
+// NOTE Only used internally via Header
 // export { default as Digest } from './Digest';
+// NOTE Only used via EventRecord at this point
+// export { default as Event } from './Event';
 export { default as EventRecord } from './EventRecord';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';

@@ -4,6 +4,7 @@
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
+import Event from './Event';
 import Null from './Null';
 import U32 from './U32';
 
@@ -20,10 +21,6 @@ class Phase extends EnumType<ApplyExtrinsic | Finalization> {
       Finalization
     ], value, index);
   }
-}
-
-// FIXME Once we have actual data from Events, have a look on how to decode them
-class Event extends Null {
 }
 
 export default class EventRecord extends Struct {
