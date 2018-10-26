@@ -10,9 +10,9 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.31.65",
-    "@polkadot/keyring": "^0.32.1",
-    "@polkadot/util": "^0.32.2",
+    "@polkadot/api": "^0.31.82",
+    "@polkadot/keyring": "^0.32.10",
+    "@polkadot/util": "^0.32.10",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {

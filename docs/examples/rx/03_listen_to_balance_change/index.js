@@ -9,7 +9,7 @@ const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 // Known account we want to use (available on dev chain, with funds)
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-async function main () {
+function main () {
   let previous = null;
 
   // Here we pass the (optional) provider
@@ -23,7 +23,7 @@ async function main () {
       switchMap((api) => api.query.balances.freeBalance(Alice))
     )
     .subscribe((current) => {
-      console.log(`${Alice} has ${previous || '???'} previous balance`);
+      console.log(`Alice's account ${Alice} has ${previous || '???'} previous balance`);
       console.log(`You may leave this example running and start example 06 ` +
                   `or transfer any value to Alice at ${Alice}`);
 
@@ -42,4 +42,4 @@ async function main () {
     });
 }
 
-main().catch(console.error);
+main();

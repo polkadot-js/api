@@ -8,10 +8,11 @@ async function main () {
   const api = await ApiPromise.create();
 
   // Subscribe to the new headers on-chain. The callback is fired when new headers
-  // are found, the call itself returns a promise with a subscription id. We show how
-  // to unsubscribe from subscription in subsequent examples.
+  // are found, the call itself returns a promise with a subscription that can be
+  // used to unsubscribe from the newHead subscription. We show how
+  // to unsubscribe from a subscription in subsequent examples.
   // Use the RPC Node Interface
-  await api.rpc.chain.subscribeNewHead((header) => {
+  const subscriptionId = await api.rpc.chain.subscribeNewHead((header) => {
     console.log(`Chain is at best block #${header.blockNumber}`);
   });
 }

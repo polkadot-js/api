@@ -7,10 +7,12 @@ import { assert } from '@polkadot/util';
 import { Constructor } from '../types';
 import Text from '../Text';
 import Base from './Base';
+import PairOf from './PairOf';
 import Tuple from './Tuple';
 import Vector from './Vector';
 
 export enum TypeDefInfo {
+  PairOf,
   Plain,
   Tuple,
   Vector
@@ -50,12 +52,12 @@ export function typeSplit (type: string): Array<string> {
         break;
 
       case '<':
-        // inc vec depth
+        // inc vec/pair depth
         vDepth++;
         break;
 
       case '>':
-        // dec tuple depth
+        // dec vec/pair depth
         vDepth--;
         break;
 
@@ -84,7 +86,7 @@ export function getTypeDef (_type: Text | string): TypeDef {
     assert(type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
 
     // strip wrapping ()'s
-    const innerTypes = typeSplit(type.substr(1, type.length - 2));
+    const innerTypes = typeSplit(type.substr(1, type.length - 1 - 1));
 
     value.info = TypeDefInfo.Tuple;
     value.sub = innerTypes.map((inner) =>
@@ -94,9 +96,17 @@ export function getTypeDef (_type: Text | string): TypeDef {
     assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
 
     // strip wrapping Vec<>
-    const subType = type.substr(4, type.length - 5);
+    const subType = type.substr(4, type.length - 4 - 1);
 
     value.info = TypeDefInfo.Vector;
+    value.sub = getTypeDef(subType);
+  } else if (type.substr(0, 7) === 'PairOf<') {
+    assert(type[type.length - 1] === '>', `Expected PairOf wrapped with <>`);
+
+    // strip wrapping PairOf<>
+    const subType = type.substr(7, type.length - 7 - 1);
+
+    value.info = TypeDefInfo.PairOf;
     value.sub = getTypeDef(subType);
   }
 
@@ -123,6 +133,15 @@ export function getTypeClass (value: TypeDef): Constructor {
     }
 
     return Vector.with(
+      getTypeClass(value.sub)
+    );
+  } else if (value.info === TypeDefInfo.PairOf) {
+    if (!value.sub || Array.isArray(value.sub)) {
+      throw new Error(`Expected subtype for PairOf`);
+    }
+
+    // This is not too cool... because of the static overrides we have a small issue here
+    return PairOf.with<any>(
       getTypeClass(value.sub)
     );
   }

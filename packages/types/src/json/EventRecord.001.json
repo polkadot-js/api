@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "method": "state_storage",
+  "params": {
+    "result": {
+      "block": "0x4c51fb36c859f9d2554ef0dadf53351c343f2746221a963d630bfe396728842d",
+      "changes": [
+        [
+          "0xcc956bdb7605e3547539f321ac2bc95c",
+          "0x0400000000000000"
+        ]
+      ]
+    },
+    "subscription": 14
+  }
+}

@@ -29,6 +29,7 @@ api.rpc.chain.subscribeNewHead((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
 });
 ```
+
   
 
 Subscribing to chain state -  
@@ -57,6 +58,7 @@ api.query.timestamp.now((timestamp) => {
   console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
 });
 ```
+
   
 
 Submitting a transaction -  
@@ -104,11 +106,12 @@ ApiPromise.create().then((api) => {
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:128](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/promise/index.ts#L128)*
+*Defined in [promise/index.ts:128](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/promise/index.ts#L128)*
 
 *__description__*: Creates an instance of the ApiPromise class
 
 *__example__*:   
+
 ```javascript
 import Api from '@polkadot/api/promise';
 
@@ -139,7 +142,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:69](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L69)*
+*Defined in [Base.ts:70](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L70)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -152,7 +155,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:161](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/promise/index.ts#L161)*
+*Defined in [promise/index.ts:161](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/promise/index.ts#L161)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -167,13 +170,14 @@ getquery(): `QueryableStorage`
 
 *Inherited from [ApiBase](_base_.apibase.md).[query](_base_.apibase.md#query)*
 
-*Defined in [Base.ts:107](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L107)*
+*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L108)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
 All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
 
 *__example__*:   
+
 ```javascript
 api.query.balances.freeBalance(<accountId>, (balance) => {
   console.log('new balance', balance);
@@ -191,13 +195,14 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:127](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L127)*
+*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L128)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
 RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
 
 *__example__*:   
+
 ```javascript
 api.rpc.chain.subscribeNewHead((header) => {
   console.log('new header', header);
@@ -215,7 +220,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:78](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L78)*
+*Defined in [Base.ts:79](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L79)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -230,7 +235,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L87)*
+*Defined in [Base.ts:88](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L88)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -245,11 +250,12 @@ gettx(): `SubmittableExtrinsics`
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:146](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L146)*
+*Defined in [Base.ts:147](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L147)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
 *__example__*:   
+
 ```javascript
 api.tx.balances
   .transfer(<recipientId>, <balance>)
@@ -271,11 +277,12 @@ ___
 
 ▸ **combineLatest**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/index.ts:189](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/promise/index.ts#L189)*
+*Defined in [promise/index.ts:189](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/promise/index.ts#L189)*
 
 *__description__*: Creates a combinator that can be used to combine the latest results from multiple subscriptions
 
 *__example__*:   
+
 ```javascript
 const address = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7';
 
@@ -293,7 +300,7 @@ api.combineLatest([
 
 | Param | Type | Description |
 | ------ | ------ | ------ |
-| fns | `Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)> |  An array of function to combine, each in the form of `(cb: (value: void)) => void` |
+| fns | `Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)> |  An array of function to combine, each in the form of \`(cb: (value: void)) => void\` |
 | callback | [CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback) |  A callback that will return an Array of all the values this combinator has been applied to |
 
 **Returns:** [Combinator](_promise_combinator_.combinator.md)
@@ -307,11 +314,12 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in [Base.ts:171](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/Base.ts#L171)*
+*Defined in [Base.ts:172](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/Base.ts#L172)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
 *__example__*:   
+
 ```javascript
 api.on('disconnected', () => {
   console.log('API has been connected to the endpoint');
@@ -338,11 +346,12 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:126](https://github.com/polkadot-js/api/blob/ed8c2e3/packages/api/src/promise/index.ts#L126)*
+*Defined in [promise/index.ts:126](https://github.com/polkadot-js/api/blob/4997d8f/packages/api/src/promise/index.ts#L126)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
 *__example__*:   
+
 ```javascript
 import Api from '@polkadot/api/promise';
 
