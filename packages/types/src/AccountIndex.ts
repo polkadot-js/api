@@ -4,10 +4,11 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aToBn } from '@polkadot/util';
+import { bnToBn, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
 
-import { AnyU8a } from './types';
-import U8a from './codec/U8a';
+import { AnyNumber } from './types';
+import UInt from './codec/UInt';
+import U32 from './u32';
 
 export const ENUMSET_SIZE = new BN(64);
 
@@ -22,39 +23,25 @@ const MAX_4BYTE = new BN(1).shln(32);
 // A wrapper around an AccountIndex, which is a shortened, variable-length encoding
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
-export default class AccountIndex extends U8a {
-  // The maxLength refers to the maximum input. Effectively when returned as a storage value
-  // (see EventRecord) the actual encoded length is 4 bytes. Set that as the default,
-  // however pass it through as a computed value from the Address constructors
-  //
-  // FIXME Encoding is not handled 100% correctly with the maxLength. Change the base to be actually
-  // compilant with the Rust implementation, https://github.com/polkadot-js/api/issues/354
-  constructor (value: BN | number | AnyU8a = new Uint8Array(), maxLength: number = 4) {
+export default class AccountIndex extends U32 {
+  constructor (value: AnyNumber = new BN(0)) {
     super(
-      AccountIndex.decodeAccountIndex(value, maxLength)
+      AccountIndex.decodeAccountIndex(value)
     );
   }
 
-  static decodeAccountIndex (value: BN | number | AnyU8a, maxLength: number): Uint8Array {
-    if (value instanceof U8a) {
+  static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
+    if (value instanceof UInt) {
       return value.raw;
-    } else if (Array.isArray(value)) {
-      return AccountIndex.decodeAccountIndex(Uint8Array.from(value), maxLength);
-    } else if (isU8a(value)) {
-      if (!value.length) {
-        return value;
-      }
-
-      return value.subarray(0, Math.min(maxLength, value.length));
-    } else if (isNumber(value) || isBn(value)) {
-      const bitLength = 8 * AccountIndex.calcLength(value);
-
-      return bnToU8a(value, bitLength, true);
+    } else if (isBn(value) || isNumber(value) || isU8a(value)) {
+      return value;
     } else if (isHex(value)) {
+      // Here we convert via hexToU8a since we expect the LE encoded value representation. This
+      // is different than UInt where we expect a BE (human-readable representation)
       return hexToU8a(value);
     }
 
-    return decodeAddress(value);
+    return AccountIndex.decodeAccountIndex(decodeAddress(value));
   }
 
   static calcLength (_value: BN | number): number {
@@ -94,29 +81,17 @@ export default class AccountIndex extends U8a {
     }
   }
 
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
   toJSON (): any {
     return this.toString();
   }
 
-  toBn (): BN {
-    if (this.raw.length === 1) {
-      return new BN(this.raw[0]);
-    }
-
-    return u8aToBn(this.raw, true);
-  }
-
-  toU8a (isBare?: boolean): Uint8Array {
-    // HACK 15 Oct 2018 For isBare assume that we are dealing with an AccountIndex
-    // lookup (it is the only place where AccountIndex is used in such a manner to
-    // construct a query). This is needed to get enumSet(AccountIndex) queries to
-    // work in the way it was intended
-    return isBare
-      ? bnToU8a(this.toBn().div(ENUMSET_SIZE), 32, true)
-      : this.raw;
-  }
-
   toString (): string {
-    return encodeAddress(this.raw);
+    const length = AccountIndex.calcLength(this.raw);
+
+    return encodeAddress(this.toU8a().subarray(0, length));
   }
 }
