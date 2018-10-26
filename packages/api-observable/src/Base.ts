@@ -13,6 +13,7 @@ import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
 import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
+import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { assert, isUndefined } from '@polkadot/util';
 
@@ -61,6 +62,7 @@ export default class ApiBase {
           ApiBase.extrinsics = extrinsicsFromMeta(meta);
           ApiBase.storage = storageFromMeta(meta);
 
+          Event.injectMetadata(meta);
           Method.injectExtrinsics(ApiBase.extrinsics);
 
           if (!isReady) {
