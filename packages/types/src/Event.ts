@@ -6,7 +6,6 @@ import { Constructor, ConstructorDef } from './types';
 
 import { isUndefined, u8aToHex } from '@polkadot/util';
 
-import Base from './codec/Base';
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import U8aFixed from './codec/U8aFixed';
@@ -15,14 +14,10 @@ import Metadata from './Metadata';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
-class EventData<
-  // S & T definitions maps to what we have in Struct (naming documented there)
-  S extends ConstructorDef = { [index: string]: Constructor<Base> },
-  V extends { [K in keyof S]: any } = { [K in keyof S]: any }
-> extends Tuple<S> {
+class EventData extends Tuple {
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: S, value: V | Array<any> = {} as V, typeDef: Array<TypeDef>) {
+  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>) {
     super(Types, value);
 
     this._typeDef = typeDef;
@@ -87,7 +82,7 @@ export default class Event extends Struct {
         }, {} as { [index: string]: Constructor });
 
         EventTypes[eventIndex.toString()] = class extends EventData {
-          constructor (value?: any) {
+          constructor (value: Uint8Array) {
             super(Types, value, typeDef);
           }
         };
