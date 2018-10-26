@@ -9,7 +9,7 @@ const { stringToU8a } = require('@polkadot/util');
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
 
-async function main () {
+function main () {
   // Create an instance of the keyring
   const keyring = new Keyring();
 
@@ -17,7 +17,7 @@ async function main () {
   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
 
   // Instantiate the API via Promise
-  const api = await ApiRx.create();
+  const api = ApiRx.create();
 
   // Use the Storage chain state (runtime) Node Interface.
   api
@@ -36,11 +36,11 @@ async function main () {
                   .transfer(BOB_ADDR, 12345)
                   // Sign the transaction using our account keypair, nonce,
                   // and optionally the block hash
-                  .sign(alice, aliceNonce, blockHash);
+                  .sign(alice, aliceNonce, blockHash)
                   // Send the transaction (optional status callback)
                   // .send((status) => {
                   //   console.log(`current status ${status.type}`);
-                  // })
+                  // });
               })
             )
         ])
@@ -48,8 +48,8 @@ async function main () {
     )
     // Subscribe to overall resulting Hash
     .subscribe(([hash]) => {
-      console.log(`submitted transfer 12345 to Bob with hash ${hash}`);
+      console.log(`Submitted transfer 12345 to Bob with hash ${hash}`);
     });
 }
 
-main().catch(console.error);
+main();

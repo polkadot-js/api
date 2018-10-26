@@ -28,9 +28,9 @@ function validatorsWithBalance (api) {
     );
 }
 
-async function main () {
+function main () {
   // Instantiate the API with default provider via Promise when ready
-  const api = await ApiRx.create();
+  const api = ApiRx.create();
 
   // Subscribe to basic chain state/storage queries
   // Use the Storage chain state (runtime) Node Interface.
@@ -59,4 +59,4 @@ async function main () {
       });
 }
 
-main().catch(console.error);
+main();

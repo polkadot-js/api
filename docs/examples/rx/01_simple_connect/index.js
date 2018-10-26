@@ -7,7 +7,7 @@ const { WsProvider } = require('@polkadot/rpc-provider');
 // Initialise the provider to connect to the local node
 const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 
-async function main () {
+function main () {
   // Create the API and wait until ready. Subscribe to API changes.
   // Here we pass the (optional) provider
   // Subscribe to the chain, node name, and node version.
@@ -37,4 +37,4 @@ async function main () {
     });
 }
 
-main().catch(console.error);
+main();
