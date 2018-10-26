@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aConcat, u8aToBn } from '@polkadot/util';
+import { bnToBn, bnToU8a, hexToU8a, isBn, isNumber, isU8a, isHex, u8aToBn } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import U8a from './codec/U8a';
@@ -23,25 +23,29 @@ const MAX_4BYTE = new BN(1).shln(32);
 // for an Account. We extends from U8a which is basically
 // just a Uint8Array wrapper.
 export default class AccountIndex extends U8a {
-  constructor (value: BN | number | AnyU8a = new Uint8Array()) {
+  // The maxLength refers to the maximum input. Effectively when returned as a storage value
+  // (see EventRecord) the actual encoded length is 4 bytes. Set that as the default,
+  // however pass it through as a computed value from the Address constructors
+  //
+  // FIXME Encoding is not handled 100% correctly with the maxLength. Change the base to be actually
+  // compilant with the Rust implementation, https://github.com/polkadot-js/api/issues/354
+  constructor (value: BN | number | AnyU8a = new Uint8Array(), maxLength: number = 4) {
     super(
-      AccountIndex.decodeAccountIndex(value)
+      AccountIndex.decodeAccountIndex(value, maxLength)
     );
   }
 
-  static decodeAccountIndex (value: BN | number | AnyU8a): Uint8Array {
+  static decodeAccountIndex (value: BN | number | AnyU8a, maxLength: number): Uint8Array {
     if (value instanceof U8a) {
       return value.raw;
     } else if (Array.isArray(value)) {
-      return AccountIndex.decodeAccountIndex(Uint8Array.from(value));
+      return AccountIndex.decodeAccountIndex(Uint8Array.from(value), maxLength);
     } else if (isU8a(value)) {
       if (!value.length) {
         return value;
       }
 
-      const [offset, length] = AccountIndex.readLength(value);
-
-      return value.subarray(offset, offset + length);
+      return value.subarray(0, Math.min(maxLength, value.length));
     } else if (isNumber(value) || isBn(value)) {
       const bitLength = 8 * AccountIndex.calcLength(value);
 
@@ -70,9 +74,7 @@ export default class AccountIndex extends U8a {
   static readLength (input: Uint8Array): [number, number] {
     const first = input[0];
 
-    if (first <= PREFIX_1BYTE) {
-      return [0, 1];
-    } else if (first === PREFIX_2BYTE) {
+    if (first === PREFIX_2BYTE) {
       return [1, 2];
     } else if (first === PREFIX_4BYTE) {
       return [1, 4];
@@ -80,7 +82,7 @@ export default class AccountIndex extends U8a {
       return [1, 8];
     }
 
-    throw new Error(`Invalid account index byte, 0x${first.toString(16)}`);
+    return [0, 1];
   }
 
   static writeLength (input: Uint8Array): Uint8Array {
@@ -111,10 +113,7 @@ export default class AccountIndex extends U8a {
     // work in the way it was intended
     return isBare
       ? bnToU8a(this.toBn().div(ENUMSET_SIZE), 32, true)
-      : u8aConcat(
-        AccountIndex.writeLength(this.raw),
-        this.raw
-      );
+      : this.raw;
   }
 
   toString (): string {

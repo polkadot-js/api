@@ -6,11 +6,11 @@ import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
-import { Constructor } from './types';
+import { AnyU8a, Constructor } from './types';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
-import MethodIndex from './MethodIndex';
 import Struct from './codec/Struct';
+import U8aFixed from './codec/U8aFixed';
 
 const FN_UNKNOWN = {
   method: 'unknown',
@@ -32,6 +32,12 @@ interface DecodedMethod extends DecodeMethodInput {
 }
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
+
+class MethodIndex extends U8aFixed {
+  constructor (value?: AnyU8a) {
+    super(value, 16);
+  }
+}
 
 /**
  * Extrinsic function descriptor, as defined in
