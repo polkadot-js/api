@@ -69,7 +69,8 @@ describe('Address', () => {
       'Mwz15xN8'
     );
     // FIXME The specification allows for 8 byte addresses, however since AccountIndex is u32 internally
-    // (and it Rust), this does not actually work since it is 8 bytes, instead of 4 bytes
+    // (and defined that way in thd efault Substrate),this does not actually work since it is 8 bytes,
+    // instead of 4 bytes max u32 length
     // testDecode(
     //   'Uint8Array (with prefix 8 bytes)',
     //   Uint8Array.from([0xfe, 17, 18, 19, 20, 21, 22, 23, 24]),
