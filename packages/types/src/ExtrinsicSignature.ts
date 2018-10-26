@@ -57,6 +57,7 @@ export default class ExtrinsicSignature extends Struct {
         return {};
       }
     }
+
     return value as any;
   }
 

@@ -125,13 +125,17 @@ export default class Struct<
   }
 
   get encodedLength (): number {
-    return [...this.values()].reduce((length, entry) => {
+    return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
   }
 
   getAtIndex (index: number): Base {
-    return [...this.values()][index];
+    return this.toArray()[index];
+  }
+
+  toArray (): Array<Base> {
+    return [...this.values()];
   }
 
   toHex () {
@@ -155,7 +159,7 @@ export default class Struct<
 
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...[...this.values()].map((entry) =>
+      ...this.toArray().map((entry) =>
         entry.toU8a(isBare)
       )
     );

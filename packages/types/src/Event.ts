@@ -4,7 +4,7 @@
 
 import { Constructor, ConstructorDef } from './types';
 
-import { isUndefined } from '@polkadot/util';
+import { isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './codec/Base';
 import Struct from './codec/Struct';
@@ -14,40 +14,6 @@ import { TypeDef, getTypeClass, getTypeDef } from './codec/createType';
 import Metadata from './Metadata';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
-
-// // length 0x10 = 0b100000 = 0b100 << 1 = 4
-// 10
-// // 1
-// // phase: ApplyExtrinsic(0)
-// 00
-// 00000000
-// // event: system.ExtrinsicSuccess
-// 0000
-// // 2
-// // phase: ApplyExtrinsic(1)
-// 00
-// 01000000
-// // event: balances.NewAccount(AccountId, AccountIndex, NewAccountOutcome)
-// 0100
-// 37e027d776cd005c12bcf6722421374a9037167a0ceaf918f341c4ad68d54e59
-// 07
-// 00000000
-// // 3
-// // phase: ApplyExtrinsic(1)
-// 00
-// 01000000
-// // balances.Transfer(AccountId, AccountId, Balance, Balance)
-// 0102
-// d2de7394ae047a5502ad9adb9cc69ff6fe484033bfce874d775da947487cd832
-// 37e027d776cd005c12bcf6722421374a9037167a0ceaf918f341c4ad68d54e59
-// e8030000000000000000000000000000
-// 00000000000000000000000000000000
-// // 4
-// // phase: ApplyExtrinsic(1)
-// 00
-// 01000000
-// // event: system.ExtrinsicSuccess
-// 0000
 
 class EventData<
   // S & T definitions maps to what we have in Struct (naming documented there)
@@ -64,6 +30,10 @@ class EventData<
 
   get typeDef (): Array<TypeDef> {
     return this._typeDef;
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 }
 
@@ -91,7 +61,7 @@ export default class Event extends Struct {
     const DataType = EventTypes[index.toString()];
 
     if (isUndefined(DataType)) {
-      throw new Error(`Unable to decode event for index ${index}`);
+      throw new Error(`Unable to decode event for index ${u8aToHex(index)}`);
     }
 
     return {
@@ -131,5 +101,9 @@ export default class Event extends Struct {
 
   get index (): EventIndex {
     return this.get('index') as EventIndex;
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 }
