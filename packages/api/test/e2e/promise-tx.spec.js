@@ -5,30 +5,42 @@
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
+import { doesNotReject } from 'assert';
 
 const keyring = testingPairs();
 
-describe.skip('e2e transfer', () => {
+describe.skip('e2e transactions', () => {
   let api;
   let nonce;
 
   beforeEach(async () => {
     api = await Api.create();
-    nonce = await api.query.system.accountNonce(keyring.alice.address());
+    jest.setTimeout(30000);
   });
 
-  it('makes a transfer', async () => {
-    const hash = await api.tx.balances
+  afterEach(() => {
+    jest.setTimeout(5000);
+  });
+
+  it('makes a transfer', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+
+    await api.tx.balances
       .transfer(keyring.bob.address(), 12345)
       .sign(keyring.alice, nonce)
-      .send();
+      .send((status) => {
+        expect(
+          status.type.toString()
+        ).toEqual('Finalised');
 
-    expect(
-      hash.toString()
-    ).not.toEqual('0x');
+        done();
+      });
   });
 
   it('makes a proposal', async () => {
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+
+    // don't wait for status, just get hash
     const hash = await api.tx.democracy
       .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
       .sign(keyring.alice, nonce)
