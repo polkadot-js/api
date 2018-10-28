@@ -5,7 +5,6 @@
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
-import { doesNotReject } from 'assert';
 
 const keyring = testingPairs();
 
