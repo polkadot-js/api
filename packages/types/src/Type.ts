@@ -140,7 +140,7 @@ export default class Type extends Text {
         .replace(/T::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
-        // replace `<T as Trait>::` (possibly sanitiused just above)
+        // replace `<T as Trait>::` (possibly sanitised just above)
         .replace(/<T as Trait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
