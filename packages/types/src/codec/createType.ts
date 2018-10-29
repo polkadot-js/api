@@ -8,14 +8,12 @@ import { Constructor } from '../types';
 import Text from '../Text';
 import Base from './Base';
 import Compact from './Compact';
-import PairOf from './PairOf';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 
 export enum TypeDefInfo {
   Compact,
-  PairOf,
   Plain,
   Tuple,
   Vector
@@ -55,12 +53,12 @@ export function typeSplit (type: string): Array<string> {
         break;
 
       case '<':
-        // inc compact/vec/pair depth
+        // inc compact/vec depth
         vDepth++;
         break;
 
       case '>':
-        // dec compact/vec/pair depth
+        // dec compact/vec depth
         vDepth--;
         break;
 
@@ -111,14 +109,6 @@ export function getTypeDef (_type: Text | string): TypeDef {
 
     value.info = TypeDefInfo.Vector;
     value.sub = getTypeDef(subType);
-  } else if (type.substr(0, 7) === 'PairOf<') {
-    assert(type[type.length - 1] === '>', `Expected PairOf wrapped with <>`);
-
-    // strip wrapping PairOf<>
-    const subType = type.substr(7, type.length - 7 - 1);
-
-    value.info = TypeDefInfo.PairOf;
-    value.sub = getTypeDef(subType);
   }
 
   return value;
@@ -152,15 +142,6 @@ export function getTypeClass (value: TypeDef): Constructor {
     }
 
     return Vector.with(
-      getTypeClass(value.sub)
-    );
-  } else if (value.info === TypeDefInfo.PairOf) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for PairOf`);
-    }
-
-    // This is not too cool... because of the static overrides we have a small issue here
-    return PairOf.with<any>(
       getTypeClass(value.sub)
     );
   }

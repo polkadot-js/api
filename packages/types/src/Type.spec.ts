@@ -18,10 +18,28 @@ describe('Type', () => {
     ).toEqual('Vec<AccountId>');
   });
 
+  it('handles nested types (embedded)', () => {
+    expect(
+      new Type('(u32, Box<Vec<AccountId>>)').toString()
+    ).toEqual('(u32, Vec<AccountId>)');
+  });
+
   it('handles aliasses, multiples per line', () => {
     expect(
       new Type('(Vec<u8>, AccountId, Vec<u8>)').toString()
     ).toEqual('(Bytes, AccountId, Bytes)');
+  });
+
+  it('changes PairOf<T> -> (T, T)', () => {
+    expect(
+      new Type('PairOf<T::Balance>').toString()
+    ).toEqual('(Balance, Balance)');
+  });
+
+  it('changes PairOf<T> (embedded) -> (T, T)', () => {
+    expect(
+      new Type('(Vec<u8>, PairOf<T::Balance>, Vec<AccountId>)').toString()
+    ).toEqual('(Bytes, (Balance, Balance), Vec<AccountId>)');
   });
 
   it('does not allow toU8a', () => {

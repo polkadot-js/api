@@ -6,7 +6,7 @@ import Text from './Text';
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['Compact', 'Option', 'PairOf', 'Vec'];
+const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
@@ -41,6 +41,8 @@ export default class Type extends Text {
       this._cleanupCompact(),
       // Remove all the trait prefixes
       this._removeTraits(),
+      // remove PairOf<T> -> (T, T)
+      this._removePairOf(),
       // remove boxing, `Box<Proposal>` -> `Proposal`
       this._removeWrap('Box'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
@@ -58,7 +60,7 @@ export default class Type extends Text {
     this._originalLength = this.raw.length;
     this.raw = mappings.reduce((result, fn) => {
       return fn(result);
-    }, this.raw);
+    }, this.raw).trim();
 
     return this;
   }
@@ -132,6 +134,23 @@ export default class Type extends Text {
     };
   }
 
+  // remove the PairOf wrappers
+  private _removePairOf (): Mapper {
+    return (value: string): string => {
+      for (let index = 0; index < value.length; index++) {
+        if (value.substr(index, 7) === 'PairOf<') {
+          const start = index + 7;
+          const end = this._findClosing(value, start);
+          const type = value.substr(start, end - start);
+
+          value = `${value.substr(0, index)}(${type}, ${type})${value.substr(end + 1)}`;
+        }
+      }
+
+      return value;
+    };
+  }
+
   // remove the type traits
   private _removeTraits (): Mapper {
     return (value: string): string => {
@@ -161,7 +180,7 @@ export default class Type extends Text {
           const start = index + check.length;
           const end = this._findClosing(value, start);
 
-          value = `${value.substr(start, end - start)}`;
+          value = `${value.substr(0, index)}${value.substr(start, end - start)}${value.substr(end + 1)}`;
         }
       }
 

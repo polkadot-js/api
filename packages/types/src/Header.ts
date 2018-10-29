@@ -22,7 +22,7 @@ export type HeaderValue = {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value?: HeaderValue) {
+  constructor (value?: HeaderValue | Uint8Array) {
     super({
       parentHash: Hash,
       number: BlockNumber,
