@@ -63,7 +63,7 @@ export default class Type extends Text {
     return this;
   }
 
-  // given a start index, find the closing >
+  // given a starting index, find the closing >
   private _findClosing (value: string, start: number): number {
     let depth = 0;
 
