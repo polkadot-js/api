@@ -38,7 +38,7 @@ class Seal extends Tuple {
   }
 }
 
-class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
+export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
 | Seal> {
   constructor (value: any) {
     super([
