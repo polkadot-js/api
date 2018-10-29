@@ -15,8 +15,8 @@ describe('Digest', () => {
 
     expect(log.type).toBe('Seal');
     expect(log.value.toJSON()).toEqual([
-      256802739,
-      '0x7f8635f18fc5ecb82b39eca5b44b7e824e24870e2452ff4e71759ca673b422cbdc767fbb8bf9f7ab2a9b883ad14e62f56ae0c48ed405575a71bbb1e9d5c69301'
+      256804359,
+      '0x2c0e0ee8a5d1a073da3f8db002b8eaebcd7b1a7eb25662e09f9ef0ac58d96bf17896256cd5f0bc672f96aab49fe5163ca5cb4c1a0f047dc39e89cd4a9eb2ea05'
     ]);
   });
 });

@@ -6,6 +6,7 @@ import { AnyNumber, AnyU8a } from './types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 
 import BlockNumber from './BlockNumber';
@@ -25,7 +26,7 @@ export default class Header extends Struct {
   constructor (value?: HeaderValue | Uint8Array) {
     super({
       parentHash: Hash,
-      number: BlockNumber,
+      number: Compact.with(BlockNumber),
       stateRoot: Hash,
       extrinsicsRoot: Hash,
       digest: Digest
@@ -33,7 +34,7 @@ export default class Header extends Struct {
   }
 
   get blockNumber (): BlockNumber {
-    return this.get('number') as BlockNumber;
+    return (this.get('number') as Compact).raw as BlockNumber;
   }
 
   get digest (): Digest {
