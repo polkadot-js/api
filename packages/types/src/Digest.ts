@@ -10,7 +10,7 @@ import AuthorityId from './AuthorityId';
 import Bytes from './Bytes';
 import Hash from './Hash';
 import Signature from './Signature';
-import U32 from './U32';
+import U64 from './U64';
 
 class AuthoritiesChange extends Vector.with(AuthorityId) {
 }
@@ -24,7 +24,7 @@ class Other extends Bytes {
 class Seal extends Tuple {
   constructor (value: any) {
     super({
-      slot: U32,
+      slot: U64,
       signature: Signature
     }, value);
   }
@@ -33,8 +33,8 @@ class Seal extends Tuple {
     return this.get('signature') as Signature;
   }
 
-  get slot (): U32 {
-    return this.get('slot') as U32;
+  get slot (): U64 {
+    return this.get('slot') as U64;
   }
 }
 
