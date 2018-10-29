@@ -143,7 +143,7 @@ export default class Type extends Text {
         // replace `<T as Trait>::` (possibly sanitiused just above)
         .replace(/<T as Trait>::/g, '')
         // replace `<...>::Type`
-        .replace(/>::Type/g, '>');
+        .replace(/::Type/g, '');
     };
   }
 
