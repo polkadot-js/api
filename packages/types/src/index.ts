@@ -19,11 +19,6 @@ export { default as BlockNumber } from './BlockNumber';
 // NOTE We are exporting Bool as bool to match with Rust
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
-export { default as Compact16 } from './Compact16';
-export { default as Compact32 } from './Compact32';
-export { default as Compact64 } from './Compact64';
-export { default as Compact128 } from './Compact128';
-export { default as Compact256 } from './Compact256';
 export { default as Data } from './Data';
 // NOTE Only used internally via Header
 // export { default as Digest } from './Digest';

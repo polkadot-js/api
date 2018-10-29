@@ -38,7 +38,7 @@ describe('typeSplit', () => {
   it('checks for unclosed vec', () => {
     expect(
       () => typeSplit('Text, Vec<u64')
-    ).toThrow(/Invalid Vector/);
+    ).toThrow(/Invalid Compact\/Vector/);
   });
 
   it('checks for unclosed tuple', () => {
@@ -63,14 +63,22 @@ describe('getTypeValue', () => {
 
   it('returns a type structure', () => {
     expect(
-      getTypeDef('(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32, Vec<u64>, (Text, Vec<(Bool, u128)>))',
+      type: '(u32, Compact<u32>, Vec<u64>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
           type: 'u32'
+        },
+        {
+          info: TypeDefInfo.Compact,
+          type: 'Compact<u32>',
+          sub: {
+            info: TypeDefInfo.Plain,
+            type: 'u32'
+          }
         },
         {
           info: TypeDefInfo.Vector,

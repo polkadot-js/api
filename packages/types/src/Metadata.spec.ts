@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a } from '@polkadot/util';
-
 import Metadata from './Metadata';
 import rpcdata from './Metadata.rpc';
 import bbqBirch from './json/Metadata.001.json';
+import compacted from './json/Metadata.002.json';
 
 describe('Metadata', () => {
   it('decodes properly', () => {
@@ -19,15 +18,14 @@ describe('Metadata', () => {
     expect(decoded.events.length).not.toBe(0);
   });
 
-  it('decodes when length not present (HACK)', () => {
-    const u8a = hexToU8a(rpcdata);
-    const decoded = new Metadata(u8a.subarray(2));
+  it('decodes BBQ properly', () => {
+    const decoded = new Metadata(bbqBirch.result);
 
     expect(decoded.events.length).not.toBe(0);
   });
 
-  it('decodes BBQ properly', () => {
-    const decoded = new Metadata(bbqBirch.result);
+  it('decodes Compacted properly', () => {
+    const decoded = new Metadata(compacted.result);
 
     expect(decoded.events.length).not.toBe(0);
   });

@@ -4,6 +4,9 @@
 
 import BN from 'bn.js';
 
+import BlockNumber from '../BlockNumber';
+import Moment from '../Moment';
+import U32 from '../U32';
 import Compact from './Compact';
 import UInt from './UInt';
 
@@ -90,27 +93,43 @@ describe('Compact', () => {
     });
   });
 
-  it('has the correct encodedLength for constructor values (default)', () => {
-    expect(
-      new Compact(0xfffffff9, 64).encodedLength
-    ).toEqual(9);
+  describe('constructor', () => {
+    it('has the correct bitLength for constructor values (BlockNumber)', () => {
+      expect(
+        new Compact(BlockNumber, 0xfffffff9).bitLength
+      ).toEqual(64);
+    });
+
+    it('has the correct encodedLength for constructor values (BlockNumber)', () => {
+      expect(
+        new Compact(BlockNumber, 0xfffffff9).encodedLength
+      ).toEqual(9);
+    });
+
+    it('has the correct encodedLength for constructor values (u32)', () => {
+      expect(
+        new Compact(U32, 0xffff9).encodedLength
+      ).toEqual(4);
+    });
+
+    it('constructs properly via U8a as U32', () => {
+      expect(
+        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toBn()
+      ).toEqual(new BN(0xffff));
+    });
+
+    it('constructs properly via number as Moment', () => {
+      expect(
+        new Compact(Moment, 1537968546).toString()
+      ).toEqual('2018-09-26T13:29:06.000Z');
+    });
   });
 
-  it('has the correct encodedLength for constructor values (u32)', () => {
-    expect(
-      new Compact(0xfffffff9, 32).encodedLength
-    ).toEqual(5);
-  });
-
-  it('constructs properly via U8a', () => {
-    expect(
-      new Compact(new Uint8Array([254, 255, 3, 0])).raw
-    ).toEqual(new BN(0xffff));
-  });
-
-  it('correctly adds the length prefix', () => {
-    expect(
-      Compact.addLengthPrefix(Uint8Array.from([12, 13]))
-    ).toEqual(Uint8Array.from([2 << 2, 12, 13]));
+  describe('helpers', () => {
+    it('correctly adds the length prefix', () => {
+      expect(
+        Compact.addLengthPrefix(Uint8Array.from([12, 13]))
+      ).toEqual(Uint8Array.from([2 << 2, 12, 13]));
+    });
   });
 });

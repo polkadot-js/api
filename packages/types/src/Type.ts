@@ -6,7 +6,7 @@ import Text from './Text';
 
 type Mapper = (value: string) => string;
 
-const ALLOWED_BOXES = ['Option', 'Vec'];
+const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
 // This is a extended version of String, specifically to handle types. Here we rely full on
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
@@ -37,6 +37,8 @@ export default class Type extends Text {
   // HACK(ery) Take the types and tweak them (slightly?) for consistency
   private _cleanupTypes (): Type {
     const mappings: Array<Mapper> = [
+      // <T::Balance as HasCompact>
+      this._cleanupCompact(),
       // Remove all the trait prefixes
       this._removeTraits(),
       // remove PairOf<T> -> (T, T)
@@ -90,6 +92,24 @@ export default class Type extends Text {
     };
   }
 
+  private _cleanupCompact (): Mapper {
+    return (value: string): string => {
+      for (let index = 0; index < value.length; index++) {
+        if (value[index] !== '<') {
+          continue;
+        }
+
+        const end = this._findClosing(value, index + 1) - 14;
+
+        if (value.substr(end, 14) === ' as HasCompact') {
+          value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
+        }
+      }
+
+      return value;
+    };
+  }
+
   private _removeGenerics (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
@@ -139,8 +159,10 @@ export default class Type extends Text {
         .replace(/T::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
-        // replace `<T as Trait>::` (possibly sanitiused just above)
-        .replace(/<T as Trait>::/g, '');
+        // replace `<T as Trait>::` (possibly sanitised just above)
+        .replace(/<T as Trait>::/g, '')
+        // replace `<...>::Type`
+        .replace(/::Type/g, '');
     };
   }
 

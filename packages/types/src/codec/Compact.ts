@@ -3,9 +3,11 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { bnToBn, bnToU8a, isU8a, u8aToBn, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { bnToBn, bnToU8a, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import { AnyNumber, AnyU8a } from '../types';
+import { AnyNumber, Constructor } from '../types';
+import Base from './Base';
+import Moment from '../Moment';
 import UInt, { UIntBitLength } from './UInt';
 
 export const DEFAULT_LENGTH_BITS = 32;
@@ -29,9 +31,17 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class Compact extends UInt {
-  constructor (value?: AnyU8a | AnyNumber, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS, isHexJson: boolean = false) {
-    super(Compact.decodeCompact(value, bitLength), bitLength, isHexJson);
+export default class Compact extends Base<UInt> {
+  constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
+    super(Compact.decodeCompact(Type, value));
+  }
+
+  static with (Type: Constructor<UInt | Moment>): Constructor<Compact> {
+    return class extends Compact {
+      constructor (value?: any) {
+        super(Type, value);
+      }
+    };
   }
 
   /**
@@ -46,13 +56,22 @@ export default class Compact extends UInt {
     );
   }
 
-  static decodeCompact (value: AnyU8a | AnyNumber | undefined, bitLength: UIntBitLength): any {
-    if (isU8a(value)) {
-      const [, length] = Compact.decodeU8a(value, bitLength);
+  static decodeCompact (Type: Constructor<UInt | Moment>, value: AnyNumber): Moment | UInt {
+    if (isString(value)) {
+      return new Type(
+        isHex(value)
+          ? hexToBn(value)
+          : new BN(value, 10)
+      );
+    } else if (isNumber(value) || isBn(value)) {
+      return new Type(bnToBn(value));
+    } else if (isU8a(value)) {
+      const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength);
 
-      return length;
+      return new Type(_value);
     }
-    return value as any;
+
+    return new Type(value.toBn());
   }
 
   static decodeU8a (_input: Uint8Array | string, bitLength: UIntBitLength): [number, BN] {
@@ -93,11 +112,35 @@ export default class Compact extends UInt {
     );
   }
 
+  get bitLength (): UIntBitLength {
+    return this.raw.bitLength;
+  }
+
   get encodedLength (): number {
     return this.toU8a().length;
   }
 
+  toBn (): any {
+    return this.raw.toBn();
+  }
+
+  toHex (): any {
+    return this.raw.toHex();
+  }
+
+  toJSON (): any {
+    return this.raw.toJSON();
+  }
+
+  toNumber (): number {
+    return this.raw.toNumber();
+  }
+
+  toString (): string {
+    return this.raw.toString();
+  }
+
   toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.raw, this._bitLength);
+    return Compact.encodeU8a(this.raw.toBn(), this.bitLength);
   }
 }
