@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
+import { isNumber, isObject, isU8a, isUndefined, u8aConcat } from '@polkadot/util';
 
 import Base from './Base';
 import { Constructor } from '../types';
@@ -118,5 +118,14 @@ export default class EnumType<T> extends Base<Base<T>> {
 
   toString (): string {
     return this.type;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    const index = this._indexes[this._index];
+
+    return u8aConcat(
+      new Uint8Array([index]),
+      this.raw.toU8a(isBare)
+    );
   }
 }

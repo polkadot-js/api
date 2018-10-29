@@ -46,15 +46,15 @@ export default class Enum extends Base<number> {
     return this.raw;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this.raw]);
-  }
-
   toNumber (): number {
     return this.raw;
   }
 
   toString (): string {
     return this._enum[this.raw] || `${this.raw}`;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array([this.raw]);
   }
 }
