@@ -18,7 +18,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Null.ts:8](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/Null.ts#L8)*
+*Defined in [Null.ts:8](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/Null.ts#L8)*
 
 **Returns:** [Dropped](_extrinsicstatus_.dropped.md)
 
@@ -34,7 +34,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -50,7 +50,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/Null.ts#L13)*
 
 **Returns:** `number`
 
@@ -68,7 +68,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/Null.ts#L17)*
 
 **Returns:** `any`
 
@@ -83,7 +83,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/Null.ts#L25)*
+*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/Null.ts#L25)*
 
 **Returns:** `string`
 
@@ -98,7 +98,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/28fd04c/packages/types/src/Null.ts#L21)*
+*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/246c482/packages/types/src/Null.ts#L21)*
 
 **Parameters:**
 
