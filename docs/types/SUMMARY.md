@@ -191,8 +191,6 @@
   * [EnumType](classes/_codec_enumtype_.enumtype.md)
 * [&quot;codec/Option&quot;](modules/_codec_option_.md)
   * [Option](classes/_codec_option_.option.md)
-* [&quot;codec/PairOf&quot;](modules/_codec_pairof_.md)
-  * [PairOf](classes/_codec_pairof_.pairof.md)
 * [&quot;codec/Struct&quot;](modules/_codec_struct_.md)
   * [Struct](classes/_codec_struct_.struct.md)
 * [&quot;codec/Struct.spec&quot;](modules/_codec_struct_spec_.md)
