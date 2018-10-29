@@ -8,7 +8,7 @@ import AccountIndex from './AccountIndex';
 describe('AccountIndex', () => {
   it('creates a BN representation', () => {
     expect(
-      new AccountIndex([17, 18, 19, 20]).toBn().toString()
+      new AccountIndex(new Uint8Array([17, 18, 19, 20])).toBn().toString()
     ).toEqual('336794129');
   });
 

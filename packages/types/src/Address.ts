@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { decodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 
+import Base from './codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
-import Base from './codec/Base';
+
+type AnyAddress = BN | Address | AccountId | AccountIndex | Array<number> | Uint8Array | number | string;
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
@@ -17,14 +20,16 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 // is encoded as
 //   [ <prefix-byte>, ...publicKey/...bytes ]
 export default class Address extends Base<AccountId | AccountIndex> {
-  constructor (value: Address | AccountId | AccountIndex | Array<number> | Uint8Array | string = new Uint8Array()) {
+  constructor (value: AnyAddress = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
     );
   }
 
-  static decodeAddress (value: Address | AccountId | AccountIndex | Array<number> | Uint8Array | string): AccountId | AccountIndex {
-    if (value instanceof Address) {
+  static decodeAddress (value: AnyAddress): AccountId | AccountIndex {
+    if (isBn(value) || isNumber(value)) {
+      return new AccountIndex(value);
+    } else if (value instanceof Address) {
       return value.raw;
     } else if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
@@ -41,7 +46,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
 
       const [offset, length] = AccountIndex.readLength(value);
 
-      return new AccountIndex(value.subarray(offset, offset + length), length);
+      return new AccountIndex(u8aToBn(value.subarray(offset, offset + length), true));
     } else if (isHex(value)) {
       return Address.decodeAddress(hexToU8a(value));
     }
@@ -50,15 +55,21 @@ export default class Address extends Base<AccountId | AccountIndex> {
 
     return decoded.length === 32
       ? new AccountId(decoded)
-      : new AccountIndex(decoded, decoded.length);
+      : new AccountIndex(u8aToBn(decoded, true));
+  }
+
+  get rawLength (): number {
+    return this.raw instanceof AccountIndex
+      ? AccountIndex.calcLength(this.raw.toBn())
+      : this.raw.encodedLength;
   }
 
   get encodedLength (): number {
-    const dataLength = this.raw.encodedLength;
+    const rawLength = this.rawLength;
 
-    return dataLength + (
+    return rawLength + (
       // for 1 byte AccountIndexes, we are not adding a specific prefix
-      dataLength > 1
+      rawLength > 1
         ? 1
         : 0
     );
@@ -77,7 +88,7 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.raw.toU8a(isBare);
+    const encoded = this.raw.toU8a().subarray(0, this.rawLength);
 
     return isBare
       ? encoded
