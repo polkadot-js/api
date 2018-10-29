@@ -37,4 +37,10 @@ describe('Type', () => {
       ).toString()
     ).toEqual('Proposal'); // eslint-disable-line
   });
+
+  it('unwraps compact', () => {
+    expect(
+      new Type('<T::Balance as HasCompact>::Type').toString()
+    ).toEqual('Compact<Balance>');
+  });
 });
