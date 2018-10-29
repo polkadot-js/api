@@ -56,9 +56,6 @@ export default class Compact extends Base<UInt> {
   }
 
   static decodeCompact (Type: Constructor<UInt>, value: AnyNumber): UInt {
-    // Assumption: This is only called from the constructor and in there
-    // we actually have the initial values set to 0 - so we just add the
-    // value that we have decoded from the input
     if (isString(value)) {
       return new Type(
         isHex(value)
