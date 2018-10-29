@@ -47,6 +47,10 @@ export default class UInt extends Base<BN> {
     return bnToBn(value);
   }
 
+  get bitLength (): UIntBitLength {
+    return this._bitLength;
+  }
+
   get encodedLength (): number {
     return this._bitLength / 8;
   }

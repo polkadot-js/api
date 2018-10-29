@@ -4,6 +4,8 @@
 
 import BN from 'bn.js';
 
+import BlockNumber from '../BlockNumber';
+import U32 from '../U32';
 import Compact from './Compact';
 import UInt from './UInt';
 
@@ -90,21 +92,27 @@ describe('Compact', () => {
     });
   });
 
-  it('has the correct encodedLength for constructor values (default)', () => {
+  it('has the correct bitLength for constructor values (BlockNumber)', () => {
     expect(
-      new Compact(0xfffffff9, 64).encodedLength
+      new Compact(BlockNumber, 0xfffffff9).bitLength
+    ).toEqual(64);
+  });
+
+  it('has the correct encodedLength for constructor values (BlockNumber)', () => {
+    expect(
+      new Compact(BlockNumber, 0xfffffff9).encodedLength
     ).toEqual(9);
   });
 
   it('has the correct encodedLength for constructor values (u32)', () => {
     expect(
-      new Compact(0xfffffff9, 32).encodedLength
-    ).toEqual(5);
+      new Compact(U32, 0xffff9).encodedLength
+    ).toEqual(4);
   });
 
   it('constructs properly via U8a', () => {
     expect(
-      new Compact(new Uint8Array([254, 255, 3, 0])).raw
+      new Compact(U32, new Uint8Array([254, 255, 3, 0])).toBn()
     ).toEqual(new BN(0xffff));
   });
 
