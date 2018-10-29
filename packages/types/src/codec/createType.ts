@@ -7,11 +7,14 @@ import { assert } from '@polkadot/util';
 import { Constructor } from '../types';
 import Text from '../Text';
 import Base from './Base';
+import Compact from './Compact';
 import PairOf from './PairOf';
 import Tuple from './Tuple';
+import UInt from './UInt';
 import Vector from './Vector';
 
 export enum TypeDefInfo {
+  Compact,
   PairOf,
   Plain,
   Tuple,
@@ -52,12 +55,12 @@ export function typeSplit (type: string): Array<string> {
         break;
 
       case '<':
-        // inc vec/pair depth
+        // inc compact/vec/pair depth
         vDepth++;
         break;
 
       case '>':
-        // dec vec/pair depth
+        // dec compact/vec/pair depth
         vDepth--;
         break;
 
@@ -67,7 +70,7 @@ export function typeSplit (type: string): Array<string> {
   }
 
   assert(tDepth === 0, `Invalid Tuple in ${type}`);
-  assert(vDepth === 0, `Invalid Vector in ${type}`);
+  assert(vDepth === 0, `Invalid Compact/Vector in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
@@ -92,6 +95,14 @@ export function getTypeDef (_type: Text | string): TypeDef {
     value.sub = innerTypes.map((inner) =>
       getTypeDef(inner)
     );
+  } else if (type.substr(0, 8) === 'Compact<') {
+    assert(type[type.length - 1] === '>', `Expected Compact wrapped with <>`);
+
+    // strip wrapping Compact<>
+    const subType = type.substr(8, type.length - 8 - 1);
+
+    value.info = TypeDefInfo.Compact;
+    value.sub = getTypeDef(subType);
   } else if (type.substr(0, 4) === 'Vec<') {
     assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
 
@@ -126,6 +137,14 @@ export function getTypeClass (value: TypeDef): Constructor {
 
         return result;
       }, {} as { [index: string]: Constructor })
+    );
+  } else if (value.info === TypeDefInfo.Compact) {
+    if (!value.sub || Array.isArray(value.sub)) {
+      throw new Error(`Expected subtype for Compact`);
+    }
+
+    return Compact.with(
+      getTypeClass(value.sub) as Constructor<UInt>
     );
   } else if (value.info === TypeDefInfo.Vector) {
     if (!value.sub || Array.isArray(value.sub)) {
