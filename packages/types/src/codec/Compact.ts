@@ -7,6 +7,7 @@ import { bnToBn, bnToU8a, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aTo
 
 import { AnyNumber, Constructor } from '../types';
 import Base from './Base';
+import Moment from '../Moment';
 import UInt, { UIntBitLength } from './UInt';
 
 export const DEFAULT_LENGTH_BITS = 32;
@@ -31,11 +32,11 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
 export default class Compact extends Base<UInt> {
-  constructor (Type: Constructor<UInt>, value: AnyNumber = 0) {
+  constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
   }
 
-  static with (Type: Constructor<UInt>): Constructor<Compact> {
+  static with (Type: Constructor<UInt | Moment>): Constructor<Compact> {
     return class extends Compact {
       constructor (value?: any) {
         super(Type, value);
@@ -55,7 +56,7 @@ export default class Compact extends Base<UInt> {
     );
   }
 
-  static decodeCompact (Type: Constructor<UInt>, value: AnyNumber): UInt {
+  static decodeCompact (Type: Constructor<UInt | Moment>, value: AnyNumber): Moment | UInt {
     if (isString(value)) {
       return new Type(
         isHex(value)
