@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import BN from 'bn.js';
+
 import Header from './Header';
-import json from './json/Header.001.json';
+import json1 from './json/Header.001.json';
+import json2 from './json/Header.002.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
-    const header = new Header(json.result);
+    const header = new Header(json1.result);
 
     expect(
       header.blockNumber.toNumber()
@@ -26,17 +29,14 @@ describe('Header', () => {
     ).toEqual('[]');
   });
 
-  it('creates actual valid hash', () => {
+  it('creates a valid hash (incl. digest & compact)', () => {
+    const header = new Header(json2.result);
+
     expect(
-      new Header({
-        digest: {
-          logs: []
-        },
-        extrinsicsRoot: '0xfd068a7f7315e1c5529945ddd80b650abfc1643be9a79f0468673617a7c0af41',
-        number: 338571,
-        parentHash: '0x20946c40c54af3bf76a93e313d51bdcb14ee9e783cde9565d0f8c0d72727e512',
-        stateRoot: '0x6980a37d9297765aed7a67bb0147afa34ec6db387e79c096feb1708294399abd'
-      }).hash.toHex()
-    ).toEqual('0xfefcdd5287d017f240b816bd6c43cb9f254164adb90350f2d3f3303f604b5a61');
+      header.hash.toHex()
+    ).toEqual('0x63ccfdc044d3ff4c915ad01c0d57d2ff807f4eb7d60cd41584917363bc83a99f');
+    expect(
+      header.blockNumber.toBn()
+    ).toEqual(new BN(2918));
   });
 });

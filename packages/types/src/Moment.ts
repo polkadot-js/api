@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { bnToBn, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import { AnyNumber } from './types';
 import Base from './codec/Base';
@@ -50,6 +50,10 @@ export default class Moment extends Base<Date> {
 
   getTime (): number {
     return this.raw.getTime();
+  }
+
+  toHex (): string {
+    return bnToHex(this.toBn(), BITLENGTH);
   }
 
   toJSON (): any {

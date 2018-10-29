@@ -31,7 +31,7 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class Compact extends Base<UInt> {
+export default class Compact extends Base<UInt | Moment> {
   constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
   }
