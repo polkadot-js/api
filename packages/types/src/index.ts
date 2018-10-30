@@ -65,7 +65,7 @@ export { default as Text } from './Text';
 // NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust
-export { default as u8, default as U32 } from './U8';
+export { default as u8 } from './U8';
 export { default as u16 } from './U16';
 export { default as u32 } from './U32';
 export { default as u64 } from './U64';
