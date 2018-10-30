@@ -70,7 +70,7 @@ export default class Set extends Base<Array<string>> {
     return this.raw.length === 0;
   }
 
-  get value (): Array<string> {
+  get values (): Array<string> {
     return this.raw;
   }
 
@@ -79,7 +79,7 @@ export default class Set extends Base<Array<string>> {
   }
 
   toJSON (): any {
-    return this.raw;
+    return this.values;
   }
 
   toU8a (isBare?: boolean): Uint8Array {
@@ -87,6 +87,6 @@ export default class Set extends Base<Array<string>> {
   }
 
   toString (): string {
-    return `[${this.raw.map((value) => value).join(', ')}]`;
+    return `[${this.values.map((value) => value).join(', ')}]`;
   }
 }
