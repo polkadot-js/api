@@ -43,8 +43,7 @@ export { default as Method } from './Method';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
-// NOTE only used internally atm
-// export { default as Null } from './Null';
+export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';
@@ -66,7 +65,7 @@ export { default as Text } from './Text';
 // NOTE Type is currently only used internally (possibly in codec-related work)
 // export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust
-export { default as u8 } from './U8';
+export { default as u8, default as U32 } from './U8';
 export { default as u16 } from './U16';
 export { default as u32 } from './U32';
 export { default as u64 } from './U64';

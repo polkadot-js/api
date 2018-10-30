@@ -5,6 +5,7 @@
 import { isNumber, isObject, isU8a, isUndefined, u8aConcat } from '@polkadot/util';
 
 import Base from './Base';
+import Null from '../Null';
 import { Constructor } from '../types';
 
 type TypesArray = Array<Constructor<Base>>;
@@ -77,6 +78,10 @@ export default class EnumType<T> extends Base<Base<T>> {
 
     // Worst-case scenario, return this
     return { index: 0, value: new (Object.values(def)[0])() };
+  }
+
+  get isNull (): boolean {
+    return this.raw instanceof Null;
   }
 
   get type (): string {
