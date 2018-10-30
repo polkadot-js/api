@@ -30,7 +30,9 @@ export default class Set extends Base<Array<string>> {
       return Set.decodeSet(setValues, value[0]);
     } else if (Array.isArray(value)) {
       return value.reduce((result, value) => {
-        if (!isUndefined(setValues[value])) {
+        if (isUndefined(setValues[value])) {
+          console.error(`Ignoring invalid '${value}' passed to Set`);
+        } else {
           result.push(value);
         }
 
@@ -38,13 +40,20 @@ export default class Set extends Base<Array<string>> {
       }, [] as Array<string>);
     }
 
-    return Object.keys(setValues).reduce((result, key) => {
+    const result = Object.keys(setValues).reduce((result, key) => {
       if ((value & setValues[key]) === setValues[key]) {
         result.push(key);
       }
 
       return result;
     }, [] as Array<string>);
+    const computed = Set.encodeSet(setValues, result);
+
+    if (value !== computed) {
+      console.error(`Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
+    }
+
+    return result;
   }
 
   static encodeSet (setValues: SetValues, value: Array<string>): number {

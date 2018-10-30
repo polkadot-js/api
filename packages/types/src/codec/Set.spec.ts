@@ -11,7 +11,7 @@ describe('Set', () => {
       full:      0b00000001,
       light:     0b00000010,
       authority: 0b00000100
-    }, ['full', 'authority']);
+    }, ['full', 'authority', 'invalid']);
 
     expect(set.isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
@@ -26,7 +26,7 @@ describe('Set', () => {
       receipt:       0b00000100,
       messageQueue:  0b00001000,
       justification: 0b00010000
-    }, new Uint8Array([0b00000001 | 0b00000010 | 0b00010000]));
+    }, new Uint8Array([0b00000001 | 0b00000010 | 0b00010000 | 0b10000000]));
 
     expect(set.encodedLength).toEqual(1);
     expect(set.toJSON()).toEqual([
