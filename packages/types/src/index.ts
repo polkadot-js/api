@@ -43,8 +43,7 @@ export { default as Method } from './Method';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
-// NOTE only used internally atm
-// export { default as Null } from './Null';
+export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
 export { default as Origin } from './Origin';
