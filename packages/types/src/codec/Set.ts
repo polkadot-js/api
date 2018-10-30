@@ -67,7 +67,7 @@ export default class Set extends Base<Array<string>> {
   }
 
   get isEmpty (): boolean {
-    return this.raw.length === 0;
+    return this.values.length === 0;
   }
 
   get values (): Array<string> {
