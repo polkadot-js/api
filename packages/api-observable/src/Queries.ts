@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
-import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
@@ -233,6 +233,20 @@ export default class ApiQueries extends ApiBase {
 
   stakingNominating = (address: AccountId | string): Observable<AccountId | undefined> => {
     return this.rawStorage(storage.staking.nominating, address);
+  }
+
+  systemEvents = (): Observable<Array<EventRecord>> => {
+    return this
+      .rawStorage(storage.system.events)
+      .pipe(
+        // @ts-ignore After upgrade to 6.3.2
+        map((events: Array<EventRecord> | null | undefined) =>
+          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
+          (events || ([] as Array<EventRecord>)).map((event) =>
+            event
+          )
+        )
+      );
   }
 
   validatorCount = (): Observable<u32 | undefined> => {
