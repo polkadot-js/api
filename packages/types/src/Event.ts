@@ -108,4 +108,12 @@ export default class Event extends Struct {
   get index (): EventIndex {
     return this.get('index') as EventIndex;
   }
+
+  get method (): string {
+    return this.data.method;
+  }
+
+  get section (): string {
+    return this.data.section;
+  }
 }
