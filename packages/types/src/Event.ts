@@ -4,7 +4,7 @@
 
 import { Constructor, ConstructorDef } from './types';
 
-import { isUndefined, u8aToHex } from '@polkadot/util';
+import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
@@ -15,12 +15,24 @@ import Metadata from './Metadata';
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
 class EventData extends Tuple {
+  private _method: string;
+  private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>) {
+  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>, section: string, method: string) {
     super(Types, value);
 
+    this._method = method;
+    this._section = section;
     this._typeDef = typeDef;
+  }
+
+  get method (): string {
+    return this._method;
+  }
+
+  get section (): string {
+    return this._section;
   }
 
   get typeDef (): Array<TypeDef> {
@@ -68,7 +80,10 @@ export default class Event extends Struct {
   // the available system events to be used in lookups
   static injectMetadata (metadata: Metadata): void {
     metadata.events.forEach((section, sectionIndex) => {
+      const sectionName = stringCamelCase(section.name.toString());
+
       section.events.forEach((event, methodIndex) => {
+        const methodName = event.name.toString();
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
         const typeDef = event.arguments.map((arg) => getTypeDef(arg));
         const Types = typeDef.reduce((result, def, index) => {
@@ -79,7 +94,7 @@ export default class Event extends Struct {
 
         EventTypes[eventIndex.toString()] = class extends EventData {
           constructor (value: Uint8Array) {
-            super(Types, value, typeDef);
+            super(Types, value, typeDef, sectionName, methodName);
           }
         };
       });
