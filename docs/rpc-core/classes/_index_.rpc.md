@@ -38,7 +38,7 @@ const api = new Api(provider);
 
 ⊕ **new Rpc**(provider?: *`ProviderInterface`*): [Rpc](_index_.rpc.md)
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L43)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -60,7 +60,7 @@ ___
 
 **● _provider**: *`ProviderInterface`*
 
-*Defined in [index.ts:39](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L39)*
+*Defined in [index.ts:39](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L39)*
 
 ___
 <a id="author"></a>
@@ -69,7 +69,7 @@ ___
 
 **● author**: *`RpcInterface$Section`*
 
-*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L40)*
+*Defined in [index.ts:40](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L40)*
 
 ___
 <a id="chain"></a>
@@ -78,7 +78,7 @@ ___
 
 **● chain**: *`RpcInterface$Section`*
 
-*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L41)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L41)*
 
 ___
 <a id="state"></a>
@@ -87,7 +87,7 @@ ___
 
 **● state**: *`RpcInterface$Section`*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L42)*
 
 ___
 <a id="system"></a>
@@ -96,7 +96,7 @@ ___
 
 **● system**: *`RpcInterface$Section`*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L43)*
 
 ___
 
@@ -108,7 +108,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:76](https://github.com/polkadot-js/api/blob/686ea05/packages/rpc-core/src/index.ts#L76)*
+*Defined in [index.ts:76](https://github.com/polkadot-js/api/blob/1e250c6/packages/rpc-core/src/index.ts#L76)*
 
 *__name__*: signature
 
