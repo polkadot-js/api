@@ -20,10 +20,8 @@ export { default as BlockNumber } from './BlockNumber';
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
-// NOTE Only used internally via Header
-// export { default as Digest } from './Digest';
-// NOTE Only used via EventRecord at this point
-// export { default as Event } from './Event';
+export { default as Digest } from './Digest';
+export { default as Event } from './Event';
 export { default as EventRecord } from './EventRecord';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
@@ -62,8 +60,7 @@ export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
-// NOTE Type is currently only used internally (possibly in codec-related work)
-// export { default as Type } from './Type';
+export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust
 export { default as u8 } from './U8';
 export { default as u16 } from './U16';
