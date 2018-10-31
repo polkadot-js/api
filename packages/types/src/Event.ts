@@ -116,4 +116,8 @@ export default class Event extends Struct {
   get section (): string {
     return this.data.section;
   }
+
+  get typeDef (): Array<TypeDef> {
+    return this.data.typeDef;
+  }
 }
