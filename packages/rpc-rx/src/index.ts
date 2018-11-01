@@ -168,15 +168,14 @@ export default class RpcRx implements RpcRxInterface {
     let cachedResult: any;
 
     return (result: any) => {
-      if (isUndefined(cachedResult) || !Array.isArray(cachedResult)) {
+      if (isUndefined(cachedResult) || !Array.isArray(cachedResult) || !Array.isArray(result)
+      || result.length !== cachedResult.length) {
         cachedResult = result;
       } else {
-        const resultArray = (result as Array<any>) || [];
-
         cachedResult = cachedResult.map((cachedValue, index) =>
-          isUndefined(resultArray[index])
+          isUndefined(result[index])
             ? cachedValue
-            : resultArray[index]
+            : result[index]
         );
       }
 
