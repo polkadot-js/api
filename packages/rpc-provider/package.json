@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-provider",
-  "version": "0.31.94",
+  "version": "0.31.95",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/runtime": "^7.1.2",
     "@polkadot/keyring": "^0.32.10",
-    "@polkadot/storage": "^0.31.94",
+    "@polkadot/storage": "^0.31.95",
     "@polkadot/util": "^0.32.10",
     "@polkadot/util-crypto": "^0.32.10",
     "@types/nock": "^9.3.0",
