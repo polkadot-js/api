@@ -10,21 +10,27 @@ import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import U8aFixed from './codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from './codec/createType';
-import Metadata from './Metadata';
+import Metadata, { EventMetadata } from './Metadata';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
 class EventData extends Tuple {
+  private _meta: EventMetadata;
   private _method: string;
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>, section: string, method: string) {
+  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
     super(Types, value);
 
+    this._meta = meta;
     this._method = method;
     this._section = section;
     this._typeDef = typeDef;
+  }
+
+  get meta (): EventMetadata {
+    return this._meta;
   }
 
   get method (): string {
@@ -82,10 +88,10 @@ export default class Event extends Struct {
     metadata.events.forEach((section, sectionIndex) => {
       const sectionName = stringCamelCase(section.name.toString());
 
-      section.events.forEach((event, methodIndex) => {
-        const methodName = event.name.toString();
+      section.events.forEach((meta, methodIndex) => {
+        const methodName = meta.name.toString();
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-        const typeDef = event.arguments.map((arg) => getTypeDef(arg));
+        const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
         const Types = typeDef.reduce((result, def, index) => {
           result[index] = getTypeClass(def);
 
@@ -94,7 +100,7 @@ export default class Event extends Struct {
 
         EventTypes[eventIndex.toString()] = class extends EventData {
           constructor (value: Uint8Array) {
-            super(Types, value, typeDef, sectionName, methodName);
+            super(Types, value, typeDef, meta, sectionName, methodName);
           }
         };
       });
@@ -107,6 +113,10 @@ export default class Event extends Struct {
 
   get index (): EventIndex {
     return this.get('index') as EventIndex;
+  }
+
+  get meta (): EventMetadata {
+    return this.data.meta;
   }
 
   get method (): string {
