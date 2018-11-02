@@ -15,7 +15,6 @@ describe('subject', () => {
   let api;
   let update;
   let section;
-  let subscription;
   let observable;
 
   beforeEach(() => {
@@ -40,12 +39,6 @@ describe('subject', () => {
     observable = api.createSubject('subMethod', params, section);
   });
 
-  afterEach(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-    }
-  });
-
   it('subscribes via the api section', (done) => {
     observable.subscribe((value) => {
       if (value) {
@@ -61,10 +54,24 @@ describe('subject', () => {
   });
 
   it('returns the observable value', (done) => {
-    subscription = observable.subscribe((value) => {
+    observable.subscribe((value) => {
       if (value) {
         expect(value).toEqual('test');
         done();
+      }
+    });
+
+    update('test');
+  });
+
+  it('unsubscribes as required', (done) => {
+    section.subMethod.unsubscribe = async () => {
+      done();
+    };
+
+    let subscription = observable.subscribe((value) => {
+      if (value) {
+        subscription.unsubscribe();
       }
     });
 

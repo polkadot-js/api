@@ -8,6 +8,7 @@ import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from '.
 
 import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
+import { publishReplay, refCount } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import { isFunction, isUndefined } from '@polkadot/util';
 
@@ -130,10 +131,8 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section, unsubCallback?: () => void): ReplaySubject<any> {
-    const subject = new ReplaySubject(1);
-
-    Observable
+  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section): ReplaySubject<any> {
+    return Observable
       .create((observer: Subscriber<any>): Function => {
         try {
           const fn = section[name];
@@ -143,9 +142,6 @@ export default class RpcRx implements RpcRxInterface {
             subscribe
               .then((subscriptionId: number) =>
                 fn.unsubscribe(subscriptionId)
-              )
-              .then(() =>
-                isFunction(unsubCallback) && unsubCallback()
               )
               .catch((error) => {
                 console.error('Unsubscribe failed', error);
@@ -159,9 +155,10 @@ export default class RpcRx implements RpcRxInterface {
           };
         }
       })
-      .subscribe(subject);
-
-    return subject;
+      .pipe(
+        publishReplay(1),
+        refCount()
+      );
   }
 
   private createSubjectCallback (observer: Subscriber<any>) {
