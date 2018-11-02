@@ -10,7 +10,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
 
 const RpcRx = require('./index').default;
 
-describe('subject', () => {
+describe('replay', () => {
   const params = [123, false];
   let api;
   let update;
@@ -36,7 +36,7 @@ describe('subject', () => {
       subMethod
     };
 
-    observable = api.createSubject('subMethod', params, section);
+    observable = api.createReplay('subMethod', params, section);
   });
 
   it('subscribes via the api section', (done) => {

@@ -14,7 +14,7 @@ import { isFunction, isUndefined } from '@polkadot/util';
 
 type CachedMap = {
   [index: string]: {
-    [index: string]: ReplaySubject<any>
+    [index: string]: Observable<any>
   }
 };
 
@@ -100,7 +100,7 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> | ReplaySubject<any> {
+  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
     if (isFunction(section[name].unsubscribe)) {
       return this.createCachedObservable(subName, name, section);
     }
@@ -115,34 +115,37 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => ReplaySubject<any> {
+  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
     if (!this._cacheMap[subName]) {
       this._cacheMap[subName] = {};
     }
 
-    return (...params: Array<any>): ReplaySubject<any> => {
+    return (...params: Array<any>): Observable<any> => {
       const paramStr = JSON.stringify(params);
 
       if (!this._cacheMap[subName][paramStr]) {
-        this._cacheMap[subName][paramStr] = this.createSubject(name, params, section);
+        this._cacheMap[subName][paramStr] = this.createReplay(name, params, section, subName, paramStr);
       }
 
       return this._cacheMap[subName][paramStr];
     };
   }
 
-  private createSubject (name: string, params: Array<any>, section: RpcInterface$Section): ReplaySubject<any> {
+  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, subName: string, paramStr: string): Observable<any> {
     return Observable
       .create((observer: Subscriber<any>): Function => {
         try {
           const fn = section[name];
-          const subscribe = fn(...params, this.createSubjectCallback(observer));
+          const subscribe = fn(...params, this.createReplayCallback(observer));
 
           return (): void => {
             subscribe
               .then((subscriptionId: number) =>
                 fn.unsubscribe(subscriptionId)
               )
+              .then(() => {
+                delete this._cacheMap[subName][paramStr];
+              })
               .catch((error) => {
                 console.error('Unsubscribe failed', error);
               });
@@ -161,7 +164,7 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createSubjectCallback (observer: Subscriber<any>) {
+  private createReplayCallback (observer: Subscriber<any>) {
     let cachedResult: any;
 
     return (result: any) => {
