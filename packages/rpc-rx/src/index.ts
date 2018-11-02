@@ -7,7 +7,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { BehaviorSubject, ReplaySubject, Observable, Subscriber, from } from 'rxjs';
+import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
 import { publishReplay, refCount } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import { isFunction, isUndefined } from '@polkadot/util';
