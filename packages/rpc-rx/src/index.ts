@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RpcInterface$Section } from '@polkadot/rpc-core/types';
+import { RpcInterface$Section, RpcInterface$Section$Method } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
@@ -139,16 +139,7 @@ export default class RpcRx implements RpcRxInterface {
           const subscribe = fn(...params, this.createReplayCallback(observer));
 
           return (): void => {
-            subscribe
-              .then((subscriptionId: number) =>
-                fn.unsubscribe(subscriptionId)
-              )
-              .then(() => {
-                delete this._cacheMap[subName][paramStr];
-              })
-              .catch((error) => {
-                console.error('Unsubscribe failed', error);
-              });
+            this.createReplayUnsub(fn, subscribe, subName, paramStr);
           };
         } catch (error) {
           console.error(error);
@@ -181,5 +172,18 @@ export default class RpcRx implements RpcRxInterface {
 
       observer.next(cachedResult);
     };
+  }
+
+  private createReplayUnsub (fn: RpcInterface$Section$Method, subscribe: Promise<number>, subName: string, paramStr: string) {
+    subscribe
+      .then((subscriptionId: number) =>
+        fn.unsubscribe(subscriptionId)
+      )
+      .then(() => {
+        delete this._cacheMap[subName][paramStr];
+      })
+      .catch((error) => {
+        console.error('Unsubscribe failed', error);
+      });
   }
 }
