@@ -66,6 +66,25 @@ export default class Method extends Struct {
    * - {@see DecodeMethodInput}
    * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
    * necessary.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import { Method } from '@polkadot/types';
+   *
+   * const methodInstance = new Method(extrinsic, extrinsic.meta);
+   *
+   * // WRONG - never access `.raw` outside of the @polkadot/types package
+   * // const recipientId = methodInstance.args[0].raw.toString();
+   * // const amount = methodInstance.args[1].raw.toString();
+   *
+   * // RIGHT - obtain the recipient id and amount for an extrinsic
+   * const recipientId = methodInstance.get('args').get('dest').toString();
+   * const amount = methodInstance.get('args').get('value').toString();
+   *
+   * console.log(`submitting a transaction of amount ${amount} to recipient id ${recipientId}`);
+   * ```
    */
   private static decodeMethod (value: Uint8Array | string | DecodeMethodInput, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
@@ -167,7 +186,6 @@ export default class Method extends Struct {
   }
 
   get args (): Array<Base> {
-    // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
 
