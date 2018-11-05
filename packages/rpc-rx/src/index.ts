@@ -138,9 +138,7 @@ export default class RpcRx implements RpcRxInterface {
           const fn = section[name];
           const subscribe = fn(...params, this.createReplayCallback(observer));
 
-          return (): void => {
-            this.createReplayUnsub(fn, subscribe, subName, paramStr);
-          };
+          return this.createReplayUnsub(fn, subscribe, subName, paramStr);
         } catch (error) {
           console.error(error);
 
@@ -174,16 +172,18 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createReplayUnsub (fn: RpcInterface$Section$Method, subscribe: Promise<number>, subName: string, paramStr: string) {
-    subscribe
-      .then((subscriptionId: number) =>
-        fn.unsubscribe(subscriptionId)
-      )
-      .then(() => {
-        delete this._cacheMap[subName][paramStr];
-      })
-      .catch((error) => {
-        console.error('Unsubscribe failed', error);
-      });
+  private createReplayUnsub (fn: RpcInterface$Section$Method, subscribe: Promise<number>, subName: string, paramStr: string): () => void {
+    return (): void => {
+      subscribe
+        .then((subscriptionId: number) =>
+          fn.unsubscribe(subscriptionId)
+        )
+        .then(() => {
+          delete this._cacheMap[subName][paramStr];
+        })
+        .catch((error) => {
+          console.error('Unsubscribe failed', error);
+        });
+    };
   }
 }
