@@ -75,15 +75,11 @@ export default class Method extends Struct {
    *
    * const methodInstance = new Method(extrinsic, extrinsic.meta);
    *
-   * // WRONG - never access `.raw` outside of the @polkadot/types package
-   * // const recipientId = methodInstance.args[0].raw.toString();
-   * // const amount = methodInstance.args[1].raw.toString();
-   *
-   * // RIGHT - obtain the recipient id and amount for an extrinsic
+   * // Obtain recipient id and amount for an extrinsic
    * const recipientId = methodInstance.get('args').get('dest').toString();
    * const amount = methodInstance.get('args').get('value').toString();
    *
-   * console.log(`submitting a transaction of amount ${amount} to recipient id ${recipientId}`);
+   * console.log(`submitting transaction of amount ${amount} to recipient id ${recipientId}`);
    * ```
    */
   private static decodeMethod (value: Uint8Array | string | DecodeMethodInput, _meta?: FunctionMetadata): DecodedMethod {
