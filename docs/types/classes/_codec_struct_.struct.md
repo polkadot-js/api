@@ -85,7 +85,7 @@
 
 ⊕ **new Struct**(Types: *`S`*, value?: * `V` &#124; `Array`<`any`>*, jsonMap?: *`Map`<`keyof S`, `string`>*): [Struct](_codec_struct_.struct.md)
 
-*Defined in [codec/Struct.ts:28](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L28)*
+*Defined in [codec/Struct.ts:28](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L28)*
 
 **Parameters:**
 
@@ -118,7 +118,7 @@ ___
 
 **● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
 
-*Defined in [codec/Struct.ts:26](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L26)*
+*Defined in [codec/Struct.ts:26](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L26)*
 
 ___
 <a id="size"></a>
@@ -150,7 +150,7 @@ ___
 
 getType(): `E`
 
-*Defined in [codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L126)*
+*Defined in [codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L126)*
 
 **Returns:** `E`
 
@@ -161,7 +161,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Struct.ts:130](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L130)*
+*Defined in [codec/Struct.ts:130](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L130)*
 
 **Returns:** `number`
 
@@ -276,7 +276,7 @@ ___
 
 ▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L136)*
+*Defined in [codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L136)*
 
 **Parameters:**
 
@@ -347,7 +347,7 @@ ___
 
 ▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
 
-*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L140)*
+*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L140)*
 
 **Returns:** `Array`<[Base](_codec_base_.base.md)>
 
@@ -358,7 +358,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L144)*
+*Defined in [codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L144)*
 
 **Returns:** `string`
 
@@ -369,7 +369,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/Struct.ts:148](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L148)*
+*Defined in [codec/Struct.ts:148](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L148)*
 
 **Returns:** `any`
 
@@ -380,7 +380,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L159)*
+*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L159)*
 
 **Returns:** `string`
 
@@ -391,7 +391,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/Struct.ts:163](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L163)*
+*Defined in [codec/Struct.ts:163](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L163)*
 
 **Parameters:**
 
@@ -423,7 +423,7 @@ ___
 
 ▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
 
-*Defined in [codec/Struct.ts:116](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Struct.ts#L116)*
+*Defined in [codec/Struct.ts:116](https://github.com/polkadot-js/api/blob/f1920e9/packages/types/src/codec/Struct.ts#L116)*
 
 **Type parameters:**
 
