@@ -179,12 +179,10 @@ export default class Rpc implements RpcInterface {
 
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
-      // outputType that we have specified
-      const type = (params[0] as StorageKey).outputType;
+      // outputType that we have specified. Fallback to Data on nothing
+      const type = (params[0] as StorageKey).outputType || 'Data';
 
-      if (type) {
-        return createType(type, base.raw);
-      }
+      return createType(type, base.raw);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -192,11 +190,8 @@ export default class Rpc implements RpcInterface {
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
       return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
-        const type = _key.outputType;
-
-        if (!type) {
-          throw new Error('Cannot format StorageChangeSet, output type missing for key');
-        }
+        // Fallback to Data (i.e. just the encoding) if we don't have a specific type
+        const type = _key.outputType || 'Data';
 
         // see if we have a result value for this specific key
         const key = _key.toHex();
