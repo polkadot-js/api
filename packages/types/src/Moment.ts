@@ -31,7 +31,7 @@ export default class Moment extends Base<Date> {
     } else if (value instanceof UInt) {
       value = value.toBn();
     } else if (value instanceof U8a) {
-      return Moment.decodeMoment(value);
+      return Moment.decodeMoment(value.raw);
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {

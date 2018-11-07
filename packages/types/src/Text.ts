@@ -29,8 +29,6 @@ export default class Text extends Base<string> {
       return value;
     } else if (value instanceof Text) {
       return value.raw;
-    } else if (value instanceof U8a) {
-      return Text.decodeText(value.raw);
     } else if (value instanceof Uint8Array) {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 
