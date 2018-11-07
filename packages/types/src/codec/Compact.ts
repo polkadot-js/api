@@ -56,6 +56,12 @@ export default class Compact extends Base<UInt | Moment> {
     );
   }
 
+  static stripLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_LENGTH_BITS): Uint8Array {
+    const [offset] = Compact.decodeU8a(u8a, bitLength);
+
+    return u8a.subarray(offset);
+  }
+
   static decodeCompact (Type: Constructor<UInt | Moment>, value: AnyNumber): Moment | UInt {
     if (isString(value)) {
       return new Type(
