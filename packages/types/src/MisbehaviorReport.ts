@@ -6,6 +6,7 @@ import { AnyNumber } from './types';
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
+import U8a from './codec/U8a';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
@@ -25,7 +26,7 @@ type BftAtReportValue = {
 // items in the structure is called, except a & b (one should be expected, the
 // other actual)
 export class BftAtReport extends Struct {
-  constructor (value?: BftAtReportValue) {
+  constructor (value?: BftAtReportValue | U8a | Uint8Array) {
     super({
       round: U32,
       a: BftHashSignature,
@@ -55,7 +56,7 @@ export class BftDoubleCommit extends BftAtReport {
 }
 
 export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (value?: BftAtReportValue, index?: number) {
+  constructor (value?: BftAtReportValue | U8a | Uint8Array, index?: number) {
     super({
       0x11: BftDoublePrepare,
       0x12: BftDoubleCommit
@@ -72,7 +73,7 @@ type MisbehaviorReportValue = {
 
 // A Misbehaviour report against a specific AuthorityId
 export default class MisbehaviorReport extends Struct {
-  constructor (value?: MisbehaviorReportValue) {
+  constructor (value?: MisbehaviorReportValue | U8a | Uint8Array) {
     super({
       parentHash: Hash,
       parentNumber: BlockNumber,

@@ -5,6 +5,7 @@
 import { AnyU8a } from './types';
 
 import Struct from './codec/Struct';
+import U8a from './codec/U8a';
 import Vector from './codec/Vector';
 import Hash from './Hash';
 import { KeyValueOption, KeyValueOptionValue } from './KeyValue';
@@ -17,7 +18,7 @@ type StorageChangeSetValue = {
 // A set of storage changes. It contains the hash/block and
 // a list of the actual changes that took place
 export default class StorageChangeSet extends Struct {
-  constructor (value?: StorageChangeSetValue) {
+  constructor (value?: StorageChangeSetValue | Uint8Array | U8a) {
     super({
       hash: Hash,
       changes: Vector.with(KeyValueOption)

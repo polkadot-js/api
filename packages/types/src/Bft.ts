@@ -4,6 +4,7 @@
 
 import { AnyNumber, AnyU8a } from './types';
 
+import U8a from './codec/U8a';
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
@@ -20,7 +21,7 @@ export type BftAuthoritySignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftAuthoritySignature extends Tuple {
-  constructor (value?: BftAuthoritySignatureValue) {
+  constructor (value?: BftAuthoritySignatureValue | U8a | Uint8Array) {
     super({
       authorityId: AuthorityId,
       signature: Signature
@@ -44,7 +45,7 @@ export type BftHashSignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftHashSignature extends Tuple {
-  constructor (value?: BftHashSignatureValue) {
+  constructor (value?: BftHashSignatureValue | U8a | Uint8Array) {
     super({
       hash: Hash,
       signature: Signature
@@ -67,7 +68,7 @@ export type JustificationValue = {
 };
 
 export class Justification extends Struct {
-  constructor (value?: JustificationValue) {
+  constructor (value?: JustificationValue | U8a | Uint8Array) {
     super({
       // FIXME Rust returns this as "round_number", we actually want a JSON alias
       // in the structure to take care of these renames...

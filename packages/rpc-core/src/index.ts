@@ -182,7 +182,7 @@ export default class Rpc implements RpcInterface {
       // outputType that we have specified. Fallback to Data on nothing
       const type = (params[0] as StorageKey).outputType || 'Data';
 
-      return createType(type, base.raw);
+      return createType(type, base);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -

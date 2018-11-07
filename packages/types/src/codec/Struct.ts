@@ -5,6 +5,7 @@
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
+import U8a from './U8a';
 import { Codec, Constructor, ConstructorDef } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
@@ -68,7 +69,9 @@ export default class Struct<
   > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
-    if (isHex(value)) {
+    if (value instanceof U8a) {
+      return Struct.decodeStruct(Types, value.raw, jsonMap);
+    } else if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
     } else if (!value) {
       return {} as T;

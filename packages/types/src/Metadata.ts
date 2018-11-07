@@ -314,7 +314,11 @@ export class RuntimeModuleMetadata extends Struct {
   }
 
   get storage (): StorageMetadata | undefined {
-    return (this.get('storage') as Option<StorageMetadata>).value;
+    const value = (this.get('storage') as Option<StorageMetadata>).value;
+
+    return value
+      ? value.raw
+      : value;
   }
 }
 
@@ -329,7 +333,7 @@ export default class RuntimeMetadata extends Struct {
 
   static decodeMetadata (value: any): object | Uint8Array {
     if (isHex(value)) {
-      // We receive this as an Array<number> in the JSON output from the Node.
+      // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
       return RuntimeMetadata.decodeMetadata(hexToU8a(value));
     } else if (isU8a(value)) {
