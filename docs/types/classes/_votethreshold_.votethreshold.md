@@ -12,17 +12,17 @@
 
 ##  constructor
 
-⊕ **new VoteThreshold**(index?: * `undefined` &#124; `number`*): [VoteThreshold](_votethreshold_.votethreshold.md)
+⊕ **new VoteThreshold**(index?: * `number` &#124; `Uint8Array` &#124; [U8a](_codec_u8a_.u8a.md)*): [VoteThreshold](_votethreshold_.votethreshold.md)
 
 *Overrides [Enum](_codec_enum_.enum.md).[constructor](_codec_enum_.enum.md#constructor)*
 
-*Defined in [VoteThreshold.ts:8](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/VoteThreshold.ts#L8)*
+*Defined in [VoteThreshold.ts:9](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/VoteThreshold.ts#L9)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
-| `Optional` index |  `undefined` &#124; `number`|
+| `Optional` index |  `number` &#124; `Uint8Array` &#124; [U8a](_codec_u8a_.u8a.md)|
 
 **Returns:** [VoteThreshold](_votethreshold_.votethreshold.md)
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -54,7 +54,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [codec/Enum.ts:41](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L41)*
+*Defined in [codec/Enum.ts:44](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L44)*
 
 **Returns:** `number`
 
@@ -72,7 +72,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/Enum.ts:45](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L45)*
+*Defined in [codec/Enum.ts:48](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L48)*
 
 **Returns:** `any`
 
@@ -85,7 +85,7 @@ ___
 
 *Inherited from [Enum](_codec_enum_.enum.md).[toNumber](_codec_enum_.enum.md#tonumber)*
 
-*Defined in [codec/Enum.ts:49](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L49)*
+*Defined in [codec/Enum.ts:52](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L52)*
 
 **Returns:** `number`
 
@@ -100,7 +100,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Enum.ts:53](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L53)*
+*Defined in [codec/Enum.ts:56](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L56)*
 
 **Returns:** `string`
 
@@ -115,7 +115,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/Enum.ts:57](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L57)*
+*Defined in [codec/Enum.ts:60](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L60)*
 
 **Parameters:**
 
@@ -130,17 +130,17 @@ ___
 
 ## `<Static>` decodeEnum
 
-▸ **decodeEnum**(value?: * [Enum](_codec_enum_.enum.md) &#124; `number`*): `number`
+▸ **decodeEnum**(value?: * [Enum](_codec_enum_.enum.md) &#124; [U8a](_codec_u8a_.u8a.md) &#124; `Uint8Array` &#124; `number`*): `number`
 
 *Inherited from [Enum](_codec_enum_.enum.md).[decodeEnum](_codec_enum_.enum.md#decodeenum)*
 
-*Defined in [codec/Enum.ts:31](https://github.com/polkadot-js/api/blob/c32bace/packages/types/src/codec/Enum.ts#L31)*
+*Defined in [codec/Enum.ts:32](https://github.com/polkadot-js/api/blob/cb9a48d/packages/types/src/codec/Enum.ts#L32)*
 
 **Parameters:**
 
 | Param | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Enum](_codec_enum_.enum.md) &#124; `number`| 0 |
+| `Default value` value |  [Enum](_codec_enum_.enum.md) &#124; [U8a](_codec_u8a_.u8a.md) &#124; `Uint8Array` &#124; `number`| 0 |
 
 **Returns:** `number`
 
