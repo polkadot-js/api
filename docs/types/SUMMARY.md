@@ -24,6 +24,7 @@
   * [Bool](classes/_bool_.bool.md)
 * [&quot;Bytes&quot;](modules/_bytes_.md)
   * [Bytes](classes/_bytes_.bytes.md)
+* [&quot;Bytes.spec&quot;](modules/_bytes_spec_.md)
 * [&quot;Data&quot;](modules/_data_.md)
   * [Data](classes/_data_.data.md)
 * [&quot;Digest&quot;](modules/_digest_.md)
