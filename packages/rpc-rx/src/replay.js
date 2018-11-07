@@ -10,12 +10,11 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
 
 const RpcRx = require('./index').default;
 
-describe('subject', () => {
+describe('replay', () => {
   const params = [123, false];
   let api;
   let update;
   let section;
-  let subscription;
   let observable;
 
   beforeEach(() => {
@@ -37,13 +36,7 @@ describe('subject', () => {
       subMethod
     };
 
-    observable = api.createSubject('subMethod', params, section);
-  });
-
-  afterEach(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-    }
+    observable = api.createReplay('subMethod', params, section);
   });
 
   it('subscribes via the api section', (done) => {
@@ -61,10 +54,24 @@ describe('subject', () => {
   });
 
   it('returns the observable value', (done) => {
-    subscription = observable.subscribe((value) => {
+    observable.subscribe((value) => {
       if (value) {
         expect(value).toEqual('test');
         done();
+      }
+    });
+
+    update('test');
+  });
+
+  it('unsubscribes as required', (done) => {
+    section.subMethod.unsubscribe = async () => {
+      done();
+    };
+
+    let subscription = observable.subscribe((value) => {
+      if (value) {
+        subscription.unsubscribe();
       }
     });
 

@@ -75,17 +75,4 @@ describe('createCachedObservable', () => {
       observable2
     ).not.toEqual(observable1);
   });
-
-  it('functions as an subject', (done) => {
-    const subject = creator(123);
-
-    subject.subscribe((value) => {
-      if (value) {
-        expect(value).toEqual('test');
-        done();
-      }
-    });
-
-    subject.next('test');
-  });
 });
