@@ -15,7 +15,7 @@ import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert, isUndefined } from '@polkadot/util';
+import { assert, isUndefined, isU8a } from '@polkadot/util';
 
 type MapFn<R, T> = (combined: R) => T;
 
@@ -104,9 +104,13 @@ export default class ApiBase {
   }
 
   // FIXME Remove when extending from api-rx
-  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
+  rawStorage = <T> (key: Uint8Array | StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
-      .rawStorageMulti([key, ...params] as [StorageFunction, any])
+      .rawStorageMulti(
+        isU8a(key)
+          ? key
+          : [key, ...params] as [StorageFunction, any]
+      )
       .pipe(
         map((result: Array<T>): T | undefined =>
           result
@@ -117,7 +121,7 @@ export default class ApiBase {
   }
 
   // FIXME Remove when extending from api-rx
-  rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
+  rawStorageMulti = <T extends []> (...keys: Array<Uint8Array | [StorageFunction] | [StorageFunction, any]>): Observable<T> => {
     let observable;
 
     try {
