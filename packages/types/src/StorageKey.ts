@@ -38,6 +38,7 @@ export default class StorageKey extends Bytes {
         return fn(arg);
       }
     }
+
     return value as Uint8Array;
   }
 
