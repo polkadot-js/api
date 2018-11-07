@@ -5,9 +5,10 @@
 import { isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
+import U8a from './codec/U8a';
 
 export default class Bool extends Base<boolean> {
-  constructor (value: Bool | Boolean | boolean = false) {
+  constructor (value: Bool | U8a | Boolean | Uint8Array | boolean = false) {
     super(
       Bool.decodeBool(value)
     );
@@ -16,6 +17,8 @@ export default class Bool extends Base<boolean> {
   static decodeBool (value: any): boolean {
     if (value instanceof Bool || value instanceof Boolean) {
       return value.valueOf();
+    } else if (value instanceof U8a) {
+      return Bool.decodeBool(value.raw);
     } else if (isU8a(value)) {
       return value[0] === 1;
     }

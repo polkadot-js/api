@@ -7,6 +7,7 @@ import { AnyU8a } from './types';
 import Option from './codec/Option';
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
+import U8a from './codec/U8a';
 import StorageData from './StorageData';
 import StorageKey from './StorageKey';
 
@@ -20,7 +21,7 @@ type KeyValueValue = {
 // for the keys and values. (Not to be confused with the KeyValue in Metadata, that
 // is actually for Maps, whereas this is a representation of actaul storage values)
 export default class KeyValue extends Struct {
-  constructor (value?: KeyValueValue | Uint8Array) {
+  constructor (value?: KeyValueValue | U8a | Uint8Array) {
     super({
       key: StorageKey,
       value: StorageData
@@ -45,7 +46,7 @@ export type KeyValueOptionValue = {
 // however in this case the value could be optional. Here it extends
 // from a Tuple, indicating the use inside areas such as StorageChangeSet
 export class KeyValueOption extends Tuple {
-  constructor (value?: KeyValueOptionValue) {
+  constructor (value?: KeyValueOptionValue | U8a | Uint8Array) {
     super({
       key: StorageKey,
       value: Option.with(StorageData)

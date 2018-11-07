@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import U8a from './codec/U8a';
 import Text from './Text';
 
 type Mapper = (value: string) => string;
@@ -14,7 +15,7 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 export default class Type extends Text {
   private _originalLength: number = 0;
 
-  constructor (value?: Text | string) {
+  constructor (value?: Text | U8a | Uint8Array | string) {
     super(value);
 
     this._cleanupTypes();

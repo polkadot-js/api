@@ -5,6 +5,7 @@
 import { isU8a, isUndefined } from '@polkadot/util';
 
 import Base from './Base';
+import U8a from './U8a';
 
 type SetValues = {
   [index: string]: number
@@ -17,7 +18,7 @@ type SetValues = {
 export default class Set extends Base<Array<string>> {
   private _setValues: SetValues;
 
-  constructor (setValues: SetValues, value?: Array<string> | Uint8Array | number) {
+  constructor (setValues: SetValues, value?: U8a | Array<string> | Uint8Array | number) {
     super(
       Set.decodeSet(setValues, value)
     );
@@ -25,8 +26,10 @@ export default class Set extends Base<Array<string>> {
     this._setValues = setValues;
   }
 
-  static decodeSet (setValues: SetValues, value: Array<string> | Uint8Array | number = 0): Array<string> {
-    if (isU8a(value)) {
+  static decodeSet (setValues: SetValues, value: U8a | Array<string> | Uint8Array | number = 0): Array<string> {
+    if (value instanceof U8a) {
+      return Set.decodeSet(setValues, value.raw);
+    } else if (isU8a(value)) {
       return Set.decodeSet(setValues, value[0]);
     } else if (Array.isArray(value)) {
       return value.reduce((result, value) => {

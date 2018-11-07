@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
+import U8a from './codec/U8a';
 import Method from './Method';
 import Hash from './Hash';
 import Nonce from './Nonce';
@@ -26,7 +27,7 @@ type SignaturePayloadValue = {
 export default class SignaturePayload extends Struct {
   protected _signature?: Uint8Array;
 
-  constructor (value?: SignaturePayloadValue) {
+  constructor (value?: SignaturePayloadValue | U8a | Uint8Array) {
     super({
       nonce: Nonce,
       method: Method,

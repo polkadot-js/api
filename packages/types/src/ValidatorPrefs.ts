@@ -5,6 +5,7 @@
 import { AnyNumber } from './types';
 
 import Struct from './codec/Struct';
+import U8a from './codec/U8a';
 import Balance from './Balance';
 import U32 from './U32';
 
@@ -14,7 +15,7 @@ type ValidatorPrefsValue = {
 };
 
 export default class ValidatorPrefs extends Struct {
-  constructor (value?: ValidatorPrefsValue) {
+  constructor (value?: ValidatorPrefsValue | U8a | Uint8Array) {
     super({
       unstakeThreshold: U32,
       validatorPayment: Balance

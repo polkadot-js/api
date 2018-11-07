@@ -51,10 +51,10 @@ export default class Option<T> extends Base<Base<T>> {
     return this._isEmpty;
   }
 
-  get value (): T | undefined {
+  get value (): Base<T> | undefined {
     return this._isEmpty
       ? undefined
-      : this.raw.raw;
+      : this.raw;
   }
 
   get encodedLength (): number {

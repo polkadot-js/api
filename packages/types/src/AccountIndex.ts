@@ -7,6 +7,7 @@ import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { bnToBn, bnToU8a, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
 
 import { AnyNumber } from './types';
+import U8a from './codec/U8a';
 import UInt from './codec/UInt';
 import U32 from './U32';
 
@@ -33,6 +34,8 @@ export default class AccountIndex extends U32 {
   static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
     if (value instanceof UInt) {
       return value.raw;
+    } else if (value instanceof U8a) {
+      return AccountIndex.decodeAccountIndex(value.raw);
     } else if (isBn(value) || isNumber(value) || isU8a(value)) {
       return value;
     } else if (isHex(value)) {

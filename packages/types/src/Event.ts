@@ -8,6 +8,7 @@ import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
+import U8a from './codec/U8a';
 import U8aFixed from './codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from './codec/createType';
 import Metadata, { EventMetadata } from './Metadata';
@@ -56,7 +57,7 @@ class EventIndex extends U8aFixed {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value: Uint8Array) {
+  constructor (_value: Uint8Array | U8a) {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
@@ -65,8 +66,11 @@ export default class Event extends Struct {
     }, value);
   }
 
-  static decodeEvent (_value: Uint8Array) {
-    const index = _value.subarray(0, 2);
+  static decodeEvent (_value: U8a | Uint8Array) {
+    const value = _value instanceof U8a
+      ? _value.raw
+      : _value;
+    const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
 
     if (isUndefined(DataType)) {
@@ -77,7 +81,7 @@ export default class Event extends Struct {
       DataType,
       value: {
         index,
-        data: _value.subarray(2)
+        data: value.subarray(2)
       }
     };
   }

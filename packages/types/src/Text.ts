@@ -24,21 +24,24 @@ export default class Text extends Base<string> {
     );
   }
 
-  static decodeText (input: any): string {
-    if (isString(input)) {
-      return input;
-    } else if (input instanceof Text) {
-      return input.raw;
-    } else if (input instanceof Uint8Array) {
-      const [offset, length] = Compact.decodeU8a(input, DEFAULT_LENGTH_BITS);
-      return u8aToString(input.subarray(offset, offset + length.toNumber()));
-    } else if (input instanceof U8a) {
-      return Text.decodeText(input.raw);
-    } else if (isFunction(input.toString)) {
-      return input.toString();
-    } else {
-      return `${input}`;
+  static decodeText (value: any): string {
+    if (isString(value)) {
+      return value;
+    } else if (value instanceof Text) {
+      return value.raw;
+    } else if (value instanceof U8a) {
+      return Text.decodeText(value.raw);
+    } else if (value instanceof Uint8Array) {
+      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+
+      return u8aToString(value.subarray(offset, offset + length.toNumber()));
+    } else if (value instanceof U8a) {
+      return Text.decodeText(value.raw);
+    } else if (isFunction(value.toString)) {
+      return value.toString();
     }
+
+    return `${value}`;
   }
 
   get length (): number {

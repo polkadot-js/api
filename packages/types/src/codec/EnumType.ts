@@ -5,6 +5,7 @@
 import { isNumber, isObject, isU8a, isUndefined, u8aConcat } from '@polkadot/util';
 
 import Base from './Base';
+import U8a from './U8a';
 import Null from '../Null';
 import { Constructor } from '../types';
 
@@ -46,13 +47,14 @@ export default class EnumType<T> extends Base<Base<T>> {
     // If `index` is set, we parse it.
     if (index instanceof EnumType) {
       return { index: index._index, value: new def[index._index](index.raw) };
-    }
-    if (isNumber(index)) {
+    } else if (isNumber(index)) {
       return { index, value: new def[index](value) };
     }
 
     // Or else, we just look at `value`
-    if (isU8a(value)) {
+    if (value instanceof U8a) {
+      return EnumType.decodeEnumType(def, value.raw, index);
+    } else if (isU8a(value)) {
       return { index: value[0], value: new def[value[0]](value.subarray(1)) };
     } else if (isNumber(value) && !isUndefined(def[value])) {
       return { index: value, value: new def[value]() };
