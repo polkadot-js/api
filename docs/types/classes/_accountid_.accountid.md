@@ -18,7 +18,7 @@
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[constructor](_codec_u8afixed_.u8afixed.md#constructor)*
 
-*Defined in [AccountId.ts:16](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/AccountId.ts#L16)*
+*Defined in [AccountId.ts:16](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/AccountId.ts#L16)*
 
 **Parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -56,7 +56,7 @@ getencodedLength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/U8aFixed.ts#L32)*
+*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/U8aFixed.ts#L32)*
 
 **Returns:** `number`
 
@@ -69,7 +69,7 @@ getlength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
 
-*Defined in [codec/U8a.ts:31](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/U8a.ts#L31)*
+*Defined in [codec/U8a.ts:31](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/U8a.ts#L31)*
 
 **Returns:** `number`
 
@@ -85,7 +85,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/U8a.ts#L39)*
+*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/U8a.ts#L39)*
 
 **Returns:** `string`
 
@@ -98,7 +98,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [AccountId.ts:40](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/AccountId.ts#L40)*
+*Defined in [AccountId.ts:40](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/AccountId.ts#L40)*
 
 **Returns:** `any`
 
@@ -111,7 +111,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
 
-*Defined in [AccountId.ts:44](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/AccountId.ts#L44)*
+*Defined in [AccountId.ts:44](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/AccountId.ts#L44)*
 
 **Returns:** `string`
 
@@ -126,7 +126,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/U8a.ts#L47)*
+*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/U8a.ts#L47)*
 
 **Parameters:**
 
@@ -143,7 +143,7 @@ ___
 
 ▸ **decodeAccountId**(value: *`AnyU8a`*): `Uint8Array`
 
-*Defined in [AccountId.ts:28](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/AccountId.ts#L28)*
+*Defined in [AccountId.ts:28](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/AccountId.ts#L28)*
 
 **Parameters:**
 
@@ -162,7 +162,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[decodeU8a](_codec_u8a_.u8a.md#decodeu8a)*
 
-*Defined in [codec/U8a.ts:21](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/codec/U8a.ts#L21)*
+*Defined in [codec/U8a.ts:21](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/codec/U8a.ts#L21)*
 
 **Parameters:**
 
@@ -179,7 +179,7 @@ ___
 
 ▸ **encode**(value: *`Uint8Array`*): `string`
 
-*Defined in [AccountId.ts:24](https://github.com/polkadot-js/api/blob/49136de/packages/types/src/AccountId.ts#L24)*
+*Defined in [AccountId.ts:24](https://github.com/polkadot-js/api/blob/1c1a9dd/packages/types/src/AccountId.ts#L24)*
 
 **Parameters:**
 
