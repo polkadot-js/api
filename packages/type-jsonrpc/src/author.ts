@@ -26,7 +26,7 @@ const submitAndWatchExtrinsic: RpcMethodOpt = {
   description: 'Subscribe and watch an extrinsic until unsubscribed',
   isSigned: true,
   params: [
-    createParam('extinsic', 'Extrinsic')
+    createParam('extrinsic', 'Extrinsic')
   ],
   pubsub: [
     'extrinsicUpdate',
