@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/types",
-  "version": "0.31.102",
+  "version": "0.31.103",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "keywords": [

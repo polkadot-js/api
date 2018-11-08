@@ -20,7 +20,7 @@ _Authoring of network items_
 ▸ **pendingExtrinsics**(): `PendingExtrinsics`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
-▸ **submitAndWatchExtrinsic**(extinsic: `Extrinsic`)**.subscribe**(CALLBACK): `ExtrinsicStatus`
+▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`)**.subscribe**(CALLBACK): `ExtrinsicStatus`
 - **summary**: Subscribe and watch an extrinsic until unsubscribed
 
 ▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
