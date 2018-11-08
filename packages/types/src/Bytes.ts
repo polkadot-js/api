@@ -22,16 +22,10 @@ export default class Bytes extends U8a {
     } else if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
-      // HACK 7 Nov 2018 Some Bytes values are properly encoded, i.e. when
-      // querying storage for code, others are not (yet), i.e. extrinsics.
-      // Here we pull the length, check for matches and add when not
       const u8a = hexToU8a(value as string);
-      const [offset, length] = Compact.decodeU8a(u8a, DEFAULT_LENGTH_BITS);
 
       return Bytes.decodeBytes(
-        u8a.length === (offset + length.toNumber())
-          ? u8a
-          : Compact.addLengthPrefix(u8a)
+        Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
