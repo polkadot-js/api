@@ -81,7 +81,7 @@ export default class Rpc implements RpcInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
-  private createInterface ({ methods, section }: RpcSection): RpcInterface$Section {
+  private createInterface ({ methods }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {

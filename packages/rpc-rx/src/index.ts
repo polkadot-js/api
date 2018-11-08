@@ -8,7 +8,7 @@ import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from '.
 
 import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { map, publishReplay, refCount } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import { isFunction, isUndefined } from '@polkadot/util';
 
@@ -134,20 +134,22 @@ export default class RpcRx implements RpcRxInterface {
   private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, subName: string, paramStr: string): Observable<any> {
     return Observable
       .create((observer: Subscriber<any>): Function => {
-        try {
-          const fn = section[name];
-          const subscribe = fn(...params, this.createReplayCallback(observer));
+        const fn = section[name];
+        const callback = this.createReplayCallback(observer);
+        const subscribe = fn(...params, callback).catch((error) =>
+          observer.next(error)
+        );
 
-          return this.createReplayUnsub(fn, subscribe, subName, paramStr);
-        } catch (error) {
-          console.error(error);
-
-          return (): void => {
-            console.error('Unsubscribe called on previously failed subscription', error);
-          };
-        }
+        return this.createReplayUnsub(fn, subscribe, subName, paramStr);
       })
       .pipe(
+        map((value) => {
+          if (value instanceof Error) {
+            throw value;
+          }
+
+          return value;
+        }),
         publishReplay(1),
         refCount()
       );
