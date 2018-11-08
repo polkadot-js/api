@@ -41,7 +41,7 @@ export default class UInt extends Base<BN> {
     } else if (isHex(value)) {
       return hexToBn(value as string);
     } else if (isU8a(value)) {
-      // NOTE When passing u8a in (typically from decoded data), it is always u8a
+      // NOTE When passing u8a in (typically from decoded data), it is always LE
       return u8aToBn(value.subarray(0, bitLength / 8), true);
     } else if (isString(value)) {
       return new BN(value, 10);
