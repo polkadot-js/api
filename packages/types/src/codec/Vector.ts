@@ -19,21 +19,23 @@ export default class Vector<
   > extends Base<Array<T>> {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, value: U8a | Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, value: Vector<any> | U8a | Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
-      Vector.decode(Type, value)
+      Vector.decodeVector(Type, value)
     );
 
     this._Type = Type;
   }
 
-  static decode<T extends Base> (Type: Constructor<T>, value: U8a | Uint8Array | string | Array<any>): Array<T> {
+  static decodeVector<T extends Base> (Type: Constructor<T>, value: Vector<any> | U8a | Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
           ? entry
           : new Type(entry)
       );
+    } else if (value instanceof Vector) {
+      return Vector.decodeVector(Type, value.raw);
     }
 
     const u8a = value instanceof U8a
