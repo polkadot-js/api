@@ -115,7 +115,7 @@ export default class ApiQueries extends ApiBase {
   }
 
   referendumVote = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
-    return this.rawStorage(storage.democracy.voteOf, index, address);
+    return this.rawStorage(storage.democracy.voteOf, [index, address]);
   }
 
   referendumVoters = (index: ReferendumIndex | BN | number): Observable<Array<AccountId>> => {
