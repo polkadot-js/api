@@ -7,7 +7,7 @@ import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Text } from '@polkadot/types/index';
-import { stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
+import { isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 export interface CreateItemOptions {
@@ -54,7 +54,7 @@ export default function createFunction (
         );
       }
 
-      if (!arg) {
+      if (isUndefined(arg) || isNull(arg)) {
         throw new Error(`${meta.name} expects one argument`);
       }
 
