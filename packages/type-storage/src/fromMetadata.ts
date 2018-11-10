@@ -31,8 +31,8 @@ export default function fromMetadata (metadata: Metadata): Storage {
 
     const prefix = moduleMetadata.storage.prefix;
 
+    // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
     result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.functions.reduce((newModule, func) => {
-      // Lowercase the 'f' in storage.balances.freeBalance
       newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;
