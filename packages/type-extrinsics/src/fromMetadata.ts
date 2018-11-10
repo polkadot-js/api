@@ -18,13 +18,20 @@ import extrinsics from './index';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): Extrinsics {
+  let indexCount = -1;
+
   const findIndex = (prefix: string): number => {
+    indexCount++;
+
     const mod = metadata.calls.find((item) =>
       item.prefix.toString() === prefix
     );
 
     if (!mod) {
-      throw new Error(`Unable to find module index for '${prefix}'`);
+      console.error(`Unable to find module index for '${prefix}'`);
+
+      // compatible with old versions
+      return indexCount;
     }
 
     return mod.index.toNumber();
