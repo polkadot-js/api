@@ -35,12 +35,16 @@ describe('U8a', () => {
   testEncode('toU8a', Uint8Array.from([1, 2, 3, 4, 5]));
 
   it('contains the length of the elements', () => {
-    expect(u8a.length).toEqual(5); // eslint-disable-line
+    expect(u8a.length).toEqual(5);
+  });
+
+  it('correctly encodes length', () => {
+    expect(u8a.encodedLength).toEqual(5);
   });
 
   it('allows wrapping of a pre-existing instance', () => {
     expect(
       new U8a(u8a).length
-    ).toEqual(5); // eslint-disable-line
+    ).toEqual(5);
   });
 });
