@@ -4,7 +4,7 @@
 
 import { AnyU8a } from './types';
 
-import { isFunction, isU8a } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import Bytes from './Bytes';
 import { StorageFunctionMetadata } from './Metadata';

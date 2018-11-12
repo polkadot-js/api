@@ -7,7 +7,6 @@ import { AnyU8a } from './types';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import U8a from './codec/U8a';
 import U8aFixed from './codec/U8aFixed';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
