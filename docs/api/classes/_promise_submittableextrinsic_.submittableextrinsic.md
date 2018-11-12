@@ -25,7 +25,7 @@
 
 *Overrides Extrinsic.__constructor*
 
-*Defined in [promise/SubmittableExtrinsic.ts:12](https://github.com/polkadot-js/api/blob/d5bca16/packages/api/src/promise/SubmittableExtrinsic.ts#L12)*
+*Defined in [promise/SubmittableExtrinsic.ts:12](https://github.com/polkadot-js/api/blob/8121aa2/packages/api/src/promise/SubmittableExtrinsic.ts#L12)*
 
 **Parameters:**
 
@@ -59,7 +59,7 @@ ___
 
 *Inherited from Struct.raw*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:26](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L26)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:26](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L26)*
 
 ___
 <a id="size"></a>
@@ -84,7 +84,7 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L126)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:126](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L126)*
 
 **Returns:** `E`
 
@@ -97,7 +97,7 @@ getargs(): `Array`<`Base`>
 
 *Inherited from Extrinsic.args*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:73](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L73)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:73](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L73)*
 
 **Returns:** `Array`<`Base`>
 
@@ -110,7 +110,7 @@ getcallIndex(): `Uint8Array`
 
 *Inherited from Extrinsic.callIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:78](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L78)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:78](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L78)*
 
 **Returns:** `Uint8Array`
 
@@ -123,7 +123,7 @@ getdata(): `Uint8Array`
 
 *Inherited from Extrinsic.data*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:82](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L82)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:82](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L82)*
 
 **Returns:** `Uint8Array`
 
@@ -138,7 +138,7 @@ getencodedLength(): `number`
 
 *Overrides Struct.encodedLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:113](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L113)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:113](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L113)*
 
 **Returns:** `number`
 
@@ -151,7 +151,7 @@ gethash(): `Hash`
 
 *Inherited from Extrinsic.hash*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:87](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L87)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:87](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L87)*
 
 **Returns:** `Hash`
 
@@ -164,7 +164,7 @@ getisSigned(): `boolean`
 
 *Inherited from Extrinsic.isSigned*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:93](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L93)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:93](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L93)*
 
 **Returns:** `boolean`
 
@@ -177,7 +177,7 @@ getlength(): `number`
 
 *Inherited from Extrinsic.length*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:97](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L97)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:97](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L97)*
 
 **Returns:** `number`
 
@@ -190,7 +190,7 @@ getmeta(): `FunctionMetadata`
 
 *Inherited from Extrinsic.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:101](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L101)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:101](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L101)*
 
 **Returns:** `FunctionMetadata`
 
@@ -203,7 +203,7 @@ getmethod(): `Method`
 
 *Inherited from Extrinsic.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:105](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L105)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:105](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L105)*
 
 **Returns:** `Method`
 
@@ -216,7 +216,7 @@ getsignature(): `ExtrinsicSignature`
 
 *Inherited from Extrinsic.signature*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:109](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L109)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:109](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L109)*
 
 **Returns:** `ExtrinsicSignature`
 
@@ -333,7 +333,7 @@ ___
 
 *Inherited from Struct.getAtIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L136)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L136)*
 
 **Parameters:**
 
@@ -384,7 +384,7 @@ ___
 
 ▸ **send**(statusCb?: * `undefined` &#124; `function`*): `Promise`<`Hash`>
 
-*Defined in [promise/SubmittableExtrinsic.ts:20](https://github.com/polkadot-js/api/blob/d5bca16/packages/api/src/promise/SubmittableExtrinsic.ts#L20)*
+*Defined in [promise/SubmittableExtrinsic.ts:20](https://github.com/polkadot-js/api/blob/8121aa2/packages/api/src/promise/SubmittableExtrinsic.ts#L20)*
 
 **Parameters:**
 
@@ -423,7 +423,7 @@ ___
 
 *Overrides Extrinsic.sign*
 
-*Defined in [promise/SubmittableExtrinsic.ts:28](https://github.com/polkadot-js/api/blob/d5bca16/packages/api/src/promise/SubmittableExtrinsic.ts#L28)*
+*Defined in [promise/SubmittableExtrinsic.ts:28](https://github.com/polkadot-js/api/blob/8121aa2/packages/api/src/promise/SubmittableExtrinsic.ts#L28)*
 
 **Parameters:**
 
@@ -444,7 +444,7 @@ ___
 
 *Inherited from Struct.toArray*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L140)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L140)*
 
 **Returns:** `Array`<`Base`>
 
@@ -459,7 +459,7 @@ ___
 
 *Overrides Struct.toHex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:136](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L136)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:136](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L136)*
 
 **Returns:** `string`
 
@@ -474,7 +474,7 @@ ___
 
 *Overrides Struct.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:140](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L140)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:140](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L140)*
 
 **Returns:** `any`
 
@@ -487,7 +487,7 @@ ___
 
 *Inherited from Struct.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L159)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L159)*
 
 **Returns:** `string`
 
@@ -502,7 +502,7 @@ ___
 
 *Overrides Struct.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:125](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L125)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:125](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L125)*
 
 **Parameters:**
 
@@ -536,7 +536,7 @@ ___
 
 *Inherited from Extrinsic.decodeExtrinsic*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:43](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/Extrinsic.ts#L43)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Extrinsic.ts:43](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/Extrinsic.ts#L43)*
 
 **Parameters:**
 
@@ -555,7 +555,7 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:116](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/codec/Struct.ts#L116)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:116](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/codec/Struct.ts#L116)*
 
 **Type parameters:**
 

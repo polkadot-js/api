@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(arg?: *`any`*): `Uint8Array`
 
-*Defined in [StorageKey.ts:13](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/StorageKey.ts#L13)*
+*Defined in [StorageKey.ts:13](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/StorageKey.ts#L13)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● meta**: *[StorageFunctionMetadata](../classes/_metadata_.storagefunctionmetadata.md)*
 
-*Defined in [StorageKey.ts:15](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/StorageKey.ts#L15)*
+*Defined in [StorageKey.ts:15](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/StorageKey.ts#L15)*
 
 ___
 <a id="method"></a>
@@ -34,7 +34,7 @@ ___
 
 **● method**: *`string`*
 
-*Defined in [StorageKey.ts:16](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/StorageKey.ts#L16)*
+*Defined in [StorageKey.ts:16](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/StorageKey.ts#L16)*
 
 ___
 <a id="section"></a>
@@ -43,7 +43,7 @@ ___
 
 **● section**: *`string`*
 
-*Defined in [StorageKey.ts:17](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/StorageKey.ts#L17)*
+*Defined in [StorageKey.ts:17](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/StorageKey.ts#L17)*
 
 ___
 <a id="tojson"></a>
@@ -52,7 +52,7 @@ ___
 
 **● toJSON**: *`function`*
 
-*Defined in [StorageKey.ts:18](https://github.com/polkadot-js/api/blob/d5bca16/packages/types/src/StorageKey.ts#L18)*
+*Defined in [StorageKey.ts:18](https://github.com/polkadot-js/api/blob/8121aa2/packages/types/src/StorageKey.ts#L18)*
 
 #### Type declaration
 ▸(): `any`
