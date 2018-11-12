@@ -7,7 +7,6 @@ import { isFunction, isString, stringToU8a, u8aToString, u8aConcat } from '@polk
 import { AnyU8a } from '@polkadot/types/types';
 import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
-import U8a from './codec/U8a';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.
@@ -33,8 +32,6 @@ export default class Text extends Base<string> {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 
       return u8aToString(value.subarray(offset, offset + length.toNumber()));
-    } else if (value instanceof U8a) {
-      return Text.decodeText(value.raw);
     } else if (isFunction(value.toString)) {
       return value.toString();
     }

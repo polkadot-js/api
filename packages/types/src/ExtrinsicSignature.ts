@@ -8,7 +8,6 @@ import { AnyNumber, AnyU8a } from './types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
@@ -35,7 +34,7 @@ const BIT_VERSION = 0b0000001;
 //   8 bytes: The Transaction Index of the signing account
 //   1/2 bytes: The Transaction Era
 export default class ExtrinsicSignature extends Struct {
-  constructor (value?: ExtrinsicSignatureValue | U8a | Uint8Array) {
+  constructor (value?: ExtrinsicSignatureValue | Uint8Array) {
     super({
       signer: Address,
       signature: Signature,
@@ -49,8 +48,6 @@ export default class ExtrinsicSignature extends Struct {
       return {};
     } else if (value instanceof Struct) {
       return value.raw;
-    } else if (value instanceof U8a) {
-      return ExtrinsicSignature.decodeExtrinsicSignature(value.raw);
     } else if (isU8a(value)) {
       const version = value[0];
 

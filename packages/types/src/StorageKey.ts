@@ -4,9 +4,8 @@
 
 import { AnyU8a } from './types';
 
-import { isFunction } from '@polkadot/util';
+import { isFunction, isU8a } from '@polkadot/util';
 
-import U8a from './codec/U8a';
 import Bytes from './Bytes';
 import { StorageFunctionMetadata } from './Metadata';
 
@@ -38,8 +37,6 @@ export default class StorageKey extends Bytes {
       if (isFunction(fn)) {
         return fn(arg);
       }
-    } else if (value instanceof U8a) {
-      return StorageKey.decodeStorageKey(value.raw);
     }
 
     return value as Uint8Array;

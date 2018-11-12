@@ -7,7 +7,6 @@ import { bnToBn, bnToU8a, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aTo
 
 import { AnyNumber, Constructor } from '../types';
 import Base from './Base';
-import U8a from './U8a';
 import UInt, { UIntBitLength } from './UInt';
 import Moment from '../Moment';
 
@@ -64,9 +63,7 @@ export default class Compact extends Base<UInt | Moment> {
   }
 
   static decodeCompact (Type: Constructor<UInt | Moment>, value: AnyNumber): Moment | UInt {
-    if (value instanceof U8a) {
-      return Compact.decodeCompact(Type, value.raw);
-    } else if (isString(value)) {
+    if (isString(value)) {
       return new Type(
         isHex(value)
           ? hexToBn(value)

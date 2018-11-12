@@ -7,7 +7,6 @@ import { decodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 
 import Base from './codec/Base';
-import U8a from './codec/U8a';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 
@@ -34,8 +33,6 @@ export default class Address extends Base<AccountId | AccountIndex> {
       return value.raw;
     } else if (value instanceof AccountId || value instanceof AccountIndex) {
       return value;
-    } else if (value instanceof U8a) {
-      return Address.decodeAddress(value.raw);
     } else if (Array.isArray(value)) {
       return Address.decodeAddress(u8aToU8a(value));
     } else if (isU8a(value)) {

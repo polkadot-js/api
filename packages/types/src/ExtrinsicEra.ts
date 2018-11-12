@@ -16,9 +16,7 @@ export default class ExtrinsicEra extends U8a {
   }
 
   static decodeExtrinsicEra (value?: AnyU8a): Uint8Array {
-    if (value instanceof U8a) {
-      return value.raw;
-    } else if (value) {
+    if (value) {
       const u8a = u8aToU8a(value);
 
       // If we have a zero byte, it is immortal (1 byte in length), otherwise we have

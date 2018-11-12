@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isBuffer, isString, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a, Codec } from '../types';
 
@@ -12,10 +12,18 @@ import { AnyU8a, Codec } from '../types';
 // subclassed where the wrapper takes care of the actual lengths.
 export default class U8a extends Uint8Array implements Codec {
   public raw: Uint8Array; // FIXME Remove this once we convert all types out of Base
-  constructor (value: AnyU8a = new Uint8Array()) {
-    super(
-      U8a.decodeU8a(value)
-    );
+
+  constructor (value: AnyU8a | ArrayBuffer, byteOffset: number = 0, length?: number) {
+    // Uint8Array can be constructed with ArrayBuffer, in which case it has 1
+    // or 2 more optional arguments. We handle this special case here.
+    if (value instanceof ArrayBuffer) {
+      super(value, byteOffset, length);
+    } else {
+      super(
+        U8a.decodeU8a(value)
+      );
+    }
+
     this.raw = this;
   }
 
