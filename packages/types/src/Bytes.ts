@@ -16,10 +16,8 @@ export default class Bytes extends U8a {
     super(Bytes.decodeBytes(value));
   }
 
-  static decodeBytes (value: AnyU8a): Uint8Array {
-    if (value instanceof U8a) {
-      return value.raw;
-    } else if (isHex(value)) {
+  private static decodeBytes (value: AnyU8a): Uint8Array {
+    if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
       const u8a = hexToU8a(value);
@@ -36,20 +34,16 @@ export default class Bytes extends U8a {
     return Bytes.decodeBytes(u8aToU8a(value));
   }
 
-  get length (): number {
-    return this.raw.length;
-  }
-
   get encodedLength (): number {
     return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
   }
 
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
-      ? this.raw
+      ? super.toU8a(isBare)
       : u8aConcat(
         Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
-        this.raw
+        this
       );
   }
 }
