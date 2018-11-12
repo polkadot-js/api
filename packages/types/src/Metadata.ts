@@ -331,7 +331,7 @@ export default class RuntimeMetadata extends Struct {
     }, RuntimeMetadata.decodeMetadata(value));
   }
 
-  static decodeMetadata (value: any): object | Uint8Array {
+  static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
       // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.

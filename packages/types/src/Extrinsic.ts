@@ -52,7 +52,7 @@ export default class Extrinsic extends Struct {
       // https://github.com/paritytech/substrate/issues/889
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-      const u8a = hexToU8a(value as string);
+      const u8a = hexToU8a(value);
 
       return Extrinsic.decodeExtrinsic(
         u8aConcat(
