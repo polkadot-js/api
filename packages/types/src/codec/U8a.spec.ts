@@ -2,28 +2,29 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { CodecTo } from '../types';
 import U8a from './U8a';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: any, expected: string) =>
   it(`can decode from ${type}`, () => {
     const e = new U8a(input);
     expect(e.toString()).toBe(expected);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: CodecTo, expected: any) =>
   it(`can encode ${to}`, () => {
     const e = new U8a([1, 2, 3, 4, 5]);
     expect(e[to]()).toEqual(expected);
   });
 
 describe('U8a', () => {
-  let u8a;
+  let u8a: U8a;
 
   beforeEach(() => {
     u8a = new U8a([1, 2, 3, 4, 5]);
   });
 
-  testDecode('Array', [1, 2, 3, 4, 5], '0x0102030405')
+  testDecode('Array', [1, 2, 3, 4, 5], '0x0102030405');
   testDecode('hex', '0x0102030405', '0x0102030405');
   testDecode('U8a', new Uint8Array([1, 2, 3, 4, 5]), '0x0102030405');
   testDecode('Uint8Array', Uint8Array.from([1, 2, 3, 4, 5]), '0x0102030405');
