@@ -22,7 +22,7 @@ export default class Bytes extends U8a {
     } else if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
-      const u8a = hexToU8a(value as string);
+      const u8a = hexToU8a(value);
 
       return Bytes.decodeBytes(
         Compact.addLengthPrefix(u8a)

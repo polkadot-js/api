@@ -24,7 +24,7 @@ export default class Text extends Base<string> {
     );
   }
 
-  static decodeText (value: any): string {
+  static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
     if (isString(value)) {
       return value;
     } else if (value instanceof Text) {
