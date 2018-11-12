@@ -28,9 +28,9 @@ export default class AccountId extends U8aFixed {
     if (isU8a(value) || Array.isArray(value)) {
       return u8aToU8a(value);
     } else if (isHex(value)) {
-      return hexToU8a(value);
+      return hexToU8a(value.toString());
     } else if (isString(value)) {
-      return decodeAddress(value);
+      return decodeAddress(value.toString());
     }
 
     return value;
