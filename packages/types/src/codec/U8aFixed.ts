@@ -19,12 +19,12 @@ export default class U8aFixed extends U8a {
     );
   }
 
-  private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength = 256): Uint8Array {
+  private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength = 256): AnyU8a {
     if (isU8a(value)) {
       return value.subarray(0, bitLength / 8);
-    } else {
-      return U8aFixed.decodeU8aFixed(u8aToU8a(value), bitLength);
     }
+
+    return value;
   }
 
   get bitLength () {
