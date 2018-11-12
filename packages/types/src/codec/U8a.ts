@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isBuffer, isString, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a, Codec } from '../types';
 
@@ -16,6 +16,7 @@ export default class U8a extends Uint8Array implements Codec {
   constructor (value: AnyU8a | ArrayBuffer, byteOffset: number = 0, length?: number) {
     // Uint8Array can be constructed with ArrayBuffer, in which case it has 1
     // or 2 more optional arguments. We handle this special case here.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
     if (value instanceof ArrayBuffer) {
       super(value, byteOffset, length);
     } else {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isBuffer, isHex, isString, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
@@ -29,9 +29,11 @@ export default class Bytes extends U8a {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 
       return value.subarray(offset, offset + length.toNumber());
+    } else if (Array.isArray(value) || isBuffer(value) || isString(value)) {
+      return Bytes.decodeBytes(u8aToU8a(value));
     }
 
-    return Bytes.decodeBytes(u8aToU8a(value));
+    return value;
   }
 
   get encodedLength (): number {
