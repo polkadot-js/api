@@ -8,7 +8,7 @@
 
 ▸ **fromMetadata**(metadata: *`Metadata`*): `Extrinsics`
 
-*Defined in [fromMetadata.ts:20](https://github.com/polkadot-js/api/blob/73710b7/packages/type-extrinsics/src/fromMetadata.ts#L20)*
+*Defined in [fromMetadata.ts:20](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/type-extrinsics/src/fromMetadata.ts#L20)*
 
 Extend a storage object with the storage modules & module functions present in the metadata.
 

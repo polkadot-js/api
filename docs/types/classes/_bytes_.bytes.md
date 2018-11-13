@@ -27,7 +27,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Bytes.ts#L14)*
+*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/Bytes.ts#L14)*
 
 **Parameters:**
 
@@ -125,7 +125,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[raw](_codec_u8a_.u8a.md#raw)*
 
-*Defined in [codec/U8a.ts:14](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/U8a.ts#L14)*
+*Defined in [codec/U8a.ts:14](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L14)*
 
 ___
 
@@ -139,7 +139,7 @@ getencodedLength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [Bytes.ts:39](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Bytes.ts#L39)*
+*Defined in [Bytes.ts:39](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/Bytes.ts#L39)*
 
 **Returns:** `number`
 
@@ -699,7 +699,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L43)*
 
 **Returns:** `string`
 
@@ -712,7 +712,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/U8a.ts#L47)*
+*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L47)*
 
 **Returns:** `any`
 
@@ -742,7 +742,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/U8a.ts#L55)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L55)*
 
 **Returns:** `string`
 
@@ -755,7 +755,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:43](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Bytes.ts#L43)*
+*Defined in [Bytes.ts:43](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/Bytes.ts#L43)*
 
 **Parameters:**
 
