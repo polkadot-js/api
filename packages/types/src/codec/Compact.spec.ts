@@ -114,8 +114,8 @@ describe('Compact', () => {
 
     it('constructs properly via U8a as U32', () => {
       expect(
-        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toString()
-      ).toEqual('65535');
+        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toNumber()
+      ).toEqual(new BN(0xffff).toNumber());
     });
 
     it('constructs properly via number as Moment', () => {
