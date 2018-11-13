@@ -49,6 +49,6 @@ describe('U8a', () => {
   });
 
   it('implements subarray correctly', () => {
-    expect(u8a.subarray(1, 3).toString()).toEqual('0x0203');
+    expect(u8a.subarray(1, 3)).toEqual(Uint8Array.from([2, 3]));
   });
 });

@@ -25,6 +25,10 @@ export default class Bytes extends U8a {
       return Bytes.decodeBytes(
         Compact.addLengthPrefix(u8a)
       );
+    } else if (value instanceof U8a) {
+      // This is required. In the case of a U8a we already have gottent rid of the length,
+      // i.e. new Bytes(new Bytes(...)) will work as expected
+      return value;
     } else if (isU8a(value)) {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 

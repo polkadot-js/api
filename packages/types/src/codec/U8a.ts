@@ -11,19 +11,13 @@ import { AnyU8a, Codec } from '../types';
 // consume the full u8a as passed to it in U8a. As such it is meant to be
 // subclassed where the wrapper takes care of the actual lengths.
 export default class U8a extends Uint8Array implements Codec {
-  public raw: Uint8Array; // FIXME Remove this once we convert all types out of Base
+  // FIXME Remove this once we convert all types out of Base
+  public raw: Uint8Array;
 
-  constructor (value: AnyU8a | ArrayBuffer, byteOffset: number = 0, length?: number) {
-    // Uint8Array can be constructed with ArrayBuffer, in which case it has 1
-    // or 2 more optional arguments. We handle this special case here.
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
-    if (value instanceof ArrayBuffer) {
-      super(value, byteOffset, length);
-    } else {
-      super(
-        U8a.decodeU8a(value)
-      );
-    }
+  constructor (value: AnyU8a) {
+    super(
+      U8a.decodeU8a(value)
+    );
 
     this.raw = this;
   }
@@ -38,6 +32,12 @@ export default class U8a extends Uint8Array implements Codec {
 
   get encodedLength (): number {
     return this.length;
+  }
+
+  // Create a new subarray from the actual buffer. This is needed
+  // for compat reasons since a new Uint8Array gets returned here
+  subarray (begin: number, end?: number): Uint8Array {
+    return Uint8Array.from(this).subarray(begin, end);
   }
 
   toHex (): string {
