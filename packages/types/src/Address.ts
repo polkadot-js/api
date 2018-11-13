@@ -27,12 +27,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   static decodeAddress (value: AnyAddress): AccountId | AccountIndex {
-    if (isBn(value) || isNumber(value)) {
+    if (value instanceof AccountId || value instanceof AccountIndex) {
+      return value;
+    } else if (isBn(value) || isNumber(value)) {
       return new AccountIndex(value);
     } else if (value instanceof Address) {
       return value.raw;
-    } else if (value instanceof AccountId || value instanceof AccountIndex) {
-      return value;
     } else if (Array.isArray(value)) {
       return Address.decodeAddress(u8aToU8a(value));
     } else if (isU8a(value)) {

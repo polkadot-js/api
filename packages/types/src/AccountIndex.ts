@@ -31,9 +31,9 @@ export default class AccountIndex extends U32 {
   }
 
   static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
-    if (value instanceof UInt) {
-      return value.raw;
-    } else if (isBn(value) || isNumber(value) || isU8a(value)) {
+    if (value instanceof AccountIndex) {
+      return value.toBn();
+    } else if (value instanceof UInt || isBn(value) || isNumber(value) || isU8a(value)) {
       return value;
     } else if (isHex(value)) {
       // Here we convert via hexToU8a since we expect the LE encoded value representation. This
@@ -81,6 +81,10 @@ export default class AccountIndex extends U32 {
     }
   }
 
+  toBn (): BN {
+    return new BN(this);
+  }
+
   // Like in our decoding function, we explicitly override this to allow us to output
   // LE-hex encoded numbers (generally UInt in JSON are expected as BE, these LE)
   toHex (): string {
@@ -92,7 +96,7 @@ export default class AccountIndex extends U32 {
   }
 
   toString (): string {
-    const length = AccountIndex.calcLength(this.raw);
+    const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
   }
@@ -103,7 +107,7 @@ export default class AccountIndex extends U32 {
     // construct a query). This is needed to get enumSet(AccountIndex) queries to
     // work in the way it was intended
     return isBare
-      ? bnToU8a(this.toBn().div(ENUMSET_SIZE), 32, true)
+      ? bnToU8a(this.div(ENUMSET_SIZE), 32, true)
       : super.toU8a();
   }
 }
