@@ -5,7 +5,6 @@
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import U8a from './U8a';
 import { Codec, Constructor, ConstructorDef } from '../types';
 
 // A Struct defines an Object with key/values - where the values are Base<T> values. It removes
@@ -22,7 +21,7 @@ export default class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-> extends Map<keyof S, Base> implements Codec {
+  > extends Map<keyof S, Base> implements Codec {
   public raw: Map<keyof S, Base>; // FIXME Remove this once we convert all types out of Base
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
@@ -66,12 +65,10 @@ export default class Struct<
     S extends ConstructorDef,
     _,
     T extends { [K in keyof S]: Base }
-  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
-    if (value instanceof U8a) {
-      return Struct.decodeStruct(Types, value.raw, jsonMap);
-    } else if (isHex(value)) {
+    if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
     } else if (!value) {
       return {} as T;
@@ -115,7 +112,7 @@ export default class Struct<
 
   static with<
     S extends ConstructorDef
-  > (Types: S): Constructor<Struct<S>> {
+    > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

@@ -11,7 +11,6 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
@@ -45,8 +44,6 @@ export default class Extrinsic extends Struct {
       return {};
     } else if (value instanceof Extrinsic) {
       return value.raw;
-    } else if (value instanceof U8a) {
-      return Extrinsic.decodeExtrinsic(value.raw);
     } else if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889

@@ -5,7 +5,6 @@
 import { isU8a } from '@polkadot/util';
 
 import Base from './Base';
-import U8a from './U8a';
 
 type EnumDef = {
   [index: number]: string
@@ -21,7 +20,7 @@ type EnumDef = {
 export default class Enum extends Base<number> {
   private _enum: EnumDef;
 
-  constructor (def: EnumDef, value: Enum | U8a | Uint8Array | number = 0) {
+  constructor (def: EnumDef, value: Enum | Uint8Array | number = 0) {
     super(
       Enum.decodeEnum(value)
     );
@@ -29,11 +28,9 @@ export default class Enum extends Base<number> {
     this._enum = def;
   }
 
-  static decodeEnum (value: Enum | U8a | Uint8Array | number = 0): number {
+  static decodeEnum (value: Enum | Uint8Array | number = 0): number {
     if (value instanceof Enum) {
       return value.raw;
-    } else if (value instanceof U8a) {
-      return Enum.decodeEnum(value.raw);
     } else if (isU8a(value)) {
       return value[0];
     } else {

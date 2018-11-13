@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from './types';
+import { AnyString, AnyU8a } from './types';
 
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex, isU8a, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import U8a from './codec/U8a';
 import U8aFixed from './codec/U8aFixed';
 
 // A wrapper around an AccountId/PublicKey representation. Since we are dealing with
@@ -25,16 +24,16 @@ export default class AccountId extends U8aFixed {
     return encodeAddress(value);
   }
 
-  static decodeAccountId (value: AnyU8a): Uint8Array {
-    if (value instanceof U8a) {
-      return value.raw;
-    } else if (isU8a(value) || Array.isArray(value)) {
+  private static decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
+    if (isU8a(value) || Array.isArray(value)) {
       return u8aToU8a(value);
     } else if (isHex(value)) {
-      return hexToU8a(value);
+      return hexToU8a(value.toString());
+    } else if (isString(value)) {
+      return decodeAddress((value as AnyString).toString());
     }
 
-    return decodeAddress(value);
+    return value;
   }
 
   toJSON (): any {
@@ -42,6 +41,6 @@ export default class AccountId extends U8aFixed {
   }
 
   toString (): string {
-    return AccountId.encode(this.raw);
+    return AccountId.encode(this);
   }
 }

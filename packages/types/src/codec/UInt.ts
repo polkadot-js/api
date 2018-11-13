@@ -8,7 +8,6 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import Base from './Base';
-import U8a from './U8a';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
@@ -36,8 +35,6 @@ export default class UInt extends Base<BN> {
   static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): BN {
     if (value instanceof UInt) {
       return value.raw;
-    } else if (value instanceof U8a) {
-      return UInt.decodeUInt(value.raw, bitLength);
     } else if (isHex(value)) {
       return hexToBn(value);
     } else if (isU8a(value)) {

@@ -6,11 +6,13 @@ import BN from 'bn.js';
 import * as Classes from './index';
 
 import Base from './codec/Base';
-import { U8a, UInt } from './codec';
+import { UInt } from './codec';
 
-export type AnyNumber = U8a | UInt | BN | Uint8Array | number | string;
+export type AnyNumber = UInt | BN | Uint8Array | number | string;
 
-export type AnyU8a = U8a | Uint8Array | Array<number> | string;
+export type AnyString = string | String;
+
+export type AnyU8a = Uint8Array | Array<number> | string;
 
 export interface Codec {
   encodedLength: number;

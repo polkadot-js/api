@@ -6,7 +6,6 @@ import { u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
-import U8a from './U8a';
 import { Constructor } from '../types';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
@@ -19,7 +18,7 @@ export default class Vector<
   > extends Base<Array<T>> {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, value: Vector<any> | U8a | Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
       Vector.decodeVector(Type, value)
     );
@@ -27,7 +26,7 @@ export default class Vector<
     this._Type = Type;
   }
 
-  static decodeVector<T extends Base> (Type: Constructor<T>, value: Vector<any> | U8a | Uint8Array | string | Array<any>): Array<T> {
+  static decodeVector<T extends Base> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -38,9 +37,7 @@ export default class Vector<
       return Vector.decodeVector(Type, value.raw);
     }
 
-    const u8a = value instanceof U8a
-      ? value.raw
-      : u8aToU8a(value);
+    const u8a = u8aToU8a(value);
 
     let [offset, _length] = Compact.decodeU8a(u8a, DEFAULT_LENGTH_BITS);
     const length = _length.toNumber();

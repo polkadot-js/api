@@ -6,7 +6,6 @@ import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
 import Base from './codec/Base';
-import U8a from './codec/U8a';
 import { AnyU8a, Constructor } from './types';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
@@ -68,10 +67,8 @@ export default class Method extends Struct {
    * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | U8a | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
-    if (value instanceof U8a) {
-      return Method.decodeMethod(value.raw);
-    } else if (isHex(value)) {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
+    if (isHex(value)) {
       return Method.decodeMethod(value, _meta);
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex

@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Moment.ts:19](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L19)*
+*Defined in [Moment.ts:18](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L18)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 getbitLength(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
-*Defined in [Moment.ts:46](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L46)*
+*Defined in [Moment.ts:43](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L43)*
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -63,7 +63,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [Moment.ts:50](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L50)*
+*Defined in [Moment.ts:47](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L47)*
 
 **Returns:** `number`
 
@@ -77,7 +77,7 @@ ___
 
 ▸ **getTime**(): `number`
 
-*Defined in [Moment.ts:54](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L54)*
+*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L51)*
 
 **Returns:** `number`
 
@@ -88,7 +88,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [Moment.ts:74](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L74)*
+*Defined in [Moment.ts:71](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L71)*
 
 **Returns:** `BN`
 
@@ -99,7 +99,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L58)*
+*Defined in [Moment.ts:55](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L55)*
 
 **Returns:** `string`
 
@@ -112,7 +112,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Moment.ts:62](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L62)*
+*Defined in [Moment.ts:59](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L59)*
 
 **Returns:** `any`
 
@@ -123,7 +123,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [Moment.ts:78](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L78)*
+*Defined in [Moment.ts:75](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L75)*
 
 **Returns:** `number`
 
@@ -136,7 +136,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Moment.ts:70](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L70)*
+*Defined in [Moment.ts:67](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L67)*
 
 **Returns:** `string`
 
@@ -149,7 +149,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Moment.ts:66](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L66)*
+*Defined in [Moment.ts:63](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L63)*
 
 **Parameters:**
 
@@ -166,7 +166,7 @@ ___
 
 ▸ **decodeMoment**(value: * [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`*): `Date`
 
-*Defined in [Moment.ts:26](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Moment.ts#L26)*
+*Defined in [Moment.ts:25](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Moment.ts#L25)*
 
 **Parameters:**
 

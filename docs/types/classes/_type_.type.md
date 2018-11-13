@@ -16,7 +16,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Type.ts#L16)*
+*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Type.ts#L16)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -54,7 +54,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [Text.ts:49](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Text.ts#L49)*
+*Defined in [Text.ts:46](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Text.ts#L46)*
 
 **Returns:** `number`
 
@@ -67,7 +67,7 @@ getlength(): `number`
 
 *Overrides [Text](_text_.text.md).[length](_text_.text.md#length)*
 
-*Defined in [Type.ts:27](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Type.ts#L27)*
+*Defined in [Type.ts:27](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Type.ts#L27)*
 
 **Returns:** `number`
 
@@ -85,7 +85,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Text.ts:53](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Text.ts#L53)*
+*Defined in [Text.ts:50](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Text.ts#L50)*
 
 **Returns:** `any`
 
@@ -100,7 +100,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Text.ts:57](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Text.ts#L57)*
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Text.ts#L54)*
 
 **Returns:** `string`
 
@@ -113,7 +113,7 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:34](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Type.ts#L34)*
+*Defined in [Type.ts:34](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Type.ts#L34)*
 
 **Parameters:**
 
@@ -132,7 +132,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[decodeText](_text_.text.md#decodetext)*
 
-*Defined in [Text.ts:27](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/Text.ts#L27)*
+*Defined in [Text.ts:26](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/Text.ts#L26)*
 
 **Parameters:**
 
