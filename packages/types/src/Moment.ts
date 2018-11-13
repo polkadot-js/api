@@ -27,8 +27,6 @@ export default class Moment extends Base<Date> {
       return value.raw;
     } else if (value instanceof Date) {
       return new Date(Math.ceil(value.getTime() / 1000) * 1000);
-    } else if (value instanceof UInt) {
-      value = value.toBn();
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {

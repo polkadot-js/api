@@ -36,7 +36,7 @@ describe('Header', () => {
       header.hash.toHex()
     ).toEqual('0x63ccfdc044d3ff4c915ad01c0d57d2ff807f4eb7d60cd41584917363bc83a99f');
     expect(
-      header.blockNumber.toBn()
-    ).toEqual(new BN(2918));
+      header.blockNumber.eq(new BN(2918))
+    ).toBe(true);
   });
 });

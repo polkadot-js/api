@@ -53,7 +53,7 @@ describe.skip('e2e state', () => {
       .then((balance) => {
         console.error(balance);
 
-        expect(balance.toBn().isZero()).not.toEqual(true);
+        expect(balance.isZero()).not.toEqual(true);
       })
       .catch((error) => {
         console.error(error);

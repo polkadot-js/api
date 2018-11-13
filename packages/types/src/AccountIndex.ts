@@ -32,6 +32,8 @@ export default class AccountIndex extends U32 {
 
   static decodeAccountIndex (value: AnyNumber): BN | Uint8Array | number | string {
     if (value instanceof AccountIndex) {
+      // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
+      // AccountIndex), which has the initial `toString()` implementation.
       return value.toBn();
     } else if (value instanceof UInt || isBn(value) || isNumber(value) || isU8a(value)) {
       return value;
