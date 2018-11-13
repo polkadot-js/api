@@ -3,6 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import Text from '@polkadot/types/Text';
 import Vector from '@polkadot/types/codec/Vector';
 
@@ -14,7 +15,7 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata) =>
+const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
   createFunction(
     new Text('Substrate'),
     new Text(key),
