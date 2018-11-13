@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { setAddressPrefix } from '@polkadot/keyring';
 import U8a from './codec/U8a';
 import Vector from './codec/Vector';
 import jsonVec from './json/AccountIdVec.001.json';
 import AccountId from './AccountId';
-import { setAddressPrefix } from '@polkadot/keyring';
 import StorageData from './StorageData';
 
 describe('AccountId', () => {
