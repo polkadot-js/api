@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { AnyU8a } from './types';
+import { AnyString, AnyU8a } from './types';
 
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
@@ -24,13 +24,13 @@ export default class AccountId extends U8aFixed {
     return encodeAddress(value);
   }
 
-  private static decodeAccountId (value: any): Uint8Array {
+  private static decodeAccountId (value: AnyU8a | AnyString): Uint8Array {
     if (isU8a(value) || Array.isArray(value)) {
       return u8aToU8a(value);
     } else if (isHex(value)) {
       return hexToU8a(value.toString());
     } else if (isString(value)) {
-      return decodeAddress(value.toString());
+      return decodeAddress((value as AnyString).toString());
     }
 
     return value;

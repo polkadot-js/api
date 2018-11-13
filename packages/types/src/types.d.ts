@@ -10,6 +10,8 @@ import { UInt } from './codec';
 
 export type AnyNumber = UInt | BN | Uint8Array | number | string;
 
+export type AnyString = string | String;
+
 export type AnyU8a = Uint8Array | Array<number> | string;
 
 export interface Codec {
