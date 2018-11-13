@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { RpcRxInterface, RpcRxInterface$Method, RpcRxInterface$Section } from '@polkadot/rpc-rx/types';
+import { Extrinsics } from '@polkadot/extrinsics/types';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { RpcRxInterface, RpcRxInterface$Method, RpcRxInterface$Section } from '@polkadot/rpc-rx/types';
+import { Storage } from '@polkadot/storage/types';
 
 import { EMPTY, Observable, combineLatest, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
@@ -37,8 +39,8 @@ export default class ApiBase {
     this.whenReady = from(this.init());
   }
 
-  static extrinsics = extrinsicsStatic;
-  static storage = storageStatic;
+  static extrinsics: Extrinsics = extrinsicsStatic;
+  static storage: Storage = storageStatic;
 
   // FIXME This logic is duplicated in api-rx, since that should derive
   // from that base, it should be removed when the actual extend is done
