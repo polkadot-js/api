@@ -12,18 +12,18 @@
 
 ##  constructor
 
-⊕ **new Set**(setValues: *`SetValues`*, value?: * [U8a](_codec_u8a_.u8a.md) &#124; `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): [Set](_codec_set_.set.md)
+⊕ **new Set**(setValues: *`SetValues`*, value?: * `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): [Set](_codec_set_.set.md)
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Set.ts:19](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L19)*
+*Defined in [codec/Set.ts:18](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L18)*
 
 **Parameters:**
 
 | Param | Type |
 | ------ | ------ |
 | setValues | `SetValues` |
-| `Optional` value |  [U8a](_codec_u8a_.u8a.md) &#124; `Array`<`string`> &#124; `Uint8Array` &#124; `number`|
+| `Optional` value |  `Array`<`string`> &#124; `Uint8Array` &#124; `number`|
 
 **Returns:** [Set](_codec_set_.set.md)
 
@@ -39,7 +39,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -53,7 +53,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [codec/Set.ts:68](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L68)*
+*Defined in [codec/Set.ts:65](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L65)*
 
 **Returns:** `number`
 
@@ -64,7 +64,7 @@ ___
 
 getisEmpty(): `boolean`
 
-*Defined in [codec/Set.ts:72](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L72)*
+*Defined in [codec/Set.ts:69](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L69)*
 
 **Returns:** `boolean`
 
@@ -75,7 +75,7 @@ ___
 
 getvalueEncoded(): `number`
 
-*Defined in [codec/Set.ts:80](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L80)*
+*Defined in [codec/Set.ts:77](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L77)*
 
 **Returns:** `number`
 
@@ -86,7 +86,7 @@ ___
 
 getvalues(): `Array`<`string`>
 
-*Defined in [codec/Set.ts:76](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L76)*
+*Defined in [codec/Set.ts:73](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L73)*
 
 **Returns:** `Array`<`string`>
 
@@ -102,7 +102,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/Set.ts:84](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L84)*
+*Defined in [codec/Set.ts:81](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L81)*
 
 **Returns:** `any`
 
@@ -115,7 +115,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Set.ts:92](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L92)*
+*Defined in [codec/Set.ts:89](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L89)*
 
 **Returns:** `string`
 
@@ -128,7 +128,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/Set.ts:88](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L88)*
+*Defined in [codec/Set.ts:85](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L85)*
 
 **Parameters:**
 
@@ -143,16 +143,16 @@ ___
 
 ## `<Static>` decodeSet
 
-▸ **decodeSet**(setValues: *`SetValues`*, value?: * [U8a](_codec_u8a_.u8a.md) &#124; `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): `Array`<`string`>
+▸ **decodeSet**(setValues: *`SetValues`*, value?: * `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): `Array`<`string`>
 
-*Defined in [codec/Set.ts:29](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L29)*
+*Defined in [codec/Set.ts:28](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L28)*
 
 **Parameters:**
 
 | Param | Type | Default value |
 | ------ | ------ | ------ |
 | setValues | `SetValues` | - |
-| `Default value` value |  [U8a](_codec_u8a_.u8a.md) &#124; `Array`<`string`> &#124; `Uint8Array` &#124; `number`| 0 |
+| `Default value` value |  `Array`<`string`> &#124; `Uint8Array` &#124; `number`| 0 |
 
 **Returns:** `Array`<`string`>
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **encodeSet**(setValues: *`SetValues`*, value: *`Array`<`string`>*): `number`
 
-*Defined in [codec/Set.ts:62](https://github.com/polkadot-js/api/blob/de284fb/packages/types/src/codec/Set.ts#L62)*
+*Defined in [codec/Set.ts:59](https://github.com/polkadot-js/api/blob/73710b7/packages/types/src/codec/Set.ts#L59)*
 
 **Parameters:**
 
