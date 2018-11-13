@@ -40,7 +40,7 @@ export default class Moment extends Base<Date> {
     );
   }
 
-  get bitLength (): UIntBitLength {
+  bitLength (): UIntBitLength {
     return BITLENGTH;
   }
 

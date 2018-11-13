@@ -72,7 +72,7 @@ export default class Compact extends Base<UInt | Moment> {
     } else if (isNumber(value) || isBn(value)) {
       return new Type(bnToBn(value));
     } else if (isU8a(value)) {
-      const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength);
+      const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());
 
       return new Type(_value);
     }
@@ -118,8 +118,8 @@ export default class Compact extends Base<UInt | Moment> {
     );
   }
 
-  get bitLength (): UIntBitLength {
-    return this.raw.bitLength;
+  bitLength (): UIntBitLength {
+    return this.raw.bitLength();
   }
 
   get encodedLength (): number {
@@ -147,6 +147,6 @@ export default class Compact extends Base<UInt | Moment> {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.raw.toBn(), this.bitLength);
+    return Compact.encodeU8a(this.raw.toBn(), this.bitLength());
   }
 }
