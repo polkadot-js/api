@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
@@ -16,10 +16,8 @@ export default class Bytes extends U8a {
     super(Bytes.decodeBytes(value));
   }
 
-  static decodeBytes (value: AnyU8a): Uint8Array {
-    if (value instanceof U8a) {
-      return value.raw;
-    } else if (isHex(value)) {
+  private static decodeBytes (value: AnyU8a): Uint8Array {
+    if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
       const u8a = hexToU8a(value);
@@ -31,13 +29,11 @@ export default class Bytes extends U8a {
       const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
 
       return value.subarray(offset, offset + length.toNumber());
+    } else if (Array.isArray(value) || isString(value)) {
+      return Bytes.decodeBytes(u8aToU8a(value));
     }
 
-    return Bytes.decodeBytes(u8aToU8a(value));
-  }
-
-  get length (): number {
-    return this.raw.length;
+    return value;
   }
 
   get encodedLength (): number {
@@ -46,10 +42,10 @@ export default class Bytes extends U8a {
 
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
-      ? this.raw
+      ? this
       : u8aConcat(
         Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
-        this.raw
+        this
       );
   }
 }

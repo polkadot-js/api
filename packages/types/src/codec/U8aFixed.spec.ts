@@ -5,14 +5,18 @@
 import U8aFixed from './U8aFixed';
 
 describe('U8aFixed', () => {
-  let u8a;
+  let u8a: U8aFixed;
 
   beforeEach(() => {
     u8a = new U8aFixed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 32);
   });
 
   it('limits the length', () => {
-    expect(u8a.length).toEqual(4); // eslint-disable-line
+    expect(u8a.length).toEqual(4);
+  });
+
+  it('exposes the correct bitLength', () => {
+    expect(u8a.bitLength).toEqual(32);
   });
 
   it('allows wrapping of a pre-existing instance', () => {

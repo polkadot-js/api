@@ -5,7 +5,6 @@
 import { isNumber, isObject, isU8a, isUndefined, u8aConcat } from '@polkadot/util';
 
 import Base from './Base';
-import U8a from './U8a';
 import Null from '../Null';
 import { Constructor } from '../types';
 
@@ -52,9 +51,7 @@ export default class EnumType<T> extends Base<Base<T>> {
     }
 
     // Or else, we just look at `value`
-    if (value instanceof U8a) {
-      return EnumType.decodeEnumType(def, value.raw, index);
-    } else if (isU8a(value)) {
+    if (isU8a(value)) {
       return { index: value[0], value: new def[value[0]](value.subarray(1)) };
     } else if (isNumber(value) && !isUndefined(def[value])) {
       return { index: value, value: new def[value]() };

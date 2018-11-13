@@ -6,7 +6,6 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import Base from './codec/Base';
-import U8a from './codec/U8a';
 import UInt, { UIntBitLength } from './codec/UInt';
 import { AnyNumber } from './types';
 
@@ -30,8 +29,6 @@ export default class Moment extends Base<Date> {
       return new Date(Math.ceil(value.getTime() / 1000) * 1000);
     } else if (value instanceof UInt) {
       value = value.toBn();
-    } else if (value instanceof U8a) {
-      return Moment.decodeMoment(value.raw);
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {

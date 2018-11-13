@@ -4,32 +4,36 @@
 
 import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a } from '../types';
-import Base from './Base';
+import { AnyU8a, Codec } from '../types';
 
 // A U8a. A basic wrapper around Uint8Array, with no frills and no fuss. It
 // wraps a Uint8Array. It does differ from other implementations wher it will
 // consume the full u8a as passed to it in U8a. As such it is meant to be
 // subclassed where the wrapper takes care of the actual lengths.
-export default class U8a extends Base<Uint8Array> {
-  constructor (value: AnyU8a = new Uint8Array()) {
-    super(
-      U8a.decodeU8a(value)
-    );
+export default class U8a extends Uint8Array implements Codec {
+  public raw: Uint8Array; // FIXME Remove this once we convert all types out of Base
+
+  constructor (value: AnyU8a | ArrayBuffer, byteOffset: number = 0, length?: number) {
+    // Uint8Array can be constructed with ArrayBuffer, in which case it has 1
+    // or 2 more optional arguments. We handle this special case here.
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array
+    if (value instanceof ArrayBuffer) {
+      super(value, byteOffset, length);
+    } else {
+      super(
+        U8a.decodeU8a(value)
+      );
+    }
+
+    this.raw = this;
   }
 
-  static decodeU8a (value: any): Uint8Array {
+  private static decodeU8a (value: any): Uint8Array {
     if (isU8a(value)) {
       return value;
-    } else if (value instanceof U8a) {
-      return value.raw;
     } else {
       return u8aToU8a(value);
     }
-  }
-
-  get length (): number {
-    return this.raw.length;
   }
 
   get encodedLength (): number {
@@ -37,7 +41,7 @@ export default class U8a extends Base<Uint8Array> {
   }
 
   toHex (): string {
-    return u8aToHex(this.raw);
+    return u8aToHex(this);
   }
 
   toJSON (): any {
@@ -45,7 +49,7 @@ export default class U8a extends Base<Uint8Array> {
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    return this.raw;
+    return Uint8Array.from(this);
   }
 
   toString (): string {
