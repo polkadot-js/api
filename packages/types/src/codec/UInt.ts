@@ -33,6 +33,9 @@ export default class UInt extends BN implements Codec {
   }
 
   static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): string {
+    // This function returns a string, which will be passed in the BN
+    // constructor. It would be ideal to actually return a BN, but there's a
+    // bug: https://github.com/indutny/bn.js/issues/206.
     if (isHex(value)) {
       return hexToBn(value).toString();
     } else if (isU8a(value)) {
