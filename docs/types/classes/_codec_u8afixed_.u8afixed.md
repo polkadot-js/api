@@ -6,11 +6,11 @@
 
 **↳ U8aFixed**
 
+↳  [AccountId](_accountid_.accountid.md)
+
 ↳  [H512](_h512_.h512.md)
 
 ↳  [H256](_h256_.h256.md)
-
-↳  [AccountId](_accountid_.accountid.md)
 
 # Implements
 
@@ -29,7 +29,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [codec/U8aFixed.ts:15](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8aFixed.ts#L15)*
+*Defined in [codec/U8aFixed.ts:15](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8aFixed.ts#L15)*
 
 **Parameters:**
 
@@ -128,7 +128,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[raw](_codec_u8a_.u8a.md#raw)*
 
-*Defined in [codec/U8a.ts:14](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L14)*
+*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L15)*
 
 ___
 
@@ -140,7 +140,7 @@ ___
 
 getbitLength(): `number`
 
-*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8aFixed.ts#L32)*
+*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8aFixed.ts#L32)*
 
 **Returns:** `number`
 
@@ -153,7 +153,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L39)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L33)*
 
 **Returns:** `number`
 
@@ -689,18 +689,18 @@ ___
 
 ▸ **subarray**(begin: *`number`*, end?: * `undefined` &#124; `number`*): `Uint8Array`
 
-*Inherited from Uint8Array.subarray*
+*Inherited from [U8a](_codec_u8a_.u8a.md).[subarray](_codec_u8a_.u8a.md#subarray)*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2104*
+*Overrides Uint8Array.subarray*
 
-Gets a new Uint8Array view of the ArrayBuffer store for this array, referencing the elements at begin, inclusive, up to end, exclusive.
+*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L39)*
 
 **Parameters:**
 
-| Param | Type | Description |
-| ------ | ------ | ------ |
-| begin | `number` |  The index of the beginning of the array. |
-| `Optional` end |  `undefined` &#124; `number`|  The index of the end of the array. |
+| Param | Type |
+| ------ | ------ |
+| begin | `number` |
+| `Optional` end |  `undefined` &#124; `number`|
 
 **Returns:** `Uint8Array`
 
@@ -713,7 +713,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L43)*
 
 **Returns:** `string`
 
@@ -726,7 +726,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L47)*
+*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L47)*
 
 **Returns:** `any`
 
@@ -756,7 +756,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L55)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L55)*
 
 **Returns:** `string`
 
@@ -769,7 +769,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:51](https://github.com/polkadot-js/api/blob/ba4f6ac/packages/types/src/codec/U8a.ts#L51)*
+*Defined in [codec/U8a.ts:51](https://github.com/polkadot-js/api/blob/42e9347/packages/types/src/codec/U8a.ts#L51)*
 
 **Parameters:**
 
