@@ -25,7 +25,7 @@ export default class Text extends String implements Codec {
     this.raw = this;
   }
 
-  protected static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
+  private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
     if (isString(value)) {
       return value.toString();
     } else if (value instanceof Uint8Array) {

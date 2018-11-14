@@ -18,8 +18,9 @@ export default class Type extends Text {
 
   constructor (value: Text | U8a | Uint8Array | string = '') {
     // First decode it with Text
-    const textValue = Text.decodeText(value);
-    // Then cleanup the textValue to get the @polkadot/types type
+    const textValue = new Text(value).toString();
+    // Then cleanup the textValue to get the @polkadot/types type, and pass the
+    // sanitized value to constructor
     super(
       Type.decodeType(
         textValue
