@@ -27,7 +27,7 @@ export default class Moment extends Date implements Codec {
 
   static decodeMoment (value: Moment | Date | AnyNumber): Date {
     if (value instanceof Date) {
-      return new Date(Math.ceil(value.getTime() / 1000) * 1000);
+      return value;
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {
