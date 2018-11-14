@@ -14,7 +14,7 @@ describe('Moment', () => {
         expect(new Moment(input)[toJSON ? 'toJSON' : 'toString']()).toBe(expected);
       });
 
-    testDecode('Date', new Date(1537968546280), '2018-09-26T13:29:07.000Z');
+    testDecode('Date', new Date(1537968546280), 'Wed Sep 26 2018 15:29:07 GMT+0200 (Central European Summer Time)');
     testDecode('Moment', new Moment(1234), 1234, true);
     testDecode('number', 1234, 1234, true);
     testDecode('U64', new U64(69), 69, true);
@@ -28,7 +28,7 @@ describe('Moment', () => {
 
     testEncode('toBn', new BN(421));
     testEncode('toJSON', 421);
-    testEncode('toString', '1970-01-01T00:07:01.000Z');
+    testEncode('toString', 'Thu Jan 01 1970 01:07:01 GMT+0100 (Central European Standard Time)');
     testEncode('toNumber', 421);
     testEncode('toU8a', Uint8Array.from([165, 1, 0, 0, 0, 0, 0, 0]));
   });
