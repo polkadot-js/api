@@ -32,11 +32,11 @@
 
 *Overrides BN.__constructor*
 
-*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L23)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
 | `Default value` value | `AnyNumber` | 0 |
 | `Default value` bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |  DEFAULT_UINT_BITS |
@@ -54,7 +54,7 @@ ___
 
 **● raw**: *`BN`*
 
-*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L23)*
 
 ___
 
@@ -66,7 +66,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/UInt.ts:55](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L55)*
+*Defined in [codec/UInt.ts:55](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L55)*
 
 **Returns:** `number`
 
@@ -103,7 +103,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -124,7 +124,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -145,7 +145,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -166,7 +166,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -187,7 +187,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -202,7 +202,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:51](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L51)*
+*Defined in [codec/UInt.ts:51](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L51)*
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -251,7 +251,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -272,7 +272,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -293,7 +293,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -314,7 +314,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -335,7 +335,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -356,7 +356,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -377,7 +377,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -398,7 +398,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -419,7 +419,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | width | `number` |
 
@@ -440,7 +440,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -461,7 +461,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -482,7 +482,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -503,7 +503,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -524,7 +524,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -560,7 +560,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -581,7 +581,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -602,7 +602,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -623,7 +623,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -644,7 +644,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -665,7 +665,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -686,7 +686,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -722,7 +722,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | w | `number` |
 
@@ -743,7 +743,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -764,7 +764,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -845,7 +845,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -866,7 +866,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -902,7 +902,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -923,7 +923,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -944,7 +944,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -965,7 +965,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -986,7 +986,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1007,7 +1007,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1028,7 +1028,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1049,7 +1049,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1070,7 +1070,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1091,7 +1091,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1112,7 +1112,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1133,7 +1133,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1154,7 +1154,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1175,7 +1175,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1198,7 +1198,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1219,7 +1219,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1240,7 +1240,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1276,7 +1276,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | w | `number` |
 
@@ -1297,7 +1297,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1318,7 +1318,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1339,7 +1339,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1360,7 +1360,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1381,7 +1381,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1417,7 +1417,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1438,7 +1438,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1459,7 +1459,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1480,7 +1480,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` endian | `Endianness` |
 | `Optional` length |  `undefined` &#124; `number`|
@@ -1504,7 +1504,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | ArrayType | `object` |
 | `Optional` endian | `Endianness` |
@@ -1518,7 +1518,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | ArrayType | `any`[] |
 | `Optional` endian | `Endianness` |
@@ -1533,7 +1533,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L73)*
+*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L73)*
 
 **Returns:** `BN`
 
@@ -1552,7 +1552,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` endian | `Endianness` |
 | `Optional` length |  `undefined` &#124; `number`|
@@ -1566,7 +1566,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/UInt.ts:59](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L59)*
+*Defined in [codec/UInt.ts:59](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L59)*
 
 **Returns:** `string`
 
@@ -1579,7 +1579,7 @@ ___
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:63](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L63)*
+*Defined in [codec/UInt.ts:63](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L63)*
 
 **Returns:** `any`
 
@@ -1613,7 +1613,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | reductionContext | `ReductionContext` |
 
@@ -1634,7 +1634,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` base |  `number` &#124; "hex"|
 | `Optional` length |  `undefined` &#124; `number`|
@@ -1656,7 +1656,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | width | `number` |
 
@@ -1669,11 +1669,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/UInt.ts:69](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L69)*
+*Defined in [codec/UInt.ts:69](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L69)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -1694,7 +1694,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1715,7 +1715,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1736,7 +1736,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1757,7 +1757,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1778,7 +1778,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1799,7 +1799,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `number` |
 
@@ -1820,7 +1820,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1841,7 +1841,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `BN` |
 
@@ -1869,11 +1869,11 @@ ___
 
 ▸ **decodeUInt**(value: *`AnyNumber`*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
 
-*Defined in [codec/UInt.ts:35](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/UInt.ts#L35)*
+*Defined in [codec/UInt.ts:35](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/UInt.ts#L35)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | value | `AnyNumber` |
 | bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |
@@ -1895,7 +1895,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | b | `any` |
 
@@ -1916,7 +1916,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | left | `BN` |
 | right | `BN` |
@@ -1938,7 +1938,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | left | `BN` |
 | right | `BN` |
@@ -1960,7 +1960,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | num | `BN` |
 
@@ -1981,7 +1981,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | reductionContext |  `BN` &#124; `IPrimeName`|
 

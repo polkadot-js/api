@@ -34,11 +34,11 @@ const api = new Api(provider);
 
 ⊕ **new WsProvider**(endpoint?: *`string`*, autoConnect?: *`boolean`*): [WsProvider](_ws_index_.wsprovider.md)
 
-*Defined in [ws/index.ts:75](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L75)*
+*Defined in [ws/index.ts:75](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L75)*
 
 **Parameters:**
 
-| Param | Type | Default value | Description |
+| Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
 | `Default value` endpoint | `string` |  defaults.WS_URL |  The endpoint url. Usually \`ws://ip:9944\` or \`wss://ip:9944\` |
 | `Default value` autoConnect | `boolean` | true |  Whether to connect automatically or not. |
@@ -55,7 +55,7 @@ ___
 
 ▸ **connect**(): `void`
 
-*Defined in [ws/index.ts:103](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L103)*
+*Defined in [ws/index.ts:103](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L103)*
 
 *__summary__*: Manually connect
 
@@ -70,7 +70,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [ws/index.ts:120](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L120)*
+*Defined in [ws/index.ts:120](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L120)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -84,13 +84,13 @@ ___
 
 ▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [ws/index.ts:129](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L129)*
+*Defined in [ws/index.ts:129](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L129)*
 
 *__summary__*: Listens on events after having subscribed using the [subscribe](_ws_index_.wsprovider.md#subscribe) function.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | type | `ProviderInterface$Emitted` |  Event |
 | sub | `ProviderInterface$EmitCb` |  Callback |
@@ -104,13 +104,13 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*, subscription?: *`SubscriptionHandler`*): `Promise`<`any`>
 
-*Defined in [ws/index.ts:139](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L139)*
+*Defined in [ws/index.ts:139](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L139)*
 
 *__summary__*: Send JSON data using WebSockets to configured HTTP Endpoint or queue.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | method | `string` |  The RPC methods to execute |
 | params | `Array`<`any`> |  Encoded paramaters as appliucable for the method |
@@ -125,7 +125,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, callback: *`ProviderInterface$Callback`*): `Promise`<`number`>
 
-*Defined in [ws/index.ts:195](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L195)*
+*Defined in [ws/index.ts:195](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L195)*
 
 *__name__*: subscribe
 
@@ -146,7 +146,7 @@ rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, valu
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | type | `string` |  Subscription type |
 | method | `string` |  Subscription method |
@@ -163,13 +163,13 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [ws/index.ts:204](https://github.com/polkadot-js/api/blob/d097a7a/packages/rpc-provider/src/ws/index.ts#L204)*
+*Defined in [ws/index.ts:204](https://github.com/polkadot-js/api/blob/19aed57/packages/rpc-provider/src/ws/index.ts#L204)*
 
 *__summary__*: Allows unsubscribing to subscriptions made with [subscribe](_ws_index_.wsprovider.md#subscribe).
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | type | `string` |
 | method | `string` |

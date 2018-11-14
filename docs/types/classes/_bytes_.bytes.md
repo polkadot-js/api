@@ -27,11 +27,11 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Bytes.ts#L14)*
+*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Bytes.ts#L14)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | value | `AnyU8a` |
 
@@ -125,7 +125,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[raw](_codec_u8a_.u8a.md#raw)*
 
-*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/U8a.ts#L15)*
+*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L15)*
 
 ___
 
@@ -139,7 +139,7 @@ getencodedLength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [Bytes.ts:43](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Bytes.ts#L43)*
+*Defined in [Bytes.ts:43](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Bytes.ts#L43)*
 
 **Returns:** `number`
 
@@ -174,7 +174,7 @@ Returns the this object after copying a section of the array identified by start
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | target | `number` |  If target is negative, it is treated as length+target where length is the length of the array. |
 | start | `number` |  If start is negative, it is treated as length+start. If end is negative, it is treated as length+end. |
@@ -212,7 +212,7 @@ Determines whether all the members of an array satisfy the specified test.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array. |
 | `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
@@ -234,7 +234,7 @@ Returns the this object after filling the section identified by start and end wi
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | value | `number` |  value to fill array section with |
 | `Optional` start |  `undefined` &#124; `number`|  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
@@ -257,7 +257,7 @@ Returns the elements of an array that meet the condition specified in a callback
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to three arguments. The filter method calls the callbackfn function one time for each element in the array. |
 | `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
@@ -279,7 +279,7 @@ Returns the value of the first element in the array where predicate is true, and
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
@@ -301,7 +301,7 @@ Returns the index of the first element in the array where predicate is true, and
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, findIndex immediately returns that element index. Otherwise, findIndex returns -1. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
@@ -323,7 +323,7 @@ Performs the specified action for each element in an array.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array. |
 | `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
@@ -345,7 +345,7 @@ Determines whether an array includes a certain element, returning true or false 
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The element to search for. |
 | `Optional` fromIndex |  `undefined` &#124; `number`|  The position in this array at which to begin searching for searchElement. |
@@ -367,7 +367,7 @@ Returns the index of the first occurrence of a value in an array.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The value to locate in the array. |
 | `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
@@ -389,7 +389,7 @@ Adds all the elements of an array separated by the specified separator string.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | `Optional` separator |  `undefined` &#124; `string`|  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
 
@@ -425,7 +425,7 @@ Returns the index of the last occurrence of a value in an array.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The value to locate in the array. |
 | `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
@@ -447,7 +447,7 @@ Calls a defined callback function on each element of an array, and returns an ar
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to three arguments. The map method calls the callbackfn function one time for each element in the array. |
 | `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
@@ -473,7 +473,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array. |
 
@@ -485,7 +485,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | initialValue | `number` |
@@ -503,7 +503,7 @@ Calls the specified callback function for all the elements in an array. The retu
 #### U 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array. |
 | initialValue | `U` |  If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value. |
@@ -529,7 +529,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array. |
 
@@ -541,7 +541,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | initialValue | `number` |
@@ -559,7 +559,7 @@ Calls the specified callback function for all the elements in an array, in desce
 #### U 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array. |
 | initialValue | `U` |  If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value. |
@@ -596,7 +596,7 @@ Sets a value or an array of values.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | array | `ArrayLike`<`number`> |  A typed or untyped array of values to set. |
 | `Optional` offset |  `undefined` &#124; `number`|  The index in the current array at which the values are to be written. |
@@ -618,7 +618,7 @@ Returns a section of an array.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | `Optional` start |  `undefined` &#124; `number`|  The beginning of the specified portion of the array. |
 | `Optional` end |  `undefined` &#124; `number`|  The end of the specified portion of the array. |
@@ -640,7 +640,7 @@ Determines whether the specified callback function returns true for any element 
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | callbackfn | `function` |  A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array. |
 | `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
@@ -662,7 +662,7 @@ Sorts an array.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | `Optional` compareFn |  `undefined` &#124; `function`|  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
 
@@ -679,11 +679,11 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/U8a.ts#L39)*
+*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L39)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | begin | `number` |
 | `Optional` end |  `undefined` &#124; `number`|
@@ -699,7 +699,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L43)*
 
 **Returns:** `string`
 
@@ -712,7 +712,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/U8a.ts#L47)*
+*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L47)*
 
 **Returns:** `any`
 
@@ -742,7 +742,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/U8a.ts#L55)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L55)*
 
 **Returns:** `string`
 
@@ -755,11 +755,11 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:47](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Bytes.ts#L47)*
+*Defined in [Bytes.ts:47](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Bytes.ts#L47)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 

@@ -25,11 +25,11 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Metadata.ts:64](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Metadata.ts#L64)*
+*Defined in [Metadata.ts:64](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Metadata.ts#L64)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` value | `any` |
 
@@ -58,7 +58,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[raw](_codec_struct_.struct.md#raw)*
 
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L25)*
+*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -83,7 +83,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L123)*
 
 **Returns:** `E`
 
@@ -94,7 +94,7 @@ ___
 
 getarguments(): [Vector](_codec_vector_.vector.md)<[Type](_type_.type.md)>
 
-*Defined in [Metadata.ts:73](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Metadata.ts#L73)*
+*Defined in [Metadata.ts:73](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Metadata.ts#L73)*
 
 **Returns:** [Vector](_codec_vector_.vector.md)<[Type](_type_.type.md)>
 
@@ -105,7 +105,7 @@ ___
 
 getdocumentation(): [Vector](_codec_vector_.vector.md)<[Text](_text_.text.md)>
 
-*Defined in [Metadata.ts:77](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Metadata.ts#L77)*
+*Defined in [Metadata.ts:77](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Metadata.ts#L77)*
 
 **Returns:** [Vector](_codec_vector_.vector.md)<[Text](_text_.text.md)>
 
@@ -118,7 +118,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L127)*
 
 **Returns:** `number`
 
@@ -129,7 +129,7 @@ ___
 
 getname(): [Text](_text_.text.md)
 
-*Defined in [Metadata.ts:81](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Metadata.ts#L81)*
+*Defined in [Metadata.ts:81](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Metadata.ts#L81)*
 
 **Returns:** [Text](_text_.text.md)
 
@@ -177,7 +177,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -211,7 +211,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -231,7 +231,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -246,11 +246,11 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L133)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
@@ -269,7 +269,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -303,7 +303,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 | value | [Base](_codec_base_.base.md) |
@@ -319,7 +319,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L137)*
 
 **Returns:** `Array`<[Base](_codec_base_.base.md)>
 
@@ -332,7 +332,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L141)*
 
 **Returns:** `string`
 
@@ -345,7 +345,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L145)*
 
 **Returns:** `any`
 
@@ -358,7 +358,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L156)*
 
 **Returns:** `string`
 
@@ -371,11 +371,11 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L160)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -405,14 +405,14 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/Struct.ts#L113)*
 
 **Type parameters:**
 
 #### S :  `ConstructorDef`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 
