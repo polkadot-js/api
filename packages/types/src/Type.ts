@@ -31,7 +31,7 @@ export default class Type extends Text {
 
   }
 
-  private static decodeType (value: string) {
+  private static decodeType (value: string): string {
     const mappings: Array<Mapper> = [
       // <T::Balance as HasCompact>
       this._cleanupCompact(),
