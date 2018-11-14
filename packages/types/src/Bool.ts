@@ -9,7 +9,7 @@ import { Codec } from './types';
 export default class Bool extends Boolean implements Codec {
   public raw: Boolean; // FIXME Remove this once we convert all types out of Base
 
-  constructor (value: Bool | Boolean | Uint8Array | boolean = false) {
+  constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
     super(
       Bool.decodeBool(value)
     );
@@ -32,7 +32,7 @@ export default class Bool extends Boolean implements Codec {
   }
 
   toJSON (): any {
-    return this;
+    return this.valueOf();
   }
 
   toHex (): string {
@@ -44,10 +44,6 @@ export default class Bool extends Boolean implements Codec {
   }
 
   toString (): string {
-    return `${this}`;
-  }
-
-  valueOf (): boolean {
-    return !!this;
+    return `${this.toJSON()}`;
   }
 }
