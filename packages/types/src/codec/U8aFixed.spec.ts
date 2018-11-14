@@ -16,7 +16,7 @@ describe('U8aFixed', () => {
   });
 
   it('exposes the correct bitLength', () => {
-    expect(u8a.bitLength).toEqual(32);
+    expect(u8a.bitLength()).toEqual(32);
   });
 
   it('allows wrapping of a pre-existing instance', () => {
