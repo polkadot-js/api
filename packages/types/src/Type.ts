@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import U8a from './codec/U8a';
 import Text from './Text';
 
@@ -13,17 +14,19 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 // what string provides us, however we also "tweak" the types received from the runtime, i.e.
 // we remove the `T::` prefixes found in some types for consistency accross implementation.
 export default class Type extends Text {
-  private _originalLength: number = 0;
+  private _originalLength: number;
 
   constructor (value: Text | U8a | Uint8Array | string = '') {
-    // First decode it with Text, then cleanup the type.
+    // First decode it with Text
+    const textValue = Text.decodeText(value);
+    // Then cleanup the textValue to get the @polkadot/types type
     super(
       Type.decodeType(
-        Text.decodeText(value)
+        textValue
       )
     );
 
-    this._originalLength = value ? value.length : 0;
+    this._originalLength = textValue.length;
 
   }
 
@@ -57,8 +60,8 @@ export default class Type extends Text {
   // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
   // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
   // only the decoding leg, allowing the decoders to work with original pointers
-  get length (): number {
-    return this._originalLength;
+  get encodedLength (): number {
+    return this._originalLength + Compact.encodeU8a(this._originalLength, DEFAULT_LENGTH_BITS).length;
   }
 
   // Note Since we are mangling what we get in beyond recognition, we really should
