@@ -23,7 +23,7 @@ describe('Moment', () => {
       expect(
         new Moment(new Date(1537968546280))
           .toString()
-          .startsWith('Wed Sep 26 2018')
+          .startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
       ).toBe(true);
     });
   });
@@ -45,7 +45,7 @@ describe('Moment', () => {
       expect(
         new Moment(421)
           .toString()
-          .startsWith('Thu Jan 01 1970')
+          .startsWith('Thu Jan 01 1970') // The time depends on the timezone this test is run in
       ).toBe(true);
     });
   });
