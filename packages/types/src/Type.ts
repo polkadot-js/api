@@ -15,28 +15,19 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 export default class Type extends Text {
   private _originalLength: number = 0;
 
-  constructor (value?: Text | U8a | Uint8Array | string) {
-    super(value);
+  constructor (value: Text | U8a | Uint8Array | string = '') {
+    // First decode it with Text, then cleanup the type.
+    super(
+      Type.decodeType(
+        Text.decodeText(value)
+      )
+    );
 
-    this._cleanupTypes();
+    this._originalLength = value ? value.length : 0;
+
   }
 
-  // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
-  // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
-  // only the decoding leg, allowing the decoders to work with original pointers
-  get length (): number {
-    return this._originalLength;
-  }
-
-  // Note Since we are mangling what we get in beyond recognition, we really should
-  // not allow the re-encoding. Additionally, this is probably more of a decoder-only
-  // helper, so treat it as such.
-  toU8a (isBare?: boolean): Uint8Array {
-    throw new Error('Type::toU8a: unimplemented');
-  }
-
-  // HACK(ery) Take the types and tweak them (slightly?) for consistency
-  private _cleanupTypes (): Type {
+  private static decodeType (value: string) {
     const mappings: Array<Mapper> = [
       // <T::Balance as HasCompact>
       this._cleanupCompact(),
@@ -58,16 +49,27 @@ export default class Type extends Text {
       //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
 
-    this._originalLength = this.raw.length;
-    this.raw = mappings.reduce((result, fn) => {
+    return mappings.reduce((result, fn) => {
       return fn(result);
-    }, this.raw).trim();
+    }, value).trim();
+  }
 
-    return this;
+  // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
+  // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
+  // only the decoding leg, allowing the decoders to work with original pointers
+  get length (): number {
+    return this._originalLength;
+  }
+
+  // Note Since we are mangling what we get in beyond recognition, we really should
+  // not allow the re-encoding. Additionally, this is probably more of a decoder-only
+  // helper, so treat it as such.
+  toU8a (isBare?: boolean): Uint8Array {
+    throw new Error('Type::toU8a: unimplemented');
   }
 
   // given a starting index, find the closing >
-  private _findClosing (value: string, start: number): number {
+  private static _findClosing (value: string, start: number): number {
     let depth = 0;
 
     for (let index = start; index < value.length; index++) {
@@ -85,7 +87,7 @@ export default class Type extends Text {
     throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
   }
 
-  private _alias (src: string, dest: string): Mapper {
+  private static _alias (src: string, dest: string): Mapper {
     return (value: string): string => {
       return value.replace(
         new RegExp(src, 'g'), dest
@@ -93,14 +95,14 @@ export default class Type extends Text {
     };
   }
 
-  private _cleanupCompact (): Mapper {
+  private static _cleanupCompact (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value[index] !== '<') {
           continue;
         }
 
-        const end = this._findClosing(value, index + 1) - 14;
+        const end = Type._findClosing(value, index + 1) - 14;
 
         if (value.substr(end, 14) === ' as HasCompact') {
           value = `Compact<${value.substr(index + 1, end - index - 1)}>`;
@@ -111,7 +113,7 @@ export default class Type extends Text {
     };
   }
 
-  private _removeGenerics (): Mapper {
+  private static _removeGenerics (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value[index] === '<') {
@@ -124,7 +126,7 @@ export default class Type extends Text {
 
           // we have not found anything, unwrap generic innards
           if (!box) {
-            const end = this._findClosing(value, index + 1);
+            const end = Type._findClosing(value, index + 1);
 
             value = `${value.substr(0, index)}${value.substr(end + 1)}`;
           }
@@ -136,12 +138,12 @@ export default class Type extends Text {
   }
 
   // remove the PairOf wrappers
-  private _removePairOf (): Mapper {
+  private static _removePairOf (): Mapper {
     return (value: string): string => {
       for (let index = 0; index < value.length; index++) {
         if (value.substr(index, 7) === 'PairOf<') {
           const start = index + 7;
-          const end = this._findClosing(value, start);
+          const end = Type._findClosing(value, start);
           const type = value.substr(start, end - start);
 
           value = `${value.substr(0, index)}(${type}, ${type})${value.substr(end + 1)}`;
@@ -153,7 +155,7 @@ export default class Type extends Text {
   }
 
   // remove the type traits
-  private _removeTraits (): Mapper {
+  private static _removeTraits (): Mapper {
     return (value: string): string => {
       return value
         // anything `T::<type>` to end up as `<type>`
@@ -168,7 +170,7 @@ export default class Type extends Text {
   }
 
   // remove wrapping values, i.e. Box<Proposal> -> Proposal
-  private _removeWrap (_check: string): Mapper {
+  private static _removeWrap (_check: string): Mapper {
     const check = `${_check}<`;
 
     return (value: string): string => {
@@ -179,7 +181,7 @@ export default class Type extends Text {
 
         if (index !== -1) {
           const start = index + check.length;
-          const end = this._findClosing(value, start);
+          const end = Type._findClosing(value, start);
 
           value = `${value.substr(0, index)}${value.substr(start, end - start)}${value.substr(end + 1)}`;
         }
