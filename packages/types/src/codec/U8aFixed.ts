@@ -29,7 +29,7 @@ export default class U8aFixed extends U8a {
     return value;
   }
 
-  get bitLength () {
+  bitLength () {
     return this.length * 8;
   }
 }

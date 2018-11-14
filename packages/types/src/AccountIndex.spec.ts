@@ -8,14 +8,14 @@ import AccountIndex from './AccountIndex';
 describe('AccountIndex', () => {
   it('creates a BN representation', () => {
     expect(
-      new AccountIndex(new Uint8Array([17, 18, 19, 20])).toBn().toString()
-    ).toEqual('336794129');
+      new AccountIndex(new Uint8Array([17, 18, 19, 20])).toNumber()
+    ).toEqual(336794129);
   });
 
   it('creates a BN representation (from ss-58)', () => {
     expect(
-      new AccountIndex('Mwz15xN8').toBn().toString()
-    ).toEqual('336794129');
+      new AccountIndex('Mwz15xN8').toNumber()
+    ).toEqual(336794129);
   });
 
   it('constructs 2-byte from number', () => {

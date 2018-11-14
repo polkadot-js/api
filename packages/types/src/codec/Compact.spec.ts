@@ -96,7 +96,7 @@ describe('Compact', () => {
   describe('constructor', () => {
     it('has the correct bitLength for constructor values (BlockNumber)', () => {
       expect(
-        new Compact(BlockNumber, 0xfffffff9).bitLength
+        new Compact(BlockNumber, 0xfffffff9).bitLength()
       ).toEqual(64);
     });
 
@@ -114,8 +114,8 @@ describe('Compact', () => {
 
     it('constructs properly via U8a as U32', () => {
       expect(
-        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toBn()
-      ).toEqual(new BN(0xffff));
+        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toNumber()
+      ).toEqual(new BN(0xffff).toNumber());
     });
 
     it('constructs properly via number as Moment', () => {
