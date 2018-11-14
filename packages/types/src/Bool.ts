@@ -17,7 +17,7 @@ export default class Bool extends Boolean implements Codec {
     this.raw = this;
   }
 
-  static decodeBool (value: any): boolean {
+  private static decodeBool (value: any): boolean {
     if (value instanceof Bool || value instanceof Boolean) {
       return value.valueOf();
     } else if (isU8a(value)) {
