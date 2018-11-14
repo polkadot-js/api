@@ -197,6 +197,7 @@
 * [&quot;codec/U8aFixed.spec&quot;](modules/_codec_u8afixed_spec_.md)
 * [&quot;codec/UInt&quot;](modules/_codec_uint_.md)
   * [UInt](classes/_codec_uint_.uint.md)
+* [&quot;codec/UInt.spec&quot;](modules/_codec_uint_spec_.md)
 * [&quot;codec/Vector&quot;](modules/_codec_vector_.md)
   * [Vector](classes/_codec_vector_.vector.md)
 * [&quot;codec/createType&quot;](modules/_codec_createtype_.md)

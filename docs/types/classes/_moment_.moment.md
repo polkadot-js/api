@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Moment.ts:18](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L18)*
+*Defined in [Moment.ts:18](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L18)*
 
 **Parameters:**
 
@@ -38,23 +38,12 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
 # Accessors
 
-<a id="bitlength"></a>
-
-##  bitLength
-
-getbitLength(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-*Defined in [Moment.ts:43](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L43)*
-
-**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-___
 <a id="encodedlength"></a>
 
 ##  encodedLength
@@ -63,7 +52,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [Moment.ts:47](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L47)*
+*Defined in [Moment.ts:45](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L45)*
 
 **Returns:** `number`
 
@@ -71,13 +60,24 @@ ___
 
 # Methods
 
+<a id="bitlength"></a>
+
+##  bitLength
+
+▸ **bitLength**(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
+
+*Defined in [Moment.ts:41](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L41)*
+
+**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
+
+___
 <a id="gettime"></a>
 
 ##  getTime
 
 ▸ **getTime**(): `number`
 
-*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L51)*
+*Defined in [Moment.ts:49](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L49)*
 
 **Returns:** `number`
 
@@ -88,7 +88,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [Moment.ts:71](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L71)*
+*Defined in [Moment.ts:69](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L69)*
 
 **Returns:** `BN`
 
@@ -99,7 +99,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Moment.ts:55](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L55)*
+*Defined in [Moment.ts:53](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L53)*
 
 **Returns:** `string`
 
@@ -112,7 +112,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [Moment.ts:59](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L59)*
+*Defined in [Moment.ts:57](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L57)*
 
 **Returns:** `any`
 
@@ -123,7 +123,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [Moment.ts:75](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L75)*
+*Defined in [Moment.ts:73](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L73)*
 
 **Returns:** `number`
 
@@ -136,7 +136,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [Moment.ts:67](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L67)*
+*Defined in [Moment.ts:65](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L65)*
 
 **Returns:** `string`
 
@@ -149,7 +149,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [Moment.ts:63](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L63)*
+*Defined in [Moment.ts:61](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L61)*
 
 **Parameters:**
 
@@ -166,7 +166,7 @@ ___
 
 ▸ **decodeMoment**(value: * [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`*): `Date`
 
-*Defined in [Moment.ts:25](https://github.com/polkadot-js/api/blob/67dd498/packages/types/src/Moment.ts#L25)*
+*Defined in [Moment.ts:25](https://github.com/polkadot-js/api/blob/d097a7a/packages/types/src/Moment.ts#L25)*
 
 **Parameters:**
 
