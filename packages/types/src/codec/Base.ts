@@ -10,7 +10,7 @@ export const l = logger('codec');
  * A type extends the Base class, when it holds a value
  */
 export default class Base<T = any> {
-  raw: T;
+  protected raw: T;
 
   constructor (value?: any) {
     this.raw = value;
