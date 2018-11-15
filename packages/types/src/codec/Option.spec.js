@@ -22,9 +22,9 @@ const testEncode = (to, expected) =>
 
 describe('Option', () => {
   it('converts undefined/null to empty', () => {
-    expect(new Option(Text, undefined).isEmpty).toBe(true);
-    expect(new Option(Text, null).isEmpty).toBe(true);
-    expect(new Option(Text, 'test').isEmpty).toBe(false);
+    expect(new Option(Text, undefined).isNone).toBe(true);
+    expect(new Option(Text, null).isNone).toBe(true);
+    expect(new Option(Text, 'test').isNone).toBe(false);
   });
 
   testDecode('string (with)', 'foo', 'foo');
