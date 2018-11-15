@@ -84,4 +84,11 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   toString (): string {
     return this.raw.toString();
   }
+
+  unwrap (): T {
+    if (this.isNone) {
+      throw new Error('Option: unwrapping a None value');
+    }
+    return this.raw;
+  }
 }

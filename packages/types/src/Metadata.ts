@@ -312,11 +312,8 @@ export class RuntimeModuleMetadata extends Struct {
     return this.get('prefix') as Text;
   }
 
-  get storage (): StorageMetadata | undefined {
-    // FIXME This should actually return an Option<StorageMetadata>
-    return (this.get('storage') as Option<StorageMetadata>).isSome
-      ? (this.get('storage') as Option<StorageMetadata>).value as StorageMetadata
-      : undefined;
+  get storage (): Option<StorageMetadata> {
+    return this.get('storage') as Option<StorageMetadata>;
   }
 }
 
@@ -392,8 +389,8 @@ export default class RuntimeMetadata extends Struct {
     );
 
     const storages = this.modules.map((module) =>
-      module.storage
-        ? module.storage.functions.map((fn) =>
+      module.storage.isSome
+        ? module.storage.unwrap().functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]

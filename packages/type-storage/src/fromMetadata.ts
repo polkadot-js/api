@@ -25,14 +25,14 @@ export default function fromMetadata (metadata: Metadata): Storage {
   }, {} as Storage);
 
   return metadata.modules.reduce((result, moduleMetadata) => {
-    if (!moduleMetadata.storage) {
+    if (moduleMetadata.storage.isNone) {
       return result;
     }
 
-    const prefix = moduleMetadata.storage.prefix;
+    const prefix = moduleMetadata.storage.unwrap().prefix;
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.functions.reduce((newModule, func) => {
+    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
       newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;
