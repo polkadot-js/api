@@ -20,7 +20,7 @@
 
 **Ƭ BlockValue**: *`object`*
 
-*Defined in [Block.ts:15](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/Block.ts#L15)*
+*Defined in [Block.ts:15](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/Block.ts#L15)*
 
 #### Type declaration
 

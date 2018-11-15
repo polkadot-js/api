@@ -29,7 +29,7 @@
 
 ⊕ **new U8a**(value: *`AnyU8a`*): [U8a](_codec_u8a_.u8a.md)
 
-*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L15)*
+*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L15)*
 
 **Parameters:**
 
@@ -125,7 +125,7 @@ ___
 
 **● raw**: *`Uint8Array`*
 
-*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L15)*
+*Defined in [codec/U8a.ts:15](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L15)*
 
 ___
 <a id="uint8array"></a>
@@ -146,7 +146,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L33)*
+*Defined in [codec/U8a.ts:33](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L33)*
 
 **Returns:** `number`
 
@@ -684,7 +684,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L39)*
+*Defined in [codec/U8a.ts:39](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L39)*
 
 **Parameters:**
 
@@ -702,7 +702,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L43)*
 
 **Returns:** `string`
 
@@ -713,7 +713,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L47)*
+*Defined in [codec/U8a.ts:47](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L47)*
 
 **Returns:** `any`
 
@@ -741,7 +741,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L55)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L55)*
 
 **Returns:** `string`
 
@@ -752,7 +752,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/U8a.ts:51](https://github.com/polkadot-js/api/blob/19aed57/packages/types/src/codec/U8a.ts#L51)*
+*Defined in [codec/U8a.ts:51](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/U8a.ts#L51)*
 
 **Parameters:**
 
