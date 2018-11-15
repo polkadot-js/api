@@ -144,7 +144,7 @@ function addStorage (metadata: Metadata) {
   const renderAnchors = generateSectionLinks('storage', metadata);
 
   return orderedSections.reduce((md: string, moduleMetadata: any) => {
-    if (!moduleMetadata.storage) {
+    if (moduleMetadata.storage.isNone) {
       return md;
     }
 
