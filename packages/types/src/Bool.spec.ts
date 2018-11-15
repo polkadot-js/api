@@ -5,7 +5,7 @@
 import Bool from './Bool';
 import { CodecTo } from './types';
 
-describe('Text', () => {
+describe('Bool', () => {
   describe('decode', () => {
     const testDecode = (type: string, input: Uint8Array | boolean | Boolean | Bool | number, expected: boolean) =>
       it(`can decode from ${type}`, () => {
