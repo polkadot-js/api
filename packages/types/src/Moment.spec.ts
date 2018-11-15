@@ -22,8 +22,8 @@ describe('Moment', () => {
     it(`can decode from Date`, () => {
       expect(
         new Moment(new Date(1537968546280))
-          .toString()
-          .startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
+          .toISOString()
+          .startsWith('2018-09-26T13:29:07.000Z')
       ).toBe(true);
     });
   });
