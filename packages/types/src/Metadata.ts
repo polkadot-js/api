@@ -393,7 +393,7 @@ export default class RuntimeMetadata extends Struct {
 
     const storages = this.modules.map((module) =>
       module.storage
-        ? (module.storage as StorageMetadata).functions.map((fn) =>
+        ? module.storage.functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
