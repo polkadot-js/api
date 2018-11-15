@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
+import { CodecTo } from './types';
 import Text from './Text';
 import U8a from './codec/U8a';
 
@@ -20,12 +21,12 @@ describe('Text', () => {
   });
 
   describe('encode', () => {
-    const testEncode = (to: 'toString' | 'toU8a', expected: string | Uint8Array) =>
+    const testEncode = (to: CodecTo, expected: string | Uint8Array) =>
       it(`can encode ${to}`, () => {
         expect(new Text('foo')[to]()).toEqual(expected);
       });
 
-    // testEncode('toHex', '0x0c666f6f'); // FIXME Add this
+    testEncode('toHex', '0x0c666f6f');
     testEncode('toString', 'foo');
     testEncode('toU8a', Uint8Array.from([12, 102, 111, 111]));
   });
