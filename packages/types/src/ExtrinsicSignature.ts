@@ -46,8 +46,6 @@ export default class ExtrinsicSignature extends Struct {
   static decodeExtrinsicSignature (value: ExtrinsicSignature | ExtrinsicSignatureValue | AnyU8a | undefined): object | Uint8Array {
     if (!value) {
       return {};
-    } else if (value instanceof Struct) {
-      return value.raw;
     } else if (isU8a(value)) {
       const version = value[0];
 

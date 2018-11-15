@@ -8,12 +8,4 @@ describe('Base', () => {
   it('has the contructor value on raw', () => {
     expect(new Base('foo-bar').raw).toEqual('foo-bar');
   });
-
-  ['encodedLength', 'toJSON', 'toString', 'toU8a'].forEach((method) => {
-    it(`has abstract (?) impl for ${method}`, () => {
-      expect(
-        () => new Base()[method]()
-      ).toThrow(/unimplemented/);
-    });
-  });
 });

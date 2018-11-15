@@ -2,28 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isNull, isU8a, isUndefined } from '@polkadot/util';
+import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Null from '../Null';
 
 // An Option is an optional field. Basically the first byte indicates that there is
 // is value to follow. If the byte is `1` there is an actual value. So the Option
 // implements that - decodes, checks for optionality and wraps the required structure
 // with a value if/as required/found.
-export default class Option<T> extends Base<Base<T>> {
-  private _isEmpty: boolean;
-
-  constructor (Type: Constructor<Base<T>>, value?: any) {
+export default class Option<T extends Codec> extends Base<T> implements Codec {
+  constructor (Type: Constructor, value?: any) {
     super(
       Option.decodeOption(Type, value)
     );
-
-    this._isEmpty = isNull(value) || isUndefined(value);
   }
 
-  static decodeOption<O> (Type: Constructor<Base<O>>, value?: any): Base {
+  static decodeOption<O> (Type: Constructor, value?: any): Codec {
     if (isU8a(value)) {
       if (value[0] === 0) {
         return new Null();
@@ -32,14 +28,13 @@ export default class Option<T> extends Base<Base<T>> {
       return new Type(value.subarray(1));
     }
 
-    return new Type(
-      isNull(value) || isUndefined(value)
-        ? undefined
-        : value
-    );
+    return isNull(value) || isUndefined(value) || value instanceof Null
+      ? new Null()
+      : new Type(value);
+
   }
 
-  static with<O> (Type: Constructor<Base<O>>): Constructor<Option<O>> {
+  static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);
@@ -47,28 +42,28 @@ export default class Option<T> extends Base<Base<T>> {
     };
   }
 
-  get isEmpty (): boolean {
-    return this._isEmpty;
+  get isNone (): boolean {
+    return this.raw instanceof Null;
   }
 
-  get value (): Base<T> | undefined {
-    return this._isEmpty
-      ? undefined
-      : this.raw;
+  get isSome (): boolean {
+    return !this.isNone;
+  }
+
+  get value (): Codec {
+    return this.raw;
   }
 
   get encodedLength (): number {
-    const childLength = this._isEmpty
-      ? 0
-      : this.raw.encodedLength;
+    return 1 + this.raw.encodedLength;
+  }
 
-    return 1 + childLength;
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
-    return this._isEmpty
-      ? undefined
-      : this.raw.toJSON();
+    this.raw.toJSON();
   }
 
   toU8a (isBare?: boolean): Uint8Array {
@@ -78,7 +73,7 @@ export default class Option<T> extends Base<Base<T>> {
 
     const u8a = new Uint8Array(this.encodedLength);
 
-    if (!this._isEmpty) {
+    if (this.isSome) {
       u8a.set([1]);
       u8a.set(this.raw.toU8a(), 1);
     }
@@ -87,8 +82,6 @@ export default class Option<T> extends Base<Base<T>> {
   }
 
   toString (): string {
-    return this._isEmpty
-      ? ''
-      : this.raw.toString();
+    return this.raw.toString();
   }
 }

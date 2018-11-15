@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { bnToBn, bnToU8a, hexToBn, isBn, isHex, isNumber, isString, isU8a, u8aToBn, u8aConcat, u8aToU8a } from '@polkadot/util';
 
-import { AnyNumber, Constructor } from '../types';
+import { AnyNumber, Codec, Constructor } from '../types';
 import Base from './Base';
 import UInt, { UIntBitLength } from './UInt';
 import Moment from '../Moment';
@@ -31,7 +31,7 @@ const MAX_U32 = new BN(2).pow(new BN(32 - 2)).subn(1);
 //     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
 //
 // Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
-export default class Compact extends Base<UInt | Moment> {
+export default class Compact extends Base<UInt | Moment> implements Codec {
   constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
   }
@@ -126,7 +126,7 @@ export default class Compact extends Base<UInt | Moment> {
     return this.toU8a().length;
   }
 
-  toBn (): any {
+  toBn (): BN {
     return this.raw.toBn();
   }
 

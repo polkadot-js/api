@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isU8a, isUndefined } from '@polkadot/util';
+import { isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
+import { Codec } from '../types';
 
 type SetValues = {
   [index: string]: number
@@ -14,7 +15,7 @@ type SetValues = {
 // a bitwise representation of the values.
 //
 // FIXME This is a prime candidate to potentially extend Set
-export default class Set extends Base<Array<string>> {
+export default class Set extends Base<Array<string>> implements Codec {
   private _setValues: SetValues;
 
   constructor (setValues: SetValues, value?: Array<string> | Uint8Array | number) {
@@ -76,6 +77,10 @@ export default class Set extends Base<Array<string>> {
 
   get valueEncoded (): number {
     return Set.encodeSet(this._setValues, this.raw);
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {

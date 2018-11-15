@@ -4,11 +4,10 @@
 
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
 import { Codec, Constructor, ConstructorDef } from '../types';
 
-// A Struct defines an Object with key/values - where the values are Base<T> values. It removes
-// a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
+// A Struct defines an Object with key/values - where the values are Codec values. It removes
+// a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
 // values in the constructor and it manages the decoding. It is important that the constructor
 // values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
 // it needs to decoded in the specific defined order.
@@ -16,13 +15,12 @@ export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends ConstructorDef = ConstructorDef,
   // internal type, instance of classes mapped by key
-  T extends { [K in keyof S]: Base } = { [K in keyof S]: Base },
+  T extends { [K in keyof S]: Codec } = { [K in keyof S]: Codec },
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-  > extends Map<keyof S, Base> implements Codec {
-  public raw: Map<keyof S, Base>; // FIXME Remove this once we convert all types out of Base
+  > extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
@@ -41,9 +39,6 @@ export default class Struct<
 
         return result;
       }, {} as E);
-
-    // FIXME Remove this once we convert all types out of Base
-    this.raw = this;
   }
 
   /**
@@ -64,7 +59,7 @@ export default class Struct<
   private static decodeStruct<
     S extends ConstructorDef,
     _,
-    T extends { [K in keyof S]: Base }
+    T extends { [K in keyof S]: Codec }
     > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
@@ -130,11 +125,11 @@ export default class Struct<
     }, 0);
   }
 
-  getAtIndex (index: number): Base {
+  getAtIndex (index: number): Codec {
     return this.toArray()[index];
   }
 
-  toArray (): Array<Base> {
+  toArray (): Array<Codec> {
     return [...this.values()];
   }
 

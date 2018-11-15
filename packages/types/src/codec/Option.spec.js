@@ -5,12 +5,12 @@
 import Option from './Option';
 import Text from '../Text';
 
-const testDecode = (type, input, expected, testLength = true) =>
+const testDecode = (type, input, expected) =>
   it(`can decode from ${type}`, () => {
     const o = new Option(Text, input);
 
     expect(o.toString()).toBe(expected);
-    expect(o.isEmpty).toBe(testLength && !expected.length);
+    expect(o.isNone).toBe(!expected.length);
   });
 
 const testEncode = (to, expected) =>
@@ -32,7 +32,7 @@ describe('Option', () => {
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
   testDecode('Uint8Array (without)', Uint8Array.from([0]), '', false);
 
-  // testEncode('toHex', '0x010c666f6f'); // FIXME Add this
+  testEncode('toHex', '0x010c666f6f');
   testEncode('toString', 'foo');
   testEncode('toU8a', Uint8Array.from([1, 12, 102, 111, 111]));
 

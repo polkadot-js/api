@@ -8,7 +8,6 @@
 // others, so there _should_ not be need for direct use)
 
 // These are the base codec types, generally used for construction
-export { default as Base } from './Base';
 export { default as Compact } from './Compact';
 export { default as Enum } from './Enum';
 export { default as EnumType } from './EnumType';

@@ -7,14 +7,10 @@ import { isU8a, u8aToHex } from '@polkadot/util';
 import { Codec } from './types';
 
 export default class Bool extends Boolean implements Codec {
-  public raw: Boolean; // FIXME Remove this once we convert all types out of Base
-
   constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
     super(
       Bool.decodeBool(value)
     );
-
-    this.raw = this;
   }
 
   private static decodeBool (value: any): boolean {

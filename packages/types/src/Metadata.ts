@@ -6,7 +6,6 @@ import { AnyNumber } from './types';
 
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
-import Base from './codec/Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 import Enum from './codec/Enum';
 import EnumType from './codec/EnumType';
@@ -231,11 +230,11 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
   }
 
   get asMap (): StorageFunctionType$Map {
-    return (this.raw as Base<StorageFunctionType$Map>).raw;
+    return this.value as StorageFunctionType$Map;
   }
 
   get asType (): Type {
-    return (this.raw as Base<Type>).raw;
+    return this.value as Type;
   }
 
   toString (): string {
@@ -313,12 +312,8 @@ export class RuntimeModuleMetadata extends Struct {
     return this.get('prefix') as Text;
   }
 
-  get storage (): StorageMetadata | undefined {
-    const value = (this.get('storage') as Option<StorageMetadata>).value;
-
-    return value
-      ? value.raw
-      : value;
+  get storage (): Option<StorageMetadata> {
+    return (this.get('storage') as Option<StorageMetadata>);
   }
 }
 
@@ -392,14 +387,17 @@ export default class RuntimeMetadata extends Struct {
         )
       )
     );
-    const storages = this.modules.map((module) =>
-      module.storage
-        ? module.storage.functions.map((fn) =>
+
+    const storages = this.modules.map((module) => {
+      return module.storage.isSome
+        ? (module.storage.value as StorageMetadata).functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
         )
-        : []
+        : [];
+    }
+
     );
     const args = this.modules.map((module) =>
       module.module.call.functions.map((fn) =>

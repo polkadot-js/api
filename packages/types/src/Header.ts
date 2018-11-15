@@ -35,7 +35,7 @@ export default class Header extends Struct {
   }
 
   get blockNumber (): BlockNumber {
-    return (this.get('number') as Compact).raw as BlockNumber;
+    return (this.get('number') as Compact).toBn() as BlockNumber;
   }
 
   get digest (): Digest {

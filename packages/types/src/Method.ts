@@ -5,8 +5,7 @@
 import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
 import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
-import Base from './codec/Base';
-import { AnyU8a, Constructor } from './types';
+import { AnyU8a, Codec, Constructor } from './types';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
@@ -18,7 +17,7 @@ const FN_UNKNOWN = {
 } as ExtrinsicFunction;
 
 interface ArgsDef {
-  [index: string]: Constructor<Base>;
+  [index: string]: Constructor;
 }
 
 interface DecodeMethodInput {
@@ -166,7 +165,7 @@ export default class Method extends Struct {
     );
   }
 
-  get args (): Array<Base> {
+  get args (): Array<Codec> {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
