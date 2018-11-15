@@ -5,9 +5,8 @@
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import Base from './codec/Base';
 import { UIntBitLength } from './codec/UInt';
-import { AnyNumber } from './types';
+import { AnyNumber, Codec } from './types';
 
 const BITLENGTH: UIntBitLength = 64;
 
@@ -15,18 +14,20 @@ const BITLENGTH: UIntBitLength = 64;
 // second precicion (aligning with Rust), so any numbers passed an/out are always
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
-export default class Moment extends Base<Date> {
+export default class Moment extends Date implements Codec {
+  public raw: Date; // FIXME Remove this once we convert all types out of Base
+
   constructor (value: Moment | Date | AnyNumber = 0) {
     super(
       Moment.decodeMoment(value)
     );
+
+    this.raw = this;
   }
 
   static decodeMoment (value: Moment | Date | AnyNumber): Date {
-    if (value instanceof Moment) {
-      return value.raw;
-    } else if (value instanceof Date) {
-      return new Date(Math.ceil(value.getTime() / 1000) * 1000);
+    if (value instanceof Date) {
+      return value;
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {
@@ -46,10 +47,6 @@ export default class Moment extends Base<Date> {
     return BITLENGTH / 8;
   }
 
-  getTime (): number {
-    return this.raw.getTime();
-  }
-
   toHex (): string {
     return bnToHex(this.toBn(), BITLENGTH);
   }
@@ -62,15 +59,11 @@ export default class Moment extends Base<Date> {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 
-  toString (): string {
-    return this.raw.toISOString();
-  }
-
   toBn (): BN {
     return new BN(this.toNumber());
   }
 
   toNumber (): number {
-    return Math.ceil(this.raw.getTime() / 1000);
+    return Math.ceil(this.getTime() / 1000);
   }
 }

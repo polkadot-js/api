@@ -120,8 +120,8 @@ describe('Compact', () => {
 
     it('constructs properly via number as Moment', () => {
       expect(
-        new Compact(Moment, 1537968546).toString()
-      ).toEqual('2018-09-26T13:29:06.000Z');
+        new Compact(Moment, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
+      ).toBe(true);
     });
   });
 
