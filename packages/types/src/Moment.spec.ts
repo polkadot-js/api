@@ -12,20 +12,13 @@ describe('Moment', () => {
   describe('decode', () => {
     const testDecode = (type: string, input: Date | Moment | U64 | number, expected: string | number, toJSON: boolean = false) =>
       it(`can decode from ${type}`, () => {
-        expect(new Moment(input)[toJSON ? 'toJSON' : 'toString']()).toBe(expected);
+        expect(new Moment(input)[toJSON ? 'toJSON' : 'toISOString']()).toBe(expected);
       });
 
+    testDecode('Date', new Date(1537968546280), '2018-09-26T13:29:06.280Z');
     testDecode('Moment', new Moment(1234), 1234, true);
     testDecode('number', 1234, 1234, true);
     testDecode('U64', new U64(69), 69, true);
-
-    it(`can decode from Date`, () => {
-      expect(
-        new Moment(new Date(1537968546280))
-          .toISOString()
-          .startsWith('2018-09-26T13:29:07.000Z')
-      ).toBe(true);
-    });
   });
 
   describe('encode', () => {
