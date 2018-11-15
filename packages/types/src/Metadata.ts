@@ -388,7 +388,7 @@ export default class RuntimeMetadata extends Struct {
     const events = this.events.map((module) =>
       module.events.map((event) =>
         event.arguments.map((argument) =>
-          argument.raw
+          argument.toString()
         )
       )
     );
@@ -396,15 +396,15 @@ export default class RuntimeMetadata extends Struct {
       module.storage
         ? module.storage.functions.map((fn) =>
           fn.type.isMap
-            ? [fn.type.asMap.key.raw, fn.type.asMap.value.raw]
-            : [fn.type.asType]
+            ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
+            : [fn.type.asType.toString()]
         )
         : []
     );
     const args = this.modules.map((module) =>
       module.module.call.functions.map((fn) =>
         fn.arguments.map((argument) =>
-          argument.type.raw
+          argument.type.toString()
         )
       )
     );
