@@ -11,7 +11,7 @@ import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
@@ -227,7 +227,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg: any): Observable<Base | null | undefined> => {
+    const decorated: any = (arg: any): Observable<Codec | null | undefined> => {
       let observable;
 
       try {
@@ -242,7 +242,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
       // a single entry, we pull that from the array and return it as-is
       return observable.pipe(
         defaultIfEmpty([]),
-        map((result: Array<Base | null | undefined> = []): Base | null | undefined =>
+        map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
           result[0]
         )
       );

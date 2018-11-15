@@ -10,7 +10,7 @@ import EventEmitter from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc/index';
 import testKeyring from '@polkadot/keyring/testing';
 import storage from '@polkadot/storage/static';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { Header } from '@polkadot/types/index';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
@@ -174,7 +174,7 @@ export default class Mock implements ProviderInterface {
     this.db[u8aToHex(key)] = bnToU8a(value, 64, true);
   }
 
-  private updateSubs (method: string, value: Base<any>) {
+  private updateSubs (method: string, value: Codec) {
     this.subscriptions[method].lastValue = value;
 
     Object
