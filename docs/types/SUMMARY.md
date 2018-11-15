@@ -22,6 +22,7 @@
   * [BlockNumber](classes/_blocknumber_.blocknumber.md)
 * [&quot;Bool&quot;](modules/_bool_.md)
   * [Bool](classes/_bool_.bool.md)
+* [&quot;Bool.spec&quot;](modules/_bool_spec_.md)
 * [&quot;Bytes&quot;](modules/_bytes_.md)
   * [Bytes](classes/_bytes_.bytes.md)
 * [&quot;Bytes.spec&quot;](modules/_bytes_spec_.md)

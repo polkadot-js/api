@@ -20,7 +20,7 @@
 
 **● l**: *`object`* =  logger('codec')
 
-*Defined in [codec/Base.ts:7](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/Base.ts#L7)*
+*Defined in [codec/Base.ts:7](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Base.ts#L7)*
 
 #### Type declaration
 

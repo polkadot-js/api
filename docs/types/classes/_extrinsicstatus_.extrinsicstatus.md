@@ -16,7 +16,7 @@
 
 *Overrides [EnumType](_codec_enumtype_.enumtype.md).[constructor](_codec_enumtype_.enumtype.md#constructor)*
 
-*Defined in [ExtrinsicStatus.ts:23](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/ExtrinsicStatus.ts#L23)*
+*Defined in [ExtrinsicStatus.ts:23](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/ExtrinsicStatus.ts#L23)*
 
 **Parameters:**
 
@@ -39,7 +39,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -55,7 +55,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [codec/EnumType.ts:94](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L94)*
+*Defined in [codec/EnumType.ts:94](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L94)*
 
 **Returns:** `number`
 
@@ -68,7 +68,7 @@ getisNull(): `boolean`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[isNull](_codec_enumtype_.enumtype.md#isnull)*
 
-*Defined in [codec/EnumType.ts:82](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L82)*
+*Defined in [codec/EnumType.ts:82](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L82)*
 
 **Returns:** `boolean`
 
@@ -81,7 +81,7 @@ gettype(): `string`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[type](_codec_enumtype_.enumtype.md#type)*
 
-*Defined in [codec/EnumType.ts:86](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L86)*
+*Defined in [codec/EnumType.ts:86](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L86)*
 
 **Returns:** `string`
 
@@ -94,7 +94,7 @@ getvalue(): [Base](_codec_base_.base.md)< [Finalised](_extrinsicstatus_.finalise
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[value](_codec_enumtype_.enumtype.md#value)*
 
-*Defined in [codec/EnumType.ts:90](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L90)*
+*Defined in [codec/EnumType.ts:90](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L90)*
 
 **Returns:** [Base](_codec_base_.base.md)< [Finalised](_extrinsicstatus_.finalised.md) &#124; [Usurped](_extrinsicstatus_.usurped.md) &#124; [Broadcast](_extrinsicstatus_.broadcast.md) &#124; [Dropped](_extrinsicstatus_.dropped.md)>
 
@@ -110,7 +110,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[setValue](_codec_enumtype_.enumtype.md#setvalue)*
 
-*Defined in [codec/EnumType.ts:98](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L98)*
+*Defined in [codec/EnumType.ts:98](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L98)*
 
 **Parameters:**
 
@@ -132,7 +132,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L115)*
+*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L115)*
 
 **Returns:** `any`
 
@@ -145,7 +145,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toNumber](_codec_enumtype_.enumtype.md#tonumber)*
 
-*Defined in [codec/EnumType.ts:119](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L119)*
+*Defined in [codec/EnumType.ts:119](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L119)*
 
 **Returns:** `number`
 
@@ -160,7 +160,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/EnumType.ts:123](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L123)*
+*Defined in [codec/EnumType.ts:123](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L123)*
 
 **Returns:** `string`
 
@@ -175,7 +175,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/EnumType.ts:127](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L127)*
+*Defined in [codec/EnumType.ts:127](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L127)*
 
 **Parameters:**
 
@@ -194,7 +194,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[decodeEnumType](_codec_enumtype_.enumtype.md#decodeenumtype)*
 
-*Defined in [codec/EnumType.ts:45](https://github.com/polkadot-js/api/blob/f381a4d/packages/types/src/codec/EnumType.ts#L45)*
+*Defined in [codec/EnumType.ts:45](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/EnumType.ts#L45)*
 
 **Type parameters:**
 
