@@ -23,7 +23,7 @@
 
 ⊕ **new Text**(value?: * [Text](_text_.text.md) &#124; `string` &#124; `AnyU8a` &#124; `object`*): [Text](_text_.text.md)
 
-*Defined in [Text.ts:19](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L19)*
+*Defined in [Text.ts:19](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L19)*
 
 **Parameters:**
 
@@ -56,7 +56,7 @@ ___
 
 **● raw**: *`String`*
 
-*Defined in [Text.ts:19](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L19)*
+*Defined in [Text.ts:19](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L19)*
 
 ___
 <a id="string"></a>
@@ -79,7 +79,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Text.ts:42](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L42)*
+*Defined in [Text.ts:42](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L42)*
 
 **Returns:** `number`
 
@@ -841,7 +841,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Text.ts:46](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L46)*
+*Defined in [Text.ts:46](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L46)*
 
 **Returns:** `string`
 
@@ -852,7 +852,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Text.ts:50](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L50)*
+*Defined in [Text.ts:50](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L50)*
 
 **Returns:** `any`
 
@@ -923,7 +923,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Text.ts#L54)*
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Text.ts#L54)*
 
 **Parameters:**
 

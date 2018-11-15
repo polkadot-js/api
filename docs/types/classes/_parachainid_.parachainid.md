@@ -22,7 +22,7 @@
 
 *Overrides [UInt](_codec_uint_.uint.md).[constructor](_codec_uint_.uint.md#constructor)*
 
-*Defined in [U64.ts:9](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/U64.ts#L9)*
+*Defined in [U64.ts:9](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/U64.ts#L9)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[raw](_codec_uint_.uint.md#raw)*
 
-*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L23)*
+*Defined in [codec/UInt.ts:23](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L23)*
 
 ___
 
@@ -58,7 +58,7 @@ getencodedLength(): `number`
 
 *Inherited from [UInt](_codec_uint_.uint.md).[encodedLength](_codec_uint_.uint.md#encodedlength)*
 
-*Defined in [codec/UInt.ts:55](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L55)*
+*Defined in [codec/UInt.ts:55](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L55)*
 
 **Returns:** `number`
 
@@ -196,7 +196,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:51](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L51)*
+*Defined in [codec/UInt.ts:51](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L51)*
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -1529,7 +1529,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toBn](_codec_uint_.uint.md#tobn)*
 
-*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L73)*
+*Defined in [codec/UInt.ts:73](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L73)*
 
 **Returns:** `BN`
 
@@ -1564,7 +1564,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toHex](_codec_uint_.uint.md#tohex)*
 
-*Defined in [codec/UInt.ts:59](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L59)*
+*Defined in [codec/UInt.ts:59](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L59)*
 
 **Returns:** `string`
 
@@ -1579,7 +1579,7 @@ ___
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:63](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L63)*
+*Defined in [codec/UInt.ts:63](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L63)*
 
 **Returns:** `any`
 
@@ -1671,7 +1671,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toU8a](_codec_uint_.uint.md#tou8a)*
 
-*Defined in [codec/UInt.ts:69](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L69)*
+*Defined in [codec/UInt.ts:69](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L69)*
 
 **Parameters:**
 
@@ -1873,7 +1873,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[decodeUInt](_codec_uint_.uint.md#decodeuint)*
 
-*Defined in [codec/UInt.ts:35](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/UInt.ts#L35)*
+*Defined in [codec/UInt.ts:35](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/UInt.ts#L35)*
 
 **Parameters:**
 

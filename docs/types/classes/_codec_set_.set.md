@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Set.ts:18](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L18)*
+*Defined in [codec/Set.ts:18](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L18)*
 
 **Parameters:**
 
@@ -39,7 +39,7 @@ ___
 
 *Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
 
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Base.ts#L19)*
+*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -53,7 +53,7 @@ getencodedLength(): `number`
 
 *Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
 
-*Defined in [codec/Set.ts:65](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L65)*
+*Defined in [codec/Set.ts:65](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L65)*
 
 **Returns:** `number`
 
@@ -64,7 +64,7 @@ ___
 
 getisEmpty(): `boolean`
 
-*Defined in [codec/Set.ts:69](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L69)*
+*Defined in [codec/Set.ts:69](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L69)*
 
 **Returns:** `boolean`
 
@@ -75,7 +75,7 @@ ___
 
 getvalueEncoded(): `number`
 
-*Defined in [codec/Set.ts:77](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L77)*
+*Defined in [codec/Set.ts:77](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L77)*
 
 **Returns:** `number`
 
@@ -86,7 +86,7 @@ ___
 
 getvalues(): `Array`<`string`>
 
-*Defined in [codec/Set.ts:73](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L73)*
+*Defined in [codec/Set.ts:73](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L73)*
 
 **Returns:** `Array`<`string`>
 
@@ -102,7 +102,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
 
-*Defined in [codec/Set.ts:81](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L81)*
+*Defined in [codec/Set.ts:81](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L81)*
 
 **Returns:** `any`
 
@@ -115,7 +115,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
 
-*Defined in [codec/Set.ts:89](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L89)*
+*Defined in [codec/Set.ts:89](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L89)*
 
 **Returns:** `string`
 
@@ -128,7 +128,7 @@ ___
 
 *Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
 
-*Defined in [codec/Set.ts:85](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L85)*
+*Defined in [codec/Set.ts:85](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L85)*
 
 **Parameters:**
 
@@ -145,7 +145,7 @@ ___
 
 ▸ **decodeSet**(setValues: *`SetValues`*, value?: * `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): `Array`<`string`>
 
-*Defined in [codec/Set.ts:28](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L28)*
+*Defined in [codec/Set.ts:28](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L28)*
 
 **Parameters:**
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **encodeSet**(setValues: *`SetValues`*, value: *`Array`<`string`>*): `number`
 
-*Defined in [codec/Set.ts:59](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/codec/Set.ts#L59)*
+*Defined in [codec/Set.ts:59](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/codec/Set.ts#L59)*
 
 **Parameters:**
 

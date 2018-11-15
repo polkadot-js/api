@@ -18,7 +18,7 @@
 
 ⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:10](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L10)*
+*Defined in [Bool.ts:10](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L10)*
 
 **Parameters:**
 
@@ -38,7 +38,7 @@ ___
 
 **● raw**: *`Boolean`*
 
-*Defined in [Bool.ts:10](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L10)*
+*Defined in [Bool.ts:10](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L10)*
 
 ___
 <a id="boolean"></a>
@@ -59,7 +59,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L30)*
+*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L30)*
 
 **Returns:** `number`
 
@@ -73,7 +73,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L38)*
+*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L38)*
 
 **Returns:** `string`
 
@@ -84,7 +84,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L34)*
+*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L34)*
 
 **Returns:** `any`
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Bool.ts:46](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L46)*
+*Defined in [Bool.ts:46](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L46)*
 
 **Returns:** `string`
 
@@ -106,7 +106,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/b580c12/packages/types/src/Bool.ts#L42)*
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/9458189/packages/types/src/Bool.ts#L42)*
 
 **Parameters:**
 
