@@ -19,7 +19,6 @@ type TypesDef = {
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-//   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
 export default class EnumType<T> extends Base<Codec> implements Codec {
   private _Types: TypesArray;
   private _index: number;
