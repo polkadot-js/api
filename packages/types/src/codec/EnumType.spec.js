@@ -33,4 +33,15 @@ describe('Struct', () => {
       ).toString()
     ).toEqual('Text');
   });
+
+  it('allows accessing the type and value', () => {
+    const text = new Text('foo');
+    const enumType = new EnumType(
+      [Text, U32],
+      { Text: text }
+    );
+
+    expect(enumType.type).toBe('Text');
+    expect(enumType.value).toEqual(text);
+  });
 });
