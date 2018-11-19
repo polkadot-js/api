@@ -21,7 +21,7 @@ describe('EventRecord', () => {
 
   it('decodes correctly', () => {
     const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
-    const er = records.get(0);
+    const er = records[0];
 
     expect(er.phase.type).toEqual('ApplyExtrinsic');
   });
@@ -31,7 +31,7 @@ describe('EventRecord', () => {
 
     expect(records).toHaveLength(4);
 
-    const er = records.get(2);
+    const er = records[2];
 
     expect(
       er.event.data.toArray().map((v) => v.toString())

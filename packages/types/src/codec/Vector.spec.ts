@@ -56,7 +56,7 @@ describe('Vector', () => {
     const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
       4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ]));
-    const first = (test as Vector<Codec>).get(0) as Tuple;
+    const first = (test as Vector<Codec>)[0] as Tuple;
 
     expect((first.getAtIndex(0) as PropIndex).toNumber()).toEqual(10);
     expect((first.getAtIndex(1) as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
@@ -66,7 +66,7 @@ describe('Vector', () => {
   describe('vector-like functions', () => {
     it('allows retrieval of a specific item', () => {
       expect(
-        vector.get(2).toString()
+        vector[2].toString()
       ).toEqual('345');
     });
 

@@ -13,7 +13,7 @@ describe('RuntimeVersion', () => {
   });
 
   it('has the apis', () => {
-    const api = version.apis.get(0);
+    const api = version.apis[0];
 
     expect(api.id.toHex()).toEqual('0x696e686572656e74');
     expect(api.version.toNumber()).toEqual(1);

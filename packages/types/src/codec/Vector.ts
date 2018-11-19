@@ -69,10 +69,6 @@ export default class Vector<
     }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
   }
 
-  get (index: number): T {
-    return this[index];
-  }
-
   toArray (): Array<T> {
     return Array.from(this);
   }
