@@ -4,7 +4,6 @@
 
 import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
 import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
 import { Codec, Constructor } from '../types';
 
@@ -15,12 +14,12 @@ import { Codec, Constructor } from '../types';
 // `reduce` is exposed on the interface.
 export default class Vector<
   T extends Codec
-  > extends Base<Array<T>> implements Codec {
+  > extends Array<T> implements Codec {
   private _Type: Constructor<T>;
 
   constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
-      Vector.decodeVector(Type, value)
+      ...Vector.decodeVector(Type, value)
     );
 
     this._Type = Type;
@@ -33,8 +32,6 @@ export default class Vector<
           ? entry
           : new Type(entry)
       );
-    } else if (value instanceof Vector) {
-      return Vector.decodeVector(Type, value.raw);
     }
 
     const u8a = u8aToU8a(value);
@@ -66,42 +63,18 @@ export default class Vector<
     return this._Type.name;
   }
 
-  get length (): number {
-    return this.raw.length;
-  }
-
   get encodedLength (): number {
-    return this.raw.reduce((total, raw) => {
+    return this.reduce((total, raw) => {
       return total + raw.encodedLength;
     }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
   }
 
-  filter (fn: (item: T, index: number) => any): Array<T> {
-    return this.raw.filter(fn);
-  }
-
-  find (fn: (item: T, index: number) => any): T | undefined {
-    return this.raw.find(fn);
-  }
-
-  forEach (fn: (item: T, index: number) => any): any {
-    return this.raw.forEach(fn);
-  }
-
   get (index: number): T {
-    return this.raw[index];
+    return this[index];
   }
 
-  map<O> (fn: (item: T, index: number) => O): Array<O> {
-    return this.raw.map(fn);
-  }
-
-  push (item: T): void {
-    this.raw.push(item);
-  }
-
-  reduce<O> (fn: (result: O, item: T, index: number) => O, initial: O): O {
-    return this.raw.reduce(fn, initial);
+  toArray (): Array<T> {
+    return Array.from(this);
   }
 
   toHex (): string {
@@ -109,13 +82,13 @@ export default class Vector<
   }
 
   toJSON (): any {
-    return this.raw.map((entry) =>
+    return this.map((entry) =>
       entry.toJSON()
     );
   }
 
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.raw.map((entry) =>
+    const encoded = this.map((entry) =>
       entry.toU8a(isBare)
     );
 
@@ -127,11 +100,14 @@ export default class Vector<
       );
   }
 
-  toString (): string {
-    const data = this.raw.map((entry) =>
-      entry.toString()
-    );
+  // Below are methods that we override. When we do a `new Vector(...).map()`,
+  // we want it to return an Array
 
-    return `[${data.join(', ')}]`;
+  filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): Array<T> {
+    return this.toArray().filter(callbackfn);
+  }
+
+  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): Array<U> {
+    return this.toArray().map(callbackfn);
   }
 }

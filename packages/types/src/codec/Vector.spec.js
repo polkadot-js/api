@@ -10,24 +10,24 @@ import Text from '../Text';
 import Vector from './Vector';
 
 describe('Vector', () => {
-  let array;
+  let vector;
 
   beforeEach(() => {
-    array = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
+    vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
     Method.injectExtrinsics(extrinsics);
   });
 
   it('wraps a sequence of values', () => {
-    expect(array.length).toEqual(5); // eslint-disable-line
+    expect(vector.length).toEqual(5); // eslint-disable-line
   });
 
   it('has a sane representation for toString', () => {
-    expect(array.toString()).toEqual('[1, 23, 345, 4567, 56789]');
+    expect(vector.toString()).toEqual('1,23,345,4567,56789');
   });
 
   it('encodes with length prefix', () => {
-    expect(array.toU8a()).toEqual(new Uint8Array([
+    expect(vector.toU8a()).toEqual(new Uint8Array([
       5 << 2,
       1 << 2, 49,
       2 << 2, 50, 51,
@@ -40,11 +40,11 @@ describe('Vector', () => {
   it('allows contruction via JSON', () => {
     expect(
       new Vector(Text, ['6', '7']).toString()
-    ).toEqual('[6, 7]');
+    ).toEqual('6,7');
   });
 
   it('exposes the type', () => {
-    expect(array.Type).toEqual('Text');
+    expect(vector.Type).toEqual('Text');
   });
 
   it('decodes a complex type via construction', () => {
@@ -58,17 +58,17 @@ describe('Vector', () => {
     expect(first.getAtIndex(2).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
-  describe('array-like functions', () => {
+  describe('vector-like functions', () => {
     it('allows retrieval of a specific item', () => {
       expect(
-        array.get(2).toString()
+        vector.get(2).toString()
       ).toEqual('345');
     });
 
     it('exposes a working forEach', () => {
       const result = {};
 
-      array.forEach((e, i) => {
+      vector.forEach((e, i) => {
         result[i] = e.toString();
       });
 
@@ -83,19 +83,19 @@ describe('Vector', () => {
 
     it('exposes a working filter', () => {
       expect(
-        array.filter((e, i) => i >= 3).toString()
+        vector.filter((e, i) => i >= 3).toString()
       ).toEqual('4567,56789');
     });
 
     it('exposes a working map', () => {
       expect(
-        array.map((e) => e.toString().substr(0, 1))
+        vector.map((e) => e.toString().substr(0, 1)).toArray()
       ).toEqual(['1', '2', '3', '4', '5']);
     });
 
     it('exposes a working reduce', () => {
       expect(
-        array.reduce((r, e) => `${r}${e}`, '')
+        vector.reduce((r, e) => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
   });
