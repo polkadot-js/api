@@ -4,13 +4,18 @@
 
 import extrinsics from '@polkadot/extrinsics/static';
 
+import AccountId from '../AccountId';
+import { Codec, CodecTo } from '../types';
 import createType from './createType';
 import Method from '../Method';
+import PropIndex from '../PropIndex';
+import Proposal from '../Proposal';
 import Text from '../Text';
 import Vector from './Vector';
+import Tuple from './Tuple';
 
 describe('Vector', () => {
-  let vector;
+  let vector: Vector<Codec>;
 
   beforeEach(() => {
     vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
@@ -51,11 +56,11 @@ describe('Vector', () => {
     const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
       4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ]));
-    const first = test.get(0);
+    const first = (test as Vector<Codec>).get(0) as Tuple;
 
-    expect(first.getAtIndex(0).toNumber()).toEqual(10);
-    expect(first.getAtIndex(1).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect(first.getAtIndex(2).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
+    expect((first.getAtIndex(0) as PropIndex).toNumber()).toEqual(10);
+    expect((first.getAtIndex(1) as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect((first.getAtIndex(2) as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
   describe('vector-like functions', () => {
@@ -66,7 +71,7 @@ describe('Vector', () => {
     });
 
     it('exposes a working forEach', () => {
-      const result = {};
+      const result: { [index: number]: string } = {};
 
       vector.forEach((e, i) => {
         result[i] = e.toString();
@@ -98,5 +103,17 @@ describe('Vector', () => {
         vector.reduce((r, e) => `${r}${e}`, '')
       ).toEqual('123345456756789');
     });
+  });
+
+  describe('encode', () => {
+    const testEncode = (to: CodecTo, expected: any) =>
+      it(`can encode ${to}`, () => {
+        expect(vector[to]()).toEqual(expected);
+      });
+
+    testEncode('toHex', '0x1404310832330c3334351034353637143536373839');
+    testEncode('toJSON', ['1', '23', '345', '4567', '56789']);
+    testEncode('toString', '1,23,345,4567,56789');
+    testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
 });

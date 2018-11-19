@@ -101,13 +101,14 @@ export default class Vector<
   }
 
   // Below are methods that we override. When we do a `new Vector(...).map()`,
-  // we want it to return an Array
+  // we want it to return an Array. We only override the methods that return a
+  // new instance.
 
-  filter (callbackfn: (value: T, index: number, array: T[]) => any, thisArg?: any): Array<T> {
-    return this.toArray().filter(callbackfn);
+  filter (callbackfn: (value: T, index: number, array: Array<T>) => any, thisArg?: any): Array<T> {
+    return this.toArray().filter(callbackfn, thisArg);
   }
 
-  map<U> (callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any): Array<U> {
-    return this.toArray().map(callbackfn);
+  map<U> (callbackfn: (value: T, index: number, array: Array<T>) => U, thisArg?: any): Array<U> {
+    return this.toArray().map(callbackfn, thisArg);
   }
 }
