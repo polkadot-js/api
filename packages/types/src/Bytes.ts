@@ -46,7 +46,7 @@ export default class Bytes extends U8a {
 
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
-      ? this
+      ? super.toU8a(isBare)
       : u8aConcat(
         Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
         this
