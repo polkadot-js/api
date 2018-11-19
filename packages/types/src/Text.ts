@@ -16,13 +16,10 @@ import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
 //     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
 //     we can nicely strip types down like "T::AcountId" -> "AccountId"
 export default class Text extends String implements Codec {
-  public raw: String; // FIXME Remove this once we convert all types out of Base
   constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(
       Text.decodeText(value)
     );
-
-    this.raw = this;
   }
 
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {

@@ -2,16 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import Base from './codec/Base';
+import { Codec } from './types';
 
 // Implements a type that does not contain anything (apart from `null`)
-export default class Null extends Base<null> {
-  constructor () {
-    super(null);
-  }
-
+export default class Null implements Codec {
   get encodedLength (): number {
     return 0;
+  }
+
+  toHex (): string {
+    return '0x';
   }
 
   toJSON (): any {

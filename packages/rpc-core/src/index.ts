@@ -8,7 +8,8 @@ import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from 
 
 import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Base, Vector, createType } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
+import { Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import { ExtError, assert, isFunction } from '@polkadot/util';
 
@@ -161,7 +162,7 @@ export default class Rpc implements RpcInterface {
     return call;
   }
 
-  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Base> {
+  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
     const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === method.params.length
       ? ''
@@ -174,7 +175,7 @@ export default class Rpc implements RpcInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | null | undefined> {
+  private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
@@ -205,14 +206,14 @@ export default class Rpc implements RpcInterface {
           !item
             ? undefined
             : (
-              item.value.isEmpty
+              item.value.isNone
                 ? null
                 : createType(type, item.value.value)
             )
         );
 
         return result;
-      }, [] as Array<Base | null | undefined>);
+      }, [] as Array<Codec | null | undefined>);
     }
 
     return base;

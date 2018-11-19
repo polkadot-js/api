@@ -11,15 +11,10 @@ import { AnyU8a, Codec } from '../types';
 // consume the full u8a as passed to it in U8a. As such it is meant to be
 // subclassed where the wrapper takes care of the actual lengths.
 export default class U8a extends Uint8Array implements Codec {
-  // FIXME Remove this once we convert all types out of Base
-  public raw: Uint8Array;
-
   constructor (value: AnyU8a) {
     super(
       U8a.decodeU8a(value)
     );
-
-    this.raw = this;
   }
 
   private static decodeU8a (value: any): Uint8Array {

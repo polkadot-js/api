@@ -8,7 +8,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
@@ -226,14 +226,14 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Base | null | undefined> => {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> => {
       if (args.length === 0 || !isFunction(args[args.length - 1])) {
         return this.rpc.state.getStorage([method, args[0]]);
       }
 
       return this.rpc.state.subscribeStorage(
         [[method, args.length === 1 ? undefined : args[0]]],
-        (result: Array<Base | null | undefined> = []) =>
+        (result: Array<Codec | null | undefined> = []) =>
           args[args.length - 1](result[0])
       );
     };

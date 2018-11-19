@@ -4,9 +4,8 @@
 
 import { assert } from '@polkadot/util';
 
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Text from '../Text';
-import Base from './Base';
 import Compact from './Compact';
 import Tuple from './Tuple';
 import UInt from './UInt';
@@ -155,7 +154,7 @@ export function getTypeClass (value: TypeDef): Constructor {
   return Type;
 }
 
-export default function createType (type: Text | string, value?: any): Base {
+export default function createType (type: Text | string, value?: any): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getTypeClass(

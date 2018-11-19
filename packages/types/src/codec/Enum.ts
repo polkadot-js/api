@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the ISC license. See the LICENSE file for details.
 
-import { isU8a } from '@polkadot/util';
+import { isU8a, u8aToHex } from '@polkadot/util';
 
+import { Codec } from '../types';
 import Base from './Base';
 
 type EnumDef = {
@@ -17,7 +18,7 @@ type EnumDef = {
 //
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
-export default class Enum extends Base<number> {
+export default class Enum extends Base<number> implements Codec {
   private _enum: EnumDef;
 
   constructor (def: EnumDef, value: Enum | Uint8Array | number = 0) {
@@ -40,6 +41,10 @@ export default class Enum extends Base<number> {
 
   get encodedLength (): number {
     return 1;
+  }
+
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {

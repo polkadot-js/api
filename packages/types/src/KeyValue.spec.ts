@@ -55,6 +55,6 @@ describe('KeyValueOption', () => {
     });
 
     expect(kv.key.toHex()).toEqual('0x11223344');
-    expect(kv.value.isEmpty).toEqual(true);
+    expect(kv.value.isNone).toEqual(true);
   });
 });

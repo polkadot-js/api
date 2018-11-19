@@ -20,7 +20,6 @@ export const DEFAULT_UINT_BITS = 64;
 export default class UInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
-  public raw: BN; // FIXME Remove this once we convert all types out of Base
 
   constructor (value: AnyNumber = 0, bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
@@ -29,7 +28,6 @@ export default class UInt extends BN implements Codec {
 
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
-    this.raw = this;
   }
 
   static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): string {

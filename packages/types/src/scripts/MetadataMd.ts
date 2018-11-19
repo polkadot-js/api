@@ -144,13 +144,13 @@ function addStorage (metadata: Metadata) {
   const renderAnchors = generateSectionLinks('storage', metadata);
 
   return orderedSections.reduce((md: string, moduleMetadata: any) => {
-    if (!moduleMetadata.storage) {
+    if (moduleMetadata.storage.isNone) {
       return md;
     }
 
-    const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
+    const sectionName = stringLowerFirst(moduleMetadata.storage.unwrap().prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.functions.map((i: any) => i).sort();
+    const orderedMethods = moduleMetadata.storage.unwrap().functions.map((i: any) => i).sort();
 
     return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());
