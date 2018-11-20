@@ -7,7 +7,7 @@ import { ApiBaseInterface } from '../types';
 import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import Rpc from '@polkadot/rpc-core/index';
-import { Codec } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
