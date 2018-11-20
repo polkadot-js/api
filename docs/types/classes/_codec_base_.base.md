@@ -12,8 +12,6 @@ A type extends the Base class, when it holds a value
 
 ↳  [Compact](_codec_compact_.compact.md)
 
-↳  [Vector](_codec_vector_.vector.md)
-
 ↳  [Enum](_codec_enum_.enum.md)
 
 ↳  [EnumType](_codec_enumtype_.enumtype.md)
@@ -30,7 +28,7 @@ A type extends the Base class, when it holds a value
 
 ⊕ **new Base**(value?: *`any`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Base.ts:9](https://github.com/polkadot-js/api/blob/9548f97/packages/types/src/codec/Base.ts#L9)*
+*Defined in [codec/Base.ts:9](https://github.com/polkadot-js/api/blob/b6dd43e/packages/types/src/codec/Base.ts#L9)*
 
 **Parameters:**
 

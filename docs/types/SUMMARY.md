@@ -201,6 +201,7 @@
 * [&quot;codec/UInt.spec&quot;](modules/_codec_uint_spec_.md)
 * [&quot;codec/Vector&quot;](modules/_codec_vector_.md)
   * [Vector](classes/_codec_vector_.vector.md)
+* [&quot;codec/Vector.spec&quot;](modules/_codec_vector_spec_.md)
 * [&quot;codec/createType&quot;](modules/_codec_createtype_.md)
   * [TypeDefInfo](enums/_codec_createtype_.typedefinfo.md)
 * [&quot;codec/createType.spec&quot;](modules/_codec_createtype_spec_.md)
