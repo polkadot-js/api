@@ -35,8 +35,8 @@ describe('SignedBlock', () => {
     const s = new SignedBlock(events.result);
 
     expect(s.block.header.digest.logs.length).toBe(1);
-    expect(s.block.header.digest.logs.get(0).type).toBe('AuthoritiesChange');
-    expect(s.block.header.digest.logs.get(0).value.toJSON()).toEqual([
+    expect(s.block.header.digest.logs[0].type).toBe('AuthoritiesChange');
+    expect(s.block.header.digest.logs[0].value.toJSON()).toEqual([
       '5EyrU8k6worwXWfW2LajRvS7XF6eta286tMpHeHUwMPpzQ9F',
       '5Dpq7rU6KAZVdRtcegvpCoeJtZzFPzieRkRz4xajRAiMRkCf',
       '5CCtQPAYtuDXt6H4WMrn5nFNk4gemkVRD3k1r1mA7YiZLPBq',
@@ -55,14 +55,14 @@ describe('SignedBlock', () => {
     });
 
     it('has the correct data for the first', () => {
-      const x = extrinsics.get(0);
+      const x = extrinsics[0];
 
       expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
       expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([70, 41, 195, 91, 0, 0, 0, 0]));
     });
 
     it('has the correct data for the second', () => {
-      const x = extrinsics.get(1);
+      const x = extrinsics[1];
 
       expect(x.callIndex).toEqual(new Uint8Array([1, 0]));
       expect(x.method.args[0].toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');

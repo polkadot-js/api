@@ -11,7 +11,7 @@ describe('Digest', () => {
 
     expect(digest.logs.length).toEqual(1);
 
-    const log = digest.logs.get(0);
+    const log = digest.logs[0];
 
     expect(log.type).toBe('Seal');
     expect(log.value.toJSON()).toEqual([
