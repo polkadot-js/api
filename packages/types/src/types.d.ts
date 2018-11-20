@@ -29,4 +29,4 @@ export type Constructor<T = Codec> = { new(value?: any): T };
 
 export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 
-export type TypeDef<T = Codec> = { [index: string]: Codec };
+export type TypeDef = { [index: string]: Codec };
