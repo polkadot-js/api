@@ -83,6 +83,15 @@ export default class Vector<
     );
   }
 
+  toString (): string {
+    // Overwrite the default toString representation of Array.
+    const data = this.map((entry) =>
+      entry.toString()
+    );
+
+    return `[${data.join(', ')}]`;
+  }
+
   toU8a (isBare?: boolean): Uint8Array {
     const encoded = this.map((entry) =>
       entry.toU8a(isBare)

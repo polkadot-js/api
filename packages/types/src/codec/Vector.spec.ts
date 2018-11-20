@@ -28,7 +28,7 @@ describe('Vector', () => {
   });
 
   it('has a sane representation for toString', () => {
-    expect(vector.toString()).toEqual('1,23,345,4567,56789');
+    expect(vector.toString()).toEqual('[1, 23, 345, 4567, 56789]');
   });
 
   it('encodes with length prefix', () => {
@@ -44,8 +44,8 @@ describe('Vector', () => {
 
   it('allows contruction via JSON', () => {
     expect(
-      new Vector(Text, ['6', '7']).toString()
-    ).toEqual('6,7');
+      new Vector(Text, ['6', '7']).toJSON()
+    ).toEqual(['6', '7']);
   });
 
   it('exposes the type', () => {
@@ -113,7 +113,7 @@ describe('Vector', () => {
 
     testEncode('toHex', '0x1404310832330c3334351034353637143536373839');
     testEncode('toJSON', ['1', '23', '345', '4567', '56789']);
-    testEncode('toString', '1,23,345,4567,56789');
+    testEncode('toString', '[1, 23, 345, 4567, 56789]');
     testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
 });

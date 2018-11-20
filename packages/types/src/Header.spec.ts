@@ -26,7 +26,7 @@ describe('Header', () => {
     ).toEqual('0x294c3470ae3be7555240b9d034ec19c3715ba2c3f20b92441f8cea0cab66ab56');
     expect(
       header.digest.logs.toString()
-    ).toEqual('');
+    ).toEqual('[]');
   });
 
   it('creates a valid hash (incl. digest & compact)', () => {
