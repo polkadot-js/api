@@ -3,7 +3,7 @@
 // of the ISC license. See the LICENSE file for details.
 
 import { ReplaySubject, Observable } from 'rxjs';
-import interfaces from '@polkadot/jsonrpc/types';
+import * as interfaces from '@polkadot/jsonrpc/types';
 
 export type RpcRxInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
 
