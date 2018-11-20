@@ -7,7 +7,7 @@ import { ApiBaseInterface } from '../types';
 import { Observable } from 'rxjs';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { Hash, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -15,7 +15,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 export interface QueryableStorageFunction extends StorageFunction {
-  (arg?: any): Observable<Base | null | undefined>;
+  (arg?: any): Observable<Codec | null | undefined>;
 }
 
 export interface QueryableModuleStorage {
@@ -38,7 +38,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics>  {
+export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics> {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }
