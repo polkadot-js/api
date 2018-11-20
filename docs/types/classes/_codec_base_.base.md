@@ -28,7 +28,7 @@ A type extends the Base class, when it holds a value
 
 ⊕ **new Base**(value?: *`any`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Base.ts:9](https://github.com/polkadot-js/api/blob/b6dd43e/packages/types/src/codec/Base.ts#L9)*
+*Defined in [codec/Base.ts:9](https://github.com/polkadot-js/api/blob/141f761/packages/types/src/codec/Base.ts#L9)*
 
 **Parameters:**
 
