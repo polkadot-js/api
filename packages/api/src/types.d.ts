@@ -4,7 +4,6 @@
 
 import RpcRx from '@polkadot/rpc-rx/index';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Base } from '@polkadot/types/codec';
 import { Hash, RuntimeVersion } from '@polkadot/types/index';
 import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 import { ExtrinsicFunction } from '@polkadot/extrinsics/types';
@@ -12,7 +11,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
-export interface ApiBaseInterface <R, S, E> {
+export interface ApiBaseInterface<R, S, E> {
   readonly genesisHash: Hash;
   readonly runtimeMetadata: RuntimeMetadata;
   readonly runtimeVersion: RuntimeVersion;
