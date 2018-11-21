@@ -8,7 +8,7 @@ import { AnyNumber, AnyU8a, Codec } from './types';
 import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
@@ -50,12 +50,12 @@ export default class Extrinsic extends Struct {
 
       return Extrinsic.decodeExtrinsic(
         u8aConcat(
-          Compact.encodeU8a(u8a.length, DEFAULT_LENGTH_BITS),
+          Compact.encodeU8a(u8a.length),
           u8a
         )
       );
     } else if (isU8a(value)) {
-      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
     }
@@ -107,7 +107,7 @@ export default class Extrinsic extends Struct {
   get encodedLength (): number {
     const length = this.length;
 
-    return length + Compact.encodeU8a(length, DEFAULT_LENGTH_BITS).length;
+    return length + Compact.encodeU8a(length).length;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): Extrinsic {
@@ -122,7 +122,7 @@ export default class Extrinsic extends Struct {
     return isBare
       ? encoded
       : u8aConcat(
-        Compact.encodeU8a(encoded.length, DEFAULT_LENGTH_BITS),
+        Compact.encodeU8a(encoded.length),
         encoded
       );
   }

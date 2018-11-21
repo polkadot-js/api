@@ -5,7 +5,7 @@
 import { hexToU8a, isHex, isString, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 
 // A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
@@ -30,7 +30,7 @@ export default class Bytes extends U8a {
       // i.e. new Bytes(new Bytes(...)) will work as expected
       return value;
     } else if (isU8a(value)) {
-      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
     } else if (Array.isArray(value) || isString(value)) {
@@ -41,14 +41,14 @@ export default class Bytes extends U8a {
   }
 
   get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
+    return this.length + Compact.encodeU8a(this.length).length;
   }
 
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
       ? super.toU8a(isBare)
       : u8aConcat(
-        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
+        Compact.encodeU8a(this.length),
         this
       );
   }

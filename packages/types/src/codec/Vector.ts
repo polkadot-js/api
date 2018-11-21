@@ -4,7 +4,7 @@
 
 import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
-import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
+import Compact from './Compact';
 import { Codec, Constructor } from '../types';
 
 // This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
@@ -36,7 +36,7 @@ export default class Vector<
 
     const u8a = u8aToU8a(value);
 
-    let [offset, _length] = Compact.decodeU8a(u8a, DEFAULT_LENGTH_BITS);
+    let [offset, _length] = Compact.decodeU8a(u8a);
     const length = _length.toNumber();
 
     const result = [];
@@ -66,7 +66,7 @@ export default class Vector<
   get encodedLength (): number {
     return this.reduce((total, raw) => {
       return total + raw.encodedLength;
-    }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
+    }, Compact.encodeU8a(this.length).length);
   }
 
   toArray (): Array<T> {
@@ -100,7 +100,7 @@ export default class Vector<
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
+        Compact.encodeU8a(this.length),
         ...encoded
       );
   }
