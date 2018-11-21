@@ -1301,10 +1301,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.2.tgz#54c5a964462be3d4d78af631363c18d6fa91ac26"
   integrity sha512-yprFYuno9FtNsSHVlSWd+nRlmGoAbqbeCwOryP6sC/zoCjhpArcRMYp19EvpSUSizJAlsXEwJv+wcWS9XaXdMw==
 
-"@polkadot/dev@^0.21.6":
-  version "0.21.6"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.21.6.tgz#44ebdb4bb5e83aed4398128a05f64780718c6ec7"
-  integrity sha512-HxnxD19GJ+MoYQGsB7+aAqZwBir2cwVQ2L4RyAuS22T5Nidyh7q8eDQCTRX5+W5LXd76JizCrJjPX7Jq95xWUA==
+"@polkadot/dev@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.22.1.tgz#28da715bc509ffb8bfb025207166073453533868"
+  integrity sha512-S8SiwP27H1Bv3Xmdj/X9miz84kdosGjnN9VgcPPaKFfYwMChMKdZpQamSL+O24poQIlJkiuAVkw7dl5Fs9YfZg==
   dependencies:
     "@babel/cli" "^7.1.5"
     "@babel/core" "^7.1.6"
@@ -1317,7 +1317,7 @@
     "@babel/register" "^7.0.0"
     "@babel/runtime" "^7.1.5"
     "@types/jest" "^23.3.9"
-    "@types/node" "^10.12.7"
+    "@types/node" "^10.12.9"
     babel-core "^7.0.0-bridge.0"
     babel-eslint "^10.0.1"
     babel-jest "^23.6.0"
@@ -1349,7 +1349,7 @@
     tslint "^5.11.0"
     tslint-config-semistandard "^7.0.0"
     typedoc "^0.13.0"
-    typedoc-plugin-markdown "^1.1.18"
+    typedoc-plugin-markdown "^1.1.19"
     typescript "^3.1.6"
 
 "@polkadot/keyring@^0.32.21":
@@ -1363,10 +1363,10 @@
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
-"@polkadot/ts@^0.1.38":
-  version "0.1.38"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.38.tgz#468f7520415bc806cc7ebbbe1ae2fd63803a6aec"
-  integrity sha512-KTK4+YskDHUCldkOEyZi6hPftydER5qBOCR+SdjHq9oS8npVYlHqI3g1UUY1HJYIAJg2K3qokg3OnqDxid8cGw==
+"@polkadot/ts@^0.1.39":
+  version "0.1.39"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.39.tgz#39d3578eaafd96cbc0270b1479fabab7e16e5723"
+  integrity sha512-NQM1uT+qi8onV0jtGjH7QmJvDTNFNYTEzjaoVZN2tDHi1/tVu1CP66qZGSGsS19JZJSK3ERSFb0vP8CkE7EUuA==
 
 "@polkadot/util-crypto@^0.32.21":
   version "0.32.21"
@@ -1504,10 +1504,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.0.tgz#ea6dcbddbc5b584c83f06c60e82736d8fbb0c235"
   integrity sha512-3TUHC3jsBAB7qVRGxT6lWyYo2v96BMmD2PTcl47H25Lu7UXtFH/2qqmKiVrnel6Ne//0TFYf6uvNX+HW2FRkLQ==
 
-"@types/node@^10.12.7":
-  version "10.12.7"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.7.tgz#195808b2d4b2e7c33e75e7d9b24aeee88f94660d"
-  integrity sha512-Zh5Z4kACfbeE8aAOYh9mqotRxaZMro8MbBQtR8vEXOMiZo2rGEh2LayJijKdlu48YnS6y2EFU/oo2NCe5P6jGw==
+"@types/node@^10.12.9":
+  version "10.12.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.9.tgz#a07bfa74331471e1dc22a47eb72026843f7b95c8"
+  integrity sha512-eajkMXG812/w3w4a1OcBlaTwsFPO5F7fJ/amy+tieQxEMWBlbV1JGSjkFM+zkHNf81Cad+dfIRA+IBkvmvdAeA==
 
 "@types/rx-core-binding@*":
   version "4.0.4"
@@ -9522,10 +9522,10 @@ typedoc-default-themes@^0.5.0:
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
   integrity sha1-bcJDPnjti+qOiHo6zeLzF4W9Yic=
 
-typedoc-plugin-markdown@^1.1.18:
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-1.1.18.tgz#dc4cb51b411f3773bcc2ffc45b808fee71e681bf"
-  integrity sha512-hE/2wM3NzMY/6K2wLtW7koVALLvVYm7w0mx+GFH3Er5gTioEMrUtd70Yf6Mb88fG6IvUWx1mX10ZD/ZR0AXS2w==
+typedoc-plugin-markdown@^1.1.19:
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-1.1.19.tgz#f0c2e0a390932f80e85a393961849d0e9d372561"
+  integrity sha512-dk1J9NHW3c1cMmcmTrw55U7ke6zadB3hZL7y7tkLQ6FeJGkz6SEMuexjVOq5rltuW7JeLqt1ngNKAwG9dXiMgQ==
   dependencies:
     turndown "^5.0.1"
 

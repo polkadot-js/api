@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/jsonrpc",
-  "version": "0.31.123",
+  "version": "0.32.0",
   "description": "Method definitions for the Polkadot RPC layer",
   "main": "index.js",
   "engines": {
@@ -23,7 +23,7 @@
     "Jaco Greeff <jacogr@gmail.com>"
   ],
   "contributors": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/polkadot-js/api/issues"
   },
