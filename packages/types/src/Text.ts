@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction, isString, stringToU8a, u8aToString, u8aConcat, u8aToHex } from '@polkadot/util';
+import { isFunction, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 
 import { AnyU8a, Codec } from './types';
 import Compact from './codec/Compact';
@@ -53,9 +53,6 @@ export default class Text extends String implements Codec {
 
     return isBare
       ? encoded
-      : u8aConcat(
-        Compact.encodeU8a(this.length),
-        encoded
-      );
+      : Compact.addLengthPrefix(encoded);
   }
 }

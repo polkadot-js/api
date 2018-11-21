@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a, Codec } from './types';
 
-import { hexToU8a, isHex, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isU8a, u8aToHex } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './codec/Compact';
@@ -49,10 +49,7 @@ export default class Extrinsic extends Struct {
       const u8a = hexToU8a(value);
 
       return Extrinsic.decodeExtrinsic(
-        u8aConcat(
-          Compact.encodeU8a(u8a.length),
-          u8a
-        )
+        Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
       const [offset, length] = Compact.decodeU8a(value);
@@ -121,10 +118,7 @@ export default class Extrinsic extends Struct {
 
     return isBare
       ? encoded
-      : u8aConcat(
-        Compact.encodeU8a(encoded.length),
-        encoded
-      );
+      : Compact.addLengthPrefix(encoded);
   }
 
   toHex (): string {

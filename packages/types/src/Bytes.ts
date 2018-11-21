@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isString, isU8a, u8aConcat, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
@@ -47,9 +47,6 @@ export default class Bytes extends U8a {
   toU8a (isBare?: boolean): Uint8Array {
     return isBare
       ? super.toU8a(isBare)
-      : u8aConcat(
-        Compact.encodeU8a(this.length),
-        this
-      );
+      : Compact.addLengthPrefix(this);
   }
 }
