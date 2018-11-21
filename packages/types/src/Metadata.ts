@@ -6,7 +6,7 @@ import { AnyNumber } from './types';
 
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import Compact from './codec/Compact';
 import Enum from './codec/Enum';
 import EnumType from './codec/EnumType';
 import Option from './codec/Option';
@@ -337,7 +337,7 @@ export default class RuntimeMetadata extends Struct {
       // is properly encoded. Here we pull the prefix, check it agianst the length -
       // if matches, then we have the length, otherwise we assume it is an older node
       // and use the whole buffer
-      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      const [offset, length] = Compact.decodeU8a(value);
 
       return value.length === (offset + length.toNumber())
         ? value.subarray(offset)

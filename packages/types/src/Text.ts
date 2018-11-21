@@ -5,7 +5,7 @@
 import { isFunction, isString, stringToU8a, u8aToString, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { AnyU8a, Codec } from './types';
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import Compact from './codec/Compact';
 
 // This is a string wrapper, along with the length. It is used both for strings as well
 // as stuff like documentation.
@@ -26,7 +26,7 @@ export default class Text extends String implements Codec {
     if (isString(value)) {
       return value.toString();
     } else if (value instanceof Uint8Array) {
-      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      const [offset, length] = Compact.decodeU8a(value);
 
       return u8aToString(value.subarray(offset, offset + length.toNumber()));
     } else if (isFunction(value.toString)) {
@@ -37,7 +37,7 @@ export default class Text extends String implements Codec {
   }
 
   get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length;
+    return this.length + Compact.encodeU8a(this.length).length;
   }
 
   toHex (): string {
@@ -54,7 +54,7 @@ export default class Text extends String implements Codec {
     return isBare
       ? encoded
       : u8aConcat(
-        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
+        Compact.encodeU8a(this.length),
         encoded
       );
   }

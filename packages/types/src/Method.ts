@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
+import { AnyU8a, Codec, Constructor } from './types';
+
 import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
-import { AnyU8a, Codec, Constructor } from './types';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
+import Extrinsic from './Extrinsic';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 
 const FN_UNKNOWN = {
   method: 'unknown',
@@ -28,6 +29,23 @@ interface DecodeMethodInput {
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadata;
+}
+
+export interface ExtrinsicFunction {
+  (...args: any[]): Extrinsic;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export interface ModuleExtrinsics {
+  [key: string]: ExtrinsicFunction;
+}
+
+export interface Extrinsics {
+  [key: string]: ModuleExtrinsics; // Will hold modules returned by state_getMetadata
 }
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 import Text from './Text';
 
@@ -62,7 +62,7 @@ export default class Type extends Text {
   // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
   // only the decoding leg, allowing the decoders to work with original pointers
   get encodedLength (): number {
-    return this._originalLength + Compact.encodeU8a(this._originalLength, DEFAULT_LENGTH_BITS).length;
+    return this._originalLength + Compact.encodeU8a(this._originalLength).length;
   }
 
   // Note Since we are mangling what we get in beyond recognition, we really should
