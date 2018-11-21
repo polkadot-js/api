@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsics } from '@polkadot/extrinsics/types';
+import { Extrinsics } from '@polkadot/types/Method';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcRxInterface, RpcRxInterface$Method, RpcRxInterface$Section } from '@polkadot/rpc-rx/types';
 import { Storage } from '@polkadot/storage/types';

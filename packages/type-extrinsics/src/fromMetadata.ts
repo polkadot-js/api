@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsics, ModuleExtrinsics } from './types';
+import { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
+import { Extrinsics, ModuleExtrinsics } from '@polkadot/types/Method';
+import { Metadata } from '@polkadot/types/index';
 
-import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';

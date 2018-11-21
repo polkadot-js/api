@@ -13,15 +13,16 @@ import Proposal from '../Proposal';
 import VoteThreshold from '../VoteThreshold';
 
 describe('Tuple', () => {
-  let tuple;
+  let tuple: Tuple;
 
   beforeEach(() => {
     Method.injectExtrinsics(extrinsics);
 
+    // FIXME something weird here, injecting any :(
     tuple = new Tuple({
       foo: Text,
       bar: U32
-    }, { foo: 'foo', bar: 69 });
+    } as any, { foo: 'foo', bar: 69 });
   });
 
   it('returns array with toJSON', () => {
@@ -58,8 +59,8 @@ describe('Tuple', () => {
       threshold: VoteThreshold
     }))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
-    expect(test.getAtIndex(0).toNumber()).toEqual(6498);
-    expect(test.getAtIndex(1).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect(test.getAtIndex(2).toNumber()).toEqual(1);
+    expect((test.getAtIndex(0) as BlockNumber).toNumber()).toEqual(6498);
+    expect((test.getAtIndex(1) as Method).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect((test.getAtIndex(2) as VoteThreshold).toNumber()).toEqual(1);
   });
 });

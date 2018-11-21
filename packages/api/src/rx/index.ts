@@ -9,14 +9,14 @@ import { defaultIfEmpty, map } from 'rxjs/operators';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
 import { Codec } from '@polkadot/types/types';
+import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
+import { StorageFunction } from '@polkadot/types/StorageKey';
 import { logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
-import { StorageFunction } from '@polkadot/types/StorageKey';
 
 const l = logger('api-rx');
 
