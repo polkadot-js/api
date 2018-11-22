@@ -16,7 +16,7 @@ import storageStatic from '@polkadot/storage/static';
 import { Hash, Method } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert, isUndefined, isU8a } from '@polkadot/util';
+import { assert, isU8a } from '@polkadot/util';
 
 type MapFn<R, T> = (combined: R) => T;
 
