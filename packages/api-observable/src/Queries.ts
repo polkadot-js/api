@@ -14,8 +14,6 @@ import { Tuple } from '@polkadot/types/codec';
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
 
-// FIXME Revert Vector -> Array mappings in here once https://github.com/polkadot-js/api/pull/172 is in
-
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
   accountNonce = (address: AccountId | string): Observable<Index | undefined> => {
@@ -52,10 +50,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((accounts: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (accounts || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          accounts || ([] as Array<AccountId>)
         )
       );
   }
@@ -83,7 +78,6 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((proposals: Array<Tuple> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
           (proposals || ([] as Array<Tuple>))
             .map((result: Tuple): RxProposal | undefined =>
               result
@@ -124,10 +118,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((voters: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (voters || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          voters || ([] as Array<AccountId>)
         )
       );
   }
@@ -195,10 +186,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((validators: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (validators || ([] as Array<AccountId>)).map((authorityId) =>
-            authorityId
-          )
+          validators || ([] as Array<AccountId>)
         )
       );
   }
@@ -209,10 +197,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((intentions: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (intentions || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          intentions || ([] as Array<AccountId>)
         )
       );
   }
@@ -223,10 +208,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((nominators: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (nominators || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          nominators || ([] as Array<AccountId>)
         )
       );
   }
@@ -241,10 +223,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((events: Array<EventRecord> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (events || ([] as Array<EventRecord>)).map((event) =>
-            event
-          )
+          events || ([] as Array<EventRecord>)
         )
       );
   }

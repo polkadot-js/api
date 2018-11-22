@@ -13,11 +13,10 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
-import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert, isUndefined, isU8a } from '@polkadot/util';
+import { assert, isU8a } from '@polkadot/util';
 
 type MapFn<R, T> = (combined: R) => T;
 
@@ -115,9 +114,7 @@ export default class ApiBase {
       )
       .pipe(
         map((result: Array<T>): T | undefined =>
-          result
-            ? result[0]
-            : undefined
+          result[0]
         )
       );
   }
@@ -134,11 +131,8 @@ export default class ApiBase {
 
     return observable.pipe(
       defaultIfEmpty(),
-      map((result?: Vector<any>): T =>
-        isUndefined(result)
-          ? [] as T
-          // FIXME When Vector extends Array, this mapping can be removed
-          : result.map((item: any) => item) as T
+      map((result?: Array<any>): T =>
+        (result || []) as T
       )
     );
   }
