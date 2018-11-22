@@ -114,9 +114,7 @@ export default class ApiBase {
       )
       .pipe(
         map((result: Array<T>): T | undefined =>
-          result
-            ? result[0]
-            : undefined
+          result[0]
         )
       );
   }
@@ -134,9 +132,7 @@ export default class ApiBase {
     return observable.pipe(
       defaultIfEmpty(),
       map((result?: Array<any>): T =>
-        isUndefined(result)
-          ? [] as T
-          : result as T
+        (result || []) as T
       )
     );
   }
