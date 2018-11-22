@@ -54,11 +54,13 @@ export { default as Proposal } from './Proposal';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as RuntimeVersion } from './RuntimeVersion';
+export { default as SessionKey } from './SessionKey';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
 export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
+export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as Text } from './Text';
 export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust

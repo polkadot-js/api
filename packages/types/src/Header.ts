@@ -8,7 +8,6 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './codec/Compact';
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 
 import BlockNumber from './BlockNumber';
 import Digest, { DigestItem } from './Digest';
@@ -24,7 +23,7 @@ export type HeaderValue = {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value?: HeaderValue | U8a | Uint8Array) {
+  constructor (value?: HeaderValue | Uint8Array) {
     super({
       parentHash: Hash,
       number: Compact.with(BlockNumber),

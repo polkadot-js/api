@@ -293,6 +293,20 @@
         ]
       ],
       [
+        "grandpa",
+        [
+          {
+            "name": "NewAuthorities",
+            "arguments": [
+              "Vec<(SessionKey, u64)>"
+            ],
+            "documentation": [
+              " New authority set has been applied."
+            ]
+          }
+        ]
+      ],
+      [
         "treasury",
         [
           {
@@ -357,6 +371,37 @@
             "documentation": [
               " Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`."
             ]
+          },
+          {
+            "name": "Created",
+            "arguments": [
+              "AccountId",
+              "AccountId"
+            ],
+            "documentation": [
+              " Contract deployed by address at the specified address."
+            ]
+          }
+        ]
+      ],
+      [
+        "upgrade_key",
+        [
+          {
+            "name": "Upgraded",
+            "arguments": [],
+            "documentation": [
+              " An upgrade just happened."
+            ]
+          },
+          {
+            "name": "KeyChanged",
+            "arguments": [
+              "AccountId"
+            ],
+            "documentation": [
+              " An upgrade just happened; old key is supplied as an argument."
+            ]
           }
         ]
       ]
@@ -371,82 +416,37 @@
           "name": "Call",
           "functions": []
         }
-      },
-      "storage": {
-        "prefix": "System",
-        "functions": [
-          {
-            "name": "AccountNonce",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Index"
-            },
-            "documentation": []
-          },
-          {
-            "name": "ExtrinsicCount",
-            "modifier": 0,
-            "type": "u32",
-            "documentation": []
-          },
-          {
-            "name": "BlockHash",
-            "modifier": 1,
-            "type": {
-              "key": "BlockNumber",
-              "value": "Hash"
-            },
-            "documentation": []
-          },
-          {
-            "name": "ExtrinsicData",
-            "modifier": 1,
-            "type": {
-              "key": "u32",
-              "value": "Bytes"
-            },
-            "documentation": []
-          },
-          {
-            "name": "RandomSeed",
-            "modifier": 1,
-            "type": "Hash",
-            "documentation": []
-          },
-          {
-            "name": "Number",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " The current block number being processed. Set by `execute_block`."
-            ]
-          },
-          {
-            "name": "ParentHash",
-            "modifier": 1,
-            "type": "Hash",
-            "documentation": []
-          },
-          {
-            "name": "ExtrinsicsRoot",
-            "modifier": 1,
-            "type": "Hash",
-            "documentation": []
-          },
-          {
-            "name": "Digest",
-            "modifier": 1,
-            "type": "Digest",
-            "documentation": []
-          },
-          {
-            "name": "Events",
-            "modifier": 1,
-            "type": "Vec<EventRecord>",
-            "documentation": []
-          }
-        ]
+      }
+    },
+    {
+      "prefix": "timestamp",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": 0,
+              "name": "set",
+              "arguments": [
+                {
+                  "name": "now",
+                  "type": "Compact<Moment>"
+                }
+              ],
+              "documentation": [
+                " Set the current time.",
+                "",
+                " Extrinsic with this call should be placed at the specific position in the each block",
+                " (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.",
+                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
+                " if this call hasn't been invoked by that time.",
+                "",
+                " The timestamp should be greater than the previous one by the amount specified by `block_period`."
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -461,11 +461,13 @@
               "name": "report_misbehavior",
               "arguments": [
                 {
-                  "name": "report",
-                  "type": "MisbehaviorReport"
+                  "name": "_report",
+                  "type": "Bytes"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Report some misbehaviour."
+              ]
             },
             {
               "id": 1,
@@ -476,21 +478,40 @@
                   "type": "Vec<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Note the previous block's validator missed their opportunity to propose a block.",
+                " This only comes in if 2/3+1 of the validators agree that no proposal was submitted.",
+                " It's only relevant for the previous block."
+              ]
             },
             {
               "id": 2,
               "name": "remark",
               "arguments": [
                 {
-                  "name": "remark",
+                  "name": "_remark",
                   "type": "Bytes"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Make some on-chain remark."
+              ]
             },
             {
               "id": 3,
+              "name": "set_heap_pages",
+              "arguments": [
+                {
+                  "name": "pages",
+                  "type": "u64"
+                }
+              ],
+              "documentation": [
+                " Set the number of pages in the WebAssembly environment's heap."
+              ]
+            },
+            {
+              "id": 4,
               "name": "set_code",
               "arguments": [
                 {
@@ -498,10 +519,12 @@
                   "type": "Bytes"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the new code."
+              ]
             },
             {
-              "id": 4,
+              "id": 5,
               "name": "set_storage",
               "arguments": [
                 {
@@ -509,21 +532,12 @@
                   "type": "Vec<KeyValue>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set some items of storage."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Consensus",
-        "functions": [
-          {
-            "name": "OriginalAuthorities",
-            "modifier": 0,
-            "type": "Vec<SessionKey>",
-            "documentation": []
-          }
-        ]
       }
     },
     {
@@ -543,10 +557,12 @@
                 },
                 {
                   "name": "value",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Transfer some liquid free balance to another staker."
+              ]
             },
             {
               "id": 1,
@@ -558,191 +574,19 @@
                 },
                 {
                   "name": "free",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 },
                 {
                   "name": "reserved",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the balances of a given account."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Balances",
-        "functions": [
-          {
-            "name": "TotalIssuance",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The total amount of stake on the system."
-            ]
-          },
-          {
-            "name": "ExistentialDeposit",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The minimum amount allowed to keep an account open."
-            ]
-          },
-          {
-            "name": "ReclaimRebate",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The amount credited to a destination's account whose index was reclaimed."
-            ]
-          },
-          {
-            "name": "TransferFee",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The fee required to make a transfer."
-            ]
-          },
-          {
-            "name": "CreationFee",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The fee required to create an account. At least as big as ReclaimRebate."
-            ]
-          },
-          {
-            "name": "NextEnumSet",
-            "modifier": 1,
-            "type": "AccountIndex",
-            "documentation": [
-              " The next free enumeration set."
-            ]
-          },
-          {
-            "name": "EnumSet",
-            "modifier": 1,
-            "type": {
-              "key": "AccountIndex",
-              "value": "Vec<AccountId>"
-            },
-            "documentation": [
-              " The enumeration sets."
-            ]
-          },
-          {
-            "name": "FreeBalance",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Balance"
-            },
-            "documentation": [
-              " The 'free' balance of a given account.",
-              "",
-              " This is the only balance that matters in terms of most operations on tokens. It is",
-              " alone used to determine the balance when in the contract execution environment. When this",
-              " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
-              " deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback",
-              " is invoked, giving a chance to external modules to cleanup data associated with",
-              " the deleted account.",
-              "",
-              " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
-              " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
-            ]
-          },
-          {
-            "name": "ReservedBalance",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Balance"
-            },
-            "documentation": [
-              " The amount of the balance of a given account that is externally reserved; this can still get",
-              " slashed, but gets slashed last of all.",
-              "",
-              " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
-              " that are still 'owned' by the account holder, but which are suspendable. (This is different",
-              " and wholly unrelated to the `Bondage` system used in the staking module.)",
-              "",
-              " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
-              " is deleted: specifically, `ReservedBalance`.",
-              "",
-              " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
-              " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
-            ]
-          },
-          {
-            "name": "TransactionBaseFee",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The fee to be paid for making a transaction; the base."
-            ]
-          },
-          {
-            "name": "TransactionByteFee",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The fee to be paid for making a transaction; the per-byte portion."
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "prefix": "timestamp",
-      "module": {
-        "name": "Module",
-        "call": {
-          "name": "Call",
-          "functions": [
-            {
-              "id": 0,
-              "name": "set",
-              "arguments": [
-                {
-                  "name": "now",
-                  "type": "Moment"
-                }
-              ],
-              "documentation": []
-            }
-          ]
-        }
-      },
-      "storage": {
-        "prefix": "Timestamp",
-        "functions": [
-          {
-            "name": "Now",
-            "modifier": 1,
-            "type": "Moment",
-            "documentation": [
-              " Current time for the current block."
-            ]
-          },
-          {
-            "name": "BlockPeriod",
-            "modifier": 1,
-            "type": "Moment",
-            "documentation": [
-              " The minimum (and advised) period between blocks."
-            ]
-          },
-          {
-            "name": "DidUpdate",
-            "modifier": 1,
-            "type": "bool",
-            "documentation": [
-              " Did the timestamp get updated in this block?"
-            ]
-          }
-        ]
       }
     },
     {
@@ -761,7 +605,10 @@
                   "type": "SessionKey"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Sets the session key of `_validator` to `_key`. This doesn't take effect until the next",
+                " session."
+              ]
             },
             {
               "id": 1,
@@ -769,10 +616,12 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set a new session length. Won't kick in until the next session change (at current length)."
+              ]
             },
             {
               "id": 2,
@@ -783,83 +632,12 @@
                   "type": "bool"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Forces a new session."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Session",
-        "functions": [
-          {
-            "name": "Validators",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
-            "documentation": [
-              " The current set of validators."
-            ]
-          },
-          {
-            "name": "SessionLength",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " Current length of the session."
-            ]
-          },
-          {
-            "name": "CurrentIndex",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " Current index of the session."
-            ]
-          },
-          {
-            "name": "CurrentStart",
-            "modifier": 1,
-            "type": "Moment",
-            "documentation": [
-              " Timestamp when current session started."
-            ]
-          },
-          {
-            "name": "ForcingNewSession",
-            "modifier": 0,
-            "type": "bool",
-            "documentation": [
-              " New session is being forced is this entry exists; in which case, the boolean value is whether",
-              " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
-            ]
-          },
-          {
-            "name": "LastLengthChange",
-            "modifier": 0,
-            "type": "BlockNumber",
-            "documentation": [
-              " Block at which the session length last changed."
-            ]
-          },
-          {
-            "name": "NextKeyFor",
-            "modifier": 0,
-            "type": {
-              "key": "AccountId",
-              "value": "SessionKey"
-            },
-            "documentation": [
-              " The next key for a given validator."
-            ]
-          },
-          {
-            "name": "NextSessionLength",
-            "modifier": 0,
-            "type": "BlockNumber",
-            "documentation": [
-              " The next session length."
-            ]
-          }
-        ]
       }
     },
     {
@@ -873,7 +651,11 @@
               "id": 0,
               "name": "stake",
               "arguments": [],
-              "documentation": []
+              "documentation": [
+                " Declare the desire to stake for the transactor.",
+                "",
+                " Effects will be felt at the beginning of the next era."
+              ]
             },
             {
               "id": 1,
@@ -881,10 +663,14 @@
               "arguments": [
                 {
                   "name": "intentions_index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Retract the desire to stake for the transactor.",
+                "",
+                " Effects will be felt at the beginning of the next era."
+              ]
             },
             {
               "id": 2,
@@ -903,10 +689,13 @@
               "arguments": [
                 {
                   "name": "target_index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Will panic if called when source isn't currently nominating target.",
+                " Updates Nominating, NominatorsFor and NominationBalance."
+              ]
             },
             {
               "id": 4,
@@ -914,14 +703,18 @@
               "arguments": [
                 {
                   "name": "intentions_index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 },
                 {
                   "name": "prefs",
                   "type": "ValidatorPrefs"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the given account's preference for slashing behaviour should they be a validator.",
+                "",
+                " An error (no-op) if `Self::intentions()[intentions_index] != origin`."
+              ]
             },
             {
               "id": 5,
@@ -929,10 +722,12 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the number of sessions in an era."
+              ]
             },
             {
               "id": 6,
@@ -940,10 +735,12 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " The length of the bonding duration in eras."
+              ]
             },
             {
               "id": 7,
@@ -951,10 +748,12 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " The ideal number of validators."
+              ]
             },
             {
               "id": 8,
@@ -965,7 +764,10 @@
                   "type": "bool"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Force there to be a new era. This also forces a new session immediately after.",
+                " `apply_rewards` should be true for validators to get the session reward."
+              ]
             },
             {
               "id": 9,
@@ -973,204 +775,15 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the offline slash grace period."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Staking",
-        "functions": [
-          {
-            "name": "ValidatorCount",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " The ideal number of staking participants."
-            ]
-          },
-          {
-            "name": "MinimumValidatorCount",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " Minimum number of staking participants before emergency conditions are imposed."
-            ]
-          },
-          {
-            "name": "SessionsPerEra",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " The length of a staking era in sessions."
-            ]
-          },
-          {
-            "name": "SessionReward",
-            "modifier": 1,
-            "type": "Perbill",
-            "documentation": [
-              " Maximum reward, per validator, that is provided per acceptable session."
-            ]
-          },
-          {
-            "name": "OfflineSlash",
-            "modifier": 1,
-            "type": "Perbill",
-            "documentation": [
-              " Slash, per validator that is taken for the first time they are found to be offline."
-            ]
-          },
-          {
-            "name": "OfflineSlashGrace",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " Number of instances of offline reports before slashing begins for validators."
-            ]
-          },
-          {
-            "name": "BondingDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " The length of the bonding duration in blocks."
-            ]
-          },
-          {
-            "name": "CurrentEra",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " The current era index."
-            ]
-          },
-          {
-            "name": "ValidatorPreferences",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "ValidatorPrefs"
-            },
-            "documentation": [
-              " Preferences that a validator has."
-            ]
-          },
-          {
-            "name": "Intentions",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
-            "documentation": [
-              " All the accounts with a desire to stake."
-            ]
-          },
-          {
-            "name": "Nominating",
-            "modifier": 0,
-            "type": {
-              "key": "AccountId",
-              "value": "AccountId"
-            },
-            "documentation": [
-              " All nominator -> nominee relationships."
-            ]
-          },
-          {
-            "name": "NominatorsFor",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Vec<AccountId>"
-            },
-            "documentation": [
-              " Nominators for a particular account."
-            ]
-          },
-          {
-            "name": "CurrentNominatorsFor",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Vec<AccountId>"
-            },
-            "documentation": [
-              " Nominators for a particular account that is in action right now."
-            ]
-          },
-          {
-            "name": "CurrentSessionReward",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " Maximum reward, per validator, that is provided per acceptable session."
-            ]
-          },
-          {
-            "name": "CurrentOfflineSlash",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " Slash, per validator that is taken for the first time they are found to be offline."
-            ]
-          },
-          {
-            "name": "NextSessionsPerEra",
-            "modifier": 0,
-            "type": "BlockNumber",
-            "documentation": [
-              " The next value of sessions per era."
-            ]
-          },
-          {
-            "name": "LastEraLengthChange",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " The session index at which the era length last changed."
-            ]
-          },
-          {
-            "name": "StakeRange",
-            "modifier": 1,
-            "type": "PairOf",
-            "documentation": [
-              " The highest and lowest staked validator slashable balances."
-            ]
-          },
-          {
-            "name": "Bondage",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "BlockNumber"
-            },
-            "documentation": [
-              " The block at which the `who`'s funds become entirely liquid."
-            ]
-          },
-          {
-            "name": "SlashCount",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "u32"
-            },
-            "documentation": [
-              " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
-            ]
-          },
-          {
-            "name": "ForcingNewEra",
-            "modifier": 0,
-            "type": "()",
-            "documentation": [
-              " We are forcing a new era."
-            ]
-          }
-        ]
       }
     },
     {
@@ -1190,10 +803,12 @@
                 },
                 {
                   "name": "value",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Propose a sensitive action to be taken."
+              ]
             },
             {
               "id": 1,
@@ -1201,10 +816,12 @@
               "arguments": [
                 {
                   "name": "proposal",
-                  "type": "PropIndex"
+                  "type": "Compact<PropIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Propose a sensitive action to be taken."
+              ]
             },
             {
               "id": 2,
@@ -1212,14 +829,17 @@
               "arguments": [
                 {
                   "name": "ref_index",
-                  "type": "ReferendumIndex"
+                  "type": "Compact<ReferendumIndex>"
                 },
                 {
                   "name": "approve_proposal",
                   "type": "bool"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Vote in a referendum. If `approve_proposal` is true, the vote is to enact the proposal;",
+                " false would be a vote to keep the status quo."
+              ]
             },
             {
               "id": 3,
@@ -1234,7 +854,9 @@
                   "type": "VoteThreshold"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Start a referendum."
+              ]
             },
             {
               "id": 4,
@@ -1242,118 +864,15 @@
               "arguments": [
                 {
                   "name": "ref_index",
-                  "type": "ReferendumIndex"
+                  "type": "Compact<ReferendumIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Remove a referendum."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Democracy",
-        "functions": [
-          {
-            "name": "PublicPropCount",
-            "modifier": 1,
-            "type": "PropIndex",
-            "documentation": [
-              " The number of (public) proposals that have been made so far."
-            ]
-          },
-          {
-            "name": "PublicProps",
-            "modifier": 1,
-            "type": "Vec<(PropIndex, Proposal, AccountId)>",
-            "documentation": [
-              " The public proposals. Unsorted."
-            ]
-          },
-          {
-            "name": "DepositOf",
-            "modifier": 0,
-            "type": {
-              "key": "PropIndex",
-              "value": "(Balance, Vec<AccountId>)"
-            },
-            "documentation": [
-              " Those who have locked a deposit."
-            ]
-          },
-          {
-            "name": "LaunchPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " How often (in blocks) new public referenda are launched."
-            ]
-          },
-          {
-            "name": "MinimumDeposit",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The minimum amount to be used as a deposit for a public referendum proposal."
-            ]
-          },
-          {
-            "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " How often (in blocks) to check for new votes."
-            ]
-          },
-          {
-            "name": "ReferendumCount",
-            "modifier": 1,
-            "type": "ReferendumIndex",
-            "documentation": [
-              " The next free referendum index, aka the number of referendums started so far."
-            ]
-          },
-          {
-            "name": "NextTally",
-            "modifier": 1,
-            "type": "ReferendumIndex",
-            "documentation": [
-              " The next referendum index that should be tallied."
-            ]
-          },
-          {
-            "name": "ReferendumInfoOf",
-            "modifier": 0,
-            "type": {
-              "key": "ReferendumIndex",
-              "value": "(BlockNumber, Proposal, VoteThreshold)"
-            },
-            "documentation": [
-              " Information concerning any given referendum."
-            ]
-          },
-          {
-            "name": "VotersFor",
-            "modifier": 1,
-            "type": {
-              "key": "ReferendumIndex",
-              "value": "Vec<AccountId>"
-            },
-            "documentation": [
-              " Get the voters for the current proposal."
-            ]
-          },
-          {
-            "name": "VoteOf",
-            "modifier": 0,
-            "type": {
-              "key": "(ReferendumIndex, AccountId)",
-              "value": "bool"
-            },
-            "documentation": [
-              " Get the vote, if Some, of `who`."
-            ]
-          }
-        ]
       }
     },
     {
@@ -1373,10 +892,13 @@
                 },
                 {
                   "name": "index",
-                  "type": "VoteIndex"
+                  "type": "Compact<VoteIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set candidate approvals. Approval slots stay valid as long as candidates in those slots",
+                " are registered."
+              ]
             },
             {
               "id": 1,
@@ -1384,7 +906,7 @@
               "arguments": [
                 {
                   "name": "reporter_index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 },
                 {
                   "name": "who",
@@ -1392,14 +914,20 @@
                 },
                 {
                   "name": "who_index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 },
                 {
                   "name": "assumed_vote_index",
-                  "type": "VoteIndex"
+                  "type": "Compact<VoteIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices",
+                " must now be either unregistered or registered to a candidate that registered the slot after",
+                " the voter gave their last approval set.",
+                "",
+                " May be called by anyone. Returns the voter deposit to `signed`."
+              ]
             },
             {
               "id": 2,
@@ -1407,10 +935,12 @@
               "arguments": [
                 {
                   "name": "index",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Remove a voter. All votes are cancelled and the voter deposit is returned."
+              ]
             },
             {
               "id": 3,
@@ -1418,10 +948,14 @@
               "arguments": [
                 {
                   "name": "slot",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Submit oneself for candidacy.",
+                "",
+                " Account must have enough transferrable funds in it to pay the bond."
+              ]
             },
             {
               "id": 4,
@@ -1433,14 +967,18 @@
                 },
                 {
                   "name": "total",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 },
                 {
                   "name": "index",
-                  "type": "VoteIndex"
+                  "type": "Compact<VoteIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.",
+                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``",
+                " `signed` should have at least"
+              ]
             },
             {
               "id": 5,
@@ -1448,10 +986,14 @@
               "arguments": [
                 {
                   "name": "count",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the desired member count; if lower than the current count, then seats will not be up",
+                " election when they expire. If more, then a new vote will be started if one is not already",
+                " in progress."
+              ]
             },
             {
               "id": 6,
@@ -1462,7 +1004,11 @@
                   "type": "Address"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Remove a particular member. A tally will happen instantly (if not already in a presentation",
+                " period) to fill the seat if removal means that the desired members are not met.",
+                " This is effective immediately."
+              ]
             },
             {
               "id": 7,
@@ -1470,10 +1016,13 @@
               "arguments": [
                 {
                   "name": "count",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the presentation duration. If there is currently a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
             },
             {
               "id": 8,
@@ -1481,188 +1030,16 @@
               "arguments": [
                 {
                   "name": "count",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the presentation duration. If there is current a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Council",
-        "functions": [
-          {
-            "name": "CandidacyBond",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " How much should be locked up in order to submit one's candidacy."
-            ]
-          },
-          {
-            "name": "VotingBond",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " How much should be locked up in order to be able to submit votes."
-            ]
-          },
-          {
-            "name": "PresentSlashPerVoter",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " The punishment, per voter, if you provide an invalid presentation."
-            ]
-          },
-          {
-            "name": "CarryCount",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " How many runners-up should have their approvals persist until the next vote."
-            ]
-          },
-          {
-            "name": "PresentationDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " How long to give each top candidate to present themselves after the vote ends."
-            ]
-          },
-          {
-            "name": "InactiveGracePeriod",
-            "modifier": 1,
-            "type": "VoteIndex",
-            "documentation": [
-              " How many votes need to go by after a voter's last vote before they can be reaped if their",
-              " approvals are moot."
-            ]
-          },
-          {
-            "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " How often (in blocks) to check for new votes."
-            ]
-          },
-          {
-            "name": "TermDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " How long each position is active for."
-            ]
-          },
-          {
-            "name": "DesiredSeats",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " Number of accounts that should be sitting on the council."
-            ]
-          },
-          {
-            "name": "ActiveCouncil",
-            "modifier": 1,
-            "type": "Vec<(AccountId, BlockNumber)>",
-            "documentation": [
-              " The current council. When there's a vote going on, this should still be used for executive",
-              " matters."
-            ]
-          },
-          {
-            "name": "VoteCount",
-            "modifier": 1,
-            "type": "VoteIndex",
-            "documentation": [
-              " The total number of votes that have happened or are in progress."
-            ]
-          },
-          {
-            "name": "ApprovalsOf",
-            "modifier": 1,
-            "type": {
-              "key": "AccountId",
-              "value": "Vec<bool>"
-            },
-            "documentation": [
-              " The last cleared vote index that this voter was last active at."
-            ]
-          },
-          {
-            "name": "RegisterInfoOf",
-            "modifier": 0,
-            "type": {
-              "key": "AccountId",
-              "value": "(VoteIndex, u32)"
-            },
-            "documentation": [
-              " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
-              " currently registered."
-            ]
-          },
-          {
-            "name": "LastActiveOf",
-            "modifier": 0,
-            "type": {
-              "key": "AccountId",
-              "value": "VoteIndex"
-            },
-            "documentation": [
-              " The last cleared vote index that this voter was last active at."
-            ]
-          },
-          {
-            "name": "Voters",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
-            "documentation": [
-              " The present voter list."
-            ]
-          },
-          {
-            "name": "Candidates",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
-            "documentation": [
-              " The present candidate list."
-            ]
-          },
-          {
-            "name": "CandidateCount",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": []
-          },
-          {
-            "name": "NextFinalise",
-            "modifier": 0,
-            "type": "(BlockNumber, u32, Vec<AccountId>)",
-            "documentation": [
-              " The accounts holding the seats that will become free on the next tally."
-            ]
-          },
-          {
-            "name": "SnapshotedStakes",
-            "modifier": 1,
-            "type": "Vec<Balance>",
-            "documentation": [
-              " The stakes as they were at the point that the vote ended."
-            ]
-          },
-          {
-            "name": "Leaderboard",
-            "modifier": 0,
-            "type": "Vec<(Balance, AccountId)>",
-            "documentation": [
-              " Get the leaderboard if we;re in the presentation phase."
-            ]
-          }
-        ]
       }
     },
     {
@@ -1715,7 +1092,7 @@
               "arguments": [
                 {
                   "name": "blocks",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
               "documentation": []
@@ -1726,72 +1103,13 @@
               "arguments": [
                 {
                   "name": "blocks",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 }
               ],
               "documentation": []
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "CouncilVoting",
-        "functions": [
-          {
-            "name": "CooloffPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": []
-          },
-          {
-            "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": []
-          },
-          {
-            "name": "Proposals",
-            "modifier": 1,
-            "type": "Vec<(BlockNumber, Hash)>",
-            "documentation": []
-          },
-          {
-            "name": "ProposalOf",
-            "modifier": 0,
-            "type": {
-              "key": "Hash",
-              "value": "Proposal"
-            },
-            "documentation": []
-          },
-          {
-            "name": "ProposalVoters",
-            "modifier": 1,
-            "type": {
-              "key": "Hash",
-              "value": "Vec<AccountId>"
-            },
-            "documentation": []
-          },
-          {
-            "name": "CouncilVoteOf",
-            "modifier": 0,
-            "type": {
-              "key": "(Hash, AccountId)",
-              "value": "bool"
-            },
-            "documentation": []
-          },
-          {
-            "name": "VetoedProposal",
-            "modifier": 0,
-            "type": {
-              "key": "Hash",
-              "value": "(BlockNumber, Vec<AccountId>)"
-            },
-            "documentation": []
-          }
-        ]
       }
     },
     {
@@ -1807,7 +1125,7 @@
               "arguments": [
                 {
                   "name": "threshold",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 },
                 {
                   "name": "proposal",
@@ -1826,7 +1144,7 @@
                 },
                 {
                   "name": "index",
-                  "type": "ProposalIndex"
+                  "type": "Compact<ProposalIndex>"
                 },
                 {
                   "name": "approve",
@@ -1837,49 +1155,30 @@
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "CouncilMotions",
-        "functions": [
-          {
-            "name": "Proposals",
-            "modifier": 1,
-            "type": "Vec<Hash>",
-            "documentation": [
-              " The (hashes of) the active proposals."
-            ]
-          },
-          {
-            "name": "ProposalOf",
-            "modifier": 0,
-            "type": {
-              "key": "Hash",
-              "value": "Proposal"
-            },
-            "documentation": [
-              " Actual proposal for a given hash, if it's current."
-            ]
-          },
-          {
-            "name": "Voting",
-            "modifier": 0,
-            "type": {
-              "key": "Hash",
-              "value": "(ProposalIndex, u32, Vec<AccountId>, Vec<AccountId>)"
-            },
-            "documentation": [
-              " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
-            ]
-          },
-          {
-            "name": "ProposalCount",
-            "modifier": 1,
-            "type": "u32",
-            "documentation": [
-              " Proposals so far."
-            ]
-          }
-        ]
+      }
+    },
+    {
+      "prefix": "grandpa",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": 0,
+              "name": "report_misbehavior",
+              "arguments": [
+                {
+                  "name": "_report",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Report some misbehaviour."
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -1895,14 +1194,18 @@
               "arguments": [
                 {
                   "name": "value",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 },
                 {
                   "name": "beneficiary",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Put forward a suggestion for spending. A deposit proportional to the value",
+                " is reserved and slashed if the proposal is rejected. It is returned once the",
+                " proposal is awarded."
+              ]
             },
             {
               "id": 1,
@@ -1910,10 +1213,12 @@
               "arguments": [
                 {
                   "name": "new_pot",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Set the balance of funds available to spend."
+              ]
             },
             {
               "id": 2,
@@ -1925,29 +1230,33 @@
                 },
                 {
                   "name": "proposal_bond_minimum",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 },
                 {
                   "name": "spend_period",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 },
                 {
                   "name": "burn",
                   "type": "Permill"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " (Re-)configure this module."
+              ]
             },
             {
               "id": 3,
               "name": "reject_proposal",
               "arguments": [
                 {
-                  "name": "roposal_id",
-                  "type": "ProposalIndex"
+                  "name": "proposal_id",
+                  "type": "Compact<ProposalIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Reject a proposed spend. The original deposit will be slashed."
+              ]
             },
             {
               "id": 4,
@@ -1955,86 +1264,16 @@
               "arguments": [
                 {
                   "name": "proposal_id",
-                  "type": "ProposalIndex"
+                  "type": "Compact<ProposalIndex>"
                 }
               ],
-              "documentation": []
+              "documentation": [
+                " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
+                " and the original deposit will be returned."
+              ]
             }
           ]
         }
-      },
-      "storage": {
-        "prefix": "Treasury",
-        "functions": [
-          {
-            "name": "ProposalBond",
-            "modifier": 1,
-            "type": "Permill",
-            "documentation": [
-              " Proportion of funds that should be bonded in order to place a proposal. An accepted",
-              " proposal gets these back. A rejected proposal doesn't."
-            ]
-          },
-          {
-            "name": "ProposalBondMinimum",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " Minimum amount of funds that should be placed in a deposit for making a proposal."
-            ]
-          },
-          {
-            "name": "SpendPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
-            "documentation": [
-              " Period between successive spends."
-            ]
-          },
-          {
-            "name": "Burn",
-            "modifier": 1,
-            "type": "Permill",
-            "documentation": [
-              " Percentage of spare funds (if any) that are burnt per spend period."
-            ]
-          },
-          {
-            "name": "Pot",
-            "modifier": 1,
-            "type": "Balance",
-            "documentation": [
-              " Total funds available to this module for spending."
-            ]
-          },
-          {
-            "name": "ProposalCount",
-            "modifier": 1,
-            "type": "ProposalIndex",
-            "documentation": [
-              " Number of proposals that have been made."
-            ]
-          },
-          {
-            "name": "Proposals",
-            "modifier": 0,
-            "type": {
-              "key": "ProposalIndex",
-              "value": "Proposal"
-            },
-            "documentation": [
-              " Proposals that have been made."
-            ]
-          },
-          {
-            "name": "Approvals",
-            "modifier": 1,
-            "type": "Vec<ProposalIndex>",
-            "documentation": [
-              " Proposal indices that have been approved but not yet awarded."
-            ]
-          }
-        ]
       }
     },
     {
@@ -2054,14 +1293,72 @@
                 },
                 {
                   "name": "value",
-                  "type": "Balance"
+                  "type": "Compact<Balance>"
                 },
                 {
                   "name": "gas_limit",
-                  "type": "Gas"
+                  "type": "Compact<Gas>"
                 },
                 {
                   "name": "data",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Make a call to a specified account, optionally transferring some balance.",
+                " Make a call to a specified account, optionally transferring some balance."
+              ]
+            },
+            {
+              "id": 1,
+              "name": "create",
+              "arguments": [
+                {
+                  "name": "endowment",
+                  "type": "Compact<Balance>"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "ctor_code",
+                  "type": "Bytes"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Create a new contract, optionally transfering some balance to the created account.",
+                "",
+                " Creation is executed as follows:",
+                "",
+                " - the destination address is computed based on the sender and hash of the code.",
+                " - account is created at the computed address.",
+                " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
+                "   after the execution is saved as the `code` of the account. That code will be invoked",
+                "   upon any message received by this account."
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "upgrade_key",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": 0,
+              "name": "upgrade",
+              "arguments": [
+                {
+                  "name": "new",
                   "type": "Bytes"
                 }
               ],
@@ -2069,23 +1366,11 @@
             },
             {
               "id": 1,
-              "name": "create",
+              "name": "set_key",
               "arguments": [
                 {
-                  "name": "value",
-                  "type": "Balance"
-                },
-                {
-                  "name": "gas_limit",
-                  "type": "Gas"
-                },
-                {
-                  "name": "init_code",
-                  "type": "Bytes"
-                },
-                {
-                  "name": "data",
-                  "type": "Bytes"
+                  "name": "new",
+                  "type": "AccountId"
                 }
               ],
               "documentation": []
@@ -2099,18 +1384,18 @@
     "name": "Call",
     "calls": [
       {
+        "name": "Timestamp",
+        "prefix": "timestamp",
+        "index": 0
+      },
+      {
         "name": "Consensus",
         "prefix": "consensus",
-        "index": 0
+        "index": 1
       },
       {
         "name": "Balances",
         "prefix": "balances",
-        "index": 1
-      },
-      {
-        "name": "Timestamp",
-        "prefix": "timestamp",
         "index": 2
       },
       {
@@ -2152,6 +1437,11 @@
         "name": "Contract",
         "prefix": "contract",
         "index": 10
+      },
+      {
+        "name": "UpgradeKey",
+        "prefix": "upgrade_key",
+        "index": 11
       }
     ]
   }
