@@ -13,7 +13,6 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
-import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -134,11 +133,10 @@ export default class ApiBase {
 
     return observable.pipe(
       defaultIfEmpty(),
-      map((result?: Vector<any>): T =>
+      map((result?: Array<any>): T =>
         isUndefined(result)
           ? [] as T
-          // FIXME When Vector extends Array, this mapping can be removed
-          : result.map((item: any) => item) as T
+          : result as T
       )
     );
   }
