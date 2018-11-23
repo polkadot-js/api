@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import Struct from './codec/Struct';
-import { Justification, JustificationValue } from './Bft';
 import Block, { BlockValue } from './Block';
+import Justification from './Justification';
 
 type SignedBlockValue = {
   block?: BlockValue,
-  justification?: JustificationValue
+  justification?: AnyU8a
 };
 
 export default class SignedBlock extends Struct {
