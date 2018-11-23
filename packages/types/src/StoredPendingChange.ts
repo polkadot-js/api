@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, AnyU8a } from './types';
+
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
@@ -10,8 +12,19 @@ import BlockNumber from './BlockNumber';
 import SessionKey from './SessionKey';
 import U64 from './U64';
 
+export type NextAuthorityValue = {
+  index?: AnyNumber,
+  sessionKey?: AnyU8a
+};
+
+export type StoredPendingChangeValue = {
+  scheduledAt: AnyNumber,
+  delay: AnyNumber,
+  nextAuthorities?: Array<Uint8Array | NextAuthorityValue>
+};
+
 class NextAuthority extends Tuple {
-  constructor (value?: Uint8Array) {
+  constructor (value?: Uint8Array | NextAuthorityValue) {
     super({
       sessionKey: SessionKey,
       index: U64
@@ -29,12 +42,15 @@ class NextAuthority extends Tuple {
 
 // Stored pending change for a Grandpa events
 export default class StoredPendingChange extends Struct {
-  constructor (value?: Uint8Array) {
+  constructor (value?: Uint8Array | StoredPendingChangeValue) {
     super({
       scheduledAt: BlockNumber,
       delay: BlockNumber,
       nextAuthorities: Vector.with(NextAuthority)
-    }, value);
+    }, value, new Map([
+      ['scheduledAt', 'scheduled_at'],
+      ['nextAuthorities', 'next_authorities']
+    ]));
   }
 
   get delay (): BlockNumber {

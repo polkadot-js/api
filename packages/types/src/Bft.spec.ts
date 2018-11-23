@@ -36,7 +36,7 @@ describe('BftHashSignature', () => {
 
 describe('Justification', () => {
   const just = new Justification({
-    round: 32, // We get `round_number` from JSON, but both `round` and `round_number` works
+    roundNumber: 32,
     hash: '0xabcd',
     signatures: [
       { authorityId: '0x1234', signature: '0x5678' },
@@ -49,7 +49,7 @@ describe('Justification', () => {
   });
 
   it('has the correct round', () => {
-    expect(just.round.toNumber()).toEqual(32);
+    expect(just.roundNumber.toNumber()).toEqual(32);
   });
 
   it('has the correct signatures', () => {

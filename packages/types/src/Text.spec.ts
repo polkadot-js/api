@@ -8,7 +8,7 @@ import U8a from './codec/U8a';
 
 describe('Text', () => {
   describe('decode', () => {
-    const testDecode = (type: string, input: string | U8a | Uint8Array | { toString: () => string }, expected: string) =>
+    const testDecode = (type: string, input: string | Uint8Array | { toString: () => string }, expected: string) =>
       it(`can decode from ${type}`, () => {
         expect(new Text(input).toString()).toBe(expected);
       });

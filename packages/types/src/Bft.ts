@@ -4,7 +4,6 @@
 
 import { AnyNumber, AnyU8a } from './types';
 
-import U8a from './codec/U8a';
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
@@ -21,7 +20,7 @@ export type BftAuthoritySignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftAuthoritySignature extends Tuple {
-  constructor (value?: BftAuthoritySignatureValue | U8a | Uint8Array) {
+  constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
     super({
       authorityId: AuthorityId,
       signature: Signature
@@ -45,7 +44,7 @@ export type BftHashSignatureValue = {
 // Represents a Bft Hash and Signature pairing, typically used in reporting
 // network behaviour.
 export class BftHashSignature extends Tuple {
-  constructor (value?: BftHashSignatureValue | U8a | Uint8Array) {
+  constructor (value?: BftHashSignatureValue | Uint8Array) {
     super({
       hash: Hash,
       signature: Signature
@@ -62,28 +61,33 @@ export class BftHashSignature extends Tuple {
 }
 
 export type JustificationValue = {
-  round?: AnyNumber,
+  roundNumber?: AnyNumber,
   hash?: AnyU8a,
   signatures?: Array<BftAuthoritySignatureValue>
 };
 
 export class Justification extends Struct {
-  constructor (value?: JustificationValue | U8a | Uint8Array) {
+  constructor (value?: JustificationValue | Uint8Array) {
     super({
-      // FIXME Rust returns this as "round_number", we actually want a JSON alias
-      // in the structure to take care of these renames...
-      round: U32,
+      roundNumber: U32,
       hash: Hash,
       signatures: Vector.with(BftAuthoritySignature)
-    }, value, new Map([['round', 'round_number']]));
+    }, value, new Map([
+      ['roundNumber', 'round_number']
+    ]));
   }
 
   get hash (): Hash {
     return this.get('hash') as Hash;
   }
 
+  // backwards compatibility, orinially named this way
   get round (): U32 {
-    return this.get('round') as U32;
+    return this.roundNumber;
+  }
+
+  get roundNumber (): U32 {
+    return this.get('roundNumber') as U32;
   }
 
   get signatures (): Vector<BftAuthoritySignature> {

@@ -6,7 +6,6 @@ import { AnyNumber, AnyU8a } from './types';
 
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
-import U8a from './codec/U8a';
 import U8aFixed from './codec/U8aFixed';
 import Vector from './codec/Vector';
 import Text from './Text';
@@ -24,7 +23,7 @@ type RuntimeVersionApiValue = {
 };
 
 class RuntimeVersionApi extends Tuple {
-  constructor (value?: RuntimeVersionApiValue | U8a | Uint8Array) {
+  constructor (value?: RuntimeVersionApiValue | Uint8Array) {
     super({
       id: ApiId,
       version: U32
@@ -50,7 +49,7 @@ type RuntimeVersionValue = {
 };
 
 export default class RuntimeVersion extends Struct {
-  constructor (value?: RuntimeVersionValue | U8a | Uint8Array) {
+  constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({
       specName: Text,
       implName: Text,
