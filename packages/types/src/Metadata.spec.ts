@@ -4,8 +4,8 @@
 
 import Metadata from './Metadata';
 import rpcdata from './Metadata.rpc';
-import bbqBirch from './json/Metadata.001.json';
-import compacted from './json/Metadata.002.json';
+import bbqBirch from './json/Metadata.bbq.json';
+import compacted from './json/Metadata.latest.json';
 
 describe('Metadata', () => {
   it('decodes properly', () => {
