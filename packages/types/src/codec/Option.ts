@@ -63,7 +63,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   toJSON (): any {
-    this.raw.toJSON();
+    return this.raw.toJSON();
   }
 
   toU8a (isBare?: boolean): Uint8Array {

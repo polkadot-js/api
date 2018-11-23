@@ -365,14 +365,6 @@ export default class RuntimeMetadata extends Struct {
     return value;
   }
 
-  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
-  // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match the constructor with JSON. (However for now, it is useful in
-  // debugging).
-  toJSON (): any {
-    return super.toJSON();
-  }
-
   get calls (): Vector<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
