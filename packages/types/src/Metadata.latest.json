@@ -1429,19 +1429,24 @@
         "index": 8
       },
       {
+        "name": "Grandpa",
+        "prefix": "grandpa",
+        "index": 9
+      },
+      {
         "name": "Treasury",
         "prefix": "treasury",
-        "index": 9
+        "index": 10
       },
       {
         "name": "Contract",
         "prefix": "contract",
-        "index": 10
+        "index": 11
       },
       {
         "name": "UpgradeKey",
         "prefix": "upgrade_key",
-        "index": 11
+        "index": 12
       }
     ]
   }
