@@ -6,16 +6,18 @@ import { AnyNumber } from './types';
 
 import EnumType from './codec/EnumType';
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
 import Hash from './Hash';
 import U32 from './U32';
 
-type BftAtReportValue = {
+type BftAtReportValueSingle = {
   round?: AnyNumber,
-  a?: BftHashSignatureValue,
+  a?: BftHashSignatureValue
+};
+
+type BftAtReportValue = BftAtReportValueSingle & {
   b?: BftHashSignatureValue
 };
 
@@ -26,7 +28,7 @@ type BftAtReportValue = {
 // items in the structure is called, except a & b (one should be expected, the
 // other actual)
 export class BftAtReport extends Struct {
-  constructor (value?: BftAtReportValue | U8a | Uint8Array) {
+  constructor (value?: BftAtReportValue | Uint8Array) {
     super({
       round: U32,
       a: BftHashSignature,
@@ -47,6 +49,27 @@ export class BftAtReport extends Struct {
   }
 }
 
+export class BftProposeOutOfTurn extends Struct {
+  constructor (value?: BftAtReportValue | Uint8Array) {
+    super({
+      round: U32,
+      a: BftHashSignature
+    }, value);
+  }
+
+  get a (): BftHashSignature {
+    return this.get('a') as BftHashSignature;
+  }
+
+  get round (): U32 {
+    return this.get('round') as U32;
+  }
+}
+
+// Report of a double-propose
+export class BftDoublePropose extends BftAtReport {
+}
+
 // Report of a double-prepare
 export class BftDoublePrepare extends BftAtReport {
 }
@@ -55,12 +78,14 @@ export class BftDoublePrepare extends BftAtReport {
 export class BftDoubleCommit extends BftAtReport {
 }
 
-export class MisbehaviorKind extends EnumType<BftDoublePrepare | BftDoubleCommit> {
-  constructor (value?: BftAtReportValue | U8a | Uint8Array, index?: number) {
-    super({
-      0x11: BftDoublePrepare,
-      0x12: BftDoubleCommit
-    }, value, index);
+export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePropose | BftDoublePrepare | BftDoubleCommit> {
+  constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
+    super([
+      BftProposeOutOfTurn,
+      BftDoublePropose,
+      BftDoublePrepare,
+      BftDoubleCommit
+    ], value, index);
   }
 }
 
@@ -73,7 +98,7 @@ type MisbehaviorReportValue = {
 
 // A Misbehaviour report against a specific AuthorityId
 export default class MisbehaviorReport extends Struct {
-  constructor (value?: MisbehaviorReportValue | U8a | Uint8Array) {
+  constructor (value?: MisbehaviorReportValue | Uint8Array) {
     super({
       parentHash: Hash,
       parentNumber: BlockNumber,

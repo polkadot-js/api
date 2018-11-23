@@ -4,8 +4,9 @@
 
 import { AnyNumber } from './types';
 
-import { hexToU8a, isHex, isU8a } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isU8a, isUndefined } from '@polkadot/util';
 
+import { getTypeDef, TypeDef, TypeDefInfo } from './codec/createType';
 import Compact from './codec/Compact';
 import Enum from './codec/Enum';
 import EnumType from './codec/EnumType';
@@ -16,10 +17,26 @@ import Vector from './codec/Vector';
 import Text from './Text';
 import Type from './Type';
 import U16 from './U16';
+import * as allTypes from './index';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call. This
 // file is probably best understood from the bottom-up, i.e. start reading right at the
 // end and work up. (Just so we don't use before definition)
+
+// Quick and dirty flatten (.flat() not available)
+function flattenUniq (list: Array<any>): Array<any> {
+  const flat = list.reduce((result, entry) => {
+    return result.concat(
+      Array.isArray(entry)
+        ? flattenUniq(entry)
+        : entry
+    );
+  }, []);
+
+  return [...new Set(flat)]
+    .filter((value: any) => value)
+    .sort();
+}
 
 export class OuterDispatchCall extends Struct {
   constructor (value?: any) {
@@ -348,14 +365,6 @@ export default class RuntimeMetadata extends Struct {
     return value;
   }
 
-  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
-  // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match the constructor with JSON. (However for now, it is useful in
-  // debugging).
-  toJSON (): any {
-    return super.toJSON();
-  }
-
   get calls (): Vector<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
@@ -370,16 +379,6 @@ export default class RuntimeMetadata extends Struct {
 
   // Helper to retrieve a list of all type that are found, sorted and de-deuplicated
   getUniqTypes (): Array<string> {
-    // Quick and dirty flatten (.flat() not available)
-    const flatten = (list: Array<any>): Array<any> =>
-      list.reduce((result, entry) => {
-        return result.concat(
-          Array.isArray(entry)
-            ? flatten(entry)
-            : entry
-        );
-      }, []);
-
     const events = this.events.map((module) =>
       module.events.map((event) =>
         event.arguments.map((argument) =>
@@ -406,8 +405,41 @@ export default class RuntimeMetadata extends Struct {
       )
     );
 
-    return [...new Set(
-      flatten([events, storages, args]).filter((value) => value)
-    )].sort();
+    const types = flattenUniq([events, storages, args]);
+
+    this.validateTypes(types);
+
+    return types;
+  }
+
+  private validateTypes (types: Array<string>): void {
+    const extractTypes = (types: Array<string>): Array<any> => {
+      return types.map((type) => {
+        const decoded = getTypeDef(type);
+
+        switch (decoded.info) {
+          case TypeDefInfo.Plain:
+            return decoded.type;
+
+          case TypeDefInfo.Compact:
+          case TypeDefInfo.Vector:
+            return extractTypes([(decoded.sub as TypeDef).type]);
+
+          case TypeDefInfo.Tuple:
+            return extractTypes(
+              (decoded.sub as Array<TypeDef>).map((sub) => sub.type)
+            );
+
+          default:
+            throw new Error('Unreachable');
+        }
+      });
+    };
+
+    const missing = flattenUniq(extractTypes(types)).filter((type) =>
+      isUndefined((allTypes as any)[type])
+    );
+
+    assert(missing.length === 0, `Unknown types found, no types for ${missing}`);
   }
 }

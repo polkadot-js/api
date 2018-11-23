@@ -35,7 +35,7 @@ describe('MisbehaviorReport', () => {
     parentHash: '0x01020304',
     parentNumber: 78,
     target: '0x11112222',
-    misbehavior: 0x12
+    misbehavior: 3
   });
 
   it('has the correct misbehavior type', () => {

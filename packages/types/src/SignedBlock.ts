@@ -2,18 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a } from './types';
+
 import Struct from './codec/Struct';
-import U8a from './codec/U8a';
-import { Justification, JustificationValue } from './Bft';
 import Block, { BlockValue } from './Block';
+import Justification from './Justification';
 
 type SignedBlockValue = {
   block?: BlockValue,
-  justification?: JustificationValue
+  justification?: AnyU8a
 };
 
 export default class SignedBlock extends Struct {
-  constructor (value?: SignedBlockValue | U8a | Uint8Array) {
+  constructor (value?: SignedBlockValue | Uint8Array) {
     super({
       block: Block,
       justification: Justification

@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Compact from './codec/Compact';
-import U8a from './codec/U8a';
 import Text from './Text';
 
 type Mapper = (value: string) => string;
@@ -16,7 +15,7 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 export default class Type extends Text {
   private _originalLength: number;
 
-  constructor (value: Text | U8a | Uint8Array | string = '') {
+  constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value).toString();
     // Then cleanup the textValue to get the @polkadot/types type, and pass the

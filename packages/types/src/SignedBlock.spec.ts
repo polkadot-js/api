@@ -25,12 +25,6 @@ describe('SignedBlock', () => {
     ).toEqual('0xbfe02f7c26e5dad1226eccb1f4ef5306312602f7e1edbb9be50e8b87d9c7840b');
   });
 
-  it('has the justification', () => {
-    expect(
-      block.justification.hash.toHex()
-    ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
-  });
-
   it('decodes a block with logs', () => {
     const s = new SignedBlock(events.result);
 

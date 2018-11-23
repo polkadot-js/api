@@ -11,7 +11,7 @@ import StorageData from './StorageData';
 
 describe('AccountId', () => {
   describe('decoding', () => {
-    const testDecode = (type: string, input: Uint8Array | string | AccountId | U8a, expected: string) =>
+    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string) =>
       it(`can decode from ${type}`, () => {
         const a = new AccountId(input);
         expect(a.toString()).toBe(expected);
