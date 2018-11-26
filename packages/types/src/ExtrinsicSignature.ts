@@ -22,11 +22,12 @@ type ExtrinsicSignatureValue = {
   era?: AnyU8a
 };
 
-const EMPTY_U8A = new Uint8Array();
-const IMMORTAL_ERA = new Uint8Array([0]);
+export const IMMORTAL_ERA = new Uint8Array([0]);
+
 const BIT_SIGNED = 0b10000000;
 const BIT_UNSIGNED = 0;
 const BIT_VERSION = 0b0000001;
+const EMPTY_U8A = new Uint8Array();
 
 // Signature Information.
 //   1/3/5/9/33 bytes: The signing account identity, in Address format
@@ -100,9 +101,26 @@ export default class ExtrinsicSignature extends Struct {
     );
   }
 
-  addSignature (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
-    const signer = new Address(signerPair.publicKey());
+  private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): ExtrinsicSignature {
+    this.set('era', era);
+    this.set('nonce', nonce);
+    this.set('signer', signer);
+    this.set('signature', signature);
 
+    return this;
+  }
+
+  addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+    const signer = new Address(_signer);
+    const nonce = new Nonce(_nonce);
+    const era = new ExtrinsicEra(_era);
+    const signature = new Signature(_signature);
+
+    return this.injectSignature(signature, signer, nonce, era);
+  }
+
+  sign (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+    const signer = new Address(signerPair.publicKey());
     const signingPayload = new SignaturePayload({
       nonce,
       method,
@@ -111,12 +129,7 @@ export default class ExtrinsicSignature extends Struct {
     });
     const signature = new Signature(signingPayload.sign(signerPair));
 
-    this.set('era', signingPayload.era);
-    this.set('nonce', signingPayload.nonce);
-    this.set('signer', signer);
-    this.set('signature', signature);
-
-    return this;
+    return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
   }
 
   toU8a (isBare?: boolean): Uint8Array {
