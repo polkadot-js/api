@@ -109,6 +109,15 @@ export default class ExtrinsicSignature extends Struct {
     return this;
   }
 
+  addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+    const signer = new Address(_signer);
+    const nonce = new Nonce(_nonce);
+    const era = new ExtrinsicEra(_era);
+    const signature = new Signature(_signature);
+
+    return this.injectSignature(signature, signer, nonce, era);
+  }
+
   sign (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
     const signer = new Address(signerPair.publicKey());
     const signingPayload = new SignaturePayload({
@@ -120,15 +129,6 @@ export default class ExtrinsicSignature extends Struct {
     const signature = new Signature(signingPayload.sign(signerPair));
 
     return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
-  }
-
-  addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
-    const signer = new Address(_signer);
-    const nonce = new Nonce(_nonce);
-    const era = new ExtrinsicEra(_era);
-    const signature = new Signature(_signature);
-
-    return this.injectSignature(signature, signer, nonce, era);
   }
 
   toU8a (isBare?: boolean): Uint8Array {
