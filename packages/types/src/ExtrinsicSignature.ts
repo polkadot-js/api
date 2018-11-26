@@ -22,11 +22,12 @@ type ExtrinsicSignatureValue = {
   era?: AnyU8a
 };
 
-const EMPTY_U8A = new Uint8Array();
-const IMMORTAL_ERA = new Uint8Array([0]);
+export const IMMORTAL_ERA = new Uint8Array([0]);
+
 const BIT_SIGNED = 0b10000000;
 const BIT_UNSIGNED = 0;
 const BIT_VERSION = 0b0000001;
+const EMPTY_U8A = new Uint8Array();
 
 // Signature Information.
 //   1/3/5/9/33 bytes: The signing account identity, in Address format
