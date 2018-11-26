@@ -10,9 +10,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './codec/Compact';
 import Struct from './codec/Struct';
-import AccountId from './AccountId';
 import Address from './Address';
-import ExtrinsicEra from './ExtrinsicEra';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
