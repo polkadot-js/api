@@ -8,7 +8,6 @@ import { AnyNumber, AnyU8a } from './types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Struct from './codec/Struct';
-import AccountId from './AccountId';
 import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
