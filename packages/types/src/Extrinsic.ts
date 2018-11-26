@@ -10,6 +10,9 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './codec/Compact';
 import Struct from './codec/Struct';
+import AccountId from './AccountId';
+import Address from './Address';
+import ExtrinsicEra from './ExtrinsicEra';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
 import { FunctionMetadata } from './Metadata';
@@ -107,8 +110,14 @@ export default class Extrinsic extends Struct {
     return length + Compact.encodeU8a(length).length;
   }
 
-  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a): Extrinsic {
-    this.signature.addSignature(this.method, signerPair, nonce, blockHash);
+  addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
+    this.signature.addSignature(signer, signature, nonce, era);
+
+    return this;
+  }
+
+  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era?: Uint8Array): Extrinsic {
+    this.signature.sign(this.method, signerPair, nonce, blockHash, era);
 
     return this;
   }

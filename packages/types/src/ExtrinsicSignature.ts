@@ -8,6 +8,7 @@ import { AnyNumber, AnyU8a } from './types';
 import { isU8a, u8aConcat } from '@polkadot/util';
 
 import Struct from './codec/Struct';
+import AccountId from './AccountId';
 import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
@@ -100,9 +101,17 @@ export default class ExtrinsicSignature extends Struct {
     );
   }
 
-  addSignature (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
-    const signer = new Address(signerPair.publicKey());
+  private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): ExtrinsicSignature {
+    this.set('era', era);
+    this.set('nonce', nonce);
+    this.set('signer', signer);
+    this.set('signature', signature);
 
+    return this;
+  }
+
+  sign (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+    const signer = new Address(signerPair.publicKey());
     const signingPayload = new SignaturePayload({
       nonce,
       method,
@@ -111,12 +120,16 @@ export default class ExtrinsicSignature extends Struct {
     });
     const signature = new Signature(signingPayload.sign(signerPair));
 
-    this.set('era', signingPayload.era);
-    this.set('nonce', signingPayload.nonce);
-    this.set('signer', signer);
-    this.set('signature', signature);
+    return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
+  }
 
-    return this;
+  addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+    const signer = new Address(_signer);
+    const nonce = new Nonce(_nonce);
+    const era = new ExtrinsicEra(_era);
+    const signature = new Signature(_signature);
+
+    return this.injectSignature(signature, signer, nonce, era);
   }
 
   toU8a (isBare?: boolean): Uint8Array {
