@@ -17,7 +17,7 @@
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
     "build:decodedjson": "node packages/types/src/scripts/MetadataJsonDecodeWrapper.js",
-    "check": "tslint --project . && tsc --noEmit",
+    "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
