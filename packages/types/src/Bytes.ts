@@ -17,6 +17,9 @@ export default class Bytes extends U8a {
   }
 
   private static decodeBytes (value: AnyU8a): Uint8Array {
+    // Erm... circular deps :( However we have to hack around StorageData below...
+    const StorageData = require('./StorageData').default;
+
     if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
@@ -25,6 +28,15 @@ export default class Bytes extends U8a {
       return Bytes.decodeBytes(
         Compact.addLengthPrefix(u8a)
       );
+    } else if (value instanceof StorageData) {
+      // Here we cater for the actual StorageData that _could_ have a length prefix. In the case
+      // of `:code` it is not added, for others it is
+      const u8a = value as Uint8Array;
+      const [offset, length] = Compact.decodeU8a(u8a);
+
+      return u8a.length === length.addn(offset).toNumber()
+        ? u8a.subarray(offset)
+        : u8a;
     } else if (value instanceof U8a) {
       // This is required. In the case of a U8a we already have gottent rid of the length,
       // i.e. new Bytes(new Bytes(...)) will work as expected
