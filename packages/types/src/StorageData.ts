@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Bytes from './Bytes';
+import Data from './Data';
 
-export default class StorageData extends Bytes {
+// Data retrieve via storage queries. This basically is just a blob, so it
+// extends Data instead of Bytes
+export default class StorageData extends Data {
 }

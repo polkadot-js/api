@@ -7,6 +7,7 @@ import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
+import StorageData from './StorageData';
 
 // A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
 // is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
@@ -17,9 +18,6 @@ export default class Bytes extends U8a {
   }
 
   private static decodeBytes (value: AnyU8a): Uint8Array {
-    // Erm... circular deps :( However we have to hack around StorageData below...
-    const StorageData = require('./StorageData').default;
-
     if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
@@ -38,7 +36,7 @@ export default class Bytes extends U8a {
         ? u8a.subarray(offset)
         : u8a;
     } else if (value instanceof U8a) {
-      // This is required. In the case of a U8a we already have gottent rid of the length,
+      // This is required. In the case of a U8a we already have gotten rid of the length,
       // i.e. new Bytes(new Bytes(...)) will work as expected
       return value;
     } else if (isU8a(value)) {
