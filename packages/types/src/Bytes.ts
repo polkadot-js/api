@@ -7,7 +7,6 @@ import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
-import StorageData from './StorageData';
 
 // A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
 // is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
@@ -18,6 +17,11 @@ export default class Bytes extends U8a {
   }
 
   private static decodeBytes (value: AnyU8a): Uint8Array {
+    // FIXME Cyclic dependency, however needed for the StoreageData check below. In a perfect
+    // world, we should probably be checking Bytes - however as a first step, check against
+    // StorageData to cater for the _specific_ problematic case
+    const StorageData = require('./StorageData').default;
+
     if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
@@ -27,8 +31,8 @@ export default class Bytes extends U8a {
         Compact.addLengthPrefix(u8a)
       );
     } else if (value instanceof StorageData) {
-      // Here we cater for the actual StorageData that _could_ have a length prefix. In the case
-      // of `:code` it is not added, for others it is
+      // Here we cater for the actual StorageData that _could_ have a length prefix. In the
+      // case of `:code` it is not added, for others it is
       const u8a = value as Uint8Array;
       const [offset, length] = Compact.decodeU8a(u8a);
 
