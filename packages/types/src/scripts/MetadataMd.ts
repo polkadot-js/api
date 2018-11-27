@@ -36,8 +36,7 @@ function generateSectionLinks (sectionName: string, metadata: Metadata) {
       ).join('');
 
     default:
-      console.error('Unknown section name provided to generate anchors');
-      break;
+      throw new Error('Unknown section name provided to generate anchors');
   }
 }
 

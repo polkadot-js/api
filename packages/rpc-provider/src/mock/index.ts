@@ -127,7 +127,7 @@ export default class Mock implements ProviderInterface {
     // Do something every 1 seconds
     setInterval(() => {
       if (!this.isUpdating) {
-        return false;
+        return;
       }
 
       // create a new header (next block)

@@ -49,7 +49,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   static encodeU8a = compactToU8a;
 
   static stripLengthPrefix (u8a: Uint8Array, bitLength: UIntBitLength = DEFAULT_BITLENGTH): Uint8Array {
-    const [_, value] = compactStripLength(u8a, bitLength);
+    const [, value] = compactStripLength(u8a, bitLength);
 
     return value;
   }
