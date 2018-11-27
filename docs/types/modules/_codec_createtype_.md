@@ -27,7 +27,7 @@
 
 **Ƭ TypeDef**: *`object`*
 
-*Defined in [codec/createType.ts:21](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/codec/createType.ts#L21)*
+*Defined in [codec/createType.ts:21](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/codec/createType.ts#L21)*
 
 #### Type declaration
 
@@ -41,7 +41,7 @@ ___
 
 ▸ **createType**(type: * [Text](../classes/_text_.text.md) &#124; `string`*, value?: *`any`*): `Codec`
 
-*Defined in [codec/createType.ts:157](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/codec/createType.ts#L157)*
+*Defined in [codec/createType.ts:157](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/codec/createType.ts#L157)*
 
 **Parameters:**
 
@@ -59,7 +59,7 @@ ___
 
 ▸ **getTypeClass**(value: *[TypeDef](_codec_createtype_.md#typedef)*): `Constructor`
 
-*Defined in [codec/createType.ts:117](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/codec/createType.ts#L117)*
+*Defined in [codec/createType.ts:117](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/codec/createType.ts#L117)*
 
 **Parameters:**
 
@@ -76,7 +76,7 @@ ___
 
 ▸ **getTypeDef**(_type: * [Text](../classes/_text_.text.md) &#124; `string`*): [TypeDef](_codec_createtype_.md#typedef)
 
-*Defined in [codec/createType.ts:78](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/codec/createType.ts#L78)*
+*Defined in [codec/createType.ts:78](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/codec/createType.ts#L78)*
 
 **Parameters:**
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **typeSplit**(type: *`string`*): `Array`<`string`>
 
-*Defined in [codec/createType.ts:28](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/codec/createType.ts#L28)*
+*Defined in [codec/createType.ts:28](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/codec/createType.ts#L28)*
 
 **Parameters:**
 

@@ -18,7 +18,7 @@
 
 getencodedLength(): `number`
 
-*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/Null.ts#L9)*
+*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/Null.ts#L9)*
 
 **Returns:** `number`
 
@@ -32,7 +32,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/Null.ts#L13)*
 
 **Returns:** `string`
 
@@ -43,7 +43,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/Null.ts#L17)*
 
 **Returns:** `any`
 
@@ -54,7 +54,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/Null.ts#L25)*
+*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/Null.ts#L25)*
 
 **Returns:** `string`
 
@@ -65,7 +65,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/16df614/packages/types/src/Null.ts#L21)*
+*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/5e5f8b8/packages/types/src/Null.ts#L21)*
 
 **Parameters:**
 
