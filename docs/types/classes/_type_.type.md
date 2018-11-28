@@ -23,7 +23,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/2aa78f2/packages/types/src/Type.ts#L16)*
+*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Type.ts#L16)*
 
 **Parameters:**
 
@@ -61,7 +61,7 @@ getencodedLength(): `number`
 
 *Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:63](https://github.com/polkadot-js/api/blob/2aa78f2/packages/types/src/Type.ts#L63)*
+*Defined in [Type.ts:63](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Type.ts#L63)*
 
 **Returns:** `number`
 
@@ -823,7 +823,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
 
-*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/2aa78f2/packages/types/src/Text.ts#L43)*
+*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Text.ts#L43)*
 
 **Returns:** `string`
 
@@ -836,7 +836,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/2aa78f2/packages/types/src/Text.ts#L47)*
+*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Text.ts#L47)*
 
 **Returns:** `any`
 
@@ -909,7 +909,7 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/2aa78f2/packages/types/src/Type.ts#L70)*
+*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Type.ts#L70)*
 
 **Parameters:**
 
