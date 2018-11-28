@@ -45,6 +45,7 @@ To get started -
 5. Build the API Docs, via `yarn run build`
 6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
 7. Access the API Docs via [http://localhost:4000](http://localhost:4000)
+8. Run the tests `yarn run test`
 
 ## tutorials
 

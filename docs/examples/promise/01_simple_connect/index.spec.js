@@ -4,11 +4,16 @@
 
 const ApiPromise = require('../../../../packages/api/src/promise').default;
 
-describe('promise - 01 simple connect', () => {
+describe.skip('promise - 01 simple connect', () => {
   let api;
 
   beforeEach(async () => {
     api = await ApiPromise.create();
+    jest.setTimeout(30000);
+  });
+
+  afterEach(() => {
+    jest.setTimeout(5000);
   });
 
   it('makes the rpc.system available', () => {

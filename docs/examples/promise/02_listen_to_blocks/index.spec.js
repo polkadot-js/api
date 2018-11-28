@@ -4,11 +4,16 @@
 
 const ApiPromise = require('../../../../packages/api/src/promise').default;
 
-describe('promise - 02 listen to blocks', () => {
+describe.skip('promise - 02 listen to blocks', () => {
   let api;
 
   beforeEach(async () => {
     api = await ApiPromise.create();
+    jest.setTimeout(30000);
+  });
+
+  afterEach(() => {
+    jest.setTimeout(5000);
   });
 
   it('makes the rpc.chain available', () => {

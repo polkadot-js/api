@@ -23,7 +23,7 @@ function main () {
       switchMap((api) => api.query.balances.freeBalance(Alice))
     )
     .subscribe((current) => {
-      console.log(`Alice's account ${Alice} has ${previous || '???'} previous balance`);
+      console.log(`Alice's account ${Alice} had a previous balance of: ${previous || '???'}`);
       console.log(`You may leave this example running and start example 06 ` +
                   `or transfer any value to Alice at ${Alice}`);
 

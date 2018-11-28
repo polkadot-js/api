@@ -12,7 +12,7 @@ async function main () {
   // promise that resolves to the current on-chain value
   let previous = await api.query.balances.freeBalance(Alice);
 
-  console.log(`Alice with account number ${Alice} has a previous balance of ${previous || '???'}`);
+  console.log(`Alice with account number ${Alice} had a previous balance of: ${previous || '???'}`);
   console.log(`You may leave this example running and start example 06 ` +
               `or transfer any value to Alice at ${Alice}`);
 
