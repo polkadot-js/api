@@ -208,7 +208,7 @@ export default class Rpc implements RpcInterface {
             : (
               item.value.isNone
                 ? null
-                : createType(type, item.value.value)
+                : createType(type, item.value.unwrap())
             )
         );
 

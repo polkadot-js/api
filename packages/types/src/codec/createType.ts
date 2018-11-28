@@ -161,7 +161,5 @@ export default function createType (type: Text | string, value?: any): Codec {
     getTypeDef(type)
   );
 
-  return value instanceof Type
-    ? value
-    : new Type(value);
+  return new Type(value);
 }

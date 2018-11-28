@@ -10,7 +10,7 @@ import Hash from './Hash';
 import { KeyValueOption, KeyValueOptionValue } from './KeyValue';
 
 type StorageChangeSetValue = {
-  hash?: AnyU8a,
+  block?: AnyU8a,
   changes?: Array<KeyValueOptionValue>
 };
 
@@ -19,7 +19,7 @@ type StorageChangeSetValue = {
 export default class StorageChangeSet extends Struct {
   constructor (value?: StorageChangeSetValue | Uint8Array) {
     super({
-      hash: Hash,
+      block: Hash,
       changes: Vector.with(KeyValueOption)
     }, value);
   }
@@ -28,7 +28,7 @@ export default class StorageChangeSet extends Struct {
     return this.get('changes') as Vector<KeyValueOption>;
   }
 
-  get hash (): Hash {
-    return this.get('hash') as Hash;
+  get block (): Hash {
+    return this.get('block') as Hash;
   }
 }
