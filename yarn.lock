@@ -1352,14 +1352,14 @@
     typedoc-plugin-markdown "^1.1.19"
     typescript "^3.1.6"
 
-"@polkadot/keyring@^0.33.2":
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.33.2.tgz#58c56bb502ddb63772bda47a6325dffd2ed43eba"
-  integrity sha512-NMRhV3O32tyryG+/BiPmzafjibq6CWiYnilWJqkuqlEQwgUBQg1n/hJRaoRfhYbHP+Y1r5NUdqvNA0MxdDOUdQ==
+"@polkadot/keyring@^0.33.3":
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.33.3.tgz#be0014b9283a0d077c3e2bb30afd77b68ddeb8d5"
+  integrity sha512-cR3y3SWHtg75aPHNqFRECw7YUoU3qIyaaQJ4zCvkbLH7+U1Z3Lc619T4J+hhzMX3y+mGk1npNvtPrS34wR9B/A==
   dependencies:
     "@babel/runtime" "^7.1.5"
-    "@polkadot/util" "^0.33.2"
-    "@polkadot/util-crypto" "^0.33.2"
+    "@polkadot/util" "^0.33.3"
+    "@polkadot/util-crypto" "^0.33.3"
     "@types/bs58" "^3.0.30"
     bs58 "^4.0.1"
 
@@ -1368,13 +1368,13 @@
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.39.tgz#39d3578eaafd96cbc0270b1479fabab7e16e5723"
   integrity sha512-NQM1uT+qi8onV0jtGjH7QmJvDTNFNYTEzjaoVZN2tDHi1/tVu1CP66qZGSGsS19JZJSK3ERSFb0vP8CkE7EUuA==
 
-"@polkadot/util-crypto@^0.33.2":
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.33.2.tgz#8c16aa03ee1b073f8f610e80de0852ef26dbe603"
-  integrity sha512-6HuGmCcpAo/ZefpfH6glctekldr41kujMJEloWJRT4/RSqfUJrfTqcygfU68jNFty/gcdjxqNBOuzqX6u4LZ1w==
+"@polkadot/util-crypto@^0.33.3":
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.33.3.tgz#60c17e124f01331c94e3d55f8ff66b0a5c144c62"
+  integrity sha512-SENl2zlYQDDbhdGhauGqeUHupfQL/WU89jzZ5/GsW45wB+qZfs0O8EkufAE7qgLSEpNKCkE8LF1cZfJ7AD0IBg==
   dependencies:
     "@babel/runtime" "^7.1.5"
-    "@polkadot/util" "^0.33.2"
+    "@polkadot/util" "^0.33.3"
     "@types/bip39" "^2.4.0"
     bip39 "^2.5.0"
     blakejs "^1.1.0"
@@ -1382,10 +1382,10 @@
     tweetnacl "^1.0.0"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.33.2":
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.33.2.tgz#5576c284431a3da556bdd0909fd9c313256dface"
-  integrity sha512-kIFfF3rg4WQz0mjRfFAGi3SHT6qz19rO57d4GQ//RvfmmZ+yOk8wyD3WW9PhcxFxLrnVnNdmPJCE6duvVSs+Cw==
+"@polkadot/util@^0.33.3":
+  version "0.33.3"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.33.3.tgz#96811c6b2c850b06069d0a777a5c18b6989ee8eb"
+  integrity sha512-6Bx/p0U7Uo3mfrk36NzPR+o+/A5ke0+9MnxwsySrufTf7aebA5hY2sHUrAlcNE51m71424RkzVKJYIkZJkAXDA==
   dependencies:
     "@babel/runtime" "^7.1.5"
     "@types/bn.js" "^4.11.3"
