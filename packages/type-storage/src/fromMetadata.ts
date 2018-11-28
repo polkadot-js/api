@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/storage authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ModuleStorage, Storage } from './types';
 
@@ -25,14 +25,14 @@ export default function fromMetadata (metadata: Metadata): Storage {
   }, {} as Storage);
 
   return metadata.modules.reduce((result, moduleMetadata) => {
-    if (!moduleMetadata.storage) {
+    if (moduleMetadata.storage.isNone) {
       return result;
     }
 
-    const prefix = moduleMetadata.storage.prefix;
+    const prefix = moduleMetadata.storage.unwrap().prefix;
 
-    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.functions.reduce((newModule, func) => {
-      // Lowercase the 'f' in storage.balances.freeBalance
+    // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
+    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
       newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;

@@ -1,34 +1,33 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { bnToBn, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import { AnyNumber } from './types';
-import Base from './codec/Base';
-import U64 from './U64';
+import { UIntBitLength } from './codec/UInt';
+import { AnyNumber, Codec } from './types';
 
-const BITLENGTH = 64;
+const BITLENGTH: UIntBitLength = 64;
 
 // A wrapper around seconds/timestamps. Internally the representation only has
 // second precision (aligning with Rust), so any numbers passed in/out are always
 // per-second. For any encoding/decoding the 1000 multiplier would be applied to
 // get it in line with JavaScript formats
-export default class Moment extends Base<Date> {
+export default class Moment extends Date implements Codec {
+  public raw: Date; // FIXME Remove this once we convert all types out of Base
+
   constructor (value: Moment | Date | AnyNumber = 0) {
     super(
       Moment.decodeMoment(value)
     );
+
+    this.raw = this;
   }
 
   static decodeMoment (value: Moment | Date | AnyNumber): Date {
-    if (value instanceof Moment) {
-      return value.raw;
-    } else if (value instanceof Date) {
-      return new Date(Math.ceil(value.getTime() / 1000) * 1000);
-    } else if (value instanceof U64) {
-      value = value.toBn();
+    if (value instanceof Date) {
+      return value;
     } else if (isU8a(value)) {
       value = u8aToBn(value.subarray(0, BITLENGTH / 8), true);
     } else if (isString(value)) {
@@ -40,12 +39,16 @@ export default class Moment extends Base<Date> {
     );
   }
 
+  bitLength (): UIntBitLength {
+    return BITLENGTH;
+  }
+
   get encodedLength (): number {
     return BITLENGTH / 8;
   }
 
-  getTime (): number {
-    return this.raw.getTime();
+  toHex (): string {
+    return bnToHex(this.toBn(), BITLENGTH);
   }
 
   toJSON (): any {
@@ -56,15 +59,11 @@ export default class Moment extends Base<Date> {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 
-  toString (): string {
-    return this.raw.toISOString();
-  }
-
   toBn (): BN {
     return new BN(this.toNumber());
   }
 
   toNumber (): number {
-    return Math.ceil(this.raw.getTime() / 1000);
+    return Math.ceil(this.getTime() / 1000);
   }
 }

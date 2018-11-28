@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/api-observable authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RxFees } from './types';
 
@@ -8,13 +8,11 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import storage from '@polkadot/storage/static';
-import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
 import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
-
-// FIXME Revert Vector -> Array mappings in here once https://github.com/polkadot-js/api/pull/172 is in
 
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
@@ -52,10 +50,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((accounts: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (accounts || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          accounts || ([] as Array<AccountId>)
         )
       );
   }
@@ -83,7 +78,6 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((proposals: Array<Tuple> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
           (proposals || ([] as Array<Tuple>))
             .map((result: Tuple): RxProposal | undefined =>
               result
@@ -115,7 +109,7 @@ export default class ApiQueries extends ApiBase {
   }
 
   referendumVote = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
-    return this.rawStorage(storage.democracy.voteOf, index, address);
+    return this.rawStorage(storage.democracy.voteOf, [index, address]);
   }
 
   referendumVoters = (index: ReferendumIndex | BN | number): Observable<Array<AccountId>> => {
@@ -124,10 +118,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((voters: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (voters || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          voters || ([] as Array<AccountId>)
         )
       );
   }
@@ -195,10 +186,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((validators: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (validators || ([] as Array<AccountId>)).map((authorityId) =>
-            authorityId
-          )
+          validators || ([] as Array<AccountId>)
         )
       );
   }
@@ -209,10 +197,7 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((intentions: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (intentions || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          intentions || ([] as Array<AccountId>)
         )
       );
   }
@@ -223,16 +208,24 @@ export default class ApiQueries extends ApiBase {
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((nominators: Array<AccountId> | null | undefined) =>
-          // FIXME not really a Array here, it is a Vector (easier to match, to be fixed in extending Array)
-          (nominators || ([] as Array<AccountId>)).map((accountId) =>
-            accountId
-          )
+          nominators || ([] as Array<AccountId>)
         )
       );
   }
 
   stakingNominating = (address: AccountId | string): Observable<AccountId | undefined> => {
     return this.rawStorage(storage.staking.nominating, address);
+  }
+
+  systemEvents = (): Observable<Array<EventRecord>> => {
+    return this
+      .rawStorage(storage.system.events)
+      .pipe(
+        // @ts-ignore After upgrade to 6.3.2
+        map((events: Array<EventRecord> | null | undefined) =>
+          events || ([] as Array<EventRecord>)
+        )
+      );
   }
 
   validatorCount = (): Observable<u32 | undefined> => {

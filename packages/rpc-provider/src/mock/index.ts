@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 import { MockState$Subscriptions, MockState$Subscription$Callback, MockState$Db } from './types';
@@ -10,7 +10,7 @@ import EventEmitter from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc/index';
 import testKeyring from '@polkadot/keyring/testing';
 import storage from '@polkadot/storage/static';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
 import { Header } from '@polkadot/types/index';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';
@@ -127,7 +127,7 @@ export default class Mock implements ProviderInterface {
     // Do something every 1 seconds
     setInterval(() => {
       if (!this.isUpdating) {
-        return false;
+        return;
       }
 
       // create a new header (next block)
@@ -135,8 +135,8 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index) => {
-        this.setStateBn(storage.balances.freeBalance(publicKey()), newHead.blockNumber.mul(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey()), newHead.blockNumber.add(index));
+        this.setStateBn(storage.balances.freeBalance(publicKey()), newHead.blockNumber.muln(3).iaddn(index));
+        this.setStateBn(storage.system.accountNonce(publicKey()), newHead.blockNumber.addn(index));
       });
 
       // set the timestamp for the current block
@@ -174,7 +174,7 @@ export default class Mock implements ProviderInterface {
     this.db[u8aToHex(key)] = bnToU8a(value, 64, true);
   }
 
-  private updateSubs (method: string, value: Base<any>) {
+  private updateSubs (method: string, value: Codec) {
     this.subscriptions[method].lastValue = value;
 
     Object

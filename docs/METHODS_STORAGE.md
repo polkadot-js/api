@@ -297,7 +297,7 @@ ___
 ▸ **slashCount**(`AccountId`): `u32`
 - **summary**:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.
 
-▸ **stakeRange**(): `PairOf<Balance>`
+▸ **stakeRange**(): `(Balance, Balance)`
 - **summary**:   The highest and lowest staked validator slashable balances.
 
 ▸ **validatorCount**(): `u32`

@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
@@ -8,7 +8,8 @@ import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from 
 
 import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { Base, Vector, createType } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
+import { Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
 import { ExtError, assert, isFunction } from '@polkadot/util';
 
@@ -81,7 +82,7 @@ export default class Rpc implements RpcInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
-  private createInterface ({ methods, section }: RpcSection): RpcInterface$Section {
+  private createInterface ({ methods }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)
       .reduce((exposed, method) => {
@@ -161,7 +162,7 @@ export default class Rpc implements RpcInterface {
     return call;
   }
 
-  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Base> {
+  private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
     const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === method.params.length
       ? ''
@@ -174,17 +175,15 @@ export default class Rpc implements RpcInterface {
     );
   }
 
-  private formatOutput (method: RpcMethod, params: Array<Base>, result?: any): Base | Array<Base | null | undefined> {
+  private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
-      // outputType that we have specified
-      const type = (params[0] as StorageKey).outputType;
+      // outputType that we have specified. Fallback to Data on nothing
+      const type = (params[0] as StorageKey).outputType || 'Data';
 
-      if (type) {
-        return createType(type, base.raw);
-      }
+      return createType(type, base);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -192,11 +191,8 @@ export default class Rpc implements RpcInterface {
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
       return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
-        const type = _key.outputType;
-
-        if (!type) {
-          throw new Error('Cannot format StorageChangeSet, output type missing for key');
-        }
+        // Fallback to Data (i.e. just the encoding) if we don't have a specific type
+        const type = _key.outputType || 'Data';
 
         // see if we have a result value for this specific key
         const key = _key.toHex();
@@ -210,14 +206,14 @@ export default class Rpc implements RpcInterface {
           !item
             ? undefined
             : (
-              item.value.isEmpty
+              item.value.isNone
                 ? null
-                : createType(type, item.value.value)
+                : createType(type, item.value.unwrap())
             )
         );
 
         return result;
-      }, [] as Array<Base | null | undefined>);
+      }, [] as Array<Codec | null | undefined>);
     }
 
     return base;

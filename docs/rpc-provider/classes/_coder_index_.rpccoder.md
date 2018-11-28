@@ -12,11 +12,11 @@
 
 ▸ **decodeResponse**(response: *`JsonRpcResponse`*): `any`
 
-*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/coder/index.ts#L12)*
+*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L12)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | response | `JsonRpcResponse` |
 
@@ -29,11 +29,11 @@ ___
 
 ▸ **encodeJson**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): `string`
 
-*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/coder/index.ts#L33)*
+*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L33)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | method | `string` |
 | params |  `any` &#124; `Array`<`any`>|
@@ -47,11 +47,11 @@ ___
 
 ▸ **encodeObject**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): `JsonRpcRequest`
 
-*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/coder/index.ts#L39)*
+*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L39)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | method | `string` |
 | params |  `any` &#124; `Array`<`any`>|
@@ -65,7 +65,7 @@ ___
 
 ▸ **getId**(): `number`
 
-*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/coder/index.ts#L48)*
+*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L48)*
 
 **Returns:** `number`
 

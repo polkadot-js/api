@@ -1,19 +1,19 @@
 // Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiBaseInterface, ApiInterface$Events } from './types';
 
 import EventEmitter from 'eventemitter3';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
-import { Extrinsics } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
+import { Extrinsics } from '@polkadot/types/Method';
 import { assert, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {

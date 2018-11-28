@@ -1,16 +1,16 @@
 // Copyright 2017-2018 @polkadot/extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
+import { AnyU8a, Codec, Constructor } from './types';
+
 import { assert, isHex, isObject, isU8a } from '@polkadot/util';
 
-import Base from './codec/Base';
-import { AnyU8a, Constructor } from './types';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
+import Extrinsic from './Extrinsic';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
 
 const FN_UNKNOWN = {
   method: 'unknown',
@@ -18,7 +18,7 @@ const FN_UNKNOWN = {
 } as ExtrinsicFunction;
 
 interface ArgsDef {
-  [index: string]: Constructor<Base>;
+  [index: string]: Constructor;
 }
 
 interface DecodeMethodInput {
@@ -29,6 +29,23 @@ interface DecodeMethodInput {
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadata;
+}
+
+export interface ExtrinsicFunction {
+  (...args: any[]): Extrinsic;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export interface ModuleExtrinsics {
+  [key: string]: ExtrinsicFunction;
+}
+
+export interface Extrinsics {
+  [key: string]: ModuleExtrinsics; // Will hold modules returned by state_getMetadata
 }
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
@@ -67,7 +84,7 @@ export default class Method extends Struct {
    * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: Uint8Array | string | DecodeMethodInput, _meta?: FunctionMetadata): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(value, _meta);
     } else if (isU8a(value)) {
@@ -166,7 +183,7 @@ export default class Method extends Struct {
     );
   }
 
-  get args (): Array<Base> {
+  get args (): Array<Codec> {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }

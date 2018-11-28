@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyNumber, AnyU8a } from './types';
 
@@ -23,7 +23,7 @@ type RuntimeVersionApiValue = {
 };
 
 class RuntimeVersionApi extends Tuple {
-  constructor (value?: RuntimeVersionApiValue) {
+  constructor (value?: RuntimeVersionApiValue | Uint8Array) {
     super({
       id: ApiId,
       version: U32
@@ -49,7 +49,7 @@ type RuntimeVersionValue = {
 };
 
 export default class RuntimeVersion extends Struct {
-  constructor (value?: RuntimeVersionValue) {
+  constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({
       specName: Text,
       implName: Text,

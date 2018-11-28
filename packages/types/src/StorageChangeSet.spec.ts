@@ -1,26 +1,51 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
+import { createType } from '@polkadot/types/codec';
+import json from './json/StorageChangeSet.001.json';
 import StorageChangeSet from './StorageChangeSet';
 
 describe('StorageChangeSet', () => {
-  const set = new StorageChangeSet({
-    hash: '0x1234',
-    changes: [
-      { key: '0xab', value: '0xcd' }
-    ]
+  describe('construction', () => {
+    const set = new StorageChangeSet({
+      block: '0x1234',
+      changes: [
+        { key: '0xab', value: '0xcd' }
+      ]
+    });
+
+    it('wraps blockHash', () => {
+      expect(
+        set.block.toHex()
+      ).toEqual('0x1234');
+    });
+
+    it('wraps key/value', () => {
+      expect(
+        set.changes[0].value.toString()
+      ).toEqual('0xcd');
+    });
   });
 
-  it('wraps hash', () => {
-    expect(
-      set.hash.toHex()
-    ).toEqual('0x1234');
-  });
+  describe('json', () => {
+    const set = new StorageChangeSet(json.params.result);
 
-  it('wraps key/value', () => {
-    expect(
-      set.changes.get(0).value.toString()
-    ).toEqual('0xcd');
+    it('has the correct hash', () => {
+      expect(
+        set.block.toHex()
+      ).toEqual('0x2ad8077937e9a5ceb2e0d57c95b95a6a9edcedc4fb1f14e3bc13245e223a569d');
+    });
+
+    it('has the changes', () => {
+      expect(set.changes).toHaveLength(1);
+      expect(set.changes[0].key.toHex()).toEqual('0x54bdbdb5e438d574dd4da05ee6131cee');
+    });
+
+    it('converts result data to Bytes', () => {
+      const bytes = createType('Bytes', set.changes[0].value.unwrap());
+
+      expect(bytes).toHaveLength(4452);
+    });
   });
 });

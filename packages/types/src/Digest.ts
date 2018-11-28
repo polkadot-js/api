@@ -1,31 +1,52 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import AuthorityId from './AuthorityId';
 import EnumType from './codec/EnumType';
-import Hash from './Hash';
-import Null from './Null';
 import Struct from './codec/Struct';
+import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
+import AuthorityId from './AuthorityId';
+import Bytes from './Bytes';
+import Hash from './Hash';
+import Signature from './Signature';
+import U64 from './U64';
 
-export class AuthoritiesChange extends Vector.with(AuthorityId) {
+class AuthoritiesChange extends Vector.with(AuthorityId) {
 }
 
-export class ChangesTrieRoot extends Hash {
+class ChangesTrieRoot extends Hash {
 }
 
-// FIXME Once we have Events, have a look on how to decode them
-export class Other extends Null {
+class Other extends Bytes {
 }
 
-export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other> {
+class Seal extends Tuple {
   constructor (value: any) {
     super({
-      0: Other,
-      1: AuthoritiesChange,
-      2: ChangesTrieRoot
+      slot: U64,
+      signature: Signature
     }, value);
+  }
+
+  get signature (): Signature {
+    return this.get('signature') as Signature;
+  }
+
+  get slot (): U64 {
+    return this.get('slot') as U64;
+  }
+}
+
+export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
+| Seal> {
+  constructor (value: any) {
+    super([
+      Other, // Position 0, as per Rust (encoding control)
+      AuthoritiesChange,
+      ChangesTrieRoot,
+      Seal
+    ], value);
   }
 }
 

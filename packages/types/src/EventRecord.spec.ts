@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import createType from './codec/createType';
 import Vector from './codec/Vector';
@@ -21,7 +21,7 @@ describe('EventRecord', () => {
 
   it('decodes correctly', () => {
     const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
-    const er = records.get(0);
+    const er = records[0];
 
     expect(er.phase.type).toEqual('ApplyExtrinsic');
   });
@@ -31,7 +31,7 @@ describe('EventRecord', () => {
 
     expect(records).toHaveLength(4);
 
-    const er = records.get(2);
+    const er = records[2];
 
     expect(
       er.event.data.toArray().map((v) => v.toString())

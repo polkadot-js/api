@@ -6,13 +6,11 @@
 
 * [BftAuthoritySignature](../classes/_bft_.bftauthoritysignature.md)
 * [BftHashSignature](../classes/_bft_.bfthashsignature.md)
-* [Justification](../classes/_bft_.justification.md)
 
 ### Type aliases
 
 * [BftAuthoritySignatureValue](_bft_.md#bftauthoritysignaturevalue)
 * [BftHashSignatureValue](_bft_.md#bfthashsignaturevalue)
-* [JustificationValue](_bft_.md#justificationvalue)
 
 ---
 
@@ -24,7 +22,7 @@
 
 **Ƭ BftAuthoritySignatureValue**: *`object`*
 
-*Defined in [Bft.ts:15](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bft.ts#L15)*
+*Defined in [Bft.ts:12](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bft.ts#L12)*
 
 #### Type declaration
 
@@ -35,18 +33,7 @@ ___
 
 **Ƭ BftHashSignatureValue**: *`object`*
 
-*Defined in [Bft.ts:39](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bft.ts#L39)*
-
-#### Type declaration
-
-___
-<a id="justificationvalue"></a>
-
-##  JustificationValue
-
-**Ƭ JustificationValue**: *`object`*
-
-*Defined in [Bft.ts:63](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bft.ts#L63)*
+*Defined in [Bft.ts:36](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bft.ts#L36)*
 
 #### Type declaration
 

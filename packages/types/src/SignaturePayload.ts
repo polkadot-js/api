@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
@@ -26,7 +26,7 @@ type SignaturePayloadValue = {
 export default class SignaturePayload extends Struct {
   protected _signature?: Uint8Array;
 
-  constructor (value?: SignaturePayloadValue) {
+  constructor (value?: SignaturePayloadValue | Uint8Array) {
     super({
       nonce: Nonce,
       method: Method,

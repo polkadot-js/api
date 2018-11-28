@@ -1,12 +1,11 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { u8aConcat, u8aToU8a } from '@polkadot/util';
+import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
-import Compact, { DEFAULT_LENGTH_BITS } from './Compact';
-import { Constructor } from '../types';
+import Compact from './Compact';
+import { Codec, Constructor } from '../types';
 
 // This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
 // construction with the passed `Type` in the constructor. It aims to be an array-like structure,
@@ -14,19 +13,19 @@ import { Constructor } from '../types';
 // to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
 // `reduce` is exposed on the interface.
 export default class Vector<
-  T extends Base
-  > extends Base<Array<T>> {
+  T extends Codec
+  > extends Array<T> implements Codec {
   private _Type: Constructor<T>;
 
-  constructor (Type: Constructor<T>, value: Uint8Array | string | Array<any> = [] as Array<any>) {
+  constructor (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any> = [] as Array<any>) {
     super(
-      Vector.decode(Type, value)
+      ...Vector.decodeVector(Type, value)
     );
 
     this._Type = Type;
   }
 
-  static decode<T extends Base> (Type: Constructor<T>, value: Uint8Array | string | Array<any>): Array<T> {
+  static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
       return value.map((entry) =>
         entry instanceof Type
@@ -37,7 +36,7 @@ export default class Vector<
 
     const u8a = u8aToU8a(value);
 
-    let [offset, _length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+    let [offset, _length] = Compact.decodeU8a(u8a);
     const length = _length.toNumber();
 
     const result = [];
@@ -52,7 +51,7 @@ export default class Vector<
     return result;
   }
 
-  static with<O extends Base> (Type: Constructor<O>): Constructor<Vector<O>> {
+  static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
     return class extends Vector<O> {
       constructor (value?: Array<any>) {
         super(Type, value);
@@ -64,68 +63,57 @@ export default class Vector<
     return this._Type.name;
   }
 
-  get length (): number {
-    return this.raw.length;
-  }
-
   get encodedLength (): number {
-    return this.raw.reduce((total, raw) => {
+    return this.reduce((total, raw) => {
       return total + raw.encodedLength;
-    }, Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS).length);
+    }, Compact.encodeU8a(this.length).length);
   }
 
-  filter (fn: (item: T, index: number) => any): Array<T> {
-    return this.raw.filter(fn);
+  toArray (): Array<T> {
+    return Array.from(this);
   }
 
-  find (fn: (item: T, index: number) => any): T | undefined {
-    return this.raw.find(fn);
-  }
-
-  forEach (fn: (item: T, index: number) => any): any {
-    return this.raw.forEach(fn);
-  }
-
-  get (index: number): T {
-    return this.raw[index];
-  }
-
-  map<O> (fn: (item: T, index: number) => O): Array<O> {
-    return this.raw.map(fn);
-  }
-
-  push (item: T): void {
-    this.raw.push(item);
-  }
-
-  reduce<O> (fn: (result: O, item: T, index: number) => O, initial: O): O {
-    return this.raw.reduce(fn, initial);
+  toHex (): string {
+    return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
-    return this.raw.map((entry) =>
+    return this.map((entry) =>
       entry.toJSON()
     );
   }
 
+  toString (): string {
+    // Overwrite the default toString representation of Array.
+    const data = this.map((entry) =>
+      entry.toString()
+    );
+
+    return `[${data.join(', ')}]`;
+  }
+
   toU8a (isBare?: boolean): Uint8Array {
-    const encoded = this.raw.map((entry) =>
+    const encoded = this.map((entry) =>
       entry.toU8a(isBare)
     );
 
     return isBare
       ? u8aConcat(...encoded)
       : u8aConcat(
-        Compact.encodeU8a(this.length, DEFAULT_LENGTH_BITS),
+        Compact.encodeU8a(this.length),
         ...encoded
       );
   }
 
-  toString (): string {
-    const data = this.raw.map((entry) =>
-      entry.toString()
-    );
+  // Below are methods that we override. When we do a `new Vector(...).map()`,
+  // we want it to return an Array. We only override the methods that return a
+  // new instance.
 
-    return `[${data.join(', ')}]`;
+  filter (callbackfn: (value: T, index: number, array: Array<T>) => any, thisArg?: any): Array<T> {
+    return this.toArray().filter(callbackfn, thisArg);
+  }
+
+  map<U> (callbackfn: (value: T, index: number, array: Array<T>) => U, thisArg?: any): Array<U> {
+    return this.toArray().map(callbackfn, thisArg);
   }
 }

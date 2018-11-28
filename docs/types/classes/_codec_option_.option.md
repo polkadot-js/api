@@ -1,12 +1,16 @@
 
 
 # Type parameters
-#### T 
+#### T :  `Codec`
 # Hierarchy
 
- [Base](_codec_base_.base.md)<[Base](_codec_base_.base.md)<`T`>>
+ [Base](_codec_base_.base.md)<`T`>
 
 **↳ Option**
+
+# Implements
+
+* `Codec`
 
 # Constructors
 
@@ -14,34 +18,20 @@
 
 ##  constructor
 
-⊕ **new Option**(Type: *`Constructor`<[Base](_codec_base_.base.md)<`T`>>*, value?: *`any`*): [Option](_codec_option_.option.md)
+⊕ **new Option**(Type: *`Constructor`*, value?: *`any`*): [Option](_codec_option_.option.md)
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Option.ts:16](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L16)*
+*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L15)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| Type | `Constructor`<[Base](_codec_base_.base.md)<`T`>> |
+| Type | `Constructor` |
 | `Optional` value | `any` |
 
 **Returns:** [Option](_codec_option_.option.md)
-
-___
-
-# Properties
-
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *[Base](_codec_base_.base.md)<`T`>*
-
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -53,20 +43,29 @@ ___
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
-
-*Defined in [codec/Option.ts:60](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L60)*
+*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L57)*
 
 **Returns:** `number`
 
 ___
-<a id="isempty"></a>
+<a id="isnone"></a>
 
-##  isEmpty
+##  isNone
 
-getisEmpty(): `boolean`
+getisNone(): `boolean`
 
-*Defined in [codec/Option.ts:50](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L50)*
+*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L45)*
+
+**Returns:** `boolean`
+
+___
+<a id="issome"></a>
+
+##  isSome
+
+getisSome(): `boolean`
+
+*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L49)*
 
 **Returns:** `boolean`
 
@@ -75,25 +74,34 @@ ___
 
 ##  value
 
-getvalue():  `T` &#124; `undefined`
+getvalue(): `Codec`
 
-*Defined in [codec/Option.ts:54](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L54)*
+*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L53)*
 
-**Returns:**  `T` &#124; `undefined`
+**Returns:** `Codec`
 
 ___
 
 # Methods
 
+<a id="tohex"></a>
+
+##  toHex
+
+▸ **toHex**(): `string`
+
+*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L61)*
+
+**Returns:** `string`
+
+___
 <a id="tojson"></a>
 
 ##  toJSON
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
-
-*Defined in [codec/Option.ts:68](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L68)*
+*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L65)*
 
 **Returns:** `any`
 
@@ -104,9 +112,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
-
-*Defined in [codec/Option.ts:89](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L89)*
+*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L84)*
 
 **Returns:** `string`
 
@@ -117,56 +123,65 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
-
-*Defined in [codec/Option.ts:74](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L74)*
+*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L69)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
 **Returns:** `Uint8Array`
 
 ___
+<a id="unwrap"></a>
+
+##  unwrap
+
+▸ **unwrap**(): `T`
+
+*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L88)*
+
+**Returns:** `T`
+
+___
 <a id="decodeoption"></a>
 
 ## `<Static>` decodeOption
 
-▸ **decodeOption**<`O`>(Type: *`Constructor`<[Base](_codec_base_.base.md)<`O`>>*, value?: *`any`*): [Base](_codec_base_.base.md)
+▸ **decodeOption**<`O`>(Type: *`Constructor`*, value?: *`any`*): `Codec`
 
-*Defined in [codec/Option.ts:26](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L26)*
+*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L22)*
 
 **Type parameters:**
 
 #### O 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| Type | `Constructor`<[Base](_codec_base_.base.md)<`O`>> |
+| Type | `Constructor` |
 | `Optional` value | `any` |
 
-**Returns:** [Base](_codec_base_.base.md)
+**Returns:** `Codec`
 
 ___
 <a id="with"></a>
 
 ## `<Static>` with
 
-▸ **with**<`O`>(Type: *`Constructor`<[Base](_codec_base_.base.md)<`O`>>*): `Constructor`<[Option](_codec_option_.option.md)<`O`>>
+▸ **with**<`O`>(Type: *`Constructor`*): `Constructor`<[Option](_codec_option_.option.md)<`O`>>
 
-*Defined in [codec/Option.ts:42](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Option.ts#L42)*
+*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Option.ts#L37)*
 
 **Type parameters:**
 
-#### O 
+#### O :  `Codec`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| Type | `Constructor`<[Base](_codec_base_.base.md)<`O`>> |
+| Type | `Constructor` |
 
 **Returns:** `Constructor`<[Option](_codec_option_.option.md)<`O`>>
 

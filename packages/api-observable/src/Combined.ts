@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/api-observable authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RxBalance, RxBalanceMap, RxReferendumVote } from './types';
 
@@ -25,9 +25,7 @@ export default class ApiCombined extends ApiCalls {
       .nextAccountEnumSet()
       .pipe(
         switchMap((nextEnum: AccountIndex | undefined) => {
-          const lastIndex = nextEnum
-            ? nextEnum.toBn()
-            : new BN(0);
+          const lastIndex = nextEnum || new BN(0);
           const setSize = ENUMSET_SIZE.toNumber();
           const enumRange = [...Array(lastIndex.div(ENUMSET_SIZE).toNumber() + 1).keys()];
 
@@ -61,7 +59,7 @@ export default class ApiCombined extends ApiCalls {
       .getAccountEnumSet(accountIndex)
       .pipe(
         map((accounts: Array<AccountId> = []): AccountId | undefined =>
-          accounts[accountIndex.toBn().mod(ENUMSET_SIZE).toNumber()]
+          accounts[accountIndex.mod(ENUMSET_SIZE).toNumber()]
         )
       );
   }
@@ -103,9 +101,9 @@ export default class ApiCombined extends ApiCalls {
         .accountIdFromIndex(accountIndex)
         .pipe(
           map((accountId?: AccountId): [AccountId | undefined, AccountIndex] =>
-          [accountId, accountIndex]
-        )
-      );
+            [accountId, accountIndex]
+          )
+        );
     } catch (error) {
       // swallow
     }
@@ -161,10 +159,10 @@ export default class ApiCombined extends ApiCalls {
     ).pipe(
       // @ts-ignore After upgrade to 6.3.2
       switchMap(([referendumCount, nextTally]: [ReferendumIndex | undefined, ReferendumIndex | undefined]): Observable<Array<RxReferendum>> =>
-        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gt(0)
+        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? this.referendumsInfo(
-            [...Array(referendumCount.toBn().sub(nextTally.toBn()).toNumber())].map((_, i) =>
-              nextTally.add(i).toNumber()
+            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
+              nextTally.addn(i).toNumber()
             )
           )
           : EMPTY
@@ -238,9 +236,9 @@ export default class ApiCombined extends ApiCalls {
             sessionCurrentIndex
               // last era can be null (i.e. new chain, valid key, no value set yet)
               .sub(eraLastLengthChange || new BlockNumber(0))
-              .mod(sessionsPerEra.toBn())
-              .mul(sessionLength.toBn())
-              .add(sessionBlockProgress.toBn())
+              .mod(sessionsPerEra)
+              .mul(sessionLength)
+              .add(sessionBlockProgress)
           )
           : undefined
     );
@@ -274,8 +272,8 @@ export default class ApiCombined extends ApiCalls {
             bestNumber
               // last change can be null (i.e. new chain, valid key, no value set yet)
               .sub(lastSessionLengthChange || new BlockNumber(0))
-              .add(sessionLength.toBn())
-              .mod(sessionLength.toBn())
+              .add(sessionLength)
+              .mod(sessionLength)
           )
           : undefined
     );
@@ -324,7 +322,7 @@ export default class ApiCombined extends ApiCalls {
       ([sessionLength, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         sessionLength && blockPeriod
           ? new Moment(
-            sessionLength.mul(blockPeriod.toBn()).muln(1000)
+            sessionLength.muln(blockPeriod.toNumber()).muln(1000)
           )
           : undefined
     );
@@ -339,7 +337,7 @@ export default class ApiCombined extends ApiCalls {
       ([sessionBlockRemaining, blockPeriod]: [BlockNumber | undefined, Moment | undefined]): Moment | undefined =>
         blockPeriod && sessionBlockRemaining
           ? new Moment(
-            sessionBlockRemaining.mul(blockPeriod.toBn()).muln(1000)
+            sessionBlockRemaining.muln(blockPeriod.toNumber()).muln(1000)
           )
           : undefined
     );
@@ -353,7 +351,7 @@ export default class ApiCombined extends ApiCalls {
       ],
       ([balance, nominators = []]: [RxBalance, Array<RxBalance>]): RxBalance => {
         const nominatedBalance = nominators.reduce((total, nominator: RxBalance) => {
-          return total.add(nominator.votingBalance.toBn());
+          return total.add(nominator.votingBalance);
         }, new BN(0));
 
         const result = {
@@ -361,7 +359,7 @@ export default class ApiCombined extends ApiCalls {
           nominators,
           nominatedBalance: new Balance(nominatedBalance),
           stakingBalance: new Balance(
-            nominatedBalance.add(balance.votingBalance.toBn())
+            nominatedBalance.add(balance.votingBalance)
           )
         };
 

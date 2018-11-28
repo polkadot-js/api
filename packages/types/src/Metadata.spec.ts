@@ -1,27 +1,16 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { hexToU8a } from '@polkadot/util';
-
+import bbqBirch from './json/Metadata.bbq.json';
+import compacted from './json/Metadata.latest.json';
 import Metadata from './Metadata';
 import rpcdata from './Metadata.rpc';
-import bbqBirch from './json/Metadata.001.json';
+import latestParsed from './Metadata.latest.json';
 
 describe('Metadata', () => {
   it('decodes properly', () => {
     const decoded = new Metadata(rpcdata);
-    const str = JSON.stringify(decoded.toJSON());
-
-    console.error(str);
-    console.error(decoded.getUniqTypes());
-
-    expect(decoded.events.length).not.toBe(0);
-  });
-
-  it('decodes when length not present (HACK)', () => {
-    const u8a = hexToU8a(rpcdata);
-    const decoded = new Metadata(u8a.subarray(2));
 
     expect(decoded.events.length).not.toBe(0);
   });
@@ -30,5 +19,16 @@ describe('Metadata', () => {
     const decoded = new Metadata(bbqBirch.result);
 
     expect(decoded.events.length).not.toBe(0);
+  });
+
+  it('decodes latest properly', () => {
+    const decoded = new Metadata(compacted.result);
+    const str = JSON.stringify(decoded.toJSON());
+
+    console.error(str);
+    console.error(decoded.getUniqTypes());
+
+    expect(decoded.events.length).not.toBe(0);
+    expect(str).toEqual(JSON.stringify(latestParsed));
   });
 });

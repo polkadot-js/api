@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import fs from 'fs';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
@@ -36,8 +36,7 @@ function generateSectionLinks (sectionName: string, metadata: Metadata) {
       ).join('');
 
     default:
-      console.error('Unknown section name provided to generate anchors');
-      break;
+      throw new Error('Unknown section name provided to generate anchors');
   }
 }
 
@@ -144,13 +143,13 @@ function addStorage (metadata: Metadata) {
   const renderAnchors = generateSectionLinks('storage', metadata);
 
   return orderedSections.reduce((md: string, moduleMetadata: any) => {
-    if (!moduleMetadata.storage) {
+    if (moduleMetadata.storage.isNone) {
       return md;
     }
 
-    const sectionName = stringLowerFirst(moduleMetadata.storage.prefix.toString());
+    const sectionName = stringLowerFirst(moduleMetadata.storage.unwrap().prefix.toString());
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.functions.map((i: any) => i).sort();
+    const orderedMethods = moduleMetadata.storage.unwrap().functions.map((i: any) => i).sort();
 
     return orderedMethods.reduce((md: string, func: any) => {
       const methodName = stringLowerFirst(func.name.toString());

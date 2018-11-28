@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeDefInfo, typeSplit, getTypeClass, getTypeDef } from './createType';
 
@@ -13,8 +13,8 @@ describe('typeSplit', () => {
 
   it('splits nested combinations', () => {
     expect(
-      typeSplit('Text, (u32), Vec<u64>, PairOf<u32>')
-    ).toEqual(['Text', '(u32)', 'Vec<u64>', 'PairOf<u32>']);
+      typeSplit('Text, (u32), Vec<u64>')
+    ).toEqual(['Text', '(u32)', 'Vec<u64>']);
   });
 
   it('keeps nested tuples together', () => {
@@ -38,7 +38,7 @@ describe('typeSplit', () => {
   it('checks for unclosed vec', () => {
     expect(
       () => typeSplit('Text, Vec<u64')
-    ).toThrow(/Invalid Vector/);
+    ).toThrow(/Invalid Compact\/Vector/);
   });
 
   it('checks for unclosed tuple', () => {
@@ -61,22 +61,24 @@ describe('getTypeValue', () => {
     ).toThrow(/Vec wrapped/);
   });
 
-  it('does not allow invalid Pairs, end >', () => {
-    expect(
-      () => getTypeDef('PairOf<u32')
-    ).toThrow(/PairOf wrapped/);
-  });
-
   it('returns a type structure', () => {
     expect(
-      getTypeDef('(u32, Vec<u64>, PairOf<u32>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32, Vec<u64>, PairOf<u32>, (Text, Vec<(Bool, u128)>))',
+      type: '(u32, Compact<u32>, Vec<u64>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
           type: 'u32'
+        },
+        {
+          info: TypeDefInfo.Compact,
+          type: 'Compact<u32>',
+          sub: {
+            info: TypeDefInfo.Plain,
+            type: 'u32'
+          }
         },
         {
           info: TypeDefInfo.Vector,
@@ -84,14 +86,6 @@ describe('getTypeValue', () => {
           sub: {
             info: TypeDefInfo.Plain,
             type: 'u64'
-          }
-        },
-        {
-          info: TypeDefInfo.PairOf,
-          type: 'PairOf<u32>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u32'
           }
         },
         {

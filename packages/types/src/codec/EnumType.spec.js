@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import EnumType from './EnumType';
 import Text from '../Text';
@@ -32,5 +32,16 @@ describe('Struct', () => {
         new Uint8Array([1, 2 << 2, 49, 50])
       ).toString()
     ).toEqual('Text');
+  });
+
+  it('allows accessing the type and value', () => {
+    const text = new Text('foo');
+    const enumType = new EnumType(
+      [Text, U32],
+      { Text: text }
+    );
+
+    expect(enumType.type).toBe('Text');
+    expect(enumType.value).toEqual(text);
   });
 });

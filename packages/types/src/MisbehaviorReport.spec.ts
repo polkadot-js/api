@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import MisbehaviorReport, { BftAtReport } from './MisbehaviorReport';
 
@@ -35,7 +35,7 @@ describe('MisbehaviorReport', () => {
     parentHash: '0x01020304',
     parentNumber: 78,
     target: '0x11112222',
-    misbehavior: 0x12
+    misbehavior: 3
   });
 
   it('has the correct misbehavior type', () => {

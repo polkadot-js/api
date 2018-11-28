@@ -19,7 +19,7 @@ A mock provider mainly used for testing.
 
 ⊕ **new Mock**(): [Mock](_mock_index_.mock.md)
 
-*Defined in [mock/index.ts:64](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L64)*
+*Defined in [mock/index.ts:64](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L64)*
 
 **Returns:** [Mock](_mock_index_.mock.md)
 
@@ -33,7 +33,7 @@ ___
 
 **● isUpdating**: *`boolean`* = true
 
-*Defined in [mock/index.ts:42](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L42)*
+*Defined in [mock/index.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L42)*
 
 ___
 <a id="subscriptions"></a>
@@ -49,7 +49,7 @@ ___
     return subs;
   }, ({} as MockState$Subscriptions))
 
-*Defined in [mock/index.ts:53](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L53)*
+*Defined in [mock/index.ts:53](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L53)*
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [mock/index.ts:70](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L70)*
+*Defined in [mock/index.ts:70](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L70)*
 
 **Returns:** `boolean`
 
@@ -72,11 +72,11 @@ ___
 
 ▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
 
-*Defined in [mock/index.ts:74](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L74)*
+*Defined in [mock/index.ts:74](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L74)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | type | `ProviderInterface$Emitted` |
 | sub | `ProviderInterface$EmitCb` |
@@ -90,11 +90,11 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [mock/index.ts:78](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L78)*
+*Defined in [mock/index.ts:78](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L78)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | method | `string` |
 | params | `Array`<`any`> |
@@ -108,11 +108,11 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, ...params: *`Array`<`any`>*): `Promise`<`number`>
 
-*Defined in [mock/index.ts:86](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L86)*
+*Defined in [mock/index.ts:86](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L86)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | type | `string` |
 | method | `string` |
@@ -127,11 +127,11 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [mock/index.ts:106](https://github.com/polkadot-js/api/blob/4997d8f/packages/rpc-provider/src/mock/index.ts#L106)*
+*Defined in [mock/index.ts:106](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/mock/index.ts#L106)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | type | `string` |
 | method | `string` |

@@ -1,13 +1,17 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import AccountId from './AccountId';
+import { setAddressPrefix } from '@polkadot/keyring';
 import U8a from './codec/U8a';
+import Vector from './codec/Vector';
+import jsonVec from './json/AccountIdVec.001.json';
+import AccountId from './AccountId';
+import StorageData from './StorageData';
 
 describe('AccountId', () => {
   describe('decoding', () => {
-    const testDecode = (type: string, input: Uint8Array | string | AccountId | U8a, expected: string) =>
+    const testDecode = (type: string, input: Uint8Array | string | AccountId, expected: string) =>
       it(`can decode from ${type}`, () => {
         const a = new AccountId(input);
         expect(a.toString()).toBe(expected);
@@ -53,5 +57,25 @@ describe('AccountId', () => {
       1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
       1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
     ]));
+  });
+
+  describe('storage decoding', () => {
+    it('has the correct entries', () => {
+      setAddressPrefix(68);
+
+      const data = new StorageData(jsonVec.params.result.changes[0][1]);
+      const list = new Vector(AccountId, data).map((accountId) => accountId.toString());
+
+      expect(list).toEqual([
+        '7qVJujLF3EDbZt5WfQXWvueFedMS4Vfk2Hb4GyR8jwksTZQ5',
+        '7pHyqeYaJjJPgxQgCXoS2EZMhBhtpm6BLCqQ4jJZTQB2kEDM',
+        '7pYLWV6PTUmLTMQfHmmuBwBNLkhcKhRAnkM36CSJtjat9Cxe',
+        '7qT1BvpawNbqb3BZaBTMFMMAKrpJKLPf1LmEHR1JyarWJpvA',
+        '7rADc9JW5EUGFPWLjPMipH4c3bJ2GyAUedmqQHiaGucWVifb',
+        '7oK5KRH6jt4p8auipnru9ptqeuRwbLMHA2tgCViZzhmW4Mo2',
+        '7ndAVsHvonnzTg4AvRhpraNCKj9g4CGQXKoLrgkTZ91NaLgJ',
+        '7oL7VfXgLA8L3pJJwi11v3sBYc1b5R3tLrweHwzMNxgEpWuv'
+      ]);
+    });
   });
 });

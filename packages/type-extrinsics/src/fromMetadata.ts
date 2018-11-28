@@ -1,10 +1,11 @@
 // Copyright 2017-2018 @polkadot/extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsics, ModuleExtrinsics } from './types';
+import { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
+import { Extrinsics, ModuleExtrinsics } from '@polkadot/types/Method';
+import { Metadata } from '@polkadot/types/index';
 
-import Metadata, { RuntimeModuleMetadata } from '@polkadot/types/Metadata';
 import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';
@@ -18,13 +19,20 @@ import extrinsics from './index';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): Extrinsics {
+  let indexCount = -1;
+
   const findIndex = (prefix: string): number => {
+    indexCount++;
+
     const mod = metadata.calls.find((item) =>
       item.prefix.toString() === prefix
     );
 
     if (!mod) {
-      throw new Error(`Unable to find module index for '${prefix}'`);
+      console.error(`Unable to find module index for '${prefix}'`);
+
+      // compatible with old versions
+      return indexCount;
     }
 
     return mod.index.toNumber();

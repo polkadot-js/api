@@ -1,11 +1,12 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyNumber, AnyU8a } from './types';
 
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
+import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 
 import BlockNumber from './BlockNumber';
@@ -22,10 +23,10 @@ export type HeaderValue = {
 
 // A block header.
 export default class Header extends Struct {
-  constructor (value?: HeaderValue) {
+  constructor (value?: HeaderValue | Uint8Array) {
     super({
       parentHash: Hash,
-      number: BlockNumber,
+      number: Compact.with(BlockNumber),
       stateRoot: Hash,
       extrinsicsRoot: Hash,
       digest: Digest
@@ -33,7 +34,7 @@ export default class Header extends Struct {
   }
 
   get blockNumber (): BlockNumber {
-    return this.get('number') as BlockNumber;
+    return (this.get('number') as Compact).toBn() as BlockNumber;
   }
 
   get digest (): Digest {

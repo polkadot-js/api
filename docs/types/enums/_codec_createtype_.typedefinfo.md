@@ -4,7 +4,7 @@
 
 ### Enumeration members
 
-* [PairOf](_codec_createtype_.typedefinfo.md#pairof)
+* [Compact](_codec_createtype_.typedefinfo.md#compact)
 * [Plain](_codec_createtype_.typedefinfo.md#plain)
 * [Tuple](_codec_createtype_.typedefinfo.md#tuple)
 * [Vector](_codec_createtype_.typedefinfo.md#vector)
@@ -13,13 +13,13 @@
 
 # Enumeration members
 
-<a id="pairof"></a>
+<a id="compact"></a>
 
-##  PairOf
+##  Compact
 
-**PairOf**: 
+**Compact**: 
 
-*Defined in [codec/createType.ts:15](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/createType.ts#L15)*
+*Defined in [codec/createType.ts:15](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/createType.ts#L15)*
 
 ___
 <a id="plain"></a>
@@ -28,7 +28,7 @@ ___
 
 **Plain**: 
 
-*Defined in [codec/createType.ts:16](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/createType.ts#L16)*
+*Defined in [codec/createType.ts:16](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/createType.ts#L16)*
 
 ___
 <a id="tuple"></a>
@@ -37,7 +37,7 @@ ___
 
 **Tuple**: 
 
-*Defined in [codec/createType.ts:17](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/createType.ts#L17)*
+*Defined in [codec/createType.ts:17](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/createType.ts#L17)*
 
 ___
 <a id="vector"></a>
@@ -46,7 +46,7 @@ ___
 
 **Vector**: 
 
-*Defined in [codec/createType.ts:18](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/createType.ts#L18)*
+*Defined in [codec/createType.ts:18](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/createType.ts#L18)*
 
 ___
 

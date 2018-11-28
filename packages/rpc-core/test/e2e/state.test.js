@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import Ws from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
@@ -55,7 +55,7 @@ describe.skip('e2e state', () => {
       .then((balance) => {
         console.error(balance);
 
-        expect(balance.toBn().isZero()).not.toEqual(true);
+        expect(balance.isZero()).not.toEqual(true);
       })
       .catch((error) => {
         console.error(error);

@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyU8a } from './types';
 
@@ -16,9 +16,7 @@ export default class ExtrinsicEra extends U8a {
   }
 
   static decodeExtrinsicEra (value?: AnyU8a): Uint8Array {
-    if (value instanceof U8a) {
-      return value.raw;
-    } else if (value) {
+    if (value) {
       const u8a = u8aToU8a(value);
 
       // If we have a zero byte, it is immortal (1 byte in length), otherwise we have

@@ -2,9 +2,13 @@
 
 # Hierarchy
 
- [Base](_codec_base_.base.md)<`boolean`>
+ `Boolean`
 
 **↳ Bool**
+
+# Implements
+
+* `Codec`
 
 # Constructors
 
@@ -12,17 +16,15 @@
 
 ##  constructor
 
-⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `boolean`*): [Bool](_bool_.bool.md)
+⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
 
-*Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
-
-*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L9)*
+*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L9)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `boolean`| false |
+| `Default value` value |  [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`| false |
 
 **Returns:** [Bool](_bool_.bool.md)
 
@@ -30,15 +32,13 @@ ___
 
 # Properties
 
-<a id="raw"></a>
+<a id="boolean"></a>
 
-##  raw
+## `<Static>` Boolean
 
-**● raw**: *`boolean`*
+**● Boolean**: *`BooleanConstructor`*
 
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Base.ts#L19)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:470*
 
 ___
 
@@ -50,9 +50,7 @@ ___
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
-
-*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L26)*
+*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L26)*
 
 **Returns:** `number`
 
@@ -60,15 +58,24 @@ ___
 
 # Methods
 
+<a id="tohex"></a>
+
+##  toHex
+
+▸ **toHex**(): `string`
+
+*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L34)*
+
+**Returns:** `string`
+
+___
 <a id="tojson"></a>
 
 ##  toJSON
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
-
-*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L30)*
+*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L30)*
 
 **Returns:** `any`
 
@@ -79,9 +86,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
-
-*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L38)*
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L42)*
 
 **Returns:** `string`
 
@@ -92,13 +97,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
-
-*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L34)*
+*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L38)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -111,24 +114,11 @@ ___
 
 ▸ **valueOf**(): `boolean`
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L42)*
+*Inherited from Boolean.valueOf*
 
-**Returns:** `boolean`
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:461*
 
-___
-<a id="decodebool"></a>
-
-## `<Static>` decodeBool
-
-▸ **decodeBool**(value: *`any`*): `boolean`
-
-*Defined in [Bool.ts:16](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Bool.ts#L16)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| value | `any` |
+Returns the primitive value of the specified object.
 
 **Returns:** `boolean`
 

@@ -1,13 +1,13 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyNumber } from './types';
 
-import { hexToU8a, isHex, isU8a } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isU8a, isUndefined } from '@polkadot/util';
 
-import Base from './codec/Base';
-import Compact, { DEFAULT_LENGTH_BITS } from './codec/Compact';
+import { getTypeDef, TypeDef, TypeDefInfo } from './codec/createType';
+import Compact from './codec/Compact';
 import Enum from './codec/Enum';
 import EnumType from './codec/EnumType';
 import Option from './codec/Option';
@@ -17,10 +17,26 @@ import Vector from './codec/Vector';
 import Text from './Text';
 import Type from './Type';
 import U16 from './U16';
+import * as allTypes from './index';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call. This
 // file is probably best understood from the bottom-up, i.e. start reading right at the
 // end and work up. (Just so we don't use before definition)
+
+// Quick and dirty flatten (.flat() not available)
+function flattenUniq (list: Array<any>): Array<any> {
+  const flat = list.reduce((result, entry) => {
+    return result.concat(
+      Array.isArray(entry)
+        ? flattenUniq(entry)
+        : entry
+    );
+  }, []);
+
+  return [...new Set(flat)]
+    .filter((value: any) => value)
+    .sort();
+}
 
 export class OuterDispatchCall extends Struct {
   constructor (value?: any) {
@@ -231,11 +247,11 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
   }
 
   get asMap (): StorageFunctionType$Map {
-    return (this.raw as Base<StorageFunctionType$Map>).raw;
+    return this.value as StorageFunctionType$Map;
   }
 
   get asType (): Type {
-    return (this.raw as Base<Type>).raw;
+    return this.value as Type;
   }
 
   toString (): string {
@@ -313,8 +329,8 @@ export class RuntimeModuleMetadata extends Struct {
     return this.get('prefix') as Text;
   }
 
-  get storage (): StorageMetadata | undefined {
-    return (this.get('storage') as Option<StorageMetadata>).value;
+  get storage (): Option<StorageMetadata> {
+    return this.get('storage') as Option<StorageMetadata>;
   }
 }
 
@@ -327,9 +343,9 @@ export default class RuntimeMetadata extends Struct {
     }, RuntimeMetadata.decodeMetadata(value));
   }
 
-  static decodeMetadata (value: any): object | Uint8Array {
+  static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
-      // We receive this as an Array<number> in the JSON output from the Node.
+      // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
       return RuntimeMetadata.decodeMetadata(hexToU8a(value));
     } else if (isU8a(value)) {
@@ -338,7 +354,7 @@ export default class RuntimeMetadata extends Struct {
       // is properly encoded. Here we pull the prefix, check it agianst the length -
       // if matches, then we have the length, otherwise we assume it is an older node
       // and use the whole buffer
-      const [offset, length] = Compact.decodeU8a(value, DEFAULT_LENGTH_BITS);
+      const [offset, length] = Compact.decodeU8a(value);
 
       return value.length === (offset + length.toNumber())
         ? value.subarray(offset)
@@ -347,14 +363,6 @@ export default class RuntimeMetadata extends Struct {
 
     // Decode as normal struct
     return value;
-  }
-
-  // FIXME Currently toJSON creates a struct, so it is not a one-to-one mapping
-  // with what is actually found on the RPC layer. This needs to be adjusted to
-  // match the constructor with JSON. (However for now, it is useful in
-  // debugging).
-  toJSON (): any {
-    return super.toJSON();
   }
 
   get calls (): Vector<OuterDispatchCall> {
@@ -371,42 +379,67 @@ export default class RuntimeMetadata extends Struct {
 
   // Helper to retrieve a list of all type that are found, sorted and de-deuplicated
   getUniqTypes (): Array<string> {
-    // Quick and dirty flatten (.flat() not available)
-    const flatten = (list: Array<any>): Array<any> =>
-      list.reduce((result, entry) => {
-        return result.concat(
-          Array.isArray(entry)
-            ? flatten(entry)
-            : entry
-        );
-      }, []);
-
     const events = this.events.map((module) =>
       module.events.map((event) =>
         event.arguments.map((argument) =>
-          argument.raw
-        )
-      )
-    );
-    const storages = this.modules.map((module) =>
-      module.storage
-        ? module.storage.functions.map((fn) =>
-          fn.type.isMap
-            ? [fn.type.asMap.key.raw, fn.type.asMap.value.raw]
-            : [fn.type.asType]
-        )
-        : []
-    );
-    const args = this.modules.map((module) =>
-      module.module.call.functions.map((fn) =>
-        fn.arguments.map((argument) =>
-          argument.type.raw
+          argument.toString()
         )
       )
     );
 
-    return [...new Set(
-      flatten([events, storages, args]).filter((value) => value)
-    )].sort();
+    const storages = this.modules.map((module) =>
+      module.storage.isSome
+        ? module.storage.unwrap().functions.map((fn) =>
+          fn.type.isMap
+            ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
+            : [fn.type.asType.toString()]
+        )
+        : []
+    );
+
+    const args = this.modules.map((module) =>
+      module.module.call.functions.map((fn) =>
+        fn.arguments.map((argument) =>
+          argument.type.toString()
+        )
+      )
+    );
+
+    const types = flattenUniq([events, storages, args]);
+
+    this.validateTypes(types);
+
+    return types;
+  }
+
+  private validateTypes (types: Array<string>): void {
+    const extractTypes = (types: Array<string>): Array<any> => {
+      return types.map((type) => {
+        const decoded = getTypeDef(type);
+
+        switch (decoded.info) {
+          case TypeDefInfo.Plain:
+            return decoded.type;
+
+          case TypeDefInfo.Compact:
+          case TypeDefInfo.Vector:
+            return extractTypes([(decoded.sub as TypeDef).type]);
+
+          case TypeDefInfo.Tuple:
+            return extractTypes(
+              (decoded.sub as Array<TypeDef>).map((sub) => sub.type)
+            );
+
+          default:
+            throw new Error('Unreachable');
+        }
+      });
+    };
+
+    const missing = flattenUniq(extractTypes(types)).filter((type) =>
+      isUndefined((allTypes as any)[type])
+    );
+
+    assert(missing.length === 0, `Unknown types found, no types for ${missing}`);
   }
 }

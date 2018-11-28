@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@polkadot/api": "^0.31.82",
-    "@polkadot/keyring": "^0.32.10",
-    "@polkadot/util": "^0.32.10",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {

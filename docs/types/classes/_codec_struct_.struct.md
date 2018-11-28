@@ -7,7 +7,7 @@
 #### E :  `object`
 # Hierarchy
 
- `Map`<`keyof S`, [Base](_codec_base_.base.md)>
+ `Map`<`keyof S`, `Codec`>
 
 **↳ Struct**
 
@@ -59,17 +59,21 @@
 
 ↳  [KeyValue](_keyvalue_.keyvalue.md)
 
-↳  [Justification](_bft_.justification.md)
-
 ↳  [BftAtReport](_misbehaviorreport_.bftatreport.md)
 
+↳  [BftProposeOutOfTurn](_misbehaviorreport_.bftproposeoutofturn.md)
+
 ↳  [MisbehaviorReport](_misbehaviorreport_.misbehaviorreport.md)
+
+↳  [RhdJustification](_justification_.rhdjustification.md)
 
 ↳  [RuntimeVersion](_runtimeversion_.runtimeversion.md)
 
 ↳  [SignedBlock](_signedblock_.signedblock.md)
 
 ↳  [StorageChangeSet](_storagechangeset_.storagechangeset.md)
+
+↳  [StoredPendingChange](_storedpendingchange_.storedpendingchange.md)
 
 ↳  [ValidatorPrefs](_validatorprefs_.validatorprefs.md)
 
@@ -85,11 +89,11 @@
 
 ⊕ **new Struct**(Types: *`S`*, value?: * `V` &#124; `Array`<`any`>*, jsonMap?: *`Map`<`keyof S`, `string`>*): [Struct](_codec_struct_.struct.md)
 
-*Defined in [codec/Struct.ts:27](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L27)*
+*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L25)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
 | Types | `S` | - |
 | `Default value` value |  `V` &#124; `Array`<`any`>|  {} as V |
@@ -110,15 +114,6 @@ ___
 *Inherited from Map.[Symbol.toStringTag]*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
-
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -150,7 +145,7 @@ ___
 
 getType(): `E`
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [codec/Struct.ts:118](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L118)*
 
 **Returns:** `E`
 
@@ -161,7 +156,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L122)*
 
 **Returns:** `number`
 
@@ -173,7 +168,7 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **__@iterator**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.[Symbol.iterator]*
 
@@ -181,7 +176,7 @@ ___
 
 Returns an iterable of entries in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="clear"></a>
@@ -209,7 +204,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -220,7 +215,7 @@ ___
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **entries**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.entries*
 
@@ -228,7 +223,7 @@ ___
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="foreach"></a>
@@ -243,7 +238,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -255,7 +250,7 @@ ___
 
 ##  get
 
-▸ **get**(key: *`keyof S`*):  [Base](_codec_base_.base.md) &#124; `undefined`
+▸ **get**(key: *`keyof S`*):  `Codec` &#124; `undefined`
 
 *Inherited from Map.get*
 
@@ -263,28 +258,28 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
-**Returns:**  [Base](_codec_base_.base.md) &#124; `undefined`
+**Returns:**  `Codec` &#124; `undefined`
 
 ___
 <a id="getatindex"></a>
 
 ##  getAtIndex
 
-▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
+▸ **getAtIndex**(index: *`number`*): `Codec`
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:128](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L128)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
-**Returns:** [Base](_codec_base_.base.md)
+**Returns:** `Codec`
 
 ___
 <a id="has"></a>
@@ -299,7 +294,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -325,7 +320,7 @@ ___
 
 ##  set
 
-▸ **set**(key: *`keyof S`*, value: *[Base](_codec_base_.base.md)*): `this`
+▸ **set**(key: *`keyof S`*, value: *`Codec`*): `this`
 
 *Inherited from Map.set*
 
@@ -333,10 +328,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
-| value | [Base](_codec_base_.base.md) |
+| value | `Codec` |
 
 **Returns:** `this`
 
@@ -345,11 +340,11 @@ ___
 
 ##  toArray
 
-▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
+▸ **toArray**(): `Array`<`Codec`>
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [codec/Struct.ts:132](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L132)*
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+**Returns:** `Array`<`Codec`>
 
 ___
 <a id="tohex"></a>
@@ -358,7 +353,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L136)*
 
 **Returns:** `string`
 
@@ -369,7 +364,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L140)*
 
 **Returns:** `any`
 
@@ -380,7 +375,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L151)*
 
 **Returns:** `string`
 
@@ -391,11 +386,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Struct.ts:155](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L155)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -406,7 +401,7 @@ ___
 
 ##  values
 
-▸ **values**(): `IterableIterator`<[Base](_codec_base_.base.md)>
+▸ **values**(): `IterableIterator`<`Codec`>
 
 *Inherited from Map.values*
 
@@ -414,7 +409,7 @@ ___
 
 Returns an iterable of values in the map
 
-**Returns:** `IterableIterator`<[Base](_codec_base_.base.md)>
+**Returns:** `IterableIterator`<`Codec`>
 
 ___
 <a id="with"></a>
@@ -423,14 +418,14 @@ ___
 
 ▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:108](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L108)*
 
 **Type parameters:**
 
 #### S :  `ConstructorDef`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 

@@ -6,39 +6,29 @@
 
 **↳ VoteThreshold**
 
+# Implements
+
+* `Codec`
+
 # Constructors
 
 <a id="constructor"></a>
 
 ##  constructor
 
-⊕ **new VoteThreshold**(index?: * `undefined` &#124; `number`*): [VoteThreshold](_votethreshold_.votethreshold.md)
+⊕ **new VoteThreshold**(index?: * `number` &#124; `Uint8Array`*): [VoteThreshold](_votethreshold_.votethreshold.md)
 
 *Overrides [Enum](_codec_enum_.enum.md).[constructor](_codec_enum_.enum.md#constructor)*
 
-*Defined in [VoteThreshold.ts:8](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/VoteThreshold.ts#L8)*
+*Defined in [VoteThreshold.ts:8](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/VoteThreshold.ts#L8)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| `Optional` index |  `undefined` &#124; `number`|
+| `Optional` index |  `number` &#124; `Uint8Array`|
 
 **Returns:** [VoteThreshold](_votethreshold_.votethreshold.md)
-
-___
-
-# Properties
-
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`number`*
-
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -52,9 +42,7 @@ getencodedLength(): `number`
 
 *Inherited from [Enum](_codec_enum_.enum.md).[encodedLength](_codec_enum_.enum.md#encodedlength)*
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
-
-*Defined in [codec/Enum.ts:41](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L41)*
+*Defined in [codec/Enum.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L42)*
 
 **Returns:** `number`
 
@@ -62,6 +50,19 @@ ___
 
 # Methods
 
+<a id="tohex"></a>
+
+##  toHex
+
+▸ **toHex**(): `string`
+
+*Inherited from [Enum](_codec_enum_.enum.md).[toHex](_codec_enum_.enum.md#tohex)*
+
+*Defined in [codec/Enum.ts:46](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L46)*
+
+**Returns:** `string`
+
+___
 <a id="tojson"></a>
 
 ##  toJSON
@@ -70,9 +71,7 @@ ___
 
 *Inherited from [Enum](_codec_enum_.enum.md).[toJSON](_codec_enum_.enum.md#tojson)*
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
-
-*Defined in [codec/Enum.ts:45](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L45)*
+*Defined in [codec/Enum.ts:50](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L50)*
 
 **Returns:** `any`
 
@@ -85,7 +84,7 @@ ___
 
 *Inherited from [Enum](_codec_enum_.enum.md).[toNumber](_codec_enum_.enum.md#tonumber)*
 
-*Defined in [codec/Enum.ts:53](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L53)*
+*Defined in [codec/Enum.ts:54](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L54)*
 
 **Returns:** `number`
 
@@ -98,9 +97,7 @@ ___
 
 *Inherited from [Enum](_codec_enum_.enum.md).[toString](_codec_enum_.enum.md#tostring)*
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
-
-*Defined in [codec/Enum.ts:57](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L57)*
+*Defined in [codec/Enum.ts:58](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L58)*
 
 **Returns:** `string`
 
@@ -113,13 +110,11 @@ ___
 
 *Inherited from [Enum](_codec_enum_.enum.md).[toU8a](_codec_enum_.enum.md#tou8a)*
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
-
-*Defined in [codec/Enum.ts:49](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L49)*
+*Defined in [codec/Enum.ts:62](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L62)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -130,17 +125,17 @@ ___
 
 ## `<Static>` decodeEnum
 
-▸ **decodeEnum**(value?: * [Enum](_codec_enum_.enum.md) &#124; `number`*): `number`
+▸ **decodeEnum**(value?: * [Enum](_codec_enum_.enum.md) &#124; `Uint8Array` &#124; `number`*): `number`
 
 *Inherited from [Enum](_codec_enum_.enum.md).[decodeEnum](_codec_enum_.enum.md#decodeenum)*
 
-*Defined in [codec/Enum.ts:31](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Enum.ts#L31)*
+*Defined in [codec/Enum.ts:32](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Enum.ts#L32)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Enum](_codec_enum_.enum.md) &#124; `number`| 0 |
+| `Default value` value |  [Enum](_codec_enum_.enum.md) &#124; `Uint8Array` &#124; `number`| 0 |
 
 **Returns:** `number`
 

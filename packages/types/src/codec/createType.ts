@@ -1,18 +1,18 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { assert } from '@polkadot/util';
 
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Text from '../Text';
-import Base from './Base';
-import PairOf from './PairOf';
+import Compact from './Compact';
 import Tuple from './Tuple';
+import UInt from './UInt';
 import Vector from './Vector';
 
 export enum TypeDefInfo {
-  PairOf,
+  Compact,
   Plain,
   Tuple,
   Vector
@@ -52,12 +52,12 @@ export function typeSplit (type: string): Array<string> {
         break;
 
       case '<':
-        // inc vec/pair depth
+        // inc compact/vec depth
         vDepth++;
         break;
 
       case '>':
-        // dec vec/pair depth
+        // dec compact/vec depth
         vDepth--;
         break;
 
@@ -67,7 +67,7 @@ export function typeSplit (type: string): Array<string> {
   }
 
   assert(tDepth === 0, `Invalid Tuple in ${type}`);
-  assert(vDepth === 0, `Invalid Vector in ${type}`);
+  assert(vDepth === 0, `Invalid Compact/Vector in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
@@ -92,6 +92,14 @@ export function getTypeDef (_type: Text | string): TypeDef {
     value.sub = innerTypes.map((inner) =>
       getTypeDef(inner)
     );
+  } else if (type.substr(0, 8) === 'Compact<') {
+    assert(type[type.length - 1] === '>', `Expected Compact wrapped with <>`);
+
+    // strip wrapping Compact<>
+    const subType = type.substr(8, type.length - 8 - 1);
+
+    value.info = TypeDefInfo.Compact;
+    value.sub = getTypeDef(subType);
   } else if (type.substr(0, 4) === 'Vec<') {
     assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
 
@@ -99,14 +107,6 @@ export function getTypeDef (_type: Text | string): TypeDef {
     const subType = type.substr(4, type.length - 4 - 1);
 
     value.info = TypeDefInfo.Vector;
-    value.sub = getTypeDef(subType);
-  } else if (type.substr(0, 7) === 'PairOf<') {
-    assert(type[type.length - 1] === '>', `Expected PairOf wrapped with <>`);
-
-    // strip wrapping PairOf<>
-    const subType = type.substr(7, type.length - 7 - 1);
-
-    value.info = TypeDefInfo.PairOf;
     value.sub = getTypeDef(subType);
   }
 
@@ -127,21 +127,20 @@ export function getTypeClass (value: TypeDef): Constructor {
         return result;
       }, {} as { [index: string]: Constructor })
     );
+  } else if (value.info === TypeDefInfo.Compact) {
+    if (!value.sub || Array.isArray(value.sub)) {
+      throw new Error(`Expected subtype for Compact`);
+    }
+
+    return Compact.with(
+      getTypeClass(value.sub) as Constructor<UInt>
+    );
   } else if (value.info === TypeDefInfo.Vector) {
     if (!value.sub || Array.isArray(value.sub)) {
       throw new Error(`Expected subtype for Vector`);
     }
 
     return Vector.with(
-      getTypeClass(value.sub)
-    );
-  } else if (value.info === TypeDefInfo.PairOf) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for PairOf`);
-    }
-
-    // This is not too cool... because of the static overrides we have a small issue here
-    return PairOf.with<any>(
       getTypeClass(value.sub)
     );
   }
@@ -155,14 +154,12 @@ export function getTypeClass (value: TypeDef): Constructor {
   return Type;
 }
 
-export default function createType (type: Text | string, value?: any): Base {
+export default function createType (type: Text | string, value?: any): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getTypeClass(
     getTypeDef(type)
   );
 
-  return value instanceof Type
-    ? value
-    : new Type(value);
+  return new Type(value);
 }

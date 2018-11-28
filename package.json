@@ -1,8 +1,8 @@
 {
-  "version": "0.31.82",
+  "version": "0.32.9",
   "private": true,
   "engines": {
-    "node": "^10.1.0",
+    "node": "^10.13.0",
     "yarn": "^1.10.1"
   },
   "workspaces": [
@@ -10,21 +10,21 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.1.3"
+    "typescript": "^3.1.6"
   },
   "scripts": {
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
     "build:decodedjson": "node packages/types/src/scripts/MetadataJsonDecodeWrapper.js",
-    "check": "tslint --project . && tsc --noEmit",
+    "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@polkadot/dev": "^0.21.2",
-    "@polkadot/ts": "^0.1.33"
+    "@babel/core": "^7.1.6",
+    "@polkadot/dev": "^0.22.3",
+    "@polkadot/ts": "^0.1.39"
   }
 }

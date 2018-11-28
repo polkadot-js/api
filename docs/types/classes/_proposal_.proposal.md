@@ -27,11 +27,11 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Method.ts:47](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L47)*
+*Defined in [Method.ts:64](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L64)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | value | `any` |
 | `Optional` meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
@@ -51,17 +51,6 @@ ___
 *Inherited from Map.[Symbol.toStringTag]*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
-
-*Inherited from [Struct](_codec_struct_.struct.md).[raw](_codec_struct_.struct.md#raw)*
-
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -86,7 +75,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [codec/Struct.ts:118](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L118)*
 
 **Returns:** `E`
 
@@ -95,13 +84,13 @@ ___
 
 ##  args
 
-getargs(): `Array`<[Base](_codec_base_.base.md)>
+getargs(): `Array`<`Codec`>
 
 *Inherited from [Method](_method_.method.md).[args](_method_.method.md#args)*
 
-*Defined in [Method.ts:169](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L169)*
+*Defined in [Method.ts:186](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L186)*
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+**Returns:** `Array`<`Codec`>
 
 ___
 <a id="argsdef"></a>
@@ -112,7 +101,7 @@ getargsDef(): `ArgsDef`
 
 *Inherited from [Method](_method_.method.md).[argsDef](_method_.method.md#argsdef)*
 
-*Defined in [Method.ts:174](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L174)*
+*Defined in [Method.ts:191](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L191)*
 
 **Returns:** `ArgsDef`
 
@@ -125,7 +114,7 @@ getcallIndex(): `Uint8Array`
 
 *Inherited from [Method](_method_.method.md).[callIndex](_method_.method.md#callindex)*
 
-*Defined in [Method.ts:178](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L178)*
+*Defined in [Method.ts:195](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L195)*
 
 **Returns:** `Uint8Array`
 
@@ -138,7 +127,7 @@ getdata(): `Uint8Array`
 
 *Inherited from [Method](_method_.method.md).[data](_method_.method.md#data)*
 
-*Defined in [Method.ts:182](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L182)*
+*Defined in [Method.ts:199](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L199)*
 
 **Returns:** `Uint8Array`
 
@@ -151,7 +140,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L122)*
 
 **Returns:** `number`
 
@@ -164,7 +153,7 @@ getmeta(): [FunctionMetadata](_metadata_.functionmetadata.md)
 
 *Inherited from [Method](_method_.method.md).[meta](_method_.method.md#meta)*
 
-*Defined in [Method.ts:186](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L186)*
+*Defined in [Method.ts:203](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L203)*
 
 **Returns:** [FunctionMetadata](_metadata_.functionmetadata.md)
 
@@ -176,7 +165,7 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **__@iterator**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.[Symbol.iterator]*
 
@@ -184,7 +173,7 @@ ___
 
 Returns an iterable of entries in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="clear"></a>
@@ -212,7 +201,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -223,7 +212,7 @@ ___
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **entries**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.entries*
 
@@ -231,7 +220,7 @@ ___
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="foreach"></a>
@@ -246,7 +235,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -258,7 +247,7 @@ ___
 
 ##  get
 
-▸ **get**(key: *`keyof S`*):  [Base](_codec_base_.base.md) &#124; `undefined`
+▸ **get**(key: *`keyof S`*):  `Codec` &#124; `undefined`
 
 *Inherited from Map.get*
 
@@ -266,30 +255,30 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
-**Returns:**  [Base](_codec_base_.base.md) &#124; `undefined`
+**Returns:**  `Codec` &#124; `undefined`
 
 ___
 <a id="getatindex"></a>
 
 ##  getAtIndex
 
-▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
+▸ **getAtIndex**(index: *`number`*): `Codec`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:128](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L128)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
-**Returns:** [Base](_codec_base_.base.md)
+**Returns:** `Codec`
 
 ___
 <a id="has"></a>
@@ -304,7 +293,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -330,7 +319,7 @@ ___
 
 ##  set
 
-▸ **set**(key: *`keyof S`*, value: *[Base](_codec_base_.base.md)*): `this`
+▸ **set**(key: *`keyof S`*, value: *`Codec`*): `this`
 
 *Inherited from Map.set*
 
@@ -338,10 +327,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
-| value | [Base](_codec_base_.base.md) |
+| value | `Codec` |
 
 **Returns:** `this`
 
@@ -350,13 +339,13 @@ ___
 
 ##  toArray
 
-▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
+▸ **toArray**(): `Array`<`Codec`>
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [codec/Struct.ts:132](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L132)*
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+**Returns:** `Array`<`Codec`>
 
 ___
 <a id="tohex"></a>
@@ -367,7 +356,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L136)*
 
 **Returns:** `string`
 
@@ -380,7 +369,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L140)*
 
 **Returns:** `any`
 
@@ -393,7 +382,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L151)*
 
 **Returns:** `string`
 
@@ -406,11 +395,11 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Struct.ts:155](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L155)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
 
@@ -421,7 +410,7 @@ ___
 
 ##  values
 
-▸ **values**(): `IterableIterator`<[Base](_codec_base_.base.md)>
+▸ **values**(): `IterableIterator`<`Codec`>
 
 *Inherited from Map.values*
 
@@ -429,7 +418,7 @@ ___
 
 Returns an iterable of values in the map
 
-**Returns:** `IterableIterator`<[Base](_codec_base_.base.md)>
+**Returns:** `IterableIterator`<`Codec`>
 
 ___
 <a id="filterorigin"></a>
@@ -440,11 +429,11 @@ ___
 
 *Inherited from [Method](_method_.method.md).[filterOrigin](_method_.method.md#filterorigin)*
 
-*Defined in [Method.ts:120](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L120)*
+*Defined in [Method.ts:137](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L137)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | `Optional` meta | [FunctionMetadata](_metadata_.functionmetadata.md) |
 
@@ -455,36 +444,36 @@ ___
 
 ## `<Static>` findFunction
 
-▸ **findFunction**(callIndex: *`Uint8Array`*): `ExtrinsicFunction`
+▸ **findFunction**(callIndex: *`Uint8Array`*): [ExtrinsicFunction](../interfaces/_method_.extrinsicfunction.md)
 
 *Inherited from [Method](_method_.method.md).[findFunction](_method_.method.md#findfunction)*
 
-*Defined in [Method.ts:136](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L136)*
+*Defined in [Method.ts:153](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L153)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callIndex | `Uint8Array` |
 
-**Returns:** `ExtrinsicFunction`
+**Returns:** [ExtrinsicFunction](../interfaces/_method_.extrinsicfunction.md)
 
 ___
 <a id="injectextrinsics"></a>
 
 ## `<Static>` injectExtrinsics
 
-▸ **injectExtrinsics**(extrinsics: *`Extrinsics`*): `void`
+▸ **injectExtrinsics**(extrinsics: *[Extrinsics](../interfaces/_method_.extrinsics.md)*): `void`
 
 *Inherited from [Method](_method_.method.md).[injectExtrinsics](_method_.method.md#injectextrinsics)*
 
-*Defined in [Method.ts:161](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/Method.ts#L161)*
+*Defined in [Method.ts:178](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Method.ts#L178)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| extrinsics | `Extrinsics` |
+| extrinsics | [Extrinsics](../interfaces/_method_.extrinsics.md) |
 
 **Returns:** `void`
 
@@ -497,14 +486,14 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/4997d8f/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:108](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/Struct.ts#L108)*
 
 **Type parameters:**
 
 #### S :  `ConstructorDef`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 

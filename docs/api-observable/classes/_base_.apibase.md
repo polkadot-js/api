@@ -14,11 +14,11 @@
 
 ⊕ **new ApiBase**(api: *`RpcRxInterface`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L32)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L33)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | api | `RpcRxInterface` |
 
@@ -34,7 +34,7 @@ ___
 
 **● whenReady**: *`Observable`<`boolean`>*
 
-*Defined in [Base.ts:32](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L32)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L33)*
 
 ___
 <a id="extrinsics"></a>
@@ -43,7 +43,7 @@ ___
 
 **● extrinsics**: *`Extrinsics`* =  extrinsicsStatic
 
-*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L40)*
+*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L41)*
 
 ___
 <a id="storage"></a>
@@ -52,7 +52,7 @@ ___
 
 **● storage**: *`Storage`* =  storageStatic
 
-*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L41)*
+*Defined in [Base.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L42)*
 
 ___
 
@@ -64,7 +64,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L86)*
+*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L87)*
 
 **Returns:** `Hash`
 
@@ -78,7 +78,7 @@ ___
 
 ▸ **isConnected**(): `Observable`<`boolean`>
 
-*Defined in [Base.ts:90](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L90)*
+*Defined in [Base.ts:91](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L91)*
 
 **Returns:** `Observable`<`boolean`>
 
@@ -89,14 +89,14 @@ ___
 
 ▸ **rawCall**<`T`>(__namedParameters: *`object`*, ...params: *`Array`<`any`>*): `Observable`<`T`>
 
-*Defined in [Base.ts:94](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L94)*
+*Defined in [Base.ts:95](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L95)*
 
 **Type parameters:**
 
 #### T 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | __namedParameters | `object` |
 | `Rest` params | `Array`<`any`> |
@@ -108,18 +108,18 @@ ___
 
 ##  rawStorage
 
-▸ **rawStorage**<`T`>(key: *`StorageFunction`*, ...params: *`Array`<`any`>*): `Observable`< `T` &#124; `undefined`>
+▸ **rawStorage**<`T`>(key: * `Uint8Array` &#124; `StorageFunction`*, ...params: *`Array`<`any`>*): `Observable`< `T` &#124; `undefined`>
 
-*Defined in [Base.ts:107](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L107)*
+*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L108)*
 
 **Type parameters:**
 
 #### T 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| key | `StorageFunction` |
+| key |  `Uint8Array` &#124; `StorageFunction`|
 | `Rest` params | `Array`<`any`> |
 
 **Returns:** `Observable`< `T` &#124; `undefined`>
@@ -129,18 +129,18 @@ ___
 
 ##  rawStorageMulti
 
-▸ **rawStorageMulti**<`T`>(...keys: *`Array`< [`StorageFunction`] &#124; [`StorageFunction`, `any`]>*): `Observable`<`T`>
+▸ **rawStorageMulti**<`T`>(...keys: *`Array`< `Uint8Array` &#124; [`StorageFunction`] &#124; [`StorageFunction`, `any`]>*): `Observable`<`T`>
 
-*Defined in [Base.ts:120](https://github.com/polkadot-js/api/blob/4997d8f/packages/api-observable/src/Base.ts#L120)*
+*Defined in [Base.ts:123](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api-observable/src/Base.ts#L123)*
 
 **Type parameters:**
 
 #### T :  `[]`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| `Rest` keys | `Array`< [`StorageFunction`] &#124; [`StorageFunction`, `any`]> |
+| `Rest` keys | `Array`< `Uint8Array` &#124; [`StorageFunction`] &#124; [`StorageFunction`, `any`]> |
 
 **Returns:** `Observable`<`T`>
 

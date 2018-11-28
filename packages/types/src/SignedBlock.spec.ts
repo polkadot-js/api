@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import extrinsics from '@polkadot/extrinsics/static';
 
@@ -25,18 +25,12 @@ describe('SignedBlock', () => {
     ).toEqual('0xbfe02f7c26e5dad1226eccb1f4ef5306312602f7e1edbb9be50e8b87d9c7840b');
   });
 
-  it('has the justification', () => {
-    expect(
-      block.justification.hash.toHex()
-    ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
-  });
-
   it('decodes a block with logs', () => {
     const s = new SignedBlock(events.result);
 
     expect(s.block.header.digest.logs.length).toBe(1);
-    expect(s.block.header.digest.logs.get(0).type).toBe('AuthoritiesChange');
-    expect(s.block.header.digest.logs.get(0).value.toJSON()).toEqual([
+    expect(s.block.header.digest.logs[0].type).toBe('AuthoritiesChange');
+    expect(s.block.header.digest.logs[0].value.toJSON()).toEqual([
       '5EyrU8k6worwXWfW2LajRvS7XF6eta286tMpHeHUwMPpzQ9F',
       '5Dpq7rU6KAZVdRtcegvpCoeJtZzFPzieRkRz4xajRAiMRkCf',
       '5CCtQPAYtuDXt6H4WMrn5nFNk4gemkVRD3k1r1mA7YiZLPBq',
@@ -55,14 +49,14 @@ describe('SignedBlock', () => {
     });
 
     it('has the correct data for the first', () => {
-      const x = extrinsics.get(0);
+      const x = extrinsics[0];
 
       expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
       expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([70, 41, 195, 91, 0, 0, 0, 0]));
     });
 
     it('has the correct data for the second', () => {
-      const x = extrinsics.get(1);
+      const x = extrinsics[1];
 
       expect(x.callIndex).toEqual(new Uint8Array([1, 0]));
       expect(x.method.args[0].toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
