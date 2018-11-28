@@ -2,9 +2,6 @@ const { switchMap } = require('rxjs/operators');
 
 // Import the API Rx
 const { ApiRx } = require('@polkadot/api');
-const { WsProvider } = require('@polkadot/rpc-provider');
-
-const wsProvider = new WsProvider('ws://127.0.0.1:9944');
 
 // Known account we want to use (available on dev chain, with funds)
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
@@ -16,7 +13,7 @@ function main () {
   // We avoid having nested `.subscribe` blocks. Use `.subscribe` or
   // `.tap` blocks for debugging with console.log
   ApiRx
-    .create(wsProvider)
+    .create()
     .pipe(
       // Here we subscribe to any balance changes and update the on-screen value.
       // Use the Storage chain state (runtime) Node Interface.
