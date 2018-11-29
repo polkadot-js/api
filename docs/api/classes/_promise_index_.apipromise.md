@@ -87,14 +87,14 @@ ApiPromise.create().then((api) => {
 
 # Hierarchy
 
- [ApiBase](_base_.apibase.md)<`Rpc`, `QueryableStorage`, `SubmittableExtrinsics`>
+ [ApiBase](_base_.apibase.md)<`Rpc`, [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
 
 **↳ ApiPromise**
 
 # Implements
 
-* `ApiBaseInterface`<`Rpc`, `QueryableStorage`, `SubmittableExtrinsics`>
-* `ApiPromiseInterface`
+* [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)<`Rpc`, [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
+* [ApiPromiseInterface](../interfaces/_promise_types_.apipromiseinterface.md)
 
 # Constructors
 
@@ -106,7 +106,7 @@ ApiPromise.create().then((api) => {
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:128](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/promise/index.ts#L128)*
+*Defined in [promise/index.ts:128](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/promise/index.ts#L128)*
 
 *__description__*: Creates an instance of the ApiPromise class
 
@@ -142,7 +142,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:70](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L70)*
+*Defined in [Base.ts:70](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L70)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -155,7 +155,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:161](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/promise/index.ts#L161)*
+*Defined in [promise/index.ts:161](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/promise/index.ts#L161)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -166,11 +166,11 @@ ___
 
 ##  query
 
-getquery(): `QueryableStorage`
+getquery(): [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md)
 
 *Inherited from [ApiBase](_base_.apibase.md).[query](_base_.apibase.md#query)*
 
-*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L108)*
+*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L108)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -184,7 +184,7 @@ api.query.balances.freeBalance(<accountId>, (balance) => {
 });
 ```
 
-**Returns:** `QueryableStorage`
+**Returns:** [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md)
 
 ___
 <a id="rpc"></a>
@@ -195,7 +195,7 @@ getrpc(): `Rpc`
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L128)*
+*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L128)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -220,7 +220,7 @@ getruntimeMetadata(): `RuntimeMetadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:79](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L79)*
+*Defined in [Base.ts:79](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L79)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -235,7 +235,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:88](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L88)*
+*Defined in [Base.ts:88](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L88)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -246,11 +246,11 @@ ___
 
 ##  tx
 
-gettx(): `SubmittableExtrinsics`
+gettx(): [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:147](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L147)*
+*Defined in [Base.ts:147](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L147)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -265,7 +265,7 @@ api.tx.balances
   });
 ```
 
-**Returns:** `SubmittableExtrinsics`
+**Returns:** [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)
 
 ___
 
@@ -277,7 +277,7 @@ ___
 
 ▸ **combineLatest**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/index.ts:189](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/promise/index.ts#L189)*
+*Defined in [promise/index.ts:189](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/promise/index.ts#L189)*
 
 *__description__*: Creates a combinator that can be used to combine the latest results from multiple subscriptions
 
@@ -310,11 +310,11 @@ ___
 
 ##  on
 
-▸ **on**(type: *`ApiInterface$Events`*, handler: *`function`*): `void`
+▸ **on**(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `void`
 
 *Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in [Base.ts:172](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/Base.ts#L172)*
+*Defined in [Base.ts:172](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/Base.ts#L172)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -334,7 +334,7 @@ api.on('disconnected', () => {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| type | `ApiInterface$Events` |  The type of event to listen to. Available events are \`connected\`, \`disconnected\` and \`ready\` |
+| type | [ApiInterface$Events](../modules/_types_.md#apiinterface_events) |  The type of event to listen to. Available events are \`connected\`, \`disconnected\` and \`ready\` |
 | handler | `function` |  The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments. |
 
 **Returns:** `void`
@@ -346,7 +346,7 @@ ___
 
 ▸ **create**(wsProvider?: *`WsProvider`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:126](https://github.com/polkadot-js/api/blob/ecdd53e/packages/api/src/promise/index.ts#L126)*
+*Defined in [promise/index.ts:126](https://github.com/polkadot-js/api/blob/0e6d138/packages/api/src/promise/index.ts#L126)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 

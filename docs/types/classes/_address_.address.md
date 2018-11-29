@@ -16,7 +16,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:22](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L22)*
+*Defined in [Address.ts:22](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L22)*
 
 **Parameters:**
 
@@ -36,7 +36,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L67)*
+*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L67)*
 
 **Returns:** `number`
 
@@ -47,7 +47,7 @@ ___
 
 getrawLength(): `number`
 
-*Defined in [Address.ts:61](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L61)*
+*Defined in [Address.ts:61](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L61)*
 
 **Returns:** `number`
 
@@ -61,7 +61,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Address.ts:78](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L78)*
+*Defined in [Address.ts:78](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L78)*
 
 **Returns:** `string`
 
@@ -72,7 +72,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Address.ts:82](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L82)*
+*Defined in [Address.ts:82](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L82)*
 
 **Returns:** `any`
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Address.ts:86](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L86)*
+*Defined in [Address.ts:86](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L86)*
 
 **Returns:** `string`
 
@@ -94,7 +94,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L90)*
+*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L90)*
 
 **Parameters:**
 
@@ -111,7 +111,7 @@ ___
 
 ▸ **decodeAddress**(value: *`AnyAddress`*):  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
 
-*Defined in [Address.ts:29](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Address.ts#L29)*
+*Defined in [Address.ts:29](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L29)*
 
 **Parameters:**
 

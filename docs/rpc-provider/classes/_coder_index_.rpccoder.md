@@ -10,15 +10,15 @@
 
 ##  decodeResponse
 
-▸ **decodeResponse**(response: *`JsonRpcResponse`*): `any`
+▸ **decodeResponse**(response: *[JsonRpcResponse](../modules/_types_.md#jsonrpcresponse)*): `any`
 
-*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L12)*
+*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/0e6d138/packages/rpc-provider/src/coder/index.ts#L12)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| response | `JsonRpcResponse` |
+| response | [JsonRpcResponse](../modules/_types_.md#jsonrpcresponse) |
 
 **Returns:** `any`
 
@@ -29,7 +29,7 @@ ___
 
 ▸ **encodeJson**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): `string`
 
-*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L33)*
+*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/0e6d138/packages/rpc-provider/src/coder/index.ts#L33)*
 
 **Parameters:**
 
@@ -45,9 +45,9 @@ ___
 
 ##  encodeObject
 
-▸ **encodeObject**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): `JsonRpcRequest`
+▸ **encodeObject**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
 
-*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L39)*
+*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/0e6d138/packages/rpc-provider/src/coder/index.ts#L39)*
 
 **Parameters:**
 
@@ -56,7 +56,7 @@ ___
 | method | `string` |
 | params |  `any` &#124; `Array`<`any`>|
 
-**Returns:** `JsonRpcRequest`
+**Returns:** [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
 
 ___
 <a id="getid"></a>
@@ -65,7 +65,7 @@ ___
 
 ▸ **getId**(): `number`
 
-*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/ecdd53e/packages/rpc-provider/src/coder/index.ts#L48)*
+*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/0e6d138/packages/rpc-provider/src/coder/index.ts#L48)*
 
 **Returns:** `number`
 

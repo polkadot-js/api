@@ -1,7 +1,7 @@
 {
   "name": "04_read_storage",
   "version": "0.2.0",
-  "description": "Example showing how to transfer DOTs using ApiPromise",
+  "description": "Example showing how to query storage",
   "main": "index.js",
   "author": "chevdor",
   "license": "MIT",
@@ -10,9 +10,9 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.31.82"
+    "@polkadot/api": "^0.32.12"
   },
   "devDependencies": {
-    "rimraf": "2.6.2"
+    "rimraf": "^2.6.2"
   }
 }

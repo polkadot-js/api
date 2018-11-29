@@ -8,7 +8,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -18,7 +18,7 @@
 
 ⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L9)*
+*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L9)*
 
 **Parameters:**
 
@@ -50,7 +50,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L26)*
+*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L26)*
 
 **Returns:** `number`
 
@@ -64,7 +64,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L34)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L34)*
 
 **Returns:** `string`
 
@@ -75,7 +77,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L30)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
+*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L30)*
 
 **Returns:** `any`
 
@@ -86,7 +90,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L42)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L42)*
 
 **Returns:** `string`
 
@@ -97,7 +103,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Bool.ts#L38)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Bool.ts#L38)*
 
 **Parameters:**
 

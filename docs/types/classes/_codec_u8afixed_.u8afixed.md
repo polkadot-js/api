@@ -14,7 +14,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Indexable
 
@@ -25,17 +25,17 @@
 
 ##  constructor
 
-⊕ **new U8aFixed**(value?: *`AnyU8a`*, bitLength?: *`BitLength`*): [U8aFixed](_codec_u8afixed_.u8afixed.md)
+⊕ **new U8aFixed**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*, bitLength?: *`BitLength`*): [U8aFixed](_codec_u8afixed_.u8afixed.md)
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [codec/U8aFixed.ts:15](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8aFixed.ts#L15)*
+*Defined in [codec/U8aFixed.ts:15](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8aFixed.ts#L15)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | `AnyU8a` |  new Uint8Array() |
+| `Default value` value | [AnyU8a](../modules/_types_.md#anyu8a) |  new Uint8Array() |
 | `Default value` bitLength | `BitLength` | 256 |
 
 **Returns:** [U8aFixed](_codec_u8afixed_.u8afixed.md)
@@ -131,7 +131,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:28](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L28)*
+*Defined in [codec/U8a.ts:28](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L28)*
 
 **Returns:** `number`
 
@@ -158,7 +158,7 @@ ___
 
 ▸ **bitLength**(): `number`
 
-*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8aFixed.ts#L32)*
+*Defined in [codec/U8aFixed.ts:32](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8aFixed.ts#L32)*
 
 **Returns:** `number`
 
@@ -682,7 +682,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:34](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L34)*
+*Defined in [codec/U8a.ts:34](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L34)*
 
 **Parameters:**
 
@@ -700,9 +700,11 @@ ___
 
 ▸ **toHex**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:38](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L38)*
+*Defined in [codec/U8a.ts:38](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L38)*
 
 **Returns:** `string`
 
@@ -713,9 +715,11 @@ ___
 
 ▸ **toJSON**(): `any`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:42](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L42)*
+*Defined in [codec/U8a.ts:42](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L42)*
 
 **Returns:** `any`
 
@@ -741,11 +745,13 @@ ___
 
 ▸ **toString**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:50](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L50)*
+*Defined in [codec/U8a.ts:50](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L50)*
 
 **Returns:** `string`
 
@@ -756,9 +762,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:46](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/codec/U8a.ts#L46)*
+*Defined in [codec/U8a.ts:46](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/codec/U8a.ts#L46)*
 
 **Parameters:**
 
