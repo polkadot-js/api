@@ -20,7 +20,7 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_null_.null.md).[encodedLength](_null_.null.md#encodedlength)*
 
-*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Null.ts#L9)*
+*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L9)*
 
 **Returns:** `number`
 
@@ -36,7 +36,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toHex](_null_.null.md#tohex)*
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L13)*
 
 **Returns:** `string`
 
@@ -49,7 +49,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toJSON](_null_.null.md#tojson)*
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L17)*
 
 **Returns:** `any`
 
@@ -62,7 +62,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toString](_null_.null.md#tostring)*
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Null.ts#L25)*
+*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L25)*
 
 **Returns:** `string`
 
@@ -75,7 +75,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toU8a](_null_.null.md#tou8a)*
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/ecdd53e/packages/types/src/Null.ts#L21)*
+*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L21)*
 
 **Parameters:**
 
