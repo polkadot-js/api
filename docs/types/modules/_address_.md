@@ -20,7 +20,7 @@
 
 **● ACCOUNT_ID_PREFIX**: *`Uint8Array`* =  new Uint8Array([0xff])
 
-*Defined in [Address.ts:15](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Address.ts#L15)*
+*Defined in [Address.ts:15](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Address.ts#L15)*
 
 ___
 
