@@ -1,3 +1,5 @@
+const BN = require('bn.js');
+
 const { switchMap } = require('rxjs/operators');
 
 // Import the API Rx
@@ -17,7 +19,11 @@ function main () {
     .pipe(
       // Here we subscribe to any balance changes and update the on-screen value.
       // Use the Storage chain state (runtime) Node Interface.
-      switchMap((api) => api.query.balances.freeBalance(Alice))
+      switchMap((api) => {
+        return api.query.balances.freeBalance(Alice, (previous) => {
+          return new BN(previous);
+        });
+      })
     )
     .subscribe((current) => {
       console.log(`Alice's account ${Alice} had a previous balance of: ${previous || '???'}`);
@@ -25,7 +31,7 @@ function main () {
                   `or transfer any value to Alice at ${Alice}`);
 
       // Calculate the delta
-      const change = current.sub(previous);
+      const change = current.sub(new BN(previous));
 
       // Only display positive value changes (Since we are pulling `previous` above
       // already, the initial balance change will also be zero)
