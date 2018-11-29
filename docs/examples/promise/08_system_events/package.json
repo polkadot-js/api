@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Example showing how to query and parse events",
   "main": "index.js",
-  "author": "Jaco Greef <jacogr@gmail.com>",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",
