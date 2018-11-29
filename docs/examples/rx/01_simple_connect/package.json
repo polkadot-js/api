@@ -11,8 +11,8 @@
   },
 
   "dependencies": {
-    "@polkadot/api": "^0.31.82",
-    "@polkadot/rpc-provider": "^0.31.82",
+    "@polkadot/api": "^0.32.15",
+    "@polkadot/rpc-provider": "^0.32.15",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
