@@ -112,10 +112,10 @@ export default class Struct<
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
 
-        (Object.keys(Types) as Array<keyof S>).forEach((key, index) => {
+        (Object.keys(Types) as Array<keyof S>).forEach((key) => {
           Object.defineProperty(this, key, {
             enumerable: true,
-            get: () => this.getAtIndex(index)
+            get: () => this.get(key)
           });
         });
       }
