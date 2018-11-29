@@ -15,13 +15,13 @@ export type AnyU8a = Uint8Array | Array<number> | string;
 
 export interface Codec {
   encodedLength: number;
-  toHex(): string
-  toJSON(): any;
-  toString(): string;
-  toU8a(isBare?: boolean): Uint8Array;
+  toHex (): string;
+  toJSON (): any;
+  toString (): string;
+  toU8a (isBare?: boolean): Uint8Array;
 }
 
-export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a'
+export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export type CodecTypes = keyof typeof Classes;
 

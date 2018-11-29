@@ -7,10 +7,7 @@ import { ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { ApiBaseInterface } from '../types';
 
-import { Observable } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
-import { Hash, RuntimeVersion } from '@polkadot/types/index';
-import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 

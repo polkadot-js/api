@@ -4,7 +4,6 @@
 
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
-import BN from 'bn.js';
 import * as substrate from './substrate';
 
 type Substrate = keyof typeof substrate;
