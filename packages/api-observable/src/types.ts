@@ -2,9 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
-import { AccountId, Balance, BlockNumber, bool as Bool, Header, PropIndex, Proposal, ReferendumIndex, u32, VoteThreshold } from '@polkadot/types/index';
-import { Tuple } from '@polkadot/types/codec';
+import { AccountId, Balance, bool as Bool } from '@polkadot/types/index';
 
 import ApiBase from './Base';
 import ApiCalls from './Calls';
@@ -21,14 +19,14 @@ export type RxBalance = {
   votingBalance: Balance,
   stakingBalance: Balance,
   nominators?: Array<RxBalance>
-}
+};
 
 export type RxFees = {
   baseFee: Balance,
   byteFee: Balance,
   creationFee: Balance,
   existentialDeposit: Balance,
-  transferFee: Balance,
+  transferFee: Balance
 };
 
 export type RxReferendumVote = {
@@ -39,4 +37,4 @@ export type RxReferendumVote = {
 
 export type RxBalanceMap = {
   [index: string]: RxBalance
-}
+};

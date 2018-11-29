@@ -9,8 +9,6 @@ import { ApiBaseInterface } from '../types';
 
 import { Observable } from 'rxjs';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { Hash, RuntimeVersion } from '@polkadot/types/index';
-import RuntimeMetadata, { FunctionMetadata } from '@polkadot/types/Metadata';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 

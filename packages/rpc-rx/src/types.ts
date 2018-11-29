@@ -20,4 +20,4 @@ export type RpcRxInterface = {
 
   isConnected: () => Observable<boolean>
   on: (type: RpcRxInterface$Events, handler: (...args: Array<any>) => any) => void;
-}
+};

@@ -2,9 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import EventEmitter from 'eventemitter3';
-import { Logger } from '@polkadot/util/types';
-
 export type MockState$Subscription$Callback = (error: Error | null, value: any) => void;
 
 export type MockState$Subscriptions = {
