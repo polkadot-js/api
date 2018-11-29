@@ -1,9 +1,9 @@
 {
-  "name": "03_listen_to_balance_change",
-  "version": "0.2.0",
-  "description": "Example showing how to subscribe to balance change",
+  "name": "08_system_events",
+  "version": "0.1.0",
+  "description": "Example showing how to query and parse events",
   "main": "index.js",
-  "author": "chevdor",
+  "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",

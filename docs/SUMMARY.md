@@ -22,3 +22,4 @@
   - [Listen to balance change](examples/promise/03_listen_to_balance_change/README.md)
   - [Read chain state](examples/promise/05_read_storage/README.md)
   - [Make a transfer](examples/promise/07_transfer_dots/README.md)
+  - [Display system events](examples/promise/08_system_events/README.md)
