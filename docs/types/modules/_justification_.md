@@ -21,7 +21,7 @@
 
 **Ƭ RhdJustificationValue**: *`object`*
 
-*Defined in [Justification.ts:14](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/Justification.ts#L14)*
+*Defined in [Justification.ts:14](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Justification.ts#L14)*
 
 #### Type declaration
 

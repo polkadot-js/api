@@ -22,7 +22,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L15)*
+*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L15)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L57)*
+*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L57)*
 
 **Returns:** `number`
 
@@ -54,7 +54,7 @@ ___
 
 getisNone(): `boolean`
 
-*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L45)*
+*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L45)*
 
 **Returns:** `boolean`
 
@@ -65,7 +65,7 @@ ___
 
 getisSome(): `boolean`
 
-*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L49)*
+*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L49)*
 
 **Returns:** `boolean`
 
@@ -76,7 +76,7 @@ ___
 
 getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L53)*
+*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L53)*
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)
 
@@ -92,7 +92,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L61)*
+*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L61)*
 
 **Returns:** `string`
 
@@ -105,7 +105,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L65)*
+*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L65)*
 
 **Returns:** `any`
 
@@ -118,7 +118,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L84)*
+*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L84)*
 
 **Returns:** `string`
 
@@ -131,7 +131,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L69)*
+*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L69)*
 
 **Parameters:**
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **unwrap**(): `T`
 
-*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L88)*
+*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L88)*
 
 **Returns:** `T`
 
@@ -159,7 +159,7 @@ ___
 
 ▸ **decodeOption**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L22)*
+*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L22)*
 
 **Type parameters:**
 
@@ -180,7 +180,7 @@ ___
 
 ▸ **with**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*): [Constructor](../modules/_types_.md#constructor)<[Option](_codec_option_.option.md)<`O`>>
 
-*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/93d83b1/packages/types/src/codec/Option.ts#L37)*
+*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/codec/Option.ts#L37)*
 
 **Type parameters:**
 
