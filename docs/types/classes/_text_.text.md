@@ -10,7 +10,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Indexable
 
@@ -21,15 +21,15 @@
 
 ##  constructor
 
-⊕ **new Text**(value?: * [Text](_text_.text.md) &#124; `string` &#124; `AnyU8a` &#124; `object`*): [Text](_text_.text.md)
+⊕ **new Text**(value?: * [Text](_text_.text.md) &#124; `string` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `object`*): [Text](_text_.text.md)
 
-*Defined in [Text.ts:18](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Text.ts#L18)*
+*Defined in [Text.ts:18](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Text.ts#L18)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Text](_text_.text.md) &#124; `string` &#124; `AnyU8a` &#124; `object`| &quot;&quot; |
+| `Default value` value |  [Text](_text_.text.md) &#124; `string` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `object`| &quot;&quot; |
 
 **Returns:** [Text](_text_.text.md)
 
@@ -70,7 +70,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Text.ts:39](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Text.ts#L39)*
+*Defined in [Text.ts:39](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Text.ts#L39)*
 
 **Returns:** `number`
 
@@ -832,7 +832,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Text.ts#L43)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Text.ts#L43)*
 
 **Returns:** `string`
 
@@ -843,7 +845,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Text.ts#L47)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
+*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Text.ts#L47)*
 
 **Returns:** `any`
 
@@ -899,6 +903,8 @@ ___
 
 ▸ **toString**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
 *Inherited from String.toString*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:326*
@@ -914,7 +920,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Text.ts:51](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Text.ts#L51)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [Text.ts:51](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Text.ts#L51)*
 
 **Parameters:**
 

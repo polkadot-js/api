@@ -4,7 +4,7 @@
 #### T 
 # Hierarchy
 
- [Base](_codec_base_.base.md)<`Codec`>
+ [Base](_codec_base_.base.md)<[Codec](../interfaces/_types_.codec.md)>
 
 **↳ EnumType**
 
@@ -18,7 +18,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -30,7 +30,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/EnumType.ts:25](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L25)*
+*Defined in [codec/EnumType.ts:25](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L25)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/EnumType.ts:93](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L93)*
+*Defined in [codec/EnumType.ts:93](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L93)*
 
 **Returns:** `number`
 
@@ -63,7 +63,7 @@ ___
 
 getisNull(): `boolean`
 
-*Defined in [codec/EnumType.ts:81](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L81)*
+*Defined in [codec/EnumType.ts:81](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L81)*
 
 **Returns:** `boolean`
 
@@ -74,7 +74,7 @@ ___
 
 gettype(): `string`
 
-*Defined in [codec/EnumType.ts:85](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L85)*
+*Defined in [codec/EnumType.ts:85](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L85)*
 
 **Returns:** `string`
 
@@ -83,11 +83,11 @@ ___
 
 ##  value
 
-getvalue(): `Codec`
+getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/EnumType.ts:89](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L89)*
+*Defined in [codec/EnumType.ts:89](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L89)*
 
-**Returns:** `Codec`
+**Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
 
@@ -99,7 +99,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/EnumType.ts:97](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L97)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [codec/EnumType.ts:97](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L97)*
 
 **Returns:** `string`
 
@@ -110,7 +112,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L101)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
+*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L101)*
 
 **Returns:** `any`
 
@@ -121,7 +125,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/EnumType.ts:105](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L105)*
+*Defined in [codec/EnumType.ts:105](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L105)*
 
 **Returns:** `number`
 
@@ -132,7 +136,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [codec/EnumType.ts:109](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L109)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
+*Defined in [codec/EnumType.ts:109](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L109)*
 
 **Returns:** `string`
 
@@ -143,7 +149,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/EnumType.ts:113](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L113)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [codec/EnumType.ts:113](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L113)*
 
 **Parameters:**
 
@@ -160,7 +168,7 @@ ___
 
 ▸ **decodeEnumType**<`T`>(def: *`TypesDef`*, value?: *`any`*, index?: * `number` &#124; [EnumType](_codec_enumtype_.enumtype.md)<`T`>*): `object`
 
-*Defined in [codec/EnumType.ts:44](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/EnumType.ts#L44)*
+*Defined in [codec/EnumType.ts:44](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/EnumType.ts#L44)*
 
 **Type parameters:**
 

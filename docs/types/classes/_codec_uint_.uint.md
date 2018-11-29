@@ -20,7 +20,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -28,17 +28,17 @@
 
 ##  constructor
 
-⊕ **new UInt**(value?: *`AnyNumber`*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
+⊕ **new UInt**(value?: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
 
 *Overrides BN.__constructor*
 
-*Defined in [codec/UInt.ts:22](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L22)*
+*Defined in [codec/UInt.ts:22](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L22)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | `AnyNumber` | 0 |
+| `Default value` value | [AnyNumber](../modules/_types_.md#anynumber) | 0 |
 | `Default value` bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |  DEFAULT_UINT_BITS |
 | `Default value` isHexJson | `boolean` | true |
 
@@ -54,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/UInt.ts:53](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L53)*
+*Defined in [codec/UInt.ts:53](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L53)*
 
 **Returns:** `number`
 
@@ -190,7 +190,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:49](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L49)*
+*Defined in [codec/UInt.ts:49](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L49)*
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -1521,7 +1521,7 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L71)*
+*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L71)*
 
 **Returns:** `BN`
 
@@ -1554,7 +1554,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L57)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L57)*
 
 **Returns:** `string`
 
@@ -1565,9 +1567,11 @@ ___
 
 ▸ **toJSON**(): `any`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L61)*
+*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L61)*
 
 **Returns:** `any`
 
@@ -1657,7 +1661,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L67)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L67)*
 
 **Parameters:**
 
@@ -1855,15 +1861,15 @@ ___
 
 ## `<Static>` decodeUInt
 
-▸ **decodeUInt**(value: *`AnyNumber`*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
+▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
 
-*Defined in [codec/UInt.ts:33](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L33)*
+*Defined in [codec/UInt.ts:33](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L33)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| value | `AnyNumber` |
+| value | [AnyNumber](../modules/_types_.md#anynumber) |
 | bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |
 
 **Returns:** `string`

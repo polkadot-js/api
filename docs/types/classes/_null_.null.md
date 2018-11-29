@@ -8,7 +8,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Accessors
 
@@ -18,7 +18,7 @@
 
 getencodedLength(): `number`
 
-*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L9)*
+*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Null.ts#L9)*
 
 **Returns:** `number`
 
@@ -32,7 +32,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L13)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Null.ts#L13)*
 
 **Returns:** `string`
 
@@ -43,7 +45,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L17)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Null.ts#L17)*
 
 **Returns:** `any`
 
@@ -54,7 +58,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L25)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
+*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Null.ts#L25)*
 
 **Returns:** `string`
 
@@ -65,7 +71,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/Null.ts#L21)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/Null.ts#L21)*
 
 **Parameters:**
 

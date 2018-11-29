@@ -1,7 +1,7 @@
 
 
 # Type parameters
-#### T :  `Codec`
+#### T :  [Codec](../interfaces/_types_.codec.md)
 # Hierarchy
 
  [Base](_codec_base_.base.md)<`T`>
@@ -10,7 +10,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -18,17 +18,17 @@
 
 ##  constructor
 
-⊕ **new Option**(Type: *`Constructor`*, value?: *`any`*): [Option](_codec_option_.option.md)
+⊕ **new Option**(Type: *[Constructor](../modules/_types_.md#constructor)*, value?: *`any`*): [Option](_codec_option_.option.md)
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L15)*
+*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L15)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| Type | `Constructor` |
+| Type | [Constructor](../modules/_types_.md#constructor) |
 | `Optional` value | `any` |
 
 **Returns:** [Option](_codec_option_.option.md)
@@ -43,7 +43,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L57)*
+*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L57)*
 
 **Returns:** `number`
 
@@ -54,7 +54,7 @@ ___
 
 getisNone(): `boolean`
 
-*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L45)*
+*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L45)*
 
 **Returns:** `boolean`
 
@@ -65,7 +65,7 @@ ___
 
 getisSome(): `boolean`
 
-*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L49)*
+*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L49)*
 
 **Returns:** `boolean`
 
@@ -74,11 +74,11 @@ ___
 
 ##  value
 
-getvalue(): `Codec`
+getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L53)*
+*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L53)*
 
-**Returns:** `Codec`
+**Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
 
@@ -90,7 +90,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L61)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L61)*
 
 **Returns:** `string`
 
@@ -101,7 +103,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L65)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
+*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L65)*
 
 **Returns:** `any`
 
@@ -112,7 +116,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L84)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
+*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L84)*
 
 **Returns:** `string`
 
@@ -123,7 +129,9 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L69)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
+*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L69)*
 
 **Parameters:**
 
@@ -140,7 +148,7 @@ ___
 
 ▸ **unwrap**(): `T`
 
-*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L88)*
+*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L88)*
 
 **Returns:** `T`
 
@@ -149,9 +157,9 @@ ___
 
 ## `<Static>` decodeOption
 
-▸ **decodeOption**<`O`>(Type: *`Constructor`*, value?: *`any`*): `Codec`
+▸ **decodeOption**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L22)*
+*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L22)*
 
 **Type parameters:**
 
@@ -160,30 +168,30 @@ ___
 
 | Name | Type |
 | ------ | ------ |
-| Type | `Constructor` |
+| Type | [Constructor](../modules/_types_.md#constructor) |
 | `Optional` value | `any` |
 
-**Returns:** `Codec`
+**Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
 <a id="with"></a>
 
 ## `<Static>` with
 
-▸ **with**<`O`>(Type: *`Constructor`*): `Constructor`<[Option](_codec_option_.option.md)<`O`>>
+▸ **with**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*): [Constructor](../modules/_types_.md#constructor)<[Option](_codec_option_.option.md)<`O`>>
 
-*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/Option.ts#L37)*
+*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/Option.ts#L37)*
 
 **Type parameters:**
 
-#### O :  `Codec`
+#### O :  [Codec](../interfaces/_types_.codec.md)
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| Type | `Constructor` |
+| Type | [Constructor](../modules/_types_.md#constructor) |
 
-**Returns:** `Constructor`<[Option](_codec_option_.option.md)<`O`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Option](_codec_option_.option.md)<`O`>>
 
 ___
 

@@ -8,7 +8,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -16,19 +16,19 @@
 
 ##  constructor
 
-⊕ **new Gas**(value?: *`AnyNumber`*): [Gas](_gas_.gas.md)
+⊕ **new Gas**(value?: *[AnyNumber](../modules/_types_.md#anynumber)*): [Gas](_gas_.gas.md)
 
 *Inherited from [U64](_u64_.u64.md).[constructor](_u64_.u64.md#constructor)*
 
 *Overrides [UInt](_codec_uint_.uint.md).[constructor](_codec_uint_.uint.md#constructor)*
 
-*Defined in [U64.ts:9](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/U64.ts#L9)*
+*Defined in [U64.ts:9](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/U64.ts#L9)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Optional` value | `AnyNumber` |
+| `Optional` value | [AnyNumber](../modules/_types_.md#anynumber) |
 
 **Returns:** [Gas](_gas_.gas.md)
 
@@ -44,7 +44,7 @@ getencodedLength(): `number`
 
 *Inherited from [UInt](_codec_uint_.uint.md).[encodedLength](_codec_uint_.uint.md#encodedlength)*
 
-*Defined in [codec/UInt.ts:53](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L53)*
+*Defined in [codec/UInt.ts:53](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L53)*
 
 **Returns:** `number`
 
@@ -182,7 +182,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:49](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L49)*
+*Defined in [codec/UInt.ts:49](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L49)*
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -1515,7 +1515,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toBn](_codec_uint_.uint.md#tobn)*
 
-*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L71)*
+*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L71)*
 
 **Returns:** `BN`
 
@@ -1548,9 +1548,11 @@ ___
 
 ▸ **toHex**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
 *Inherited from [UInt](_codec_uint_.uint.md).[toHex](_codec_uint_.uint.md#tohex)*
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L57)*
+*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L57)*
 
 **Returns:** `string`
 
@@ -1561,11 +1563,13 @@ ___
 
 ▸ **toJSON**(): `any`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
 *Inherited from [UInt](_codec_uint_.uint.md).[toJSON](_codec_uint_.uint.md#tojson)*
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L61)*
+*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L61)*
 
 **Returns:** `any`
 
@@ -1655,9 +1659,11 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
 *Inherited from [UInt](_codec_uint_.uint.md).[toU8a](_codec_uint_.uint.md#tou8a)*
 
-*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L67)*
+*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L67)*
 
 **Parameters:**
 
@@ -1855,17 +1861,17 @@ ___
 
 ## `<Static>` decodeUInt
 
-▸ **decodeUInt**(value: *`AnyNumber`*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
+▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
 
 *Inherited from [UInt](_codec_uint_.uint.md).[decodeUInt](_codec_uint_.uint.md#decodeuint)*
 
-*Defined in [codec/UInt.ts:33](https://github.com/polkadot-js/api/blob/379e82a/packages/types/src/codec/UInt.ts#L33)*
+*Defined in [codec/UInt.ts:33](https://github.com/polkadot-js/api/blob/9092250/packages/types/src/codec/UInt.ts#L33)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| value | `AnyNumber` |
+| value | [AnyNumber](../modules/_types_.md#anynumber) |
 | bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |
 
 **Returns:** `string`
