@@ -5,16 +5,21 @@ async function main () {
   // Create our API with a default connection to the local node
   const api = await ApiPromise.create();
 
+  // subscribe to system events via storage
   api.query.system.events((events) => {
     console.log(`\nReceived ${events.length} events:`);
 
+    // loop through the Vec<EventRecord>
     events.forEach((record) => {
-      const event = record.event;
+      // extract the phase, event and the event types
+      const { event, phase } = record;
       const types = event.typeDef;
 
-      console.log(`\t${event.section}:${event.method}:: (phase=${record.phase.toString()})`);
+      // show what we are busy with
+      console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
       console.log(`\t\t${event.meta.documentation.toString()}`);
 
+      // loop through each of the parameters, displaying the type and data
       event.data.toArray().forEach((data, index) => {
         console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
       });
