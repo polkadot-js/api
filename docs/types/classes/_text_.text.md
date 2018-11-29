@@ -23,7 +23,7 @@
 
 ⊕ **new Text**(value?: * [Text](_text_.text.md) &#124; `string` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `object`*): [Text](_text_.text.md)
 
-*Defined in [Text.ts:18](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Text.ts#L18)*
+*Defined in [Text.ts:18](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Text.ts#L18)*
 
 **Parameters:**
 
@@ -70,7 +70,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Text.ts:39](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Text.ts#L39)*
+*Defined in [Text.ts:39](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Text.ts#L39)*
 
 **Returns:** `number`
 
@@ -834,7 +834,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Text.ts#L43)*
+*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Text.ts#L43)*
 
 **Returns:** `string`
 
@@ -847,7 +847,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Text.ts#L47)*
+*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Text.ts#L47)*
 
 **Returns:** `any`
 
@@ -922,7 +922,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Text.ts:51](https://github.com/polkadot-js/api/blob/62d4e5f/packages/types/src/Text.ts#L51)*
+*Defined in [Text.ts:51](https://github.com/polkadot-js/api/blob/df1c6dc/packages/types/src/Text.ts#L51)*
 
 **Parameters:**
 
