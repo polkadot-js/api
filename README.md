@@ -13,12 +13,15 @@
 
 This library provides a clean wrapper around all the methods exposed by a Polkadot/Subtrate network client and defines all the types exposed by a node. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://polkadot.js.org/api/).
 
+## tutorials
+
+Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API.
+
 ## overview
 
 The API is split up into a number of internal packages -
 
 - [@polkadot/api](packages/api/) The API library, providing both Promise and RxJS Observable-based interfaces
-- [@polkadot/api-observable](packages/api-observable/) A combination Observable wrapper around [@polkadot/rpc-rx](packages/rpc-rx), including both [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) and [Storage methods](https://polkadot.js.org/api/METHODS_STORAGE.html)
 - [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) exposed by a Polkadot network client
 - [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting to nodes, including WebSockets and Http
 - [@polkadot/rpc-rx](packages/rpc-rx/) A RxJs Observable wrapper around [@polkadot/rpc-provider](packages/rpc-provider)
@@ -45,7 +48,3 @@ To get started -
 5. Build the API Docs, via `yarn run build`
 6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
 7. Access the API Docs via [http://localhost:4000](http://localhost:4000)
-
-## tutorials
-
-Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API.
