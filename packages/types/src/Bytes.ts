@@ -8,9 +8,13 @@ import { AnyU8a } from './types';
 import Compact from './codec/Compact';
 import U8a from './codec/U8a';
 
-// A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
-// is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
-// as what is found in Text and Vector)
+/**
+ * @name Bytes
+ * @description
+ * A Bytes wrapper for Vec<u8>. The significant difference between this and a normal Uint8Array
+ * is that this version allows for length-encoding. (i.e. it is a variable-item codec, the same
+ * as what is found in [[Text]] and [[Vector]])
+ */
 export default class Bytes extends U8a {
   constructor (value: AnyU8a) {
     super(Bytes.decodeBytes(value));

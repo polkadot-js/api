@@ -14,8 +14,12 @@ export type BftAuthoritySignatureValue = {
   signature?: AnyU8a
 };
 
-// Represents a Bft Hash and Signature pairing, typically used in reporting
-// network behaviour.
+/**
+ * @name BftAuthoritySignature
+ * @description
+ * Represents a Bft Hash and Signature pairing, typically used in reporting
+ * network behaviour.
+ */
 export class BftAuthoritySignature extends Tuple {
   constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
     super({
@@ -38,8 +42,12 @@ export type BftHashSignatureValue = {
   signature?: AnyU8a
 };
 
-// Represents a Bft Hash and Signature pairing, typically used in reporting
-// network behaviour.
+/**
+ * @name BftHashSignature
+ * @description
+ * Represents a Bft Hash and Signature pairing, typically used in reporting
+ * network behaviour.
+ */
 export class BftHashSignature extends Tuple {
   constructor (value?: BftHashSignatureValue | Uint8Array) {
     super({

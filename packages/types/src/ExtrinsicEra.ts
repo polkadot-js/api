@@ -8,6 +8,11 @@ import { u8aToU8a } from '@polkadot/util';
 
 import U8a from './codec/U8a';
 
+/**
+ * @name ExtrinsicEra
+ * @description
+ * The era for an extrinsic, indicating either a mortal or immortal extrinsic
+ */
 export default class ExtrinsicEra extends U8a {
   constructor (value?: AnyU8a) {
     super(

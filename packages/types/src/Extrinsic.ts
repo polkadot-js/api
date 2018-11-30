@@ -22,6 +22,8 @@ type ExtrinsicValue = {
 };
 
 /**
+ * @name Extrinsic
+ * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
  *
@@ -120,19 +122,19 @@ export default class Extrinsic extends Struct {
     return this;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    const encoded = super.toU8a();
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
-  }
-
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
     return this.toHex();
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    const encoded = super.toU8a();
+
+    return isBare
+      ? encoded
+      : Compact.addLengthPrefix(encoded);
   }
 }

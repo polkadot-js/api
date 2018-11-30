@@ -4,5 +4,10 @@
 
 import U64 from './U64';
 
+/**
+ * @name BlockNumber
+ * @description
+ * A representation of a Substrate BlockNumber, implemented as a [[U64]]
+ */
 export default class BlockNumber extends U64 {
 }

@@ -4,6 +4,10 @@
 
 import Method from './Method';
 
-// A proposal in the system. It just extends a method (Proposal = Call in Rust)
+/**
+ * @name Proposal
+ * @description
+ * A proposal in the system. It just extends [[Method]] (Proposal = Call in Rust)
+ */
 export default class Proposal extends Method {
 }

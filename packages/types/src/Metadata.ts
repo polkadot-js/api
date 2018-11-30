@@ -334,6 +334,11 @@ export class RuntimeModuleMetadata extends Struct {
   }
 }
 
+/**
+ * @name Metadata
+ * @description
+ * The runtime metadata as a decoded structure
+ */
 export default class RuntimeMetadata extends Struct {
   constructor (value?: any) {
     super({

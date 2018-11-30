@@ -17,8 +17,12 @@ export interface StorageFunction {
   toJSON: () => any;
 }
 
-// A representation of a storage key (typically hashed) in the system. It can be constructed
-// by passing in a raw key or a StorageFunction with (optional) arguments.
+/**
+ * @name StorageKey
+ * @description
+ * A representation of a storage key (typically hashed) in the system. It can be
+ * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
+ */
 export default class StorageKey extends Bytes {
   private _outputType: string | null;
 

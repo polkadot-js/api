@@ -14,11 +14,14 @@ type AnyAddress = BN | Address | AccountId | AccountIndex | Array<number> | Uint
 
 export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
 
-// A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix.
-// Since we are dealing with underlying publicKeys (or shorter encoded addresses),
-// we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
-// is encoded as
-//   [ <prefix-byte>, ...publicKey/...bytes ]
+/**
+ * @name Address
+ * @description
+ * A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix.
+ * Since we are dealing with underlying publicKeys (or shorter encoded addresses),
+ * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
+ * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
+ */
 export default class Address extends Base<AccountId | AccountIndex> {
   constructor (value: AnyAddress = new Uint8Array()) {
     super(

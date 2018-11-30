@@ -8,13 +8,28 @@ import Event from './Event';
 import Null from './Null';
 import U32 from './U32';
 
-class ApplyExtrinsic extends U32 {
+/**
+ * @name ApplyExtrinsic
+ * @description
+ * The [[Phase]] where the extrinsic is applied
+ */
+export class ApplyExtrinsic extends U32 {
 }
 
-class Finalization extends Null {
+/**
+ * @name Finalization
+ * @description
+ * The [[Phase]] where the extrinsic is being Finalized
+ */
+export class Finalization extends Null {
 }
 
-class Phase extends EnumType<ApplyExtrinsic | Finalization> {
+/**
+ * @name Phase
+ * @description
+ * An [[EnumType]] that indicates the specific phase where the [[EventRecord]] was generated
+ */
+export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
   constructor (value: any, index?: number) {
     super([
       ApplyExtrinsic,
@@ -23,6 +38,12 @@ class Phase extends EnumType<ApplyExtrinsic | Finalization> {
   }
 }
 
+/**
+ * @name EventRecord
+ * @description
+ * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
+ * application.
+ */
 export default class EventRecord extends Struct {
   constructor (value: any) {
     super({

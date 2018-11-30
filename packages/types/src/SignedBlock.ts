@@ -13,6 +13,11 @@ type SignedBlockValue = {
   justification?: AnyU8a
 };
 
+/**
+ * @name SignedBlock
+ * @description
+ * A [[Block]] that has been signed and contains a [[Justification]]
+ */
 export default class SignedBlock extends Struct {
   constructor (value?: SignedBlockValue | Uint8Array) {
     super({

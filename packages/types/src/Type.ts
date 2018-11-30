@@ -9,9 +9,13 @@ type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
-// This is a extended version of String, specifically to handle types. Here we rely full on
-// what string provides us, however we also "tweak" the types received from the runtime, i.e.
-// we remove the `T::` prefixes found in some types for consistency accross implementation.
+/**
+ * @name Type
+ * @description
+ * This is a extended version of String, specifically to handle types. Here we rely fully
+ * on what string provides us, however we also adjust the types received from the runtime,
+ * i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
+ */
 export default class Type extends Text {
   private _originalLength: number;
 

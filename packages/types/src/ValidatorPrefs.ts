@@ -13,6 +13,11 @@ type ValidatorPrefsValue = {
   validatorPayment?: AnyNumber
 };
 
+/**
+ * @name ValidatorPrefs
+ * @description
+ * Validator preferences
+ */
 export default class ValidatorPrefs extends Struct {
   constructor (value?: ValidatorPrefsValue | Uint8Array) {
     super({

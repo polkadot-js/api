@@ -4,6 +4,10 @@
 
 import U64 from './U64';
 
-// Identifier for a deployed parachain
+/**
+ * @name ParachainId
+ * @description
+ * Identifier for a deployed parachain implemented as a [[U64]]
+ */
 export default class ParachainId extends U64 {
 }

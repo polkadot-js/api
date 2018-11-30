@@ -10,10 +10,14 @@ import { AnyNumber, Codec } from './types';
 
 const BITLENGTH: UIntBitLength = 64;
 
-// A wrapper around seconds/timestamps. Internally the representation only has
-// second precicion (aligning with Rust), so any numbers passed an/out are always
-// per-second. For any encoding/decoding the 1000 multiplier would be applied to
-// get it in line with JavaScript formats
+/**
+ * @name Moment
+ * @description
+ * A wrapper around seconds/timestamps. Internally the representation only has
+ * second precicion (aligning with Rust), so any numbers passed an/out are always
+ *  per-second. For any encoding/decoding the 1000 multiplier would be applied to
+ * get it in line with JavaScript formats
+ */
 export default class Moment extends Date implements Codec {
   public raw: Date; // FIXME Remove this once we convert all types out of Base
 
