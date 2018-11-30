@@ -4,15 +4,21 @@ Here you will find a list of examples that takes you through the basics of conne
 
 ## Prerequisites
 
-For the following examples, you need a local node. It is usually convenient testing with:
-
-```
-substrate --dev
+For the following examples, you need to install and run a local Substrate chain node.
+```bash
+curl https://getsubstrate.io -sSf | bash;
+substrate --dev purge-chain --dev;
+substrate --dev --telemetry-url ws://telemetry.polkadot.io:1024
 ```
 
 ## Running the examples
 
 From each folder, run `yarn` to install the required dependencies and then run `yarn start` to execute the example against the running node.
+
+```bash
+yarn;
+yarn start
+```
 
 ## Development accounts
 

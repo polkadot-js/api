@@ -48,11 +48,21 @@ To get started -
 5. Build the API Docs, via `yarn run build`
 6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
 7. Access the API Docs via [http://localhost:4000](http://localhost:4000)
-<<<<<<< HEAD
-8. Run the tests `yarn run test`
+
+## tests
+
+Run a Substrate chain node:
+```bash
+curl https://getsubstrate.io -sSf | bash;
+substrate --dev purge-chain --dev;
+substrate --dev --telemetry-url ws://telemetry.polkadot.io:1024
+```
+
+Then run the tests. Remove `.skip` from relevant tests:
+```
+yarn run test
+```
 
 ## tutorials
 
 Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API.
-=======
->>>>>>> master
