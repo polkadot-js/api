@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constructor } from '../types';
+import * as allTypes from '../index';
 
 export default class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
@@ -32,3 +33,5 @@ export default class TypeRegistry {
     return this._registry.get(name);
   }
 }
+
+TypeRegistry.defaultRegistry.register(allTypes as any);
