@@ -4,7 +4,7 @@
 
 const ApiPromise = require('../../../../packages/api/src/promise').default;
 
-describe('promise - 08 system events', () => {
+describe.skip('promise - 08 system events', () => {
   let api;
 
   beforeEach(async () => {
