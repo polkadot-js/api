@@ -19,11 +19,6 @@ type SignaturePayloadValue = {
 };
 
 /**
- * @name
- * @description
- */
-
-/**
  * @name SignaturePayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is varaible length
