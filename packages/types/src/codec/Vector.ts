@@ -7,11 +7,13 @@ import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 import Compact from './Compact';
 import { Codec, Constructor } from '../types';
 
-// This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
-// construction with the passed `Type` in the constructor. It aims to be an array-like structure,
-// i.e. while it wraps an array, it provides a `length` property to get the actual length, `at(index)`
-// to retrieve a specific item. Additionally the helper functions `map`, `filter`, `forEach` and
-// `reduce` is exposed on the interface.
+/**
+ * @name Vector
+ * @description
+ * This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
+ * construction with the passed `Type` in the constructor. It is an extension to Array, providing
+ * specific encoding/decoding on top of the base type.
+ */
 export default class Vector<
   T extends Codec
   > extends Array<T> implements Codec {
@@ -63,6 +65,9 @@ export default class Vector<
     return this._Type.name;
   }
 
+  /**
+   * @description Returns the length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.reduce((total, raw) => {
       return total + raw.encodedLength;
@@ -92,6 +97,10 @@ export default class Vector<
     return `[${data.join(', ')}]`;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const encoded = this.map((entry) =>
       entry.toU8a(isBare)

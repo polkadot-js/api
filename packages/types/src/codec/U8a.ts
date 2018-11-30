@@ -6,10 +6,14 @@ import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a, Codec } from '../types';
 
-// A U8a. A basic wrapper around Uint8Array, with no frills and no fuss. It
-// wraps a Uint8Array. It does differ from other implementations wher it will
-// consume the full u8a as passed to it in U8a. As such it is meant to be
-// subclassed where the wrapper takes care of the actual lengths.
+/**
+ * @name U8a
+ * @description
+ * A basic wrapper around Uint8Array, with no frills and no fuss. It does differ
+ * from other implementations wher it will consume the full Uint8Array as passed to
+ * it. As such it is meant to be subclassed where the wrapper takes care of the
+ * actual lengths instead of used directly.
+ */
 export default class U8a extends Uint8Array implements Codec {
   constructor (value: AnyU8a) {
     super(
@@ -25,6 +29,9 @@ export default class U8a extends Uint8Array implements Codec {
     }
   }
 
+  /**
+   * @description Returns the length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.length;
   }
@@ -43,11 +50,15 @@ export default class U8a extends Uint8Array implements Codec {
     return this.toHex();
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return Uint8Array.from(this);
-  }
-
   toString (): string {
     return this.toHex();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return Uint8Array.from(this);
   }
 }

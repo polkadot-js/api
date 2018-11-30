@@ -11,10 +11,13 @@ type SetValues = {
   [index: string]: number
 };
 
-// An Set is an array of string values, represented an an encoded type by
-// a bitwise representation of the values.
-//
-// FIXME This is a prime candidate to potentially extend Set
+/**
+ * @name Set
+ * @description
+ * An Set is an array of string values, represented an an encoded type by
+ * a bitwise representation of the values.
+ */
+// FIXME This is a prime candidate to extend the JavaScript built-in Set
 export default class Set extends Base<Array<string>> implements Codec {
   private _setValues: SetValues;
 
@@ -63,6 +66,9 @@ export default class Set extends Base<Array<string>> implements Codec {
     }, 0);
   }
 
+  /**
+   * @description Returns the length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1;
   }
@@ -87,11 +93,15 @@ export default class Set extends Base<Array<string>> implements Codec {
     return this.values;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array(this.valueEncoded);
-  }
-
   toString (): string {
     return `[${this.values.map((value) => value).join(', ')}]`;
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array(this.valueEncoded);
   }
 }

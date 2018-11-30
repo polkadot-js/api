@@ -13,9 +13,12 @@ type TypesDef = {
   [index: number]: Constructor
 } | TypesArray;
 
-// This implements an enum, that based on the value wraps a different type. It is effectively an
-// extension to enum where the value type is determined by the actual index.
-//
+/**
+ * @name EnumType
+ * @description
+ * This implements an enum, that based on the value wraps a different type. It is effectively
+ * an extension to enum where the value type is determined by the actual index.
+ */
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
@@ -90,6 +93,9 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return this.raw;
   }
 
+  /**
+   * @description Returns the length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1 + this.raw.encodedLength;
   }
@@ -110,6 +116,10 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return this.type;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const index = this._indexes[this._index];
 

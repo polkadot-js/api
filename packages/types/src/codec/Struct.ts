@@ -6,11 +6,15 @@ import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 
-// A Struct defines an Object with key/values - where the values are Codec values. It removes
-// a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
-// values in the constructor and it manages the decoding. It is important that the constructor
-// values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
-// it needs to decoded in the specific defined order.
+/**
+ * @name Struct
+ * @description
+ * A Struct defines an Object with key/values - where the values are Codec values. It removes
+ * a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
+ * values in the constructor and it manages the decoding. It is important that the constructor
+ * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
+ * it needs to decoded in the specific defined order.
+ */
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends ConstructorDef = ConstructorDef,
@@ -126,6 +130,9 @@ export default class Struct<
     return this._Types;
   }
 
+  /**
+   * @description Returns the length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
@@ -159,6 +166,10 @@ export default class Struct<
     return JSON.stringify(this.toJSON());
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.toArray().map((entry) =>
