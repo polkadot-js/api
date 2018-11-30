@@ -10,6 +10,7 @@ import Compact from './Compact';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
+import TypeRegistry from './TypeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -145,13 +146,12 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  // We are dynamically loading as to avoid circular dependencies
-  const Types = require('../index');
-  const Type = Types[value.type];
+  const registry = TypeRegistry.defaultRegistry;
+  const Type = registry.get(value.type);
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
-  return Type;
+  return Type!;
 }
 
 export default function createType (type: Text | string, value?: any): Codec {
