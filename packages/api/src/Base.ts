@@ -10,12 +10,12 @@ import Rpc from '@polkadot/rpc-core/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
+import TypeRegistry from '@polkadot/types/codec/TypeRegistry';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import { Extrinsics } from '@polkadot/types/Method';
 import { Constructor } from '@polkadot/types/types';
-import TypeRegistry from '@polkadot/types/codec/TypeRegistry';
 import { assert, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
@@ -30,12 +30,12 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-interface ApiBaseOptionsObject {
+interface ApiOptionsObject {
   wsProvider?: WsProvider;
   additionalTypes?: {[name: string]: Constructor};
 }
 
-export type ApiBaseOptions = ApiBaseOptionsObject | WsProvider;
+export type ApiOptions = ApiOptionsObject | WsProvider;
 
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
   private _eventemitter: EventEmitter;
@@ -66,9 +66,10 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  constructor (options: ApiBaseOptions) {
+  constructor (options: ApiOptions) {
     let wsProvider;
     let additionalTypes;
+
     if (options instanceof WsProvider) {
       wsProvider = options;
     } else {

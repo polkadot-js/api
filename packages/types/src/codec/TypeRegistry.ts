@@ -16,13 +16,16 @@ export default class TypeRegistry {
     if (typeof arg1 === 'string') {
       const name = arg1;
       const type = arg2!;
+
       this._registry.set(name, type);
     } else if (typeof arg1 === 'function') {
       const name = arg1.name;
       const type = arg1;
+
       this._registry.set(name, type);
     } else {
       const dict = arg1;
+
       for (const [name, type] of Object.entries(dict)) {
         this._registry.set(name, type);
       }

@@ -8,9 +8,9 @@ import { Codec, Constructor } from '../types';
 import Text from '../Text';
 import Compact from './Compact';
 import Tuple from './Tuple';
+import TypeRegistry from './TypeRegistry';
 import UInt from './UInt';
 import Vector from './Vector';
-import TypeRegistry from './TypeRegistry';
 
 export enum TypeDefInfo {
   Compact,

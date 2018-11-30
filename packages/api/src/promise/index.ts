@@ -11,7 +11,7 @@ import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
-import ApiBase, { ApiBaseOptions } from '../Base';
+import ApiBase, { ApiOptions } from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -122,7 +122,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  static create (options: ApiBaseOptions = {}): Promise<ApiPromise> {
+  static create (options: ApiOptions = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -145,7 +145,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  constructor (options: ApiBaseOptions = {}) {
+  constructor (options: ApiOptions = {}) {
     super(options);
 
     this._isReady = new Promise((resolveReady) =>

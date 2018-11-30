@@ -14,7 +14,7 @@ import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { logger } from '@polkadot/util';
 
-import ApiBase, { ApiBaseOptions } from '../Base';
+import ApiBase, { ApiOptions } from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 const l = logger('api-rx');
@@ -137,7 +137,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  static create (options?: ApiBaseOptions): Observable<ApiRx> {
+  static create (options?: ApiOptions): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
@@ -160,7 +160,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options: ApiBaseOptions = {}) {
+  constructor (options: ApiOptions = {}) {
     super(options);
 
     this._isReady = from(
