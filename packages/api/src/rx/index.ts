@@ -7,6 +7,7 @@ import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, Query
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
 import { Codec } from '@polkadot/types/types';
@@ -122,7 +123,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    *
-   * @param options options that is passed to the class contructor
+   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -137,15 +138,14 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  static create (options?: ApiOptions): Observable<ApiRx> {
+  static create (options: ApiOptions | WsProvider = {}): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
   /**
    * @description Create an instance of the ApiRx class
    *
-   * @param options.wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
-   * @param options.additionalTypes Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
+   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -160,7 +160,12 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options: ApiOptions = {}) {
+  constructor (options: ApiOptions | WsProvider = {}) {
+    if (options instanceof WsProvider) {
+      options = {
+        wsProvider: options
+      };
+    }
     super(options);
 
     this._isReady = from(

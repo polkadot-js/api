@@ -30,12 +30,17 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-interface ApiOptionsObject {
+export interface ApiOptions {
+  /**
+   * WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the
+   * localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   */
   wsProvider?: WsProvider;
+  /**
+   * Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
+   */
   additionalTypes?: {[name: string]: Constructor};
 }
-
-export type ApiOptions = ApiOptionsObject | WsProvider;
 
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
   private _eventemitter: EventEmitter;
@@ -50,8 +55,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param options.wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
-   * @param options.additionalTypes Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
+   * @param options Options object to create API instance
    *
    * @example
    * <BR>
@@ -67,21 +71,12 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * ```
    */
   constructor (options: ApiOptions) {
-    let wsProvider;
-    let additionalTypes;
-
-    if (options instanceof WsProvider) {
-      wsProvider = options;
-    } else {
-      wsProvider = options.wsProvider;
-      additionalTypes = options.additionalTypes;
-    }
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(wsProvider);
+    this._rpcBase = new Rpc(options.wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
-    if (additionalTypes) {
-      TypeRegistry.defaultRegistry.register(additionalTypes);
+    if (options.additionalTypes) {
+      TypeRegistry.defaultRegistry.register(options.additionalTypes);
     }
 
     this.init();
