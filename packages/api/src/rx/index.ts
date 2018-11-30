@@ -15,7 +15,7 @@ import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { logger } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiBase, { ApiBaseOptions } from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 const l = logger('api-rx');
@@ -123,7 +123,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    *
-   * @param wsProvider WebSocket provider that is passed to the class contructor
+   * @param options options that is passed to the class contructor
    *
    * @example
    * <BR>
@@ -138,14 +138,15 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  static create (wsProvider?: WsProvider): Observable<ApiRx> {
-    return new ApiRx(wsProvider).isReady;
+  static create (options?: ApiBaseOptions): Observable<ApiRx> {
+    return new ApiRx(options).isReady;
   }
 
   /**
    * @description Create an instance of the ApiRx class
    *
-   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options.wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options.additionalTypes Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
    *
    * @example
    * <BR>
@@ -160,8 +161,8 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
-    super(wsProvider);
+  constructor (options: ApiBaseOptions = {}) {
+    super(options);
 
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better

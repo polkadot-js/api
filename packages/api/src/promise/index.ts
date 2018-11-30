@@ -12,7 +12,7 @@ import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiBase, { ApiBaseOptions } from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -108,7 +108,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
    *
-   * @param wsProvider WebSocket provider that is passed to the class contructor
+   * @param options options that is passed to the class contructor
    *
    * @example
    * <BR>
@@ -123,14 +123,15 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  static create (wsProvider?: WsProvider): Promise<ApiPromise> {
-    return new ApiPromise(wsProvider).isReady;
+  static create (options: ApiBaseOptions = {}): Promise<ApiPromise> {
+    return new ApiPromise(options).isReady;
   }
 
   /**
    * @description Creates an instance of the ApiPromise class
    *
-   * @param wsProvider WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options.wsProvider WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options.additionalTypes Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
    *
    * @example
    * <BR>
@@ -145,8 +146,8 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
-    super(wsProvider);
+  constructor (options: ApiBaseOptions = {}) {
+    super(options);
 
     this._isReady = new Promise((resolveReady) =>
       super.on('ready', () =>

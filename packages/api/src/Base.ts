@@ -14,6 +14,8 @@ import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import { Extrinsics } from '@polkadot/types/Method';
+import { Constructor } from '@polkadot/types/types';
+import TypeRegistry from '@polkadot/types/codec/TypeRegistry';
 import { assert, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
@@ -28,6 +30,13 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
+interface ApiBaseOptionsObject {
+  wsProvider?: WsProvider;
+  additionalTypes?: {[name: string]: Constructor};
+}
+
+export type ApiBaseOptions = ApiBaseOptionsObject | WsProvider;
+
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
   private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
@@ -41,7 +50,8 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param options.wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param options.additionalTypes Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
    *
    * @example
    * <BR>
@@ -56,10 +66,22 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
+  constructor (options: ApiBaseOptions) {
+    let wsProvider;
+    let additionalTypes;
+    if (options instanceof WsProvider) {
+      wsProvider = options;
+    } else {
+      wsProvider = options.wsProvider;
+      additionalTypes = options.additionalTypes;
+    }
     this._eventemitter = new EventEmitter();
     this._rpcBase = new Rpc(wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
+
+    if (additionalTypes) {
+      TypeRegistry.defaultRegistry.register(additionalTypes);
+    }
 
     this.init();
   }
