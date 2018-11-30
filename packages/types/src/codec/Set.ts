@@ -67,34 +67,52 @@ export default class Set extends Base<Array<string>> implements Codec {
   }
 
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return 1;
   }
 
+  /**
+   * @description true is the Set contains no values
+   */
   get isEmpty (): boolean {
     return this.values.length === 0;
   }
 
+  /**
+   * @description The actual set values as a Array<string>
+   */
   get values (): Array<string> {
     return this.raw;
   }
 
+  /**
+   * @description The encoded value for the set members
+   */
   get valueEncoded (): number {
     return Set.encodeSet(this._setValues, this.raw);
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.values;
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
-    return `[${this.values.map((value) => value).join(', ')}]`;
+    return `[${this.values.join(', ')}]`;
   }
 
   /**

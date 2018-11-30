@@ -66,7 +66,7 @@ export default class Vector<
   }
 
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return this.reduce((total, raw) => {
@@ -74,20 +74,32 @@ export default class Vector<
     }, Compact.encodeU8a(this.length).length);
   }
 
+  /**
+   * @description Converts the Object to an standard JavaScript Array
+   */
   toArray (): Array<T> {
     return Array.from(this);
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.map((entry) =>
       entry.toJSON()
     );
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     // Overwrite the default toString representation of Array.
     const data = this.map((entry) =>

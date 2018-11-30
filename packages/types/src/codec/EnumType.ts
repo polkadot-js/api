@@ -81,37 +81,65 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return { index: 0, value: new (Object.values(def)[0])() };
   }
 
-  get isNull (): boolean {
-    return this.raw instanceof Null;
-  }
-
-  get type (): string {
-    return this._Types[this._index].name;
-  }
-
-  get value (): Codec {
-    return this.raw;
-  }
-
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return 1 + this.raw.encodedLength;
   }
 
+  /**
+   * @description Checks if the Enum points to a [[Null]] type
+   */
+  get isNone (): boolean {
+    return this.raw instanceof Null;
+  }
+
+  /**
+   * @description Checks if the Enum points to a [[Null]] type (deprecated, use isNone)
+   */
+  get isNull (): boolean {
+    return this.raw instanceof Null;
+  }
+
+  /**
+   * @description The name of the type this enum value represents
+   */
+  get type (): string {
+    return this._Types[this._index].name;
+  }
+
+  /**
+   * @description The value of the enum
+   */
+  get value (): Codec {
+    return this.raw;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw;
   }
 
+  /**
+   * @description Returns the number representation for the value
+   */
   toNumber (): number {
     return this._index;
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.type;
   }

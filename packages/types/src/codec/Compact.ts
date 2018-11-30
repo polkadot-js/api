@@ -86,18 +86,30 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
     return this.raw.toBn();
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): any {
     return this.raw.toHex();
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the number representation for the value
+   */
   toNumber (): number {
     return this.raw.toNumber();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.raw.toString();
   }

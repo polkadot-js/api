@@ -50,7 +50,7 @@ export default class UInt extends BN implements Codec {
   }
 
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return this._bitLength / 8;
@@ -70,10 +70,16 @@ export default class UInt extends BN implements Codec {
     return this;
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return bnToHex(this, this._bitLength);
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this._isHexJson
       ? this.toHex()

@@ -131,7 +131,7 @@ export default class Struct<
   }
 
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return this.toArray().reduce((length, entry) => {
@@ -139,18 +139,30 @@ export default class Struct<
     }, 0);
   }
 
+  /**
+   * @description Returns the values of a member at a specific index (Rather use get(name) for performance)
+   */
   getAtIndex (index: number): Codec {
     return this.toArray()[index];
   }
 
+  /**
+   * @description Converts the Object to an standard JavaScript Array
+   */
   toArray (): Array<Codec> {
     return [...this.values()];
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex () {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
@@ -162,6 +174,9 @@ export default class Struct<
     }, {} as any);
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString () {
     return JSON.stringify(this.toJSON());
   }

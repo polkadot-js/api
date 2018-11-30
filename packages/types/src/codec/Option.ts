@@ -46,34 +46,52 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     };
   }
 
-  get isNone (): boolean {
-    return this.raw instanceof Null;
-  }
-
-  get isSome (): boolean {
-    return !this.isNone;
-  }
-
-  get value (): Codec {
-    return this.raw;
-  }
-
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     // boolean byte (has value, doesn't have) along with wrapped length
     return 1 + this.raw.encodedLength;
   }
 
+  /**
+   * @description Checks if the Option has no value
+   */
+  get isNone (): boolean {
+    return this.raw instanceof Null;
+  }
+
+  /**
+   * @description Checks if the Option has a value
+   */
+  get isSome (): boolean {
+    return !this.isNone;
+  }
+
+  /**
+   * @description The actual value for the Option
+   */
+  get value (): Codec {
+    return this.raw;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.raw.toString();
   }
@@ -97,10 +115,14 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     return u8a;
   }
 
+  /**
+   * @description Returns the value that the Option represents (if available)
+   */
   unwrap (): T {
     if (this.isNone) {
       throw new Error('Option: unwrapping a None value');
     }
+
     return this.raw;
   }
 }

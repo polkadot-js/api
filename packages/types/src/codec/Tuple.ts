@@ -28,6 +28,9 @@ export default class Tuple<
     };
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return [...this.values()].map((entry) =>
       entry.toJSON()

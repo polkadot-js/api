@@ -30,7 +30,7 @@ export default class U8a extends Uint8Array implements Codec {
   }
 
   /**
-   * @description Returns the length of the value when encoded as a Uint8Array
+   * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
     return this.length;
@@ -42,14 +42,23 @@ export default class U8a extends Uint8Array implements Codec {
     return Uint8Array.from(this).subarray(begin, end);
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this);
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.toHex();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.toHex();
   }
