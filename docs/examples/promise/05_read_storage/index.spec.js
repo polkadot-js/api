@@ -6,7 +6,7 @@ const ApiPromise = require('../../../../packages/api/src/promise').default;
 
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-describe('promise - 05 read storage', () => {
+describe.skip('promise - 05 read storage', () => {
   let api;
 
   beforeEach(async () => {
@@ -25,27 +25,33 @@ describe('promise - 05 read storage', () => {
     expect(api.query.session).toBeDefined();
   });
 
-  it.skip('makes api.query.session available', () => {
-    // FIXME - why isn't .session available??
+  it('makes api.query.session available', () => {
     expect(api.query.session).toBeDefined();
   });
 
-  it.skip('retrieves the account nonce, block period, and validators via rpc calls', async () => {
-    const [accountNonce, blockPeriod, validators] = await Promise.all([
-      api.query.system.accountNonce(Alice),
-      api.query.timestamp.blockPeriod(),
-      api.query.session.validators()
-    ]);
+  it('retrieves the validators via rpc calls', async () => {
+    const validators = await api.query.session.validators();
 
-    expect([accountNonce, blockPeriod.toNumber(), validators]).toEqual([0, 5, []]);
+    expect(validators[0].toString()).toEqual("5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ");
   });
 
-  it.skip('obtains validator balances', async () => {
-    const validators = await api.query.session.validators();
-    const validatorBalances = await validators.map((authorityId) =>
-      api.query.balances.freeBalance(authorityId)
-    );
+  it('retrieves the account nonce via rpc calls', async () => {
+    const accountNonce = await api.query.system.accountNonce(Alice);
 
-    expect(validatorBalances).toEqual(1);
+    expect(accountNonce.toNumber()).toEqual(0);
+  });
+
+  it('retrieves the block period via rpc calls', async () => {
+    const blockPeriod = await api.query.timestamp.blockPeriod();
+
+    expect(blockPeriod.toNumber()).toEqual(5);
+  });
+
+  it('obtains validator balances', async () => {
+    const validators = await api.query.session.validators();
+    expect(String(validators[0])).toEqual("5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ");
+
+    const aliceBalance = await api.query.balances.freeBalance(validators[0]);
+    expect(String(aliceBalance)).toBe("1152921504606846976");
   });
 });
