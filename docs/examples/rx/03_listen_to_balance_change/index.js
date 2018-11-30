@@ -27,8 +27,8 @@ function main () {
     )
     .subscribe((current) => {
       console.log(`Alice's account ${Alice} had a previous balance of: ${previous || '???'}`);
-      console.log(`You may leave this example running and start example 06 ` +
-                  `or transfer any value to Alice at ${Alice}`);
+      console.log(`You may leave this example running and start example 07 to transfer DOTs ` +
+                  `to Alice at ${Alice}`);
 
       // Calculate the delta
       const change = current.sub(new BN(previous));

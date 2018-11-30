@@ -17,8 +17,8 @@ async function main () {
   });
 
   console.log(`Alice with account number ${Alice} had a previous balance of: ${previous || '???'}`);
-  console.log(`You may leave this example running and start example 06 ` +
-              `or transfer any value to Alice at ${Alice}`);
+  console.log(`You may leave this example running and start example 07 to transfer DOTs ` +
+              `to Alice at ${Alice}`);
 
   // Here we subscribe to any balance changes and update the on-screen value.
   // Use the Storage chain state (runtime) Node Interface.
