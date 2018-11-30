@@ -25,6 +25,6 @@ describe.skip('promise - 03 listen to balances change', () => {
   it('queries the balance', async () => {
     const aliceBalance = await api.query.balances.freeBalance(Alice);
 
-    expect(String(aliceBalance)).toBeGreaterThan('0');
+    expect(String(aliceBalance)).toBe("1152921504606846976");
   });
 });
