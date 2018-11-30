@@ -6,6 +6,7 @@
 - [rpc-provider](rpc-provider/README.md)
   - [HttpProvider](rpc-provider/classes/_http_index_.httpprovider.md)
   - [WsProvider](rpc-provider/classes/_ws_index_.wsprovider.md)
+- [types (codec implementation)](types/README.md)
 
 ## Interfaces
 
