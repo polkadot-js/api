@@ -6,7 +6,7 @@ const ApiPromise = require('../../../../packages/api/src/promise').default;
 
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
-describe.skip('promise - 05 read storage', () => {
+describe('promise - 05 read storage', () => {
   let api;
 
   beforeEach(async () => {
@@ -22,6 +22,7 @@ describe.skip('promise - 05 read storage', () => {
     expect(api.query.system).toBeDefined();
     expect(api.query.timestamp).toBeDefined();
     expect(api.query.balances).toBeDefined();
+    expect(api.query.session).toBeDefined();
   });
 
   it.skip('makes api.query.session available', () => {
