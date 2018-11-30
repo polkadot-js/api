@@ -75,6 +75,12 @@ export default class Extrinsic extends Struct {
     return this.method.data;
   }
 
+  get encodedLength (): number {
+    const length = this.length;
+
+    return length + Compact.encodeU8a(length).length;
+  }
+
   // convernience, encodes the extrinsic and returns the actual hash
   get hash (): Hash {
     return new Hash(
@@ -100,12 +106,6 @@ export default class Extrinsic extends Struct {
 
   get signature (): ExtrinsicSignature {
     return this.get('signature') as ExtrinsicSignature;
-  }
-
-  get encodedLength (): number {
-    const length = this.length;
-
-    return length + Compact.encodeU8a(length).length;
   }
 
   addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): Extrinsic {

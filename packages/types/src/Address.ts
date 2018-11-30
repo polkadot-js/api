@@ -58,12 +58,6 @@ export default class Address extends Base<AccountId | AccountIndex> {
       : new AccountIndex(u8aToBn(decoded, true));
   }
 
-  get rawLength (): number {
-    return this.raw instanceof AccountIndex
-      ? AccountIndex.calcLength(this.raw)
-      : this.raw.encodedLength;
-  }
-
   get encodedLength (): number {
     const rawLength = this.rawLength;
 
@@ -73,6 +67,12 @@ export default class Address extends Base<AccountId | AccountIndex> {
         ? 1
         : 0
     );
+  }
+
+  get rawLength (): number {
+    return this.raw instanceof AccountIndex
+      ? AccountIndex.calcLength(this.raw)
+      : this.raw.encodedLength;
   }
 
   toHex (): string {

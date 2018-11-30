@@ -35,11 +35,11 @@ export default class Bool extends Boolean implements Codec {
     return u8aToHex(this.toU8a());
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this ? 1 : 0]);
-  }
-
   toString (): string {
     return `${this.toJSON()}`;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array([this ? 1 : 0]);
   }
 }

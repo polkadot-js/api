@@ -57,17 +57,17 @@ export default class Type extends Text {
     }, value).trim();
   }
 
-  // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
-  // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
-  // only the decoding leg, allowing the decoders to work with original pointers
   get encodedLength (): number {
+    // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
+    // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
+    // only the decoding leg, allowing the decoders to work with original pointers
     return this._originalLength + Compact.encodeU8a(this._originalLength).length;
   }
 
-  // Note Since we are mangling what we get in beyond recognition, we really should
-  // not allow the re-encoding. Additionally, this is probably more of a decoder-only
-  // helper, so treat it as such.
   toU8a (isBare?: boolean): Uint8Array {
+    // Note Since we are mangling what we get in beyond recognition, we really should
+    // not allow the re-encoding. Additionally, this is probably more of a decoder-only
+    // helper, so treat it as such.
     throw new Error('Type::toU8a: unimplemented');
   }
 

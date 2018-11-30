@@ -39,12 +39,16 @@ export default class Moment extends Date implements Codec {
     );
   }
 
+  get encodedLength (): number {
+    return BITLENGTH / 8;
+  }
+
   bitLength (): UIntBitLength {
     return BITLENGTH;
   }
 
-  get encodedLength (): number {
-    return BITLENGTH / 8;
+  toBn (): BN {
+    return new BN(this.toNumber());
   }
 
   toHex (): string {
@@ -55,15 +59,11 @@ export default class Moment extends Date implements Codec {
     return this.toNumber();
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this.toNumber(), BITLENGTH, true);
-  }
-
-  toBn (): BN {
-    return new BN(this.toNumber());
-  }
-
   toNumber (): number {
     return Math.ceil(this.getTime() / 1000);
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 }
