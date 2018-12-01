@@ -361,90 +361,6 @@
             
         </li>
     
-        <li class="chapter " data-level="3.2" data-path="../../rx/">
-            
-                <a href="../../rx/">
-            
-                    
-                    ApiRx
-            
-                </a>
-            
-
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="3.2.1" data-path="../../rx/01_simple_connect/">
-            
-                <a href="../../rx/01_simple_connect/">
-            
-                    
-                    Simple connect
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.2.2" data-path="../../rx/02_listen_to_blocks/">
-            
-                <a href="../../rx/02_listen_to_blocks/">
-            
-                    
-                    Listen to blocks
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.2.3" data-path="../../rx/03_listen_to_balance_change/">
-            
-                <a href="../../rx/03_listen_to_balance_change/">
-            
-                    
-                    Listen to balance change
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.2.4" data-path="../../rx/05_read_storage/">
-            
-                <a href="../../rx/05_read_storage/">
-            
-                    
-                    Read chain state
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="3.2.5" data-path="../../rx/07_transfer_dots/">
-            
-                <a href="../../rx/07_transfer_dots/">
-            
-                    
-                    Make a transfer
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
-        </li>
-    
 
     
 
@@ -491,11 +407,11 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="tranfer-dots">Tranfer DOTs</h1>
-<p>This sample shows how to create a transaction to make a transfer from one an account to another using ApiPromise.</p>
+<p>This sample shows how to create a transaction to make a transfer from one an account to another.</p>
 <pre><code class="lang-javascript"><div class="sunlight-container sunlight-theme-gitbook"><div class="sunlight-code-container"><pre class="sunlight-highlight-javascript sunlight-highlighted"><span class="sunlight-javascript"><span class="sunlight-comment">//&#xA0;Import&#xA0;the&#xA0;API,&#xA0;Keyring&#xA0;and&#xA0;some&#xA0;utility&#xA0;functions</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">ApiPromise</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/api&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">Keyring</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/keyring&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">stringShorten</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">stringToU8a</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/util&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">stringToU8a</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/util&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">ALICE_SEED</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-string">&apos;Alice&apos;</span><span class="sunlight-operator">.</span><span class="sunlight-ident">padEnd</span><span class="sunlight-punctuation">(</span><span class="sunlight-number">32</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-string">&apos;&#xA0;&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">BOB_ADDR</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-string">&apos;5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE&apos;</span><span class="sunlight-punctuation">;</span>
@@ -510,31 +426,21 @@
 &#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Instantiate&#xA0;the&#xA0;API</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">api</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">ApiPromise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">create</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Retrieve&#xA0;the&#xA0;nonce&#xA0;for&#xA0;Alice,&#xA0;to&#xA0;be&#xA0;used&#xA0;to&#xA0;sign&#xA0;the&#xA0;transaction.</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Use&#xA0;the&#xA0;Storage&#xA0;chain&#xA0;state&#xA0;(runtime)&#xA0;Node&#xA0;Interface.</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Retrieve&#xA0;the&#xA0;nonce&#xA0;for&#xA0;Alice,&#xA0;to&#xA0;be&#xA0;used&#xA0;to&#xA0;sign&#xA0;the&#xA0;transaction</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">aliceNonce</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">query</span><span class="sunlight-operator">.</span><span class="sunlight-ident">system</span><span class="sunlight-operator">.</span><span class="sunlight-ident">accountNonce</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">alice</span><span class="sunlight-operator">.</span><span class="sunlight-ident">address</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Create&#xA0;an&#xA0;extrinsic,&#xA0;transferring&#xA0;12345&#xA0;units&#xA0;to&#xA0;Bob.&#xA0;We&#xA0;can&#xA0;also&#xA0;create,</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Create&#xA0;a&#xA0;extrinsic,&#xA0;transferring&#xA0;12345&#xA0;units&#xA0;to&#xA0;Bob.&#xA0;We&#xA0;can&#xA0;also&#xA0;create,</span>
 &#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;sign&#xA0;and&#xA0;send&#xA0;in&#xA0;one&#xA0;operation&#xA0;(as&#xA0;per&#xA0;the&#xA0;samples&#xA0;in&#xA0;the&#xA0;Api&#xA0;documentation),</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;here&#xA0;we&#xA0;split&#xA0;it&#xA0;out&#xA0;for&#xA0;the&#xA0;sake&#xA0;of&#xA0;readability.</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Use&#xA0;the&#xA0;Extrinsics&#xA0;(runtime)&#xA0;Node&#xA0;Interface.</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;here&#xA0;we&#xA0;split&#xA0;it&#xA0;out&#xA0;for&#xA0;the&#xA0;sake&#xA0;of&#xA0;readability</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">transfer</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">tx</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span><span class="sunlight-operator">.</span><span class="sunlight-ident">transfer</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">BOB_ADDR</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-number">12345</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Show&#xA0;unsigned&#xA0;transaction&#xA0;(alternate&#xA0;viewing&#xA0;forms&#xA0;are&#xA0;toU8a,&#xA0;toString,&#xA0;toJSON)</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Use&#xA0;Polkadot-JS&#xA0;utility&#xA0;to&#xA0;shorten&#xA0;displayed&#xA0;transaction&#xA0;value</span>
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">Unsigned</span>&#xA0;<span class="sunlight-ident">transaction</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">stringShorten</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">transfer</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toHex</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-number">10</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Sign&#xA0;the&#xA0;transaction&#xA0;using&#xA0;our&#xA0;account&#xA0;keypair,&#xA0;nonce,&#xA0;and&#xA0;optionally&#xA0;the</span>
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;block&#xA0;hash</span>
+&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Sign&#xA0;the&#xA0;transaction&#xA0;using&#xA0;our&#xA0;account</span>
 &#xA0;&#xA0;<span class="sunlight-ident">transfer</span><span class="sunlight-operator">.</span><span class="sunlight-ident">sign</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">alice</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">aliceNonce</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Show&#xA0;signed&#xA0;transaction</span>
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">Signed</span>&#xA0;<span class="sunlight-ident">transaction</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">stringShorten</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">transfer</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toHex</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-number">10</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 &#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Send&#xA0;the&#xA0;transaction&#xA0;and&#xA0;retrieve&#xA0;the&#xA0;resulting&#xA0;Hash</span>
 &#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">hash</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">transfer</span><span class="sunlight-operator">.</span><span class="sunlight-ident">send</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">Submitted</span>&#xA0;<span class="sunlight-ident">transfer</span>&#xA0;<span class="sunlight-ident">of</span>&#xA0;<span class="sunlight-number">12345</span>&#xA0;<span class="sunlight-ident">DOTs</span>&#xA0;<span class="sunlight-ident">to</span>&#xA0;<span class="sunlight-ident">Bob</span>&#xA0;<span class="sunlight-keyword">with</span>&#xA0;<span class="sunlight-ident">hash</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">hash</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">transfer</span>&#xA0;<span class="sunlight-number">12345</span>&#xA0;<span class="sunlight-ident">to</span>&#xA0;<span class="sunlight-ident">Bob</span>&#xA0;<span class="sunlight-keyword">with</span>&#xA0;<span class="sunlight-ident">hash</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">hash</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 <span class="sunlight-punctuation">}</span>
 
 <span class="sunlight-ident">main</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">finally</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">_</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-ident">process</span><span class="sunlight-operator">.</span><span class="sunlight-ident">exit</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
@@ -582,7 +488,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Make a transfer","level":"3.1.5","depth":2,"next":{"title":"Display system events","level":"3.1.6","depth":2,"path":"examples/promise/08_system_events/README.md","ref":"examples/promise/08_system_events/README.md","articles":[]},"previous":{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/07_transfer_dots/README.md","mtime":"2018-11-29T17:05:52.646Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-29T17:09:34.023Z"},"basePath":"../../..","book":{"language":""}});
+          gitbook.page.hasChanged({"page":{"title":"Make a transfer","level":"3.1.5","depth":2,"next":{"title":"Display system events","level":"3.1.6","depth":2,"path":"examples/promise/08_system_events/README.md","ref":"examples/promise/08_system_events/README.md","articles":[]},"previous":{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/07_transfer_dots/README.md","mtime":"2018-11-30T14:55:08.116Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-11-30T14:58:57.607Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>
