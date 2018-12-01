@@ -1,5 +1,5 @@
 const { combineLatest } = require('rxjs');
-const { switchMap } = require('rxjs/operators');
+const {  first, switchMap } = require('rxjs/operators');
 
 // Import the API, Keyring and some utility functions
 const { ApiRx } = require('@polkadot/api');
@@ -9,7 +9,7 @@ const { stringToU8a } = require('@polkadot/util');
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
 
-function main () {
+async function main () {
   // Create an instance of the keyring
   const keyring = new Keyring();
 
@@ -17,38 +17,32 @@ function main () {
   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
 
   // Instantiate the API via Promise
-  const api = ApiRx.create();
+  const api = await ApiRx.create().toPromise();
 
   // Use the Storage chain state (runtime) Node Interface.
-  api
+  // Retrieve the nonce for Alice, to be used to sign the transaction.
+  api.query.system.accountNonce(alice.address())
+    // Pipe nonce into transfer.
     .pipe(
-      switchMap((api) =>
-        combineLatest([
-          // Retrieve the nonce for Alice, to be used to sign the transaction.
-          api.query.system.accountNonce(alice.address()),
-          api.rpc.chain.getBlockHash(0)
-            .pipe(
-              // Pipe nonce into transfer.
-              // Use the Extrinsics (runtime) Node Interface.
-              switchMap((aliceNonce, blockHash) => {
-                return api.tx.balances
-                  // Create an extrinsic, transferring 12345 units to Bob.
-                  .transfer(BOB_ADDR, 12345)
-                  // Sign the transaction using our account keypair, nonce,
-                  // and optionally the block hash
-                  .sign(alice, aliceNonce, blockHash)
-                  // Send the transaction (optional status callback)
-                  // .send((status) => {
-                  //   console.log(`current status ${status.type}`);
-                  // });
-              })
-            )
-        ])
-      )
+      first(),       
+      // Use the Extrinsics (runtime) Node Interface.
+      switchMap((aliceNonce) => {
+        return api.tx.balances
+          // Create an extrinsic, transferring 12345 units to Bob.
+          .transfer(BOB_ADDR, 12345)
+          // Sign the transaction using our account keypair, nonce,
+          // and optionally the block hash
+          .sign(alice, aliceNonce)
+          // Send the transaction (optional status callback)
+          .send();
+      })
     )
-    // Subscribe to overall resulting Hash
-    .subscribe(([hash]) => {
-      console.log(`Submitted transfer 12345 to Bob with hash ${hash}`);
+    // FIXME - return the transfer hash instead of the status like when using ApiPromise
+    // Subscribe to resultant status
+    .subscribe((status) => {
+      if (status && status.type.toString() === 'Finalised') {
+        console.log(`Submitted transfer of 12345 to Bob`);
+      }
     });
 }
 
