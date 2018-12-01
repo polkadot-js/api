@@ -15,7 +15,6 @@ You can find the Polkadot repositories at:
 - https://github.com/polkadot-js
 - https://github.com/paritytech/polkadot
 - https://github.com/paritytech/substrate
-- https://github.com/paritytech/substrate-node-template
 
 This documentation is generated from https://github.com/polkadot-js/api
 
