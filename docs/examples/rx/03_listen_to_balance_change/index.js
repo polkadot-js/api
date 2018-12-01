@@ -1,5 +1,3 @@
-const BN = require('bn.js');
-
 const { switchMap } = require('rxjs/operators');
 
 // Import the API Rx
@@ -9,7 +7,7 @@ const { ApiRx } = require('@polkadot/api');
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 function main () {
-  let previous = null;
+  let previous = undefined;
 
   // Here we pass the (optional) provider
   // We avoid having nested `.subscribe` blocks. Use `.subscribe` or
@@ -19,19 +17,17 @@ function main () {
     .pipe(
       // Here we subscribe to any balance changes and update the on-screen value.
       // Use the Storage chain state (runtime) Node Interface.
-      switchMap((api) => {
-        return api.query.balances.freeBalance(Alice, (previous) => {
-          return new BN(previous);
-        });
-      })
+      switchMap((api) => api.query.balances.freeBalance(Alice))
     )
     .subscribe((current) => {
+      previous = previous || current;
+
       console.log(`Alice's account ${Alice} had a previous balance of: ${previous || '???'}`);
       console.log(`You may leave this example running and start example 07 to transfer DOTs ` +
                   `to Alice at ${Alice}`);
 
       // Calculate the delta
-      const change = current.sub(new BN(previous));
+      const change = current.sub(previous);
 
       // Only display positive value changes (Since we are pulling `previous` above
       // already, the initial balance change will also be zero)

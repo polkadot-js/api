@@ -11,8 +11,7 @@
   },
   "dependencies": {
     "@polkadot/api": "^0.32.15",
-    "@polkadot/rpc-provider": "^0.32.15",
-    "bn.js": "^4.11.8"
+    "@polkadot/rpc-provider": "^0.32.15"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"

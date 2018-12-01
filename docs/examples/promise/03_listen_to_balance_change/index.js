@@ -1,5 +1,3 @@
-const BN = require('bn.js');
-
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 
@@ -10,11 +8,9 @@ async function main () {
   // Create an await for the API
   const api = await ApiPromise.create();
 
-  // Retrieve the current on-chain balance. The call has a callback since WebSockets 
-  // subscriptions require a handler.
-  let previous = await api.query.balances.freeBalance(Alice, (previous) => {
-    return new BN(previous);
-  });
+  // Retrieve the initial balance. Since the call has no callback, it is simply a promise
+  // that resolves to the current on-chain value
+  let previous = await api.query.balances.freeBalance(Alice);
 
   console.log(`Alice with account number ${Alice} had a previous balance of: ${previous || '???'}`);
   console.log(`You may leave this example running and start example 07 to transfer DOTs ` +
@@ -24,7 +20,7 @@ async function main () {
   // Use the Storage chain state (runtime) Node Interface.
   api.query.balances.freeBalance(Alice, (current) => {
     // Calculate the delta
-    const change = current.sub(new BN(previous));
+    const change = current.sub(previous);
 
     // Only display positive value changes (Since we are pulling `previous` above
     // already, the initial balance change will also be zero)

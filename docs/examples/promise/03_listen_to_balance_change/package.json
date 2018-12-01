@@ -10,8 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.32.15",
-    "bn.js": "^4.11.8"
+    "@polkadot/api": "^0.32.15"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
