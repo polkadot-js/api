@@ -51,17 +51,8 @@ To get started -
 
 ## tests
 
-Run a Substrate chain node:
-```bash
-curl https://getsubstrate.io -sSf | bash;
-substrate --dev purge-chain --dev;
-substrate --dev --telemetry-url ws://telemetry.polkadot.io:1024
-```
-
-Then run the tests. Remove `.skip` from relevant tests:
-```
-yarn run test
-```
+1. [Run a Substrate chain node](https://github.com/paritytech/substrate#61-hacking-on-substrate)
+2. Run the tests `yarn run test`
 
 ## tutorials
 
