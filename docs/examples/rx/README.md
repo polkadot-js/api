@@ -4,12 +4,7 @@ Here you will find a list of examples that takes you through the basics of conne
 
 ## Prerequisites
 
-For the following examples, you need to install and run a local Substrate chain node.
-```bash
-curl https://getsubstrate.io -sSf | bash;
-substrate --dev purge-chain --dev;
-substrate --dev --telemetry-url ws://telemetry.polkadot.io:1024
-```
+For the following examples, you need to install and [run a local Substrate chain node](https://github.com/paritytech/substrate#61-hacking-on-substrate).
 
 ## Running the examples
 

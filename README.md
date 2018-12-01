@@ -51,7 +51,7 @@ To get started -
 
 ## tests
 
-1. [Run a Substrate chain node](https://github.com/paritytech/substrate#61-hacking-on-substrate)
+1. [Run a local Substrate chain node](https://github.com/paritytech/substrate#61-hacking-on-substrate)
 2. Run the tests `yarn run test`
 
 ## tutorials
