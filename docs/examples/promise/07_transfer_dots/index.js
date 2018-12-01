@@ -1,7 +1,7 @@
 // Import the API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
-const { stringShorten, stringToU8a } = require('@polkadot/util');
+const { stringToU8a } = require('@polkadot/util');
 
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
@@ -28,14 +28,14 @@ async function main () {
 
   // Show unsigned transaction (alternate viewing forms are toU8a, toString, toJSON)
   // Use Polkadot-JS utility to shorten displayed transaction value
-  console.log(`Unsigned transaction: `, stringShorten(transfer.toHex(), 10));
+  console.log(`Unsigned transaction: `, transfer.toHex());
 
   // Sign the transaction using our account keypair, nonce, and optionally the
   // block hash
   transfer.sign(alice, aliceNonce);
 
   // Show signed transaction
-  console.log(`Signed transaction: `, stringShorten(transfer.toHex(), 10));
+  console.log(`Signed transaction: `, transfer.toHex());
 
   // Send the transaction and retrieve the resulting Hash
   const hash = await transfer.send();
