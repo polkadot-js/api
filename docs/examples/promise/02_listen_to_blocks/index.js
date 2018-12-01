@@ -15,6 +15,10 @@ async function main () {
   const subscriptionId = await api.rpc.chain.subscribeNewHead((header) => {
     console.log(`Chain is at best block #${header.blockNumber}`);
   });
+
+  // Id for the subscription, we can cleanup and unsubscribe via
+  // `api.rpc.chain.subscribeNewHead.unsubscribe(subscriptionId)`
+  console.log(`subscriptionId: ${subscriptionId}`);
 }
 
 main().catch(console.error);
