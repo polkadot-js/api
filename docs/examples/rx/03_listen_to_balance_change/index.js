@@ -22,6 +22,8 @@ function main () {
     .subscribe((current) => {
       previous = previous || current;
 
+      // FIXME - refactor like the ApiPromise where only the balance change console.log's
+      // are shown when Alice's balance changes, instead of also showing the below console.log's too.
       console.log(`Alice's account ${Alice} had a previous balance of: ${previous || '???'}`);
       console.log(`You may leave this example running and start example 07 to transfer DOTs ` +
                   `to Alice at ${Alice}`);
