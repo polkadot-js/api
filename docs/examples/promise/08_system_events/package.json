@@ -1,7 +1,7 @@
 {
   "name": "08_system_events",
   "version": "0.1.0",
-  "description": "Example showing how to query and parse events",
+  "description": "Example showing how to query and parse events using ApiPromise",
   "main": "index.js",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "license": "MIT",
