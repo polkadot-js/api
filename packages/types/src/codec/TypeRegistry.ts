@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { isFunction, isString } from '@polkadot/util';
+
 import { Constructor } from '../types';
-import * as allTypes from '../index';
 
 export default class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
@@ -13,22 +14,20 @@ export default class TypeRegistry {
   register (type: Constructor | {[name: string]: Constructor}): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | {[name: string]: Constructor}, arg2?: Constructor): void {
-    if (typeof arg1 === 'string') {
+    if (isString(arg1)) {
       const name = arg1;
       const type = arg2!;
 
       this._registry.set(name, type);
-    } else if (typeof arg1 === 'function') {
+    } else if (isFunction(arg1)) {
       const name = arg1.name;
       const type = arg1;
 
       this._registry.set(name, type);
     } else {
-      const dict = arg1;
-
-      for (const [name, type] of Object.entries(dict)) {
+      Object.entries(arg1).forEach(([name, type]) => {
         this._registry.set(name, type);
-      }
+      });
     }
   }
 
@@ -37,4 +36,4 @@ export default class TypeRegistry {
   }
 }
 
-TypeRegistry.defaultRegistry.register(allTypes as any);
+TypeRegistry.defaultRegistry.register(require('../index'));
