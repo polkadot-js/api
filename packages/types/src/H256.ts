@@ -7,7 +7,7 @@ import { AnyU8a } from './types';
 import U8aFixed from './codec/U8aFixed';
 
 /**
- * @name Hash
+ * @name H256
  * @description
  * Hash containing 256 bits (32 bytes), typically used in blocks, extrinsics and
  * as a sane default for fixed-length hash representations.
