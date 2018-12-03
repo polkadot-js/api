@@ -22,7 +22,7 @@
 
 **Ƭ BftAuthoritySignatureValue**: *`object`*
 
-*Defined in [Bft.ts:12](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bft.ts#L12)*
+*Defined in [Bft.ts:12](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bft.ts#L12)*
 
 #### Type declaration
 
@@ -33,7 +33,7 @@ ___
 
 **Ƭ BftHashSignatureValue**: *`object`*
 
-*Defined in [Bft.ts:40](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bft.ts#L40)*
+*Defined in [Bft.ts:46](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bft.ts#L46)*
 
 #### Type declaration
 

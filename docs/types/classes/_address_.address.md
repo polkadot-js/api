@@ -20,7 +20,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:25](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L25)*
+*Defined in [Address.ts:25](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L25)*
 
 **Parameters:**
 
@@ -40,7 +40,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Address.ts:64](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L64)*
+*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L67)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -51,7 +53,9 @@ ___
 
 getrawLength(): `number`
 
-*Defined in [Address.ts:75](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L75)*
+*Defined in [Address.ts:81](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L81)*
+
+*__description__*: The length of the raw value, either AccountIndex or AccountId
 
 **Returns:** `number`
 
@@ -65,7 +69,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Address.ts:81](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L81)*
+*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L90)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -76,7 +82,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Address.ts:85](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L85)*
+*Defined in [Address.ts:97](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L97)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -87,7 +95,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Address.ts:89](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L89)*
+*Defined in [Address.ts:104](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L104)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -98,13 +108,15 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Address.ts:93](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L93)*
+*Defined in [Address.ts:112](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L112)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -115,7 +127,7 @@ ___
 
 ▸ **decodeAddress**(value: *`AnyAddress`*):  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
 
-*Defined in [Address.ts:32](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Address.ts#L32)*
+*Defined in [Address.ts:32](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Address.ts#L32)*
 
 **Parameters:**
 

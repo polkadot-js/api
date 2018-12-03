@@ -2,7 +2,7 @@
 
 *__name__*: Bool
 
-*__description__*: Representation for a boolean value in the system
+*__description__*: Representation for a boolean value in the system. It extends the base JS `Boolean` class
 
 # Hierarchy
 
@@ -22,7 +22,7 @@
 
 ⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:14](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L14)*
+*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L15)*
 
 **Parameters:**
 
@@ -42,7 +42,7 @@ ___
 
 **● Boolean**: *`BooleanConstructor`*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:470*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:530*
 
 ___
 
@@ -54,7 +54,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:31](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L31)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L35)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -70,7 +72,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Bool.ts:39](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L39)*
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L42)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -83,7 +87,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L35)*
+*Defined in [Bool.ts:49](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L49)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -96,7 +102,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Bool.ts:43](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L43)*
+*Defined in [Bool.ts:56](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L56)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -109,30 +117,17 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Bool.ts:47](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L47)*
+*Defined in [Bool.ts:64](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Bool.ts#L64)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
-
-___
-<a id="valueof"></a>
-
-##  valueOf
-
-▸ **valueOf**(): `boolean`
-
-*Inherited from Boolean.valueOf*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:461*
-
-Returns the primitive value of the specified object.
-
-**Returns:** `boolean`
 
 ___
 

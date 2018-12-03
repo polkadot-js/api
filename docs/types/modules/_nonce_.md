@@ -4,7 +4,7 @@
 
 ### Classes
 
-* [Index](../classes/_nonce_.index.md)
+* [Nonce](../classes/_nonce_.nonce.md)
 
 ---
 

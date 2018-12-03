@@ -57,17 +57,18 @@
 * [H512](../classes/_h512_.h512.md)
 * [Hash](../classes/_hash_.hash.md)
 * [Header](../classes/_header_.header.md)
-* [Index](../classes/_nonce_.index.md)
 * [Justification](../classes/_justification_.justification.md)
 * [KeyValue](../classes/_keyvalue_.keyvalue.md)
 * [KeyValueOption](../classes/_keyvalue_.keyvalueoption.md)
 * [Method](../classes/_method_.method.md)
+* [MethodIndex](../classes/_method_.methodindex.md)
 * [MisbehaviorKind](../classes/_misbehaviorreport_.misbehaviorkind.md)
 * [MisbehaviorReport](../classes/_misbehaviorreport_.misbehaviorreport.md)
 * [ModuleMetadata](../classes/_metadata_.modulemetadata.md)
 * [Moment](../classes/_moment_.moment.md)
 * [NewAccountOutcome](../classes/_newaccountoutcome_.newaccountoutcome.md)
 * [NextAuthority](../classes/_storedpendingchange_.nextauthority.md)
+* [Nonce](../classes/_nonce_.nonce.md)
 * [Null](../classes/_null_.null.md)
 * [Option](../classes/_codec_option_.option.md)
 * [Other](../classes/_digest_.other.md)
@@ -131,7 +132,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L27)*
+*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/types.ts#L27)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -145,7 +146,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L32)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/types.ts#L32)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -158,7 +159,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L37)*
+*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/types.ts#L37)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -171,7 +172,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/types.ts#L42)*
 
 *__description__*: Returns the string representation of the value
 
@@ -184,7 +185,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L48)*
+*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/types.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

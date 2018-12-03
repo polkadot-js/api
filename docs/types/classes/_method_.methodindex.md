@@ -1,16 +1,14 @@
 
 
-*__name__*: H512
+*__name__*: MethodIndex
 
-*__description__*: Hash containing 512 bits (64 bytes), typically used for signatures
+*__description__*: A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
 
 # Hierarchy
 
 ↳  [U8aFixed](_codec_u8afixed_.u8afixed.md)
 
-**↳ H512**
-
-↳  [Signature](_signature_.signature.md)
+**↳ MethodIndex**
 
 # Implements
 
@@ -25,11 +23,11 @@
 
 ##  constructor
 
-⊕ **new H512**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*): [H512](_h512_.h512.md)
+⊕ **new MethodIndex**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*): [MethodIndex](_method_.methodindex.md)
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[constructor](_codec_u8afixed_.u8afixed.md#constructor)*
 
-*Defined in [H512.ts:14](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/H512.ts#L14)*
+*Defined in [Method.ts:58](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Method.ts#L58)*
 
 **Parameters:**
 
@@ -37,7 +35,7 @@
 | ------ | ------ |
 | `Optional` value | [AnyU8a](../modules/_types_.md#anyu8a) |
 
-**Returns:** [H512](_h512_.h512.md)
+**Returns:** [MethodIndex](_method_.methodindex.md)
 
 ___
 

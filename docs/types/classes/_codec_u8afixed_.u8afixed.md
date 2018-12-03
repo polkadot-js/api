@@ -12,6 +12,8 @@
 
 ↳  [AccountId](_accountid_.accountid.md)
 
+↳  [MethodIndex](_method_.methodindex.md)
+
 ↳  [H512](_h512_.h512.md)
 
 ↳  [H256](_h256_.h256.md)
@@ -37,7 +39,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [codec/U8aFixed.ts:19](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8aFixed.ts#L19)*
+*Defined in [codec/U8aFixed.ts:19](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8aFixed.ts#L19)*
 
 **Parameters:**
 
@@ -60,7 +62,7 @@ ___
 
 *Inherited from Uint8Array.BYTES_PER_ELEMENT*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1886*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1946*
 
 The size in bytes of each element in the array.
 
@@ -84,7 +86,7 @@ ___
 
 *Inherited from Uint8Array.buffer*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1891*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1951*
 
 The ArrayBuffer instance referenced by the array.
 
@@ -97,7 +99,7 @@ ___
 
 *Inherited from Uint8Array.byteLength*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1896*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1956*
 
 The length in bytes of the array.
 
@@ -110,22 +112,9 @@ ___
 
 *Inherited from Uint8Array.byteOffset*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1901*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1961*
 
 The offset in bytes of the array.
-
-___
-<a id="length"></a>
-
-##  length
-
-**● length**: *`number`*
-
-*Inherited from Uint8Array.length*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2000*
-
-The length of the array.
 
 ___
 
@@ -139,9 +128,26 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:35](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L35)*
+*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L36)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
+
+**Returns:** `number`
+
+___
+<a id="length"></a>
+
+##  length
+
+getlength(): `number`
+
+*Inherited from [U8a](_codec_u8a_.u8a.md).[length](_codec_u8a_.u8a.md#length)*
+
+*Overrides Uint8Array.length*
+
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L43)*
+
+*__description__*: The length of the value
 
 **Returns:** `number`
 
@@ -168,7 +174,7 @@ ___
 
 ▸ **bitLength**(): `number`
 
-*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8aFixed.ts#L39)*
+*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8aFixed.ts#L39)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -183,7 +189,7 @@ ___
 
 *Inherited from Uint8Array.copyWithin*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1912*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1972*
 
 Returns the this object after copying a section of the array identified by start and end to the same array starting at position target
 
@@ -221,7 +227,7 @@ ___
 
 *Inherited from Uint8Array.every*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1922*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1982*
 
 Determines whether all the members of an array satisfy the specified test.
 
@@ -243,7 +249,7 @@ ___
 
 *Inherited from Uint8Array.fill*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1932*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1992*
 
 Returns the this object after filling the section identified by start and end with value
 
@@ -266,7 +272,7 @@ ___
 
 *Inherited from Uint8Array.filter*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1941*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2001*
 
 Returns the elements of an array that meet the condition specified in a callback function.
 
@@ -288,7 +294,7 @@ ___
 
 *Inherited from Uint8Array.find*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1952*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2012*
 
 Returns the value of the first element in the array where predicate is true, and undefined otherwise.
 
@@ -310,7 +316,7 @@ ___
 
 *Inherited from Uint8Array.findIndex*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1963*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2023*
 
 Returns the index of the first element in the array where predicate is true, and -1 otherwise.
 
@@ -332,7 +338,7 @@ ___
 
 *Inherited from Uint8Array.forEach*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1972*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2032*
 
 Performs the specified action for each element in an array.
 
@@ -376,7 +382,7 @@ ___
 
 *Inherited from Uint8Array.indexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1980*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2040*
 
 Returns the index of the first occurrence of a value in an array.
 
@@ -398,7 +404,7 @@ ___
 
 *Inherited from Uint8Array.join*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1987*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2047*
 
 Adds all the elements of an array separated by the specified separator string.
 
@@ -434,7 +440,7 @@ ___
 
 *Inherited from Uint8Array.lastIndexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1995*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2055*
 
 Returns the index of the last occurrence of a value in an array.
 
@@ -456,7 +462,7 @@ ___
 
 *Inherited from Uint8Array.map*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2010*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2070*
 
 Calls a defined callback function on each element of an array, and returns an array that contains the results.
 
@@ -482,7 +488,7 @@ ___
 
 *Inherited from Uint8Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2022*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2082*
 
 Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -496,7 +502,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 *Inherited from Uint8Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2023*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2083*
 
 **Parameters:**
 
@@ -509,7 +515,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 *Inherited from Uint8Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2035*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2095*
 
 Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -538,7 +544,7 @@ ___
 
 *Inherited from Uint8Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2047*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2107*
 
 Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -552,7 +558,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 *Inherited from Uint8Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2048*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2108*
 
 **Parameters:**
 
@@ -565,7 +571,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 *Inherited from Uint8Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2060*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2120*
 
 Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -590,7 +596,7 @@ ___
 
 *Inherited from Uint8Array.reverse*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2065*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2125*
 
 Reverses the elements in an Array.
 
@@ -605,7 +611,7 @@ ___
 
 *Inherited from Uint8Array.set*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2072*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2132*
 
 Sets a value or an array of values.
 
@@ -627,7 +633,7 @@ ___
 
 *Inherited from Uint8Array.slice*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2079*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2139*
 
 Returns a section of an array.
 
@@ -649,7 +655,7 @@ ___
 
 *Inherited from Uint8Array.some*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2089*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2149*
 
 Determines whether the specified callback function returns true for any element of an array.
 
@@ -671,7 +677,7 @@ ___
 
 *Inherited from Uint8Array.sort*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2096*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2156*
 
 Sorts an array.
 
@@ -694,14 +700,16 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L41)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L53)*
+
+*__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| begin | `number` |
-| `Optional` end |  `undefined` &#124; `number`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| begin | `number` |  The position to start at |
+| `Optional` end |  `undefined` &#124; `number`|  The position to end at |
 
 **Returns:** `Uint8Array`
 
@@ -716,7 +724,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:48](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L48)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -733,7 +741,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L55)*
+*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L67)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -748,7 +756,7 @@ ___
 
 *Inherited from Uint8Array.toLocaleString*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2109*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:2169*
 
 Converts a number to a string by using the current locale.
 
@@ -767,7 +775,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:62](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L62)*
+*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L74)*
 
 *__description__*: Returns the string representation of the value
 
@@ -784,7 +792,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:70](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L70)*
+*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/U8a.ts#L82)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

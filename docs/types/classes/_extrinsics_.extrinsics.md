@@ -31,7 +31,7 @@
 
 *Inherited from [Vector](_codec_vector_.vector.md).[constructor](_codec_vector_.vector.md#constructor)*
 
-*Defined in [codec/Vector.ts:20](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L20)*
+*Defined in [codec/Vector.ts:21](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L21)*
 
 **Parameters:**
 
@@ -41,22 +41,6 @@
 | `Default value` value |  [Vector](_codec_vector_.vector.md)<`any`> &#124; `Uint8Array` &#124; `string` &#124; `Array`<`any`>|  [] as Array&lt;any&gt; |
 
 **Returns:** [Extrinsics](_extrinsics_.extrinsics.md)
-
-___
-
-# Properties
-
-<a id="length"></a>
-
-##  length
-
-**● length**: *`number`*
-
-*Inherited from Array.length*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1139*
-
-Gets or sets the length of the array. This is a number one higher than the highest element defined in an array.
 
 ___
 
@@ -70,7 +54,7 @@ getType(): `string`
 
 *Inherited from [Vector](_codec_vector_.vector.md).[Type](_codec_vector_.vector.md#type)*
 
-*Defined in [codec/Vector.ts:64](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L64)*
+*Defined in [codec/Vector.ts:65](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L65)*
 
 **Returns:** `string`
 
@@ -83,9 +67,26 @@ getencodedLength(): `number`
 
 *Inherited from [Vector](_codec_vector_.vector.md).[encodedLength](_codec_vector_.vector.md#encodedlength)*
 
-*Defined in [codec/Vector.ts:71](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L71)*
+*Defined in [codec/Vector.ts:72](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L72)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
+
+**Returns:** `number`
+
+___
+<a id="length"></a>
+
+##  length
+
+getlength(): `number`
+
+*Inherited from [Vector](_codec_vector_.vector.md).[length](_codec_vector_.vector.md#length)*
+
+*Overrides Array.length*
+
+*Defined in [codec/Vector.ts:81](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L81)*
+
+*__description__*: The length of the value
 
 **Returns:** `number`
 
@@ -133,7 +134,7 @@ ___
 
 *Inherited from Array.concat*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1161*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1221*
 
 Combines two or more arrays.
 
@@ -147,7 +148,7 @@ Combines two or more arrays.
 
 *Inherited from Array.concat*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1166*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1226*
 
 Combines two or more arrays.
 
@@ -206,7 +207,7 @@ ___
 
 *Inherited from Array.every*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1226*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1286*
 
 Determines whether all the members of an array satisfy the specified test.
 
@@ -253,14 +254,16 @@ ___
 
 *Overrides Array.filter*
 
-*Defined in [codec/Vector.ts:133](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L133)*
+*Defined in [codec/Vector.ts:147](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L147)*
+
+*__description__*: Filters the array with the callback
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| callbackfn | `function` |
-| `Optional` thisArg | `any` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The filter function |
+| `Optional` thisArg | `any` |  The \`this\` object to apply the result to |
 
 **Returns:** `Array`<`T`>
 
@@ -545,7 +548,7 @@ ___
 
 *Inherited from Array.forEach*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1238*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1298*
 
 Performs the specified action for each element in an array.
 
@@ -589,7 +592,7 @@ ___
 
 *Inherited from Array.indexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1214*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1274*
 
 Returns the index of the first occurrence of a value in an array.
 
@@ -611,7 +614,7 @@ ___
 
 *Inherited from Array.join*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1171*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1231*
 
 Adds all the elements of an array separated by the specified separator string.
 
@@ -647,7 +650,7 @@ ___
 
 *Inherited from Array.lastIndexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1220*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1280*
 
 Returns the index of the last occurrence of a specified value in an array.
 
@@ -671,17 +674,19 @@ ___
 
 *Overrides Array.map*
 
-*Defined in [codec/Vector.ts:137](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L137)*
+*Defined in [codec/Vector.ts:156](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L156)*
+
+*__description__*: Maps the array with the callback
 
 **Type parameters:**
 
 #### U 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| callbackfn | `function` |
-| `Optional` thisArg | `any` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The mapping function |
+| `Optional` thisArg | `any` |  The \`this\` onject to apply the result to |
 
 **Returns:** `Array`<`U`>
 
@@ -694,7 +699,7 @@ ___
 
 *Inherited from Array.pop*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1151*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1211*
 
 Removes the last element from an array and returns it.
 
@@ -709,7 +714,7 @@ ___
 
 *Inherited from Array.push*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1156*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1216*
 
 Appends new elements to an array, and returns the new length of the array.
 
@@ -734,7 +739,7 @@ ___
 
 *Inherited from Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1262*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1322*
 
 Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -748,7 +753,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 *Inherited from Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1263*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1323*
 
 **Parameters:**
 
@@ -761,7 +766,7 @@ Calls the specified callback function for all the elements in an array. The retu
 
 *Inherited from Array.reduce*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1269*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1329*
 
 Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -790,7 +795,7 @@ ___
 
 *Inherited from Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1275*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1335*
 
 Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -804,7 +809,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 *Inherited from Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1276*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1336*
 
 **Parameters:**
 
@@ -817,7 +822,7 @@ Calls the specified callback function for all the elements in an array, in desce
 
 *Inherited from Array.reduceRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1282*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1342*
 
 Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
 
@@ -842,7 +847,7 @@ ___
 
 *Inherited from Array.reverse*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1175*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1235*
 
 Reverses the elements in an Array.
 
@@ -857,7 +862,7 @@ ___
 
 *Inherited from Array.shift*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1179*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1239*
 
 Removes the first element from an array and returns it.
 
@@ -872,7 +877,7 @@ ___
 
 *Inherited from Array.slice*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1185*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1245*
 
 Returns a section of an array.
 
@@ -894,7 +899,7 @@ ___
 
 *Inherited from Array.some*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1232*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1292*
 
 Determines whether the specified callback function returns true for any element of an array.
 
@@ -916,7 +921,7 @@ ___
 
 *Inherited from Array.sort*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1190*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1250*
 
 Sorts an array.
 
@@ -939,7 +944,7 @@ ___
 
 *Inherited from Array.splice*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1196*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1256*
 
 Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
 
@@ -954,7 +959,7 @@ Removes elements from an array and, if necessary, inserts new elements in their 
 
 *Inherited from Array.splice*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1203*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1263*
 
 Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
 
@@ -977,7 +982,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[toArray](_codec_vector_.vector.md#toarray)*
 
-*Defined in [codec/Vector.ts:80](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L80)*
+*Defined in [codec/Vector.ts:89](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L89)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -994,7 +999,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[toHex](_codec_vector_.vector.md#tohex)*
 
-*Defined in [codec/Vector.ts:87](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L87)*
+*Defined in [codec/Vector.ts:96](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L96)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1011,7 +1016,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[toJSON](_codec_vector_.vector.md#tojson)*
 
-*Defined in [codec/Vector.ts:94](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L94)*
+*Defined in [codec/Vector.ts:103](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L103)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1026,7 +1031,7 @@ ___
 
 *Inherited from Array.toLocaleString*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1147*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1207*
 
 Returns a string representation of an array. The elements are converted to string using their toLocalString methods.
 
@@ -1045,7 +1050,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Vector.ts:103](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L103)*
+*Defined in [codec/Vector.ts:112](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L112)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1062,7 +1067,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[toU8a](_codec_vector_.vector.md#tou8a)*
 
-*Defined in [codec/Vector.ts:116](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L116)*
+*Defined in [codec/Vector.ts:125](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L125)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1083,7 +1088,7 @@ ___
 
 *Inherited from Array.unshift*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1208*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1268*
 
 Inserts new elements at the start of an array.
 
@@ -1119,7 +1124,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[decodeVector](_codec_vector_.vector.md#decodevector)*
 
-*Defined in [codec/Vector.ts:30](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L30)*
+*Defined in [codec/Vector.ts:31](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L31)*
 
 **Type parameters:**
 
@@ -1142,7 +1147,7 @@ ___
 
 *Inherited from [Vector](_codec_vector_.vector.md).[with](_codec_vector_.vector.md#with)*
 
-*Defined in [codec/Vector.ts:56](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Vector.ts#L56)*
+*Defined in [codec/Vector.ts:57](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Vector.ts#L57)*
 
 **Type parameters:**
 

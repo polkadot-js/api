@@ -24,7 +24,9 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_null_.null.md).[encodedLength](_null_.null.md#encodedlength)*
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Null.ts#L16)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -42,7 +44,9 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toHex](_null_.null.md#tohex)*
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Null.ts#L23)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -57,7 +61,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toJSON](_null_.null.md#tojson)*
 
-*Defined in [Null.ts:24](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L24)*
+*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Null.ts#L30)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -74,7 +78,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toString](_null_.null.md#tostring)*
 
-*Defined in [Null.ts:31](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L31)*
+*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Null.ts#L37)*
 
 *__description__*: Returns the string representation of the value
 
@@ -91,7 +95,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toU8a](_null_.null.md#tou8a)*
 
-*Defined in [Null.ts:39](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L39)*
+*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Null.ts#L45)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

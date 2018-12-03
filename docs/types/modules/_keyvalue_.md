@@ -21,7 +21,7 @@
 
 **Ƭ KeyValueOptionValue**: *`object`*
 
-*Defined in [KeyValue.ts:43](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/KeyValue.ts#L43)*
+*Defined in [KeyValue.ts:49](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/KeyValue.ts#L49)*
 
 #### Type declaration
 
