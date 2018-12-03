@@ -1,5 +1,9 @@
 
 
+*__name__*: Tuple
+
+*__description__*: A Tuple defines an anonymous Object with key/values - where the values are Codec values. It is a specialization of the Struct type where the toJSON operates on Array structures, while the U8a encoding is handled in the same way as a Struct
+
 # Type parameters
 #### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 #### T :  `object`
@@ -13,11 +17,19 @@
 
 ↳  [OuterEventMetadataEvent](_metadata_.outereventmetadataevent.md)
 
+↳  [Seal](_digest_.seal.md)
+
+↳  [EventData](_event_.eventdata.md)
+
 ↳  [KeyValueOption](_keyvalue_.keyvalueoption.md)
 
 ↳  [BftAuthoritySignature](_bft_.bftauthoritysignature.md)
 
 ↳  [BftHashSignature](_bft_.bfthashsignature.md)
+
+↳  [RuntimeVersionApi](_runtimeversion_.runtimeversionapi.md)
+
+↳  [NextAuthority](_storedpendingchange_.nextauthority.md)
 
 # Implements
 
@@ -33,7 +45,7 @@
 
 *Inherited from [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L25)*
+*Defined in [codec/Struct.ts:29](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L29)*
 
 **Parameters:**
 
@@ -82,7 +94,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [codec/Struct.ts:129](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L129)*
 
 **Returns:** `E`
 
@@ -95,7 +107,9 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:129](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L129)*
+*Defined in [codec/Struct.ts:136](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L136)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -212,7 +226,9 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:135](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L135)*
+*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L145)*
+
+*__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
 **Parameters:**
 
@@ -285,7 +301,9 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:139](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L139)*
+*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L152)*
+
+*__description__*: Converts the Object to an standard JavaScript Array
 
 **Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
@@ -300,7 +318,9 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:143](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L143)*
+*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L159)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -315,7 +335,9 @@ ___
 
 *Overrides [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Tuple.ts:27](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Tuple.ts#L27)*
+*Defined in [codec/Tuple.ts:34](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Tuple.ts#L34)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -330,7 +352,9 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L158)*
+*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L180)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -345,13 +369,15 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:162](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Struct.ts#L162)*
+*Defined in [codec/Struct.ts:188](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Struct.ts#L188)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -379,7 +405,7 @@ ___
 
 *Overrides [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Tuple.ts:17](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Tuple.ts#L17)*
+*Defined in [codec/Tuple.ts:21](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Tuple.ts#L21)*
 
 **Type parameters:**
 

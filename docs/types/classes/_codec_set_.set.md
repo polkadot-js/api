@@ -1,5 +1,9 @@
 
 
+*__name__*: Set
+
+*__description__*: An Set is an array of string values, represented an an encoded type by a bitwise representation of the values.
+
 # Hierarchy
 
  [Base](_codec_base_.base.md)<`Array`<`string`>>
@@ -20,7 +24,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Set.ts:19](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L19)*
+*Defined in [codec/Set.ts:22](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L22)*
 
 **Parameters:**
 
@@ -41,7 +45,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Set.ts:66](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L66)*
+*Defined in [codec/Set.ts:72](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L72)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -52,7 +58,9 @@ ___
 
 getisEmpty(): `boolean`
 
-*Defined in [codec/Set.ts:70](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L70)*
+*Defined in [codec/Set.ts:79](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L79)*
+
+*__description__*: true is the Set contains no values
 
 **Returns:** `boolean`
 
@@ -63,7 +71,9 @@ ___
 
 getvalueEncoded(): `number`
 
-*Defined in [codec/Set.ts:78](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L78)*
+*Defined in [codec/Set.ts:93](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L93)*
+
+*__description__*: The encoded value for the set members
 
 **Returns:** `number`
 
@@ -74,7 +84,9 @@ ___
 
 getvalues(): `Array`<`string`>
 
-*Defined in [codec/Set.ts:74](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L74)*
+*Defined in [codec/Set.ts:86](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L86)*
+
+*__description__*: The actual set values as a Array
 
 **Returns:** `Array`<`string`>
 
@@ -90,7 +102,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Set.ts:82](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L82)*
+*Defined in [codec/Set.ts:100](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L100)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -103,7 +117,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Set.ts:86](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L86)*
+*Defined in [codec/Set.ts:107](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L107)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -116,7 +132,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Set.ts:94](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L94)*
+*Defined in [codec/Set.ts:114](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L114)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -129,13 +147,15 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Set.ts:90](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L90)*
+*Defined in [codec/Set.ts:122](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L122)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -146,7 +166,7 @@ ___
 
 ▸ **decodeSet**(setValues: *`SetValues`*, value?: * `Array`<`string`> &#124; `Uint8Array` &#124; `number`*): `Array`<`string`>
 
-*Defined in [codec/Set.ts:29](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L29)*
+*Defined in [codec/Set.ts:32](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L32)*
 
 **Parameters:**
 
@@ -164,7 +184,7 @@ ___
 
 ▸ **encodeSet**(setValues: *`SetValues`*, value: *`Array`<`string`>*): `number`
 
-*Defined in [codec/Set.ts:60](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Set.ts#L60)*
+*Defined in [codec/Set.ts:63](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Set.ts#L63)*
 
 **Parameters:**
 

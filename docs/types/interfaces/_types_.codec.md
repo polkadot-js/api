@@ -1,5 +1,9 @@
 
 
+*__name__*: Codec
+
+*__description__*: The base Codec interface. All types implement the interface provided here. Additionally implementors can add their own specific interfaces and helpres with getters and functions. The Codec Base is however required for operating as an encoding/decoding layer
+
 # Hierarchy
 
 **Codec**
@@ -8,6 +12,9 @@
 
 * [AccountId](../classes/_accountid_.accountid.md)
 * [AccountIndex](../classes/_accountindex_.accountindex.md)
+* [ApiId](../classes/_runtimeversion_.apiid.md)
+* [ApplyExtrinsic](../classes/_eventrecord_.applyextrinsic.md)
+* [AuthoritiesChange](../classes/_digest_.authoritieschange.md)
 * [AuthorityId](../classes/_authorityid_.authorityid.md)
 * [Balance](../classes/_balance_.balance.md)
 * [BftAtReport](../classes/_misbehaviorreport_.bftatreport.md)
@@ -23,6 +30,7 @@
 * [Broadcast](../classes/_extrinsicstatus_.broadcast.md)
 * [Bytes](../classes/_bytes_.bytes.md)
 * [CallMetadata](../classes/_metadata_.callmetadata.md)
+* [ChangesTrieRoot](../classes/_digest_.changestrieroot.md)
 * [Compact](../classes/_codec_compact_.compact.md)
 * [Data](../classes/_data_.data.md)
 * [Digest](../classes/_digest_.digest.md)
@@ -31,6 +39,8 @@
 * [Enum](../classes/_codec_enum_.enum.md)
 * [EnumType](../classes/_codec_enumtype_.enumtype.md)
 * [Event](../classes/_event_.event.md)
+* [EventData](../classes/_event_.eventdata.md)
+* [EventIndex](../classes/_event_.eventindex.md)
 * [EventMetadata](../classes/_metadata_.eventmetadata.md)
 * [EventRecord](../classes/_eventrecord_.eventrecord.md)
 * [Extrinsic](../classes/_extrinsic_.extrinsic.md)
@@ -39,6 +49,7 @@
 * [ExtrinsicStatus](../classes/_extrinsicstatus_.extrinsicstatus.md)
 * [Extrinsics](../classes/_extrinsics_.extrinsics.md)
 * [Finalised](../classes/_extrinsicstatus_.finalised.md)
+* [Finalization](../classes/_eventrecord_.finalization.md)
 * [FunctionArgumentMetadata](../classes/_metadata_.functionargumentmetadata.md)
 * [FunctionMetadata](../classes/_metadata_.functionmetadata.md)
 * [Gas](../classes/_gas_.gas.md)
@@ -56,8 +67,10 @@
 * [ModuleMetadata](../classes/_metadata_.modulemetadata.md)
 * [Moment](../classes/_moment_.moment.md)
 * [NewAccountOutcome](../classes/_newaccountoutcome_.newaccountoutcome.md)
+* [NextAuthority](../classes/_storedpendingchange_.nextauthority.md)
 * [Null](../classes/_null_.null.md)
 * [Option](../classes/_codec_option_.option.md)
+* [Other](../classes/_digest_.other.md)
 * [OuterDispatchCall](../classes/_metadata_.outerdispatchcall.md)
 * [OuterDispatchMetadata](../classes/_metadata_.outerdispatchmetadata.md)
 * [OuterEventMetadata](../classes/_metadata_.outereventmetadata.md)
@@ -66,6 +79,7 @@
 * [PendingExtrinsics](../classes/_pendingextrinsics_.pendingextrinsics.md)
 * [Perbill](../classes/_perbill_.perbill.md)
 * [Permill](../classes/_permill_.permill.md)
+* [Phase](../classes/_eventrecord_.phase.md)
 * [PropIndex](../classes/_propindex_.propindex.md)
 * [Proposal](../classes/_proposal_.proposal.md)
 * [ProposalIndex](../classes/_proposalindex_.proposalindex.md)
@@ -74,6 +88,8 @@
 * [RuntimeMetadata](../classes/_metadata_.runtimemetadata.md)
 * [RuntimeModuleMetadata](../classes/_metadata_.runtimemodulemetadata.md)
 * [RuntimeVersion](../classes/_runtimeversion_.runtimeversion.md)
+* [RuntimeVersionApi](../classes/_runtimeversion_.runtimeversionapi.md)
+* [Seal](../classes/_digest_.seal.md)
 * [SessionKey](../classes/_sessionkey_.sessionkey.md)
 * [Set](../classes/_codec_set_.set.md)
 * [Signature](../classes/_signature_.signature.md)
@@ -115,7 +131,9 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/types.ts#L17)*
+*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L27)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 ___
 
@@ -127,7 +145,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/types.ts#L18)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L32)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -138,7 +158,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/types.ts#L19)*
+*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L37)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -149,7 +171,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:20](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/types.ts#L20)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L42)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -160,13 +184,15 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/types.ts#L21)*
+*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/types.ts#L48)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

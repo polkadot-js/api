@@ -1,5 +1,9 @@
 
 
+*__name__*: StorageData
+
+*__description__*: Data retrieved via Storage queries and data for KeyValue pairs
+
 # Hierarchy
 
 ↳  [Bytes](_bytes_.bytes.md)
@@ -25,7 +29,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [Bytes.ts:14](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bytes.ts#L14)*
+*Defined in [Bytes.ts:18](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bytes.ts#L18)*
 
 **Parameters:**
 
@@ -128,7 +132,7 @@ getencodedLength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [Bytes.ts:57](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bytes.ts#L57)*
+*Defined in [Bytes.ts:61](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bytes.ts#L61)*
 
 **Returns:** `number`
 
@@ -668,7 +672,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:34](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L34)*
+*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L41)*
 
 **Parameters:**
 
@@ -690,7 +694,9 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:38](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L38)*
+*Defined in [codec/U8a.ts:48](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L48)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -705,7 +711,9 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:42](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L42)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L55)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -737,7 +745,9 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:50](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L50)*
+*Defined in [codec/U8a.ts:62](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L62)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -754,7 +764,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:61](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bytes.ts#L61)*
+*Defined in [Bytes.ts:65](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bytes.ts#L65)*
 
 **Parameters:**
 

@@ -1,5 +1,9 @@
 
 
+*__name__*: Dropped
+
+*__description__*: An [ExtrinsicStatus](_extrinsicstatus_.extrinsicstatus.md) indicating that the [Extrinsic](_extrinsic_.extrinsic.md) has been dropped
+
 # Hierarchy
 
  [Null](_null_.null.md)
@@ -20,7 +24,7 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_null_.null.md).[encodedLength](_null_.null.md#encodedlength)*
 
-*Defined in [Null.ts:9](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Null.ts#L9)*
+*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L13)*
 
 **Returns:** `number`
 
@@ -38,7 +42,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toHex](_null_.null.md#tohex)*
 
-*Defined in [Null.ts:13](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Null.ts#L13)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L17)*
 
 **Returns:** `string`
 
@@ -53,7 +57,9 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toJSON](_null_.null.md#tojson)*
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:24](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L24)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -68,7 +74,9 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toString](_null_.null.md#tostring)*
 
-*Defined in [Null.ts:25](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Null.ts#L25)*
+*Defined in [Null.ts:31](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L31)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -83,13 +91,15 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toU8a](_null_.null.md#tou8a)*
 
-*Defined in [Null.ts:21](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Null.ts#L21)*
+*Defined in [Null.ts:39](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Null.ts#L39)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

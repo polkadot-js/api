@@ -1,5 +1,9 @@
 
 
+*__name__*: U8a
+
+*__description__*: A basic wrapper around Uint8Array, with no frills and no fuss. It does differ from other implementations wher it will consume the full Uint8Array as passed to it. As such it is meant to be subclassed where the wrapper takes care of the actual lengths instead of used directly.
+
 # Hierarchy
 
  `Uint8Array`
@@ -29,7 +33,7 @@
 
 ⊕ **new U8a**(value: *[AnyU8a](../modules/_types_.md#anyu8a)*): [U8a](_codec_u8a_.u8a.md)
 
-*Defined in [codec/U8a.ts:13](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L13)*
+*Defined in [codec/U8a.ts:17](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L17)*
 
 **Parameters:**
 
@@ -137,7 +141,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/U8a.ts:28](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L28)*
+*Defined in [codec/U8a.ts:35](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L35)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -675,7 +681,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:34](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L34)*
+*Defined in [codec/U8a.ts:41](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L41)*
 
 **Parameters:**
 
@@ -695,7 +701,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/U8a.ts:38](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L38)*
+*Defined in [codec/U8a.ts:48](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L48)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -708,7 +716,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/U8a.ts:42](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L42)*
+*Defined in [codec/U8a.ts:55](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L55)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -738,7 +748,9 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:50](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L50)*
+*Defined in [codec/U8a.ts:62](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L62)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -751,13 +763,15 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/U8a.ts:46](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/U8a.ts#L46)*
+*Defined in [codec/U8a.ts:70](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/U8a.ts#L70)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

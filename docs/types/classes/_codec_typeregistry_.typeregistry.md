@@ -12,7 +12,7 @@
 
 **● defaultRegistry**: *[TypeRegistry](_codec_typeregistry_.typeregistry.md)* =  new TypeRegistry()
 
-*Defined in [codec/TypeRegistry.ts:9](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/TypeRegistry.ts#L9)*
+*Defined in [codec/TypeRegistry.ts:9](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/TypeRegistry.ts#L9)*
 
 ___
 
@@ -24,7 +24,7 @@ ___
 
 ▸ **get**(name: *`string`*):  `undefined` &#124; `object`
 
-*Defined in [codec/TypeRegistry.ts:35](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/TypeRegistry.ts#L35)*
+*Defined in [codec/TypeRegistry.ts:35](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/TypeRegistry.ts#L35)*
 
 **Parameters:**
 
@@ -43,7 +43,7 @@ ___
 
 ▸ **register**(name: *`string`*, type: *[Constructor](../modules/_types_.md#constructor)*): `void`
 
-*Defined in [codec/TypeRegistry.ts:13](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/TypeRegistry.ts#L13)*
+*Defined in [codec/TypeRegistry.ts:13](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/TypeRegistry.ts#L13)*
 
 **Parameters:**
 
@@ -53,7 +53,7 @@ ___
 
 **Returns:** `void`
 
-*Defined in [codec/TypeRegistry.ts:14](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/TypeRegistry.ts#L14)*
+*Defined in [codec/TypeRegistry.ts:14](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/TypeRegistry.ts#L14)*
 
 **Parameters:**
 

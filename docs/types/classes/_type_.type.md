@@ -1,5 +1,9 @@
 
 
+*__name__*: Type
+
+*__description__*: This is a extended version of String, specifically to handle types. Here we rely fully on what string provides us, however we also adjust the types received from the runtime, i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
+
 # Hierarchy
 
 ↳  [Text](_text_.text.md)
@@ -23,7 +27,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Type.ts#L16)*
+*Defined in [Type.ts:20](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Type.ts#L20)*
 
 **Parameters:**
 
@@ -61,7 +65,7 @@ getencodedLength(): `number`
 
 *Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:63](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Type.ts#L63)*
+*Defined in [Type.ts:64](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Type.ts#L64)*
 
 **Returns:** `number`
 
@@ -825,7 +829,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
 
-*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Text.ts#L43)*
+*Defined in [Text.ts:46](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Text.ts#L46)*
 
 **Returns:** `string`
 
@@ -840,7 +844,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Text.ts#L47)*
+*Defined in [Text.ts:50](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Text.ts#L50)*
 
 **Returns:** `any`
 
@@ -917,7 +921,7 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Type.ts#L70)*
+*Defined in [Type.ts:71](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Type.ts#L71)*
 
 **Parameters:**
 

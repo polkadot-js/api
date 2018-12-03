@@ -1,5 +1,9 @@
 
 
+*__name__*: Option
+
+*__description__*: An Option is an optional field. Basically the first byte indicates that there is is value to follow. If the byte is `1` there is an actual value. So the Option implements that - decodes, checks for optionality and wraps the required structure with a value if/as required/found.
+
 # Type parameters
 #### T :  [Codec](../interfaces/_types_.codec.md)
 # Hierarchy
@@ -22,7 +26,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Option.ts:15](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L15)*
+*Defined in [codec/Option.ts:19](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L19)*
 
 **Parameters:**
 
@@ -43,7 +47,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Option.ts:57](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L57)*
+*Defined in [codec/Option.ts:52](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L52)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -54,7 +60,9 @@ ___
 
 getisNone(): `boolean`
 
-*Defined in [codec/Option.ts:45](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L45)*
+*Defined in [codec/Option.ts:60](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L60)*
+
+*__description__*: Checks if the Option has no value
 
 **Returns:** `boolean`
 
@@ -65,7 +73,9 @@ ___
 
 getisSome(): `boolean`
 
-*Defined in [codec/Option.ts:49](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L49)*
+*Defined in [codec/Option.ts:67](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L67)*
+
+*__description__*: Checks if the Option has a value
 
 **Returns:** `boolean`
 
@@ -76,7 +86,9 @@ ___
 
 getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:53](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L53)*
+*Defined in [codec/Option.ts:74](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L74)*
+
+*__description__*: The actual value for the Option
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)
 
@@ -92,7 +104,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Option.ts:61](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L61)*
+*Defined in [codec/Option.ts:81](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L81)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -105,7 +119,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Option.ts:65](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L65)*
+*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L88)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -118,7 +134,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Option.ts:84](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L84)*
+*Defined in [codec/Option.ts:95](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L95)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -131,13 +149,15 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Option.ts:69](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L69)*
+*Defined in [codec/Option.ts:103](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L103)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -148,7 +168,9 @@ ___
 
 ▸ **unwrap**(): `T`
 
-*Defined in [codec/Option.ts:88](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L88)*
+*Defined in [codec/Option.ts:121](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L121)*
+
+*__description__*: Returns the value that the Option represents (if available)
 
 **Returns:** `T`
 
@@ -159,7 +181,7 @@ ___
 
 ▸ **decodeOption**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Option.ts:22](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L22)*
+*Defined in [codec/Option.ts:26](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L26)*
 
 **Type parameters:**
 
@@ -180,7 +202,7 @@ ___
 
 ▸ **with**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)*): [Constructor](../modules/_types_.md#constructor)<[Option](_codec_option_.option.md)<`O`>>
 
-*Defined in [codec/Option.ts:37](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/Option.ts#L37)*
+*Defined in [codec/Option.ts:41](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/Option.ts#L41)*
 
 **Type parameters:**
 

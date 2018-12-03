@@ -1,5 +1,9 @@
 
 
+*__name__*: UInt
+
+*__description__*: A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding and decoding of those numbers. Upon construction the bitLength is provided and any additional use keeps the number to this length.
+
 # Hierarchy
 
  `BN`
@@ -32,7 +36,7 @@
 
 *Overrides BN.__constructor*
 
-*Defined in [codec/UInt.ts:22](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L22)*
+*Defined in [codec/UInt.ts:25](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L25)*
 
 **Parameters:**
 
@@ -54,7 +58,9 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/UInt.ts:53](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L53)*
+*Defined in [codec/UInt.ts:55](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L55)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -190,7 +196,9 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:49](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L49)*
+*Defined in [codec/UInt.ts:62](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L62)*
+
+*__description__*: Returns the number of bits in the value
 
 **Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
@@ -1521,7 +1529,9 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L71)*
+*Defined in [codec/UInt.ts:69](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L69)*
+
+*__description__*: Returns the BN representation of the number. (Compatibility)
 
 **Returns:** `BN`
 
@@ -1556,7 +1566,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L57)*
+*Defined in [codec/UInt.ts:76](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L76)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -1571,7 +1583,9 @@ ___
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:61](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L61)*
+*Defined in [codec/UInt.ts:83](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L83)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -1663,13 +1677,15 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/UInt.ts:67](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L67)*
+*Defined in [codec/UInt.ts:93](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L93)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -1863,7 +1879,7 @@ ___
 
 ▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
 
-*Defined in [codec/UInt.ts:33](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/codec/UInt.ts#L33)*
+*Defined in [codec/UInt.ts:36](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/codec/UInt.ts#L36)*
 
 **Parameters:**
 

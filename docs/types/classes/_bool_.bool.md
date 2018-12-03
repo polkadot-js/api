@@ -1,5 +1,9 @@
 
 
+*__name__*: Bool
+
+*__description__*: Representation for a boolean value in the system
+
 # Hierarchy
 
  `Boolean`
@@ -18,7 +22,7 @@
 
 ⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:9](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L9)*
+*Defined in [Bool.ts:14](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L14)*
 
 **Parameters:**
 
@@ -50,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:26](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L26)*
+*Defined in [Bool.ts:31](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L31)*
 
 **Returns:** `number`
 
@@ -66,7 +70,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Bool.ts:34](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L34)*
+*Defined in [Bool.ts:39](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L39)*
 
 **Returns:** `string`
 
@@ -79,7 +83,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Bool.ts:30](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L30)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L35)*
 
 **Returns:** `any`
 
@@ -92,7 +96,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L42)*
+*Defined in [Bool.ts:43](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L43)*
 
 **Returns:** `string`
 
@@ -105,7 +109,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Bool.ts:38](https://github.com/polkadot-js/api/blob/82dcbe5/packages/types/src/Bool.ts#L38)*
+*Defined in [Bool.ts:47](https://github.com/polkadot-js/api/blob/6cab9be/packages/types/src/Bool.ts#L47)*
 
 **Parameters:**
 
