@@ -20,7 +20,7 @@ async function main () {
       console.log(`\t\t${event.meta.documentation.toString()}`);
 
       // loop through each of the parameters, displaying the type and data
-      event.data.toArray().forEach((data, index) => {
+      event.data.forEach((data, index) => {
         console.log(`\t\t\t${types[index].type}: ${data.toString()}`);
       });
     });
