@@ -101,18 +101,18 @@ export class EventMetadata extends Struct {
 
 export class OuterEventMetadataEvent extends Tuple {
   constructor (value?: any) {
-    super({
-      name: Text,
-      events: Vector.with(EventMetadata)
-    }, value);
+    super([
+      Text,
+      Vector.with(EventMetadata)
+    ], value);
   }
 
   get events (): Vector<EventMetadata> {
-    return this.getAtIndex(1) as Vector<EventMetadata>;
+    return this[1] as Vector<EventMetadata>;
   }
 
   get name (): Text {
-    return this.getAtIndex(0) as Text;
+    return this[0] as Text;
   }
 }
 

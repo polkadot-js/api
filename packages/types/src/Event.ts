@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor, ConstructorDef } from './types';
+import { Constructor } from './types';
 
 import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
@@ -25,7 +25,7 @@ export class EventData extends Tuple {
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;

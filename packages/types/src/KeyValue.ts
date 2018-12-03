@@ -54,17 +54,17 @@ export type KeyValueOptionValue = {
  */
 export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue | Uint8Array) {
-    super({
-      key: StorageKey,
-      value: Option.with(StorageData)
-    }, value);
+    super([
+      StorageKey,
+      Option.with(StorageData)
+    ], value);
   }
 
   get key (): StorageKey {
-    return this.getAtIndex(0) as StorageKey;
+    return this[0] as StorageKey;
   }
 
   get value (): Option<StorageData> {
-    return this.getAtIndex(1) as Option<StorageData>;
+    return this[1] as Option<StorageData>;
   }
 }

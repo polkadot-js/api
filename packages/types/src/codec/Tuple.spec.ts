@@ -19,10 +19,9 @@ describe('Tuple', () => {
     Method.injectExtrinsics(extrinsics);
 
     // FIXME something weird here, injecting any :(
-    tuple = new Tuple({
-      foo: Text,
-      bar: U32
-    } as any, { foo: 'foo', bar: 69 });
+    tuple = new Tuple([
+      Text, U32
+    ], ['foo', 69]);
   });
 
   it('returns array with toJSON', () => {
@@ -35,11 +34,9 @@ describe('Tuple', () => {
   });
 
   it('initialises via JSON array', () => {
-    const test = new (Tuple.with({
-      a: Text,
-      b: U32,
-      c: Text
-    }))([
+    const test = new (Tuple.with(
+      [Text, U32, Text])
+    )([
       'bazzing', 32
     ]);
 
@@ -53,14 +50,13 @@ describe('Tuple', () => {
   });
 
   it('creates properly via actual hex string', () => {
-    const test = new (Tuple.with({
-      blockNumber: BlockNumber,
-      proposal: Proposal,
-      threshold: VoteThreshold
-    }))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
+    const test = new (Tuple.with([
+      BlockNumber, Proposal, VoteThreshold
+    ]
+    ))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
 
-    expect((test.getAtIndex(0) as BlockNumber).toNumber()).toEqual(6498);
-    expect((test.getAtIndex(1) as Method).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect((test.getAtIndex(2) as VoteThreshold).toNumber()).toEqual(1);
+    expect((test[0] as BlockNumber).toNumber()).toEqual(6498);
+    expect((test[1] as Method).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect((test[2] as VoteThreshold).toNumber()).toEqual(1);
   });
 });

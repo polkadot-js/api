@@ -22,18 +22,18 @@ export type BftAuthoritySignatureValue = {
  */
 export class BftAuthoritySignature extends Tuple {
   constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
-    super({
-      authorityId: AuthorityId,
-      signature: Signature
-    }, value);
+    super(
+      [AuthorityId, Signature],
+      value
+    );
   }
 
   get authorityId (): AuthorityId {
-    return this.getAtIndex(0) as AuthorityId;
+    return this[0] as AuthorityId;
   }
 
   get signature (): Signature {
-    return this.getAtIndex(1) as Signature;
+    return this[1] as Signature;
   }
 }
 
@@ -50,17 +50,17 @@ export type BftHashSignatureValue = {
  */
 export class BftHashSignature extends Tuple {
   constructor (value?: BftHashSignatureValue | Uint8Array) {
-    super({
-      hash: Hash,
-      signature: Signature
-    }, value);
+    super([
+      Hash,
+      Signature
+    ], value);
   }
 
   get hash (): Hash {
-    return this.getAtIndex(0) as Hash;
+    return this[0] as Hash;
   }
 
   get signature (): Signature {
-    return this.getAtIndex(1) as Signature;
+    return this[1] as Signature;
   }
 }

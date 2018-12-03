@@ -30,18 +30,18 @@ export type StoredPendingChangeValue = {
  */
 export class NextAuthority extends Tuple {
   constructor (value?: Uint8Array | NextAuthorityValue) {
-    super({
-      sessionKey: SessionKey,
-      index: U64
-    }, value);
+    super([
+      SessionKey,
+      U64
+    ], value);
   }
 
   get index (): U64 {
-    return this.get('index') as U64;
+    return this[1] as U64;
   }
 
   get sessionKey (): SessionKey {
-    return this.get('sessionKey') as SessionKey;
+    return this[0] as SessionKey;
   }
 }
 
