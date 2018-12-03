@@ -28,11 +28,7 @@ export default class Tuple<
   private static decodeTuple<
     S extends Array<Constructor>
     > (Types: S, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
-    if (Array.isArray(value)) {
-      return Types.map((Type, index) => {
-        return new Type(value[index]);
-      });
-    } else if (isU8a(value)) {
+    if (isU8a(value)) {
       // `currentIndex` is only used when we have a UintArray/U8a as value. It's
       // used to track at which index we are currently parsing in the U8a.
       let currentIndex = 0;
@@ -47,10 +43,11 @@ export default class Tuple<
         });
     } else if (isHex(value)) {
       return Tuple.decodeTuple(Types, hexToU8a(value));
+    } else {
+      return Types.map((Type, index) => {
+        return new Type(value && value[index]);
+      });
     }
-
-    throw new Error(`Tuple: cannot decode types '${JSON.stringify(Types)}' with value '${JSON.stringify(value)}'.`);
-
   }
 
   static with<
@@ -70,6 +67,13 @@ export default class Tuple<
     return this.reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
+  }
+
+  /**
+   * @description The types definition of the tuple
+   */
+  get Types (): Array<string> {
+    return this._Types.map(({ name }) => name);
   }
 
   /**

@@ -5,10 +5,10 @@
 import { BftAuthoritySignature, BftHashSignature } from './Bft';
 
 describe('BftAuthoritySignature', () => {
-  const sig = new BftAuthoritySignature({
-    authorityId: '0x12344321',
-    signature: '0x567890098765'
-  });
+  const sig = new BftAuthoritySignature([
+    '0x12344321',
+    '0x567890098765'
+  ]);
 
   it('has the correct authorityId', () => {
     expect(sig.authorityId.toHex()).toEqual('0x12344321');
@@ -20,10 +20,10 @@ describe('BftAuthoritySignature', () => {
 });
 
 describe('BftHashSignature', () => {
-  const sig = new BftHashSignature({
-    hash: '0x12344321',
-    signature: '0x567890098765'
-  });
+  const sig = new BftHashSignature([
+    '0x12344321',
+    '0x567890098765'
+  ]);
 
   it('has the correct hash', () => {
     expect(sig.hash.toHex()).toEqual('0x12344321');

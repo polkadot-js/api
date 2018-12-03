@@ -11,7 +11,7 @@ describe('StorageChangeSet', () => {
     const set = new StorageChangeSet({
       block: '0x1234',
       changes: [
-        { key: '0xab', value: '0xcd' }
+        ['0xab', '0xcd']
       ]
     });
 

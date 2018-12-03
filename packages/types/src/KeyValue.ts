@@ -40,10 +40,7 @@ export default class KeyValue extends Struct {
   }
 }
 
-export type KeyValueOptionValue = {
-  key?: AnyU8a,
-  value?: AnyU8a
-};
+export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
 
 /**
  * @name KeyValueOption

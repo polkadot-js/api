@@ -10,8 +10,8 @@ describe('RhdJustification', () => {
     roundNumber: 32,
     hash: '0xabcd',
     signatures: [
-      { authorityId: '0x1234', signature: '0x5678' },
-      { authorityId: '0x9876', signature: '0x5432' }
+      ['0x1234', '0x5678'],
+      ['0x9876', '0x5432']
     ]
   });
 

@@ -9,10 +9,7 @@ import AuthorityId from './AuthorityId';
 import Hash from './Hash';
 import Signature from './Signature';
 
-export type BftAuthoritySignatureValue = {
-  authorityId?: AnyU8a,
-  signature?: AnyU8a
-};
+export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 
 /**
  * @name BftAuthoritySignature
@@ -37,10 +34,7 @@ export class BftAuthoritySignature extends Tuple {
   }
 }
 
-export type BftHashSignatureValue = {
-  hash?: AnyU8a,
-  signature?: AnyU8a
-};
+export type BftHashSignatureValue = [AnyU8a, AnyU8a];
 
 /**
  * @name BftHashSignature

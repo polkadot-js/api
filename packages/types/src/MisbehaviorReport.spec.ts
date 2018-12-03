@@ -7,14 +7,8 @@ import MisbehaviorReport, { BftAtReport } from './MisbehaviorReport';
 describe('BftAtReport', () => {
   const report = new BftAtReport({
     round: 16,
-    a: {
-      hash: '0x1234',
-      signature: '0x5678'
-    },
-    b: {
-      hash: '0x8765',
-      signature: '0x4321'
-    }
+    a: ['0x1234', '0x5678'],
+    b: ['0x8765', '0x4321']
   });
 
   it('has the correct round', () => {
