@@ -34,7 +34,7 @@ export default class SignedBlock extends Struct {
   }
 
   /**
-   * @description The erapped [[Justification]]
+   * @description The wrapped [[Justification]]
    */
   get justification (): Justification {
     return this.get('justification') as Justification;
