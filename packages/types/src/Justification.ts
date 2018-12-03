@@ -41,14 +41,23 @@ export class RhdJustification extends Struct {
     ]));
   }
 
+  /**
+   * @description The justification [[Hash]]
+   */
   get hash (): Hash {
     return this.get('hash') as Hash;
   }
 
+  /**
+   * @description The round this justification wraps as a [[U32]]
+   */
   get roundNumber (): U32 {
     return this.get('roundNumber') as U32;
   }
 
+  /**
+   * @description The [[BftAuthoritySignature]] array
+   */
   get signatures (): Vector<BftAuthoritySignature> {
     return this.get('signatures') as Vector<BftAuthoritySignature>;
   }

@@ -61,6 +61,9 @@ export default class Type extends Text {
     }, value).trim();
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
@@ -68,6 +71,10 @@ export default class Type extends Text {
     return this._originalLength + Compact.encodeU8a(this._originalLength).length;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     // Note Since we are mangling what we get in beyond recognition, we really should
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only

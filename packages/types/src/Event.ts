@@ -34,18 +34,30 @@ export class EventData extends Tuple {
     this._typeDef = typeDef;
   }
 
+  /**
+   * @description The wrapped [[EventMetadata]]
+   */
   get meta (): EventMetadata {
     return this._meta;
   }
 
+  /**
+   * @description The method as a string
+   */
   get method (): string {
     return this._method;
   }
 
+  /**
+   * @description The section as a string
+   */
   get section (): string {
     return this._section;
   }
 
+  /**
+   * @description The [[TypeDef]] for this event
+   */
   get typeDef (): Array<TypeDef> {
     return this._typeDef;
   }
@@ -123,26 +135,44 @@ export default class Event extends Struct {
     });
   }
 
+  /**
+   * @description The wrapped [[EventData]]
+   */
   get data (): EventData {
     return this.get('data') as EventData;
   }
 
+  /**
+   * @description The [[EventIndex]], identifying the raw event
+   */
   get index (): EventIndex {
     return this.get('index') as EventIndex;
   }
 
+  /**
+   * @description The [[EventMetadata]] with the documentation
+   */
   get meta (): EventMetadata {
     return this.data.meta;
   }
 
+  /**
+   * @description The method string identifying the event
+   */
   get method (): string {
     return this.data.method;
   }
 
+  /**
+   * @description The section string identifying the event
+   */
   get section (): string {
     return this.data.section;
   }
 
+  /**
+   * @description The [[TypeDef]] for the event
+   */
   get typeDef (): Array<TypeDef> {
     return this.data.typeDef;
   }

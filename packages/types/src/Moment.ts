@@ -43,30 +43,52 @@ export default class Moment extends Date implements Codec {
     );
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return BITLENGTH / 8;
   }
 
+  /**
+   * @description Returns the number of bits in the value
+   */
   bitLength (): UIntBitLength {
     return BITLENGTH;
   }
 
+  /**
+   * @description Returns the BN representation of the timestamp
+   */
   toBn (): BN {
     return new BN(this.toNumber());
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return bnToHex(this.toBn(), BITLENGTH);
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.toNumber();
   }
 
+  /**
+   * @description Returns the number representation for the timestamp
+   */
   toNumber (): number {
     return Math.ceil(this.getTime() / 1000);
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }

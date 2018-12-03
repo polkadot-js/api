@@ -52,10 +52,16 @@ export default class EventRecord extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[Event]] this record refers to
+   */
   get event (): Event {
     return this.get('event') as Event;
   }
 
+  /**
+   * @description The [[Phase]] where the event was generated
+   */
   get phase (): Phase {
     return this.get('phase') as Phase;
   }

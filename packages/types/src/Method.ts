@@ -50,7 +50,12 @@ export interface Extrinsics {
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 
-class MethodIndex extends U8aFixed {
+/**
+ * @name MethodIndex
+ * @description
+ * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
+ */
+export class MethodIndex extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 16);
   }
@@ -185,23 +190,38 @@ export default class Method extends Struct {
     );
   }
 
+  /**
+   * @description The arguments for the function call
+   */
   get args (): Array<Codec> {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
 
+  /**
+   * @description Thge argument defintions
+   */
   get argsDef (): ArgsDef {
     return Method.getArgsDef(this.meta);
   }
 
+  /**
+   * @description The encoded `[sectionIndex, methodIndex]` identifier
+   */
   get callIndex (): Uint8Array {
     return (this.get('callIndex') as MethodIndex).toU8a();
   }
 
+  /**
+   * @description The encoded data
+   */
   get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
   }
 
+  /**
+   * @description The [[FunctionMetadata]]
+   */
   get meta (): FunctionMetadata {
     return this._meta;
   }

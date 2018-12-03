@@ -39,14 +39,23 @@ export class BftAtReport extends Struct {
     }, value);
   }
 
+  /**
+   * @description The first report [[BftHashSignature]]
+   */
   get a (): BftHashSignature {
     return this.get('a') as BftHashSignature;
   }
 
+  /**
+   * @description The second report [[BftHashSignature]]
+   */
   get b (): BftHashSignature {
     return this.get('b') as BftHashSignature;
   }
 
+  /**
+   * @description The round this report applies to as [[U32]]
+   */
   get round (): U32 {
     return this.get('round') as U32;
   }
@@ -65,10 +74,16 @@ export class BftProposeOutOfTurn extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[BftHashSignature]] the report applies to
+   */
   get a (): BftHashSignature {
     return this.get('a') as BftHashSignature;
   }
 
+  /**
+   * @description The round as [[u32]]
+   */
   get round (): U32 {
     return this.get('round') as U32;
   }
@@ -136,18 +151,30 @@ export default class MisbehaviorReport extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[MisbehaviorKind]]
+   */
   get misbehavior (): MisbehaviorKind {
     return this.get('misbehavior') as MisbehaviorKind;
   }
 
+  /**
+   * @description The [[Hash]] of the parent block
+   */
   get parentHash (): Hash {
     return this.get('parentHash') as Hash;
   }
 
+  /**
+   * @description The [[BlockNumber]] of the parent
+   */
   get parentNumber (): BlockNumber {
     return this.get('parentNumber') as BlockNumber;
   }
 
+  /**
+   * @description The [[authorityId]] the report applies to
+   */
   get target (): AuthorityId {
     return this.get('target') as AuthorityId;
   }

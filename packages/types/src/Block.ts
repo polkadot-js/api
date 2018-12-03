@@ -29,17 +29,25 @@ export default class Block extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[Extrinsics]] conatined in the block
+   */
   get extrinsics (): Extrinsics {
     return this.get('extrinsics') as Extrinsics;
   }
 
-  // convenience, encodes the header and returns the actual hash
+  /**
+   * @description Coinvenience getter, encoded the [[Hash]] for the block
+   */
   get hash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
   }
 
+  /**
+   * @description The [[Header]] in the block
+   */
   get header (): Header {
     return this.get('header') as Header;
   }

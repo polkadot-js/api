@@ -40,10 +40,16 @@ export class RuntimeVersionApi extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The [[ApiId]]
+   */
   get id (): ApiId {
     return this.getAtIndex(0) as ApiId;
   }
 
+  /**
+   * @description The specific version as [[U32]]
+   */
   get version (): U32 {
     return this.getAtIndex(1) as U32;
   }
@@ -81,26 +87,44 @@ export default class RuntimeVersion extends Struct {
     ]));
   }
 
+  /**
+   * @description The available APIs as [[RuntimeVersionApi]]
+   */
   get apis (): Vector<RuntimeVersionApi> {
     return this.get('apis') as Vector<RuntimeVersionApi>;
   }
 
+  /**
+   * @description The authoring version as [[U32]]
+   */
   get authoringVersion (): U32 {
     return this.get('authoringVersion') as U32;
   }
 
+  /**
+   * @description The implementation name
+   */
   get implName (): Text {
     return this.get('implName') as Text;
   }
 
+  /**
+   * @description The implementation version
+   */
   get implVersion (): U32 {
     return this.get('implVersion') as U32;
   }
 
+  /**
+   * @description The specification name
+   */
   get specName (): Text {
     return this.get('specName') as Text;
   }
 
+  /**
+   * @description The specification version
+   */
   get specVersion (): U32 {
     return this.get('specVersion') as U32;
   }
