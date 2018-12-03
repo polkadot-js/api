@@ -60,6 +60,9 @@ export default class StorageKey extends Bytes {
     return null;
   }
 
+  /**
+   * @description The output type, `null` when not available
+   */
   get outputType (): string | null {
     return this._outputType;
   }

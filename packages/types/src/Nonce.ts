@@ -11,5 +11,5 @@ import U64 from './U64';
  * with extrinsics to determine the order of execution. implemented as a Substrate
  * [[U64]]
  */
-export default class Index extends U64 {
+export default class Nonce extends U64 {
 }

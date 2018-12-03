@@ -41,26 +41,44 @@ export default class SignaturePayload extends Struct {
     }, value);
   }
 
+  /**
+   * @description `true` if the payload refers to a valid signature
+   */
   get isSigned (): boolean {
     return !!(this._signature && this._signature.length === 64);
   }
 
+  /**
+   * @description The block [[Hash]] the signature applies to (mortal/immortal)
+   */
   get blockHash (): Hash {
     return this.get('blockHash') as Hash;
   }
 
+  /**
+   * @description The [[Method]] contained in the payload
+   */
   get method (): Method {
     return this.get('method') as Method;
   }
 
+  /**
+   * @description The [[ExtrinsicEra]]
+   */
   get era (): ExtrinsicEra {
     return this.get('era') as ExtrinsicEra;
   }
 
+  /**
+   * @description The [[Nonce]]
+   */
   get nonce (): Nonce {
     return this.get('nonce') as Nonce;
   }
 
+  /**
+   * @description The raw signature as a `Uint8Array`
+   */
   get signature (): Uint8Array {
     if (!this.isSigned) {
       throw new Error('Transaction is not signed');
@@ -69,6 +87,9 @@ export default class SignaturePayload extends Struct {
     return this._signature as Uint8Array;
   }
 
+  /**
+   * @description Sign the payload with the keypair
+   */
   sign (signerPair: KeyringPair): Uint8Array {
     this._signature = signerPair.sign(this.toU8a());
 

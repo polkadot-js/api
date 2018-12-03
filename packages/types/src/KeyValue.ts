@@ -31,10 +31,16 @@ export default class KeyValue extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[StorageKey]]
+   */
   get key (): StorageKey {
     return this.get('key') as StorageKey;
   }
 
+  /**
+   * @description The [[StorageData]]
+   */
   get value (): StorageData {
     return this.get('value') as StorageData;
   }
@@ -60,10 +66,16 @@ export class KeyValueOption extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The [[StorageKey]]
+   */
   get key (): StorageKey {
     return this.getAtIndex(0) as StorageKey;
   }
 
+  /**
+   * @description The [[Option]] [[StorageData]]
+   */
   get value (): Option<StorageData> {
     return this.getAtIndex(1) as Option<StorageData>;
   }

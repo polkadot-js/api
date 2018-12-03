@@ -28,10 +28,16 @@ export class BftAuthoritySignature extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The wrapped [[AuthoriyId]]
+   */
   get authorityId (): AuthorityId {
     return this.getAtIndex(0) as AuthorityId;
   }
 
+  /**
+   * @description The wrapped [[Signature]] value
+   */
   get signature (): Signature {
     return this.getAtIndex(1) as Signature;
   }
@@ -56,10 +62,16 @@ export class BftHashSignature extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The wrapped [[Hash]]
+   */
   get hash (): Hash {
     return this.getAtIndex(0) as Hash;
   }
 
+  /**
+   * @description The wrapped [[Signature]]
+   */
   get signature (): Signature {
     return this.getAtIndex(1) as Signature;
   }

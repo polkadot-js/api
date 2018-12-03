@@ -13,6 +13,7 @@ import { AnyU8a, Codec } from '../types';
  * from other implementations wher it will consume the full Uint8Array as passed to
  * it. As such it is meant to be subclassed where the wrapper takes care of the
  * actual lengths instead of used directly.
+ * @noInheritDoc
  */
 export default class U8a extends Uint8Array implements Codec {
   constructor (value: AnyU8a) {
@@ -36,8 +37,19 @@ export default class U8a extends Uint8Array implements Codec {
     return this.length;
   }
 
-  // Create a new subarray from the actual buffer. This is needed
-  // for compat reasons since a new Uint8Array gets returned here
+  /**
+   * @description The length of the value
+   */
+  get length (): number {
+    // only included here since we ignore inherited docs
+    return super.length;
+  }
+
+  /**
+   * @description Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
+   * @param begin The position to start at
+   * @param end The position to end at
+   */
   subarray (begin: number, end?: number): Uint8Array {
     return Uint8Array.from(this).subarray(begin, end);
   }

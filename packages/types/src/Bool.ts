@@ -9,7 +9,8 @@ import { Codec } from './types';
 /**
  * @name Bool
  * @description
- * Representation for a boolean value in the system
+ * Representation for a boolean value in the system. It extends the base JS `Boolean` class
+ * @noInheritDoc
  */
 export default class Bool extends Boolean implements Codec {
   constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
@@ -28,22 +29,38 @@ export default class Bool extends Boolean implements Codec {
     return !!value;
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1;
   }
 
-  toJSON (): any {
-    return this.valueOf();
-  }
-
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  toJSON (): any {
+    return this.valueOf();
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return `${this.toJSON()}`;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array([this ? 1 : 0]);
   }

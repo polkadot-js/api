@@ -47,14 +47,23 @@ export class OuterDispatchCall extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[U16]] index for the call
+   */
   get index (): U16 {
     return this.get('index') as U16;
   }
 
+  /**
+   * @description The name for the call
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
 
+  /**
+   * @description The call prefix (or section)
+   */
   get prefix (): Text {
     return this.get('prefix') as Text;
   }
@@ -68,10 +77,16 @@ export class OuterDispatchMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[OuterDispathCall]] wrapped
+   */
   get calls (): Vector<OuterDispatchCall> {
     return this.get('calls') as Vector<OuterDispatchCall>;
   }
 
+  /**
+   * @description The name for the dispatch
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -86,14 +101,23 @@ export class EventMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The arguments of [[Type]]
+   */
   get arguments (): Vector<Type> {
     return this.get('arguments') as Vector<Type>;
   }
 
+  /**
+   * @description The [[Text]] documentation
+   */
   get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
   }
 
+  /**
+   * @description The name for the event
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -107,10 +131,16 @@ export class OuterEventMetadataEvent extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The [[EventMetadata]]
+   */
   get events (): Vector<EventMetadata> {
     return this.getAtIndex(1) as Vector<EventMetadata>;
   }
 
+  /**
+   * @description The name of the section
+   */
   get name (): Text {
     return this.getAtIndex(0) as Text;
   }
@@ -124,10 +154,16 @@ export class OuterEventMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[OuterEventMetadataEvent]]
+   */
   get events (): Vector<OuterEventMetadataEvent> {
     return this.get('events') as Vector<OuterEventMetadataEvent>;
   }
 
+  /**
+   * @description The name of the event
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -141,10 +177,16 @@ export class FunctionArgumentMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The argument name
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
 
+  /**
+   * @description The [[Type]]
+   */
   get type (): Type {
     return this.get('type') as Type;
   }
@@ -160,18 +202,30 @@ export class FunctionMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[FunctionArgumentMetadata]] for arguments
+   */
   get arguments (): Vector<FunctionArgumentMetadata> {
     return this.get('arguments') as Vector<FunctionArgumentMetadata>;
   }
 
+  /**
+   * @description The [[Text]] documentation
+   */
   get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
   }
 
+  /**
+   * @description The `[sectionIndex, methodIndex]` call id
+   */
   get id (): U16 {
     return this.get('id') as U16;
   }
 
+  /**
+   * @description The call name
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -185,10 +239,16 @@ export class CallMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The functions available as [[FunctionMetadata]]
+   */
   get functions (): Vector<FunctionMetadata> {
     return this.get('functions') as Vector<FunctionMetadata>;
   }
 
+  /**
+   * @description The section name
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -202,10 +262,16 @@ export class ModuleMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The calls as [[CallMetadata]]
+   */
   get call (): CallMetadata {
     return this.get('call') as CallMetadata;
   }
 
+  /**
+   * @description The name
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
@@ -225,10 +291,16 @@ export class StorageFunctionType$Map extends Struct {
     }, value);
   }
 
+  /**
+   * @description The mapped key as [[Type]]
+   */
   get key (): Type {
     return this.get('key') as Type;
   }
 
+  /**
+   * @description The mapped value as [[Type]]
+   */
   get value (): Type {
     return this.get('value') as Type;
   }
@@ -242,18 +314,30 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
     ], value, index);
   }
 
+  /**
+   * @description `true` if the storage entry is a map
+   */
   get isMap (): boolean {
     return this.toNumber() === 1;
   }
 
+  /**
+   * @description The value as a mapped value
+   */
   get asMap (): StorageFunctionType$Map {
     return this.value as StorageFunctionType$Map;
   }
 
+  /**
+   * @description The value as a [[Type]] value
+   */
   get asType (): Type {
     return this.value as Type;
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.isMap
       ? this.asMap.value.toString()
@@ -278,18 +362,30 @@ export class StorageFunctionMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[Text]] documentation
+   */
   get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
   }
 
+  /**
+   * @description The key name
+   */
   get name (): Text {
     return this.get('name') as Text;
   }
 
+  /**
+   * @description The modifier
+   */
   get modifier (): StorageFunctionModifier {
     return this.get('modifier') as StorageFunctionModifier;
   }
 
+  /**
+   * @description The [[StorageFunctionType]]
+   */
   get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;
   }
@@ -303,10 +399,16 @@ export class StorageMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[StorageFunctionMetadata]] for the section
+   */
   get functions (): Vector<StorageFunctionMetadata> {
     return this.get('functions') as Vector<StorageFunctionMetadata>;
   }
 
+  /**
+   * @description The section prefix
+   */
   get prefix (): Text {
     return this.get('prefix') as Text;
   }
@@ -321,14 +423,23 @@ export class RuntimeModuleMetadata extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[ModuleMetadata]]
+   */
   get module (): ModuleMetadata {
     return this.get('module') as ModuleMetadata;
   }
 
+  /**
+   * @description The prefix
+   */
   get prefix (): Text {
     return this.get('prefix') as Text;
   }
 
+  /**
+   * @description The optional [[StorageMetadata]]
+   */
   get storage (): Option<StorageMetadata> {
     return this.get('storage') as Option<StorageMetadata>;
   }
@@ -370,19 +481,30 @@ export default class RuntimeMetadata extends Struct {
     return value;
   }
 
+  /**
+   * @description Wrapped [[OuterDispatchCall]]
+   */
   get calls (): Vector<OuterDispatchCall> {
     return (this.get('outerDispatch') as OuterDispatchMetadata).calls;
   }
 
+  /**
+   * @description Wrapped [[OuterEventMetadataEvent]]
+   */
   get events (): Vector<OuterEventMetadataEvent> {
     return (this.get('outerEvent') as OuterEventMetadata).events;
   }
 
+  /**
+   * @description Wrapped [[RuntimeModuleMetadata]]
+   */
   get modules (): Vector<RuntimeModuleMetadata> {
     return this.get('modules') as Vector<RuntimeModuleMetadata>;
   }
 
-  // Helper to retrieve a list of all type that are found, sorted and de-deuplicated
+  /**
+   * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
+   */
   getUniqTypes (): Array<string> {
     const events = this.events.map((module) =>
       module.events.map((event) =>

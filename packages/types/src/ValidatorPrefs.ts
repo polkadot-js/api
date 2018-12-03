@@ -26,10 +26,16 @@ export default class ValidatorPrefs extends Struct {
     }, value);
   }
 
+  /**
+   * @description The unstake threshold as [[U32]]
+   */
   get unstakeThreshold (): U32 {
     return this.get('unstakeThreshold') as U32;
   }
 
+  /**
+   * @description The payment config for the validator as [[Balance]]
+   */
   get validatorPayment (): Balance {
     return this.get('validatorPayment') as Balance;
   }

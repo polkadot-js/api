@@ -10,10 +10,16 @@ import { Codec } from './types';
  * Implements a type that does not contain anything (apart from `null`)
  */
 export default class Null implements Codec {
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 0;
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return '0x';
   }

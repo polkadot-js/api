@@ -26,10 +26,16 @@ export default class SignedBlock extends Struct {
     }, value);
   }
 
+  /**
+   * @description The wrapped [[Block]]
+   */
   get block (): Block {
     return this.get('block') as Block;
   }
 
+  /**
+   * @description The wrapped [[Justification]]
+   */
   get justification (): Justification {
     return this.get('justification') as Justification;
   }

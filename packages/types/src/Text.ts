@@ -11,7 +11,9 @@ import Compact from './codec/Compact';
  * @name Text
  * @description
  * This is a string wrapper, along with the length. It is used both for strings as well
- * as items such as documentation.
+ * as items such as documentation. It simply extends the standard JS `String` built-in
+ * object, inheriting all methods exposed from `String`.
+ * @noInheritDoc
  */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
@@ -39,18 +41,47 @@ export default class Text extends String implements Codec {
     return `${value}`;
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.length + Compact.encodeU8a(this.length).length;
   }
 
+  /**
+   * @description The length of the value
+   */
+  get length (): number {
+    // only included here since we ignore inherited docs
+    return super.length;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.toString();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    // only included here since we do not inherit docs
+    return super.toString();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const encoded = stringToU8a(this.toString());
 

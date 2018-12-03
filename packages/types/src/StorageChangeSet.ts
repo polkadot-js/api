@@ -29,10 +29,16 @@ export default class StorageChangeSet extends Struct {
     }, value);
   }
 
+  /**
+   * @description The applicable changes as [[KeyValueOption]]
+   */
   get changes (): Vector<KeyValueOption> {
     return this.get('changes') as Vector<KeyValueOption>;
   }
 
+  /**
+   * @description The block [[Hash]]
+   */
   get block (): Hash {
     return this.get('block') as Hash;
   }

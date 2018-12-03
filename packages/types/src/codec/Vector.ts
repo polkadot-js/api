@@ -13,6 +13,7 @@ import { Codec, Constructor } from '../types';
  * This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
+ * @noInheritDoc
  */
 export default class Vector<
   T extends Codec
@@ -75,6 +76,14 @@ export default class Vector<
   }
 
   /**
+   * @description The length of the value
+   */
+  get length (): number {
+    // only included here since we ignore inherited docs
+    return super.length;
+  }
+
+  /**
    * @description Converts the Object to an standard JavaScript Array
    */
   toArray (): Array<T> {
@@ -130,10 +139,20 @@ export default class Vector<
   // we want it to return an Array. We only override the methods that return a
   // new instance.
 
+  /**
+   * @description Filters the array with the callback
+   * @param callbackfn The filter function
+   * @param thisArg The `this` object to apply the result to
+   */
   filter (callbackfn: (value: T, index: number, array: Array<T>) => any, thisArg?: any): Array<T> {
     return this.toArray().filter(callbackfn, thisArg);
   }
 
+  /**
+   * @description Maps the array with the callback
+   * @param callbackfn The mapping function
+   * @param thisArg The `this` onject to apply the result to
+   */
   map<U> (callbackfn: (value: T, index: number, array: Array<T>) => U, thisArg?: any): Array<U> {
     return this.toArray().map(callbackfn, thisArg);
   }

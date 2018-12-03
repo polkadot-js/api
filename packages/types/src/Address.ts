@@ -61,6 +61,9 @@ export default class Address extends Base<AccountId | AccountIndex> {
       : new AccountIndex(u8aToBn(decoded, true));
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     const rawLength = this.rawLength;
 
@@ -72,24 +75,40 @@ export default class Address extends Base<AccountId | AccountIndex> {
     );
   }
 
+  /**
+   * @description The length of the raw value, either AccountIndex or AccountId
+   */
   get rawLength (): number {
     return this.raw instanceof AccountIndex
       ? AccountIndex.calcLength(this.raw)
       : this.raw.encodedLength;
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.raw.toString();
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const encoded = this.raw.toU8a().subarray(0, this.rawLength);
 

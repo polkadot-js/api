@@ -49,10 +49,16 @@ export class Seal extends Tuple {
     }, value);
   }
 
+  /**
+   * @description The wrapped [[Signature]]
+   */
   get signature (): Signature {
     return this.get('signature') as Signature;
   }
 
+  /**
+   * @description The wrapped [[U64]] slot
+   */
   get slot (): U64 {
     return this.get('slot') as U64;
   }
@@ -87,6 +93,9 @@ export default class Digest extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[DigestItem]] logs
+   */
   get logs (): Vector<DigestItem> {
     return this.get('logs') as Vector<DigestItem>;
   }
