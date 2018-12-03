@@ -119,8 +119,8 @@ export default class Tuple<
     );
   }
 
-  // Below are methods that we override. When we do a `new Vector(...).map()`,
-  // we want it to return an Array. We only override the methods that return a
+  // Below are methods that we override. When we do a `new Tuple(...).map()`,
+  // we want it to throw an error. We only override the methods that return a
   // new instance.
 
   /**
