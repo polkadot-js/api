@@ -32,7 +32,6 @@ export class TypeRegistry {
   }
 
   get (name: string) {
-    throw new Error([...this._registry.entries()].toString());
     return this._registry.get(name);
   }
 }
