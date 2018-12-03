@@ -142,6 +142,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
+  // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
   const Types = require('../index');
   const Type = registry.get(value.type) || Types[value.type];
 
