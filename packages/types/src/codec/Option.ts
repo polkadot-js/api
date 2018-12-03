@@ -8,10 +8,14 @@ import Base from './Base';
 import { Codec, Constructor } from '../types';
 import Null from '../Null';
 
-// An Option is an optional field. Basically the first byte indicates that there is
-// is value to follow. If the byte is `1` there is an actual value. So the Option
-// implements that - decodes, checks for optionality and wraps the required structure
-// with a value if/as required/found.
+/**
+ * @name Option
+ * @description
+ * An Option is an optional field. Basically the first byte indicates that there is
+ * is value to follow. If the byte is `1` there is an actual value. So the Option
+ * implements that - decodes, checks for optionality and wraps the required structure
+ * with a value if/as required/found.
+ */
 export default class Option<T extends Codec> extends Base<T> implements Codec {
   constructor (Type: Constructor, value?: any) {
     super(
@@ -42,30 +46,60 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     };
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
+  get encodedLength (): number {
+    // boolean byte (has value, doesn't have) along with wrapped length
+    return 1 + this.raw.encodedLength;
+  }
+
+  /**
+   * @description Checks if the Option has no value
+   */
   get isNone (): boolean {
     return this.raw instanceof Null;
   }
 
+  /**
+   * @description Checks if the Option has a value
+   */
   get isSome (): boolean {
     return !this.isNone;
   }
 
+  /**
+   * @description The actual value for the Option
+   */
   get value (): Codec {
     return this.raw;
   }
 
-  get encodedLength (): number {
-    return 1 + this.raw.encodedLength;
-  }
-
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return this.raw.toString();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
       return this.raw.toU8a(true);
@@ -81,14 +115,14 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     return u8a;
   }
 
-  toString (): string {
-    return this.raw.toString();
-  }
-
+  /**
+   * @description Returns the value that the Option represents (if available)
+   */
   unwrap (): T {
     if (this.isNone) {
       throw new Error('Option: unwrapping a None value');
     }
+
     return this.raw;
   }
 }

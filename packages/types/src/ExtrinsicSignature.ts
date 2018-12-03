@@ -29,12 +29,17 @@ const BIT_UNSIGNED = 0;
 const BIT_VERSION = 0b0000001;
 const EMPTY_U8A = new Uint8Array();
 
-// Signature Information.
-//   1/3/5/9/33 bytes: The signing account identity, in Address format
-//   64 bytes: The Ed25519 signature of the Signing Payload
-//   8 bytes: The Transaction Index of the signing account
-//   1/2 bytes: The Transaction Era
+/**
+ * @name ExtrinsicSignature
+ * @description
+ * A container for the [[Signature]] associated with a specific [[Extrinsic]]
+ */
 export default class ExtrinsicSignature extends Struct {
+  // Signature Information.
+  //   1/3/5/9/33 bytes: The signing account identity, in Address format
+  //   64 bytes: The Ed25519 signature of the Signing Payload
+  //   8 bytes: The Transaction Index of the signing account
+  //   1/2 bytes: The Transaction Era
   constructor (value?: ExtrinsicSignatureValue | Uint8Array) {
     super({
       signer: Address,

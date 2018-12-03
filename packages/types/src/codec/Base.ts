@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 /**
- * A type extends the Base class, when it holds a value
+ * @name Base
+ * @description A type extends the Base class, when it holds a value
  */
 export default class Base<T = any> {
   protected raw: T;

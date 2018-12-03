@@ -10,8 +10,12 @@ import U8a from './U8a';
 
 type BitLength = 8 | 16 | 32 | 64 | 128 | 256 | 512;
 
-// A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
-// to be used directly, rather is should be subclassed with the specific lengths.
+/**
+ * @name U8aFixed
+ * @description
+ * A U8a that manages a a sequence of bytes up to the specified bitLength. Not meant
+ * to be used directly, rather is should be subclassed with the specific lengths.
+ */
 export default class U8aFixed extends U8a {
   constructor (value: AnyU8a = new Uint8Array(), bitLength: BitLength = 256) {
     super(
@@ -29,6 +33,9 @@ export default class U8aFixed extends U8a {
     return value;
   }
 
+  /**
+   * @description Returns the number of bits in the value
+   */
   bitLength () {
     return this.length * 8;
   }

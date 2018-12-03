@@ -9,9 +9,13 @@ type Mapper = (value: string) => string;
 
 const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
 
-// This is a extended version of String, specifically to handle types. Here we rely full on
-// what string provides us, however we also "tweak" the types received from the runtime, i.e.
-// we remove the `T::` prefixes found in some types for consistency accross implementation.
+/**
+ * @name Type
+ * @description
+ * This is a extended version of String, specifically to handle types. Here we rely fully
+ * on what string provides us, however we also adjust the types received from the runtime,
+ * i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
+ */
 export default class Type extends Text {
   private _originalLength: number;
 
@@ -57,17 +61,17 @@ export default class Type extends Text {
     }, value).trim();
   }
 
-  // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
-  // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
-  // only the decoding leg, allowing the decoders to work with original pointers
   get encodedLength (): number {
+    // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
+    // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
+    // only the decoding leg, allowing the decoders to work with original pointers
     return this._originalLength + Compact.encodeU8a(this._originalLength).length;
   }
 
-  // Note Since we are mangling what we get in beyond recognition, we really should
-  // not allow the re-encoding. Additionally, this is probably more of a decoder-only
-  // helper, so treat it as such.
   toU8a (isBare?: boolean): Uint8Array {
+    // Note Since we are mangling what we get in beyond recognition, we really should
+    // not allow the re-encoding. Additionally, this is probably more of a decoder-only
+    // helper, so treat it as such.
     throw new Error('Type::toU8a: unimplemented');
   }
 

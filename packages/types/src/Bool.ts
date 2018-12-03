@@ -6,6 +6,11 @@ import { isU8a, u8aToHex } from '@polkadot/util';
 
 import { Codec } from './types';
 
+/**
+ * @name Bool
+ * @description
+ * Representation for a boolean value in the system
+ */
 export default class Bool extends Boolean implements Codec {
   constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {
     super(
@@ -35,11 +40,11 @@ export default class Bool extends Boolean implements Codec {
     return u8aToHex(this.toU8a());
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this ? 1 : 0]);
-  }
-
   toString (): string {
     return `${this.toJSON()}`;
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array([this ? 1 : 0]);
   }
 }

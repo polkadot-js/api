@@ -14,7 +14,12 @@ import Metadata, { EventMetadata } from './Metadata';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
-class EventData extends Tuple {
+/**
+ * @name EventData
+ * @description
+ * Wrapper for the actual data that forms part of an [[Event]]
+ */
+export class EventData extends Tuple {
   private _meta: EventMetadata;
   private _method: string;
   private _section: string;
@@ -46,13 +51,24 @@ class EventData extends Tuple {
   }
 }
 
-// like methods, we have the [sectionIndex, methodIndex] pairing
-class EventIndex extends U8aFixed {
+/**
+ * @name EventIndex
+ * @description
+ * This follows the same approach as in [[Method]], we have the `[sectionIndex, methodIndex]` pairing
+ * that indicates the actual event fired
+ */
+export class EventIndex extends U8aFixed {
   constructor (value?: any) {
     super(value, 16);
   }
 }
 
+/**
+ * @name Event
+ * @description
+ * A representation of a system event. These are generated via the [[Metadata]] interfaces and
+ * specific to a specific Substrate runtime
+ */
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord

@@ -4,5 +4,10 @@
 
 import U32 from './U32';
 
+/**
+ * @name VoteIndex
+ * @description
+ * Voting index, implemented as a [[U32]]
+ */
 export default class VoteIndex extends U32 {
 }

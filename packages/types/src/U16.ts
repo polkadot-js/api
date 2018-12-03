@@ -6,6 +6,11 @@ import { AnyNumber } from './types';
 
 import UInt from './codec/UInt';
 
+/**
+ * @name U16
+ * @description
+ * An 16-bit number
+ */
 export default class U16 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 16, false);

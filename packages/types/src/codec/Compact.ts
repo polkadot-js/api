@@ -11,21 +11,14 @@ import Base from './Base';
 import UInt, { UIntBitLength } from './UInt';
 import Moment from '../Moment';
 
-// A new compact length-encoding algorithm. It performs the same function as Length, however
-// differs in that it uses a variable number of bytes to do the actual encoding. From the Rust
-// implementation for compact encoding
-//
-//     0b00 00 00 00 / 00 00 00 00 / 00 00 00 00 / 00 00 00 00
-// (0 ... 2**6 - 1)    (u8)
-//     xx xx xx 00
-// (2**6 ... 2**14 - 1)  (u8, u16)  low LH high
-//     yL yL yL 01 / yH yH yH yL
-// (2**14 ... 2**30 - 1)  (u16, u32)  low LMMH high
-//     zL zL zL 10 / zM zM zM zL / zM zM zM zM / zH zH zH zM
-// (2**30 ... 2**536 - 1)  (u32, u64, u128, U256, U512, U520) straight LE-encoded
-//     nn nn nn 11 [ / zz zz zz zz ]{4 + n}
-//
-// Note: we use *LOW BITS* of the LSB in LE encoding to encode the 2 bit key.
+/**
+ * @name Compact
+ * @description
+ * A compact length-encoding codec wrapper. It performs the same function as Length, however
+ * differs in that it uses a variable number of bytes to do the actual encoding. This is mostly
+ * used by other types to add length-prefixed encoding, or in the case of wrapped types, taking
+ * a number and making the compact representation thereof
+ */
 export default class Compact extends Base<UInt | Moment> implements Codec {
   constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
@@ -72,34 +65,59 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
     return new Type(value.toBn());
   }
 
-  bitLength (): UIntBitLength {
-    return this.raw.bitLength();
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.toU8a().length;
   }
 
+  /**
+   * @description Returns the number of bits in the value
+   */
+  bitLength (): UIntBitLength {
+    return this.raw.bitLength();
+  }
+
+  /**
+   * @description Returns the BN representation of the number
+   */
   toBn (): BN {
     return this.raw.toBn();
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): any {
     return this.raw.toHex();
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the number representation for the value
+   */
   toNumber (): number {
     return this.raw.toNumber();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.raw.toString();
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return Compact.encodeU8a(this.raw.toBn(), this.bitLength());
   }

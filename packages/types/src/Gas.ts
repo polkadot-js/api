@@ -4,6 +4,10 @@
 
 import U64 from './U64';
 
-// Gas for contracts
+/**
+ * @name Gas
+ * @description
+ * A gas number type for Substrate, extending [[U64]]
+ */
 export default class Gas extends U64 {
 }

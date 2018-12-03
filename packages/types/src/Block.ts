@@ -16,7 +16,11 @@ export type BlockValue = {
   header?: HeaderValue
 };
 
-// A block encoded with header and extrinsics
+/**
+ * @name Block
+ * @description
+ * A block encoded with header and extrinsics
+ */
 export default class Block extends Struct {
   constructor (value?: BlockValue | Uint8Array) {
     super({

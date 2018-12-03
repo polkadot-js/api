@@ -4,8 +4,11 @@
 
 import U32 from './U32';
 
-// Parts per billion (see also Permill)
-//
+/**
+ * @name Perbill
+ * @description
+ * Parts per billion (see also [[Permill]])
+ */
 // TODO We need to think about the toNumber() and toString() here, so we
 // want to multiply by 1_000_000_000 for those purposes?
 export default class Perbill extends U32 {

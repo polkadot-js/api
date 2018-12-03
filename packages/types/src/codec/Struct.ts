@@ -6,11 +6,15 @@ import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 
-// A Struct defines an Object with key/values - where the values are Codec values. It removes
-// a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
-// values in the constructor and it manages the decoding. It is important that the constructor
-// values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
-// it needs to decoded in the specific defined order.
+/**
+ * @name Struct
+ * @description
+ * A Struct defines an Object with key/values - where the values are Codec values. It removes
+ * a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
+ * values in the constructor and it manages the decoding. It is important that the constructor
+ * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
+ * it needs to decoded in the specific defined order.
+ */
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends ConstructorDef = ConstructorDef,
@@ -126,24 +130,39 @@ export default class Struct<
     return this._Types;
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
   }
 
+  /**
+   * @description Returns the values of a member at a specific index (Rather use get(name) for performance)
+   */
   getAtIndex (index: number): Codec {
     return this.toArray()[index];
   }
 
+  /**
+   * @description Converts the Object to an standard JavaScript Array
+   */
   toArray (): Array<Codec> {
     return [...this.values()];
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex () {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
@@ -155,10 +174,17 @@ export default class Struct<
     }, {} as any);
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString () {
     return JSON.stringify(this.toJSON());
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.toArray().map((entry) =>

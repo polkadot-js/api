@@ -57,6 +57,8 @@ class MethodIndex extends U8aFixed {
 }
 
 /**
+ * @name Method
+ * @description
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */

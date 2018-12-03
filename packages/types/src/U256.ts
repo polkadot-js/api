@@ -6,6 +6,11 @@ import { AnyNumber } from './types';
 
 import UInt from './codec/UInt';
 
+/**
+ * @name U256
+ * @description
+ * An 256-bit number
+ */
 export default class U256 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 256);

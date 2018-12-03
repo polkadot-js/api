@@ -22,6 +22,8 @@ type ExtrinsicValue = {
 };
 
 /**
+ * @name Extrinsic
+ * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
  *
@@ -75,6 +77,12 @@ export default class Extrinsic extends Struct {
     return this.method.data;
   }
 
+  get encodedLength (): number {
+    const length = this.length;
+
+    return length + Compact.encodeU8a(length).length;
+  }
+
   // convernience, encodes the extrinsic and returns the actual hash
   get hash (): Hash {
     return new Hash(
@@ -102,12 +110,6 @@ export default class Extrinsic extends Struct {
     return this.get('signature') as ExtrinsicSignature;
   }
 
-  get encodedLength (): number {
-    const length = this.length;
-
-    return length + Compact.encodeU8a(length).length;
-  }
-
   addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
     this.signature.addSignature(signer, signature, nonce, era);
 
@@ -120,19 +122,19 @@ export default class Extrinsic extends Struct {
     return this;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    const encoded = super.toU8a();
-
-    return isBare
-      ? encoded
-      : Compact.addLengthPrefix(encoded);
-  }
-
   toHex (): string {
     return u8aToHex(this.toU8a());
   }
 
   toJSON (): any {
     return this.toHex();
+  }
+
+  toU8a (isBare?: boolean): Uint8Array {
+    const encoded = super.toU8a();
+
+    return isBare
+      ? encoded
+      : Compact.addLengthPrefix(encoded);
   }
 }

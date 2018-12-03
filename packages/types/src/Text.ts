@@ -7,9 +7,12 @@ import { isFunction, isString, stringToU8a, u8aToString, u8aToHex } from '@polka
 import { AnyU8a, Codec } from './types';
 import Compact from './codec/Compact';
 
-// This is a string wrapper, along with the length. It is used both for strings as well
-// as stuff like documentation.
-//
+/**
+ * @name Text
+ * @description
+ * This is a string wrapper, along with the length. It is used both for strings as well
+ * as items such as documentation.
+ */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
 //   - Potentially we want a "TypeString" extension to this. Basically something that

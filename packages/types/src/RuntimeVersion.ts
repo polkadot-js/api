@@ -11,7 +11,12 @@ import Vector from './codec/Vector';
 import Text from './Text';
 import U32 from './U32';
 
-class ApiId extends U8aFixed {
+/**
+ * @name ApiId
+ * @description
+ * An identifier for the runtime API
+ */
+export class ApiId extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 64);
   }
@@ -22,7 +27,12 @@ type RuntimeVersionApiValue = {
   version?: AnyNumber
 };
 
-class RuntimeVersionApi extends Tuple {
+/**
+ * @name RuntimeVersionApi
+ * @description
+ * A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version
+ */
+export class RuntimeVersionApi extends Tuple {
   constructor (value?: RuntimeVersionApiValue | Uint8Array) {
     super({
       id: ApiId,
@@ -48,6 +58,11 @@ type RuntimeVersionValue = {
   apis?: Array<RuntimeVersionApiValue>
 };
 
+/**
+ * @name RuntimeVersion
+ * @description
+ * A defintion of the runtime and the associated versions thereof
+ */
 export default class RuntimeVersion extends Struct {
   constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({

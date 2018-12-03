@@ -21,7 +21,11 @@ export type HeaderValue = {
   stateRoot?: AnyU8a
 };
 
-// A block header.
+/**
+ * @name Header
+ * @description
+ * A [[Block]] header
+ */
 export default class Header extends Struct {
   constructor (value?: HeaderValue | Uint8Array) {
     super({

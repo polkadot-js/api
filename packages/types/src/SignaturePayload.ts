@@ -18,11 +18,17 @@ type SignaturePayloadValue = {
   blockHash?: AnyU8a
 };
 
-// Signing Payload.
-//   8 bytes: The Transaction Index/Nonce as provided in the transaction itself.
-//   2+ bytes: The Function Descriptor as provided in the transaction itself.
-//   2 bytes: The Transaction Era as provided in the transaction itself.
-//   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
+/**
+ * @name SignaturePayload
+ * @description
+ * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
+ * on the conetnts included
+ *
+ *   8 bytes: The Transaction Index/Nonce as provided in the transaction itself.
+ *   2+ bytes: The Function Descriptor as provided in the transaction itself.
+ *   2 bytes: The Transaction Era as provided in the transaction itself.
+ *   32 bytes: The hash of the authoring block implied by the Transaction Era and the current block.
+ */
 export default class SignaturePayload extends Struct {
   protected _signature?: Uint8Array;
 

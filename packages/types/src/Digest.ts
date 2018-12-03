@@ -12,16 +12,36 @@ import Hash from './Hash';
 import Signature from './Signature';
 import U64 from './U64';
 
-class AuthoritiesChange extends Vector.with(AuthorityId) {
+/**
+ * @name AuthoritiesChange
+ * @description
+ * Log for Authories changed
+ */
+export class AuthoritiesChange extends Vector.with(AuthorityId) {
 }
 
-class ChangesTrieRoot extends Hash {
+/**
+ * @name ChangesTrieRoot
+ * @description
+ * Log for changes to the Trie root
+ */
+export class ChangesTrieRoot extends Hash {
 }
 
-class Other extends Bytes {
+/**
+ * @name Other
+ * @description
+ * Log item that is just a stream of [[Bytes]]
+ */
+export class Other extends Bytes {
 }
 
-class Seal extends Tuple {
+/**
+ * @name Seal
+ * @description
+ * Log item indicating a sealing event
+ */
+export class Seal extends Tuple {
   constructor (value: any) {
     super({
       slot: U64,
@@ -38,6 +58,11 @@ class Seal extends Tuple {
   }
 }
 
+/**
+ * @name DigestItem
+ * @description
+ * A [[EnumType]] the specifies the specific item in the logs of a [[Digest]]
+ */
 export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
 | Seal> {
   constructor (value: any) {
@@ -50,6 +75,11 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
   }
 }
 
+/**
+ * @name Digest
+ * @description
+ * A [[Header]] Digest
+ */
 export default class Digest extends Struct {
   constructor (value: any) {
     super({

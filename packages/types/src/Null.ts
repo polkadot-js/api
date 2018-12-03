@@ -4,7 +4,11 @@
 
 import { Codec } from './types';
 
-// Implements a type that does not contain anything (apart from `null`)
+/**
+ * @name Null
+ * @description
+ * Implements a type that does not contain anything (apart from `null`)
+ */
 export default class Null implements Codec {
   get encodedLength (): number {
     return 0;
@@ -14,15 +18,25 @@ export default class Null implements Codec {
     return '0x';
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return null;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array();
-  }
-
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return '';
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array();
   }
 }

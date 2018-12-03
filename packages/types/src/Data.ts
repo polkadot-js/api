@@ -4,6 +4,10 @@
 
 import U8a from './codec/U8a';
 
-// A raw data structure. It is just an encoding of a U8a, without any length encoding
+/**
+ * @name Data
+ * @description
+ * A raw data structure. It is just an encoding of a U8a, without any length encoding
+ */
 export default class Data extends U8a {
 }

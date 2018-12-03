@@ -7,6 +7,9 @@
 // perspective these are the value classes. (Codec is for the cases where you need
 // to construct values dynamically)
 
+/**
+ * @summary Type definitions that are used in the system
+ */
 export { default as AccountId } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';

@@ -6,6 +6,11 @@ import { AnyNumber } from './types';
 
 import UInt from './codec/UInt';
 
+/**
+ * @name U32
+ * @description
+ * An 32-bit number
+ */
 export default class U32 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 32, false);

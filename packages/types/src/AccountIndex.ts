@@ -20,9 +20,12 @@ const MAX_1BYTE = new BN(PREFIX_1BYTE);
 const MAX_2BYTE = new BN(1).shln(16);
 const MAX_4BYTE = new BN(1).shln(32);
 
-// A wrapper around an AccountIndex, which is a shortened, variable-length encoding
-// for an Account. We extends from U8a which is basically
-// just a Uint8Array wrapper.
+/**
+ * @name AccountIndex
+ * @description
+ * A wrapper around an AccountIndex, which is a shortened, variable-length encoding
+ * for an Account. We extends from [[U32]] to provide the number-like properties.
+ */
 export default class AccountIndex extends U32 {
   constructor (value: AnyNumber = new BN(0)) {
     super(

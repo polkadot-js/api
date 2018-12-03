@@ -23,7 +23,12 @@ export type StoredPendingChangeValue = {
   nextAuthorities?: Array<Uint8Array | NextAuthorityValue>
 };
 
-class NextAuthority extends Tuple {
+/**
+ * @name NextAuthority
+ * @description
+ * The next authority available as [[SessionKey]]
+ */
+export class NextAuthority extends Tuple {
   constructor (value?: Uint8Array | NextAuthorityValue) {
     super({
       sessionKey: SessionKey,
@@ -40,7 +45,11 @@ class NextAuthority extends Tuple {
   }
 }
 
-// Stored pending change for a Grandpa events
+/**
+ * @name StoredPendingChange
+ * @description
+ * Stored pending change for a Grandpa events
+ */
 export default class StoredPendingChange extends Struct {
   constructor (value?: Uint8Array | StoredPendingChangeValue) {
     super({

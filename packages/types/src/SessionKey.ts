@@ -4,7 +4,11 @@
 
 import AuthorityId from './AuthorityId';
 
-// Wrapper for a SessionKey. Same as an normal AuthorityId, i.e. a wrapper
-// around publicKey.
+/**
+ * @name SessionKey
+ * @description
+ * Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper
+ * around publicKey.
+ */
 export default class SessionKey extends AuthorityId {
 }
