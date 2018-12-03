@@ -90,10 +90,11 @@ export default class UInt extends BN implements Codec {
 
   /**
    * @description Returns the string representation of the value
+   * @param base The base to use for the conversion
    */
-  toString (): string {
+  toString (base?: number): string {
     // only included here since we do not inherit docs
-    return super.toString();
+    return super.toString(base);
   }
 
   /**
