@@ -9,7 +9,8 @@ import { Codec } from './types';
 /**
  * @name Bool
  * @description
- * Representation for a boolean value in the system
+ * Representation for a boolean value in the system. It extends the base JS `Boolean` class
+ * @noInheritDoc
  */
 export default class Bool extends Boolean implements Codec {
   constructor (value: Bool | Boolean | Uint8Array | boolean | number = false) {

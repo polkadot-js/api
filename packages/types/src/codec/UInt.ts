@@ -16,7 +16,9 @@ export const DEFAULT_UINT_BITS = 64;
  * @description
  * A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
  * and decoding of those numbers. Upon construction the bitLength is provided and any additional
- * use keeps the number to this length.
+ * use keeps the number to this length. This extends `BN`, so all methods available on a normal
+ * `BN` object is available here.
+ * @noInheritDoc
  */
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
@@ -84,6 +86,14 @@ export default class UInt extends BN implements Codec {
     return this._isHexJson
       ? this.toHex()
       : this.toNumber();
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    // only included here since we do not inherit docs
+    return super.toString();
   }
 
   /**

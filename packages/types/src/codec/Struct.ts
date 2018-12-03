@@ -14,6 +14,7 @@ import { Codec, Constructor, ConstructorDef } from '../types';
  * values in the constructor and it manages the decoding. It is important that the constructor
  * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
  * it needs to decoded in the specific defined order.
+ * @noInheritDoc
  */
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
@@ -126,6 +127,9 @@ export default class Struct<
     };
   }
 
+  /**
+   * @description Returns the Type description to sthe structure
+   */
   get Type (): E {
     return this._Types;
   }
@@ -137,6 +141,14 @@ export default class Struct<
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
+  }
+
+  /**
+   * @description Returns a specific names entry in the structure
+   * @param name The name of the entry to retrieve
+   */
+  get (name: keyof S): Codec | undefined {
+    return super.get(name);
   }
 
   /**

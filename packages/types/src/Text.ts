@@ -12,6 +12,7 @@ import Compact from './codec/Compact';
  * @description
  * This is a string wrapper, along with the length. It is used both for strings as well
  * as items such as documentation.
+ * @noInheritDoc
  */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
@@ -47,6 +48,14 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description The length of the value
+   */
+  get length (): number {
+    // only included here since we ignore inherited docs
+    return super.length;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
@@ -58,6 +67,14 @@ export default class Text extends String implements Codec {
    */
   toJSON (): any {
     return this.toString();
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    // only included here since we do not inherit docs
+    return super.toString();
   }
 
   /**
