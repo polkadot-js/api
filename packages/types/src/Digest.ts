@@ -43,24 +43,24 @@ export class Other extends Bytes {
  */
 export class Seal extends Tuple {
   constructor (value: any) {
-    super({
-      slot: U64,
-      signature: Signature
-    }, value);
+    super([
+      U64,
+      Signature
+    ], value);
   }
 
   /**
    * @description The wrapped [[Signature]]
    */
   get signature (): Signature {
-    return this.get('signature') as Signature;
+    return this[1] as Signature;
   }
 
   /**
    * @description The wrapped [[U64]] slot
    */
   get slot (): U64 {
-    return this.get('slot') as U64;
+    return this[0] as U64;
   }
 }
 
@@ -70,7 +70,7 @@ export class Seal extends Tuple {
  * A [[EnumType]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
-| Seal> {
+  | Seal> {
   constructor (value: any) {
     super([
       Other, // Position 0, as per Rust (encoding control)

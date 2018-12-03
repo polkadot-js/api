@@ -58,9 +58,9 @@ describe('Vector', () => {
     ]));
     const first = (test as Vector<Codec>)[0] as Tuple;
 
-    expect((first.getAtIndex(0) as PropIndex).toNumber()).toEqual(10);
-    expect((first.getAtIndex(1) as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
-    expect((first.getAtIndex(2) as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
+    expect((first[0] as PropIndex).toNumber()).toEqual(10);
+    expect((first[1] as Proposal).callIndex).toEqual(new Uint8Array([0, 3]));
+    expect((first[2] as AccountId).toString()).toEqual('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ');
   });
 
   describe('vector-like functions', () => {

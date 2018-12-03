@@ -46,10 +46,7 @@ export default class KeyValue extends Struct {
   }
 }
 
-export type KeyValueOptionValue = {
-  key?: AnyU8a,
-  value?: AnyU8a
-};
+export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
 
 /**
  * @name KeyValueOption
@@ -60,23 +57,23 @@ export type KeyValueOptionValue = {
  */
 export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue | Uint8Array) {
-    super({
-      key: StorageKey,
-      value: Option.with(StorageData)
-    }, value);
+    super([
+      StorageKey,
+      Option.with(StorageData)
+    ], value);
   }
 
   /**
    * @description The [[StorageKey]]
    */
   get key (): StorageKey {
-    return this.getAtIndex(0) as StorageKey;
+    return this[0] as StorageKey;
   }
 
   /**
    * @description The [[Option]] [[StorageData]]
    */
   get value (): Option<StorageData> {
-    return this.getAtIndex(1) as Option<StorageData>;
+    return this[1] as Option<StorageData>;
   }
 }

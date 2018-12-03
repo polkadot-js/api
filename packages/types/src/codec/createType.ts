@@ -122,11 +122,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     }
 
     return Tuple.with(
-      value.sub.reduce((result, type, index) => {
-        result[`entry${index}`] = getTypeClass(type);
-
-        return result;
-      }, {} as { [index: string]: Constructor })
+      value.sub.map(getTypeClass)
     );
   } else if (value.info === TypeDefInfo.Compact) {
     if (!value.sub || Array.isArray(value.sub)) {
