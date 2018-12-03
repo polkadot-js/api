@@ -16,7 +16,7 @@
 
 ⊕ **new Origin**(): [Origin](_origin_.origin.md)
 
-*Defined in [Origin.ts:11](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/Origin.ts#L11)*
+*Defined in [Origin.ts:11](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/Origin.ts#L11)*
 
 **Returns:** [Origin](_origin_.origin.md)
 

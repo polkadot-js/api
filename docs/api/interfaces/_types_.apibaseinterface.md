@@ -26,7 +26,7 @@
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L12)*
+*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L12)*
 
 ___
 <a id="on"></a>
@@ -35,7 +35,7 @@ ___
 
 **● on**: *`function`*
 
-*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L19)*
+*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L19)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `void`
@@ -56,7 +56,7 @@ ___
 
 **● query**: *`S`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L15)*
+*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L15)*
 
 ___
 <a id="rpc"></a>
@@ -65,7 +65,7 @@ ___
 
 **● rpc**: *`R`*
 
-*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L16)*
+*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L16)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -74,7 +74,7 @@ ___
 
 **● runtimeMetadata**: *`RuntimeMetadata`*
 
-*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L13)*
+*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L13)*
 
 ___
 <a id="runtimeversion"></a>
@@ -83,7 +83,7 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L14)*
+*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L14)*
 
 ___
 <a id="tx"></a>
@@ -92,7 +92,7 @@ ___
 
 **● tx**: *`E`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/a7b177d/packages/api/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/types.ts#L17)*
 
 ___
 

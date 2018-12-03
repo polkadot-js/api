@@ -5,10 +5,7 @@
 *__description__*: The next authority available as [SessionKey](_sessionkey_.sessionkey.md)
 
 # Type parameters
-#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
-#### T :  `object`
-#### V :  `object`
-#### E :  `object`
+#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 # Hierarchy
 
 ↳  [Tuple](_codec_tuple_.tuple.md)
@@ -19,6 +16,9 @@
 
 * [Codec](../interfaces/_types_.codec.md)
 
+# Indexable
+
+\[n: `number`\]:&nbsp;[Codec](../interfaces/_types_.codec.md)
 # Constructors
 
 <a id="constructor"></a>
@@ -27,9 +27,9 @@
 
 ⊕ **new NextAuthority**(value?: * `Uint8Array` &#124; [NextAuthorityValue](../modules/_storedpendingchange_.md#nextauthorityvalue)*): [NextAuthority](_storedpendingchange_.nextauthority.md)
 
-*Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
+*Overrides [Tuple](_codec_tuple_.tuple.md).[constructor](_codec_tuple_.tuple.md#constructor)*
 
-*Defined in [StoredPendingChange.ts:31](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/StoredPendingChange.ts#L31)*
+*Defined in [StoredPendingChange.ts:31](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/StoredPendingChange.ts#L31)*
 
 **Parameters:**
 
@@ -43,44 +43,35 @@ ___
 
 # Properties
 
-<a id="___tostringtag"></a>
+<a id="length"></a>
 
-##  __@toStringTag
+##  length
 
-**● __@toStringTag**: *`string`*
+**● length**: *`number`*
 
-*Inherited from Map.[Symbol.toStringTag]*
+*Inherited from Array.length*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1199*
 
-___
-<a id="size"></a>
-
-##  size
-
-**● size**: *`number`*
-
-*Inherited from Map.size*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:28*
+Gets or sets the length of the array. This is a number one higher than the highest element defined in an array.
 
 ___
 
 # Accessors
 
-<a id="type"></a>
+<a id="types"></a>
 
-##  Type
+##  Types
 
-getType(): `E`
+getTypes(): `Array`<`string`>
 
-*Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[Types](_codec_tuple_.tuple.md#types)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Tuple.ts:75](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L75)*
 
-*__description__*: Returns the Type description to sthe structure
+*__description__*: The types definition of the tuple
 
-**Returns:** `E`
+**Returns:** `Array`<`string`>
 
 ___
 <a id="encodedlength"></a>
@@ -89,9 +80,9 @@ ___
 
 getencodedLength(): `number`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[encodedLength](_codec_tuple_.tuple.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L140)*
+*Defined in [codec/Tuple.ts:66](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L66)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -104,7 +95,7 @@ ___
 
 getindex(): [U64](_u64_.u64.md)
 
-*Defined in [StoredPendingChange.ts:39](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/StoredPendingChange.ts#L39)*
+*Defined in [StoredPendingChange.ts:39](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/StoredPendingChange.ts#L39)*
 
 **Returns:** [U64](_u64_.u64.md)
 
@@ -115,7 +106,7 @@ ___
 
 getsessionKey(): [SessionKey](_sessionkey_.sessionkey.md)
 
-*Defined in [StoredPendingChange.ts:43](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/StoredPendingChange.ts#L43)*
+*Defined in [StoredPendingChange.ts:43](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/StoredPendingChange.ts#L43)*
 
 **Returns:** [SessionKey](_sessionkey_.sessionkey.md)
 
@@ -127,62 +118,422 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
+▸ **__@iterator**(): `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
-*Inherited from Map.[Symbol.iterator]*
+*Inherited from Array.[Symbol.iterator]*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:113*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:52*
 
-Returns an iterable of entries in the map.
+Iterator
 
-**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
-
-___
-<a id="clear"></a>
-
-##  clear
-
-▸ **clear**(): `void`
-
-*Inherited from Map.clear*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:22*
-
-**Returns:** `void`
+**Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
-<a id="delete"></a>
+<a id="___unscopables"></a>
 
-##  delete
+##  __@unscopables
 
-▸ **delete**(key: *`keyof S`*): `boolean`
+▸ **__@unscopables**(): `object`
 
-*Inherited from Map.delete*
+*Inherited from Array.[Symbol.unscopables]*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:23*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:94*
+
+Returns an object whose properties have the value 'true' when they will be absent when used in a 'with' statement.
+
+**Returns:** `object`
+
+___
+<a id="concat"></a>
+
+##  concat
+
+▸ **concat**(...items: *`ConcatArray`<[Codec](../interfaces/_types_.codec.md)>[]*): [Codec](../interfaces/_types_.codec.md)[]
+
+▸ **concat**(...items: *( `T` &#124; `ConcatArray`<`T`>)[]*): [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.concat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1221*
+
+Combines two or more arrays.
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Rest` items | `ConcatArray`<[Codec](../interfaces/_types_.codec.md)>[] |  Additional items to add to the end of array1. |
 
-**Returns:** `boolean`
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.concat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1226*
+
+Combines two or more arrays.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Rest` items | ( `T` &#124; `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
+
+___
+<a id="copywithin"></a>
+
+##  copyWithin
+
+▸ **copyWithin**(target: *`number`*, start: *`number`*, end?: * `undefined` &#124; `number`*): `this`
+
+*Inherited from Array.copyWithin*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:64*
+
+Returns the this object after copying a section of the array identified by start and end to the same array starting at position target
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| target | `number` |  If target is negative, it is treated as length+target where length is the length of the array. |
+| start | `number` |  If start is negative, it is treated as length+start. If end is negative, it is treated as length+end. |
+| `Optional` end |  `undefined` &#124; `number`|  If not specified, length of the this object is used as its default value. |
+
+**Returns:** `this`
 
 ___
 <a id="entries"></a>
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
+▸ **entries**(): `IterableIterator`<[`number`, [Codec](../interfaces/_types_.codec.md)]>
 
-*Inherited from Map.entries*
+*Inherited from Array.entries*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:118*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:57*
 
-Returns an iterable of key, value pairs for every entry in the map.
+Returns an iterable of key, value pairs for every entry in the array
 
-**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
+**Returns:** `IterableIterator`<[`number`, [Codec](../interfaces/_types_.codec.md)]>
+
+___
+<a id="every"></a>
+
+##  every
+
+▸ **every**(callbackfn: *`function`*, thisArg?: *`any`*): `boolean`
+
+*Inherited from Array.every*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1286*
+
+Determines whether all the members of an array satisfy the specified test.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to three arguments. The every method calls the callbackfn function for each element in array1 until the callbackfn returns false, or until the end of the array. |
+| `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
+
+**Returns:** `boolean`
+
+___
+<a id="fill"></a>
+
+##  fill
+
+▸ **fill**(value: *[Codec](../interfaces/_types_.codec.md)*, start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): `this`
+
+*Inherited from Array.fill*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:53*
+
+Returns the this object after filling the section identified by start and end with value
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| value | [Codec](../interfaces/_types_.codec.md) |  value to fill array section with |
+| `Optional` start |  `undefined` &#124; `number`|  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
+| `Optional` end |  `undefined` &#124; `number`|  index to stop filling the array at. If end is negative, it is treated as length+end. |
+
+**Returns:** `this`
+
+___
+<a id="find"></a>
+
+##  find
+
+▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*):  `S` &#124; `undefined`
+
+▸ **find**(predicate: *`function`*, thisArg?: *`any`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+*Inherited from Array.find*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:31*
+
+Returns the value of the first element in the array where predicate is true, and undefined otherwise.
+
+**Type parameters:**
+
+#### S :  [Codec](../interfaces/_types_.codec.md)
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
+| `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
+
+**Returns:**  `S` &#124; `undefined`
+
+*Inherited from Array.find*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:32*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| predicate | `function` |
+| `Optional` thisArg | `any` |
+
+**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+___
+<a id="findindex"></a>
+
+##  findIndex
+
+▸ **findIndex**(predicate: *`function`*, thisArg?: *`any`*): `number`
+
+*Inherited from Array.findIndex*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:43*
+
+Returns the index of the first element in the array where predicate is true, and -1 otherwise.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, findIndex immediately returns that element index. Otherwise, findIndex returns -1. |
+| `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
+
+**Returns:** `number`
+
+___
+<a id="flat"></a>
+
+##  flat
+
+▸ **flat**<`U`>(this: *`U`[][][][][][][][]*, depth: *`7`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][][][][][][]*, depth: *`6`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][][][][][]*, depth: *`5`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][][][][]*, depth: *`4`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][][][]*, depth: *`3`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][][]*, depth: *`2`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[][]*, depth?: * `undefined` &#124; `1`*): `U`[]
+
+▸ **flat**<`U`>(this: *`U`[]*, depth: *`0`*): `U`[]
+
+▸ **flat**<`U`>(depth?: * `undefined` &#124; `number`*): `any`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:158*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][][][][][][] |
+| depth | `7` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:166*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][][][][][] |
+| depth | `6` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:174*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][][][][] |
+| depth | `5` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:182*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][][][] |
+| depth | `4` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:190*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][][] |
+| depth | `3` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:198*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][][] |
+| depth | `2` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:206*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[][] |
+| `Optional` depth |  `undefined` &#124; `1`|  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:214*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| this | `U`[] |
+| depth | `0` |  The maximum recursion depth |
+
+**Returns:** `U`[]
+
+*Inherited from Array.flat*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:222*
+
+Returns a new array with all sub-array elements concatenated into it recursively up to the specified depth. If no depth is provided, flat method defaults to the depth of 1.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` depth |  `undefined` &#124; `number`|  The maximum recursion depth |
+
+**Returns:** `any`[]
+
+___
+<a id="flatmap"></a>
+
+##  flatMap
+
+▸ **flatMap**<`U`,`This`>(callback: *`function`*, thisArg?: *[This]()*): `U`[]
+
+*Inherited from Array.flatMap*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.esnext.array.d.ts:147*
+
+Calls a defined callback function on each element of an array. Then, flattens the result into a new array. This is identical to a map followed by flat with depth 1.
+
+**Type parameters:**
+
+#### U 
+#### This 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callback | `function` |  A function that accepts up to three arguments. The flatMap method calls the callback function one time for each element in the array. |
+| `Optional` thisArg | [This]() |  An object to which the this keyword can refer in the callback function. If thisArg is omitted, undefined is used as the this value. |
+
+**Returns:** `U`[]
 
 ___
 <a id="foreach"></a>
@@ -191,116 +542,405 @@ ___
 
 ▸ **forEach**(callbackfn: *`function`*, thisArg?: *`any`*): `void`
 
-*Inherited from Map.forEach*
+*Inherited from Array.forEach*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:24*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1298*
 
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| callbackfn | `function` |
-| `Optional` thisArg | `any` |
-
-**Returns:** `void`
-
-___
-<a id="get"></a>
-
-##  get
-
-▸ **get**(name: *`keyof S`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
-
-*Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
-
-*Overrides Map.get*
-
-*Defined in [codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L150)*
-
-*__description__*: Returns a specific names entry in the structure
+Performs the specified action for each element in an array.
 
 **Parameters:**
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| name | `keyof S` |  The name of the entry to retrieve |
+| callbackfn | `function` |  A function that accepts up to three arguments. forEach calls the callbackfn function one time for each element in the array. |
+| `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** `void`
 
 ___
-<a id="getatindex"></a>
+<a id="includes"></a>
 
-##  getAtIndex
+##  includes
 
-▸ **getAtIndex**(index: *`number`*): [Codec](../interfaces/_types_.codec.md)
+▸ **includes**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `boolean`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
+*Inherited from Array.includes*
 
-*Defined in [codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L157)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2016.array.include.d.ts:27*
 
-*__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
+Determines whether an array includes a certain element, returning true or false as appropriate.
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| index | `number` |
-
-**Returns:** [Codec](../interfaces/_types_.codec.md)
-
-___
-<a id="has"></a>
-
-##  has
-
-▸ **has**(key: *`keyof S`*): `boolean`
-
-*Inherited from Map.has*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:26*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| searchElement | [Codec](../interfaces/_types_.codec.md) |  The element to search for. |
+| `Optional` fromIndex |  `undefined` &#124; `number`|  The position in this array at which to begin searching for searchElement. |
 
 **Returns:** `boolean`
+
+___
+<a id="indexof"></a>
+
+##  indexOf
+
+▸ **indexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `number`
+
+*Inherited from Array.indexOf*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1274*
+
+Returns the index of the first occurrence of a value in an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| searchElement | [Codec](../interfaces/_types_.codec.md) |  The value to locate in the array. |
+| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
+
+**Returns:** `number`
+
+___
+<a id="join"></a>
+
+##  join
+
+▸ **join**(separator?: * `undefined` &#124; `string`*): `string`
+
+*Inherited from Array.join*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1231*
+
+Adds all the elements of an array separated by the specified separator string.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` separator |  `undefined` &#124; `string`|  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
+
+**Returns:** `string`
 
 ___
 <a id="keys"></a>
 
 ##  keys
 
-▸ **keys**(): `IterableIterator`<`keyof S`>
+▸ **keys**(): `IterableIterator`<`number`>
 
-*Inherited from Map.keys*
+*Inherited from Array.keys*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:123*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:62*
 
-Returns an iterable of keys in the map
+Returns an iterable of keys in the array
 
-**Returns:** `IterableIterator`<`keyof S`>
+**Returns:** `IterableIterator`<`number`>
 
 ___
-<a id="set"></a>
+<a id="lastindexof"></a>
 
-##  set
+##  lastIndexOf
 
-▸ **set**(key: *`keyof S`*, value: *[Codec](../interfaces/_types_.codec.md)*): `this`
+▸ **lastIndexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `number`
 
-*Inherited from Map.set*
+*Inherited from Array.lastIndexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:27*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1280*
+
+Returns the index of the last occurrence of a specified value in an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| searchElement | [Codec](../interfaces/_types_.codec.md) |  The value to locate in the array. |
+| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array. |
+
+**Returns:** `number`
+
+___
+<a id="pop"></a>
+
+##  pop
+
+▸ **pop**():  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+*Inherited from Array.pop*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1211*
+
+Removes the last element from an array and returns it.
+
+**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+___
+<a id="push"></a>
+
+##  push
+
+▸ **push**(...items: *[Codec](../interfaces/_types_.codec.md)[]*): `number`
+
+*Inherited from Array.push*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1216*
+
+Appends new elements to an array, and returns the new length of the array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Rest` items | [Codec](../interfaces/_types_.codec.md)[] |  New elements of the Array. |
+
+**Returns:** `number`
+
+___
+<a id="reduce"></a>
+
+##  reduce
+
+▸ **reduce**(callbackfn: *`function`*): [Codec](../interfaces/_types_.codec.md)
+
+▸ **reduce**(callbackfn: *`function`*, initialValue: *[Codec](../interfaces/_types_.codec.md)*): [Codec](../interfaces/_types_.codec.md)
+
+▸ **reduce**<`U`>(callbackfn: *`function`*, initialValue: *`U`*): `U`
+
+*Inherited from Array.reduce*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1322*
+
+Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)
+
+*Inherited from Array.reduce*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1323*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| key | `keyof S` |
-| value | [Codec](../interfaces/_types_.codec.md) |
+| callbackfn | `function` |
+| initialValue | [Codec](../interfaces/_types_.codec.md) |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)
+
+*Inherited from Array.reduce*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1329*
+
+Calls the specified callback function for all the elements in an array. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to four arguments. The reduce method calls the callbackfn function one time for each element in the array. |
+| initialValue | `U` |  If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value. |
+
+**Returns:** `U`
+
+___
+<a id="reduceright"></a>
+
+##  reduceRight
+
+▸ **reduceRight**(callbackfn: *`function`*): [Codec](../interfaces/_types_.codec.md)
+
+▸ **reduceRight**(callbackfn: *`function`*, initialValue: *[Codec](../interfaces/_types_.codec.md)*): [Codec](../interfaces/_types_.codec.md)
+
+▸ **reduceRight**<`U`>(callbackfn: *`function`*, initialValue: *`U`*): `U`
+
+*Inherited from Array.reduceRight*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1335*
+
+Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)
+
+*Inherited from Array.reduceRight*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1336*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| callbackfn | `function` |
+| initialValue | [Codec](../interfaces/_types_.codec.md) |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)
+
+*Inherited from Array.reduceRight*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1342*
+
+Calls the specified callback function for all the elements in an array, in descending order. The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to four arguments. The reduceRight method calls the callbackfn function one time for each element in the array. |
+| initialValue | `U` |  If initialValue is specified, it is used as the initial value to start the accumulation. The first call to the callbackfn function provides this value as an argument instead of an array value. |
+
+**Returns:** `U`
+
+___
+<a id="reverse"></a>
+
+##  reverse
+
+▸ **reverse**(): [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.reverse*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1235*
+
+Reverses the elements in an Array.
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
+
+___
+<a id="shift"></a>
+
+##  shift
+
+▸ **shift**():  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+*Inherited from Array.shift*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1239*
+
+Removes the first element from an array and returns it.
+
+**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+
+___
+<a id="slice"></a>
+
+##  slice
+
+▸ **slice**(start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.slice*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1245*
+
+Returns a section of an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` start |  `undefined` &#124; `number`|  The beginning of the specified portion of the array. |
+| `Optional` end |  `undefined` &#124; `number`|  The end of the specified portion of the array. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
+
+___
+<a id="some"></a>
+
+##  some
+
+▸ **some**(callbackfn: *`function`*, thisArg?: *`any`*): `boolean`
+
+*Inherited from Array.some*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1292*
+
+Determines whether the specified callback function returns true for any element of an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  A function that accepts up to three arguments. The some method calls the callbackfn function for each element in array1 until the callbackfn returns true, or until the end of the array. |
+| `Optional` thisArg | `any` |  An object to which the this keyword can refer in the callbackfn function. If thisArg is omitted, undefined is used as the this value. |
+
+**Returns:** `boolean`
+
+___
+<a id="sort"></a>
+
+##  sort
+
+▸ **sort**(compareFn?: * `undefined` &#124; `function`*): `this`
+
+*Inherited from Array.sort*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1250*
+
+Sorts an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` compareFn |  `undefined` &#124; `function`|  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
 
 **Returns:** `this`
+
+___
+<a id="splice"></a>
+
+##  splice
+
+▸ **splice**(start: *`number`*, deleteCount?: * `undefined` &#124; `number`*): [Codec](../interfaces/_types_.codec.md)[]
+
+▸ **splice**(start: *`number`*, deleteCount: *`number`*, ...items: *[Codec](../interfaces/_types_.codec.md)[]*): [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.splice*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1256*
+
+Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| start | `number` |  The zero-based location in the array from which to start removing elements. |
+| `Optional` deleteCount |  `undefined` &#124; `number`|  The number of elements to remove. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
+
+*Inherited from Array.splice*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1263*
+
+Removes elements from an array and, if necessary, inserts new elements in their place, returning the deleted elements.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| start | `number` |  The zero-based location in the array from which to start removing elements. |
+| deleteCount | `number` |  The number of elements to remove. |
+| `Rest` items | [Codec](../interfaces/_types_.codec.md)[] |  Elements to insert into the array in place of the deleted elements. |
+
+**Returns:** [Codec](../interfaces/_types_.codec.md)[]
 
 ___
 <a id="toarray"></a>
@@ -309,9 +949,9 @@ ___
 
 ▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[toArray](_codec_tuple_.tuple.md#toarray)*
 
-*Defined in [codec/Struct.ts:164](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L164)*
+*Defined in [codec/Tuple.ts:82](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L82)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -326,9 +966,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[toHex](_codec_tuple_.tuple.md#tohex)*
 
-*Defined in [codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L171)*
+*Defined in [codec/Tuple.ts:89](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L89)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -345,13 +985,26 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toJSON](_codec_tuple_.tuple.md#tojson)*
 
-*Overrides [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
-
-*Defined in [codec/Tuple.ts:34](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Tuple.ts#L34)*
+*Defined in [codec/Tuple.ts:96](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L96)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
+
+___
+<a id="tolocalestring"></a>
+
+##  toLocaleString
+
+▸ **toLocaleString**(): `string`
+
+*Inherited from Array.toLocaleString*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1207*
+
+Returns a string representation of an array. The elements are converted to string using their toLocalString methods.
+
+**Returns:** `string`
 
 ___
 <a id="tostring"></a>
@@ -362,9 +1015,11 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[toString](_codec_tuple_.tuple.md#tostring)*
 
-*Defined in [codec/Struct.ts:192](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L192)*
+*Overrides Array.toString*
+
+*Defined in [codec/Tuple.ts:105](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L105)*
 
 *__description__*: Returns the string representation of the value
 
@@ -379,9 +1034,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[toU8a](_codec_tuple_.tuple.md#tou8a)*
 
-*Defined in [codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Struct.ts#L200)*
+*Defined in [codec/Tuple.ts:114](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L114)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -394,17 +1049,38 @@ ___
 **Returns:** `Uint8Array`
 
 ___
+<a id="unshift"></a>
+
+##  unshift
+
+▸ **unshift**(...items: *[Codec](../interfaces/_types_.codec.md)[]*): `number`
+
+*Inherited from Array.unshift*
+
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1268*
+
+Inserts new elements at the start of an array.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Rest` items | [Codec](../interfaces/_types_.codec.md)[] |  Elements to insert at the start of the Array. |
+
+**Returns:** `number`
+
+___
 <a id="values"></a>
 
 ##  values
 
 ▸ **values**(): `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
-*Inherited from Map.values*
+*Inherited from Array.values*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:128*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:67*
 
-Returns an iterable of values in the map
+Returns an iterable of values in the array
 
 **Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
@@ -417,13 +1093,11 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[with](_codec_tuple_.tuple.md#with)*
 
-*Overrides [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
-
-*Defined in [codec/Tuple.ts:21](https://github.com/polkadot-js/api/blob/a7b177d/packages/types/src/codec/Tuple.ts#L21)*
+*Defined in [codec/Tuple.ts:53](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/codec/Tuple.ts#L53)*
 
 **Type parameters:**
 
-#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
+#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 **Parameters:**
 
 | Name | Type |
