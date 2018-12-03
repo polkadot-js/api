@@ -9,9 +9,9 @@ import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
 /**
  * @name Tuple
  * @description
- * A Tuple defines an anonymous Object with key/values - where the values are Codec values.
- * It is a specialization of the Struct type where the toJSON operates on Array structures,
- * while the U8a encoding is handled in the same way as a Struct
+ * A Tuple defines an anonymous fixed-length array, where each element has its
+ * own type. It extends the base JS `Array` object.
+ * @noInheritDoc
  */
 export default class Tuple<
   S extends Array<Constructor> = Array<Constructor>
