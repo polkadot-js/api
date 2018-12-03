@@ -147,7 +147,7 @@ export function getTypeClass (value: TypeDef): Constructor {
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
-  return Type!;
+  return Type;
 }
 
 export default function createType (type: Text | string, value?: any): Codec {
