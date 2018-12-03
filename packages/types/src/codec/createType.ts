@@ -5,12 +5,12 @@
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
-import Text from '../Text';
+import { Text } from '../index';
 import Compact from './Compact';
 import Tuple from './Tuple';
-import TypeRegistry from './TypeRegistry';
 import UInt from './UInt';
 import Vector from './Vector';
+import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -142,7 +142,6 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  const registry = TypeRegistry.defaultRegistry;
   const Type = registry.get(value.type);
 
   assert(Type, `Unable to determine type from '${value.type}'`);

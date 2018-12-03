@@ -6,7 +6,7 @@ import { isFunction, isString } from '@polkadot/util';
 
 import { Constructor } from '../types';
 
-export default class TypeRegistry {
+export class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
   private _registry: Map<string, Constructor> = new Map();
@@ -32,8 +32,9 @@ export default class TypeRegistry {
   }
 
   get (name: string) {
+    throw new Error([...this._registry.entries()].toString());
     return this._registry.get(name);
   }
 }
 
-TypeRegistry.defaultRegistry.register(require('../index'));
+export default TypeRegistry.defaultRegistry;
