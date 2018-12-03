@@ -4,6 +4,7 @@
 
 import extrinsics from '@polkadot/extrinsics/static';
 
+import { CodecTo } from '../types';
 import Text from '../Text';
 import U32 from '../U32';
 import Tuple from './Tuple';
@@ -16,40 +17,44 @@ describe('Tuple', () => {
   let tuple: Tuple;
 
   beforeEach(() => {
-    Method.injectExtrinsics(extrinsics);
-
-    // FIXME something weird here, injecting any :(
-    tuple = new Tuple([
-      Text, U32
-    ], ['foo', 69]);
+    tuple = new Tuple(
+      [Text, U32],
+      ['bazzing', 69]
+    );
   });
 
-  it('returns array with toJSON', () => {
-    expect(
-      tuple.toJSON()
-    ).toEqual([
-      'foo',
-      69
-    ]);
+  describe('decoding', () => {
+    const testDecode = (type: string, input: any) =>
+      it(`can decode from ${type}`, () => {
+        const t = new Tuple([
+          Text,
+          U32
+        ], input);
+        expect(
+          t.toJSON()
+        ).toEqual(['bazzing', 69]);
+      });
+
+    testDecode('array', ['bazzing', 69]);
+    testDecode('hex', '0x1c62617a7a696e6745000000');
+    testDecode('Uint8Array', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
   });
 
-  it('initialises via JSON array', () => {
-    const test = new (Tuple.with(
-      [Text, U32, Text])
-    )([
-      'bazzing', 32
-    ]);
+  describe('encoding', () => {
+    const testEncode = (to: CodecTo | 'toArray', expected: any) =>
+      it(`can encode ${to}`, () => {
+        expect(tuple[to]()).toEqual(expected);
+      });
 
-    expect(
-      test.toJSON()
-    ).toEqual([
-      'bazzing',
-      32,
-      ''
-    ]);
+    testEncode('toHex', '0x1c62617a7a696e6745000000');
+    testEncode('toJSON', ['bazzing', 69]);
+    testEncode('toU8a', Uint8Array.from([28, 98, 97, 122, 122, 105, 110, 103, 69, 0, 0, 0]));
+    testEncode('toString', '["bazzing",69]');
   });
 
   it('creates properly via actual hex string', () => {
+    Method.injectExtrinsics(extrinsics);
+
     const test = new (Tuple.with([
       BlockNumber, Proposal, VoteThreshold
     ]
@@ -59,4 +64,17 @@ describe('Tuple', () => {
     expect((test[1] as Method).callIndex).toEqual(new Uint8Array([0, 3]));
     expect((test[2] as VoteThreshold).toNumber()).toEqual(1);
   });
+
+  it('exposes the Types', () => {
+    expect(tuple.Types).toEqual(['Text', 'U32']);
+  });
+
+  it("doesn't expose filter", () => {
+    expect(tuple.filter).toThrowError(/is not implemented on Tuple/);
+  });
+
+  it("doesn't expose map", () => {
+    expect(tuple.map).toThrowError(/is not implemented on Tuple/);
+  });
+
 });

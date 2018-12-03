@@ -104,11 +104,7 @@ export default class Tuple<
    */
   toString () {
     // Overwrite the default toString representation of Array.
-    const data = this.toArray().map((entry) =>
-      entry.toString()
-    );
-
-    return `[${data.join(', ')}]`;
+    return JSON.stringify(this.toJSON());
   }
 
   /**
