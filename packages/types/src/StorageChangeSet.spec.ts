@@ -4,7 +4,7 @@
 
 import { createType } from '@polkadot/types/codec';
 import json from './json/StorageChangeSet.001.json';
-import { StorageChangeSet } from './index';
+import StorageChangeSet from './StorageChangeSet';
 
 describe('StorageChangeSet', () => {
   describe('construction', () => {
