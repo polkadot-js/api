@@ -5,7 +5,7 @@
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
-import { Text } from '../index';
+import Text from '../Text';
 import Compact from './Compact';
 import Tuple from './Tuple';
 import UInt from './UInt';
