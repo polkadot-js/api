@@ -31,7 +31,7 @@ export class TypeRegistry {
     }
   }
 
-  get (name: string) {
+  get (name: string): Constructor | undefined {
     return this._registry.get(name);
   }
 }

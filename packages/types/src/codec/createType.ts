@@ -142,7 +142,8 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  const Type = registry.get(value.type);
+  const Types = require('../index');
+  const Type = registry.get(value.type) || Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 

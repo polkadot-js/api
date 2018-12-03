@@ -10,7 +10,7 @@ import Rpc from '@polkadot/rpc-core/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import TypeRegistry from '@polkadot/types/codec/TypeRegistry';
+import registry from '@polkadot/types/codec/typeRegistry';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
@@ -76,7 +76,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     this._rpc = this.decorateRpc(this._rpcBase);
 
     if (options.additionalTypes) {
-      TypeRegistry.defaultRegistry.register(options.additionalTypes);
+      registry.register(options.additionalTypes);
     }
 
     this.init();
