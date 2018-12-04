@@ -30,7 +30,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/Enum.ts:25](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L25)*
+*Defined in [codec/Enum.ts:25](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L25)*
 
 **Parameters:**
 
@@ -51,7 +51,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Enum.ts:48](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L48)*
+*Defined in [codec/Enum.ts:48](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L48)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -69,7 +69,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Enum.ts:55](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L55)*
+*Defined in [codec/Enum.ts:55](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L55)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -84,7 +84,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Enum.ts:62](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L62)*
+*Defined in [codec/Enum.ts:62](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L62)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -97,7 +97,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/Enum.ts:69](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L69)*
+*Defined in [codec/Enum.ts:69](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L69)*
 
 *__description__*: Returns the number representation for the value
 
@@ -112,7 +112,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Enum.ts:76](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L76)*
+*Defined in [codec/Enum.ts:76](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L76)*
 
 *__description__*: Returns the string representation of the value
 
@@ -127,7 +127,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Enum.ts:84](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L84)*
+*Defined in [codec/Enum.ts:84](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L84)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -146,7 +146,7 @@ ___
 
 ▸ **decodeEnum**(value?: * [Enum](_codec_enum_.enum.md) &#124; `Uint8Array` &#124; `number`*): `number`
 
-*Defined in [codec/Enum.ts:35](https://github.com/polkadot-js/api/blob/101f869/packages/types/src/codec/Enum.ts#L35)*
+*Defined in [codec/Enum.ts:35](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/Enum.ts#L35)*
 
 **Parameters:**
 

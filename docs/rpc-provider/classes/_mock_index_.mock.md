@@ -19,7 +19,7 @@ A mock provider mainly used for testing.
 
 ⊕ **new Mock**(): [Mock](_mock_index_.mock.md)
 
-*Defined in [mock/index.ts:64](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L64)*
+*Defined in [mock/index.ts:64](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L64)*
 
 **Returns:** [Mock](_mock_index_.mock.md)
 
@@ -33,7 +33,7 @@ ___
 
 **● isUpdating**: *`boolean`* = true
 
-*Defined in [mock/index.ts:42](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L42)*
+*Defined in [mock/index.ts:42](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L42)*
 
 ___
 <a id="subscriptions"></a>
@@ -49,7 +49,7 @@ ___
     return subs;
   }, ({} as MockState$Subscriptions))
 
-*Defined in [mock/index.ts:53](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L53)*
+*Defined in [mock/index.ts:53](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L53)*
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[isConnected](../interfaces/_types_.providerinterface.md#isconnected)*
 
-*Defined in [mock/index.ts:70](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L70)*
+*Defined in [mock/index.ts:70](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L70)*
 
 **Returns:** `boolean`
 
@@ -76,7 +76,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[on](../interfaces/_types_.providerinterface.md#on)*
 
-*Defined in [mock/index.ts:74](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L74)*
+*Defined in [mock/index.ts:74](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L74)*
 
 **Parameters:**
 
@@ -96,7 +96,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[send](../interfaces/_types_.providerinterface.md#send)*
 
-*Defined in [mock/index.ts:78](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L78)*
+*Defined in [mock/index.ts:78](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L78)*
 
 **Parameters:**
 
@@ -114,7 +114,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, ...params: *`Array`<`any`>*): `Promise`<`number`>
 
-*Defined in [mock/index.ts:86](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L86)*
+*Defined in [mock/index.ts:86](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L86)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 
 *Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[unsubscribe](../interfaces/_types_.providerinterface.md#unsubscribe)*
 
-*Defined in [mock/index.ts:106](https://github.com/polkadot-js/api/blob/101f869/packages/rpc-provider/src/mock/index.ts#L106)*
+*Defined in [mock/index.ts:106](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/mock/index.ts#L106)*
 
 **Parameters:**
 
