@@ -34,7 +34,116 @@ const l = logger('api-rx');
  *
  * @see [[ApiPromise]]
  *
- * @example See [Polkadot-JS Api Rx Examples](https://polkadot.js.org/api/examples/rx/)
+ * ## Usage
+ *
+ * Making rpc calls -
+ * <BR>
+ *
+ * ```javascript
+ * import Api from '@polkadot/api/rx';
+ *
+ * async function main () {
+ *   // Initialise via Promise & static create
+ *   const api = await Api.create().toPromise();
+ *
+ *   // Make a call to retrieve the current network head
+ *   api.rpc.chain.subscribeNewHead().subscribe((header) => {
+ *     console.log(`Chain is at #${header.blockNumber}`);
+ *   });
+ * }
+ *
+ * main();
+ * ```
+ * <BR>
+ *
+ * Subscribing to chain state -
+ * <BR>
+ *
+ * ```javascript
+ * import moment from 'moment';
+ *
+ * import { combineLatest } from 'rxjs';
+ * import { switchMap } from 'rxjs/operators';
+ * import Api from '@polkadot/api/rx';
+ * import { WsProvider } from '@polkadot/rpc-provider';
+ *
+ * // Last block timestamp
+ * let last = 0;
+ *
+ * // Initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // Initialise via isReady & new with specific provider
+ * new Api(provider)
+ *   .isReady
+ *   .pipe(
+ *     switchMap((api) =>
+ *       combineLatest([
+ *         api.query.timestamp.blockPeriod(),
+ *         api.query.timestamp.now()
+ *       ])
+ *   )
+ *   .subscribe(([blockPeriod, timestamp]) => {
+ *     // Convert the timestamps from type `Moment` into seconds
+ *     const blockPeriodSeconds = moment(blockPeriod).unix();
+ *     const timestampSeconds = moment(timestamp).unix();
+ *     const elapsed = last
+ *       ? `, ${timestampSeconds - last}s since last`
+ *       : '';
+ *
+ *     last = timestampSeconds;
+ *     console.log(`Timestamp ${timestampSeconds}${elapsed} (${blockPeriodSeconds}s target)`);
+ *   });
+ * ```
+ * <BR>
+ *
+ * Submitting a transaction -
+ * <BR>
+ *
+ * ```javascript
+ * import { first, switchMap } from 'rxjs/operators';
+ *
+ * import Api from '@polkadot/api/rx';
+ * import Keyring from '@polkadot/keyring';
+ * import { stringToU8a } from '@polkadot/util';
+ *
+ * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
+ * const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+ *
+ * async function main () {
+ *   // Create an instance of the keyring
+ *   const keyring = new Keyring();
+ *
+ *   // Add Alice to our keyring (with the known seed for the account)
+ *   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
+ *
+ *   // Instantiate the API via Promise
+ *   const api = await Api.create().toPromise();
+ *
+ *   // Retrieve the nonce for Alice, to be used to sign the transaction.
+ *   api.query.system.accountNonce(alice.address())
+ *     // Pipe nonce into transfer.
+ *     .pipe(
+ *       first(),
+ *       switchMap((aliceNonce) =>
+ *         api.tx.balances
+ *           // Create an extrinsic, transferring 12345 units to Bob
+ *           .transfer(BOB_ADDR, 12345)
+ *           // Sign the transaction
+ *           .sign(alice, aliceNonce)
+ *           // Send the transaction (optional status callback)
+ *           .send()
+ *       )
+ *     )
+ *     // Subscribe to the result
+ *     .subscribe((status) => {
+ *       if (status && status.type.toString() === 'Finalised') {
+ *         console.log('Submitted transfer of 12345 to Bob');
+ *       }
+ *     });
+ * }
+ *
+ * main();
  * ```
  */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {

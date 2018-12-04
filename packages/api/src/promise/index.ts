@@ -38,13 +38,17 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * ```javascript
  * import Api from '@polkadot/api/promise';
  *
- * // initialise via static create
- * const api = await Api.create();
+ * async function main () {
+ *   // Initialise via static create
+ *   const api = await Api.create();
  *
- * // make a subscription to the network head
- * api.rpc.chain.subscribeNewHead((header) => {
- *   console.log(`Chain is at #${header.blockNumber}`);
- * });
+ *   // Make a subscription to the network head
+ *   await api.rpc.chain.subscribeNewHead((header) => {
+ *     console.log(`Chain is at best block #${header.blockNumber}`);
+ *   });
+ * }
+ *
+ * main().catch(console.error);
  * ```
  * <BR>
  *
@@ -52,28 +56,36 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
+ * import moment from 'moment';
+ *
  * import Api from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * // initialise a provider with a specific endpoint
- * const provider = new WsProvider('wss://example.com:9944')
+ * async function main () {
+ *   // Initialise a provider with a specific endpoint
+ *   const provider = new WsProvider('wss://example.com:9944');
  *
- * // initialise via isReady & new with specific provider
- * const api = await new Api(provider).isReady;
+ *   // Initialise via isReady & new with specific provider
+ *   const api = await new Api(provider).isReady;
  *
- * // retrieve the block target time
- * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
- * let last = 0;
+ *   // Retrieve the block target time in type `Moment` and convert into seconds
+ *   const blockPeriod = await api.query.timestamp.blockPeriod();
+ *   const blockPeriodSeconds = moment(blockPeriod).unix();
+ *   let last = 0;
  *
- * // subscribe to the current block timestamp, updates automatically (callback provided)
- * api.query.timestamp.now((timestamp) => {
- *   const elapsed = last
- *     ? `, ${timestamp.toNumber() - last}s since last`
- *     : '';
+ *   // Subscribe to the current block timestamp, updates automatically (callback provided)
+ *   api.query.timestamp.now((timestamp) => {
+ *     const timestampSeconds = moment(timestamp).unix();
+ *     const elapsed = last
+ *       ? `, ${timestampSeconds - last}s since last`
+ *       : '';
  *
- *   last = timestamp.toNumber();
- *   console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
- * });
+ *     last = timestampSeconds;
+ *     console.log(`Timestamp ${timestampSeconds}${elapsed} (${blockPeriodSeconds}s target)`);
+ *   });
+ * }
+ *
+ * main().catch(console.error);
  * ```
  * <BR>
  *
@@ -82,24 +94,40 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *
  * ```javascript
  * import Api from '@polkadot/api/promise';
+ * import Keyring from '@polkadot/keyring';
+ * import stringToU8a from '@polkadot/util';
  *
- * Api.create().then((api) => {
- *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
+ * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
+ * const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+ *
+ * async function main () {
+ *   const api = await ApiPromise.create();
+ *
+ *   // Create an instance of the keyring
+ *   const keyring = new Keyring();
+ *
+ *   // Add Alice to our keyring (with the known seed for the account)
+ *   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
+ *
+ *   // Retrieve the nonce for Alice
+ *   const nonce = await api.query.system.accountNonce(alice.address());
  *
  *   api.tx.balances
- *     // create transfer
- *     transfer(keyring.bob.address(), 12345)
- *     // sign the transcation
- *     .sign(keyring.alice, nonce)
- *     // send the transaction (optional status callback)
+ *     // Create transfer
+ *     transfer(BOB_ADDR, 12345)
+ *     // Sign the transcation
+ *     .sign(alice, nonce)
+ *     // Send the transaction (optional status callback)
  *     .send((status) => {
- *       console.log(`current status ${status.type}`);
+ *       console.log(`Current status ${status.type}`);
  *     })
- *     // retrieve the submitted extrinsic hash
+ *     // Retrieve the submitted extrinsic hash
  *     .then((hash) => {
- *       console.log(`submitted with hash ${hash}`);
+ *       console.log(`Submitted with hash ${hash}`);
  *     });
- * });
+ * };
+ *
+ * main().catch(console.error);
  * ```
  */
 export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {

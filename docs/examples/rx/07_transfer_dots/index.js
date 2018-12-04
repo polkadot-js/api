@@ -1,4 +1,3 @@
-const { combineLatest } = require('rxjs');
 const { first, switchMap } = require('rxjs/operators');
 
 // Import the API, Keyring and some utility functions
