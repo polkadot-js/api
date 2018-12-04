@@ -94,7 +94,7 @@ export default class Tuple<
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
-    return this.toArray().map((entry) =>
+    return this.map((entry) =>
       entry.toJSON()
     );
   }
@@ -113,7 +113,7 @@ export default class Tuple<
    */
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
-      ...this.toArray().map((entry) =>
+      ...this.map((entry) =>
         entry.toU8a(isBare)
       )
     );
@@ -124,16 +124,20 @@ export default class Tuple<
   // new instance.
 
   /**
-   * @ignore
+   * @description Filters the array with the callback
+   * @param callbackfn The filter function
+   * @param thisArg The `this` object to apply the result to
    */
   filter (callbackfn: (value: Codec, index: number, array: Array<Codec>) => any, thisArg?: any): Array<Codec> {
-    throw new Error("Method 'filter' is not implemented on Tuple.");
+    return this.toArray().filter(callbackfn, thisArg);
   }
 
   /**
-   * @ignore
+   * @description Maps the array with the callback
+   * @param callbackfn The mapping function
+   * @param thisArg The `this` onject to apply the result to
    */
   map<U> (callbackfn: (value: Codec, index: number, array: Array<Codec>) => U, thisArg?: any): Array<U> {
-    throw new Error("Method 'map' is not implemented on Tuple.");
+    return this.toArray().map(callbackfn, thisArg);
   }
 }
