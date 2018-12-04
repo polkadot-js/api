@@ -22,6 +22,8 @@ type ExtrinsicValue = {
 };
 
 /**
+ * @name Extrinsic
+ * @description
  * Representation of an Extrinsic in the system. It contains the actual call,
  * (optional) signature and encodes with an actual length prefix
  *
@@ -61,78 +63,121 @@ export default class Extrinsic extends Struct {
     return value as any;
   }
 
-  // expose args so it is compatible with Method (as constructor value)
+  /**
+   * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
+   */
   get args (): Array<Codec> {
     return this.method.args;
   }
 
-  // the actual [sectionIndex, methodIndex] as used
+  /**
+   * @description The actual `[sectionIndex, methodIndex]` as used in the Method
+   */
   get callIndex (): Uint8Array {
     return this.method.callIndex;
   }
 
+  /**
+   * @description The actual data for the Method
+   */
   get data (): Uint8Array {
     return this.method.data;
   }
 
-  // convernience, encodes the extrinsic and returns the actual hash
-  get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
-  }
-
-  get isSigned (): boolean {
-    return this.signature.isSigned;
-  }
-
-  get length (): number {
-    return this.toU8a(true).length;
-  }
-
-  get meta (): FunctionMetadata {
-    return this.method.meta;
-  }
-
-  get method (): Method {
-    return this.get('method') as Method;
-  }
-
-  get signature (): ExtrinsicSignature {
-    return this.get('signature') as ExtrinsicSignature;
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     const length = this.length;
 
     return length + Compact.encodeU8a(length).length;
   }
 
+  /**
+   * @description Convernience function, encodes the extrinsic and returns the actual hash
+   */
+  get hash (): Hash {
+    return new Hash(
+      blake2AsU8a(this.toU8a(), 256)
+    );
+  }
+
+  /**
+   * @description `true` id the extrinsic is signed
+   */
+  get isSigned (): boolean {
+    return this.signature.isSigned;
+  }
+
+  /**
+   * @description The length of the encoded value
+   */
+  get length (): number {
+    return this.toU8a(true).length;
+  }
+
+  /**
+   * @description The [[FunctionMetadata]] that describes the extrinsic
+   */
+  get meta (): FunctionMetadata {
+    return this.method.meta;
+  }
+
+  /**
+   * @description The [[Method]] this extrinsic wraps
+   */
+  get method (): Method {
+    return this.get('method') as Method;
+  }
+
+  /**
+   * @description The [[ExtrinsicSignature]]
+   */
+  get signature (): ExtrinsicSignature {
+    return this.get('signature') as ExtrinsicSignature;
+  }
+
+  /**
+   * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
+   */
   addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
     this.signature.addSignature(signer, signature, nonce, era);
 
     return this;
   }
 
+  /**
+   * @description Sign the extrinsic with a specific keypair
+   */
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era?: Uint8Array): Extrinsic {
     this.signature.sign(this.method, signerPair, nonce, blockHash, era);
 
     return this;
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
+  toJSON (): any {
+    return this.toHex();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const encoded = super.toU8a();
 
     return isBare
       ? encoded
       : Compact.addLengthPrefix(encoded);
-  }
-
-  toHex (): string {
-    return u8aToHex(this.toU8a());
-  }
-
-  toJSON (): any {
-    return this.toHex();
   }
 }

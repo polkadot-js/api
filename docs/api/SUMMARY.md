@@ -1,5 +1,6 @@
 * [&quot;Base&quot;](modules/_base_.md)
   * [ApiBase](classes/_base_.apibase.md)
+  * [ApiOptions](interfaces/_base_.apioptions.md)
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;promise/Combinator&quot;](modules/_promise_combinator_.md)
   * [Combinator](classes/_promise_combinator_.combinator.md)

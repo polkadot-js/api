@@ -4,6 +4,11 @@
 
 import U32 from './U32';
 
-// An increasing number that represents a specific council proposal index in the system
+/**
+ * @name ProposalIndex
+ * @description
+ * An increasing number that represents a specific council proposal index in
+ * the system, implemented as [[U32]]
+ */
 export default class ProposalIndex extends U32 {
 }

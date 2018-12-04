@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor, ConstructorDef } from './types';
+import { Constructor } from './types';
 
 import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
@@ -14,13 +14,18 @@ import Metadata, { EventMetadata } from './Metadata';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
-class EventData extends Tuple {
+/**
+ * @name EventData
+ * @description
+ * Wrapper for the actual data that forms part of an [[Event]]
+ */
+export class EventData extends Tuple {
   private _meta: EventMetadata;
   private _method: string;
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: ConstructorDef, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -29,30 +34,53 @@ class EventData extends Tuple {
     this._typeDef = typeDef;
   }
 
+  /**
+   * @description The wrapped [[EventMetadata]]
+   */
   get meta (): EventMetadata {
     return this._meta;
   }
 
+  /**
+   * @description The method as a string
+   */
   get method (): string {
     return this._method;
   }
 
+  /**
+   * @description The section as a string
+   */
   get section (): string {
     return this._section;
   }
 
+  /**
+   * @description The [[TypeDef]] for this event
+   */
   get typeDef (): Array<TypeDef> {
     return this._typeDef;
   }
 }
 
-// like methods, we have the [sectionIndex, methodIndex] pairing
-class EventIndex extends U8aFixed {
+/**
+ * @name EventIndex
+ * @description
+ * This follows the same approach as in [[Method]], we have the `[sectionIndex, methodIndex]` pairing
+ * that indicates the actual event fired
+ */
+export class EventIndex extends U8aFixed {
   constructor (value?: any) {
     super(value, 16);
   }
 }
 
+/**
+ * @name Event
+ * @description
+ * A representation of a system event. These are generated via the [[Metadata]] interfaces and
+ * specific to a specific Substrate runtime
+ */
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
@@ -92,11 +120,7 @@ export default class Event extends Struct {
         const methodName = meta.name.toString();
         const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
         const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
-        const Types = typeDef.reduce((result, def, index) => {
-          result[index] = getTypeClass(def);
-
-          return result;
-        }, {} as { [index: string]: Constructor });
+        const Types = typeDef.map(getTypeClass);
 
         EventTypes[eventIndex.toString()] = class extends EventData {
           constructor (value: Uint8Array) {
@@ -107,26 +131,44 @@ export default class Event extends Struct {
     });
   }
 
+  /**
+   * @description The wrapped [[EventData]]
+   */
   get data (): EventData {
     return this.get('data') as EventData;
   }
 
+  /**
+   * @description The [[EventIndex]], identifying the raw event
+   */
   get index (): EventIndex {
     return this.get('index') as EventIndex;
   }
 
+  /**
+   * @description The [[EventMetadata]] with the documentation
+   */
   get meta (): EventMetadata {
     return this.data.meta;
   }
 
+  /**
+   * @description The method string identifying the event
+   */
   get method (): string {
     return this.data.method;
   }
 
+  /**
+   * @description The section string identifying the event
+   */
   get section (): string {
     return this.data.section;
   }
 
+  /**
+   * @description The [[TypeDef]] for the event
+   */
   get typeDef (): Array<TypeDef> {
     return this.data.typeDef;
   }

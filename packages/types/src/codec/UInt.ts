@@ -11,12 +11,17 @@ export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
-// A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
-// and decoding of those numbers. Upon construction the bitLength is provided and any additional
-// use keeps the number to this length.
-//
+/**
+ * @name UInt
+ * @description
+ * A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
+ * and decoding of those numbers. Upon construction the bitLength is provided and any additional
+ * use keeps the number to this length. This extends `BN`, so all methods available on a normal
+ * `BN` object is available here.
+ * @noInheritDoc
+ */
 // TODO:
-//   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
+//   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
 export default class UInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
@@ -46,29 +51,57 @@ export default class UInt extends BN implements Codec {
     return bnToBn(value).toString();
   }
 
-  bitLength (): UIntBitLength {
-    return this._bitLength;
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this._bitLength / 8;
   }
 
+  /**
+   * @description Returns the number of bits in the value
+   */
+  bitLength (): UIntBitLength {
+    return this._bitLength;
+  }
+
+  /**
+   * @description Returns the BN representation of the number. (Compatibility)
+   */
+  toBn (): BN {
+    return this;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
     return bnToHex(this, this._bitLength);
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this._isHexJson
       ? this.toHex()
       : this.toNumber();
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this, this._bitLength, true);
+  /**
+   * @description Returns the string representation of the value
+   * @param base The base to use for the conversion
+   */
+  toString (base?: number): string {
+    // only included here since we do not inherit docs
+    return super.toString(base);
   }
 
-  toBn (): BN {
-    return this;
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return bnToU8a(this, this._bitLength, true);
   }
 }

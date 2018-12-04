@@ -4,7 +4,12 @@
 
 import U64 from './U64';
 
-// The Nonce or number of transactions sent by a specific account. Generally used
-// with extrinsics to determine the order of execution.
-export default class Index extends U64 {
+/**
+ * @name Nonce
+ * @description
+ * The Nonce or number of transactions sent by a specific account. Generally used
+ * with extrinsics to determine the order of execution. Implemented as a Substrate
+ * [[U64]].
+ */
+export default class Nonce extends U64 {
 }

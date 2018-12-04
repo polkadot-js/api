@@ -4,7 +4,11 @@
 
 import Enum from './codec/Enum';
 
-// Voting threshold, used inside proposals to set change the voting tally
+/**
+ * @name VoteThreshold
+ * @description
+ * Voting threshold, used inside proposals to set change the voting tally
+ */
 export default class VoteThreshold extends Enum {
   constructor (index?: number | Uint8Array) {
     super([

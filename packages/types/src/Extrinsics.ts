@@ -5,6 +5,10 @@
 import Vector from './codec/Vector';
 import Extrinsic from './Extrinsic';
 
-// A list of extrinsics
+/**
+ * @name Extrinsics
+ * @description
+ * A [[Vector]] of [[Extrinsic]]
+ */
 export default class Extrinsics extends Vector.with(Extrinsic) {
 }

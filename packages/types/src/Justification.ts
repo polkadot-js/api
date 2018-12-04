@@ -17,11 +17,19 @@ export type RhdJustificationValue = {
   signatures?: Array<BftAuthoritySignatureValue>
 };
 
-// generic justification, this is specific per consensus implementation
+/**
+ * @name Justification
+ * @description
+ * A generic justification as a stream of [[Bytes]], this is specific per consensus implementation
+ */
 export default class Justification extends Bytes {
 }
 
-// justification for Rhododendron
+/**
+ * @name RhdJustification
+ * @description
+ * [[Justification]] for the Rhododendron consensus algorithm
+ */
 export class RhdJustification extends Struct {
   constructor (value?: RhdJustificationValue | Uint8Array) {
     super({
@@ -33,14 +41,23 @@ export class RhdJustification extends Struct {
     ]));
   }
 
+  /**
+   * @description The justification [[Hash]]
+   */
   get hash (): Hash {
     return this.get('hash') as Hash;
   }
 
+  /**
+   * @description The round this justification wraps as a [[U32]]
+   */
   get roundNumber (): U32 {
     return this.get('roundNumber') as U32;
   }
 
+  /**
+   * @description The [[BftAuthoritySignature]] array
+   */
   get signatures (): Vector<BftAuthoritySignature> {
     return this.get('signatures') as Vector<BftAuthoritySignature>;
   }

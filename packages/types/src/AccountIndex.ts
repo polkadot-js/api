@@ -20,9 +20,12 @@ const MAX_1BYTE = new BN(PREFIX_1BYTE);
 const MAX_2BYTE = new BN(1).shln(16);
 const MAX_4BYTE = new BN(1).shln(32);
 
-// A wrapper around an AccountIndex, which is a shortened, variable-length encoding
-// for an Account. We extends from U8a which is basically
-// just a Uint8Array wrapper.
+/**
+ * @name AccountIndex
+ * @description
+ * A wrapper around an AccountIndex, which is a shortened, variable-length encoding
+ * for an Account. We extends from [[U32]] to provide the number-like properties.
+ */
 export default class AccountIndex extends U32 {
   constructor (value: AnyNumber = new BN(0)) {
     super(
@@ -83,26 +86,42 @@ export default class AccountIndex extends U32 {
     }
   }
 
+  /**
+   * @description Returns the BN representation of the AccountIndex
+   */
   toBn (): BN {
     return new BN(this);
   }
 
-  // Like in our decoding function, we explicitly override this to allow us to output
-  // LE-hex encoded numbers (generally UInt in JSON are expected as BE, these LE)
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex (): string {
+    // Like in our decoding function, we explicitly override this to allow us to output
+    // LE-hex encoded numbers (generally UInt in JSON are expected as BE, these LE)
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.toString();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     // HACK 15 Oct 2018 For isBare assume that we are dealing with an AccountIndex
     // lookup (it is the only place where AccountIndex is used in such a manner to

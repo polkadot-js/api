@@ -10,10 +10,12 @@ import Rpc from '@polkadot/rpc-core/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
+import registry from '@polkadot/types/codec/typeRegistry';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import { Extrinsics } from '@polkadot/types/Method';
+import { Constructor } from '@polkadot/types/types';
 import { assert, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
@@ -28,6 +30,18 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
+export interface ApiOptions {
+  /**
+   * WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the
+   * localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   */
+  wsProvider?: WsProvider;
+  /**
+   * Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
+   */
+  additionalTypes?: {[name: string]: Constructor};
+}
+
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
   private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
@@ -41,7 +55,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param options Options object to create API instance
    *
    * @example
    * <BR>
@@ -56,10 +70,14 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
+  constructor (options: ApiOptions) {
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(wsProvider);
+    this._rpcBase = new Rpc(options.wsProvider);
     this._rpc = this.decorateRpc(this._rpcBase);
+
+    if (options.additionalTypes) {
+      registry.register(options.additionalTypes);
+    }
 
     this.init();
   }

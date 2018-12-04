@@ -1,5 +1,9 @@
 
 
+*__name__*: Type
+
+*__description__*: This is a extended version of String, specifically to handle types. Here we rely fully on what string provides us, however we also adjust the types received from the runtime, i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
+
 # Hierarchy
 
 ↳  [Text](_text_.text.md)
@@ -23,7 +27,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:16](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Type.ts#L16)*
+*Defined in [Type.ts:20](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Type.ts#L20)*
 
 **Parameters:**
 
@@ -32,22 +36,6 @@
 | `Default value` value |  [Text](_text_.text.md) &#124; `Uint8Array` &#124; `string`| &quot;&quot; |
 
 **Returns:** [Type](_type_.type.md)
-
-___
-
-# Properties
-
-<a id="length"></a>
-
-##  length
-
-**● length**: *`number`*
-
-*Inherited from String.length*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:431*
-
-Returns the length of a String object.
 
 ___
 
@@ -61,7 +49,26 @@ getencodedLength(): `number`
 
 *Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:63](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Type.ts#L63)*
+*Defined in [Type.ts:67](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Type.ts#L67)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
+
+**Returns:** `number`
+
+___
+<a id="length"></a>
+
+##  length
+
+getlength(): `number`
+
+*Inherited from [Text](_text_.text.md).[length](_text_.text.md#length)*
+
+*Overrides String.length*
+
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Text.ts#L54)*
+
+*__description__*: The length of the value
 
 **Returns:** `number`
 
@@ -158,7 +165,7 @@ ___
 
 *Inherited from String.charAt*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:332*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:392*
 
 Returns the character at the specified index.
 
@@ -179,7 +186,7 @@ ___
 
 *Inherited from String.charCodeAt*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:338*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:398*
 
 Returns the Unicode value of the character at the specified location.
 
@@ -221,7 +228,7 @@ ___
 
 *Inherited from String.concat*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:344*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:404*
 
 Returns a string that contains the concatenation of two or more strings.
 
@@ -359,7 +366,7 @@ ___
 
 *Inherited from String.indexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:351*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:411*
 
 Returns the position of the first occurrence of a substring.
 
@@ -396,7 +403,7 @@ ___
 
 *Inherited from String.lastIndexOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:358*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:418*
 
 Returns the last occurrence of a substring in the string.
 
@@ -439,7 +446,7 @@ ___
 
 *Inherited from String.localeCompare*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:364*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:424*
 
 Determines whether two strings are equivalent in the current locale.
 
@@ -462,7 +469,7 @@ ___
 
 *Overrides String.match*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:370*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:430*
 
 Matches a string with a regular expression, and returns an array containing the results of that search.
 
@@ -589,7 +596,7 @@ ___
 
 *Overrides String.replace*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:377*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:437*
 
 Replaces text in a string, using a regular expression or search string.
 
@@ -606,7 +613,7 @@ Replaces text in a string, using a regular expression or search string.
 
 *Overrides String.replace*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:384*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:444*
 
 Replaces text in a string, using a regular expression or search string.
 
@@ -630,7 +637,7 @@ ___
 
 *Overrides String.search*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:390*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:450*
 
 Finds the first substring match in a regular expression search.
 
@@ -651,7 +658,7 @@ ___
 
 *Inherited from String.slice*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:398*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:458*
 
 Returns a section of a string.
 
@@ -690,7 +697,7 @@ ___
 
 *Overrides String.split*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:405*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:465*
 
 Split a string into substrings using the specified separator and return them as an array.
 
@@ -764,7 +771,7 @@ ___
 
 *Inherited from String.substr*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:439*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:499*
 
 Gets a substring beginning at the specified location and having the specified length.
 
@@ -786,7 +793,7 @@ ___
 
 *Inherited from String.substring*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:413*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:473*
 
 Returns the substring at the specified location within a String object.
 
@@ -825,7 +832,9 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
 
-*Defined in [Text.ts:43](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Text.ts#L43)*
+*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Text.ts#L62)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -840,7 +849,9 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Text.ts#L47)*
+*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Text.ts#L69)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -853,7 +864,7 @@ ___
 
 *Inherited from String.toLocaleLowerCase*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:419*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:479*
 
 Converts all alphabetic characters to lowercase, taking into account the host environment's current locale.
 
@@ -868,7 +879,7 @@ ___
 
 *Inherited from String.toLocaleUpperCase*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:425*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:485*
 
 Returns a string where all alphabetic characters have been converted to uppercase, taking into account the host environment's current locale.
 
@@ -883,7 +894,7 @@ ___
 
 *Inherited from String.toLowerCase*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:416*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:476*
 
 Converts all the alphabetic characters in a string to lowercase.
 
@@ -898,11 +909,13 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Inherited from String.toString*
+*Inherited from [Text](_text_.text.md).[toString](_text_.text.md#tostring)*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:326*
+*Overrides String.toString*
 
-Returns a string representation of a string.
+*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Text.ts#L76)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -917,13 +930,15 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/0e6d138/packages/types/src/Type.ts#L70)*
+*Defined in [Type.ts:78](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/Type.ts#L78)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -936,7 +951,7 @@ ___
 
 *Inherited from String.toUpperCase*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:422*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:482*
 
 Converts all the alphabetic characters in a string to uppercase.
 
@@ -951,7 +966,7 @@ ___
 
 *Inherited from String.trim*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:428*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:488*
 
 Removes the leading and trailing white space and line terminator characters from a string.
 
@@ -996,7 +1011,7 @@ ___
 
 *Inherited from String.valueOf*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:442*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:502*
 
 Returns the primitive value of the specified object.
 

@@ -50,9 +50,9 @@ describe('KeyValue', () => {
 
 describe('KeyValueOption', () => {
   it('exposes the properties for key/value', () => {
-    const kv = new KeyValueOption({
-      key: '0x11223344'
-    });
+    const kv = new KeyValueOption([
+      '0x11223344'
+    ]);
 
     expect(kv.key.toHex()).toEqual('0x11223344');
     expect(kv.value.isNone).toEqual(true);

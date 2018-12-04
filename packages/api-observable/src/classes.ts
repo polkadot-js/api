@@ -12,9 +12,9 @@ const ProposalStruct: Constructor<Struct<any>> = Struct.with({ id: PropIndex, pr
 export class RxProposal extends ProposalStruct {
   constructor (value: Tuple) {
     super({
-      id: value.getAtIndex(0),
-      proposal: value.getAtIndex(1),
-      address: value.getAtIndex(2)
+      id: value[0],
+      proposal: value[1],
+      address: value[2]
     });
   }
 
@@ -36,8 +36,8 @@ const DepositStruct: Constructor<Struct<any>> = Struct.with({ balance: Balance, 
 export class RxProposalDeposits extends DepositStruct {
   constructor (value: Tuple) {
     super({
-      balance: value.getAtIndex(0),
-      addresses: value.getAtIndex(1)
+      balance: value[0],
+      addresses: value[1]
     });
   }
 
@@ -55,9 +55,9 @@ const ReferendumStruct: Constructor<Struct<any>> = Struct.with({ blockNumber: Bl
 export class RxReferendum extends ReferendumStruct {
   constructor (value: Tuple, id: ReferendumIndex | BN | number) {
     super({
-      blockNumber: value.getAtIndex(0),
-      proposal: value.getAtIndex(1),
-      voteThreshold: value.getAtIndex(2),
+      blockNumber: value[0],
+      proposal: value[1],
+      voteThreshold: value[2],
       id
     });
   }

@@ -4,7 +4,11 @@
 
 import H256 from './H256';
 
-// The default hash that is used accross the system. It is basically just a thin
-// wrapper around H256, representing a 32-byte blake2b (Substrate) value
+/**
+ * @name Hash
+ * @description
+ * The default hash that is used accross the system. It is basically just a thin
+ * wrapper around [[H256]], representing a 32-byte blake2b (Substrate) value
+ */
 export default class Hash extends H256 {
 }

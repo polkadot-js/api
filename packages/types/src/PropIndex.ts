@@ -4,6 +4,11 @@
 
 import U32 from './U32';
 
-// An increasing number that represents a specific public proposal index in the system
+/**
+ * @name PropIndex
+ * @description
+ * An increasing number that represents a specific public proposal index in the
+ * system, implemented as a [[U32]]
+ */
 export default class PropIndex extends U32 {
 }

@@ -8,18 +8,43 @@ import Hash from './Hash';
 import Null from './Null';
 import Text from './Text';
 
+/**
+ * @name Broadcast
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been boradcast to peers
+ */
 export class Broadcast extends Vector.with(Text) {
 }
 
+/**
+ * @name Dropped
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been dropped
+ */
 export class Dropped extends Null {
 }
 
+/**
+ * @name Finalised
+ * @description
+ * An [[ExtrinsicStats] indicating that the [[Extrinsic]]] has been finalised and included
+ */
 export class Finalised extends Hash {
 }
 
+/**
+ * @name Usurped
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been usurped
+ */
 export class Usurped extends Hash {
 }
 
+/**
+ * @name ExtrinsicStatus
+ * @description
+ * An [[EnumType]] that indicates the status of the [[Extrinsic]] as been submitted
+ */
 export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
   constructor (value: any, index?: number) {
     super([

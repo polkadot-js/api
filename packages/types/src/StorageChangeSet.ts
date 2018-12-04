@@ -14,8 +14,13 @@ type StorageChangeSetValue = {
   changes?: Array<KeyValueOptionValue>
 };
 
-// A set of storage changes. It contains the hash/block and
-// a list of the actual changes that took place
+/**
+ * @name StorageChangeSet
+ * @description
+ * A set of storage changes. It contains the [[Block]] hash and
+ * a list of the actual changes that took place as an array of
+ * [[KeyValueOption]]
+ */
 export default class StorageChangeSet extends Struct {
   constructor (value?: StorageChangeSetValue | Uint8Array) {
     super({
@@ -24,10 +29,16 @@ export default class StorageChangeSet extends Struct {
     }, value);
   }
 
+  /**
+   * @description The applicable changes as [[KeyValueOption]]
+   */
   get changes (): Vector<KeyValueOption> {
     return this.get('changes') as Vector<KeyValueOption>;
   }
 
+  /**
+   * @description The block [[Hash]]
+   */
   get block (): Hash {
     return this.get('block') as Hash;
   }

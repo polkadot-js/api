@@ -6,6 +6,11 @@ import { AnyNumber } from './types';
 
 import UInt from './codec/UInt';
 
+/**
+ * @name U8
+ * @description
+ * An 8-bit number
+ */
 export default class U8 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 8, false);

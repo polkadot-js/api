@@ -9,9 +9,13 @@ import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import U8aFixed from './codec/U8aFixed';
 
-// A wrapper around an AccountId/PublicKey representation. Since we are dealing with
-// underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
-// just a Uint8Array wrapper with a fixed length.
+/**
+ * @name AccountId
+ * @description
+ * A wrapper around an AccountId/PublicKey representation. Since we are dealing with
+ * underlying PublicKeys (32 bytes in length), we extend from U8aFixed which is
+ * just a Uint8Array wrapper with a fixed length.
+ */
 export default class AccountId extends U8aFixed {
   constructor (value: AnyU8a = new Uint8Array()) {
     super(
@@ -36,10 +40,16 @@ export default class AccountId extends U8aFixed {
     return value;
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.toString();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return AccountId.encode(this);
   }

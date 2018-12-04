@@ -4,15 +4,15 @@
 
 import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
-import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { Storage } from '@polkadot/storage/types';
 import { Codec } from '@polkadot/types/types';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiBase, { ApiOptions } from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -136,7 +136,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
    *
-   * @param wsProvider WebSocket provider that is passed to the class contructor
+   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -151,14 +151,14 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  static create (wsProvider?: WsProvider): Promise<ApiPromise> {
-    return new ApiPromise(wsProvider).isReady;
+  static create (options: ApiOptions | WsProvider = {}): Promise<ApiPromise> {
+    return new ApiPromise(options).isReady;
   }
 
   /**
    * @description Creates an instance of the ApiPromise class
    *
-   * @param wsProvider WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -173,8 +173,13 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
-    super(wsProvider);
+  constructor (options: ApiOptions | WsProvider = {}) {
+    if (options instanceof WsProvider) {
+      options = {
+        wsProvider: options
+      };
+    }
+    super(options);
 
     this._isReady = new Promise((resolveReady) =>
       super.on('ready', () =>

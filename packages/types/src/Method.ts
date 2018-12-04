@@ -4,7 +4,7 @@
 
 import { AnyU8a, Codec, Constructor } from './types';
 
-import { assert, isHex, isObject, isU8a } from '@polkadot/util';
+import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
@@ -50,13 +50,20 @@ export interface Extrinsics {
 
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 
-class MethodIndex extends U8aFixed {
+/**
+ * @name MethodIndex
+ * @description
+ * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
+ */
+export class MethodIndex extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 16);
   }
 }
 
 /**
+ * @name Method
+ * @description
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
@@ -86,7 +93,7 @@ export default class Method extends Struct {
    */
   private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
-      return Method.decodeMethod(value, _meta);
+      return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
@@ -183,23 +190,47 @@ export default class Method extends Struct {
     );
   }
 
+  /**
+   * @description The arguments for the function call
+   */
   get args (): Array<Codec> {
     // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
 
+  /**
+   * @description Thge argument defintions
+   */
   get argsDef (): ArgsDef {
     return Method.getArgsDef(this.meta);
   }
 
+  /**
+   * @description The encoded `[sectionIndex, methodIndex]` identifier
+   */
   get callIndex (): Uint8Array {
     return (this.get('callIndex') as MethodIndex).toU8a();
   }
 
+  /**
+   * @description The encoded data
+   */
   get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
   }
 
+  /**
+   * @description `true` if the `Origin` type is on the method (extrinsic method)
+   */
+  get hasOrigin (): boolean {
+    const firstArg = this.meta.arguments[0];
+
+    return !!firstArg && firstArg.type.toString() === 'Origin';
+  }
+
+  /**
+   * @description The [[FunctionMetadata]]
+   */
   get meta (): FunctionMetadata {
     return this._meta;
   }

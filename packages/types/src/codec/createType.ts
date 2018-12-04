@@ -10,6 +10,7 @@ import Compact from './Compact';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
+import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -121,11 +122,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     }
 
     return Tuple.with(
-      value.sub.reduce((result, type, index) => {
-        result[`entry${index}`] = getTypeClass(type);
-
-        return result;
-      }, {} as { [index: string]: Constructor })
+      value.sub.map(getTypeClass)
     );
   } else if (value.info === TypeDefInfo.Compact) {
     if (!value.sub || Array.isArray(value.sub)) {
@@ -145,9 +142,9 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  // We are dynamically loading as to avoid circular dependencies
+  // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
   const Types = require('../index');
-  const Type = Types[value.type];
+  const Type = registry.get(value.type) || Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 

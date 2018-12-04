@@ -15,10 +15,14 @@ type KeyValueValue = {
   value?: AnyU8a
 };
 
-// KeyValue structure. Since most of the keys and resultant values in Substrate is
-// hashed and/or encoded, this does not wrap a Text, but rather a Bytes
-// for the keys and values. (Not to be confused with the KeyValue in Metadata, that
-// is actually for Maps, whereas this is a representation of actual storage values)
+/**
+ * @name KeyValue
+ * @description
+ * KeyValue structure. Since most of the keys and resultant values in Substrate are
+ * hashed and/or encoded, this does not wrap [[Text]], but rather a [[Bytes]]
+ * for the keys and values. (Not to be confused with the KeyValue in [[Metadata]], that
+ * is actually for Maps, whereas this is a representation of actaul storage values).
+ */
 export default class KeyValue extends Struct {
   constructor (value?: KeyValueValue | Uint8Array) {
     super({
@@ -27,36 +31,49 @@ export default class KeyValue extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[StorageKey]]
+   */
   get key (): StorageKey {
     return this.get('key') as StorageKey;
   }
 
+  /**
+   * @description The [[StorageData]]
+   */
   get value (): StorageData {
     return this.get('value') as StorageData;
   }
 }
 
-export type KeyValueOptionValue = {
-  key?: AnyU8a,
-  value?: AnyU8a
-};
+export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
 
-// A key/value change. This is similar to the KeyValue structure,
-// however in this case the value could be optional. Here it extends
-// from a Tuple, indicating the use inside areas such as StorageChangeSet
+/**
+ * @name KeyValueOption
+ * @description
+ * A key/value change. This is similar to the [[KeyValue]] structure,
+ * however in this case the value could be optional. Here it extends
+ * from a [[Tuple]], indicating the use inside areas such as [[StorageChangeSet]]
+ */
 export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue | Uint8Array) {
-    super({
-      key: StorageKey,
-      value: Option.with(StorageData)
-    }, value);
+    super([
+      StorageKey,
+      Option.with(StorageData)
+    ], value);
   }
 
+  /**
+   * @description The [[StorageKey]]
+   */
   get key (): StorageKey {
-    return this.getAtIndex(0) as StorageKey;
+    return this[0] as StorageKey;
   }
 
+  /**
+   * @description The [[Option]] [[StorageData]]
+   */
   get value (): Option<StorageData> {
-    return this.getAtIndex(1) as Option<StorageData>;
+    return this[1] as Option<StorageData>;
   }
 }

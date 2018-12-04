@@ -5,14 +5,14 @@ const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 
 // Initialise the provider to connect to the local node
-const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+const provider = new WsProvider('ws://127.0.0.1:9944');
 
 function main () {
   // Create the API and wait until ready. Subscribe to API changes.
   // Here we pass the (optional) provider
   // Subscribe to the chain, node name, and node version.
   // Using the JSON-RPC Node Interface.
-  const subscriptionApiRx = ApiRx.create(wsProvider)
+  const subscriptionApiRx = ApiRx.create(provider)
     .pipe(
       switchMap((api) =>
         combineLatest([

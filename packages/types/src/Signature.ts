@@ -4,7 +4,11 @@
 
 import H512 from './H512';
 
-// The default signature that is used across the system. It is currectly defined
-// as a 512-bit value, represented by a hash.
+/**
+ * @name Signature
+ * @description
+ * The default signature that is used across the system. It is currectly defined
+ * as a 512-bit value, represented by a [[H512]].
+ */
 export default class Signature extends H512 {
 }

@@ -9,50 +9,64 @@ import AuthorityId from './AuthorityId';
 import Hash from './Hash';
 import Signature from './Signature';
 
-export type BftAuthoritySignatureValue = {
-  authorityId?: AnyU8a,
-  signature?: AnyU8a
-};
+export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
 
-// Represents a Bft Hash and Signature pairing, typically used in reporting
-// network behaviour.
+/**
+ * @name BftAuthoritySignature
+ * @description
+ * Represents a Bft Hash and Signature pairing, typically used in reporting
+ * network behaviour.
+ */
 export class BftAuthoritySignature extends Tuple {
   constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
-    super({
-      authorityId: AuthorityId,
-      signature: Signature
-    }, value);
+    super(
+      [AuthorityId, Signature],
+      value
+    );
   }
 
+  /**
+   * @description The wrapped [[AuthoriyId]]
+   */
   get authorityId (): AuthorityId {
-    return this.getAtIndex(0) as AuthorityId;
+    return this[0] as AuthorityId;
   }
 
+  /**
+   * @description The wrapped [[Signature]] value
+   */
   get signature (): Signature {
-    return this.getAtIndex(1) as Signature;
+    return this[1] as Signature;
   }
 }
 
-export type BftHashSignatureValue = {
-  hash?: AnyU8a,
-  signature?: AnyU8a
-};
+export type BftHashSignatureValue = [AnyU8a, AnyU8a];
 
-// Represents a Bft Hash and Signature pairing, typically used in reporting
-// network behaviour.
+/**
+ * @name BftHashSignature
+ * @description
+ * Represents a Bft Hash and Signature pairing, typically used in reporting
+ * network behaviour.
+ */
 export class BftHashSignature extends Tuple {
   constructor (value?: BftHashSignatureValue | Uint8Array) {
-    super({
-      hash: Hash,
-      signature: Signature
-    }, value);
+    super([
+      Hash,
+      Signature
+    ], value);
   }
 
+  /**
+   * @description The wrapped [[Hash]]
+   */
   get hash (): Hash {
-    return this.getAtIndex(0) as Hash;
+    return this[0] as Hash;
   }
 
+  /**
+   * @description The wrapped [[Signature]]
+   */
   get signature (): Signature {
-    return this.getAtIndex(1) as Signature;
+    return this[1] as Signature;
   }
 }

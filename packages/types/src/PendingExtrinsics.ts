@@ -4,6 +4,10 @@
 
 import Extrinsics from './Extrinsics';
 
-// A list of pending extrinsics
+/**
+ * @name PendingExtrinsics
+ * @description
+ * A list of pending [[Extrinsics]]
+ */
 export default class PendingExtrinsics extends Extrinsics {
 }

@@ -6,7 +6,11 @@ import { AnyU8a } from './types';
 
 import U8aFixed from './codec/U8aFixed';
 
-// Hash containing 512 bits (64 bytes), typically used for signatures
+/**
+ * @name H512
+ * @description
+ * Hash containing 512 bits (64 bytes), typically used for signatures
+ */
 export default class H512 extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 512);
