@@ -69,12 +69,12 @@ describe('Tuple', () => {
     expect(tuple.Types).toEqual(['Text', 'U32']);
   });
 
-  it("doesn't expose filter", () => {
-    expect(tuple.filter).toThrowError(/is not implemented on Tuple/);
+  it('exposes filter', () => {
+    expect(tuple.filter((v) => v.toJSON() === 69)).toEqual([new U32(69)]);
   });
 
-  it("doesn't expose map", () => {
-    expect(tuple.map).toThrowError(/is not implemented on Tuple/);
+  it('exposes map', () => {
+    expect(tuple.map(v => v.toString())).toEqual(['bazzing', '69']);
   });
 
 });
