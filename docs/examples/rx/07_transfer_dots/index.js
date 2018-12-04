@@ -37,8 +37,6 @@ async function main () {
           .send();
       })
     )
-    // FIXME - return the transfer hash instead of the status like when using ApiPromise
-    // Subscribe to resultant status
     .subscribe((status) => {
       if (status && status.type.toString() === 'Finalised') {
         console.log('Submitted transfer of 12345 to Bob');
