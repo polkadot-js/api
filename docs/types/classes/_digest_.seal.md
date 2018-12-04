@@ -29,7 +29,7 @@
 
 *Overrides [Tuple](_codec_tuple_.tuple.md).[constructor](_codec_tuple_.tuple.md#constructor)*
 
-*Defined in [Digest.ts:44](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/Digest.ts#L44)*
+*Defined in [Digest.ts:44](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/Digest.ts#L44)*
 
 **Parameters:**
 
@@ -67,7 +67,7 @@ getTypes(): `Array`<`string`>
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[Types](_codec_tuple_.tuple.md#types)*
 
-*Defined in [codec/Tuple.ts:75](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L75)*
+*Defined in [codec/Tuple.ts:75](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L75)*
 
 *__description__*: The types definition of the tuple
 
@@ -82,7 +82,7 @@ getencodedLength(): `number`
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[encodedLength](_codec_tuple_.tuple.md#encodedlength)*
 
-*Defined in [codec/Tuple.ts:66](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L66)*
+*Defined in [codec/Tuple.ts:66](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L66)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -95,7 +95,7 @@ ___
 
 getsignature(): [Signature](_signature_.signature.md)
 
-*Defined in [Digest.ts:55](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/Digest.ts#L55)*
+*Defined in [Digest.ts:55](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/Digest.ts#L55)*
 
 *__description__*: The wrapped [Signature](_signature_.signature.md)
 
@@ -108,7 +108,7 @@ ___
 
 getslot(): [U64](_u64_.u64.md)
 
-*Defined in [Digest.ts:62](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/Digest.ts#L62)*
+*Defined in [Digest.ts:62](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/Digest.ts#L62)*
 
 *__description__*: The wrapped [U64](_u64_.u64.md) slot
 
@@ -266,6 +266,30 @@ Returns the this object after filling the section identified by start and end wi
 | `Optional` end |  `undefined` &#124; `number`|  index to stop filling the array at. If end is negative, it is treated as length+end. |
 
 **Returns:** `this`
+
+___
+<a id="filter"></a>
+
+##  filter
+
+▸ **filter**(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<[Codec](../interfaces/_types_.codec.md)>
+
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[filter](_codec_tuple_.tuple.md#filter)*
+
+*Overrides Array.filter*
+
+*Defined in [codec/Tuple.ts:131](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L131)*
+
+*__description__*: Filters the array with the callback
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The filter function |
+| `Optional` thisArg | `any` |  The \`this\` object to apply the result to |
+
+**Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="find"></a>
@@ -664,6 +688,33 @@ Returns the index of the last occurrence of a specified value in an array.
 **Returns:** `number`
 
 ___
+<a id="map"></a>
+
+##  map
+
+▸ **map**<`U`>(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<`U`>
+
+*Inherited from [Tuple](_codec_tuple_.tuple.md).[map](_codec_tuple_.tuple.md#map)*
+
+*Overrides Array.map*
+
+*Defined in [codec/Tuple.ts:140](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L140)*
+
+*__description__*: Maps the array with the callback
+
+**Type parameters:**
+
+#### U 
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The mapping function |
+| `Optional` thisArg | `any` |  The \`this\` onject to apply the result to |
+
+**Returns:** `Array`<`U`>
+
+___
 <a id="pop"></a>
 
 ##  pop
@@ -955,7 +1006,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toArray](_codec_tuple_.tuple.md#toarray)*
 
-*Defined in [codec/Tuple.ts:82](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L82)*
+*Defined in [codec/Tuple.ts:82](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L82)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -972,7 +1023,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toHex](_codec_tuple_.tuple.md#tohex)*
 
-*Defined in [codec/Tuple.ts:89](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L89)*
+*Defined in [codec/Tuple.ts:89](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L89)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -989,7 +1040,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toJSON](_codec_tuple_.tuple.md#tojson)*
 
-*Defined in [codec/Tuple.ts:96](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L96)*
+*Defined in [codec/Tuple.ts:96](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L96)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1023,7 +1074,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Tuple.ts:105](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L105)*
+*Defined in [codec/Tuple.ts:105](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L105)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1040,7 +1091,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toU8a](_codec_tuple_.tuple.md#tou8a)*
 
-*Defined in [codec/Tuple.ts:114](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L114)*
+*Defined in [codec/Tuple.ts:114](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L114)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1097,7 +1148,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[with](_codec_tuple_.tuple.md#with)*
 
-*Defined in [codec/Tuple.ts:53](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/codec/Tuple.ts#L53)*
+*Defined in [codec/Tuple.ts:53](https://github.com/polkadot-js/api/blob/e2c029c/packages/types/src/codec/Tuple.ts#L53)*
 
 **Type parameters:**
 
