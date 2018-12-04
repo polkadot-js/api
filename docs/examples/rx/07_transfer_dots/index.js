@@ -41,7 +41,7 @@ async function main () {
     // Subscribe to resultant status
     .subscribe((status) => {
       if (status && status.type.toString() === 'Finalised') {
-        console.log(`Submitted transfer of 12345 to Bob`);
+        console.log('Submitted transfer of 12345 to Bob');
       }
     });
 }

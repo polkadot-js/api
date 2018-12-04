@@ -27,14 +27,14 @@ async function main () {
   const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
 
   // Show unsigned transaction (alternate viewing forms are toU8a, toString, toJSON)
-  console.log(`Unsigned transaction: `, transfer.toHex());
+  console.log('Unsigned transaction: ', transfer.toHex());
 
   // Sign the transaction using our account keypair, nonce, and optionally the
   // block hash
   transfer.sign(alice, aliceNonce);
 
   // Show signed transaction
-  console.log(`Signed transaction: `, transfer.toHex());
+  console.log('Signed transaction: ', transfer.toHex());
 
   // Send the transaction and retrieve the resulting Hash
   const hash = await transfer.send();
