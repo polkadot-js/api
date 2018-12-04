@@ -20,7 +20,7 @@
     "check": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage --config='jest.config.js'"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
