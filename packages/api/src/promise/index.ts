@@ -30,7 +30,76 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *
  * @see [[ApiRx]]
  *
- * @example See [Polkadot-JS Api Promise Examples](https://polkadot.js.org/api/examples/promise/)
+ * ## Usage
+ *
+ * Making rpc calls -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiPromise from '@polkadot/api/promise';
+ *
+ * // initialise via static create
+ * const api = await ApiPromise.create();
+ *
+ * // make a subscription to the network head
+ * api.rpc.chain.subscribeNewHead((header) => {
+ *   console.log(`Chain is at #${header.blockNumber}`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Subscribing to chain state -
+ * <BR>
+ *
+ * ```javascript
+ * import { ApiPromise } from '@polkadot/api';
+ * import WsProvider from '@polkadot/rpc-provider/ws';
+ *
+ * // initialise a provider with a specific endpoint
+ * const provider = new WsProvider('wss://example.com:9944')
+ *
+ * // initialise via isReady & new with specific provider
+ * const api = await new ApiPromise(provider).isReady;
+ *
+ * // retrieve the block target time
+ * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
+ * let last = 0;
+ *
+ * // subscribe to the current block timestamp, updates automatically (callback provided)
+ * api.query.timestamp.now((timestamp) => {
+ *   const elapsed = last
+ *     ? `, ${timestamp.toNumber() - last}s since last`
+ *     : '';
+ *
+ *   last = timestamp.toNumber();
+ *   console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+ * });
+ * ```
+ * <BR>
+ *
+ * Submitting a transaction -
+ * <BR>
+ *
+ * ```javascript
+ * import ApiPromise from '@polkadot/api/promise';
+ *
+ * ApiPromise.create().then((api) => {
+ *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
+ *
+ *   api.tx.balances
+ *     // create transfer
+ *     transfer(keyring.bob.address(), 12345)
+ *     // sign the transcation
+ *     .sign(keyring.alice, nonce)
+ *     // send the transaction (optional status callback)
+ *     .send((status) => {
+ *       console.log(`current status ${status.type}`);
+ *     })
+ *     // retrieve the submitted extrinsic hash
+ *     .then((hash) => {
+ *       console.log(`submitted with hash ${hash}`);
+ *     });
+ * });
  * ```
  */
 export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
