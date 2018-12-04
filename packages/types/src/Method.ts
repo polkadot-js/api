@@ -4,7 +4,7 @@
 
 import { AnyU8a, Codec, Constructor } from './types';
 
-import { assert, isHex, isObject, isU8a } from '@polkadot/util';
+import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
@@ -93,7 +93,7 @@ export default class Method extends Struct {
    */
   private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
-      return Method.decodeMethod(value, _meta);
+      return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
@@ -225,7 +225,7 @@ export default class Method extends Struct {
   get hasOrigin (): boolean {
     const firstArg = this.meta.arguments[0];
 
-    return firstArg && firstArg.type.toString() === 'Origin';
+    return !!firstArg && firstArg.type.toString() === 'Origin';
   }
 
   /**
