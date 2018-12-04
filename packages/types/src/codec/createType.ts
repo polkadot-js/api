@@ -8,9 +8,9 @@ import { Codec, Constructor } from '../types';
 import Text from '../Text';
 import Compact from './Compact';
 import Tuple from './Tuple';
-import TypeRegistry from './TypeRegistry';
 import UInt from './UInt';
 import Vector from './Vector';
+import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -142,12 +142,13 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  const registry = TypeRegistry.defaultRegistry;
-  const Type = registry.get(value.type);
+  // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
+  const Types = require('../index');
+  const Type = registry.get(value.type) || Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
-  return Type!;
+  return Type;
 }
 
 export default function createType (type: Text | string, value?: any): Codec {
