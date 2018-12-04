@@ -25,4 +25,35 @@ describe('Method', () => {
       }).toU8a()
     ).toEqual(new Uint8Array([1, 2]));
   });
+
+  it('handles creation from a hex value properly', () => {
+    expect(
+      new Method('0x0102').toU8a()
+    ).toEqual(new Uint8Array([1, 2]));
+  });
+
+  describe('hasOrigin', () => {
+    const test = {
+      args: [],
+      callIndex: [1, 2]
+    };
+
+    it('is false with no arguments', () => {
+      expect(
+        new Method(test, { arguments: [] } as any).hasOrigin
+      ).toEqual(false);
+    });
+
+    it('is false with first argument as non-Origin', () => {
+      expect(
+        new Method(test, { arguments: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
+      ).toEqual(false);
+    });
+
+    it('is false with first argument as non-Origin', () => {
+      expect(
+        new Method(test, { arguments: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
+      ).toEqual(true);
+    });
+  });
 });
