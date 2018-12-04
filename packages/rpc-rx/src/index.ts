@@ -30,8 +30,8 @@ type CachedMap = {
  * import RpcRx from '@polkadot/rpc-rx';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
- * const wsProvider = new WsProvider('http://127.0.0.1:9944');
- * const api = new RpcRx(wsProvider);
+ * const provider = new WsProvider('http://127.0.0.1:9944');
+ * const api = new RpcRx(provider);
  * ```
  */
 export default class RpcRx implements RpcRxInterface {

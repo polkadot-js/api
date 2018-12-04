@@ -4,12 +4,12 @@ const { switchMap } = require('rxjs/operators');
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 
-const wsProvider = new WsProvider('ws://127.0.0.1:9944');
+const provider = new WsProvider('ws://127.0.0.1:9944');
 
 function main () {
   // Here we pass the (optional) provider
   const subscriptionApiRx = ApiRx
-    .create(wsProvider)
+    .create(provider)
     .pipe(
       // Here we subscribe to the chain header. Use the RPC Node Interface
       switchMap((api) => api.rpc.chain.subscribeNewHead())

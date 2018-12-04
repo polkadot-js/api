@@ -182,8 +182,8 @@ export default class WsProvider implements WSProviderInterface {
    * <BR>
    *
    * ```javascript
-   * const wsProvider = new WsProvider('ws://127.0.0.1:9944');
-   * const rpc = new Rpc(wsProvider);
+   * const provider = new WsProvider('ws://127.0.0.1:9944');
+   * const rpc = new Rpc(provider);
    *
    * rpc.state.subscribeStorage([[storage.balances.freeBalance, <Address>]], (_, values) => {
    *   console.log(values);

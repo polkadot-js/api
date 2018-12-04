@@ -65,7 +65,7 @@ const l = logger('api-rx');
  * import { combineLatest } from 'rxjs';
  * import { switchMap } from 'rxjs/operators';
  * import Api from '@polkadot/api/rx';
- * import { WsProvider } from '@polkadot/rpc-provider';
+ * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * // Last block timestamp
  * let last = 0;
