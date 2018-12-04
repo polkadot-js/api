@@ -4,7 +4,7 @@
 
 import { Server } from 'mock-socket';
 
-const TEST_WS_URL = 'ws://localhost:9944';
+const TEST_WS_URL = 'ws://localhost:9955';
 
 let server: Server;
 
