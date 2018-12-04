@@ -38,10 +38,10 @@ yarn add @polkadot/api
 Subscribing to blocks via Promise-based API -
 
 ```javascript
-import { ApiPromise } from '@polkadot/api';
+import Api from '@polkadot/api/promise';
 
 // Initialise via static create
-const api = await ApiPromise.create();
+const api = await Api.create();
 
 // Make a call to retrieve the current network head.
 // Use the RPC Node Interface.
@@ -53,10 +53,10 @@ api.rpc.chain.subscribeNewHead((header) => {
 Subscribing to blocks via RxJS-based API -
 
 ```javascript
-import { ApiRx } from '@polkadot/api';
+import Api from '@polkadot/api/rx';
 
 // Initialise via static create
-const api = await ApiRx.create().toPromise();
+const api = await Api.create().toPromise();
 
 // Make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHead().subscribe((header) => {

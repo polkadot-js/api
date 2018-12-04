@@ -36,10 +36,10 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import ApiPromise from '@polkadot/api/promise';
+ * import Api from '@polkadot/api/promise';
  *
  * // initialise via static create
- * const api = await ApiPromise.create();
+ * const api = await Api.create();
  *
  * // make a subscription to the network head
  * api.rpc.chain.subscribeNewHead((header) => {
@@ -52,14 +52,14 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import { ApiPromise } from '@polkadot/api';
+ * import Api from '@polkadot/api/promise';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * // initialise a provider with a specific endpoint
  * const provider = new WsProvider('wss://example.com:9944')
  *
  * // initialise via isReady & new with specific provider
- * const api = await new ApiPromise(provider).isReady;
+ * const api = await new Api(provider).isReady;
  *
  * // retrieve the block target time
  * const blockPeriod = await api.query.timestamp.blockPeriod().toNumber();
@@ -81,9 +81,9 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import ApiPromise from '@polkadot/api/promise';
+ * import Api from '@polkadot/api/promise';
  *
- * ApiPromise.create().then((api) => {
+ * Api.create().then((api) => {
  *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
  *
  *   api.tx.balances
@@ -114,9 +114,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import ApiPromise from '@polkadot/api/promise';
+   * import Api from '@polkadot/api/promise';
    *
-   * ApiPromise.create().then(async (api) => {
+   * Api.create().then(async (api) => {
    *   const timestamp = await api.query.timestamp.now();
    *
    *   console.log(`lastest block timestamp ${timestamp}`);
@@ -136,9 +136,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import ApiPromise from '@polkadot/api/promise';
+   * import Api from '@polkadot/api/promise';
    *
-   * new ApiPromise().isReady.then((api) => {
+   * new Api().isReady.then((api) => {
    *   api.rpc.subscribeNewHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });

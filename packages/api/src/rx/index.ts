@@ -49,9 +49,9 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * <BR>
    *
    * ```javascript
-   * import ApiRx from '@polkadot/api/rx';
+   * import Api from '@polkadot/api/rx';
    *
-   * ApiRx.create().subscribe((api) => {
+   * Api.create().subscribe((api) => {
    *   // Use the Storage chain state (runtime) Node Interface
    *   api.query.timestamp.now.subscribe((timestamp) => {
    *     console.log(`latest block timestamp ${timestamp}`);
@@ -72,10 +72,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * <BR>
    *
    * ```javascript
-   * import ApiRx from '@polkadot/api/rx';
+   * import Api from '@polkadot/api/rx';
    *
-   * // Note that `ApiRx.create()` is equivalent to `new ApiRx().isReady`
-   * new ApiRx().isReady.subscribe((api) => {
+   * // Note that `Api.create()` is equivalent to `new Api().isReady`
+   * new Api().isReady.subscribe((api) => {
    *   // Use the RPC Node Interface
    *   api.rpc.subscribeNewHead().subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
