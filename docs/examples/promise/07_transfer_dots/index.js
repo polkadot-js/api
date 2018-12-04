@@ -27,7 +27,6 @@ async function main () {
   const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
 
   // Show unsigned transaction (alternate viewing forms are toU8a, toString, toJSON)
-  // Use Polkadot-JS utility to shorten displayed transaction value
   console.log(`Unsigned transaction: `, transfer.toHex());
 
   // Sign the transaction using our account keypair, nonce, and optionally the
