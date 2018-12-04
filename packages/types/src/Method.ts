@@ -220,6 +220,15 @@ export default class Method extends Struct {
   }
 
   /**
+   * @description `true` if the `Origin` type is on the method (extrinsic method)
+   */
+  get hasOrigin (): boolean {
+    const firstArg = this.meta.arguments[0];
+
+    return firstArg && firstArg.type.toString() === 'Origin';
+  }
+
+  /**
    * @description The [[FunctionMetadata]]
    */
   get meta (): FunctionMetadata {
