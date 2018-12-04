@@ -13,7 +13,7 @@
 **● additionalTypes**: * `undefined` &#124; `object`
 *
 
-*Defined in [Base.ts:42](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/Base.ts#L42)*
+*Defined in [Base.ts:42](https://github.com/polkadot-js/api/blob/637182b/packages/api/src/Base.ts#L42)*
 
 Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
 
@@ -24,7 +24,7 @@ ___
 
 **● wsProvider**: *`WsProvider`*
 
-*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/1d18321/packages/api/src/Base.ts#L38)*
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/637182b/packages/api/src/Base.ts#L38)*
 
 WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
 

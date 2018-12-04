@@ -71,6 +71,7 @@
 * [Nonce](../classes/_nonce_.nonce.md)
 * [Null](../classes/_null_.null.md)
 * [Option](../classes/_codec_option_.option.md)
+* [Origin](../classes/_origin_.origin.md)
 * [Other](../classes/_digest_.other.md)
 * [OuterDispatchCall](../classes/_metadata_.outerdispatchcall.md)
 * [OuterDispatchMetadata](../classes/_metadata_.outerdispatchmetadata.md)
@@ -132,7 +133,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/types.ts#L27)*
+*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/types.ts#L27)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -146,7 +147,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/types.ts#L32)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/types.ts#L32)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -159,7 +160,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/types.ts#L37)*
+*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/types.ts#L37)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -172,7 +173,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/types.ts#L42)*
 
 *__description__*: Returns the string representation of the value
 
@@ -185,7 +186,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/1d18321/packages/types/src/types.ts#L48)*
+*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/637182b/packages/types/src/types.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
