@@ -15,6 +15,7 @@ describe('SubmittableExtrinsic', () => {
     Method.injectExtrinsics(extrinsics);
 
     api = {
+      hasSubscriptions: true,
       rpc: {
         author: {
           submitAndWatchExtrinsic: () => Promise.resolve('submitAndWatchExtrinsic'),
