@@ -1,5 +1,5 @@
 /* Exclude the items add to the SUMMARY.md root */
-.summary .chapter[data-path^="types/classes/"] {
+.summary .chapter[data-path*="types/classes/"] {
   display: none;
 }
 
