@@ -42,7 +42,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param options Options object to create API instance
+   * @param options Options object to create API instance or a Provider instance
    *
    * @example
    * <BR>
@@ -202,13 +202,6 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
-
-      // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
-      //   - refresh metadata as needed, decorating again
-      //   - need to refresh genesisHash, extrinsic resub only when it matches
-      if (isReady) {
-        return;
-      }
 
       const hasMeta = await this.loadMeta();
 

@@ -111,7 +111,8 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
    *
-   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
+   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or a
+   * provider (see the constructor arguments)
    *
    * @example
    * <BR>
@@ -133,7 +134,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   /**
    * @description Creates an instance of the ApiPromise class
    *
-   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
+   * @param options Options to create an instance. This can be either [[ApiOptions]] or
+   * an [[HttpProvider]] or [[WsProvider]]. In the case of [[HttpProvider]] subscriptions
+   * are not supported, only latest values are returned.
    *
    * @example
    * <BR>
