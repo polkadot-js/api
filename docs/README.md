@@ -2,11 +2,9 @@
 
 You can query a node and interact with the Polkadot network using Javascript. This guide describes the Polkadot Javascript API.
 
-{% include "SUMMARY.md" %}
-
 ## The Polkadot Project
 
-You can read more about the Polkadot Network at https://polkadot.network/
+You can read more about the Polkadot Network at https://polkadot.network/ and more about the polkadot-js projects at https://polkadot.js.org
 
 ## Github repositories
 
