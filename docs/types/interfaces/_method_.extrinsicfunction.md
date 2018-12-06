@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...args: *`any`[]*): [Extrinsic](../classes/_extrinsic_.extrinsic.md)
 
-*Defined in [Method.ts:34](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L34)*
+*Defined in [Method.ts:34](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L34)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● callIndex**: *`Uint8Array`*
 
-*Defined in [Method.ts:36](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L36)*
+*Defined in [Method.ts:36](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L36)*
 
 ___
 <a id="meta"></a>
@@ -34,7 +34,7 @@ ___
 
 **● meta**: *[FunctionMetadata](../classes/_metadata_.functionmetadata.md)*
 
-*Defined in [Method.ts:37](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L37)*
+*Defined in [Method.ts:37](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L37)*
 
 ___
 <a id="method"></a>
@@ -43,7 +43,7 @@ ___
 
 **● method**: *`string`*
 
-*Defined in [Method.ts:38](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L38)*
+*Defined in [Method.ts:38](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L38)*
 
 ___
 <a id="section"></a>
@@ -52,7 +52,7 @@ ___
 
 **● section**: *`string`*
 
-*Defined in [Method.ts:39](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L39)*
+*Defined in [Method.ts:39](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L39)*
 
 ___
 <a id="tojson"></a>
@@ -61,7 +61,7 @@ ___
 
 **● toJSON**: *`function`*
 
-*Defined in [Method.ts:40](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Method.ts#L40)*
+*Defined in [Method.ts:40](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Method.ts#L40)*
 
 #### Type declaration
 ▸(): `any`

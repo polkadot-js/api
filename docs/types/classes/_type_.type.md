@@ -27,7 +27,7 @@
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:20](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Type.ts#L20)*
+*Defined in [Type.ts:20](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Type.ts#L20)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ getencodedLength(): `number`
 
 *Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:67](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Type.ts#L67)*
+*Defined in [Type.ts:67](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Type.ts#L67)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -66,7 +66,7 @@ getlength(): `number`
 
 *Overrides String.length*
 
-*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Text.ts#L54)*
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Text.ts#L54)*
 
 *__description__*: The length of the value
 
@@ -832,7 +832,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
 
-*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Text.ts#L62)*
+*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Text.ts#L62)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -849,7 +849,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
 
-*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Text.ts#L69)*
+*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Text.ts#L69)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -913,7 +913,7 @@ ___
 
 *Overrides String.toString*
 
-*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Text.ts#L76)*
+*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Text.ts#L76)*
 
 *__description__*: Returns the string representation of the value
 
@@ -930,7 +930,7 @@ ___
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:78](https://github.com/polkadot-js/api/blob/fced67f/packages/types/src/Type.ts#L78)*
+*Defined in [Type.ts:78](https://github.com/polkadot-js/api/blob/69b05c7/packages/types/src/Type.ts#L78)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
