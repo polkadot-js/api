@@ -1,3 +1,8 @@
+/* Exclude the items add to the SUMMARY.md root */
+.summary .chapter[data-path^="types/classes/"] {
+  display: none;
+}
+
 .book-summary {
   background-color: #4e4e4e;
   border-right: 0;
