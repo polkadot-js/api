@@ -96,6 +96,13 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   /**
+   * @summary `true` when this provider supports subscriptions
+   */
+  get hasSubscriptions (): boolean {
+    return true;
+  }
+
+  /**
    * @summary Manually connect
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.

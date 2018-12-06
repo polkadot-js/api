@@ -42,6 +42,7 @@ export type ProviderInterface$Emitted = 'connected' | 'disconnected';
 export type ProviderInterface$EmitCb = (value?: any) => any;
 
 export interface ProviderInterface {
+  readonly hasSubscriptions: boolean;
   isConnected (): boolean;
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void;
   send (method: string, params: Array<any>): Promise<any>;

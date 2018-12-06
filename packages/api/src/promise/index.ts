@@ -2,19 +2,22 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiOptions } from '../types';
 import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import Rpc from '@polkadot/rpc-core/index';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import { Storage } from '@polkadot/storage/types';
 import { Codec } from '@polkadot/types/types';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { isFunction } from '@polkadot/util';
+import { isFunction, logger } from '@polkadot/util';
 
-import ApiBase, { ApiOptions } from '../Base';
+import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+
+const l = logger('api/promise');
 
 /**
  * # @polkadot/api/promise
@@ -123,7 +126,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  static create (options: ApiOptions | WsProvider = {}): Promise<ApiPromise> {
+  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -145,12 +148,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  constructor (options: ApiOptions | WsProvider = {}) {
-    if (options instanceof WsProvider) {
-      options = {
-        wsProvider: options
-      };
-    }
+  constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
 
     this._isReady = new Promise((resolveReady) =>
@@ -234,6 +232,10 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
     const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> => {
       if (args.length === 0 || !isFunction(args[args.length - 1])) {
         return this.rpc.state.getStorage([method, args[0]]);
+      } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
+        l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
+
+        return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
       }
 
       return this.rpc.state.subscribeStorage(

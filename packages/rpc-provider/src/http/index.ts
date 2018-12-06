@@ -50,6 +50,13 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @summary `true` when this provider supports subscriptions
+   */
+  get hasSubscriptions (): boolean {
+    return false;
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
