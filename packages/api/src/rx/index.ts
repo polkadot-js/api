@@ -7,7 +7,7 @@ import { ApiOptions } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import { EMPTY, Observable, from } from 'rxjs';
-import { combineLatest, defaultIfEmpty, map } from 'rxjs/operators';
+import { defaultIfEmpty, map } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
