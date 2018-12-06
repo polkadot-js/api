@@ -190,12 +190,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this._isReady;
   }
 
-  /**
-   * @description RxJS combineLatest exposed on the API onject itself (aligning with Promise
-   * where this interface is present)
-   */
-  combineLatest = combineLatest;
-
   protected decorateRpc (rpc: Rpc): RpcRx {
     return new RpcRx(rpc);
   }
