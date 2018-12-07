@@ -140,7 +140,7 @@ export default class Rpc implements RpcInterface {
         const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
           if (error) {
-            l.error(`${Rpc.signature(method)}:: ${error.message}`, error);
+            l.error(`${Rpc.signature(method)}:: ${error.message}`);
             return;
           }
 
