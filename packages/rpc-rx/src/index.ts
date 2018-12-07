@@ -145,7 +145,7 @@ export default class RpcRx implements RpcRxInterface {
       .pipe(
         map((value) => {
           if (value instanceof Error) {
-            throw value;
+            return; // throw value;
           }
 
           return value;
