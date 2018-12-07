@@ -232,8 +232,8 @@ export default class WsProvider implements WSProviderInterface {
     this._eventemitter.emit(type, ...args);
   }
 
-  private onSocketClose = (): void => {
-    l.debug(() => ['disconnected from', this.endpoint]);
+  private onSocketClose = (event: CloseEvent): void => {
+    l.error(`disconnected from ${this.endpoint}::${event.code}: ${event.reason}`);
 
     this._isConnected = false;
     this.emit('disconnected');
