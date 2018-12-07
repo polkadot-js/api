@@ -25,6 +25,7 @@ export { default as BlockNumber } from './BlockNumber';
 // NOTE We are exporting Bool as bool to match with Rust
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
+export { default as ChainProperties } from './ChainProperties';
 export { default as Data } from './Data';
 export { default as Digest } from './Digest';
 export { default as Event } from './Event';

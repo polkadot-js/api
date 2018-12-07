@@ -38,6 +38,7 @@
 - [hidden](types/classes/_blocknumber_.blocknumber.md)
 - [hidden](types/classes/_bool_.bool.md)
 - [hidden](types/classes/_bytes_.bytes.md)
+- [hidden](types/classes/_chainproperties_.chainproperties.md)
 - [hidden](types/classes/_codec_base_.base.md)
 - [hidden](types/classes/_codec_compact_.compact.md)
 - [hidden](types/classes/_codec_enum_.enum.md)

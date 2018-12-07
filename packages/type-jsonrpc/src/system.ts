@@ -26,6 +26,12 @@ const chain: RpcMethodOpt = {
   type: 'Text'
 };
 
+const properties: RpcMethodOpt = {
+  description: 'Get a custom set of properties as a JSON object, defined in the chain spec',
+  params: [],
+  type: 'ChainProperties'
+};
+
 const section = 'system';
 
 /**
@@ -39,6 +45,7 @@ export default {
   methods: {
     chain: createMethod(section, 'chain', chain),
     name: createMethod(section, 'name', name),
+    properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)
   }
 } as RpcSection;
