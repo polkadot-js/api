@@ -25,7 +25,7 @@
 
 *Overrides Struct.__constructor*
 
-*Defined in [classes.ts:12](https://github.com/polkadot-js/api/blob/50103dc/packages/api-observable/src/classes.ts#L12)*
+*Defined in [classes.ts:12](https://github.com/polkadot-js/api/blob/69f6850/packages/api-observable/src/classes.ts#L12)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L133)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -85,7 +85,7 @@ ___
 
 getaddress(): `AccountId`
 
-*Defined in [classes.ts:21](https://github.com/polkadot-js/api/blob/50103dc/packages/api-observable/src/classes.ts#L21)*
+*Defined in [classes.ts:21](https://github.com/polkadot-js/api/blob/69f6850/packages/api-observable/src/classes.ts#L21)*
 
 **Returns:** `AccountId`
 
@@ -98,7 +98,7 @@ getencodedLength(): `number`
 
 *Inherited from Struct.encodedLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L140)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L140)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -111,7 +111,7 @@ ___
 
 getid(): `PropIndex`
 
-*Defined in [classes.ts:25](https://github.com/polkadot-js/api/blob/50103dc/packages/api-observable/src/classes.ts#L25)*
+*Defined in [classes.ts:25](https://github.com/polkadot-js/api/blob/69f6850/packages/api-observable/src/classes.ts#L25)*
 
 **Returns:** `PropIndex`
 
@@ -122,7 +122,7 @@ ___
 
 getproposal(): `Proposal`
 
-*Defined in [classes.ts:29](https://github.com/polkadot-js/api/blob/50103dc/packages/api-observable/src/classes.ts#L29)*
+*Defined in [classes.ts:29](https://github.com/polkadot-js/api/blob/69f6850/packages/api-observable/src/classes.ts#L29)*
 
 **Returns:** `Proposal`
 
@@ -222,7 +222,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L150)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L150)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -243,7 +243,7 @@ ___
 
 *Inherited from Struct.getAtIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L157)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L157)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -318,7 +318,7 @@ ___
 
 *Inherited from Struct.toArray*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:164](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L164)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:164](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L164)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -333,7 +333,7 @@ ___
 
 *Inherited from Struct.toHex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L171)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L171)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -348,7 +348,7 @@ ___
 
 *Inherited from Struct.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:178](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L178)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:178](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L178)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -363,7 +363,7 @@ ___
 
 *Inherited from Struct.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:192](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L192)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:192](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L192)*
 
 *__description__*: Returns the string representation of the value
 
@@ -378,7 +378,7 @@ ___
 
 *Inherited from Struct.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L200)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L200)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -414,7 +414,7 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/50103dc/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L113)*
 
 **Type parameters:**
 
