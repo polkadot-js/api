@@ -25,7 +25,7 @@ async function main () {
     )
   );
 
-  console.log('Validators are: ', validators.map((authorityId, index) => ({
+  console.log('Validator Balances: ', validators.map((authorityId, index) => ({
     address: authorityId.toString(),
     balance: validatorBalances[index].toString()
   })));
