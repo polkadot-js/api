@@ -4,7 +4,7 @@
 
 import Compact from '@polkadot/types/codec/Compact';
 import { createType } from '@polkadot/types/codec';
-import { StorageFunctionMetadata } from '@polkadot/types/Metadata';
+import { StorageFunctionMetadata } from '@polkadot/types/Metadata/Modules';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Text } from '@polkadot/types/index';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
@@ -25,7 +25,7 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (section: Text, method: Text, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
+export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
   let storageFn: any;
 
   // NOTE Here we assume everything in the 'Substrate' prefix is unhashed. (Despite not passing empty, i.e. '',

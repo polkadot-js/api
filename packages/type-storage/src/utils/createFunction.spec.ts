@@ -10,7 +10,7 @@ describe('createFunction', () => {
       createFunction(
         'Timestamp',
         'Now',
-        { type: {} }
+        { type: {} } as any
       )()
     ).toEqual(
       Uint8Array.from([64, 14, 73, 68, 207, 217, 141, 111, 76, 195, 116, 209, 111, 90, 78, 63, 156]) // Length-prefixed
@@ -22,7 +22,7 @@ describe('createFunction', () => {
       createFunction(
         'Substrate',
         ':auth:len',
-        { type: {} },
+        { type: {} } as any,
         {
           isUnhashed: true,
           method: 'authorityCount'

@@ -16,7 +16,8 @@ describe('extrinsics', () => {
         10101
       ).sign(
         keyring.nobody,
-        1234
+        1234,
+        new Uint8Array()
       ).toU8a(true)
     ).toEqual(
       new Uint8Array([

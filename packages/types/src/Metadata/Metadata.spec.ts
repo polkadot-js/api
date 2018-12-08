@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import bbqBirch from './json/Metadata.bbq.json';
-import compacted from './json/Metadata.latest.json';
-import Metadata from './Metadata';
-import rpcdata from './Metadata.rpc';
-import latestParsed from './Metadata.latest.json';
+import bbqBirch from '../json/Metadata.bbq.json';
+import compacted from '../json/Metadata.latest.json';
+import Metadata from './index';
+import rpcdata from './static';
+import latestParsed from './latest.json';
 
 describe('Metadata', () => {
   it('decodes properly', () => {

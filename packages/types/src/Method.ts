@@ -10,7 +10,7 @@ import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
 import Extrinsic from './Extrinsic';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/Modules';
 
 const FN_UNKNOWN = {
   method: 'unknown',
