@@ -90,9 +90,9 @@ export default class Type extends Text {
       if (value[index] === '>') {
         if (!depth) {
           return index;
-        } else {
-          depth--;
         }
+
+        depth--;
       } else if (value[index] === '<') {
         depth++;
       }
