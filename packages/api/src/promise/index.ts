@@ -36,11 +36,11 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/api/promise';
+ * import ApiPromise from '@polkadot/api/promise';
  *
  * async function main () {
  *   // Initialise via static create
- *   const api = await Api.create();
+ *   const api = await ApiPromise.create();
  *
  *   // Make a subscription to the network head
  *   await api.rpc.chain.subscribeNewHead((header) => {
@@ -58,7 +58,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * ```javascript
  * import moment from 'moment';
  *
- * import Api from '@polkadot/api/promise';
+ * import { ApiPromise } from '@polkadot/api';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * async function main () {
@@ -66,7 +66,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *   const provider = new WsProvider('wss://example.com:9944');
  *
  *   // Initialise via isReady & new with specific provider
- *   const api = await new Api(provider).isReady;
+ *   const api = await new ApiPromise(provider).isReady;
  *
  *   // Retrieve the block target time in type `Moment` and convert into seconds
  *   const blockPeriod = await api.query.timestamp.blockPeriod();
@@ -93,30 +93,21 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/api/promise';
- * import Keyring from '@polkadot/keyring';
- * import stringToU8a from '@polkadot/util';
+ * import ApiPromise from '@polkadot/api/promise';
+ * import testingPairs from '@polkadot/keyring/testingPairs';
  *
- * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
- * const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
- *
- * async function main () {
- *   const api = await ApiPromise.create();
- *
- *   // Create an instance of the keyring
- *   const keyring = new Keyring();
- *
- *   // Add Alice to our keyring (with the known seed for the account)
- *   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
+ * ApiPromise.create().then(async (api) => {
+ *   // Create an instance of the test keyring that already includes test accounts
+ *   const keyring = testingPairs();
  *
  *   // Retrieve the nonce for Alice
- *   const nonce = await api.query.system.accountNonce(alice.address());
+ *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
  *
  *   api.tx.balances
  *     // Create transfer
- *     transfer(BOB_ADDR, 12345)
+ *     transfer(keyring.bob.address(), 12345)
  *     // Sign the transcation
- *     .sign(alice, nonce)
+ *     .sign(keyring.alice, nonce)
  *     // Send the transaction (optional status callback)
  *     .send((status) => {
  *       console.log(`Current status ${status.type}`);
@@ -125,9 +116,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *     .then((hash) => {
  *       console.log(`Submitted with hash ${hash}`);
  *     });
- * };
- *
- * main().catch(console.error);
+ * });
  * ```
  */
 export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
@@ -142,9 +131,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/promise';
+   * import { ApiPromise } from '@polkadot/api';
    *
-   * Api.create().then(async (api) => {
+   * ApiPromise.create().then(async (api) => {
    *   const timestamp = await api.query.timestamp.now();
    *
    *   console.log(`lastest block timestamp ${timestamp}`);
@@ -164,9 +153,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * <BR>
    *
    * ```javascript
-   * import Api from '@polkadot/api/promise';
+   * import { ApiPromise } from '@polkadot/api';
    *
-   * new Api().isReady.then((api) => {
+   * new ApiPromise().isReady.then((api) => {
    *   api.rpc.subscribeNewHead((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
