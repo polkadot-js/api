@@ -96,42 +96,35 @@ const l = logger('api-rx');
  *
  * ```javascript
  * import { first, switchMap } from 'rxjs/operators';
- *
- * import Api from '@polkadot/api/rx';
- * import Keyring from '@polkadot/keyring';
- * import { stringToU8a } from '@polkadot/util';
- *
- * const ALICE_SEED = 'Alice'.padEnd(32, ' ');
- * const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+ * import ApiRx from '@polkadot/api/rx';
+ * import testingPairs from '@polkadot/keyring/testingPairs';
  *
  * async function main () {
- *   // Create an instance of the keyring
- *   const keyring = new Keyring();
- *
- *   // Add Alice to our keyring (with the known seed for the account)
- *   const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
- *
  *   // Instantiate the API via Promise
- *   const api = await Api.create().toPromise();
+ *   const api = await ApiRx.create().toPromise();
  *
- *   // Retrieve the nonce for Alice, to be used to sign the transaction.
- *   api.query.system.accountNonce(alice.address())
- *     // Pipe nonce into transfer.
+ *   // Create an instance of the test keyring that already includes test accounts
+ *   const keyring = testingPairs();
+ *
+ *   // Retrieve the nonce for Alice to be used to sign the transaction
+ *   api.query.system
+ *     .accountNonce(keyring.alice.address())
  *     .pipe(
  *       first(),
- *       switchMap((aliceNonce) =>
+ *       // Pipe nonce into transfer
+ *       switchMap((nonce) =>
  *         api.tx.balances
  *           // Create an extrinsic, transferring 12345 units to Bob
- *           .transfer(BOB_ADDR, 12345)
- *           // Sign the transaction
- *           .sign(alice, aliceNonce)
- *           // Send the transaction (optional status callback)
+ *           .transfer(keyring.bob.address(), 12345)
+ *           // Sign the transcation
+ *           .sign(keyring.alice, nonce)
+ *           // Send the transaction
  *           .send()
  *       )
  *     )
  *     // Subscribe to the result
  *     .subscribe((status) => {
- *       if (status && status.type.toString() === 'Finalised') {
+ *       if (status.type.toString() === 'Finalised') {
  *         console.log('Submitted transfer of 12345 to Bob');
  *       }
  *     });
