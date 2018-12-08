@@ -88,17 +88,24 @@ export default class Metadata extends Struct {
     return this.get('modules') as Vector<RuntimeModuleMetadata>;
   }
 
-  /**
-   * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
-   */
-  getUniqTypes (): Array<string> {
-    const events = this.events.map((module) =>
+  private get argNames () {
+    return this.modules.map((module) =>
+      module.module.call.functions.map((fn) =>
+        fn.arguments.map((argument) => argument.type.toString())
+      )
+    );
+  }
+
+  private get eventNames () {
+    return this.events.map((module) =>
       module.events.map((event) =>
         event.arguments.map((argument) => argument.toString())
       )
     );
+  }
 
-    const storages = this.modules.map((module) =>
+  private get storageNames () {
+    return this.modules.map((module) =>
       module.storage.isSome
         ? module.storage.unwrap().functions.map((fn) =>
           fn.type.isMap
@@ -107,14 +114,13 @@ export default class Metadata extends Struct {
         )
         : []
     );
+  }
 
-    const args = this.modules.map((module) =>
-      module.module.call.functions.map((fn) =>
-        fn.arguments.map((argument) => argument.type.toString())
-      )
-    );
-
-    const types = flattenUniq([events, storages, args]);
+  /**
+   * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
+   */
+  getUniqTypes (): Array<string> {
+    const types = flattenUniq([this.argNames, this.eventNames, this.storageNames]);
 
     this.validateTypes(types);
 
