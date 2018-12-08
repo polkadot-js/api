@@ -60,21 +60,15 @@ const l = logger('api-rx');
  * <BR>
  *
  * ```javascript
- * import moment from 'moment';
- *
  * import { combineLatest } from 'rxjs';
  * import { switchMap } from 'rxjs/operators';
  * import Api from '@polkadot/api/rx';
- * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * // Last block timestamp
  * let last = 0;
  *
- * // Initialise a provider with a specific endpoint
- * const provider = new WsProvider('wss://example.com:9944')
- *
  * // Initialise via isReady & new with specific provider
- * new Api(provider)
+ * new Api()
  *   .isReady
  *   .pipe(
  *     switchMap((api) =>
@@ -84,9 +78,9 @@ const l = logger('api-rx');
  *       ])
  *   )
  *   .subscribe(([blockPeriod, timestamp]) => {
- *     // Convert the timestamps from type `Moment` into seconds
- *     const blockPeriodSeconds = moment(blockPeriod).unix();
- *     const timestampSeconds = moment(timestamp).unix();
+ *     // Convert the timestamp into seconds
+ *     const blockPeriodSeconds = blockPeriod.getTime() / 1000;
+ *     const timestampSeconds = timestamp.getTime() / 1000;
  *     const elapsed = last
  *       ? `, ${timestampSeconds - last}s since last`
  *       : '';

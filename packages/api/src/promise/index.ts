@@ -56,26 +56,20 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * <BR>
  *
  * ```javascript
- * import moment from 'moment';
- *
  * import { ApiPromise } from '@polkadot/api';
- * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * async function main () {
- *   // Initialise a provider with a specific endpoint
- *   const provider = new WsProvider('wss://example.com:9944');
- *
  *   // Initialise via isReady & new with specific provider
- *   const api = await new ApiPromise(provider).isReady;
+ *   const api = await new ApiPromise().isReady;
  *
- *   // Retrieve the block target time in type `Moment` and convert into seconds
+ *   // Retrieve the block target time and convert into seconds
  *   const blockPeriod = await api.query.timestamp.blockPeriod();
- *   const blockPeriodSeconds = moment(blockPeriod).unix();
+ *   const blockPeriodSeconds = blockPeriod.getTime() / 1000;
  *   let last = 0;
  *
  *   // Subscribe to the current block timestamp, updates automatically (callback provided)
  *   api.query.timestamp.now((timestamp) => {
- *     const timestampSeconds = moment(timestamp).unix();
+ *     const timestampSeconds = timestamp.getTime() / 1000;
  *     const elapsed = last
  *       ? `, ${timestampSeconds - last}s since last`
  *       : '';
