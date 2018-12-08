@@ -42,10 +42,10 @@ npm install --save @polkadot/api
 Subscribing to blocks via Promise-based API -
 
 ```javascript
-import Api from '@polkadot/api/promise';
+import { ApiPromise } from '@polkadot/api';
 
 // Initialise via static create
-const api = await Api.create();
+const api = await ApiPromise.create();
 
 // Make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHead((header) => {
@@ -56,10 +56,10 @@ api.rpc.chain.subscribeNewHead((header) => {
 Subscribing to blocks via RxJS-based API -
 
 ```javascript
-import Api from '@polkadot/api/rx';
+import { ApiRx } from '@polkadot/api';
 
 // Initialise via static create
-const api = await Api.create().toPromise();
+const api = await ApiRx.create().toPromise();
 
 // Make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHead().subscribe((header) => {
