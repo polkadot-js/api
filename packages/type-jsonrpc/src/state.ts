@@ -13,17 +13,8 @@ const call: RpcMethodOpt = {
   description: 'Perform a call to a builtin on the chain',
   params: [
     createParam('method', 'Text'),
-    createParam('data', 'Bytes')
-  ],
-  type: 'Bytes'
-};
-
-const callAt: RpcMethodOpt = {
-  description: 'Perform a call to a builtin on the chain (At block)',
-  params: [
-    createParam('method', 'Text'),
     createParam('data', 'Bytes'),
-    createParam('block', 'Hash')
+    createParam('block', 'Hash', { isOptional: true })
   ],
   type: 'Bytes'
 };
@@ -31,33 +22,17 @@ const callAt: RpcMethodOpt = {
 const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
   params: [
-    createParam('key', 'StorageKey')
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
   ],
   type: 'StorageData'
-};
-
-const getStorageAt: RpcMethodOpt = {
-  description: 'Retrieves the storage for a key at a specific block',
-  params: [
-    createParam('key', 'Bytes'),
-    createParam('block', 'Hash')
-  ],
-  type: 'Bytes'
 };
 
 const getStorageHash: RpcMethodOpt = {
   description: 'Retrieves the storage hash',
   params: [
-    createParam('key', 'Bytes')
-  ],
-  type: 'Hash'
-};
-
-const getStorageHashAt: RpcMethodOpt = {
-  description: 'Retrieves the storage hash at a specific block',
-  params: [
-    createParam('key', 'Bytes'),
-    createParam('block', 'Hash')
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
   ],
   type: 'Hash'
 };
@@ -65,16 +40,8 @@ const getStorageHashAt: RpcMethodOpt = {
 const getStorageSize: RpcMethodOpt = {
   description: 'Retrieves the storage size',
   params: [
-    createParam('key', 'Bytes')
-  ],
-  type: 'u64'
-};
-
-const getStorageSizeAt: RpcMethodOpt = {
-  description: 'Retrieves the storage size at a specific block',
-  params: [
-    createParam('key', 'Bytes'),
-    createParam('block', 'Hash')
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
   ],
   type: 'u64'
 };
@@ -125,14 +92,10 @@ export default {
   section,
   methods: {
     call: createMethod(section, 'call', call),
-    callAt: createMethod(section, 'callAt', callAt),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
     getStorage: createMethod(section, 'getStorage', getStorage),
-    getStorageAt: createMethod(section, 'getStorageAt', getStorageAt),
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
-    getStorageHashAt: createMethod(section, 'getStorageHashAt', getStorageHashAt),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
-    getStorageSizeAt: createMethod(section, 'getStorageSizeAt', getStorageSizeAt),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }

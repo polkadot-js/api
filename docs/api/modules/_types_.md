@@ -5,6 +5,7 @@
 ### Interfaces
 
 * [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)
+* [ApiOptions](../interfaces/_types_.apioptions.md)
 
 ### Type aliases
 
@@ -21,7 +22,7 @@
 **Ƭ ApiInterface$Events**: * `RpcRxInterface$Events` &#124; "ready"
 *
 
-*Defined in [types.ts:9](https://github.com/polkadot-js/api/blob/ad73e60/packages/api/src/types.ts#L9)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/448a729/packages/api/src/types.ts#L10)*
 
 ___
 

@@ -9,6 +9,18 @@
 * [HttpProvider](../classes/_http_index_.httpprovider.md)
 * [Mock](../classes/_mock_index_.mock.md)
 
+# Properties
+
+<a id="hassubscriptions"></a>
+
+##  hasSubscriptions
+
+**● hasSubscriptions**: *`boolean`*
+
+*Defined in [types.ts:45](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L45)*
+
+___
+
 # Methods
 
 <a id="isconnected"></a>
@@ -17,7 +29,7 @@
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [types.ts:45](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/types.ts#L45)*
+*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L46)*
 
 **Returns:** `boolean`
 
@@ -28,7 +40,7 @@ ___
 
 ▸ **on**(type: *[ProviderInterface$Emitted](../modules/_types_.md#providerinterface_emitted)*, sub: *[ProviderInterface$EmitCb](../modules/_types_.md#providerinterface_emitcb)*): `void`
 
-*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/types.ts#L46)*
+*Defined in [types.ts:47](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L47)*
 
 **Parameters:**
 
@@ -46,7 +58,7 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [types.ts:47](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/types.ts#L47)*
+*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L48)*
 
 **Parameters:**
 
@@ -64,7 +76,7 @@ ___
 
 ▸ **subscribe**(type: *`string`*, method: *`string`*, params: *`Array`<`any`>*, cb: *[ProviderInterface$Callback](../modules/_types_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/types.ts#L48)*
+*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L49)*
 
 **Parameters:**
 
@@ -84,7 +96,7 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/ad73e60/packages/rpc-provider/src/types.ts#L49)*
+*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/448a729/packages/rpc-provider/src/types.ts#L50)*
 
 **Parameters:**
 

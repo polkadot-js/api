@@ -2,20 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiOptions } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
 import { Codec } from '@polkadot/types/types';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { logger } from '@polkadot/util';
+import { assert, logger } from '@polkadot/util';
 
-import ApiBase, { ApiOptions } from '../Base';
+import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 const l = logger('api-rx');
@@ -155,7 +156,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  static create (options: ApiOptions | WsProvider = {}): Observable<ApiRx> {
+  static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
     return new ApiRx(options).isReady;
   }
 
@@ -179,13 +180,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options: ApiOptions | WsProvider = {}) {
-    if (options instanceof WsProvider) {
-      options = {
-        wsProvider: options
-      };
-    }
+  constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
+
+    assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better

@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiBaseInterface, ApiInterface$Events } from './types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiBaseInterface, ApiInterface$Events, ApiOptions } from './types';
 
 import EventEmitter from 'eventemitter3';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
@@ -15,8 +15,7 @@ import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
 import { Extrinsics } from '@polkadot/types/Method';
-import { Constructor } from '@polkadot/types/types';
-import { assert, isUndefined, logger } from '@polkadot/util';
+import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -29,18 +28,6 @@ type MetaDecoration = {
 const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
-
-export interface ApiOptions {
-  /**
-   * WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the
-   * localhost with the default port, i.e. `ws://127.0.0.1:9944`
-   */
-  wsProvider?: WsProvider;
-  /**
-   * Additional types used by runtime modules. This is nessusary if the runtime modules uses non-buildin types.
-   */
-  additionalTypes?: {[name: string]: Constructor};
-}
 
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
   private _eventemitter: EventEmitter;
@@ -55,7 +42,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param options Options object to create API instance
+   * @param options Options object to create API instance or a Provider instance
    *
    * @example
    * <BR>
@@ -70,13 +57,17 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  constructor (options: ApiOptions) {
+  constructor (provider: ApiOptions | ProviderInterface = {}) {
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
+
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(options.wsProvider);
+    this._rpcBase = new Rpc(options.provider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
-    if (options.additionalTypes) {
-      registry.register(options.additionalTypes);
+    if (options.types) {
+      registry.register(options.types);
     }
 
     this.init();
@@ -89,6 +80,13 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -208,13 +206,6 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
-
-      // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
-      //   - refresh metadata as needed, decorating again
-      //   - need to refresh genesisHash, extrinsic resub only when it matches
-      if (isReady) {
-        return;
-      }
 
       const hasMeta = await this.loadMeta();
 

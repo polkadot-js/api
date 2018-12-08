@@ -29,7 +29,8 @@
 * [Bool](../classes/_bool_.bool.md)
 * [Broadcast](../classes/_extrinsicstatus_.broadcast.md)
 * [Bytes](../classes/_bytes_.bytes.md)
-* [CallMetadata](../classes/_metadata_.callmetadata.md)
+* [CallMetadata](../classes/_metadata_modules_.callmetadata.md)
+* [ChainProperties](../classes/_chainproperties_.chainproperties.md)
 * [ChangesTrieRoot](../classes/_digest_.changestrieroot.md)
 * [Compact](../classes/_codec_compact_.compact.md)
 * [Data](../classes/_data_.data.md)
@@ -41,7 +42,7 @@
 * [Event](../classes/_event_.event.md)
 * [EventData](../classes/_event_.eventdata.md)
 * [EventIndex](../classes/_event_.eventindex.md)
-* [EventMetadata](../classes/_metadata_.eventmetadata.md)
+* [EventMetadata](../classes/_metadata_events_.eventmetadata.md)
 * [EventRecord](../classes/_eventrecord_.eventrecord.md)
 * [Extrinsic](../classes/_extrinsic_.extrinsic.md)
 * [ExtrinsicEra](../classes/_extrinsicera_.extrinsicera.md)
@@ -50,8 +51,8 @@
 * [Extrinsics](../classes/_extrinsics_.extrinsics.md)
 * [Finalised](../classes/_extrinsicstatus_.finalised.md)
 * [Finalization](../classes/_eventrecord_.finalization.md)
-* [FunctionArgumentMetadata](../classes/_metadata_.functionargumentmetadata.md)
-* [FunctionMetadata](../classes/_metadata_.functionmetadata.md)
+* [FunctionArgumentMetadata](../classes/_metadata_modules_.functionargumentmetadata.md)
+* [FunctionMetadata](../classes/_metadata_modules_.functionmetadata.md)
 * [Gas](../classes/_gas_.gas.md)
 * [H256](../classes/_h256_.h256.md)
 * [H512](../classes/_h512_.h512.md)
@@ -60,11 +61,12 @@
 * [Justification](../classes/_justification_.justification.md)
 * [KeyValue](../classes/_keyvalue_.keyvalue.md)
 * [KeyValueOption](../classes/_keyvalue_.keyvalueoption.md)
+* [Metadata](../classes/_metadata_index_.metadata.md)
 * [Method](../classes/_method_.method.md)
 * [MethodIndex](../classes/_method_.methodindex.md)
 * [MisbehaviorKind](../classes/_misbehaviorreport_.misbehaviorkind.md)
 * [MisbehaviorReport](../classes/_misbehaviorreport_.misbehaviorreport.md)
-* [ModuleMetadata](../classes/_metadata_.modulemetadata.md)
+* [ModuleMetadata](../classes/_metadata_modules_.modulemetadata.md)
 * [Moment](../classes/_moment_.moment.md)
 * [NewAccountOutcome](../classes/_newaccountoutcome_.newaccountoutcome.md)
 * [NextAuthority](../classes/_storedpendingchange_.nextauthority.md)
@@ -73,10 +75,10 @@
 * [Option](../classes/_codec_option_.option.md)
 * [Origin](../classes/_origin_.origin.md)
 * [Other](../classes/_digest_.other.md)
-* [OuterDispatchCall](../classes/_metadata_.outerdispatchcall.md)
-* [OuterDispatchMetadata](../classes/_metadata_.outerdispatchmetadata.md)
-* [OuterEventMetadata](../classes/_metadata_.outereventmetadata.md)
-* [OuterEventMetadataEvent](../classes/_metadata_.outereventmetadataevent.md)
+* [OuterDispatchCall](../classes/_metadata_calls_.outerdispatchcall.md)
+* [OuterDispatchMetadata](../classes/_metadata_calls_.outerdispatchmetadata.md)
+* [OuterEventMetadata](../classes/_metadata_events_.outereventmetadata.md)
+* [OuterEventMetadataEvent](../classes/_metadata_events_.outereventmetadataevent.md)
 * [ParachainId](../classes/_parachainid_.parachainid.md)
 * [PendingExtrinsics](../classes/_pendingextrinsics_.pendingextrinsics.md)
 * [Perbill](../classes/_perbill_.perbill.md)
@@ -87,8 +89,7 @@
 * [ProposalIndex](../classes/_proposalindex_.proposalindex.md)
 * [ReferendumIndex](../classes/_referendumindex_.referendumindex.md)
 * [RhdJustification](../classes/_justification_.rhdjustification.md)
-* [RuntimeMetadata](../classes/_metadata_.runtimemetadata.md)
-* [RuntimeModuleMetadata](../classes/_metadata_.runtimemodulemetadata.md)
+* [RuntimeModuleMetadata](../classes/_metadata_modules_.runtimemodulemetadata.md)
 * [RuntimeVersion](../classes/_runtimeversion_.runtimeversion.md)
 * [RuntimeVersionApi](../classes/_runtimeversion_.runtimeversionapi.md)
 * [Seal](../classes/_digest_.seal.md)
@@ -99,12 +100,12 @@
 * [SignedBlock](../classes/_signedblock_.signedblock.md)
 * [StorageChangeSet](../classes/_storagechangeset_.storagechangeset.md)
 * [StorageData](../classes/_storagedata_.storagedata.md)
-* [StorageFunctionMetadata](../classes/_metadata_.storagefunctionmetadata.md)
-* [StorageFunctionModifier](../classes/_metadata_.storagefunctionmodifier.md)
-* [StorageFunctionType](../classes/_metadata_.storagefunctiontype.md)
-* [StorageFunctionType$Map](../classes/_metadata_.storagefunctiontype_map.md)
+* [StorageFunctionMetadata](../classes/_metadata_modules_.storagefunctionmetadata.md)
+* [StorageFunctionModifier](../classes/_metadata_modules_.storagefunctionmodifier.md)
+* [StorageFunctionType](../classes/_metadata_modules_.storagefunctiontype.md)
+* [StorageFunctionType$Map](../classes/_metadata_modules_.storagefunctiontype_map.md)
 * [StorageKey](../classes/_storagekey_.storagekey.md)
-* [StorageMetadata](../classes/_metadata_.storagemetadata.md)
+* [StorageMetadata](../classes/_metadata_modules_.storagemetadata.md)
 * [StoredPendingChange](../classes/_storedpendingchange_.storedpendingchange.md)
 * [Struct](../classes/_codec_struct_.struct.md)
 * [Text](../classes/_text_.text.md)
@@ -133,7 +134,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/types.ts#L27)*
+*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/types.ts#L27)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -147,7 +148,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/types.ts#L32)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/types.ts#L32)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -160,7 +161,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/types.ts#L37)*
+*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/types.ts#L37)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -173,7 +174,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/types.ts#L42)*
 
 *__description__*: Returns the string representation of the value
 
@@ -186,7 +187,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/types.ts#L48)*
+*Defined in [types.ts:48](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/types.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

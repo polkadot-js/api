@@ -18,11 +18,11 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   send (statusCb?: (status: ExtrinsicStatus) => any): Promise<Hash> {
-    if (statusCb) {
-      return this._api.rpc.author.submitAndWatchExtrinsic(this, statusCb);
+    if (!statusCb || !this._api.hasSubscriptions) {
+      return this._api.rpc.author.submitExtrinsic(this);
     }
 
-    return this._api.rpc.author.submitExtrinsic(this);
+    return this._api.rpc.author.submitAndWatchExtrinsic(this, statusCb);
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

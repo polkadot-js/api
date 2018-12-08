@@ -67,6 +67,10 @@ export default class Mock implements ProviderInterface {
     this.init();
   }
 
+  get hasSubscriptions (): boolean {
+    return false;
+  }
+
   isConnected (): boolean {
     return true;
   }

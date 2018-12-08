@@ -26,4 +26,17 @@ describe.skip('e2e basics', () => {
         throw error;
       });
   });
+
+  it('retrieves the system properties', () => {
+    return api.system
+      .properties()
+      .then((properties) => {
+        console.error('properties', properties);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
 });

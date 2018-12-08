@@ -11,7 +11,9 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Codec } from '@polkadot/types/types';
 import { Vector, createType } from '@polkadot/types/codec';
 import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
-import { ExtError, assert, isFunction } from '@polkadot/util';
+import { ExtError, assert, isFunction, logger } from '@polkadot/util';
+
+const l = logger('rpc-core');
 
 /**
  * @name Rpc
@@ -111,7 +113,7 @@ export default class Rpc implements RpcInterface {
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
-        console.error(message, error);
+        l.error(message);
 
         throw new ExtError(message, (error as ExtError).code, undefined);
       }
@@ -138,7 +140,7 @@ export default class Rpc implements RpcInterface {
         const paramsJson = params.map((param) => param.toJSON());
         const update = (error: Error | null, result?: any) => {
           if (error) {
-            console.error(`${Rpc.signature(method)}:: ${error.message}`, error);
+            l.error(`${Rpc.signature(method)}:: ${error.message}`);
             return;
           }
 
@@ -149,7 +151,7 @@ export default class Rpc implements RpcInterface {
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
-        console.error(message, error);
+        l.error(message);
 
         throw new ExtError(message, (error as ExtError).code, undefined);
       }

@@ -29,7 +29,7 @@
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[constructor](_codec_u8afixed_.u8afixed.md#constructor)*
 
-*Defined in [AccountId.ts:19](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/AccountId.ts#L19)*
+*Defined in [AccountId.ts:19](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/AccountId.ts#L19)*
 
 **Parameters:**
 
@@ -117,7 +117,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8a.ts#L36)*
+*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8a.ts#L36)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -134,7 +134,7 @@ getlength(): `number`
 
 *Overrides Uint8Array.length*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8a.ts#L43)*
 
 *__description__*: The length of the value
 
@@ -165,7 +165,7 @@ ___
 
 *Inherited from [U8aFixed](_codec_u8afixed_.u8afixed.md).[bitLength](_codec_u8afixed_.u8afixed.md#bitlength)*
 
-*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8aFixed.ts#L39)*
+*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8aFixed.ts#L39)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -691,7 +691,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8a.ts#L53)*
 
 *__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -715,7 +715,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8a.ts#L60)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -732,7 +732,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [AccountId.ts:46](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/AccountId.ts#L46)*
+*Defined in [AccountId.ts:46](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/AccountId.ts#L46)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -764,7 +764,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
 
-*Defined in [AccountId.ts:53](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/AccountId.ts#L53)*
+*Defined in [AccountId.ts:53](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/AccountId.ts#L53)*
 
 *__description__*: Returns the string representation of the value
 
@@ -781,7 +781,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/codec/U8a.ts#L82)*
+*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/U8a.ts#L82)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -815,7 +815,7 @@ ___
 
 ▸ **encode**(value: *`Uint8Array`*): `string`
 
-*Defined in [AccountId.ts:27](https://github.com/polkadot-js/api/blob/ad73e60/packages/types/src/AccountId.ts#L27)*
+*Defined in [AccountId.ts:27](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/AccountId.ts#L27)*
 
 **Parameters:**
 
