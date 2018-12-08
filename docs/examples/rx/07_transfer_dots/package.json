@@ -10,7 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.32.23",
+    "@polkadot/api": "^0.33.6",
     "rxjs": "^6.3.3"
   },
   "devDependencies": {
