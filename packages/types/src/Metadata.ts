@@ -508,9 +508,7 @@ export default class Metadata extends Struct {
   getUniqTypes (): Array<string> {
     const events = this.events.map((module) =>
       module.events.map((event) =>
-        event.arguments.map((argument) =>
-          argument.toString()
-        )
+        event.arguments.map((argument) => argument.toString())
       )
     );
 
@@ -526,9 +524,7 @@ export default class Metadata extends Struct {
 
     const args = this.modules.map((module) =>
       module.module.call.functions.map((fn) =>
-        fn.arguments.map((argument) =>
-          argument.type.toString()
-        )
+        fn.arguments.map((argument) => argument.type.toString())
       )
     );
 

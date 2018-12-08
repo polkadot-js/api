@@ -117,28 +117,22 @@ export function getTypeDef (_type: Text | string): TypeDef {
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef): Constructor {
   if (value.info === TypeDefInfo.Tuple) {
-    if (!Array.isArray(value.sub)) {
-      throw new Error(`Expected nested subtypes for Tuple`);
-    }
+    assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
     return Tuple.with(
-      value.sub.map(getTypeClass)
+      (value.sub as Array<TypeDef>).map(getTypeClass)
     );
   } else if (value.info === TypeDefInfo.Compact) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for Compact`);
-    }
+    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
     return Compact.with(
-      getTypeClass(value.sub) as Constructor<UInt>
+      getTypeClass(value.sub as TypeDef) as Constructor<UInt>
     );
   } else if (value.info === TypeDefInfo.Vector) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for Vector`);
-    }
+    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
 
     return Vector.with(
-      getTypeClass(value.sub)
+      getTypeClass(value.sub as TypeDef)
     );
   }
 

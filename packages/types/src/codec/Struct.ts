@@ -78,36 +78,30 @@ export default class Struct<
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
 
-    return (Object
-      .keys(Types) as Array<keyof S>)
-      .reduce((raw: T, key, index) => {
-        // The key in the JSON can be snake_case (or other cases), but in our
-        // Types, result or any other maps, it's camelCase
-        const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+    return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+      // The key in the JSON can be snake_case (or other cases), but in our
+      // Types, result or any other maps, it's camelCase
+      const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-        if (isU8a(value)) {
-          raw[key] = new Types[key](
-            value.subarray(
-              currentIndex
-            )
-          );
+      if (isU8a(value)) {
+        raw[key] = new Types[key](value.subarray(currentIndex));
 
-          // Move the currentIndex forward
-          currentIndex += raw[key].encodedLength;
-        } else if (Array.isArray(value)) {
-          raw[key] = value[index] instanceof Types[key]
-            ? value[index]
-            : new Types[key](value[index]);
-        } else if (isObject(value)) {
-          raw[key] = value[jsonKey as string] instanceof Types[key]
-            ? value[jsonKey as string]
-            : new Types[key](value[jsonKey as string]);
-        } else {
-          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${JSON.stringify(value)}".`);
-        }
+        // Move the currentIndex forward
+        currentIndex += raw[key].encodedLength;
+      } else if (Array.isArray(value)) {
+        raw[key] = value[index] instanceof Types[key]
+          ? value[index]
+          : new Types[key](value[index]);
+      } else if (isObject(value)) {
+        raw[key] = value[jsonKey as string] instanceof Types[key]
+          ? value[jsonKey as string]
+          : new Types[key](value[jsonKey as string]);
+      } else {
+        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+      }
 
-        return raw;
-      }, {} as T);
+      return raw;
+    }, {} as T);
   }
 
   static with<
