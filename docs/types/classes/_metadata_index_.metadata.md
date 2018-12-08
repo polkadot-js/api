@@ -1,5 +1,9 @@
 
 
+*__name__*: Metadata
+
+*__description__*: The runtime metadata as a decoded structure
+
 # Type parameters
 #### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 #### T :  `object`
@@ -9,7 +13,7 @@
 
 ↳  [Struct](_codec_struct_.struct.md)
 
-**↳ StorageFunctionMetadata**
+**↳ Metadata**
 
 # Implements
 
@@ -21,19 +25,19 @@
 
 ##  constructor
 
-⊕ **new StorageFunctionMetadata**(value?: *`StorageFunctionMetadataValue`*): [StorageFunctionMetadata](_metadata_.storagefunctionmetadata.md)
+⊕ **new Metadata**(value?: *`any`*): [Metadata](_metadata_index_.metadata.md)
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Metadata.ts:355](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/Metadata.ts#L355)*
+*Defined in [Metadata/index.ts:39](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L39)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Optional` value | `StorageFunctionMetadataValue` |
+| `Optional` value | `any` |
 
-**Returns:** [StorageFunctionMetadata](_metadata_.storagefunctionmetadata.md)
+**Returns:** [Metadata](_metadata_index_.metadata.md)
 
 ___
 
@@ -72,24 +76,24 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L127)*
 
 *__description__*: Returns the Type description to sthe structure
 
 **Returns:** `E`
 
 ___
-<a id="documentation"></a>
+<a id="calls"></a>
 
-##  documentation
+##  calls
 
-getdocumentation(): [Vector](_codec_vector_.vector.md)<[Text](_text_.text.md)>
+getcalls(): [Vector](_codec_vector_.vector.md)<[OuterDispatchCall](_metadata_calls_.outerdispatchcall.md)>
 
-*Defined in [Metadata.ts:368](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/Metadata.ts#L368)*
+*Defined in [Metadata/index.ts:73](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L73)*
 
-*__description__*: The [Text](_text_.text.md) documentation
+*__description__*: Wrapped [OuterDispatchCall](_metadata_calls_.outerdispatchcall.md)
 
-**Returns:** [Vector](_codec_vector_.vector.md)<[Text](_text_.text.md)>
+**Returns:** [Vector](_codec_vector_.vector.md)<[OuterDispatchCall](_metadata_calls_.outerdispatchcall.md)>
 
 ___
 <a id="encodedlength"></a>
@@ -100,50 +104,37 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:140](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L140)*
+*Defined in [codec/Struct.ts:134](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L134)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
 ___
-<a id="modifier"></a>
+<a id="events"></a>
 
-##  modifier
+##  events
 
-getmodifier(): [StorageFunctionModifier](_metadata_.storagefunctionmodifier.md)
+getevents(): [Vector](_codec_vector_.vector.md)<[OuterEventMetadataEvent](_metadata_events_.outereventmetadataevent.md)>
 
-*Defined in [Metadata.ts:382](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/Metadata.ts#L382)*
+*Defined in [Metadata/index.ts:80](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L80)*
 
-*__description__*: The modifier
+*__description__*: Wrapped [OuterEventMetadataEvent](_metadata_events_.outereventmetadataevent.md)
 
-**Returns:** [StorageFunctionModifier](_metadata_.storagefunctionmodifier.md)
-
-___
-<a id="name"></a>
-
-##  name
-
-getname(): [Text](_text_.text.md)
-
-*Defined in [Metadata.ts:375](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/Metadata.ts#L375)*
-
-*__description__*: The key name
-
-**Returns:** [Text](_text_.text.md)
+**Returns:** [Vector](_codec_vector_.vector.md)<[OuterEventMetadataEvent](_metadata_events_.outereventmetadataevent.md)>
 
 ___
-<a id="type-1"></a>
+<a id="modules"></a>
 
-##  type
+##  modules
 
-gettype(): [StorageFunctionType](_metadata_.storagefunctiontype.md)
+getmodules(): [Vector](_codec_vector_.vector.md)<[RuntimeModuleMetadata](_metadata_modules_.runtimemodulemetadata.md)>
 
-*Defined in [Metadata.ts:389](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/Metadata.ts#L389)*
+*Defined in [Metadata/index.ts:87](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L87)*
 
-*__description__*: The [StorageFunctionType](_metadata_.storagefunctiontype.md)
+*__description__*: Wrapped [RuntimeModuleMetadata](_metadata_modules_.runtimemodulemetadata.md)
 
-**Returns:** [StorageFunctionType](_metadata_.storagefunctiontype.md)
+**Returns:** [Vector](_codec_vector_.vector.md)<[RuntimeModuleMetadata](_metadata_modules_.runtimemodulemetadata.md)>
 
 ___
 
@@ -241,7 +232,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:150](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L150)*
+*Defined in [codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L144)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -262,7 +253,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:157](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L157)*
+*Defined in [codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L151)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -273,6 +264,19 @@ ___
 | index | `number` |
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)
+
+___
+<a id="getuniqtypes"></a>
+
+##  getUniqTypes
+
+▸ **getUniqTypes**(): `Array`<`string`>
+
+*Defined in [Metadata/index.ts:122](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L122)*
+
+*__description__*: Helper to retrieve a list of all type that are found, sorted and de-deuplicated
+
+**Returns:** `Array`<`string`>
 
 ___
 <a id="has"></a>
@@ -337,7 +341,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:164](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L164)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L158)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -354,7 +358,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:171](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L171)*
+*Defined in [codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L165)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -371,7 +375,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:178](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L178)*
+*Defined in [codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L172)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -388,7 +392,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:192](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L192)*
+*Defined in [codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L186)*
 
 *__description__*: Returns the string representation of the value
 
@@ -405,7 +409,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L200)*
+*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L194)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -433,6 +437,23 @@ Returns an iterable of values in the map
 **Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
+<a id="decodemetadata"></a>
+
+## `<Static>` decodeMetadata
+
+▸ **decodeMetadata**(value: * `string` &#124; `Uint8Array` &#124; `object`*):  `object` &#124; `Uint8Array`
+
+*Defined in [Metadata/index.ts:48](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/Metadata/index.ts#L48)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| value |  `string` &#124; `Uint8Array` &#124; `object`|
+
+**Returns:**  `object` &#124; `Uint8Array`
+
+___
 <a id="with"></a>
 
 ## `<Static>` with
@@ -441,7 +462,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/69f6850/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/448a729/packages/types/src/codec/Struct.ts#L107)*
 
 **Type parameters:**
 
