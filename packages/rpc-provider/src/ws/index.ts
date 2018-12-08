@@ -149,11 +149,9 @@ export default class WsProvider implements WSProviderInterface {
         const json = this.coder.encodeJson(method, params);
         const id = this.coder.getId();
         const callback = (error?: Error | null, result?: any) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
+          error
+            ? reject(error)
+            : resolve(result);
         };
 
         l.debug(() => ['calling', method, params, json, !!subscription]);

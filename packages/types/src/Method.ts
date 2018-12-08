@@ -10,7 +10,7 @@ import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
 import Extrinsic from './Extrinsic';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/Modules';
 
 const FN_UNKNOWN = {
   method: 'unknown',
@@ -101,20 +101,13 @@ export default class Method extends Struct {
       // Find metadata with callIndex
       const meta = _meta || Method.findFunction(callIndex).meta;
 
-      // Get Struct definition of the arguments
-      const argsDef = Method.getArgsDef(meta);
-
       return {
         args: value.subarray(2),
-        argsDef,
+        argsDef: Method.getArgsDef(meta),
         callIndex,
         meta
       };
-    } else if (
-      isObject(value) &&
-      value.callIndex &&
-      value.args
-    ) {
+    } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
       const { args, callIndex } = value;
 
@@ -126,12 +119,9 @@ export default class Method extends Struct {
       // Find metadata with callIndex
       const meta = _meta || Method.findFunction(lookupIndex).meta;
 
-      // Get Struct definition of the arguments
-      const argsDef = Method.getArgsDef(meta);
-
       return {
         args,
-        argsDef,
+        argsDef: Method.getArgsDef(meta),
         meta,
         callIndex
       };
