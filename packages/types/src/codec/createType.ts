@@ -68,41 +68,32 @@ export function typeSplit (type: string): Array<string> {
   return result;
 }
 
-function startingWith (type: string, test: string, closing: string): boolean {
-  if (type.substr(0, test.length) === test) {
-    assert(type[type.length - 1] === closing, `Expected ${test} closing with ${closing}`);
-
-    return true;
-  }
-
-  return false;
-}
-
 export function getTypeDef (_type: Text | string): TypeDef {
+  let subType = '';
   const type = _type.toString().trim();
   const value: TypeDef = {
     info: TypeDefInfo.Plain,
     type
   };
+  const startingWith = (type: string, start: string, end: string): boolean => {
+    if (type.substr(0, start.length) !== start) {
+      return false;
+    }
+
+    assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+
+    subType = type.substr(8, type.length - start.length - 1);
+
+    return true;
+  };
 
   if (startingWith(type, '(', ')')) {
-    // strip wrapping ()'s
-    const innerTypes = typeSplit(type.substr(1, type.length - 1 - 1));
-
     value.info = TypeDefInfo.Tuple;
-    value.sub = innerTypes.map((inner) =>
-      getTypeDef(inner)
-    );
+    value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
   } else if (startingWith(type, 'Compact<', '>')) {
-    // strip wrapping Compact<>
-    const subType = type.substr(8, type.length - 8 - 1);
-
     value.info = TypeDefInfo.Compact;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Vec<', '>')) {
-    // strip wrapping Vec<>
-    const subType = type.substr(4, type.length - 4 - 1);
-
     value.info = TypeDefInfo.Vector;
     value.sub = getTypeDef(subType);
   }
