@@ -83,7 +83,7 @@ export function getTypeDef (_type: Text | string): TypeDef {
 
     assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
 
-    subType = type.substr(8, type.length - start.length - 1);
+    subType = type.substr(start.length, type.length - start.length - 1);
 
     return true;
   };
