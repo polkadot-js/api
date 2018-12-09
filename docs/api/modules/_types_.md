@@ -22,7 +22,7 @@
 **Ƭ ApiInterface$Events**: * `RpcRxInterface$Events` &#124; "ready"
 *
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/448a729/packages/api/src/types.ts#L10)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/3e7e1c6/packages/api/src/types.ts#L10)*
 
 ___
 
