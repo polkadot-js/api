@@ -8,18 +8,12 @@ import Vector from '../codec/Vector';
 import Text from '../Text';
 import Type from '../Type';
 
-class EventMetadataArguments extends Vector.with(Type) {
-}
-
-class EventMetadataDocumentation extends Vector.with(Text) {
-}
-
 export class EventMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      arguments: EventMetadataArguments,
-      documentation: EventMetadataDocumentation
+      arguments: Vector.with(Type),
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -45,14 +39,11 @@ export class EventMetadata extends Struct {
   }
 }
 
-class EventMetadataVector extends Vector.with(EventMetadata) {
-}
-
 export class OuterEventMetadataEvent extends Tuple {
   constructor (value?: any) {
     super([
       Text,
-      EventMetadataVector
+      Vector.with(EventMetadata)
     ], value);
   }
 
@@ -71,14 +62,11 @@ export class OuterEventMetadataEvent extends Tuple {
   }
 }
 
-class OuterEventMetadataEvents extends Vector.with(OuterEventMetadataEvent) {
-}
-
 export class OuterEventMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      events: OuterEventMetadataEvents
+      events: Vector.with(OuterEventMetadataEvent)
     }, value);
   }
 

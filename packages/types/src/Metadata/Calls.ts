@@ -38,14 +38,11 @@ export class OuterDispatchCall extends Struct {
   }
 }
 
-class OuterDispatchCalls extends Vector.with(OuterDispatchCall) {
-}
-
 export class OuterDispatchMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      calls: OuterDispatchCalls
+      calls: Vector.with(OuterDispatchCall)
     }, value);
   }
 
