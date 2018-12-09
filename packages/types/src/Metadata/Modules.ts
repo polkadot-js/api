@@ -36,13 +36,19 @@ export class FunctionArgumentMetadata extends Struct {
   }
 }
 
+class FunctionMetadataArguments extends Vector.with(FunctionArgumentMetadata) {
+}
+
+class FunctionMetadataDocumentation extends Vector.with(Text) {
+}
+
 export class FunctionMetadata extends Struct {
   constructor (value?: any) {
     super({
       id: U16,
       name: Text,
-      arguments: Vector.with(FunctionArgumentMetadata),
-      documentation: Vector.with(Text)
+      arguments: FunctionMetadataArguments,
+      documentation: FunctionMetadataDocumentation
     }, value);
   }
 
@@ -75,11 +81,14 @@ export class FunctionMetadata extends Struct {
   }
 }
 
+class FunctionMetadataVector extends Vector.with(FunctionMetadata) {
+}
+
 export class CallMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      functions: Vector.with(FunctionMetadata)
+      functions: FunctionMetadataVector
     }, value);
   }
 
@@ -196,13 +205,16 @@ type StorageFunctionMetadataValue = {
   documentation?: Vector<Text> | Array<string>
 };
 
+class StorageFunctionMetadataDocumentation extends Vector.with(Text) {
+}
+
 export class StorageFunctionMetadata extends Struct {
   constructor (value?: StorageFunctionMetadataValue) {
     super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      documentation: Vector.with(Text)
+      documentation: StorageFunctionMetadataDocumentation
     }, value);
   }
 
@@ -235,11 +247,14 @@ export class StorageFunctionMetadata extends Struct {
   }
 }
 
+class StorageMetadataFunctions extends Vector.with(StorageFunctionMetadata) {
+}
+
 export class StorageMetadata extends Struct {
   constructor (value?: any) {
     super({
       prefix: Text,
-      functions: Vector.with(StorageFunctionMetadata)
+      functions: StorageMetadataFunctions
     }, value);
   }
 
@@ -258,12 +273,15 @@ export class StorageMetadata extends Struct {
   }
 }
 
+class StorageMetadataOption extends Option.with(StorageMetadata) {
+}
+
 export class RuntimeModuleMetadata extends Struct {
   constructor (value?: any) {
     super({
       prefix: Text,
       module: ModuleMetadata,
-      storage: Option.with(StorageMetadata)
+      storage: StorageMetadataOption
     }, value);
   }
 

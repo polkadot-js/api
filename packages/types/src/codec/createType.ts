@@ -42,38 +42,40 @@ export function typeSplit (type: string): Array<string> {
         }
         break;
 
-      case '(':
-        // inc tuple depth
-        tDepth++;
-        break;
+      // inc tuple depth, start found
+      case '(': tDepth++; break;
 
-      case ')':
-        // dec tuple depth
-        tDepth--;
-        break;
+      // dec tuple depth, end found
+      case ')': tDepth--; break;
 
-      case '<':
-        // inc compact/vec depth
-        vDepth++;
-        break;
+      // inc compact/vec depth, start found
+      case '<': vDepth++; break;
 
-      case '>':
-        // dec compact/vec depth
-        vDepth--;
-        break;
+      // dec compact/vec depth, end found
+      case '>': vDepth--; break;
 
-      default:
-        break;
+      // normal character
+      default: break;
     }
   }
 
-  assert(tDepth === 0, `Invalid Tuple in ${type}`);
-  assert(vDepth === 0, `Invalid Compact/Vector in ${type}`);
+  assert(!tDepth, `Invalid Tuple in ${type}`);
+  assert(!vDepth, `Invalid Compact/Vector in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
 
   return result;
+}
+
+function startingWith (type: string, test: string, closing: string): boolean {
+  if (type.substr(0, test.length) === test) {
+    assert(type[type.length - 1] === closing, `Expected ${test} closing with ${closing}`);
+
+    return true;
+  }
+
+  return false;
 }
 
 export function getTypeDef (_type: Text | string): TypeDef {
@@ -83,9 +85,7 @@ export function getTypeDef (_type: Text | string): TypeDef {
     type
   };
 
-  if (type[0] === '(') {
-    assert(type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
-
+  if (startingWith(type, '(', ')')) {
     // strip wrapping ()'s
     const innerTypes = typeSplit(type.substr(1, type.length - 1 - 1));
 
@@ -93,17 +93,13 @@ export function getTypeDef (_type: Text | string): TypeDef {
     value.sub = innerTypes.map((inner) =>
       getTypeDef(inner)
     );
-  } else if (type.substr(0, 8) === 'Compact<') {
-    assert(type[type.length - 1] === '>', `Expected Compact wrapped with <>`);
-
+  } else if (startingWith(type, 'Compact<', '>')) {
     // strip wrapping Compact<>
     const subType = type.substr(8, type.length - 8 - 1);
 
     value.info = TypeDefInfo.Compact;
     value.sub = getTypeDef(subType);
-  } else if (type.substr(0, 4) === 'Vec<') {
-    assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
-
+  } else if (startingWith(type, 'Vec<', '>')) {
     // strip wrapping Vec<>
     const subType = type.substr(4, type.length - 4 - 1);
 
