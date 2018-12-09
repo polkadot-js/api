@@ -12,6 +12,6 @@
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "@polkadot/types": "^0.33.7",
-    "@polkadot/util": "^0.33.11"
+    "@polkadot/util": "^0.33.12"
   }
 }

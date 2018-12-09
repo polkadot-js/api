@@ -30,9 +30,9 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-storage#readme",
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@polkadot/keyring": "^0.33.11",
+    "@polkadot/keyring": "^0.33.12",
     "@polkadot/types": "^0.33.7",
-    "@polkadot/util": "^0.33.11",
-    "@polkadot/util-crypto": "^0.33.11"
+    "@polkadot/util": "^0.33.12",
+    "@polkadot/util-crypto": "^0.33.12"
   }
 }
