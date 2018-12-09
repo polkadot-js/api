@@ -52,13 +52,13 @@ describe('getTypeValue', () => {
   it('does not allow invalid tuples, end )', () => {
     expect(
       () => getTypeDef('(u64, u32')
-    ).toThrow(/tuple wrapped/);
+    ).toThrow(/Expected '\(' closing with '\)'/);
   });
 
   it('does not allow invalid vectors, end >', () => {
     expect(
       () => getTypeDef('Vec<u64')
-    ).toThrow(/Vec wrapped/);
+    ).toThrow(/Expected 'Vec<' closing with '>'/);
   });
 
   it('returns a type structure', () => {
