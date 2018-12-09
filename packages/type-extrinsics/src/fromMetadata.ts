@@ -24,9 +24,7 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
   const findIndex = (prefix: string): number => {
     indexCount++;
 
-    const mod = metadata.calls.find((item) =>
-      item.prefix.toString() === prefix
-    );
+    const mod = metadata.calls.find((item) => item.prefix.toString() === prefix);
 
     if (!mod) {
       console.error(`Unable to find module index for '${prefix}'`);
@@ -37,13 +35,6 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
 
     return mod.index.toNumber();
   };
-
-  // Dont' clobber the input, create new
-  const result = Object.keys(extrinsics).reduce((result, key) => {
-    result[key] = extrinsics[key];
-
-    return result;
-  }, {} as Extrinsics);
 
   return metadata.modules.reduce((result, meta: RuntimeModuleMetadata) => {
     if (!meta.module.call || !meta.module.call.functions.length) {
@@ -63,5 +54,5 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
     }, {} as ModuleExtrinsics);
 
     return result;
-  }, result);
+  }, { ...extrinsics });
 }

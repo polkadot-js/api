@@ -18,12 +18,6 @@ import storage from './index';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): Storage {
-  const result = Object.keys(storage).reduce((result, key) => {
-    result[key] = storage[key];
-
-    return result;
-  }, {} as Storage);
-
   return metadata.modules.reduce((result, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return result;
@@ -39,5 +33,5 @@ export default function fromMetadata (metadata: Metadata): Storage {
     }, {} as ModuleStorage);
 
     return result;
-  }, result);
+  }, { ...storage });
 }

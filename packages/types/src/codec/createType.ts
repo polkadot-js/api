@@ -69,12 +69,13 @@ export function typeSplit (type: string): Array<string> {
 }
 
 export function getTypeDef (_type: Text | string): TypeDef {
-  let subType = '';
   const type = _type.toString().trim();
   const value: TypeDef = {
     info: TypeDefInfo.Plain,
     type
   };
+  let subType = '';
+
   const startingWith = (type: string, start: string, end: string): boolean => {
     if (type.substr(0, start.length) !== start) {
       return false;
