@@ -37,21 +37,21 @@ export default class Type extends Text {
   private static decodeType (value: string): string {
     const mappings: Array<Mapper> = [
       // <T::Balance as HasCompact>
-      this._cleanupCompact(),
+      Type._cleanupCompact(),
       // Remove all the trait prefixes
-      this._removeTraits(),
+      Type._removeTraits(),
       // remove PairOf<T> -> (T, T)
-      this._removePairOf(),
+      Type._removePairOf(),
       // remove boxing, `Box<Proposal>` -> `Proposal`
-      this._removeWrap('Box'),
+      Type._removeWrap('Box'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      this._removeGenerics(),
+      Type._removeGenerics(),
       // alias String -> Text (compat with jsonrpc methods)
-      this._alias('String', 'Text'),
+      Type._alias('String', 'Text'),
       // alias Vec<u8> -> Bytes
-      this._alias('Vec<u8>', 'Bytes'),
+      Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
-      this._alias('RawAddress', 'Address')
+      Type._alias('RawAddress', 'Address')
       // TODO Check these for possibly matching -
       //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
     ];
@@ -172,12 +172,16 @@ export default class Type extends Text {
   private static _removeTraits (): Mapper {
     return (value: string): string => {
       return value
+        // `T :: AccountId` -> `T::AccountId` https://github.com/paritytech/substrate/issues/1244
+        .replace(/\s+::\s+/g, '::')
         // anything `T::<type>` to end up as `<type>`
         .replace(/T::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (possibly sanitised just above)
         .replace(/<T as Trait>::/g, '')
+        // `<TasTrait>::type` -> `type` https://github.com/paritytech/substrate/issues/1244
+        .replace(/<TasTrait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
     };

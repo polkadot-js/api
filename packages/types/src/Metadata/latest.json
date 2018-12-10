@@ -1391,7 +1391,7 @@
           {
             "name": "PublicProps",
             "modifier": 1,
-            "type": "Vec<(PropIndex, Proposal, AccountId)>",
+            "type": "Vec<(PropIndex,Proposal,AccountId)>",
             "documentation": [
               " The public proposals. Unsorted."
             ]
@@ -1401,7 +1401,7 @@
             "modifier": 0,
             "type": {
               "key": "PropIndex",
-              "value": "(Balance, Vec<AccountId>)"
+              "value": "(Balance,Vec<AccountId>)"
             },
             "documentation": [
               " Those who have locked a deposit."
@@ -1452,7 +1452,7 @@
             "modifier": 0,
             "type": {
               "key": "ReferendumIndex",
-              "value": "(BlockNumber, Proposal, VoteThreshold)"
+              "value": "(BlockNumber,Proposal,VoteThreshold)"
             },
             "documentation": [
               " Information concerning any given referendum."
@@ -1473,7 +1473,7 @@
             "name": "VoteOf",
             "modifier": 0,
             "type": {
-              "key": "(ReferendumIndex, AccountId)",
+              "key": "( ReferendumIndex , AccountId )",
               "value": "bool"
             },
             "documentation": [
@@ -1728,7 +1728,7 @@
           {
             "name": "ActiveCouncil",
             "modifier": 1,
-            "type": "Vec<(AccountId, BlockNumber)>",
+            "type": "Vec<(AccountId,BlockNumber)>",
             "documentation": [
               " The current council. When there's a vote going on, this should still be used for executive",
               " matters."
@@ -1758,7 +1758,7 @@
             "modifier": 0,
             "type": {
               "key": "AccountId",
-              "value": "(VoteIndex, u32)"
+              "value": "(VoteIndex,u32)"
             },
             "documentation": [
               " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
@@ -1801,7 +1801,7 @@
           {
             "name": "NextFinalise",
             "modifier": 0,
-            "type": "(BlockNumber, u32, Vec<AccountId>)",
+            "type": "(BlockNumber,u32,Vec<AccountId>)",
             "documentation": [
               " The accounts holding the seats that will become free on the next tally."
             ]
@@ -1817,7 +1817,7 @@
           {
             "name": "Leaderboard",
             "modifier": 0,
-            "type": "Vec<(Balance, AccountId)>",
+            "type": "Vec<(Balance,AccountId)>",
             "documentation": [
               " Get the leaderboard if we;re in the presentation phase."
             ]
@@ -1912,7 +1912,7 @@
           {
             "name": "Proposals",
             "modifier": 1,
-            "type": "Vec<(BlockNumber, Hash)>",
+            "type": "Vec<(BlockNumber,Hash)>",
             "documentation": []
           },
           {
@@ -1937,7 +1937,7 @@
             "name": "CouncilVoteOf",
             "modifier": 0,
             "type": {
-              "key": "(Hash, AccountId)",
+              "key": "( Hash , AccountId )",
               "value": "bool"
             },
             "documentation": []
@@ -1947,7 +1947,7 @@
             "modifier": 0,
             "type": {
               "key": "Hash",
-              "value": "(BlockNumber, Vec<AccountId>)"
+              "value": "(BlockNumber,Vec<AccountId>)"
             },
             "documentation": []
           }
@@ -2025,7 +2025,7 @@
             "modifier": 0,
             "type": {
               "key": "Hash",
-              "value": "(ProposalIndex, u32, Vec<AccountId>, Vec<AccountId>)"
+              "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
             },
             "documentation": [
               " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
