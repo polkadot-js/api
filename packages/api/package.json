@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
+    "@babel/runtime": "^7.2.0",
     "@polkadot/extrinsics": "^0.33.9",
     "@polkadot/rpc-provider": "^0.33.9",
     "@polkadot/rpc-rx": "^0.33.9",
