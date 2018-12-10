@@ -37,7 +37,7 @@ export type JsonRpcResponse = JsonRpcObject & JsonRpcResponseBase;
 
 export type ProviderInterface$Callback = (result: any) => void;
 
-export type ProviderInterface$Emitted = 'connected' | 'disconnected';
+export type ProviderInterface$Emitted = 'connected' | 'disconnected' | 'error';
 
 export type ProviderInterface$EmitCb = (value?: any) => any;
 
