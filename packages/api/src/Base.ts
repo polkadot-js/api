@@ -169,14 +169,14 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Attach an eventemitter handler to listen to a specific event
    *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected` and `ready`
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
    * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.on('disconnected', () => {
+   * api.on('connected', () => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
@@ -185,8 +185,33 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): void {
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.on(type, handler);
+    return this;
+  }
+
+  /**
+   * @description Attach an one-time eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.once('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.once('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.once(type, handler);
+    return this;
   }
 
   protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
@@ -198,6 +223,10 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
 
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
+    });
+
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
     });
 
     this._rpcBase._provider.on('connected', async () => {

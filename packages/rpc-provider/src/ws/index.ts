@@ -245,6 +245,7 @@ export default class WsProvider implements WSProviderInterface {
 
   private onSocketError = (error: Event): void => {
     l.debug(() => ['socket error', error]);
+    this.emit('error', error);
   }
 
   private onSocketMessage = (message: MessageEvent): void => {

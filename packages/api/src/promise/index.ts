@@ -154,10 +154,14 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
 
-    this._isReady = new Promise((resolveReady) =>
-      super.on('ready', () =>
-        resolveReady(this)
-      )
+    this._isReady = new Promise((resolveReady, rejectReady) =>
+      super
+        .once('ready', () =>
+          resolveReady(this)
+        )
+        .once('error', () =>
+          rejectReady(this)
+        )
     );
   }
 
