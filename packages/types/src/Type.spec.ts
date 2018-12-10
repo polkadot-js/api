@@ -30,6 +30,12 @@ describe('Type', () => {
     ).toEqual('(Bytes, AccountId, Bytes)');
   });
 
+  it('removes whitespaces', () => {
+    expect(
+      new Type('T :: AccountId').toString()
+    ).toEqual('AccountId');
+  });
+
   it('changes PairOf<T> -> (T, T)', () => {
     expect(
       new Type('PairOf<T::Balance>').toString()
