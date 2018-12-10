@@ -172,7 +172,7 @@ export default class Type extends Text {
   private static _removeTraits (): Mapper {
     return (value: string): string => {
       return value
-        // `T :: AccountId` -> `T::AccountId`
+        // `T :: AccountId` -> `T::AccountId` https://github.com/paritytech/substrate/issues/1244
         .replace(/\s+::\s+/g, '::')
         // anything `T::<type>` to end up as `<type>`
         .replace(/T::/g, '')
@@ -180,6 +180,8 @@ export default class Type extends Text {
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (possibly sanitised just above)
         .replace(/<T as Trait>::/g, '')
+        // `<TasTrait>::type` -> `type` https://github.com/paritytech/substrate/issues/1244
+        .replace(/<TasTrait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
     };
