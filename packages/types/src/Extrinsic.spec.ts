@@ -29,6 +29,7 @@ describe('Extrinsic', () => {
     expect(extrinsic.signature.nonce.toNumber()).toEqual(1);
     expect(extrinsic.signature.era.toU8a()).toEqual(new Uint8Array([0x27, 0x0e]));
     expect(extrinsic.callIndex).toEqual(new Uint8Array([1, 0]));
-    expect(extrinsic.args[0].toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
+    // @ts-ignore .get is valid
+    expect(extrinsic.args && extrinsic.args.get('dest').toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
   });
 });

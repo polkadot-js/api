@@ -52,15 +52,18 @@ describe('SignedBlock', () => {
       const x = extrinsics[0];
 
       expect(x.callIndex).toEqual(new Uint8Array([2, 0]));
-      expect(x.method.args[0].toU8a()).toEqual(new Uint8Array([70, 41, 195, 91, 0, 0, 0, 0]));
+      // @ts-ignore .get is valid
+      expect(x.method.args && x.method.args.get('now').toU8a()).toEqual(new Uint8Array([70, 41, 195, 91, 0, 0, 0, 0]));
     });
 
     it('has the correct data for the second', () => {
       const x = extrinsics[1];
 
       expect(x.callIndex).toEqual(new Uint8Array([1, 0]));
-      expect(x.method.args[0].toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
-      expect(x.method.args[1].toString()).toEqual('100000000000000');
+      // @ts-ignore .get is valid
+      expect(x.method.args && x.method.args.get('dest').toString()).toEqual('5CPaGq4KcmntaboAxg5nyqGXdyzaBV2hj6PvhNA3syigiRg8');
+      // @ts-ignore .get is valid
+      expect(x.method.args && x.method.args.get('value').toString()).toEqual('100000000000000');
     });
   });
 });
