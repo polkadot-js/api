@@ -53,9 +53,9 @@ export default class Enum extends Base<number> implements Codec {
       return Array.isArray(def)
         ? def.indexOf(value)
         : def[value] || -1;
-    } else {
-      return value;
     }
+
+    return value;
   }
 
   /**
