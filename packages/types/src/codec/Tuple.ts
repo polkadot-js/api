@@ -43,11 +43,11 @@ export default class Tuple<
         });
     } else if (isHex(value)) {
       return Tuple.decodeTuple(Types, hexToU8a(value));
-    } else {
-      return Types.map((Type, index) => {
-        return new Type(value && value[index]);
-      });
     }
+
+    return Types.map((Type, index) => {
+      return new Type(value && value[index]);
+    });
   }
 
   static with<
