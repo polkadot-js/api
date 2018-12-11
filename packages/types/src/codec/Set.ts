@@ -120,6 +120,6 @@ export default class Set extends Base<Array<string>> implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array(this.valueEncoded);
+    return new Uint8Array([this.valueEncoded]);
   }
 }
