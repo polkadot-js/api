@@ -1,12 +1,18 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+// NOTE When adding any types here, we need to update the coumentation links as
+// well - <root>/docs/SUMMARY.md as well as ../README.md
 
 // NOTE We are not re-exporting the index.ts from codec here. The reasoning being
 // that these should be enough to actually _use_ the codec, i.e. from a api-user
 // perspective these are the value classes. (Codec is for the cases where you need
 // to construct values dynamically)
 
+/**
+ * @summary Type definitions that are used in the system
+ */
 export { default as AccountId } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
@@ -19,6 +25,7 @@ export { default as BlockNumber } from './BlockNumber';
 // NOTE We are exporting Bool as bool to match with Rust
 export { default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
+export { default as ChainProperties } from './ChainProperties';
 export { default as Data } from './Data';
 export { default as Digest } from './Digest';
 export { default as Event } from './Event';
@@ -44,6 +51,7 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
+export { default as Justification } from './Justification';
 export { default as Origin } from './Origin';
 export { default as ParachainId } from './ParachainId';
 export { default as PendingExtrinsics } from './PendingExtrinsics';
@@ -54,11 +62,13 @@ export { default as Proposal } from './Proposal';
 export { default as ProposalIndex } from './ProposalIndex';
 export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as RuntimeVersion } from './RuntimeVersion';
+export { default as SessionKey } from './SessionKey';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
 export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
 export { default as StorageKey } from './StorageKey';
+export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as Text } from './Text';
 export { default as Type } from './Type';
 // NOTE We are exporting the U* classes as lowercase, matching with Rust

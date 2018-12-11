@@ -1,35 +1,46 @@
 
 
+*__name__*: Vector
+
+*__description__*: This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows construction with the passed `Type` in the constructor. It is an extension to Array, providing specific encoding/decoding on top of the base type.
+
 # Type parameters
-#### T :  [Base](_codec_base_.base.md)
+#### T :  [Codec](../interfaces/_types_.codec.md)
 # Hierarchy
 
- [Base](_codec_base_.base.md)<`Array`<`T`>>
+ `Array`<`T`>
 
 **↳ Vector**
 
 ↳  [Extrinsics](_extrinsics_.extrinsics.md)
 
+↳  [AuthoritiesChange](_digest_.authoritieschange.md)
+
 ↳  [Broadcast](_extrinsicstatus_.broadcast.md)
 
+# Implements
+
+* [Codec](../interfaces/_types_.codec.md)
+
+# Indexable
+
+\[n: `number`\]:&nbsp;`T`
 # Constructors
 
 <a id="constructor"></a>
 
 ##  constructor
 
-⊕ **new Vector**(Type: *`Constructor`<`T`>*, value?: * `Uint8Array` &#124; `string` &#124; `Array`<`any`>*): [Vector](_codec_vector_.vector.md)
+⊕ **new Vector**(Type: *[Constructor](../modules/_types_.md#constructor)<`T`>*, value?: * [Vector](_codec_vector_.vector.md)<`any`> &#124; `Uint8Array` &#124; `string` &#124; `Array`<`any`>*): [Vector](_codec_vector_.vector.md)
 
-*Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
-
-*Defined in [codec/Vector.ts:19](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L19)*
+*Defined in [codec/Vector.ts:21](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L21)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
-| Type | `Constructor`<`T`> | - |
-| `Default value` value |  `Uint8Array` &#124; `string` &#124; `Array`<`any`>|  [] as Array&lt;any&gt; |
+| Type | [Constructor](../modules/_types_.md#constructor)<`T`> | - |
+| `Default value` value |  [Vector](_codec_vector_.vector.md)<`any`> &#124; `Uint8Array` &#124; `string` &#124; `Array`<`any`>|  [] as Array&lt;any&gt; |
 
 **Returns:** [Vector](_codec_vector_.vector.md)
 
@@ -37,15 +48,13 @@ ___
 
 # Properties
 
-<a id="raw"></a>
+<a id="array"></a>
 
-##  raw
+## `<Static>` Array
 
-**● raw**: *`Array`<`T`>*
+**● Array**: *`ArrayConstructor`*
 
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Base.ts#L19)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1358*
 
 ___
 
@@ -57,7 +66,7 @@ ___
 
 getType(): `string`
 
-*Defined in [codec/Vector.ts:63](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L63)*
+*Defined in [codec/Vector.ts:65](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L65)*
 
 **Returns:** `string`
 
@@ -68,9 +77,9 @@ ___
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
+*Defined in [codec/Vector.ts:72](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L72)*
 
-*Defined in [codec/Vector.ts:71](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L71)*
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -81,7 +90,11 @@ ___
 
 getlength(): `number`
 
-*Defined in [codec/Vector.ts:67](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L67)*
+*Overrides Array.length*
+
+*Defined in [codec/Vector.ts:81](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L81)*
+
+*__description__*: The length of the value
 
 **Returns:** `number`
 
@@ -93,126 +106,75 @@ ___
 
 ##  filter
 
-▸ **filter**(fn: *`function`*): `Array`<`T`>
+▸ **filter**(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<`T`>
 
-*Defined in [codec/Vector.ts:77](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L77)*
+*Overrides Array.filter*
+
+*Defined in [codec/Vector.ts:147](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L147)*
+
+*__description__*: Filters the array with the callback
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| fn | `function` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The filter function |
+| `Optional` thisArg | `any` |  The \`this\` object to apply the result to |
 
 **Returns:** `Array`<`T`>
-
-___
-<a id="find"></a>
-
-##  find
-
-▸ **find**(fn: *`function`*):  `T` &#124; `undefined`
-
-*Defined in [codec/Vector.ts:81](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L81)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| fn | `function` |
-
-**Returns:**  `T` &#124; `undefined`
-
-___
-<a id="foreach"></a>
-
-##  forEach
-
-▸ **forEach**(fn: *`function`*): `any`
-
-*Defined in [codec/Vector.ts:85](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L85)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| fn | `function` |
-
-**Returns:** `any`
-
-___
-<a id="get"></a>
-
-##  get
-
-▸ **get**(index: *`number`*): `T`
-
-*Defined in [codec/Vector.ts:89](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L89)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| index | `number` |
-
-**Returns:** `T`
 
 ___
 <a id="map"></a>
 
 ##  map
 
-▸ **map**<`O`>(fn: *`function`*): `Array`<`O`>
+▸ **map**<`U`>(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<`U`>
 
-*Defined in [codec/Vector.ts:93](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L93)*
+*Overrides Array.map*
 
-**Type parameters:**
+*Defined in [codec/Vector.ts:156](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L156)*
 
-#### O 
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| fn | `function` |
-
-**Returns:** `Array`<`O`>
-
-___
-<a id="push"></a>
-
-##  push
-
-▸ **push**(item: *`T`*): `void`
-
-*Defined in [codec/Vector.ts:97](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L97)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| item | `T` |
-
-**Returns:** `void`
-
-___
-<a id="reduce"></a>
-
-##  reduce
-
-▸ **reduce**<`O`>(fn: *`function`*, initial: *`O`*): `O`
-
-*Defined in [codec/Vector.ts:101](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L101)*
+*__description__*: Maps the array with the callback
 
 **Type parameters:**
 
-#### O 
+#### U 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| fn | `function` |
-| initial | `O` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The mapping function |
+| `Optional` thisArg | `any` |  The \`this\` onject to apply the result to |
 
-**Returns:** `O`
+**Returns:** `Array`<`U`>
+
+___
+<a id="toarray"></a>
+
+##  toArray
+
+▸ **toArray**(): `Array`<`T`>
+
+*Defined in [codec/Vector.ts:89](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L89)*
+
+*__description__*: Converts the Object to an standard JavaScript Array
+
+**Returns:** `Array`<`T`>
+
+___
+<a id="tohex"></a>
+
+##  toHex
+
+▸ **toHex**(): `string`
+
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [codec/Vector.ts:96](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L96)*
+
+*__description__*: Returns a hex string representation of the value
+
+**Returns:** `string`
 
 ___
 <a id="tojson"></a>
@@ -221,9 +183,11 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Vector.ts:105](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L105)*
+*Defined in [codec/Vector.ts:103](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L103)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -234,9 +198,13 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Vector.ts:124](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L124)*
+*Overrides Array.toString*
+
+*Defined in [codec/Vector.ts:112](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L112)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -247,36 +215,38 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Vector.ts:111](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L111)*
+*Defined in [codec/Vector.ts:125](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L125)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
 ___
-<a id="decode"></a>
+<a id="decodevector"></a>
 
-## `<Static>` decode
+## `<Static>` decodeVector
 
-▸ **decode**<`T`>(Type: *`Constructor`<`T`>*, value: * `Uint8Array` &#124; `string` &#124; `Array`<`any`>*): `Array`<`T`>
+▸ **decodeVector**<`T`>(Type: *[Constructor](../modules/_types_.md#constructor)<`T`>*, value: * [Vector](_codec_vector_.vector.md)<`any`> &#124; `Uint8Array` &#124; `string` &#124; `Array`<`any`>*): `Array`<`T`>
 
-*Defined in [codec/Vector.ts:29](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L29)*
+*Defined in [codec/Vector.ts:31](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L31)*
 
 **Type parameters:**
 
-#### T :  [Base](_codec_base_.base.md)
+#### T :  [Codec](../interfaces/_types_.codec.md)
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| Type | `Constructor`<`T`> |
-| value |  `Uint8Array` &#124; `string` &#124; `Array`<`any`>|
+| Type | [Constructor](../modules/_types_.md#constructor)<`T`> |
+| value |  [Vector](_codec_vector_.vector.md)<`any`> &#124; `Uint8Array` &#124; `string` &#124; `Array`<`any`>|
 
 **Returns:** `Array`<`T`>
 
@@ -285,20 +255,20 @@ ___
 
 ## `<Static>` with
 
-▸ **with**<`O`>(Type: *`Constructor`<`O`>*): `Constructor`<[Vector](_codec_vector_.vector.md)<`O`>>
+▸ **with**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)<`O`>*): [Constructor](../modules/_types_.md#constructor)<[Vector](_codec_vector_.vector.md)<`O`>>
 
-*Defined in [codec/Vector.ts:55](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Vector.ts#L55)*
+*Defined in [codec/Vector.ts:57](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Vector.ts#L57)*
 
 **Type parameters:**
 
-#### O :  [Base](_codec_base_.base.md)
+#### O :  [Codec](../interfaces/_types_.codec.md)
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| Type | `Constructor`<`O`> |
+| Type | [Constructor](../modules/_types_.md#constructor)<`O`> |
 
-**Returns:** `Constructor`<[Vector](_codec_vector_.vector.md)<`O`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Vector](_codec_vector_.vector.md)<`O`>>
 
 ___
 

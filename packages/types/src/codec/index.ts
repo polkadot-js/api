@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 // NOTE We are not exporting everything here. These _should_ be enough to use the
 // actual interfaces from a "create-a-working-coder" perspective. If not, we should
@@ -8,7 +8,6 @@
 // others, so there _should_ not be need for direct use)
 
 // These are the base codec types, generally used for construction
-export { default as Base } from './Base';
 export { default as Compact } from './Compact';
 export { default as Enum } from './Enum';
 export { default as EnumType } from './EnumType';

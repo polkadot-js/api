@@ -1,13 +1,13 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyU8a } from './types';
 
 import { isFunction } from '@polkadot/util';
 
 import Bytes from './Bytes';
-import { StorageFunctionMetadata } from './Metadata';
+import { StorageFunctionMetadata } from './Metadata/Modules';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
@@ -17,8 +17,12 @@ export interface StorageFunction {
   toJSON: () => any;
 }
 
-// A representation of a storage key (typically hashed) in the system. It can be constructed
-// by passing in a raw key or a StorageFunction with (optional) arguments.
+/**
+ * @name StorageKey
+ * @description
+ * A representation of a storage key (typically hashed) in the system. It can be
+ * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
+ */
 export default class StorageKey extends Bytes {
   private _outputType: string | null;
 
@@ -38,6 +42,7 @@ export default class StorageKey extends Bytes {
         return fn(arg);
       }
     }
+
     return value as Uint8Array;
   }
 
@@ -55,6 +60,9 @@ export default class StorageKey extends Bytes {
     return null;
   }
 
+  /**
+   * @description The output type, `null` when not available
+   */
   get outputType (): string | null {
     return this._outputType;
   }

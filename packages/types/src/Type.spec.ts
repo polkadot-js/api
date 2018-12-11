@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import Text from './Text';
 import Type from './Type';
@@ -28,6 +28,12 @@ describe('Type', () => {
     expect(
       new Type('(Vec<u8>, AccountId, Vec<u8>)').toString()
     ).toEqual('(Bytes, AccountId, Bytes)');
+  });
+
+  it('removes whitespaces', () => {
+    expect(
+      new Type('T :: AccountId').toString()
+    ).toEqual('AccountId');
   });
 
   it('changes PairOf<T> -> (T, T)', () => {

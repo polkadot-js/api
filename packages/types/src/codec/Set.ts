@@ -1,20 +1,24 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, isUndefined } from '@polkadot/util';
+import { isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
+import { Codec } from '../types';
 
 type SetValues = {
   [index: string]: number
 };
 
-// An Set is an array of string values, represented an an encoded type by
-// a bitwise representation of the values.
-//
-// FIXME This is a prime candidate to potentially extend Set
-export default class Set extends Base<Array<string>> {
+/**
+ * @name Set
+ * @description
+ * An Set is an array of string values, represented an an encoded type by
+ * a bitwise representation of the values.
+ */
+// FIXME This is a prime candidate to extend the JavaScript built-in Set
+export default class Set extends Base<Array<string>> implements Codec {
   private _setValues: SetValues;
 
   constructor (setValues: SetValues, value?: Array<string> | Uint8Array | number) {
@@ -62,31 +66,60 @@ export default class Set extends Base<Array<string>> {
     }, 0);
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1;
   }
 
+  /**
+   * @description true is the Set contains no values
+   */
   get isEmpty (): boolean {
     return this.values.length === 0;
   }
 
+  /**
+   * @description The actual set values as a Array<string>
+   */
   get values (): Array<string> {
     return this.raw;
   }
 
+  /**
+   * @description The encoded value for the set members
+   */
   get valueEncoded (): number {
     return Set.encodeSet(this._setValues, this.raw);
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.values;
   }
 
-  toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array(this.valueEncoded);
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return `[${this.values.join(', ')}]`;
   }
 
-  toString (): string {
-    return `[${this.values.map((value) => value).join(', ')}]`;
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return new Uint8Array([this.valueEncoded]);
   }
 }

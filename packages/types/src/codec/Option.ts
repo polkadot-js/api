@@ -1,29 +1,29 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isNull, isU8a, isUndefined } from '@polkadot/util';
+import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Null from '../Null';
 
-// An Option is an optional field. Basically the first byte indicates that there is
-// is value to follow. If the byte is `1` there is an actual value. So the Option
-// implements that - decodes, checks for optionality and wraps the required structure
-// with a value if/as required/found.
-export default class Option<T> extends Base<Base<T>> {
-  private _isEmpty: boolean;
-
-  constructor (Type: Constructor<Base<T>>, value?: any) {
+/**
+ * @name Option
+ * @description
+ * An Option is an optional field. Basically the first byte indicates that there is
+ * is value to follow. If the byte is `1` there is an actual value. So the Option
+ * implements that - decodes, checks for optionality and wraps the required structure
+ * with a value if/as required/found.
+ */
+export default class Option<T extends Codec> extends Base<T> implements Codec {
+  constructor (Type: Constructor, value?: any) {
     super(
       Option.decodeOption(Type, value)
     );
-
-    this._isEmpty = isNull(value) || isUndefined(value);
   }
 
-  static decodeOption<O> (Type: Constructor<Base<O>>, value?: any): Base {
+  static decodeOption<O> (Type: Constructor, value?: any): Codec {
     if (isU8a(value)) {
       if (value[0] === 0) {
         return new Null();
@@ -32,14 +32,13 @@ export default class Option<T> extends Base<Base<T>> {
       return new Type(value.subarray(1));
     }
 
-    return new Type(
-      isNull(value) || isUndefined(value)
-        ? undefined
-        : value
-    );
+    return isNull(value) || isUndefined(value) || value instanceof Null
+      ? new Null()
+      : new Type(value);
+
   }
 
-  static with<O> (Type: Constructor<Base<O>>): Constructor<Option<O>> {
+  static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
     return class extends Option<O> {
       constructor (value?: any) {
         super(Type, value);
@@ -47,30 +46,60 @@ export default class Option<T> extends Base<Base<T>> {
     };
   }
 
-  get isEmpty (): boolean {
-    return this._isEmpty;
-  }
-
-  get value (): T | undefined {
-    return this._isEmpty
-      ? undefined
-      : this.raw.raw;
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
-    const childLength = this._isEmpty
-      ? 0
-      : this.raw.encodedLength;
-
-    return 1 + childLength;
+    // boolean byte (has value, doesn't have) along with wrapped length
+    return 1 + this.raw.encodedLength;
   }
 
+  /**
+   * @description Checks if the Option has no value
+   */
+  get isNone (): boolean {
+    return this.raw instanceof Null;
+  }
+
+  /**
+   * @description Checks if the Option has a value
+   */
+  get isSome (): boolean {
+    return !this.isNone;
+  }
+
+  /**
+   * @description The actual value for the Option
+   */
+  get value (): Codec {
+    return this.raw;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
-    return this._isEmpty
-      ? undefined
-      : this.raw.toJSON();
+    return this.raw.toJSON();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return this.raw.toString();
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     if (isBare) {
       return this.raw.toU8a(true);
@@ -78,7 +107,7 @@ export default class Option<T> extends Base<Base<T>> {
 
     const u8a = new Uint8Array(this.encodedLength);
 
-    if (!this._isEmpty) {
+    if (this.isSome) {
       u8a.set([1]);
       u8a.set(this.raw.toU8a(), 1);
     }
@@ -86,9 +115,14 @@ export default class Option<T> extends Base<Base<T>> {
     return u8a;
   }
 
-  toString (): string {
-    return this._isEmpty
-      ? ''
-      : this.raw.toString();
+  /**
+   * @description Returns the value that the Option represents (if available)
+   */
+  unwrap (): T {
+    if (this.isNone) {
+      throw new Error('Option: unwrapping a None value');
+    }
+
+    return this.raw;
   }
 }

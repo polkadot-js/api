@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import json from './json/Header.002.json';
 import Digest from './Digest';
@@ -11,7 +11,7 @@ describe('Digest', () => {
 
     expect(digest.logs.length).toEqual(1);
 
-    const log = digest.logs.get(0);
+    const log = digest.logs[0];
 
     expect(log.type).toBe('Seal');
     expect(log.value.toJSON()).toEqual([

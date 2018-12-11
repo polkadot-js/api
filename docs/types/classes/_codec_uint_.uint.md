@@ -1,8 +1,12 @@
 
 
+*__name__*: UInt
+
+*__description__*: A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding and decoding of those numbers. Upon construction the bitLength is provided and any additional use keeps the number to this length. This extends `BN`, so all methods available on a normal `BN` object is available here.
+
 # Hierarchy
 
- [Base](_codec_base_.base.md)<`BN`>
+ `BN`
 
 **↳ UInt**
 
@@ -18,23 +22,27 @@
 
 ↳  [U256](_u256_.u256.md)
 
+# Implements
+
+* [Codec](../interfaces/_types_.codec.md)
+
 # Constructors
 
 <a id="constructor"></a>
 
 ##  constructor
 
-⊕ **new UInt**(value?: *`AnyNumber`*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
+⊕ **new UInt**(value?: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength?: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*, isHexJson?: *`boolean`*): [UInt](_codec_uint_.uint.md)
 
-*Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
+*Overrides BN.__constructor*
 
-*Defined in [codec/UInt.ts:24](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L24)*
+*Defined in [codec/UInt.ts:27](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L27)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | `AnyNumber` | 0 |
+| `Default value` value | [AnyNumber](../modules/_types_.md#anynumber) | 0 |
 | `Default value` bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |  DEFAULT_UINT_BITS |
 | `Default value` isHexJson | `boolean` | true |
 
@@ -42,42 +50,17 @@
 
 ___
 
-# Properties
-
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`BN`*
-
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Base.ts#L19)*
-
-___
-
 # Accessors
 
-<a id="bitlength"></a>
-
-##  bitLength
-
-getbitLength(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-*Defined in [codec/UInt.ts:50](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L50)*
-
-**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-___
 <a id="encodedlength"></a>
 
 ##  encodedLength
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
+*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L57)*
 
-*Defined in [codec/UInt.ts:54](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L54)*
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -85,185 +68,19 @@ ___
 
 # Methods
 
-<a id="add"></a>
+<a id="bitlength"></a>
 
-##  add
+##  bitLength
 
-▸ **add**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
+▸ **bitLength**(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
-*Defined in [codec/UInt.ts:86](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L86)*
+*Overrides BN.bitLength*
 
-**Parameters:**
+*Defined in [codec/UInt.ts:64](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L64)*
 
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
+*__description__*: Returns the number of bits in the value
 
-**Returns:** `BN`
-
-___
-<a id="cmp"></a>
-
-##  cmp
-
-▸ **cmp**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `number`
-
-*Defined in [codec/UInt.ts:92](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L92)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `number`
-
-___
-<a id="div"></a>
-
-##  div
-
-▸ **div**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
-
-*Defined in [codec/UInt.ts:98](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L98)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `BN`
-
-___
-<a id="eq"></a>
-
-##  eq
-
-▸ **eq**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
-
-*Defined in [codec/UInt.ts:104](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L104)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `boolean`
-
-___
-<a id="gt"></a>
-
-##  gt
-
-▸ **gt**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
-
-*Defined in [codec/UInt.ts:126](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L126)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| test |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `boolean`
-
-___
-<a id="gte"></a>
-
-##  gte
-
-▸ **gte**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
-
-*Defined in [codec/UInt.ts:132](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L132)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| test |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `boolean`
-
-___
-<a id="iszero"></a>
-
-##  isZero
-
-▸ **isZero**(): `boolean`
-
-*Defined in [codec/UInt.ts:110](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L110)*
-
-**Returns:** `boolean`
-
-___
-<a id="lt"></a>
-
-##  lt
-
-▸ **lt**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
-
-*Defined in [codec/UInt.ts:114](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L114)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| test |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `boolean`
-
-___
-<a id="lte"></a>
-
-##  lte
-
-▸ **lte**(test: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `boolean`
-
-*Defined in [codec/UInt.ts:120](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L120)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| test |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `boolean`
-
-___
-<a id="mul"></a>
-
-##  mul
-
-▸ **mul**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
-
-*Defined in [codec/UInt.ts:138](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L138)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `BN`
-
-___
-<a id="sub"></a>
-
-##  sub
-
-▸ **sub**(other: * [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`*): `BN`
-
-*Defined in [codec/UInt.ts:144](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L144)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| other |  [UInt](_codec_uint_.uint.md) &#124; `BN` &#124; `number`|
-
-**Returns:** `BN`
+**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
 ___
 <a id="tobn"></a>
@@ -272,7 +89,9 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [codec/UInt.ts:76](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L76)*
+*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L71)*
+
+*__description__*: Returns the BN representation of the number. (Compatibility)
 
 **Returns:** `BN`
 
@@ -283,7 +102,11 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [codec/UInt.ts:58](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L58)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [codec/UInt.ts:78](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L78)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -294,33 +117,34 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/UInt.ts:62](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L62)*
+*Overrides BN.toJSON*
+
+*Defined in [codec/UInt.ts:85](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L85)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
-
-___
-<a id="tonumber"></a>
-
-##  toNumber
-
-▸ **toNumber**(): `number`
-
-*Defined in [codec/UInt.ts:80](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L80)*
-
-**Returns:** `number`
 
 ___
 <a id="tostring"></a>
 
 ##  toString
 
-▸ **toString**(): `string`
+▸ **toString**(base?: * `undefined` &#124; `number`*): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
+*Overrides BN.toString*
 
-*Defined in [codec/UInt.ts:72](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L72)*
+*Defined in [codec/UInt.ts:95](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L95)*
+
+*__description__*: Returns the string representation of the value
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` base |  `undefined` &#124; `number`|  The base to use for the conversion |
 
 **Returns:** `string`
 
@@ -331,15 +155,17 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/UInt.ts:68](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L68)*
+*Defined in [codec/UInt.ts:104](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L104)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -348,18 +174,18 @@ ___
 
 ## `<Static>` decodeUInt
 
-▸ **decodeUInt**(value: *`AnyNumber`*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `BN`
+▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
 
-*Defined in [codec/UInt.ts:35](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/UInt.ts#L35)*
+*Defined in [codec/UInt.ts:38](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/UInt.ts#L38)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| value | `AnyNumber` |
+| value | [AnyNumber](../modules/_types_.md#anynumber) |
 | bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |
 
-**Returns:** `BN`
+**Returns:** `string`
 
 ___
 

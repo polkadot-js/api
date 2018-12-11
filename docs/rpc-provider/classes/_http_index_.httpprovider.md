@@ -24,7 +24,7 @@ const api = new Api(provider);
 
 # Implements
 
-* `ProviderInterface`
+* [ProviderInterface](../interfaces/_types_.providerinterface.md)
 
 # Constructors
 
@@ -34,15 +34,31 @@ const api = new Api(provider);
 
 ⊕ **new HttpProvider**(endpoint?: *`string`*): [HttpProvider](_http_index_.httpprovider.md)
 
-*Defined in [http/index.ts:40](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L40)*
+*Defined in [http/index.ts:40](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L40)*
 
 **Parameters:**
 
-| Param | Type | Default value | Description |
+| Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
 | `Default value` endpoint | `string` |  defaults.HTTP_URL |  The endpoint url starting with http:// |
 
 **Returns:** [HttpProvider](_http_index_.httpprovider.md)
+
+___
+
+# Accessors
+
+<a id="hassubscriptions"></a>
+
+##  hasSubscriptions
+
+gethasSubscriptions(): `boolean`
+
+*Defined in [http/index.ts:55](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L55)*
+
+*__summary__*: `true` when this provider supports subscriptions
+
+**Returns:** `boolean`
 
 ___
 
@@ -54,7 +70,9 @@ ___
 
 ▸ **isConnected**(): `boolean`
 
-*Defined in [http/index.ts:56](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L56)*
+*Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[isConnected](../interfaces/_types_.providerinterface.md#isconnected)*
+
+*Defined in [http/index.ts:63](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L63)*
 
 *__summary__*: Whether the node is connected or not.
 
@@ -66,9 +84,11 @@ ___
 
 ##  on
 
-▸ **on**(type: *`ProviderInterface$Emitted`*, sub: *`ProviderInterface$EmitCb`*): `void`
+▸ **on**(type: *[ProviderInterface$Emitted](../modules/_types_.md#providerinterface_emitted)*, sub: *[ProviderInterface$EmitCb](../modules/_types_.md#providerinterface_emitcb)*): `void`
 
-*Defined in [http/index.ts:64](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L64)*
+*Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[on](../interfaces/_types_.providerinterface.md#on)*
+
+*Defined in [http/index.ts:71](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L71)*
 
 *__summary__*: Events are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
@@ -76,10 +96,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| type | `ProviderInterface$Emitted` |
-| sub | `ProviderInterface$EmitCb` |
+| type | [ProviderInterface$Emitted](../modules/_types_.md#providerinterface_emitted) |
+| sub | [ProviderInterface$EmitCb](../modules/_types_.md#providerinterface_emitcb) |
 
 **Returns:** `void`
 
@@ -90,13 +110,15 @@ ___
 
 ▸ **send**(method: *`string`*, params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [http/index.ts:71](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L71)*
+*Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[send](../interfaces/_types_.providerinterface.md#send)*
+
+*Defined in [http/index.ts:78](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L78)*
 
 *__summary__*: Send HTTP POST Request with Body to configured HTTP Endpoint.
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | method | `string` |
 | params | `Array`<`any`> |
@@ -108,20 +130,22 @@ ___
 
 ##  subscribe
 
-▸ **subscribe**(types: *`string`*, method: *`string`*, params: *`Array`<`any`>*, cb: *`ProviderInterface$Callback`*): `Promise`<`number`>
+▸ **subscribe**(types: *`string`*, method: *`string`*, params: *`Array`<`any`>*, cb: *[ProviderInterface$Callback](../modules/_types_.md#providerinterface_callback)*): `Promise`<`number`>
 
-*Defined in [http/index.ts:93](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L93)*
+*Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[subscribe](../interfaces/_types_.providerinterface.md#subscribe)*
+
+*Defined in [http/index.ts:100](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L100)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | types | `string` |
 | method | `string` |
 | params | `Array`<`any`> |
-| cb | `ProviderInterface$Callback` |
+| cb | [ProviderInterface$Callback](../modules/_types_.md#providerinterface_callback) |
 
 **Returns:** `Promise`<`number`>
 
@@ -132,13 +156,15 @@ ___
 
 ▸ **unsubscribe**(type: *`string`*, method: *`string`*, id: *`number`*): `Promise`<`boolean`>
 
-*Defined in [http/index.ts:102](https://github.com/polkadot-js/api/blob/9f88cd8/packages/rpc-provider/src/http/index.ts#L102)*
+*Implementation of [ProviderInterface](../interfaces/_types_.providerinterface.md).[unsubscribe](../interfaces/_types_.providerinterface.md#unsubscribe)*
+
+*Defined in [http/index.ts:109](https://github.com/polkadot-js/api/blob/c0a9924/packages/rpc-provider/src/http/index.ts#L109)*
 
 *__summary__*: Subscriptions are not supported with the HttpProvider, see [WsProvider](_ws_index_.wsprovider.md).
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | type | `string` |
 | method | `string` |

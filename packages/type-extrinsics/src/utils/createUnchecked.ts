@@ -1,11 +1,11 @@
 // Copyright 2017-2018 @polkadot/extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction } from '../types';
-
-import { FunctionMetadata } from '@polkadot/types/Metadata';
+import { FunctionMetadata } from '@polkadot/types/Metadata/Modules';
+import { ExtrinsicFunction } from '@polkadot/types/Method';
 import { Extrinsic, Method } from '@polkadot/types/index';
+import { assert } from '@polkadot/util';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
@@ -25,9 +25,7 @@ export default function createDescriptor (
   const expectedArgs = Method.filterOrigin(meta);
 
   extrinsicFn = (...args: any[]): Extrinsic => {
-    if (expectedArgs.length.valueOf() !== args.length) {
-      throw new Error(`Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
-    }
+    assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
 
     return new Extrinsic({
       method: new Method({

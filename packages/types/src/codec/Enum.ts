@@ -1,59 +1,102 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a } from '@polkadot/util';
+import { isString, isU8a, u8aToHex, assert } from '@polkadot/util';
 
+import { Codec } from '../types';
 import Base from './Base';
 
-type EnumDef = {
+type EnumMap = {
   [index: number]: string
+};
+
+type EnumDef = {
+  [index: string]: number
 } | Array<string>;
 
-// A codec wrapper for an enum. Enums are encoded as a single byte, where the byte
-// is a zero-indexed value. This class allows you to retrieve the value either
-// by `toNumber()` exposing the actual raw index, or `toString()` returning a
-// string representation (as provided as part of the constructor)
-//
+/**
+ * @name Enum
+ * @description
+ * A codec wrapper for an enum. Enums are encoded as a single byte, where the byte
+ * is a zero-indexed value. This class allows you to retrieve the value either
+ * by `toNumber()` exposing the actual raw index, or `toString()` returning a
+ * string representation (as provided as part of the constructor)
+ */
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
-export default class Enum extends Base<number> {
-  private _enum: EnumDef;
+export default class Enum extends Base<number> implements Codec {
+  private _enum: EnumMap | Array<string>;
 
-  constructor (def: EnumDef, value: Enum | number = 0) {
-    super(
-      Enum.decodeEnum(value)
-    );
+  constructor (def: EnumDef, value: Enum | Uint8Array | string | number = 0) {
+    const decoded = Enum.decodeEnum(def, value);
 
-    this._enum = def;
+    assert(decoded !== -1, `Unable to initialise Enum with value ${value}`);
+
+    super(decoded);
+
+    this._enum = Array.isArray(def)
+      ? def
+      : Object.keys(def).reduce((result, key) => {
+        result[def[key]] = key;
+
+        return result;
+      }, {} as EnumMap);
   }
 
-  static decodeEnum (value: Enum | number = 0): number {
+  static decodeEnum (def: EnumDef, value: Enum | Uint8Array | string | number): number | undefined {
     if (value instanceof Enum) {
       return value.raw;
     } else if (isU8a(value)) {
       return value[0];
-    } else {
-      return value;
+    } else if (isString(value)) {
+      return Array.isArray(def)
+        ? def.indexOf(value)
+        : def[value] || -1;
     }
+
+    return value;
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1;
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw;
   }
 
+  /**
+   * @description Returns the number representation for the value
+   */
   toNumber (): number {
     return this.raw;
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this._enum[this.raw] || `${this.raw}`;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return new Uint8Array([this.raw]);
   }

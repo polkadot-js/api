@@ -25,11 +25,11 @@
 
 *Overrides Struct.__constructor*
 
-*Defined in [classes.ts:48](https://github.com/polkadot-js/api/blob/9f88cd8/packages/api-observable/src/classes.ts#L48)*
+*Defined in [classes.ts:55](https://github.com/polkadot-js/api/blob/c0a9924/packages/api-observable/src/classes.ts#L55)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | value | `Tuple` |
 | id |  `ReferendumIndex` &#124; `BN` &#124; `number`|
@@ -44,22 +44,11 @@ ___
 
 ##  __@toStringTag
 
-**● __@toStringTag**: *"Map"*
+**● __@toStringTag**: *`string`*
 
 *Inherited from Map.[Symbol.toStringTag]*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, `Base`>*
-
-*Inherited from Struct.raw*
-
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -84,7 +73,9 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L127)*
+
+*__description__*: Returns the Type description to sthe structure
 
 **Returns:** `E`
 
@@ -95,7 +86,7 @@ ___
 
 getblockNumber(): `BlockNumber`
 
-*Defined in [classes.ts:58](https://github.com/polkadot-js/api/blob/9f88cd8/packages/api-observable/src/classes.ts#L58)*
+*Defined in [classes.ts:65](https://github.com/polkadot-js/api/blob/c0a9924/packages/api-observable/src/classes.ts#L65)*
 
 **Returns:** `BlockNumber`
 
@@ -108,7 +99,9 @@ getencodedLength(): `number`
 
 *Inherited from Struct.encodedLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:134](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L134)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -119,7 +112,7 @@ ___
 
 getid(): `ReferendumIndex`
 
-*Defined in [classes.ts:62](https://github.com/polkadot-js/api/blob/9f88cd8/packages/api-observable/src/classes.ts#L62)*
+*Defined in [classes.ts:69](https://github.com/polkadot-js/api/blob/c0a9924/packages/api-observable/src/classes.ts#L69)*
 
 **Returns:** `ReferendumIndex`
 
@@ -130,7 +123,7 @@ ___
 
 getproposal(): `Proposal`
 
-*Defined in [classes.ts:66](https://github.com/polkadot-js/api/blob/9f88cd8/packages/api-observable/src/classes.ts#L66)*
+*Defined in [classes.ts:73](https://github.com/polkadot-js/api/blob/c0a9924/packages/api-observable/src/classes.ts#L73)*
 
 **Returns:** `Proposal`
 
@@ -141,7 +134,7 @@ ___
 
 getvoteThreshold(): `VoteThreshold`
 
-*Defined in [classes.ts:70](https://github.com/polkadot-js/api/blob/9f88cd8/packages/api-observable/src/classes.ts#L70)*
+*Defined in [classes.ts:77](https://github.com/polkadot-js/api/blob/c0a9924/packages/api-observable/src/classes.ts#L77)*
 
 **Returns:** `VoteThreshold`
 
@@ -153,7 +146,7 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, `Base`]>
+▸ **__@iterator**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.[Symbol.iterator]*
 
@@ -161,7 +154,7 @@ ___
 
 Returns an iterable of entries in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, `Base`]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="clear"></a>
@@ -189,7 +182,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -200,7 +193,7 @@ ___
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, `Base`]>
+▸ **entries**(): `IterableIterator`<[`keyof S`, `Codec`]>
 
 *Inherited from Map.entries*
 
@@ -208,7 +201,7 @@ ___
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, `Base`]>
+**Returns:** `IterableIterator`<[`keyof S`, `Codec`]>
 
 ___
 <a id="foreach"></a>
@@ -223,7 +216,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -235,38 +228,44 @@ ___
 
 ##  get
 
-▸ **get**(key: *`keyof S`*):  `Base` &#124; `undefined`
+▸ **get**(name: *`keyof S`*):  `Codec` &#124; `undefined`
 
-*Inherited from Map.get*
+*Inherited from Struct.get*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:25*
+*Overrides Map.get*
+
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L144)*
+
+*__description__*: Returns a specific names entry in the structure
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| name | `keyof S` |  The name of the entry to retrieve |
 
-**Returns:**  `Base` &#124; `undefined`
+**Returns:**  `Codec` &#124; `undefined`
 
 ___
 <a id="getatindex"></a>
 
 ##  getAtIndex
 
-▸ **getAtIndex**(index: *`number`*): `Base`
+▸ **getAtIndex**(index: *`number`*): `Codec`
 
 *Inherited from Struct.getAtIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L151)*
+
+*__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
-**Returns:** `Base`
+**Returns:** `Codec`
 
 ___
 <a id="has"></a>
@@ -281,7 +280,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -307,7 +306,7 @@ ___
 
 ##  set
 
-▸ **set**(key: *`keyof S`*, value: *`Base`*): `this`
+▸ **set**(key: *`keyof S`*, value: *`Codec`*): `this`
 
 *Inherited from Map.set*
 
@@ -315,10 +314,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
-| value | `Base` |
+| value | `Codec` |
 
 **Returns:** `this`
 
@@ -327,13 +326,15 @@ ___
 
 ##  toArray
 
-▸ **toArray**(): `Array`<`Base`>
+▸ **toArray**(): `Array`<`Codec`>
 
 *Inherited from Struct.toArray*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L158)*
 
-**Returns:** `Array`<`Base`>
+*__description__*: Converts the Object to an standard JavaScript Array
+
+**Returns:** `Array`<`Codec`>
 
 ___
 <a id="tohex"></a>
@@ -344,7 +345,9 @@ ___
 
 *Inherited from Struct.toHex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L165)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -357,7 +360,9 @@ ___
 
 *Inherited from Struct.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L172)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -370,7 +375,9 @@ ___
 
 *Inherited from Struct.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L186)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -383,13 +390,15 @@ ___
 
 *Inherited from Struct.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L194)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -398,7 +407,7 @@ ___
 
 ##  values
 
-▸ **values**(): `IterableIterator`<`Base`>
+▸ **values**(): `IterableIterator`<`Codec`>
 
 *Inherited from Map.values*
 
@@ -406,7 +415,7 @@ ___
 
 Returns an iterable of values in the map
 
-**Returns:** `IterableIterator`<`Base`>
+**Returns:** `IterableIterator`<`Codec`>
 
 ___
 <a id="with"></a>
@@ -417,14 +426,14 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L107)*
 
 **Type parameters:**
 
 #### S :  `ConstructorDef`
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 

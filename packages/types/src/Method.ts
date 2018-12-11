@@ -1,16 +1,16 @@
 // Copyright 2017-2018 @polkadot/extrinsics authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ExtrinsicFunction, Extrinsics } from '@polkadot/extrinsics/types';
-import { assert, isHex, isObject, isU8a } from '@polkadot/util';
+import { AnyU8a, Codec, Constructor } from './types';
 
-import Base from './codec/Base';
-import { AnyU8a, Constructor } from './types';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata';
+import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
+import Extrinsic from './Extrinsic';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/Modules';
 
 const FN_UNKNOWN = {
   method: 'unknown',
@@ -18,7 +18,7 @@ const FN_UNKNOWN = {
 } as ExtrinsicFunction;
 
 interface ArgsDef {
-  [index: string]: Constructor<Base>;
+  [index: string]: Constructor;
 }
 
 interface DecodeMethodInput {
@@ -31,15 +31,39 @@ interface DecodedMethod extends DecodeMethodInput {
   meta: FunctionMetadata;
 }
 
+export interface ExtrinsicFunction {
+  (...args: any[]): Extrinsic;
+  callIndex: Uint8Array;
+  meta: FunctionMetadata;
+  method: string;
+  section: string;
+  toJSON: () => any;
+}
+
+export interface ModuleExtrinsics {
+  [key: string]: ExtrinsicFunction;
+}
+
+export interface Extrinsics {
+  [key: string]: ModuleExtrinsics; // Will hold modules returned by state_getMetadata
+}
+
 const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
 
-class MethodIndex extends U8aFixed {
+/**
+ * @name MethodIndex
+ * @description
+ * A wrapper around the `[sectionIndex, methodIndex]` value that uniquely identifies a method
+ */
+export class MethodIndex extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 16);
   }
 }
 
 /**
+ * @name Method
+ * @description
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
@@ -66,25 +90,10 @@ export default class Method extends Struct {
    * - {@see DecodeMethodInput}
    * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
    * necessary.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import { Method } from '@polkadot/types';
-   *
-   * const methodInstance = new Method(extrinsic, extrinsic.meta);
-   *
-   * // Obtain recipient id and amount for an extrinsic
-   * const recipientId = methodInstance.get('args').get('dest').toString();
-   * const amount = methodInstance.get('args').get('value').toString();
-   *
-   * console.log(`submitting transaction of amount ${amount} to recipient id ${recipientId}`);
-   * ```
    */
-  private static decodeMethod (value: Uint8Array | string | DecodeMethodInput, _meta?: FunctionMetadata): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
-      return Method.decodeMethod(value, _meta);
+      return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
@@ -92,20 +101,13 @@ export default class Method extends Struct {
       // Find metadata with callIndex
       const meta = _meta || Method.findFunction(callIndex).meta;
 
-      // Get Struct definition of the arguments
-      const argsDef = Method.getArgsDef(meta);
-
       return {
         args: value.subarray(2),
-        argsDef,
+        argsDef: Method.getArgsDef(meta),
         callIndex,
         meta
       };
-    } else if (
-      isObject(value) &&
-      value.callIndex &&
-      value.args
-    ) {
+    } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
       const { args, callIndex } = value;
 
@@ -117,12 +119,9 @@ export default class Method extends Struct {
       // Find metadata with callIndex
       const meta = _meta || Method.findFunction(lookupIndex).meta;
 
-      // Get Struct definition of the arguments
-      const argsDef = Method.getArgsDef(meta);
-
       return {
         args,
-        argsDef,
+        argsDef: Method.getArgsDef(meta),
         meta,
         callIndex
       };
@@ -181,22 +180,47 @@ export default class Method extends Struct {
     );
   }
 
-  get args (): Array<Base> {
+  /**
+   * @description The arguments for the function call
+   */
+  get args (): Array<Codec> {
+    // FIXME This should return a Struct instead of an Array
     return [...(this.get('args') as Struct).values()];
   }
 
+  /**
+   * @description Thge argument defintions
+   */
   get argsDef (): ArgsDef {
     return Method.getArgsDef(this.meta);
   }
 
+  /**
+   * @description The encoded `[sectionIndex, methodIndex]` identifier
+   */
   get callIndex (): Uint8Array {
     return (this.get('callIndex') as MethodIndex).toU8a();
   }
 
+  /**
+   * @description The encoded data
+   */
   get data (): Uint8Array {
     return (this.get('args') as Struct).toU8a();
   }
 
+  /**
+   * @description `true` if the `Origin` type is on the method (extrinsic method)
+   */
+  get hasOrigin (): boolean {
+    const firstArg = this.meta.arguments[0];
+
+    return !!firstArg && firstArg.type.toString() === 'Origin';
+  }
+
+  /**
+   * @description The [[FunctionMetadata]]
+   */
   get meta (): FunctionMetadata {
     return this._meta;
   }

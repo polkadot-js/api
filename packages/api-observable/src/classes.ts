@@ -1,17 +1,20 @@
 // Copyright 2017-2018 @polkadot/api-observable authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 import { AccountId, Balance, BlockNumber, PropIndex, Proposal, ReferendumIndex, VoteThreshold } from '@polkadot/types/index';
+import { Constructor } from '@polkadot/types/types';
 import { Struct, Tuple, Vector } from '@polkadot/types/codec';
 
-export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId }) {
+const ProposalStruct: Constructor<Struct<any>> = Struct.with({ id: PropIndex, proposal: Proposal, address: AccountId });
+
+export class RxProposal extends ProposalStruct {
   constructor (value: Tuple) {
     super({
-      id: value.getAtIndex(0),
-      proposal: value.getAtIndex(1),
-      address: value.getAtIndex(2)
+      id: value[0],
+      proposal: value[1],
+      address: value[2]
     });
   }
 
@@ -28,11 +31,13 @@ export class RxProposal extends Struct.with({ id: PropIndex, proposal: Proposal,
   }
 }
 
-export class RxProposalDeposits extends Struct.with({ balance: Balance, addresses: Vector.with(AccountId) }) {
+const DepositStruct: Constructor<Struct<any>> = Struct.with({ balance: Balance, addresses: Vector.with(AccountId) });
+
+export class RxProposalDeposits extends DepositStruct {
   constructor (value: Tuple) {
     super({
-      balance: value.getAtIndex(0),
-      addresses: value.getAtIndex(1)
+      balance: value[0],
+      addresses: value[1]
     });
   }
 
@@ -45,12 +50,14 @@ export class RxProposalDeposits extends Struct.with({ balance: Balance, addresse
   }
 }
 
-export class RxReferendum extends Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex }) {
+const ReferendumStruct: Constructor<Struct<any>> = Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex });
+
+export class RxReferendum extends ReferendumStruct {
   constructor (value: Tuple, id: ReferendumIndex | BN | number) {
     super({
-      blockNumber: value.getAtIndex(0),
-      proposal: value.getAtIndex(1),
-      voteThreshold: value.getAtIndex(2),
+      blockNumber: value[0],
+      proposal: value[1],
+      voteThreshold: value[2],
       id
     });
   }

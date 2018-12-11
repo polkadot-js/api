@@ -1,5 +1,9 @@
 
 
+*__name__*: Address
+
+*__description__*: A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix. Since we are dealing with underlying publicKeys (or shorter encoded addresses), we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
+
 # Hierarchy
 
  [Base](_codec_base_.base.md)< [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)>
@@ -16,30 +20,15 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:22](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L22)*
+*Defined in [Address.ts:25](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L25)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
 | `Default value` value | `AnyAddress` |  new Uint8Array() |
 
 **Returns:** [Address](_address_.address.md)
-
-___
-
-# Properties
-
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: * [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
-*
-
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Base.ts#L19)*
 
 ___
 
@@ -51,9 +40,9 @@ ___
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
+*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L67)*
 
-*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L67)*
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -64,7 +53,9 @@ ___
 
 getrawLength(): `number`
 
-*Defined in [Address.ts:61](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L61)*
+*Defined in [Address.ts:81](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L81)*
+
+*__description__*: The length of the raw value, either AccountIndex or AccountId
 
 **Returns:** `number`
 
@@ -78,7 +69,9 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Address.ts:78](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L78)*
+*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L90)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -89,9 +82,9 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
+*Defined in [Address.ts:97](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L97)*
 
-*Defined in [Address.ts:82](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L82)*
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -102,9 +95,9 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
+*Defined in [Address.ts:104](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L104)*
 
-*Defined in [Address.ts:86](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L86)*
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -115,15 +108,15 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
+*Defined in [Address.ts:112](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L112)*
 
-*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L90)*
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -134,11 +127,11 @@ ___
 
 ▸ **decodeAddress**(value: *`AnyAddress`*):  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
 
-*Defined in [Address.ts:29](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Address.ts#L29)*
+*Defined in [Address.ts:32](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Address.ts#L32)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | value | `AnyAddress` |
 

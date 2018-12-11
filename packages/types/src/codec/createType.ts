@@ -1,16 +1,16 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { assert } from '@polkadot/util';
 
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 import Text from '../Text';
-import Base from './Base';
 import Compact from './Compact';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
+import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -42,33 +42,25 @@ export function typeSplit (type: string): Array<string> {
         }
         break;
 
-      case '(':
-        // inc tuple depth
-        tDepth++;
-        break;
+      // inc tuple depth, start found
+      case '(': tDepth++; break;
 
-      case ')':
-        // dec tuple depth
-        tDepth--;
-        break;
+      // dec tuple depth, end found
+      case ')': tDepth--; break;
 
-      case '<':
-        // inc compact/vec depth
-        vDepth++;
-        break;
+      // inc compact/vec depth, start found
+      case '<': vDepth++; break;
 
-      case '>':
-        // dec compact/vec depth
-        vDepth--;
-        break;
+      // dec compact/vec depth, end found
+      case '>': vDepth--; break;
 
-      default:
-        break;
+      // normal character
+      default: break;
     }
   }
 
-  assert(tDepth === 0, `Invalid Tuple in ${type}`);
-  assert(vDepth === 0, `Invalid Compact/Vector in ${type}`);
+  assert(!tDepth, `Invalid Tuple in ${type}`);
+  assert(!vDepth, `Invalid Compact/Vector in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
@@ -82,31 +74,27 @@ export function getTypeDef (_type: Text | string): TypeDef {
     info: TypeDefInfo.Plain,
     type
   };
+  let subType = '';
 
-  if (type[0] === '(') {
-    assert(type[type.length - 1] === ')', `Expected tuple wrapped with ()`);
+  const startingWith = (type: string, start: string, end: string): boolean => {
+    if (type.substr(0, start.length) !== start) {
+      return false;
+    }
 
-    // strip wrapping ()'s
-    const innerTypes = typeSplit(type.substr(1, type.length - 1 - 1));
+    assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
 
+    subType = type.substr(start.length, type.length - start.length - 1);
+
+    return true;
+  };
+
+  if (startingWith(type, '(', ')')) {
     value.info = TypeDefInfo.Tuple;
-    value.sub = innerTypes.map((inner) =>
-      getTypeDef(inner)
-    );
-  } else if (type.substr(0, 8) === 'Compact<') {
-    assert(type[type.length - 1] === '>', `Expected Compact wrapped with <>`);
-
-    // strip wrapping Compact<>
-    const subType = type.substr(8, type.length - 8 - 1);
-
+    value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
+  } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
     value.sub = getTypeDef(subType);
-  } else if (type.substr(0, 4) === 'Vec<') {
-    assert(type[type.length - 1] === '>', `Expected Vec wrapped with <>`);
-
-    // strip wrapping Vec<>
-    const subType = type.substr(4, type.length - 4 - 1);
-
+  } else if (startingWith(type, 'Vec<', '>')) {
     value.info = TypeDefInfo.Vector;
     value.sub = getTypeDef(subType);
   }
@@ -117,52 +105,40 @@ export function getTypeDef (_type: Text | string): TypeDef {
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef): Constructor {
   if (value.info === TypeDefInfo.Tuple) {
-    if (!Array.isArray(value.sub)) {
-      throw new Error(`Expected nested subtypes for Tuple`);
-    }
+    assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
     return Tuple.with(
-      value.sub.reduce((result, type, index) => {
-        result[`entry${index}`] = getTypeClass(type);
-
-        return result;
-      }, {} as { [index: string]: Constructor })
+      (value.sub as Array<TypeDef>).map(getTypeClass)
     );
   } else if (value.info === TypeDefInfo.Compact) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for Compact`);
-    }
+    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
     return Compact.with(
-      getTypeClass(value.sub) as Constructor<UInt>
+      getTypeClass(value.sub as TypeDef) as Constructor<UInt>
     );
   } else if (value.info === TypeDefInfo.Vector) {
-    if (!value.sub || Array.isArray(value.sub)) {
-      throw new Error(`Expected subtype for Vector`);
-    }
+    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
 
     return Vector.with(
-      getTypeClass(value.sub)
+      getTypeClass(value.sub as TypeDef)
     );
   }
 
-  // We are dynamically loading as to avoid circular dependencies
+  // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
   const Types = require('../index');
-  const Type = Types[value.type];
+  const Type = registry.get(value.type) || Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);
 
   return Type;
 }
 
-export default function createType (type: Text | string, value?: any): Base {
+export default function createType (type: Text | string, value?: any): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
   const Type = getTypeClass(
     getTypeDef(type)
   );
 
-  return value instanceof Type
-    ? value
-    : new Type(value);
+  return new Type(value);
 }

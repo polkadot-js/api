@@ -1,26 +1,28 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isNumber, isObject, isU8a, isUndefined, u8aConcat } from '@polkadot/util';
+import { isNumber, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import Null from '../Null';
-import { Constructor } from '../types';
+import { Codec, Constructor } from '../types';
 
-type TypesArray = Array<Constructor<Base>>;
+type TypesArray = Array<Constructor>;
 type TypesDef = {
-  [index: number]: Constructor<Base>
+  [index: number]: Constructor
 } | TypesArray;
 
-// This implements an enum, that based on the value wraps a different type. It is effectively an
-// extension to enum where the value type is determined by the actual index.
-//
+/**
+ * @name EnumType
+ * @description
+ * This implements an enum, that based on the value wraps a different type. It is effectively
+ * an extension to enum where the value type is determined by the actual index.
+ */
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-//   - There doesn't actually seem to be a way to get to the actual determined/wrapped value
-export default class EnumType<T> extends Base<Base<T>> {
+export default class EnumType<T> extends Base<Codec> implements Codec {
   private _Types: TypesArray;
   private _index: number;
   private _indexes: Array<number>;
@@ -46,8 +48,7 @@ export default class EnumType<T> extends Base<Base<T>> {
     // If `index` is set, we parse it.
     if (index instanceof EnumType) {
       return { index: index._index, value: new def[index._index](index.raw) };
-    }
-    if (isNumber(index)) {
+    } else if (isNumber(index)) {
       return { index, value: new def[index](value) };
     }
 
@@ -80,51 +81,73 @@ export default class EnumType<T> extends Base<Base<T>> {
     return { index: 0, value: new (Object.values(def)[0])() };
   }
 
-  get isNull (): boolean {
-    return this.raw instanceof Null;
-  }
-
-  get type (): string {
-    return this._Types[this._index].name;
-  }
-
-  get value (): Base<T> {
-    return this.raw;
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return 1 + this.raw.encodedLength;
   }
 
-  setValue (index?: | EnumType<T> | number, value?: any): void {
-    if (index instanceof EnumType) {
-      this._index = index._index;
-      this.raw = new this._Types[this._index](index.raw);
-
-      return;
-    }
-
-    this._index = this._indexes.indexOf(index || 0);
-
-    if (this._index === -1) {
-      this._index = this._indexes[0];
-    }
-
-    this.raw = new this._Types[this._index](value);
+  /**
+   * @description Checks if the Enum points to a [[Null]] type
+   */
+  get isNone (): boolean {
+    return this.raw instanceof Null;
   }
 
+  /**
+   * @description Checks if the Enum points to a [[Null]] type (deprecated, use isNone)
+   */
+  get isNull (): boolean {
+    return this.raw instanceof Null;
+  }
+
+  /**
+   * @description The name of the type this enum value represents
+   */
+  get type (): string {
+    return this._Types[this._index].name;
+  }
+
+  /**
+   * @description The value of the enum
+   */
+  get value (): Codec {
+    return this.raw;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return u8aToHex(this.toU8a());
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this.raw;
   }
 
+  /**
+   * @description Returns the number representation for the value
+   */
   toNumber (): number {
     return this._index;
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString (): string {
     return this.type;
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     const index = this._indexes[this._index];
 

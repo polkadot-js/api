@@ -1,9 +1,11 @@
 // Copyright 2017-2018 @polkadot/api-observable authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcRxInterface, RpcRxInterface$Method, RpcRxInterface$Section } from '@polkadot/rpc-rx/types';
+import { Extrinsics } from '@polkadot/types/Method';
 import { RpcMethod } from '@polkadot/jsonrpc/types';
+import { RpcRxInterface, RpcRxInterface$Method, RpcRxInterface$Section } from '@polkadot/rpc-rx/types';
+import { Storage } from '@polkadot/storage/types';
 
 import { EMPTY, Observable, combineLatest, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
@@ -11,11 +13,10 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import extrinsicsStatic from '@polkadot/extrinsics/static';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import storageStatic from '@polkadot/storage/static';
-import { Vector } from '@polkadot/types/codec';
 import { Hash, Method } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert, isUndefined } from '@polkadot/util';
+import { assert, isU8a } from '@polkadot/util';
 
 type MapFn<R, T> = (combined: R) => T;
 
@@ -37,8 +38,8 @@ export default class ApiBase {
     this.whenReady = from(this.init());
   }
 
-  static extrinsics = extrinsicsStatic;
-  static storage = storageStatic;
+  static extrinsics: Extrinsics = extrinsicsStatic;
+  static storage: Storage = storageStatic;
 
   // FIXME This logic is duplicated in api-rx, since that should derive
   // from that base, it should be removed when the actual extend is done
@@ -53,7 +54,7 @@ export default class ApiBase {
         }
 
         try {
-          // FIXME This now gets done in api-core/rpc-core as well, cleanup as soon as we
+          // FIXME This now gets done in api/Base as well, cleanup as soon as we
           // have apis based on api-rx & api-promise (For now a bit of inefficiency)
           const meta = await this._api.state.getMetadata().toPromise();
 
@@ -70,7 +71,7 @@ export default class ApiBase {
             resolveReady(true);
           }
         } catch (error) {
-          // swallow
+          console.error(error);
         }
       });
     });
@@ -104,20 +105,22 @@ export default class ApiBase {
   }
 
   // FIXME Remove when extending from api-rx
-  rawStorage = <T> (key: StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
+  rawStorage = <T> (key: Uint8Array | StorageFunction, ...params: Array<any>): Observable<T | undefined> => {
     return this
-      .rawStorageMulti([key, ...params] as [StorageFunction, any])
+      .rawStorageMulti(
+        isU8a(key)
+          ? key
+          : [key, ...params] as [StorageFunction, any]
+      )
       .pipe(
         map((result: Array<T>): T | undefined =>
-          result
-            ? result[0]
-            : undefined
+          result[0]
         )
       );
   }
 
   // FIXME Remove when extending from api-rx
-  rawStorageMulti = <T extends []> (...keys: Array<[StorageFunction] | [StorageFunction, any]>): Observable<T> => {
+  rawStorageMulti = <T extends []> (...keys: Array<Uint8Array | [StorageFunction] | [StorageFunction, any]>): Observable<T> => {
     let observable;
 
     try {
@@ -128,11 +131,8 @@ export default class ApiBase {
 
     return observable.pipe(
       defaultIfEmpty(),
-      map((result?: Vector<any>): T =>
-        isUndefined(result)
-          ? [] as T
-          // FIXME When Vector extends Array, this mapping can be removed
-          : result.map((item: any) => item) as T
+      map((result?: Array<any>): T =>
+        (result || []) as T
       )
     );
   }

@@ -1,10 +1,18 @@
 
 
+*__name__*: Moment
+
+*__description__*: A wrapper around seconds/timestamps. Internally the representation only has second precicion (aligning with Rust), so any numbers passed an/out are always per-second. For any encoding/decoding the 1000 multiplier would be applied to get it in line with JavaScript formats. It extends the base JS `Date` object and has all the methods available that are applicable to any `Date`
+
 # Hierarchy
 
- [Base](_codec_base_.base.md)<`Date`>
+ `Date`
 
 **↳ Moment**
+
+# Implements
+
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -12,17 +20,15 @@
 
 ##  constructor
 
-⊕ **new Moment**(value?: * [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`*): [Moment](_moment_.moment.md)
+⊕ **new Moment**(value?: * [Moment](_moment_.moment.md) &#124; `Date` &#124; [AnyNumber](../modules/_types_.md#anynumber)*): [Moment](_moment_.moment.md)
 
-*Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
-
-*Defined in [Moment.ts:18](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L18)*
+*Defined in [Moment.ts:24](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L24)*
 
 **Parameters:**
 
-| Param | Type | Default value |
+| Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`| 0 |
+| `Default value` value |  [Moment](_moment_.moment.md) &#124; `Date` &#124; [AnyNumber](../modules/_types_.md#anynumber)| 0 |
 
 **Returns:** [Moment](_moment_.moment.md)
 
@@ -30,40 +36,27 @@ ___
 
 # Properties
 
-<a id="raw"></a>
+<a id="date"></a>
 
-##  raw
+## `<Static>` Date
 
-**● raw**: *`Date`*
+**● Date**: *`DateConstructor`*
 
-*Inherited from [Base](_codec_base_.base.md).[raw](_codec_base_.base.md#raw)*
-
-*Defined in [codec/Base.ts:19](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Base.ts#L19)*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:897*
 
 ___
 
 # Accessors
 
-<a id="bitlength"></a>
-
-##  bitLength
-
-getbitLength(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-*Defined in [Moment.ts:43](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L43)*
-
-**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
-
-___
 <a id="encodedlength"></a>
 
 ##  encodedLength
 
 getencodedLength(): `number`
 
-*Overrides [Base](_codec_base_.base.md).[encodedLength](_codec_base_.base.md#encodedlength)*
+*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L51)*
 
-*Defined in [Moment.ts:47](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L47)*
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -71,15 +64,17 @@ ___
 
 # Methods
 
-<a id="gettime"></a>
+<a id="bitlength"></a>
 
-##  getTime
+##  bitLength
 
-▸ **getTime**(): `number`
+▸ **bitLength**(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
-*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L51)*
+*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L58)*
 
-**Returns:** `number`
+*__description__*: Returns the number of bits in the value
+
+**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
 
 ___
 <a id="tobn"></a>
@@ -88,7 +83,9 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Defined in [Moment.ts:71](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L71)*
+*Defined in [Moment.ts:65](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L65)*
+
+*__description__*: Returns the BN representation of the timestamp
 
 **Returns:** `BN`
 
@@ -99,7 +96,11 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Moment.ts:55](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L55)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
+*Defined in [Moment.ts:72](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L72)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -110,9 +111,13 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Base](_codec_base_.base.md).[toJSON](_codec_base_.base.md#tojson)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Moment.ts:59](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L59)*
+*Overrides Date.toJSON*
+
+*Defined in [Moment.ts:79](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L79)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -123,7 +128,9 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [Moment.ts:75](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L75)*
+*Defined in [Moment.ts:86](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L86)*
+
+*__description__*: Returns the number representation for the timestamp
 
 **Returns:** `number`
 
@@ -134,9 +141,13 @@ ___
 
 ▸ **toString**(): `string`
 
-*Overrides [Base](_codec_base_.base.md).[toString](_codec_base_.base.md#tostring)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Moment.ts:67](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L67)*
+*Overrides Date.toString*
+
+*Defined in [Moment.ts:93](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L93)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -147,15 +158,17 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Overrides [Base](_codec_base_.base.md).[toU8a](_codec_base_.base.md#tou8a)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Moment.ts:63](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L63)*
+*Defined in [Moment.ts:102](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L102)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -164,15 +177,15 @@ ___
 
 ## `<Static>` decodeMoment
 
-▸ **decodeMoment**(value: * [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`*): `Date`
+▸ **decodeMoment**(value: * [Moment](_moment_.moment.md) &#124; `Date` &#124; [AnyNumber](../modules/_types_.md#anynumber)*): `Date`
 
-*Defined in [Moment.ts:25](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Moment.ts#L25)*
+*Defined in [Moment.ts:34](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Moment.ts#L34)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| value |  [Moment](_moment_.moment.md) &#124; `Date` &#124; `AnyNumber`|
+| value |  [Moment](_moment_.moment.md) &#124; `Date` &#124; [AnyNumber](../modules/_types_.md#anynumber)|
 
 **Returns:** `Date`
 

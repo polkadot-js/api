@@ -1,8 +1,8 @@
 // Copyright 2017-2018 @polkadot/storage authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import metadataRpc from '@polkadot/types/Metadata.rpc';
+import metadataRpc from '@polkadot/types/Metadata/static';
 import Metadata from '@polkadot/types/Metadata';
 
 import fromMetadata from './fromMetadata';

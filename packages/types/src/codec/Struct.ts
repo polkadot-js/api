@@ -1,28 +1,31 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Base from './Base';
 import { Codec, Constructor, ConstructorDef } from '../types';
 
-// A Struct defines an Object with key/values - where the values are Base<T> values. It removes
-// a lot of repetition from the actual coding, define a structure type, pass it the key/Base<T>
-// values in the constructor and it manages the decoding. It is important that the constructor
-// values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
-// it needs to decoded in the specific defined order.
+/**
+ * @name Struct
+ * @description
+ * A Struct defines an Object with key/values - where the values are Codec values. It removes
+ * a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
+ * values in the constructor and it manages the decoding. It is important that the constructor
+ * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
+ * it needs to decoded in the specific defined order.
+ * @noInheritDoc
+ */
 export default class Struct<
   // The actual Class structure, i.e. key -> Class
   S extends ConstructorDef = ConstructorDef,
   // internal type, instance of classes mapped by key
-  T extends { [K in keyof S]: Base } = { [K in keyof S]: Base },
+  T extends { [K in keyof S]: Codec } = { [K in keyof S]: Codec },
   // input values, mapped by key can be anything (construction)
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-> extends Map<keyof S, Base> implements Codec {
-  public raw: Map<keyof S, Base>; // FIXME Remove this once we convert all types out of Base
+  > extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
@@ -41,9 +44,6 @@ export default class Struct<
 
         return result;
       }, {} as E);
-
-    // FIXME Remove this once we convert all types out of Base
-    this.raw = this;
   }
 
   /**
@@ -64,8 +64,8 @@ export default class Struct<
   private static decodeStruct<
     S extends ConstructorDef,
     _,
-    T extends { [K in keyof S]: Base }
-  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+    T extends { [K in keyof S]: Codec }
+    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
@@ -78,70 +78,97 @@ export default class Struct<
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
 
-    return (Object
-      .keys(Types) as Array<keyof S>)
-      .reduce((raw: T, key, index) => {
-        // The key in the JSON can be snake_case (or other cases), but in our
-        // Types, result or any other maps, it's camelCase
-        const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
+    return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+      // The key in the JSON can be snake_case (or other cases), but in our
+      // Types, result or any other maps, it's camelCase
+      const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-        if (isU8a(value)) {
-          raw[key] = new Types[key](
-            value.subarray(
-              currentIndex
-            )
-          );
+      if (isU8a(value)) {
+        raw[key] = new Types[key](value.subarray(currentIndex));
 
-          // Move the currentIndex forward
-          currentIndex += raw[key].encodedLength;
-        } else if (Array.isArray(value)) {
-          raw[key] = value[index] instanceof Types[key]
-            ? value[index]
-            : new Types[key](value[index]);
-        } else if (isObject(value)) {
-          raw[key] = value[jsonKey as string] instanceof Types[key]
-            ? value[jsonKey as string]
-            : new Types[key](value[jsonKey as string]);
-        } else {
-          throw new Error(`Struct: cannot decode type "${Types[key].name}" with value "${JSON.stringify(value)}".`);
-        }
+        // Move the currentIndex forward
+        currentIndex += raw[key].encodedLength;
+      } else if (Array.isArray(value)) {
+        raw[key] = value[index] instanceof Types[key]
+          ? value[index]
+          : new Types[key](value[index]);
+      } else if (isObject(value)) {
+        raw[key] = value[jsonKey as string] instanceof Types[key]
+          ? value[jsonKey as string]
+          : new Types[key](value[jsonKey as string]);
+      } else {
+        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+      }
 
-        return raw;
-      }, {} as T);
+      return raw;
+    }, {} as T);
   }
 
   static with<
     S extends ConstructorDef
-  > (Types: S): Constructor<Struct<S>> {
+    > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);
+
+        (Object.keys(Types) as Array<keyof S>).forEach((key) => {
+          Object.defineProperty(this, key, {
+            enumerable: true,
+            get: () => this.get(key)
+          });
+        });
       }
     };
   }
 
+  /**
+   * @description Returns the Type description to sthe structure
+   */
   get Type (): E {
     return this._Types;
   }
 
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
   }
 
-  getAtIndex (index: number): Base {
+  /**
+   * @description Returns a specific names entry in the structure
+   * @param name The name of the entry to retrieve
+   */
+  get (name: keyof S): Codec | undefined {
+    return super.get(name);
+  }
+
+  /**
+   * @description Returns the values of a member at a specific index (Rather use get(name) for performance)
+   */
+  getAtIndex (index: number): Codec {
     return this.toArray()[index];
   }
 
-  toArray (): Array<Base> {
+  /**
+   * @description Converts the Object to an standard JavaScript Array
+   */
+  toArray (): Array<Codec> {
     return [...this.values()];
   }
 
+  /**
+   * @description Returns a hex string representation of the value
+   */
   toHex () {
     return u8aToHex(this.toU8a());
   }
 
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
@@ -153,10 +180,17 @@ export default class Struct<
     }, {} as any);
   }
 
+  /**
+   * @description Returns the string representation of the value
+   */
   toString () {
     return JSON.stringify(this.toJSON());
   }
 
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
     return u8aConcat(
       ...this.toArray().map((entry) =>

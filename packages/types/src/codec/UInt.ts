@@ -1,25 +1,28 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Codec } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
-
-import Base from './Base';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
 export const DEFAULT_UINT_BITS = 64;
 
-// A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
-// and decoding of those numbers. Upon construction the bitLength is provided and any additional
-// use keeps the number to this length.
-//
+/**
+ * @name UInt
+ * @description
+ * A generic number codec. For Substrate all numbers are LE encoded, this handles the encoding
+ * and decoding of those numbers. Upon construction the bitLength is provided and any additional
+ * use keeps the number to this length. This extends `BN`, so all methods available on a normal
+ * `BN` object is available here.
+ * @noInheritDoc
+ */
 // TODO:
-//   - Apart from encoding/decoding we don't actuall keep check on the sizes, is this good enough?
-export default class UInt extends Base<BN> {
+//   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
+export default class UInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
 
@@ -32,118 +35,73 @@ export default class UInt extends Base<BN> {
     this._isHexJson = isHexJson;
   }
 
-  static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): BN {
-    if (value instanceof UInt) {
-      return value.raw;
-    } else if (isHex(value)) {
-      return hexToBn(value as string);
+  static decodeUInt (value: AnyNumber, bitLength: UIntBitLength): string {
+    // This function returns a string, which will be passed in the BN
+    // constructor. It would be ideal to actually return a BN, but there's a
+    // bug: https://github.com/indutny/bn.js/issues/206.
+    if (isHex(value)) {
+      return hexToBn(value).toString();
     } else if (isU8a(value)) {
-      // NOTE When passing u8a in (typically from decoded data), it is always u8a
-      return u8aToBn(value.subarray(0, bitLength / 8), true);
+      // NOTE When passing u8a in (typically from decoded data), it is always LE
+      return u8aToBn(value.subarray(0, bitLength / 8), true).toString();
     } else if (isString(value)) {
-      return new BN(value, 10);
+      return new BN(value, 10).toString();
     }
 
-    return bnToBn(value);
+    return bnToBn(value).toString();
   }
 
-  get bitLength (): UIntBitLength {
-    return this._bitLength;
-  }
-
+  /**
+   * @description The length of the value when encoded as a Uint8Array
+   */
   get encodedLength (): number {
     return this._bitLength / 8;
   }
 
-  toHex (): string {
-    return bnToHex(this.raw, this._bitLength);
+  /**
+   * @description Returns the number of bits in the value
+   */
+  bitLength (): UIntBitLength {
+    return this._bitLength;
   }
 
+  /**
+   * @description Returns the BN representation of the number. (Compatibility)
+   */
+  toBn (): BN {
+    return this;
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return bnToHex(this, this._bitLength);
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers
+   */
   toJSON (): any {
     return this._isHexJson
       ? this.toHex()
       : this.toNumber();
   }
 
+  /**
+   * @description Returns the string representation of the value
+   * @param base The base to use for the conversion
+   */
+  toString (base?: number): string {
+    // only included here since we do not inherit docs
+    return super.toString(base);
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
   toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this.raw, this._bitLength, true);
-  }
-
-  toString (): string {
-    return this.raw.toString();
-  }
-
-  toBn (): BN {
-    return this.raw;
-  }
-
-  toNumber (): number {
-    return this.raw.toNumber();
-  }
-
-  // helpers from BN, this would be great as a "don't do this", i.e. extending properly
-  // from BN. Underlying these will always return BN (unless it is compare checks)
-  add (other: UInt | BN | number): BN {
-    return other instanceof UInt
-      ? this.raw.add(other.raw)
-      : this.raw.add(bnToBn(other));
-  }
-
-  cmp (other: UInt | BN | number): number {
-    return other instanceof UInt
-      ? this.raw.cmp(other.raw)
-      : this.raw.cmp(bnToBn(other));
-  }
-
-  div (other: UInt | BN | number): BN {
-    return other instanceof UInt
-      ? this.raw.div(other.raw)
-      : this.raw.div(bnToBn(other));
-  }
-
-  eq (other: UInt | BN | number): boolean {
-    return other instanceof UInt
-      ? this.raw.eq(other.raw)
-      : this.raw.eq(bnToBn(other));
-  }
-
-  isZero (): boolean {
-    return this.raw.isZero();
-  }
-
-  lt (test: UInt | BN | number): boolean {
-    return test instanceof UInt
-      ? this.raw.lt(test.raw)
-      : this.raw.lt(bnToBn(test));
-  }
-
-  lte (test: UInt | BN | number): boolean {
-    return test instanceof UInt
-      ? this.raw.lte(test.raw)
-      : this.raw.lte(bnToBn(test));
-  }
-
-  gt (test: UInt | BN | number): boolean {
-    return test instanceof UInt
-      ? this.raw.gt(test.raw)
-      : this.raw.gt(bnToBn(test));
-  }
-
-  gte (test: UInt | BN | number): boolean {
-    return test instanceof UInt
-      ? this.raw.gte(test.raw)
-      : this.raw.gte(bnToBn(test));
-  }
-
-  mul (other: UInt | BN | number): BN {
-    return other instanceof UInt
-      ? this.raw.mul(other.raw)
-      : this.raw.mul(bnToBn(other));
-  }
-
-  sub (other: UInt | BN | number): BN {
-    return other instanceof UInt
-      ? this.raw.sub(other.raw)
-      : this.raw.sub(bnToBn(other));
+    return bnToU8a(this, this._bitLength, true);
   }
 }

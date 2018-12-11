@@ -1,7 +1,11 @@
 
 
+*__name__*: Event
+
+*__description__*: A representation of a system event. These are generated via the [Metadata](_metadata_index_.metadata.md) interfaces and specific to a specific Substrate runtime
+
 # Type parameters
-#### S :  `ConstructorDef`
+#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 #### T :  `object`
 #### V :  `object`
 #### E :  `object`
@@ -13,7 +17,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -25,11 +29,11 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Event.ts:56](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L56)*
+*Defined in [Event.ts:85](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L85)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | _value | `Uint8Array` |
 
@@ -43,22 +47,11 @@ ___
 
 ##  __@toStringTag
 
-**● __@toStringTag**: *"Map"*
+**● __@toStringTag**: *`string`*
 
 *Inherited from Map.[Symbol.toStringTag]*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
-
-*Inherited from [Struct](_codec_struct_.struct.md).[raw](_codec_struct_.struct.md#raw)*
-
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -83,7 +76,9 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L127)*
+
+*__description__*: Returns the Type description to sthe structure
 
 **Returns:** `E`
 
@@ -92,11 +87,13 @@ ___
 
 ##  data
 
-getdata(): `EventData`
+getdata(): [EventData](_event_.eventdata.md)
 
-*Defined in [Event.ts:110](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L110)*
+*Defined in [Event.ts:138](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L138)*
 
-**Returns:** `EventData`
+*__description__*: The wrapped [EventData](_event_.eventdata.md)
+
+**Returns:** [EventData](_event_.eventdata.md)
 
 ___
 <a id="encodedlength"></a>
@@ -107,7 +104,9 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:134](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L134)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -116,22 +115,26 @@ ___
 
 ##  index
 
-getindex(): `EventIndex`
+getindex(): [EventIndex](_event_.eventindex.md)
 
-*Defined in [Event.ts:114](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L114)*
+*Defined in [Event.ts:145](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L145)*
 
-**Returns:** `EventIndex`
+*__description__*: The [EventIndex](_event_.eventindex.md), identifying the raw event
+
+**Returns:** [EventIndex](_event_.eventindex.md)
 
 ___
 <a id="meta"></a>
 
 ##  meta
 
-getmeta(): [EventMetadata](_metadata_.eventmetadata.md)
+getmeta(): [EventMetadata](_metadata_events_.eventmetadata.md)
 
-*Defined in [Event.ts:118](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L118)*
+*Defined in [Event.ts:152](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L152)*
 
-**Returns:** [EventMetadata](_metadata_.eventmetadata.md)
+*__description__*: The [EventMetadata](_metadata_events_.eventmetadata.md) with the documentation
+
+**Returns:** [EventMetadata](_metadata_events_.eventmetadata.md)
 
 ___
 <a id="method"></a>
@@ -140,7 +143,9 @@ ___
 
 getmethod(): `string`
 
-*Defined in [Event.ts:122](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L122)*
+*Defined in [Event.ts:159](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L159)*
+
+*__description__*: The method string identifying the event
 
 **Returns:** `string`
 
@@ -151,7 +156,9 @@ ___
 
 getsection(): `string`
 
-*Defined in [Event.ts:126](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L126)*
+*Defined in [Event.ts:166](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L166)*
+
+*__description__*: The section string identifying the event
 
 **Returns:** `string`
 
@@ -162,7 +169,9 @@ ___
 
 gettypeDef(): `Array`<[TypeDef](../modules/_codec_createtype_.md#typedef)>
 
-*Defined in [Event.ts:130](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L130)*
+*Defined in [Event.ts:173](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L173)*
+
+*__description__*: The [TypeDef](../modules/_codec_createtype_.md#typedef) for the event
 
 **Returns:** `Array`<[TypeDef](../modules/_codec_createtype_.md#typedef)>
 
@@ -174,7 +183,7 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 *Inherited from Map.[Symbol.iterator]*
 
@@ -182,7 +191,7 @@ ___
 
 Returns an iterable of entries in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 ___
 <a id="clear"></a>
@@ -210,7 +219,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -221,7 +230,7 @@ ___
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **entries**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 *Inherited from Map.entries*
 
@@ -229,7 +238,7 @@ ___
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 ___
 <a id="foreach"></a>
@@ -244,7 +253,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -256,38 +265,44 @@ ___
 
 ##  get
 
-▸ **get**(key: *`keyof S`*):  [Base](_codec_base_.base.md) &#124; `undefined`
+▸ **get**(name: *`keyof S`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
 
-*Inherited from Map.get*
+*Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:25*
+*Overrides Map.get*
+
+*Defined in [codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L144)*
+
+*__description__*: Returns a specific names entry in the structure
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| name | `keyof S` |  The name of the entry to retrieve |
 
-**Returns:**  [Base](_codec_base_.base.md) &#124; `undefined`
+**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
 
 ___
 <a id="getatindex"></a>
 
 ##  getAtIndex
 
-▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
+▸ **getAtIndex**(index: *`number`*): [Codec](../interfaces/_types_.codec.md)
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L151)*
+
+*__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
-**Returns:** [Base](_codec_base_.base.md)
+**Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
 <a id="has"></a>
@@ -302,7 +317,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -328,7 +343,7 @@ ___
 
 ##  set
 
-▸ **set**(key: *`keyof S`*, value: *[Base](_codec_base_.base.md)*): `this`
+▸ **set**(key: *`keyof S`*, value: *[Codec](../interfaces/_types_.codec.md)*): `this`
 
 *Inherited from Map.set*
 
@@ -336,10 +351,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
-| value | [Base](_codec_base_.base.md) |
+| value | [Codec](../interfaces/_types_.codec.md) |
 
 **Returns:** `this`
 
@@ -348,13 +363,15 @@ ___
 
 ##  toArray
 
-▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
+▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L158)*
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+*__description__*: Converts the Object to an standard JavaScript Array
+
+**Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="tohex"></a>
@@ -363,9 +380,13 @@ ___
 
 ▸ **toHex**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L165)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -376,9 +397,13 @@ ___
 
 ▸ **toJSON**(): `any`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L172)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -389,9 +414,13 @@ ___
 
 ▸ **toString**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L186)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -402,15 +431,19 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L194)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -419,7 +452,7 @@ ___
 
 ##  values
 
-▸ **values**(): `IterableIterator`<[Base](_codec_base_.base.md)>
+▸ **values**(): `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 *Inherited from Map.values*
 
@@ -427,22 +460,22 @@ ___
 
 Returns an iterable of values in the map
 
-**Returns:** `IterableIterator`<[Base](_codec_base_.base.md)>
+**Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="decodeevent"></a>
 
 ## `<Static>` decodeEvent
 
-▸ **decodeEvent**(_value: *`Uint8Array`*): `object`
+▸ **decodeEvent**(value: *`Uint8Array`*): `object`
 
-*Defined in [Event.ts:68](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L68)*
+*Defined in [Event.ts:97](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L97)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| _value | `Uint8Array` |
+| value | `Uint8Array` |
 
 **Returns:** `object`
 
@@ -451,15 +484,15 @@ ___
 
 ## `<Static>` injectMetadata
 
-▸ **injectMetadata**(metadata: *`Metadata`*): `void`
+▸ **injectMetadata**(metadata: *[Metadata](_metadata_index_.metadata.md)*): `void`
 
-*Defined in [Event.ts:87](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/Event.ts#L87)*
+*Defined in [Event.ts:116](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/Event.ts#L116)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| metadata | `Metadata` |
+| metadata | [Metadata](_metadata_index_.metadata.md) |
 
 **Returns:** `void`
 
@@ -468,22 +501,22 @@ ___
 
 ## `<Static>` with
 
-▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
+▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Struct](_codec_struct_.struct.md)<`S`>>
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L107)*
 
 **Type parameters:**
 
-#### S :  `ConstructorDef`
+#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 
-**Returns:** `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Struct](_codec_struct_.struct.md)<`S`>>
 
 ___
 

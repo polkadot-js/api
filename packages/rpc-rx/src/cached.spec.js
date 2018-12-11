@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-rx authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
@@ -74,18 +74,5 @@ describe('createCachedObservable', () => {
     expect(
       observable2
     ).not.toEqual(observable1);
-  });
-
-  it('functions as an subject', (done) => {
-    const subject = creator(123);
-
-    subject.subscribe((value) => {
-      if (value) {
-        expect(value).toEqual('test');
-        done();
-      }
-    });
-
-    subject.next('test');
   });
 });

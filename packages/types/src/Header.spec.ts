@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 
@@ -36,7 +36,7 @@ describe('Header', () => {
       header.hash.toHex()
     ).toEqual('0x63ccfdc044d3ff4c915ad01c0d57d2ff807f4eb7d60cd41584917363bc83a99f');
     expect(
-      header.blockNumber.toBn()
-    ).toEqual(new BN(2918));
+      header.blockNumber.eq(new BN(2918))
+    ).toBe(true);
   });
 });

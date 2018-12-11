@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-provider authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$Emitted, ProviderInterface$EmitCb } from '../types';
 
@@ -96,6 +96,13 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   /**
+   * @summary `true` when this provider supports subscriptions
+   */
+  get hasSubscriptions (): boolean {
+    return true;
+  }
+
+  /**
    * @summary Manually connect
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.
@@ -142,11 +149,9 @@ export default class WsProvider implements WSProviderInterface {
         const json = this.coder.encodeJson(method, params);
         const id = this.coder.getId();
         const callback = (error?: Error | null, result?: any) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(result);
-          }
+          error
+            ? reject(error)
+            : resolve(result);
         };
 
         l.debug(() => ['calling', method, params, json, !!subscription]);
@@ -209,7 +214,7 @@ export default class WsProvider implements WSProviderInterface {
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
     if (isUndefined(this.subscriptions[subscription])) {
-      l.warn(`Unable to find active subscription=${subscription}`);
+      l.debug(() => `Unable to find active subscription=${subscription}`);
 
       return false;
     }
@@ -225,8 +230,8 @@ export default class WsProvider implements WSProviderInterface {
     this._eventemitter.emit(type, ...args);
   }
 
-  private onSocketClose = (): void => {
-    l.debug(() => ['disconnected from', this.endpoint]);
+  private onSocketClose = (event: CloseEvent): void => {
+    l.error(`disconnected from ${this.endpoint}::${event.code}: ${event.reason}`);
 
     this._isConnected = false;
     this.emit('disconnected');
@@ -239,7 +244,8 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketError = (error: Event): void => {
-    l.error(error);
+    l.debug(() => ['socket error', error]);
+    this.emit('error', error);
   }
 
   private onSocketMessage = (message: MessageEvent): void => {
@@ -258,7 +264,7 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.handlers[response.id];
 
     if (!handler) {
-      l.error(`Unable to find handler for id=${response.id}`);
+      l.debug(() => `Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -290,7 +296,7 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.subscriptions[subscription];
 
     if (!handler) {
-      l.error(`Unable to find handler for subscription=${subscription}`);
+      l.debug(() => `Unable to find handler for subscription=${subscription}`);
       return;
     }
 

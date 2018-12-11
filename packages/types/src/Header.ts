@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyNumber, AnyU8a } from './types';
 
@@ -21,7 +21,11 @@ export type HeaderValue = {
   stateRoot?: AnyU8a
 };
 
-// A block header.
+/**
+ * @name Header
+ * @description
+ * A [[Block]] header
+ */
 export default class Header extends Struct {
   constructor (value?: HeaderValue | Uint8Array) {
     super({
@@ -33,29 +37,46 @@ export default class Header extends Struct {
     }, value);
   }
 
+  /**
+   * @description The wrapped [[BlockNumber]]
+   */
   get blockNumber (): BlockNumber {
-    return (this.get('number') as Compact).raw as BlockNumber;
+    return (this.get('number') as Compact).toBn() as BlockNumber;
   }
 
+  /**
+   * @description The wrapped [[Digest]]
+   */
   get digest (): Digest {
     return this.get('digest') as Digest;
   }
 
+  /**
+   * @description The wrapped extrisics root as a [[Hash]]
+   */
   get extrinsicsRoot (): Hash {
     return this.get('extrinsicsRoot') as Hash;
   }
 
-  // convenience, encodes the header and returns the actual hash
+  /**
+   * @description Convenience method, encodes the header and calculates the [[Hash]]
+   */
   get hash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
   }
 
+  /**
+   * @description The wrapped parent as a [[Hash]]
+   */
   get parentHash (): Hash {
     return this.get('parentHash') as Hash;
   }
 
+  /**
+   * @description The wrapped state root as a [[Hash]]
+   */
   get stateRoot (): Hash {
     return this.get('stateRoot') as Hash;
   }

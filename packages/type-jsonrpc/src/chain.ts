@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/jsonrpc authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcMethodOpt, RpcSection } from './types';
 
@@ -33,8 +33,8 @@ const getBlockHash: RpcMethodOpt = {
   type: 'Hash'
 };
 
-const getHead: RpcMethodOpt = {
-  description: 'Retrieves the best headerHash',
+const getFinalisedHead: RpcMethodOpt = {
+  description: 'Get hash of the last finalised block in the canon chain',
   params: [],
   type: 'Hash'
 };
@@ -58,6 +58,28 @@ const subscribeNewHead: RpcMethodOpt = {
   type: 'Header'
 };
 
+const subscribeFinalisedHeads: RpcMethodOpt = {
+  description: 'Retrieves the best finalised header via subscription',
+  params: [],
+  pubsub: [
+    'finalisedHead',
+    'subscribeFinalisedHeads',
+    'unsubscribeFinalisedHeads'
+  ],
+  type: 'Header'
+};
+
+const subscribeRuntimeVersion: RpcMethodOpt = {
+  description: 'Retrieves the runtime version via subscription',
+  params: [],
+  pubsub: [
+    'runtimeVersion',
+    'subscribeRuntimeVersion',
+    'unsubscribeRuntimeVersion'
+  ],
+  type: 'RuntimeVersion'
+};
+
 const section = 'chain';
 
 /**
@@ -71,9 +93,11 @@ export default {
   methods: {
     getBlock: createMethod(section, 'getBlock', getBlock),
     getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
-    getHead: createMethod(section, 'getHead', getHead),
+    getFinalisedHead: createMethod(section, 'getFinalisedHead', getFinalisedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
+    subscribeFinalisedHeads: createMethod(section, 'subscribeFinalisedHeads', subscribeFinalisedHeads),
+    subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
   }
 } as RpcSection;

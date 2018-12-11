@@ -8,13 +8,13 @@
 
 ▸ **createDescriptor**(section: *`string`*, method: *`string`*, index: *`number`*, meta: *`FunctionMetadata`*): `ExtrinsicFunction`
 
-*Defined in [utils/createUnchecked.ts:16](https://github.com/polkadot-js/api/blob/9f88cd8/packages/type-extrinsics/src/utils/createUnchecked.ts#L16)*
+*Defined in [utils/createUnchecked.ts:16](https://github.com/polkadot-js/api/blob/c0a9924/packages/type-extrinsics/src/utils/createUnchecked.ts#L16)*
 
 From the metadata of a function in the module's storage, generate the function that will return the an UncheckExtrinsic.
 
 **Parameters:**
 
-| Param | Type | Description |
+| Name | Type | Description |
 | ------ | ------ | ------ |
 | section | `string` |
 | method | `string` |

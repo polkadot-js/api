@@ -1,22 +1,23 @@
 // Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiOptions } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
 import { EMPTY, Observable, from } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
-import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
-import { Base } from '@polkadot/types/codec';
-import { logger } from '@polkadot/util';
+import { Codec } from '@polkadot/types/types';
+import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
+import { StorageFunction } from '@polkadot/types/StorageKey';
+import { assert, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
-import { StorageFunction } from '@polkadot/types/StorageKey';
 
 const l = logger('api-rx');
 
@@ -123,7 +124,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    *
-   * @param wsProvider WebSocket provider that is passed to the class contructor
+   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -138,14 +139,14 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  static create (wsProvider?: WsProvider): Observable<ApiRx> {
-    return new ApiRx(wsProvider).isReady;
+  static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
+    return new ApiRx(options).isReady;
   }
 
   /**
    * @description Create an instance of the ApiRx class
    *
-   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options Options to create an instance. Can be either [[ApiOptions]] or [[WsProvider]]
    *
    * @example
    * <BR>
@@ -160,8 +161,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
-    super(wsProvider);
+  constructor (options?: ApiOptions | ProviderInterface) {
+    super(options);
+
+    assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
@@ -227,7 +230,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg: any): Observable<Base | null | undefined> => {
+    const decorated: any = (arg: any): Observable<Codec | null | undefined> => {
       let observable;
 
       try {
@@ -242,7 +245,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
       // a single entry, we pull that from the array and return it as-is
       return observable.pipe(
         defaultIfEmpty([]),
-        map((result: Array<Base | null | undefined> = []): Base | null | undefined =>
+        map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
           result[0]
         )
       );

@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 
@@ -96,7 +96,7 @@ describe('Compact', () => {
   describe('constructor', () => {
     it('has the correct bitLength for constructor values (BlockNumber)', () => {
       expect(
-        new Compact(BlockNumber, 0xfffffff9).bitLength
+        new Compact(BlockNumber, 0xfffffff9).bitLength()
       ).toEqual(64);
     });
 
@@ -114,14 +114,14 @@ describe('Compact', () => {
 
     it('constructs properly via U8a as U32', () => {
       expect(
-        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toBn()
-      ).toEqual(new BN(0xffff));
+        new Compact(U32, new Uint8Array([254, 255, 3, 0])).toNumber()
+      ).toEqual(new BN(0xffff).toNumber());
     });
 
     it('constructs properly via number as Moment', () => {
       expect(
-        new Compact(Moment, 1537968546).toString()
-      ).toEqual('2018-09-26T13:29:06.000Z');
+        new Compact(Moment, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
+      ).toBe(true);
     });
   });
 

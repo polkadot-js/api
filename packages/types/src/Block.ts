@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyU8a } from './types';
 
@@ -16,7 +16,11 @@ export type BlockValue = {
   header?: HeaderValue
 };
 
-// A block encoded with header and extrinsics
+/**
+ * @name Block
+ * @description
+ * A block encoded with header and extrinsics
+ */
 export default class Block extends Struct {
   constructor (value?: BlockValue | Uint8Array) {
     super({
@@ -25,17 +29,25 @@ export default class Block extends Struct {
     }, value);
   }
 
+  /**
+   * @description The [[Extrinsics]] conatined in the block
+   */
   get extrinsics (): Extrinsics {
     return this.get('extrinsics') as Extrinsics;
   }
 
-  // convenience, encodes the header and returns the actual hash
+  /**
+   * @description Coinvenience getter, encoded the [[Hash]] for the block
+   */
   get hash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
   }
 
+  /**
+   * @description The [[Header]] in the block
+   */
   get header (): Header {
     return this.get('header') as Header;
   }

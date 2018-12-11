@@ -1,20 +1,23 @@
 // Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiOptions } from '../types';
 import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
-import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
-import { Extrinsics, ExtrinsicFunction } from '@polkadot/extrinsics/types';
 import { Storage } from '@polkadot/storage/types';
-import { Base } from '@polkadot/types/codec';
+import { Codec } from '@polkadot/types/types';
+import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { isFunction } from '@polkadot/util';
+import { isFunction, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+
+const l = logger('api/promise');
 
 /**
  * # @polkadot/api/promise
@@ -108,7 +111,8 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
    *
-   * @param wsProvider WebSocket provider that is passed to the class contructor
+   * @param options options that is passed to the class contructor. Can be either [[ApiOptions]] or a
+   * provider (see the constructor arguments)
    *
    * @example
    * <BR>
@@ -123,14 +127,16 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  static create (wsProvider?: WsProvider): Promise<ApiPromise> {
-    return new ApiPromise(wsProvider).isReady;
+  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+    return new ApiPromise(options).isReady;
   }
 
   /**
    * @description Creates an instance of the ApiPromise class
    *
-   * @param wsProvider WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port, i.e. `ws://127.0.0.1:9944`
+   * @param options Options to create an instance. This can be either [[ApiOptions]] or
+   * an [[HttpProvider]] or [[WsProvider]]. In the case of [[HttpProvider]] subscriptions
+   * are not supported, only latest values are returned.
    *
    * @example
    * <BR>
@@ -145,13 +151,17 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
-    super(wsProvider);
+  constructor (options?: ApiOptions | ProviderInterface) {
+    super(options);
 
-    this._isReady = new Promise((resolveReady) =>
-      super.on('ready', () =>
-        resolveReady(this)
-      )
+    this._isReady = new Promise((resolveReady, rejectReady) =>
+      super
+        .once('ready', () =>
+          resolveReady(this)
+        )
+        .once('error', () =>
+          rejectReady(this)
+        )
     );
   }
 
@@ -226,14 +236,18 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Base | null | undefined> => {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> => {
       if (args.length === 0 || !isFunction(args[args.length - 1])) {
         return this.rpc.state.getStorage([method, args[0]]);
+      } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
+        l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
+
+        return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
       }
 
       return this.rpc.state.subscribeStorage(
         [[method, args.length === 1 ? undefined : args[0]]],
-        (result: Array<Base | null | undefined> = []) =>
+        (result: Array<Codec | null | undefined> = []) =>
           args[args.length - 1](result[0])
       );
     };

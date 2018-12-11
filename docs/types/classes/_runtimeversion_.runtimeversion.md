@@ -1,7 +1,11 @@
 
 
+*__name__*: RuntimeVersion
+
+*__description__*: A defintion of the runtime and the associated versions thereof
+
 # Type parameters
-#### S :  `ConstructorDef`
+#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 #### T :  `object`
 #### V :  `object`
 #### E :  `object`
@@ -13,7 +17,7 @@
 
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
 # Constructors
 
@@ -21,17 +25,17 @@
 
 ##  constructor
 
-⊕ **new RuntimeVersion**(value?: *`RuntimeVersionValue`*): [RuntimeVersion](_runtimeversion_.runtimeversion.md)
+⊕ **new RuntimeVersion**(value?: * `RuntimeVersionValue` &#124; `Uint8Array`*): [RuntimeVersion](_runtimeversion_.runtimeversion.md)
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [RuntimeVersion.ts:51](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L51)*
+*Defined in [RuntimeVersion.ts:72](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L72)*
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
-| `Optional` value | `RuntimeVersionValue` |
+| `Optional` value |  `RuntimeVersionValue` &#124; `Uint8Array`|
 
 **Returns:** [RuntimeVersion](_runtimeversion_.runtimeversion.md)
 
@@ -43,22 +47,11 @@ ___
 
 ##  __@toStringTag
 
-**● __@toStringTag**: *"Map"*
+**● __@toStringTag**: *`string`*
 
 *Inherited from Map.[Symbol.toStringTag]*
 
 *Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
-
-*Inherited from [Struct](_codec_struct_.struct.md).[raw](_codec_struct_.struct.md#raw)*
-
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L25)*
 
 ___
 <a id="size"></a>
@@ -83,7 +76,9 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L123)*
+*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L127)*
+
+*__description__*: Returns the Type description to sthe structure
 
 **Returns:** `E`
 
@@ -92,11 +87,13 @@ ___
 
 ##  apis
 
-getapis(): [Vector](_codec_vector_.vector.md)<`RuntimeVersionApi`>
+getapis(): [Vector](_codec_vector_.vector.md)<[RuntimeVersionApi](_runtimeversion_.runtimeversionapi.md)>
 
-*Defined in [RuntimeVersion.ts:69](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L69)*
+*Defined in [RuntimeVersion.ts:93](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L93)*
 
-**Returns:** [Vector](_codec_vector_.vector.md)<`RuntimeVersionApi`>
+*__description__*: The available APIs as [RuntimeVersionApi](_runtimeversion_.runtimeversionapi.md)
+
+**Returns:** [Vector](_codec_vector_.vector.md)<[RuntimeVersionApi](_runtimeversion_.runtimeversionapi.md)>
 
 ___
 <a id="authoringversion"></a>
@@ -105,7 +102,9 @@ ___
 
 getauthoringVersion(): [U32](_u32_.u32.md)
 
-*Defined in [RuntimeVersion.ts:73](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L73)*
+*Defined in [RuntimeVersion.ts:100](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L100)*
+
+*__description__*: The authoring version as [U32](_u32_.u32.md)
 
 **Returns:** [U32](_u32_.u32.md)
 
@@ -118,7 +117,9 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L127)*
+*Defined in [codec/Struct.ts:134](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L134)*
+
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -129,7 +130,9 @@ ___
 
 getimplName(): [Text](_text_.text.md)
 
-*Defined in [RuntimeVersion.ts:77](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L77)*
+*Defined in [RuntimeVersion.ts:107](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L107)*
+
+*__description__*: The implementation name
 
 **Returns:** [Text](_text_.text.md)
 
@@ -140,7 +143,9 @@ ___
 
 getimplVersion(): [U32](_u32_.u32.md)
 
-*Defined in [RuntimeVersion.ts:81](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L81)*
+*Defined in [RuntimeVersion.ts:114](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L114)*
+
+*__description__*: The implementation version
 
 **Returns:** [U32](_u32_.u32.md)
 
@@ -151,7 +156,9 @@ ___
 
 getspecName(): [Text](_text_.text.md)
 
-*Defined in [RuntimeVersion.ts:85](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L85)*
+*Defined in [RuntimeVersion.ts:121](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L121)*
+
+*__description__*: The specification name
 
 **Returns:** [Text](_text_.text.md)
 
@@ -162,7 +169,9 @@ ___
 
 getspecVersion(): [U32](_u32_.u32.md)
 
-*Defined in [RuntimeVersion.ts:89](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/RuntimeVersion.ts#L89)*
+*Defined in [RuntimeVersion.ts:128](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/RuntimeVersion.ts#L128)*
+
+*__description__*: The specification version
 
 **Returns:** [U32](_u32_.u32.md)
 
@@ -174,7 +183,7 @@ ___
 
 ##  __@iterator
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 *Inherited from Map.[Symbol.iterator]*
 
@@ -182,7 +191,7 @@ ___
 
 Returns an iterable of entries in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 ___
 <a id="clear"></a>
@@ -210,7 +219,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -221,7 +230,7 @@ ___
 
 ##  entries
 
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **entries**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 *Inherited from Map.entries*
 
@@ -229,7 +238,7 @@ ___
 
 Returns an iterable of key, value pairs for every entry in the map.
 
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
 
 ___
 <a id="foreach"></a>
@@ -244,7 +253,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | callbackfn | `function` |
 | `Optional` thisArg | `any` |
@@ -256,38 +265,44 @@ ___
 
 ##  get
 
-▸ **get**(key: *`keyof S`*):  [Base](_codec_base_.base.md) &#124; `undefined`
+▸ **get**(name: *`keyof S`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
 
-*Inherited from Map.get*
+*Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:25*
+*Overrides Map.get*
+
+*Defined in [codec/Struct.ts:144](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L144)*
+
+*__description__*: Returns a specific names entry in the structure
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| name | `keyof S` |  The name of the entry to retrieve |
 
-**Returns:**  [Base](_codec_base_.base.md) &#124; `undefined`
+**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
 
 ___
 <a id="getatindex"></a>
 
 ##  getAtIndex
 
-▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
+▸ **getAtIndex**(index: *`number`*): [Codec](../interfaces/_types_.codec.md)
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L133)*
+*Defined in [codec/Struct.ts:151](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L151)*
+
+*__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | index | `number` |
 
-**Returns:** [Base](_codec_base_.base.md)
+**Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
 <a id="has"></a>
@@ -302,7 +317,7 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
 
@@ -328,7 +343,7 @@ ___
 
 ##  set
 
-▸ **set**(key: *`keyof S`*, value: *[Base](_codec_base_.base.md)*): `this`
+▸ **set**(key: *`keyof S`*, value: *[Codec](../interfaces/_types_.codec.md)*): `this`
 
 *Inherited from Map.set*
 
@@ -336,10 +351,10 @@ ___
 
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | key | `keyof S` |
-| value | [Base](_codec_base_.base.md) |
+| value | [Codec](../interfaces/_types_.codec.md) |
 
 **Returns:** `this`
 
@@ -348,13 +363,15 @@ ___
 
 ##  toArray
 
-▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
+▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L137)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L158)*
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+*__description__*: Converts the Object to an standard JavaScript Array
+
+**Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="tohex"></a>
@@ -363,9 +380,13 @@ ___
 
 ▸ **toHex**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L165)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -376,9 +397,13 @@ ___
 
 ▸ **toJSON**(): `any`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L172)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -389,9 +414,13 @@ ___
 
 ▸ **toString**(): `string`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L156)*
+*Defined in [codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L186)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -402,15 +431,19 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
+
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L194)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -419,7 +452,7 @@ ___
 
 ##  values
 
-▸ **values**(): `IterableIterator`<[Base](_codec_base_.base.md)>
+▸ **values**(): `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 *Inherited from Map.values*
 
@@ -427,29 +460,29 @@ ___
 
 Returns an iterable of values in the map
 
-**Returns:** `IterableIterator`<[Base](_codec_base_.base.md)>
+**Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="with"></a>
 
 ## `<Static>` with
 
-▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
+▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Struct](_codec_struct_.struct.md)<`S`>>
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:113](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L113)*
+*Defined in [codec/Struct.ts:107](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Struct.ts#L107)*
 
 **Type parameters:**
 
-#### S :  `ConstructorDef`
+#### S :  [ConstructorDef](../modules/_types_.md#constructordef)
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 
-**Returns:** `Constructor`<[Struct](_codec_struct_.struct.md)<`S`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Struct](_codec_struct_.struct.md)<`S`>>
 
 ___
 

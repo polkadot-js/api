@@ -1,20 +1,21 @@
 // Copyright 2017-2018 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiBaseInterface, ApiInterface$Events } from './types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { ApiBaseInterface, ApiInterface$Events, ApiOptions } from './types';
 
 import EventEmitter from 'eventemitter3';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '@polkadot/rpc-core/index';
-import { Extrinsics } from '@polkadot/extrinsics/types';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
+import registry from '@polkadot/types/codec/typeRegistry';
 import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
 import Event from '@polkadot/types/Event';
 import RuntimeMetadata from '@polkadot/types/Metadata';
-import { assert, isUndefined, logger } from '@polkadot/util';
+import { Extrinsics } from '@polkadot/types/Method';
+import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -41,7 +42,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Create an instance of the class
    *
-   * @param wsProvider A WebSocket provider from rpc-provider/ws. If not specified, it will default to connecting to the localhost with the default port
+   * @param options Options object to create API instance or a Provider instance
    *
    * @example
    * <BR>
@@ -56,10 +57,18 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  constructor (wsProvider?: WsProvider) {
+  constructor (provider: ApiOptions | ProviderInterface = {}) {
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
+
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(wsProvider);
+    this._rpcBase = new Rpc(options.provider);
     this._rpc = this.decorateRpc(this._rpcBase);
+
+    if (options.types) {
+      registry.register(options.types);
+    }
 
     this.init();
   }
@@ -71,6 +80,13 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -153,14 +169,14 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Attach an eventemitter handler to listen to a specific event
    *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected` and `ready`
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
    * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
    *
    * @example
    * <BR>
    *
    * ```javascript
-   * api.on('disconnected', () => {
+   * api.on('connected', () => {
    *   console.log('API has been connected to the endpoint');
    * });
    *
@@ -169,8 +185,33 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): void {
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.on(type, handler);
+    return this;
+  }
+
+  /**
+   * @description Attach an one-time eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.once('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.once('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.once(type, handler);
+    return this;
   }
 
   protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
@@ -184,15 +225,12 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
       this.emit('disconnected');
     });
 
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
+    });
+
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
-
-      // TODO When re-connected (i.e. disconnected and then connected), we want to do a couple of things
-      //   - refresh metadata as needed, decorating again
-      //   - need to refresh genesisHash, extrinsic resub only when it matches
-      if (isReady) {
-        return;
-      }
 
       const hasMeta = await this.loadMeta();
 

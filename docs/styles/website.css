@@ -1,5 +1,19 @@
+/* Exclude the items add to the SUMMARY.md root */
+.summary .chapter[data-path*="types/classes/"] {
+  display: none;
+}
+
 .book-summary {
   background-color: #4e4e4e;
+  border-right: 0;
+}
+
+#book-search-input {
+  margin: 0 0.75rem 0.5rem;
+}
+
+nav[role="navigation"] {
+  padding-left: 1.5rem;
 }
 
 .book .book-summary .book-logo {
@@ -13,7 +27,7 @@
 
 .book-summary ul.summary li.chapter.active {
   background: #fff;
-  border-radius: 1.6rem 0 0 1.6rem;
+  border-radius: 0.25rem 0 0 0.25rem;
 }
 
 .book-summary ul.summary li.chapter.active ul li.chapter > a {
@@ -21,7 +35,7 @@
 }
 
 .book-summary ul.summary li.chapter.active > a {
-  color: #fd8824;
+  color: rgba(0,0,0,.87);
 }
 
 .book-summary ul.summary li.chapter a,

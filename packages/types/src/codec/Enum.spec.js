@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import Enum from './Enum';
 
@@ -17,11 +17,11 @@ const testEncode = (to, expected) =>
   });
 
 describe('Enum', () => {
-
   testDecode('Enum', undefined, 'foo');
   testDecode('Enum', new Enum([], 1), 'bar');
   testDecode('number', 0, 'foo');
   testDecode('number', 1, 'bar');
+  testDecode('string', 'bar', 'bar');
   testDecode('Uint8Array', Uint8Array.from([0]), 'foo');
   testDecode('Uint8Array', Uint8Array.from([1]), 'bar');
 

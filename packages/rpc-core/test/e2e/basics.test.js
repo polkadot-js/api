@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import Ws from '@polkadot/rpc-provider/ws';
 
@@ -19,6 +19,19 @@ describe.skip('e2e basics', () => {
       .pendingExtrinsics()
       .then((extrinsics) => {
         console.error('extrinsics', extrinsics);
+      })
+      .catch((error) => {
+        console.error(error);
+
+        throw error;
+      });
+  });
+
+  it('retrieves the system properties', () => {
+    return api.system
+      .properties()
+      .then((properties) => {
+        console.error('properties', properties);
       })
       .catch((error) => {
         console.error(error);

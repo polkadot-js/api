@@ -1,6 +1,6 @@
 // Copyright 2017-2018 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
-// of the ISC license. See the LICENSE file for details.
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyNumber, AnyU8a } from './types';
 
@@ -11,7 +11,12 @@ import Vector from './codec/Vector';
 import Text from './Text';
 import U32 from './U32';
 
-class ApiId extends U8aFixed {
+/**
+ * @name ApiId
+ * @description
+ * An identifier for the runtime API
+ */
+export class ApiId extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 64);
   }
@@ -22,20 +27,31 @@ type RuntimeVersionApiValue = {
   version?: AnyNumber
 };
 
-class RuntimeVersionApi extends Tuple {
-  constructor (value?: RuntimeVersionApiValue) {
-    super({
-      id: ApiId,
-      version: U32
-    }, value);
+/**
+ * @name RuntimeVersionApi
+ * @description
+ * A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version
+ */
+export class RuntimeVersionApi extends Tuple {
+  constructor (value?: RuntimeVersionApiValue | Uint8Array) {
+    super([
+      ApiId,
+      U32
+    ], value);
   }
 
+  /**
+   * @description The [[ApiId]]
+   */
   get id (): ApiId {
-    return this.getAtIndex(0) as ApiId;
+    return this[0] as ApiId;
   }
 
+  /**
+   * @description The specific version as [[U32]]
+   */
   get version (): U32 {
-    return this.getAtIndex(1) as U32;
+    return this[1] as U32;
   }
 }
 
@@ -48,8 +64,13 @@ type RuntimeVersionValue = {
   apis?: Array<RuntimeVersionApiValue>
 };
 
+/**
+ * @name RuntimeVersion
+ * @description
+ * A defintion of the runtime and the associated versions thereof
+ */
 export default class RuntimeVersion extends Struct {
-  constructor (value?: RuntimeVersionValue) {
+  constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({
       specName: Text,
       implName: Text,
@@ -66,26 +87,44 @@ export default class RuntimeVersion extends Struct {
     ]));
   }
 
+  /**
+   * @description The available APIs as [[RuntimeVersionApi]]
+   */
   get apis (): Vector<RuntimeVersionApi> {
     return this.get('apis') as Vector<RuntimeVersionApi>;
   }
 
+  /**
+   * @description The authoring version as [[U32]]
+   */
   get authoringVersion (): U32 {
     return this.get('authoringVersion') as U32;
   }
 
+  /**
+   * @description The implementation name
+   */
   get implName (): Text {
     return this.get('implName') as Text;
   }
 
+  /**
+   * @description The implementation version
+   */
   get implVersion (): U32 {
     return this.get('implVersion') as U32;
   }
 
+  /**
+   * @description The specification name
+   */
   get specName (): Text {
     return this.get('specName') as Text;
   }
 
+  /**
+   * @description The specification version
+   */
   get specVersion (): U32 {
     return this.get('specVersion') as U32;
   }

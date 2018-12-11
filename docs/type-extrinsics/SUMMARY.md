@@ -1,4 +1,6 @@
 * [&quot;fromMetadata&quot;](modules/_frommetadata_.md)
+* [&quot;fromMetadata.spec&quot;](modules/_frommetadata_spec_.md)
 * [&quot;index&quot;](modules/_index_.md)
+* [&quot;index.spec&quot;](modules/_index_spec_.md)
 * [&quot;static&quot;](modules/_static_.md)
 * [&quot;utils/createUnchecked&quot;](modules/_utils_createunchecked_.md)

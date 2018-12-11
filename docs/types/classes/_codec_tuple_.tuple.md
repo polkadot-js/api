@@ -1,17 +1,22 @@
 
 
+*__name__*: Tuple
+
+*__description__*: A Tuple defines an anonymous fixed-length array, where each element has its own type. It extends the base JS `Array` object.
+
 # Type parameters
-#### S :  `ConstructorDef`
-#### T :  `object`
-#### V :  `object`
-#### E :  `object`
+#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 # Hierarchy
 
-↳  [Struct](_codec_struct_.struct.md)<`S`, `T`, `V`>
+ `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 **↳ Tuple**
 
-↳  [OuterEventMetadataEvent](_metadata_.outereventmetadataevent.md)
+↳  [Seal](_digest_.seal.md)
+
+↳  [OuterEventMetadataEvent](_metadata_events_.outereventmetadataevent.md)
+
+↳  [EventData](_event_.eventdata.md)
 
 ↳  [KeyValueOption](_keyvalue_.keyvalueoption.md)
 
@@ -19,29 +24,33 @@
 
 ↳  [BftHashSignature](_bft_.bfthashsignature.md)
 
+↳  [RuntimeVersionApi](_runtimeversion_.runtimeversionapi.md)
+
+↳  [NextAuthority](_storedpendingchange_.nextauthority.md)
+
 # Implements
 
-* `Codec`
+* [Codec](../interfaces/_types_.codec.md)
 
+# Indexable
+
+\[n: `number`\]:&nbsp;[Codec](../interfaces/_types_.codec.md)
 # Constructors
 
 <a id="constructor"></a>
 
 ##  constructor
 
-⊕ **new Tuple**(Types: *`S`*, value?: * `V` &#124; `Array`<`any`>*, jsonMap?: *`Map`<`keyof S`, `string`>*): [Tuple](_codec_tuple_.tuple.md)
+⊕ **new Tuple**(Types: *`S`*, value: *`any`*): [Tuple](_codec_tuple_.tuple.md)
 
-*Inherited from [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
-
-*Defined in [codec/Struct.ts:27](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L27)*
+*Defined in [codec/Tuple.ts:19](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L19)*
 
 **Parameters:**
 
-| Param | Type | Default value |
-| ------ | ------ | ------ |
-| Types | `S` | - |
-| `Default value` value |  `V` &#124; `Array`<`any`>|  {} as V |
-| `Default value` jsonMap | `Map`<`keyof S`, `string`> |  new Map() |
+| Name | Type |
+| ------ | ------ |
+| Types | `S` |
+| value | `any` |
 
 **Returns:** [Tuple](_codec_tuple_.tuple.md)
 
@@ -49,53 +58,29 @@ ___
 
 # Properties
 
-<a id="___tostringtag"></a>
+<a id="array"></a>
 
-##  __@toStringTag
+## `<Static>` Array
 
-**● __@toStringTag**: *"Map"*
+**● Array**: *`ArrayConstructor`*
 
-*Inherited from Map.[Symbol.toStringTag]*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="raw"></a>
-
-##  raw
-
-**● raw**: *`Map`<`keyof S`, [Base](_codec_base_.base.md)>*
-
-*Inherited from [Struct](_codec_struct_.struct.md).[raw](_codec_struct_.struct.md#raw)*
-
-*Defined in [codec/Struct.ts:25](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L25)*
-
-___
-<a id="size"></a>
-
-##  size
-
-**● size**: *`number`*
-
-*Inherited from Map.size*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:28*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:1358*
 
 ___
 
 # Accessors
 
-<a id="type"></a>
+<a id="types"></a>
 
-##  Type
+##  Types
 
-getType(): `E`
+getTypes(): `Array`<`string`>
 
-*Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
+*Defined in [codec/Tuple.ts:75](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L75)*
 
-*Defined in [codec/Struct.ts:123](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L123)*
+*__description__*: The types definition of the tuple
 
-**Returns:** `E`
+**Returns:** `Array`<`string`>
 
 ___
 <a id="encodedlength"></a>
@@ -104,9 +89,9 @@ ___
 
 getencodedLength(): `number`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
+*Defined in [codec/Tuple.ts:66](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L66)*
 
-*Defined in [codec/Struct.ts:127](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L127)*
+*__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
 
@@ -114,191 +99,64 @@ ___
 
 # Methods
 
-<a id="___iterator"></a>
+<a id="filter"></a>
 
-##  __@iterator
+##  filter
 
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+▸ **filter**(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
-*Inherited from Map.[Symbol.iterator]*
+*Overrides Array.filter*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:113*
+*Defined in [codec/Tuple.ts:131](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L131)*
 
-Returns an iterable of entries in the map.
-
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
-
-___
-<a id="clear"></a>
-
-##  clear
-
-▸ **clear**(): `void`
-
-*Inherited from Map.clear*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:22*
-
-**Returns:** `void`
-
-___
-<a id="delete"></a>
-
-##  delete
-
-▸ **delete**(key: *`keyof S`*): `boolean`
-
-*Inherited from Map.delete*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:23*
+*__description__*: Filters the array with the callback
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The filter function |
+| `Optional` thisArg | `any` |  The \`this\` object to apply the result to |
 
-**Returns:** `boolean`
-
-___
-<a id="entries"></a>
-
-##  entries
-
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
-
-*Inherited from Map.entries*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:118*
-
-Returns an iterable of key, value pairs for every entry in the map.
-
-**Returns:** `IterableIterator`<[`keyof S`, [Base](_codec_base_.base.md)]>
+**Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
-<a id="foreach"></a>
+<a id="map"></a>
 
-##  forEach
+##  map
 
-▸ **forEach**(callbackfn: *`function`*, thisArg?: *`any`*): `void`
+▸ **map**<`U`>(callbackfn: *`function`*, thisArg?: *`any`*): `Array`<`U`>
 
-*Inherited from Map.forEach*
+*Overrides Array.map*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:24*
+*Defined in [codec/Tuple.ts:140](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L140)*
 
+*__description__*: Maps the array with the callback
+
+**Type parameters:**
+
+#### U 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| callbackfn | `function` |
-| `Optional` thisArg | `any` |
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| callbackfn | `function` |  The mapping function |
+| `Optional` thisArg | `any` |  The \`this\` onject to apply the result to |
 
-**Returns:** `void`
-
-___
-<a id="get"></a>
-
-##  get
-
-▸ **get**(key: *`keyof S`*):  [Base](_codec_base_.base.md) &#124; `undefined`
-
-*Inherited from Map.get*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:25*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
-
-**Returns:**  [Base](_codec_base_.base.md) &#124; `undefined`
-
-___
-<a id="getatindex"></a>
-
-##  getAtIndex
-
-▸ **getAtIndex**(index: *`number`*): [Base](_codec_base_.base.md)
-
-*Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
-
-*Defined in [codec/Struct.ts:133](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L133)*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| index | `number` |
-
-**Returns:** [Base](_codec_base_.base.md)
-
-___
-<a id="has"></a>
-
-##  has
-
-▸ **has**(key: *`keyof S`*): `boolean`
-
-*Inherited from Map.has*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:26*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
-
-**Returns:** `boolean`
-
-___
-<a id="keys"></a>
-
-##  keys
-
-▸ **keys**(): `IterableIterator`<`keyof S`>
-
-*Inherited from Map.keys*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:123*
-
-Returns an iterable of keys in the map
-
-**Returns:** `IterableIterator`<`keyof S`>
-
-___
-<a id="set"></a>
-
-##  set
-
-▸ **set**(key: *`keyof S`*, value: *[Base](_codec_base_.base.md)*): `this`
-
-*Inherited from Map.set*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:27*
-
-**Parameters:**
-
-| Param | Type |
-| ------ | ------ |
-| key | `keyof S` |
-| value | [Base](_codec_base_.base.md) |
-
-**Returns:** `this`
+**Returns:** `Array`<`U`>
 
 ___
 <a id="toarray"></a>
 
 ##  toArray
 
-▸ **toArray**(): `Array`<[Base](_codec_base_.base.md)>
+▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
+*Defined in [codec/Tuple.ts:82](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L82)*
 
-*Defined in [codec/Struct.ts:137](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L137)*
+*__description__*: Converts the Object to an standard JavaScript Array
 
-**Returns:** `Array`<[Base](_codec_base_.base.md)>
+**Returns:** `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="tohex"></a>
@@ -307,9 +165,11 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Tuple.ts:89](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L89)*
+
+*__description__*: Returns a hex string representation of the value
 
 **Returns:** `string`
 
@@ -320,9 +180,11 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Overrides [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Tuple.ts:28](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Tuple.ts#L28)*
+*Defined in [codec/Tuple.ts:96](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L96)*
+
+*__description__*: Converts the Object to JSON, typically used for RPC transfers
 
 **Returns:** `any`
 
@@ -333,9 +195,13 @@ ___
 
 ▸ **toString**(): `string`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Struct.ts:156](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L156)*
+*Overrides Array.toString*
+
+*Defined in [codec/Tuple.ts:105](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L105)*
+
+*__description__*: Returns the string representation of the value
 
 **Returns:** `string`
 
@@ -346,54 +212,39 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
+*Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [codec/Tuple.ts:114](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L114)*
+
+*__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
 **Parameters:**
 
-| Param | Type |
-| ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
-
-___
-<a id="values"></a>
-
-##  values
-
-▸ **values**(): `IterableIterator`<[Base](_codec_base_.base.md)>
-
-*Inherited from Map.values*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:128*
-
-Returns an iterable of values in the map
-
-**Returns:** `IterableIterator`<[Base](_codec_base_.base.md)>
 
 ___
 <a id="with"></a>
 
 ## `<Static>` with
 
-▸ **with**<`S`>(Types: *`S`*): `Constructor`<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
 
-*Overrides [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
-
-*Defined in [codec/Tuple.ts:18](https://github.com/polkadot-js/api/blob/9f88cd8/packages/types/src/codec/Tuple.ts#L18)*
+*Defined in [codec/Tuple.ts:53](https://github.com/polkadot-js/api/blob/c0a9924/packages/types/src/codec/Tuple.ts#L53)*
 
 **Type parameters:**
 
-#### S :  `ConstructorDef`
+#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 **Parameters:**
 
-| Param | Type |
+| Name | Type |
 | ------ | ------ |
 | Types | `S` |
 
-**Returns:** `Constructor`<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
 
 ___
 
