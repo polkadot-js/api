@@ -29,7 +29,7 @@ export default class Enum extends Base<number> implements Codec {
   private _enum: EnumMap | Array<string>;
 
   constructor (def: EnumDef, value: Enum | Uint8Array | string | number = 0) {
-    const decoded = Enum.decodeEnum(def, value);
+    const decoded = Enum.decodeEnum(def, value) || -1;
 
     assert(decoded !== -1, `Unable to initialise Enum with value ${value}`);
 
@@ -44,7 +44,7 @@ export default class Enum extends Base<number> implements Codec {
       }, {} as EnumMap);
   }
 
-  static decodeEnum (def: EnumDef, value: Enum | Uint8Array | string | number): number {
+  static decodeEnum (def: EnumDef, value: Enum | Uint8Array | string | number): number | undefined {
     if (value instanceof Enum) {
       return value.raw;
     } else if (isU8a(value)) {
@@ -52,7 +52,7 @@ export default class Enum extends Base<number> implements Codec {
     } else if (isString(value)) {
       return Array.isArray(def)
         ? def.indexOf(value)
-        : def[value] || -1;
+        : def[value]; // possibly undefined
     }
 
     return value;
