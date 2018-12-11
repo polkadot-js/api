@@ -90,6 +90,22 @@ export default class Method extends Struct {
    * - {@see DecodeMethodInput}
    * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
    * necessary.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * import BN from 'bn.js';
+   * import { Method } from '@polkadot/types';
+   *
+   * const methodInstance = new Method(extrinsic, extrinsic.meta);
+   *
+   * // Obtain recipient id and amount for an extrinsic
+   * const recipientId = methodInstance.args.get('dest').toString();
+   * const amount = methodInstance.args.get('value').toBn().toString();
+   *
+   * console.log(`Submitting transaction of amount ${amount} to recipient id ${recipientId}`);
+   * ```
    */
   private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
@@ -173,7 +189,9 @@ export default class Method extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system extrinsics to be used in lookups
   static injectExtrinsics (extrinsics: Extrinsics): void {
+    // @ts-ignore Object.values is valid
     Object.values(extrinsics).forEach((methods) =>
+      // @ts-ignore Object.values is valid
       Object.values(methods).forEach((method) =>
         extrinsicFns[method.callIndex.toString()] = method
       )
@@ -183,9 +201,8 @@ export default class Method extends Struct {
   /**
    * @description The arguments for the function call
    */
-  get args (): Array<Codec> {
-    // FIXME This should return a Struct instead of an Array
-    return [...(this.get('args') as Struct).values()];
+  get args (): Codec | undefined {
+    return this.get('args');
   }
 
   /**

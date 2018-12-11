@@ -66,7 +66,7 @@ export default class Extrinsic extends Struct {
   /**
    * @description The arguments passed to for the call, exposes args so it is compatible with [[Method]]
    */
-  get args (): Array<Codec> {
+  get args (): Codec | undefined {
     return this.method.args;
   }
 
