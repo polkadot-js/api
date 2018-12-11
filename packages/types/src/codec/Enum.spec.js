@@ -17,11 +17,11 @@ const testEncode = (to, expected) =>
   });
 
 describe('Enum', () => {
-
   testDecode('Enum', undefined, 'foo');
   testDecode('Enum', new Enum([], 1), 'bar');
   testDecode('number', 0, 'foo');
   testDecode('number', 1, 'bar');
+  testDecode('string', 'bar', 'bar');
   testDecode('Uint8Array', Uint8Array.from([0]), 'foo');
   testDecode('Uint8Array', Uint8Array.from([1]), 'bar');
 

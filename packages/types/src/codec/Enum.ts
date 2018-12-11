@@ -2,13 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, u8aToHex } from '@polkadot/util';
+import { isString, isU8a, u8aToHex, assert } from '@polkadot/util';
 
 import { Codec } from '../types';
 import Base from './Base';
 
-type EnumDef = {
+type EnumMap = {
   [index: number]: string
+};
+
+type EnumDef = {
+  [index: string]: number
 } | Array<string>;
 
 /**
@@ -22,24 +26,36 @@ type EnumDef = {
 // TODO:
 //   - It would be great if this could actually wrap actual TS enums
 export default class Enum extends Base<number> implements Codec {
-  private _enum: EnumDef;
+  private _enum: EnumMap | Array<string>;
 
-  constructor (def: EnumDef, value: Enum | Uint8Array | number = 0) {
-    super(
-      Enum.decodeEnum(value)
-    );
+  constructor (def: EnumDef, value: Enum | Uint8Array | string | number = 0) {
+    const decoded = Enum.decodeEnum(def, value);
 
-    this._enum = def;
+    assert(decoded !== -1, `Unable to initialise Enum with value ${value}`);
+
+    super(decoded);
+
+    this._enum = Array.isArray(def)
+      ? def
+      : Object.keys(def).reduce((result, key) => {
+        result[def[key]] = key;
+
+        return result;
+      }, {} as EnumMap);
   }
 
-  static decodeEnum (value: Enum | Uint8Array | number = 0): number {
+  static decodeEnum (def: EnumDef, value: Enum | Uint8Array | string | number): number | undefined {
     if (value instanceof Enum) {
       return value.raw;
     } else if (isU8a(value)) {
       return value[0];
-    } else {
-      return value;
+    } else if (isString(value)) {
+      return Array.isArray(def)
+        ? def.indexOf(value)
+        : def[value] || -1;
     }
+
+    return value;
   }
 
   /**

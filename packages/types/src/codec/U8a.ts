@@ -25,9 +25,9 @@ export default class U8a extends Uint8Array implements Codec {
   private static decodeU8a (value: any): Uint8Array {
     if (isU8a(value)) {
       return value;
-    } else {
-      return u8aToU8a(value);
     }
+
+    return u8aToU8a(value);
   }
 
   /**

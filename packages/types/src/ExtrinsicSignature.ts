@@ -57,9 +57,9 @@ export default class ExtrinsicSignature extends Struct {
 
       if ((version & BIT_SIGNED) === BIT_SIGNED) {
         return value.subarray(1);
-      } else {
-        return {};
       }
+
+      return {};
     }
 
     return value as any;
