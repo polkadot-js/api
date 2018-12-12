@@ -66,6 +66,19 @@ describe('Struct', () => {
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
   });
 
+  it('decodes from a Map input', () => {
+    const input = new Struct({
+      a: U32,
+      txt: Text
+    }, { a: 42, txt: 'fubar' });
+    const s = new Struct({
+      txt: Text,
+      foo: U32,
+      bar: U32
+    }, input);
+    expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
+  });
+
   it('throws when it cannot decode', () => {
     expect(
       () => new (
