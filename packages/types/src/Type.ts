@@ -22,6 +22,9 @@ export default class Type extends Text {
   constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value).toString();
+    if (textValue.includes('Inherent')) {
+      console.log(textValue);
+    }
     // Then cleanup the textValue to get the @polkadot/types type, and pass the
     // sanitized value to constructor
     super(
@@ -172,15 +175,13 @@ export default class Type extends Text {
   private static _removeTraits (): Mapper {
     return (value: string): string => {
       return value
-        // `T :: AccountId` -> `T::AccountId` https://github.com/paritytech/substrate/issues/1244
-        .replace(/\s+::\s+/g, '::')
+        // Remove all spaces
+        .replace(/\s/g, '')
         // anything `T::<type>` to end up as `<type>`
         .replace(/T::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
-        // replace `<T as Trait>::` (possibly sanitised just above)
-        .replace(/<T as Trait>::/g, '')
-        // `<TasTrait>::type` -> `type` https://github.com/paritytech/substrate/issues/1244
+        // replace `<T as Trait>::` (whitespaces were removed above)
         .replace(/<TasTrait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
