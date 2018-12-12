@@ -86,39 +86,36 @@ export default class Struct<
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
 
-    return Object
-      .keys(Types)
-      .map((key: keyof S) =>
-        (jsonMap.get(key as any) && !value[key])
-          ? jsonMap.get(key as any) as keyof S
-          : key
-      )
-      .reduce((raw, key, index) => {
-        if (isU8a(value)) {
-          raw[key] = new Types[key](value.subarray(currentIndex));
+    return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+      // The key in the JSON can be snake_case (or other cases), but in our
+      // Types, result or any other maps, it's camelCase
+      const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-          // Move the currentIndex forward
-          currentIndex += raw[key].encodedLength;
-        } else if (Array.isArray(value)) {
-          raw[key] = value[index] instanceof Types[key]
-            ? value[index]
-            : new Types[key](value[index]);
-        } else if (value instanceof Map) {
-          const mapped = value.get(key);
+      if (isU8a(value)) {
+        raw[key] = new Types[key](value.subarray(currentIndex));
 
-          raw[key] = mapped instanceof Types[key]
-            ? mapped
-            : new Types[key](mapped);
-        } else if (isObject(value)) {
-          raw[key] = value[key as string] instanceof Types[key]
-            ? value[key as string]
-            : new Types[key](value[key as string]);
-        } else {
-          throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
-        }
+        // Move the currentIndex forward
+        currentIndex += raw[key].encodedLength;
+      } else if (Array.isArray(value)) {
+        raw[key] = value[index] instanceof Types[key]
+          ? value[index]
+          : new Types[key](value[index]);
+      } else if (value instanceof Map) {
+        const mapped = value.get(jsonKey);
 
-        return raw;
-      }, {} as T);
+        raw[key] = mapped instanceof Types[key]
+          ? mapped
+          : new Types[key](mapped);
+      } else if (isObject(value)) {
+        raw[key] = value[jsonKey as string] instanceof Types[key]
+          ? value[jsonKey as string]
+          : new Types[key](value[jsonKey as string]);
+      } else {
+        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+      }
+
+      return raw;
+    }, {} as T);
   }
 
   static with<
