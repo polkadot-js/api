@@ -25,11 +25,11 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
 
   static decodeOption<O> (Type: Constructor, value?: any): Codec {
     if (isU8a(value)) {
-      if (value[0] === 0) {
-        return new Null();
-      }
-
-      return new Type(value.subarray(1));
+      return value[0] === 0
+        ? new Null()
+        : new Type(value.subarray(1));
+    } else if (value instanceof Option) {
+      return Option.decodeOption(Type, value.value);
     }
 
     return isNull(value) || isUndefined(value) || value instanceof Null
