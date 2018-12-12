@@ -137,6 +137,7 @@ export default class Metadata extends Struct {
             return decoded.type;
 
           case TypeDefInfo.Compact:
+          case TypeDefInfo.Option:
           case TypeDefInfo.Vector:
             return extractTypes([(decoded.sub as TypeDef).type]);
 

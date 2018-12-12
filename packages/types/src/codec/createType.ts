@@ -14,6 +14,7 @@ import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
+  Option,
   Plain,
   Tuple,
   Vector
@@ -93,6 +94,9 @@ export function getTypeDef (_type: Text | string): TypeDef {
     value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
   } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Option<', '>')) {
+    value.info = TypeDefInfo.Option;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Vec<', '>')) {
     value.info = TypeDefInfo.Vector;
