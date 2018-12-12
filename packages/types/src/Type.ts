@@ -181,7 +181,7 @@ export default class Type extends Text {
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (whitespaces were removed above)
-        .replace(/<T as Trait>::/g, '')
+        .replace(/<TasTrait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
     };

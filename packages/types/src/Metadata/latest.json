@@ -2039,7 +2039,7 @@
                     },
                     {
                       "name": "proposal",
-                      "type": "::Proposal"
+                      "type": "Proposal"
                     }
                   ],
                   "documentation": []
@@ -2082,7 +2082,7 @@
                 "modifier": 0,
                 "type": {
                   "key": "Hash",
-                  "value": "::Proposal"
+                  "value": "Proposal"
                 },
                 "documentation": [
                   " Actual proposal for a given hash, if it's current."
