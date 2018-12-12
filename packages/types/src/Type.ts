@@ -22,9 +22,6 @@ export default class Type extends Text {
   constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
     const textValue = new Text(value).toString();
-    if (textValue.includes('Inherent')) {
-      console.log(textValue);
-    }
     // Then cleanup the textValue to get the @polkadot/types type, and pass the
     // sanitized value to constructor
     super(
@@ -39,6 +36,8 @@ export default class Type extends Text {
 
   private static decodeType (value: string): string {
     const mappings: Array<Mapper> = [
+      // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
+      Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
       // <T::Balance as HasCompact>
       Type._cleanupCompact(),
       // Remove all the trait prefixes
@@ -163,7 +162,7 @@ export default class Type extends Text {
           const end = Type._findClosing(value, start);
           const type = value.substr(start, end - start);
 
-          value = `${value.substr(0, index)}(${type}, ${type})${value.substr(end + 1)}`;
+          value = `${value.substr(0, index)}(${type},${type})${value.substr(end + 1)}`;
         }
       }
 
@@ -175,14 +174,14 @@ export default class Type extends Text {
   private static _removeTraits (): Mapper {
     return (value: string): string => {
       return value
-        // Remove all spaces
+        // remove all whitespaces
         .replace(/\s/g, '')
         // anything `T::<type>` to end up as `<type>`
         .replace(/T::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (whitespaces were removed above)
-        .replace(/<TasTrait>::/g, '')
+        .replace(/<T as Trait>::/g, '')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
     };
