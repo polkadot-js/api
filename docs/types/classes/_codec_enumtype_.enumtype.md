@@ -36,7 +36,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/EnumType.ts:28](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L28)*
+*Defined in [codec/EnumType.ts:28](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L28)*
 
 **Parameters:**
 
@@ -58,7 +58,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/EnumType.ts:87](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L87)*
+*Defined in [codec/EnumType.ts:87](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L87)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -71,7 +71,7 @@ ___
 
 getisNone(): `boolean`
 
-*Defined in [codec/EnumType.ts:94](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L94)*
+*Defined in [codec/EnumType.ts:94](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L94)*
 
 *__description__*: Checks if the Enum points to a [Null](_null_.null.md) type
 
@@ -84,7 +84,7 @@ ___
 
 getisNull(): `boolean`
 
-*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L101)*
+*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L101)*
 
 *__description__*: Checks if the Enum points to a [Null](_null_.null.md) type (deprecated, use isNone)
 
@@ -97,7 +97,7 @@ ___
 
 gettype(): `string`
 
-*Defined in [codec/EnumType.ts:108](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L108)*
+*Defined in [codec/EnumType.ts:108](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L108)*
 
 *__description__*: The name of the type this enum value represents
 
@@ -110,7 +110,7 @@ ___
 
 getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L115)*
+*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L115)*
 
 *__description__*: The value of the enum
 
@@ -128,7 +128,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/EnumType.ts:122](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L122)*
+*Defined in [codec/EnumType.ts:122](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L122)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -143,7 +143,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/EnumType.ts:129](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L129)*
+*Defined in [codec/EnumType.ts:129](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L129)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -156,7 +156,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/EnumType.ts:136](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L136)*
+*Defined in [codec/EnumType.ts:136](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L136)*
 
 *__description__*: Returns the number representation for the value
 
@@ -171,7 +171,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/EnumType.ts:143](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L143)*
+*Defined in [codec/EnumType.ts:143](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L143)*
 
 *__description__*: Returns the string representation of the value
 
@@ -186,7 +186,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/EnumType.ts:151](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L151)*
+*Defined in [codec/EnumType.ts:151](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L151)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -205,7 +205,7 @@ ___
 
 ▸ **decodeEnumType**<`T`>(def: *`TypesDef`*, value?: *`any`*, index?: * `number` &#124; [EnumType](_codec_enumtype_.enumtype.md)<`T`>*): `object`
 
-*Defined in [codec/EnumType.ts:47](https://github.com/polkadot-js/api/blob/ef926e9/packages/types/src/codec/EnumType.ts#L47)*
+*Defined in [codec/EnumType.ts:47](https://github.com/polkadot-js/api/blob/3c8b3d3/packages/types/src/codec/EnumType.ts#L47)*
 
 **Type parameters:**
 
