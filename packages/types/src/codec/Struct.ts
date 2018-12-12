@@ -29,7 +29,7 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 
-  constructor (Types: S, value: V | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
+  constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
 
     super(
@@ -74,6 +74,14 @@ export default class Struct<
       return {} as T;
     }
 
+    return Struct.decodeStructFromObject(Types, value, jsonMap);
+  }
+
+  private static decodeStructFromObject<
+    S extends ConstructorDef,
+    _,
+    T extends { [K in keyof S]: Codec }
+    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // `currentIndex` is only used when we have a UintArray/U8a as value. It's
     // used to track at which index we are currently parsing in that array.
     let currentIndex = 0;
@@ -92,6 +100,12 @@ export default class Struct<
         raw[key] = value[index] instanceof Types[key]
           ? value[index]
           : new Types[key](value[index]);
+      } else if (value instanceof Map) {
+        const mapped = value.get(jsonKey);
+
+        raw[key] = mapped instanceof Types[key]
+          ? mapped
+          : new Types[key](mapped);
       } else if (isObject(value)) {
         raw[key] = value[jsonKey as string] instanceof Types[key]
           ? value[jsonKey as string]
