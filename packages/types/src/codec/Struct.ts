@@ -93,7 +93,7 @@ export default class Struct<
           ? jsonMap.get(key as any) as keyof S
           : key
       )
-      .reduce((raw: T, key: keyof S, index) => {
+      .reduce((raw, key, index) => {
         if (isU8a(value)) {
           raw[key] = new Types[key](value.subarray(currentIndex));
 
