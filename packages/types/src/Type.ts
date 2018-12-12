@@ -84,21 +84,24 @@ export default class Type extends Text {
 
   // given a starting index, find the closing >
   private static _findClosing (value: string, start: number): number {
-    let depth = 0;
+    const stack = ['<'];
+    let currentIndex = start - 1;
 
-    for (let index = start; index < value.length; index++) {
-      if (value[index] === '>') {
-        if (!depth) {
-          return index;
-        }
+    while (stack.length) {
+      ++currentIndex;
 
-        depth--;
-      } else if (value[index] === '<') {
-        depth++;
+      if (currentIndex >= value.length) {
+        throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
+      }
+
+      if (value[currentIndex] === '<') {
+        stack.push('<');
+      } else if (value[currentIndex] === '>') {
+        stack.pop();
       }
     }
 
-    throw new Error(`Unable to find closing matching <> on '${value}' (start ${start})`);
+    return currentIndex;
   }
 
   private static _alias (src: string, dest: string): Mapper {
