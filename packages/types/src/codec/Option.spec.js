@@ -27,6 +27,12 @@ describe('Option', () => {
     expect(new Option(Text, 'test').isNone).toBe(false);
   });
 
+  it('converts an option to an option', () => {
+    expect(
+      new Option(Text, new Option(Text, 'hello')).toString()
+    ).toEqual('hello');
+  });
+
   testDecode('string (with)', 'foo', 'foo');
   testDecode('string (without)', undefined, '');
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
