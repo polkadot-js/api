@@ -56,5 +56,4 @@ export default class ReferendumInfo extends Struct {
   get delay (): BlockNumber {
     return this.get('delay') as BlockNumber;
   }
-
 }
