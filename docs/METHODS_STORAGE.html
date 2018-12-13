@@ -2042,7 +2042,7 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="council"><a id="council"></a>council</h3>
-<p>&#x25B8; <strong>activeCouncil</strong>(): <code>Vec&lt;(AccountId, BlockNumber)&gt;</code></p>
+<p>&#x25B8; <strong>activeCouncil</strong>(): <code>Vec&lt;(AccountId,BlockNumber)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The current council. When there&apos;s a vote going on, this should still be used for executive  matters.</li>
 </ul>
@@ -2075,11 +2075,11 @@
 <ul>
 <li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
 </ul>
-<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(Balance, AccountId)&gt;</code></p>
+<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(Balance,AccountId)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Get the leaderboard if we;re in the presentation phase.</li>
 </ul>
-<p>&#x25B8; <strong>nextFinalise</strong>(): <code>(BlockNumber, u32, Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>nextFinalise</strong>(): <code>(BlockNumber,u32,Vec&lt;AccountId&gt;)</code></p>
 <ul>
 <li><strong>summary</strong>:   The accounts holding the seats that will become free on the next tally.</li>
 </ul>
@@ -2091,7 +2091,7 @@
 <ul>
 <li><strong>summary</strong>:   How long to give each top candidate to present themselves after the vote ends.</li>
 </ul>
-<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>(VoteIndex, u32)</code></p>
+<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>(VoteIndex,u32)</code></p>
 <ul>
 <li><strong>summary</strong>:   The vote index and list slot that the candidate <code>who</code> was registered or <code>None</code> if they are not  currently registered.</li>
 </ul>
@@ -2134,7 +2134,7 @@
 <ul>
 <li><strong>summary</strong>:   The (hashes of) the active proposals.</li>
 </ul>
-<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>(ProposalIndex, u32, Vec&lt;AccountId&gt;, Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>(ProposalIndex,u32,Vec&lt;AccountId&gt;,Vec&lt;AccountId&gt;)</code></p>
 <ul>
 <li><strong>summary</strong>:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).</li>
 </ul>
@@ -2142,16 +2142,16 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
 <p>&#x25B8; <strong>cooloffPeriod</strong>(): <code>BlockNumber</code></p>
-<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash, AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash,AccountId)</code>): <code>bool</code></p>
 <p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
 <p>&#x25B8; <strong>proposalVoters</strong>(<code>Hash</code>): <code>Vec&lt;AccountId&gt;</code></p>
-<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber, Hash)&gt;</code></p>
-<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>(BlockNumber, Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber,Hash)&gt;</code></p>
+<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>(BlockNumber,Vec&lt;AccountId&gt;)</code></p>
 <p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="democracy"><a id="democracy"></a>democracy</h3>
-<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance, Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance,Vec&lt;AccountId&gt;)</code></p>
 <ul>
 <li><strong>summary</strong>:   Those who have locked a deposit.</li>
 </ul>
@@ -2171,7 +2171,7 @@
 <ul>
 <li><strong>summary</strong>:   The number of (public) proposals that have been made so far.</li>
 </ul>
-<p>&#x25B8; <strong>publicProps</strong>(): <code>Vec&lt;(PropIndex, Proposal, AccountId)&gt;</code></p>
+<p>&#x25B8; <strong>publicProps</strong>(): <code>Vec&lt;(PropIndex,Proposal,AccountId)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The public proposals. Unsorted.</li>
 </ul>
@@ -2179,11 +2179,11 @@
 <ul>
 <li><strong>summary</strong>:   The next free referendum index, aka the number of referendums started so far.</li>
 </ul>
-<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(BlockNumber, Proposal, VoteThreshold)</code></p>
+<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(BlockNumber,Proposal,VoteThreshold)</code></p>
 <ul>
 <li><strong>summary</strong>:   Information concerning any given referendum.</li>
 </ul>
-<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex, AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex,AccountId)</code>): <code>bool</code></p>
 <ul>
 <li><strong>summary</strong>:   Get the vote, if Some, of <code>who</code>.</li>
 </ul>
@@ -2305,7 +2305,7 @@
 <ul>
 <li><strong>summary</strong>:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.</li>
 </ul>
-<p>&#x25B8; <strong>stakeRange</strong>(): <code>(Balance, Balance)</code></p>
+<p>&#x25B8; <strong>stakeRange</strong>(): <code>(Balance,Balance)</code></p>
 <ul>
 <li><strong>summary</strong>:   The highest and lowest staked validator slashable balances.</li>
 </ul>
@@ -2454,7 +2454,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-12-12T15:16:51.585Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-12T15:18:30.198Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-12-13T16:23:37.451Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-13T16:25:16.056Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

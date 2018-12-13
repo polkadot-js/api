@@ -76,7 +76,7 @@ ___
 
 ### <a id='council'></a>council
 
-▸ **activeCouncil**(): `Vec<(AccountId, BlockNumber)>`
+▸ **activeCouncil**(): `Vec<(AccountId,BlockNumber)>`
 - **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters.
 
 ▸ **approvalsOf**(`AccountId`): `Vec<bool>`
@@ -102,10 +102,10 @@ ___
 ▸ **lastActiveOf**(`AccountId`): `VoteIndex`
 - **summary**:   The last cleared vote index that this voter was last active at.
 
-▸ **leaderboard**(): `Vec<(Balance, AccountId)>`
+▸ **leaderboard**(): `Vec<(Balance,AccountId)>`
 - **summary**:   Get the leaderboard if we;re in the presentation phase.
 
-▸ **nextFinalise**(): `(BlockNumber, u32, Vec<AccountId>)`
+▸ **nextFinalise**(): `(BlockNumber,u32,Vec<AccountId>)`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
 
 ▸ **presentSlashPerVoter**(): `Balance`
@@ -114,7 +114,7 @@ ___
 ▸ **presentationDuration**(): `BlockNumber`
 - **summary**:   How long to give each top candidate to present themselves after the vote ends.
 
-▸ **registerInfoOf**(`AccountId`): `(VoteIndex, u32)`
+▸ **registerInfoOf**(`AccountId`): `(VoteIndex,u32)`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
 
 ▸ **snapshotedStakes**(): `Vec<Balance>`
@@ -149,7 +149,7 @@ ___
 ▸ **proposals**(): `Vec<Hash>`
 - **summary**:   The (hashes of) the active proposals.
 
-▸ **voting**(`Hash`): `(ProposalIndex, u32, Vec<AccountId>, Vec<AccountId>)`
+▸ **voting**(`Hash`): `(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)`
 - **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
 
 ___
@@ -159,15 +159,15 @@ ___
 
 ▸ **cooloffPeriod**(): `BlockNumber`
 
-▸ **councilVoteOf**(`(Hash, AccountId)`): `bool`
+▸ **councilVoteOf**(`(Hash,AccountId)`): `bool`
 
 ▸ **proposalOf**(`Hash`): `Proposal`
 
 ▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
 
-▸ **proposals**(): `Vec<(BlockNumber, Hash)>`
+▸ **proposals**(): `Vec<(BlockNumber,Hash)>`
 
-▸ **vetoedProposal**(`Hash`): `(BlockNumber, Vec<AccountId>)`
+▸ **vetoedProposal**(`Hash`): `(BlockNumber,Vec<AccountId>)`
 
 ▸ **votingPeriod**(): `BlockNumber`
 
@@ -176,7 +176,7 @@ ___
 
 ### <a id='democracy'></a>democracy
 
-▸ **depositOf**(`PropIndex`): `(Balance, Vec<AccountId>)`
+▸ **depositOf**(`PropIndex`): `(Balance,Vec<AccountId>)`
 - **summary**:   Those who have locked a deposit.
 
 ▸ **launchPeriod**(): `BlockNumber`
@@ -191,16 +191,16 @@ ___
 ▸ **publicPropCount**(): `PropIndex`
 - **summary**:   The number of (public) proposals that have been made so far.
 
-▸ **publicProps**(): `Vec<(PropIndex, Proposal, AccountId)>`
+▸ **publicProps**(): `Vec<(PropIndex,Proposal,AccountId)>`
 - **summary**:   The public proposals. Unsorted.
 
 ▸ **referendumCount**(): `ReferendumIndex`
 - **summary**:   The next free referendum index, aka the number of referendums started so far.
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `(BlockNumber, Proposal, VoteThreshold)`
+▸ **referendumInfoOf**(`ReferendumIndex`): `(BlockNumber,Proposal,VoteThreshold)`
 - **summary**:   Information concerning any given referendum.
 
-▸ **voteOf**(`(ReferendumIndex, AccountId)`): `bool`
+▸ **voteOf**(`(ReferendumIndex,AccountId)`): `bool`
 - **summary**:   Get the vote, if Some, of `who`.
 
 ▸ **votersFor**(`ReferendumIndex`): `Vec<AccountId>`
@@ -297,7 +297,7 @@ ___
 ▸ **slashCount**(`AccountId`): `u32`
 - **summary**:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.
 
-▸ **stakeRange**(): `(Balance, Balance)`
+▸ **stakeRange**(): `(Balance,Balance)`
 - **summary**:   The highest and lowest staked validator slashable balances.
 
 ▸ **validatorCount**(): `u32`
