@@ -21,13 +21,13 @@ describe('Type', () => {
   it('handles nested types (embedded)', () => {
     expect(
       new Type('(u32, Box<Vec<AccountId>>)').toString()
-    ).toEqual('(u32, Vec<AccountId>)');
+    ).toEqual('(u32,Vec<AccountId>)');
   });
 
   it('handles aliasses, multiples per line', () => {
     expect(
       new Type('(Vec<u8>, AccountId, Vec<u8>)').toString()
-    ).toEqual('(Bytes, AccountId, Bytes)');
+    ).toEqual('(Bytes,AccountId,Bytes)');
   });
 
   it('removes whitespaces', () => {
@@ -39,13 +39,13 @@ describe('Type', () => {
   it('changes PairOf<T> -> (T, T)', () => {
     expect(
       new Type('PairOf<T::Balance>').toString()
-    ).toEqual('(Balance, Balance)');
+    ).toEqual('(Balance,Balance)');
   });
 
   it('changes PairOf<T> (embedded) -> (T, T)', () => {
     expect(
       new Type('(Vec<u8>, PairOf<T::Balance>, Vec<AccountId>)').toString()
-    ).toEqual('(Bytes, (Balance, Balance), Vec<AccountId>)');
+    ).toEqual('(Bytes,(Balance,Balance),Vec<AccountId>)');
   });
 
   it('does not allow toU8a', () => {
@@ -66,5 +66,11 @@ describe('Type', () => {
     expect(
       new Type('<T::Balance as HasCompact>::Type').toString()
     ).toEqual('Compact<Balance>');
+  });
+
+  it('handles InherentOfflineReport', () => {
+    expect(
+      new Type('<T::InherentOfflineReport as InherentOfflineReport>::Inherent').toString()
+    ).toEqual('InherentOfflineReport');
   });
 });

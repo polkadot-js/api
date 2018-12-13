@@ -7,6 +7,7 @@ import { assert } from '@polkadot/util';
 import { Codec, Constructor } from '../types';
 import Text from '../Text';
 import Compact from './Compact';
+import Option from './Option';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
@@ -14,6 +15,7 @@ import registry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
+  Option,
   Plain,
   Tuple,
   Vector
@@ -94,6 +96,9 @@ export function getTypeDef (_type: Text | string): TypeDef {
   } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
     value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Option<', '>')) {
+    value.info = TypeDefInfo.Option;
+    value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Vec<', '>')) {
     value.info = TypeDefInfo.Vector;
     value.sub = getTypeDef(subType);
@@ -115,6 +120,12 @@ export function getTypeClass (value: TypeDef): Constructor {
 
     return Compact.with(
       getTypeClass(value.sub as TypeDef) as Constructor<UInt>
+    );
+  } else if (value.info === TypeDefInfo.Option) {
+    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
+
+    return Option.with(
+      getTypeClass(value.sub as TypeDef)
     );
   } else if (value.info === TypeDefInfo.Vector) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');

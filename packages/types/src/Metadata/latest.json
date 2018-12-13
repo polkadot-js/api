@@ -298,7 +298,7 @@
           {
             "name": "NewAuthorities",
             "arguments": [
-              "Vec<(SessionKey, u64)>"
+              "Vec<(SessionKey,u64)>"
             ],
             "documentation": [
               " New authority set has been applied."
@@ -495,6 +495,17 @@
       }
     },
     {
+      "prefix": "aura",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": []
+        }
+      },
+      "storage": null
+    },
+    {
       "prefix": "timestamp",
       "module": {
         "name": "Module",
@@ -579,14 +590,12 @@
               "name": "note_offline",
               "arguments": [
                 {
-                  "name": "offline_val_indices",
-                  "type": "Vec<u32>"
+                  "name": "offline",
+                  "type": "InherentOfflineReport"
                 }
               ],
               "documentation": [
-                " Note the previous block's validator missed their opportunity to propose a block.",
-                " This only comes in if 2/3+1 of the validators agree that no proposal was submitted.",
-                " It's only relevant for the previous block."
+                " Note the previous block's validator missed their opportunity to propose a block."
               ]
             },
             {
@@ -1251,7 +1260,7 @@
           {
             "name": "StakeRange",
             "modifier": 1,
-            "type": "(Balance, Balance)",
+            "type": "(Balance,Balance)",
             "documentation": [
               " The highest and lowest staked validator slashable balances."
             ]
@@ -1353,8 +1362,12 @@
                   "type": "Proposal"
                 },
                 {
-                  "name": "vote_threshold",
+                  "name": "threshold",
                   "type": "VoteThreshold"
+                },
+                {
+                  "name": "delay",
+                  "type": "BlockNumber"
                 }
               ],
               "documentation": [
@@ -1372,6 +1385,23 @@
               ],
               "documentation": [
                 " Remove a referendum."
+              ]
+            },
+            {
+              "id": 5,
+              "name": "cancel_queued",
+              "arguments": [
+                {
+                  "name": "when",
+                  "type": "BlockNumber"
+                },
+                {
+                  "name": "which",
+                  "type": "u32"
+                }
+              ],
+              "documentation": [
+                " Cancel a proposal queued for enactment."
               ]
             }
           ]
@@ -1424,6 +1454,14 @@
             ]
           },
           {
+            "name": "PublicDelay",
+            "modifier": 1,
+            "type": "BlockNumber",
+            "documentation": [
+              " The delay before enactment for all public referenda."
+            ]
+          },
+          {
             "name": "VotingPeriod",
             "modifier": 1,
             "type": "BlockNumber",
@@ -1452,10 +1490,32 @@
             "modifier": 0,
             "type": {
               "key": "ReferendumIndex",
-              "value": "(BlockNumber,Proposal,VoteThreshold)"
+              "value": "(ReferendumInfo)"
             },
             "documentation": [
               " Information concerning any given referendum."
+            ]
+          },
+          {
+            "name": "DispatchQueue",
+            "modifier": 1,
+            "type": {
+              "key": "BlockNumber",
+              "value": "Vec<Option<(Proposal,ReferendumIndex)>>"
+            },
+            "documentation": [
+              " Queue of successful referenda to be dispatched."
+            ]
+          },
+          {
+            "name": "Bondage",
+            "modifier": 1,
+            "type": {
+              "key": "AccountId",
+              "value": "BlockNumber"
+            },
+            "documentation": [
+              " The block at which the `who`'s funds become liquid."
             ]
           },
           {
@@ -1473,7 +1533,7 @@
             "name": "VoteOf",
             "modifier": 0,
             "type": {
-              "key": "( ReferendumIndex , AccountId )",
+              "key": "(ReferendumIndex,AccountId)",
               "value": "bool"
             },
             "documentation": [
@@ -1910,6 +1970,14 @@
             "documentation": []
           },
           {
+            "name": "EnactDelayPeriod",
+            "modifier": 1,
+            "type": "BlockNumber",
+            "documentation": [
+              " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
+            ]
+          },
+          {
             "name": "Proposals",
             "modifier": 1,
             "type": "Vec<(BlockNumber,Hash)>",
@@ -1937,7 +2005,7 @@
             "name": "CouncilVoteOf",
             "modifier": 0,
             "type": {
-              "key": "( Hash , AccountId )",
+              "key": "(Hash,AccountId)",
               "value": "bool"
             },
             "documentation": []
