@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { defaultIfEmpty, map } from 'rxjs/operators';
-import { BlockNumber, Extrinsic, ExtrinsicStatus, Hash, Header, SignedBlock } from '@polkadot/types/index';
+import { BlockNumber, ChainProperties, Extrinsic, ExtrinsicStatus, Hash, Header, SignedBlock } from '@polkadot/types/index';
 
 import ApiQueries from './Queries';
 
@@ -24,6 +24,18 @@ export default class ApiCalls extends ApiQueries {
 
   chain = (): Observable<Text | undefined> => {
     return this._api.system.chain();
+  }
+
+  chainProperties = (): Observable<ChainProperties> => {
+    return this._api.system
+      .properties()
+      .pipe(
+        map((properties?: ChainProperties | null): ChainProperties =>
+          properties
+            ? properties
+            : new ChainProperties()
+        )
+      );
   }
 
   getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
