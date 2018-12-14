@@ -152,10 +152,10 @@ export class StorageFunctionType$Map extends Struct {
 
 export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
   constructor (value?: any, index?: number) {
-    super([
+    super({
       Type,
       StorageFunctionType$Map
-    ], value, index);
+    }, value, index);
   }
 
   /**

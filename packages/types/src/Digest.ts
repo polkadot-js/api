@@ -72,12 +72,12 @@ export class Seal extends Tuple {
 export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
   | Seal> {
   constructor (value: any) {
-    super([
+    super({
       Other, // Position 0, as per Rust (encoding control)
       AuthoritiesChange,
       ChangesTrieRoot,
       Seal
-    ], value);
+    }, value);
   }
 }
 

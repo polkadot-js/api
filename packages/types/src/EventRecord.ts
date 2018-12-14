@@ -31,10 +31,10 @@ export class Finalization extends Null {
  */
 export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
   constructor (value: any, index?: number) {
-    super([
+    super({
       ApplyExtrinsic,
       Finalization
-    ], value, index);
+    }, value, index);
   }
 }
 

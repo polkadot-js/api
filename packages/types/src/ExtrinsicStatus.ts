@@ -47,11 +47,11 @@ export class Usurped extends Hash {
  */
 export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
   constructor (value: any, index?: number) {
-    super([
+    super({
       Finalised,
       Usurped,
       Broadcast,
       Dropped
-    ], value, index);
+    }, value, index);
   }
 }
