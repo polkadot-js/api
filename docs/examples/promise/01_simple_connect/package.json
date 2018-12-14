@@ -11,8 +11,8 @@
   },
 
   "dependencies": {
-    "@polkadot/api": "^0.32.12",
-    "@polkadot/rpc-provider": "^0.32.12"
+    "@polkadot/api": "^0.33.17",
+    "@polkadot/rpc-provider": "^0.33.17"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
