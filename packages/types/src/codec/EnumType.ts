@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isNumber, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isNumber, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import Null from '../Null';
@@ -68,15 +68,9 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
       const keys = Object.keys(def).map((k) => k.toLowerCase());
       const index = keys.indexOf(lowerKey);
 
-      if (index === -1) {
-        const message = 'Unable to reliably map input on JSON';
+      assert(index !== -1, 'Unable to reliably map input on JSON');
 
-        console.error(message, value, def);
-
-        throw new Error(message);
-      }
-
-      return EnumType.createValue(def, +index, value[key]);
+      return EnumType.createValue(def, index, value[key]);
     }
 
     // Worst-case scenario, return the first with default
