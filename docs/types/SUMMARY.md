@@ -214,6 +214,7 @@
   * [Enum](classes/_codec_enum_.enum.md)
 * [&quot;codec/EnumType&quot;](modules/_codec_enumtype_.md)
   * [EnumType](classes/_codec_enumtype_.enumtype.md)
+* [&quot;codec/EnumType.spec&quot;](modules/_codec_enumtype_spec_.md)
 * [&quot;codec/Option&quot;](modules/_codec_option_.md)
   * [Option](classes/_codec_option_.option.md)
 * [&quot;codec/Set&quot;](modules/_codec_set_.md)
