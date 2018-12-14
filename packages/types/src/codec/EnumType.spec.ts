@@ -7,25 +7,46 @@ import Text from '../Text';
 import U32 from '../U32';
 
 describe('Struct', () => {
-  it('provides a clean toString() (raw)', () => {
+  it('provides a clean toString() (value)', () => {
     expect(
       new EnumType(
-        [Text, U32],
+        { Text, U32 },
         new Uint8Array([0, 2 << 2, 49, 50])
-      ).raw.toString()
+      ).value.toString()
     ).toEqual('12');
   });
 
   it('provides a clean toString() (enum)', () => {
     expect(
       new EnumType(
-        [Text, U32],
+        { Text, U32 },
         new Uint8Array([1, 2 << 2, 49, 50])
       ).toString()
     ).toEqual('U32');
   });
 
-  it('allows checking against defined indexes', () => {
+  it('decodes from a JSON input (lowercase)', () => {
+    expect(
+      new EnumType(
+        { Text, U32 },
+        { 'text': 'some text value' }
+      ).value.toString()
+    ).toEqual('some text value');
+  });
+
+  it('decodes from a JSON input (mixed case)', () => {
+    expect(
+      new EnumType(
+        { Text, U32 },
+        { 'U32': 42 }
+      ).value.toString()
+    ).toEqual('42');
+  });
+
+  // We are currently not using this approach, none of the types in Substrate currently
+  // have any overrides. Insteda of trying to support it (just-in-case), rather have it
+  // removed to simplyfy the code - it can be pulled-back if needed
+  it.skip('allows checking against defined indexes', () => {
     expect(
       new EnumType(
         { 1: Text, 5: U32 },
@@ -37,7 +58,7 @@ describe('Struct', () => {
   it('allows accessing the type and value', () => {
     const text = new Text('foo');
     const enumType = new EnumType(
-      [Text, U32],
+      { Text, U32 },
       { Text: text }
     );
 

@@ -2,16 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isNumber, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isNumber, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import Null from '../Null';
 import { Codec, Constructor } from '../types';
 
-type TypesArray = Array<Constructor>;
 type TypesDef = {
-  [index: number]: Constructor
-} | TypesArray;
+  [name: string]: Constructor
+};
+
+type Decoded = {
+  index: number,
+  value: Codec
+};
 
 /**
  * @name EnumType
@@ -23,62 +27,61 @@ type TypesDef = {
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
 export default class EnumType<T> extends Base<Codec> implements Codec {
-  private _Types: TypesArray;
+  private _def: TypesDef;
   private _index: number;
   private _indexes: Array<number>;
 
   constructor (def: TypesDef, value?: any, index?: number | EnumType<T>) {
     const decoded = EnumType.decodeEnumType(def, value, index);
 
-    super(
-      decoded.value
-    );
+    super(decoded.value);
 
-    this._Types = Array.isArray(def)
-      ? def
-      : Object.values(def);
-    this._indexes = Object.keys(def).map((index) =>
-      parseInt(index, 10)
-    );
-
+    this._def = def;
+    this._indexes = Object.keys(def).map((_, index) => index);
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  static decodeEnumType<T> (def: TypesDef, value?: any, index?: number | EnumType<T>): { index: number, value: any } {
+  private static decodeEnumType<T> (def: TypesDef, value?: any, index?: number | EnumType<T>): Decoded {
     // If `index` is set, we parse it.
     if (index instanceof EnumType) {
-      return { index: index._index, value: new def[index._index](index.raw) };
+      return EnumType.createValue(def, index._index, index.raw);
     } else if (isNumber(index)) {
-      return { index, value: new def[index](value) };
+      return EnumType.createValue(def, index, value);
     }
 
     // Or else, we just look at `value`
-    if (isU8a(value)) {
-      return { index: value[0], value: new def[value[0]](value.subarray(1)) };
-    } else if (isNumber(value) && !isUndefined(def[value])) {
-      return { index: value, value: new def[value]() };
+    return EnumType.decodeViaValue(def, value);
+  }
+
+  private static decodeViaValue (def: TypesDef, value?: any): Decoded {
+    if (value instanceof EnumType) {
+      return EnumType.createValue(def, value._index, value.raw);
+    } else if (isU8a(value)) {
+      return EnumType.createValue(def, value[0], value.subarray(1));
+    } else if (isNumber(value)) {
+      return EnumType.createValue(def, value);
     } else if (isObject(value)) {
       // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
       // additionally force to lower to ensure forward compat
       const key = Object.keys(value)[0];
       const lowerKey = key.toLowerCase();
-      const index = Object
-        .keys(def)
-        .find((k) => def[+k].name.toLowerCase() === lowerKey);
+      const keys = Object.keys(def).map((k) => k.toLowerCase());
+      const index = keys.indexOf(lowerKey);
 
-      if (isUndefined(index)) {
-        const message = 'Unable to reliably map input on JSON';
+      assert(index !== -1, 'Unable to reliably map input on JSON');
 
-        console.error(message, value, def);
-
-        throw new Error(message);
-      }
-
-      return { index: +index, value: new def[+index](value[key]) };
+      return EnumType.createValue(def, index, value[key]);
     }
 
-    // Worst-case scenario, return this
-    return { index: 0, value: new (Object.values(def)[0])() };
+    // Worst-case scenario, return the first with default
+    return EnumType.createValue(def, 0);
+  }
+
+  private static createValue (def: TypesDef, index: number, value?: any): Decoded {
+    return {
+      index,
+      value: new (Object.values(def)[index])(value)
+    };
   }
 
   /**
@@ -106,7 +109,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
    * @description The name of the type this enum value represents
    */
   get type (): string {
-    return this._Types[this._index].name;
+    return Object.keys(this._def)[this._index];
   }
 
   /**

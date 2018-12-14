@@ -120,12 +120,12 @@ export class BftDoubleCommit extends BftAtReport {
  */
 export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePropose | BftDoublePrepare | BftDoubleCommit> {
   constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
-    super([
+    super({
       BftProposeOutOfTurn,
       BftDoublePropose,
       BftDoublePrepare,
       BftDoubleCommit
-    ], value, index);
+    }, value, index);
   }
 }
 
