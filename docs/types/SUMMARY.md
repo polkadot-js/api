@@ -27,6 +27,7 @@
 * [&quot;Bytes.spec&quot;](modules/_bytes_spec_.md)
 * [&quot;ChainProperties&quot;](modules/_chainproperties_.md)
   * [ChainProperties](classes/_chainproperties_.chainproperties.md)
+* [&quot;ChainProperties.spec&quot;](modules/_chainproperties_spec_.md)
 * [&quot;Data&quot;](modules/_data_.md)
   * [Data](classes/_data_.data.md)
 * [&quot;Digest&quot;](modules/_digest_.md)
