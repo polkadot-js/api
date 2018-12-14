@@ -15,14 +15,12 @@ import { Codec } from './types';
  * @noInheritDoc
  */
 export default class ChainProperties extends Map<string, any> implements Codec {
-  constructor (value: { [index: string]: any } = {}) {
+  constructor (value?: { [index: string]: any } | null) {
     super(ChainProperties.decodeChainProperties(value));
   }
 
-  private static decodeChainProperties (value: { [index: string]: any }): Array<[string, any]> {
-    return Object.keys(value).map((key) => ([
-      key, value[key]
-    ] as [string, any]));
+  private static decodeChainProperties (value?: { [index: string]: any } | null): Array<[string, any]> {
+    return Object.entries(value || {});
   }
 
   /**
