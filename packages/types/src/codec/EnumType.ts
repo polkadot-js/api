@@ -12,6 +12,11 @@ type TypesDef = {
   [name: string]: Constructor
 };
 
+type Decoded = {
+  index: number,
+  value: Codec
+};
+
 /**
  * @name EnumType
  * @description
@@ -36,7 +41,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static decodeEnumType<T> (def: TypesDef, value?: any, index?: number | EnumType<T>): { index: number, value: Codec } {
+  private static decodeEnumType<T> (def: TypesDef, value?: any, index?: number | EnumType<T>): Decoded {
     // If `index` is set, we parse it.
     if (index instanceof EnumType) {
       return EnumType.createValue(def, index._index, index.raw);
@@ -45,6 +50,10 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     }
 
     // Or else, we just look at `value`
+    return EnumType.decodeViaValue(def, value);
+  }
+
+  private static decodeViaValue (def: TypesDef, value?: any): Decoded {
     if (value instanceof EnumType) {
       return EnumType.createValue(def, value._index, value.raw);
     } else if (isU8a(value)) {
@@ -74,7 +83,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return EnumType.createValue(def, 0);
   }
 
-  private static createValue (def: TypesDef, index: number, value?: any): { index: number, value: Codec } {
+  private static createValue (def: TypesDef, index: number, value?: any): Decoded {
     return {
       index,
       value: new (Object.values(def)[index])(value)
