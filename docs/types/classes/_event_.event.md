@@ -29,7 +29,7 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Event.ts:85](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L85)*
+*Defined in [Event.ts:85](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L85)*
 
 **Parameters:**
 
@@ -76,7 +76,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L141)*
+*Defined in [codec/Struct.ts:141](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L141)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -89,7 +89,7 @@ ___
 
 getdata(): [EventData](_event_.eventdata.md)
 
-*Defined in [Event.ts:138](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L138)*
+*Defined in [Event.ts:138](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L138)*
 
 *__description__*: The wrapped [EventData](_event_.eventdata.md)
 
@@ -104,7 +104,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:148](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L148)*
+*Defined in [codec/Struct.ts:148](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L148)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -117,7 +117,7 @@ ___
 
 getindex(): [EventIndex](_event_.eventindex.md)
 
-*Defined in [Event.ts:145](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L145)*
+*Defined in [Event.ts:145](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L145)*
 
 *__description__*: The [EventIndex](_event_.eventindex.md), identifying the raw event
 
@@ -130,7 +130,7 @@ ___
 
 getmeta(): [EventMetadata](_metadata_events_.eventmetadata.md)
 
-*Defined in [Event.ts:152](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L152)*
+*Defined in [Event.ts:152](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L152)*
 
 *__description__*: The [EventMetadata](_metadata_events_.eventmetadata.md) with the documentation
 
@@ -143,7 +143,7 @@ ___
 
 getmethod(): `string`
 
-*Defined in [Event.ts:159](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L159)*
+*Defined in [Event.ts:159](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L159)*
 
 *__description__*: The method string identifying the event
 
@@ -156,7 +156,7 @@ ___
 
 getsection(): `string`
 
-*Defined in [Event.ts:166](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L166)*
+*Defined in [Event.ts:166](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L166)*
 
 *__description__*: The section string identifying the event
 
@@ -169,7 +169,7 @@ ___
 
 gettypeDef(): `Array`<[TypeDef](../modules/_codec_createtype_.md#typedef)>
 
-*Defined in [Event.ts:173](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L173)*
+*Defined in [Event.ts:173](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L173)*
 
 *__description__*: The [TypeDef](../modules/_codec_createtype_.md#typedef) for the event
 
@@ -271,7 +271,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L158)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L158)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -292,7 +292,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L165)*
+*Defined in [codec/Struct.ts:165](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L165)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -367,7 +367,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L172)*
+*Defined in [codec/Struct.ts:172](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L172)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -384,7 +384,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:179](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L179)*
+*Defined in [codec/Struct.ts:179](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L179)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -401,7 +401,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L186)*
+*Defined in [codec/Struct.ts:186](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L186)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -418,7 +418,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L200)*
+*Defined in [codec/Struct.ts:200](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L200)*
 
 *__description__*: Returns the string representation of the value
 
@@ -435,7 +435,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:208](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L208)*
+*Defined in [codec/Struct.ts:208](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L208)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -469,7 +469,7 @@ ___
 
 ▸ **decodeEvent**(value: *`Uint8Array`*): `object`
 
-*Defined in [Event.ts:97](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L97)*
+*Defined in [Event.ts:97](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L97)*
 
 **Parameters:**
 
@@ -486,7 +486,7 @@ ___
 
 ▸ **injectMetadata**(metadata: *[Metadata](_metadata_index_.metadata.md)*): `void`
 
-*Defined in [Event.ts:116](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/Event.ts#L116)*
+*Defined in [Event.ts:116](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/Event.ts#L116)*
 
 **Parameters:**
 
@@ -505,7 +505,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:121](https://github.com/polkadot-js/api/blob/4291a49/packages/types/src/codec/Struct.ts#L121)*
+*Defined in [codec/Struct.ts:121](https://github.com/polkadot-js/api/blob/812db29/packages/types/src/codec/Struct.ts#L121)*
 
 **Type parameters:**
 
