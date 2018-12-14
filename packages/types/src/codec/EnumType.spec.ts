@@ -7,7 +7,7 @@ import Text from '../Text';
 import U32 from '../U32';
 
 describe('Struct', () => {
-  it('provides a clean toString() (raw)', () => {
+  it('provides a clean toString() (value)', () => {
     expect(
       new EnumType(
         { Text, U32 },
@@ -23,6 +23,24 @@ describe('Struct', () => {
         new Uint8Array([1, 2 << 2, 49, 50])
       ).toString()
     ).toEqual('U32');
+  });
+
+  it('decodes from a JSON input (lowercase)', () => {
+    expect(
+      new EnumType(
+        { Text, U32 },
+        { 'text': 'some text value' }
+      ).value.toString()
+    ).toEqual('some text value');
+  });
+
+  it('decodes from a JSON input (mixed case)', () => {
+    expect(
+      new EnumType(
+        { Text, U32 },
+        { 'U32': 42 }
+      ).value.toString()
+    ).toEqual('42');
   });
 
   // We are currently not using this approach, none of the types in Substrate currently
