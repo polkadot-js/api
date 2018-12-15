@@ -14,7 +14,7 @@ describe.skip('e2e queries', () => {
   beforeEach(async () => {
     api = await Api.create();
 
-    console.error(api);
+    // console.error(api);
   });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {
@@ -40,5 +40,12 @@ describe.skip('e2e queries', () => {
 
       done();
     });
+  });
+
+  it('makes a query at a specific block', async () => {
+    const header = await api.rpc.chain.getHeader();
+    const events = await api.query.system.events.at(header.hash);
+
+    expect(events.length).not.toEqual(0);
   });
 });

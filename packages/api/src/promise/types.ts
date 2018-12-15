@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '@polkadot/types/types';
+import { Hash } from '@polkadot/types/index';
 import { ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { ApiBaseInterface } from '../types';
@@ -13,6 +14,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 export interface QueryableStorageFunction extends StorageFunction {
   (arg?: any): Promise<Codec | null | undefined>;
+  at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
 }
 
 export interface QueryableModuleStorage {
