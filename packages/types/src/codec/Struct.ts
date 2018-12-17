@@ -5,6 +5,7 @@
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Codec, Constructor, ConstructorDef } from '../types';
+import decodeU8a from '../utils/decodeU8a';
 
 /**
  * @name Struct
@@ -65,7 +66,7 @@ export default class Struct<
     S extends ConstructorDef,
     _,
     T extends { [K in keyof S]: Codec }
-    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
     // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
@@ -81,22 +82,22 @@ export default class Struct<
     S extends ConstructorDef,
     _,
     T extends { [K in keyof S]: Codec }
-    > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
-    // `currentIndex` is only used when we have a UintArray/U8a as value. It's
-    // used to track at which index we are currently parsing in that array.
-    let currentIndex = 0;
+  > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
+
+    if (isU8a(value)) {
+      const values = decodeU8a(value, Object.values(Types));
+      return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+        raw[key] = values[index];
+        return raw;
+      }, {} as T);
+    }
 
     return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
       // The key in the JSON can be snake_case (or other cases), but in our
       // Types, result or any other maps, it's camelCase
       const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-      if (isU8a(value)) {
-        raw[key] = new Types[key](value.subarray(currentIndex));
-
-        // Move the currentIndex forward
-        currentIndex += raw[key].encodedLength;
-      } else if (Array.isArray(value)) {
+      if (Array.isArray(value)) {
         raw[key] = value[index] instanceof Types[key]
           ? value[index]
           : new Types[key](value[index]);
@@ -120,7 +121,7 @@ export default class Struct<
 
   static with<
     S extends ConstructorDef
-    > (Types: S): Constructor<Struct<S>> {
+  > (Types: S): Constructor<Struct<S>> {
     return class extends Struct<S> {
       constructor (value?: any, jsonMap?: Map<keyof S, string>) {
         super(Types, value, jsonMap);

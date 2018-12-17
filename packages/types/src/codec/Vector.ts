@@ -6,6 +6,7 @@ import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
 import { Codec, Constructor } from '../types';
+import decodeU8a from '../utils/decodeU8a';
 
 /**
  * @name Vector
@@ -42,16 +43,7 @@ export default class Vector<
     let [offset, _length] = Compact.decodeU8a(u8a);
     const length = _length.toNumber();
 
-    const result = [];
-
-    for (let index = 0; index < length; index++) {
-      const decoded = new Type(u8a.subarray(offset));
-
-      result.push(decoded);
-      offset += decoded.encodedLength;
-    }
-
-    return result;
+    return decodeU8a(u8a.subarray(offset), new Array(length).fill(Type)) as T[];
   }
 
   static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
