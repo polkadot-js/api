@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { stringToU8a, u8aConcat } from '@polkadot/util';
+
 import createFunction from './createFunction';
 
 describe('createFunction', () => {
@@ -17,17 +19,38 @@ describe('createFunction', () => {
     );
   });
 
-  it('allows overrides on method name', () => {
+  it('allows overrides on key (keeping name)', () => {
     expect(
       createFunction(
         'Substrate',
-        ':auth:len',
+        'authorityCount',
         { type: {} } as any,
         {
           isUnhashed: true,
-          method: 'authorityCount'
+          key: ':auth:len'
         }
       ).method
     ).toEqual('authorityCount');
+  });
+
+  it('allows overrides on key (unhashed)', () => {
+    const key = ':auth:len';
+
+    expect(
+      createFunction(
+        'Substrate',
+        'authorityCount',
+        { type: {} } as any,
+        {
+          isUnhashed: true,
+          key
+        }
+      )()
+    ).toEqual(
+      u8aConcat(
+        Uint8Array.from([key.length << 2]),
+        stringToU8a(':auth:len')
+      )
+    );
   });
 });

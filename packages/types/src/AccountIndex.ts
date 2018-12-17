@@ -121,14 +121,17 @@ export default class AccountIndex extends U32 {
   /**
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
+   * @param isStorageKey true when encoded as part of a key, taking case of specific logic
    */
-  toU8a (isBare?: boolean): Uint8Array {
-    // HACK 15 Oct 2018 For isBare assume that we are dealing with an AccountIndex
+  toU8a (isBare?: boolean, isStorageKey?: boolean): Uint8Array {
+    // HACK 15 Oct 2018 For isStorageKey assume that we are dealing with an AccountIndex
     // lookup (it is the only place where AccountIndex is used in such a manner to
     // construct a query). This is needed to get enumSet(AccountIndex) queries to
     // work in the way it was intended
-    return isBare
-      ? bnToU8a(this.div(ENUMSET_SIZE), 32, true)
-      : super.toU8a();
+    if (isStorageKey) {
+      return bnToU8a(this.div(ENUMSET_SIZE), 32, true);
+    }
+
+    return super.toU8a(isBare);
   }
 }

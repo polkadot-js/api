@@ -18,7 +18,7 @@ interface SubstrateMetadata {
 const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
   createFunction(
     new Text('Substrate'),
-    new Text(key),
+    new Text(method),
     {
       documentation: new Vector(Text, [documentation]),
       modifier: new StorageFunctionModifier(0),
@@ -28,7 +28,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     } as StorageFunctionMetadata,
     {
       isUnhashed: true,
-      method
+      key
     }
   );
 
