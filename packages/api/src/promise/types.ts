@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -13,6 +14,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 export interface QueryableStorageFunction extends StorageFunction {
   (arg?: any): Promise<Codec | null | undefined>;
+  at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
 }
 
 export interface QueryableModuleStorage {

@@ -6,20 +6,19 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
-import { EMPTY, Observable, from } from 'rxjs';
-import { defaultIfEmpty, map } from 'rxjs/operators';
+import { Observable, from, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
+import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert, logger } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
-
-const l = logger('api-rx');
 
 /**
  * # @polkadot/api/rx
@@ -230,26 +229,28 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg: any): Observable<Codec | null | undefined> => {
-      let observable;
+    const decorated: any = (arg?: any): Observable<Codec | null | undefined> => {
 
-      try {
-        observable = this.rpc.state.subscribeStorage([[method, arg]]);
-      } catch (error) {
-        // in the case of an exception (upon creation of key), just return an empty
-        observable = EMPTY;
-        l.warn(`${method.section}.${method.method}: storage subscription:`, error);
-      }
-
-      // state_storage returns an array of values, since we have just subscribed to
-      // a single entry, we pull that from the array and return it as-is
-      return observable.pipe(
-        defaultIfEmpty([]),
-        map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
-          result[0]
-        )
-      );
+      return this.rpc.state
+        .subscribeStorage([[method, arg]])
+        .pipe(
+          // errors can occur in the case of malformed methods + args
+          catchError(() => of([])),
+          // state_storage returns an array of values, since we have just subscribed to
+          // a single entry, we pull that from the array and return it as-is
+          map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
+            result[0]
+          )
+        );
     };
+
+    decorated.at = (hash: Hash, arg?: any): Observable<Codec | null | undefined> =>
+      this.rpc.state
+        .getStorage([method, arg], hash)
+        .pipe(
+          // same as above (for single result), in the case of errors on creation, return `undefined`
+          catchError(() => of())
+        );
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }

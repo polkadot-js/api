@@ -8,6 +8,7 @@ import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, 
 
 import Rpc from '@polkadot/rpc-core/index';
 import { Storage } from '@polkadot/storage/types';
+import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { Extrinsics, ExtrinsicFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -251,6 +252,9 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
           args[args.length - 1](result[0])
       );
     };
+
+    decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
+      this.rpc.state.getStorage([method, arg], hash);
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
