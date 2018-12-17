@@ -15,9 +15,8 @@ export default function decodeU8a (u8a: Uint8Array, types: Constructor[]): Codec
   if (!types.length) {
     return [];
   }
-  const Type = types.shift();
+  const Type = types.shift() as Constructor;
 
-  // @ts-ignore Object is possibly 'undefined'. No it's not.
   const value = new Type(u8a);
 
   return [value].concat(decodeU8a(u8a.subarray(value.encodedLength), types));
