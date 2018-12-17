@@ -5,7 +5,7 @@
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Codec, Constructor, ConstructorDef } from '../types';
-import decodeU8a from '../utils/decodeU8a';
+import decodeU8a from './utils/decodeU8a';
 
 /**
  * @name Struct

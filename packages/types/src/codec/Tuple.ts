@@ -5,7 +5,7 @@
 import { isU8a, u8aConcat, u8aToHex, isHex, hexToU8a } from '@polkadot/util';
 
 import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
-import decodeU8a from '../utils/decodeU8a';
+import decodeU8a from './utils/decodeU8a';
 
 /**
  * @name Tuple

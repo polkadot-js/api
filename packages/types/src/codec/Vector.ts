@@ -6,7 +6,7 @@ import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
 import { Codec, Constructor } from '../types';
-import decodeU8a from '../utils/decodeU8a';
+import decodeU8a from './utils/decodeU8a';
 
 /**
  * @name Vector
