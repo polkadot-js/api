@@ -41,7 +41,7 @@ export default function createFunction (section: Text | string, method: Text | s
 
       const type = meta.type.asMap.key.toString();
 
-      // encode with fulle encoding, indicating that this is a storage key to allow any
+      // encode with full encoding, indicating that this is a storage key to allow any
       // specific encoding to take place (and example here is AccountIndex)
       const param = createType(type, arg).toU8a(false, true);
 
