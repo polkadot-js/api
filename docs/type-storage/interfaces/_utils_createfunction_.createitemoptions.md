@@ -13,17 +13,17 @@
 **● isUnhashed**: * `undefined` &#124; `false` &#124; `true`
 *
 
-*Defined in [utils/createFunction.ts:14](https://github.com/polkadot-js/api/blob/06893d0/packages/type-storage/src/utils/createFunction.ts#L14)*
+*Defined in [utils/createFunction.ts:14](https://github.com/polkadot-js/api/blob/535a9ea/packages/type-storage/src/utils/createFunction.ts#L14)*
 
 ___
-<a id="method"></a>
+<a id="key"></a>
 
-## `<Optional>` method
+## `<Optional>` key
 
-**● method**: * `undefined` &#124; `string`
+**● key**: * `undefined` &#124; `string`
 *
 
-*Defined in [utils/createFunction.ts:15](https://github.com/polkadot-js/api/blob/06893d0/packages/type-storage/src/utils/createFunction.ts#L15)*
+*Defined in [utils/createFunction.ts:15](https://github.com/polkadot-js/api/blob/535a9ea/packages/type-storage/src/utils/createFunction.ts#L15)*
 
 ___
 
