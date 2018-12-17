@@ -71,10 +71,19 @@ export default class Struct<
 
     if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
+    } else if (isU8a(value)) {
+      const values = decodeU8a(value, Object.values(Types));
+
+      // Transform array of values to {key: value} mapping
+      return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
+        raw[key] = values[index];
+        return raw;
+      }, {} as T);
     } else if (!value) {
       return {} as T;
     }
 
+    // We assume from here that value is a JS object (Array, Map, Object)
     return Struct.decodeStructFromObject(Types, value, jsonMap);
   }
 
@@ -83,15 +92,6 @@ export default class Struct<
     _,
     T extends { [K in keyof S]: Codec }
   > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
-
-    if (isU8a(value)) {
-      const values = decodeU8a(value, Object.values(Types));
-      return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
-        raw[key] = values[index];
-        return raw;
-      }, {} as T);
-    }
-
     return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
       // The key in the JSON can be snake_case (or other cases), but in our
       // Types, result or any other maps, it's camelCase
