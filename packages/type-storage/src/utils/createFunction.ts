@@ -12,7 +12,7 @@ import { xxhashAsU8a } from '@polkadot/util-crypto';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
-  method?: string;
+  key?: string;
 }
 
 /**
@@ -26,42 +26,38 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
-  let storageFn: any;
+  // Can only have zero or one argument:
+  // - storage.balances.freeBalance(address)
+  // - storage.timestamp.blockPeriod()
+  const storageFn = (arg?: any): Uint8Array => {
+    let key = stringToU8a(
+      options.key
+        ? options.key
+        : `${section.toString()} ${method.toString()}`
+    );
 
-  // NOTE Here we assume everything in the 'Substrate' prefix is unhashed. (Despite not passing empty, i.e. '',
-  // the actual "prefix + name" below won't work even when we have an empty prefix.) For now, this is a safe
-  // assumption, but will break if the base substrate keys employ hashing as well
-  if (options.isUnhashed) {
-    storageFn = (): Uint8Array =>
-      Compact.addLengthPrefix(stringToU8a(method.toString()));
-  } else {
-    // TODO Find better type than any
-    // Can only have zero or one argument:
-    // - storage.balances.freeBalance(address)
-    // - storage.timestamp.blockPeriod()
-    storageFn = (arg?: any): Uint8Array => {
-      const key = stringToU8a(`${section.toString()} ${method.toString()}`);
-
-      if (!meta.type.isMap) {
-        return Compact.addLengthPrefix(
-          xxhashAsU8a(key, 128)
-        );
-      }
-
+    if (meta.type.isMap) {
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
-      const type = meta.type.asMap.key.toString(); // Argument type, as string
-      const param = createType(type, arg).toU8a(true);
+      const type = meta.type.asMap.key.toString();
 
-      // StorageKey is a Bytes, so is length-prefixed
-      return Compact.addLengthPrefix(
-        xxhashAsU8a(u8aConcat(key, param), 128)
-      );
-    };
-  }
+      // encode with fulle encoding, indicating that this is a storage key to allow any
+      // specific encoding to take place (and example here is AccountIndex)
+      const param = createType(type, arg).toU8a(false, true);
+
+      key = u8aConcat(key, param);
+    }
+
+    // StorageKey is a Bytes, so is length-prefixed
+    return Compact.addLengthPrefix(
+      options.isUnhashed
+        ? key
+        : xxhashAsU8a(key, 128)
+    );
+  };
 
   storageFn.meta = meta;
-  storageFn.method = stringLowerFirst((options.method || method).toString());
+  storageFn.method = stringLowerFirst(method.toString());
   storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any => meta.toJSON();
 
