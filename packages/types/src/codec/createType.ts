@@ -8,11 +8,11 @@ import { Codec, Constructor } from '../types';
 import Text from '../Text';
 import Compact from './Compact';
 import Option from './Option';
+import Struct from './Struct';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 import registry from './typeRegistry';
-import { Struct } from '.';
 
 export enum TypeDefInfo {
   Compact,
