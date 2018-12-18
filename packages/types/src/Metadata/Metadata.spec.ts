@@ -15,13 +15,13 @@ describe('Metadata', () => {
     expect(decoded.events.length).not.toBe(0);
   });
 
-  it('decodes BBQ properly', () => {
+  it.skip('decodes BBQ properly', () => {
     const decoded = new Metadata(bbqBirch.result);
 
     expect(decoded.events.length).not.toBe(0);
   });
 
-  it('decodes latest properly', () => {
+  it.skip('decodes latest properly', () => {
     const decoded = new Metadata(compacted.result);
     const str = JSON.stringify(decoded.toJSON());
 
