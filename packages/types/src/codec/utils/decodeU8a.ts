@@ -16,8 +16,8 @@ export default function decodeU8a (u8a: Uint8Array, types: Constructor[]): Codec
     return [];
   }
 
-  const Type = types.shift() as Constructor;
+  const Type = types[0];
   const value = new Type(u8a);
 
-  return [value].concat(decodeU8a(u8a.subarray(value.encodedLength), types));
+  return [value].concat(decodeU8a(u8a.subarray(value.encodedLength), types.slice(1)));
 }
