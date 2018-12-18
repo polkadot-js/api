@@ -16,6 +16,7 @@
 export { default as AccountId } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
+export { default as AttestedCandidate } from './AttestedCandidate';
 export { default as AuthorityId } from './AuthorityId';
 export { default as Balance } from './Balance';
 // NOTE Bft items are only used in internal structures
