@@ -26,7 +26,7 @@
 
 *Overrides [UInt](_codec_uint_.uint.md).[constructor](_codec_uint_.uint.md#constructor)*
 
-*Defined in [U128.ts:14](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/U128.ts#L14)*
+*Defined in [U128.ts:14](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/U128.ts#L14)*
 
 **Parameters:**
 
@@ -48,7 +48,7 @@ getencodedLength(): `number`
 
 *Inherited from [UInt](_codec_uint_.uint.md).[encodedLength](_codec_uint_.uint.md#encodedlength)*
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L57)*
+*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L57)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -188,7 +188,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:64](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L64)*
+*Defined in [codec/UInt.ts:64](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L64)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -1523,7 +1523,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toBn](_codec_uint_.uint.md#tobn)*
 
-*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L71)*
+*Defined in [codec/UInt.ts:71](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L71)*
 
 *__description__*: Returns the BN representation of the number. (Compatibility)
 
@@ -1562,7 +1562,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toHex](_codec_uint_.uint.md#tohex)*
 
-*Defined in [codec/UInt.ts:78](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L78)*
+*Defined in [codec/UInt.ts:78](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L78)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1581,7 +1581,7 @@ ___
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/UInt.ts:85](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L85)*
+*Defined in [codec/UInt.ts:85](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L85)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1634,7 +1634,7 @@ ___
 
 *Overrides BN.toString*
 
-*Defined in [codec/UInt.ts:95](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L95)*
+*Defined in [codec/UInt.ts:95](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L95)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1676,7 +1676,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[toU8a](_codec_uint_.uint.md#tou8a)*
 
-*Defined in [codec/UInt.ts:104](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L104)*
+*Defined in [codec/UInt.ts:104](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L104)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1880,7 +1880,7 @@ ___
 
 *Inherited from [UInt](_codec_uint_.uint.md).[decodeUInt](_codec_uint_.uint.md#decodeuint)*
 
-*Defined in [codec/UInt.ts:38](https://github.com/polkadot-js/api/blob/46b10a0/packages/types/src/codec/UInt.ts#L38)*
+*Defined in [codec/UInt.ts:38](https://github.com/polkadot-js/api/blob/5fa087e/packages/types/src/codec/UInt.ts#L38)*
 
 **Parameters:**
 
