@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeDefInfo, typeSplit, getTypeClass, getTypeDef } from './createType';
+import createType, { TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
 
 describe('typeSplit', () => {
   it('splits simple types into an array', () => {
@@ -38,13 +38,13 @@ describe('typeSplit', () => {
   it('checks for unclosed vec', () => {
     expect(
       () => typeSplit('Text, Vec<u64')
-    ).toThrow(/Invalid Compact\/Vector/);
+    ).toThrow(/Invalid defintion/);
   });
 
   it('checks for unclosed tuple', () => {
     expect(
       () => typeSplit('Text, (u64, u32')
-    ).toThrow(/Invalid Tuple/);
+    ).toThrow(/Invalid defintion/);
   });
 });
 
@@ -154,6 +154,42 @@ describe('getTypeValue', () => {
       }
     });
   });
+
+  it('returns an actual Struct', () => {
+    expect(
+      getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}')
+    ).toEqual({
+      info: TypeDefInfo.Struct,
+      type: '{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}',
+      sub: [
+        {
+          info: TypeDefInfo.Plain,
+          name: 'balance',
+          type: 'Balance'
+        },
+        {
+          info: TypeDefInfo.Plain,
+          name: 'account_id',
+          type: 'AccountId'
+        },
+        {
+          info: TypeDefInfo.Tuple,
+          name: 'log',
+          type: '(u64, Signature)',
+          sub: [
+            {
+              info: TypeDefInfo.Plain,
+              type: 'u64'
+            },
+            {
+              info: TypeDefInfo.Plain,
+              type: 'Signature'
+            }
+          ]
+        }
+      ]
+    });
+  });
 });
 
 describe('getTypeClass', () => {
@@ -161,5 +197,19 @@ describe('getTypeClass', () => {
     expect(
       () => getTypeClass('SomethingInvalid' as any)
     ).toThrow(/determine type/);
+  });
+});
+
+describe('createType', () => {
+  it('allows creation of a Struct', () => {
+    expect(
+      createType('{"balance":"Balance","index":"u32"}', {
+        balance: 1234,
+        index: '0x10'
+      }).toJSON()
+    ).toEqual({
+      balance: '0x000000000000000000000000000004d2',
+      index: 16
+    });
   });
 });
