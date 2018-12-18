@@ -6,7 +6,7 @@ import bbqBirch from '../json/Metadata.bbq.json';
 import compacted from '../json/Metadata.latest.json';
 import Metadata from './index';
 import rpcdata from './static';
-import latestParsed from './latest.json';
+import latestParsed from './latest.substrate.json';
 
 describe('Metadata', () => {
   it('decodes properly', () => {
