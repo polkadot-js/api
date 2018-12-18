@@ -5,6 +5,7 @@
 import { isU8a, u8aConcat, u8aToHex, isHex, hexToU8a } from '@polkadot/util';
 
 import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
+import decodeU8a from './utils/decodeU8a';
 
 /**
  * @name Tuple
@@ -27,20 +28,9 @@ export default class Tuple<
 
   private static decodeTuple<
     S extends Array<Constructor>
-    > (Types: S, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
+  > (Types: S, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
     if (isU8a(value)) {
-      // `currentIndex` is only used when we have a UintArray/U8a as value. It's
-      // used to track at which index we are currently parsing in the U8a.
-      let currentIndex = 0;
-
-      return Types
-        .map((Type) => {
-          const raw = new Type(value.subarray(currentIndex));
-          // Move the currentIndex forward
-          currentIndex += raw.encodedLength;
-
-          return raw;
-        });
+      return decodeU8a(value, Types);
     } else if (isHex(value)) {
       return Tuple.decodeTuple(Types, hexToU8a(value));
     }
@@ -52,7 +42,7 @@ export default class Tuple<
 
   static with<
     S extends Array<Constructor>
-    > (Types: S): Constructor<Tuple<S>> {
+  > (Types: S): Constructor<Tuple<S>> {
     return class extends Tuple<S> {
       constructor (value?: any) {
         super(Types, value);

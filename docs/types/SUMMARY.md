@@ -246,6 +246,7 @@
 * [&quot;codec/index&quot;](modules/_codec_index_.md)
 * [&quot;codec/typeRegistry&quot;](modules/_codec_typeregistry_.md)
   * [TypeRegistry](classes/_codec_typeregistry_.typeregistry.md)
+* [&quot;codec/utils/decodeU8a&quot;](modules/_codec_utils_decodeu8a_.md)
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;scripts/MetadataJsonDecode&quot;](modules/_scripts_metadatajsondecode_.md)
 * [&quot;scripts/MetadataMd&quot;](modules/_scripts_metadatamd_.md)
