@@ -9,7 +9,7 @@
 **Ƭ ApiFunctions**: * `keyof ApiBase` &#124; `keyof ApiCalls` &#124; `keyof ApiCombined` &#124; `keyof ApiQueries`
 *
 
-*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/edfd625/packages/api-observable/src/types.ts#L12)*
+*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api-observable/src/types.ts#L12)*
 
 ___
 <a id="rxbalance"></a>
@@ -18,7 +18,7 @@ ___
 
 **Ƭ RxBalance**: *`object`*
 
-*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/edfd625/packages/api-observable/src/types.ts#L14)*
+*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api-observable/src/types.ts#L14)*
 
 #### Type declaration
 
@@ -29,7 +29,7 @@ ___
 
 **Ƭ RxBalanceMap**: *`object`*
 
-*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/edfd625/packages/api-observable/src/types.ts#L38)*
+*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api-observable/src/types.ts#L38)*
 
 #### Type declaration
 
@@ -42,7 +42,7 @@ ___
 
 **Ƭ RxFees**: *`object`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/edfd625/packages/api-observable/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api-observable/src/types.ts#L24)*
 
 #### Type declaration
 
@@ -53,7 +53,7 @@ ___
 
 **Ƭ RxReferendumVote**: *`object`*
 
-*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/edfd625/packages/api-observable/src/types.ts#L32)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api-observable/src/types.ts#L32)*
 
 #### Type declaration
 

@@ -14,9 +14,12 @@
 * [AccountIndex](../classes/_accountindex_.accountindex.md)
 * [ApiId](../classes/_runtimeversion_.apiid.md)
 * [ApplyExtrinsic](../classes/_eventrecord_.applyextrinsic.md)
+* [AttestedCandidate](../classes/_attestedcandidate_.attestedcandidate.md)
 * [AuthoritiesChange](../classes/_digest_.authoritieschange.md)
 * [AuthorityId](../classes/_authorityid_.authorityid.md)
+* [AvailabilityVote](../classes/_attestedcandidate_.availabilityvote.md)
 * [Balance](../classes/_balance_.balance.md)
+* [BalanceUpload](../classes/_attestedcandidate_.balanceupload.md)
 * [BftAtReport](../classes/_misbehaviorreport_.bftatreport.md)
 * [BftAuthoritySignature](../classes/_bft_.bftauthoritysignature.md)
 * [BftDoubleCommit](../classes/_misbehaviorreport_.bftdoublecommit.md)
@@ -30,6 +33,8 @@
 * [Broadcast](../classes/_extrinsicstatus_.broadcast.md)
 * [Bytes](../classes/_bytes_.bytes.md)
 * [CallMetadata](../classes/_metadata_modules_.callmetadata.md)
+* [CandidateReceipt](../classes/_attestedcandidate_.candidatereceipt.md)
+* [CandidateSignature](../classes/_attestedcandidate_.candidatesignature.md)
 * [ChainProperties](../classes/_chainproperties_.chainproperties.md)
 * [ChangesTrieRoot](../classes/_digest_.changestrieroot.md)
 * [Compact](../classes/_codec_compact_.compact.md)
@@ -37,6 +42,7 @@
 * [Digest](../classes/_digest_.digest.md)
 * [DigestItem](../classes/_digest_.digestitem.md)
 * [Dropped](../classes/_extrinsicstatus_.dropped.md)
+* [EgressQueueRoot](../classes/_attestedcandidate_.egressqueueroot.md)
 * [Enum](../classes/_codec_enum_.enum.md)
 * [EnumType](../classes/_codec_enumtype_.enumtype.md)
 * [Event](../classes/_event_.event.md)
@@ -44,6 +50,7 @@
 * [EventIndex](../classes/_event_.eventindex.md)
 * [EventMetadata](../classes/_metadata_events_.eventmetadata.md)
 * [EventRecord](../classes/_eventrecord_.eventrecord.md)
+* [ExplicitCandidateSignature](../classes/_attestedcandidate_.explicitcandidatesignature.md)
 * [Extrinsic](../classes/_extrinsic_.extrinsic.md)
 * [ExtrinsicEra](../classes/_extrinsicera_.extrinsicera.md)
 * [ExtrinsicSignature](../classes/_extrinsicsignature_.extrinsicsignature.md)
@@ -57,7 +64,9 @@
 * [H256](../classes/_h256_.h256.md)
 * [H512](../classes/_h512_.h512.md)
 * [Hash](../classes/_hash_.hash.md)
+* [HeadData](../classes/_attestedcandidate_.headdata.md)
 * [Header](../classes/_header_.header.md)
+* [ImplicitCandidateSignature](../classes/_attestedcandidate_.implicitcandidatesignature.md)
 * [InherentOfflineReport](../classes/_inherentofflinereport_.inherentofflinereport.md)
 * [Justification](../classes/_justification_.justification.md)
 * [KeyValue](../classes/_keyvalue_.keyvalue.md)
@@ -80,7 +89,7 @@
 * [OuterDispatchMetadata](../classes/_metadata_calls_.outerdispatchmetadata.md)
 * [OuterEventMetadata](../classes/_metadata_events_.outereventmetadata.md)
 * [OuterEventMetadataEvent](../classes/_metadata_events_.outereventmetadataevent.md)
-* [ParachainId](../classes/_parachainid_.parachainid.md)
+* [ParaId](../classes/_paraid_.paraid.md)
 * [PendingExtrinsics](../classes/_pendingextrinsics_.pendingextrinsics.md)
 * [Perbill](../classes/_perbill_.perbill.md)
 * [Permill](../classes/_permill_.permill.md)
@@ -124,6 +133,8 @@
 * [UInt](../classes/_codec_uint_.uint.md)
 * [Usurped](../classes/_extrinsicstatus_.usurped.md)
 * [ValidatorPrefs](../classes/_validatorprefs_.validatorprefs.md)
+* [ValidityAttestation](../classes/_attestedcandidate_.validityattestation.md)
+* [ValidityVote](../classes/_attestedcandidate_.validityvote.md)
 * [Vector](../classes/_codec_vector_.vector.md)
 * [VoteIndex](../classes/_voteindex_.voteindex.md)
 * [VoteThreshold](../classes/_votethreshold_.votethreshold.md)
@@ -136,7 +147,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/edfd625/packages/types/src/types.ts#L27)*
+*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/types.ts#L27)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -150,7 +161,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/edfd625/packages/types/src/types.ts#L32)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/types.ts#L32)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -163,7 +174,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/edfd625/packages/types/src/types.ts#L37)*
+*Defined in [types.ts:37](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/types.ts#L37)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -176,7 +187,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/edfd625/packages/types/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/types.ts#L42)*
 
 *__description__*: Returns the string representation of the value
 
@@ -189,7 +200,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*, isStorageKey?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/edfd625/packages/types/src/types.ts#L49)*
+*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/types.ts#L49)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
