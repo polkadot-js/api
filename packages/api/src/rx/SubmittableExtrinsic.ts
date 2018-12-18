@@ -7,7 +7,14 @@ import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { ApiRxInterface } from './types';
 
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Extrinsic, ExtrinsicStatus } from '@polkadot/types/index';
+
+type SendResult = {
+  status: ExtrinsicStatus,
+  // toString for backwards compat, i.e. result.toString() === 'finalised'
+  toString (): string
+};
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiRxInterface;
@@ -18,8 +25,15 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  send (): Observable<ExtrinsicStatus> {
-    return this._api.rpc.author.submitAndWatchExtrinsic(this);
+  send (): Observable<SendResult> {
+    return this._api.rpc.author
+      .submitAndWatchExtrinsic(this)
+      .pipe(
+        map((status: ExtrinsicStatus) => ({
+          status,
+          toString: status.toString
+        }))
+      );
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

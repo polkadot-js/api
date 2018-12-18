@@ -8,6 +8,12 @@ import { ApiPromiseInterface } from './types';
 
 import { Extrinsic, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 
+type SendResult = {
+  status: ExtrinsicStatus,
+  // toString for backwards compat, i.e. result.toString() === 'finalised'
+  toString (): string
+};
+
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
 
@@ -17,12 +23,17 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  send (statusCb?: (status: ExtrinsicStatus) => any): Promise<Hash> {
+  send (statusCb?: (result: SendResult) => any): Promise<Hash> {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }
 
-    return this._api.rpc.author.submitAndWatchExtrinsic(this, statusCb);
+    return this._api.rpc.author.submitAndWatchExtrinsic(this, (status: ExtrinsicStatus) =>
+      statusCb({
+        status,
+        toString: status.toString
+      })
+    );
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {
