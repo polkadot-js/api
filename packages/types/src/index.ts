@@ -54,7 +54,7 @@ export { default as Null } from './Null';
 export { default as Index } from './Nonce';
 export { default as Justification } from './Justification';
 export { default as Origin } from './Origin';
-export { default as ParachainId } from './ParachainId';
+export { default as ParaId } from './ParaId';
 export { default as PendingExtrinsics } from './PendingExtrinsics';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
