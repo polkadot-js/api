@@ -28,15 +28,15 @@ export default class SubmittableExtrinsic extends Extrinsic {
       let events: Array<any> | undefined = undefined;
 
       if (status.type === 'Finalised') {
-        const { block: { extrinsics, hash } }: SignedBlock = await this._api.rpc.chain.getBlock();
+        const blockHash = status.value as Hash;
+        const { block: { extrinsics } }: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
+        const allEvents: Array<EventRecord> = await this._api.query.system.events.at(blockHash) as any;
 
         const index = extrinsics
           .map((ext) => ext.hash.toHex())
           .indexOf(this.hash.toHex());
 
         if (index !== -1) {
-          const allEvents: Array<EventRecord> = await this._api.query.system.events.at(hash) as any;
-
           events = allEvents.filter(({ phase }) =>
             phase.type === 'ApplyExtrinsic' && (phase.value as u32).eqn(index)
           );

@@ -4,6 +4,8 @@
 
 import { AnyU8a } from './types';
 
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
 import Struct from './codec/Struct';
 import Extrinsics from './Extrinsics';
 import Hash from './Hash';
@@ -35,10 +37,12 @@ export default class Block extends Struct {
   }
 
   /**
-   * @description Coinvenience getter, encoded the [[Hash]] for the block header
+   * @description Coinvenience getter, encoded the [[Hash]] for the block
    */
   get hash (): Hash {
-    return this.header.hash;
+    return new Hash(
+      blake2AsU8a(this.toU8a(), 256)
+    );
   }
 
   /**
