@@ -79,8 +79,6 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     const keys = Object.keys(def).map((k) => k.toLowerCase());
     const index = keys.indexOf(lowerKey);
 
-    console.error('expanded', keys, index, key);
-
     assert(index !== -1, 'Unable to reliably map input on JSON');
 
     return EnumType.createValue(def, index, value);
