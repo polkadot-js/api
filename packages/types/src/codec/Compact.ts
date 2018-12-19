@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString, isU8a } from '@polkadot/util';
+import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import { AnyNumber, Codec, Constructor } from '../types';
@@ -56,13 +56,11 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
       );
     } else if (isNumber(value) || isBn(value)) {
       return new Type(bnToBn(value));
-    } else if (isU8a(value)) {
-      const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());
-
-      return new Type(_value);
     }
 
-    throw new Error('Unreachable');
+    const [, _value] = Compact.decodeU8a(value, new Type(0).bitLength());
+
+    return new Type(_value);
   }
 
   /**
