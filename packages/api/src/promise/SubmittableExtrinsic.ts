@@ -10,8 +10,7 @@ import { Extrinsic, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 
 type SendResult = {
   status: ExtrinsicStatus,
-  // toString for backwards compat, i.e. result.toString() === 'finalised'
-  toString (): string
+  type: string
 };
 
 export default class SubmittableExtrinsic extends Extrinsic {
@@ -31,7 +30,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
     return this._api.rpc.author.submitAndWatchExtrinsic(this, (status: ExtrinsicStatus) =>
       statusCb({
         status,
-        toString: status.toString
+        type: status.type
       })
     );
   }

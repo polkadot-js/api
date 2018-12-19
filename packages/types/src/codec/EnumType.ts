@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isNumber, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { assert, isNumber, isObject, isString, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import Null from '../Null';
@@ -60,21 +60,28 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
       return EnumType.createValue(def, value[0], value.subarray(1));
     } else if (isNumber(value)) {
       return EnumType.createValue(def, value);
+    } else if (isString(value)) {
+      return EnumType.createViaJSON(def, value.toString());
     } else if (isObject(value)) {
-      // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
-      // additionally force to lower to ensure forward compat
       const key = Object.keys(value)[0];
-      const lowerKey = key.toLowerCase();
-      const keys = Object.keys(def).map((k) => k.toLowerCase());
-      const index = keys.indexOf(lowerKey);
 
-      assert(index !== -1, 'Unable to reliably map input on JSON');
-
-      return EnumType.createValue(def, index, value[key]);
+      return EnumType.createViaJSON(def, key, value[key]);
     }
 
     // Worst-case scenario, return the first with default
     return EnumType.createValue(def, 0);
+  }
+
+  private static createViaJSON (def: TypesDef, key: string, value?: any) {
+    // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
+    // additionally force to lower to ensure forward compat
+    const lowerKey = key.toLowerCase();
+    const keys = Object.keys(def).map((k) => k.toLowerCase());
+    const index = keys.indexOf(lowerKey);
+
+    assert(index !== -1, 'Unable to reliably map input on JSON');
+
+    return EnumType.createValue(def, index, value);
   }
 
   private static createValue (def: TypesDef, index: number, value?: any): Decoded {

@@ -33,6 +33,30 @@ export class Finalised extends Hash {
 }
 
 /**
+ * @name Future
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been added to the future queue
+ */
+export class Future extends Null {
+}
+
+/**
+ * @name Ready
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been added to the ready queue
+ */
+export class Ready extends Null {
+}
+
+/**
+ * @name Invalid
+ * @description
+ * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] is invalid
+ */
+export class Invalid extends Null {
+}
+
+/**
  * @name Usurped
  * @description
  * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] has been usurped
@@ -45,13 +69,16 @@ export class Usurped extends Hash {
  * @description
  * An [[EnumType]] that indicates the status of the [[Extrinsic]] as been submitted
  */
-export default class ExtrinsicStatus extends EnumType<Finalised | Usurped | Broadcast | Dropped> {
+export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalised | Usurped | Broadcast | Dropped | Invalid> {
   constructor (value: any, index?: number) {
     super({
+      Future,
+      Ready,
       Finalised,
       Usurped,
       Broadcast,
-      Dropped
+      Dropped,
+      Invalid
     }, value, index);
   }
 }

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import EnumType from './EnumType';
+import Null from '../Null';
 import Text from '../Text';
 import U32 from '../U32';
 
@@ -41,6 +42,15 @@ describe('Struct', () => {
         { 'U32': 42 }
       ).value.toString()
     ).toEqual('42');
+  });
+
+  it('decodes from JSON string', () => {
+    expect(
+      new EnumType(
+        { Null, U32 },
+        'null'
+      ).type
+    ).toEqual('Null');
   });
 
   // We are currently not using this approach, none of the types in Substrate currently
