@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodecTypes } from '@polkadot/types/types';
+import { CodecTypes } from '@polkadot/types/classes';
 import { RpcParam } from '../types';
 
 type RpcParamOptions = {

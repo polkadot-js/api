@@ -62,7 +62,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
       return new Type(_value);
     }
 
-    return new Type(value.toBn());
+    throw new Error('Unreachable');
   }
 
   /**

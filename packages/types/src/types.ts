@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-// import * as Classes from './index';
 
 export type AnyNumber = BN | Uint8Array | number | string;
 
@@ -48,8 +47,6 @@ export interface Codec {
 }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
-
-// export type CodecTypes = keyof typeof Classes;
 
 export type Constructor<T = Codec> = { new(value?: any): T };
 

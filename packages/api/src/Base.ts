@@ -11,9 +11,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import registry from '@polkadot/types/codec/typeRegistry';
-import { Hash, Method, RuntimeVersion } from '@polkadot/types/index';
-import Event from '@polkadot/types/Event';
-import RuntimeMetadata from '@polkadot/types/Metadata';
+import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
 import { Extrinsics } from '@polkadot/types/Method';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
@@ -36,7 +34,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   protected _query?: S;
   protected _rpc: R;
   protected _rpcBase: Rpc;
-  protected _runtimeMetadata?: RuntimeMetadata;
+  protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
 
   /**
@@ -92,10 +90,10 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata (): RuntimeMetadata {
+  get runtimeMetadata (): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
-    return this._runtimeMetadata as RuntimeMetadata;
+    return this._runtimeMetadata as Metadata;
   }
 
   /**
