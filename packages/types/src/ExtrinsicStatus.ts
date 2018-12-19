@@ -53,7 +53,7 @@ export class Ready extends Null {
  * @description
  * An [[ExtrinsicStatus]] indicating that the [[Extrinsic]] is invalid
  */
-export class Invalid extends Hash {
+export class Invalid extends Null {
 }
 
 /**
