@@ -22,7 +22,7 @@ describe('fromMetadata', () => {
 
   it('should return properly-encoded transactions', () => {
     expect(
-      new Extrinsic({ method: newExtrinsics.timestamp.set([10101]) }).toU8a()
+      new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a()
     ).toEqual(
       new Uint8Array([
         // length (encoded)

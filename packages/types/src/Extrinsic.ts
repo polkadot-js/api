@@ -34,14 +34,14 @@ type ExtrinsicValue = {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Struct {
-  constructor (value?: ExtrinsicValue | AnyU8a) {
+  constructor (value?: ExtrinsicValue | AnyU8a | Method) {
     super({
       signature: ExtrinsicSignature,
       method: Method
     }, Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a): object | Uint8Array {
+  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): object | Uint8Array {
     if (!value) {
       return {};
     } else if (isHex(value)) {
@@ -58,6 +58,10 @@ export default class Extrinsic extends Struct {
       const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
+    } else if (value instanceof Method) {
+      return {
+        method: value
+      };
     }
 
     return value as any;

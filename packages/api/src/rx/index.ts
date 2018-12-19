@@ -209,7 +209,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
   private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, new Extrinsic({ method: method(...args) }));
+      new SubmittableExtrinsic(this, new Extrinsic(method(...args)));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
