@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, Constructor } from '../types';
+import { AnyNumber, Codec } from '../types';
 
-import { hexToU8a, isHex, isU8a } from '@polkadot/util';
-
+import Bytes from '../Bytes';
 import Enum from '../codec/Enum';
 import EnumType from '../codec/EnumType';
 import Option from '../codec/Option';
@@ -14,12 +13,7 @@ import Vector from '../codec/Vector';
 import Text from '../Text';
 import Type from '../Type';
 import U16 from '../U16';
-import decodeU8a from '../codec/utils/decodeU8a';
 import { getTypeDef, getTypeClass } from '../codec/createType';
-
-interface ConstructorMap {
-  [index: string]: Constructor;
-}
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -198,55 +192,34 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
 }
 
 type StorageFunctionMetadataValue = {
-  name?: string | Text,
-  modifier?: StorageFunctionModifier | AnyNumber,
-  type?: StorageFunctionType,
+  name: string | Text,
+  modifier: StorageFunctionModifier | AnyNumber,
+  type: StorageFunctionType,
   default: Codec, // More precisely, it's an Option.with(Codec)
-  documentation?: Vector<Text> | Array<string>
+  documentation: Vector<Text> | Array<string>
 };
 
-export class StorageFunctionMetadata extends Struct {
+export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
   constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
-    const [typeDef] = StorageFunctionMetadata.decodeStorageFunctionMetadata(value);
+    // We try to figure out the type of the storage function (default to Bytes)
 
-    super(
-      typeDef, value
-    );
-  }
+    const Type = value && (value as StorageFunctionMetadataValue).type
+      ? getTypeClass(getTypeDef((value as StorageFunctionMetadataValue).type.toString()))
+      : Bytes;
 
-  private static decodeStorageFunctionMetadata (
-    value?: StorageFunctionMetadataValue | string | Uint8Array
-  ): [ConstructorMap, StorageFunctionMetadataValue | Uint8Array | undefined] {
-    if (isHex(value)) {
-      return StorageFunctionMetadata.decodeStorageFunctionMetadata(hexToU8a(value as string));
-    }
-
-    // We need to figure out the type of the storage function's return data
-    let Type: Constructor;
-
-    if (isU8a(value)) {
-      // If we have an U8a, we need to decode the 3 first fields, just to
-      // extract the storage function type
-      const [, , type] = decodeU8a(value, [Text, StorageFunctionModifier, StorageFunctionType]);
-      const _Type = getTypeClass(getTypeDef(type.toString()));
-      Type = Option.with(_Type);
-    } else if (value && value.type) {
-      // If we have an object, then `value.type` contains the string
-      // value of Type
-      const _Type = getTypeClass(getTypeDef(value.type.toString()));
-      Type = Option.with(_Type);
-    } else {
-      throw new Error('StorageFunctionMetadata: cannot guess the storage function type.');
-    }
-
-    return [{
+    super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
       default: Type,
       documentation: Vector.with(Text)
-    }, value];
+    }, value);
 
+    // If, after construction, we "learned" (i.e. decoded) the type of the
+    // if (this.get('type')!.toString() !== 'Bytes') {
+    //   const NewType = getTypeClass(getTypeDef(this.get('type')!.toString()));
+    //   this.set('default', new NewType(this.get('default')));
+    // }
   }
 
   /**
