@@ -4,8 +4,6 @@
 
 import { AnyU8a } from './types';
 
-import { blake2AsU8a } from '@polkadot/util-crypto';
-
 import Struct from './codec/Struct';
 import Extrinsics from './Extrinsics';
 import Hash from './Hash';
