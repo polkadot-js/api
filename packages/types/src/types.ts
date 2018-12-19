@@ -3,11 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import * as Classes from './index';
+// import * as Classes from './index';
 
-import { UInt } from './codec';
-
-export type AnyNumber = UInt | BN | Uint8Array | number | string;
+export type AnyNumber = BN | Uint8Array | number | string;
 
 export type AnyString = string | String;
 
@@ -51,7 +49,7 @@ export interface Codec {
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
-export type CodecTypes = keyof typeof Classes;
+// export type CodecTypes = keyof typeof Classes;
 
 export type Constructor<T = Codec> = { new(value?: any): T };
 
