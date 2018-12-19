@@ -6,12 +6,12 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { ApiPromiseInterface } from './types';
 
-import { Extrinsic, ExtrinsicStatus, Hash } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, Hash, SignedBlock } from '@polkadot/types/index';
 
 type SendResult = {
+  events?: Array<any>,
   status: ExtrinsicStatus,
-  // toString for backwards compat, i.e. result.toString() === 'finalised'
-  toString (): string
+  type: string
 };
 
 export default class SubmittableExtrinsic extends Extrinsic {
@@ -23,17 +23,36 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
+  private checkStatus (statusCb: (result: SendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
+    return async (status: ExtrinsicStatus): Promise<void> => {
+      let events: Array<any> | undefined = undefined;
+
+      if (status.type === 'Finalised') {
+        const blockHash: Hash = await this._api.rpc.chain.getFinalisedHead();
+        const { block }: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
+
+        console.error('block', block);
+
+        const extHash = (status.value as Hash).toHex();
+        const blockExts = block.extrinsics.map((ext) => ext.hash.toHex());
+
+        console.error('extrinsics', extHash, this.hash.toHex(), blockExts, blockExts.indexOf(extHash));
+      }
+
+      statusCb({
+        events,
+        status,
+        type: status.type
+      });
+    };
+  }
+
   send (statusCb?: (result: SendResult) => any): Promise<Hash> {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }
 
-    return this._api.rpc.author.submitAndWatchExtrinsic(this, (status: ExtrinsicStatus) =>
-      statusCb({
-        status,
-        toString: status.toString
-      })
-    );
+    return this._api.rpc.author.submitAndWatchExtrinsic(this, this.checkStatus(statusCb));
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

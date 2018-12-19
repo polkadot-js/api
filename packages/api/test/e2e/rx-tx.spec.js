@@ -34,7 +34,7 @@ describe.skip('e2e transactions', () => {
         )
       )
       .subscribe((status) => {
-        if (status && status.type.toString() === 'Finalised') {
+        if (status && status.type === 'Finalised') {
           done();
         }
       });
@@ -53,7 +53,7 @@ describe.skip('e2e transactions', () => {
         )
       )
       .subscribe((status) => {
-        if (status && status.type.toString() === 'Finalised') {
+        if (status && status.type === 'Finalised') {
           done();
         }
       });

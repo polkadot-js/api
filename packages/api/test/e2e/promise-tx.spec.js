@@ -8,7 +8,7 @@ import Api from '../../src/promise';
 
 const keyring = testingPairs();
 
-describe.skip('e2e transactions', () => {
+describe('e2e transactions', () => {
   let api;
   let nonce;
 
@@ -21,15 +21,15 @@ describe.skip('e2e transactions', () => {
     jest.setTimeout(5000);
   });
 
-  it('makes a transfer', async (done) => {
+  it.only('makes a transfer', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.alice.address());
 
     await api.tx.balances
       .transfer(keyring.bob.address(), 12345)
       .sign(keyring.alice, nonce)
-      .send((status) => {
+      .send((result) => {
         expect(
-          status.type.toString()
+          result.type
         ).toEqual('Finalised');
 
         done();
