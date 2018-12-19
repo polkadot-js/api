@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import EnumType from './EnumType';
+import Null from '../Null';
 import Text from '../Text';
 import U32 from '../U32';
 
@@ -40,6 +41,15 @@ describe('Struct', () => {
         { Text, U32 },
         { 'U32': 42 }
       ).value.toString()
+    ).toEqual('42');
+  });
+
+  it('decodes from SJON string', () => {
+    expect(
+      new EnumType(
+        { Null, U32 },
+        'null'
+      ).type
     ).toEqual('42');
   });
 

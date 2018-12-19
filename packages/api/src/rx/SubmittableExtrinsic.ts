@@ -12,8 +12,7 @@ import { Extrinsic, ExtrinsicStatus } from '@polkadot/types/index';
 
 type SendResult = {
   status: ExtrinsicStatus,
-  // toString for backwards compat, i.e. result.toString() === 'finalised'
-  toString (): string
+  type: string
 };
 
 export default class SubmittableExtrinsic extends Extrinsic {
@@ -31,7 +30,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       .pipe(
         map((status: ExtrinsicStatus) => ({
           status,
-          toString: status.toString
+          type: status.type
         }))
       );
   }
