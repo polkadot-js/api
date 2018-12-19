@@ -37,12 +37,10 @@ export default class Block extends Struct {
   }
 
   /**
-   * @description Coinvenience getter, encoded the [[Hash]] for the block
+   * @description Coinvenience getter, encoded the [[Hash]] for the block header
    */
   get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
+    return this.header.hash;
   }
 
   /**

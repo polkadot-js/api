@@ -6,10 +6,10 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { ApiPromiseInterface } from './types';
 
-import { Extrinsic, ExtrinsicStatus, Hash, SignedBlock } from '@polkadot/types/index';
+import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, SignedBlock, u32 } from '@polkadot/types/index';
 
 type SendResult = {
-  events?: Array<any>,
+  events?: Array<EventRecord>,
   status: ExtrinsicStatus,
   type: string
 };
@@ -28,15 +28,19 @@ export default class SubmittableExtrinsic extends Extrinsic {
       let events: Array<any> | undefined = undefined;
 
       if (status.type === 'Finalised') {
-        const blockHash: Hash = await this._api.rpc.chain.getFinalisedHead();
-        const { block }: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
+        const { block: { extrinsics, hash } }: SignedBlock = await this._api.rpc.chain.getBlock();
 
-        console.error('block', block);
+        const index = extrinsics
+          .map((ext) => ext.hash.toHex())
+          .indexOf(this.hash.toHex());
 
-        const extHash = (status.value as Hash).toHex();
-        const blockExts = block.extrinsics.map((ext) => ext.hash.toHex());
+        if (index !== -1) {
+          const allEvents: Array<EventRecord> = await this._api.query.system.events.at(hash) as any;
 
-        console.error('extrinsics', extHash, this.hash.toHex(), blockExts, blockExts.indexOf(extHash));
+          events = allEvents.filter(({ phase }) =>
+            phase.type === 'ApplyExtrinsic' && (phase.value as u32).eqn(index)
+          );
+        }
       }
 
       statusCb({
