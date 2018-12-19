@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/Modules';
-import { Extrinsics, ModuleExtrinsics } from '@polkadot/types/Method';
+import { Methods, ModulesWithMethods } from '@polkadot/types/Method';
 import { Metadata } from '@polkadot/types/index';
 
 import { stringCamelCase } from '@polkadot/util';
@@ -18,7 +18,7 @@ import extrinsics from './index';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: Metadata): Extrinsics {
+export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   let indexCount = -1;
 
   const findIndex = (prefix: string): number => {
@@ -51,7 +51,7 @@ export default function fromMetadata (metadata: Metadata): Extrinsics {
       newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta);
 
       return newModule;
-    }, {} as ModuleExtrinsics);
+    }, {} as Methods);
 
     return result;
   }, { ...extrinsics });
