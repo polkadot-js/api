@@ -195,7 +195,7 @@ type StorageFunctionMetadataValue = {
   name: string | Text,
   modifier: StorageFunctionModifier | AnyNumber,
   type: StorageFunctionType,
-  default: Codec, // More precisely, it's an Option.with(Codec)
+  default: Codec, // More precisely, it's a `type`
   documentation: Vector<Text> | Array<string>
 };
 
@@ -225,7 +225,7 @@ export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
       this.get('type')!.toString() !== 'Bytes'
     ) {
       const NewType = getTypeClass(getTypeDef(this.get('type')!.toString()));
-      this.set('default', new NewType(this.get('default')));
+      this.set('default', new NewType(this.get('default')) as T);
     }
   }
 
@@ -237,6 +237,13 @@ export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
     // only the decoding leg, allowing the decoders to work with original pointers
     return this._originalLength;
+  }
+
+  /**
+   * @description The default value of the storage function
+   */
+  get default (): T {
+    return this.get('default') as T;
   }
 
   /**
