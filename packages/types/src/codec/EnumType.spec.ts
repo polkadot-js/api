@@ -44,7 +44,7 @@ describe('Struct', () => {
     ).toEqual('42');
   });
 
-  it('decodes from SJON string', () => {
+  it('decodes from JSON string', () => {
     expect(
       new EnumType(
         { Null, U32 },
