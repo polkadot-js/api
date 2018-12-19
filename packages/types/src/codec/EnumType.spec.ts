@@ -50,7 +50,7 @@ describe('Struct', () => {
         { Null, U32 },
         'null'
       ).type
-    ).toEqual('42');
+    ).toEqual('Null');
   });
 
   // We are currently not using this approach, none of the types in Substrate currently
