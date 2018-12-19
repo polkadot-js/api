@@ -21,7 +21,7 @@ describe.skip('e2e transactions', () => {
     jest.setTimeout(5000);
   });
 
-  it.only('makes a transfer', (done) => {
+  it('makes a transfer', (done) => {
     api.query.system
       .accountNonce(keyring.alice.address())
       .pipe(

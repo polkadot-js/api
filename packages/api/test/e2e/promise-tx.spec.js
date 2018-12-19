@@ -21,7 +21,7 @@ describe.skip('e2e transactions', () => {
     jest.setTimeout(5000);
   });
 
-  it.only('makes a transfer', async (done) => {
+  it('makes a transfer', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     await api.tx.balances
