@@ -6,9 +6,9 @@
 
 ##  createDescriptor
 
-▸ **createDescriptor**(section: *`string`*, method: *`string`*, index: *`number`*, meta: *`FunctionMetadata`*): `ExtrinsicFunction`
+▸ **createDescriptor**(section: *`string`*, method: *`string`*, index: *`number`*, meta: *`FunctionMetadata`*): `MethodFunction`
 
-*Defined in [utils/createUnchecked.ts:16](https://github.com/polkadot-js/api/blob/33a4280/packages/type-extrinsics/src/utils/createUnchecked.ts#L16)*
+*Defined in [utils/createUnchecked.ts:16](https://github.com/polkadot-js/api/blob/caff939/packages/type-extrinsics/src/utils/createUnchecked.ts#L16)*
 
 From the metadata of a function in the module's storage, generate the function that will return the an UncheckExtrinsic.
 
@@ -21,7 +21,7 @@ From the metadata of a function in the module's storage, generate the function t
 | index | `number` |  Index of the module section in the modules array. |
 | meta | `FunctionMetadata` |
 
-**Returns:** `ExtrinsicFunction`
+**Returns:** `MethodFunction`
 
 ___
 
