@@ -18,7 +18,7 @@ describe.skip('e2e transactions', () => {
   });
 
   afterEach(() => {
-    jest.setTimeout(15000);
+    jest.setTimeout(5000);
   });
 
   it('makes a transfer', async (done) => {
