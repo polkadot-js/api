@@ -10,11 +10,11 @@
 
 **Base**
 
+↳  [Compact](_codec_compact_.compact.md)
+
 ↳  [Address](_address_.address.md)
 
 ↳  [EnumType](_codec_enumtype_.enumtype.md)
-
-↳  [Compact](_codec_compact_.compact.md)
 
 ↳  [Option](_codec_option_.option.md)
 
@@ -30,7 +30,7 @@
 
 ⊕ **new Base**(value?: *`any`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Base.ts:10](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/types/src/codec/Base.ts#L10)*
+*Defined in [codec/Base.ts:10](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/codec/Base.ts#L10)*
 
 **Parameters:**
 

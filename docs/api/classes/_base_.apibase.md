@@ -24,7 +24,7 @@
 
 ⊕ **new ApiBase**(provider?: * [ApiOptions](../interfaces/_types_.apioptions.md) &#124; `ProviderInterface`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:40](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L40)*
+*Defined in [Base.ts:38](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L38)*
 
 *__description__*: Create an instance of the class
 
@@ -58,7 +58,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:79](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L79)*
+*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L77)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -71,7 +71,7 @@ ___
 
 gethasSubscriptions(): `boolean`
 
-*Defined in [Base.ts:88](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L88)*
+*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L86)*
 
 *__description__*: `true` when subscriptions are supported
 
@@ -84,7 +84,7 @@ ___
 
 getquery(): `S`
 
-*Defined in [Base.ts:124](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L124)*
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L122)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -107,7 +107,7 @@ ___
 
 getrpc(): `R`
 
-*Defined in [Base.ts:144](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L144)*
+*Defined in [Base.ts:142](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L142)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -128,13 +128,13 @@ ___
 
 ##  runtimeMetadata
 
-getruntimeMetadata(): `RuntimeMetadata`
+getruntimeMetadata(): `Metadata`
 
-*Defined in [Base.ts:95](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L95)*
+*Defined in [Base.ts:93](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L93)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
-**Returns:** `RuntimeMetadata`
+**Returns:** `Metadata`
 
 ___
 <a id="runtimeversion"></a>
@@ -143,7 +143,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:104](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L104)*
+*Defined in [Base.ts:102](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L102)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -156,7 +156,7 @@ ___
 
 gettx(): `E`
 
-*Defined in [Base.ts:163](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L163)*
+*Defined in [Base.ts:161](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L161)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -183,7 +183,7 @@ ___
 
 ▸ **on**(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
 
-*Defined in [Base.ts:188](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L188)*
+*Defined in [Base.ts:186](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L186)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -215,7 +215,7 @@ ___
 
 ▸ **once**(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
 
-*Defined in [Base.ts:212](https://github.com/polkadot-js/api/blob/4ef8bd3/packages/api/src/Base.ts#L212)*
+*Defined in [Base.ts:210](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/Base.ts#L210)*
 
 *__description__*: Attach an one-time eventemitter handler to listen to a specific event
 
