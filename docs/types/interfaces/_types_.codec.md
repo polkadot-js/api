@@ -60,6 +60,7 @@
 * [Finalization](../classes/_eventrecord_.finalization.md)
 * [FunctionArgumentMetadata](../classes/_metadata_modules_.functionargumentmetadata.md)
 * [FunctionMetadata](../classes/_metadata_modules_.functionmetadata.md)
+* [Future](../classes/_extrinsicstatus_.future.md)
 * [Gas](../classes/_gas_.gas.md)
 * [H256](../classes/_h256_.h256.md)
 * [H512](../classes/_h512_.h512.md)
@@ -68,6 +69,7 @@
 * [Header](../classes/_header_.header.md)
 * [ImplicitCandidateSignature](../classes/_attestedcandidate_.implicitcandidatesignature.md)
 * [InherentOfflineReport](../classes/_inherentofflinereport_.inherentofflinereport.md)
+* [Invalid](../classes/_extrinsicstatus_.invalid.md)
 * [Justification](../classes/_justification_.justification.md)
 * [KeyValue](../classes/_keyvalue_.keyvalue.md)
 * [KeyValueOption](../classes/_keyvalue_.keyvalueoption.md)
@@ -97,6 +99,7 @@
 * [PropIndex](../classes/_propindex_.propindex.md)
 * [Proposal](../classes/_proposal_.proposal.md)
 * [ProposalIndex](../classes/_proposalindex_.proposalindex.md)
+* [Ready](../classes/_extrinsicstatus_.ready.md)
 * [ReferendumIndex](../classes/_referendumindex_.referendumindex.md)
 * [ReferendumInfo](../classes/_referenduminfo_.referenduminfo.md)
 * [RhdJustification](../classes/_justification_.rhdjustification.md)
@@ -147,7 +150,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -161,7 +164,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/types.ts#L29)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -174,7 +177,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/types.ts#L34)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -187,7 +190,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/types.ts#L39)*
 
 *__description__*: Returns the string representation of the value
 
@@ -200,7 +203,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*, isStorageKey?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/types.ts#L46)*
+*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/types.ts#L46)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

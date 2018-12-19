@@ -4,7 +4,7 @@
 
 import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
-import { ExtrinsicFunction } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { ApiBaseInterface } from '../types';
 
@@ -25,7 +25,7 @@ export interface QueryableStorage {
   [index: string]: QueryableModuleStorage;
 }
 
-export interface SubmittableExtrinsicFunction extends ExtrinsicFunction {
+export interface SubmittableExtrinsicFunction extends MethodFunction {
   (...args: any[]): SubmittableExtrinsic;
 }
 

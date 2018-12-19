@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Metadata from '@polkadot/types/Metadata';
+import { Extrinsic, Metadata } from '@polkadot/types/index';
 import json from '@polkadot/types/Metadata/static';
 
 import fromMetadata from './fromMetadata';
@@ -21,7 +21,9 @@ describe('fromMetadata', () => {
   });
 
   it('should return properly-encoded transactions', () => {
-    expect(newExtrinsics.timestamp.set([10101]).toU8a()).toEqual(
+    expect(
+      new Extrinsic({ method: newExtrinsics.timestamp.set([10101]) }).toU8a()
+    ).toEqual(
       new Uint8Array([
         // length (encoded)
         11 << 2,

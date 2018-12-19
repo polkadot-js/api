@@ -9,9 +9,9 @@
 
 ### Interfaces
 
-* [ExtrinsicFunction](../interfaces/_method_.extrinsicfunction.md)
-* [Extrinsics](../interfaces/_method_.extrinsics.md)
-* [ModuleExtrinsics](../interfaces/_method_.moduleextrinsics.md)
+* [MethodFunction](../interfaces/_method_.methodfunction.md)
+* [Methods](../interfaces/_method_.methods.md)
+* [ModulesWithMethods](../interfaces/_method_.moduleswithmethods.md)
 
 ---
 

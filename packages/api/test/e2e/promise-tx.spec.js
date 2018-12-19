@@ -22,13 +22,13 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     await api.tx.balances
-      .transfer(keyring.bob.address(), 12345)
-      .sign(keyring.alice, nonce)
-      .send((result) => {
-        if (result.type === 'Finalised' && result.events && result.events.length) {
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .sign(keyring.dave, nonce)
+      .send((status) => {
+        if (status.type === 'Finalised' && status.events && status.events.length) {
           done();
         }
       });

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { Extrinsic } from '@polkadot/types/index';
 import { hexToU8a } from '@polkadot/util';
 
 import extrinsics from './static';
@@ -12,9 +13,9 @@ const keyring = testingPairs();
 describe('extrinsics', () => {
   it('encodes extrinsic correctly (nobody)', () => {
     expect(
-      extrinsics.timestamp.set(
-        10101
-      ).sign(
+      new Extrinsic({
+        method: extrinsics.timestamp.set(10101)
+      }).sign(
         keyring.nobody,
         1234,
         new Uint8Array()
@@ -43,10 +44,9 @@ describe('extrinsics', () => {
 
   it('encodes an actual transfer (actual data)', () => {
     expect(
-      extrinsics.balances
-        .transfer(keyring.bob.publicKey(), 6969)
-        .sign(keyring.alice, 0, '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f')
-        .toU8a()
+      new Extrinsic({
+        method: extrinsics.balances.transfer(keyring.bob.publicKey(), 6969)
+      }).sign(keyring.alice, 0, '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f').toU8a()
     ).toEqual(
       hexToU8a(
         '0x' +

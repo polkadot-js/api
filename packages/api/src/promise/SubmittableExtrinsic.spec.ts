@@ -12,7 +12,7 @@ describe('SubmittableExtrinsic', () => {
   let api: any;
 
   beforeEach(() => {
-    Method.injectExtrinsics(extrinsics);
+    Method.injectMethods(extrinsics);
 
     api = {
       hasSubscriptions: true,

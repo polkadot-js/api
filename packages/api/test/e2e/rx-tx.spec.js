@@ -34,7 +34,7 @@ describe.skip('e2e transactions', () => {
         )
       )
       .subscribe((status) => {
-        if (status && status.type === 'Finalised') {
+        if (status.type === 'Finalised') {
           done();
         }
       });

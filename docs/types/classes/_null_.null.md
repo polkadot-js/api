@@ -12,6 +12,12 @@
 
 ↳  [Dropped](_extrinsicstatus_.dropped.md)
 
+↳  [Future](_extrinsicstatus_.future.md)
+
+↳  [Ready](_extrinsicstatus_.ready.md)
+
+↳  [Invalid](_extrinsicstatus_.invalid.md)
+
 ↳  [Origin](_origin_.origin.md)
 
 # Implements
@@ -26,7 +32,7 @@
 
 getencodedLength(): `number`
 
-*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Null.ts#L16)*
+*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Null.ts#L16)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -44,7 +50,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Null.ts#L23)*
+*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Null.ts#L23)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -59,7 +65,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Null.ts#L30)*
+*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Null.ts#L30)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -74,7 +80,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Null.ts#L37)*
+*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Null.ts#L37)*
 
 *__description__*: Returns the string representation of the value
 
@@ -87,7 +93,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Null.ts#L45)*
+*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Null.ts#L45)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

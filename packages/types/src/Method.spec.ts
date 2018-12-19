@@ -8,7 +8,7 @@ import Method from './Method';
 
 describe('Method', () => {
   beforeEach(() => {
-    Method.injectExtrinsics(extrinsics);
+    Method.injectMethods(extrinsics);
   });
 
   it('throws when not decodable', () => {

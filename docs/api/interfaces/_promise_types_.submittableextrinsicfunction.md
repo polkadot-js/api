@@ -2,16 +2,16 @@
 
 # Hierarchy
 
- `ExtrinsicFunction`
+ `MethodFunction`
 
 **↳ SubmittableExtrinsicFunction**
 
 # Callable
 ▸ **__call**(...args: *`any`[]*): [SubmittableExtrinsic](../classes/_promise_submittableextrinsic_.submittableextrinsic.md)
 
-▸ **__call**(...args: *`any`[]*): `Extrinsic`
+▸ **__call**(...args: *`any`[]*): `Method`
 
-*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/5b97824/packages/api/src/promise/types.ts#L28)*
+*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/caff939/packages/api/src/promise/types.ts#L28)*
 
 **Parameters:**
 
@@ -21,7 +21,7 @@
 
 **Returns:** [SubmittableExtrinsic](../classes/_promise_submittableextrinsic_.submittableextrinsic.md)
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:34](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L34)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:28](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L28)*
 
 **Parameters:**
 
@@ -29,7 +29,7 @@
 | ------ | ------ |
 | `Rest` args | `any`[] |
 
-**Returns:** `Extrinsic`
+**Returns:** `Method`
 
 # Properties
 
@@ -39,9 +39,9 @@
 
 **● callIndex**: *`Uint8Array`*
 
-*Inherited from ExtrinsicFunction.callIndex*
+*Inherited from MethodFunction.callIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:36](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L36)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:30](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L30)*
 
 ___
 <a id="meta"></a>
@@ -50,9 +50,9 @@ ___
 
 **● meta**: *`FunctionMetadata`*
 
-*Inherited from ExtrinsicFunction.meta*
+*Inherited from MethodFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:37](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L37)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:31](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L31)*
 
 ___
 <a id="method"></a>
@@ -61,9 +61,9 @@ ___
 
 **● method**: *`string`*
 
-*Inherited from ExtrinsicFunction.method*
+*Inherited from MethodFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:38](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L38)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:32](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L32)*
 
 ___
 <a id="section"></a>
@@ -72,9 +72,9 @@ ___
 
 **● section**: *`string`*
 
-*Inherited from ExtrinsicFunction.section*
+*Inherited from MethodFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:39](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L39)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:33](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L33)*
 
 ___
 <a id="tojson"></a>
@@ -83,9 +83,9 @@ ___
 
 **● toJSON**: *`function`*
 
-*Inherited from ExtrinsicFunction.toJSON*
+*Inherited from MethodFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:40](https://github.com/polkadot-js/api/blob/5b97824/packages/types/src/Method.ts#L40)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:34](https://github.com/polkadot-js/api/blob/caff939/packages/types/src/Method.ts#L34)*
 
 #### Type declaration
 ▸(): `any`

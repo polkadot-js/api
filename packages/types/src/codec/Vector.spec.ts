@@ -20,7 +20,7 @@ describe('Vector', () => {
   beforeEach(() => {
     vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
 
-    Method.injectExtrinsics(extrinsics);
+    Method.injectMethods(extrinsics);
   });
 
   it('wraps a sequence of values', () => {
