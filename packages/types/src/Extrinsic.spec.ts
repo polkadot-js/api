@@ -9,7 +9,7 @@ import Method from './Method';
 
 describe('Extrinsic', () => {
   beforeAll(() => {
-    Method.injectExtrinsics(extrinsics);
+    Method.injectMethods(extrinsics);
   });
 
   it('decodes a non-signed properly via JSON', () => {

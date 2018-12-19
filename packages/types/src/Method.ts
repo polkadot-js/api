@@ -9,13 +9,7 @@ import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
-import Extrinsic from './Extrinsic';
 import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/Modules';
-
-const FN_UNKNOWN = {
-  method: 'unknown',
-  section: 'unknown'
-} as ExtrinsicFunction;
 
 interface ArgsDef {
   [index: string]: Constructor;
@@ -31,8 +25,8 @@ interface DecodedMethod extends DecodeMethodInput {
   meta: FunctionMetadata;
 }
 
-export interface ExtrinsicFunction {
-  (...args: any[]): Extrinsic;
+export interface MethodFunction {
+  (...args: any[]): Method;
   callIndex: Uint8Array;
   meta: FunctionMetadata;
   method: string;
@@ -40,15 +34,20 @@ export interface ExtrinsicFunction {
   toJSON: () => any;
 }
 
-export interface ModuleExtrinsics {
-  [key: string]: ExtrinsicFunction;
+export interface Methods {
+  [key: string]: MethodFunction;
 }
 
-export interface Extrinsics {
-  [key: string]: ModuleExtrinsics; // Will hold modules returned by state_getMetadata
+export interface ModulesWithMethods {
+  [key: string]: Methods; // Will hold modules returned by state_getMetadata
 }
 
-const extrinsicFns: { [index: string]: ExtrinsicFunction } = {};
+const FN_UNKNOWN = {
+  method: 'unknown',
+  section: 'unknown'
+} as MethodFunction;
+
+const injected: { [index: string]: MethodFunction } = {};
 
 /**
  * @name MethodIndex
@@ -88,7 +87,7 @@ export default class Method extends Struct {
    * - hex
    * - Uint8Array
    * - {@see DecodeMethodInput}
-   * @param _meta - Metadata to use, so that `injectExtrinsics` lookup is not
+   * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
   private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
@@ -140,17 +139,17 @@ export default class Method extends Struct {
       : [];
   }
 
-  // We could only inject the meta (see injectExtrinsics below) and then do a
+  // We could only inject the meta (see injectMethods below) and then do a
   // meta-only lookup via
   //
   //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
-  static findFunction (callIndex: Uint8Array): ExtrinsicFunction {
-    assert(Object.keys(extrinsicFns).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
+  static findFunction (callIndex: Uint8Array): MethodFunction {
+    assert(Object.keys(injected).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
 
-    return extrinsicFns[callIndex.toString()] || FN_UNKNOWN;
+    return injected[callIndex.toString()] || FN_UNKNOWN;
   }
 
   /**
@@ -172,10 +171,10 @@ export default class Method extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system extrinsics to be used in lookups
-  static injectExtrinsics (extrinsics: Extrinsics): void {
-    Object.values(extrinsics).forEach((methods) =>
+  static injectMethods (moduleMethods: ModulesWithMethods): void {
+    Object.values(moduleMethods).forEach((methods) =>
       Object.values(methods).forEach((method) =>
-        extrinsicFns[method.callIndex.toString()] = method
+        injected[method.callIndex.toString()] = method
       )
     );
   }

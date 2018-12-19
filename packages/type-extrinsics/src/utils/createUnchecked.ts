@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/Modules';
-import { ExtrinsicFunction } from '@polkadot/types/Method';
-import { Extrinsic, Method } from '@polkadot/types/index';
+import { MethodFunction } from '@polkadot/types/Method';
+import { Method } from '@polkadot/types/index';
 import { assert } from '@polkadot/util';
 
 /**
@@ -18,21 +18,19 @@ export default function createDescriptor (
   method: string,
   index: number,
   meta: FunctionMetadata
-): ExtrinsicFunction {
+): MethodFunction {
   const callIndex = new Uint8Array([index, meta.id.toNumber()]);
   let extrinsicFn: any;
 
   const expectedArgs = Method.filterOrigin(meta);
 
-  extrinsicFn = (...args: any[]): Extrinsic => {
+  extrinsicFn = (...args: any[]): Method => {
     assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
 
-    return new Extrinsic({
-      method: new Method({
-        args,
-        callIndex
-      }, meta)
-    });
+    return new Method({
+      args,
+      callIndex
+    }, meta);
   };
 
   extrinsicFn.callIndex = callIndex;
@@ -42,5 +40,5 @@ export default function createDescriptor (
   extrinsicFn.toJSON = (): any =>
     meta.toJSON();
 
-  return extrinsicFn as ExtrinsicFunction;
+  return extrinsicFn as MethodFunction;
 }

@@ -12,7 +12,7 @@ import { Storage } from '@polkadot/storage/types';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
-import { Extrinsics } from '@polkadot/types/Method';
+import { ModulesWithMethods } from '@polkadot/types/Method';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
@@ -253,7 +253,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
       this._query = this.decorateStorage(storage);
 
       Event.injectMetadata(this.runtimeMetadata);
-      Method.injectExtrinsics(extrinsics);
+      Method.injectMethods(extrinsics);
 
       return true;
     } catch (error) {
@@ -277,6 +277,6 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   }
 
   protected abstract decorateRpc (rpc: Rpc): R;
-  protected abstract decorateExtrinsics (extrinsics: Extrinsics): E;
+  protected abstract decorateExtrinsics (extrinsics: ModulesWithMethods): E;
   protected abstract decorateStorage (storage: Storage): S;
 }
