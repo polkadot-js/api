@@ -41,7 +41,7 @@ export default class Extrinsic extends Struct {
     }, Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): object | Uint8Array {
+  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a | Method): ExtrinsicValue | Uint8Array {
     if (!value) {
       return {};
     } else if (isHex(value)) {
@@ -64,7 +64,7 @@ export default class Extrinsic extends Struct {
       };
     }
 
-    return value as any;
+    return value as ExtrinsicValue;
   }
 
   /**
