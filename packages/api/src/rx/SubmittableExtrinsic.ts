@@ -8,9 +8,10 @@ import { ApiRxInterface } from './types';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Extrinsic, ExtrinsicStatus } from '@polkadot/types/index';
+import { EventRecord, Extrinsic, ExtrinsicStatus } from '@polkadot/types/index';
 
 type SendResult = {
+  events?: Array<EventRecord>,
   status: ExtrinsicStatus,
   type: string
 };

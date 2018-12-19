@@ -28,7 +28,7 @@ describe.skip('e2e transactions', () => {
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .sign(keyring.dave, nonce)
       .send((status) => {
-        if (status.type === 'Finalised') {
+        if (status.type === 'Finalised' && status.events && status.events.length) {
           done();
         }
       });
