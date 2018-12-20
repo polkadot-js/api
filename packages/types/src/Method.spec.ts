@@ -23,13 +23,13 @@ describe('Method', () => {
         args: [],
         callIndex: [1, 2]
       }).toU8a()
-    ).toEqual(new Uint8Array([1, 2]));
+    ).toEqual(new Uint8Array([1, 2, 0])); // array of 0
   });
 
   it('handles creation from a hex value properly', () => {
     expect(
       new Method('0x0102').toU8a()
-    ).toEqual(new Uint8Array([1, 2]));
+    ).toEqual(new Uint8Array([1, 2, 0])); // array of 0 for consensus.noteOffline
   });
 
   describe('hasOrigin', () => {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec, Constructor } from '../types';
+import { AnyNumber, Codec } from '../types';
 
 import Bytes from '../Bytes';
 import Enum from '../codec/Enum';
@@ -13,7 +13,7 @@ import Vector from '../codec/Vector';
 import Text from '../Text';
 import Type from '../Type';
 import U16 from '../U16';
-import { getTypeDef, getTypeClass } from '../codec/createType';
+// import { getTypeDef, getTypeClass } from '../codec/createType';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -200,23 +200,23 @@ type StorageFunctionMetadataValue = {
 };
 
 export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
-  private _originalLength: number;
+  // private _originalLength: number;
 
   constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     // We try to figure out the type of the storage function (default to Bytes)
-    const Type = value && (value as StorageFunctionMetadataValue).type
-      ? getTypeClass(getTypeDef((value as StorageFunctionMetadataValue).type.toString())) as Constructor<T>
-      : Bytes;
+    // const Type = value && (value as StorageFunctionMetadataValue).type
+    //   ? getTypeClass(getTypeDef((value as StorageFunctionMetadataValue).type.toString())) as Constructor<T>
+    //   : Bytes;
 
     super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      default: Type,
+      default: Bytes,
       documentation: Vector.with(Text)
     }, value);
 
-    this._originalLength = super.encodedLength;
+    // this._originalLength = super.encodedLength;
 
     // If, after construction, we "learned" (i.e. decoded) the type, then we
     // decode the `default` Bytes with the new type.
@@ -230,15 +230,15 @@ export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
     // }
   }
 
-  /**
-   * @description The length of the value when encoded as a Uint8Array
-   */
-  get encodedLength (): number {
-    // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
-    // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
-    // only the decoding leg, allowing the decoders to work with original pointers
-    return this._originalLength;
-  }
+  // /**
+  //  * @description The length of the value when encoded as a Uint8Array
+  //  */
+  // get encodedLength (): number {
+  //   // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
+  //   // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
+  //   // only the decoding leg, allowing the decoders to work with original pointers
+  //   return this._originalLength;
+  // }
 
   /**
    * @description The default value of the storage function

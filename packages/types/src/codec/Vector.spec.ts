@@ -52,7 +52,7 @@ describe('Vector', () => {
     expect(vector.Type).toEqual('Text');
   });
 
-  it('decodes a complex type via construction', () => {
+  it.skip('decodes a complex type via construction', () => {
     const test = createType('Vec<(PropIndex, Proposal, AccountId)>', new Uint8Array([
       4, 10, 0, 0, 0, 0, 3, 80, 123, 10, 9, 34, 48, 120, 52, 50, 34, 58, 32, 34, 48, 120, 52, 51, 34, 10, 125, 10, 209, 114, 167, 76, 218, 76, 134, 89, 18, 195, 43, 160, 168, 10, 87, 174, 105, 171, 174, 65, 14, 92, 203, 89, 222, 232, 78, 47, 68, 50, 219, 79
     ]));
