@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash } from '@polkadot/types/index';
+import { EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -42,3 +42,9 @@ export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }
+
+export type SubmittableSendResult = {
+  events?: Array<EventRecord>,
+  status: ExtrinsicStatus,
+  type: string
+};

@@ -7,14 +7,14 @@ import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { SubmittableSendResult } from '../types';
 import { ApiPromiseInterface } from './types';
 
-import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, SignedBlock } from '@polkadot/types/index';
+import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Method, SignedBlock } from '@polkadot/types/index';
 
 import filterEvents from '../util/filterEvents';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
 
-  constructor (api: ApiPromiseInterface, extrinsic: Extrinsic) {
+  constructor (api: ApiPromiseInterface, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
