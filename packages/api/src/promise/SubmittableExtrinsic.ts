@@ -21,7 +21,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   // FIXME split into graph derivation once available
-  private checkStatus (statusCb: (result: SubmittableSendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
+  private trackStatus (statusCb: (result: SubmittableSendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
     return async (status: ExtrinsicStatus): Promise<void> => {
       let events: Array<any> | undefined = undefined;
 
@@ -46,7 +46,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       return this._api.rpc.author.submitExtrinsic(this);
     }
 
-    return this._api.rpc.author.submitAndWatchExtrinsic(this, this.checkStatus(statusCb));
+    return this._api.rpc.author.submitAndWatchExtrinsic(this, this.trackStatus(statusCb));
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {
