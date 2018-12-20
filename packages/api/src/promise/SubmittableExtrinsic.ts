@@ -4,15 +4,12 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
+import { SubmittableSendResult } from '../types';
 import { ApiPromiseInterface } from './types';
 
-import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, SignedBlock, u32 } from '@polkadot/types/index';
+import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, SignedBlock } from '@polkadot/types/index';
 
-type SendResult = {
-  events?: Array<EventRecord>,
-  status: ExtrinsicStatus,
-  type: string
-};
+import filterEvents from '../util/filterEvents';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
@@ -23,24 +20,17 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  private checkStatus (statusCb: (result: SendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
+  // FIXME split into graph derivation once available
+  private checkStatus (statusCb: (result: SubmittableSendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
     return async (status: ExtrinsicStatus): Promise<void> => {
       let events: Array<any> | undefined = undefined;
 
       if (status.type === 'Finalised') {
         const blockHash = status.value as Hash;
-        const { block: { extrinsics } }: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
+        const signedBlock: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
         const allEvents: Array<EventRecord> = await this._api.query.system.events.at(blockHash) as any;
 
-        const index = extrinsics
-          .map((ext) => ext.hash.toHex())
-          .indexOf(this.hash.toHex());
-
-        if (index !== -1) {
-          events = allEvents.filter(({ phase }) =>
-            phase.type === 'ApplyExtrinsic' && (phase.value as u32).eqn(index)
-          );
-        }
+        events = filterEvents(this.hash, signedBlock, allEvents);
       }
 
       statusCb({
@@ -51,7 +41,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
     };
   }
 
-  send (statusCb?: (result: SendResult) => any): Promise<Hash> {
+  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }
