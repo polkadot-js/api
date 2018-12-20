@@ -427,12 +427,14 @@
               "key": "AccountId",
               "value": "Index"
             },
+            "default": "0x0000000000000000",
             "documentation": []
           },
           {
             "name": "ExtrinsicCount",
             "modifier": 0,
             "type": "u32",
+            "default": "0x00",
             "documentation": []
           },
           {
@@ -442,6 +444,7 @@
               "key": "BlockNumber",
               "value": "Hash"
             },
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
@@ -451,18 +454,21 @@
               "key": "u32",
               "value": "Bytes"
             },
+            "default": "0x00",
             "documentation": []
           },
           {
             "name": "RandomSeed",
             "modifier": 1,
             "type": "Hash",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "Number",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " The current block number being processed. Set by `execute_block`."
             ]
@@ -471,24 +477,28 @@
             "name": "ParentHash",
             "modifier": 1,
             "type": "Hash",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "ExtrinsicsRoot",
             "modifier": 1,
             "type": "Hash",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "Digest",
             "modifier": 1,
             "type": "Digest",
+            "default": "0x00",
             "documentation": []
           },
           {
             "name": "Events",
             "modifier": 1,
             "type": "Vec<EventRecord>",
+            "default": "0x00",
             "documentation": []
           }
         ]
@@ -542,6 +552,7 @@
             "name": "Now",
             "modifier": 1,
             "type": "Moment",
+            "default": "0x0000000000000000",
             "documentation": [
               " Current time for the current block."
             ]
@@ -550,6 +561,7 @@
             "name": "BlockPeriod",
             "modifier": 1,
             "type": "Moment",
+            "default": "0x0500000000000000",
             "documentation": [
               " The minimum (and advised) period between blocks."
             ]
@@ -558,6 +570,7 @@
             "name": "DidUpdate",
             "modifier": 1,
             "type": "bool",
+            "default": "0x00",
             "documentation": [
               " Did the timestamp get updated in this block?"
             ]
@@ -660,6 +673,7 @@
             "name": "OriginalAuthorities",
             "modifier": 0,
             "type": "Vec<SessionKey>",
+            "default": "0x00",
             "documentation": []
           }
         ]
@@ -720,6 +734,7 @@
             "name": "TotalIssuance",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The total amount of stake on the system."
             ]
@@ -728,6 +743,7 @@
             "name": "ExistentialDeposit",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The minimum amount allowed to keep an account open."
             ]
@@ -736,6 +752,7 @@
             "name": "ReclaimRebate",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The amount credited to a destination's account whose index was reclaimed."
             ]
@@ -744,6 +761,7 @@
             "name": "TransferFee",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee required to make a transfer."
             ]
@@ -752,6 +770,7 @@
             "name": "CreationFee",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee required to create an account. At least as big as ReclaimRebate."
             ]
@@ -760,6 +779,7 @@
             "name": "NextEnumSet",
             "modifier": 1,
             "type": "AccountIndex",
+            "default": "0x00000000",
             "documentation": [
               " The next free enumeration set."
             ]
@@ -771,6 +791,7 @@
               "key": "AccountIndex",
               "value": "Vec<AccountId>"
             },
+            "default": "0x00",
             "documentation": [
               " The enumeration sets."
             ]
@@ -782,6 +803,7 @@
               "key": "AccountId",
               "value": "Balance"
             },
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The 'free' balance of a given account.",
               "",
@@ -803,6 +825,7 @@
               "key": "AccountId",
               "value": "Balance"
             },
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The amount of the balance of a given account that is externally reserved; this can still get",
               " slashed, but gets slashed last of all.",
@@ -822,6 +845,7 @@
             "name": "TransactionBaseFee",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee to be paid for making a transaction; the base."
             ]
@@ -830,6 +854,7 @@
             "name": "TransactionByteFee",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee to be paid for making a transaction; the per-byte portion."
             ]
@@ -894,6 +919,7 @@
             "name": "Validators",
             "modifier": 1,
             "type": "Vec<AccountId>",
+            "default": "0x00",
             "documentation": [
               " The current set of validators."
             ]
@@ -902,6 +928,7 @@
             "name": "SessionLength",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " Current length of the session."
             ]
@@ -910,6 +937,7 @@
             "name": "CurrentIndex",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " Current index of the session."
             ]
@@ -918,6 +946,7 @@
             "name": "CurrentStart",
             "modifier": 1,
             "type": "Moment",
+            "default": "0x0000000000000000",
             "documentation": [
               " Timestamp when current session started."
             ]
@@ -926,6 +955,7 @@
             "name": "ForcingNewSession",
             "modifier": 0,
             "type": "bool",
+            "default": "0x00",
             "documentation": [
               " New session is being forced is this entry exists; in which case, the boolean value is whether",
               " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
@@ -935,6 +965,7 @@
             "name": "LastLengthChange",
             "modifier": 0,
             "type": "BlockNumber",
+            "default": "0x00",
             "documentation": [
               " Block at which the session length last changed."
             ]
@@ -946,6 +977,7 @@
               "key": "AccountId",
               "value": "SessionKey"
             },
+            "default": "0x00",
             "documentation": [
               " The next key for a given validator."
             ]
@@ -954,6 +986,7 @@
             "name": "NextSessionLength",
             "modifier": 0,
             "type": "BlockNumber",
+            "default": "0x00",
             "documentation": [
               " The next session length."
             ]
@@ -1113,6 +1146,7 @@
             "name": "ValidatorCount",
             "modifier": 1,
             "type": "u32",
+            "default": "0x00000000",
             "documentation": [
               " The ideal number of staking participants."
             ]
@@ -1121,6 +1155,7 @@
             "name": "MinimumValidatorCount",
             "modifier": 1,
             "type": "u32",
+            "default": "0x04000000",
             "documentation": [
               " Minimum number of staking participants before emergency conditions are imposed."
             ]
@@ -1129,6 +1164,7 @@
             "name": "SessionsPerEra",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " The length of a staking era in sessions."
             ]
@@ -1137,6 +1173,7 @@
             "name": "SessionReward",
             "modifier": 1,
             "type": "Perbill",
+            "default": "0x3c000000",
             "documentation": [
               " Maximum reward, per validator, that is provided per acceptable session."
             ]
@@ -1145,6 +1182,7 @@
             "name": "OfflineSlash",
             "modifier": 1,
             "type": "Perbill",
+            "default": "0x40420f00",
             "documentation": [
               " Slash, per validator that is taken for the first time they are found to be offline."
             ]
@@ -1153,6 +1191,7 @@
             "name": "OfflineSlashGrace",
             "modifier": 1,
             "type": "u32",
+            "default": "0x00000000",
             "documentation": [
               " Number of instances of offline reports before slashing begins for validators."
             ]
@@ -1161,6 +1200,7 @@
             "name": "BondingDuration",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " The length of the bonding duration in blocks."
             ]
@@ -1169,6 +1209,7 @@
             "name": "CurrentEra",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " The current era index."
             ]
@@ -1180,6 +1221,7 @@
               "key": "AccountId",
               "value": "ValidatorPrefs"
             },
+            "default": "0x0c00",
             "documentation": [
               " Preferences that a validator has."
             ]
@@ -1188,6 +1230,7 @@
             "name": "Intentions",
             "modifier": 1,
             "type": "Vec<AccountId>",
+            "default": "0x00",
             "documentation": [
               " All the accounts with a desire to stake."
             ]
@@ -1199,6 +1242,7 @@
               "key": "AccountId",
               "value": "AccountId"
             },
+            "default": "0x00",
             "documentation": [
               " All nominator -> nominee relationships."
             ]
@@ -1210,6 +1254,7 @@
               "key": "AccountId",
               "value": "Vec<AccountId>"
             },
+            "default": "0x00",
             "documentation": [
               " Nominators for a particular account."
             ]
@@ -1221,6 +1266,7 @@
               "key": "AccountId",
               "value": "Vec<AccountId>"
             },
+            "default": "0x00",
             "documentation": [
               " Nominators for a particular account that is in action right now."
             ]
@@ -1229,6 +1275,7 @@
             "name": "CurrentSessionReward",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Maximum reward, per validator, that is provided per acceptable session."
             ]
@@ -1237,6 +1284,7 @@
             "name": "CurrentOfflineSlash",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Slash, per validator that is taken for the first time they are found to be offline."
             ]
@@ -1245,6 +1293,7 @@
             "name": "NextSessionsPerEra",
             "modifier": 0,
             "type": "BlockNumber",
+            "default": "0x00",
             "documentation": [
               " The next value of sessions per era."
             ]
@@ -1253,6 +1302,7 @@
             "name": "LastEraLengthChange",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " The session index at which the era length last changed."
             ]
@@ -1261,6 +1311,7 @@
             "name": "StakeRange",
             "modifier": 1,
             "type": "(Balance,Balance)",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": [
               " The highest and lowest staked validator slashable balances."
             ]
@@ -1272,6 +1323,7 @@
               "key": "AccountId",
               "value": "BlockNumber"
             },
+            "default": "0x0000000000000000",
             "documentation": [
               " The block at which the `who`'s funds become entirely liquid."
             ]
@@ -1283,6 +1335,7 @@
               "key": "AccountId",
               "value": "u32"
             },
+            "default": "0x00000000",
             "documentation": [
               " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
             ]
@@ -1414,6 +1467,7 @@
             "name": "PublicPropCount",
             "modifier": 1,
             "type": "PropIndex",
+            "default": "0x00000000",
             "documentation": [
               " The number of (public) proposals that have been made so far."
             ]
@@ -1422,6 +1476,7 @@
             "name": "PublicProps",
             "modifier": 1,
             "type": "Vec<(PropIndex,Proposal,AccountId)>",
+            "default": "0x00",
             "documentation": [
               " The public proposals. Unsorted."
             ]
@@ -1433,6 +1488,7 @@
               "key": "PropIndex",
               "value": "(Balance,Vec<AccountId>)"
             },
+            "default": "0x00",
             "documentation": [
               " Those who have locked a deposit."
             ]
@@ -1441,6 +1497,7 @@
             "name": "LaunchPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) new public referenda are launched."
             ]
@@ -1449,6 +1506,7 @@
             "name": "MinimumDeposit",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The minimum amount to be used as a deposit for a public referendum proposal."
             ]
@@ -1457,6 +1515,7 @@
             "name": "PublicDelay",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " The delay before enactment for all public referenda."
             ]
@@ -1473,6 +1532,7 @@
             "name": "VotingPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) to check for new votes."
             ]
@@ -1481,6 +1541,7 @@
             "name": "ReferendumCount",
             "modifier": 1,
             "type": "ReferendumIndex",
+            "default": "0x00000000",
             "documentation": [
               " The next free referendum index, aka the number of referendums started so far."
             ]
@@ -1489,6 +1550,7 @@
             "name": "NextTally",
             "modifier": 1,
             "type": "ReferendumIndex",
+            "default": "0x00000000",
             "documentation": [
               " The next referendum index that should be tallied."
             ]
@@ -1500,6 +1562,7 @@
               "key": "ReferendumIndex",
               "value": "(ReferendumInfo)"
             },
+            "default": "0x00",
             "documentation": [
               " Information concerning any given referendum."
             ]
@@ -1511,6 +1574,7 @@
               "key": "BlockNumber",
               "value": "Vec<Option<(Proposal,ReferendumIndex)>>"
             },
+            "default": "0x00",
             "documentation": [
               " Queue of successful referenda to be dispatched."
             ]
@@ -1522,6 +1586,7 @@
               "key": "AccountId",
               "value": "BlockNumber"
             },
+            "default": "0x0000000000000000",
             "documentation": [
               " The block at which the `who`'s funds become liquid."
             ]
@@ -1533,6 +1598,7 @@
               "key": "ReferendumIndex",
               "value": "Vec<AccountId>"
             },
+            "default": "0x00",
             "documentation": [
               " Get the voters for the current proposal."
             ]
@@ -1544,6 +1610,7 @@
               "key": "(ReferendumIndex,AccountId)",
               "value": "Vote"
             },
+            "default": "0x00",
             "documentation": [
               " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
               " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
@@ -1726,6 +1793,7 @@
             "name": "CandidacyBond",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x09000000000000000000000000000000",
             "documentation": [
               " How much should be locked up in order to submit one's candidacy."
             ]
@@ -1734,6 +1802,7 @@
             "name": "VotingBond",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " How much should be locked up in order to be able to submit votes."
             ]
@@ -1742,6 +1811,7 @@
             "name": "PresentSlashPerVoter",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x01000000000000000000000000000000",
             "documentation": [
               " The punishment, per voter, if you provide an invalid presentation."
             ]
@@ -1750,6 +1820,7 @@
             "name": "CarryCount",
             "modifier": 1,
             "type": "u32",
+            "default": "0x02000000",
             "documentation": [
               " How many runners-up should have their approvals persist until the next vote."
             ]
@@ -1758,6 +1829,7 @@
             "name": "PresentationDuration",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " How long to give each top candidate to present themselves after the vote ends."
             ]
@@ -1766,6 +1838,7 @@
             "name": "InactiveGracePeriod",
             "modifier": 1,
             "type": "VoteIndex",
+            "default": "0x01000000",
             "documentation": [
               " How many votes need to go by after a voter's last vote before they can be reaped if their",
               " approvals are moot."
@@ -1775,6 +1848,7 @@
             "name": "VotingPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) to check for new votes."
             ]
@@ -1783,6 +1857,7 @@
             "name": "TermDuration",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0500000000000000",
             "documentation": [
               " How long each position is active for."
             ]
@@ -1791,6 +1866,7 @@
             "name": "DesiredSeats",
             "modifier": 1,
             "type": "u32",
+            "default": "0x00000000",
             "documentation": [
               " Number of accounts that should be sitting on the council."
             ]
@@ -1799,6 +1875,7 @@
             "name": "ActiveCouncil",
             "modifier": 1,
             "type": "Vec<(AccountId,BlockNumber)>",
+            "default": "0x00",
             "documentation": [
               " The current council. When there's a vote going on, this should still be used for executive",
               " matters."
@@ -1808,6 +1885,7 @@
             "name": "VoteCount",
             "modifier": 1,
             "type": "VoteIndex",
+            "default": "0x00000000",
             "documentation": [
               " The total number of votes that have happened or are in progress."
             ]
@@ -1819,6 +1897,7 @@
               "key": "AccountId",
               "value": "Vec<bool>"
             },
+            "default": "0x00",
             "documentation": [
               " The last cleared vote index that this voter was last active at."
             ]
@@ -1830,6 +1909,7 @@
               "key": "AccountId",
               "value": "(VoteIndex,u32)"
             },
+            "default": "0x00",
             "documentation": [
               " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
               " currently registered."
@@ -1842,6 +1922,7 @@
               "key": "AccountId",
               "value": "VoteIndex"
             },
+            "default": "0x00",
             "documentation": [
               " The last cleared vote index that this voter was last active at."
             ]
@@ -1850,6 +1931,7 @@
             "name": "Voters",
             "modifier": 1,
             "type": "Vec<AccountId>",
+            "default": "0x00",
             "documentation": [
               " The present voter list."
             ]
@@ -1858,6 +1940,7 @@
             "name": "Candidates",
             "modifier": 1,
             "type": "Vec<AccountId>",
+            "default": "0x00",
             "documentation": [
               " The present candidate list."
             ]
@@ -1866,12 +1949,14 @@
             "name": "CandidateCount",
             "modifier": 1,
             "type": "u32",
+            "default": "0x00000000",
             "documentation": []
           },
           {
             "name": "NextFinalise",
             "modifier": 0,
             "type": "(BlockNumber,u32,Vec<AccountId>)",
+            "default": "0x00",
             "documentation": [
               " The accounts holding the seats that will become free on the next tally."
             ]
@@ -1880,6 +1965,7 @@
             "name": "SnapshotedStakes",
             "modifier": 1,
             "type": "Vec<Balance>",
+            "default": "0x00",
             "documentation": [
               " The stakes as they were at the point that the vote ended."
             ]
@@ -1888,6 +1974,7 @@
             "name": "Leaderboard",
             "modifier": 0,
             "type": "Vec<(Balance,AccountId)>",
+            "default": "0x00",
             "documentation": [
               " Get the leaderboard if we;re in the presentation phase."
             ]
@@ -1971,18 +2058,21 @@
             "name": "CooloffPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0xe803000000000000",
             "documentation": []
           },
           {
             "name": "VotingPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0300000000000000",
             "documentation": []
           },
           {
             "name": "EnactDelayPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0000000000000000",
             "documentation": [
               " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
             ]
@@ -1991,6 +2081,7 @@
             "name": "Proposals",
             "modifier": 1,
             "type": "Vec<(BlockNumber,Hash)>",
+            "default": "0x00",
             "documentation": []
           },
           {
@@ -2000,6 +2091,7 @@
               "key": "Hash",
               "value": "Proposal"
             },
+            "default": "0x00",
             "documentation": []
           },
           {
@@ -2009,6 +2101,7 @@
               "key": "Hash",
               "value": "Vec<AccountId>"
             },
+            "default": "0x00",
             "documentation": []
           },
           {
@@ -2018,6 +2111,7 @@
               "key": "(Hash,AccountId)",
               "value": "bool"
             },
+            "default": "0x00",
             "documentation": []
           },
           {
@@ -2027,6 +2121,7 @@
               "key": "Hash",
               "value": "(BlockNumber,Vec<AccountId>)"
             },
+            "default": "0x00",
             "documentation": []
           }
         ]
@@ -2083,6 +2178,7 @@
             "name": "Proposals",
             "modifier": 1,
             "type": "Vec<Hash>",
+            "default": "0x00",
             "documentation": [
               " The (hashes of) the active proposals."
             ]
@@ -2094,6 +2190,7 @@
               "key": "Hash",
               "value": "Proposal"
             },
+            "default": "0x00",
             "documentation": [
               " Actual proposal for a given hash, if it's current."
             ]
@@ -2105,6 +2202,7 @@
               "key": "Hash",
               "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
             },
+            "default": "0x00",
             "documentation": [
               " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
             ]
@@ -2113,6 +2211,7 @@
             "name": "ProposalCount",
             "modifier": 1,
             "type": "u32",
+            "default": "0x00000000",
             "documentation": [
               " Proposals so far."
             ]
@@ -2150,6 +2249,7 @@
             "name": "PendingChange",
             "modifier": 0,
             "type": "StoredPendingChange",
+            "default": "0x00",
             "documentation": []
           }
         ]
@@ -2256,6 +2356,7 @@
             "name": "ProposalBond",
             "modifier": 1,
             "type": "Permill",
+            "default": "0x00000000",
             "documentation": [
               " Proportion of funds that should be bonded in order to place a proposal. An accepted",
               " proposal gets these back. A rejected proposal doesn't."
@@ -2265,6 +2366,7 @@
             "name": "ProposalBondMinimum",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Minimum amount of funds that should be placed in a deposit for making a proposal."
             ]
@@ -2273,6 +2375,7 @@
             "name": "SpendPeriod",
             "modifier": 1,
             "type": "BlockNumber",
+            "default": "0x0100000000000000",
             "documentation": [
               " Period between successive spends."
             ]
@@ -2281,6 +2384,7 @@
             "name": "Burn",
             "modifier": 1,
             "type": "Permill",
+            "default": "0x00000000",
             "documentation": [
               " Percentage of spare funds (if any) that are burnt per spend period."
             ]
@@ -2289,6 +2393,7 @@
             "name": "Pot",
             "modifier": 1,
             "type": "Balance",
+            "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Total funds available to this module for spending."
             ]
@@ -2297,6 +2402,7 @@
             "name": "ProposalCount",
             "modifier": 1,
             "type": "ProposalIndex",
+            "default": "0x00000000",
             "documentation": [
               " Number of proposals that have been made."
             ]
@@ -2308,6 +2414,7 @@
               "key": "ProposalIndex",
               "value": "Proposal"
             },
+            "default": "0x00",
             "documentation": [
               " Proposals that have been made."
             ]
@@ -2316,6 +2423,7 @@
             "name": "Approvals",
             "modifier": 1,
             "type": "Vec<ProposalIndex>",
+            "default": "0x00",
             "documentation": [
               " Proposal indices that have been approved but not yet awarded."
             ]
@@ -2433,6 +2541,7 @@
             "name": "Key",
             "modifier": 1,
             "type": "AccountId",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           }
         ]
