@@ -9,7 +9,7 @@ import UInt from './codec/UInt';
 /**
  * @name U32
  * @description
- * An 32-bit number
+ * An 32-bit unsigned integer
  */
 export default class U32 extends UInt {
   constructor (value?: AnyNumber) {

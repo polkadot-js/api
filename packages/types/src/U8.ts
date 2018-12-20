@@ -9,7 +9,7 @@ import UInt from './codec/UInt';
 /**
  * @name U8
  * @description
- * An 8-bit number
+ * An 8-bit unsigned integer
  */
 export default class U8 extends UInt {
   constructor (value?: AnyNumber) {
