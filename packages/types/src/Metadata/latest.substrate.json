@@ -1344,6 +1344,7 @@
             "name": "ForcingNewEra",
             "modifier": 0,
             "type": "Null",
+            "default": "0x00",
             "documentation": [
               " We are forcing a new era."
             ]
@@ -1524,6 +1525,7 @@
             "name": "MaxLockPeriods",
             "modifier": 1,
             "type": "LockPeriods",
+            "default": "0x00",
             "documentation": [
               " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
             ]
