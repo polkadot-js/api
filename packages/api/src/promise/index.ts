@@ -8,7 +8,7 @@ import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, 
 
 import Rpc from '@polkadot/rpc-core/index';
 import { Storage } from '@polkadot/storage/types';
-import { Extrinsic, Hash } from '@polkadot/types/index';
+import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -217,7 +217,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
 
   private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, new Extrinsic({ method: method(...args) }));
+      new SubmittableExtrinsic(this, method(...args));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }

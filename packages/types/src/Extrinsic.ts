@@ -34,17 +34,15 @@ type ExtrinsicValue = {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Struct {
-  constructor (value?: ExtrinsicValue | AnyU8a) {
+  constructor (value?: ExtrinsicValue | AnyU8a | Method) {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, Extrinsic.decodeExtrinsic(value));
+    }, Extrinsic.decodeExtrinsic(value || {}));
   }
 
-  static decodeExtrinsic (value?: ExtrinsicValue | AnyU8a): object | Uint8Array {
-    if (!value) {
-      return {};
-    } else if (isHex(value)) {
+  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method): ExtrinsicValue | Array<number> | Uint8Array {
+    if (isHex(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
       // Instead of the block below, it should simply be:
@@ -58,9 +56,13 @@ export default class Extrinsic extends Struct {
       const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
+    } else if (value instanceof Method) {
+      return {
+        method: value
+      };
     }
 
-    return value as any;
+    return value;
   }
 
   /**
