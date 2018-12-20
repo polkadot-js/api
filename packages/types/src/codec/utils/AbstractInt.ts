@@ -18,7 +18,7 @@ export const DEFAULT_UINT_BITS = 64;
  */
 // TODO:
 //   - Apart from encoding/decoding we don't actually keep check on the sizes, is this good enough?
-export default class AbstractInt extends BN implements Codec {
+export default abstract class AbstractInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
 
