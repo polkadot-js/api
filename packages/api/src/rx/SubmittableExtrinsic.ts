@@ -37,9 +37,8 @@ export default class SubmittableExtrinsic extends Extrinsic {
       this._api.rpc.chain.getBlock(blockHash),
       this._api.query.system.events.at(blockHash)
     ).pipe(
-      // @ts-ignore just wtf?
-      map(([signedBlock, allEvents]: [SignedBlock, Array<EventRecord>]) => ({
-        events: filterEvents(this.hash, signedBlock, allEvents),
+      map(([signedBlock, allEvents]) => ({
+        events: filterEvents(this.hash, signedBlock, allEvents as any),
         status,
         type: status.type
       }))
