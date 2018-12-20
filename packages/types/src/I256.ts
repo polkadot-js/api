@@ -7,7 +7,7 @@ import { AnyNumber } from './types';
 import Int from './codec/Int';
 
 /**
- * @name I128
+ * @name I256
  * @description
  * An 256-bit signed integer
  */
