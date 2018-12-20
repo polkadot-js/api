@@ -34,8 +34,8 @@
     "@polkadot/rpc-provider": "^0.34.8",
     "@polkadot/rpc-rx": "^0.34.8",
     "@polkadot/storage": "^0.34.8",
+    "@polkadot/types": "^0.34.8",
     "@types/rx": "^4.1.1",
-    "core-js": "^2.5.7",
     "rxjs": "^6.3.3"
   }
 }
