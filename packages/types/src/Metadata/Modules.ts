@@ -220,13 +220,14 @@ export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
 
     // If, after construction, we "learned" (i.e. decoded) the type, then we
     // decode the `default` Bytes with the new type.
-    if (
-      this.get('default') instanceof Bytes &&
-      this.get('type')!.toString() !== 'Bytes'
-    ) {
-      const NewType = getTypeClass(getTypeDef(this.get('type')!.toString()));
-      this.set('default', new NewType(this.get('default')) as T);
-    }
+    // FIXME But for now, we don't do this, just leave the hex value as-is.
+    // if (
+    //   this.get('default') instanceof Bytes &&
+    //   this.get('type')!.toString() !== 'Bytes'
+    // ) {
+    //   const NewType = getTypeClass(getTypeDef(this.get('type')!.toString()));
+    //   this.set('default', new NewType(this.get('default')) as T);
+    // }
   }
 
   /**
