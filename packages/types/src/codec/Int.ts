@@ -4,7 +4,9 @@
 
 import { AnyNumber } from '../types';
 
-import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './utils/AbstractInt';
+import { bnToHex, bnToU8a } from '@polkadot/util';
+
+import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
  * @name Int
@@ -26,5 +28,28 @@ export default class Int extends AbstractInt {
       bitLength,
       isHexJson
     );
+  }
+
+  /**
+   * @description Returns a hex string representation of the value
+   */
+  toHex (): string {
+    return bnToHex(this, {
+      bitLength: this._bitLength,
+      isLe: false,
+      isNegative: true
+    });
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @param isBare true when the value has none of the type-specific prefixes (internal)
+   */
+  toU8a (isBare?: boolean): Uint8Array {
+    return bnToU8a(this, {
+      bitLength: this._bitLength,
+      isLe: true,
+      isNegative: true
+    });
   }
 }

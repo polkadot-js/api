@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, Codec } from '../../types';
+import { AnyNumber, Codec } from '../types';
 
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
@@ -39,7 +39,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // constructor. It would be ideal to actually return a BN, but there's a
     // bug: https://github.com/indutny/bn.js/issues/206.
     if (isHex(value)) {
-      return hexToBn(value).toString();
+      return hexToBn(value, { isLe: true, isNegative }).toString();
     } else if (isU8a(value)) {
       // NOTE When passing u8a in (typically from decoded data), it is always LE
       return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
@@ -74,9 +74,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
-    return bnToHex(this, this._bitLength);
-  }
+  abstract toHex (): string;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
@@ -100,7 +98,5 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
-  toU8a (isBare?: boolean): Uint8Array {
-    return bnToU8a(this, this._bitLength, true);
-  }
+  abstract toU8a (isBare?: boolean): Uint8Array;
 }

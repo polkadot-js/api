@@ -20,13 +20,13 @@ describe('Int', () => {
   it('converts to LE from the provided value', () => {
     expect(
       new Int(-1234).toU8a()
-    ).toEqual(new Uint8Array([46, 251]));
+    ).toEqual(new Uint8Array([46, 251, 255, 255, 255, 255, 255, 255]));
   });
 
   it('converts to LE from the provided value (bitLength)', () => {
     expect(
       new Int(-1234, 32).toU8a()
-    ).toEqual(new Uint8Array([255, 255, 46, 251]));
+    ).toEqual(new Uint8Array([46, 251, 255, 255]));
   });
 
   it('converts to hex/string', () => {
