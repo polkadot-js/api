@@ -1290,7 +1290,7 @@
           {
             "name": "ForcingNewEra",
             "modifier": 0,
-            "type": "()",
+            "type": "Null",
             "documentation": [
               " We are forcing a new era."
             ]
@@ -1344,13 +1344,13 @@
                   "type": "Compact<ReferendumIndex>"
                 },
                 {
-                  "name": "approve_proposal",
-                  "type": "bool"
+                  "name": "vote",
+                  "type": "Vote"
                 }
               ],
               "documentation": [
-                " Vote in a referendum. If `approve_proposal` is true, the vote is to enact the proposal;",
-                " false would be a vote to keep the status quo."
+                " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
+                " otherwise it is a vote to keep the status quo."
               ]
             },
             {
@@ -1462,6 +1462,14 @@
             ]
           },
           {
+            "name": "MaxLockPeriods",
+            "modifier": 1,
+            "type": "LockPeriods",
+            "documentation": [
+              " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
+            ]
+          },
+          {
             "name": "VotingPeriod",
             "modifier": 1,
             "type": "BlockNumber",
@@ -1531,13 +1539,15 @@
           },
           {
             "name": "VoteOf",
-            "modifier": 0,
+            "modifier": 1,
             "type": {
               "key": "(ReferendumIndex,AccountId)",
-              "value": "bool"
+              "value": "Vote"
             },
             "documentation": [
-              " Get the vote, if Some, of `who`."
+              " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
+              " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
+              " `voters_for`, then you can also check for simple existence with `VoteOf::exists` first."
             ]
           }
         ]
