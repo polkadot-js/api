@@ -1963,6 +1963,8 @@
                                 <h2 id="storage"><a id="top" style="text-decoration: none;">Storage</a></h2>
 <p><em>The following sections contain Storage methods are part of the default Substrate runtime.</em></p>
 <ul>
+<li><p><strong><a href="#aura">aura</a></strong></p>
+</li>
 <li><p><strong><a href="#balances">balances</a></strong></p>
 </li>
 <li><p><strong><a href="#consensus">consensus</a></strong></p>
@@ -1977,6 +1979,8 @@
 </li>
 <li><p><strong><a href="#democracy">democracy</a></strong></p>
 </li>
+<li><p><strong><a href="#grandpa">grandpa</a></strong></p>
+</li>
 <li><p><strong><a href="#session">session</a></strong></p>
 </li>
 <li><p><strong><a href="#staking">staking</a></strong></p>
@@ -1986,6 +1990,8 @@
 <li><p><strong><a href="#timestamp">timestamp</a></strong></p>
 </li>
 <li><p><strong><a href="#treasury">treasury</a></strong></p>
+</li>
+<li><p><strong><a href="#upgradeKey">upgradeKey</a></strong></p>
 </li>
 </ul>
 <hr>
@@ -2143,6 +2149,10 @@
 <h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
 <p>&#x25B8; <strong>cooloffPeriod</strong>(): <code>BlockNumber</code></p>
 <p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash,AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>enactDelayPeriod</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals.</li>
+</ul>
 <p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
 <p>&#x25B8; <strong>proposalVoters</strong>(<code>Hash</code>): <code>Vec&lt;AccountId&gt;</code></p>
 <p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber,Hash)&gt;</code></p>
@@ -2151,13 +2161,25 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="democracy"><a id="democracy"></a>democracy</h3>
+<p>&#x25B8; <strong>bondage</strong>(<code>AccountId</code>): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   The block at which the <code>who</code>&apos;s funds become liquid.</li>
+</ul>
 <p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance,Vec&lt;AccountId&gt;)</code></p>
 <ul>
 <li><strong>summary</strong>:   Those who have locked a deposit.</li>
 </ul>
+<p>&#x25B8; <strong>dispatchQueue</strong>(<code>BlockNumber</code>): <code>Vec&lt;Option&lt;(Proposal,ReferendumIndex)&gt;&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   Queue of successful referenda to be dispatched.</li>
+</ul>
 <p>&#x25B8; <strong>launchPeriod</strong>(): <code>BlockNumber</code></p>
 <ul>
 <li><strong>summary</strong>:   How often (in blocks) new public referenda are launched.</li>
+</ul>
+<p>&#x25B8; <strong>maxLockPeriods</strong>(): <code>LockPeriods</code></p>
+<ul>
+<li><strong>summary</strong>:   The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of <code>PublicDelay</code>.</li>
 </ul>
 <p>&#x25B8; <strong>minimumDeposit</strong>(): <code>Balance</code></p>
 <ul>
@@ -2166,6 +2188,10 @@
 <p>&#x25B8; <strong>nextTally</strong>(): <code>ReferendumIndex</code></p>
 <ul>
 <li><strong>summary</strong>:   The next referendum index that should be tallied.</li>
+</ul>
+<p>&#x25B8; <strong>publicDelay</strong>(): <code>BlockNumber</code></p>
+<ul>
+<li><strong>summary</strong>:   The delay before enactment for all public referenda.</li>
 </ul>
 <p>&#x25B8; <strong>publicPropCount</strong>(): <code>PropIndex</code></p>
 <ul>
@@ -2179,13 +2205,13 @@
 <ul>
 <li><strong>summary</strong>:   The next free referendum index, aka the number of referendums started so far.</li>
 </ul>
-<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(BlockNumber,Proposal,VoteThreshold)</code></p>
+<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>(ReferendumInfo)</code></p>
 <ul>
 <li><strong>summary</strong>:   Information concerning any given referendum.</li>
 </ul>
-<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex,AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>voteOf</strong>(<code>(ReferendumIndex,AccountId)</code>): <code>Vote</code></p>
 <ul>
-<li><strong>summary</strong>:   Get the vote, if Some, of <code>who</code>.</li>
+<li><strong>summary</strong>:   Get the vote in a given referendum of a particular voter. The result is meaningful only if <code>voters_for</code> includes the  voter when called with the referendum (you&apos;ll get the default <code>Vote</code> value otherwise). If you don&apos;t want to check  <code>voters_for</code>, then you can also check for simple existence with <code>VoteOf::exists</code> first.</li>
 </ul>
 <p>&#x25B8; <strong>votersFor</strong>(<code>ReferendumIndex</code>): <code>Vec&lt;AccountId&gt;</code></p>
 <ul>
@@ -2195,6 +2221,10 @@
 <ul>
 <li><strong>summary</strong>:   How often (in blocks) to check for new votes.</li>
 </ul>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="grandpafinality"><a id="grandpaFinality"></a>grandpaFinality</h3>
+<p>&#x25B8; <strong>pendingChange</strong>(): <code>StoredPendingChange</code></p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="session"><a id="session"></a>session</h3>
@@ -2384,6 +2414,10 @@
 <li><strong>summary</strong>:   Period between successive spends.</li>
 </ul>
 <hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="upgradekey"><a id="upgradeKey"></a>upgradeKey</h3>
+<p>&#x25B8; <strong>key</strong>(): <code>AccountId</code></p>
+<hr>
 <h3 id="substrate">substrate</h3>
 <p><em>These are keys that are always available to the runtime implementation</em></p>
 <p>&#x25B8; <strong>authorityCount</strong>(): <code>u32</code></p>
@@ -2454,7 +2488,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-12-20T17:15:24.895Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-20T17:17:07.822Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2018-12-20T19:36:39.731Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-20T19:38:21.559Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

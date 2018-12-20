@@ -1,6 +1,8 @@
 ## <a id='top' style='text-decoration: none;'>Extrinsics
 
 _The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._
+- **[aura](#aura)**
+
 - **[balances](#balances)**
 
 - **[consensus](#consensus)**
@@ -15,6 +17,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[democracy](#democracy)**
 
+- **[grandpa](#grandpa)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -25,71 +29,94 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[treasury](#treasury)**
 
+- **[upgradeKey](#upgradeKey)**
+
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='balances'></a>balances
 
-▸ **setBalance**(who: `Address`, free: `Balance`, reserved: `Balance`)
+▸ **setBalance**(who: `Address`, free: `Compact<Balance>`, reserved: `Compact<Balance>`)
+- **summary**:   Set the balances of a given account.
 
-▸ **transfer**(dest: `Address`, value: `Balance`)
+▸ **transfer**(dest: `Address`, value: `Compact<Balance>`)
+- **summary**:   Transfer some liquid free balance to another staker.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='consensus'></a>consensus
 
-▸ **noteOffline**(offline_val_indices: `Vec<u32>`)
+▸ **noteOffline**(offline: `InherentOfflineReport`)
+- **summary**:   Note the previous block's validator missed their opportunity to propose a block.
 
-▸ **remark**(remark: `Bytes`)
+▸ **remark**(_remark: `Bytes`)
+- **summary**:   Make some on-chain remark.
 
-▸ **reportMisbehavior**(report: `MisbehaviorReport`)
+▸ **reportMisbehavior**(_report: `Bytes`)
+- **summary**:   Report some misbehaviour.
 
 ▸ **setCode**(new: `Bytes`)
+- **summary**:   Set the new code.
+
+▸ **setHeapPages**(pages: `u64`)
+- **summary**:   Set the number of pages in the WebAssembly environment's heap.
 
 ▸ **setStorage**(items: `Vec<KeyValue>`)
+- **summary**:   Set some items of storage.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='contract'></a>contract
 
-▸ **call**(dest: `AccountId`, value: `Balance`, gas_limit: `Gas`, data: `Bytes`)
+▸ **call**(dest: `AccountId`, value: `Compact<Balance>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
+- **summary**:   Make a call to a specified account, optionally transferring some balance.  Make a call to a specified account, optionally transferring some balance.
 
-▸ **create**(value: `Balance`, gas_limit: `Gas`, init_code: `Bytes`, data: `Bytes`)
+▸ **create**(endowment: `Compact<Balance>`, gas_limit: `Compact<Gas>`, ctor_code: `Bytes`, data: `Bytes`)
+- **summary**:   Create a new contract, optionally transfering some balance to the created account.   Creation is executed as follows:   - the destination address is computed based on the sender and hash of the code.  - account is created at the computed address.  - the `ctor_code` is executed in the context of the newly created account. Buffer returned    after the execution is saved as the `code` of the account. That code will be invoked    upon any message received by this account.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='council'></a>council
 
-▸ **presentWinner**(candidate: `Address`, total: `Balance`, index: `VoteIndex`)
+▸ **presentWinner**(candidate: `Address`, total: `Compact<Balance>`, index: `Compact<VoteIndex>`)
+- **summary**:   Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``  `signed` should have at least
 
-▸ **reapInactiveVoter**(reporter_index: `u32`, who: `Address`, who_index: `u32`, assumed_vote_index: `VoteIndex`)
+▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
+- **summary**:   Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices  must now be either unregistered or registered to a candidate that registered the slot after  the voter gave their last approval set.   May be called by anyone. Returns the voter deposit to `signed`.
 
 ▸ **removeMember**(who: `Address`)
+- **summary**:   Remove a particular member. A tally will happen instantly (if not already in a presentation  period) to fill the seat if removal means that the desired members are not met.  This is effective immediately.
 
-▸ **retractVoter**(index: `u32`)
+▸ **retractVoter**(index: `Compact<u32>`)
+- **summary**:   Remove a voter. All votes are cancelled and the voter deposit is returned.
 
-▸ **setApprovals**(votes: `Vec<bool>`, index: `VoteIndex`)
+▸ **setApprovals**(votes: `Vec<bool>`, index: `Compact<VoteIndex>`)
+- **summary**:   Set candidate approvals. Approval slots stay valid as long as candidates in those slots  are registered.
 
-▸ **setDesiredSeats**(count: `u32`)
+▸ **setDesiredSeats**(count: `Compact<u32>`)
+- **summary**:   Set the desired member count; if lower than the current count, then seats will not be up  election when they expire. If more, then a new vote will be started if one is not already  in progress.
 
-▸ **setPresentationDuration**(count: `BlockNumber`)
+▸ **setPresentationDuration**(count: `Compact<BlockNumber>`)
+- **summary**:   Set the presentation duration. If there is currently a vote being presented for, will  invoke `finalise_vote`.
 
-▸ **setTermDuration**(count: `BlockNumber`)
+▸ **setTermDuration**(count: `Compact<BlockNumber>`)
+- **summary**:   Set the presentation duration. If there is current a vote being presented for, will  invoke `finalise_vote`.
 
-▸ **submitCandidacy**(slot: `u32`)
+▸ **submitCandidacy**(slot: `Compact<u32>`)
+- **summary**:   Submit oneself for candidacy.   Account must have enough transferrable funds in it to pay the bond.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='councilMotions'></a>councilMotions
 
-▸ **propose**(threshold: `u32`, proposal: `Proposal`)
+▸ **propose**(threshold: `Compact<u32>`, proposal: `Proposal`)
 
-▸ **vote**(proposal: `Hash`, index: `ProposalIndex`, approve: `bool`)
+▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -98,9 +125,9 @@ ___
 
 ▸ **propose**(proposal: `Proposal`)
 
-▸ **setCooloffPeriod**(blocks: `BlockNumber`)
+▸ **setCooloffPeriod**(blocks: `Compact<BlockNumber>`)
 
-▸ **setVotingPeriod**(blocks: `BlockNumber`)
+▸ **setVotingPeriod**(blocks: `Compact<BlockNumber>`)
 
 ▸ **veto**(proposal_hash: `Hash`)
 
@@ -111,15 +138,31 @@ ___
 
 ### <a id='democracy'></a>democracy
 
-▸ **cancelReferendum**(ref_index: `ReferendumIndex`)
+▸ **cancelQueued**(when: `BlockNumber`, which: `u32`)
+- **summary**:   Cancel a proposal queued for enactment.
 
-▸ **propose**(proposal: `Proposal`, value: `Balance`)
+▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
+- **summary**:   Remove a referendum.
 
-▸ **second**(proposal: `PropIndex`)
+▸ **propose**(proposal: `Proposal`, value: `Compact<Balance>`)
+- **summary**:   Propose a sensitive action to be taken.
 
-▸ **startReferendum**(proposal: `Proposal`, vote_threshold: `VoteThreshold`)
+▸ **second**(proposal: `Compact<PropIndex>`)
+- **summary**:   Propose a sensitive action to be taken.
 
-▸ **vote**(ref_index: `ReferendumIndex`, approve_proposal: `bool`)
+▸ **startReferendum**(proposal: `Proposal`, threshold: `VoteThreshold`, delay: `BlockNumber`)
+- **summary**:   Start a referendum.
+
+▸ **vote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
+- **summary**:   Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='grandpa'></a>grandpa
+
+▸ **reportMisbehavior**(_report: `Bytes`)
+- **summary**:   Report some misbehaviour.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -127,10 +170,13 @@ ___
 ### <a id='session'></a>session
 
 ▸ **forceNewSession**(apply_rewards: `bool`)
+- **summary**:   Forces a new session.
 
 ▸ **setKey**(key: `SessionKey`)
+- **summary**:   Sets the session key of `_validator` to `_key`. This doesn't take effect until the next  session.
 
-▸ **setLength**(new: `BlockNumber`)
+▸ **setLength**(new: `Compact<BlockNumber>`)
+- **summary**:   Set a new session length. Won't kick in until the next session change (at current length).
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -138,43 +184,67 @@ ___
 ### <a id='staking'></a>staking
 
 ▸ **forceNewEra**(apply_rewards: `bool`)
+- **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.
 
 ▸ **nominate**(target: `Address`)
 
-▸ **registerPreferences**(intentions_index: `u32`, prefs: `ValidatorPrefs`)
+▸ **registerPreferences**(intentions_index: `Compact<u32>`, prefs: `ValidatorPrefs`)
+- **summary**:   Set the given account's preference for slashing behaviour should they be a validator.   An error (no-op) if `Self::intentions()[intentions_index] != origin`.
 
-▸ **setBondingDuration**(new: `BlockNumber`)
+▸ **setBondingDuration**(new: `Compact<BlockNumber>`)
+- **summary**:   The length of the bonding duration in eras.
 
-▸ **setOfflineSlashGrace**(new: `u32`)
+▸ **setOfflineSlashGrace**(new: `Compact<u32>`)
+- **summary**:   Set the offline slash grace period.
 
-▸ **setSessionsPerEra**(new: `BlockNumber`)
+▸ **setSessionsPerEra**(new: `Compact<BlockNumber>`)
+- **summary**:   Set the number of sessions in an era.
 
-▸ **setValidatorCount**(new: `u32`)
+▸ **setValidatorCount**(new: `Compact<u32>`)
+- **summary**:   The ideal number of validators.
 
 ▸ **stake**()
+- **summary**:   Declare the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
 
-▸ **unnominate**(target_index: `u32`)
+▸ **unnominate**(target_index: `Compact<u32>`)
+- **summary**:   Will panic if called when source isn't currently nominating target.  Updates Nominating, NominatorsFor and NominationBalance.
 
-▸ **unstake**(intentions_index: `u32`)
+▸ **unstake**(intentions_index: `Compact<u32>`)
+- **summary**:   Retract the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='timestamp'></a>timestamp
 
-▸ **set**(now: `Moment`)
+▸ **set**(now: `Compact<Moment>`)
+- **summary**:   Set the current time.   Extrinsic with this call should be placed at the specific position in the each block  (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.  This call should be invoked exactly once per block. It will panic at the finalization phase,  if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by `block_period`.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='treasury'></a>treasury
 
-▸ **approveProposal**(proposal_id: `ProposalIndex`)
+▸ **approveProposal**(proposal_id: `Compact<ProposalIndex>`)
+- **summary**:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary  and the original deposit will be returned.
 
-▸ **configure**(proposal_bond: `Permill`, proposal_bond_minimum: `Balance`, spend_period: `BlockNumber`, burn: `Permill`)
+▸ **configure**(proposal_bond: `Permill`, proposal_bond_minimum: `Compact<Balance>`, spend_period: `Compact<BlockNumber>`, burn: `Permill`)
+- **summary**:   (Re-)configure this module.
 
-▸ **proposeSpend**(value: `Balance`, beneficiary: `AccountId`)
+▸ **proposeSpend**(value: `Compact<Balance>`, beneficiary: `Address`)
+- **summary**:   Put forward a suggestion for spending. A deposit proportional to the value  is reserved and slashed if the proposal is rejected. It is returned once the  proposal is awarded.
 
-▸ **rejectProposal**(roposal_id: `ProposalIndex`)
+▸ **rejectProposal**(proposal_id: `Compact<ProposalIndex>`)
+- **summary**:   Reject a proposed spend. The original deposit will be slashed.
 
-▸ **setPot**(new_pot: `Balance`)
+▸ **setPot**(new_pot: `Compact<Balance>`)
+- **summary**:   Set the balance of funds available to spend.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='upgradeKey'></a>upgradeKey
+
+▸ **setKey**(new: `AccountId`)
+
+▸ **upgrade**(new: `Bytes`)

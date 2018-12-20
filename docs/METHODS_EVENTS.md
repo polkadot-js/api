@@ -13,6 +13,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[democracy](#democracy)**
 
+- **[grandpa](#grandpa)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -20,6 +22,8 @@ Events are emitted for certain operations on the runtime. The following sections
 - **[system](#system)**
 
 - **[treasury](#treasury)**
+
+- **[upgradeKey](#upgradeKey)**
 
 
 ___
@@ -40,6 +44,9 @@ ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='contract'></a>contract
+
+▸ **Created**(`AccountId`, `AccountId`)
+- **summary**:   Contract deployed by address at the specified address.
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
 - **summary**:   Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.
@@ -112,6 +119,14 @@ ___
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
+### <a id='grandpa'></a>grandpa
+
+▸ **NewAuthorities**(`Vec<(SessionKey,u64)>`)
+- **summary**:   New authority set has been applied.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
 ### <a id='session'></a>session
 
 ▸ **NewSession**(`BlockNumber`)
@@ -161,3 +176,14 @@ ___
 
 ▸ **Spending**(`Balance`)
 - **summary**:   We have ended a spend period and will now allocate funds.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='upgradeKey'></a>upgradeKey
+
+▸ **KeyChanged**(`AccountId`)
+- **summary**:   An upgrade just happened; old key is supplied as an argument.
+
+▸ **Upgraded**()
+- **summary**:   An upgrade just happened.

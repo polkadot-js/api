@@ -1,6 +1,8 @@
 ## <a id='top' style='text-decoration: none;'>Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
+- **[aura](#aura)**
+
 - **[balances](#balances)**
 
 - **[consensus](#consensus)**
@@ -15,6 +17,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[democracy](#democracy)**
 
+- **[grandpa](#grandpa)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -24,6 +28,8 @@ _The following sections contain Storage methods are part of the default Substrat
 - **[timestamp](#timestamp)**
 
 - **[treasury](#treasury)**
+
+- **[upgradeKey](#upgradeKey)**
 
 
 ___
@@ -161,6 +167,9 @@ ___
 
 ▸ **councilVoteOf**(`(Hash,AccountId)`): `bool`
 
+▸ **enactDelayPeriod**(): `BlockNumber`
+- **summary**:   Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals.
+
 ▸ **proposalOf**(`Hash`): `Proposal`
 
 ▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
@@ -176,17 +185,29 @@ ___
 
 ### <a id='democracy'></a>democracy
 
+▸ **bondage**(`AccountId`): `BlockNumber`
+- **summary**:   The block at which the `who`'s funds become liquid.
+
 ▸ **depositOf**(`PropIndex`): `(Balance,Vec<AccountId>)`
 - **summary**:   Those who have locked a deposit.
 
+▸ **dispatchQueue**(`BlockNumber`): `Vec<Option<(Proposal,ReferendumIndex)>>`
+- **summary**:   Queue of successful referenda to be dispatched.
+
 ▸ **launchPeriod**(): `BlockNumber`
 - **summary**:   How often (in blocks) new public referenda are launched.
+
+▸ **maxLockPeriods**(): `LockPeriods`
+- **summary**:   The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`.
 
 ▸ **minimumDeposit**(): `Balance`
 - **summary**:   The minimum amount to be used as a deposit for a public referendum proposal.
 
 ▸ **nextTally**(): `ReferendumIndex`
 - **summary**:   The next referendum index that should be tallied.
+
+▸ **publicDelay**(): `BlockNumber`
+- **summary**:   The delay before enactment for all public referenda.
 
 ▸ **publicPropCount**(): `PropIndex`
 - **summary**:   The number of (public) proposals that have been made so far.
@@ -197,17 +218,24 @@ ___
 ▸ **referendumCount**(): `ReferendumIndex`
 - **summary**:   The next free referendum index, aka the number of referendums started so far.
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `(BlockNumber,Proposal,VoteThreshold)`
+▸ **referendumInfoOf**(`ReferendumIndex`): `(ReferendumInfo)`
 - **summary**:   Information concerning any given referendum.
 
-▸ **voteOf**(`(ReferendumIndex,AccountId)`): `bool`
-- **summary**:   Get the vote, if Some, of `who`.
+▸ **voteOf**(`(ReferendumIndex,AccountId)`): `Vote`
+- **summary**:   Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the  voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check  `voters_for`, then you can also check for simple existence with `VoteOf::exists` first.
 
 ▸ **votersFor**(`ReferendumIndex`): `Vec<AccountId>`
 - **summary**:   Get the voters for the current proposal.
 
 ▸ **votingPeriod**(): `BlockNumber`
 - **summary**:   How often (in blocks) to check for new votes.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='grandpaFinality'></a>grandpaFinality
+
+▸ **pendingChange**(): `StoredPendingChange`
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -374,6 +402,13 @@ ___
 
 ▸ **spendPeriod**(): `BlockNumber`
 - **summary**:   Period between successive spends.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='upgradeKey'></a>upgradeKey
+
+▸ **key**(): `AccountId`
 
 ---
 
