@@ -2,18 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor } from '../types';
+
 import { isFunction, isString } from '@polkadot/util';
 
-import { Constructor } from '../types';
+import { createClass } from './createType';
+
+type ConstructorObj = {
+  [name: string]: Constructor | string | { [name: string]: string }
+};
 
 export class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
   private _registry: Map<string, Constructor> = new Map();
 
-  register (type: Constructor | {[name: string]: Constructor}): void;
+  register (type: Constructor | ConstructorObj): void;
   register (name: string, type: Constructor): void;
-  register (arg1: string | Constructor | {[name: string]: Constructor}, arg2?: Constructor): void {
+  register (arg1: string | Constructor | ConstructorObj, arg2?: Constructor): void {
     if (isString(arg1)) {
       const name = arg1;
       const type = arg2!;
@@ -25,10 +31,21 @@ export class TypeRegistry {
 
       this._registry.set(name, type);
     } else {
-      Object.entries(arg1).forEach(([name, type]) => {
-        this._registry.set(name, type);
-      });
+      this.registerObject(arg1);
     }
+  }
+
+  private registerObject (obj: ConstructorObj) {
+    Object.entries(obj).forEach(([name, type]) => {
+      if (isString(type)) {
+        this._registry.set(name, createClass(type));
+      } else if (isFunction(type)) {
+        // This _looks_ a bit funny, but `typeof Clazz === 'function'
+        this._registry.set(name, type);
+      } else {
+        this._registry.set(name, createClass(JSON.stringify(type)));
+      }
+    });
   }
 
   get (name: string): Constructor | undefined {
