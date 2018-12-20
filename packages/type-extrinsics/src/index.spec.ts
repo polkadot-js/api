@@ -4,7 +4,6 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Extrinsic } from '@polkadot/types/index';
-import { hexToU8a } from '@polkadot/util';
 
 import extrinsics from './static';
 
