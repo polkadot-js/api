@@ -17,7 +17,7 @@ describe('TypeRegistry', () => {
     expect(registry.get('non-exist')).toBeUndefined();
   });
 
-  it('can register signle type', () => {
+  it('can register single type', () => {
     registry.register(Text);
     expect(registry.get('Text')).toBe(Text);
   });
