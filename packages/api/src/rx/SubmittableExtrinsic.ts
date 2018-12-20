@@ -9,7 +9,7 @@ import { ApiRxInterface } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Method, SignedBlock } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, Hash, Method } from '@polkadot/types/index';
 
 import filterEvents from '../util/filterEvents';
 
