@@ -9,7 +9,7 @@ import { bnToHex, bnToU8a } from '@polkadot/util';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
- * @name UInt
+ * @name UtInt
  * @description
  * A generic unsigned integer codec. For Substrate all numbers are LE encoded,
  * this handles the encoding and decoding of those numbers. Upon construction
