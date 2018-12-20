@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber, Codec } from '../types';
 
+import Bytes from '../Bytes';
 import Enum from '../codec/Enum';
 import EnumType from '../codec/EnumType';
 import Option from '../codec/Option';
@@ -12,6 +13,7 @@ import Vector from '../codec/Vector';
 import Text from '../Text';
 import Type from '../Type';
 import U16 from '../U16';
+// import { getTypeDef, getTypeClass } from '../codec/createType';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -190,20 +192,59 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
 }
 
 type StorageFunctionMetadataValue = {
-  name?: string | Text,
-  modifier?: StorageFunctionModifier | AnyNumber,
-  type?: StorageFunctionType,
-  documentation?: Vector<Text> | Array<string>
+  name: string | Text,
+  modifier: StorageFunctionModifier | AnyNumber,
+  type: StorageFunctionType,
+  default: Codec, // More precisely, it's a `type`
+  documentation: Vector<Text> | Array<string>
 };
 
-export class StorageFunctionMetadata extends Struct {
-  constructor (value?: StorageFunctionMetadataValue) {
+export class StorageFunctionMetadata<T extends Codec = Codec> extends Struct {
+  // private _originalLength: number;
+
+  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
+    // We try to figure out the type of the storage function (default to Bytes)
+    // const Type = value && (value as StorageFunctionMetadataValue).type
+    //   ? getTypeClass(getTypeDef((value as StorageFunctionMetadataValue).type.toString())) as Constructor<T>
+    //   : Bytes;
+
     super({
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
+      default: Bytes,
       documentation: Vector.with(Text)
     }, value);
+
+    // this._originalLength = super.encodedLength;
+
+    // If, after construction, we "learned" (i.e. decoded) the type, then we
+    // decode the `default` Bytes with the new type.
+    // FIXME But for now, we don't do this, just leave the hex value as-is.
+    // if (
+    //   this.get('default') instanceof Bytes &&
+    //   this.get('type')!.toString() !== 'Bytes'
+    // ) {
+    //   const NewType = getTypeClass(getTypeDef(this.get('type')!.toString()));
+    //   this.set('default', new NewType(this.get('default')) as T);
+    // }
+  }
+
+  // /**
+  //  * @description The length of the value when encoded as a Uint8Array
+  //  */
+  // get encodedLength (): number {
+  //   // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
+  //   // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
+  //   // only the decoding leg, allowing the decoders to work with original pointers
+  //   return this._originalLength;
+  // }
+
+  /**
+   * @description The default value of the storage function
+   */
+  get default (): T {
+    return this.get('default') as T;
   }
 
   /**

@@ -26,13 +26,13 @@ describe('fromMetadata', () => {
     ).toEqual(
       new Uint8Array([
         // length (encoded)
-        11 << 2,
+        4 << 2,
         // version, no signature
         1,
         // index
-        2, 0,
-        // values
-        117, 39, 0, 0, 0, 0, 0, 0
+        0, 0,
+        // values, Compact<Moment>
+        116
       ])
     );
   });
