@@ -7,26 +7,26 @@ import Int from './Int';
 describe('Int', () => {
   it('provides a toBn interface', () => {
     expect(
-      new Int(-987).toBn().toNumber()
-    ).toEqual(-987);
+      new Int(-1234).toBn().toNumber()
+    ).toEqual(-1234);
   });
 
   it('provides a toNumber interface', () => {
     expect(
-      new Int(-4567).toNumber()
-    ).toEqual(-4567);
+      new Int(-1234).toNumber()
+    ).toEqual(-1234);
   });
 
   it('converts to LE from the provided value', () => {
     expect(
-      new Int(-1234567).toU8a()
-    ).toEqual(new Uint8Array([135, 214, 18, 0, 0, 0, 0, 0]));
+      new Int(-1234).toU8a()
+    ).toEqual(new Uint8Array([46, 251]));
   });
 
   it('converts to LE from the provided value (bitLength)', () => {
     expect(
-      new Int(-1234567, 32).toU8a()
-    ).toEqual(new Uint8Array([135, 214, 18, 0]));
+      new Int(-1234, 32).toU8a()
+    ).toEqual(new Uint8Array([255, 255, 46, 251]));
   });
 
   it('converts to hex/string', () => {
