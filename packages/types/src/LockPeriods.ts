@@ -2,17 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from './types';
-
-import UInt from './codec/UInt';
+import I8 from './I8';
 
 /**
- * @name U8
+ * @name LocKPeriods
  * @description
- * An 8-bit unsigned integer
+ * A number of lock periods.
  */
-export default class U8 extends UInt {
-  constructor (value?: AnyNumber) {
-    super(value, 8, false);
-  }
+export default class LocKPeriods extends I8 {
 }

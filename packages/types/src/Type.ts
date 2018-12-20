@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Compact from './codec/Compact';
 import Text from './Text';
 
 type Mapper = (value: string) => string;
@@ -21,17 +20,17 @@ export default class Type extends Text {
 
   constructor (value: Text | Uint8Array | string = '') {
     // First decode it with Text
-    const textValue = new Text(value).toString();
+    const textValue = new Text(value);
+
     // Then cleanup the textValue to get the @polkadot/types type, and pass the
     // sanitized value to constructor
     super(
       Type.decodeType(
-        textValue
+        textValue.toString()
       )
     );
 
-    this._originalLength = textValue.length;
-
+    this._originalLength = textValue.encodedLength;
   }
 
   private static decodeType (value: string): string {
@@ -50,6 +49,8 @@ export default class Type extends Text {
       Type._removeGenerics(),
       // alias String -> Text (compat with jsonrpc methods)
       Type._alias('String', 'Text'),
+      // alias () -> Null
+      Type._alias('\\\(\\\)', 'Null'),
       // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
@@ -70,7 +71,7 @@ export default class Type extends Text {
     // NOTE Length is used in the decoding calculations, so return the original (pre-cleanup)
     // length of the data. Since toU8a is disabled, this does not affect encoding, but rather
     // only the decoding leg, allowing the decoders to work with original pointers
-    return this._originalLength + Compact.encodeU8a(this._originalLength).length;
+    return this._originalLength;
   }
 
   /**

@@ -9,21 +9,21 @@ import { bnToHex, bnToU8a } from '@polkadot/util';
 import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 
 /**
- * @name UInt
+ * @name Int
  * @description
- * A generic unsigned integer codec. For Substrate all numbers are LE encoded,
+ * A generic signed integer codec. For Substrate all numbers are LE encoded,
  * this handles the encoding and decoding of those numbers. Upon construction
  * the bitLength is provided and any additional use keeps the number to this
  * length. This extends `BN`, so all methods available on a normal `BN` object
  * is available here.
  * @noInheritDoc
  */
-export default class UInt extends AbstractInt {
+export default class Int extends AbstractInt {
   constructor (
     value: AnyNumber = 0,
     bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
-      false,
+      true,
       value,
       bitLength,
       isHexJson
@@ -37,7 +37,7 @@ export default class UInt extends AbstractInt {
     return bnToHex(this, {
       bitLength: this._bitLength,
       isLe: false,
-      isNegative: false
+      isNegative: true
     });
   }
 
@@ -49,7 +49,7 @@ export default class UInt extends AbstractInt {
     return bnToU8a(this, {
       bitLength: this._bitLength,
       isLe: true,
-      isNegative: false
+      isNegative: true
     });
   }
 }

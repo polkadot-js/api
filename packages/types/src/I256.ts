@@ -4,15 +4,15 @@
 
 import { AnyNumber } from './types';
 
-import UInt from './codec/UInt';
+import Int from './codec/Int';
 
 /**
- * @name U64
+ * @name I256
  * @description
- * An 64-bit unsigned integer
+ * An 256-bit signed integer
  */
-export default class U64 extends UInt {
+export default class I256 extends Int {
   constructor (value?: AnyNumber) {
-    super(value, 64, false);
+    super(value, 256, false);
   }
 }

@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
-import { UIntBitLength } from './codec/UInt';
+import { UIntBitLength } from './codec/AbstractInt';
 import { AnyNumber, Codec } from './types';
 
 const BITLENGTH: UIntBitLength = 64;
