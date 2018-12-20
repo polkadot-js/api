@@ -5,7 +5,7 @@
 import { AnyNumber, Codec } from '../types';
 
 import BN from 'bn.js';
-import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { bnToBn, bnToHex, bnToU8a, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 
