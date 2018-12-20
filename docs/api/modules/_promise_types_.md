@@ -12,5 +12,23 @@
 * [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)
 * [SubmittableModuleExtrinsics](../interfaces/_promise_types_.submittablemoduleextrinsics.md)
 
+### Type aliases
+
+* [SubmittableSendResult](_promise_types_.md#submittablesendresult)
+
 ---
+
+# Type aliases
+
+<a id="submittablesendresult"></a>
+
+##  SubmittableSendResult
+
+**Ƭ SubmittableSendResult**: *`object`*
+
+*Defined in [promise/types.ts:44](https://github.com/polkadot-js/api/blob/919a73c/packages/api/src/promise/types.ts#L44)*
+
+#### Type declaration
+
+___
 
