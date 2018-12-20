@@ -261,7 +261,7 @@ ___
 ▸ **currentSessionReward**(): `Balance`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
-▸ **forcingNewEra**(): `()`
+▸ **forcingNewEra**(): `Null`
 - **summary**:   We are forcing a new era.
 
 ▸ **intentions**(): `Vec<AccountId>`

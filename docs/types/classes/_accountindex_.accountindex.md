@@ -24,7 +24,7 @@
 
 *Overrides [U32](_u32_.u32.md).[constructor](_u32_.u32.md#constructor)*
 
-*Defined in [AccountIndex.ts:29](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L29)*
+*Defined in [AccountIndex.ts:29](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L29)*
 
 **Parameters:**
 
@@ -44,9 +44,9 @@ ___
 
 getencodedLength(): `number`
 
-*Inherited from [UInt](_codec_uint_.uint.md).[encodedLength](_codec_uint_.uint.md#encodedlength)*
+*Inherited from AbstractInt.encodedLength*
 
-*Defined in [codec/UInt.ts:57](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/codec/UInt.ts#L57)*
+*Defined in [codec/AbstractInt.ts:56](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/codec/AbstractInt.ts#L56)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -180,17 +180,17 @@ ___
 
 ##  bitLength
 
-▸ **bitLength**(): [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
+▸ **bitLength**(): [UIntBitLength](../modules/_codec_abstractint_.md#uintbitlength)
 
-*Inherited from [UInt](_codec_uint_.uint.md).[bitLength](_codec_uint_.uint.md#bitlength)*
+*Inherited from AbstractInt.bitLength*
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/UInt.ts:64](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/codec/UInt.ts#L64)*
+*Defined in [codec/AbstractInt.ts:63](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/codec/AbstractInt.ts#L63)*
 
 *__description__*: Returns the number of bits in the value
 
-**Returns:** [UIntBitLength](../modules/_codec_uint_.md#uintbitlength)
+**Returns:** [UIntBitLength](../modules/_codec_abstractint_.md#uintbitlength)
 
 ___
 <a id="bytelength"></a>
@@ -1519,9 +1519,9 @@ ___
 
 ▸ **toBn**(): `BN`
 
-*Overrides [UInt](_codec_uint_.uint.md).[toBn](_codec_uint_.uint.md#tobn)*
+*Overrides AbstractInt.toBn*
 
-*Defined in [AccountIndex.ts:92](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L92)*
+*Defined in [AccountIndex.ts:92](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L92)*
 
 *__description__*: Returns the BN representation of the AccountIndex
 
@@ -1560,7 +1560,7 @@ ___
 
 *Overrides [UInt](_codec_uint_.uint.md).[toHex](_codec_uint_.uint.md#tohex)*
 
-*Defined in [AccountIndex.ts:99](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L99)*
+*Defined in [AccountIndex.ts:99](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L99)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1575,9 +1575,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Overrides [UInt](_codec_uint_.uint.md).[toJSON](_codec_uint_.uint.md#tojson)*
+*Overrides AbstractInt.toJSON*
 
-*Defined in [AccountIndex.ts:108](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L108)*
+*Defined in [AccountIndex.ts:108](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L108)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1628,9 +1628,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Overrides [UInt](_codec_uint_.uint.md).[toString](_codec_uint_.uint.md#tostring)*
+*Overrides AbstractInt.toString*
 
-*Defined in [AccountIndex.ts:115](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L115)*
+*Defined in [AccountIndex.ts:115](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L115)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1668,7 +1668,7 @@ ___
 
 *Overrides [UInt](_codec_uint_.uint.md).[toU8a](_codec_uint_.uint.md#tou8a)*
 
-*Defined in [AccountIndex.ts:126](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L126)*
+*Defined in [AccountIndex.ts:126](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L126)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1871,7 +1871,7 @@ ___
 
 ▸ **calcLength**(_value: * `BN` &#124; `number`*): `number`
 
-*Defined in [AccountIndex.ts:52](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L52)*
+*Defined in [AccountIndex.ts:52](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L52)*
 
 **Parameters:**
 
@@ -1882,13 +1882,34 @@ ___
 **Returns:** `number`
 
 ___
+<a id="decodeabstracint"></a>
+
+## `<Static>` decodeAbstracInt
+
+▸ **decodeAbstracInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_abstractint_.md#uintbitlength)*, isNegative: *`boolean`*): `string`
+
+*Inherited from AbstractInt.decodeAbstracInt*
+
+*Defined in [codec/AbstractInt.ts:37](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/codec/AbstractInt.ts#L37)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| value | [AnyNumber](../modules/_types_.md#anynumber) |
+| bitLength | [UIntBitLength](../modules/_codec_abstractint_.md#uintbitlength) |
+| isNegative | `boolean` |
+
+**Returns:** `string`
+
+___
 <a id="decodeaccountindex"></a>
 
 ## `<Static>` decodeAccountIndex
 
 ▸ **decodeAccountIndex**(value: *[AnyNumber](../modules/_types_.md#anynumber)*):  `BN` &#124; `Uint8Array` &#124; `number` &#124; `string`
 
-*Defined in [AccountIndex.ts:36](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L36)*
+*Defined in [AccountIndex.ts:36](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L36)*
 
 **Parameters:**
 
@@ -1897,26 +1918,6 @@ ___
 | value | [AnyNumber](../modules/_types_.md#anynumber) |
 
 **Returns:**  `BN` &#124; `Uint8Array` &#124; `number` &#124; `string`
-
-___
-<a id="decodeuint"></a>
-
-## `<Static>` decodeUInt
-
-▸ **decodeUInt**(value: *[AnyNumber](../modules/_types_.md#anynumber)*, bitLength: *[UIntBitLength](../modules/_codec_uint_.md#uintbitlength)*): `string`
-
-*Inherited from [UInt](_codec_uint_.uint.md).[decodeUInt](_codec_uint_.uint.md#decodeuint)*
-
-*Defined in [codec/UInt.ts:38](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/codec/UInt.ts#L38)*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| value | [AnyNumber](../modules/_types_.md#anynumber) |
-| bitLength | [UIntBitLength](../modules/_codec_uint_.md#uintbitlength) |
-
-**Returns:** `string`
 
 ___
 <a id="isbn"></a>
@@ -2011,7 +2012,7 @@ ___
 
 ▸ **readLength**(input: *`Uint8Array`*): [`number`, `number`]
 
-*Defined in [AccountIndex.ts:66](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L66)*
+*Defined in [AccountIndex.ts:66](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L66)*
 
 **Parameters:**
 
@@ -2049,7 +2050,7 @@ ___
 
 ▸ **writeLength**(input: *`Uint8Array`*): `Uint8Array`
 
-*Defined in [AccountIndex.ts:80](https://github.com/polkadot-js/api/blob/919a73c/packages/types/src/AccountIndex.ts#L80)*
+*Defined in [AccountIndex.ts:80](https://github.com/polkadot-js/api/blob/b934846/packages/types/src/AccountIndex.ts#L80)*
 
 **Parameters:**
 
