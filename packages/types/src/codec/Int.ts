@@ -21,7 +21,7 @@ export default class UInt extends AbstractInt {
     value: AnyNumber = 0,
     bitLength: UIntBitLength = DEFAULT_UINT_BITS, isHexJson: boolean = true) {
     super(
-      false,
+      true,
       value,
       bitLength,
       isHexJson
