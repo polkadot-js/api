@@ -169,12 +169,16 @@ export function getTypeClass (value: TypeDef): Constructor {
   return Type;
 }
 
+export function createClass (type: Text | string, value?: any): Constructor {
+  return getTypeClass(
+    getTypeDef(type)
+  );
+}
+
 export default function createType (type: Text | string, value?: any): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
-  const Type = getTypeClass(
-    getTypeDef(type)
-  );
+  const Type = createClass(type);
 
   return new Type(value);
 }
