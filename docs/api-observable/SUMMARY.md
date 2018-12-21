@@ -9,7 +9,6 @@
 * [&quot;classes&quot;](modules/_classes_.md)
   * [RxProposal](classes/_classes_.rxproposal.md)
   * [RxProposalDeposits](classes/_classes_.rxproposaldeposits.md)
-  * [RxReferendum](classes/_classes_.rxreferendum.md)
 * [&quot;index&quot;](modules/_index_.md)
   * [Api](classes/_index_.api.md)
 * [&quot;types&quot;](modules/_types_.md)

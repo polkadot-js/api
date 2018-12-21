@@ -26,7 +26,7 @@
 
 *Overrides [Int](_codec_int_.int.md).[constructor](_codec_int_.int.md#constructor)*
 
-*Defined in [I8.ts:14](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/I8.ts#L14)*
+*Defined in [I8.ts:14](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/I8.ts#L14)*
 
 **Parameters:**
 
@@ -48,7 +48,7 @@ getencodedLength(): `number`
 
 *Inherited from AbstractInt.encodedLength*
 
-*Defined in [codec/AbstractInt.ts:56](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L56)*
+*Defined in [codec/AbstractInt.ts:56](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L56)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -188,7 +188,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/AbstractInt.ts:63](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L63)*
+*Defined in [codec/AbstractInt.ts:63](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L63)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -1523,7 +1523,7 @@ ___
 
 *Inherited from AbstractInt.toBn*
 
-*Defined in [codec/AbstractInt.ts:70](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L70)*
+*Defined in [codec/AbstractInt.ts:70](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L70)*
 
 *__description__*: Returns the BN representation of the number. (Compatibility)
 
@@ -1564,7 +1564,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/Int.ts#L36)*
+*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/Int.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1583,7 +1583,7 @@ ___
 
 *Overrides BN.toJSON*
 
-*Defined in [codec/AbstractInt.ts:82](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L82)*
+*Defined in [codec/AbstractInt.ts:82](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L82)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1636,7 +1636,7 @@ ___
 
 *Overrides BN.toString*
 
-*Defined in [codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L92)*
+*Defined in [codec/AbstractInt.ts:92](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L92)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1680,7 +1680,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/Int.ts#L48)*
+*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/Int.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1884,7 +1884,7 @@ ___
 
 *Inherited from AbstractInt.decodeAbstracInt*
 
-*Defined in [codec/AbstractInt.ts:37](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/codec/AbstractInt.ts#L37)*
+*Defined in [codec/AbstractInt.ts:37](https://github.com/polkadot-js/api/blob/c466a51/packages/types/src/codec/AbstractInt.ts#L37)*
 
 **Parameters:**
 
