@@ -67,7 +67,13 @@ describe('Compact', () => {
       expect(
         Compact.encodeU8a(new Balance('0x00407a10f35a'))
       ).toEqual(
-        new Uint8Array([3 + ((16 - 4) << 2), 0x00, 0x40, 0x7a, 0x10, 0xf3, 0x5a, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        new Uint8Array([
+          // length, as per FIXME, should actually be 6 (as opposed to 16)
+          3 + ((16 - 4) << 2),
+          // useful data
+          0x00, 0x40, 0x7a, 0x10, 0xf3, 0x5a,
+          // padding, extra space used here :(
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
       );
     });
   });
