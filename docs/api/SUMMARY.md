@@ -32,3 +32,5 @@
 * [&quot;types&quot;](modules/_types_.md)
   * [ApiBaseInterface](interfaces/_types_.apibaseinterface.md)
   * [ApiOptions](interfaces/_types_.apioptions.md)
+* [&quot;util/filterEvents&quot;](modules/_util_filterevents_.md)
+* [&quot;util/logging&quot;](modules/_util_logging_.md)
