@@ -22,7 +22,7 @@
 
 ⊕ **new ChainProperties**(value?: * `object` &#124; `null`*): [ChainProperties](_chainproperties_.chainproperties.md)
 
-*Defined in [ChainProperties.ts:17](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L17)*
+*Defined in [ChainProperties.ts:17](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L17)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [ChainProperties.ts:29](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L29)*
+*Defined in [ChainProperties.ts:29](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L29)*
 
 *__description__*: Always 0, never encodes as a Uint8Array
 
@@ -72,7 +72,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [ChainProperties.ts:37](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L37)*
+*Defined in [ChainProperties.ts:37](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L37)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -93,7 +93,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [ChainProperties.ts:44](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L44)*
+*Defined in [ChainProperties.ts:44](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L44)*
 
 *__description__*: Unimplemented, will throw
 
@@ -108,7 +108,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [ChainProperties.ts:51](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L51)*
+*Defined in [ChainProperties.ts:51](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L51)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -123,7 +123,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [ChainProperties.ts:62](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L62)*
+*Defined in [ChainProperties.ts:62](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L62)*
 
 *__description__*: Returns the string representation of the value
 
@@ -136,7 +136,7 @@ ___
 
 ▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
 
-*Defined in [ChainProperties.ts:69](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/ChainProperties.ts#L69)*
+*Defined in [ChainProperties.ts:69](https://github.com/polkadot-js/api/blob/23b8c78/packages/types/src/ChainProperties.ts#L69)*
 
 *__description__*: Unimplemented, will throw
 
