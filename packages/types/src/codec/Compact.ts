@@ -21,7 +21,7 @@ import Moment from '../Moment';
  * a number and making the compact representation thereof
  */
 export default class Compact extends Base<UInt | Moment> implements Codec {
-  constructor (Type: Constructor<UInt | Moment>, value: AnyNumber = 0) {
+  constructor (Type: Constructor<UInt | Moment>, value: Compact | AnyNumber = 0) {
     super(Compact.decodeCompact(Type, value));
   }
 
@@ -48,8 +48,10 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
     return value;
   }
 
-  static decodeCompact (Type: Constructor<UInt | Moment>, value: AnyNumber): Moment | UInt {
-    if (isString(value)) {
+  static decodeCompact (Type: Constructor<UInt | Moment>, value: Compact | AnyNumber): Moment | UInt {
+    if (value instanceof Compact) {
+      return new Type(value.raw);
+    } else if (isString(value)) {
       return new Type(
         isHex(value)
           ? hexToBn(value)

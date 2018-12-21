@@ -5,6 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
+import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 import Method from './Method';
 import Hash from './Hash';
@@ -34,7 +35,7 @@ export default class SignaturePayload extends Struct {
 
   constructor (value?: SignaturePayloadValue | Uint8Array) {
     super({
-      nonce: Nonce,
+      nonce: Compact.with(Nonce),
       method: Method,
       era: ExtrinsicEra,
       blockHash: Hash
@@ -72,8 +73,8 @@ export default class SignaturePayload extends Struct {
   /**
    * @description The [[Nonce]]
    */
-  get nonce (): Nonce {
-    return this.get('nonce') as Nonce;
+  get nonce (): Compact {
+    return this.get('nonce') as Compact;
   }
 
   /**
