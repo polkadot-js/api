@@ -52,6 +52,8 @@ export default class Type extends Text {
       // alias () -> Null
       Type._alias('\\\(\\\)', 'Null'),
       // alias Vec<u8> -> Bytes
+      Type._alias('Company<Index>', 'NonceCompact'),
+      // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address')

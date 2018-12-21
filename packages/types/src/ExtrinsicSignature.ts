@@ -7,12 +7,11 @@ import { AnyNumber, AnyU8a } from './types';
 
 import { isU8a, u8aConcat } from '@polkadot/util';
 
-import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
-import Nonce from './Nonce';
+import Nonce from './NonceCompact';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 
@@ -45,7 +44,7 @@ export default class ExtrinsicSignature extends Struct {
     super({
       signer: Address,
       signature: Signature,
-      nonce: Compact.with(Nonce),
+      nonce: Nonce,
       era: ExtrinsicEra
     }, ExtrinsicSignature.decodeExtrinsicSignature(value));
   }
@@ -95,8 +94,8 @@ export default class ExtrinsicSignature extends Struct {
   /**
    * @description The [[Nonce]] for the signature
    */
-  get nonce (): Compact {
-    return this.get('nonce') as Compact;
+  get nonce (): Nonce {
+    return this.get('nonce') as Nonce;
   }
 
   /**
@@ -128,7 +127,7 @@ export default class ExtrinsicSignature extends Struct {
     );
   }
 
-  private injectSignature (signature: Signature, signer: Address, nonce: Compact, era: ExtrinsicEra): ExtrinsicSignature {
+  private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): ExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
     this.set('signer', signer);
@@ -142,7 +141,7 @@ export default class ExtrinsicSignature extends Struct {
    */
   addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
     const signer = new Address(_signer);
-    const nonce = new (Compact.with(Nonce))(_nonce);
+    const nonce = new Nonce(_nonce);
     const era = new ExtrinsicEra(_era);
     const signature = new Signature(_signature);
 

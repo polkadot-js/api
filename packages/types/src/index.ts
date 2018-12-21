@@ -60,6 +60,7 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
+export { default as NonceCompact } from './NonceCompact';
 export { default as Justification } from './Justification';
 export { default as Origin } from './Origin';
 export { default as ParaId } from './ParaId';
