@@ -7,11 +7,11 @@ import { RxFees } from './types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, ReferendumInfo, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
-import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
+import { RxProposal, RxProposalDeposits } from './classes';
 
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
@@ -94,14 +94,14 @@ export default class ApiQueries extends ApiBase {
     return this.rawStorage(ApiBase.storage.democracy.referendumCount);
   }
 
-  referendumInfo = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum | undefined> => {
+  referendumInfo = (referendumId: ReferendumIndex | BN | number): Observable<ReferendumInfo | undefined> => {
     return this
       .rawStorage(ApiBase.storage.democracy.referendumInfoOf, referendumId)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((result: Tuple): RxReferendum | undefined =>
+        map((result: Tuple) =>
           result
-            ? new RxReferendum(result, referendumId)
+            ? result[0]
             : undefined
         )
       );

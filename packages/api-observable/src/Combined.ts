@@ -8,12 +8,12 @@ import BN from 'bn.js';
 import { EMPTY, Observable, from } from 'rxjs';
 import { switchMap, defaultIfEmpty, map } from 'rxjs/operators';
 import { decodeAddress } from '@polkadot/keyring';
-import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, Moment, ReferendumIndex, ReferendumInfo } from '@polkadot/types/index';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import { assert } from '@polkadot/util';
 
 import ApiCalls from './Calls';
-import { RxProposal, RxReferendum } from './classes';
+import { RxProposal } from './classes';
 
 // Combines API calls and queries into single results. This allows for the exposed API to have
 // useful extensions, i.e. queries can be made that returns the results from multiple observables,
@@ -122,12 +122,12 @@ export default class ApiCombined extends ApiCalls {
       );
   }
 
-  referendumsInfo = (referendumIds: Array<ReferendumIndex | BN | number>): Observable<Array<RxReferendum>> => {
+  referendumsInfo = (referendumIds: Array<ReferendumIndex | BN | number>): Observable<Array<ReferendumInfo>> => {
     return this.combine(
       referendumIds.map((referendumId) =>
         this.referendumInfo(referendumId)
       ),
-      (referendums: Array<RxReferendum> = []): Array<RxReferendum> =>
+      (referendums: Array<ReferendumInfo> = []): Array<ReferendumInfo> =>
         referendums.filter((referendum) =>
           referendum
         )
@@ -150,7 +150,7 @@ export default class ApiCombined extends ApiCalls {
     );
   }
 
-  referendums = (): Observable<Array<RxReferendum>> => {
+  referendums = (): Observable<Array<ReferendumInfo>> => {
     return this.combine(
       [
         this.referendumCount(),

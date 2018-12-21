@@ -49,32 +49,3 @@ export class RxProposalDeposits extends DepositStruct {
     return this.get('balance') as Balance;
   }
 }
-
-const ReferendumStruct: Constructor<Struct<any>> = Struct.with({ blockNumber: BlockNumber, proposal: Proposal, voteThreshold: VoteThreshold, id: ReferendumIndex });
-
-export class RxReferendum extends ReferendumStruct {
-  constructor (value: Tuple, id: ReferendumIndex | BN | number) {
-    super({
-      blockNumber: value[0],
-      proposal: value[1],
-      voteThreshold: value[2],
-      id
-    });
-  }
-
-  get blockNumber (): BlockNumber {
-    return this.get('blockNumber') as BlockNumber;
-  }
-
-  get id (): ReferendumIndex {
-    return this.get('id') as ReferendumIndex;
-  }
-
-  get proposal (): Proposal {
-    return this.get('proposal') as Proposal;
-  }
-
-  get voteThreshold (): VoteThreshold {
-    return this.get('voteThreshold') as VoteThreshold;
-  }
-}
