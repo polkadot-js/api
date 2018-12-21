@@ -118,6 +118,6 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
-    return Compact.encodeU8a(this.raw.toBn(), this.bitLength());
+    return Compact.encodeU8a(this.raw.toBn());
   }
 }

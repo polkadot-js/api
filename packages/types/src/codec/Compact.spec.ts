@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 
+import Balance from '../Balance';
 import BlockNumber from '../BlockNumber';
 import Moment from '../Moment';
 import U32 from '../U32';
@@ -14,7 +15,7 @@ describe('Compact', () => {
   describe('encodeU8a', () => {
     it('encodes short u8', () => {
       expect(
-        Compact.encodeU8a(18, 8)
+        Compact.encodeU8a(18)
       ).toEqual(
         new Uint8Array([18 << 2])
       );
@@ -22,7 +23,7 @@ describe('Compact', () => {
 
     it('encodes max u8 values', () => {
       expect(
-        Compact.encodeU8a(new UInt(63), 16)
+        Compact.encodeU8a(new UInt(63))
       ).toEqual(
         new Uint8Array([0b11111100])
       );
@@ -30,7 +31,7 @@ describe('Compact', () => {
 
     it('encodes basic u16 value', () => {
       expect(
-        Compact.encodeU8a(511, 32)
+        Compact.encodeU8a(511)
       ).toEqual(
         new Uint8Array([0b11111101, 0b00000111])
       );
@@ -38,7 +39,7 @@ describe('Compact', () => {
 
     it('encodes basic ua6 (not at edge)', () => {
       expect(
-        Compact.encodeU8a(111, 32)
+        Compact.encodeU8a(111)
       ).toEqual(
         new Uint8Array([0xbd, 0x01])
       );
@@ -46,7 +47,7 @@ describe('Compact', () => {
 
     it('encodes basic u32 values (short)', () => {
       expect(
-        Compact.encodeU8a(0xffff, 32)
+        Compact.encodeU8a(0xffff)
       ).toEqual(
         new Uint8Array([254, 255, 3, 0])
       );
@@ -54,9 +55,25 @@ describe('Compact', () => {
 
     it('encodes basic u32 values (full)', () => {
       expect(
-        Compact.encodeU8a(0xfffffff9, 32)
+        Compact.encodeU8a(0xfffffff9)
       ).toEqual(
         new Uint8Array([3, 249, 255, 255, 255])
+      );
+    });
+
+    // FIXME This is _still_ not correct, here it should use the minimum bytes - however, since the
+    // value fits and the encoding is proper, it _should_ be ok on the decoding side.
+    it('condes a large balance', () => {
+      expect(
+        Compact.encodeU8a(new Balance('0x00407a10f35a'))
+      ).toEqual(
+        new Uint8Array([
+          // length, as per FIXME, should actually be 6 (as opposed to 16)
+          3 + ((16 - 4) << 2),
+          // useful data
+          0x00, 0x40, 0x7a, 0x10, 0xf3, 0x5a,
+          // padding, extra space used here :(
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
       );
     });
   });
