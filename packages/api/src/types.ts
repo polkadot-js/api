@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
+import { EventRecord, ExtrinsicStatus, Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { Constructor } from '@polkadot/types/types';
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
@@ -33,3 +33,9 @@ export interface ApiOptions {
    */
   types?: {[name: string]: Constructor};
 }
+
+export type SubmittableSendResult = {
+  events?: Array<EventRecord>,
+  status: ExtrinsicStatus,
+  type: string
+};

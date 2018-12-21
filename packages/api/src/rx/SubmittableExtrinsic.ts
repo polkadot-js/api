@@ -4,11 +4,14 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { ApiRxInterface, SubmittableSendResult } from './types';
+import { SubmittableSendResult } from '../types';
+import { ApiRxInterface } from './types';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Extrinsic, ExtrinsicStatus, Method } from '@polkadot/types/index';
+import { Observable, of, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Extrinsic, ExtrinsicStatus, Hash, Method } from '@polkadot/types/index';
+
+import filterEvents from '../util/filterEvents';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiRxInterface;
@@ -19,15 +22,33 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
+  // FIXME split into graph derivation once available
+  private trackStatus = (status: ExtrinsicStatus): Observable<SubmittableSendResult> => {
+    if (status.type !== 'Finalised') {
+      return of({
+        status,
+        type: status.type
+      });
+    }
+
+    const blockHash = status.value as Hash;
+
+    return combineLatest(
+      this._api.rpc.chain.getBlock(blockHash),
+      this._api.query.system.events.at(blockHash)
+    ).pipe(
+      map(([signedBlock, allEvents]) => ({
+        events: filterEvents(this.hash, signedBlock, allEvents as any),
+        status,
+        type: status.type
+      }))
+    );
+  }
+
   send (): Observable<SubmittableSendResult> {
     return this._api.rpc.author
       .submitAndWatchExtrinsic(this)
-      .pipe(
-        map((status: ExtrinsicStatus) => ({
-          status,
-          type: status.type
-        }))
-      );
+      .pipe(switchMap(this.trackStatus));
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {
