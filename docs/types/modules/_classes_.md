@@ -8,7 +8,7 @@
 
 **Ƭ CodecTypes**: *`keyof &quot;/home/travis/build/polkadot-js/api/packages/types/src/index&quot;`*
 
-*Defined in [classes.ts:7](https://github.com/polkadot-js/api/blob/db95340/packages/types/src/classes.ts#L7)*
+*Defined in [classes.ts:7](https://github.com/polkadot-js/api/blob/1e88075/packages/types/src/classes.ts#L7)*
 
 ___
 
