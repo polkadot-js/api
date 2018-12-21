@@ -89,7 +89,7 @@ describe('Compact', () => {
     it('decodes from same u32 as u64 encoded value (full, default)', () => {
       expect(
         Compact.decodeU8a(new Uint8Array([3, 249, 255, 255, 255]), 64)
-      ).toEqual([9, new BN(0xfffffff9)]);
+      ).toEqual([5, new BN(0xfffffff9)]);
     });
   });
 
