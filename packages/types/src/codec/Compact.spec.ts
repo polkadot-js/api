@@ -61,19 +61,14 @@ describe('Compact', () => {
       );
     });
 
-    // FIXME This is _still_ not correct, here it should use the minimum bytes - however, since the
-    // value fits and the encoding is proper, it _should_ be ok on the decoding side.
-    it('condes a large balance', () => {
+    it('encondes a large balance', () => {
       expect(
         Compact.encodeU8a(new Balance('0x00407a10f35a'))
       ).toEqual(
         new Uint8Array([
-          // length, as per FIXME, should actually be 6 (as opposed to 16)
-          3 + ((16 - 4) << 2),
-          // useful data
-          0x00, 0x40, 0x7a, 0x10, 0xf3, 0x5a,
-          // padding, extra space used here :(
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+          3 + ((6 - 4) << 2),
+          0x00, 0x40, 0x7a, 0x10, 0xf3, 0x5a
+        ])
       );
     });
   });
@@ -120,7 +115,7 @@ describe('Compact', () => {
     it('has the correct encodedLength for constructor values (BlockNumber)', () => {
       expect(
         new Compact(BlockNumber, 0xfffffff9).encodedLength
-      ).toEqual(9);
+      ).toEqual(5);
     });
 
     it('has the correct encodedLength for constructor values (u32)', () => {
