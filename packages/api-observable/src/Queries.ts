@@ -7,46 +7,45 @@ import { RxFees } from './types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import storage from '@polkadot/storage/static';
-import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, u32 } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Balance, bool as Bool, BlockNumber, EventRecord, Index, Moment, Perbill, PropIndex, ReferendumIndex, ReferendumInfo, u32 } from '@polkadot/types/index';
 import { Tuple } from '@polkadot/types/codec';
 
 import ApiBase from './Base';
-import { RxProposal, RxProposalDeposits, RxReferendum } from './classes';
+import { RxProposal, RxProposalDeposits } from './classes';
 
 // Perform storage queries to the API endpoints.
 export default class ApiQueries extends ApiBase {
   accountNonce = (address: AccountId | string): Observable<Index | undefined> => {
-    return this.rawStorage(storage.system.accountNonce, address);
+    return this.rawStorage(ApiBase.storage.system.accountNonce, address);
   }
 
   balanceFree = (address: AccountId | string): Observable<Balance | undefined> => {
-    return this.rawStorage(storage.balances.freeBalance, address);
+    return this.rawStorage(ApiBase.storage.balances.freeBalance, address);
   }
 
   balanceReserved = (address: AccountId | string): Observable<Balance | undefined> => {
-    return this.rawStorage(storage.balances.reservedBalance, address);
+    return this.rawStorage(ApiBase.storage.balances.reservedBalance, address);
   }
 
   blockPeriod = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.blockPeriod);
+    return this.rawStorage(ApiBase.storage.timestamp.blockPeriod);
   }
 
   blockNow = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.timestamp.now);
+    return this.rawStorage(ApiBase.storage.timestamp.now);
   }
 
   democracyLaunchPeriod = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.democracy.launchPeriod);
+    return this.rawStorage(ApiBase.storage.democracy.launchPeriod);
   }
 
   democracyNextTally = (): Observable<ReferendumIndex | undefined> => {
-    return this.rawStorage(storage.democracy.nextTally);
+    return this.rawStorage(ApiBase.storage.democracy.nextTally);
   }
 
   getAccountEnumSet = (index: AccountIndex | BN | number): Observable<Array<AccountId> | undefined> => {
     return this
-      .rawStorage(storage.balances.enumSet, index)
+      .rawStorage(ApiBase.storage.balances.enumSet, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((accounts: Array<AccountId> | null | undefined) =>
@@ -56,12 +55,12 @@ export default class ApiQueries extends ApiBase {
   }
 
   nextAccountEnumSet = (): Observable<AccountIndex | undefined> => {
-    return this.rawStorage(storage.balances.nextEnumSet);
+    return this.rawStorage(ApiBase.storage.balances.nextEnumSet);
   }
 
   proposalDeposits = (proposalId: PropIndex | BN | number): Observable<RxProposalDeposits | undefined> => {
     return this
-      .rawStorage(storage.democracy.depositOf, proposalId)
+      .rawStorage(ApiBase.storage.democracy.depositOf, proposalId)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((result: Tuple): RxProposalDeposits | undefined =>
@@ -74,7 +73,7 @@ export default class ApiQueries extends ApiBase {
 
   publicProposals = (): Observable<Array<RxProposal>> => {
     return this
-      .rawStorage(storage.democracy.publicProps)
+      .rawStorage(ApiBase.storage.democracy.publicProps)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((proposals: Array<Tuple> | null | undefined) =>
@@ -92,29 +91,29 @@ export default class ApiQueries extends ApiBase {
   }
 
   referendumCount = (): Observable<ReferendumIndex | undefined> => {
-    return this.rawStorage(storage.democracy.referendumCount);
+    return this.rawStorage(ApiBase.storage.democracy.referendumCount);
   }
 
-  referendumInfo = (referendumId: ReferendumIndex | BN | number): Observable<RxReferendum | undefined> => {
+  referendumInfo = (referendumId: ReferendumIndex | BN | number): Observable<ReferendumInfo | undefined> => {
     return this
-      .rawStorage(storage.democracy.referendumInfoOf, referendumId)
+      .rawStorage(ApiBase.storage.democracy.referendumInfoOf, referendumId)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
-        map((result: Tuple): RxReferendum | undefined =>
+        map((result: Tuple) =>
           result
-            ? new RxReferendum(result, referendumId)
+            ? result[0]
             : undefined
         )
       );
   }
 
   referendumVote = (index: ReferendumIndex | BN | number, address: AccountId | string): Observable<Bool | undefined> => {
-    return this.rawStorage(storage.democracy.voteOf, [index, address]);
+    return this.rawStorage(ApiBase.storage.democracy.voteOf, [index, address]);
   }
 
   referendumVoters = (index: ReferendumIndex | BN | number): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.democracy.votersFor, index)
+      .rawStorage(ApiBase.storage.democracy.votersFor, index)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((voters: Array<AccountId> | null | undefined) =>
@@ -124,17 +123,17 @@ export default class ApiQueries extends ApiBase {
   }
 
   democracyVotingPeriod = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.democracy.votingPeriod);
+    return this.rawStorage(ApiBase.storage.democracy.votingPeriod);
   }
 
   fees = (): Observable<RxFees> => {
     return this
       .rawStorageMulti(
-        [storage.balances.transactionBaseFee],
-        [storage.balances.transactionByteFee],
-        [storage.balances.creationFee],
-        [storage.balances.existentialDeposit],
-        [storage.balances.transferFee]
+        [ApiBase.storage.balances.transactionBaseFee],
+        [ApiBase.storage.balances.transactionByteFee],
+        [ApiBase.storage.balances.creationFee],
+        [ApiBase.storage.balances.existentialDeposit],
+        [ApiBase.storage.balances.transferFee]
       )
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
@@ -149,40 +148,40 @@ export default class ApiQueries extends ApiBase {
   }
 
   eraLastLengthChange = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.staking.lastEraLengthChange);
+    return this.rawStorage(ApiBase.storage.staking.lastEraLengthChange);
   }
 
   sessionReward = (): Observable<Perbill | undefined> => {
-    return this.rawStorage(storage.staking.sessionReward);
+    return this.rawStorage(ApiBase.storage.staking.sessionReward);
   }
 
   sessionRewardCurrent = (): Observable<Balance | undefined> => {
-    return this.rawStorage(storage.staking.currentSessionReward);
+    return this.rawStorage(ApiBase.storage.staking.currentSessionReward);
   }
 
   sessionCurrentIndex = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.session.currentIndex);
+    return this.rawStorage(ApiBase.storage.session.currentIndex);
   }
 
   sessionCurrentStart = (): Observable<Moment | undefined> => {
-    return this.rawStorage(storage.session.currentStart);
+    return this.rawStorage(ApiBase.storage.session.currentStart);
   }
 
   sessionLastLengthChange = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.session.lastLengthChange);
+    return this.rawStorage(ApiBase.storage.session.lastLengthChange);
   }
 
   sessionLength = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.session.sessionLength);
+    return this.rawStorage(ApiBase.storage.session.sessionLength);
   }
 
   sessionsPerEra = (): Observable<BlockNumber | undefined> => {
-    return this.rawStorage(storage.staking.sessionsPerEra);
+    return this.rawStorage(ApiBase.storage.staking.sessionsPerEra);
   }
 
   sessionValidators = (): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.session.validators)
+      .rawStorage(ApiBase.storage.session.validators)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((validators: Array<AccountId> | null | undefined) =>
@@ -193,7 +192,7 @@ export default class ApiQueries extends ApiBase {
 
   stakingIntentions = (): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.staking.intentions)
+      .rawStorage(ApiBase.storage.staking.intentions)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((intentions: Array<AccountId> | null | undefined) =>
@@ -204,7 +203,7 @@ export default class ApiQueries extends ApiBase {
 
   stakingNominatorsFor = (address: AccountId | string): Observable<Array<AccountId>> => {
     return this
-      .rawStorage(storage.staking.nominatorsFor, address)
+      .rawStorage(ApiBase.storage.staking.nominatorsFor, address)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((nominators: Array<AccountId> | null | undefined) =>
@@ -214,12 +213,12 @@ export default class ApiQueries extends ApiBase {
   }
 
   stakingNominating = (address: AccountId | string): Observable<AccountId | undefined> => {
-    return this.rawStorage(storage.staking.nominating, address);
+    return this.rawStorage(ApiBase.storage.staking.nominating, address);
   }
 
   systemEvents = (): Observable<Array<EventRecord>> => {
     return this
-      .rawStorage(storage.system.events)
+      .rawStorage(ApiBase.storage.system.events)
       .pipe(
         // @ts-ignore After upgrade to 6.3.2
         map((events: Array<EventRecord> | null | undefined) =>
@@ -229,6 +228,6 @@ export default class ApiQueries extends ApiBase {
   }
 
   validatorCount = (): Observable<u32 | undefined> => {
-    return this.rawStorage(storage.staking.validatorCount);
+    return this.rawStorage(ApiBase.storage.staking.validatorCount);
   }
 }
