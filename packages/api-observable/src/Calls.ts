@@ -22,6 +22,18 @@ export default class ApiCalls extends ApiQueries {
       );
   }
 
+  bestNumberFinalised = (): Observable<BlockNumber | undefined> => {
+    return this
+      .subscribeFinalisedHead()
+      .pipe(
+        map((header?: Header): BlockNumber | undefined =>
+          header && header.blockNumber
+            ? header.blockNumber
+            : undefined
+        )
+      );
+  }
+
   chain = (): Observable<Text | undefined> => {
     return this._api.system.chain();
   }
@@ -40,6 +52,12 @@ export default class ApiCalls extends ApiQueries {
 
   getBlock = (hash: Uint8Array): Observable<SignedBlock | undefined> => {
     return this._api.chain.getBlock(hash);
+  }
+
+  subscribeFinalisedHead = (): Observable<Header | undefined> => {
+    return this._api.chain.subscribeFinalisedHeads().pipe(
+      defaultIfEmpty()
+    );
   }
 
   subscribeNewHead = (): Observable<Header | undefined> => {
