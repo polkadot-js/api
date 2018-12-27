@@ -255,6 +255,8 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
       this.rpc.state.getStorage([method, arg], hash);
+    decorated.unsubscribe = (subscriptionId: any): Promise<any> =>
+      this.rpc.state.subscribeStorage.unsubscribe(subscriptionId);
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
