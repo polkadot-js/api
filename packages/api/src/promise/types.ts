@@ -15,6 +15,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
 export interface QueryableStorageFunction extends StorageFunction {
   (arg?: any): Promise<Codec | null | undefined>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
+  unsubscribe: (subscriptionId: any) => Promise<any>;
 }
 
 export interface QueryableModuleStorage {
