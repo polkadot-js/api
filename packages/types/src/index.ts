@@ -38,9 +38,8 @@ export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
-// NOTE These are currently only used internally, no direct mapping to Rust strings
-// export { default as H256 } from './H256';
-// export { default as H512 } from './H512';
+export { default as H256 } from './H256';
+export { default as H512 } from './H512';
 export { default as Hash } from './Hash';
 export { default as Header } from './Header';
 export { default as i8 } from './I8';
