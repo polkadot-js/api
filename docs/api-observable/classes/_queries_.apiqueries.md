@@ -18,7 +18,7 @@
 
 *Inherited from [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L33)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L33)*
 
 **Parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[whenReady](_base_.apibase.md#whenready)*
 
-*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L33)*
+*Defined in [Base.ts:33](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L33)*
 
 ___
 <a id="extrinsics"></a>
@@ -51,7 +51,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[extrinsics](_base_.apibase.md#extrinsics)*
 
-*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L41)*
+*Defined in [Base.ts:41](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L41)*
 
 ___
 <a id="storage"></a>
@@ -62,7 +62,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[storage](_base_.apibase.md#storage)*
 
-*Defined in [Base.ts:42](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L42)*
+*Defined in [Base.ts:42](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L42)*
 
 ___
 
@@ -76,7 +76,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L87)*
+*Defined in [Base.ts:87](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L87)*
 
 **Returns:** `Hash`
 
@@ -90,7 +90,7 @@ ___
 
 ▸ **accountNonce**(address: * `AccountId` &#124; `string`*): `Observable`< `Index` &#124; `undefined`>
 
-*Defined in [Queries.ts:18](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L18)*
+*Defined in [Queries.ts:18](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L18)*
 
 **Parameters:**
 
@@ -107,7 +107,7 @@ ___
 
 ▸ **balanceFree**(address: * `AccountId` &#124; `string`*): `Observable`< `Balance` &#124; `undefined`>
 
-*Defined in [Queries.ts:22](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L22)*
+*Defined in [Queries.ts:22](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L22)*
 
 **Parameters:**
 
@@ -124,7 +124,7 @@ ___
 
 ▸ **balanceReserved**(address: * `AccountId` &#124; `string`*): `Observable`< `Balance` &#124; `undefined`>
 
-*Defined in [Queries.ts:26](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L26)*
+*Defined in [Queries.ts:26](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L26)*
 
 **Parameters:**
 
@@ -141,7 +141,7 @@ ___
 
 ▸ **blockNow**(): `Observable`< `Moment` &#124; `undefined`>
 
-*Defined in [Queries.ts:34](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L34)*
+*Defined in [Queries.ts:34](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L34)*
 
 **Returns:** `Observable`< `Moment` &#124; `undefined`>
 
@@ -152,7 +152,7 @@ ___
 
 ▸ **blockPeriod**(): `Observable`< `Moment` &#124; `undefined`>
 
-*Defined in [Queries.ts:30](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L30)*
+*Defined in [Queries.ts:30](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L30)*
 
 **Returns:** `Observable`< `Moment` &#124; `undefined`>
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **democracyLaunchPeriod**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:38](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L38)*
+*Defined in [Queries.ts:38](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L38)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -174,7 +174,7 @@ ___
 
 ▸ **democracyNextTally**(): `Observable`< `ReferendumIndex` &#124; `undefined`>
 
-*Defined in [Queries.ts:42](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L42)*
+*Defined in [Queries.ts:42](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L42)*
 
 **Returns:** `Observable`< `ReferendumIndex` &#124; `undefined`>
 
@@ -185,7 +185,7 @@ ___
 
 ▸ **democracyVotingPeriod**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:125](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L125)*
+*Defined in [Queries.ts:125](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L125)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -196,7 +196,7 @@ ___
 
 ▸ **eraLastLengthChange**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:150](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L150)*
+*Defined in [Queries.ts:150](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L150)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -207,7 +207,7 @@ ___
 
 ▸ **fees**(): `Observable`<[RxFees](../modules/_types_.md#rxfees)>
 
-*Defined in [Queries.ts:129](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L129)*
+*Defined in [Queries.ts:129](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L129)*
 
 **Returns:** `Observable`<[RxFees](../modules/_types_.md#rxfees)>
 
@@ -218,7 +218,7 @@ ___
 
 ▸ **getAccountEnumSet**(index: * `AccountIndex` &#124; `BN` &#124; `number`*): `Observable`< `Array`<`AccountId`> &#124; `undefined`>
 
-*Defined in [Queries.ts:46](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L46)*
+*Defined in [Queries.ts:46](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L46)*
 
 **Parameters:**
 
@@ -237,7 +237,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[isConnected](_base_.apibase.md#isconnected)*
 
-*Defined in [Base.ts:91](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L91)*
+*Defined in [Base.ts:91](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L91)*
 
 **Returns:** `Observable`<`boolean`>
 
@@ -248,7 +248,7 @@ ___
 
 ▸ **nextAccountEnumSet**(): `Observable`< `AccountIndex` &#124; `undefined`>
 
-*Defined in [Queries.ts:57](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L57)*
+*Defined in [Queries.ts:57](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L57)*
 
 **Returns:** `Observable`< `AccountIndex` &#124; `undefined`>
 
@@ -259,7 +259,7 @@ ___
 
 ▸ **proposalDeposits**(proposalId: * `PropIndex` &#124; `BN` &#124; `number`*): `Observable`< [RxProposalDeposits](_classes_.rxproposaldeposits.md) &#124; `undefined`>
 
-*Defined in [Queries.ts:61](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L61)*
+*Defined in [Queries.ts:61](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L61)*
 
 **Parameters:**
 
@@ -276,7 +276,7 @@ ___
 
 ▸ **publicProposals**(): `Observable`<`Array`<[RxProposal](_classes_.rxproposal.md)>>
 
-*Defined in [Queries.ts:74](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L74)*
+*Defined in [Queries.ts:74](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L74)*
 
 **Returns:** `Observable`<`Array`<[RxProposal](_classes_.rxproposal.md)>>
 
@@ -289,7 +289,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[rawCall](_base_.apibase.md#rawcall)*
 
-*Defined in [Base.ts:95](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L95)*
+*Defined in [Base.ts:95](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L95)*
 
 **Type parameters:**
 
@@ -312,7 +312,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[rawStorage](_base_.apibase.md#rawstorage)*
 
-*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L108)*
+*Defined in [Base.ts:108](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L108)*
 
 **Type parameters:**
 
@@ -335,7 +335,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[rawStorageMulti](_base_.apibase.md#rawstoragemulti)*
 
-*Defined in [Base.ts:123](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Base.ts#L123)*
+*Defined in [Base.ts:123](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Base.ts#L123)*
 
 **Type parameters:**
 
@@ -355,7 +355,7 @@ ___
 
 ▸ **referendumCount**(): `Observable`< `ReferendumIndex` &#124; `undefined`>
 
-*Defined in [Queries.ts:93](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L93)*
+*Defined in [Queries.ts:93](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L93)*
 
 **Returns:** `Observable`< `ReferendumIndex` &#124; `undefined`>
 
@@ -366,7 +366,7 @@ ___
 
 ▸ **referendumInfo**(referendumId: * `ReferendumIndex` &#124; `BN` &#124; `number`*): `Observable`< `ReferendumInfo` &#124; `undefined`>
 
-*Defined in [Queries.ts:97](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L97)*
+*Defined in [Queries.ts:97](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L97)*
 
 **Parameters:**
 
@@ -383,7 +383,7 @@ ___
 
 ▸ **referendumVote**(index: * `ReferendumIndex` &#124; `BN` &#124; `number`*, address: * `AccountId` &#124; `string`*): `Observable`< `Bool` &#124; `undefined`>
 
-*Defined in [Queries.ts:110](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L110)*
+*Defined in [Queries.ts:110](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L110)*
 
 **Parameters:**
 
@@ -401,7 +401,7 @@ ___
 
 ▸ **referendumVoters**(index: * `ReferendumIndex` &#124; `BN` &#124; `number`*): `Observable`<`Array`<`AccountId`>>
 
-*Defined in [Queries.ts:114](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L114)*
+*Defined in [Queries.ts:114](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L114)*
 
 **Parameters:**
 
@@ -418,7 +418,7 @@ ___
 
 ▸ **sessionCurrentIndex**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:162](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L162)*
+*Defined in [Queries.ts:162](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L162)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -429,7 +429,7 @@ ___
 
 ▸ **sessionCurrentStart**(): `Observable`< `Moment` &#124; `undefined`>
 
-*Defined in [Queries.ts:166](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L166)*
+*Defined in [Queries.ts:166](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L166)*
 
 **Returns:** `Observable`< `Moment` &#124; `undefined`>
 
@@ -440,7 +440,7 @@ ___
 
 ▸ **sessionLastLengthChange**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:170](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L170)*
+*Defined in [Queries.ts:170](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L170)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -451,7 +451,7 @@ ___
 
 ▸ **sessionLength**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:174](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L174)*
+*Defined in [Queries.ts:174](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L174)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -462,7 +462,7 @@ ___
 
 ▸ **sessionReward**(): `Observable`< `Perbill` &#124; `undefined`>
 
-*Defined in [Queries.ts:154](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L154)*
+*Defined in [Queries.ts:154](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L154)*
 
 **Returns:** `Observable`< `Perbill` &#124; `undefined`>
 
@@ -473,7 +473,7 @@ ___
 
 ▸ **sessionRewardCurrent**(): `Observable`< `Balance` &#124; `undefined`>
 
-*Defined in [Queries.ts:158](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L158)*
+*Defined in [Queries.ts:158](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L158)*
 
 **Returns:** `Observable`< `Balance` &#124; `undefined`>
 
@@ -484,7 +484,7 @@ ___
 
 ▸ **sessionValidators**(): `Observable`<`Array`<`AccountId`>>
 
-*Defined in [Queries.ts:182](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L182)*
+*Defined in [Queries.ts:182](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L182)*
 
 **Returns:** `Observable`<`Array`<`AccountId`>>
 
@@ -495,7 +495,7 @@ ___
 
 ▸ **sessionsPerEra**(): `Observable`< `BlockNumber` &#124; `undefined`>
 
-*Defined in [Queries.ts:178](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L178)*
+*Defined in [Queries.ts:178](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L178)*
 
 **Returns:** `Observable`< `BlockNumber` &#124; `undefined`>
 
@@ -506,7 +506,7 @@ ___
 
 ▸ **stakingIntentions**(): `Observable`<`Array`<`AccountId`>>
 
-*Defined in [Queries.ts:193](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L193)*
+*Defined in [Queries.ts:193](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L193)*
 
 **Returns:** `Observable`<`Array`<`AccountId`>>
 
@@ -517,7 +517,7 @@ ___
 
 ▸ **stakingNominating**(address: * `AccountId` &#124; `string`*): `Observable`< `AccountId` &#124; `undefined`>
 
-*Defined in [Queries.ts:215](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L215)*
+*Defined in [Queries.ts:215](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L215)*
 
 **Parameters:**
 
@@ -534,7 +534,7 @@ ___
 
 ▸ **stakingNominatorsFor**(address: * `AccountId` &#124; `string`*): `Observable`<`Array`<`AccountId`>>
 
-*Defined in [Queries.ts:204](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L204)*
+*Defined in [Queries.ts:204](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L204)*
 
 **Parameters:**
 
@@ -551,7 +551,7 @@ ___
 
 ▸ **systemEvents**(): `Observable`<`Array`<`EventRecord`>>
 
-*Defined in [Queries.ts:219](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L219)*
+*Defined in [Queries.ts:219](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L219)*
 
 **Returns:** `Observable`<`Array`<`EventRecord`>>
 
@@ -562,7 +562,7 @@ ___
 
 ▸ **validatorCount**(): `Observable`< `u32` &#124; `undefined`>
 
-*Defined in [Queries.ts:230](https://github.com/polkadot-js/api/blob/fb36c59/packages/api-observable/src/Queries.ts#L230)*
+*Defined in [Queries.ts:230](https://github.com/polkadot-js/api/blob/8919ae2/packages/api-observable/src/Queries.ts#L230)*
 
 **Returns:** `Observable`< `u32` &#124; `undefined`>
 
