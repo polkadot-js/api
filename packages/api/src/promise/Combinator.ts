@@ -38,6 +38,14 @@ export default class Combinator {
     return allCombinators[id];
   }
 
+  static unsubscribe (id: number): Promise<any> {
+    const combinator = Combinator.lookup(id);
+
+    return combinator
+      ? combinator.unsubscribe()
+      : Promise.resolve(false);
+  }
+
   get id (): number {
     return this._id;
   }
