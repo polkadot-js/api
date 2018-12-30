@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Combinator from './Combinator';
+import { doesNotReject } from 'assert';
 
 describe('Combinator', () => {
   it('it triggers on all values', (done) => {
@@ -10,7 +11,7 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value[0]).toEqual(`test${count}`);
@@ -34,8 +35,8 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb),
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb)),
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value).toEqual(['test0', 'test1']);
@@ -55,8 +56,8 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb),
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb)),
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value).toEqual(
@@ -77,5 +78,22 @@ describe('Combinator', () => {
     fns[0]('test2');
 
     expect(combinator).toBeDefined();
+  });
+
+  it('unsubscribes as required', (done) => {
+    const mocker = () => Promise.resolve(12345);
+    mocker.unsubscribe = async (subId: number) => {
+      if (subId === 12345) {
+        done();
+      }
+    };
+    const combinator = new Combinator([
+      mocker,
+      () => Promise.resolve(98765)
+    ], (value: Array<any>) => {
+      // ignore
+    });
+
+    combinator.unsubscribe();
   });
 });

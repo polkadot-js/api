@@ -7,30 +7,39 @@ import { isFunction } from '@polkadot/util';
 export type CombinatorCallback = (value: Array<any>) => any;
 export type CombinatorFunction = {
   (cb: (value: any) => void): Promise<number>,
-  unsubscribe (subscriptionsId: number): Promise<any>
+  unsubscribe?: (subscriptionsId: number) => Promise<any>
 };
+
+let combinatorId = 5000;
+const allCombinators: { [index: number]: Combinator } = {};
 
 export default class Combinator {
   protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
   protected _fired: Array<boolean> = [];
   protected _fns: Array<CombinatorFunction> = [];
+  protected _id: number = ++combinatorId;
   protected _results: Array<any> = [];
-  protected _subscriptionIds: Array<number> = [];
+  protected _subscriptionIds: Array<Promise<number>> = [];
 
   constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
+    allCombinators[this._id] = this;
+
     this._callback = callback;
     this._fns = fns;
+    this._subscriptionIds = fns.map((fn, index): Promise<number> => {
+      this._fired.push(false);
 
-    Promise
-      .all(fns.map((fn, index): Promise<number> => {
-        this._fired.push(false);
+      return fn(this.createCallback(index));
+    });
+  }
 
-        return fn(this.createCallback(index));
-      }))
-      .then((subscriptionIds) => {
-        this._subscriptionIds = subscriptionIds;
-      });
+  static lookup (id: number): Combinator {
+    return allCombinators[id];
+  }
+
+  get id (): number {
+    return this._id;
   }
 
   protected allHasFired (): boolean {
@@ -63,14 +72,21 @@ export default class Combinator {
   }
 
   unsubscribe (): Promise<any> {
+    delete allCombinators[this._id];
+
     return Promise.all(
-      this._subscriptionIds.map((subscriptionId, index) =>
-        this._fns[index]
-          .unsubscribe(subscriptionId)
-          .catch(() => {
-            // ignore
-          })
-      )
+      this._subscriptionIds.map((subscriptionPromise, index) => {
+        const unsubscribe = this._fns[index].unsubscribe;
+
+        return !unsubscribe
+          ? Promise.resolve(true)
+          : subscriptionPromise
+            .then((subscriptionId) =>
+              unsubscribe(subscriptionId)
+            )
+            .then(() => true)
+            .catch(() => false);
+      })
     );
   }
 }
