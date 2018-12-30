@@ -6,7 +6,7 @@ import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
 export type CombinatorFunction = {
-  (cb: (value: any) => void): Promise<number>,
+  (cb: (value: any) => any): Promise<any>,
   unsubscribe?: (subscriptionsId: number) => Promise<any>
 };
 
@@ -22,15 +22,20 @@ export default class Combinator {
   protected _results: Array<any> = [];
   protected _subscriptionIds: Array<Promise<number>> = [];
 
-  constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
+  constructor (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback) {
     allCombinators[this._id] = this;
 
     this._callback = callback;
-    this._fns = fns;
-    this._subscriptionIds = fns.map((fn, index): Promise<number> => {
-      this._fired.push(false);
+    this._subscriptionIds = fns.map((input, index): Promise<number> => {
+      const [args, fn] = Array.isArray(input)
+        ? input
+        : [[], input];
 
-      return fn(this.createCallback(index));
+      this._fired.push(false);
+      this._fns.push(fn);
+
+      // @ts-ignore Not quite 100% how to have a variable number at the front here
+      return fn(...args, this.createCallback(index));
     });
   }
 
