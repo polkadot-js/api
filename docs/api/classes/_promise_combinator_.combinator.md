@@ -12,7 +12,7 @@
 
 ⊕ **new Combinator**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/Combinator.ts:23](https://github.com/polkadot-js/api/blob/8919ae2/packages/api/src/promise/Combinator.ts#L23)*
+*Defined in [promise/Combinator.ts:23](https://github.com/polkadot-js/api/blob/f8e7388/packages/api/src/promise/Combinator.ts#L23)*
 
 **Parameters:**
 
@@ -33,7 +33,7 @@ ___
 
 getid(): `number`
 
-*Defined in [promise/Combinator.ts:41](https://github.com/polkadot-js/api/blob/8919ae2/packages/api/src/promise/Combinator.ts#L41)*
+*Defined in [promise/Combinator.ts:41](https://github.com/polkadot-js/api/blob/f8e7388/packages/api/src/promise/Combinator.ts#L41)*
 
 **Returns:** `number`
 
@@ -47,7 +47,7 @@ ___
 
 ▸ **unsubscribe**(): `Promise`<`any`>
 
-*Defined in [promise/Combinator.ts:74](https://github.com/polkadot-js/api/blob/8919ae2/packages/api/src/promise/Combinator.ts#L74)*
+*Defined in [promise/Combinator.ts:74](https://github.com/polkadot-js/api/blob/f8e7388/packages/api/src/promise/Combinator.ts#L74)*
 
 **Returns:** `Promise`<`any`>
 
@@ -58,7 +58,7 @@ ___
 
 ▸ **lookup**(id: *`number`*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/Combinator.ts:37](https://github.com/polkadot-js/api/blob/8919ae2/packages/api/src/promise/Combinator.ts#L37)*
+*Defined in [promise/Combinator.ts:37](https://github.com/polkadot-js/api/blob/f8e7388/packages/api/src/promise/Combinator.ts#L37)*
 
 **Parameters:**
 
