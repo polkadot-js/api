@@ -5,22 +5,32 @@
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
-export type CombinatorFunction = (cb: (value: any) => void) => any;
+export type CombinatorFunction = {
+  (cb: (value: any) => void): Promise<number>,
+  unsubscribe (subscriptionsId: number): Promise<any>
+};
 
 export default class Combinator {
   protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
   protected _fired: Array<boolean> = [];
+  protected _fns: Array<CombinatorFunction> = [];
   protected _results: Array<any> = [];
+  protected _subscriptionIds: Array<number> = [];
 
   constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
     this._callback = callback;
+    this._fns = fns;
 
-    fns.forEach((fn, index) => {
-      this._fired.push(false);
+    Promise
+      .all(fns.map((fn, index): Promise<number> => {
+        this._fired.push(false);
 
-      fn(this.createCallback(index));
-    });
+        return fn(this.createCallback(index));
+      }))
+      .then((subscriptionIds) => {
+        this._subscriptionIds = subscriptionIds;
+      });
   }
 
   protected allHasFired (): boolean {
@@ -50,5 +60,17 @@ export default class Combinator {
     } catch (error) {
       // swallow, we don't want the handler to trip us up
     }
+  }
+
+  unsubscribe (): Promise<any> {
+    return Promise.all(
+      this._subscriptionIds.map((subscriptionId, index) =>
+        this._fns[index]
+          .unsubscribe(subscriptionId)
+          .catch(() => {
+            // ignore
+          })
+      )
+    );
   }
 }
