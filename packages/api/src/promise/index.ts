@@ -237,7 +237,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> => {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | Promise<number> => {
       if (args.length === 0 || !isFunction(args[args.length - 1])) {
         return this.rpc.state.getStorage([method, args[0]]);
       } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
@@ -255,7 +255,7 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
       this.rpc.state.getStorage([method, arg], hash);
-    decorated.unsubscribe = (subscriptionId: any): Promise<any> =>
+    decorated.unsubscribe = (subscriptionId: number): Promise<any> =>
       this.rpc.state.subscribeStorage.unsubscribe(subscriptionId);
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
