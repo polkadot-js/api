@@ -93,6 +93,13 @@ describe('Combinator', () => {
       // ignore
     });
 
-    combinator.unsubscribe();
+    combinator
+      .unsubscribe()
+      .then(() => {
+        // ignore
+      })
+      .catch(() => {
+        // ignore
+      });
   });
 });
