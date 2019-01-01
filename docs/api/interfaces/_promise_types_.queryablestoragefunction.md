@@ -9,9 +9,13 @@
 # Callable
 ▸ **__call**(arg?: *`any`*): `Promise`< `Codec` &#124; `null` &#124; `undefined`>
 
+▸ **__call**(cb: *`function`*): `Promise`<`number`>
+
+▸ **__call**(arg: *`any`*, cb: *`function`*): `Promise`<`number`>
+
 ▸ **__call**(arg?: *`any`*): `Uint8Array`
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/2a1a712/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L15)*
 
 **Parameters:**
 
@@ -21,7 +25,28 @@
 
 **Returns:** `Promise`< `Codec` &#124; `null` &#124; `undefined`>
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:12](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/StorageKey.ts#L12)*
+*Defined in [promise/types.ts:16](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L16)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| cb | `function` |
+
+**Returns:** `Promise`<`number`>
+
+*Defined in [promise/types.ts:17](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L17)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| arg | `any` |
+| cb | `function` |
+
+**Returns:** `Promise`<`number`>
+
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:12](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/StorageKey.ts#L12)*
 
 **Parameters:**
 
@@ -39,7 +64,7 @@
 
 **● at**: *`function`*
 
-*Defined in [promise/types.ts:17](https://github.com/polkadot-js/api/blob/2a1a712/packages/api/src/promise/types.ts#L17)*
+*Defined in [promise/types.ts:19](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L19)*
 
 #### Type declaration
 ▸(hash: *`Hash`*, arg?: *`any`*): `Promise`< `Codec` &#124; `null` &#124; `undefined`>
@@ -62,7 +87,7 @@ ___
 
 *Inherited from StorageFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/StorageKey.ts#L14)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/StorageKey.ts#L14)*
 
 ___
 <a id="method"></a>
@@ -73,7 +98,7 @@ ___
 
 *Inherited from StorageFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:15](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/StorageKey.ts#L15)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:15](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/StorageKey.ts#L15)*
 
 ___
 <a id="section"></a>
@@ -84,7 +109,7 @@ ___
 
 *Inherited from StorageFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/StorageKey.ts#L16)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/StorageKey.ts#L16)*
 
 ___
 <a id="tojson"></a>
@@ -95,7 +120,7 @@ ___
 
 *Inherited from StorageFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/StorageKey.ts#L17)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/StorageKey.ts#L17)*
 
 #### Type declaration
 ▸(): `any`
@@ -109,16 +134,16 @@ ___
 
 **● unsubscribe**: *`function`*
 
-*Defined in [promise/types.ts:18](https://github.com/polkadot-js/api/blob/2a1a712/packages/api/src/promise/types.ts#L18)*
+*Defined in [promise/types.ts:20](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L20)*
 
 #### Type declaration
-▸(subscriptionId: *`any`*): `Promise`<`any`>
+▸(subscriptionId: *`number`*): `Promise`<`any`>
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| subscriptionId | `any` |
+| subscriptionId | `number` |
 
 **Returns:** `Promise`<`any`>
 

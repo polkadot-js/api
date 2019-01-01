@@ -25,7 +25,7 @@
 
 *Overrides Struct.__constructor*
 
-*Defined in [classes.ts:35](https://github.com/polkadot-js/api/blob/2a1a712/packages/api-observable/src/classes.ts#L35)*
+*Defined in [classes.ts:35](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api-observable/src/classes.ts#L35)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L142)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L142)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -85,7 +85,7 @@ ___
 
 getaddresses(): `Vector`<`AccountId`>
 
-*Defined in [classes.ts:43](https://github.com/polkadot-js/api/blob/2a1a712/packages/api-observable/src/classes.ts#L43)*
+*Defined in [classes.ts:43](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api-observable/src/classes.ts#L43)*
 
 **Returns:** `Vector`<`AccountId`>
 
@@ -96,7 +96,7 @@ ___
 
 getbalance(): `Balance`
 
-*Defined in [classes.ts:47](https://github.com/polkadot-js/api/blob/2a1a712/packages/api-observable/src/classes.ts#L47)*
+*Defined in [classes.ts:47](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api-observable/src/classes.ts#L47)*
 
 **Returns:** `Balance`
 
@@ -109,7 +109,7 @@ getencodedLength(): `number`
 
 *Inherited from Struct.encodedLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L149)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L149)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -211,7 +211,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L159)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L159)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -232,7 +232,7 @@ ___
 
 *Inherited from Struct.getAtIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L166)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L166)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -307,7 +307,7 @@ ___
 
 *Inherited from Struct.toArray*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L173)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L173)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -322,7 +322,7 @@ ___
 
 *Inherited from Struct.toHex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L180)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L180)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -337,7 +337,7 @@ ___
 
 *Inherited from Struct.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L187)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L187)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -352,7 +352,7 @@ ___
 
 *Inherited from Struct.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L201)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L201)*
 
 *__description__*: Returns the string representation of the value
 
@@ -367,7 +367,7 @@ ___
 
 *Inherited from Struct.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:209](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L209)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:209](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L209)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -403,7 +403,7 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/2a1a712/packages/types/src/codec/Struct.ts#L122)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/e79c6d8/packages/types/src/codec/Struct.ts#L122)*
 
 **Type parameters:**
 
