@@ -13,7 +13,9 @@ import Rpc from '@polkadot/rpc-core/index';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 export interface QueryableStorageFunction extends StorageFunction {
-  (...args: Array<any>): Promise<Codec | null | undefined> | Promise<number>;
+  (arg?: any): Promise<Codec | null | undefined>;
+  (cb: (value: any) => any): Promise<number>;
+  (arg: any, cb: (value: any) => any): Promise<number>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
   unsubscribe: (subscriptionId: any) => Promise<any>;
 }
