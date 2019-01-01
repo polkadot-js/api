@@ -12,7 +12,7 @@
 
 ⊕ **new Combinator**(fns: *`Array`< [CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction) &#124; [`Array`<`any`>, [CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)]>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/Combinator.ts:23](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/Combinator.ts#L23)*
+*Defined in [promise/Combinator.ts:23](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/Combinator.ts#L23)*
 
 **Parameters:**
 
@@ -33,7 +33,7 @@ ___
 
 getid(): `number`
 
-*Defined in [promise/Combinator.ts:54](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/Combinator.ts#L54)*
+*Defined in [promise/Combinator.ts:54](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/Combinator.ts#L54)*
 
 **Returns:** `number`
 
@@ -47,7 +47,7 @@ ___
 
 ▸ **unsubscribe**(): `Promise`<`any`>
 
-*Defined in [promise/Combinator.ts:87](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/Combinator.ts#L87)*
+*Defined in [promise/Combinator.ts:87](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/Combinator.ts#L87)*
 
 **Returns:** `Promise`<`any`>
 
@@ -58,7 +58,7 @@ ___
 
 ▸ **lookup**(id: *`number`*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/Combinator.ts:42](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/Combinator.ts#L42)*
+*Defined in [promise/Combinator.ts:42](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/Combinator.ts#L42)*
 
 **Parameters:**
 
@@ -75,7 +75,7 @@ ___
 
 ▸ **unsubscribe**(id: *`number`*): `Promise`<`any`>
 
-*Defined in [promise/Combinator.ts:46](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/Combinator.ts#L46)*
+*Defined in [promise/Combinator.ts:46](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/Combinator.ts#L46)*
 
 **Parameters:**
 

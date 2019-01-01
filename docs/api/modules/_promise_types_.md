@@ -26,7 +26,7 @@
 
 **Ƭ SubmittableSendResult**: *`object`*
 
-*Defined in [promise/types.ts:47](https://github.com/polkadot-js/api/blob/e79c6d8/packages/api/src/promise/types.ts#L47)*
+*Defined in [promise/types.ts:47](https://github.com/polkadot-js/api/blob/e802b8e/packages/api/src/promise/types.ts#L47)*
 
 #### Type declaration
 
