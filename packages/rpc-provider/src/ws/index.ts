@@ -331,6 +331,12 @@ export default class WsProvider implements WSProviderInterface {
     Object.keys(subscriptions).forEach(async (id) => {
       const { callback, method, params, type } = subscriptions[id];
 
+      // only re-create methods with '<section>_subscribe`, i.e. submissions such
+      // as 'author_submitAndWatchExtrinsic' are not included
+      if (method.indexOf('_subscribe') === -1) {
+        return;
+      }
+
       try {
         await this.subscribe(type, method, params, callback);
       } catch (error) {
