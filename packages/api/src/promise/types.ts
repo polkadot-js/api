@@ -17,7 +17,7 @@ export interface QueryableStorageFunction extends StorageFunction {
   (cb: (value: any) => any): Promise<number>;
   (arg: any, cb: (value: any) => any): Promise<number>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
-  unsubscribe: (subscriptionId: any) => Promise<any>;
+  unsubscribe: (subscriptionId: number) => Promise<any>;
 }
 
 export interface QueryableModuleStorage {
