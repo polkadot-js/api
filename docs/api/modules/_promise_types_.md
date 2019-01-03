@@ -10,6 +10,7 @@
 * [QueryableModuleStorage](../interfaces/_promise_types_.queryablemodulestorage.md)
 * [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md)
 * [QueryableStorageFunction](../interfaces/_promise_types_.queryablestoragefunction.md)
+* [QueryableStorageFunction$Subscribe](../interfaces/_promise_types_.queryablestoragefunction_subscribe.md)
 * [SubmittableExtrinsicFunction](../interfaces/_promise_types_.submittableextrinsicfunction.md)
 * [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)
 * [SubmittableModuleExtrinsics](../interfaces/_promise_types_.submittablemoduleextrinsics.md)
@@ -30,7 +31,7 @@
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L15)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*):  `Promise`<`any`> &#124; [UnsubFunction](_promise_types_.md#unsubfunction)
@@ -50,7 +51,7 @@ ___
 
 **Ƭ SubmittableSendResult**: *`object`*
 
-*Defined in [promise/types.ts:62](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L62)*
+*Defined in [promise/types.ts:67](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L67)*
 
 #### Type declaration
 
@@ -61,7 +62,7 @@ ___
 
 **Ƭ UnsubFunction**: *`function`*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L13)*
 
 #### Type declaration
 ▸(): `void`

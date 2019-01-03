@@ -12,7 +12,7 @@
 
 **● author**: *[DecoratedRpc$Section](_promise_types_.decoratedrpc_section.md)*
 
-*Defined in [promise/types.ts:22](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L22)*
+*Defined in [promise/types.ts:22](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L22)*
 
 ___
 <a id="chain"></a>
@@ -21,7 +21,7 @@ ___
 
 **● chain**: *[DecoratedRpc$Section](_promise_types_.decoratedrpc_section.md)*
 
-*Defined in [promise/types.ts:23](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L23)*
+*Defined in [promise/types.ts:23](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L23)*
 
 ___
 <a id="state"></a>
@@ -30,7 +30,7 @@ ___
 
 **● state**: *[DecoratedRpc$Section](_promise_types_.decoratedrpc_section.md)*
 
-*Defined in [promise/types.ts:24](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L24)*
+*Defined in [promise/types.ts:24](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L24)*
 
 ___
 <a id="system"></a>
@@ -39,7 +39,7 @@ ___
 
 **● system**: *[DecoratedRpc$Section](_promise_types_.decoratedrpc_section.md)*
 
-*Defined in [promise/types.ts:25](https://github.com/polkadot-js/api/blob/3be56ad/packages/api/src/promise/types.ts#L25)*
+*Defined in [promise/types.ts:25](https://github.com/polkadot-js/api/blob/4f55d19/packages/api/src/promise/types.ts#L25)*
 
 ___
 

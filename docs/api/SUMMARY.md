@@ -16,6 +16,7 @@
   * [QueryableModuleStorage](interfaces/_promise_types_.queryablemodulestorage.md)
   * [QueryableStorage](interfaces/_promise_types_.queryablestorage.md)
   * [QueryableStorageFunction](interfaces/_promise_types_.queryablestoragefunction.md)
+  * [QueryableStorageFunction$Subscribe](interfaces/_promise_types_.queryablestoragefunction_subscribe.md)
   * [SubmittableExtrinsicFunction](interfaces/_promise_types_.submittableextrinsicfunction.md)
   * [SubmittableExtrinsics](interfaces/_promise_types_.submittableextrinsics.md)
   * [SubmittableModuleExtrinsics](interfaces/_promise_types_.submittablemoduleextrinsics.md)
