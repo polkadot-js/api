@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcInterface$Section$Method } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
+import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
 import Rpc from '@polkadot/rpc-core/index';
 import { Storage } from '@polkadot/storage/types';
@@ -12,7 +13,7 @@ import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { isFunction, logger } from '@polkadot/util';
+import { isFunction, logger, assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
@@ -110,7 +111,7 @@ const l = logger('api/promise');
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -177,8 +178,50 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: Rpc): Rpc {
-    return rpc;
+  protected decorateRpc (rpc: Rpc): DecoratedRpc {
+    const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
+
+    return names.reduce((result, section) => {
+      result[section] = Object.keys(rpc[section]).reduce((fns, method) => {
+        fns[method] = this.decorateMethod(rpc[section][method]);
+
+        return fns;
+      }, {} as DecoratedRpc$Section);
+      return result;
+    }, {} as DecoratedRpc);
+  }
+
+  protected decorateMethod (fn: RpcInterface$Section$Method): DecoratedRpc$Method {
+    if (!isFunction(fn.unsubscribe)) {
+      return fn;
+    }
+
+    return (..._params: Array<any>): UnsubFunction => {
+      const cb = _params[_params.length - 1];
+
+      assert(isFunction(cb), 'Expected callback as last paramater for subscription');
+
+      let isActive = true;
+      const params = _params
+        .slice(0, _params.length - 1)
+        .concat([(value?: any) => {
+          return !isActive
+            ? undefined
+            : cb(value);
+        }]);
+      const subscriptionIdPromise = fn(...params);
+
+      return (): void => {
+        if (!isActive) {
+          return;
+        }
+
+        isActive = false;
+        subscriptionIdPromise
+          .then((subscriptionId) => fn.unsubscribe(subscriptionId))
+          .catch(NOOP);
+      };
+    };
   }
 
   /**
@@ -248,7 +291,13 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | Promise<number> => {
+    const subscribe = (...args: Array<any>) =>
+      this.rpc.state.subscribeStorage(
+        [[method, args.length === 1 ? undefined : args[0]]],
+        (result: Array<Codec | null | undefined> = []) =>
+          args[args.length - 1](result[0])
+      ) as UnsubFunction;
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | UnsubFunction => {
       if (args.length === 0 || !isFunction(args[args.length - 1])) {
         return this.rpc.state.getStorage([method, args[0]]);
       } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
@@ -257,17 +306,12 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
         return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
       }
 
-      return this.rpc.state.subscribeStorage(
-        [[method, args.length === 1 ? undefined : args[0]]],
-        (result: Array<Codec | null | undefined> = []) =>
-          args[args.length - 1](result[0])
-      );
+      return subscribe;
     };
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
-      this.rpc.state.getStorage([method, arg], hash);
-    decorated.unsubscribe = (subscriptionId: number): Promise<any> =>
-      this.rpc.state.subscribeStorage.unsubscribe(subscriptionId);
+      this.rpc.state.getStorage([method, arg], hash) as Promise<Codec | null | undefined>;
+    decorated.subscribe = subscribe;
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
