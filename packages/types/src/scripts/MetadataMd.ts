@@ -63,13 +63,12 @@ function addRpc () {
       }).join(', ');
       const type = '`' + method.type + '`';
       const isSub = method.isSubscription;
-      const renderMethod = `${md}\n▸ **${methodName}**(${args})`;
+      const renderMethod = `${md}\n▸ **${methodName}**(${args}`;
       const renderReturnType = `: ${type}`;
       const renderSignature = `${renderMethod}${renderReturnType}`;
-      const renderSignatureSub = `${renderMethod}**.subscribe**(CALLBACK)${renderReturnType}`;
       const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}\n` : `\n\n`}`;
 
-      return isSub ? `${renderSignatureSub}${renderSummary}` : `${renderSignature}${renderSummary}`;
+      return `${renderSignature}${isSub ? ', CALLBACK' : ''})${renderSummary}`;
     }, renderSection);
   }, renderHeading + renderAnchors);
 }

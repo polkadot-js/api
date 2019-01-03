@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { SubmittableSendResult } from '../types';
-import { ApiPromiseInterface } from './types';
+import { ApiPromiseInterface, UnsubFunction } from './types';
 
 import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Method, SignedBlock } from '@polkadot/types/index';
 
@@ -41,7 +41,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
     };
   }
 
-  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> {
+  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> | UnsubFunction {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }

@@ -8,16 +8,31 @@ import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { ApiBaseInterface } from '../types';
 
-import Rpc from '@polkadot/rpc-core/index';
-
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
+export type UnsubFunction = () => void;
+
+export type DecoratedRpc$Method = (...params: Array<any>) => Promise<any> | UnsubFunction;
+
+export interface DecoratedRpc$Section {
+  [index: string]: DecoratedRpc$Method;
+}
+
+export interface DecoratedRpc {
+  author: DecoratedRpc$Section;
+  chain: DecoratedRpc$Section;
+  state: DecoratedRpc$Section;
+  system: DecoratedRpc$Section;
+}
+
 export interface QueryableStorageFunction extends StorageFunction {
+  (cb: (value?: any | null) => any): UnsubFunction;
+  (arg: any, cb: (value?: any | null) => any): UnsubFunction;
   (arg?: any): Promise<Codec | null | undefined>;
-  (cb: (value: any) => any): Promise<number>;
-  (arg: any, cb: (value: any) => any): Promise<number>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
-  unsubscribe: (subscriptionId: number) => Promise<any>;
+  // This one is slightly more sane with regards to type-checking, requiring less boilerplate to
+  // coax the intent of the the actual function with a split between subs and calls
+  subscribe: ((arg: any, cb: (value?: any | null) => any) => UnsubFunction) | ((cb: (value?: any | null) => any) => UnsubFunction);
 }
 
 export interface QueryableModuleStorage {
@@ -40,7 +55,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiPromiseInterface extends ApiBaseInterface<Rpc, QueryableStorage, SubmittableExtrinsics> {
+export interface ApiPromiseInterface extends ApiBaseInterface<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
 

@@ -18,7 +18,8 @@ export interface ApiBaseInterface<R, S, E> {
   readonly rpc: R;
   readonly tx: E;
 
-  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => void;
+  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
+  once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
 
 export interface ApiOptions {
