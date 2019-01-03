@@ -10,21 +10,16 @@ export type CombinatorFunction = {
   unsubscribe?: (subscriptionsId: number) => Promise<any>
 };
 
-let combinatorId = 5000;
-const allCombinators: { [index: number]: Combinator } = {};
-
 export default class Combinator {
   protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
   protected _fired: Array<boolean> = [];
   protected _fns: Array<CombinatorFunction> = [];
-  protected _id: number = ++combinatorId;
+  protected _isActive: boolean = true;
   protected _results: Array<any> = [];
   protected _subscriptionIds: Array<Promise<number>> = [];
 
   constructor (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback) {
-    allCombinators[this._id] = this;
-
     this._callback = callback;
     this._subscriptionIds = fns.map((input, index): Promise<number> => {
       const [args, fn] = Array.isArray(input)
@@ -37,22 +32,6 @@ export default class Combinator {
       // @ts-ignore Not quite 100% how to have a variable number at the front here
       return fn(...args, this.createCallback(index));
     });
-  }
-
-  static lookup (id: number): Combinator {
-    return allCombinators[id];
-  }
-
-  static unsubscribe (id: number): Promise<any> {
-    const combinator = Combinator.lookup(id);
-
-    return combinator
-      ? combinator.unsubscribe()
-      : Promise.resolve(false);
-  }
-
-  get id (): number {
-    return this._id;
   }
 
   protected allHasFired (): boolean {
@@ -73,7 +52,7 @@ export default class Combinator {
   }
 
   protected triggerUpdate (): void {
-    if (!isFunction(this._callback) || !this.allHasFired()) {
+    if (!this._isActive || !isFunction(this._callback) || !this.allHasFired()) {
       return;
     }
 
@@ -85,7 +64,7 @@ export default class Combinator {
   }
 
   unsubscribe (): Promise<any> {
-    delete allCombinators[this._id];
+    this._isActive = false;
 
     return Promise.all(
       this._subscriptionIds.map((subscriptionPromise, index) => {

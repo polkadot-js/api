@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
 import Rpc from '@polkadot/rpc-core/index';
 import { Storage } from '@polkadot/storage/types';
@@ -17,6 +17,10 @@ import { isFunction, logger } from '@polkadot/util';
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+
+const NOOP = () => {
+  // ignore
+};
 
 const l = logger('api/promise');
 
@@ -197,8 +201,15 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    * });
    * ```
    */
-  combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): Combinator {
-    return new Combinator(fns, callback);
+  combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): UnsubFunction {
+    const combinator = new Combinator(fns, callback);
+
+    return (): void => {
+      combinator
+        .unsubscribe()
+        .then(NOOP)
+        .catch(NOOP);
+    };
   }
 
   protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {

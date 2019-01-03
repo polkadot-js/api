@@ -49,3 +49,5 @@ export type SubmittableSendResult = {
   status: ExtrinsicStatus,
   type: string
 };
+
+export type UnsubFunction = () => void;
