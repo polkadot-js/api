@@ -25,6 +25,11 @@ export interface DecoratedRpc {
   system: DecoratedRpc$Section;
 }
 
+export interface QueryableStorageFunction$Subscribe {
+  (arg: any, cb: (value?: any | null) => any): UnsubFunction;
+  (cb: (value?: any | null) => any): UnsubFunction;
+}
+
 export interface QueryableStorageFunction extends StorageFunction {
   (cb: (value?: any | null) => any): UnsubFunction;
   (arg: any, cb: (value?: any | null) => any): UnsubFunction;
@@ -32,7 +37,7 @@ export interface QueryableStorageFunction extends StorageFunction {
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
   // This one is slightly more sane with regards to type-checking, requiring less boilerplate to
   // coax the intent of the the actual function with a split between subs and calls
-  subscribe: ((arg: any, cb: (value?: any | null) => any) => UnsubFunction) | ((cb: (value?: any | null) => any) => UnsubFunction);
+  subscribe: QueryableStorageFunction$Subscribe;
 }
 
 export interface QueryableModuleStorage {
