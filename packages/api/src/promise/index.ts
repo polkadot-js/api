@@ -187,6 +187,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
 
         return fns;
       }, {} as DecoratedRpc$Section);
+
       return result;
     }, {} as DecoratedRpc);
   }
@@ -288,27 +289,26 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const subscribe = (...args: Array<any>) =>
-      this.rpc.state.subscribeStorage(
-        [[method, args.length === 1 ? undefined : args[0]]],
-        (result: Array<Codec | null | undefined> = []) =>
-          args[args.length - 1](result[0])
-      ) as UnsubFunction;
     const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | UnsubFunction => {
-      if (args.length === 0 || !isFunction(args[args.length - 1])) {
+      const cb = args[args.length - 1];
+
+      if (args.length === 0 || !isFunction(cb)) {
         return this.rpc.state.getStorage([method, args[0]]);
-      } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
+      } else if (!this.hasSubscriptions && isFunction(cb)) {
         l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
 
         return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
       }
 
-      return subscribe;
+      return this.rpc.state.subscribeStorage(
+        [[method, args.length === 1 ? undefined : args[0]]],
+        (result: Array<Codec | null | undefined> = []) =>
+          cb(result[0])
+      ) as UnsubFunction;
     };
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
       this.rpc.state.getStorage([method, arg], hash) as Promise<Codec | null | undefined>;
-    decorated.subscribe = subscribe;
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
