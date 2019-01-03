@@ -35,9 +35,6 @@ export interface QueryableStorageFunction extends StorageFunction {
   (arg: any, cb: (value?: any | null) => any): UnsubFunction;
   (arg?: any): Promise<Codec | null | undefined>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
-  // This one is slightly more sane with regards to type-checking, requiring less boilerplate to
-  // coax the intent of the the actual function with a split between subs and calls
-  subscribe: QueryableStorageFunction$Subscribe;
 }
 
 export interface QueryableModuleStorage {
