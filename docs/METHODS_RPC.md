@@ -17,13 +17,13 @@ ___
 
 _Authoring of network items_
 
-▸ **pendingExtrinsics**(): `PendingExtrinsics`
+▸ **pendingExtrinsics**(: `PendingExtrinsics`)
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
-▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`)**.subscribe**(CALLBACK): `ExtrinsicStatus`
+▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`: `ExtrinsicStatus`, CALLBACK)
 - **summary**: Subscribe and watch an extrinsic until unsubscribed
 
-▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
+▸ **submitExtrinsic**(extrinsic: `Extrinsic`: `Hash`)
 - **summary**: Submit a fully formatted extrinsic for block inclusion
 
 ___
@@ -33,28 +33,28 @@ ___
 
 _Retrieval of chain data_
 
-▸ **getBlock**(hash?: `Hash`): `SignedBlock`
+▸ **getBlock**(hash?: `Hash`: `SignedBlock`)
 - **summary**: Get header and body of a relay chain block
 
-▸ **getBlockHash**(blockNumber?: `BlockNumber`): `Hash`
+▸ **getBlockHash**(blockNumber?: `BlockNumber`: `Hash`)
 - **summary**: Get the block hash for a specific block
 
-▸ **getFinalisedHead**(): `Hash`
+▸ **getFinalisedHead**(: `Hash`)
 - **summary**: Get hash of the last finalised block in the canon chain
 
-▸ **getHeader**(hash?: `Hash`): `Header`
+▸ **getHeader**(hash?: `Hash`: `Header`)
 - **summary**: Retrieves the header for a specific block
 
-▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
+▸ **getRuntimeVersion**(hash?: `Hash`: `RuntimeVersion`)
 - **summary**: Get the runtime version
 
-▸ **subscribeFinalisedHeads**()**.subscribe**(CALLBACK): `Header`
+▸ **subscribeFinalisedHeads**(: `Header`, CALLBACK)
 - **summary**: Retrieves the best finalised header via subscription
 
-▸ **subscribeNewHead**()**.subscribe**(CALLBACK): `Header`
+▸ **subscribeNewHead**(: `Header`, CALLBACK)
 - **summary**: Retrieves the best header via subscription
 
-▸ **subscribeRuntimeVersion**()**.subscribe**(CALLBACK): `RuntimeVersion`
+▸ **subscribeRuntimeVersion**(: `RuntimeVersion`, CALLBACK)
 - **summary**: Retrieves the runtime version via subscription
 
 ___
@@ -64,25 +64,25 @@ ___
 
 _Query of state_
 
-▸ **call**(method: `Text`, data: `Bytes`, block?: `Hash`): `Bytes`
+▸ **call**(method: `Text`, data: `Bytes`, block?: `Hash`: `Bytes`)
 - **summary**: Perform a call to a builtin on the chain
 
-▸ **getMetadata**(block?: `Hash`): `Metadata`
+▸ **getMetadata**(block?: `Hash`: `Metadata`)
 - **summary**: Returns the runtime metadata
 
-▸ **getStorage**(key: `StorageKey`, block?: `Hash`): `StorageData`
+▸ **getStorage**(key: `StorageKey`, block?: `Hash`: `StorageData`)
 - **summary**: Retrieves the storage for a key
 
-▸ **getStorageHash**(key: `StorageKey`, block?: `Hash`): `Hash`
+▸ **getStorageHash**(key: `StorageKey`, block?: `Hash`: `Hash`)
 - **summary**: Retrieves the storage hash
 
-▸ **getStorageSize**(key: `StorageKey`, block?: `Hash`): `u64`
+▸ **getStorageSize**(key: `StorageKey`, block?: `Hash`: `u64`)
 - **summary**: Retrieves the storage size
 
-▸ **queryStorage**(keys: `Vec<StorageKey>`, startBlock: `Hash`, block?: `Hash`): `Vec<StorageChangeSet>`
+▸ **queryStorage**(keys: `Vec<StorageKey>`, startBlock: `Hash`, block?: `Hash`: `Vec<StorageChangeSet>`)
 - **summary**: Query historical storage entries (by key) starting from a start block
 
-▸ **subscribeStorage**(keys: `Vec<StorageKey>`)**.subscribe**(CALLBACK): `StorageChangeSet`
+▸ **subscribeStorage**(keys: `Vec<StorageKey>`: `StorageChangeSet`, CALLBACK)
 - **summary**: Subscribes to storage changes for the provided keys
 
 ___
@@ -92,14 +92,14 @@ ___
 
 _Methods to retrieve system info_
 
-▸ **chain**(): `Text`
+▸ **chain**(: `Text`)
 - **summary**: Retrieves the chain
 
-▸ **name**(): `Text`
+▸ **name**(: `Text`)
 - **summary**: Retrieves the node name
 
-▸ **properties**(): `ChainProperties`
+▸ **properties**(: `ChainProperties`)
 - **summary**: Get a custom set of properties as a JSON object, defined in the chain spec
 
-▸ **version**(): `Text`
+▸ **version**(: `Text`)
 - **summary**: Retrieves the version of the node

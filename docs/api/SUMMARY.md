@@ -11,6 +11,8 @@
   * [ApiPromise](classes/_promise_index_.apipromise.md)
 * [&quot;promise/types&quot;](modules/_promise_types_.md)
   * [ApiPromiseInterface](interfaces/_promise_types_.apipromiseinterface.md)
+  * [DecoratedRpc](interfaces/_promise_types_.decoratedrpc.md)
+  * [DecoratedRpc$Section](interfaces/_promise_types_.decoratedrpc_section.md)
   * [QueryableModuleStorage](interfaces/_promise_types_.queryablemodulestorage.md)
   * [QueryableStorage](interfaces/_promise_types_.queryablestorage.md)
   * [QueryableStorageFunction](interfaces/_promise_types_.queryablestoragefunction.md)
