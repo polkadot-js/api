@@ -244,7 +244,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * });
    * ```
    */
-  combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): UnsubFunction {
+  combineLatest (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback): UnsubFunction {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
