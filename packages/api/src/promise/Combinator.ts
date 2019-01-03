@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { UnsubFunction } from './types';
+
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
 export type CombinatorFunction = {
-  (cb: (value: any) => any): Promise<any>,
-  unsubscribe?: (subscriptionsId: number) => Promise<any>
+  (cb: (value: any) => any): UnsubFunction | any
 };
 
 export default class Combinator {
@@ -17,11 +18,11 @@ export default class Combinator {
   protected _fns: Array<CombinatorFunction> = [];
   protected _isActive: boolean = true;
   protected _results: Array<any> = [];
-  protected _subscriptionIds: Array<Promise<number>> = [];
+  protected _unsubscriptions: Array<UnsubFunction | any> = [];
 
   constructor (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback) {
     this._callback = callback;
-    this._subscriptionIds = fns.map((input, index): Promise<number> => {
+    this._unsubscriptions = fns.map((input, index) => {
       const [args, fn] = Array.isArray(input)
         ? input
         : [[], input];
@@ -63,22 +64,13 @@ export default class Combinator {
     }
   }
 
-  unsubscribe (): Promise<any> {
+  unsubscribe (): void {
     this._isActive = false;
 
-    return Promise.all(
-      this._subscriptionIds.map((subscriptionPromise, index) => {
-        const unsubscribe = this._fns[index].unsubscribe;
-
-        return !unsubscribe
-          ? Promise.resolve(true)
-          : subscriptionPromise
-            .then((subscriptionId) =>
-              unsubscribe(subscriptionId)
-            )
-            .then(() => true)
-            .catch(() => false);
-      })
-    );
+    this._unsubscriptions.forEach((unsubscribe) => {
+      if (isFunction(unsubscribe)) {
+        unsubscribe();
+      }
+    });
   }
 }

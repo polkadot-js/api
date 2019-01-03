@@ -247,12 +247,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): UnsubFunction {
     const combinator = new Combinator(fns, callback);
 
-    return (): void => {
-      combinator
-        .unsubscribe()
-        .then(NOOP)
-        .catch(NOOP);
-    };
+    return combinator.unsubscribe;
   }
 
   protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {

@@ -80,12 +80,7 @@ describe('Combinator', () => {
   });
 
   it('unsubscribes as required', (done) => {
-    const mocker = () => Promise.resolve(12345);
-    mocker.unsubscribe = async (subId: number) => {
-      if (subId === 12345) {
-        done();
-      }
-    };
+    const mocker = () => done;
     const combinator = new Combinator([
       mocker,
       () => Promise.resolve(98765)
@@ -93,13 +88,6 @@ describe('Combinator', () => {
       // ignore
     });
 
-    combinator
-      .unsubscribe()
-      .then(() => {
-        // ignore
-      })
-      .catch(() => {
-        // ignore
-      });
+    combinator.unsubscribe();
   });
 });
