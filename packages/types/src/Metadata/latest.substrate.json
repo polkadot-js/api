@@ -1562,7 +1562,7 @@
             "modifier": 0,
             "type": {
               "key": "ReferendumIndex",
-              "value": "(ReferendumInfo)"
+              "value": "ReferendumInfo"
             },
             "default": "0x00",
             "documentation": [
