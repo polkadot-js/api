@@ -5,7 +5,6 @@
     "baseUrl": ".",
     "paths":
     {
-      "@polkadot/api-observable/*": ["packages/api-observable/src/*"],
       "@polkadot/api/*": ["packages/api/src/*"],
       "@polkadot/api-rx/*": ["packages/api-rx/src/*"],
       "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
