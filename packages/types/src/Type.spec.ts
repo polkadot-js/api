@@ -12,6 +12,18 @@ describe('Type', () => {
     ).toThrow(/find closing matching/);
   });
 
+  it('cleans up tuples with a single value', () => {
+    expect(
+      new Type('(AccountId)').toString()
+    ).toEqual('AccountId');
+  });
+
+  it('does not touch tuples with multiple values', () => {
+    expect(
+      new Type('(AccountId, Balance)').toString()
+    ).toEqual('(AccountId,Balance)');
+  });
+
   it('handles nested types', () => {
     expect(
       new Type('Box<Vec<AccountId>>').toString()
@@ -46,6 +58,12 @@ describe('Type', () => {
     expect(
       new Type('(Vec<u8>, PairOf<T::Balance>, Vec<AccountId>)').toString()
     ).toEqual('(Bytes,(Balance,Balance),Vec<AccountId>)');
+  });
+
+  it('changes () -> Null', () => {
+    expect(
+      new Type('()').toString()
+    ).toEqual('Null');
   });
 
   it('does not allow toU8a', () => {

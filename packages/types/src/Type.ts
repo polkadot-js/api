@@ -54,9 +54,9 @@ export default class Type extends Text {
       // alias Vec<u8> -> Bytes
       Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
-      Type._alias('RawAddress', 'Address')
-      // TODO Check these for possibly matching -
-      //   `PropIndex` -> `ProposalIndex` (implementation looks the same, however meant as diff)
+      Type._alias('RawAddress', 'Address'),
+      // flattens tuples with one value, `(AccountId)` -> `AccountId`
+      Type._flattenSingleTuple()
     ];
 
     return mappings.reduce((result, fn) => {
@@ -127,6 +127,12 @@ export default class Type extends Text {
       }
 
       return value;
+    };
+  }
+
+  private static _flattenSingleTuple (): Mapper {
+    return (value: string): string => {
+      return value.replace(/\(([^,]*)\)/, '$1');
     };
   }
 
