@@ -23,17 +23,17 @@
 
 ##  constructor
 
-⊕ **new Type**(value?: * [Text](_text_.text.md) &#124; `Uint8Array` &#124; `string`*): [Type](_type_.type.md)
+⊕ **new Type**(value?: *[Text](_text_.text.md) | `Uint8Array` | `string`*): [Type](_type_.type.md)
 
 *Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
 
-*Defined in [Type.ts:19](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L19)*
+*Defined in [Type.ts:19](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L19)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Text](_text_.text.md) &#124; `Uint8Array` &#124; `string`| &quot;&quot; |
+| `Default value` value | [Text](_text_.text.md) | `Uint8Array` | `string` | &quot;&quot; |
 
 **Returns:** [Type](_type_.type.md)
 
@@ -49,7 +49,7 @@ getencodedLength(): `number`
 
 *Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L70)*
+*Defined in [Type.ts:70](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L70)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -66,7 +66,7 @@ getlength(): `number`
 
 *Overrides String.length*
 
-*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L54)*
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L54)*
 
 *__description__*: The length of the value
 
@@ -203,7 +203,7 @@ ___
 
 ##  codePointAt
 
-▸ **codePointAt**(pos: *`number`*):  `number` &#124; `undefined`
+▸ **codePointAt**(pos: *`number`*): `number` | `undefined`
 
 *Inherited from String.codePointAt*
 
@@ -217,7 +217,7 @@ Returns a nonnegative integer Number less than 1114112 (0x110000) that is the co
 | ------ | ------ |
 | pos | `number` |
 
-**Returns:**  `number` &#124; `undefined`
+**Returns:** `number` | `undefined`
 
 ___
 <a id="concat"></a>
@@ -245,7 +245,7 @@ ___
 
 ##  endsWith
 
-▸ **endsWith**(searchString: *`string`*, endPosition?: * `undefined` &#124; `number`*): `boolean`
+▸ **endsWith**(searchString: *`string`*, endPosition?: *`undefined` | `number`*): `boolean`
 
 *Inherited from String.endsWith*
 
@@ -258,7 +258,7 @@ Returns true if the sequence of elements of searchString converted to a String i
 | Name | Type |
 | ------ | ------ |
 | searchString | `string` |
-| `Optional` endPosition |  `undefined` &#124; `number`|
+| `Optional` endPosition | `undefined` | `number` |
 
 **Returns:** `boolean`
 
@@ -340,7 +340,7 @@ ___
 
 ##  includes
 
-▸ **includes**(searchString: *`string`*, position?: * `undefined` &#124; `number`*): `boolean`
+▸ **includes**(searchString: *`string`*, position?: *`undefined` | `number`*): `boolean`
 
 *Inherited from String.includes*
 
@@ -353,7 +353,7 @@ Returns true if searchString appears as a substring of the result of converting 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchString | `string` |  search string |
-| `Optional` position |  `undefined` &#124; `number`|  If position is undefined, 0 is assumed, so as to search all of the String. |
+| `Optional` position | `undefined` | `number` |  If position is undefined, 0 is assumed, so as to search all of the String. |
 
 **Returns:** `boolean`
 
@@ -362,7 +362,7 @@ ___
 
 ##  indexOf
 
-▸ **indexOf**(searchString: *`string`*, position?: * `undefined` &#124; `number`*): `number`
+▸ **indexOf**(searchString: *`string`*, position?: *`undefined` | `number`*): `number`
 
 *Inherited from String.indexOf*
 
@@ -375,7 +375,7 @@ Returns the position of the first occurrence of a substring.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchString | `string` |  The substring to search for in the string |
-| `Optional` position |  `undefined` &#124; `number`|  The index at which to begin searching the String object. If omitted, search starts at the beginning of the string. |
+| `Optional` position | `undefined` | `number` |  The index at which to begin searching the String object. If omitted, search starts at the beginning of the string. |
 
 **Returns:** `number`
 
@@ -399,7 +399,7 @@ ___
 
 ##  lastIndexOf
 
-▸ **lastIndexOf**(searchString: *`string`*, position?: * `undefined` &#124; `number`*): `number`
+▸ **lastIndexOf**(searchString: *`string`*, position?: *`undefined` | `number`*): `number`
 
 *Inherited from String.lastIndexOf*
 
@@ -412,7 +412,7 @@ Returns the last occurrence of a substring in the string.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchString | `string` |  The substring to search for. |
-| `Optional` position |  `undefined` &#124; `number`|  The index at which to begin searching. If omitted, the search begins at the end of the string. |
+| `Optional` position | `undefined` | `number` |  The index at which to begin searching. If omitted, the search begins at the end of the string. |
 
 **Returns:** `number`
 
@@ -463,7 +463,7 @@ ___
 
 ##  match
 
-▸ **match**(regexp: * `string` &#124; `RegExp`*):  `RegExpMatchArray` &#124; `null`
+▸ **match**(regexp: *`string` | `RegExp`*): `RegExpMatchArray` | `null`
 
 *Inherited from String.match*
 
@@ -477,18 +477,18 @@ Matches a string with a regular expression, and returns an array containing the 
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| regexp |  `string` &#124; `RegExp`|  A variable name or string literal containing the regular expression pattern and flags. |
+| regexp | `string` | `RegExp` |  A variable name or string literal containing the regular expression pattern and flags. |
 
-**Returns:**  `RegExpMatchArray` &#124; `null`
+**Returns:** `RegExpMatchArray` | `null`
 
 ___
 <a id="normalize"></a>
 
 ##  normalize
 
-▸ **normalize**(form: * "NFC" &#124; "NFD" &#124; "NFKC" &#124; "NFKD"*): `string`
+▸ **normalize**(form: *"NFC" | "NFD" | "NFKC" | "NFKD"*): `string`
 
-▸ **normalize**(form?: * `undefined` &#124; `string`*): `string`
+▸ **normalize**(form?: *`undefined` | `string`*): `string`
 
 *Inherited from String.normalize*
 
@@ -500,7 +500,7 @@ Returns the String value result of normalizing the string into the normalization
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| form |  "NFC" &#124; "NFD" &#124; "NFKC" &#124; "NFKD"|  Applicable values: "NFC", "NFD", "NFKC", or "NFKD", If not specified default is "NFC" |
+| form | "NFC" | "NFD" | "NFKC" | "NFKD" |  Applicable values: "NFC", "NFD", "NFKC", or "NFKD", If not specified default is "NFC" |
 
 **Returns:** `string`
 
@@ -514,7 +514,7 @@ Returns the String value result of normalizing the string into the normalization
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` form |  `undefined` &#124; `string`|  Applicable values: "NFC", "NFD", "NFKC", or "NFKD", If not specified default is "NFC" |
+| `Optional` form | `undefined` | `string` |  Applicable values: "NFC", "NFD", "NFKC", or "NFKD", If not specified default is "NFC" |
 
 **Returns:** `string`
 
@@ -523,7 +523,7 @@ ___
 
 ##  padEnd
 
-▸ **padEnd**(maxLength: *`number`*, fillString?: * `undefined` &#124; `string`*): `string`
+▸ **padEnd**(maxLength: *`number`*, fillString?: *`undefined` | `string`*): `string`
 
 *Inherited from String.padEnd*
 
@@ -536,7 +536,7 @@ Pads the current string with a given string (possibly repeated) so that the resu
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | maxLength | `number` |  The length of the resulting string once the current string has been padded. If this parameter is smaller than the current string's length, the current string will be returned as it is. |
-| `Optional` fillString |  `undefined` &#124; `string`|  The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is " " (U+0020). |
+| `Optional` fillString | `undefined` | `string` |  The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is " " (U+0020). |
 
 **Returns:** `string`
 
@@ -545,7 +545,7 @@ ___
 
 ##  padStart
 
-▸ **padStart**(maxLength: *`number`*, fillString?: * `undefined` &#124; `string`*): `string`
+▸ **padStart**(maxLength: *`number`*, fillString?: *`undefined` | `string`*): `string`
 
 *Inherited from String.padStart*
 
@@ -558,7 +558,7 @@ Pads the current string with a given string (possibly repeated) so that the resu
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | maxLength | `number` |  The length of the resulting string once the current string has been padded. If this parameter is smaller than the current string's length, the current string will be returned as it is. |
-| `Optional` fillString |  `undefined` &#124; `string`|  The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is " " (U+0020). |
+| `Optional` fillString | `undefined` | `string` |  The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is " " (U+0020). |
 
 **Returns:** `string`
 
@@ -588,9 +588,9 @@ ___
 
 ##  replace
 
-▸ **replace**(searchValue: * `string` &#124; `RegExp`*, replaceValue: *`string`*): `string`
+▸ **replace**(searchValue: *`string` | `RegExp`*, replaceValue: *`string`*): `string`
 
-▸ **replace**(searchValue: * `string` &#124; `RegExp`*, replacer: *`function`*): `string`
+▸ **replace**(searchValue: *`string` | `RegExp`*, replacer: *`function`*): `string`
 
 *Inherited from String.replace*
 
@@ -604,7 +604,7 @@ Replaces text in a string, using a regular expression or search string.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| searchValue |  `string` &#124; `RegExp`|  A string to search for. |
+| searchValue | `string` | `RegExp` |  A string to search for. |
 | replaceValue | `string` |  A string containing the text to replace for every successful match of searchValue in this string. |
 
 **Returns:** `string`
@@ -621,7 +621,7 @@ Replaces text in a string, using a regular expression or search string.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| searchValue |  `string` &#124; `RegExp`|  A string to search for. |
+| searchValue | `string` | `RegExp` |  A string to search for. |
 | replacer | `function` |  A function that returns the replacement text. |
 
 **Returns:** `string`
@@ -631,7 +631,7 @@ ___
 
 ##  search
 
-▸ **search**(regexp: * `string` &#124; `RegExp`*): `number`
+▸ **search**(regexp: *`string` | `RegExp`*): `number`
 
 *Inherited from String.search*
 
@@ -645,7 +645,7 @@ Finds the first substring match in a regular expression search.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| regexp |  `string` &#124; `RegExp`|  The regular expression pattern and applicable flags. |
+| regexp | `string` | `RegExp` |  The regular expression pattern and applicable flags. |
 
 **Returns:** `number`
 
@@ -654,7 +654,7 @@ ___
 
 ##  slice
 
-▸ **slice**(start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): `string`
+▸ **slice**(start?: *`undefined` | `number`*, end?: *`undefined` | `number`*): `string`
 
 *Inherited from String.slice*
 
@@ -666,8 +666,8 @@ Returns a section of a string.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` start |  `undefined` &#124; `number`|  The index to the beginning of the specified portion of stringObj. |
-| `Optional` end |  `undefined` &#124; `number`|  The index to the end of the specified portion of stringObj. The substring includes the characters up to, but not including, the character indicated by end. If this value is not specified, the substring continues to the end of stringObj. |
+| `Optional` start | `undefined` | `number` |  The index to the beginning of the specified portion of stringObj. |
+| `Optional` end | `undefined` | `number` |  The index to the end of the specified portion of stringObj. The substring includes the characters up to, but not including, the character indicated by end. If this value is not specified, the substring continues to the end of stringObj. |
 
 **Returns:** `string`
 
@@ -691,7 +691,7 @@ ___
 
 ##  split
 
-▸ **split**(separator: * `string` &#124; `RegExp`*, limit?: * `undefined` &#124; `number`*): `string`[]
+▸ **split**(separator: *`string` | `RegExp`*, limit?: *`undefined` | `number`*): `string`[]
 
 *Inherited from String.split*
 
@@ -705,8 +705,8 @@ Split a string into substrings using the specified separator and return them as 
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| separator |  `string` &#124; `RegExp`|  A string that identifies character or characters to use in separating the string. If omitted, a single-element array containing the entire string is returned. |
-| `Optional` limit |  `undefined` &#124; `number`|  A value used to limit the number of elements returned in the array. |
+| separator | `string` | `RegExp` |  A string that identifies character or characters to use in separating the string. If omitted, a single-element array containing the entire string is returned. |
+| `Optional` limit | `undefined` | `number` |  A value used to limit the number of elements returned in the array. |
 
 **Returns:** `string`[]
 
@@ -715,7 +715,7 @@ ___
 
 ##  startsWith
 
-▸ **startsWith**(searchString: *`string`*, position?: * `undefined` &#124; `number`*): `boolean`
+▸ **startsWith**(searchString: *`string`*, position?: *`undefined` | `number`*): `boolean`
 
 *Inherited from String.startsWith*
 
@@ -728,7 +728,7 @@ Returns true if the sequence of elements of searchString converted to a String i
 | Name | Type |
 | ------ | ------ |
 | searchString | `string` |
-| `Optional` position |  `undefined` &#124; `number`|
+| `Optional` position | `undefined` | `number` |
 
 **Returns:** `boolean`
 
@@ -767,7 +767,7 @@ ___
 
 ##  substr
 
-▸ **substr**(from: *`number`*, length?: * `undefined` &#124; `number`*): `string`
+▸ **substr**(from: *`number`*, length?: *`undefined` | `number`*): `string`
 
 *Inherited from String.substr*
 
@@ -780,7 +780,7 @@ Gets a substring beginning at the specified location and having the specified le
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | from | `number` |  The starting position of the desired substring. The index of the first character in the string is zero. |
-| `Optional` length |  `undefined` &#124; `number`|  The number of characters to include in the returned substring. |
+| `Optional` length | `undefined` | `number` |  The number of characters to include in the returned substring. |
 
 **Returns:** `string`
 
@@ -789,7 +789,7 @@ ___
 
 ##  substring
 
-▸ **substring**(start: *`number`*, end?: * `undefined` &#124; `number`*): `string`
+▸ **substring**(start: *`number`*, end?: *`undefined` | `number`*): `string`
 
 *Inherited from String.substring*
 
@@ -802,7 +802,7 @@ Returns the substring at the specified location within a String object.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | start | `number` |  The zero-based index number indicating the beginning of the substring. |
-| `Optional` end |  `undefined` &#124; `number`|  Zero-based index number indicating the end of the substring. The substring includes the characters up to, but not including, the character indicated by end. If end is omitted, the characters from start through the end of the original string are returned. |
+| `Optional` end | `undefined` | `number` |  Zero-based index number indicating the end of the substring. The substring includes the characters up to, but not including, the character indicated by end. If end is omitted, the characters from start through the end of the original string are returned. |
 
 **Returns:** `string`
 
@@ -832,7 +832,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
 
-*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L62)*
+*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L62)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -849,7 +849,7 @@ ___
 
 *Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
 
-*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L69)*
+*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L69)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -913,7 +913,7 @@ ___
 
 *Overrides String.toString*
 
-*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L76)*
+*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L76)*
 
 *__description__*: Returns the string representation of the value
 
@@ -924,11 +924,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:81](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L81)*
+*Defined in [Type.ts:81](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L81)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -936,7 +936,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -979,7 +979,7 @@ ___
 
 *Inherited from String.trimLeft*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:193*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:216*
 
 Removes whitespace from the left end of a string.
 
@@ -994,7 +994,7 @@ ___
 
 *Inherited from String.trimRight*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:195*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:218*
 
 Removes whitespace from the right end of a string.
 

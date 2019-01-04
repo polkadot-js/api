@@ -11,11 +11,11 @@
 
 ▸ **__call**(arg: *`any`*, cb: *`function`*): [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-▸ **__call**(arg?: *`any`*): `Promise`< `Codec` &#124; `null` &#124; `undefined`>
+▸ **__call**(arg?: *`any`*): `Promise`<`Codec` | `null` | `undefined`>
 
 ▸ **__call**(arg?: *`any`*): `Uint8Array`
 
-*Defined in [promise/types.ts:33](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/promise/types.ts#L33)*
+*Defined in [promise/types.ts:33](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/promise/types.ts#L33)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **Returns:** [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-*Defined in [promise/types.ts:34](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/promise/types.ts#L34)*
+*Defined in [promise/types.ts:34](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/promise/types.ts#L34)*
 
 **Parameters:**
 
@@ -36,7 +36,7 @@
 
 **Returns:** [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-*Defined in [promise/types.ts:35](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/promise/types.ts#L35)*
+*Defined in [promise/types.ts:35](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/promise/types.ts#L35)*
 
 **Parameters:**
 
@@ -44,9 +44,9 @@
 | ------ | ------ |
 | `Optional` arg | `any` |
 
-**Returns:** `Promise`< `Codec` &#124; `null` &#124; `undefined`>
+**Returns:** `Promise`<`Codec` | `null` | `undefined`>
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:12](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/StorageKey.ts#L12)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:12](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/StorageKey.ts#L12)*
 
 **Parameters:**
 
@@ -64,10 +64,10 @@
 
 **● at**: *`function`*
 
-*Defined in [promise/types.ts:37](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/promise/types.ts#L37)*
+*Defined in [promise/types.ts:37](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/promise/types.ts#L37)*
 
 #### Type declaration
-▸(hash: *`Hash`*, arg?: *`any`*): `Promise`< `Codec` &#124; `null` &#124; `undefined`>
+▸(hash: *`Hash`*, arg?: *`any`*): `Promise`<`Codec` | `null` | `undefined`>
 
 **Parameters:**
 
@@ -76,7 +76,7 @@
 | hash | `Hash` |
 | `Optional` arg | `any` |
 
-**Returns:** `Promise`< `Codec` &#124; `null` &#124; `undefined`>
+**Returns:** `Promise`<`Codec` | `null` | `undefined`>
 
 ___
 <a id="meta"></a>
@@ -87,7 +87,7 @@ ___
 
 *Inherited from StorageFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/StorageKey.ts#L14)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:14](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/StorageKey.ts#L14)*
 
 ___
 <a id="method"></a>
@@ -98,7 +98,7 @@ ___
 
 *Inherited from StorageFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:15](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/StorageKey.ts#L15)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:15](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/StorageKey.ts#L15)*
 
 ___
 <a id="section"></a>
@@ -109,7 +109,7 @@ ___
 
 *Inherited from StorageFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/StorageKey.ts#L16)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:16](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/StorageKey.ts#L16)*
 
 ___
 <a id="tojson"></a>
@@ -120,7 +120,7 @@ ___
 
 *Inherited from StorageFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/StorageKey.ts#L17)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/StorageKey.ts:17](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/StorageKey.ts#L17)*
 
 #### Type declaration
 ▸(): `any`

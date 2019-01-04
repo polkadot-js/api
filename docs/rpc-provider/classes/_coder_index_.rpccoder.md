@@ -12,7 +12,7 @@
 
 ▸ **decodeResponse**(response: *[JsonRpcResponse](../modules/_types_.md#jsonrpcresponse)*): `any`
 
-*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/18dfda5/packages/rpc-provider/src/coder/index.ts#L12)*
+*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/6678d72/packages/rpc-provider/src/coder/index.ts#L12)*
 
 **Parameters:**
 
@@ -27,16 +27,16 @@ ___
 
 ##  encodeJson
 
-▸ **encodeJson**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): `string`
+▸ **encodeJson**(method: *`string`*, params: *`any` | `Array`<`any`>*): `string`
 
-*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/18dfda5/packages/rpc-provider/src/coder/index.ts#L33)*
+*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/6678d72/packages/rpc-provider/src/coder/index.ts#L33)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
 | method | `string` |
-| params |  `any` &#124; `Array`<`any`>|
+| params | `any` | `Array`<`any`> |
 
 **Returns:** `string`
 
@@ -45,16 +45,16 @@ ___
 
 ##  encodeObject
 
-▸ **encodeObject**(method: *`string`*, params: * `any` &#124; `Array`<`any`>*): [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
+▸ **encodeObject**(method: *`string`*, params: *`any` | `Array`<`any`>*): [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
 
-*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/18dfda5/packages/rpc-provider/src/coder/index.ts#L39)*
+*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/6678d72/packages/rpc-provider/src/coder/index.ts#L39)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
 | method | `string` |
-| params |  `any` &#124; `Array`<`any`>|
+| params | `any` | `Array`<`any`> |
 
 **Returns:** [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
 
@@ -65,7 +65,7 @@ ___
 
 ▸ **getId**(): `number`
 
-*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/18dfda5/packages/rpc-provider/src/coder/index.ts#L48)*
+*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/6678d72/packages/rpc-provider/src/coder/index.ts#L48)*
 
 **Returns:** `number`
 

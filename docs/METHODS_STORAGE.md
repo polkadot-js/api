@@ -218,7 +218,7 @@ ___
 ▸ **referendumCount**(): `ReferendumIndex`
 - **summary**:   The next free referendum index, aka the number of referendums started so far.
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `(ReferendumInfo)`
+▸ **referendumInfoOf**(`ReferendumIndex`): `ReferendumInfo`
 - **summary**:   Information concerning any given referendum.
 
 ▸ **voteOf**(`(ReferendumIndex,AccountId)`): `Vote`

@@ -25,19 +25,19 @@
 
 ##  constructor
 
-⊕ **new BftDoublePrepare**(value?: * `BftAtReportValue` &#124; `Uint8Array`*): [BftDoublePrepare](_misbehaviorreport_.bftdoubleprepare.md)
+⊕ **new BftDoublePrepare**(value?: *`BftAtReportValue` | `Uint8Array`*): [BftDoublePrepare](_misbehaviorreport_.bftdoubleprepare.md)
 
 *Inherited from [BftAtReport](_misbehaviorreport_.bftatreport.md).[constructor](_misbehaviorreport_.bftatreport.md#constructor)*
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [MisbehaviorReport.ts:33](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/MisbehaviorReport.ts#L33)*
+*Defined in [MisbehaviorReport.ts:33](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/MisbehaviorReport.ts#L33)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Optional` value |  `BftAtReportValue` &#124; `Uint8Array`|
+| `Optional` value | `BftAtReportValue` | `Uint8Array` |
 
 **Returns:** [BftDoublePrepare](_misbehaviorreport_.bftdoubleprepare.md)
 
@@ -78,7 +78,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L142)*
+*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L142)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -93,7 +93,7 @@ geta(): [BftHashSignature](_bft_.bfthashsignature.md)
 
 *Inherited from [BftAtReport](_misbehaviorreport_.bftatreport.md).[a](_misbehaviorreport_.bftatreport.md#a)*
 
-*Defined in [MisbehaviorReport.ts:45](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/MisbehaviorReport.ts#L45)*
+*Defined in [MisbehaviorReport.ts:45](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/MisbehaviorReport.ts#L45)*
 
 *__description__*: The first report [BftHashSignature](_bft_.bfthashsignature.md)
 
@@ -108,7 +108,7 @@ getb(): [BftHashSignature](_bft_.bfthashsignature.md)
 
 *Inherited from [BftAtReport](_misbehaviorreport_.bftatreport.md).[b](_misbehaviorreport_.bftatreport.md#b)*
 
-*Defined in [MisbehaviorReport.ts:52](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/MisbehaviorReport.ts#L52)*
+*Defined in [MisbehaviorReport.ts:52](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/MisbehaviorReport.ts#L52)*
 
 *__description__*: The second report [BftHashSignature](_bft_.bfthashsignature.md)
 
@@ -123,7 +123,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L149)*
+*Defined in [codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L149)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -138,7 +138,7 @@ getround(): [U32](_u32_.u32.md)
 
 *Inherited from [BftAtReport](_misbehaviorreport_.bftatreport.md).[round](_misbehaviorreport_.bftatreport.md#round)*
 
-*Defined in [MisbehaviorReport.ts:59](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/MisbehaviorReport.ts#L59)*
+*Defined in [MisbehaviorReport.ts:59](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/MisbehaviorReport.ts#L59)*
 
 *__description__*: The round this report applies to as [U32](_u32_.u32.md)
 
@@ -234,13 +234,13 @@ ___
 
 ##  get
 
-▸ **get**(name: *`keyof S`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+▸ **get**(name: *`keyof S`*): [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L159)*
+*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L159)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -250,7 +250,7 @@ ___
 | ------ | ------ | ------ |
 | name | `keyof S` |  The name of the entry to retrieve |
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 ___
 <a id="getatindex"></a>
@@ -261,7 +261,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L166)*
+*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L166)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -336,7 +336,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L173)*
+*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L173)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -353,7 +353,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L180)*
+*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L180)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -370,7 +370,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L187)*
+*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L187)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -387,7 +387,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L201)*
+*Defined in [codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L201)*
 
 *__description__*: Returns the string representation of the value
 
@@ -398,11 +398,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:209](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L209)*
+*Defined in [codec/Struct.ts:209](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L209)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -410,7 +410,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -438,7 +438,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Struct.ts#L122)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Struct.ts#L122)*
 
 **Type parameters:**
 

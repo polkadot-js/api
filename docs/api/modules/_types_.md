@@ -20,10 +20,9 @@
 
 ##  ApiInterface$Events
 
-**Ƭ ApiInterface$Events**: * `RpcRxInterface$Events` &#124; "ready"
-*
+**Ƭ ApiInterface$Events**: *`RpcRxInterface$Events` | "ready"*
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/types.ts#L10)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/types.ts#L10)*
 
 ___
 <a id="submittablesendresult"></a>
@@ -32,7 +31,7 @@ ___
 
 **Ƭ SubmittableSendResult**: *`object`*
 
-*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/18dfda5/packages/api/src/types.ts#L38)*
+*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/6678d72/packages/api/src/types.ts#L38)*
 
 #### Type declaration
 

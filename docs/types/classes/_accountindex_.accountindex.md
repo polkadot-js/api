@@ -24,7 +24,7 @@
 
 *Overrides [U32](_u32_.u32.md).[constructor](_u32_.u32.md#constructor)*
 
-*Defined in [AccountIndex.ts:29](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L29)*
+*Defined in [AccountIndex.ts:29](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L29)*
 
 **Parameters:**
 
@@ -46,7 +46,7 @@ getencodedLength(): `number`
 
 *Inherited from AbstractInt.encodedLength*
 
-*Defined in [codec/AbstractInt.ts:56](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/AbstractInt.ts#L56)*
+*Defined in [codec/AbstractInt.ts:56](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/AbstractInt.ts#L56)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -186,7 +186,7 @@ ___
 
 *Overrides BN.bitLength*
 
-*Defined in [codec/AbstractInt.ts:63](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/AbstractInt.ts#L63)*
+*Defined in [codec/AbstractInt.ts:63](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/AbstractInt.ts#L63)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -227,7 +227,7 @@ ___
 
 ##  cmp
 
-▸ **cmp**(b: *`BN`*):  `-1` &#124; `0` &#124; `1`
+▸ **cmp**(b: *`BN`*): `-1` | `0` | `1`
 
 *Inherited from BN.cmp*
 
@@ -241,14 +241,14 @@ ___
 | ------ | ------ |
 | b | `BN` |
 
-**Returns:**  `-1` &#124; `0` &#124; `1`
+**Returns:** `-1` | `0` | `1`
 
 ___
 <a id="cmpn"></a>
 
 ##  cmpn
 
-▸ **cmpn**(b: *`number`*):  `-1` &#124; `0` &#124; `1`
+▸ **cmpn**(b: *`number`*): `-1` | `0` | `1`
 
 *Inherited from BN.cmpn*
 
@@ -262,7 +262,7 @@ ___
 | ------ | ------ |
 | b | `number` |
 
-**Returns:**  `-1` &#124; `0` &#124; `1`
+**Returns:** `-1` | `0` | `1`
 
 ___
 <a id="div"></a>
@@ -1456,7 +1456,7 @@ ___
 
 ##  toArray
 
-▸ **toArray**(endian?: *`Endianness`*, length?: * `undefined` &#124; `number`*): `number`[]
+▸ **toArray**(endian?: *`Endianness`*, length?: *`undefined` | `number`*): `number`[]
 
 *Inherited from BN.toArray*
 
@@ -1469,7 +1469,7 @@ ___
 | Name | Type |
 | ------ | ------ |
 | `Optional` endian | `Endianness` |
-| `Optional` length |  `undefined` &#124; `number`|
+| `Optional` length | `undefined` | `number` |
 
 **Returns:** `number`[]
 
@@ -1478,9 +1478,9 @@ ___
 
 ##  toArrayLike
 
-▸ **toArrayLike**(ArrayType: *`object`*, endian?: *`Endianness`*, length?: * `undefined` &#124; `number`*): `Buffer`
+▸ **toArrayLike**(ArrayType: *`object`*, endian?: *`Endianness`*, length?: *`undefined` | `number`*): `Buffer`
 
-▸ **toArrayLike**(ArrayType: *`any`[]*, endian?: *`Endianness`*, length?: * `undefined` &#124; `number`*): `any`[]
+▸ **toArrayLike**(ArrayType: *`any`[]*, endian?: *`Endianness`*, length?: *`undefined` | `number`*): `any`[]
 
 *Inherited from BN.toArrayLike*
 
@@ -1494,7 +1494,7 @@ ___
 | ------ | ------ |
 | ArrayType | `object` |
 | `Optional` endian | `Endianness` |
-| `Optional` length |  `undefined` &#124; `number`|
+| `Optional` length | `undefined` | `number` |
 
 **Returns:** `Buffer`
 
@@ -1508,7 +1508,7 @@ ___
 | ------ | ------ |
 | ArrayType | `any`[] |
 | `Optional` endian | `Endianness` |
-| `Optional` length |  `undefined` &#124; `number`|
+| `Optional` length | `undefined` | `number` |
 
 **Returns:** `any`[]
 
@@ -1521,7 +1521,7 @@ ___
 
 *Overrides AbstractInt.toBn*
 
-*Defined in [AccountIndex.ts:92](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L92)*
+*Defined in [AccountIndex.ts:92](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L92)*
 
 *__description__*: Returns the BN representation of the AccountIndex
 
@@ -1532,7 +1532,7 @@ ___
 
 ##  toBuffer
 
-▸ **toBuffer**(endian?: *`Endianness`*, length?: * `undefined` &#124; `number`*): `Buffer`
+▸ **toBuffer**(endian?: *`Endianness`*, length?: *`undefined` | `number`*): `Buffer`
 
 *Inherited from BN.toBuffer*
 
@@ -1545,7 +1545,7 @@ ___
 | Name | Type |
 | ------ | ------ |
 | `Optional` endian | `Endianness` |
-| `Optional` length |  `undefined` &#124; `number`|
+| `Optional` length | `undefined` | `number` |
 
 **Returns:** `Buffer`
 
@@ -1560,7 +1560,7 @@ ___
 
 *Overrides [UInt](_codec_uint_.uint.md).[toHex](_codec_uint_.uint.md#tohex)*
 
-*Defined in [AccountIndex.ts:99](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L99)*
+*Defined in [AccountIndex.ts:99](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L99)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1577,7 +1577,7 @@ ___
 
 *Overrides AbstractInt.toJSON*
 
-*Defined in [AccountIndex.ts:108](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L108)*
+*Defined in [AccountIndex.ts:108](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L108)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1630,7 +1630,7 @@ ___
 
 *Overrides AbstractInt.toString*
 
-*Defined in [AccountIndex.ts:115](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L115)*
+*Defined in [AccountIndex.ts:115](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L115)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1662,13 +1662,13 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*, isStorageKey?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*, isStorageKey?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
 *Overrides [UInt](_codec_uint_.uint.md).[toU8a](_codec_uint_.uint.md#tou8a)*
 
-*Defined in [AccountIndex.ts:126](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L126)*
+*Defined in [AccountIndex.ts:126](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L126)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1676,8 +1676,8 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
-| `Optional` isStorageKey |  `undefined` &#124; `false` &#124; `true`|  true when encoded as part of a key, taking case of specific logic |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isStorageKey | `undefined` | `false` | `true` |  true when encoded as part of a key, taking case of specific logic |
 
 **Returns:** `Uint8Array`
 
@@ -1707,7 +1707,7 @@ ___
 
 ##  ucmp
 
-▸ **ucmp**(b: *`BN`*):  `-1` &#124; `0` &#124; `1`
+▸ **ucmp**(b: *`BN`*): `-1` | `0` | `1`
 
 *Inherited from BN.ucmp*
 
@@ -1721,7 +1721,7 @@ ___
 | ------ | ------ |
 | b | `BN` |
 
-**Returns:**  `-1` &#124; `0` &#124; `1`
+**Returns:** `-1` | `0` | `1`
 
 ___
 <a id="umod"></a>
@@ -1869,15 +1869,15 @@ ___
 
 ## `<Static>` calcLength
 
-▸ **calcLength**(_value: * `BN` &#124; `number`*): `number`
+▸ **calcLength**(_value: *`BN` | `number`*): `number`
 
-*Defined in [AccountIndex.ts:52](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L52)*
+*Defined in [AccountIndex.ts:52](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L52)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| _value |  `BN` &#124; `number`|
+| _value | `BN` | `number` |
 
 **Returns:** `number`
 
@@ -1890,7 +1890,7 @@ ___
 
 *Inherited from AbstractInt.decodeAbstracInt*
 
-*Defined in [codec/AbstractInt.ts:37](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/AbstractInt.ts#L37)*
+*Defined in [codec/AbstractInt.ts:37](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/AbstractInt.ts#L37)*
 
 **Parameters:**
 
@@ -1907,9 +1907,9 @@ ___
 
 ## `<Static>` decodeAccountIndex
 
-▸ **decodeAccountIndex**(value: *[AnyNumber](../modules/_types_.md#anynumber)*):  `BN` &#124; `Uint8Array` &#124; `number` &#124; `string`
+▸ **decodeAccountIndex**(value: *[AnyNumber](../modules/_types_.md#anynumber)*): `BN` | `Uint8Array` | `number` | `string`
 
-*Defined in [AccountIndex.ts:36](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L36)*
+*Defined in [AccountIndex.ts:36](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L36)*
 
 **Parameters:**
 
@@ -1917,7 +1917,7 @@ ___
 | ------ | ------ |
 | value | [AnyNumber](../modules/_types_.md#anynumber) |
 
-**Returns:**  `BN` &#124; `Uint8Array` &#124; `number` &#124; `string`
+**Returns:** `BN` | `Uint8Array` | `number` | `string`
 
 ___
 <a id="isbn"></a>
@@ -2012,7 +2012,7 @@ ___
 
 ▸ **readLength**(input: *`Uint8Array`*): [`number`, `number`]
 
-*Defined in [AccountIndex.ts:66](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L66)*
+*Defined in [AccountIndex.ts:66](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L66)*
 
 **Parameters:**
 
@@ -2027,7 +2027,7 @@ ___
 
 ## `<Static>` red
 
-▸ **red**(reductionContext: * `BN` &#124; `IPrimeName`*): `ReductionContext`
+▸ **red**(reductionContext: *`BN` | `IPrimeName`*): `ReductionContext`
 
 *Inherited from BN.red*
 
@@ -2039,7 +2039,7 @@ ___
 
 | Name | Type |
 | ------ | ------ |
-| reductionContext |  `BN` &#124; `IPrimeName`|
+| reductionContext | `BN` | `IPrimeName` |
 
 **Returns:** `ReductionContext`
 
@@ -2050,7 +2050,7 @@ ___
 
 ▸ **writeLength**(input: *`Uint8Array`*): `Uint8Array`
 
-*Defined in [AccountIndex.ts:80](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountIndex.ts#L80)*
+*Defined in [AccountIndex.ts:80](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountIndex.ts#L80)*
 
 **Parameters:**
 

@@ -6,7 +6,7 @@
 
 # Hierarchy
 
- [Base](_codec_base_.base.md)< [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)>
+ [Base](_codec_base_.base.md)<[AccountId](_accountid_.accountid.md) | [AccountIndex](_accountindex_.accountindex.md)>
 
 **↳ Address**
 
@@ -20,7 +20,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [Address.ts:25](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L25)*
+*Defined in [Address.ts:25](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L25)*
 
 **Parameters:**
 
@@ -40,7 +40,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L67)*
+*Defined in [Address.ts:67](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L67)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -53,7 +53,7 @@ ___
 
 getrawLength(): `number`
 
-*Defined in [Address.ts:81](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L81)*
+*Defined in [Address.ts:81](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L81)*
 
 *__description__*: The length of the raw value, either AccountIndex or AccountId
 
@@ -69,7 +69,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L90)*
+*Defined in [Address.ts:90](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L90)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -82,7 +82,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [Address.ts:97](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L97)*
+*Defined in [Address.ts:97](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L97)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [Address.ts:104](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L104)*
+*Defined in [Address.ts:104](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L104)*
 
 *__description__*: Returns the string representation of the value
 
@@ -106,9 +106,9 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [Address.ts:112](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L112)*
+*Defined in [Address.ts:112](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L112)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -116,7 +116,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -125,9 +125,9 @@ ___
 
 ## `<Static>` decodeAddress
 
-▸ **decodeAddress**(value: *`AnyAddress`*):  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
+▸ **decodeAddress**(value: *`AnyAddress`*): [AccountId](_accountid_.accountid.md) | [AccountIndex](_accountindex_.accountindex.md)
 
-*Defined in [Address.ts:32](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Address.ts#L32)*
+*Defined in [Address.ts:32](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Address.ts#L32)*
 
 **Parameters:**
 
@@ -135,7 +135,7 @@ ___
 | ------ | ------ |
 | value | `AnyAddress` |
 
-**Returns:**  [AccountId](_accountid_.accountid.md) &#124; [AccountIndex](_accountindex_.accountindex.md)
+**Returns:** [AccountId](_accountid_.accountid.md) | [AccountIndex](_accountindex_.accountindex.md)
 
 ___
 

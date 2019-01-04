@@ -29,7 +29,7 @@
 
 *Overrides [U8aFixed](_codec_u8afixed_.u8afixed.md).[constructor](_codec_u8afixed_.u8afixed.md#constructor)*
 
-*Defined in [AccountId.ts:19](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountId.ts#L19)*
+*Defined in [AccountId.ts:19](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountId.ts#L19)*
 
 **Parameters:**
 
@@ -117,7 +117,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8a.ts#L36)*
+*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8a.ts#L36)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -134,7 +134,7 @@ getlength(): `number`
 
 *Overrides Uint8Array.length*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8a.ts#L43)*
 
 *__description__*: The length of the value
 
@@ -165,7 +165,7 @@ ___
 
 *Inherited from [U8aFixed](_codec_u8afixed_.u8afixed.md).[bitLength](_codec_u8afixed_.u8afixed.md#bitlength)*
 
-*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8aFixed.ts#L39)*
+*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8aFixed.ts#L39)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -176,7 +176,7 @@ ___
 
 ##  copyWithin
 
-▸ **copyWithin**(target: *`number`*, start: *`number`*, end?: * `undefined` &#124; `number`*): `this`
+▸ **copyWithin**(target: *`number`*, start: *`number`*, end?: *`undefined` | `number`*): `this`
 
 *Inherited from Uint8Array.copyWithin*
 
@@ -190,7 +190,7 @@ Returns the this object after copying a section of the array identified by start
 | ------ | ------ | ------ |
 | target | `number` |  If target is negative, it is treated as length+target where length is the length of the array. |
 | start | `number` |  If start is negative, it is treated as length+start. If end is negative, it is treated as length+end. |
-| `Optional` end |  `undefined` &#124; `number`|  If not specified, length of the this object is used as its default value. |
+| `Optional` end | `undefined` | `number` |  If not specified, length of the this object is used as its default value. |
 
 **Returns:** `this`
 
@@ -236,7 +236,7 @@ ___
 
 ##  fill
 
-▸ **fill**(value: *`number`*, start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): `this`
+▸ **fill**(value: *`number`*, start?: *`undefined` | `number`*, end?: *`undefined` | `number`*): `this`
 
 *Inherited from Uint8Array.fill*
 
@@ -249,8 +249,8 @@ Returns the this object after filling the section identified by start and end wi
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | value | `number` |  value to fill array section with |
-| `Optional` start |  `undefined` &#124; `number`|  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
-| `Optional` end |  `undefined` &#124; `number`|  index to stop filling the array at. If end is negative, it is treated as length+end. |
+| `Optional` start | `undefined` | `number` |  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
+| `Optional` end | `undefined` | `number` |  index to stop filling the array at. If end is negative, it is treated as length+end. |
 
 **Returns:** `this`
 
@@ -281,7 +281,7 @@ ___
 
 ##  find
 
-▸ **find**(predicate: *`function`*, thisArg?: *`any`*):  `number` &#124; `undefined`
+▸ **find**(predicate: *`function`*, thisArg?: *`any`*): `number` | `undefined`
 
 *Inherited from Uint8Array.find*
 
@@ -296,7 +296,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
 
-**Returns:**  `number` &#124; `undefined`
+**Returns:** `number` | `undefined`
 
 ___
 <a id="findindex"></a>
@@ -347,7 +347,7 @@ ___
 
 ##  includes
 
-▸ **includes**(searchElement: *`number`*, fromIndex?: * `undefined` &#124; `number`*): `boolean`
+▸ **includes**(searchElement: *`number`*, fromIndex?: *`undefined` | `number`*): `boolean`
 
 *Inherited from Uint8Array.includes*
 
@@ -360,7 +360,7 @@ Determines whether an array includes a certain element, returning true or false 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The element to search for. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The position in this array at which to begin searching for searchElement. |
+| `Optional` fromIndex | `undefined` | `number` |  The position in this array at which to begin searching for searchElement. |
 
 **Returns:** `boolean`
 
@@ -369,7 +369,7 @@ ___
 
 ##  indexOf
 
-▸ **indexOf**(searchElement: *`number`*, fromIndex?: * `undefined` &#124; `number`*): `number`
+▸ **indexOf**(searchElement: *`number`*, fromIndex?: *`undefined` | `number`*): `number`
 
 *Inherited from Uint8Array.indexOf*
 
@@ -382,7 +382,7 @@ Returns the index of the first occurrence of a value in an array.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The value to locate in the array. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
+| `Optional` fromIndex | `undefined` | `number` |  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
 
 **Returns:** `number`
 
@@ -391,7 +391,7 @@ ___
 
 ##  join
 
-▸ **join**(separator?: * `undefined` &#124; `string`*): `string`
+▸ **join**(separator?: *`undefined` | `string`*): `string`
 
 *Inherited from Uint8Array.join*
 
@@ -403,7 +403,7 @@ Adds all the elements of an array separated by the specified separator string.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` separator |  `undefined` &#124; `string`|  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
+| `Optional` separator | `undefined` | `string` |  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
 
 **Returns:** `string`
 
@@ -427,7 +427,7 @@ ___
 
 ##  lastIndexOf
 
-▸ **lastIndexOf**(searchElement: *`number`*, fromIndex?: * `undefined` &#124; `number`*): `number`
+▸ **lastIndexOf**(searchElement: *`number`*, fromIndex?: *`undefined` | `number`*): `number`
 
 *Inherited from Uint8Array.lastIndexOf*
 
@@ -440,7 +440,7 @@ Returns the index of the last occurrence of a value in an array.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | `number` |  The value to locate in the array. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
+| `Optional` fromIndex | `undefined` | `number` |  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
 
 **Returns:** `number`
 
@@ -598,7 +598,7 @@ ___
 
 ##  set
 
-▸ **set**(array: *`ArrayLike`<`number`>*, offset?: * `undefined` &#124; `number`*): `void`
+▸ **set**(array: *`ArrayLike`<`number`>*, offset?: *`undefined` | `number`*): `void`
 
 *Inherited from Uint8Array.set*
 
@@ -611,7 +611,7 @@ Sets a value or an array of values.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | array | `ArrayLike`<`number`> |  A typed or untyped array of values to set. |
-| `Optional` offset |  `undefined` &#124; `number`|  The index in the current array at which the values are to be written. |
+| `Optional` offset | `undefined` | `number` |  The index in the current array at which the values are to be written. |
 
 **Returns:** `void`
 
@@ -620,7 +620,7 @@ ___
 
 ##  slice
 
-▸ **slice**(start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): `Uint8Array`
+▸ **slice**(start?: *`undefined` | `number`*, end?: *`undefined` | `number`*): `Uint8Array`
 
 *Inherited from Uint8Array.slice*
 
@@ -632,8 +632,8 @@ Returns a section of an array.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` start |  `undefined` &#124; `number`|  The beginning of the specified portion of the array. |
-| `Optional` end |  `undefined` &#124; `number`|  The end of the specified portion of the array. |
+| `Optional` start | `undefined` | `number` |  The beginning of the specified portion of the array. |
+| `Optional` end | `undefined` | `number` |  The end of the specified portion of the array. |
 
 **Returns:** `Uint8Array`
 
@@ -664,7 +664,7 @@ ___
 
 ##  sort
 
-▸ **sort**(compareFn?: * `undefined` &#124; `function`*): `this`
+▸ **sort**(compareFn?: *`undefined` | `function`*): `this`
 
 *Inherited from Uint8Array.sort*
 
@@ -676,7 +676,7 @@ Sorts an array.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` compareFn |  `undefined` &#124; `function`|  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
+| `Optional` compareFn | `undefined` | `function` |  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
 
 **Returns:** `this`
 
@@ -685,13 +685,13 @@ ___
 
 ##  subarray
 
-▸ **subarray**(begin: *`number`*, end?: * `undefined` &#124; `number`*): `Uint8Array`
+▸ **subarray**(begin: *`number`*, end?: *`undefined` | `number`*): `Uint8Array`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[subarray](_codec_u8a_.u8a.md#subarray)*
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8a.ts#L53)*
 
 *__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -700,7 +700,7 @@ ___
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | begin | `number` |  The position to start at |
-| `Optional` end |  `undefined` &#124; `number`|  The position to end at |
+| `Optional` end | `undefined` | `number` |  The position to end at |
 
 **Returns:** `Uint8Array`
 
@@ -715,7 +715,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8a.ts#L60)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -732,7 +732,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [AccountId.ts:46](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountId.ts#L46)*
+*Defined in [AccountId.ts:46](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountId.ts#L46)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -764,7 +764,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toString](_codec_u8a_.u8a.md#tostring)*
 
-*Defined in [AccountId.ts:53](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountId.ts#L53)*
+*Defined in [AccountId.ts:53](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountId.ts#L53)*
 
 *__description__*: Returns the string representation of the value
 
@@ -775,11 +775,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/U8a.ts#L82)*
+*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/U8a.ts#L82)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -787,7 +787,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -813,7 +813,7 @@ ___
 
 ▸ **encode**(value: *`Uint8Array`*): `string`
 
-*Defined in [AccountId.ts:27](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/AccountId.ts#L27)*
+*Defined in [AccountId.ts:27](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/AccountId.ts#L27)*
 
 **Parameters:**
 

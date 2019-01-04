@@ -29,7 +29,7 @@
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[constructor](_codec_tuple_.tuple.md#constructor)*
 
-*Defined in [codec/Tuple.ts:20](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L20)*
+*Defined in [codec/Tuple.ts:20](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L20)*
 
 **Parameters:**
 
@@ -68,7 +68,7 @@ getTypes(): `Array`<`string`>
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[Types](_codec_tuple_.tuple.md#types)*
 
-*Defined in [codec/Tuple.ts:65](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L65)*
+*Defined in [codec/Tuple.ts:65](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L65)*
 
 *__description__*: The types definition of the tuple
 
@@ -83,7 +83,7 @@ getencodedLength(): `number`
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[encodedLength](_codec_tuple_.tuple.md#encodedlength)*
 
-*Defined in [codec/Tuple.ts:56](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L56)*
+*Defined in [codec/Tuple.ts:56](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L56)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -129,7 +129,7 @@ ___
 
 ▸ **concat**(...items: *`ConcatArray`<[Codec](../interfaces/_types_.codec.md)>[]*): [Codec](../interfaces/_types_.codec.md)[]
 
-▸ **concat**(...items: *( `T` &#124; `ConcatArray`<`T`>)[]*): [Codec](../interfaces/_types_.codec.md)[]
+▸ **concat**(...items: *(`T` | `ConcatArray`<`T`>)[]*): [Codec](../interfaces/_types_.codec.md)[]
 
 *Inherited from Array.concat*
 
@@ -155,7 +155,7 @@ Combines two or more arrays.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Rest` items | ( `T` &#124; `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
+| `Rest` items | (`T` | `ConcatArray`<`T`>)[] |  Additional items to add to the end of array1. |
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)[]
 
@@ -164,7 +164,7 @@ ___
 
 ##  copyWithin
 
-▸ **copyWithin**(target: *`number`*, start: *`number`*, end?: * `undefined` &#124; `number`*): `this`
+▸ **copyWithin**(target: *`number`*, start: *`number`*, end?: *`undefined` | `number`*): `this`
 
 *Inherited from Array.copyWithin*
 
@@ -178,7 +178,7 @@ Returns the this object after copying a section of the array identified by start
 | ------ | ------ | ------ |
 | target | `number` |  If target is negative, it is treated as length+target where length is the length of the array. |
 | start | `number` |  If start is negative, it is treated as length+start. If end is negative, it is treated as length+end. |
-| `Optional` end |  `undefined` &#124; `number`|  If not specified, length of the this object is used as its default value. |
+| `Optional` end | `undefined` | `number` |  If not specified, length of the this object is used as its default value. |
 
 **Returns:** `this`
 
@@ -224,7 +224,7 @@ ___
 
 ##  fill
 
-▸ **fill**(value: *[Codec](../interfaces/_types_.codec.md)*, start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): `this`
+▸ **fill**(value: *[Codec](../interfaces/_types_.codec.md)*, start?: *`undefined` | `number`*, end?: *`undefined` | `number`*): `this`
 
 *Inherited from Array.fill*
 
@@ -237,8 +237,8 @@ Returns the this object after filling the section identified by start and end wi
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | value | [Codec](../interfaces/_types_.codec.md) |  value to fill array section with |
-| `Optional` start |  `undefined` &#124; `number`|  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
-| `Optional` end |  `undefined` &#124; `number`|  index to stop filling the array at. If end is negative, it is treated as length+end. |
+| `Optional` start | `undefined` | `number` |  index to start filling the array at. If start is negative, it is treated as length+start where length is the length of the array. |
+| `Optional` end | `undefined` | `number` |  index to stop filling the array at. If end is negative, it is treated as length+end. |
 
 **Returns:** `this`
 
@@ -253,7 +253,7 @@ ___
 
 *Overrides Array.filter*
 
-*Defined in [codec/Tuple.ts:121](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L121)*
+*Defined in [codec/Tuple.ts:121](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L121)*
 
 *__description__*: Filters the array with the callback
 
@@ -271,9 +271,9 @@ ___
 
 ##  find
 
-▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*):  `S` &#124; `undefined`
+▸ **find**<`S`>(predicate: *`function`*, thisArg?: *`any`*): `S` | `undefined`
 
-▸ **find**(predicate: *`function`*, thisArg?: *`any`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+▸ **find**(predicate: *`function`*, thisArg?: *`any`*): [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 *Inherited from Array.find*
 
@@ -291,7 +291,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |  find calls predicate once for each element of the array, in ascending order, until it finds one where predicate returns true. If such an element is found, find immediately returns that element value. Otherwise, find returns undefined. |
 | `Optional` thisArg | `any` |  If provided, it will be used as the this value for each invocation of predicate. If it is not provided, undefined is used instead. |
 
-**Returns:**  `S` &#124; `undefined`
+**Returns:** `S` | `undefined`
 
 *Inherited from Array.find*
 
@@ -304,7 +304,7 @@ Returns the value of the first element in the array where predicate is true, and
 | predicate | `function` |
 | `Optional` thisArg | `any` |
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 ___
 <a id="findindex"></a>
@@ -345,11 +345,11 @@ ___
 
 ▸ **flat**<`U`>(this: *`U`[][][]*, depth: *`2`*): `U`[]
 
-▸ **flat**<`U`>(this: *`U`[][]*, depth?: * `undefined` &#124; `1`*): `U`[]
+▸ **flat**<`U`>(this: *`U`[][]*, depth?: *`undefined` | `1`*): `U`[]
 
 ▸ **flat**<`U`>(this: *`U`[]*, depth: *`0`*): `U`[]
 
-▸ **flat**<`U`>(depth?: * `undefined` &#124; `number`*): `any`[]
+▸ **flat**<`U`>(depth?: *`undefined` | `number`*): `any`[]
 
 *Inherited from Array.flat*
 
@@ -473,7 +473,7 @@ Returns a new array with all sub-array elements concatenated into it recursively
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | this | `U`[][] |
-| `Optional` depth |  `undefined` &#124; `1`|  The maximum recursion depth |
+| `Optional` depth | `undefined` | `1` |  The maximum recursion depth |
 
 **Returns:** `U`[]
 
@@ -508,7 +508,7 @@ Returns a new array with all sub-array elements concatenated into it recursively
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` depth |  `undefined` &#124; `number`|  The maximum recursion depth |
+| `Optional` depth | `undefined` | `number` |  The maximum recursion depth |
 
 **Returns:** `any`[]
 
@@ -565,7 +565,7 @@ ___
 
 ##  includes
 
-▸ **includes**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `boolean`
+▸ **includes**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: *`undefined` | `number`*): `boolean`
 
 *Inherited from Array.includes*
 
@@ -578,7 +578,7 @@ Determines whether an array includes a certain element, returning true or false 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | [Codec](../interfaces/_types_.codec.md) |  The element to search for. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The position in this array at which to begin searching for searchElement. |
+| `Optional` fromIndex | `undefined` | `number` |  The position in this array at which to begin searching for searchElement. |
 
 **Returns:** `boolean`
 
@@ -587,7 +587,7 @@ ___
 
 ##  indexOf
 
-▸ **indexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `number`
+▸ **indexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: *`undefined` | `number`*): `number`
 
 *Inherited from Array.indexOf*
 
@@ -600,7 +600,7 @@ Returns the index of the first occurrence of a value in an array.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | [Codec](../interfaces/_types_.codec.md) |  The value to locate in the array. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
+| `Optional` fromIndex | `undefined` | `number` |  The array index at which to begin the search. If fromIndex is omitted, the search starts at index 0. |
 
 **Returns:** `number`
 
@@ -609,7 +609,7 @@ ___
 
 ##  join
 
-▸ **join**(separator?: * `undefined` &#124; `string`*): `string`
+▸ **join**(separator?: *`undefined` | `string`*): `string`
 
 *Inherited from Array.join*
 
@@ -621,7 +621,7 @@ Adds all the elements of an array separated by the specified separator string.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` separator |  `undefined` &#124; `string`|  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
+| `Optional` separator | `undefined` | `string` |  A string used to separate one element of an array from the next in the resulting String. If omitted, the array elements are separated with a comma. |
 
 **Returns:** `string`
 
@@ -645,7 +645,7 @@ ___
 
 ##  lastIndexOf
 
-▸ **lastIndexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: * `undefined` &#124; `number`*): `number`
+▸ **lastIndexOf**(searchElement: *[Codec](../interfaces/_types_.codec.md)*, fromIndex?: *`undefined` | `number`*): `number`
 
 *Inherited from Array.lastIndexOf*
 
@@ -658,7 +658,7 @@ Returns the index of the last occurrence of a specified value in an array.
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | searchElement | [Codec](../interfaces/_types_.codec.md) |  The value to locate in the array. |
-| `Optional` fromIndex |  `undefined` &#124; `number`|  The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array. |
+| `Optional` fromIndex | `undefined` | `number` |  The array index at which to begin the search. If fromIndex is omitted, the search starts at the last index in the array. |
 
 **Returns:** `number`
 
@@ -673,7 +673,7 @@ ___
 
 *Overrides Array.map*
 
-*Defined in [codec/Tuple.ts:130](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L130)*
+*Defined in [codec/Tuple.ts:130](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L130)*
 
 *__description__*: Maps the array with the callback
 
@@ -694,7 +694,7 @@ ___
 
 ##  pop
 
-▸ **pop**():  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+▸ **pop**(): [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 *Inherited from Array.pop*
 
@@ -702,7 +702,7 @@ ___
 
 Removes the last element from an array and returns it.
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 ___
 <a id="push"></a>
@@ -857,7 +857,7 @@ ___
 
 ##  shift
 
-▸ **shift**():  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+▸ **shift**(): [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 *Inherited from Array.shift*
 
@@ -865,14 +865,14 @@ ___
 
 Removes the first element from an array and returns it.
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 ___
 <a id="slice"></a>
 
 ##  slice
 
-▸ **slice**(start?: * `undefined` &#124; `number`*, end?: * `undefined` &#124; `number`*): [Codec](../interfaces/_types_.codec.md)[]
+▸ **slice**(start?: *`undefined` | `number`*, end?: *`undefined` | `number`*): [Codec](../interfaces/_types_.codec.md)[]
 
 *Inherited from Array.slice*
 
@@ -884,8 +884,8 @@ Returns a section of an array.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` start |  `undefined` &#124; `number`|  The beginning of the specified portion of the array. |
-| `Optional` end |  `undefined` &#124; `number`|  The end of the specified portion of the array. |
+| `Optional` start | `undefined` | `number` |  The beginning of the specified portion of the array. |
+| `Optional` end | `undefined` | `number` |  The end of the specified portion of the array. |
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)[]
 
@@ -916,7 +916,7 @@ ___
 
 ##  sort
 
-▸ **sort**(compareFn?: * `undefined` &#124; `function`*): `this`
+▸ **sort**(compareFn?: *`undefined` | `function`*): `this`
 
 *Inherited from Array.sort*
 
@@ -928,7 +928,7 @@ Sorts an array.
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` compareFn |  `undefined` &#124; `function`|  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
+| `Optional` compareFn | `undefined` | `function` |  The name of the function used to determine the order of the elements. If omitted, the elements are sorted in ascending, ASCII character order. |
 
 **Returns:** `this`
 
@@ -937,7 +937,7 @@ ___
 
 ##  splice
 
-▸ **splice**(start: *`number`*, deleteCount?: * `undefined` &#124; `number`*): [Codec](../interfaces/_types_.codec.md)[]
+▸ **splice**(start: *`number`*, deleteCount?: *`undefined` | `number`*): [Codec](../interfaces/_types_.codec.md)[]
 
 ▸ **splice**(start: *`number`*, deleteCount: *`number`*, ...items: *[Codec](../interfaces/_types_.codec.md)[]*): [Codec](../interfaces/_types_.codec.md)[]
 
@@ -952,7 +952,7 @@ Removes elements from an array and, if necessary, inserts new elements in their 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | start | `number` |  The zero-based location in the array from which to start removing elements. |
-| `Optional` deleteCount |  `undefined` &#124; `number`|  The number of elements to remove. |
+| `Optional` deleteCount | `undefined` | `number` |  The number of elements to remove. |
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)[]
 
@@ -981,7 +981,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toArray](_codec_tuple_.tuple.md#toarray)*
 
-*Defined in [codec/Tuple.ts:72](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L72)*
+*Defined in [codec/Tuple.ts:72](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L72)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -998,7 +998,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toHex](_codec_tuple_.tuple.md#tohex)*
 
-*Defined in [codec/Tuple.ts:79](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L79)*
+*Defined in [codec/Tuple.ts:79](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L79)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -1015,7 +1015,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toJSON](_codec_tuple_.tuple.md#tojson)*
 
-*Defined in [codec/Tuple.ts:86](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L86)*
+*Defined in [codec/Tuple.ts:86](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L86)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -1049,7 +1049,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Tuple.ts:95](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L95)*
+*Defined in [codec/Tuple.ts:95](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L95)*
 
 *__description__*: Returns the string representation of the value
 
@@ -1060,11 +1060,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toU8a](_codec_tuple_.tuple.md#tou8a)*
 
-*Defined in [codec/Tuple.ts:104](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L104)*
+*Defined in [codec/Tuple.ts:104](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L104)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1072,7 +1072,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
@@ -1121,7 +1121,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[with](_codec_tuple_.tuple.md#with)*
 
-*Defined in [codec/Tuple.ts:43](https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/codec/Tuple.ts#L43)*
+*Defined in [codec/Tuple.ts:43](https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/codec/Tuple.ts#L43)*
 
 **Type parameters:**
 

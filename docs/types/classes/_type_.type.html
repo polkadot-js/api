@@ -1974,9 +1974,9 @@
 <h1 id="constructors">Constructors</h1>
 <p><a id="constructor"></a></p>
 <h2 id="constructor">constructor</h2>
-<p>&#x2295; <strong>new Type</strong>(value?: <em> <a href="_text_.text.html">Text</a> | <code>Uint8Array</code> | <code>string</code></em>): <a href="_type_.type.html">Type</a></p>
+<p>&#x2295; <strong>new Type</strong>(value?: <em><a href="_text_.text.html">Text</a> | <code>Uint8Array</code> | <code>string</code></em>): <a href="_type_.type.html">Type</a></p>
 <p><em>Overrides <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#constructor">constructor</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L19" target="_blank">Type.ts:19</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L19" target="_blank">Type.ts:19</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -1989,7 +1989,9 @@
 <tbody>
 <tr>
 <td><code>Default value</code> value</td>
-<td><a href="_text_.text.html">Text</a> | <code>Uint8Array</code> | <code>string</code></td>
+<td><a href="_text_.text.html">Text</a></td>
+<td><code>Uint8Array</code></td>
+<td><code>string</code></td>
 <td>&quot;&quot;</td>
 </tr>
 </tbody>
@@ -2001,7 +2003,7 @@
 <h2 id="encodedlength">encodedLength</h2>
 <p>getencodedLength(): <code>number</code></p>
 <p><em>Overrides <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#encodedlength">encodedLength</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L70" target="_blank">Type.ts:70</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L70" target="_blank">Type.ts:70</a></em></p>
 <p><em><strong>description</strong></em>: The length of the value when encoded as a Uint8Array</p>
 <p><strong>Returns:</strong> <code>number</code></p>
 <hr>
@@ -2010,7 +2012,7 @@
 <p>getlength(): <code>number</code></p>
 <p><em>Inherited from <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#length">length</a></em></p>
 <p><em>Overrides String.length</em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L54" target="_blank">Text.ts:54</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L54" target="_blank">Text.ts:54</a></em></p>
 <p><em><strong>description</strong></em>: The length of the value</p>
 <p><strong>Returns:</strong> <code>number</code></p>
 <hr>
@@ -2123,7 +2125,7 @@
 <hr>
 <p><a id="codepointat"></a></p>
 <h2 id="codepointat">codePointAt</h2>
-<p>&#x25B8; <strong>codePointAt</strong>(pos: <em><code>number</code></em>):  <code>number</code> | <code>undefined</code></p>
+<p>&#x25B8; <strong>codePointAt</strong>(pos: <em><code>number</code></em>): <code>number</code> | <code>undefined</code></p>
 <p><em>Inherited from String.codePointAt</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:402</em></p>
 <p>Returns a nonnegative integer Number less than 1114112 (0x110000) that is the code point value of the UTF-16 encoded code point starting at the string element at position pos in the String resulting from converting this object to a String. If there is no element at that position, the result is undefined. If a valid UTF-16 surrogate pair does not begin at pos, the result is the code unit at pos.</p>
@@ -2142,7 +2144,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong>  <code>number</code> | <code>undefined</code></p>
+<p><strong>Returns:</strong> <code>number</code> | <code>undefined</code></p>
 <hr>
 <p><a id="concat"></a></p>
 <h2 id="concat">concat</h2>
@@ -2171,7 +2173,7 @@
 <hr>
 <p><a id="endswith"></a></p>
 <h2 id="endswith">endsWith</h2>
-<p>&#x25B8; <strong>endsWith</strong>(searchString: <em><code>string</code></em>, endPosition?: <em> <code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
+<p>&#x25B8; <strong>endsWith</strong>(searchString: <em><code>string</code></em>, endPosition?: <em><code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
 <p><em>Inherited from String.endsWith</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:418</em></p>
 <p>Returns true if the sequence of elements of searchString converted to a String is the same as the corresponding elements of this object (converted to a String) starting at endPosition &#x2013; length(this). Otherwise returns false.</p>
@@ -2190,7 +2192,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> endPosition</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 </tr>
 </tbody>
 </table>
@@ -2272,7 +2275,7 @@
 <hr>
 <p><a id="includes"></a></p>
 <h2 id="includes">includes</h2>
-<p>&#x25B8; <strong>includes</strong>(searchString: <em><code>string</code></em>, position?: <em> <code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
+<p>&#x25B8; <strong>includes</strong>(searchString: <em><code>string</code></em>, position?: <em><code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
 <p><em>Inherited from String.includes</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:411</em></p>
 <p>Returns true if searchString appears as a substring of the result of converting this object to a String, at one or more positions that are greater than or equal to position; otherwise, returns false.</p>
@@ -2293,7 +2296,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> position</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>If position is undefined, 0 is assumed, so as to search all of the String.</td>
 </tr>
 </tbody>
@@ -2302,7 +2306,7 @@
 <hr>
 <p><a id="indexof"></a></p>
 <h2 id="indexof">indexOf</h2>
-<p>&#x25B8; <strong>indexOf</strong>(searchString: <em><code>string</code></em>, position?: <em> <code>undefined</code> | <code>number</code></em>): <code>number</code></p>
+<p>&#x25B8; <strong>indexOf</strong>(searchString: <em><code>string</code></em>, position?: <em><code>undefined</code> | <code>number</code></em>): <code>number</code></p>
 <p><em>Inherited from String.indexOf</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:411</em></p>
 <p>Returns the position of the first occurrence of a substring.</p>
@@ -2323,7 +2327,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> position</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>The index at which to begin searching the String object. If omitted, search starts at the beginning of the string.</td>
 </tr>
 </tbody>
@@ -2340,7 +2345,7 @@
 <hr>
 <p><a id="lastindexof"></a></p>
 <h2 id="lastindexof">lastIndexOf</h2>
-<p>&#x25B8; <strong>lastIndexOf</strong>(searchString: <em><code>string</code></em>, position?: <em> <code>undefined</code> | <code>number</code></em>): <code>number</code></p>
+<p>&#x25B8; <strong>lastIndexOf</strong>(searchString: <em><code>string</code></em>, position?: <em><code>undefined</code> | <code>number</code></em>): <code>number</code></p>
 <p><em>Inherited from String.lastIndexOf</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:418</em></p>
 <p>Returns the last occurrence of a substring in the string.</p>
@@ -2361,7 +2366,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> position</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>The index at which to begin searching. If omitted, the search begins at the end of the string.</td>
 </tr>
 </tbody>
@@ -2418,7 +2424,7 @@
 <hr>
 <p><a id="match"></a></p>
 <h2 id="match">match</h2>
-<p>&#x25B8; <strong>match</strong>(regexp: <em> <code>string</code> | <code>RegExp</code></em>):  <code>RegExpMatchArray</code> | <code>null</code></p>
+<p>&#x25B8; <strong>match</strong>(regexp: <em><code>string</code> | <code>RegExp</code></em>): <code>RegExpMatchArray</code> | <code>null</code></p>
 <p><em>Inherited from String.match</em></p>
 <p><em>Overrides String.match</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:430</em></p>
@@ -2435,17 +2441,18 @@
 <tbody>
 <tr>
 <td>regexp</td>
-<td><code>string</code> | <code>RegExp</code></td>
+<td><code>string</code></td>
+<td><code>RegExp</code></td>
 <td>A variable name or string literal containing the regular expression pattern and flags.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns:</strong>  <code>RegExpMatchArray</code> | <code>null</code></p>
+<p><strong>Returns:</strong> <code>RegExpMatchArray</code> | <code>null</code></p>
 <hr>
 <p><a id="normalize"></a></p>
 <h2 id="normalize">normalize</h2>
-<p>&#x25B8; <strong>normalize</strong>(form: <em> &quot;NFC&quot; | &quot;NFD&quot; | &quot;NFKC&quot; | &quot;NFKD&quot;</em>): <code>string</code></p>
-<p>&#x25B8; <strong>normalize</strong>(form?: <em> <code>undefined</code> | <code>string</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>normalize</strong>(form: <em>&quot;NFC&quot; | &quot;NFD&quot; | &quot;NFKC&quot; | &quot;NFKD&quot;</em>): <code>string</code></p>
+<p>&#x25B8; <strong>normalize</strong>(form?: <em><code>undefined</code> | <code>string</code></em>): <code>string</code></p>
 <p><em>Inherited from String.normalize</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:426</em></p>
 <p>Returns the String value result of normalizing the string into the normalization form named by form as specified in Unicode Standard Annex #15, Unicode Normalization Forms.</p>
@@ -2461,7 +2468,10 @@
 <tbody>
 <tr>
 <td>form</td>
-<td>&quot;NFC&quot; | &quot;NFD&quot; | &quot;NFKC&quot; | &quot;NFKD&quot;</td>
+<td>&quot;NFC&quot;</td>
+<td>&quot;NFD&quot;</td>
+<td>&quot;NFKC&quot;</td>
+<td>&quot;NFKD&quot;</td>
 <td>Applicable values: &quot;NFC&quot;, &quot;NFD&quot;, &quot;NFKC&quot;, or &quot;NFKD&quot;, If not specified default is &quot;NFC&quot;</td>
 </tr>
 </tbody>
@@ -2482,7 +2492,8 @@
 <tbody>
 <tr>
 <td><code>Optional</code> form</td>
-<td><code>undefined</code> | <code>string</code></td>
+<td><code>undefined</code></td>
+<td><code>string</code></td>
 <td>Applicable values: &quot;NFC&quot;, &quot;NFD&quot;, &quot;NFKC&quot;, or &quot;NFKD&quot;, If not specified default is &quot;NFC&quot;</td>
 </tr>
 </tbody>
@@ -2491,7 +2502,7 @@
 <hr>
 <p><a id="padend"></a></p>
 <h2 id="padend">padEnd</h2>
-<p>&#x25B8; <strong>padEnd</strong>(maxLength: <em><code>number</code></em>, fillString?: <em> <code>undefined</code> | <code>string</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>padEnd</strong>(maxLength: <em><code>number</code></em>, fillString?: <em><code>undefined</code> | <code>string</code></em>): <code>string</code></p>
 <p><em>Inherited from String.padEnd</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2017.string.d.ts:46</em></p>
 <p>Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length. The padding is applied from the end (right) of the current string.</p>
@@ -2512,7 +2523,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> fillString</td>
-<td><code>undefined</code> | <code>string</code></td>
+<td><code>undefined</code></td>
+<td><code>string</code></td>
 <td>The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is &quot; &quot; (U+0020).</td>
 </tr>
 </tbody>
@@ -2521,7 +2533,7 @@
 <hr>
 <p><a id="padstart"></a></p>
 <h2 id="padstart">padStart</h2>
-<p>&#x25B8; <strong>padStart</strong>(maxLength: <em><code>number</code></em>, fillString?: <em> <code>undefined</code> | <code>string</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>padStart</strong>(maxLength: <em><code>number</code></em>, fillString?: <em><code>undefined</code> | <code>string</code></em>): <code>string</code></p>
 <p><em>Inherited from String.padStart</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2017.string.d.ts:33</em></p>
 <p>Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length. The padding is applied from the start (left) of the current string.</p>
@@ -2542,7 +2554,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> fillString</td>
-<td><code>undefined</code> | <code>string</code></td>
+<td><code>undefined</code></td>
+<td><code>string</code></td>
 <td>The string to pad the current string with. If this string is too long, it will be truncated and the left-most part will be applied. The default value for this parameter is &quot; &quot; (U+0020).</td>
 </tr>
 </tbody>
@@ -2576,8 +2589,8 @@
 <hr>
 <p><a id="replace"></a></p>
 <h2 id="replace">replace</h2>
-<p>&#x25B8; <strong>replace</strong>(searchValue: <em> <code>string</code> | <code>RegExp</code></em>, replaceValue: <em><code>string</code></em>): <code>string</code></p>
-<p>&#x25B8; <strong>replace</strong>(searchValue: <em> <code>string</code> | <code>RegExp</code></em>, replacer: <em><code>function</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>replace</strong>(searchValue: <em><code>string</code> | <code>RegExp</code></em>, replaceValue: <em><code>string</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>replace</strong>(searchValue: <em><code>string</code> | <code>RegExp</code></em>, replacer: <em><code>function</code></em>): <code>string</code></p>
 <p><em>Inherited from String.replace</em></p>
 <p><em>Overrides String.replace</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:437</em></p>
@@ -2594,7 +2607,8 @@
 <tbody>
 <tr>
 <td>searchValue</td>
-<td><code>string</code> | <code>RegExp</code></td>
+<td><code>string</code></td>
+<td><code>RegExp</code></td>
 <td>A string to search for.</td>
 </tr>
 <tr>
@@ -2621,7 +2635,8 @@
 <tbody>
 <tr>
 <td>searchValue</td>
-<td><code>string</code> | <code>RegExp</code></td>
+<td><code>string</code></td>
+<td><code>RegExp</code></td>
 <td>A string to search for.</td>
 </tr>
 <tr>
@@ -2635,7 +2650,7 @@
 <hr>
 <p><a id="search"></a></p>
 <h2 id="search">search</h2>
-<p>&#x25B8; <strong>search</strong>(regexp: <em> <code>string</code> | <code>RegExp</code></em>): <code>number</code></p>
+<p>&#x25B8; <strong>search</strong>(regexp: <em><code>string</code> | <code>RegExp</code></em>): <code>number</code></p>
 <p><em>Inherited from String.search</em></p>
 <p><em>Overrides String.search</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:450</em></p>
@@ -2652,7 +2667,8 @@
 <tbody>
 <tr>
 <td>regexp</td>
-<td><code>string</code> | <code>RegExp</code></td>
+<td><code>string</code></td>
+<td><code>RegExp</code></td>
 <td>The regular expression pattern and applicable flags.</td>
 </tr>
 </tbody>
@@ -2661,7 +2677,7 @@
 <hr>
 <p><a id="slice"></a></p>
 <h2 id="slice">slice</h2>
-<p>&#x25B8; <strong>slice</strong>(start?: <em> <code>undefined</code> | <code>number</code></em>, end?: <em> <code>undefined</code> | <code>number</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>slice</strong>(start?: <em><code>undefined</code> | <code>number</code></em>, end?: <em><code>undefined</code> | <code>number</code></em>): <code>string</code></p>
 <p><em>Inherited from String.slice</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:458</em></p>
 <p>Returns a section of a string.</p>
@@ -2677,12 +2693,14 @@
 <tbody>
 <tr>
 <td><code>Optional</code> start</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>The index to the beginning of the specified portion of stringObj.</td>
 </tr>
 <tr>
 <td><code>Optional</code> end</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>The index to the end of the specified portion of stringObj. The substring includes the characters up to, but not including, the character indicated by end. If this value is not specified, the substring continues to the end of stringObj.</td>
 </tr>
 </tbody>
@@ -2699,7 +2717,7 @@
 <hr>
 <p><a id="split"></a></p>
 <h2 id="split">split</h2>
-<p>&#x25B8; <strong>split</strong>(separator: <em> <code>string</code> | <code>RegExp</code></em>, limit?: <em> <code>undefined</code> | <code>number</code></em>): <code>string</code>[]</p>
+<p>&#x25B8; <strong>split</strong>(separator: <em><code>string</code> | <code>RegExp</code></em>, limit?: <em><code>undefined</code> | <code>number</code></em>): <code>string</code>[]</p>
 <p><em>Inherited from String.split</em></p>
 <p><em>Overrides String.split</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:465</em></p>
@@ -2716,12 +2734,14 @@
 <tbody>
 <tr>
 <td>separator</td>
-<td><code>string</code> | <code>RegExp</code></td>
+<td><code>string</code></td>
+<td><code>RegExp</code></td>
 <td>A string that identifies character or characters to use in separating the string. If omitted, a single-element array containing the entire string is returned.</td>
 </tr>
 <tr>
 <td><code>Optional</code> limit</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>A value used to limit the number of elements returned in the array.</td>
 </tr>
 </tbody>
@@ -2730,7 +2750,7 @@
 <hr>
 <p><a id="startswith"></a></p>
 <h2 id="startswith">startsWith</h2>
-<p>&#x25B8; <strong>startsWith</strong>(searchString: <em><code>string</code></em>, position?: <em> <code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
+<p>&#x25B8; <strong>startsWith</strong>(searchString: <em><code>string</code></em>, position?: <em><code>undefined</code> | <code>number</code></em>): <code>boolean</code></p>
 <p><em>Inherited from String.startsWith</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.core.d.ts:448</em></p>
 <p>Returns true if the sequence of elements of searchString converted to a String is the same as the corresponding elements of this object (converted to a String) starting at position. Otherwise returns false.</p>
@@ -2749,7 +2769,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> position</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 </tr>
 </tbody>
 </table>
@@ -2773,7 +2794,7 @@
 <hr>
 <p><a id="substr"></a></p>
 <h2 id="substr">substr</h2>
-<p>&#x25B8; <strong>substr</strong>(from: <em><code>number</code></em>, length?: <em> <code>undefined</code> | <code>number</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>substr</strong>(from: <em><code>number</code></em>, length?: <em><code>undefined</code> | <code>number</code></em>): <code>string</code></p>
 <p><em>Inherited from String.substr</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:499</em></p>
 <p>Gets a substring beginning at the specified location and having the specified length.</p>
@@ -2794,7 +2815,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> length</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>The number of characters to include in the returned substring.</td>
 </tr>
 </tbody>
@@ -2803,7 +2825,7 @@
 <hr>
 <p><a id="substring"></a></p>
 <h2 id="substring">substring</h2>
-<p>&#x25B8; <strong>substring</strong>(start: <em><code>number</code></em>, end?: <em> <code>undefined</code> | <code>number</code></em>): <code>string</code></p>
+<p>&#x25B8; <strong>substring</strong>(start: <em><code>number</code></em>, end?: <em><code>undefined</code> | <code>number</code></em>): <code>string</code></p>
 <p><em>Inherited from String.substring</em></p>
 <p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:473</em></p>
 <p>Returns the substring at the specified location within a String object.</p>
@@ -2824,7 +2846,8 @@
 </tr>
 <tr>
 <td><code>Optional</code> end</td>
-<td><code>undefined</code> | <code>number</code></td>
+<td><code>undefined</code></td>
+<td><code>number</code></td>
 <td>Zero-based index number indicating the end of the substring. The substring includes the characters up to, but not including, the character indicated by end. If end is omitted, the characters from start through the end of the original string are returned.</td>
 </tr>
 </tbody>
@@ -2844,7 +2867,7 @@
 <p>&#x25B8; <strong>toHex</strong>(): <code>string</code></p>
 <p><em>Implementation of <a href="../interfaces/_types_.codec.md">Codec</a>.<a href="../interfaces/_types_.codec.md#tohex">toHex</a></em></p>
 <p><em>Inherited from <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#tohex">toHex</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L62" target="_blank">Text.ts:62</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L62" target="_blank">Text.ts:62</a></em></p>
 <p><em><strong>description</strong></em>: Returns a hex string representation of the value</p>
 <p><strong>Returns:</strong> <code>string</code></p>
 <hr>
@@ -2853,7 +2876,7 @@
 <p>&#x25B8; <strong>toJSON</strong>(): <code>any</code></p>
 <p><em>Implementation of <a href="../interfaces/_types_.codec.md">Codec</a>.<a href="../interfaces/_types_.codec.md#tojson">toJSON</a></em></p>
 <p><em>Inherited from <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#tojson">toJSON</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L69" target="_blank">Text.ts:69</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L69" target="_blank">Text.ts:69</a></em></p>
 <p><em><strong>description</strong></em>: Converts the Object to JSON, typically used for RPC transfers</p>
 <p><strong>Returns:</strong> <code>any</code></p>
 <hr>
@@ -2887,15 +2910,15 @@
 <p><em>Implementation of <a href="../interfaces/_types_.codec.md">Codec</a>.<a href="../interfaces/_types_.codec.md#tostring">toString</a></em></p>
 <p><em>Inherited from <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#tostring">toString</a></em></p>
 <p><em>Overrides String.toString</em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Text.ts#L76" target="_blank">Text.ts:76</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Text.ts#L76" target="_blank">Text.ts:76</a></em></p>
 <p><em><strong>description</strong></em>: Returns the string representation of the value</p>
 <p><strong>Returns:</strong> <code>string</code></p>
 <hr>
 <p><a id="tou8a"></a></p>
 <h2 id="tou8a">toU8a</h2>
-<p>&#x25B8; <strong>toU8a</strong>(isBare?: <em> <code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>Uint8Array</code></p>
+<p>&#x25B8; <strong>toU8a</strong>(isBare?: <em><code>undefined</code> | <code>false</code> | <code>true</code></em>): <code>Uint8Array</code></p>
 <p><em>Overrides <a href="_text_.text.html">Text</a>.<a href="_text_.text.html#tou8a">toU8a</a></em></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/18dfda5/packages/types/src/Type.ts#L81" target="_blank">Type.ts:81</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/6678d72/packages/types/src/Type.ts#L81" target="_blank">Type.ts:81</a></em></p>
 <p><em><strong>description</strong></em>: Encodes the value as a Uint8Array as per the parity-codec specifications</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2909,7 +2932,9 @@
 <tbody>
 <tr>
 <td><code>Optional</code> isBare</td>
-<td><code>undefined</code> | <code>false</code> | <code>true</code></td>
+<td><code>undefined</code></td>
+<td><code>false</code></td>
+<td><code>true</code></td>
 <td>true when the value has none of the type-specific prefixes (internal)</td>
 </tr>
 </tbody>
@@ -2936,7 +2961,7 @@
 <h2 id="trimleft">trimLeft</h2>
 <p>&#x25B8; <strong>trimLeft</strong>(): <code>string</code></p>
 <p><em>Inherited from String.trimLeft</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:193</em></p>
+<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:216</em></p>
 <p>Removes whitespace from the left end of a string.</p>
 <p><strong>Returns:</strong> <code>string</code></p>
 <hr>
@@ -2944,7 +2969,7 @@
 <h2 id="trimright">trimRight</h2>
 <p>&#x25B8; <strong>trimRight</strong>(): <code>string</code></p>
 <p><em>Inherited from String.trimRight</em></p>
-<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:195</em></p>
+<p><em>Defined in /home/travis/build/polkadot-js/api/node_modules/@types/node/index.d.ts:218</em></p>
 <p>Removes whitespace from the right end of a string.</p>
 <p><strong>Returns:</strong> <code>string</code></p>
 <hr>
@@ -2999,7 +3024,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"hidden","level":"4.109","depth":1,"next":{"title":"hidden","level":"4.110","depth":1,"path":"types/classes/_u128_.u128.md","ref":"types/classes/_u128_.u128.md","articles":[]},"previous":{"title":"hidden","level":"4.108","depth":1,"path":"types/classes/_text_.text.md","ref":"types/classes/_text_.text.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"types/classes/_type_.type.md","mtime":"2019-01-03T17:59:40.583Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-03T18:00:16.133Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"hidden","level":"4.109","depth":1,"next":{"title":"hidden","level":"4.110","depth":1,"path":"types/classes/_u128_.u128.md","ref":"types/classes/_u128_.u128.md","articles":[]},"previous":{"title":"hidden","level":"4.108","depth":1,"path":"types/classes/_text_.text.md","ref":"types/classes/_text_.text.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"types/classes/_type_.type.md","mtime":"2019-01-04T15:25:21.981Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-04T15:25:57.920Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
