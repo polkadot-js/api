@@ -10,6 +10,7 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
+    "typedoc-plugin-no-inherit": "1.0.2",
     "typescript": "^3.2.2"
   },
   "scripts": {
@@ -24,7 +25,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@polkadot/dev": "^0.23.4",
-    "@polkadot/ts": "^0.1.44"
+    "@polkadot/dev": "^0.23.6",
+    "@polkadot/ts": "^0.1.46"
   }
 }
