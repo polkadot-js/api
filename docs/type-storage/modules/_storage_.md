@@ -8,7 +8,7 @@
 
 **storage**: *`object`*
 
-*Defined in [storage.ts:8](https://github.com/polkadot-js/api/blob/4ade1e7/packages/type-storage/src/storage.ts#L8)*
+*Defined in [storage.ts:8](https://github.com/polkadot-js/api/blob/d1a4415/packages/type-storage/src/storage.ts#L8)*
 
 <a id="storage.substrate"></a>
 
@@ -16,7 +16,7 @@
 
 **● substrate**: *[&quot;substrate&quot;](_substrate_.md)*
 
-*Defined in [storage.ts:9](https://github.com/polkadot-js/api/blob/4ade1e7/packages/type-storage/src/storage.ts#L9)*
+*Defined in [storage.ts:9](https://github.com/polkadot-js/api/blob/d1a4415/packages/type-storage/src/storage.ts#L9)*
 
 ___
 

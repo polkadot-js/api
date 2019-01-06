@@ -1961,7 +1961,7 @@
                                 <section class="normal markdown-section">
                                 
                                 <h2 id="json-rpc"><a id="top" style="text-decoration: none;">JSON-RPC</a></h2>
-<p><em>The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime.</em></p>
+<p><em>The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself.</em></p>
 <ul>
 <li><p><strong><a href="#author">author</a></strong></p>
 </li>
@@ -1976,15 +1976,15 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="author"><a id="author"></a>author</h3>
 <p><em>Authoring of network items</em></p>
-<p>&#x25B8; <strong>pendingExtrinsics</strong>(: <code>PendingExtrinsics</code>)</p>
+<p>&#x25B8; <strong>pendingExtrinsics</strong>(): <code>PendingExtrinsics</code></p>
 <ul>
 <li><strong>summary</strong>: Returns all pending extrinsics, potentially grouped by sender</li>
 </ul>
-<p>&#x25B8; <strong>submitAndWatchExtrinsic</strong>(extrinsic: <code>Extrinsic</code>: <code>ExtrinsicStatus</code>, CALLBACK)</p>
+<p>&#x25B8; <strong>submitAndWatchExtrinsic</strong>(extrinsic: <code>Extrinsic</code>): <code>ExtrinsicStatus</code></p>
 <ul>
 <li><strong>summary</strong>: Subscribe and watch an extrinsic until unsubscribed</li>
 </ul>
-<p>&#x25B8; <strong>submitExtrinsic</strong>(extrinsic: <code>Extrinsic</code>: <code>Hash</code>)</p>
+<p>&#x25B8; <strong>submitExtrinsic</strong>(extrinsic: <code>Extrinsic</code>): <code>Hash</code></p>
 <ul>
 <li><strong>summary</strong>: Submit a fully formatted extrinsic for block inclusion</li>
 </ul>
@@ -1992,35 +1992,35 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="chain"><a id="chain"></a>chain</h3>
 <p><em>Retrieval of chain data</em></p>
-<p>&#x25B8; <strong>getBlock</strong>(hash?: <code>Hash</code>: <code>SignedBlock</code>)</p>
+<p>&#x25B8; <strong>getBlock</strong>(hash?: <code>Hash</code>): <code>SignedBlock</code></p>
 <ul>
 <li><strong>summary</strong>: Get header and body of a relay chain block</li>
 </ul>
-<p>&#x25B8; <strong>getBlockHash</strong>(blockNumber?: <code>BlockNumber</code>: <code>Hash</code>)</p>
+<p>&#x25B8; <strong>getBlockHash</strong>(blockNumber?: <code>BlockNumber</code>): <code>Hash</code></p>
 <ul>
 <li><strong>summary</strong>: Get the block hash for a specific block</li>
 </ul>
-<p>&#x25B8; <strong>getFinalisedHead</strong>(: <code>Hash</code>)</p>
+<p>&#x25B8; <strong>getFinalisedHead</strong>(): <code>Hash</code></p>
 <ul>
 <li><strong>summary</strong>: Get hash of the last finalised block in the canon chain</li>
 </ul>
-<p>&#x25B8; <strong>getHeader</strong>(hash?: <code>Hash</code>: <code>Header</code>)</p>
+<p>&#x25B8; <strong>getHeader</strong>(hash?: <code>Hash</code>): <code>Header</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the header for a specific block</li>
 </ul>
-<p>&#x25B8; <strong>getRuntimeVersion</strong>(hash?: <code>Hash</code>: <code>RuntimeVersion</code>)</p>
+<p>&#x25B8; <strong>getRuntimeVersion</strong>(hash?: <code>Hash</code>): <code>RuntimeVersion</code></p>
 <ul>
 <li><strong>summary</strong>: Get the runtime version</li>
 </ul>
-<p>&#x25B8; <strong>subscribeFinalisedHeads</strong>(: <code>Header</code>, CALLBACK)</p>
+<p>&#x25B8; <strong>subscribeFinalisedHeads</strong>(): <code>Header</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the best finalised header via subscription</li>
 </ul>
-<p>&#x25B8; <strong>subscribeNewHead</strong>(: <code>Header</code>, CALLBACK)</p>
+<p>&#x25B8; <strong>subscribeNewHead</strong>(): <code>Header</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the best header via subscription</li>
 </ul>
-<p>&#x25B8; <strong>subscribeRuntimeVersion</strong>(: <code>RuntimeVersion</code>, CALLBACK)</p>
+<p>&#x25B8; <strong>subscribeRuntimeVersion</strong>(): <code>RuntimeVersion</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the runtime version via subscription</li>
 </ul>
@@ -2028,31 +2028,31 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="state"><a id="state"></a>state</h3>
 <p><em>Query of state</em></p>
-<p>&#x25B8; <strong>call</strong>(method: <code>Text</code>, data: <code>Bytes</code>, block?: <code>Hash</code>: <code>Bytes</code>)</p>
+<p>&#x25B8; <strong>call</strong>(method: <code>Text</code>, data: <code>Bytes</code>, block?: <code>Hash</code>): <code>Bytes</code></p>
 <ul>
 <li><strong>summary</strong>: Perform a call to a builtin on the chain</li>
 </ul>
-<p>&#x25B8; <strong>getMetadata</strong>(block?: <code>Hash</code>: <code>Metadata</code>)</p>
+<p>&#x25B8; <strong>getMetadata</strong>(block?: <code>Hash</code>): <code>Metadata</code></p>
 <ul>
 <li><strong>summary</strong>: Returns the runtime metadata</li>
 </ul>
-<p>&#x25B8; <strong>getStorage</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>: <code>StorageData</code>)</p>
+<p>&#x25B8; <strong>getStorage</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>): <code>StorageData</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the storage for a key</li>
 </ul>
-<p>&#x25B8; <strong>getStorageHash</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>: <code>Hash</code>)</p>
+<p>&#x25B8; <strong>getStorageHash</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>): <code>Hash</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the storage hash</li>
 </ul>
-<p>&#x25B8; <strong>getStorageSize</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>: <code>u64</code>)</p>
+<p>&#x25B8; <strong>getStorageSize</strong>(key: <code>StorageKey</code>, block?: <code>Hash</code>): <code>u64</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the storage size</li>
 </ul>
-<p>&#x25B8; <strong>queryStorage</strong>(keys: <code>Vec&lt;StorageKey&gt;</code>, startBlock: <code>Hash</code>, block?: <code>Hash</code>: <code>Vec&lt;StorageChangeSet&gt;</code>)</p>
+<p>&#x25B8; <strong>queryStorage</strong>(keys: <code>Vec&lt;StorageKey&gt;</code>, startBlock: <code>Hash</code>, block?: <code>Hash</code>): <code>Vec&lt;StorageChangeSet&gt;</code></p>
 <ul>
 <li><strong>summary</strong>: Query historical storage entries (by key) starting from a start block</li>
 </ul>
-<p>&#x25B8; <strong>subscribeStorage</strong>(keys: <code>Vec&lt;StorageKey&gt;</code>: <code>StorageChangeSet</code>, CALLBACK)</p>
+<p>&#x25B8; <strong>subscribeStorage</strong>(keys: <code>Vec&lt;StorageKey&gt;</code>): <code>StorageChangeSet</code></p>
 <ul>
 <li><strong>summary</strong>: Subscribes to storage changes for the provided keys</li>
 </ul>
@@ -2060,19 +2060,19 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="system"><a id="system"></a>system</h3>
 <p><em>Methods to retrieve system info</em></p>
-<p>&#x25B8; <strong>chain</strong>(: <code>Text</code>)</p>
+<p>&#x25B8; <strong>chain</strong>(): <code>Text</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the chain</li>
 </ul>
-<p>&#x25B8; <strong>name</strong>(: <code>Text</code>)</p>
+<p>&#x25B8; <strong>name</strong>(): <code>Text</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the node name</li>
 </ul>
-<p>&#x25B8; <strong>properties</strong>(: <code>ChainProperties</code>)</p>
+<p>&#x25B8; <strong>properties</strong>(): <code>ChainProperties</code></p>
 <ul>
 <li><strong>summary</strong>: Get a custom set of properties as a JSON object, defined in the chain spec</li>
 </ul>
-<p>&#x25B8; <strong>version</strong>(: <code>Text</code>)</p>
+<p>&#x25B8; <strong>version</strong>(): <code>Text</code></p>
 <ul>
 <li><strong>summary</strong>: Retrieves the version of the node</li>
 </ul>
@@ -2119,7 +2119,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"RPC","level":"2.1","depth":1,"next":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"previous":{"title":"types (codec implementation)","level":"1.4","depth":1,"path":"types/README.md","ref":"types/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_RPC.md","mtime":"2019-01-04T20:07:33.009Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-04T20:08:59.304Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"RPC","level":"2.1","depth":1,"next":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"previous":{"title":"types (codec implementation)","level":"1.4","depth":1,"path":"types/README.md","ref":"types/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_RPC.md","mtime":"2019-01-06T10:08:27.531Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-06T10:09:51.844Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

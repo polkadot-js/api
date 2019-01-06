@@ -32,7 +32,7 @@ const api = new RpcRx(provider);
 
 ⊕ **new RpcRx**(providerOrRpc?: *`Rpc` | `ProviderInterface`*): [RpcRx](_index_.rpcrx.md)
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L45)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L45)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 **● author**: *[RpcRxInterface$Section](../modules/_types_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L42)*
 
 ___
 <a id="chain"></a>
@@ -61,7 +61,7 @@ ___
 
 **● chain**: *[RpcRxInterface$Section](../modules/_types_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L43)*
 
 ___
 <a id="state"></a>
@@ -70,7 +70,7 @@ ___
 
 **● state**: *[RpcRxInterface$Section](../modules/_types_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L44)*
 
 ___
 <a id="system"></a>
@@ -79,7 +79,7 @@ ___
 
 **● system**: *[RpcRxInterface$Section](../modules/_types_.md#rpcrxinterface_section)*
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L45)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L45)*
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 ▸ **isConnected**(): `BehaviorSubject`<`boolean`>
 
-*Defined in [index.ts:66](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L66)*
+*Defined in [index.ts:66](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L66)*
 
 **Returns:** `BehaviorSubject`<`boolean`>
 
@@ -102,7 +102,7 @@ ___
 
 ▸ **on**(type: *[RpcRxInterface$Events](../modules/_types_.md#rpcrxinterface_events)*, handler: *`function`*): `void`
 
-*Defined in [index.ts:70](https://github.com/polkadot-js/api/blob/4ade1e7/packages/rpc-rx/src/index.ts#L70)*
+*Defined in [index.ts:70](https://github.com/polkadot-js/api/blob/d1a4415/packages/rpc-rx/src/index.ts#L70)*
 
 **Parameters:**
 

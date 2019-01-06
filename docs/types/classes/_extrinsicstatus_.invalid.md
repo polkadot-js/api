@@ -24,7 +24,7 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_null_.null.md).[encodedLength](_null_.null.md#encodedlength)*
 
-*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/4ade1e7/packages/types/src/Null.ts#L16)*
+*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/d1a4415/packages/types/src/Null.ts#L16)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -44,7 +44,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toHex](_null_.null.md#tohex)*
 
-*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/4ade1e7/packages/types/src/Null.ts#L23)*
+*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/d1a4415/packages/types/src/Null.ts#L23)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -61,7 +61,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toJSON](_null_.null.md#tojson)*
 
-*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/4ade1e7/packages/types/src/Null.ts#L30)*
+*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/d1a4415/packages/types/src/Null.ts#L30)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -78,7 +78,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toString](_null_.null.md#tostring)*
 
-*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/4ade1e7/packages/types/src/Null.ts#L37)*
+*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/d1a4415/packages/types/src/Null.ts#L37)*
 
 *__description__*: Returns the string representation of the value
 
@@ -93,7 +93,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toU8a](_null_.null.md#tou8a)*
 
-*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/4ade1e7/packages/types/src/Null.ts#L45)*
+*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/d1a4415/packages/types/src/Null.ts#L45)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
