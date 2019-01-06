@@ -137,7 +137,7 @@ function addExtrinsics (metadata: Metadata) {
 function addStorage (metadata: Metadata) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort();
-  const renderAnchors = generateSectionLinks('storage', metadata);
+  const renderAnchors = generateSectionLinks('storage', metadata) + sectionLink('substrate');
 
   return orderedSections.reduce((md, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
