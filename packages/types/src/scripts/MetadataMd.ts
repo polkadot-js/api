@@ -62,13 +62,13 @@ function addRpc () {
         return name + (isOptional ? '?' : '') + ': `' + type + '`';
       }).join(', ');
       const type = '`' + method.type + '`';
-      const isSub = method.isSubscription;
-      const renderMethod = `${md}\n▸ **${methodName}**(${args}`;
+      // const isSub = method.isSubscription;
+      const renderMethod = `${md}\n▸ **${methodName}**(${args})`;
       const renderReturnType = `: ${type}`;
       const renderSignature = `${renderMethod}${renderReturnType}`;
       const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}\n` : `\n\n`}`;
 
-      return `${renderSignature}${isSub ? ', CALLBACK' : ''})${renderSummary}`;
+      return `${renderSignature}${renderSummary}`;
     }, renderSection);
   }, renderHeading + renderAnchors);
 }
