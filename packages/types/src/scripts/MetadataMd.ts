@@ -15,7 +15,7 @@ const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem;
 
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
 const DESC_EVENTS = '\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
-const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
+const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._';
 const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
 function sectionLink (sectionName: string) {
