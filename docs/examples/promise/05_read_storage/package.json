@@ -1,5 +1,5 @@
 {
-  "name": "04_read_storage",
+  "name": "05_read_storage",
   "version": "0.2.0",
   "description": "Example showing how to query storage",
   "main": "index.js",
