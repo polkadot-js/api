@@ -198,11 +198,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   protected decorateMethod (rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
     if (!isSubscription) {
       return (...params: Array<any>): Promise<any> =>
-        rxfn(...params)
-          .pipe(
-            catchError(() => of())
-          )
-          .toPromise();
+        rxfn(...params).toPromise();
     }
 
     return (..._params: Array<any>): UnsubFunction => {
@@ -211,11 +207,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
       assert(isFunction(cb), 'Expected callback as last paramater for subscription');
 
       const params = _params.slice(0, _params.length - 1);
-      const subscription = rxfn(...params)
-        .pipe(
-          catchError(() => of())
-        )
-        .subscribe(cb);
+      const subscription = rxfn(...params).subscribe(cb);
 
       return (): void => {
         subscription.unsubscribe();
