@@ -9,7 +9,7 @@ Tuples now return single types when only one type is available, i.e. `(AccountId
 Api Promise has been updated in the way we deal with subscriptions. Previously a subscription returned `Promise<number>` where the caller was to keep track of the id and use it in subsequent unsubscribes. Now any subscriptions return an unsubscribe/destroy function `(): void`, that is use for removing the subscriptions, e.g.
 
 ```js
-const unsubscribe = api.query.balance.freeBalanceOf(Alice, (balance) => {...});
+const unsubscribe = api.query.balance.freeBalance(Alice, (balance) => {...});
 
 unsubscribe(); // here we destroy the subscription
 ```
