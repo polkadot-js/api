@@ -5,18 +5,21 @@
 import ApiRx from '@polkadot/api/rx';
 import { BlockNumber } from '@polkadot/types/index';
 
-describe('RxDerive', () => {
-  let api: ApiRx;
-
-  beforeAll(async () => {
-    api = await ApiRx.create().toPromise();
+describe('derive', () => {
+  beforeAll(() => {
+    jest.setTimeout(30000);
   });
 
-  it('makes a bestNumber call', (done) => {
+  it('makes a bestNumber call', async (done) => {
+    const api = await ApiRx.create().toPromise();
     api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
       if (blockNumber instanceof BlockNumber) {
         done();
       }
     });
+  });
+
+  afterAll(() => {
+    jest.setTimeout(5000);
   });
 });
