@@ -12,7 +12,7 @@
 
 ▸ **decodeResponse**(response: *[JsonRpcResponse](../modules/_types_.md#jsonrpcresponse)*): `any`
 
-*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/b5d49eb/packages/rpc-provider/src/coder/index.ts#L12)*
+*Defined in [coder/index.ts:12](https://github.com/polkadot-js/api/blob/70ff3c5/packages/rpc-provider/src/coder/index.ts#L12)*
 
 **Parameters:**
 
@@ -29,7 +29,7 @@ ___
 
 ▸ **encodeJson**(method: *`string`*, params: *`any` | `Array`<`any`>*): `string`
 
-*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/b5d49eb/packages/rpc-provider/src/coder/index.ts#L33)*
+*Defined in [coder/index.ts:33](https://github.com/polkadot-js/api/blob/70ff3c5/packages/rpc-provider/src/coder/index.ts#L33)*
 
 **Parameters:**
 
@@ -47,7 +47,7 @@ ___
 
 ▸ **encodeObject**(method: *`string`*, params: *`any` | `Array`<`any`>*): [JsonRpcRequest](../modules/_types_.md#jsonrpcrequest)
 
-*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/b5d49eb/packages/rpc-provider/src/coder/index.ts#L39)*
+*Defined in [coder/index.ts:39](https://github.com/polkadot-js/api/blob/70ff3c5/packages/rpc-provider/src/coder/index.ts#L39)*
 
 **Parameters:**
 
@@ -65,7 +65,7 @@ ___
 
 ▸ **getId**(): `number`
 
-*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/b5d49eb/packages/rpc-provider/src/coder/index.ts#L48)*
+*Defined in [coder/index.ts:48](https://github.com/polkadot-js/api/blob/70ff3c5/packages/rpc-provider/src/coder/index.ts#L48)*
 
 **Returns:** `number`
 
