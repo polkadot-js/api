@@ -7,8 +7,6 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
 import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
