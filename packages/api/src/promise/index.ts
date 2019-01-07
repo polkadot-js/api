@@ -237,15 +237,15 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    *
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
-   *   (cb) => api.rpc.chain.subscribeNewHead(cb),
-   *   (cb) => api.query.balances.freeBalance(address, cb),
+   *   api.rpc.chain.subscribeNewHead,
+   *   [api.query.balances.freeBalance, address],
    *   (cb) => api.query.system.accountNonce(address, cb)
    * ], ([head, balance, nonce]) => {
    *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
    * });
    * ```
    */
-  combineLatest (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback): UnsubFunction {
+  combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubFunction {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
