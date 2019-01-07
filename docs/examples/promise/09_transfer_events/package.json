@@ -1,7 +1,7 @@
 {
-  "name": "02_listen_to_blocks",
-  "version": "0.1.0",
-  "description": "Example showing how to use subscriptions",
+  "name": "07_transfer_dots",
+  "version": "0.2.0",
+  "description": "Example showing how to transfer DOTs",
   "main": "index.js",
   "author": "chevdor",
   "license": "MIT",
@@ -10,8 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/rpc-core": "^0.31.1",
-    "bn.js": "^4.11.8"
+    "@polkadot/api": "^0.37.6"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
