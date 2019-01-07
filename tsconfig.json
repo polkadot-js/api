@@ -6,7 +6,7 @@
     "paths":
     {
       "@polkadot/api/*": ["packages/api/src/*"],
-      "@polkadot/api-rx/*": ["packages/api-rx/src/*"],
+      "@polkadot/api-derive/*": ["packages/api-derive/src/*"],
       "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
       "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
       "@polkadot/rpc-rx/*": ["packages/rpc-rx/src/*"],

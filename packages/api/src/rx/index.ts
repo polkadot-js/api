@@ -8,6 +8,7 @@ import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, Query
 
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import decorateDerive, { Derive } from '@polkadot/api-derive/index';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
@@ -118,6 +119,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * ```
  */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
+  protected _derive: Derive;
   private _isReady: Observable<ApiRx>;
 
   /**
@@ -165,6 +167,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
+    this._derive = decorateDerive(this);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -173,6 +176,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
         )
       )
     );
+  }
+
+  get derive (): Derive {
+    return this._derive;
   }
 
   /**
