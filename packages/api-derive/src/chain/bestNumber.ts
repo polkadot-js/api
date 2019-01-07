@@ -7,6 +7,9 @@ import { BlockNumber, Header } from '@polkadot/types/index';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+/**
+ * Get the latest block number.
+ */
 export function bestNumber (api: ApiRx) {
   return (): Observable<BlockNumber> =>
     api.rpc.chain.subscribeNewHead()

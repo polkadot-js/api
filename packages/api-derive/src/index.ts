@@ -6,6 +6,10 @@ import ApiRx from '@polkadot/api/rx';
 
 import * as chain from './chain';
 
+/**
+ * T represents the section here (chain, balances...), and P rerpresents
+ * the function name (bestNumber...).
+ */
 type ReturnTypes<T extends Record<keyof T, (...args: any[]) => any>> = {
   [P in keyof T]: ReturnType<T[P]>
 };
