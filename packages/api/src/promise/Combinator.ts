@@ -20,12 +20,12 @@ export default class Combinator {
   protected _results: Array<any> = [];
   protected _unsubscriptions: Array<UnsubFunction | any> = [];
 
-  constructor (fns: Array<CombinatorFunction | [Array<any>, CombinatorFunction]>, callback: CombinatorCallback) {
+  constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
     this._callback = callback;
     this._unsubscriptions = fns.map((input, index) => {
-      const [args, fn] = Array.isArray(input)
+      const [fn, ...args] = Array.isArray(input)
         ? input
-        : [[], input];
+        : [input];
 
       this._fired.push(false);
       this._fns.push(fn);
