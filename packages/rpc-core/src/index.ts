@@ -4,7 +4,7 @@
 
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
-import { RpcInterface, RpcInterface$Section, RpcInterface$Section$Method } from './types';
+import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
 import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -99,7 +99,7 @@ export default class Rpc implements RpcInterface {
       }, {} as RpcInterface$Section);
   }
 
-  private createMethodSend (method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSend (method: RpcMethod): RpcInterface$Method {
     const rpcName = `${method.section}_${method.method}`;
 
     const call = async (...values: Array<any>): Promise<any> => {
@@ -119,10 +119,10 @@ export default class Rpc implements RpcInterface {
       }
     };
 
-    return call as RpcInterface$Section$Method;
+    return call as RpcInterface$Method;
   }
 
-  private createMethodSubscribe (method: RpcMethod): RpcInterface$Section$Method {
+  private createMethodSubscribe (method: RpcMethod): RpcInterface$Method {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
@@ -157,7 +157,7 @@ export default class Rpc implements RpcInterface {
       }
     };
 
-    const call = _call as RpcInterface$Section$Method;
+    const call = _call as RpcInterface$Method;
 
     call.unsubscribe = unsubscribe;
 
