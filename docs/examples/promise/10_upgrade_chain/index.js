@@ -5,6 +5,9 @@ const { WsProvider } = require('@polkadot/rpc-provider');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 
+// utility functions
+const { compactAddLength, hexToU8a } = require('@polkadot/util');
+
 async function main () {
   // Initialise the provider to connect to the local node
   const provider = new WsProvider('ws://127.0.0.1:9944');
@@ -26,16 +29,22 @@ async function main () {
 
   console.log('Upgrading from', adminId.toString(), 'with nonce', adminNonce.toString());
 
+  // create a properly encoded code array from the hex with length prefix - since we have a
+  // hex string, we can actuall;y pass it through directly (i.e. `.upgrade('0x...'))` below),
+  // however here we show how to pass an actual Uint8Array with encoded length
+  const code = compactAddLength(hexToU8a('0xdeadbeef'));
+
   // preform a chain upgrade, effectively bricking the chain, passing through
-  // a hex value, although a valid Uint8Array will also work here
+  // a hex value, although a valid Uint8Array will also work here (in this case
+  // ensure it has a length prefix added, e.g. compact)
   api.tx.upgradeKey
-    .upgrade('0xdeadbeef')
+    .upgrade(code)
     .sign(adminPair, adminNonce)
     .send(({ events = [], type }) => {
       console.log('Transaction status:', type);
 
       if (type === 'Finalised') {
-        console.error('You have just upgraded and bricked your chain');
+        console.error('You have just upgraded your chain');
 
         console.log('Completed at block hash', status.value.toHex());
         console.log('Events:');
