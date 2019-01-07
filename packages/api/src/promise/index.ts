@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcInterface$Section$Method } from '@polkadot/rpc-core/types';
+import { RpcRxInterface$Method } from '@polkadot/rpc-rx/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
 import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
+import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
 import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
@@ -18,10 +21,6 @@ import { isFunction, logger, assert } from '@polkadot/util';
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
-
-const NOOP = () => {
-  // ignore
-};
 
 const l = logger('api/promise');
 
@@ -180,10 +179,14 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
 
   protected decorateRpc (rpc: Rpc): DecoratedRpc {
     const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
+    const rpcrx = new RpcRx(rpc);
 
     return names.reduce((result, section) => {
-      result[section] = Object.keys(rpc[section]).reduce((fns, method) => {
-        fns[method] = this.decorateMethod(rpc[section][method]);
+      result[section] = Object.keys(rpcrx[section]).reduce((fns, method) => {
+        fns[method] = this.decorateMethod(
+          rpcrx[section][method],
+          isFunction(rpc[section][method].unsubscribe)
+        );
 
         return fns;
       }, {} as DecoratedRpc$Section);
@@ -192,9 +195,14 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     }, {} as DecoratedRpc);
   }
 
-  protected decorateMethod (fn: RpcInterface$Section$Method): DecoratedRpc$Method {
-    if (!isFunction(fn.unsubscribe)) {
-      return fn;
+  protected decorateMethod (rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
+    if (!isSubscription) {
+      return (...params: Array<any>): Promise<any> =>
+        rxfn(...params)
+          .pipe(
+            catchError(() => of())
+          )
+          .toPromise();
     }
 
     return (..._params: Array<any>): UnsubFunction => {
@@ -202,25 +210,15 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
 
       assert(isFunction(cb), 'Expected callback as last paramater for subscription');
 
-      let isActive = true;
-      const params = _params
-        .slice(0, _params.length - 1)
-        .concat([(value?: any) => {
-          return !isActive
-            ? undefined
-            : cb(value);
-        }]);
-      const subscriptionIdPromise = fn(...params);
+      const params = _params.slice(0, _params.length - 1);
+      const subscription = rxfn(...params)
+        .pipe(
+          catchError(() => of())
+        )
+        .subscribe(cb);
 
       return (): void => {
-        if (!isActive) {
-          return;
-        }
-
-        isActive = false;
-        subscriptionIdPromise
-          .then((subscriptionId) => fn.unsubscribe(subscriptionId))
-          .catch(NOOP);
+        subscription.unsubscribe();
       };
     };
   }

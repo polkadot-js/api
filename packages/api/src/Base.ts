@@ -185,6 +185,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    */
   on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.on(type, handler);
+
     return this;
   }
 
@@ -209,6 +210,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    */
   once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.once(type, handler);
+
     return this;
   }
 

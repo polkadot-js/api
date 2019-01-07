@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcInterface$Section, RpcInterface$Section$Method } from '@polkadot/rpc-core/types';
+import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
@@ -174,7 +174,7 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createReplayUnsub (fn: RpcInterface$Section$Method, subscribe: Promise<number>, subName: string, paramStr: string): () => void {
+  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, subName: string, paramStr: string): () => void {
     return (): void => {
       subscribe
         .then((subscriptionId: number) =>
