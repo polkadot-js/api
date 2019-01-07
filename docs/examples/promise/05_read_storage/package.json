@@ -1,5 +1,5 @@
 {
-  "name": "04_read_storage",
+  "name": "05_read_storage",
   "version": "0.2.0",
   "description": "Example showing how to query storage",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@polkadot/api": "^0.33.17"
+    "@polkadot/api": "^0.37.6"
   },
   "devDependencies": {
     "rimraf": "^2.6.2"
