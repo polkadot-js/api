@@ -57,10 +57,10 @@ export type KeyValueOptionValue = [AnyU8a, AnyU8a?];
  */
 export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue | Uint8Array) {
-    super([
+    super({
       StorageKey,
-      Option.with(StorageData)
-    ], value);
+      'Option<StorageData>': Option.with(StorageData)
+    }, value);
   }
 
   /**

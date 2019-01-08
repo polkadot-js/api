@@ -19,10 +19,10 @@ export type BftAuthoritySignatureValue = [AnyU8a, AnyU8a];
  */
 export class BftAuthoritySignature extends Tuple {
   constructor (value?: BftAuthoritySignatureValue | Uint8Array) {
-    super(
-      [AuthorityId, Signature],
-      value
-    );
+    super({
+      AuthorityId,
+      Signature
+    }, value);
   }
 
   /**
@@ -50,10 +50,10 @@ export type BftHashSignatureValue = [AnyU8a, AnyU8a];
  */
 export class BftHashSignature extends Tuple {
   constructor (value?: BftHashSignatureValue | Uint8Array) {
-    super([
+    super({
       Hash,
       Signature
-    ], value);
+    }, value);
   }
 
   /**
