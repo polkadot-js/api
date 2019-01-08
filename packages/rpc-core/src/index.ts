@@ -209,7 +209,7 @@ export default class Rpc implements RpcInterface {
             ? undefined
             : (
               item.value.isNone
-                ? null
+                ? createType(type, _key.meta ? _key.meta.default : undefined)
                 : createType(type, item.value.unwrap())
             )
         );
