@@ -404,6 +404,29 @@
             ]
           }
         ]
+      ],
+      [
+        "sudo",
+        [
+          {
+            "name": "Sudid",
+            "arguments": [
+              "bool"
+            ],
+            "documentation": [
+              " A sudo just took place."
+            ]
+          },
+          {
+            "name": "KeyChanged",
+            "arguments": [
+              "AccountId"
+            ],
+            "documentation": [
+              " The sudoer just switched identity; the old key is supplied."
+            ]
+          }
+        ]
       ]
     ]
   },
@@ -1135,6 +1158,19 @@
               "documentation": [
                 " Set the offline slash grace period."
               ]
+            },
+            {
+              "id": 10,
+              "name": "set_invulnerables",
+              "arguments": [
+                {
+                  "name": "validators",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Set the validators who cannot be slashed (if any)."
+              ]
             }
           ]
         }
@@ -1203,6 +1239,16 @@
             "default": "0xe803000000000000",
             "documentation": [
               " The length of the bonding duration in blocks."
+            ]
+          },
+          {
+            "name": "Invulerables",
+            "modifier": 1,
+            "type": "Vec<AccountId>",
+            "default": "0x00",
+            "documentation": [
+              " Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise",
+              " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
             ]
           },
           {
@@ -2548,6 +2594,51 @@
           }
         ]
       }
+    },
+    {
+      "prefix": "sudo",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": [
+            {
+              "id": 0,
+              "name": "sudo",
+              "arguments": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": []
+            },
+            {
+              "id": 1,
+              "name": "set_key",
+              "arguments": [
+                {
+                  "name": "new",
+                  "type": "AccountId"
+                }
+              ],
+              "documentation": []
+            }
+          ]
+        }
+      },
+      "storage": {
+        "prefix": "Sudo",
+        "functions": [
+          {
+            "name": "Key",
+            "modifier": 1,
+            "type": "AccountId",
+            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
+            "documentation": []
+          }
+        ]
+      }
     }
   ],
   "outerDispatch": {
@@ -2617,6 +2708,11 @@
         "name": "UpgradeKey",
         "prefix": "upgrade_key",
         "index": 12
+      },
+      {
+        "name": "Sudo",
+        "prefix": "sudo",
+        "index": 13
       }
     ]
   }
