@@ -6,6 +6,7 @@ import { AnyU8a } from './types';
 
 import Struct from './codec/Struct';
 import Block, { BlockValue } from './Block';
+import Hash from './Hash';
 import Justification from './Justification';
 
 type SignedBlockValue = {
@@ -31,6 +32,13 @@ export default class SignedBlock extends Struct {
    */
   get block (): Block {
     return this.get('block') as Block;
+  }
+
+  /**
+   * @description Block/header [[Hash]] for the block
+   */
+  get hash (): Hash {
+    return this.block.hash;
   }
 
   /**

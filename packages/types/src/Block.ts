@@ -30,6 +30,15 @@ export default class Block extends Struct {
   }
 
   /**
+   * @description Encodes content [[Hash]] for the block
+   */
+  get contentHash (): Hash {
+    return new Hash(
+      blake2AsU8a(this.toU8a(), 256)
+    );
+  }
+
+  /**
    * @description The [[Extrinsics]] conatined in the block
    */
   get extrinsics (): Extrinsics {
@@ -37,12 +46,10 @@ export default class Block extends Struct {
   }
 
   /**
-   * @description Coinvenience getter, encoded the [[Hash]] for the block
+   * @description Block/header [[Hash]] for the block
    */
   get hash (): Hash {
-    return new Hash(
-      blake2AsU8a(this.toU8a(), 256)
-    );
+    return this.header.hash;
   }
 
   /**
