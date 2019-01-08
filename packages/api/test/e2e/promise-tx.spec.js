@@ -24,12 +24,23 @@ describe.skip('e2e transactions', () => {
   it('makes a transfer', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
-    await api.tx.balances
+    api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .sign(keyring.dave, nonce)
-      .send((status) => {
-        if (status.type === 'Finalised' && status.events && status.events.length) {
-          done();
+      .send(({ events, status, type }) => {
+        console.log('Transaction status:', type);
+
+        if (type === 'Finalised') {
+          console.log('Completed at block hash', status.value.toHex());
+          console.log('Events:');
+
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+          });
+
+          if (events.length) {
+            done();
+          }
         }
       });
   });
