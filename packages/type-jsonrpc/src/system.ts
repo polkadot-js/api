@@ -32,6 +32,12 @@ const properties: RpcMethodOpt = {
   type: 'ChainProperties'
 };
 
+const health: RpcMethodOpt = {
+  description: 'Return health status of the node',
+  params: [],
+  type: 'Health'
+};
+
 const section = 'system';
 
 /**
@@ -44,6 +50,7 @@ export default {
   section,
   methods: {
     chain: createMethod(section, 'chain', chain),
+    health: createMethod(section, 'health', health),
     name: createMethod(section, 'name', name),
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)

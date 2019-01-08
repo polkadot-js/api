@@ -42,6 +42,7 @@ export { default as H256 } from './H256';
 export { default as H512 } from './H512';
 export { default as Hash } from './Hash';
 export { default as Header } from './Header';
+export { default as Health } from './Health';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';
