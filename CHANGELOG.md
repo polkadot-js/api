@@ -1,3 +1,7 @@
+# 0.38.1
+
+Substrate has been updated with a breaking new transaction format where the Index/Nonce is encoded as a Compact.
+
 # 0.37.1
 
 api-observable has been removed. This was only used in /apps and inconsistent with the api/rx and api/promise APIs. Future work will include derivates like was included in api-observable into the base.
