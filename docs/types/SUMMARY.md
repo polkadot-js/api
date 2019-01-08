@@ -162,6 +162,8 @@
 * [&quot;NewAccountOutcome.spec&quot;](modules/_newaccountoutcome_spec_.md)
 * [&quot;Nonce&quot;](modules/_nonce_.md)
   * [Nonce](classes/_nonce_.nonce.md)
+* [&quot;NonceCompact&quot;](modules/_noncecompact_.md)
+  * [NonceCompact](classes/_noncecompact_.noncecompact.md)
 * [&quot;Null&quot;](modules/_null_.md)
   * [Null](classes/_null_.null.md)
 * [&quot;Origin&quot;](modules/_origin_.md)
