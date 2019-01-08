@@ -31,6 +31,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[upgradeKey](#upgradeKey)**
 
+- **[substrate](#substrate)**
+
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -218,7 +220,7 @@ ___
 ▸ **referendumCount**(): `ReferendumIndex`
 - **summary**:   The next free referendum index, aka the number of referendums started so far.
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `(ReferendumInfo)`
+▸ **referendumInfoOf**(`ReferendumIndex`): `ReferendumInfo`
 - **summary**:   Information concerning any given referendum.
 
 ▸ **voteOf**(`(ReferendumIndex,AccountId)`): `Vote`

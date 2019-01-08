@@ -25,44 +25,19 @@
 
 ##  constructor
 
-⊕ **new ExtrinsicSignature**(value?: * `ExtrinsicSignatureValue` &#124; `Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
+⊕ **new ExtrinsicSignature**(value?: *`ExtrinsicSignatureValue` | `Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [ExtrinsicSignature.ts:37](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L37)*
+*Defined in [ExtrinsicSignature.ts:37](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L37)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Optional` value |  `ExtrinsicSignatureValue` &#124; `Uint8Array`|
+| `Optional` value | `ExtrinsicSignatureValue` | `Uint8Array` |
 
 **Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
-
-___
-
-# Properties
-
-<a id="___tostringtag"></a>
-
-##  __@toStringTag
-
-**● __@toStringTag**: *`string`*
-
-*Inherited from Map.[Symbol.toStringTag]*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts:130*
-
-___
-<a id="size"></a>
-
-##  size
-
-**● size**: *`number`*
-
-*Inherited from Map.size*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:28*
 
 ___
 
@@ -76,7 +51,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L142)*
+*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L142)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -91,7 +66,7 @@ getencodedLength(): `number`
 
 *Overrides [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [ExtrinsicSignature.ts:71](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L71)*
+*Defined in [ExtrinsicSignature.ts:71](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L71)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -104,7 +79,7 @@ ___
 
 getera(): [ExtrinsicEra](_extrinsicera_.extrinsicera.md)
 
-*Defined in [ExtrinsicSignature.ts:90](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L90)*
+*Defined in [ExtrinsicSignature.ts:90](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L90)*
 
 *__description__*: The [ExtrinsicEra](_extrinsicera_.extrinsicera.md) (mortal or immortal) this signature applies to
 
@@ -117,7 +92,7 @@ ___
 
 getisSigned(): `boolean`
 
-*Defined in [ExtrinsicSignature.ts:83](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L83)*
+*Defined in [ExtrinsicSignature.ts:83](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L83)*
 
 *__description__*: `true` if the signature is valid
 
@@ -130,7 +105,7 @@ ___
 
 getnonce(): [Nonce](_nonce_.nonce.md)
 
-*Defined in [ExtrinsicSignature.ts:97](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L97)*
+*Defined in [ExtrinsicSignature.ts:97](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L97)*
 
 *__description__*: The [Nonce](_nonce_.nonce.md) for the signature
 
@@ -143,7 +118,7 @@ ___
 
 getsignature(): [Signature](_signature_.signature.md)
 
-*Defined in [ExtrinsicSignature.ts:104](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L104)*
+*Defined in [ExtrinsicSignature.ts:104](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L104)*
 
 *__description__*: The actuall [Signature](_signature_.signature.md) hash
 
@@ -156,7 +131,7 @@ ___
 
 getsigner(): [Address](_address_.address.md)
 
-*Defined in [ExtrinsicSignature.ts:111](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L111)*
+*Defined in [ExtrinsicSignature.ts:111](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L111)*
 
 *__description__*: The [Address](_address_.address.md) that signed
 
@@ -169,7 +144,7 @@ ___
 
 getversion(): `number`
 
-*Defined in [ExtrinsicSignature.ts:118](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L118)*
+*Defined in [ExtrinsicSignature.ts:118](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L118)*
 
 *__description__*: The encoded version for the signature
 
@@ -179,28 +154,13 @@ ___
 
 # Methods
 
-<a id="___iterator"></a>
-
-##  __@iterator
-
-▸ **__@iterator**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
-
-*Inherited from Map.[Symbol.iterator]*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:113*
-
-Returns an iterable of entries in the map.
-
-**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
-
-___
 <a id="addsignature"></a>
 
 ##  addSignature
 
-▸ **addSignature**(_signer: * [Address](_address_.address.md) &#124; `Uint8Array`*, _signature: *`Uint8Array`*, _nonce: *[AnyNumber](../modules/_types_.md#anynumber)*, _era?: *`Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
+▸ **addSignature**(_signer: *[Address](_address_.address.md) | `Uint8Array`*, _signature: *`Uint8Array`*, _nonce: *[AnyNumber](../modules/_types_.md#anynumber)*, _era?: *`Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
-*Defined in [ExtrinsicSignature.ts:142](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L142)*
+*Defined in [ExtrinsicSignature.ts:142](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L142)*
 
 *__description__*: Adds a raw signature
 
@@ -208,7 +168,7 @@ ___
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| _signer |  [Address](_address_.address.md) &#124; `Uint8Array`| - |
+| _signer | [Address](_address_.address.md) | `Uint8Array` | - |
 | _signature | `Uint8Array` | - |
 | _nonce | [AnyNumber](../modules/_types_.md#anynumber) | - |
 | `Default value` _era | `Uint8Array` |  IMMORTAL_ERA |
@@ -216,84 +176,17 @@ ___
 **Returns:** [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
 ___
-<a id="clear"></a>
-
-##  clear
-
-▸ **clear**(): `void`
-
-*Inherited from Map.clear*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:22*
-
-**Returns:** `void`
-
-___
-<a id="delete"></a>
-
-##  delete
-
-▸ **delete**(key: *`keyof S`*): `boolean`
-
-*Inherited from Map.delete*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:23*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| key | `keyof S` |
-
-**Returns:** `boolean`
-
-___
-<a id="entries"></a>
-
-##  entries
-
-▸ **entries**(): `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
-
-*Inherited from Map.entries*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:118*
-
-Returns an iterable of key, value pairs for every entry in the map.
-
-**Returns:** `IterableIterator`<[`keyof S`, [Codec](../interfaces/_types_.codec.md)]>
-
-___
-<a id="foreach"></a>
-
-##  forEach
-
-▸ **forEach**(callbackfn: *`function`*, thisArg?: *`any`*): `void`
-
-*Inherited from Map.forEach*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:24*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| callbackfn | `function` |
-| `Optional` thisArg | `any` |
-
-**Returns:** `void`
-
-___
 <a id="get"></a>
 
 ##  get
 
-▸ **get**(name: *`keyof S`*):  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+▸ **get**(name: *`keyof S`*): [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[get](_codec_struct_.struct.md#get)*
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L159)*
+*Defined in [codec/Struct.ts:159](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L159)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -303,7 +196,7 @@ ___
 | ------ | ------ | ------ |
 | name | `keyof S` |  The name of the entry to retrieve |
 
-**Returns:**  [Codec](../interfaces/_types_.codec.md) &#124; `undefined`
+**Returns:** [Codec](../interfaces/_types_.codec.md) | `undefined`
 
 ___
 <a id="getatindex"></a>
@@ -314,7 +207,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L166)*
+*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L166)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -327,67 +220,13 @@ ___
 **Returns:** [Codec](../interfaces/_types_.codec.md)
 
 ___
-<a id="has"></a>
-
-##  has
-
-▸ **has**(key: *`keyof S`*): `boolean`
-
-*Inherited from Map.has*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:26*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| key | `keyof S` |
-
-**Returns:** `boolean`
-
-___
-<a id="keys"></a>
-
-##  keys
-
-▸ **keys**(): `IterableIterator`<`keyof S`>
-
-*Inherited from Map.keys*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:123*
-
-Returns an iterable of keys in the map
-
-**Returns:** `IterableIterator`<`keyof S`>
-
-___
-<a id="set"></a>
-
-##  set
-
-▸ **set**(key: *`keyof S`*, value: *[Codec](../interfaces/_types_.codec.md)*): `this`
-
-*Inherited from Map.set*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.collection.d.ts:27*
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| key | `keyof S` |
-| value | [Codec](../interfaces/_types_.codec.md) |
-
-**Returns:** `this`
-
-___
 <a id="sign"></a>
 
 ##  sign
 
 ▸ **sign**(method: *[Method](_method_.method.md)*, signerPair: *`KeyringPair`*, nonce: *[AnyNumber](../modules/_types_.md#anynumber)*, blockHash: *[AnyU8a](../modules/_types_.md#anyu8a)*, era?: *`Uint8Array`*): [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md)
 
-*Defined in [ExtrinsicSignature.ts:154](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L154)*
+*Defined in [ExtrinsicSignature.ts:154](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L154)*
 
 *__description__*: Generate a payload and pplies the signature from a keypair
 
@@ -412,7 +251,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L173)*
+*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L173)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -429,7 +268,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L180)*
+*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L180)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -446,7 +285,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L187)*
+*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L187)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -463,7 +302,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L201)*
+*Defined in [codec/Struct.ts:201](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L201)*
 
 *__description__*: Returns the string representation of the value
 
@@ -474,11 +313,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
 *Overrides [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [ExtrinsicSignature.ts:171](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L171)*
+*Defined in [ExtrinsicSignature.ts:171](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L171)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -486,41 +325,26 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
-
-___
-<a id="values"></a>
-
-##  values
-
-▸ **values**(): `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
-
-*Inherited from Map.values*
-
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es2015.iterable.d.ts:128*
-
-Returns an iterable of values in the map
-
-**Returns:** `IterableIterator`<[Codec](../interfaces/_types_.codec.md)>
 
 ___
 <a id="decodeextrinsicsignature"></a>
 
 ## `<Static>` decodeExtrinsicSignature
 
-▸ **decodeExtrinsicSignature**(value: * [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md) &#124; `ExtrinsicSignatureValue` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `undefined`*):  `object` &#124; `Uint8Array`
+▸ **decodeExtrinsicSignature**(value: *[ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md) | `ExtrinsicSignatureValue` | [AnyU8a](../modules/_types_.md#anyu8a) | `undefined`*): `object` | `Uint8Array`
 
-*Defined in [ExtrinsicSignature.ts:52](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/ExtrinsicSignature.ts#L52)*
+*Defined in [ExtrinsicSignature.ts:52](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/ExtrinsicSignature.ts#L52)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| value |  [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md) &#124; `ExtrinsicSignatureValue` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `undefined`|
+| value | [ExtrinsicSignature](_extrinsicsignature_.extrinsicsignature.md) | `ExtrinsicSignatureValue` | [AnyU8a](../modules/_types_.md#anyu8a) | `undefined` |
 
-**Returns:**  `object` &#124; `Uint8Array`
+**Returns:** `object` | `Uint8Array`
 
 ___
 <a id="with"></a>
@@ -531,7 +355,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/Struct.ts#L122)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/Struct.ts#L122)*
 
 **Type parameters:**
 

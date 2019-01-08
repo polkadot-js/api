@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -10,7 +10,7 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value[0]).toEqual(`test${count}`);
@@ -34,8 +34,8 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb),
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb)),
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value).toEqual(['test0', 'test1']);
@@ -55,8 +55,8 @@ describe('Combinator', () => {
     const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
       [
-        (cb) => fns.push(cb),
-        (cb) => fns.push(cb)
+        (cb) => Promise.resolve(fns.push(cb)),
+        (cb) => Promise.resolve(fns.push(cb))
       ],
       (value: Array<any>) => {
         expect(value).toEqual(
@@ -77,5 +77,17 @@ describe('Combinator', () => {
     fns[0]('test2');
 
     expect(combinator).toBeDefined();
+  });
+
+  it('unsubscribes as required', (done) => {
+    const mocker = () => done;
+    const combinator = new Combinator([
+      mocker,
+      () => Promise.resolve(98765)
+    ], (value: Array<any>) => {
+      // ignore
+    });
+
+    combinator.unsubscribe();
   });
 });

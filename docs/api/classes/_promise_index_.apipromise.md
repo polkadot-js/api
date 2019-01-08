@@ -87,13 +87,13 @@ ApiPromise.create().then((api) => {
 
 # Hierarchy
 
- [ApiBase](_base_.apibase.md)<`Rpc`, [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
+ [ApiBase](_base_.apibase.md)<[DecoratedRpc](../interfaces/_promise_types_.decoratedrpc.md), [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
 
 **↳ ApiPromise**
 
 # Implements
 
-* [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)<`Rpc`, [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
+* [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)<[DecoratedRpc](../interfaces/_promise_types_.decoratedrpc.md), [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md), [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrinsics.md)>
 * [ApiPromiseInterface](../interfaces/_promise_types_.apipromiseinterface.md)
 
 # Constructors
@@ -102,11 +102,11 @@ ApiPromise.create().then((api) => {
 
 ##  constructor
 
-⊕ **new ApiPromise**(options?: * [ApiOptions](../interfaces/_types_.apioptions.md) &#124; `ProviderInterface`*): [ApiPromise](_promise_index_.apipromise.md)
+⊕ **new ApiPromise**(options?: *[ApiOptions](../interfaces/_types_.apioptions.md) | `ProviderInterface`*): [ApiPromise](_promise_index_.apipromise.md)
 
 *Overrides [ApiBase](_base_.apibase.md).[constructor](_base_.apibase.md#constructor)*
 
-*Defined in [promise/index.ts:133](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/promise/index.ts#L133)*
+*Defined in [promise/index.ts:135](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/promise/index.ts#L135)*
 
 *__description__*: Creates an instance of the ApiPromise class
 
@@ -126,7 +126,7 @@ new Api().isReady.then((api) => {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` options |  [ApiOptions](../interfaces/_types_.apioptions.md) &#124; `ProviderInterface`|  Options to create an instance. This can be either [ApiOptions](../interfaces/_types_.apioptions.md) or an \[\[HttpProvider\]\] or \[\[WsProvider\]\]. In the case of \[\[HttpProvider\]\] subscriptions are not supported, only latest values are returned. |
+| `Optional` options | [ApiOptions](../interfaces/_types_.apioptions.md) | `ProviderInterface` |  Options to create an instance. This can be either [ApiOptions](../interfaces/_types_.apioptions.md) or an \[\[HttpProvider\]\] or \[\[WsProvider\]\]. In the case of \[\[HttpProvider\]\] subscriptions are not supported, only latest values are returned. |
 
 **Returns:** [ApiPromise](_promise_index_.apipromise.md)
 
@@ -142,7 +142,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](_base_.apibase.md).[genesisHash](_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L77)*
+*Defined in [Base.ts:77](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L77)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -157,7 +157,7 @@ gethasSubscriptions(): `boolean`
 
 *Inherited from [ApiBase](_base_.apibase.md).[hasSubscriptions](_base_.apibase.md#hassubscriptions)*
 
-*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L86)*
+*Defined in [Base.ts:86](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L86)*
 
 *__description__*: `true` when subscriptions are supported
 
@@ -170,7 +170,7 @@ ___
 
 getisReady(): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:172](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/promise/index.ts#L172)*
+*Defined in [promise/index.ts:174](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/promise/index.ts#L174)*
 
 *__description__*: Promise that returns the first time we are connected and loaded
 
@@ -185,7 +185,7 @@ getquery(): [QueryableStorage](../interfaces/_promise_types_.queryablestorage.md
 
 *Inherited from [ApiBase](_base_.apibase.md).[query](_base_.apibase.md#query)*
 
-*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L122)*
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L122)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -206,11 +206,11 @@ ___
 
 ##  rpc
 
-getrpc(): `Rpc`
+getrpc(): [DecoratedRpc](../interfaces/_promise_types_.decoratedrpc.md)
 
 *Inherited from [ApiBase](_base_.apibase.md).[rpc](_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:142](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L142)*
+*Defined in [Base.ts:142](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L142)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -224,7 +224,7 @@ api.rpc.chain.subscribeNewHead((header) => {
 });
 ```
 
-**Returns:** `Rpc`
+**Returns:** [DecoratedRpc](../interfaces/_promise_types_.decoratedrpc.md)
 
 ___
 <a id="runtimemetadata"></a>
@@ -235,7 +235,7 @@ getruntimeMetadata(): `Metadata`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeMetadata](_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:93](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L93)*
+*Defined in [Base.ts:93](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L93)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -250,7 +250,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](_base_.apibase.md).[runtimeVersion](_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:102](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L102)*
+*Defined in [Base.ts:102](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L102)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -265,7 +265,7 @@ gettx(): [SubmittableExtrinsics](../interfaces/_promise_types_.submittableextrin
 
 *Inherited from [ApiBase](_base_.apibase.md).[tx](_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:161](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L161)*
+*Defined in [Base.ts:161](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L161)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -290,9 +290,9 @@ ___
 
 ##  combineLatest
 
-▸ **combineLatest**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
+▸ **combineLatest**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction) | [[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction), `Array`]>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-*Defined in [promise/index.ts:200](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/promise/index.ts#L200)*
+*Defined in [promise/index.ts:236](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/promise/index.ts#L236)*
 
 *__description__*: Creates a combinator that can be used to combine the latest results from multiple subscriptions
 
@@ -303,8 +303,8 @@ const address = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7';
 
 // combines values from balance & nonce as it updates
 api.combineLatest([
-  (cb) => api.rpc.chain.subscribeNewHead(cb),
-  (cb) => api.query.balances.freeBalance(address, cb),
+  api.rpc.chain.subscribeNewHead,
+  [api.query.balances.freeBalance, address],
   (cb) => api.query.system.accountNonce(address, cb)
 ], ([head, balance, nonce]) => {
   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
@@ -315,10 +315,10 @@ api.combineLatest([
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| fns | `Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction)> |  An array of function to combine, each in the form of \`(cb: (value: void)) => void\` |
+| fns | `Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction) | [[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction), `Array`]> |  An array of function to combine, each in the form of \`(cb: (value: void)) => void\` |
 | callback | [CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback) |  A callback that will return an Array of all the values this combinator has been applied to |
 
-**Returns:** [Combinator](_promise_combinator_.combinator.md)
+**Returns:** [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
 ___
 <a id="on"></a>
@@ -329,7 +329,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[on](_base_.apibase.md#on)*
 
-*Defined in [Base.ts:186](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L186)*
+*Defined in [Base.ts:186](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L186)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -363,7 +363,7 @@ ___
 
 *Inherited from [ApiBase](_base_.apibase.md).[once](_base_.apibase.md#once)*
 
-*Defined in [Base.ts:210](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/Base.ts#L210)*
+*Defined in [Base.ts:211](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/Base.ts#L211)*
 
 *__description__*: Attach an one-time eventemitter handler to listen to a specific event
 
@@ -393,9 +393,9 @@ ___
 
 ## `<Static>` create
 
-▸ **create**(options?: * [ApiOptions](../interfaces/_types_.apioptions.md) &#124; `ProviderInterface`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
+▸ **create**(options?: *[ApiOptions](../interfaces/_types_.apioptions.md) | `ProviderInterface`*): `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 
-*Defined in [promise/index.ts:131](https://github.com/polkadot-js/api/blob/85434e0/packages/api/src/promise/index.ts#L131)*
+*Defined in [promise/index.ts:133](https://github.com/polkadot-js/api/blob/7f316b6/packages/api/src/promise/index.ts#L133)*
 
 *__description__*: Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
 
@@ -415,7 +415,7 @@ Api.create().then(async (api) => {
 
 | Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| `Default value` options |  [ApiOptions](../interfaces/_types_.apioptions.md) &#124; `ProviderInterface`|  {} |  options that is passed to the class contructor. Can be either [ApiOptions](../interfaces/_types_.apioptions.md) or a provider (see the constructor arguments) |
+| `Default value` options | [ApiOptions](../interfaces/_types_.apioptions.md) | `ProviderInterface` |  {} |  options that is passed to the class contructor. Can be either [ApiOptions](../interfaces/_types_.apioptions.md) or a provider (see the constructor arguments) |
 
 **Returns:** `Promise`<[ApiPromise](_promise_index_.apipromise.md)>
 

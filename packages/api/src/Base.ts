@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -185,6 +185,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    */
   on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.on(type, handler);
+
     return this;
   }
 
@@ -209,6 +210,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    */
   once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.once(type, handler);
+
     return this;
   }
 

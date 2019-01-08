@@ -1,6 +1,6 @@
 ## <a id='top' style='text-decoration: none;'>JSON-RPC
 
-_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._
+_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._
 - **[author](#author)**
 
 - **[chain](#chain)**
@@ -20,7 +20,7 @@ _Authoring of network items_
 ▸ **pendingExtrinsics**(): `PendingExtrinsics`
 - **summary**: Returns all pending extrinsics, potentially grouped by sender
 
-▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`)**.subscribe**(CALLBACK): `ExtrinsicStatus`
+▸ **submitAndWatchExtrinsic**(extrinsic: `Extrinsic`): `ExtrinsicStatus`
 - **summary**: Subscribe and watch an extrinsic until unsubscribed
 
 ▸ **submitExtrinsic**(extrinsic: `Extrinsic`): `Hash`
@@ -48,13 +48,13 @@ _Retrieval of chain data_
 ▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
 - **summary**: Get the runtime version
 
-▸ **subscribeFinalisedHeads**()**.subscribe**(CALLBACK): `Header`
+▸ **subscribeFinalisedHeads**(): `Header`
 - **summary**: Retrieves the best finalised header via subscription
 
-▸ **subscribeNewHead**()**.subscribe**(CALLBACK): `Header`
+▸ **subscribeNewHead**(): `Header`
 - **summary**: Retrieves the best header via subscription
 
-▸ **subscribeRuntimeVersion**()**.subscribe**(CALLBACK): `RuntimeVersion`
+▸ **subscribeRuntimeVersion**(): `RuntimeVersion`
 - **summary**: Retrieves the runtime version via subscription
 
 ___
@@ -82,7 +82,7 @@ _Query of state_
 ▸ **queryStorage**(keys: `Vec<StorageKey>`, startBlock: `Hash`, block?: `Hash`): `Vec<StorageChangeSet>`
 - **summary**: Query historical storage entries (by key) starting from a start block
 
-▸ **subscribeStorage**(keys: `Vec<StorageKey>`)**.subscribe**(CALLBACK): `StorageChangeSet`
+▸ **subscribeStorage**(keys: `Vec<StorageKey>`): `StorageChangeSet`
 - **summary**: Subscribes to storage changes for the provided keys
 
 ___
@@ -94,6 +94,9 @@ _Methods to retrieve system info_
 
 ▸ **chain**(): `Text`
 - **summary**: Retrieves the chain
+
+▸ **health**(): `Health`
+- **summary**: Return health status of the node
 
 ▸ **name**(): `Text`
 - **summary**: Retrieves the node name

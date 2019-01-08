@@ -28,7 +28,7 @@
 
 **Ƭ TypeDef**: *`object`*
 
-*Defined in [codec/createType.ts:26](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L26)*
+*Defined in [codec/createType.ts:26](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L26)*
 
 #### Type declaration
 
@@ -40,15 +40,15 @@ ___
 
 ##  createClass
 
-▸ **createClass**(type: * [Text](../classes/_text_.text.md) &#124; `string`*, value?: *`any`*): [Constructor](_types_.md#constructor)
+▸ **createClass**(type: *[Text](../classes/_text_.text.md) | `string`*, value?: *`any`*): [Constructor](_types_.md#constructor)
 
-*Defined in [codec/createType.ts:172](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L172)*
+*Defined in [codec/createType.ts:172](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L172)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| type |  [Text](../classes/_text_.text.md) &#124; `string`|
+| type | [Text](../classes/_text_.text.md) | `string` |
 | `Optional` value | `any` |
 
 **Returns:** [Constructor](_types_.md#constructor)
@@ -58,15 +58,15 @@ ___
 
 ##  createType
 
-▸ **createType**(type: * [Text](../classes/_text_.text.md) &#124; `string`*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
+▸ **createType**(type: *[Text](../classes/_text_.text.md) | `string`*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/createType.ts:178](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L178)*
+*Defined in [codec/createType.ts:178](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L178)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| type |  [Text](../classes/_text_.text.md) &#124; `string`|
+| type | [Text](../classes/_text_.text.md) | `string` |
 | `Optional` value | `any` |
 
 **Returns:** [Codec](../interfaces/_types_.codec.md)
@@ -78,7 +78,7 @@ ___
 
 ▸ **getTypeClass**(value: *[TypeDef](_codec_createtype_.md#typedef)*): [Constructor](_types_.md#constructor)
 
-*Defined in [codec/createType.ts:126](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L126)*
+*Defined in [codec/createType.ts:126](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L126)*
 
 **Parameters:**
 
@@ -93,16 +93,16 @@ ___
 
 ##  getTypeDef
 
-▸ **getTypeDef**(_type: * [Text](../classes/_text_.text.md) &#124; `string`*, name?: * `undefined` &#124; `string`*): [TypeDef](_codec_createtype_.md#typedef)
+▸ **getTypeDef**(_type: *[Text](../classes/_text_.text.md) | `string`*, name?: *`undefined` | `string`*): [TypeDef](_codec_createtype_.md#typedef)
 
-*Defined in [codec/createType.ts:82](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L82)*
+*Defined in [codec/createType.ts:82](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L82)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| _type |  [Text](../classes/_text_.text.md) &#124; `string`|
-| `Optional` name |  `undefined` &#124; `string`|
+| _type | [Text](../classes/_text_.text.md) | `string` |
+| `Optional` name | `undefined` | `string` |
 
 **Returns:** [TypeDef](_codec_createtype_.md#typedef)
 
@@ -113,7 +113,7 @@ ___
 
 ▸ **typeSplit**(type: *`string`*): `Array`<`string`>
 
-*Defined in [codec/createType.ts:34](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/codec/createType.ts#L34)*
+*Defined in [codec/createType.ts:34](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/codec/createType.ts#L34)*
 
 **Parameters:**
 

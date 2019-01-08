@@ -20,15 +20,15 @@
 
 ##  constructor
 
-⊕ **new Bool**(value?: * [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`*): [Bool](_bool_.bool.md)
+⊕ **new Bool**(value?: *[Bool](_bool_.bool.md) | `Boolean` | `Uint8Array` | `boolean` | `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L15)*
+*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L15)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Bool](_bool_.bool.md) &#124; `Boolean` &#124; `Uint8Array` &#124; `boolean` &#124; `number`| false |
+| `Default value` value | [Bool](_bool_.bool.md) | `Boolean` | `Uint8Array` | `boolean` | `number` | false |
 
 **Returns:** [Bool](_bool_.bool.md)
 
@@ -54,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L35)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L35)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -72,7 +72,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L42)*
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L42)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -87,7 +87,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Bool.ts:49](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L49)*
+*Defined in [Bool.ts:49](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L49)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -102,7 +102,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Bool.ts:56](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L56)*
+*Defined in [Bool.ts:56](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L56)*
 
 *__description__*: Returns the string representation of the value
 
@@ -113,9 +113,9 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [Bool.ts:64](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Bool.ts#L64)*
+*Defined in [Bool.ts:64](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Bool.ts#L64)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -123,7 +123,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

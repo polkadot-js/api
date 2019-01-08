@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/types authors & contributors
+// Copyright 2017-2019 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -15,7 +15,7 @@ const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem;
 
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._\n';
 const DESC_EVENTS = '\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
-const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself. The RPCs are never exposed by the runtime._';
+const DESC_RPC = '\n\n_The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._';
 const DESC_STORAGE = '\n\n_The following sections contain Storage methods are part of the default Substrate runtime._\n';
 
 function sectionLink (sectionName: string) {
@@ -62,14 +62,13 @@ function addRpc () {
         return name + (isOptional ? '?' : '') + ': `' + type + '`';
       }).join(', ');
       const type = '`' + method.type + '`';
-      const isSub = method.isSubscription;
+      // const isSub = method.isSubscription;
       const renderMethod = `${md}\n▸ **${methodName}**(${args})`;
       const renderReturnType = `: ${type}`;
       const renderSignature = `${renderMethod}${renderReturnType}`;
-      const renderSignatureSub = `${renderMethod}**.subscribe**(CALLBACK)${renderReturnType}`;
       const renderSummary = `${method && method.description ? `\n- **summary**: ${method.description}\n` : `\n\n`}`;
 
-      return isSub ? `${renderSignatureSub}${renderSummary}` : `${renderSignature}${renderSummary}`;
+      return `${renderSignature}${renderSummary}`;
     }, renderSection);
   }, renderHeading + renderAnchors);
 }
@@ -138,7 +137,7 @@ function addExtrinsics (metadata: Metadata) {
 function addStorage (metadata: Metadata) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort();
-  const renderAnchors = generateSectionLinks('storage', metadata);
+  const renderAnchors = generateSectionLinks('storage', metadata) + sectionLink('substrate');
 
   return orderedSections.reduce((md, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {

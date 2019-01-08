@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/types authors & contributors
+// Copyright 2017-2019 @polkadot/types authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -38,11 +38,11 @@ export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
-// NOTE These are currently only used internally, no direct mapping to Rust strings
-// export { default as H256 } from './H256';
-// export { default as H512 } from './H512';
+export { default as H256 } from './H256';
+export { default as H512 } from './H512';
 export { default as Hash } from './Hash';
 export { default as Header } from './Header';
+export { default as Health } from './Health';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';

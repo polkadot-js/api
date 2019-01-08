@@ -1,4 +1,4 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -18,7 +18,8 @@ export interface ApiBaseInterface<R, S, E> {
   readonly rpc: R;
   readonly tx: E;
 
-  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => void;
+  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
+  once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
 
 export interface ApiOptions {

@@ -25,15 +25,15 @@
 
 ##  constructor
 
-⊕ **new Text**(value?: * [Text](_text_.text.md) &#124; `string` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `object`*): [Text](_text_.text.md)
+⊕ **new Text**(value?: *[Text](_text_.text.md) | `string` | [AnyU8a](../modules/_types_.md#anyu8a) | `object`*): [Text](_text_.text.md)
 
-*Defined in [Text.ts:23](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L23)*
+*Defined in [Text.ts:23](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L23)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value |  [Text](_text_.text.md) &#124; `string` &#124; [AnyU8a](../modules/_types_.md#anyu8a) &#124; `object`| &quot;&quot; |
+| `Default value` value | [Text](_text_.text.md) | `string` | [AnyU8a](../modules/_types_.md#anyu8a) | `object` | &quot;&quot; |
 
 **Returns:** [Text](_text_.text.md)
 
@@ -61,7 +61,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L47)*
+*Defined in [Text.ts:47](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L47)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -76,7 +76,7 @@ getlength(): `number`
 
 *Overrides String.length*
 
-*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L54)*
+*Defined in [Text.ts:54](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L54)*
 
 *__description__*: The length of the value
 
@@ -94,7 +94,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L62)*
+*Defined in [Text.ts:62](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L62)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -109,7 +109,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L69)*
+*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L69)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -126,7 +126,7 @@ ___
 
 *Overrides String.toString*
 
-*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L76)*
+*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L76)*
 
 *__description__*: Returns the string representation of the value
 
@@ -137,9 +137,9 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: * `undefined` &#124; `false` &#124; `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [Text.ts:85](https://github.com/polkadot-js/api/blob/85434e0/packages/types/src/Text.ts#L85)*
+*Defined in [Text.ts:85](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Text.ts#L85)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -147,7 +147,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare |  `undefined` &#124; `false` &#124; `true`|  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

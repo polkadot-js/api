@@ -1,18 +1,20 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcRxInterface$Method } from '@polkadot/rpc-rx/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
 import Rpc from '@polkadot/rpc-core/index';
+import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
 import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { isFunction, logger } from '@polkadot/util';
+import { isFunction, logger, assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
@@ -106,7 +108,7 @@ const l = logger('api/promise');
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -173,8 +175,42 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: Rpc): Rpc {
-    return rpc;
+  protected decorateRpc (rpc: Rpc): DecoratedRpc {
+    const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
+    const rpcrx = new RpcRx(rpc);
+
+    return names.reduce((result, section) => {
+      result[section] = Object.keys(rpcrx[section]).reduce((fns, method) => {
+        fns[method] = this.decorateMethod(
+          rpcrx[section][method],
+          isFunction(rpc[section][method].unsubscribe)
+        );
+
+        return fns;
+      }, {} as DecoratedRpc$Section);
+
+      return result;
+    }, {} as DecoratedRpc);
+  }
+
+  protected decorateMethod (rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
+    if (!isSubscription) {
+      return (...params: Array<any>): Promise<any> =>
+        rxfn(...params).toPromise();
+    }
+
+    return (..._params: Array<any>): UnsubFunction => {
+      const cb = _params[_params.length - 1];
+
+      assert(isFunction(cb), 'Expected callback as last paramater for subscription');
+
+      const params = _params.slice(0, _params.length - 1);
+      const subscription = rxfn(...params).subscribe(cb);
+
+      return (): void => {
+        subscription.unsubscribe();
+      };
+    };
   }
 
   /**
@@ -189,16 +225,20 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
    *
    * // combines values from balance & nonce as it updates
    * api.combineLatest([
-   *   (cb) => api.rpc.chain.subscribeNewHead(cb),
-   *   (cb) => api.query.balances.freeBalance(address, cb),
+   *   api.rpc.chain.subscribeNewHead,
+   *   [api.query.balances.freeBalance, address],
    *   (cb) => api.query.system.accountNonce(address, cb)
    * ], ([head, balance, nonce]) => {
    *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
    * });
    * ```
    */
-  combineLatest (fns: Array<CombinatorFunction>, callback: CombinatorCallback): Combinator {
-    return new Combinator(fns, callback);
+  combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubFunction {
+    const combinator = new Combinator(fns, callback);
+
+    return (): void => {
+      combinator.unsubscribe();
+    };
   }
 
   protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
@@ -237,10 +277,12 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> => {
-      if (args.length === 0 || !isFunction(args[args.length - 1])) {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | UnsubFunction => {
+      const cb = args[args.length - 1];
+
+      if (args.length === 0 || !isFunction(cb)) {
         return this.rpc.state.getStorage([method, args[0]]);
-      } else if (!this.hasSubscriptions && isFunction(args[args.length - 1])) {
+      } else if (!this.hasSubscriptions && isFunction(cb)) {
         l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
 
         return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
@@ -249,12 +291,12 @@ export default class ApiPromise extends ApiBase<Rpc, QueryableStorage, Submittab
       return this.rpc.state.subscribeStorage(
         [[method, args.length === 1 ? undefined : args[0]]],
         (result: Array<Codec | null | undefined> = []) =>
-          args[args.length - 1](result[0])
-      );
+          cb(result[0])
+      ) as UnsubFunction;
     };
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
-      this.rpc.state.getStorage([method, arg], hash);
+      this.rpc.state.getStorage([method, arg], hash) as Promise<Codec | null | undefined>;
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }

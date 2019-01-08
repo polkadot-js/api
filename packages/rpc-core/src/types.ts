@@ -1,8 +1,8 @@
-// Copyright 2017-2018 @polkadot/rpc-core authors & contributors
+// Copyright 2017-2019 @polkadot/rpc-core authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export interface RpcInterface$Section$Method {
+export interface RpcInterface$Method {
   (...params: Array<any>): Promise<any>;
 
   subscription: string;
@@ -10,7 +10,7 @@ export interface RpcInterface$Section$Method {
 }
 
 export type RpcInterface$Section = {
-  [index: string]: RpcInterface$Section$Method
+  [index: string]: RpcInterface$Method
 };
 
 export interface RpcInterface {

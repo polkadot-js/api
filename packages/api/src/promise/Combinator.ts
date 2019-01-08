@@ -1,25 +1,37 @@
-// Copyright 2017-2018 @polkadot/api authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+
+import { UnsubFunction } from './types';
 
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
-export type CombinatorFunction = (cb: (value: any) => void) => any;
+export type CombinatorFunction = {
+  (cb: (value: any) => any): UnsubFunction | any
+};
 
 export default class Combinator {
   protected _allHasFired: boolean = false;
   protected _callback: CombinatorCallback;
   protected _fired: Array<boolean> = [];
+  protected _fns: Array<CombinatorFunction> = [];
+  protected _isActive: boolean = true;
   protected _results: Array<any> = [];
+  protected _unsubscriptions: Array<UnsubFunction | any> = [];
 
-  constructor (fns: Array<CombinatorFunction>, callback: CombinatorCallback) {
+  constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
     this._callback = callback;
+    this._unsubscriptions = fns.map((input, index) => {
+      const [fn, ...args] = Array.isArray(input)
+        ? input
+        : [input];
 
-    fns.forEach((fn, index) => {
       this._fired.push(false);
+      this._fns.push(fn);
 
-      fn(this.createCallback(index));
+      // @ts-ignore Not quite 100% how to have a variable number at the front here
+      return fn(...args, this.createCallback(index));
     });
   }
 
@@ -41,7 +53,7 @@ export default class Combinator {
   }
 
   protected triggerUpdate (): void {
-    if (!isFunction(this._callback) || !this.allHasFired()) {
+    if (!this._isActive || !isFunction(this._callback) || !this.allHasFired()) {
       return;
     }
 
@@ -50,5 +62,15 @@ export default class Combinator {
     } catch (error) {
       // swallow, we don't want the handler to trip us up
     }
+  }
+
+  unsubscribe (): void {
+    this._isActive = false;
+
+    this._unsubscriptions.forEach((unsubscribe) => {
+      if (isFunction(unsubscribe)) {
+        unsubscribe();
+      }
+    });
   }
 }
