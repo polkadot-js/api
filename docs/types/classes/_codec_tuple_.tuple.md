@@ -4,8 +4,6 @@
 
 *__description__*: A Tuple defines an anonymous fixed-length array, where each element has its own type. It extends the base JS `Array` object.
 
-# Type parameters
-#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 # Hierarchy
 
  `Array`<[Codec](../interfaces/_types_.codec.md)>
@@ -51,15 +49,15 @@
 
 ##  constructor
 
-⊕ **new Tuple**(Types: *`S`*, value: *`any`*): [Tuple](_codec_tuple_.tuple.md)
+⊕ **new Tuple**(Types: *`TupleConstructors`*, value: *`any`*): [Tuple](_codec_tuple_.tuple.md)
 
-*Defined in [codec/Tuple.ts:20](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L20)*
+*Defined in [codec/Tuple.ts:22](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L22)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| Types | `S` |
+| Types | `TupleConstructors` |
 | value | `any` |
 
 **Returns:** [Tuple](_codec_tuple_.tuple.md)
@@ -86,7 +84,7 @@ ___
 
 getTypes(): `Array`<`string`>
 
-*Defined in [codec/Tuple.ts:65](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L65)*
+*Defined in [codec/Tuple.ts:68](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L68)*
 
 *__description__*: The types definition of the tuple
 
@@ -99,7 +97,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Tuple.ts:56](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L56)*
+*Defined in [codec/Tuple.ts:59](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L59)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -117,7 +115,7 @@ ___
 
 *Overrides Array.filter*
 
-*Defined in [codec/Tuple.ts:121](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L121)*
+*Defined in [codec/Tuple.ts:126](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L126)*
 
 *__description__*: Filters the array with the callback
 
@@ -139,7 +137,7 @@ ___
 
 *Overrides Array.map*
 
-*Defined in [codec/Tuple.ts:130](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L130)*
+*Defined in [codec/Tuple.ts:135](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L135)*
 
 *__description__*: Maps the array with the callback
 
@@ -162,7 +160,7 @@ ___
 
 ▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
-*Defined in [codec/Tuple.ts:72](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L72)*
+*Defined in [codec/Tuple.ts:77](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L77)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -177,7 +175,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Tuple.ts:79](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L79)*
+*Defined in [codec/Tuple.ts:84](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L84)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -192,7 +190,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Tuple.ts:86](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L86)*
+*Defined in [codec/Tuple.ts:91](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L91)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -209,7 +207,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Tuple.ts:95](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L95)*
+*Defined in [codec/Tuple.ts:100](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L100)*
 
 *__description__*: Returns the string representation of the value
 
@@ -222,7 +220,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [codec/Tuple.ts:104](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L104)*
+*Defined in [codec/Tuple.ts:109](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L109)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -239,20 +237,17 @@ ___
 
 ## `<Static>` with
 
-▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+▸ **with**(Types: *`TupleConstructors`*): [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)>
 
-*Defined in [codec/Tuple.ts:43](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L43)*
+*Defined in [codec/Tuple.ts:48](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L48)*
 
-**Type parameters:**
-
-#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| Types | `S` |
+| Types | `TupleConstructors` |
 
-**Returns:** [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)>
 
 ___
 

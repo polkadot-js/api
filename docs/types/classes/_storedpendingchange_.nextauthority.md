@@ -4,8 +4,6 @@
 
 *__description__*: The next authority available as [SessionKey](_sessionkey_.sessionkey.md)
 
-# Type parameters
-#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 # Hierarchy
 
 ↳  [Tuple](_codec_tuple_.tuple.md)
@@ -29,7 +27,7 @@
 
 *Overrides [Tuple](_codec_tuple_.tuple.md).[constructor](_codec_tuple_.tuple.md#constructor)*
 
-*Defined in [StoredPendingChange.ts:31](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/StoredPendingChange.ts#L31)*
+*Defined in [StoredPendingChange.ts:31](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/StoredPendingChange.ts#L31)*
 
 **Parameters:**
 
@@ -51,7 +49,7 @@ getTypes(): `Array`<`string`>
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[Types](_codec_tuple_.tuple.md#types)*
 
-*Defined in [codec/Tuple.ts:65](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L65)*
+*Defined in [codec/Tuple.ts:68](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L68)*
 
 *__description__*: The types definition of the tuple
 
@@ -66,7 +64,7 @@ getencodedLength(): `number`
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[encodedLength](_codec_tuple_.tuple.md#encodedlength)*
 
-*Defined in [codec/Tuple.ts:56](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L56)*
+*Defined in [codec/Tuple.ts:59](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L59)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -79,7 +77,7 @@ ___
 
 getindex(): [U64](_u64_.u64.md)
 
-*Defined in [StoredPendingChange.ts:39](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/StoredPendingChange.ts#L39)*
+*Defined in [StoredPendingChange.ts:39](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/StoredPendingChange.ts#L39)*
 
 **Returns:** [U64](_u64_.u64.md)
 
@@ -90,7 +88,7 @@ ___
 
 getsessionKey(): [SessionKey](_sessionkey_.sessionkey.md)
 
-*Defined in [StoredPendingChange.ts:43](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/StoredPendingChange.ts#L43)*
+*Defined in [StoredPendingChange.ts:43](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/StoredPendingChange.ts#L43)*
 
 **Returns:** [SessionKey](_sessionkey_.sessionkey.md)
 
@@ -108,7 +106,7 @@ ___
 
 *Overrides Array.filter*
 
-*Defined in [codec/Tuple.ts:121](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L121)*
+*Defined in [codec/Tuple.ts:126](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L126)*
 
 *__description__*: Filters the array with the callback
 
@@ -132,7 +130,7 @@ ___
 
 *Overrides Array.map*
 
-*Defined in [codec/Tuple.ts:130](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L130)*
+*Defined in [codec/Tuple.ts:135](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L135)*
 
 *__description__*: Maps the array with the callback
 
@@ -157,7 +155,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toArray](_codec_tuple_.tuple.md#toarray)*
 
-*Defined in [codec/Tuple.ts:72](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L72)*
+*Defined in [codec/Tuple.ts:77](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L77)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -174,7 +172,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toHex](_codec_tuple_.tuple.md#tohex)*
 
-*Defined in [codec/Tuple.ts:79](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L79)*
+*Defined in [codec/Tuple.ts:84](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L84)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -191,7 +189,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toJSON](_codec_tuple_.tuple.md#tojson)*
 
-*Defined in [codec/Tuple.ts:86](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L86)*
+*Defined in [codec/Tuple.ts:91](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L91)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -210,7 +208,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Tuple.ts:95](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L95)*
+*Defined in [codec/Tuple.ts:100](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L100)*
 
 *__description__*: Returns the string representation of the value
 
@@ -225,7 +223,7 @@ ___
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[toU8a](_codec_tuple_.tuple.md#tou8a)*
 
-*Defined in [codec/Tuple.ts:104](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L104)*
+*Defined in [codec/Tuple.ts:109](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L109)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -242,22 +240,19 @@ ___
 
 ## `<Static>` with
 
-▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+▸ **with**(Types: *`TupleConstructors`*): [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)>
 
 *Inherited from [Tuple](_codec_tuple_.tuple.md).[with](_codec_tuple_.tuple.md#with)*
 
-*Defined in [codec/Tuple.ts:43](https://github.com/polkadot-js/api/blob/d589a1b/packages/types/src/codec/Tuple.ts#L43)*
+*Defined in [codec/Tuple.ts:48](https://github.com/polkadot-js/api/blob/483a662/packages/types/src/codec/Tuple.ts#L48)*
 
-**Type parameters:**
-
-#### S :  `Array`<[Constructor](../modules/_types_.md#constructor)>
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| Types | `S` |
+| Types | `TupleConstructors` |
 
-**Returns:** [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)<`S`>>
+**Returns:** [Constructor](../modules/_types_.md#constructor)<[Tuple](_codec_tuple_.tuple.md)>
 
 ___
 
