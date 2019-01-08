@@ -7,15 +7,18 @@ import { Observable } from 'rxjs';
 
 import { Chain, Derive } from './index';
 
-const testFunction = (api: ApiRx, section: keyof Derive, method: keyof Chain, inputs: any[]) => {
-  describe(`function '${section}_${method}'`, () => {
+type Section<S> = S extends 'chain' ? Chain : Chain;
+
+const testFunction = <S>(api: ApiRx, section: keyof Derive, method: keyof Section<S>, inputs: any[]) => {
+  describe(`derive.${section}.${method}`, () => {
     it('should return an Observable', () => {
-      expect((api.derive[section][method] as Function)(...inputs) instanceof Observable);
+      const f = api.derive[section][method] as Function;
+      expect((api.derive[section][method])(...inputs) instanceof Observable);
     });
 
     it('should be memoized', () => {
-      const first = (api.derive[section][method] as Function)(...inputs);
-      const second = (api.derive[section][method] as Function)(...inputs);
+      const first = api.derive[section][method](...inputs);
+      const second = api.derive[section][method](...inputs);
       expect(first).toBe(second);
     });
   });
