@@ -5,7 +5,7 @@
 import ApiRx from '@polkadot/api/rx';
 import { BlockNumber } from '@polkadot/types/index';
 
-describe.skip('derive', () => {
+describe.skip('derive e2e', () => {
   beforeAll(() => {
     jest.setTimeout(30000);
   });
