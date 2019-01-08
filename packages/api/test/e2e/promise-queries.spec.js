@@ -51,7 +51,7 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it.only('subscribes to queries (default)', (done) => {
+  it('subscribes to queries (default)', (done) => {
     api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(12);
 
