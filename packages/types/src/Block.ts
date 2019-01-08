@@ -30,23 +30,30 @@ export default class Block extends Struct {
   }
 
   /**
-   * @description The [[Extrinsics]] conatined in the block
+   * @description Encodes a content [[Hash]] for the block
    */
-  get extrinsics (): Extrinsics {
-    return this.get('extrinsics') as Extrinsics;
-  }
-
-  /**
-   * @description Coinvenience getter, encoded the [[Hash]] for the block
-   */
-  get hash (): Hash {
+  get contentHash (): Hash {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
   }
 
   /**
-   * @description The [[Header]] in the block
+   * @description The [[Extrinsics]] contained in the block
+   */
+  get extrinsics (): Extrinsics {
+    return this.get('extrinsics') as Extrinsics;
+  }
+
+  /**
+   * @description Block/header [[Hash]]
+   */
+  get hash (): Hash {
+    return this.header.hash;
+  }
+
+  /**
+   * @description The [[Header]] of the block
    */
   get header (): Header {
     return this.get('header') as Header;

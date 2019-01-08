@@ -28,7 +28,7 @@
 
 **Ƭ TypeDef**: *`object`*
 
-*Defined in [codec/createType.ts:26](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L26)*
+*Defined in [codec/createType.ts:26](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L26)*
 
 #### Type declaration
 
@@ -42,7 +42,7 @@ ___
 
 ▸ **createClass**(type: *[Text](../classes/_text_.text.md) | `string`*, value?: *`any`*): [Constructor](_types_.md#constructor)
 
-*Defined in [codec/createType.ts:172](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L172)*
+*Defined in [codec/createType.ts:172](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L172)*
 
 **Parameters:**
 
@@ -60,7 +60,7 @@ ___
 
 ▸ **createType**(type: *[Text](../classes/_text_.text.md) | `string`*, value?: *`any`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/createType.ts:178](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L178)*
+*Defined in [codec/createType.ts:178](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L178)*
 
 **Parameters:**
 
@@ -78,7 +78,7 @@ ___
 
 ▸ **getTypeClass**(value: *[TypeDef](_codec_createtype_.md#typedef)*): [Constructor](_types_.md#constructor)
 
-*Defined in [codec/createType.ts:126](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L126)*
+*Defined in [codec/createType.ts:126](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L126)*
 
 **Parameters:**
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **getTypeDef**(_type: *[Text](../classes/_text_.text.md) | `string`*, name?: *`undefined` | `string`*): [TypeDef](_codec_createtype_.md#typedef)
 
-*Defined in [codec/createType.ts:82](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L82)*
+*Defined in [codec/createType.ts:82](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L82)*
 
 **Parameters:**
 
@@ -113,7 +113,7 @@ ___
 
 ▸ **typeSplit**(type: *`string`*): `Array`<`string`>
 
-*Defined in [codec/createType.ts:34](https://github.com/polkadot-js/api/blob/aef4b74/packages/types/src/codec/createType.ts#L34)*
+*Defined in [codec/createType.ts:34](https://github.com/polkadot-js/api/blob/783db16/packages/types/src/codec/createType.ts#L34)*
 
 **Parameters:**
 
