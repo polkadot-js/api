@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
@@ -34,9 +35,25 @@ describe.skip('e2e queries', () => {
     ).toBe(false);
   });
 
-  it('subscribes to queries', (done) => {
+  it('subscribes to rpc', (done) => {
     api.rpc.chain.subscribeNewHead((header) => {
       expect(header.blockNumber.isZero()).toBe(false);
+
+      done();
+    });
+  });
+
+  it('subscribes to queries', (done) => {
+    api.query.system.accountNonce(keyring.ferdie.address(), (nonce) => {
+      expect(nonce instanceof BN).toBe(true);
+
+      done();
+    });
+  });
+
+  it.only('subscribes to queries (default)', (done) => {
+    api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
+      expect(prefs.unstakeThreshold.toNumber()).toBe(12);
 
       done();
     });
