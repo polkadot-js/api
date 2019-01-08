@@ -59,7 +59,7 @@ export class KeyValueOption extends Tuple {
   constructor (value?: KeyValueOptionValue | Uint8Array) {
     super({
       StorageKey,
-      'Option<StoreageData>': Option.with(StorageData)
+      'Option<StorageData>': Option.with(StorageData)
     }, value);
   }
 
