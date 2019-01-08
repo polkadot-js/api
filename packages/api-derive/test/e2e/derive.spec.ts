@@ -19,7 +19,7 @@ describe.skip('derive e2e', () => {
   it('derive.chain.bestNumber', async (done) => {
     api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
       expect(blockNumber instanceof BlockNumber).toBe(true);
-      expect(blockNumber.gten(1)).toBe(true);
+      expect(blockNumber.gten(0)).toBe(true);
       done();
     });
   });
