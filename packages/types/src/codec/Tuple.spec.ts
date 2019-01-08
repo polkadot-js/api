@@ -70,11 +70,11 @@ describe('Tuple', () => {
   });
 
   it('exposes the Types (object creation)', () => {
-    const test = new (Tuple.with({
-      BlockNumber, Proposal, VoteThreshold
-    }))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
+    const test = new Tuple({
+      BlockNumber, VoteThreshold
+    }, []);
 
-    expect(test.Types).toEqual(['BlockNumber', 'Proposal', 'VoteThreshold']);
+    expect(test.Types).toEqual(['BlockNumber', 'VoteThreshold']);
   });
 
   it('exposes filter', () => {
