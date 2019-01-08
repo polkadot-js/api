@@ -15,10 +15,8 @@ type ReturnTypes<T extends Record<keyof T, (...args: any[]) => any>> = {
   [P in keyof T]: ReturnType<T[P]>
 };
 
-export type Chain = ReturnTypes<typeof chain>;
-
 export interface Derive {
-  chain: Chain;
+  chain: ReturnTypes<typeof chain>;
 }
 
 export default function decorateDerive (api: ApiRx): Derive {
