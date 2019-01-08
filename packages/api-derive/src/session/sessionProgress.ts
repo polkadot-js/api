@@ -18,7 +18,7 @@ export function sessionProgress (api: ApiRx) {
       api.query.session.lastLengthChange()
     ]).pipe(map(
       ([bestNumber, sessionLength, lastLengthChange]) =>
-        (bestNumber as BlockNumber || new BN(0) as BN)
+        (bestNumber as BlockNumber || new BN(0))
           .sub(lastLengthChange as BlockNumber || new BN(0))
           .add(sessionLength as BlockNumber || new BN(1))
           .mod(sessionLength as BlockNumber || new BN(1))
