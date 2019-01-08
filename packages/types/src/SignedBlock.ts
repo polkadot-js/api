@@ -35,7 +35,7 @@ export default class SignedBlock extends Struct {
   }
 
   /**
-   * @description Block/header [[Hash]] for the block
+   * @description Block/header [[Hash]]
    */
   get hash (): Hash {
     return this.block.hash;
