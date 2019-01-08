@@ -43,10 +43,10 @@ export class Other extends Bytes {
  */
 export class Seal extends Tuple {
   constructor (value: any) {
-    super([
+    super({
       U64,
       Signature
-    ], value);
+    }, value);
   }
 
   /**

@@ -69,6 +69,14 @@ describe('Tuple', () => {
     expect(tuple.Types).toEqual(['Text', 'U32']);
   });
 
+  it('exposes the Types (object creation)', () => {
+    const test = new (Tuple.with({
+      BlockNumber, Proposal, VoteThreshold
+    }))('0x62190000000000000003507b0a092230783432223a202230783433220a7d0a01');
+
+    expect(test.Types).toEqual(['BlockNumber', 'Proposal', 'VoteThreshold']);
+  });
+
   it('exposes filter', () => {
     expect(tuple.filter((v) => v.toJSON() === 69)).toEqual([new U32(69)]);
   });
