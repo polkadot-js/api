@@ -90,6 +90,8 @@
 * [&quot;Header&quot;](modules/_header_.md)
   * [Header](classes/_header_.header.md)
 * [&quot;Header.spec&quot;](modules/_header_spec_.md)
+* [&quot;Health&quot;](modules/_health_.md)
+  * [Health](classes/_health_.health.md)
 * [&quot;I128&quot;](modules/_i128_.md)
   * [I128](classes/_i128_.i128.md)
 * [&quot;I16&quot;](modules/_i16_.md)

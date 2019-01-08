@@ -9,7 +9,7 @@
 
 ↳  [Struct](_codec_struct_.struct.md)
 
-**↳ FunctionArgumentMetadata**
+**↳ Health**
 
 # Implements
 
@@ -21,11 +21,11 @@
 
 ##  constructor
 
-⊕ **new FunctionArgumentMetadata**(value?: *`any`*): [FunctionArgumentMetadata](_metadata_modules_.functionargumentmetadata.md)
+⊕ **new Health**(value?: *`any`*): [Health](_health_.health.md)
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Metadata/Modules.ts:18](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Metadata/Modules.ts#L18)*
+*Defined in [Health.ts:13](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Health.ts#L13)*
 
 **Parameters:**
 
@@ -33,7 +33,7 @@
 | ------ | ------ |
 | `Optional` value | `any` |
 
-**Returns:** [FunctionArgumentMetadata](_metadata_modules_.functionargumentmetadata.md)
+**Returns:** [Health](_health_.health.md)
 
 ___
 
@@ -69,30 +69,30 @@ getencodedLength(): `number`
 **Returns:** `number`
 
 ___
-<a id="name"></a>
+<a id="issyncing"></a>
 
-##  name
+##  isSyncing
 
-getname(): [Text](_text_.text.md)
+getisSyncing(): [Bool](_bool_.bool.md)
 
-*Defined in [Metadata/Modules.ts:29](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Metadata/Modules.ts#L29)*
+*Defined in [Health.ts:24](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Health.ts#L24)*
 
-*__description__*: The argument name
+*__description__*: The sync status
 
-**Returns:** [Text](_text_.text.md)
+**Returns:** [Bool](_bool_.bool.md)
 
 ___
-<a id="type-1"></a>
+<a id="peers"></a>
 
-##  type
+##  peers
 
-gettype(): [Type](_type_.type.md)
+getpeers(): [U32](_u32_.u32.md)
 
-*Defined in [Metadata/Modules.ts:36](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Metadata/Modules.ts#L36)*
+*Defined in [Health.ts:31](https://github.com/polkadot-js/api/blob/7f316b6/packages/types/src/Health.ts#L31)*
 
-*__description__*: The [Type](_metadata_modules_.functionargumentmetadata.md#type)
+*__description__*: The numbers of peers as [U32](_u32_.u32.md)
 
-**Returns:** [Type](_type_.type.md)
+**Returns:** [U32](_u32_.u32.md)
 
 ___
 

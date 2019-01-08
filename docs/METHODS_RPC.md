@@ -95,6 +95,9 @@ _Methods to retrieve system info_
 ▸ **chain**(): `Text`
 - **summary**: Retrieves the chain
 
+▸ **health**(): `Health`
+- **summary**: Return health status of the node
+
 ▸ **name**(): `Text`
 - **summary**: Retrieves the node name
 
