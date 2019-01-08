@@ -4,6 +4,7 @@
 
 import ApiRx from '@polkadot/api/rx';
 
+import { cache } from './cache';
 import * as chain from './chain';
 
 /**
@@ -21,7 +22,10 @@ export interface Derive {
 export default function decorateDerive (api: ApiRx): Derive {
   const derive: Partial<Derive> = {};
   derive.chain = Object.keys(chain).reduce((result, key) => {
-    result[key as keyof typeof chain] = chain[key as keyof typeof chain](api);
+    // Create cache for the section_method function
+    const cached = cache(chain[key as keyof typeof chain]);
+    // Add this cached function into the result
+    result[key as keyof typeof chain] = cached(api);
     return result;
   }, {} as ReturnTypes<typeof chain>);
 
