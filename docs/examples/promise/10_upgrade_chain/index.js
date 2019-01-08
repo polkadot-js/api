@@ -40,7 +40,7 @@ async function main () {
   api.tx.upgradeKey
     .upgrade(code)
     .sign(adminPair, adminNonce)
-    .send(({ events = [], type }) => {
+    .send(({ events = [], status, type }) => {
       console.log('Transaction status:', type);
 
       if (type === 'Finalised') {
