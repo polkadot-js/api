@@ -13,7 +13,6 @@ import Vector from '../codec/Vector';
 import Text from '../Text';
 import Type from '../Type';
 import U16 from '../U16';
-// import { getTypeDef, getTypeClass } from '../codec/createType';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
