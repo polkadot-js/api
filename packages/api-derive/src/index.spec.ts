@@ -3,11 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import ApiRx from '@polkadot/api/rx';
+import MockProvider from '@polkadot/rpc-provider/mock';
 import { Observable } from 'rxjs';
 
 import { Derive } from './index';
-
-const api = new ApiRx();
 
 const testFunction = (api: ApiRx) => {
   return <
@@ -29,5 +28,10 @@ const testFunction = (api: ApiRx) => {
 };
 
 describe('derive', () => {
+  const api = new ApiRx(new MockProvider());
+
+  beforeAll((done) => api.isReady.subscribe(() => done()));
+
   testFunction(api)('chain', 'bestNumber', []);
+  testFunction(api)('session', 'sessionProgress', []);
 });
