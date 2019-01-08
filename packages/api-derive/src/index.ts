@@ -30,10 +30,10 @@ export default function decorateDerive (api: ApiRx): Derive {
     const section = functions[sectionName as keyof Derive];
     derive[sectionName as keyof Derive] = Object.keys(section).reduce((result, methodName) => {
       // Create cache for the section_method function
-      // @ts-ignore
+      // @ts-ignore No idea how to make this work...
       const cached = cache(section[methodName as keyof section]);
       // Add this cached function into the result
-      // @ts-ignore
+      // @ts-ignore No idea how to make this work...
       result[methodName as keyof section] = cached(api);
       return result;
     }, {} as ReturnTypes<typeof section>);
