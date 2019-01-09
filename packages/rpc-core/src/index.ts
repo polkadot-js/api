@@ -208,8 +208,10 @@ export default class Rpc implements RpcInterface {
           !item
             ? undefined
             : (
+              // for `null` we fallback to the default value, or create an empty type,
+              // otherwise we return the actual value as retrieved
               item.value.isNone
-                ? null
+                ? createType(type, (_key.meta || { default: undefined }).default)
                 : createType(type, item.value.unwrap())
             )
         );

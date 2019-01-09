@@ -8,7 +8,7 @@
 
 ▸ **cache**(fn: *`Function`*, map?: *`WeakMap`<`object`, `any`>*): `(Anonymous function)`
 
-*Defined in [util/cache.ts:23](https://github.com/polkadot-js/api/blob/6781bba/packages/api-derive/src/util/cache.ts#L23)*
+*Defined in [util/cache.ts:23](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/api-derive/src/util/cache.ts#L23)*
 
 Create memoization for a 2-currified function.
 

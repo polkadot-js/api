@@ -16,13 +16,13 @@ import { AnyU8a, Codec } from '../types';
  * @noInheritDoc
  */
 export default class U8a extends Uint8Array implements Codec {
-  constructor (value: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(
       U8a.decodeU8a(value)
     );
   }
 
-  private static decodeU8a (value: any): Uint8Array {
+  private static decodeU8a (value?: any): Uint8Array {
     if (isU8a(value)) {
       return value;
     }

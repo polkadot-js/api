@@ -41,8 +41,14 @@ export default abstract class AbstractInt extends BN implements Codec {
     if (isHex(value)) {
       return hexToBn(value, { isLe: true, isNegative }).toString();
     } else if (isU8a(value)) {
-      // NOTE When passing u8a in (typically from decoded data), it is always LE
-      return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
+      try {
+        // NOTE When passing u8a in (typically from decoded data), it is always LE
+        return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
+      } catch (error) {
+        console.error(`AbstractInt value decoding failed ${error.message}`, value);
+
+        return '0';
+      }
     } else if (isString(value)) {
       return new BN(value, 10).toString();
     }
