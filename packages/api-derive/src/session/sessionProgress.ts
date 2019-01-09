@@ -11,7 +11,7 @@ import { BlockNumber } from '@polkadot/types/index';
 import { bestNumber } from '../chain';
 import { drr } from '../util/drr';
 
-export function sessionProgress(api: ApiRx) {
+export function sessionProgress (api: ApiRx) {
   return (): Observable<BN> =>
     combineLatest([
       bestNumber(api)(),
