@@ -9,6 +9,7 @@ import ApiRx from '@polkadot/api/rx';
 import { BlockNumber } from '@polkadot/types/index';
 
 import { bestNumber } from '../chain';
+import { drr } from '../util/drr';
 
 export function sessionProgress (api: ApiRx) {
   return (): Observable<BN> =>
@@ -16,11 +17,14 @@ export function sessionProgress (api: ApiRx) {
       bestNumber(api)(),
       api.query.session.sessionLength(),
       api.query.session.lastLengthChange()
-    ]).pipe(map(
-      ([bestNumber, sessionLength, lastLengthChange]) =>
-        (bestNumber as BlockNumber || new BN(0))
-          .sub(lastLengthChange as BlockNumber || new BN(0))
-          .add(sessionLength as BlockNumber || new BN(1))
-          .mod(sessionLength as BlockNumber || new BN(1))
-    ));
+    ]).pipe(
+      map(
+        ([bestNumber, sessionLength, lastLengthChange]) =>
+          (bestNumber as BlockNumber || new BN(0))
+            .sub(lastLengthChange as BlockNumber || new BN(0))
+            .add(sessionLength as BlockNumber || new BN(1))
+            .mod(sessionLength as BlockNumber || new BN(1))
+      ),
+      drr()
+    );
 }
