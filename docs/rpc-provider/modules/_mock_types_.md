@@ -8,7 +8,7 @@
 
 **Ƭ MockState$Db**: *`object`*
 
-*Defined in [mock/types.ts:16](https://github.com/polkadot-js/api/blob/e177727/packages/rpc-provider/src/mock/types.ts#L16)*
+*Defined in [mock/types.ts:16](https://github.com/polkadot-js/api/blob/f655634/packages/rpc-provider/src/mock/types.ts#L16)*
 
 #### Type declaration
 
@@ -21,7 +21,7 @@ ___
 
 **Ƭ MockState$Requests**: *`object`*
 
-*Defined in [mock/types.ts:20](https://github.com/polkadot-js/api/blob/e177727/packages/rpc-provider/src/mock/types.ts#L20)*
+*Defined in [mock/types.ts:20](https://github.com/polkadot-js/api/blob/f655634/packages/rpc-provider/src/mock/types.ts#L20)*
 
 #### Type declaration
 
@@ -45,7 +45,7 @@ ___
 
 **Ƭ MockState$Subscription$Callback**: *`function`*
 
-*Defined in [mock/types.ts:5](https://github.com/polkadot-js/api/blob/e177727/packages/rpc-provider/src/mock/types.ts#L5)*
+*Defined in [mock/types.ts:5](https://github.com/polkadot-js/api/blob/f655634/packages/rpc-provider/src/mock/types.ts#L5)*
 
 #### Type declaration
 ▸(error: *`Error` | `null`*, value: *`any`*): `void`
@@ -66,7 +66,7 @@ ___
 
 **Ƭ MockState$Subscriptions**: *`object`*
 
-*Defined in [mock/types.ts:7](https://github.com/polkadot-js/api/blob/e177727/packages/rpc-provider/src/mock/types.ts#L7)*
+*Defined in [mock/types.ts:7](https://github.com/polkadot-js/api/blob/f655634/packages/rpc-provider/src/mock/types.ts#L7)*
 
 #### Type declaration
 
