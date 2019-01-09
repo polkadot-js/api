@@ -14,8 +14,12 @@ const testFunction = (api: ApiRx) => {
     Method extends keyof (typeof api.derive[Section])
   >(section: Section, method: Method, inputs: any[]) => {
     describe(`derive.${section}.${method}`, () => {
+      it('should be a function', () => {
+        expect(typeof api.derive[section][method]).toBe('function');
+      });
+
       it('should return an Observable', () => {
-        expect((api.derive[section][method] as any)(...inputs) instanceof Observable);
+        expect((api.derive[section][method] as any)(...inputs)).toBeInstanceOf(Observable);
       });
 
       it('should be memoized', () => {

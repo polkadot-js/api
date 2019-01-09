@@ -4,9 +4,9 @@
 
 import ApiRx from '@polkadot/api/rx';
 
-import { cache } from './cache';
 import * as chain from './chain';
 import * as session from './session';
+import { cache } from './util/cache';
 
 // Put all derived functions in an object, for easier Object.keys()-ing.
 const functions = { chain, session };
