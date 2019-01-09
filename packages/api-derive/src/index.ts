@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/ui-react-rx authors & contributors
+// Copyright 2017-2019 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -24,7 +24,7 @@ export interface Derive {
   session: ReturnTypes<typeof session>;
 }
 
-export default function decorateDerive (api: ApiRx): Derive {
+export default function decorateDerive(api: ApiRx): Derive {
   const derive = {} as Derive;
 
   Object.keys(functions).forEach((sectionName: string) => {
