@@ -4,13 +4,35 @@
 
 import { Constructor } from './types';
 
-import * as Types from './index';
+import extrinsics from '@polkadot/extrinsics/static';
+
+import * as _Types from './index';
+
+const Types = _Types as { [index: string]: Constructor };
 
 describe('types', () => {
   describe('default creation', () => {
     Object.keys(Types).forEach((name) => {
       it(`creates an empty ${name}`, () => {
-        const constructFn = () => new (Types as { [index: string]: Constructor })[name]();
+        const constructFn = () =>
+          new Types[name]();
+
+        if (name === 'Origin') {
+          expect(constructFn).toThrow();
+        } else {
+          expect(constructFn).not.toThrow();
+        }
+      });
+    });
+  });
+
+  describe('default creation (empty Bytes)', () => {
+    (Types.Method as any).injectMethods(extrinsics);
+
+    Object.keys(Types).forEach((name) => {
+      it(`creates an empty ${name} (from empty bytes)`, () => {
+        const constructFn = () =>
+          new Types[name](new Types.Bytes());
 
         if (name === 'Origin') {
           expect(constructFn).toThrow();
