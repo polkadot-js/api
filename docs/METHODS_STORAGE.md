@@ -23,6 +23,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[staking](#staking)**
 
+- **[sudo](#sudo)**
+
 - **[system](#system)**
 
 - **[timestamp](#timestamp)**
@@ -297,6 +299,9 @@ ___
 ▸ **intentions**(): `Vec<AccountId>`
 - **summary**:   All the accounts with a desire to stake.
 
+▸ **invulerables**(): `Vec<AccountId>`
+- **summary**:   Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
+
 ▸ **lastEraLengthChange**(): `BlockNumber`
 - **summary**:   The session index at which the era length last changed.
 
@@ -335,6 +340,13 @@ ___
 
 ▸ **validatorPreferences**(`AccountId`): `ValidatorPrefs`
 - **summary**:   Preferences that a validator has.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='sudo'></a>sudo
+
+▸ **key**(): `AccountId`
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>

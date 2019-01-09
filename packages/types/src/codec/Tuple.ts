@@ -7,6 +7,10 @@ import { isU8a, u8aConcat, u8aToHex, isHex, hexToU8a } from '@polkadot/util';
 import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
 import decodeU8a from './utils/decodeU8a';
 
+type TupleConstructors = Array<Constructor> | {
+  [index: string]: Constructor
+};
+
 /**
  * @name Tuple
  * @description
@@ -14,36 +18,35 @@ import decodeU8a from './utils/decodeU8a';
  * own type. It extends the base JS `Array` object.
  * @noInheritDoc
  */
-export default class Tuple<
-  S extends Array<Constructor> = Array<Constructor>
-  > extends Array<Codec> implements Codec {
-  private _Types: S;
+export default class Tuple extends Array<Codec> implements Codec {
+  private _Types: TupleConstructors;
 
-  constructor (Types: S, value: any) {
+  constructor (Types: TupleConstructors, value: any) {
     super(
       ...Tuple.decodeTuple(Types, value)
     );
+
     this._Types = Types;
   }
 
-  private static decodeTuple<
-    S extends Array<Constructor>
-  > (Types: S, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
+  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
     if (isU8a(value)) {
-      return decodeU8a(value, Types);
+      return decodeU8a(value, _Types);
     } else if (isHex(value)) {
-      return Tuple.decodeTuple(Types, hexToU8a(value));
+      return Tuple.decodeTuple(_Types, hexToU8a(value));
     }
+
+    const Types: Array<Constructor> = Array.isArray(_Types)
+      ? _Types
+      : Object.values(_Types);
 
     return Types.map((Type, index) => {
       return new Type(value && value[index]);
     });
   }
 
-  static with<
-    S extends Array<Constructor>
-  > (Types: S): Constructor<Tuple<S>> {
-    return class extends Tuple<S> {
+  static with (Types: TupleConstructors): Constructor<Tuple> {
+    return class extends Tuple {
       constructor (value?: any) {
         super(Types, value);
       }
@@ -63,7 +66,9 @@ export default class Tuple<
    * @description The types definition of the tuple
    */
   get Types (): Array<string> {
-    return this._Types.map(({ name }) => name);
+    return Array.isArray(this._Types)
+      ? this._Types.map(({ name }) => name)
+      : Object.keys(this._Types);
   }
 
   /**

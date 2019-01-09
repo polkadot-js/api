@@ -34,10 +34,10 @@ type RuntimeVersionApiValue = {
  */
 export class RuntimeVersionApi extends Tuple {
   constructor (value?: RuntimeVersionApiValue | Uint8Array) {
-    super([
+    super({
       ApiId,
       U32
-    ], value);
+    }, value);
   }
 
   /**

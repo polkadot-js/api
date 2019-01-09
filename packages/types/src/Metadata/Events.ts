@@ -41,10 +41,10 @@ export class EventMetadata extends Struct {
 
 export class OuterEventMetadataEvent extends Tuple {
   constructor (value?: any) {
-    super([
+    super({
       Text,
-      Vector.with(EventMetadata)
-    ], value);
+      'Vec<EventMetadata>': Vector.with(EventMetadata)
+    }, value);
   }
 
   /**

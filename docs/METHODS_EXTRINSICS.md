@@ -23,6 +23,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[staking](#staking)**
 
+- **[sudo](#sudo)**
+
 - **[system](#system)**
 
 - **[timestamp](#timestamp)**
@@ -194,6 +196,9 @@ ___
 ▸ **setBondingDuration**(new: `Compact<BlockNumber>`)
 - **summary**:   The length of the bonding duration in eras.
 
+▸ **setInvulnerables**(validators: `Vec<AccountId>`)
+- **summary**:   Set the validators who cannot be slashed (if any).
+
 ▸ **setOfflineSlashGrace**(new: `Compact<u32>`)
 - **summary**:   Set the offline slash grace period.
 
@@ -211,6 +216,15 @@ ___
 
 ▸ **unstake**(intentions_index: `Compact<u32>`)
 - **summary**:   Retract the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='sudo'></a>sudo
+
+▸ **setKey**(new: `AccountId`)
+
+▸ **sudo**(proposal: `Proposal`)
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>

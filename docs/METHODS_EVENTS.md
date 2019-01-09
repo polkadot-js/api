@@ -19,6 +19,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[staking](#staking)**
 
+- **[sudo](#sudo)**
+
 - **[system](#system)**
 
 - **[treasury](#treasury)**
@@ -145,6 +147,17 @@ ___
 
 ▸ **Reward**(`Balance`)
 - **summary**:   All validators have been rewarded by the given balance.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='sudo'></a>sudo
+
+▸ **KeyChanged**(`AccountId`)
+- **summary**:   The sudoer just switched identity; the old key is supplied.
+
+▸ **Sudid**(`bool`)
+- **summary**:   A sudo just took place.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>

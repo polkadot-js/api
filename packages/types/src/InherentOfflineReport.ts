@@ -9,5 +9,5 @@ import Tuple from './codec/Tuple';
  * @description
  * Describes the offline-reporting extrinsic
  */
-export default class InherentOfflineReport extends Tuple.with([]) {
+export default class InherentOfflineReport extends Tuple.with({}) {
 }

@@ -42,6 +42,7 @@ export { default as H256 } from './H256';
 export { default as H512 } from './H512';
 export { default as Hash } from './Hash';
 export { default as Header } from './Header';
+export { default as Health } from './Health';
 export { default as i8 } from './I8';
 export { default as i16 } from './I16';
 export { default as i32 } from './I32';
@@ -59,6 +60,7 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
 export { default as Index } from './Nonce';
+export { default as IndexCompact } from './NonceCompact';
 export { default as Justification } from './Justification';
 export { default as Origin } from './Origin';
 export { default as ParaId } from './ParaId';

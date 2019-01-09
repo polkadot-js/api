@@ -18,10 +18,10 @@ import U64 from './U64';
 export class CandidateSignature extends Signature {
 }
 
-export class BalanceUpload extends Tuple.with([AccountId, U64]) {
+export class BalanceUpload extends Tuple.with({ AccountId, U64 }) {
 }
 
-export class EgressQueueRoot extends Tuple.with([ParaId, Hash]) {
+export class EgressQueueRoot extends Tuple.with({ ParaId, Hash }) {
 }
 
 export class HeadData extends Bytes {
@@ -42,7 +42,7 @@ export class CandidateReceipt extends Struct {
   }
 }
 
-export class AvailabilityVote extends Tuple.with([SessionKey, CandidateSignature]) {
+export class AvailabilityVote extends Tuple.with({ SessionKey, CandidateSignature }) {
 }
 
 export class ExplicitCandidateSignature extends CandidateSignature {
@@ -63,7 +63,7 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
   }
 }
 
-export class ValidityVote extends Tuple.with([SessionKey, ValidityAttestation]) {
+export class ValidityVote extends Tuple.with({ SessionKey, ValidityAttestation }) {
 }
 
 /**

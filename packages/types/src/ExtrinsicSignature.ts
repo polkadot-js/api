@@ -11,7 +11,7 @@ import Struct from './codec/Struct';
 import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
-import Nonce from './Nonce';
+import Nonce from './NonceCompact';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 

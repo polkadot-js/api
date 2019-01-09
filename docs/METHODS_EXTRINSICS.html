@@ -2011,6 +2011,8 @@
 </li>
 <li><p><strong><a href="#staking">staking</a></strong></p>
 </li>
+<li><p><strong><a href="#sudo">sudo</a></strong></p>
+</li>
 <li><p><strong><a href="#system">system</a></strong></p>
 </li>
 <li><p><strong><a href="#timestamp">timestamp</a></strong></p>
@@ -2186,6 +2188,10 @@
 <ul>
 <li><strong>summary</strong>:   The length of the bonding duration in eras.</li>
 </ul>
+<p>&#x25B8; <strong>setInvulnerables</strong>(validators: <code>Vec&lt;AccountId&gt;</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Set the validators who cannot be slashed (if any).</li>
+</ul>
 <p>&#x25B8; <strong>setOfflineSlashGrace</strong>(new: <code>Compact&lt;u32&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Set the offline slash grace period.</li>
@@ -2210,6 +2216,11 @@
 <ul>
 <li><strong>summary</strong>:   Retract the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.</li>
 </ul>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="sudo"><a id="sudo"></a>sudo</h3>
+<p>&#x25B8; <strong>setKey</strong>(new: <code>AccountId</code>)</p>
+<p>&#x25B8; <strong>sudo</strong>(proposal: <code>Proposal</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="timestamp"><a id="timestamp"></a>timestamp</h3>
@@ -2288,7 +2299,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-01-07T20:14:41.533Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-07T20:16:08.429Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-01-09T10:40:17.086Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-09T10:41:47.915Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

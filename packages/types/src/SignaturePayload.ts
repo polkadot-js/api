@@ -8,7 +8,7 @@ import { AnyNumber, AnyU8a } from './types';
 import Struct from './codec/Struct';
 import Method from './Method';
 import Hash from './Hash';
-import Nonce from './Nonce';
+import Nonce from './NonceCompact';
 import ExtrinsicEra from './ExtrinsicEra';
 
 type SignaturePayloadValue = {
