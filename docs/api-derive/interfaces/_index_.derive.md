@@ -12,7 +12,7 @@
 
 **● chain**: *`ReturnTypes`<[&quot;chain/index&quot;](../modules/_chain_index_.md)>*
 
-*Defined in [index.ts:23](https://github.com/polkadot-js/api/blob/887a0d3/packages/api-derive/src/index.ts#L23)*
+*Defined in [index.ts:23](https://github.com/polkadot-js/api/blob/6781bba/packages/api-derive/src/index.ts#L23)*
 
 ___
 <a id="session"></a>
@@ -21,7 +21,7 @@ ___
 
 **● session**: *`ReturnTypes`<[&quot;session/index&quot;](../modules/_session_index_.md)>*
 
-*Defined in [index.ts:24](https://github.com/polkadot-js/api/blob/887a0d3/packages/api-derive/src/index.ts#L24)*
+*Defined in [index.ts:24](https://github.com/polkadot-js/api/blob/6781bba/packages/api-derive/src/index.ts#L24)*
 
 ___
 

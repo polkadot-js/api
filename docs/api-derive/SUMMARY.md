@@ -1,5 +1,3 @@
-* [&quot;cache&quot;](modules/_cache_.md)
-* [&quot;cache.spec&quot;](modules/_cache_spec_.md)
 * [&quot;chain/bestNumber&quot;](modules/_chain_bestnumber_.md)
 * [&quot;chain/index&quot;](modules/_chain_index_.md)
 * [&quot;index&quot;](modules/_index_.md)
@@ -7,3 +5,7 @@
 * [&quot;index.spec&quot;](modules/_index_spec_.md)
 * [&quot;session/index&quot;](modules/_session_index_.md)
 * [&quot;session/sessionProgress&quot;](modules/_session_sessionprogress_.md)
+* [&quot;util/cache&quot;](modules/_util_cache_.md)
+* [&quot;util/cache.spec&quot;](modules/_util_cache_spec_.md)
+* [&quot;util/drr&quot;](modules/_util_drr_.md)
+* [&quot;util/drr.spec&quot;](modules/_util_drr_spec_.md)
