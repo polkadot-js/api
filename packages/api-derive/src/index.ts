@@ -25,7 +25,8 @@ export interface Derive {
 }
 
 export default function decorateDerive (api: ApiRx): Derive {
-  const derive: Partial<Derive> = {};
+  const derive = {} as Derive;
+
   Object.keys(functions).forEach((sectionName: string) => {
     const section = functions[sectionName as keyof Derive];
     derive[sectionName as keyof Derive] = Object.keys(section).reduce((result, methodName) => {
@@ -35,9 +36,10 @@ export default function decorateDerive (api: ApiRx): Derive {
       // Add this cached function into the result
       // @ts-ignore No idea how to make this work...
       result[methodName as keyof section] = cached(api);
+
       return result;
     }, {} as ReturnTypes<typeof section>);
   });
 
-  return derive as Derive;
+  return derive;
 }

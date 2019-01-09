@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiRx from '@polkadot/api/rx';
 import memoizee from 'memoizee';
+import ApiRx from '@polkadot/api/rx';
 
 /**
  * Create memoization for a 2-currified function.
@@ -25,5 +25,6 @@ export const cache = (fn: Function, map = new WeakMap()) => (api: ApiRx) => {
     const innerFn = fn(api);
     map.set(api, memoizee(innerFn));
   }
+
   return map.get(api);
 };

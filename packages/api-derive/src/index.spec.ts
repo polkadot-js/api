@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Observable } from 'rxjs';
 import ApiRx from '@polkadot/api/rx';
 import MockProvider from '@polkadot/rpc-provider/mock';
-import { Observable } from 'rxjs';
 
 import { Derive } from './index';
 
@@ -21,6 +21,7 @@ const testFunction = (api: ApiRx) => {
       it('should be memoized', () => {
         const first = (api.derive[section][method] as any)(...inputs);
         const second = (api.derive[section][method] as any)(...inputs);
+
         expect(first).toBe(second);
       });
     });

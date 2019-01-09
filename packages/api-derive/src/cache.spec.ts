@@ -13,6 +13,7 @@ describe('cache', () => {
   it('should hit cache when all arguments are the same', () => {
     const first = f(api)(2, 3);
     const second = f(api)(2, 3);
+
     expect(first).toBe(second);
   });
 
