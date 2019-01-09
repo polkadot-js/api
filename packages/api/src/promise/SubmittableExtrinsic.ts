@@ -7,9 +7,10 @@ import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { SubmittableSendResult } from '../types';
 import { ApiPromiseInterface, UnsubFunction } from './types';
 
-import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Method, SignedBlock } from '@polkadot/types/index';
+import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Index, Method, SignedBlock } from '@polkadot/types/index';
 
 import filterEvents from '../util/filterEvents';
+import { assert } from '@polkadot/util';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
@@ -20,7 +21,6 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  // FIXME split into graph derivation once available
   private trackStatus (statusCb: (result: SubmittableSendResult) => any): (status: ExtrinsicStatus) => Promise<void> {
     return async (status: ExtrinsicStatus): Promise<void> => {
       let events: Array<any> | undefined = undefined;
@@ -53,5 +53,26 @@ export default class SubmittableExtrinsic extends Extrinsic {
     super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
 
     return this;
+  }
+
+  signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Promise<Hash> | UnsubFunction {
+    assert(this._api.hasSubscriptions, 'Api does not support subscriptions');
+
+    let unsubscribe: UnsubFunction | undefined;
+
+    this._api.query.system
+      .accountNonce(signerPair.address())
+      .then((nonce) => {
+        unsubscribe = this.sign(signerPair, nonce as Index).send(statusCb) as UnsubFunction;
+      })
+      .catch(console.error);
+
+    return (): void => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+
+      unsubscribe = undefined;
+    };
   }
 }
