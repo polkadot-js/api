@@ -18,27 +18,26 @@ async function main () {
   const api = await ApiPromise.create(provider);
 
   // retrieve the upgrade key from the chain state
-  const adminId = await api.query.upgradeKey.key();
+  const adminId = await api.query.sudo.key();
 
   // get the nonce for the admin key
   const adminNonce = await api.query.system.accountNonce(adminId);
 
   // find the actual keypair in the keyring (if this is an changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
-  // Alice as the key - and this exists on the test keyring)
+  // Alice as the key - and this already exists on the test keyring)
   const keyring = testKeyring.default();
   const adminPair = keyring.getPair(adminId.toString());
 
   // retrieve the runtime to upgrade to
   const code = fs.readFileSync('./test.wasm').toString('hex');
+  const proposal = api.tx.consensus.setCode(`0x${code}`);
 
-  console.log('Upgrading from', adminId.toString(), 'with nonce', adminNonce.toString(), ',', code.length / 2, 'bytes');
+  console.log(`Upgrading from ${adminId} with nonce ${adminNonce}, ${code.length / 2} bytes`);
 
-  // preform a chain upgrade, effectively bricking the chain, passing through
-  // a hex value, although a valid Uint8Array will also work here (in this case
-  // ensure it has a length prefix added, e.g. compact)
-  api.tx.upgradeKey
-    .upgrade(`0x${code}`)
+  // preform the actual chain upgrade via the sudo module
+  api.tx.sudo
+    .sudo(proposal)
     .sign(adminPair, adminNonce)
     .send(({ events = [], status, type }) => {
       console.log('Transaction status:', type);
@@ -58,4 +57,7 @@ async function main () {
     });
 }
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error(error);
+  process.exit(-1);
+});
