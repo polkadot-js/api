@@ -8,8 +8,8 @@ import { SubmittableSendResult } from '../types';
 import { ApiRxInterface } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { Extrinsic, ExtrinsicStatus, Hash, Method } from '@polkadot/types/index';
+import { first, map, switchMap } from 'rxjs/operators';
+import { Extrinsic, ExtrinsicStatus, Hash, Index, Method } from '@polkadot/types/index';
 
 import filterEvents from '../util/filterEvents';
 
@@ -22,7 +22,6 @@ export default class SubmittableExtrinsic extends Extrinsic {
     this._api = api;
   }
 
-  // FIXME split into graph derivation once available
   private trackStatus = (status: ExtrinsicStatus): Observable<SubmittableSendResult> => {
     if (status.type !== 'Finalised') {
       return of({
@@ -55,5 +54,16 @@ export default class SubmittableExtrinsic extends Extrinsic {
     super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
 
     return this;
+  }
+
+  signAndSend (signerPair: KeyringPair): Observable<SubmittableSendResult> {
+    return this._api.query.system
+      .accountNonce(signerPair.address())
+      .pipe(
+        first(),
+        switchMap((nonce) =>
+          this.sign(signerPair, nonce as Index).send()
+        )
+      );
   }
 }
