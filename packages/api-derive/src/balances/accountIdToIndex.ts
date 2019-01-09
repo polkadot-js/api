@@ -3,15 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
-import accountIndexes, { AccountIndexes } from './accountIndexes';
+import { accountIndexes, AccountIndexes } from './accountIndexes';
 
 export function accountIdToIndex (api: ApiRx) {
-  return (accountId: AccountId | string): Observable<AccountIndexes> =>
-    accountIndexes(api)
+  return (accountId: AccountId | string): Observable<AccountIndex> =>
+    accountIndexes(api)()
       .pipe(
         map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()])
       );
