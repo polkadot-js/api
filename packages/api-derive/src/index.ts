@@ -24,7 +24,7 @@ export interface Derive {
   session: ReturnTypes<typeof session>;
 }
 
-export default function decorateDerive (api: ApiRx): Derive {
+export default function decorateDerive(api: ApiRx): Derive {
   const derive = {} as Derive;
 
   Object.keys(functions).forEach((sectionName: string) => {

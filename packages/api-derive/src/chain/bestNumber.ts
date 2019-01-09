@@ -7,8 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 import { BlockNumber, Header } from '@polkadot/types/index';
 
-import { drr } from '../util/drr';
-
 /**
  * Get the latest block number.
  */
@@ -17,7 +15,6 @@ export function bestNumber (api: ApiRx) {
     api.rpc.chain.subscribeNewHead()
       .pipe(
         filter((header: Header) => header && !!header.blockNumber),
-        map(({ blockNumber }: Header) => blockNumber),
-        drr()
+        map(({ blockNumber }: Header) => blockNumber)
       );
 }
