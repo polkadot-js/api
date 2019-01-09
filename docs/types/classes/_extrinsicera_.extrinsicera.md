@@ -27,7 +27,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [ExtrinsicEra.ts:16](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/ExtrinsicEra.ts#L16)*
+*Defined in [ExtrinsicEra.ts:16](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/ExtrinsicEra.ts#L16)*
 
 **Parameters:**
 
@@ -49,7 +49,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L36)*
+*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L36)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -66,7 +66,7 @@ getlength(): `number`
 
 *Overrides Uint8Array.length*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L43)*
 
 *__description__*: The length of the value
 
@@ -86,7 +86,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L53)*
 
 *__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -110,7 +110,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L60)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -127,7 +127,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L67)*
+*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L67)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -146,7 +146,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L74)*
+*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L74)*
 
 *__description__*: Returns the string representation of the value
 
@@ -161,7 +161,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/codec/U8a.ts#L82)*
+*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/codec/U8a.ts#L82)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -180,7 +180,7 @@ ___
 
 ▸ **decodeExtrinsicEra**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*): `Uint8Array`
 
-*Defined in [ExtrinsicEra.ts:23](https://github.com/polkadot-js/api/blob/2e474d7/packages/types/src/ExtrinsicEra.ts#L23)*
+*Defined in [ExtrinsicEra.ts:23](https://github.com/polkadot-js/api/blob/f6c93e4/packages/types/src/ExtrinsicEra.ts#L23)*
 
 **Parameters:**
 
