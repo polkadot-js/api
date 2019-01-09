@@ -2,24 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '@polkadot/types/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
+import { ApiBase$Events, ApiOptions } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
+import EventEmitter from 'eventemitter3';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import decorateDerive, { Derive } from '@polkadot/api-derive/index';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
-import { Hash } from '@polkadot/types/index';
-import { Codec } from '@polkadot/types/types';
+import storageFromMeta from '@polkadot/storage/fromMetadata';
+import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import registry from '@polkadot/types/codec/typeRegistry';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert } from '@polkadot/util';
+import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import decorateFunctionMeta from '../util/decorateFunctionMeta';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+
+const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
+
+const l = logger('api');
 
 /**
  * # @polkadot/api/rx
@@ -118,9 +126,17 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
+export default class ApiRx implements ApiRxInterface {
+  private _eventemitter: EventEmitter;
   protected _derive: Derive;
+  protected _extrinsics?: SubmittableExtrinsics;
+  protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
+  protected _query?: QueryableStorage;
+  protected _rpc: RpcRx;
+  protected _rpcBase: Rpc;
+  protected _runtimeMetadata?: Metadata;
+  protected _runtimeVersion?: RuntimeVersion;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -162,16 +178,28 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+  constructor (provider?: ApiOptions | ProviderInterface) {
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
+
+    this._eventemitter = new EventEmitter();
+    this._rpcBase = new Rpc(options.provider);
+    this._rpc = this.decorateRpc(this._rpcBase);
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
+
+    if (options.types) {
+      registry.register(options.types);
+    }
+
+    this.init();
 
     this._derive = decorateDerive(this);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
-        super.on('ready', () =>
+        this.on('ready', () =>
           resolveReady(this)
         )
       )
@@ -180,6 +208,22 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
   get derive (): Derive {
     return this._derive;
+  }
+
+  /**
+   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
+   */
+  get genesisHash (): Hash {
+    assert(!isUndefined(this._genesisHash), INIT_ERROR);
+
+    return this._genesisHash as Hash;
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -194,6 +238,184 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    */
   get isReady (): Observable<ApiRx> {
     return this._isReady;
+  }
+
+  /**
+   * @description Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
+   *
+   * All calls inside the namespace, is denoted by `section`.`method` and may take an optional query parameter. As an example, `api.query.timestamp.now()` (current block timestamp) does not take parameters, while `api.query.system.accountNonce(<accountId>)` (retrieving the associated nonce for an account), takes the `AccountId` as a parameter.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.query.balances.freeBalance(<accountId>, (balance) => {
+   *   console.log('new balance', balance);
+   * });
+   * ```
+   */
+  get query (): QueryableStorage {
+    assert(!isUndefined(this._query), INIT_ERROR);
+
+    return this._query as QueryableStorage;
+  }
+
+  /**
+   * @description Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
+   *
+   * RPC endpoints available here allow for the query of chain, node and system information, in addition to providing interfaces for the raw queries of state (usine known keys) and the submission of transactions.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.rpc.chain.subscribeNewHead((header) => {
+   *   console.log('new header', header);
+   * });
+   * ```
+   */
+  get rpc (): RpcRx {
+    return this._rpc;
+  }
+
+  /**
+   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
+   */
+  get runtimeMetadata (): Metadata {
+    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
+
+    return this._runtimeMetadata as Metadata;
+  }
+
+  /**
+   * @description Contains the version information for the current runtime.
+   */
+  get runtimeVersion (): RuntimeVersion {
+    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
+
+    return this._runtimeVersion as RuntimeVersion;
+  }
+
+  /**
+   * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.tx.balances
+   *   .transfer(<recipientId>, <balance>)
+   *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
+   *   .send((status) => {
+   *     console.log('tx status', status);
+   *   });
+   * ```
+   */
+  get tx (): SubmittableExtrinsics {
+    assert(!isUndefined(this._extrinsics), INIT_ERROR);
+
+    return this._extrinsics as SubmittableExtrinsics;
+  }
+
+  /**
+   * @description Attach an eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.on('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.on('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  on (type: ApiBase$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.on(type, handler);
+
+    return this;
+  }
+
+  /**
+   * @description Attach an one-time eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.once('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.once('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  once (type: ApiBase$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.once(type, handler);
+
+    return this;
+  }
+
+  private init (): void {
+    let isReady: boolean = false;
+
+    this._rpcBase._provider.on('disconnected', () => {
+      this.emit('disconnected');
+    });
+
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
+    });
+
+    this._rpcBase._provider.on('connected', async () => {
+      this.emit('connected');
+
+      const hasMeta = await this.loadMeta();
+
+      if (hasMeta && !isReady) {
+        isReady = true;
+
+        this.emit('ready', this);
+      }
+    });
+  }
+
+  private async loadMeta (): Promise<boolean> {
+    try {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+      const storage = storageFromMeta(this.runtimeMetadata);
+
+      this._extrinsics = this.decorateExtrinsics(extrinsics);
+      this._query = this.decorateStorage(storage);
+
+      Event.injectMetadata(this.runtimeMetadata);
+      Method.injectMethods(extrinsics);
+
+      return true;
+    } catch (error) {
+      l.error('loadMeta', error);
+
+      return false;
+    }
+  }
+
+  protected emit (type: ApiBase$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
   }
 
   protected decorateRpc (rpc: Rpc): RpcRx {
@@ -218,7 +440,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
       new SubmittableExtrinsic(this, method(...args));
 
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
+    return decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
 
   protected decorateStorage (storage: Storage): QueryableStorage {
@@ -259,6 +481,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
           catchError(() => of())
         );
 
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
+    return decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
 }

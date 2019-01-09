@@ -6,7 +6,7 @@ import { EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { ApiBaseInterface } from '../types';
+import { ApiBase } from '../types';
 
 import { Observable } from 'rxjs';
 import RpcRx from '@polkadot/rpc-rx/index';
@@ -38,7 +38,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics> {
+export interface ApiRxInterface extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }

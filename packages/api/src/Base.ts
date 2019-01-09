@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiBaseInterface, ApiInterface$Events, ApiOptions } from './types';
+import { ApiBase as ApiBaseInterface, ApiBase$Events, ApiOptions } from './types';
 
 import EventEmitter from 'eventemitter3';
 import Rpc from '@polkadot/rpc-core/index';
@@ -183,7 +183,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  on (type: ApiBase$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.on(type, handler);
 
     return this;
@@ -208,13 +208,13 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  once (type: ApiBase$Events, handler: (...args: Array<any>) => any): this {
     this._eventemitter.once(type, handler);
 
     return this;
   }
 
-  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
+  protected emit (type: ApiBase$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
   }
 

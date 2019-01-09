@@ -6,7 +6,7 @@ import { EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { ApiBaseInterface } from '../types';
+import { ApiBase } from '../types';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -57,7 +57,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiPromiseInterface extends ApiBaseInterface<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> {
+export interface ApiPromiseInterface extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
 

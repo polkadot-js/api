@@ -7,9 +7,9 @@ import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { EventRecord, ExtrinsicStatus, Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { Constructor } from '@polkadot/types/types';
 
-export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
+export type ApiBase$Events = RpcRxInterface$Events | 'ready';
 
-export interface ApiBaseInterface<R, S, E> {
+export interface ApiBase<R, S, E> {
   readonly genesisHash: Hash;
   readonly hasSubscriptions: boolean;
   readonly runtimeMetadata: Metadata;
@@ -18,8 +18,8 @@ export interface ApiBaseInterface<R, S, E> {
   readonly rpc: R;
   readonly tx: E;
 
-  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
-  once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
+  on: (type: ApiBase$Events, handler: (...args: Array<any>) => any) => this;
+  once: (type: ApiBase$Events, handler: (...args: Array<any>) => any) => this;
 }
 
 export interface ApiOptions {

@@ -14,7 +14,7 @@ import { Extrinsic, ExtrinsicStatus, Hash, Method } from '@polkadot/types/index'
 import filterEvents from '../util/filterEvents';
 
 export default class SubmittableExtrinsic extends Extrinsic {
-  private _api: ApiRxInterface;
+  protected _api: ApiRxInterface;
 
   constructor (api: ApiRxInterface, extrinsic: Extrinsic | Method) {
     super(extrinsic);

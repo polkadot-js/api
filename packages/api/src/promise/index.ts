@@ -16,7 +16,8 @@ import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction, logger, assert } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiRx from '../rx';
+import decorateFunctionMeta from '../util/decorateFunctionMeta';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -108,8 +109,9 @@ const l = logger('api/promise');
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
+export default class ApiPromise implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
+  private _rxapi: ApiRx;
 
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
@@ -155,10 +157,10 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * ```
    */
   constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+    this._rxapi = new ApiRx(options);
 
     this._isReady = new Promise((resolveReady, rejectReady) =>
-      super
+      this._rxapi
         .once('ready', () =>
           resolveReady(this)
         )
@@ -177,12 +179,11 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
 
   protected decorateRpc (rpc: Rpc): DecoratedRpc {
     const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
-    const rpcrx = new RpcRx(rpc);
 
     return names.reduce((result, section) => {
-      result[section] = Object.keys(rpcrx[section]).reduce((fns, method) => {
+      result[section] = Object.keys(this._rxapi.rpc[section]).reduce((fns, method) => {
         fns[method] = this.decorateMethod(
-          rpcrx[section][method],
+          this._rxapi.rpc[section][method],
           isFunction(rpc[section][method].unsubscribe)
         );
 
@@ -259,7 +260,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
       new SubmittableExtrinsic(this, method(...args));
 
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
+    return decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
 
   protected decorateStorage (storage: Storage): QueryableStorage {
@@ -282,10 +283,6 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
 
       if (args.length === 0 || !isFunction(cb)) {
         return this.rpc.state.getStorage([method, args[0]]);
-      } else if (!this.hasSubscriptions && isFunction(cb)) {
-        l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
-
-        return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
       }
 
       return this.rpc.state.subscribeStorage(
@@ -298,6 +295,6 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
       this.rpc.state.getStorage([method, arg], hash) as Promise<Codec | null | undefined>;
 
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
+    return decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
 }
