@@ -18,7 +18,7 @@ describe('drr', () => {
   });
 
   it('should be a ReplaySubject(1)', (done) => {
-    const obs = timer(0, 50).pipe(drr());
+    const obs = timer(0, 50).pipe(drr()); // Starts at 0, increments every 50ms
     obs.subscribe(); // Fire the observable
 
     // Subscribe another time after some time, i.e. after the observable has fired
