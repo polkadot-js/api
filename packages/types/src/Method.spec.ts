@@ -11,12 +11,6 @@ describe('Method', () => {
     Method.injectMethods(extrinsics);
   });
 
-  it('throws when not decodable', () => {
-    expect(
-      () => new Method('foo')
-    ).toThrowError(/Method: cannot decode value/);
-  });
-
   it('handles decoding correctly (bare)', () => {
     expect(
       new Method({
