@@ -24,11 +24,13 @@ export interface StorageFunction {
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
+  private _meta: StorageFunctionMetadata | null;
   private _outputType: string | null;
 
   constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.decodeStorageKey(value));
 
+    this._meta = StorageKey.getMeta(value as StorageKey);
     this._outputType = StorageKey.getType(value as StorageKey);
   }
 
@@ -46,6 +48,20 @@ export default class StorageKey extends Bytes {
     return value as Uint8Array;
   }
 
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): StorageFunctionMetadata | null {
+    if (value instanceof StorageKey) {
+      return value.meta;
+    } else if (isFunction(value)) {
+      return value.meta;
+    } else if (Array.isArray(value)) {
+      const [fn] = value;
+
+      return fn.meta;
+    }
+
+    return null;
+  }
+
   static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
     if (value instanceof StorageKey) {
       return value.outputType;
@@ -58,6 +74,13 @@ export default class StorageKey extends Bytes {
     }
 
     return null;
+  }
+
+  /**
+   * @description The metadata or `null` when not available
+   */
+  get meta (): StorageFunctionMetadata | null {
+    return this._meta;
   }
 
   /**

@@ -84,7 +84,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return EnumType.createValue(def, index, value);
   }
 
-  private static createValue (def: TypesDef, index: number, value?: any): Decoded {
+  private static createValue (def: TypesDef, index: number = 0, value?: any): Decoded {
     return {
       index,
       value: new (Object.values(def)[index])(value)

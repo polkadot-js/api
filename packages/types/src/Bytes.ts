@@ -16,11 +16,11 @@ import U8a from './codec/U8a';
  * as what is found in [[Text]] and [[Vector]])
  */
 export default class Bytes extends U8a {
-  constructor (value: AnyU8a) {
+  constructor (value?: AnyU8a) {
     super(Bytes.decodeBytes(value));
   }
 
-  private static decodeBytes (value: AnyU8a): Uint8Array {
+  private static decodeBytes (value?: AnyU8a): Uint8Array | undefined {
     // FIXME Cyclic dependency, however needed for the StoreageData check below. In a perfect
     // world, we should probably be checking Bytes - however as a first step, check against
     // StorageData to cater for the _specific_ problematic case
