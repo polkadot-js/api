@@ -30,6 +30,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
+    "@polkadot/api-derive": "^0.38.4",
     "@polkadot/extrinsics": "^0.38.4",
     "@polkadot/rpc-provider": "^0.38.4",
     "@polkadot/rpc-rx": "^0.38.4",
