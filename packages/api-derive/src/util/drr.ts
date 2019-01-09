@@ -1,7 +1,6 @@
-// Copyright 2015-2018 Parity Technologies (UK) Ltd.
-// This file is part of Parity.
-//
-// SPDX-License-Identifier: MIT
+// Copyright 2017-2019 @polkadot/ui-react-rx authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
 import { distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators';
 import { Observable } from 'rxjs';
