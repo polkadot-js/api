@@ -8,7 +8,7 @@
 
 **Ƭ RpcMethod**: *`object`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/type-jsonrpc/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/e177727/packages/type-jsonrpc/src/types.ts#L24)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ RpcMethodOpt**: *`object`*
 
-*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/type-jsonrpc/src/types.ts#L13)*
+*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/e177727/packages/type-jsonrpc/src/types.ts#L13)*
 
 #### Type declaration
 
@@ -30,7 +30,7 @@ ___
 
 **Ƭ RpcParam**: *`object`*
 
-*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/type-jsonrpc/src/types.ts#L7)*
+*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/e177727/packages/type-jsonrpc/src/types.ts#L7)*
 
 #### Type declaration
 
@@ -41,7 +41,7 @@ ___
 
 **Ƭ RpcSection**: *`object`*
 
-*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/type-jsonrpc/src/types.ts#L38)*
+*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/e177727/packages/type-jsonrpc/src/types.ts#L38)*
 
 #### Type declaration
 

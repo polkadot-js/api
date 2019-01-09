@@ -9,7 +9,7 @@
 
 ▸ **__call**(cb: *`function`*): [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/api/src/promise/types.ts#L28)*
+*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/e177727/packages/api/src/promise/types.ts#L28)*
 
 **Parameters:**
 
@@ -20,7 +20,7 @@
 
 **Returns:** [UnsubFunction](../modules/_promise_types_.md#unsubfunction)
 
-*Defined in [promise/types.ts:29](https://github.com/polkadot-js/api/blob/6ddc9e4/packages/api/src/promise/types.ts#L29)*
+*Defined in [promise/types.ts:29](https://github.com/polkadot-js/api/blob/e177727/packages/api/src/promise/types.ts#L29)*
 
 **Parameters:**
 
