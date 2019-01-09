@@ -126,7 +126,14 @@ export default class Method extends Struct {
       };
     }
 
-    throw new Error(`Method: cannot decode value '${value}' or type ${typeof value}`);
+    console.error(`Method: cannot decode value '${value}' of type ${typeof value}`);
+
+    return {
+      args: new Uint8Array(),
+      argsDef: {},
+      meta: new FunctionMetadata(),
+      callIndex: new Uint8Array([255, 255])
+    };
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it

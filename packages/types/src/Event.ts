@@ -12,6 +12,7 @@ import U8aFixed from './codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from './codec/createType';
 import Metadata from './Metadata';
 import { EventMetadata } from './Metadata/Events';
+import Null from './Null';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
@@ -85,7 +86,7 @@ export class EventIndex extends U8aFixed {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value: Uint8Array) {
+  constructor (_value?: Uint8Array) {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
@@ -94,12 +95,17 @@ export default class Event extends Struct {
     }, value);
   }
 
-  static decodeEvent (value: Uint8Array) {
+  static decodeEvent (value: Uint8Array = new Uint8Array()) {
     const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
 
     if (isUndefined(DataType)) {
-      throw new Error(`Unable to decode event for index ${u8aToHex(index)}`);
+      console.error(`Unable to decode event for index ${u8aToHex(index)}`);
+
+      return {
+        DataType: Null,
+        value: undefined
+      };
     }
 
     return {
