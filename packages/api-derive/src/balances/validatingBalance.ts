@@ -8,10 +8,10 @@ import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 import { AccountId, Balance } from '@polkadot/types/index';
 
+import { DerivedBalances } from '../types';
+import { drr } from '../util/drr';
 import { votingBalance } from './votingBalance';
 import { votingBalancesNominatorsFor } from './votingBalancesNominatorsFor';
-
-import { DerivedBalances } from '../types';
 
 export function validatingBalance (api: ApiRx) {
   return (address: AccountId | string): Observable<DerivedBalances> =>
@@ -32,6 +32,7 @@ export function validatingBalance (api: ApiRx) {
             nominatedBalance.add(balance.votingBalance)
           )
         };
-      })
+      }),
+      drr()
     );
 }

@@ -9,6 +9,8 @@ import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import { Vector } from '@polkadot/types/codec';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
+import { drr } from '../util/drr';
+
 export function accountIndexToId (api: ApiRx) {
   return (accountIndex: AccountIndex | string): Observable<AccountId> => {
     const _accountIndex = accountIndex instanceof AccountIndex
@@ -17,7 +19,8 @@ export function accountIndexToId (api: ApiRx) {
 
     return (api.query.balances.enumSet(accountIndex) as Observable<Vector<AccountId>>)
       .pipe(
-        map((accounts) => (accounts || [])[_accountIndex.mod(ENUMSET_SIZE).toNumber()])
+        map((accounts) => (accounts || [])[_accountIndex.mod(ENUMSET_SIZE).toNumber()]),
+        drr()
       );
   };
 

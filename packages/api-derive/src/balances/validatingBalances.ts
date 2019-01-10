@@ -7,9 +7,9 @@ import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 import { AccountId } from '@polkadot/types/index';
 
-import { validatingBalance } from './validatingBalance';
-
 import { DerivedBalancesMap } from '../types';
+import { drr } from '../util/drr';
+import { validatingBalance } from './validatingBalance';
 
 export function validatingBalances (api: ApiRx) {
   return (...params: Array<any>): Observable<DerivedBalancesMap> => {
@@ -23,7 +23,8 @@ export function validatingBalances (api: ApiRx) {
 
           return balances;
         }, {} as DerivedBalancesMap)
-      )
+      ),
+      drr()
     );
   };
 

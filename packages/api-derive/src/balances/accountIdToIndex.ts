@@ -8,11 +8,13 @@ import ApiRx from '@polkadot/api/rx';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { accountIndexes, AccountIndexes } from './accountIndexes';
+import { drr } from '../util/drr';
 
 export function accountIdToIndex (api: ApiRx) {
   return (accountId: AccountId | string): Observable<AccountIndex> =>
     accountIndexes(api)()
       .pipe(
-        map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()])
+        map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()]),
+        drr()
       );
 }

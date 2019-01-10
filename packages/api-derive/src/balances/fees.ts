@@ -7,6 +7,8 @@ import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 
+import { drr } from '../util/drr';
+
 export function fees (api: ApiRx) {
   return () =>
     combineLatest(
@@ -22,6 +24,7 @@ export function fees (api: ApiRx) {
         transactionBaseFee: transactionBaseFee || new BN(0),
         transactionByteFee: transactionByteFee || new BN(0),
         transferFee: transferFee || new BN(0)
-      }))
+      })),
+      drr()
     );
 }

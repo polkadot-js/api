@@ -9,6 +9,7 @@ import { AccountId, AccountIndex, Balance } from '@polkadot/types/index';
 
 import { accountIdAndIndex } from './accountIdAndIndex';
 import { DerivedBalances } from '../types';
+import { drr } from '../util/drr';
 
 const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 
@@ -35,6 +36,7 @@ export function votingBalance (api: ApiRx) {
         votingBalance: new Balance(
           (freeBalance || new Balance(0)).add(reservedBalance || new Balance(0))
         )
-      }))
+      })),
+      drr()
     );
 }

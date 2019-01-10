@@ -10,6 +10,7 @@ import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { accountIdToIndex } from './accountIdToIndex';
 import { accountIndexToId } from './accountIndexToId';
+import { drr } from '../util/drr';
 
 export type IdAndIndex = [AccountId | undefined, AccountIndex | undefined];
 
@@ -24,17 +25,19 @@ export function accountIdAndIndex (api: ApiRx) {
         const accountId = new AccountId(address as string);
 
         return accountIdToIndex(api)(accountId).pipe(
-          map((accountIndex) => [accountId, accountIndex])
+          map((accountIndex) => [accountId, accountIndex]),
+          drr()
         );
       }
 
       const accountIndex = new AccountIndex(address as string);
 
       return accountIndexToId(api)(accountIndex).pipe(
-        map((accountId) => [accountId, accountIndex])
+        map((accountId) => [accountId, accountIndex]),
+        drr()
       );
     } catch (error) {
-      return of([undefined, undefined]);
+      return of([undefined, undefined]).pipe(drr());
     }
   };
 }

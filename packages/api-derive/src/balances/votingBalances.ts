@@ -7,11 +7,12 @@ import ApiRx from '@polkadot/api/rx';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { DerivedBalances } from '../types';
+import { drr } from '../util/drr';
 import { votingBalance } from './votingBalance';
 
 export function votingBalances (api: ApiRx) {
   return (...params: Array<any>): Observable<Array<DerivedBalances>> => {
     const addresses: Array<AccountIndex | AccountId | string> = params.slice(0, params.length - 1);
-    return combineLatest(...addresses.map(votingBalance(api)));
+    return combineLatest(...addresses.map(votingBalance(api))).pipe(drr());
   };
 }
