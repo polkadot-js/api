@@ -12,11 +12,11 @@ import { drr } from '../util/drr';
 export function fees (api: ApiRx) {
   return () =>
     combineLatest(
-      api.query.balances.creationFee,
-      api.query.balances.existentialDeposit,
-      api.query.balances.transactionBaseFee,
-      api.query.balances.transactionByteFee,
-      api.query.balances.transferFee
+      api.query.balances.creationFee(),
+      api.query.balances.existentialDeposit(),
+      api.query.balances.transactionBaseFee(),
+      api.query.balances.transactionByteFee(),
+      api.query.balances.transferFee()
     ).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
         creationFee: creationFee || new BN(0),
