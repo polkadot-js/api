@@ -19,7 +19,7 @@ export function eraProgress (api: ApiRx) {
       api.query.session.sessionLength,
       api.query.staking.lastEraLengthChange,
       api.query.staking.sessionsPerEra
-    ]) as Observable<[BN?, BlockNumber?, BlockNumber?, BlockNumber?, BlockNumber?]>).pipe(
+    ]) as Observable<[BN, BlockNumber?, BlockNumber?, BlockNumber?, BlockNumber?]>).pipe(
       map(
         ([sessionProgress, currentIndex, sessionLength, lastEraLengthChange, sessionsPerEra]) =>
           (currentIndex || new BN(0))
