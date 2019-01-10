@@ -8,9 +8,9 @@ import { SubmittableSendResult } from '../types';
 import { ApiPromiseInterface, UnsubFunction } from './types';
 
 import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Index, Method, SignedBlock } from '@polkadot/types/index';
+import { assert } from '@polkadot/util';
 
 import filterEvents from '../util/filterEvents';
-import { assert } from '@polkadot/util';
 
 export default class SubmittableExtrinsic extends Extrinsic {
   private _api: ApiPromiseInterface;
