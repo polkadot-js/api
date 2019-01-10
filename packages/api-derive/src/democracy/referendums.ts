@@ -16,16 +16,14 @@ export function referendums (api: ApiRx) {
       api.query.democracy.nextTally(),
       api.query.democracy.referendumCount()
     ) as Observable<[ReferendumIndex?, ReferendumIndex?]>).pipe(
-      switchMap(([nextTally, referendumCount]) => {
-        if (referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)) {
-          return referendumInfos(api)(
+      switchMap(([nextTally, referendumCount]) =>
+        referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
+          ? referendumInfos(api)(
             ...[...Array(referendumCount.sub(nextTally!).toNumber())].map((_, i) =>
               nextTally!.addn(i)
-            ));
-        } else {
-          return of([]);
-        }
-      }),
+            ))
+          : of([])
+      ),
       drr()
     );
 }

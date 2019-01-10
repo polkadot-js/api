@@ -18,5 +18,4 @@ export function votes (api: ApiRx) {
     ).pipe(
       drr()
     );
-
 }

@@ -16,17 +16,16 @@ const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 export function votingBalance (api: ApiRx) {
   return (address: AccountIndex | AccountId | string): Observable<DerivedBalances> =>
     accountIdAndIndex(api)(address).pipe(
-      switchMap(([accountId]) => {
-        if (accountId) {
-          return combineLatest(
+      switchMap(([accountId]) =>
+        (accountId
+          ? combineLatest(
             of(accountId),
             api.query.balances.freeBalance(accountId),
             api.query.balances.reservedBalance(accountId)
-          ) as Observable<[AccountId?, Balance?, Balance?]>;
-        } else {
-          return of([undefined, undefined, undefined]) as Observable<[AccountId?, Balance?, Balance?]>;
-        }
-      }),
+          )
+          : of([undefined, undefined, undefined])
+        ) as Observable<[AccountId?, Balance?, Balance?]>
+      ),
       map(([accountId, freeBalance, reservedBalance]) => ({
         accountId: accountId || EMPTY_ACCOUNT,
         freeBalance: freeBalance || new Balance(0),

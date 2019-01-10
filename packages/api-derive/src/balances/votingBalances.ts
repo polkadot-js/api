@@ -13,6 +13,7 @@ import { votingBalance } from './votingBalance';
 export function votingBalances (api: ApiRx) {
   return (...params: Array<any>): Observable<Array<DerivedBalances>> => {
     const addresses: Array<AccountIndex | AccountId | string> = params.slice(0, params.length - 1);
+
     return combineLatest(...addresses.map(votingBalance(api))).pipe(drr());
   };
 }

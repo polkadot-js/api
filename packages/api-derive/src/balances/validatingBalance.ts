@@ -20,9 +20,9 @@ export function validatingBalance (api: ApiRx) {
       votingBalancesNominatorsFor(api)(address)
     ).pipe(
       map(([balance, nominators]) => {
-        const nominatedBalance = nominators.reduce((total: BN, nominatorBalance: DerivedBalances) => {
-          return total.add(nominatorBalance.votingBalance);
-        }, new BN(0));
+        const nominatedBalance = nominators.reduce(
+          (total: BN, nominatorBalance: DerivedBalances) => total.add(nominatorBalance.votingBalance),
+          new BN(0));
 
         return {
           ...balance,

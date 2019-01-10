@@ -14,6 +14,7 @@ import { validatingBalance } from './validatingBalance';
 export function validatingBalances (api: ApiRx) {
   return (...params: Array<any>): Observable<DerivedBalancesMap> => {
     const accountIds: Array<AccountId | string> = params.slice(0, params.length - 1);
+
     return combineLatest(
       accountIds.map(validatingBalance(api))
     ).pipe(
