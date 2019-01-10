@@ -5,22 +5,18 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import ApiRx from '@polkadot/api/rx';
-import { AccountId, bool as Bool } from '@polkadot/types/index';
+import { AccountId, Vote } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
 export function votes (api: ApiRx) {
-  return (...params: Array<any>): Observable<Array<Bool>> => {
-    const referendumId: BN = params[0];
-    const accountIds: Array<AccountId> = params.slice(1, params.length - 1);
-
-    return (combineLatest(
+  return (referendumId: BN, ...accountIds: Array<AccountId>): Observable<Array<Vote>> =>
+    combineLatest(
       accountIds.map(
-        (accountId) => api.query.democracy.voteOf([referendumId, accountId]) as Observable<Bool>
+        (accountId) => api.query.democracy.voteOf([referendumId, accountId]) as Observable<Vote>
       )
-    )).pipe(
+    ).pipe(
       drr()
     );
-  };
 
 }
