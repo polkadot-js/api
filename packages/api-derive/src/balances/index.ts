@@ -3,3 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export * from './accountIdAndIndex';
+export * from './accountIdToIndex';
+export * from './accountIndexToId';
+export * from './accountIndexes';
