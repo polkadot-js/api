@@ -4,7 +4,7 @@
 
 import { combineLatest, Observable } from 'rxjs';
 import ApiRx from '@polkadot/api/rx';
-import { AccountId, AccountIndex, Balance } from '@polkadot/types/index';
+import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { DerivedBalances } from '../types';
 import { votingBalance } from './votingBalance';
