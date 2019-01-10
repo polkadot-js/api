@@ -15,10 +15,10 @@ export function eraProgress (api: ApiRx) {
   return (): Observable<BN> =>
     (combineLatest([
       sessionProgress(api)(),
-      api.query.session.currentIndex,
-      api.query.session.sessionLength,
-      api.query.staking.lastEraLengthChange,
-      api.query.staking.sessionsPerEra
+      api.query.session.currentIndex(),
+      api.query.session.sessionLength(),
+      api.query.staking.lastEraLengthChange(),
+      api.query.staking.sessionsPerEra()
     ]) as Observable<[BN, BlockNumber?, BlockNumber?, BlockNumber?, BlockNumber?]>).pipe(
       map(
         ([sessionProgress, currentIndex, sessionLength, lastEraLengthChange, sessionsPerEra]) =>
