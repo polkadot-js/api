@@ -157,14 +157,10 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
 
-    this._isReady = new Promise((resolveReady, rejectReady) =>
-      super
-        .once('ready', () =>
-          resolveReady(this)
-        )
-        .once('error', () =>
-          rejectReady(this)
-        )
+    this._isReady = new Promise((resolveReady) =>
+      super.once('ready', () =>
+        resolveReady(this)
+      )
     );
   }
 
