@@ -178,10 +178,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     );
   }
 
-  get derive (): Derive {
-    return this._derive;
-  }
-
   /**
    * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
    */
@@ -196,69 +192,4 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: Rpc): RpcRx {
-    return new RpcRx(rpc);
-  }
-
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
-
-        return result;
-      }, {} as SubmittableModuleExtrinsics);
-
-      return result;
-    }, {} as SubmittableExtrinsics);
-  }
-
-  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, method(...args));
-
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
-  }
-
-  protected decorateStorage (storage: Storage): QueryableStorage {
-    return Object.keys(storage).reduce((result, sectionName) => {
-      const section = storage[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName]);
-
-        return result;
-      }, {} as QueryableModuleStorage);
-
-      return result;
-    }, {} as QueryableStorage);
-  }
-
-  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg?: any): Observable<Codec | null | undefined> => {
-
-      return this.rpc.state
-        .subscribeStorage([[method, arg]])
-        .pipe(
-          // errors can occur in the case of malformed methods + args
-          catchError(() => of([])),
-          // state_storage returns an array of values, since we have just subscribed to
-          // a single entry, we pull that from the array and return it as-is
-          map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
-            result[0]
-          )
-        );
-    };
-
-    decorated.at = (hash: Hash, arg?: any): Observable<Codec | null | undefined> =>
-      this.rpc.state
-        .getStorage([method, arg], hash)
-        .pipe(
-          // same as above (for single result), in the case of errors on creation, return `undefined`
-          catchError(() => of())
-        );
-
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
-  }
 }

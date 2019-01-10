@@ -3,16 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiBaseInterface, ApiInterface$Events, ApiOptions } from './types';
+import { ApiBaseInterface, ApiInterface$Events, ApiOptions, DecoratedRpc, DecoratedRpc$Section, DecoratedRpc$Method, QueryableModuleStorage, QueryableStorage, QueryableStorageFunction } from './types';
+import { SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './rx/types';
 
 import EventEmitter from 'eventemitter3';
-import Rpc from '@polkadot/rpc-core/index';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import { Storage } from '@polkadot/storage/types';
+import RpcBase from '@polkadot/rpc-core/index';
+import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
+import { Storage } from '@polkadot/storage/types';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
-import { ModulesWithMethods } from '@polkadot/types/Method';
+import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
+import { StorageFunction } from '@polkadot/types/StorageKey';
+import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
 type MetaDecoration = {
@@ -27,13 +33,16 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
+import SubmittableExtrinsic from './rx/SubmittableExtrinsic';
+
+export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
-  protected _query?: S;
-  protected _rpc: R;
-  protected _rpcBase: Rpc;
+  protected _query?: QueryableStorage<OnCall>;
+  protected _rpc: DecoratedRpc<OnCall>;
+  protected _rpcBase: RpcBase; // FIXME combine these two
+  protected _rpcRx: RpcRx; // FIXME combine these two
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
 
@@ -61,8 +70,9 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
       : provider as ApiOptions;
 
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(options.provider);
-    this._rpc = this.decorateRpc(this._rpcBase);
+    this._rpcBase = new RpcBase(options.provider);
+    this._rpcRx = new RpcRx(options.provider);
+    this._rpc = this.decorateRpc(this._rpcRx);
 
     if (options.types) {
       registry.register(options.types);
@@ -119,10 +129,10 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  get query (): S {
+  get query (): QueryableStorage<OnCall> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
-    return this._query as S;
+    return this._query as QueryableStorage<OnCall>;
   }
 
   /**
@@ -139,7 +149,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  get rpc (): R {
+  get rpc (): DecoratedRpc<OnCall> {
     return this._rpc;
   }
 
@@ -214,6 +224,8 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     return this;
   }
 
+  protected abstract onCall (obs: Observable<any>, params: Array<any>): OnCall;
+
   protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
   }
@@ -278,7 +290,86 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     return output;
   }
 
-  protected abstract decorateRpc (rpc: Rpc): R;
-  protected abstract decorateExtrinsics (extrinsics: ModulesWithMethods): E;
-  protected abstract decorateStorage (storage: Storage): S;
+  protected decorateRpc (rpc: RpcRx): DecoratedRpc<OnCall> {
+    return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
+      const sectionName = _sectionName as keyof DecoratedRpc<OnCall>;
+
+      result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
+        const method = (...params: any[]) => this.onCall(rpc[sectionName][methodName](...params), params);
+        section[methodName] = method;
+
+        return section;
+      }, {} as DecoratedRpc$Section<OnCall>);
+
+      return result;
+    }, {} as DecoratedRpc<OnCall>);
+  }
+
+  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
+    return Object.keys(extrinsics).reduce((result, sectionName) => {
+      const section = extrinsics[sectionName];
+
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
+
+        return result;
+      }, {} as SubmittableModuleExtrinsics);
+
+      return result;
+    }, {} as SubmittableExtrinsics);
+  }
+
+  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
+    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
+      new SubmittableExtrinsic(this, method(...args));
+
+    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
+  }
+
+  protected decorateStorage (storage: Storage): QueryableStorage<OnCall> {
+    return Object.keys(storage).reduce((result, sectionName) => {
+      const section = storage[sectionName];
+
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.decorateStorageEntry(section[methodName]);
+
+        return result;
+      }, {} as QueryableModuleStorage<OnCall>);
+
+      return result;
+    }, {} as QueryableStorage<OnCall>);
+  }
+
+  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction<OnCall> {
+    const decorated: any = (arg?: any): OnCall => {
+
+      return this.onCall(
+        this._rpcRx.state
+          .subscribeStorage([[method, arg]])
+          .pipe(
+            // errors can occur in the case of malformed methods + args
+            catchError(() => of([])),
+            // state_storage returns an array of values, since we have just subscribed to
+            // a single entry, we pull that from the array and return it as-is
+            map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
+              result[0]
+            )
+          ),
+        [arg]
+      );
+    };
+
+    decorated.at = (hash: Hash, arg?: any): OnCall =>
+      this.onCall(
+        this._rpcRx.state
+          .getStorage([method, arg], hash)
+          .pipe(
+            // same as above (for single result), in the case of errors on creation, return `undefined`
+            catchError(() => of())
+          ),
+        [arg]
+      );
+
+    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<OnCall>;
+  }
 }

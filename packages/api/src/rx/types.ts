@@ -13,19 +13,6 @@ import RpcRx from '@polkadot/rpc-rx/index';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export interface QueryableStorageFunction extends StorageFunction {
-  (arg?: any): Observable<Codec | null | undefined>;
-  at: (hash: Hash, arg?: any) => Observable<Codec | null | undefined>;
-}
-
-export interface QueryableModuleStorage {
-  [index: string]: QueryableStorageFunction;
-}
-
-export interface QueryableStorage {
-  [index: string]: QueryableModuleStorage;
-}
-
 export interface SubmittableExtrinsicFunction extends MethodFunction {
   (...args: any[]): SubmittableExtrinsic;
 }
