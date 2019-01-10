@@ -14,13 +14,13 @@ export function referendumInfos (api: ApiRx) {
   return (...params: Array<any>): Observable<Array<ReferendumInfo>> => {
     const ids: Array<BN | number> = params.slice(0, params.length - 1);
 
-    return (combineLatest(
+    return combineLatest(
       ids.map(
         (id) => (api.query.democracy.referendumInfoOf(id) as Observable<ReferendumInfo>).pipe(
           filter((info) => !!info)
         )
       )
-    )).pipe(
+    ).pipe(
       drr()
     );
   };
