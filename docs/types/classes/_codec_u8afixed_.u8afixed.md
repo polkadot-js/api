@@ -39,7 +39,7 @@
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[constructor](_codec_u8a_.u8a.md#constructor)*
 
-*Defined in [codec/U8aFixed.ts:19](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8aFixed.ts#L19)*
+*Defined in [codec/U8aFixed.ts:19](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8aFixed.ts#L19)*
 
 **Parameters:**
 
@@ -62,7 +62,7 @@ getencodedLength(): `number`
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L36)*
+*Defined in [codec/U8a.ts:36](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L36)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -79,7 +79,7 @@ getlength(): `number`
 
 *Overrides Uint8Array.length*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L43)*
 
 *__description__*: The length of the value
 
@@ -95,7 +95,7 @@ ___
 
 ▸ **bitLength**(): `number`
 
-*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8aFixed.ts#L39)*
+*Defined in [codec/U8aFixed.ts:39](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8aFixed.ts#L39)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -112,7 +112,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L53)*
 
 *__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -136,7 +136,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L60)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -153,7 +153,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L67)*
+*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L67)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -172,7 +172,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L74)*
+*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L74)*
 
 *__description__*: Returns the string representation of the value
 
@@ -187,7 +187,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/07d6139/packages/types/src/codec/U8a.ts#L82)*
+*Defined in [codec/U8a.ts:82](https://github.com/polkadot-js/api/blob/2a2df9a/packages/types/src/codec/U8a.ts#L82)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
