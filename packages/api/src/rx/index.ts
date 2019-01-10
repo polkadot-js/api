@@ -4,22 +4,13 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { ApiRxInterface } from './types';
 
-import { Observable, from, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import decorateDerive, { Derive } from '@polkadot/api-derive/index';
-import Rpc from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
-import { Storage } from '@polkadot/storage/types';
-import { Hash } from '@polkadot/types/index';
+import { Observable, from } from 'rxjs';
 import { Codec } from '@polkadot/types/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
-import { StorageFunction } from '@polkadot/types/StorageKey';
 import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
-import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 /**
  * # @polkadot/api/rx
@@ -118,8 +109,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
-  protected _derive: Derive;
+export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>> implements ApiRxInterface {
   private _isReady: Observable<ApiRx>;
 
   /**
@@ -167,7 +157,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
-    this._derive = decorateDerive(this);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -182,7 +171,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
    */
   get isConnected (): Observable<boolean> {
-    return this.rpc.isConnected();
+    return this._rpcRx.isConnected();
   }
 
   /**
@@ -192,4 +181,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this._isReady;
   }
 
+  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>) {
+    return method(...params);
+  }
 }

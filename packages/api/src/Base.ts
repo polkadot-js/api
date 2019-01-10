@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiBaseInterface, ApiInterface$Events, ApiOptions, DecoratedRpc, DecoratedRpc$Section, DecoratedRpc$Method, QueryableModuleStorage, QueryableStorage, QueryableStorageFunction } from './types';
+import { ApiBaseInterface, ApiInterface$Events, ApiOptions, DecoratedRpc, DecoratedRpc$Section, DecoratedRpc$Method, Derive, QueryableModuleStorage, QueryableStorage, QueryableStorageFunction } from './types';
 import { SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './rx/types';
 
 import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import decorateDerive from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
@@ -37,6 +38,7 @@ import SubmittableExtrinsic from './rx/SubmittableExtrinsic';
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   private _eventemitter: EventEmitter;
+  protected _derive: Derive<OnCall>;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
   protected _query?: QueryableStorage<OnCall>;
@@ -224,7 +226,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return this;
   }
 
-  protected abstract onCall (obs: Observable<any>, params: Array<any>): OnCall;
+  protected abstract onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall;
 
   protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
@@ -295,7 +297,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       const sectionName = _sectionName as keyof DecoratedRpc<OnCall>;
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
-        const method = (...params: any[]) => this.onCall(rpc[sectionName][methodName](...params), params);
+        const method = (...params: any[]) => this.onCall(rpc[sectionName][methodName], params);
         section[methodName] = method;
 
         return section;
@@ -344,7 +346,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     const decorated: any = (arg?: any): OnCall => {
 
       return this.onCall(
-        this._rpcRx.state
+        arg => this._rpcRx.state
           .subscribeStorage([[method, arg]])
           .pipe(
             // errors can occur in the case of malformed methods + args
@@ -361,7 +363,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
     decorated.at = (hash: Hash, arg?: any): OnCall =>
       this.onCall(
-        this._rpcRx.state
+        arg => this._rpcRx.state
           .getStorage([method, arg], hash)
           .pipe(
             // same as above (for single result), in the case of errors on creation, return `undefined`
