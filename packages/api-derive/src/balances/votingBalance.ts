@@ -8,11 +8,12 @@ import ApiRx from '@polkadot/api/rx';
 import { AccountId, AccountIndex, Balance } from '@polkadot/types/index';
 
 import { accountIdAndIndex } from './accountIdAndIndex';
+import { DerivedBalances } from '../types';
 
 const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 
 export function votingBalance (api: ApiRx) {
-  return (address: AccountIndex | AccountId | string) =>
+  return (address: AccountIndex | AccountId | string): Observable<DerivedBalances> =>
     accountIdAndIndex(api)(address).pipe(
       switchMap(([accountId]) => {
         if (accountId) {
