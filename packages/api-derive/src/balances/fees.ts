@@ -7,7 +7,7 @@ import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 
-export function accountIdAndIndex (api: ApiRx) {
+export function fees (api: ApiRx) {
   return () =>
     combineLatest(
       api.query.balances.creationFee,

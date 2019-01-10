@@ -13,3 +13,7 @@ export type DerivedBalances = {
   stakingBalance: Balance,
   nominators?: Array<DerivedBalances>
 };
+
+export type DerivedBalancesMap = {
+  [index: string]: DerivedBalances
+};
