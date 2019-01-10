@@ -10,11 +10,11 @@ import { BlockNumber, Header } from '@polkadot/types/index';
 import { drr } from '../util/drr';
 
 /**
- * Get the latest block number.
+ * Get the latest finalised block number.
  */
-export function bestNumber (api: ApiRx) {
+export function bestNumberFinalised (api: ApiRx) {
   return (): Observable<BlockNumber> =>
-    api.rpc.chain.subscribeNewHead()
+    api.rpc.chain.subscribeFinalisedHeads()
       .pipe(
         filter((header: Header) => header && !!header.blockNumber),
         map(({ blockNumber }: Header) => blockNumber),

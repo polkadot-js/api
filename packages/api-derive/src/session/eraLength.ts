@@ -8,22 +8,17 @@ import { map } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
 import { BlockNumber } from '@polkadot/types/index';
 
-import { bestNumber } from '../chain';
 import { drr } from '../util/drr';
 
-export function sessionProgress (api: ApiRx) {
+export function eraLength (api: ApiRx) {
   return (): Observable<BN> =>
-    combineLatest(
-      bestNumber(api)(),
+    (combineLatest(
       api.query.session.sessionLength(),
-      api.query.session.lastLengthChange()
-    ).pipe(
+      api.query.staking.sessionsPerEra()
+    ) as Observable<[BlockNumber?, BlockNumber?]>).pipe(
       map(
-        ([bestNumber, sessionLength, lastLengthChange]) =>
-          (bestNumber || new BN(0))
-            .sub(lastLengthChange as BlockNumber || new BN(0))
-            .add(sessionLength as BlockNumber || new BN(1))
-            .mod(sessionLength as BlockNumber || new BN(1))
+        ([sessionLength, sessionsPerEra]) =>
+          (sessionLength || new BN(1)).mul(sessionsPerEra || new BN(1))
       ),
       drr()
     );

@@ -37,6 +37,26 @@ describe('derive', () => {
 
   beforeAll((done) => api.isReady.subscribe(() => done()));
 
+  testFunction(api)('balances', 'accountIdAndIndex', []);
+  testFunction(api)('balances', 'accountIdToIndex', []);
+  testFunction(api)('balances', 'accountIndexes', []);
+  testFunction(api)('balances', 'accountIndexToId', []);
+  testFunction(api)('balances', 'fees', []);
+  testFunction(api)('balances', 'validatingBalance', []);
+  testFunction(api)('balances', 'validatingBalances', []);
+  testFunction(api)('balances', 'votingBalance', []);
+  testFunction(api)('balances', 'votingBalances', []);
+  testFunction(api)('balances', 'votingBalancesNominatorsFor', []);
+
   testFunction(api)('chain', 'bestNumber', []);
+  testFunction(api)('chain', 'bestNumberFinalised', []);
+
+  testFunction(api)('democracy', 'referendumInfos', []);
+  testFunction(api)('democracy', 'referendums', []);
+  testFunction(api)('democracy', 'referendumVotesFor', []);
+  testFunction(api)('democracy', 'votes', []);
+
+  testFunction(api)('session', 'eraLength', []);
+  testFunction(api)('session', 'eraProgress', []);
   testFunction(api)('session', 'sessionProgress', []);
 });
