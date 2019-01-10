@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types/index';
+import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -60,9 +60,3 @@ export interface SubmittableExtrinsics {
 export interface ApiPromiseInterface extends ApiBaseInterface<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
-
-export type SubmittableSendResult = {
-  events?: Array<EventRecord>,
-  status: ExtrinsicStatus,
-  type: string
-};
