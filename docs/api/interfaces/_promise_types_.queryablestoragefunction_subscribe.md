@@ -9,7 +9,7 @@
 
 ▸ **__call**(cb: *`function`*): [PromiseSubscription](../modules/_promise_types_.md#promisesubscription)
 
-*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api/src/promise/types.ts#L28)*
+*Defined in [promise/types.ts:28](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/promise/types.ts#L28)*
 
 **Parameters:**
 
@@ -20,7 +20,7 @@
 
 **Returns:** [PromiseSubscription](../modules/_promise_types_.md#promisesubscription)
 
-*Defined in [promise/types.ts:29](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api/src/promise/types.ts#L29)*
+*Defined in [promise/types.ts:29](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/promise/types.ts#L29)*
 
 **Parameters:**
 

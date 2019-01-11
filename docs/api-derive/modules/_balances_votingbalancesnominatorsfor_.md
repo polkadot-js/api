@@ -8,7 +8,7 @@
 
 ▸ **votingBalancesNominatorsFor**(api: *`ApiRx`*): `(Anonymous function)`
 
-*Defined in [balances/votingBalancesNominatorsFor.ts:14](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api-derive/src/balances/votingBalancesNominatorsFor.ts#L14)*
+*Defined in [balances/votingBalancesNominatorsFor.ts:14](https://github.com/polkadot-js/api/blob/7393710/packages/api-derive/src/balances/votingBalancesNominatorsFor.ts#L14)*
 
 **Parameters:**
 
