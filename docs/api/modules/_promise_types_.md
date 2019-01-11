@@ -30,10 +30,10 @@
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/132a8dd/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/54eada5/packages/api/src/promise/types.ts#L15)*
 
 #### Type declaration
-▸(...params: *`Array`<`any`>*): `Promise`<`any`> | [UnsubFunction](_promise_types_.md#unsubfunction)
+▸(...params: *`Array`<`any`>*): `Promise`<`any`> | `Promise`<[UnsubFunction](_promise_types_.md#unsubfunction)>
 
 **Parameters:**
 
@@ -41,7 +41,7 @@
 | ------ | ------ |
 | `Rest` params | `Array`<`any`> |
 
-**Returns:** `Promise`<`any`> | [UnsubFunction](_promise_types_.md#unsubfunction)
+**Returns:** `Promise`<`any`> | `Promise`<[UnsubFunction](_promise_types_.md#unsubfunction)>
 
 ___
 <a id="unsubfunction"></a>
@@ -50,7 +50,7 @@ ___
 
 **Ƭ UnsubFunction**: *`function`*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/132a8dd/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/54eada5/packages/api/src/promise/types.ts#L13)*
 
 #### Type declaration
 ▸(): `void`
