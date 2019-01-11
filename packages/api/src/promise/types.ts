@@ -10,7 +10,7 @@ import { ApiBaseInterface } from '../types';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export type PromiseSubscription = Promise<() => void>;
+export type PromiseSubscription = Promise<() => any>;
 
 export type DecoratedRpc$Method = (...params: Array<any>) => Promise<any> | PromiseSubscription;
 
