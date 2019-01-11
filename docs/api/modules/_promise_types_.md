@@ -30,7 +30,7 @@
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/ed1ad05/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/bb7a5ac/packages/api/src/promise/types.ts#L15)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `Promise`<`any`> | [UnsubFunction](_promise_types_.md#unsubfunction)
@@ -50,7 +50,7 @@ ___
 
 **Ƭ UnsubFunction**: *`function`*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/ed1ad05/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/bb7a5ac/packages/api/src/promise/types.ts#L13)*
 
 #### Type declaration
 ▸(): `void`
