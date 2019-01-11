@@ -27,8 +27,6 @@ export default class Bytes extends U8a {
     const StorageData = require('./StorageData').default;
 
     if (Array.isArray(value) || isString(value)) {
-      // FIXME We manually add the length prefix for hex for now
-      // https://github.com/paritytech/substrate/issues/889
       const u8a = u8aToU8a(value);
 
       return Bytes.decodeBytes(
