@@ -7,6 +7,8 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
 import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
+import { EMPTY } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
@@ -195,17 +197,40 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
         rxfn(...params).toPromise();
     }
 
-    return (..._params: Array<any>): UnsubFunction => {
+    return (..._params: Array<any>): Promise<UnsubFunction> => {
       const cb = _params[_params.length - 1];
 
       assert(isFunction(cb), 'Expected callback as last paramater for subscription');
 
-      const params = _params.slice(0, _params.length - 1);
-      const subscription = rxfn(...params).subscribe(cb);
+      return new Promise((resolve, reject) => {
+        let isCompleted = false;
+        const params = _params.slice(0, _params.length - 1);
+        const subscription = rxfn(...params)
+          .pipe(
+            // if we find an error (invalid params, etc), reject the promise
+            catchError((error) => {
+              console.error(error);
 
-      return (): void => {
-        subscription.unsubscribe();
-      };
+              if (!isCompleted) {
+                isCompleted = true;
+
+                reject(error);
+              }
+
+              // we don't want to continue, so empty observable it is
+              return EMPTY;
+            }),
+            // upon the first result, resolve the with the unsub function
+            tap(() => {
+              if (!isCompleted) {
+                isCompleted = true;
+
+                resolve(subscription.unsubscribe);
+              }
+            })
+          )
+          .subscribe(cb);
+      });
     };
   }
 
@@ -273,7 +298,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | UnsubFunction => {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | Promise<UnsubFunction> => {
       const cb = args[args.length - 1];
 
       if (args.length === 0 || !isFunction(cb)) {
@@ -288,7 +313,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
         [[method, args.length === 1 ? undefined : args[0]]],
         (result: Array<Codec | null | undefined> = []) =>
           cb(result[0])
-      ) as UnsubFunction;
+      ) as Promise<UnsubFunction>;
     };
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
