@@ -2,16 +2,26 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { PromiseSubscription } from './types';
+
 import Combinator from './Combinator';
 
 describe('Combinator', () => {
+  let fns: Array<(value: any) => void> = [];
+  const storeFn = async (cb: (value: any) => void): PromiseSubscription => {
+    fns.push(cb);
+
+    return () => undefined;
+  };
+
+  beforeEach(() => {
+    fns = [];
+  });
+
   it('it triggers on all values', (done) => {
     let count = 0;
-    const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
-      [
-        (cb) => Promise.resolve(fns.push(cb))
-      ],
+      [storeFn],
       (value: Array<any>) => {
         expect(value[0]).toEqual(`test${count}`);
 
@@ -31,12 +41,8 @@ describe('Combinator', () => {
   });
 
   it('combines values from 2 sources, firing when it has all results', (done) => {
-    const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
-      [
-        (cb) => Promise.resolve(fns.push(cb)),
-        (cb) => Promise.resolve(fns.push(cb))
-      ],
+      [storeFn, storeFn],
       (value: Array<any>) => {
         expect(value).toEqual(['test0', 'test1']);
 
@@ -52,12 +58,8 @@ describe('Combinator', () => {
 
   it('combines values from 2 sources, allowing multiple updates', (done) => {
     let count = 0;
-    const fns: Array<(value: any) => void> = [];
     const combinator = new Combinator(
-      [
-        (cb) => Promise.resolve(fns.push(cb)),
-        (cb) => Promise.resolve(fns.push(cb))
-      ],
+      [storeFn, storeFn],
       (value: Array<any>) => {
         expect(value).toEqual(
           count === 0
@@ -80,10 +82,10 @@ describe('Combinator', () => {
   });
 
   it('unsubscribes as required', (done) => {
-    const mocker = () => done;
+    const mocker = async () => done;
     const combinator = new Combinator([
       mocker,
-      () => Promise.resolve(98765)
+      async () => () => void 0
     ], (value: Array<any>) => {
       // ignore
     });

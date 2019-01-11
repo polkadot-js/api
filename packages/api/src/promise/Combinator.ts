@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UnsubFunction } from './types';
+import { PromiseSubscription } from './types';
 
 import { isFunction } from '@polkadot/util';
 
 export type CombinatorCallback = (value: Array<any>) => any;
 export type CombinatorFunction = {
-  (cb: (value: any) => any): UnsubFunction | any
+  (cb: (value: any) => any): PromiseSubscription
 };
 
 export default class Combinator {
@@ -18,11 +18,11 @@ export default class Combinator {
   protected _fns: Array<CombinatorFunction> = [];
   protected _isActive: boolean = true;
   protected _results: Array<any> = [];
-  protected _unsubscriptions: Array<UnsubFunction | any> = [];
+  protected _subscriptions: Array<PromiseSubscription> = [];
 
   constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
     this._callback = callback;
-    this._unsubscriptions = fns.map((input, index) => {
+    this._subscriptions = fns.map(async (input, index) => {
       const [fn, ...args] = Array.isArray(input)
         ? input
         : [input];
@@ -65,11 +65,21 @@ export default class Combinator {
   }
 
   unsubscribe (): void {
+    if (!this._isActive) {
+      return;
+    }
+
     this._isActive = false;
 
-    this._unsubscriptions.forEach((unsubscribe) => {
-      if (isFunction(unsubscribe)) {
-        unsubscribe();
+    this._subscriptions.forEach(async (subscription) => {
+      try {
+        const unsubscribe = await subscription;
+
+        if (isFunction(unsubscribe)) {
+          unsubscribe();
+        }
+      } catch (error) {
+        // ignore
       }
     });
   }
