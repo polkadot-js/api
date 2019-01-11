@@ -8,7 +8,7 @@ import { ApiOptions } from '../types';
 import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
 
 import { EMPTY } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
@@ -221,14 +221,12 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
               return EMPTY;
             }),
             // upon the first result, resolve the with the unsub function
-            map((result: any) => {
+            tap(() => {
               if (!isCompleted) {
                 isCompleted = true;
 
                 resolve(subscription.unsubscribe);
               }
-
-              return result;
             })
           )
           .subscribe(cb);
