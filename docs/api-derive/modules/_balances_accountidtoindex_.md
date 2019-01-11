@@ -8,7 +8,7 @@
 
 ▸ **accountIdToIndex**(api: *`ApiRx`*): `(Anonymous function)`
 
-*Defined in [balances/accountIdToIndex.ts:13](https://github.com/polkadot-js/api/blob/54eada5/packages/api-derive/src/balances/accountIdToIndex.ts#L13)*
+*Defined in [balances/accountIdToIndex.ts:13](https://github.com/polkadot-js/api/blob/a2f176d/packages/api-derive/src/balances/accountIdToIndex.ts#L13)*
 
 **Parameters:**
 
