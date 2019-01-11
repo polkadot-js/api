@@ -1,3 +1,7 @@
+# 0.39.1
+
+- The Promise API now returns a `Promise<UnsubFunction>` instead of `UnsubFunction` when making subscriptions.
+
 # 0.38.1
 
 Substrate has been updated with a breaking new transaction format where the Index/Nonce is now encoded as a Compact. This change is being rolled out to both Alexander (Polkadot testnet) as well as Charred Cherry (Substrate testnet) - transactions between old and new are not compatible.
