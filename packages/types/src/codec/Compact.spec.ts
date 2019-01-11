@@ -63,7 +63,7 @@ describe('Compact', () => {
 
     it('encondes a large balance', () => {
       expect(
-        Compact.encodeU8a(new Balance('0x00407a10f35a'))
+        Compact.encodeU8a(new Balance('0x5af3107a4000'))
       ).toEqual(
         new Uint8Array([
           3 + ((6 - 4) << 2),

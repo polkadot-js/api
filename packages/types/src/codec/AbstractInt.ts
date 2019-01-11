@@ -39,7 +39,7 @@ export default abstract class AbstractInt extends BN implements Codec {
     // constructor. It would be ideal to actually return a BN, but there's a
     // bug: https://github.com/indutny/bn.js/issues/206.
     if (isHex(value)) {
-      return hexToBn(value, { isLe: true, isNegative }).toString();
+      return hexToBn(value, { isLe: false, isNegative }).toString();
     } else if (isU8a(value)) {
       try {
         // NOTE When passing u8a in (typically from decoded data), it is always LE
