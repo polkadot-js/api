@@ -26,10 +26,10 @@ export default class Bytes extends U8a {
     // StorageData to cater for the _specific_ problematic case
     const StorageData = require('./StorageData').default;
 
-    if (isHex(value)) {
+    if (Array.isArray(value) || isString(value)) {
       // FIXME We manually add the length prefix for hex for now
       // https://github.com/paritytech/substrate/issues/889
-      const u8a = hexToU8a(value);
+      const u8a = u8aToU8a(value);
 
       return Bytes.decodeBytes(
         Compact.addLengthPrefix(u8a)
@@ -51,8 +51,6 @@ export default class Bytes extends U8a {
       const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
-    } else if (Array.isArray(value) || isString(value)) {
-      return Bytes.decodeBytes(u8aToU8a(value));
     }
 
     return value;
