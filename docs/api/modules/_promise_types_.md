@@ -18,7 +18,7 @@
 ### Type aliases
 
 * [DecoratedRpc$Method](_promise_types_.md#decoratedrpc_method)
-* [UnsubFunction](_promise_types_.md#unsubfunction)
+* [PromiseSubscription](_promise_types_.md#promisesubscription)
 
 ---
 
@@ -30,10 +30,10 @@
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/2751491/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api/src/promise/types.ts#L15)*
 
 #### Type declaration
-▸(...params: *`Array`<`any`>*): `Promise`<`any`> | `Promise`<[UnsubFunction](_promise_types_.md#unsubfunction)>
+▸(...params: *`Array`<`any`>*): `Promise`<`any`> | [PromiseSubscription](_promise_types_.md#promisesubscription)
 
 **Parameters:**
 
@@ -41,21 +41,16 @@
 | ------ | ------ |
 | `Rest` params | `Array`<`any`> |
 
-**Returns:** `Promise`<`any`> | `Promise`<[UnsubFunction](_promise_types_.md#unsubfunction)>
+**Returns:** `Promise`<`any`> | [PromiseSubscription](_promise_types_.md#promisesubscription)
 
 ___
-<a id="unsubfunction"></a>
+<a id="promisesubscription"></a>
 
-##  UnsubFunction
+##  PromiseSubscription
 
-**Ƭ UnsubFunction**: *`function`*
+**Ƭ PromiseSubscription**: *`Promise`<`function`>*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/2751491/packages/api/src/promise/types.ts#L13)*
-
-#### Type declaration
-▸(): `void`
-
-**Returns:** `void`
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api/src/promise/types.ts#L13)*
 
 ___
 

@@ -8,7 +8,7 @@
 
 ▸ **eraProgress**(api: *`ApiRx`*): `(Anonymous function)`
 
-*Defined in [session/eraProgress.ts:14](https://github.com/polkadot-js/api/blob/2751491/packages/api-derive/src/session/eraProgress.ts#L14)*
+*Defined in [session/eraProgress.ts:14](https://github.com/polkadot-js/api/blob/13e2aa0/packages/api-derive/src/session/eraProgress.ts#L14)*
 
 **Parameters:**
 
