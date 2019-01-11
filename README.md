@@ -44,7 +44,7 @@ To get started -
 
 1. Clone the repo locally, via `git clone https://github.com/polkadot-js/api <optional local path>`
 2. Ensure that you have a recent version of Node.js, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
-3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.3.2](https://yarnpkg.com/docs/install) is required.
+3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.10.1](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
 5. Build the API Docs, via `yarn run build`
 6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
