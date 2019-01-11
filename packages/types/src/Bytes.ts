@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
@@ -26,10 +26,8 @@ export default class Bytes extends U8a {
     // StorageData to cater for the _specific_ problematic case
     const StorageData = require('./StorageData').default;
 
-    if (isHex(value)) {
-      // FIXME We manually add the length prefix for hex for now
-      // https://github.com/paritytech/substrate/issues/889
-      const u8a = hexToU8a(value);
+    if (Array.isArray(value) || isString(value)) {
+      const u8a = u8aToU8a(value);
 
       return Bytes.decodeBytes(
         Compact.addLengthPrefix(u8a)
@@ -51,8 +49,6 @@ export default class Bytes extends U8a {
       const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());
-    } else if (Array.isArray(value) || isString(value)) {
-      return Bytes.decodeBytes(u8aToU8a(value));
     }
 
     return value;

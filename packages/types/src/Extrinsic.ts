@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a, Codec } from './types';
 
-import { hexToU8a, isHex, isU8a, u8aToHex } from '@polkadot/util';
+import { isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from './codec/Compact';
@@ -42,15 +42,20 @@ export default class Extrinsic extends Struct {
   }
 
   static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method): ExtrinsicValue | Array<number> | Uint8Array {
-    if (isHex(value)) {
-      // FIXME We manually add the length prefix for hex for now
-      // https://github.com/paritytech/substrate/issues/889
+    if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
-      const u8a = hexToU8a(value);
+      const u8a = u8aToU8a(value);
+
+      // HACK 11 Jan 2019 - before https://github.com/paritytech/substrate/pull/1388
+      // extrinsics didn't have the length, cater for both approaches
+      const [offset, length] = Compact.decodeU8a(u8a);
+      const withPrefix = u8a.length === (offset + length.toNumber());
 
       return Extrinsic.decodeExtrinsic(
-        Compact.addLengthPrefix(u8a)
+        withPrefix
+          ? u8a
+          : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
       const [offset, length] = Compact.decodeU8a(value);
