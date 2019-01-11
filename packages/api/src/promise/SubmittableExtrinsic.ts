@@ -41,7 +41,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
     };
   }
 
-  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> | UnsubFunction {
+  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash | UnsubFunction> {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }
@@ -55,24 +55,13 @@ export default class SubmittableExtrinsic extends Extrinsic {
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Promise<Hash> | UnsubFunction {
+  async signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Promise<Hash | UnsubFunction> {
     assert(this._api.hasSubscriptions, 'Api does not support subscriptions');
 
-    let unsubscribe: UnsubFunction | undefined;
+    const signerNonce = await this._api.query.system.accountNonce(signerPair.address());
 
-    this._api.query.system
-      .accountNonce(signerPair.address())
-      .then((nonce) => {
-        unsubscribe = this.sign(signerPair, nonce as Index).send(statusCb) as UnsubFunction;
-      })
-      .catch(console.error);
-
-    return (): void => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-
-      unsubscribe = undefined;
-    };
+    return this
+      .sign(signerPair, signerNonce as Index)
+      .send(statusCb);
   }
 }

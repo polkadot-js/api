@@ -253,20 +253,20 @@ export default class WsProvider implements WSProviderInterface {
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);
 
-    return isUndefined(response.method)
-      ? this.onSocketMessageResult(response)
-      : this.onSocketMessageSubscribe(response);
-  }
-
-  private onSocketMessageResult = (response: JsonRpcResponse): void => {
-    l.debug(() => ['handling: response =', response, 'id =', response.id]);
-
     const handler = this.handlers[response.id];
 
     if (!handler) {
       l.debug(() => `Unable to find handler for id=${response.id}`);
       return;
     }
+
+    return isUndefined(response.method)
+      ? this.onSocketMessageResult(handler, response)
+      : this.onSocketMessageSubscribe(handler, response);
+  }
+
+  private onSocketMessageResult = (handler: WsState$Awaiting, response: JsonRpcResponse): void => {
+    l.debug(() => ['handling: response =', response, 'id =', response.id]);
 
     try {
       const { method, params, subscription } = handler;
@@ -288,17 +288,10 @@ export default class WsProvider implements WSProviderInterface {
     delete this.handlers[response.id];
   }
 
-  private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
+  private onSocketMessageSubscribe = (handler: WsState$Awaiting, response: JsonRpcResponse): void => {
     const subscription = `${response.method}::${response.params.subscription}`;
 
     l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
-
-    const handler = this.subscriptions[subscription];
-
-    if (!handler) {
-      l.debug(() => `Unable to find handler for subscription=${subscription}`);
-      return;
-    }
 
     try {
       const result = this.coder.decodeResponse(response);
