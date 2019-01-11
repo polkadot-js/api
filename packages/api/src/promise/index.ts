@@ -225,7 +225,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
               if (!isCompleted) {
                 isCompleted = true;
 
-                resolve(subscription.unsubscribe);
+                resolve(() => subscription.unsubscribe());
               }
             })
           )
