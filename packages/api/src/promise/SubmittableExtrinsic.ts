@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
 import { SubmittableSendResult } from '../types';
-import { ApiPromiseInterface, UnsubFunction } from './types';
+import { ApiPromiseInterface, PromiseSubscription } from './types';
 
 import { EventRecord, Extrinsic, ExtrinsicStatus, Hash, Index, Method, SignedBlock } from '@polkadot/types/index';
 import { assert } from '@polkadot/util';
@@ -41,7 +41,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
     };
   }
 
-  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash | UnsubFunction> {
+  send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> | PromiseSubscription {
     if (!statusCb || !this._api.hasSubscriptions) {
       return this._api.rpc.author.submitExtrinsic(this);
     }
@@ -55,13 +55,13 @@ export default class SubmittableExtrinsic extends Extrinsic {
     return this;
   }
 
-  async signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Promise<Hash | UnsubFunction> {
+  async signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): PromiseSubscription {
     assert(this._api.hasSubscriptions, 'Api does not support subscriptions');
 
     const signerNonce = await this._api.query.system.accountNonce(signerPair.address());
 
     return this
       .sign(signerPair, signerNonce as Index)
-      .send(statusCb);
+      .send(statusCb) as PromiseSubscription;
   }
 }

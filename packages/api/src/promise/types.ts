@@ -10,9 +10,9 @@ import { ApiBaseInterface } from '../types';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export type UnsubFunction = () => void;
+export type PromiseSubscription = Promise<() => any>;
 
-export type DecoratedRpc$Method = (...params: Array<any>) => Promise<any> | Promise<UnsubFunction>;
+export type DecoratedRpc$Method = (...params: Array<any>) => Promise<any> | PromiseSubscription;
 
 export interface DecoratedRpc$Section {
   [index: string]: DecoratedRpc$Method;
@@ -26,13 +26,13 @@ export interface DecoratedRpc {
 }
 
 export interface QueryableStorageFunction$Subscribe {
-  (arg: any, cb: (value?: any | null) => any): Promise<UnsubFunction>;
-  (cb: (value?: any | null) => any): Promise<UnsubFunction>;
+  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
+  (cb: (value?: any | null) => any): PromiseSubscription;
 }
 
 export interface QueryableStorageFunction extends StorageFunction {
-  (cb: (value?: any | null) => any): Promise<UnsubFunction>;
-  (arg: any, cb: (value?: any | null) => any): Promise<UnsubFunction>;
+  (cb: (value?: any | null) => any): PromiseSubscription;
+  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
   (arg?: any): Promise<Codec | null | undefined>;
   at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
 }

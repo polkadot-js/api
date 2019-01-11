@@ -5,7 +5,7 @@
 import { RpcRxInterface$Method } from '@polkadot/rpc-rx/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, UnsubFunction } from './types';
+import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, PromiseSubscription } from './types';
 
 import { EMPTY } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
@@ -197,7 +197,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
         rxfn(...params).toPromise();
     }
 
-    return (..._params: Array<any>): Promise<UnsubFunction> => {
+    return (..._params: Array<any>): PromiseSubscription => {
       const cb = _params[_params.length - 1];
 
       assert(isFunction(cb), 'Expected callback as last paramater for subscription');
@@ -254,7 +254,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * });
    * ```
    */
-  combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubFunction {
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -298,7 +298,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | Promise<UnsubFunction> => {
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | PromiseSubscription => {
       const cb = args[args.length - 1];
 
       if (args.length === 0 || !isFunction(cb)) {
@@ -313,7 +313,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
         [[method, args.length === 1 ? undefined : args[0]]],
         (result: Array<Codec | null | undefined> = []) =>
           cb(result[0])
-      ) as Promise<UnsubFunction>;
+      ) as PromiseSubscription;
     };
 
     decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
