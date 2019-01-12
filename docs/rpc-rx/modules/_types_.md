@@ -8,7 +8,7 @@
 
 **Ƭ RpcRxInterface**: *`object`*
 
-*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-rx/src/types.ts#L16)*
+*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/8f698d7/packages/rpc-rx/src/types.ts#L16)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ RpcRxInterface$Events**: *`ProviderInterface$Emitted`*
 
-*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-rx/src/types.ts#L14)*
+*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/8f698d7/packages/rpc-rx/src/types.ts#L14)*
 
 ___
 <a id="rpcrxinterface_method"></a>
@@ -28,7 +28,7 @@ ___
 
 **Ƭ RpcRxInterface$Method**: *`function`*
 
-*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-rx/src/types.ts#L8)*
+*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/8f698d7/packages/rpc-rx/src/types.ts#L8)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `Observable`<`any`> | `ReplaySubject`<`any`>
@@ -48,7 +48,7 @@ ___
 
 **Ƭ RpcRxInterface$Section**: *`object`*
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-rx/src/types.ts#L10)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/8f698d7/packages/rpc-rx/src/types.ts#L10)*
 
 #### Type declaration
 

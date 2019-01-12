@@ -8,7 +8,7 @@
 
 ▸ **votingBalance**(api: *`ApiRx`*): `(Anonymous function)`
 
-*Defined in [balances/votingBalance.ts:16](https://github.com/polkadot-js/api/blob/1f401d6/packages/api-derive/src/balances/votingBalance.ts#L16)*
+*Defined in [balances/votingBalance.ts:16](https://github.com/polkadot-js/api/blob/8f698d7/packages/api-derive/src/balances/votingBalance.ts#L16)*
 
 **Parameters:**
 
