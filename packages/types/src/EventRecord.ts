@@ -36,6 +36,20 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
       Finalization
     }, value, index);
   }
+
+  /**
+   * @description Returns the item as a [[ApplyExtrinsic]]
+   */
+  get asApplyExtrinsic (): ApplyExtrinsic {
+    return this.value as ApplyExtrinsic;
+  }
+
+  /**
+   * @description Returns the item as a [[Finalization]]
+   */
+  get asFinalization (): Finalization {
+    return this.value as Finalization;
+  }
 }
 
 /**

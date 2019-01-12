@@ -79,6 +79,34 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
       Seal
     }, value);
   }
+
+  /**
+   * @description Returns the item as a [[AuthoritiesChange]]
+   */
+  get asAuthoritiesChange (): AuthoritiesChange {
+    return this.value as AuthoritiesChange;
+  }
+
+  /**
+   * @description Returns the item as a [[ChangesTrieRoot]]
+   */
+  get asChangesTrieRoot (): ChangesTrieRoot {
+    return this.value as ChangesTrieRoot;
+  }
+
+  /**
+   * @description Returns the item as a [[Other]]
+   */
+  get asOther (): Other {
+    return this.value as Other;
+  }
+
+  /**
+   * @description Returns the item as a [[Seal]]
+   */
+  get asSeal (): Seal {
+    return this.value as Seal;
+  }
 }
 
 /**

@@ -61,6 +61,20 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
       ExplicitCandidateSignature // 2
     }, value);
   }
+
+  /**
+   * @description Returns the item as a [[ExplicitCandidateSignature]]
+   */
+  get asExplicitCandidateSignature (): ExplicitCandidateSignature {
+    return this.value as ExplicitCandidateSignature;
+  }
+
+  /**
+   * @description Returns the item as a [[ImplicitCandidateSignature]]
+   */
+  get asImplicitCandidateSignature (): ImplicitCandidateSignature {
+    return this.value as ImplicitCandidateSignature;
+  }
 }
 
 export class ValidityVote extends Tuple.with({ SessionKey, ValidityAttestation }) {

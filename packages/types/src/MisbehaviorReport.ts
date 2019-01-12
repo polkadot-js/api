@@ -127,6 +127,34 @@ export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePro
       BftDoubleCommit
     }, value, index);
   }
+
+  /**
+   * @description Returns the item as a [[BftDoubleCommit]]
+   */
+  get asBftDoubleCommit (): BftDoubleCommit {
+    return this.value as BftDoubleCommit;
+  }
+
+  /**
+   * @description Returns the item as a [[BftDoublePrepare]]
+   */
+  get asBftDoublePrepare (): BftDoublePrepare {
+    return this.value as BftDoublePrepare;
+  }
+
+  /**
+   * @description Returns the item as a [[BftDoublePropose]]
+   */
+  get asBftDoublePropose (): BftDoublePropose {
+    return this.value as BftDoublePropose;
+  }
+
+  /**
+   * @description Returns the item as a [[BftProposeOutOfTurn]]
+   */
+  get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
+    return this.value as BftProposeOutOfTurn;
+  }
 }
 
 type MisbehaviorReportValue = {

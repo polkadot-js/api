@@ -81,4 +81,53 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalised
       Invalid
     }, value, index);
   }
+
+  /**
+   * @description Returns the item as a [[Broadcast]]
+   */
+  get asBroadcast (): Broadcast {
+    return this.value as Broadcast;
+  }
+
+  /**
+   * @description Returns the item as a [[Dropped]]
+   */
+  get asDropped (): Dropped {
+    return this.value as Dropped;
+  }
+
+  /**
+   * @description Returns the item as a [[Finalised]]
+   */
+  get asFinalised (): Finalised {
+    return this.value as Finalised;
+  }
+
+  /**
+   * @description Returns the item as a [[Future]]
+   */
+  get asFuture (): Future {
+    return this.value as Future;
+  }
+
+  /**
+   * @description Returns the item as a [[Invalid]]
+   */
+  get asInvalid (): Invalid {
+    return this.value as Invalid;
+  }
+
+  /**
+   * @description Returns the item as a [[Ready]]
+   */
+  get asReady (): Ready {
+    return this.value as Ready;
+  }
+
+  /**
+   * @description Returns the item as a [[Usurped]]
+   */
+  get asUsurped (): Usurped {
+    return this.value as Usurped;
+  }
 }
