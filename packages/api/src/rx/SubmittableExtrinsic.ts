@@ -9,7 +9,7 @@ import { ApiRxInterface } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { Extrinsic, ExtrinsicStatus, Hash, Index, Method } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, Index, Method } from '@polkadot/types/index';
 
 import filterEvents from '../util/filterEvents';
 
@@ -30,7 +30,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       });
     }
 
-    const blockHash = status.value as Hash;
+    const blockHash = status.asFinalised;
 
     return combineLatest(
       this._api.rpc.chain.getBlock(blockHash),
