@@ -26,7 +26,7 @@
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L13)*
+*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L13)*
 
 ___
 <a id="hassubscriptions"></a>
@@ -35,7 +35,7 @@ ___
 
 **● hasSubscriptions**: *`boolean`*
 
-*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L14)*
+*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L14)*
 
 ___
 <a id="on"></a>
@@ -44,7 +44,7 @@ ___
 
 **● on**: *`function`*
 
-*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L21)*
+*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L21)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
@@ -65,7 +65,7 @@ ___
 
 **● once**: *`function`*
 
-*Defined in [types.ts:22](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L22)*
+*Defined in [types.ts:22](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L22)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
@@ -86,7 +86,7 @@ ___
 
 **● query**: *`S`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L17)*
 
 ___
 <a id="rpc"></a>
@@ -95,7 +95,7 @@ ___
 
 **● rpc**: *`R`*
 
-*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L18)*
+*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L18)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -104,7 +104,7 @@ ___
 
 **● runtimeMetadata**: *`Metadata`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L15)*
+*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L15)*
 
 ___
 <a id="runtimeversion"></a>
@@ -113,7 +113,7 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L16)*
+*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L16)*
 
 ___
 <a id="tx"></a>
@@ -122,7 +122,7 @@ ___
 
 **● tx**: *`E`*
 
-*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/7393710/packages/api/src/types.ts#L19)*
+*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/1f401d6/packages/api/src/types.ts#L19)*
 
 ___
 

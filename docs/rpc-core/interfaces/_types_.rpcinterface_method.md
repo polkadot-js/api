@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...params: *`Array`<`any`>*): `Promise`<`any`>
 
-*Defined in [types.ts:5](https://github.com/polkadot-js/api/blob/7393710/packages/rpc-core/src/types.ts#L5)*
+*Defined in [types.ts:5](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-core/src/types.ts#L5)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● subscription**: *`string`*
 
-*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/7393710/packages/rpc-core/src/types.ts#L8)*
+*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-core/src/types.ts#L8)*
 
 ___
 <a id="unsubscribe"></a>
@@ -34,7 +34,7 @@ ___
 
 **● unsubscribe**: *`function`*
 
-*Defined in [types.ts:9](https://github.com/polkadot-js/api/blob/7393710/packages/rpc-core/src/types.ts#L9)*
+*Defined in [types.ts:9](https://github.com/polkadot-js/api/blob/1f401d6/packages/rpc-core/src/types.ts#L9)*
 
 #### Type declaration
 ▸(id: *`number`*): `Promise`<`any`>

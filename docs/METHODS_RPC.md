@@ -101,6 +101,9 @@ _Methods to retrieve system info_
 ▸ **name**(): `Text`
 - **summary**: Retrieves the node name
 
+▸ **peers**(): `Vec<PeerInfo>`
+- **summary**: Returns the currently connected peers
+
 ▸ **properties**(): `ChainProperties`
 - **summary**: Get a custom set of properties as a JSON object, defined in the chain spec
 

@@ -102,6 +102,7 @@
 * [OuterEventMetadata](../classes/_metadata_events_.outereventmetadata.md)
 * [OuterEventMetadataEvent](../classes/_metadata_events_.outereventmetadataevent.md)
 * [ParaId](../classes/_paraid_.paraid.md)
+* [PeerInfo](../classes/_peerinfo_.peerinfo.md)
 * [PendingExtrinsics](../classes/_pendingextrinsics_.pendingextrinsics.md)
 * [Perbill](../classes/_perbill_.perbill.md)
 * [Permill](../classes/_permill_.permill.md)
@@ -144,6 +145,7 @@
 * [U8a](../classes/_codec_u8a_.u8a.md)
 * [U8aFixed](../classes/_codec_u8afixed_.u8afixed.md)
 * [UInt](../classes/_codec_uint_.uint.md)
+* [USize](../classes/_usize_.usize.md)
 * [Usurped](../classes/_extrinsicstatus_.usurped.md)
 * [ValidatorPrefs](../classes/_validatorprefs_.validatorprefs.md)
 * [ValidityAttestation](../classes/_attestedcandidate_.validityattestation.md)
@@ -161,7 +163,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/7393710/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/1f401d6/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -175,7 +177,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/7393710/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/1f401d6/packages/types/src/types.ts#L29)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -188,7 +190,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/7393710/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/1f401d6/packages/types/src/types.ts#L34)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -201,7 +203,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/7393710/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/1f401d6/packages/types/src/types.ts#L39)*
 
 *__description__*: Returns the string representation of the value
 
@@ -214,7 +216,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*, isStorageKey?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/7393710/packages/types/src/types.ts#L46)*
+*Defined in [types.ts:46](https://github.com/polkadot-js/api/blob/1f401d6/packages/types/src/types.ts#L46)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
