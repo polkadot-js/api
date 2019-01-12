@@ -26,7 +26,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       let events: Array<any> | undefined = undefined;
 
       if (status.type === 'Finalised') {
-        const blockHash = status.value as Hash;
+        const blockHash = status.asFinalised;
         const signedBlock: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
         const allEvents: Array<EventRecord> = await this._api.query.system.events.at(blockHash) as any;
 

@@ -30,7 +30,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       });
     }
 
-    const blockHash = status.value as Hash;
+    const blockHash = status.asFinalised;
 
     return combineLatest(
       this._api.rpc.chain.getBlock(blockHash),
