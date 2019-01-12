@@ -209,8 +209,6 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
           .pipe(
             // if we find an error (invalid params, etc), reject the promise
             catchError((error) => {
-              console.error(error);
-
               if (!isCompleted) {
                 isCompleted = true;
 
