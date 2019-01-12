@@ -4,16 +4,21 @@
 
 import Struct from './codec/Struct';
 import Bool from './Bool';
-import U32 from './U32';
+import USize from './USize';
 
 const JSON_MAP = new Map([
   ['isSyncing', 'is_syncing']
 ]);
 
+/**
+ * @name Health
+ * @description
+ * A system health indicator, reported back over RPC
+ */
 export default class Health extends Struct {
   constructor (value?: any) {
     super({
-      peers: U32,
+      peers: USize,
       isSyncing: Bool
     }, value, JSON_MAP);
   }
@@ -28,7 +33,7 @@ export default class Health extends Struct {
   /**
    * @description The numbers of peers as [[U32]]
    */
-  get peers (): U32 {
-    return this.get('peers') as U32;
+  get peers (): USize {
+    return this.get('peers') as USize;
   }
 }

@@ -38,6 +38,13 @@ const health: RpcMethodOpt = {
   type: 'Health'
 };
 
+const peers: RpcMethodOpt = {
+  description: 'Returns the currently connected peers',
+  params: [],
+  // @ts-ignore the Vec<> wrap is fine
+  type: 'Vec<PeerInfo>'
+};
+
 const section = 'system';
 
 /**
@@ -52,6 +59,7 @@ export default {
     chain: createMethod(section, 'chain', chain),
     health: createMethod(section, 'health', health),
     name: createMethod(section, 'name', name),
+    peers: createMethod(section, 'peers', peers),
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)
   }
