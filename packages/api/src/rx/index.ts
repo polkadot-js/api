@@ -4,7 +4,11 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions, ApiInterface$Events } from '../types';
-import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import {
+  ApiRxInterface,
+  QueryableStorageFunction, QueryableModuleStorage, QueryableStorage,
+  SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction
+} from './types';
 
 import EventEmitter from 'eventemitter3';
 import { Observable, from, of } from 'rxjs';
@@ -124,7 +128,7 @@ const l = logger('api/rx');
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
+export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics, Derive> implements ApiRxInterface {
   private _eventemitter: EventEmitter;
   protected _derive: Derive;
   private _isReady: Observable<ApiRx>;
@@ -198,10 +202,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
         )
       )
     );
-  }
-
-  get derive (): Derive {
-    return this._derive;
   }
 
   get hasSubscriptions (): boolean {

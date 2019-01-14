@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Derive } from '@polkadot/api-derive/index';
 import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
@@ -38,7 +39,7 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics> {
+export interface ApiRxInterface extends ApiBaseInterface<RpcRx, QueryableStorage, SubmittableExtrinsics, Derive> {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }

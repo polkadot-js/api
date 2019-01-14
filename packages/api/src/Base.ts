@@ -25,7 +25,8 @@ type MetaDecoration = {
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
+export default abstract class ApiBase<R, S, E, D> implements ApiBaseInterface<R, S, E, D> {
+  protected _derive?: D;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
   protected _query?: S;
@@ -63,6 +64,24 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
     assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
 
     return this._runtimeVersion as RuntimeVersion;
+  }
+
+  /**
+   * @description Derived results that are injected into the API, allowing for combinations of various query results.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.derive.chain.bestNumber((number) => {
+   *   console.log('best number', number);
+   * });
+   * ```
+   */
+  get derive (): D {
+    assert(!isUndefined(this._derive), INIT_ERROR);
+
+    return this._derive as D;
   }
 
   /**

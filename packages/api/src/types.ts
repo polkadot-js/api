@@ -9,11 +9,12 @@ import { Constructor } from '@polkadot/types/types';
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
-export interface ApiBaseInterface<R, S, E> {
+export interface ApiBaseInterface<R, S, E, D> {
   readonly genesisHash: Hash;
   readonly hasSubscriptions: boolean;
   readonly runtimeMetadata: Metadata;
   readonly runtimeVersion: RuntimeVersion;
+  readonly derive: D;
   readonly query: S;
   readonly rpc: R;
   readonly tx: E;
@@ -32,7 +33,7 @@ export interface ApiOptions {
    * @description Additional types used by runtime modules. This is nessusary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
-  types?: {[name: string]: Constructor};
+  types?: { [name: string]: Constructor };
 }
 
 export type SubmittableSendResult = {
