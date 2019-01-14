@@ -4,7 +4,7 @@
 
 import { RpcRxInterface$Method } from '@polkadot/rpc-rx/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
+import { ApiOptions, ApiInterface$Events } from '../types';
 import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, PromiseSubscription } from './types';
 
 import { EMPTY } from 'rxjs';
@@ -20,6 +20,7 @@ import { isFunction, logger, assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
+import ApiRx from '../rx/index';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 const l = logger('api/promise');
@@ -111,6 +112,7 @@ const l = logger('api/promise');
  * ```
  */
 export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
+  private _apiRx: ApiRx;
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -157,13 +159,21 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * ```
    */
   constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+    super();
 
+    this._apiRx = new ApiRx(options);
     this._isReady = new Promise((resolveReady) =>
-      super.once('ready', () =>
+      this.once('ready', () =>
         resolveReady(this)
       )
     );
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._apiRx.hasSubscriptions;
   }
 
   /**
@@ -171,6 +181,18 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    */
   get isReady (): Promise<ApiPromise> {
     return this._isReady;
+  }
+
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._apiRx.on(type, handler);
+
+    return this;
+  }
+
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._apiRx.once(type, handler);
+
+    return this;
   }
 
   protected decorateRpc (rpc: Rpc): DecoratedRpc {

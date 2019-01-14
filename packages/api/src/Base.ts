@@ -23,53 +23,15 @@ type MetaDecoration = {
   toJSON: () => any
 };
 
-const l = logger('api');
-
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
 export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S, E> {
-  private _eventemitter: EventEmitter;
   protected _extrinsics?: E;
   protected _genesisHash?: Hash;
   protected _query?: S;
-  protected _rpc: R;
-  protected _rpcBase: Rpc;
+  protected _rpc?: R;
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
-
-  /**
-   * @description Create an instance of the class
-   *
-   * @param options Options object to create API instance or a Provider instance
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * import Api from '@polkadot/api/promise';
-   *
-   * const api = new Api().isReady();
-   *
-   * api.rpc.subscribeNewHead((header) => {
-   *   console.log(`new block #${header.blockNumber.toNumber()}`);
-   * });
-   * ```
-   */
-  constructor (provider: ApiOptions | ProviderInterface = {}) {
-    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as ApiOptions
-      : provider as ApiOptions;
-
-    this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(options.provider);
-    this._rpc = this.decorateRpc(this._rpcBase);
-
-    if (options.types) {
-      registry.register(options.types);
-    }
-
-    this.init();
-  }
 
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
@@ -83,9 +45,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions (): boolean {
-    return this._rpcBase._provider.hasSubscriptions;
-  }
+  abstract get hasSubscriptions (): boolean;
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
@@ -140,7 +100,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * ```
    */
   get rpc (): R {
-    return this._rpc;
+    return this._rpc as R;
   }
 
   /**
@@ -183,11 +143,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.on(type, handler);
-
-    return this;
-  }
+  abstract on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this;
 
   /**
    * @description Attach an one-time eventemitter handler to listen to a specific event
@@ -208,62 +164,7 @@ export default abstract class ApiBase<R, S, E> implements ApiBaseInterface<R, S,
    * });
    * ```
    */
-  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.once(type, handler);
-
-    return this;
-  }
-
-  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
-    this._eventemitter.emit(type, ...args);
-  }
-
-  private init (): void {
-    let isReady: boolean = false;
-
-    this._rpcBase._provider.on('disconnected', () => {
-      this.emit('disconnected');
-    });
-
-    this._rpcBase._provider.on('error', (error) => {
-      this.emit('error', error);
-    });
-
-    this._rpcBase._provider.on('connected', async () => {
-      this.emit('connected');
-
-      const hasMeta = await this.loadMeta();
-
-      if (hasMeta && !isReady) {
-        isReady = true;
-
-        this.emit('ready', this);
-      }
-    });
-  }
-
-  private async loadMeta (): Promise<boolean> {
-    try {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
-
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-      const storage = storageFromMeta(this.runtimeMetadata);
-
-      this._extrinsics = this.decorateExtrinsics(extrinsics);
-      this._query = this.decorateStorage(storage);
-
-      Event.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
-
-      return true;
-    } catch (error) {
-      l.error('loadMeta', error);
-
-      return false;
-    }
-  }
+  abstract once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this;
 
   protected decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;

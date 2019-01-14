@@ -3,23 +3,29 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
+import { ApiOptions, ApiInterface$Events } from '../types';
 import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
 
+import EventEmitter from 'eventemitter3';
 import { Observable, from, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import decorateDerive, { Derive } from '@polkadot/api-derive/index';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import storageFromMeta from '@polkadot/storage/fromMetadata';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
-import { Hash } from '@polkadot/types/index';
+import registry from '@polkadot/types/codec/typeRegistry';
+import { Event, Hash, Method } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert } from '@polkadot/util';
+import { assert, isFunction, isObject, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+
+const l = logger('api/rx');
 
 /**
  * # @polkadot/api/rx
@@ -119,8 +125,10 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  * ```
  */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
+  private _eventemitter: EventEmitter;
   protected _derive: Derive;
   private _isReady: Observable<ApiRx>;
+  private _rpcBase: Rpc;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -162,8 +170,22 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+  constructor (provider?: ApiOptions | ProviderInterface) {
+    super();
+
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
+
+    this._eventemitter = new EventEmitter();
+    this._rpcBase = new Rpc(options.provider);
+    this._rpc = this.decorateRpc(this._rpcBase);
+
+    if (options.types) {
+      registry.register(options.types);
+    }
+
+    this.init();
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
@@ -171,7 +193,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
-        super.on('ready', () =>
+        this.on('ready', () =>
           resolveReady(this)
         )
       )
@@ -180,6 +202,10 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
   get derive (): Derive {
     return this._derive;
+  }
+
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -194,6 +220,69 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    */
   get isReady (): Observable<ApiRx> {
     return this._isReady;
+  }
+
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.on(type, handler);
+
+    return this;
+  }
+
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.once(type, handler);
+
+    return this;
+  }
+
+  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
+  }
+
+  private init (): void {
+    let isReady: boolean = false;
+
+    this._rpcBase._provider.on('disconnected', () => {
+      this.emit('disconnected');
+    });
+
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
+    });
+
+    this._rpcBase._provider.on('connected', async () => {
+      this.emit('connected');
+
+      const hasMeta = await this.loadMeta();
+
+      if (hasMeta && !isReady) {
+        isReady = true;
+
+        this.emit('ready', this);
+      }
+    });
+  }
+
+  private async loadMeta (): Promise<boolean> {
+    try {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+      const storage = storageFromMeta(this.runtimeMetadata);
+
+      this._extrinsics = this.decorateExtrinsics(extrinsics);
+      this._query = this.decorateStorage(storage);
+
+      Event.injectMetadata(this.runtimeMetadata);
+      Method.injectMethods(extrinsics);
+
+      return true;
+    } catch (error) {
+      l.error('loadMeta', error);
+
+      return false;
+    }
   }
 
   protected decorateRpc (rpc: Rpc): RpcRx {
