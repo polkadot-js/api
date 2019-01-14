@@ -18,11 +18,9 @@ import { EMPTY, Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Derive as DeriveInterface } from '@polkadot/api-derive/index';
 import Rpc from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
-import { Storage } from '@polkadot/storage/types';
 import { Hash } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { isFunction, logger, assert } from '@polkadot/util';
 

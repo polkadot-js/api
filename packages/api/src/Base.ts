@@ -5,15 +5,9 @@
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiBaseInterface, ApiInterface$Events, ApiOptions } from './types';
 
-import EventEmitter from 'eventemitter3';
 import Rpc from '@polkadot/rpc-core/index';
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import { Storage } from '@polkadot/storage/types';
-import storageFromMeta from '@polkadot/storage/fromMetadata';
-import registry from '@polkadot/types/codec/typeRegistry';
-import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
-import { ModulesWithMethods } from '@polkadot/types/Method';
-import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
+import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
+import { assert, isFunction, isObject, isUndefined } from '@polkadot/util';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
