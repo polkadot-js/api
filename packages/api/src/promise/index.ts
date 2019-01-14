@@ -175,11 +175,13 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     );
 
     this.decorateRpc(this._rpcBase);
-    this._isReady.then(() => {
-      this.decorateExtrinsics();
-      this.decorateStorage();
-      this.decorateDerive();
-    });
+    this._isReady
+      .then(() => {
+        this.decorateExtrinsics();
+        this.decorateStorage();
+        this.decorateDerive();
+      })
+      .catch((err) => l.error(err));
   }
 
   /**
