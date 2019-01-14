@@ -25,16 +25,8 @@ export interface DecoratedRpc {
   system: DecoratedRpc$Section;
 }
 
-export interface DeriveFunction$Subscribe {
-  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
-  (cb: (value?: any | null) => any): PromiseSubscription;
-}
-
 export interface DeriveFunction {
-  (cb: (value?: any | null) => any): PromiseSubscription;
-  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
-  (arg?: any): Promise<Codec | null | undefined>;
-  at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
+  (...args: any[]): Promise<Codec | null | undefined> | PromiseSubscription;
 }
 
 export interface DeriveSection {
