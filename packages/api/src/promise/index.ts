@@ -14,8 +14,9 @@ import {
   PromiseSubscription
 } from './types';
 
-import { EMPTY } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { Derive as DeriveInterface } from '@polkadot/api-derive/index';
 import Rpc from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import { Storage } from '@polkadot/storage/types';
@@ -141,7 +142,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * });
    * ```
    */
-  static create(options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
+  static create (options: ApiOptions | ProviderInterface = {}): Promise<ApiPromise> {
     return new ApiPromise(options).isReady;
   }
 
@@ -165,7 +166,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * });
    * ```
    */
-  constructor(options?: ApiOptions | ProviderInterface) {
+  constructor (options?: ApiOptions | ProviderInterface) {
     super();
 
     this._apiRx = new ApiRx(options);
@@ -175,45 +176,47 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
       )
     );
 
+    this.decorateRpc(this._rpcBase);
     this._isReady.then(() => {
-      this.dec
-    })
+      this.decorateExtrinsics();
+      this.decorateStorage();
+      this.decorateDerive();
+    });
   }
 
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions(): boolean {
+  get hasSubscriptions (): boolean {
     return this._apiRx.hasSubscriptions;
   }
 
   /**
    * @description Promise that returns the first time we are connected and loaded
    */
-  get isReady(): Promise<ApiPromise> {
+  get isReady (): Promise<ApiPromise> {
     return this._isReady;
   }
 
-  on(type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._apiRx.on(type, handler);
 
     return this;
   }
 
-  once(type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
     this._apiRx.once(type, handler);
 
     return this;
   }
 
-  protected decorateRpc(rpc: Rpc): DecoratedRpc {
+  private decorateRpc (rpc: Rpc): DecoratedRpc {
     const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
-    const rpcrx = new RpcRx(rpc);
 
     return names.reduce((result, section) => {
-      result[section] = Object.keys(rpcrx[section]).reduce((fns, method) => {
+      result[section] = Object.keys(this._apiRx.rpc[section]).reduce((fns, method) => {
         fns[method] = this.decorateMethod(
-          rpcrx[section][method],
+          this._apiRx.rpc[section][method],
           isFunction(rpc[section][method].unsubscribe)
         );
 
@@ -224,7 +227,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     }, {} as DecoratedRpc);
   }
 
-  protected decorateMethod(rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
+  private decorateMethod (rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
     if (!isSubscription) {
       return (...params: Array<any>): Promise<any> =>
         rxfn(...params).toPromise();
@@ -285,7 +288,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
    * });
    * ```
    */
-  async combineLatest(fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -293,9 +296,9 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     };
   }
 
-  protected decorateExtrinsics(extrinsics: ModulesWithMethods): SubmittableExtrinsics {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
+  private decorateExtrinsics (): SubmittableExtrinsics {
+    return Object.keys(this._apiRx.tx).reduce((result, sectionName) => {
+      const section = this._apiRx.tx[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
         result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
@@ -307,16 +310,16 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     }, {} as SubmittableExtrinsics);
   }
 
-  private decorateExtrinsicEntry(method: MethodFunction): SubmittableExtrinsicFunction {
+  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
       new SubmittableExtrinsic(this, method(...args));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
 
-  protected decorateStorage(storage: Storage): QueryableStorage {
-    return Object.keys(storage).reduce((result, sectionName) => {
-      const section = storage[sectionName];
+  private decorateStorage (): QueryableStorage {
+    return Object.keys(this._apiRx.query).reduce((result, sectionName) => {
+      const section = this._apiRx.query[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
         result[methodName] = this.decorateStorageEntry(section[methodName]);
@@ -328,7 +331,7 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     }, {} as QueryableStorage);
   }
 
-  private decorateStorageEntry(method: StorageFunction): QueryableStorageFunction {
+  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
     const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | PromiseSubscription => {
       const cb = args[args.length - 1];
 
@@ -353,17 +356,36 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
   }
 
-  protected decorateDerive(): Derive {
+  private decorateDerive (): Derive {
     return Object.keys(this._apiRx.derive).reduce((result, sectionName) => {
-      const section = this._apiRx.derive[sectionName as keyof typeof this._apiRx.derive];
+      const section = this._apiRx.derive[sectionName as keyof DeriveInterface];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName]);
+        result[methodName] = this.decorateDeriveEntry(sectionName, methodName);
 
         return result;
-      }, {} as QueryableModuleStorage);
+      }, {} as DeriveSection);
 
       return result;
-    }, {} as QueryableStorage);
+    }, {} as Derive);
+  }
+
+  private decorateDeriveEntry (sectionName: string, methodName: string): DeriveFunction {
+    const section = this._apiRx.derive[sectionName as keyof DeriveInterface];
+    const rxfn = section[methodName as keyof typeof section] as (...args: any[]) => Observable<Codec | null | undefined>;
+
+    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | PromiseSubscription => {
+      const cb = args[args.length - 1];
+
+      if (isFunction(cb)) {
+        const remainingArgs = args.slice(0, -1);
+        const subscription = rxfn(...remainingArgs).subscribe(cb);
+        return Promise.resolve(subscription.unsubscribe);
+      } else {
+        return rxfn(...args).toPromise();
+      }
+    };
+
+    return decorated;
   }
 }

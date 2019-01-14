@@ -131,7 +131,6 @@ const l = logger('api/rx');
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics, Derive> implements ApiRxInterface {
   private _eventemitter: EventEmitter;
   private _isReady: Observable<ApiRx>;
-  private _rpcBase: Rpc;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -174,14 +173,13 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * ```
    */
   constructor (provider?: ApiOptions | ProviderInterface) {
-    super();
+    super(provider);
 
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
 
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new Rpc(options.provider);
     this._rpc = this.decorateRpc(this._rpcBase);
 
     if (options.types) {

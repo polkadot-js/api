@@ -31,8 +31,17 @@ export default abstract class ApiBase<R, S, E, D> implements ApiBaseInterface<R,
   protected _genesisHash?: Hash;
   protected _query?: S;
   protected _rpc?: R;
+  protected _rpcBase: Rpc;
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
+
+  constructor (provider?: ApiOptions | ProviderInterface) {
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
+
+    this._rpcBase = new Rpc(options.provider);
+  }
 
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
