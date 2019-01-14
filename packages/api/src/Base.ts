@@ -197,8 +197,4 @@ export default abstract class ApiBase<R, S, E, D> implements ApiBaseInterface<R,
 
     return output;
   }
-
-  protected abstract decorateRpc (rpc: Rpc): R;
-  protected abstract decorateExtrinsics (extrinsics: ModulesWithMethods): E;
-  protected abstract decorateStorage (storage: Storage): S;
 }

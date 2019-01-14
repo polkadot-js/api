@@ -25,6 +25,26 @@ export interface DecoratedRpc {
   system: DecoratedRpc$Section;
 }
 
+export interface DeriveFunction$Subscribe {
+  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
+  (cb: (value?: any | null) => any): PromiseSubscription;
+}
+
+export interface DeriveFunction {
+  (cb: (value?: any | null) => any): PromiseSubscription;
+  (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
+  (arg?: any): Promise<Codec | null | undefined>;
+  at: (hash: Hash, arg?: any) => Promise<Codec | null | undefined>;
+}
+
+export interface DeriveSection {
+  [index: string]: DeriveFunction;
+}
+
+export interface Derive {
+  [index: string]: DeriveSection;
+}
+
 export interface QueryableStorageFunction$Subscribe {
   (arg: any, cb: (value?: any | null) => any): PromiseSubscription;
   (cb: (value?: any | null) => any): PromiseSubscription;
@@ -57,6 +77,6 @@ export interface SubmittableExtrinsics {
   [index: string]: SubmittableModuleExtrinsics;
 }
 
-export interface ApiPromiseInterface extends ApiBaseInterface<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> {
+export interface ApiPromiseInterface extends ApiBaseInterface<DecoratedRpc, QueryableStorage, SubmittableExtrinsics, Derive> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }

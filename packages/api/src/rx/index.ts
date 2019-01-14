@@ -130,7 +130,6 @@ const l = logger('api/rx');
  */
 export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics, Derive> implements ApiRxInterface {
   private _eventemitter: EventEmitter;
-  protected _derive: Derive;
   private _isReady: Observable<ApiRx>;
   private _rpcBase: Rpc;
 
@@ -193,7 +192,6 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
-    this._derive = decorateDerive(this);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -273,6 +271,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
 
       this._extrinsics = this.decorateExtrinsics(extrinsics);
       this._query = this.decorateStorage(storage);
+      this._derive = this.decorateDerive();
 
       Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
@@ -285,11 +284,11 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     }
   }
 
-  protected decorateRpc (rpc: Rpc): RpcRx {
+  private decorateRpc (rpc: Rpc): RpcRx {
     return new RpcRx(rpc);
   }
 
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
+  private decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
@@ -310,7 +309,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
   }
 
-  protected decorateStorage (storage: Storage): QueryableStorage {
+  private decorateStorage (storage: Storage): QueryableStorage {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -349,5 +348,9 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
         );
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
+  }
+
+  private decorateDerive (): Derive {
+    return decorateDerive(this);
   }
 }
