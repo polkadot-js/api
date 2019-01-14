@@ -8,7 +8,7 @@
 
 **Ƭ DerivedBalances**: *`object`*
 
-*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/9a49732/packages/api-derive/src/types.ts#L7)*
+*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L7)*
 
 #### Type declaration
 
@@ -19,7 +19,7 @@ ___
 
 **Ƭ DerivedBalancesMap**: *`object`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/9a49732/packages/api-derive/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L17)*
 
 #### Type declaration
 
@@ -32,7 +32,7 @@ ___
 
 **Ƭ DerivedReferendumVote**: *`object`*
 
-*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/9a49732/packages/api-derive/src/types.ts#L21)*
+*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L21)*
 
 #### Type declaration
 
