@@ -46,7 +46,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       return this._api.rpc.author.submitExtrinsic(this) as Promise<Hash>;
     }
 
-    return this._api.rpc.author.submitAndWatchExtrinsic(this, this.trackStatus(statusCb));
+    return this._api.rpc.author.submitAndWatchExtrinsic(this, this.trackStatus(statusCb)) as PromiseSubscription;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic {

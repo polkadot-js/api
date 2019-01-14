@@ -46,8 +46,8 @@ export default class SubmittableExtrinsic extends Extrinsic {
   }
 
   send (): Observable<SubmittableSendResult> {
-    return this._api.rpc.author
-      .submitAndWatchExtrinsic(this)
+    return (this._api.rpc.author
+      .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
       .pipe(switchMap(this.trackStatus));
   }
 
