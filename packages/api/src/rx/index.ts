@@ -3,14 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
-import { ApiRxInterface } from './types';
+import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
+import { ApiRxInterface, OnCall } from './types';
+import { ApiOptions, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from '../types';
 
 import { Observable, from } from 'rxjs';
 import { Codec } from '@polkadot/types/types';
 import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
+import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 /**
  * # @polkadot/api/rx
@@ -179,6 +181,27 @@ export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>>
    */
   get isReady (): Observable<ApiRx> {
     return this._isReady;
+  }
+
+  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<OnCall> {
+    return Object.keys(extrinsics).reduce((result, sectionName) => {
+      const section = extrinsics[sectionName];
+
+      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
+        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
+
+        return result;
+      }, {} as SubmittableModuleExtrinsics<OnCall>);
+
+      return result;
+    }, {} as SubmittableExtrinsics<OnCall>);
+  }
+
+  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction<OnCall> {
+    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
+      new SubmittableExtrinsic(this, method(...args));
+
+    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<OnCall>;
   }
 
   protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>) {

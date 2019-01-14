@@ -2,12 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Derive as DeriveInterface } from '@polkadot/api-derive/index';
+import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { EventRecord, ExtrinsicStatus, Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
+import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Constructor } from '@polkadot/types/types';
+
+import SubmittableExtrinsicObservable from './rx/SubmittableExtrinsic';
+import SubmittableExtrinsicPromise from './promise/SubmittableExtrinsic';
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
@@ -50,16 +54,17 @@ export interface QueryableStorage<OnCall> {
   [index: string]: QueryableModuleStorage<OnCall>;
 }
 
-export interface SubmittableExtrinsicFunction extends MethodFunction {
-  (...args: any[]): SubmittableExtrinsic;
+export interface SubmittableExtrinsicFunction<OnCall> extends MethodFunction {
+  // FIXME There must be a way to factorize code between the two `SubmittableExtrinsic` formats
+  (...args: any[]): OnCall extends Observable<any> ? SubmittableExtrinsicObservable : SubmittableExtrinsicPromise;
 }
 
-export interface SubmittableModuleExtrinsics {
-  [index: string]: SubmittableExtrinsicFunction;
+export interface SubmittableModuleExtrinsics<OnCall> {
+  [index: string]: SubmittableExtrinsicFunction<OnCall>;
 }
 
-export interface SubmittableExtrinsics {
-  [index: string]: SubmittableModuleExtrinsics;
+export interface SubmittableExtrinsics<OnCall> {
+  [index: string]: SubmittableModuleExtrinsics<OnCall>;
 }
 
 export type SubmittableSendResult = {
@@ -75,7 +80,7 @@ export interface ApiBaseInterface<OnCall> {
   readonly runtimeVersion: RuntimeVersion;
   readonly query: QueryableStorage<OnCall>;
   readonly rpc: DecoratedRpc<OnCall>;
-  readonly tx: E;
+  readonly tx: SubmittableExtrinsics<OnCall>;
 
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;

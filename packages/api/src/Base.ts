@@ -3,13 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiBaseInterface, ApiInterface$Events, ApiOptions, DecoratedRpc, DecoratedRpc$Section, DecoratedRpc$Method, Derive, QueryableModuleStorage, QueryableStorage, QueryableStorageFunction } from './types';
-import { SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './rx/types';
+import {
+  ApiBaseInterface, ApiInterface$Events, ApiOptions,
+  DecoratedRpc, DecoratedRpc$Section,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
+  SubmittableExtrinsics
+} from './types';
 
 import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import decorateDerive from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
@@ -17,7 +20,7 @@ import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Storage } from '@polkadot/storage/types';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
+import { ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
@@ -34,12 +37,10 @@ const l = logger('api');
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
-import SubmittableExtrinsic from './rx/SubmittableExtrinsic';
-
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   private _eventemitter: EventEmitter;
-  protected _derive: Derive<OnCall>;
-  protected _extrinsics?: E;
+  // protected _derive: Derive<OnCall>; // FIXME
+  protected _extrinsics?: SubmittableExtrinsics<OnCall>;
   protected _genesisHash?: Hash;
   protected _query?: QueryableStorage<OnCall>;
   protected _rpc: DecoratedRpc<OnCall>;
@@ -170,10 +171,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    *   });
    * ```
    */
-  get tx (): E {
+  get tx (): SubmittableExtrinsics<OnCall> {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
-    return this._extrinsics as E;
+    return this._extrinsics as SubmittableExtrinsics<OnCall>;
   }
 
   /**
@@ -307,26 +308,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }, {} as DecoratedRpc<OnCall>);
   }
 
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
-
-        return result;
-      }, {} as SubmittableModuleExtrinsics);
-
-      return result;
-    }, {} as SubmittableExtrinsics);
-  }
-
-  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, method(...args));
-
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
-  }
+  protected abstract decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<OnCall>;
 
   protected decorateStorage (storage: Storage): QueryableStorage<OnCall> {
     return Object.keys(storage).reduce((result, sectionName) => {

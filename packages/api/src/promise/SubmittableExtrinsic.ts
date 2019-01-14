@@ -27,7 +27,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
 
       if (status.type === 'Finalised') {
         const blockHash = status.asFinalised;
-        const signedBlock: SignedBlock = await this._api.rpc.chain.getBlock(blockHash);
+        const signedBlock: SignedBlock = await this._api.rpc.chain.getBlock(blockHash) as SignedBlock;
         const allEvents: Array<EventRecord> = await this._api.query.system.events.at(blockHash) as any;
 
         events = filterEvents(this.hash, signedBlock, allEvents);
@@ -43,7 +43,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
 
   send (statusCb?: (result: SubmittableSendResult) => any): Promise<Hash> | PromiseSubscription {
     if (!statusCb || !this._api.hasSubscriptions) {
-      return this._api.rpc.author.submitExtrinsic(this);
+      return this._api.rpc.author.submitExtrinsic(this) as Promise<Hash>;
     }
 
     return this._api.rpc.author.submitAndWatchExtrinsic(this, this.trackStatus(statusCb));

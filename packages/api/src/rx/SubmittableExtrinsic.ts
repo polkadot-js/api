@@ -3,20 +3,21 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
+import { Extrinsic, ExtrinsicStatus, Index, Method, SignedBlock } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
+import { OnCall } from './types';
 import { SubmittableSendResult } from '../types';
-import { ApiRxInterface } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { Extrinsic, ExtrinsicStatus, Index, Method } from '@polkadot/types/index';
 
+import ApiBase from '../Base';
 import filterEvents from '../util/filterEvents';
 
 export default class SubmittableExtrinsic extends Extrinsic {
-  private _api: ApiRxInterface;
+  private _api: ApiBase<OnCall>;
 
-  constructor (api: ApiRxInterface, extrinsic: Extrinsic | Method) {
+  constructor (api: ApiBase<OnCall>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
@@ -37,7 +38,7 @@ export default class SubmittableExtrinsic extends Extrinsic {
       this._api.query.system.events.at(blockHash)
     ).pipe(
       map(([signedBlock, allEvents]) => ({
-        events: filterEvents(this.hash, signedBlock, allEvents as any),
+        events: filterEvents(this.hash, signedBlock as SignedBlock, allEvents as any),
         status,
         type: status.type
       }))
