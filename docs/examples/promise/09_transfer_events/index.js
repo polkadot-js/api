@@ -13,7 +13,7 @@ const AMOUNT = 10000;
 
 async function main () {
   // create an instance of our testign keyring
-  const keyring = testKeyring.default();
+  const keyring = testKeyring();
 
   // Create the API and wait until ready
   const api = await ApiPromise.create();
