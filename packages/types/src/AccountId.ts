@@ -41,6 +41,13 @@ export default class AccountId extends U8aFixed {
   }
 
   /**
+   * @description Returns true if the type wraps a non-encodable value
+   */
+  get isEmpty (): boolean {
+    return this.length !== 32;
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
