@@ -9,10 +9,12 @@ import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { Codec } from '@polkadot/types/types';
-import { assert, isFunction, logger } from '@polkadot/util';
+import { isFunction, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import ApiRx from '../rx';
+
+type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
 
 const l = logger('api/promise');
 
@@ -174,7 +176,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
       .catch((err) => l.error(err));
   }
 
-  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>, isSubscription?: boolean): OnCall {
+  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
     if (!params || params.length === 0 || isSubscription === false) {
       return method(...params).pipe(first()).toPromise();
     }
@@ -186,9 +188,13 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
       return method(...params).pipe(first()).toPromise();
     }
 
+    return this.promiseSubscription(method, remainingParams, cb);
+  }
+
+  private promiseSubscription (method: RxFn, params: any[], cb: (result: Codec | null | undefined) => any): PromiseSubscription {
     return new Promise((resolve, reject) => {
       let isCompleted = false;
-      const subscription = method(...remainingParams)
+      const subscription = method(...params)
         .pipe(
           // if we find an error (invalid params, etc), reject the promise
           catchError((error) => {
