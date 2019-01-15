@@ -118,7 +118,10 @@ const l = logger('api/rx');
 export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   protected _apiRx = this;
   private _eventemitter: EventEmitter;
+  protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
+  protected _runtimeMetadata?: Metadata;
+  protected _runtimeVersion?: RuntimeVersion;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.

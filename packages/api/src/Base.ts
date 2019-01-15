@@ -22,7 +22,7 @@ import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
-import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
+import { assert, isFunction, isObject, isUndefined } from '@polkadot/util';
 
 import ApiRx from './rx';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
@@ -35,21 +35,16 @@ type MetaDecoration = {
   toJSON: () => any
 };
 
-const l = logger('api');
-
 export const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   protected abstract _apiRx: ApiRx;
   protected _derive?: Derive<OnCall>;
   protected _extrinsics?: SubmittableExtrinsics<OnCall>;
-  protected _genesisHash?: Hash;
   protected _query?: QueryableStorage<OnCall>;
   protected _rpc: DecoratedRpc<OnCall>;
   protected _rpcBase: RpcBase; // FIXME combine these two
   protected _rpcRx: RpcRx; // FIXME combine these two
-  protected _runtimeMetadata?: Metadata;
-  protected _runtimeVersion?: RuntimeVersion;
 
   /**
    * @description Create an instance of the class
@@ -83,9 +78,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
   get genesisHash (): Hash {
-    assert(!isUndefined(this._genesisHash), INIT_ERROR);
-
-    return this._apiRx._genesisHash as Hash;
+    return this._apiRx.genesisHash as Hash;
   }
 
   /**
@@ -99,18 +92,14 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
   get runtimeMetadata (): Metadata {
-    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
-
-    return this._apiRx._runtimeMetadata as Metadata;
+    return this._apiRx.runtimeMetadata as Metadata;
   }
 
   /**
    * @description Contains the version information for the current runtime.
    */
   get runtimeVersion (): RuntimeVersion {
-    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
-
-    return this._apiRx._runtimeVersion as RuntimeVersion;
+    return this._apiRx.runtimeVersion as RuntimeVersion;
   }
 
   /**
@@ -305,11 +294,11 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction<OnCall> {
-    const decorated: any = (arg?: any): OnCall => {
+    const decorated: any = (...args: any[]): OnCall => {
 
       return this.onCall(
-        arg => this._rpcRx.state
-          .subscribeStorage([[method, arg]])
+        args => this._rpcRx.state
+          .subscribeStorage([[method, args[0]]])
           .pipe(
             // errors can occur in the case of malformed methods + args
             catchError(() => of([])),
@@ -319,7 +308,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
               result[0]
             )
           ),
-        [arg]
+        args
       );
     };
 

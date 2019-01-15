@@ -7,6 +7,7 @@ import { ApiOptions } from '../types';
 import { ApiPromiseInterface, OnCall } from './types';
 
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { isFunction } from 'util';
 import { Codec } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
@@ -167,26 +168,26 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     return this._apiRx.isReady
       .toPromise()
       .then(() => {
-        this.decorateStorage();
-        this.decorateExtrinsics();
-        this.decorateDerive(this._apiRx);
+        this._query = this.decorateStorage();
+        this._extrinsics = this.decorateExtrinsics();
+        this._derive = this.decorateDerive(this._apiRx);
       })
       .catch((err) => l.error(err));
   }
 
   protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
     if (!params || params.length === 0) {
-      return method(...params).toPromise();
+      return method(...params).pipe(first()).toPromise();
     }
 
     const cb = params[params.length - 1];
     const remainingArgs = params.slice(0, -1);
     if (!isFunction(cb)) {
-      return method(...params).toPromise();
+      return method(...params).pipe(first()).toPromise();
     } else if (!this.hasSubscriptions && isFunction(cb)) {
       l.warn(`Storage subscription ignored, provider does not support subscriptions`);
 
-      return method(...remainingArgs).toPromise();
+      return method(...remainingArgs).pipe(first()).toPromise();
     }
 
     const subscription = method(...remainingArgs).subscribe(cb);
