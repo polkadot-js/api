@@ -221,7 +221,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return this;
   }
 
-  protected abstract onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall;
+  protected abstract onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>, isSubscription?: boolean): OnCall;
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
@@ -281,7 +281,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       const section = storage[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName]);
+        result[methodName] = this.decorateStorageEntry(methodName, section[methodName]);
 
         return result;
       }, {} as QueryableModuleStorage<OnCall>);
@@ -290,7 +290,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }, {} as QueryableStorage<OnCall>);
   }
 
-  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction<OnCall> {
+  private decorateStorageEntry (methodName: string, method: StorageFunction): QueryableStorageFunction<OnCall> {
+    // FIXME Find a better way to know if a particular method is a subscription or not
+    const isSubscription = methodName.includes('subscribe');
+
     const decorated: any = (...args: any): OnCall => {
 
       return this.onCall(
@@ -305,7 +308,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
               result[0]
             )
           ),
-        args
+        args,
+        isSubscription
       );
     };
 

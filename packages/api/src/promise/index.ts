@@ -4,12 +4,12 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, OnCall } from './types';
+import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
 
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, first, tap } from 'rxjs/operators';
 import { Codec } from '@polkadot/types/types';
-import { isFunction, logger } from '@polkadot/util';
+import { assert, isFunction, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import ApiRx from '../rx';
@@ -174,19 +174,41 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
       .catch((err) => l.error(err));
   }
 
-  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
-    if (!params || params.length === 0) {
+  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>, isSubscription: boolean = false): OnCall {
+    if (!params || params.length === 0 || !isSubscription) {
       return method(...params).pipe(first()).toPromise();
     }
 
     const cb = params[params.length - 1];
-    const remainingArgs = params.slice(0, -1);
-    if (!isFunction(cb)) {
-      return method(...params).pipe(first()).toPromise();
-    }
 
-    const subscription = method(...remainingArgs).subscribe(cb);
+    assert(isFunction(cb), 'Expected callback as last paramater for subscription');
 
-    return Promise.resolve(subscription.unsubscribe);
+    return new Promise((resolve, reject) => {
+      let isCompleted = false;
+      const remainingParams = params.slice(0, - 1);
+      const subscription = method(...remainingParams)
+        .pipe(
+          // if we find an error (invalid params, etc), reject the promise
+          catchError((error) => {
+            if (!isCompleted) {
+              isCompleted = true;
+
+              reject(error);
+            }
+
+            // we don't want to continue, so empty observable it is
+            return EMPTY;
+          }),
+          // upon the first result, resolve the with the unsub function
+          tap(() => {
+            if (!isCompleted) {
+              isCompleted = true;
+
+              resolve(() => subscription.unsubscribe());
+            }
+          })
+        )
+        .subscribe(cb);
+    }) as PromiseSubscription;
   }
 }

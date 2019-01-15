@@ -121,7 +121,7 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   private _eventemitter: EventEmitter;
   protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
-  protected _rpcBase: RpcBase; // FIXME combine these two
+  protected _rpcBase: RpcBase;
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
 
@@ -172,10 +172,11 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
       ? { provider } as ApiOptions
       : provider as ApiOptions;
 
+    this._eventemitter = new EventEmitter();
+    this._rpcBase = new RpcBase(options && options.provider);
+
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
-    this._eventemitter = new EventEmitter();
-    this._rpcBase = new RpcBase(options.provider);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -199,6 +200,13 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._apiRx._genesisHash as Hash;
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
