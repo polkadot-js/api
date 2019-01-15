@@ -294,10 +294,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction<OnCall> {
-    const decorated: any = (...args: any[]): OnCall => {
+    const decorated: any = (...args: any): OnCall => {
 
       return this.onCall(
-        args => this._rpcRx.state
+        (...args: any) => this._rpcRx.state
           .subscribeStorage([[method, args[0]]])
           .pipe(
             // errors can occur in the case of malformed methods + args
