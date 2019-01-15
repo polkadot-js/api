@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
+import { ApiPromiseInterface, OnCall } from './types';
 
 import { Observable } from 'rxjs';
 import { isFunction } from 'util';
@@ -102,7 +102,7 @@ const l = logger('api/promise');
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined> | PromiseSubscription> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInterface {
   protected _apiRx: ApiRx;
   private _isReady: Promise<ApiPromise>;
 
@@ -153,11 +153,7 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
     super(options);
 
     this._apiRx = new ApiRx(options);
-    this._isReady = new Promise((resolveReady) =>
-      super.once('ready', () =>
-        resolveReady(this)
-      )
-    );
+    this._isReady = this.init().then(() => this);
   }
 
   /**
@@ -167,20 +163,9 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
     return this._isReady;
   }
 
-  protected init (): void {
-    this._rpcBase._provider.on('disconnected', () => {
-      this.emit('disconnected');
-    });
-
-    this._rpcBase._provider.on('error', (error) => {
-      this.emit('error', error);
-    });
-
-    this._rpcBase._provider.on('connected', async () => {
-      this.emit('connected');
-    });
-
-    this.isReady
+  protected init (): Promise<void> {
+    return this._apiRx.isReady
+      .toPromise()
       .then(() => {
         this.decorateStorage();
         this.decorateExtrinsics();

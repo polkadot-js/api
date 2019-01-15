@@ -12,7 +12,6 @@ import {
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
 } from './types';
 
-import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
@@ -42,7 +41,6 @@ export const INIT_ERROR = `Api needs to be initialised before using, listen on '
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   protected abstract _apiRx: ApiRx;
-  private _eventemitter: EventEmitter;
   protected _derive?: Derive<OnCall>;
   protected _extrinsics?: SubmittableExtrinsics<OnCall>;
   protected _genesisHash?: Hash;
@@ -76,15 +74,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       ? { provider } as ApiOptions
       : provider as ApiOptions;
 
-    this._eventemitter = new EventEmitter();
     this._rpcBase = new RpcBase(options.provider);
     this._rpcRx = new RpcRx(options.provider);
     this._rpc = this.decorateRpc(this._rpcRx);
-
-    this.init();
   }
-
-  protected abstract init (): void;
 
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
@@ -167,6 +160,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return this._rpc;
   }
 
+  emit (type: ApiInterface$Events, ...args: Array<any>): void {
+    this._apiRx.emit(type, ...args);
+  }
+
   /**
    * @description Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
    *
@@ -208,7 +205,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * ```
    */
   on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.on(type, handler);
+    this._apiRx.on(type, handler);
 
     return this;
   }
@@ -233,16 +230,12 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * ```
    */
   once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.once(type, handler);
+    this._apiRx.once(type, handler);
 
     return this;
   }
 
   protected abstract onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall;
-
-  protected emit (type: ApiInterface$Events, ...args: Array<any>): void {
-    this._eventemitter.emit(type, ...args);
-  }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;

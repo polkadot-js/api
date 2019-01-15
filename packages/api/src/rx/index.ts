@@ -4,11 +4,11 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiRxInterface, OnCall } from './types';
-import { ApiOptions } from '../types';
+import { ApiOptions, ApiInterface$Events } from '../types';
 
+import EventEmitter from 'eventemitter3';
 import { Observable, from } from 'rxjs';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import storageFromMeta from '@polkadot/storage/fromMetadata';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
@@ -117,6 +117,7 @@ const l = logger('api/rx');
  */
 export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   protected _apiRx = this;
+  private _eventemitter: EventEmitter;
   private _isReady: Observable<ApiRx>;
 
   /**
@@ -168,6 +169,7 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
+    this._eventemitter = new EventEmitter();
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -177,9 +179,11 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
       )
     );
 
-    if (options.types) {
+    if (options && options.types) {
       registry.register(options.types);
     }
+
+    this.init();
   }
 
   /**
@@ -275,6 +279,60 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
 
       return false;
     }
+  }
+
+  emit (type: ApiInterface$Events, ...args: Array<any>): void {
+    this._eventemitter.emit(type, ...args);
+  }
+
+  /**
+   * @description Attach an eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.on('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.on('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.on(type, handler);
+
+    return this;
+  }
+
+  /**
+   * @description Attach an one-time eventemitter handler to listen to a specific event
+   *
+   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.once('connected', () => {
+   *   console.log('API has been connected to the endpoint');
+   * });
+   *
+   * api.once('disconnected', () => {
+   *   console.log('API has been disconnected from the endpoint');
+   * });
+   * ```
+   */
+  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.once(type, handler);
+
+    return this;
   }
 
   protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
