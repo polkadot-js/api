@@ -188,13 +188,9 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
       return method(...params).pipe(first()).toPromise();
     }
 
-    return this.promiseSubscription(method, remainingParams, cb);
-  }
-
-  private promiseSubscription (method: RxFn, params: any[], cb: (result: Codec | null | undefined) => any): PromiseSubscription {
     return new Promise((resolve, reject) => {
       let isCompleted = false;
-      const subscription = method(...params)
+      const subscription = method(...remainingParams)
         .pipe(
           // if we find an error (invalid params, etc), reject the promise
           catchError((error) => {
