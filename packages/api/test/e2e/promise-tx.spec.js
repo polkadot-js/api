@@ -8,7 +8,7 @@ import Api from '../../src/promise';
 
 const keyring = testingPairs();
 
-describe('e2e transactions', () => {
+describe.skip('e2e transactions', () => {
   let api;
 
   beforeEach(async (done) => {
