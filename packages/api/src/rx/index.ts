@@ -9,6 +9,7 @@ import { ApiOptions, ApiInterface$Events } from '../types';
 import EventEmitter from 'eventemitter3';
 import { Observable, from } from 'rxjs';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import RpcBase from '@polkadot/rpc-core/index';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
@@ -120,6 +121,7 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   private _eventemitter: EventEmitter;
   protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
+  protected _rpcBase: RpcBase; // FIXME combine these two
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
 
@@ -173,6 +175,7 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
     this._eventemitter = new EventEmitter();
+    this._rpcBase = new RpcBase(options.provider);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>

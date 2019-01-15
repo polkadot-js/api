@@ -16,7 +16,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
@@ -43,8 +42,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   protected _extrinsics?: SubmittableExtrinsics<OnCall>;
   protected _query?: QueryableStorage<OnCall>;
   protected _rpc: DecoratedRpc<OnCall>;
-  protected _rpcBase: RpcBase; // FIXME combine these two
-  protected _rpcRx: RpcRx; // FIXME combine these two
+  protected _rpcRx: RpcRx;
 
   /**
    * @description Create an instance of the class
@@ -69,7 +67,6 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       ? { provider } as ApiOptions
       : provider as ApiOptions;
 
-    this._rpcBase = new RpcBase(options.provider);
     this._rpcRx = new RpcRx(options.provider);
     this._rpc = this.decorateRpc(this._rpcRx);
   }
@@ -85,7 +82,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description `true` when subscriptions are supported
    */
   get hasSubscriptions (): boolean {
-    return this._rpcBase._provider.hasSubscriptions;
+    return this._apiRx.hasSubscriptions;
   }
 
   /**
