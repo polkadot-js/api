@@ -75,7 +75,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
   get genesisHash (): Hash {
-    return this._apiRx.genesisHash as Hash;
+    return this._apiRx.genesisHash;
   }
 
   /**
@@ -89,14 +89,14 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
   get runtimeMetadata (): Metadata {
-    return this._apiRx.runtimeMetadata as Metadata;
+    return this._apiRx.runtimeMetadata;
   }
 
   /**
    * @description Contains the version information for the current runtime.
    */
   get runtimeVersion (): RuntimeVersion {
-    return this._apiRx.runtimeVersion as RuntimeVersion;
+    return this._apiRx.runtimeVersion;
   }
 
   /**

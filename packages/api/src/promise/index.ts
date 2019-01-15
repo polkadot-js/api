@@ -8,9 +8,8 @@ import { ApiPromiseInterface, OnCall } from './types';
 
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { isFunction } from 'util';
 import { Codec } from '@polkadot/types/types';
-import { logger } from '@polkadot/util';
+import { isFunction, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import ApiRx from '../rx';
