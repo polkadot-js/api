@@ -26,37 +26,40 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     this._onCall = onCall;
   }
 
-  private trackStatus = (status: ExtrinsicStatus): Observable<SubmittableSendResult> => {
+  private trackStatus (status: ExtrinsicStatus, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
     if (status.type !== 'Finalised') {
       return this._onCall(
         () => of({
           status,
           type: status.type
         }),
-        []
+        [statusCb]
       ) as unknown as Observable<SubmittableSendResult>;
     }
 
     const blockHash = status.asFinalised;
 
-    return combineLatest(
-      this._apiRx.rpc.chain.getBlock(blockHash),
-      this._apiRx.query.system.events.at(blockHash)
-    ).pipe(
-      map(([signedBlock, allEvents]) => ({
-        events: filterEvents(this.hash, signedBlock as SignedBlock, allEvents as any),
-        status,
-        type: status.type
-      }))
-    );
+    return this._onCall(
+      () => combineLatest(
+        this._apiRx.rpc.chain.getBlock(blockHash),
+        this._apiRx.query.system.events.at(blockHash)
+      ).pipe(
+        map(([signedBlock, allEvents]) => ({
+          events: filterEvents(this.hash, signedBlock as SignedBlock, allEvents as any),
+          status,
+          type: status.type
+        }))
+      ),
+      [statusCb]
+    ) as unknown as Observable<SubmittableSendResult>;
   }
 
-  send (): Observable<SubmittableSendResult> {
+  send (statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
     return this._onCall(
-      () => (this._apiRx.rpc.author
+      (...args: any[]) => (this._apiRx.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
-        .pipe(switchMap(this.trackStatus))
-      , []
+        .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
+      [statusCb]
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
@@ -66,13 +69,13 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair): Observable<SubmittableSendResult> {
+  signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
     return this._apiRx.query.system
       .accountNonce(signerPair.address())
       .pipe(
         first(),
         switchMap((nonce) =>
-          this.sign(signerPair, nonce as Index).send()
+          this.sign(signerPair, nonce as Index).send(statusCb)
         )
       );
   }

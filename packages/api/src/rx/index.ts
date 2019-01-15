@@ -199,13 +199,6 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   }
 
   /**
-   * @description `true` when subscriptions are supported
-   */
-  get hasSubscriptions (): boolean {
-    return this._rpcBase._provider.hasSubscriptions;
-  }
-
-  /**
    * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
    */
   get isConnected (): Observable<boolean> {

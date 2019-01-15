@@ -184,10 +184,6 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     const remainingArgs = params.slice(0, -1);
     if (!isFunction(cb)) {
       return method(...params).pipe(first()).toPromise();
-    } else if (!this.hasSubscriptions && isFunction(cb)) {
-      l.warn(`Storage subscription ignored, provider does not support subscriptions`);
-
-      return method(...remainingArgs).pipe(first()).toPromise();
     }
 
     const subscription = method(...remainingArgs).subscribe(cb);

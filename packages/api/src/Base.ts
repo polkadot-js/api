@@ -85,7 +85,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * @description `true` when subscriptions are supported
    */
   get hasSubscriptions (): boolean {
-    return this._apiRx.hasSubscriptions;
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
