@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
+import { MethodFunction } from '@polkadot/types/Method';
 import {
   ApiBaseInterface, ApiInterface$Events, ApiOptions,
   DecoratedRpc, DecoratedRpc$Section,
@@ -15,14 +15,12 @@ import {
 import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import decorateDerive from '@polkadot/api-derive/index';
+import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Storage } from '@polkadot/storage/types';
-import registry from '@polkadot/types/codec/typeRegistry';
-import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
@@ -350,10 +348,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     const derive = decorateDerive(apiRx);
 
     return Object.keys(derive).reduce((result, _sectionName) => {
-      const sectionName = _sectionName as keyof Derive<OnCall>;
+      const sectionName = _sectionName as keyof DeriveInterface;
 
-      result[sectionName] = Object.keys(apiRx.derive[sectionName]).reduce((section, methodName) => {
-        const method = (...params: any[]) => this.onCall(apiRx.derive[sectionName][methodName], params);
+      result[sectionName] = Object.keys(derive[sectionName]).reduce((section, methodName) => {
+        const method = (...params: any[]) => this.onCall((derive[sectionName] as any)[methodName], params);
         section[methodName] = method;
 
         return section;

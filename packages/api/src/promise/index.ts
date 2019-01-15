@@ -180,7 +180,6 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
       this.emit('connected');
     });
 
-    this.decorateRpc(this._rpcRx);
     this.isReady
       .then(() => {
         this.decorateStorage();
