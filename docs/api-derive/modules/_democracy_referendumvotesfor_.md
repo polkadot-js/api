@@ -8,7 +8,7 @@
 
 ▸ **referendumVotesFor**(api: *`ApiRx`*): `(Anonymous function)`
 
-*Defined in [democracy/referendumVotesFor.ts:17](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/democracy/referendumVotesFor.ts#L17)*
+*Defined in [democracy/referendumVotesFor.ts:17](https://github.com/polkadot-js/api/blob/c14d51a/packages/api-derive/src/democracy/referendumVotesFor.ts#L17)*
 
 **Parameters:**
 
