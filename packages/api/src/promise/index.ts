@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
-import { ApiOptions, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics } from '../types';
+import { ApiOptions } from '../types';
 import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
 
 import { Observable } from 'rxjs';
@@ -13,7 +12,7 @@ import { Codec } from '@polkadot/types/types';
 import { logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
-import SubmittableExtrinsic from './SubmittableExtrinsic';
+import ApiRx from '../rx';
 
 const l = logger('api/promise');
 
@@ -104,6 +103,7 @@ const l = logger('api/promise');
  * ```
  */
 export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined> | PromiseSubscription> implements ApiPromiseInterface {
+  protected _apiRx: ApiRx;
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -152,6 +152,7 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
   constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
 
+    this._apiRx = new ApiRx(options);
     this._isReady = new Promise((resolveReady) =>
       super.once('ready', () =>
         resolveReady(this)
@@ -166,28 +167,7 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
     return this._isReady;
   }
 
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<OnCall> {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
-
-        return result;
-      }, {} as SubmittableModuleExtrinsics<OnCall>);
-
-      return result;
-    }, {} as SubmittableExtrinsics<OnCall>);
-  }
-
-  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction<OnCall> {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, method(...args));
-
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<OnCall>;
-  }
-
-  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>) {
+  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
     if (!params || params.length === 0) {
       return method(...params).toPromise();
     }
