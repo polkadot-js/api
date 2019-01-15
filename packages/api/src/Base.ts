@@ -7,6 +7,7 @@ import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import {
   ApiBaseInterface, ApiInterface$Events, ApiOptions,
   DecoratedRpc, DecoratedRpc$Section,
+  Derive, DeriveSection,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
 } from './types';
@@ -14,6 +15,7 @@ import {
 import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
@@ -43,7 +45,7 @@ const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   protected abstract _apiRx: ApiRx;
   private _eventemitter: EventEmitter;
-  // protected _derive: Derive<OnCall>; // FIXME
+  protected _derive?: Derive<OnCall>;
   protected _extrinsics?: SubmittableExtrinsics<OnCall>;
   protected _genesisHash?: Hash;
   protected _query?: QueryableStorage<OnCall>;
@@ -86,6 +88,15 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }
 
     this.init();
+  }
+
+  /**
+   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
+   */
+  get derive (): Derive<OnCall> {
+    assert(!isUndefined(this._derive), INIT_ERROR);
+
+    return this._derive as Derive<OnCall>;
   }
 
   /**
@@ -272,6 +283,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
       this._extrinsics = this.decorateExtrinsics(extrinsics);
       this._query = this.decorateStorage(storage);
+      this._derive = this.decorateDerive(this._apiRx);
 
       Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
@@ -284,7 +296,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }
   }
 
-  protected decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
+  private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;
     output.section = input.section;
@@ -297,7 +309,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return output;
   }
 
-  protected decorateRpc (rpc: RpcRx): DecoratedRpc<OnCall> {
+  private decorateRpc (rpc: RpcRx): DecoratedRpc<OnCall> {
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DecoratedRpc<OnCall>;
 
@@ -312,7 +324,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }, {} as DecoratedRpc<OnCall>);
   }
 
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<OnCall> {
+  private decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics<OnCall> {
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
@@ -333,7 +345,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<OnCall>;
   }
 
-  protected decorateStorage (storage: Storage): QueryableStorage<OnCall> {
+  private decorateStorage (storage: Storage): QueryableStorage<OnCall> {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -378,5 +390,22 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       );
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<OnCall>;
+  }
+
+  private decorateDerive (apiRx: ApiRx): Derive<OnCall> {
+    const derive = decorateDerive(apiRx);
+
+    return Object.keys(derive).reduce((result, _sectionName) => {
+      const sectionName = _sectionName as keyof Derive<OnCall>;
+
+      result[sectionName] = Object.keys(apiRx.derive[sectionName]).reduce((section, methodName) => {
+        const method = (...params: any[]) => this.onCall(apiRx.derive[sectionName][methodName], params);
+        section[methodName] = method;
+
+        return section;
+      }, {} as DeriveSection<OnCall>);
+
+      return result;
+    }, {} as Derive<OnCall>);
   }
 }

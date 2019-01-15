@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { EventRecord, ExtrinsicStatus, Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
@@ -10,8 +9,7 @@ import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Constructor } from '@polkadot/types/types';
 
-import SubmittableExtrinsicObservable from './rx/SubmittableExtrinsic';
-import SubmittableExtrinsicPromise from './promise/SubmittableExtrinsic';
+import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
@@ -55,8 +53,7 @@ export interface QueryableStorage<OnCall> {
 }
 
 export interface SubmittableExtrinsicFunction<OnCall> extends MethodFunction {
-  // FIXME There must be a way to factorize code between the two `SubmittableExtrinsic` formats
-  (...args: any[]): OnCall extends Observable<any> ? SubmittableExtrinsicObservable : SubmittableExtrinsicPromise;
+  (...args: any[]): SubmittableExtrinsic<OnCall>;
 }
 
 export interface SubmittableModuleExtrinsics<OnCall> {
@@ -72,6 +69,16 @@ export type SubmittableSendResult = {
   status: ExtrinsicStatus,
   type: string
 };
+
+export type DeriveMethod<OnCall> = (...params: Array<any>) => OnCall;
+
+export interface DeriveSection<OnCall> {
+  [index: string]: DeriveMethod<OnCall>;
+}
+
+export interface Derive<OnCall> {
+  [index: string]: DeriveSection<OnCall>;
+}
 
 export interface ApiBaseInterface<OnCall> {
   readonly genesisHash: Hash;
