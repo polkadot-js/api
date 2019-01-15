@@ -12,9 +12,9 @@ import { drr } from '../util/drr';
 /**
  * Get the latest finalised block number.
  */
-export function bestNumberFinalised (api: ApiRx) {
+export function bestNumberFinalised(api: ApiRx) {
   return (): Observable<BlockNumber> =>
-    (api.rpc.chain.subscribeFinalisedHead() as Observable<Header>)
+    (api.rpc.chain.subscribeFinalisedHeads() as Observable<Header>)
       .pipe(
         filter((header: Header) => header && !!header.blockNumber),
         map(({ blockNumber }: Header) => blockNumber),
