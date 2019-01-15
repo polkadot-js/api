@@ -241,7 +241,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       const sectionName = _sectionName as keyof DecoratedRpc<OnCall>;
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
-        const method = (...params: any[]) => this.onCall(rpc[sectionName][methodName], params);
+        // FIXME Find a better way to know if a particular method is a subscription or not
+        const isSubscription = methodName.includes('subscribe');
+        const method = (...params: any[]) => this.onCall(rpc[sectionName][methodName], params, isSubscription);
         section[methodName] = method;
 
         return section;
@@ -281,7 +283,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       const section = storage[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(methodName, section[methodName]);
+        result[methodName] = this.decorateStorageEntry(section[methodName]);
 
         return result;
       }, {} as QueryableModuleStorage<OnCall>);
@@ -290,10 +292,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }, {} as QueryableStorage<OnCall>);
   }
 
-  private decorateStorageEntry (methodName: string, method: StorageFunction): QueryableStorageFunction<OnCall> {
-    // FIXME Find a better way to know if a particular method is a subscription or not
-    const isSubscription = methodName.includes('subscribe');
-
+  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction<OnCall> {
     const decorated: any = (...args: any): OnCall => {
 
       return this.onCall(
@@ -308,8 +307,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
               result[0]
             )
           ),
-        args,
-        isSubscription
+        args
       );
     };
 

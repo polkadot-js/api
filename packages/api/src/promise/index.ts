@@ -174,18 +174,20 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
       .catch((err) => l.error(err));
   }
 
-  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>, isSubscription: boolean = false): OnCall {
-    if (!params || params.length === 0 || !isSubscription) {
+  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>, isSubscription?: boolean): OnCall {
+    if (!params || params.length === 0 || isSubscription === false) {
       return method(...params).pipe(first()).toPromise();
     }
 
     const cb = params[params.length - 1];
+    const remainingParams = params.slice(0, - 1);
 
-    assert(isFunction(cb), 'Expected callback as last paramater for subscription');
+    if (!isFunction(cb)) {
+      return method(...params).pipe(first()).toPromise();
+    }
 
     return new Promise((resolve, reject) => {
       let isCompleted = false;
-      const remainingParams = params.slice(0, - 1);
       const subscription = method(...remainingParams)
         .pipe(
           // if we find an error (invalid params, etc), reject the promise
