@@ -5,13 +5,13 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Extrinsic, ExtrinsicStatus, Index, Method, SignedBlock } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { SubmittableSendResult } from '../types';
+import { SubmittableSendResult } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
-import ApiRx from './';
-import filterEvents from '../util/filterEvents';
+import ApiRx from './rx';
+import filterEvents from './util/filterEvents';
 
 type OnCallFunction<OnCall> = (...args: any[]) => OnCall;
 

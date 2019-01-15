@@ -26,7 +26,7 @@ import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
 import ApiRx from './rx';
-import SubmittableExtrinsic from './rx/SubmittableExtrinsic';
+import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
