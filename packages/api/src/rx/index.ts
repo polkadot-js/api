@@ -7,10 +7,16 @@ import { ApiRxInterface, OnCall } from './types';
 import { ApiOptions } from '../types';
 
 import { Observable, from } from 'rxjs';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import storageFromMeta from '@polkadot/storage/fromMetadata';
+import registry from '@polkadot/types/codec/typeRegistry';
+import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
-import { assert } from '@polkadot/util';
+import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
-import ApiBase from '../Base';
+import ApiBase, { INIT_ERROR } from '../Base';
+
+const l = logger('api/rx');
 
 /**
  * # @polkadot/api/rx
@@ -109,7 +115,7 @@ import ApiBase from '../Base';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>> implements ApiRxInterface {
+export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   protected _apiRx = this;
   private _isReady: Observable<ApiRx>;
 
@@ -153,8 +159,12 @@ export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>>
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+  constructor (provider?: ApiOptions | ProviderInterface) {
+    super(provider);
+
+    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
+      ? { provider } as ApiOptions
+      : provider as ApiOptions;
 
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
@@ -166,6 +176,26 @@ export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>>
         )
       )
     );
+
+    if (options.types) {
+      registry.register(options.types);
+    }
+  }
+
+  /**
+   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
+   */
+  get genesisHash (): Hash {
+    assert(!isUndefined(this._genesisHash), INIT_ERROR);
+
+    return this._apiRx._genesisHash as Hash;
+  }
+
+  /**
+   * @description `true` when subscriptions are supported
+   */
+  get hasSubscriptions (): boolean {
+    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -180,6 +210,71 @@ export default class ApiRx extends ApiBase<Observable<Codec | null | undefined>>
    */
   get isReady (): Observable<ApiRx> {
     return this._isReady;
+  }
+
+  /**
+   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
+   */
+  get runtimeMetadata (): Metadata {
+    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
+
+    return this._runtimeMetadata as Metadata;
+  }
+
+  /**
+   * @description Contains the version information for the current runtime.
+   */
+  get runtimeVersion (): RuntimeVersion {
+    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
+
+    return this._runtimeVersion as RuntimeVersion;
+  }
+
+  protected init (): void {
+    let isReady: boolean = false;
+
+    this._rpcBase._provider.on('disconnected', () => {
+      this.emit('disconnected');
+    });
+
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
+    });
+
+    this._rpcBase._provider.on('connected', async () => {
+      this.emit('connected');
+
+      const hasMeta = await this.loadMeta();
+
+      if (hasMeta && !isReady) {
+        isReady = true;
+
+        this.emit('ready', this);
+      }
+    });
+  }
+
+  private async loadMeta (): Promise<boolean> {
+    try {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+
+      this._extrinsics = this.decorateExtrinsics();
+      this._query = this.decorateStorage();
+      this._derive = this.decorateDerive(this._apiRx);
+
+      Event.injectMetadata(this.runtimeMetadata);
+      Method.injectMethods(extrinsics);
+
+      return true;
+    } catch (error) {
+      l.error('loadMeta', error);
+
+      return false;
+    }
   }
 
   protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {

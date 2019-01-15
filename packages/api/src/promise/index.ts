@@ -167,6 +167,29 @@ export default class ApiPromise extends ApiBase<Promise<Codec | null | undefined
     return this._isReady;
   }
 
+  protected init (): void {
+    this._rpcBase._provider.on('disconnected', () => {
+      this.emit('disconnected');
+    });
+
+    this._rpcBase._provider.on('error', (error) => {
+      this.emit('error', error);
+    });
+
+    this._rpcBase._provider.on('connected', async () => {
+      this.emit('connected');
+    });
+
+    this.decorateRpc(this._rpcRx);
+    this.isReady
+      .then(() => {
+        this.decorateStorage();
+        this.decorateExtrinsics();
+        this.decorateDerive(this._apiRx);
+      })
+      .catch((err) => l.error(err));
+  }
+
   protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
     if (!params || params.length === 0) {
       return method(...params).toPromise();
