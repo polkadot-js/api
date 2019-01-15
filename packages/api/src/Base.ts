@@ -15,7 +15,7 @@ import {
 import EventEmitter from 'eventemitter3';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
+import decorateDerive from '@polkadot/api-derive/index';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';

@@ -13,20 +13,21 @@ describe.skip('derive e2e', () => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     api = await ApiRx.create().toPromise();
+    done();
   });
 
   it('derive.chain.bestNumber', async (done) => {
-    api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
+    api.derive.chain.bestNumber().subscribe((blockNumber) => {
       expect(blockNumber instanceof BlockNumber).toBe(true);
-      expect(blockNumber.gten(0)).toBe(true);
+      expect((blockNumber as BlockNumber).gten(0)).toBe(true);
       done();
     });
   });
 
   it('derive.session.sessionProgress', async (done) => {
-    api.derive.session.sessionProgress().subscribe((progress: BN) => {
+    api.derive.session.sessionProgress().subscribe((progress) => {
       expect(progress instanceof BN).toBe(true);
       done();
     });
