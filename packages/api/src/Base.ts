@@ -90,12 +90,12 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       : provider as ApiOptions;
 
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new RpcBase(options && options.provider);
+    this._rpcBase = new RpcBase(options.provider);
     this._rpcRx = new RpcRx(options.provider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
 
-    if (options && options.types) {
+    if (options.types) {
       registry.register(options.types);
     }
 
