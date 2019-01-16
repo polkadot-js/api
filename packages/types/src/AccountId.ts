@@ -41,9 +41,16 @@ export default class AccountId extends U8aFixed {
   }
 
   /**
-   * @description Returns true if the type wraps a non-encodable value
+   * @description Returns true if the type wraps an empty value
    */
   get isEmpty (): boolean {
+    return this.length === 1 && this[0] === 0;
+  }
+
+  /**
+   * @description Returns true if the type wraps a non-valid value
+   */
+  get isInvalid (): boolean {
     return this.length !== 32;
   }
 
