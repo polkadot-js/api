@@ -30,7 +30,7 @@
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/c14d51a/packages/api/src/promise/types.ts#L15)*
+*Defined in [promise/types.ts:15](https://github.com/polkadot-js/api/blob/695e4f2/packages/api/src/promise/types.ts#L15)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `Promise`<`any`> | [PromiseSubscription](_promise_types_.md#promisesubscription)
@@ -50,7 +50,7 @@ ___
 
 **Ƭ PromiseSubscription**: *`Promise`<`function`>*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/c14d51a/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/695e4f2/packages/api/src/promise/types.ts#L13)*
 
 ___
 
