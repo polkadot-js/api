@@ -27,7 +27,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
-import ApiRx, { rxOnCall } from './rx';
+import { rxOnCall } from './rx';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 type MetaDecoration = {
@@ -281,11 +281,11 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
       this._extrinsics = this.decorateExtrinsics(this.onCall);
       this._query = this.decorateStorage(this.onCall);
-      this._derive = this.decorateDerive(this, this.onCall);
+      this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
 
       this._rx.tx = this.decorateExtrinsics(rxOnCall);
       this._rx.query = this.decorateStorage(rxOnCall);
-      this._rx.derive = this.decorateDerive(this, rxOnCall);
+      this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
 
       Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
@@ -416,7 +416,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   private decorateDerive<T> (
-    apiRx: ApiRx,
+    apiRx: ApiInterface$Rx,
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): Derive<T> {
     const derive = decorateDerive(apiRx);
