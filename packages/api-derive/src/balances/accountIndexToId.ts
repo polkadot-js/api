@@ -4,14 +4,14 @@
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import { Vector } from '@polkadot/types/codec';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
-export function accountIndexToId (api: ApiRx) {
+export function accountIndexToId (api: ApiInterface$Rx) {
   return (accountIndex: AccountIndex | string): Observable<AccountId> => {
     const _accountIndex = accountIndex instanceof AccountIndex
       ? accountIndex

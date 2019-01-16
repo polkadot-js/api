@@ -5,12 +5,12 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ReferendumInfo } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
-export function referendumInfos (api: ApiRx) {
+export function referendumInfos (api: ApiInterface$Rx) {
   return (...params: Array<any>): Observable<Array<ReferendumInfo>> => {
     const ids: Array<BN | number> = params.slice(0, params.length - 1);
 

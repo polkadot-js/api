@@ -4,7 +4,7 @@
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
@@ -14,7 +14,7 @@ import { drr } from '../util/drr';
 
 export type IdAndIndex = [AccountId | undefined, AccountIndex | undefined];
 
-export function accountIdAndIndex (api: ApiRx) {
+export function accountIdAndIndex (api: ApiInterface$Rx) {
   return (address: AccountId | AccountIndex | string | null | undefined)
     : Observable<(AccountIndex | AccountId | undefined)[]> => {
     try {

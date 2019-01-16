@@ -4,14 +4,14 @@
 
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/index';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
-export function votingBalancesNominatorsFor (api: ApiRx) {
+export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<Array<DerivedBalances>> =>
     (api.query.staking.nominatorsFor(accountId) as Observable<Array<AccountId | undefined | null> | undefined>).pipe(
       map((nominators) => nominators || []),

@@ -5,11 +5,11 @@
 import BN from 'bn.js';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 
 import { drr } from '../util/drr';
 
-export function fees (api: ApiRx) {
+export function fees (api: ApiInterface$Rx) {
   return () =>
     combineLatest(
       api.query.balances.creationFee(),

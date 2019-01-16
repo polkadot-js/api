@@ -4,7 +4,7 @@
 
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Balance } from '@polkadot/types/index';
 
 import { accountIdAndIndex } from './accountIdAndIndex';
@@ -13,7 +13,7 @@ import { drr } from '../util/drr';
 
 const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 
-export function votingBalance (api: ApiRx) {
+export function votingBalance (api: ApiInterface$Rx) {
   return (address: AccountIndex | AccountId | string): Observable<DerivedBalances> =>
     accountIdAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>

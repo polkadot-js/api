@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Balance } from '@polkadot/types/index';
 
 import { DerivedBalances } from '../types';
@@ -13,7 +13,7 @@ import { drr } from '../util/drr';
 import { votingBalance } from './votingBalance';
 import { votingBalancesNominatorsFor } from './votingBalancesNominatorsFor';
 
-export function validatingBalance (api: ApiRx) {
+export function validatingBalance (api: ApiInterface$Rx) {
   return (address: AccountId | string): Observable<DerivedBalances> =>
     combineLatest(
       votingBalance(api)(address),

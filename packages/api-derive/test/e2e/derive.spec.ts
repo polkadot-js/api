@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
 
 describe.skip('derive e2e', () => {
-  let api: ApiRx;
+  let api: ApiInterface$Rx;
 
   beforeAll(() => {
     jest.setTimeout(30000);

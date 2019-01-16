@@ -4,11 +4,12 @@
 
 import { Observable } from 'rxjs';
 import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import MockProvider from '@polkadot/rpc-provider/mock';
 
 import { Derive } from './index';
 
-const testFunction = (api: ApiRx) => {
+const testFunction = (api: ApiInterface$Rx) => {
   return <
     Section extends keyof Derive,
     Method extends keyof (typeof api.derive[Section])

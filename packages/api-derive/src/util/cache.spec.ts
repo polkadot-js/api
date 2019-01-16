@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 
 import { cache } from './cache';
 
 describe('cache', () => {
-  const f = cache((api: ApiRx) => (a: number, b: number) => [api, a, b]);
-  const api = {} as ApiRx;
+  const f = cache((api: ApiInterface$Rx) => (a: number, b: number) => [api, a, b]);
+  const api = {} as ApiInterface$Rx;
 
   it('should hit cache when all arguments are the same', () => {
     const first = f(api)(2, 3);
@@ -21,7 +21,7 @@ describe('cache', () => {
     const first = f(api)(2, 3);
     const second1 = f(api)(5, 3);
     const second2 = f(api)(2, 5);
-    const second3 = f({} as ApiRx)(2, 3);
+    const second3 = f({} as ApiInterface$Rx)(2, 3);
 
     expect(first).not.toBe(second1);
     expect(first).not.toBe(second2);

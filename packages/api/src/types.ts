@@ -81,7 +81,7 @@ export interface ApiOptions {
   types?: { [name: string]: Constructor };
 }
 
-export interface ApiInterface$Rx<> {
+export interface ApiInterface$Rx {
   derive: Derive<Observable<Codec | null | undefined>>;
   query: QueryableStorage<Observable<Codec | null | undefined>>;
   rpc: DecoratedRpc<Observable<Codec | null | undefined>>;
