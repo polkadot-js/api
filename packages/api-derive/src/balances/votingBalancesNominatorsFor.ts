@@ -12,10 +12,11 @@ import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
-  return (accountId: AccountId | string): Observable<Array<DerivedBalances>> =>
-    (api.query.staking.nominatorsFor(accountId) as Observable<Array<AccountId | undefined | null> | undefined>).pipe(
-      map((nominators) => nominators || []),
-      switchMap(votingBalances(api)),
-      drr()
-    );
+  return (accountId: AccountId | string): Observable<Array<DerivedBalances>> => {
+    return (api.query.staking.nominatorsFor(accountId) as any as Observable<Array<AccountId>>)
+      .pipe(
+        switchMap(votingBalances(api)),
+        drr()
+      ) as Observable<Array<DerivedBalances>>;
+  };
 }

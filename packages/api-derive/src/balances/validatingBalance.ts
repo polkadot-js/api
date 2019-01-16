@@ -14,15 +14,17 @@ import { votingBalance } from './votingBalance';
 import { votingBalancesNominatorsFor } from './votingBalancesNominatorsFor';
 
 export function validatingBalance (api: ApiInterface$Rx) {
-  return (address: AccountId | string): Observable<DerivedBalances> =>
-    combineLatest(
+  return (address: AccountId | string): Observable<DerivedBalances> => {
+    return combineLatest(
       votingBalance(api)(address),
       votingBalancesNominatorsFor(api)(address)
     ).pipe(
       map(([balance, nominators]) => {
         const nominatedBalance = nominators.reduce(
-          (total: BN, nominatorBalance: DerivedBalances) => total.add(nominatorBalance.votingBalance),
-          new BN(0));
+          (total: BN, nominatorBalance: DerivedBalances) =>
+            total.add(nominatorBalance.votingBalance),
+          new BN(0)
+        );
 
         return {
           ...balance,
@@ -35,4 +37,5 @@ export function validatingBalance (api: ApiInterface$Rx) {
       }),
       drr()
     );
+  };
 }

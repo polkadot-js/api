@@ -6,16 +6,19 @@ import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
+import { WsProvider } from '@polkadot/rpc-provider/index';
 
-describe.skip('derive e2e', () => {
+const WS = 'wss://poc3-rpc.polkadot.io/';
+
+describe('derive e2e', () => {
   let api: ApiInterface$Rx;
 
   beforeAll(() => {
-    jest.setTimeout(30000);
+    jest.setTimeout(10000);
   });
 
   beforeEach(async (done) => {
-    api = await ApiRx.create().toPromise();
+    api = await ApiRx.create(new WsProvider(WS)).toPromise();
     done();
   });
 
@@ -30,6 +33,13 @@ describe.skip('derive e2e', () => {
   it('derive.session.sessionProgress', async (done) => {
     api.derive.session.sessionProgress().subscribe((progress) => {
       expect(progress instanceof BN).toBe(true);
+      done();
+    });
+  });
+
+  it('returns the intentions with balances', async (done) => {
+    api.derive.staking.intentionsBalances().subscribe((balances) => {
+      expect(Object.keys(balances as object)).not.toHaveLength(0);
       done();
     });
   });
