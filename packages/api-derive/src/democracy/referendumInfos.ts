@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ReferendumInfo } from '@polkadot/types/index';
@@ -11,18 +11,18 @@ import { ReferendumInfo } from '@polkadot/types/index';
 import { drr } from '../util/drr';
 
 export function referendumInfos (api: ApiInterface$Rx) {
-  return (...params: Array<any>): Observable<Array<ReferendumInfo>> => {
-    const ids: Array<BN | number> = params.slice(0, params.length - 1);
-
-    return combineLatest(
-      ids.map(
-        (id) => (api.query.democracy.referendumInfoOf(id) as Observable<ReferendumInfo>).pipe(
-          filter((info) => !!info)
+  return (ids: Array<BN | number> = []): Observable<Array<ReferendumInfo>> => {
+    return !ids || !ids.length
+      ? of([]).pipe(drr())
+      : combineLatest(
+        ids.map(
+          (id) => (api.query.democracy.referendumInfoOf(id) as Observable<ReferendumInfo>).pipe(
+            filter((info) => !!info)
+          )
         )
-      )
-    ).pipe(
-      drr()
-    );
+      ).pipe(
+        drr()
+      );
   };
 
 }

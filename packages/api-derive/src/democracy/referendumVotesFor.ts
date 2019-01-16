@@ -20,8 +20,8 @@ export function referendumVotesFor (api: ApiInterface$Rx) {
       switchMap((votersFor) =>
         combineLatest(
           of(votersFor),
-          votes(api)(referendumId as BN, ...votersFor),
-          votingBalances(api)(...votersFor)
+          votes(api)(referendumId as BN, votersFor),
+          votingBalances(api)(votersFor)
         )
       ),
       map(([votersFor, votes, balances]) =>
