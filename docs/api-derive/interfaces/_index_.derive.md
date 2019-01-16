@@ -12,7 +12,7 @@
 
 **● balances**: *`ReturnTypes`<[&quot;balances/index&quot;](../modules/_balances_index_.md)>*
 
-*Defined in [index.ts:25](https://github.com/polkadot-js/api/blob/f548dd4/packages/api-derive/src/index.ts#L25)*
+*Defined in [index.ts:25](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api-derive/src/index.ts#L25)*
 
 ___
 <a id="chain"></a>
@@ -21,7 +21,7 @@ ___
 
 **● chain**: *`ReturnTypes`<[&quot;chain/index&quot;](../modules/_chain_index_.md)>*
 
-*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/f548dd4/packages/api-derive/src/index.ts#L26)*
+*Defined in [index.ts:26](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api-derive/src/index.ts#L26)*
 
 ___
 <a id="democracy"></a>
@@ -30,7 +30,7 @@ ___
 
 **● democracy**: *`ReturnTypes`<[&quot;democracy/index&quot;](../modules/_democracy_index_.md)>*
 
-*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/f548dd4/packages/api-derive/src/index.ts#L27)*
+*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api-derive/src/index.ts#L27)*
 
 ___
 <a id="session"></a>
@@ -39,7 +39,7 @@ ___
 
 **● session**: *`ReturnTypes`<[&quot;session/index&quot;](../modules/_session_index_.md)>*
 
-*Defined in [index.ts:28](https://github.com/polkadot-js/api/blob/f548dd4/packages/api-derive/src/index.ts#L28)*
+*Defined in [index.ts:28](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api-derive/src/index.ts#L28)*
 
 ___
 
