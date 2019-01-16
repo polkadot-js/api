@@ -66,14 +66,17 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
-    return this._api.query.system
-      .accountNonce(signerPair.address())
-      .pipe(
-        first(),
-        switchMap((nonce) =>
-          this.sign(signerPair, nonce as Index).send(statusCb)
-        )
-      );
+  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+    return this._onCall(
+      () => this._api.query.system
+        .accountNonce(signerPair.address())
+        .pipe(
+          first(),
+          switchMap((nonce) =>
+            this.sign(signerPair, nonce as Index).send(statusCb)
+          )
+        ),
+      [statusCb]
+    ) as unknown as Observable<SubmittableSendResult>;
   }
 }
