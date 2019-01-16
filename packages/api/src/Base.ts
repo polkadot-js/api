@@ -137,7 +137,16 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   /**
-   * @description FIXME
+   * @description Derived results that are injected into the API, allowing for combinations of various query results.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.derive.chain.bestNumber((number) => {
+   *   console.log('best number', number);
+   * });
+   * ```
    */
   get derive (): Derive<OnCall> {
     assert(!isUndefined(this._derive), INIT_ERROR);
