@@ -10,7 +10,7 @@ import { WsProvider } from '@polkadot/rpc-provider/index';
 
 const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe('derive e2e', () => {
+describe.skip('derive e2e', () => {
   let api: ApiInterface$Rx;
 
   beforeAll(() => {
