@@ -13,6 +13,7 @@ import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<Array<DerivedBalances>> => {
+    // tslint:disable-next-line
     return (api.query.staking.nominatorsFor(accountId) as any as Observable<Array<AccountId>>)
       .pipe(
         switchMap(votingBalances(api)),

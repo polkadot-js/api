@@ -16,6 +16,7 @@ import { drr } from '../util/drr';
  */
 export function intentionsBalances (api: ApiInterface$Rx) {
   return (): Observable<DerivedBalancesMap> =>
+    // tslint:disable-next-line
     (api.query.staking.intentions() as any as Observable<Array<AccountId>>)
       .pipe(
         switchMap(validatingBalances(api)),
