@@ -92,6 +92,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
     this._eventemitter = new EventEmitter();
     this._rpcBase = new RpcBase(options.provider);
+
+    assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
+
     this._rpcRx = new RpcRx(options.provider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);

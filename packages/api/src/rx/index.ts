@@ -7,9 +7,7 @@ import { ApiRxInterface, OnCall } from './types';
 import { ApiOptions, OnCallFunction } from '../types';
 
 import { Observable, from } from 'rxjs';
-import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
-import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 
@@ -111,11 +109,7 @@ import ApiBase from '../Base';
  * ```
  */
 export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
-  protected _apiRx = this;
-  protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
-  protected _runtimeMetadata?: Metadata;
-  protected _runtimeVersion?: RuntimeVersion;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -159,8 +153,6 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
    */
   constructor (provider?: ApiOptions | ProviderInterface) {
     super(provider);
-
-    assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
