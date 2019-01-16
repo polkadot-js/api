@@ -12,6 +12,7 @@ import { Codec } from '@polkadot/types/types';
 import { isFunction, logger } from '@polkadot/util';
 
 import ApiBase from '../Base';
+import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 import ApiRx from '../rx';
 
 type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
@@ -163,6 +164,34 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
    */
   get isReady (): Promise<ApiPromise> {
     return this._isReady;
+  }
+
+  /**
+   * @description Creates a combinator that can be used to combine the latest results from multiple subscriptions
+   * @param fns An array of function to combine, each in the form of `(cb: (value: void)) => void`
+   * @param callback A callback that will return an Array of all the values this combinator has been applied to
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * const address = '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7';
+   *
+   * // combines values from balance & nonce as it updates
+   * api.combineLatest([
+   *   api.rpc.chain.subscribeNewHead,
+   *   [api.query.balances.freeBalance, address],
+   *   (cb) => api.query.system.accountNonce(address, cb)
+   * ], ([head, balance, nonce]) => {
+   *   console.log(`#${head.number}: You have ${balance} units, with ${nonce} transactions sent`);
+   * });
+   * ```
+   */
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
+    const combinator = new Combinator(fns, callback);
+
+    return (): void => {
+      combinator.unsubscribe();
+    };
   }
 
   protected init (): Promise<void> {
