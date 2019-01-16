@@ -4,20 +4,18 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiRxInterface, OnCall } from './types';
-import { ApiOptions, ApiInterface$Events } from '../types';
+import { ApiOptions, OnCallFunction } from '../types';
 
-import EventEmitter from 'eventemitter3';
 import { Observable, from } from 'rxjs';
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import RpcBase from '@polkadot/rpc-core/index';
-import registry from '@polkadot/types/codec/typeRegistry';
-import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { Codec } from '@polkadot/types/types';
-import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
+import { assert } from '@polkadot/util';
 
-import ApiBase, { INIT_ERROR } from '../Base';
+import ApiBase from '../Base';
 
-const l = logger('api/rx');
+export function rxOnCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, _isSubscription?: boolean): OnCall {
+  return method(...params);
+}
 
 /**
  * # @polkadot/api/rx
@@ -118,10 +116,8 @@ const l = logger('api/rx');
  */
 export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   protected _apiRx = this;
-  private _eventemitter: EventEmitter;
   protected _genesisHash?: Hash;
   private _isReady: Observable<ApiRx>;
-  protected _rpcBase: RpcBase;
   protected _runtimeMetadata?: Metadata;
   protected _runtimeVersion?: RuntimeVersion;
 
@@ -168,13 +164,6 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   constructor (provider?: ApiOptions | ProviderInterface) {
     super(provider);
 
-    const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
-      ? { provider } as ApiOptions
-      : provider as ApiOptions;
-
-    this._eventemitter = new EventEmitter();
-    this._rpcBase = new RpcBase(options && options.provider);
-
     assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
 
     this._isReady = from(
@@ -185,28 +174,6 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
         )
       )
     );
-
-    if (options && options.types) {
-      registry.register(options.types);
-    }
-
-    this.init();
-  }
-
-  /**
-   * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
-   */
-  get genesisHash (): Hash {
-    assert(!isUndefined(this._genesisHash), INIT_ERROR);
-
-    return this._apiRx._genesisHash as Hash;
-  }
-
-  /**
-   * @description `true` when subscriptions are supported
-   */
-  get hasSubscriptions (): boolean {
-    return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
@@ -223,126 +190,7 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
     return this._isReady;
   }
 
-  /**
-   * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
-   */
-  get runtimeMetadata (): Metadata {
-    assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
-
-    return this._runtimeMetadata as Metadata;
-  }
-
-  /**
-   * @description Contains the version information for the current runtime.
-   */
-  get runtimeVersion (): RuntimeVersion {
-    assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
-
-    return this._runtimeVersion as RuntimeVersion;
-  }
-
-  protected init (): void {
-    let isReady: boolean = false;
-
-    this._rpcBase._provider.on('disconnected', () => {
-      this.emit('disconnected');
-    });
-
-    this._rpcBase._provider.on('error', (error) => {
-      this.emit('error', error);
-    });
-
-    this._rpcBase._provider.on('connected', async () => {
-      this.emit('connected');
-
-      const hasMeta = await this.loadMeta();
-
-      if (hasMeta && !isReady) {
-        isReady = true;
-
-        this.emit('ready', this);
-      }
-    });
-  }
-
-  private async loadMeta (): Promise<boolean> {
-    try {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
-
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-
-      this._extrinsics = this.decorateExtrinsics();
-      this._query = this.decorateStorage();
-      this._derive = this.decorateDerive(this._apiRx);
-
-      Event.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
-
-      return true;
-    } catch (error) {
-      l.error('loadMeta', error);
-
-      return false;
-    }
-  }
-
-  emit (type: ApiInterface$Events, ...args: Array<any>): void {
-    this._eventemitter.emit(type, ...args);
-  }
-
-  /**
-   * @description Attach an eventemitter handler to listen to a specific event
-   *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.on('connected', () => {
-   *   console.log('API has been connected to the endpoint');
-   * });
-   *
-   * api.on('disconnected', () => {
-   *   console.log('API has been disconnected from the endpoint');
-   * });
-   * ```
-   */
-  on (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.on(type, handler);
-
-    return this;
-  }
-
-  /**
-   * @description Attach an one-time eventemitter handler to listen to a specific event
-   *
-   * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
-   * @param handler The callback to be called when the event fires. Depending on the event type, it could fire with additional arguments.
-   *
-   * @example
-   * <BR>
-   *
-   * ```javascript
-   * api.once('connected', () => {
-   *   console.log('API has been connected to the endpoint');
-   * });
-   *
-   * api.once('disconnected', () => {
-   *   console.log('API has been disconnected from the endpoint');
-   * });
-   * ```
-   */
-  once (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
-    this._eventemitter.once(type, handler);
-
-    return this;
-  }
-
-  protected onCall (method: (...params: Array<any>) => Observable<Codec | undefined | null>, params: Array<any>): OnCall {
-    return method(...params);
+  protected onCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>): OnCall {
+    return rxOnCall(method, params);
   }
 }

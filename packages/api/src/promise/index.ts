@@ -9,15 +9,12 @@ import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
 import { Codec } from '@polkadot/types/types';
-import { isFunction, logger } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
-import ApiRx from '../rx';
 
 type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
-
-const l = logger('api/promise');
 
 /**
  * # @polkadot/api/promise
@@ -106,7 +103,6 @@ const l = logger('api/promise');
  * ```
  */
 export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInterface {
-  protected _apiRx: ApiRx;
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -155,8 +151,11 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
   constructor (options?: ApiOptions | ProviderInterface) {
     super(options);
 
-    this._apiRx = new ApiRx(options);
-    this._isReady = this.init().then(() => this);
+    this._isReady = new Promise((resolveReady) =>
+      super.once('ready', () =>
+        resolveReady(this)
+      )
+    );
   }
 
   /**
@@ -192,17 +191,6 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     return (): void => {
       combinator.unsubscribe();
     };
-  }
-
-  protected init (): Promise<void> {
-    return this._apiRx.isReady
-      .toPromise()
-      .then(() => {
-        this._query = this.decorateStorage();
-        this._extrinsics = this.decorateExtrinsics();
-        this._derive = this.decorateDerive(this._apiRx);
-      })
-      .catch((err) => l.error(err));
   }
 
   protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
