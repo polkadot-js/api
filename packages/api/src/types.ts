@@ -81,25 +81,22 @@ export interface ApiOptions {
   types?: { [name: string]: Constructor };
 }
 
-export interface ApiInterface$Rx {
-  derive: Derive<Observable<Codec | null | undefined>>;
-  query: QueryableStorage<Observable<Codec | null | undefined>>;
-  rpc: DecoratedRpc<Observable<Codec | null | undefined>>;
-  tx: SubmittableExtrinsics<Observable<Codec | null | undefined>>;
+export interface ApiInterface$Decorated<OnCall> {
+  genesisHash: Hash;
+  hasSubscriptions: boolean;
+  runtimeMetadata: Metadata;
+  runtimeVersion: RuntimeVersion;
+  derive: Derive<OnCall>;
+  query: QueryableStorage<OnCall>;
+  rpc: DecoratedRpc<OnCall>;
+  tx: SubmittableExtrinsics<OnCall>;
 }
+
+export type ApiInterface$Rx = ApiInterface$Decorated<Observable<Codec | null | undefined>>;
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
-export interface ApiBaseInterface<OnCall> {
-  readonly genesisHash: Hash;
-  readonly hasSubscriptions: boolean;
-  readonly runtimeMetadata: Metadata;
-  readonly runtimeVersion: RuntimeVersion;
-  readonly derive: Derive<OnCall>;
-  readonly query: QueryableStorage<OnCall>;
-  readonly rpc: DecoratedRpc<OnCall>;
-  readonly tx: SubmittableExtrinsics<OnCall>;
-
+export interface ApiBaseInterface<OnCall> extends Readonly<ApiInterface$Decorated<OnCall>> {
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }

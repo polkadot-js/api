@@ -55,7 +55,7 @@ function rxOnCall (
 }
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
-  protected _eventemitter: EventEmitter;
+  private _eventemitter: EventEmitter;
   private _derive?: Derive<OnCall>;
   private _extrinsics?: SubmittableExtrinsics<OnCall>;
   private _genesisHash?: Hash;
@@ -65,7 +65,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   protected _rpcRx: RpcRx; // FIXME These two could be merged
   private _runtimeMetadata?: Metadata;
   private _runtimeVersion?: RuntimeVersion;
-  public _rx: Partial<ApiInterface$Rx> = {};
+  private _rx: Partial<ApiInterface$Rx> = {};
 
   /**
    * @description Create an instance of the class
@@ -308,6 +308,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._query = this.decorateStorage(storage, this.onCall);
       this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
 
+      this._rx.genesisHash = this._genesisHash;
       this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
       this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
@@ -382,7 +383,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): SubmittableExtrinsicFunction<T> {
     const decorated: any = (...args: Array<any>): SubmittableExtrinsic<T> =>
-      new SubmittableExtrinsic(this, onCall, method(...args));
+      new SubmittableExtrinsic(this._rx as ApiInterface$Rx, onCall, method(...args));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<T>;
   }

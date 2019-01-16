@@ -5,19 +5,18 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Extrinsic, ExtrinsicStatus, Index, Method, SignedBlock } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { OnCallFunction, SubmittableSendResult } from './types';
+import { ApiInterface$Rx, OnCallFunction, SubmittableSendResult } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 
-import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
-export default class SubmittableExtrinsic<OnCall, T= any> extends Extrinsic {
-  private _api: ApiBase<T>;
+export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
+  private _api: ApiInterface$Rx;
   private _onCall: OnCallFunction<OnCall>;
 
-  constructor (api: ApiBase<T>, onCall: OnCallFunction<OnCall>, extrinsic: Extrinsic | Method) {
+  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<OnCall>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
@@ -39,8 +38,8 @@ export default class SubmittableExtrinsic<OnCall, T= any> extends Extrinsic {
 
     return this._onCall(
       () => combineLatest(
-        this._api._rx.rpc!.chain.getBlock(blockHash),
-        this._api._rx.query!.system.events.at(blockHash)
+        this._api.rpc.chain.getBlock(blockHash),
+        this._api.query.system.events.at(blockHash)
       ).pipe(
         map(([signedBlock, allEvents]) => ({
           events: filterEvents(this.hash, signedBlock as SignedBlock, allEvents as any),
@@ -54,21 +53,21 @@ export default class SubmittableExtrinsic<OnCall, T= any> extends Extrinsic {
 
   send (statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
     return this._onCall(
-      (...args: any[]) => (this._api._rx.rpc!.author
+      (...args: any[]) => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
         .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
       [statusCb]
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
-  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<OnCall, T> {
+  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<OnCall> {
     super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
 
     return this;
   }
 
   signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
-    return this._api._rx.query!.system
+    return this._api.query.system
       .accountNonce(signerPair.address())
       .pipe(
         first(),
