@@ -12,7 +12,7 @@ async function main () {
   // that resolves to the current on-chain value
   let previous = await api.query.balances.freeBalance(Alice);
 
-  console.log(`${Alice} has a ${previous} balance`);
+  console.log(`${Alice} has a balance of ${previous}`);
   console.log(`You may leave this example running and start example 06 or transfer any value to ${Alice}`);
 
   // Here we subscribe to any balance changes and update the on-screen value
@@ -25,10 +25,8 @@ async function main () {
     if (change.isZero()) {
       return;
     }
-
     previous = current;
-
-    console.log(`Balance of ${Alice}: ${current}, ${change} change`);
+    console.log(`New transaction of: ${change}`);
   });
 }
 

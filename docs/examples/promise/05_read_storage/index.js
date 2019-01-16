@@ -18,17 +18,20 @@ async function main () {
   console.log(`accountNonce(${Alice}) ${accountNonce}`);
   console.log(`blockPeriod ${blockPeriod.toNumber()} seconds`);
 
-  // Retrieve the balances for all validators
-  const validatorBalances = await Promise.all(
-    validators.map((authorityId) =>
-      api.query.balances.freeBalance(authorityId)
-    )
-  );
+  if (validators && validators.length > 0) {
+    // Retrieve the balances for all validators
+    const validatorBalances = await Promise.all(
+      validators.map(authorityId =>
+        api.query.balances.freeBalance(authorityId)
+      )
+    );
 
-  console.log('validators', validators.map((authorityId, index) => ({
-    address: authorityId.toString(),
-    balance: validatorBalances[index].toString()
-  })));
+    // Print out the authorityIds and balances of all validators
+    console.log('validators', validators.map((authorityId, index) => ({
+      address: authorityId.toString(),
+      balance: validatorBalances[index].toString()
+    })));
+  }
 }
 
 main().catch(console.error).finally(_ => process.exit());
