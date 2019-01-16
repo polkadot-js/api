@@ -43,9 +43,9 @@ describe('AccountId', () => {
   });
 
   describe('encoding', () => {
-    const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string) =>
+    const testEncode = (to: 'toHex' | 'toJSON' | 'toString' | 'toU8a', expected: Uint8Array | string, input: string = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s') =>
       it(`can encode ${to}`, () => {
-        const a = new AccountId('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
+        const a = new AccountId(input);
 
         expect(a[to]()).toEqual(expected);
       });
@@ -53,6 +53,7 @@ describe('AccountId', () => {
     testEncode('toHex', '0x0102030405060708010203040506070801020304050607080102030405060708');
     testEncode('toJSON', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
     testEncode('toString', '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
+    testEncode('toString', '-', '0x00');
     testEncode('toU8a', Uint8Array.from([
       1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
       1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8

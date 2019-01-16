@@ -27,7 +27,7 @@
 
 **Ƭ JsonRpcObject**: *`object`*
 
-*Defined in [types.ts:5](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L5)*
+*Defined in [types.ts:5](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L5)*
 
 #### Type declaration
 
@@ -38,7 +38,7 @@ ___
 
 **Ƭ JsonRpcRequest**: *[JsonRpcObject](_types_.md#jsonrpcobject) & `object`*
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L10)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L10)*
 
 ___
 <a id="jsonrpcresponse"></a>
@@ -47,7 +47,7 @@ ___
 
 **Ƭ JsonRpcResponse**: *[JsonRpcObject](_types_.md#jsonrpcobject) & [JsonRpcResponseBase](_types_.md#jsonrpcresponsebase)*
 
-*Defined in [types.ts:36](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L36)*
+*Defined in [types.ts:36](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L36)*
 
 ___
 <a id="jsonrpcresponsebase"></a>
@@ -56,7 +56,7 @@ ___
 
 **Ƭ JsonRpcResponseBase**: *`JsonRpcResponse$Single` & `JsonRpcResponse$Subscription`*
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L34)*
 
 ___
 <a id="jsonrpcresponsebase_error"></a>
@@ -65,7 +65,7 @@ ___
 
 **Ƭ JsonRpcResponseBase$Error**: *`object`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L15)*
+*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L15)*
 
 #### Type declaration
 
@@ -76,7 +76,7 @@ ___
 
 **Ƭ ProviderInterface$Callback**: *`function`*
 
-*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L38)*
+*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L38)*
 
 #### Type declaration
 ▸(result: *`any`*): `void`
@@ -96,7 +96,7 @@ ___
 
 **Ƭ ProviderInterface$EmitCb**: *`function`*
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L42)*
 
 #### Type declaration
 ▸(value?: *`any`*): `any`
@@ -116,7 +116,7 @@ ___
 
 **Ƭ ProviderInterface$Emitted**: *"connected" | "disconnected" | "error"*
 
-*Defined in [types.ts:40](https://github.com/polkadot-js/api/blob/9a49732/packages/rpc-provider/src/types.ts#L40)*
+*Defined in [types.ts:40](https://github.com/polkadot-js/api/blob/dfac7a4/packages/rpc-provider/src/types.ts#L40)*
 
 ___
 

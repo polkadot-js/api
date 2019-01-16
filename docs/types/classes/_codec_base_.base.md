@@ -30,7 +30,7 @@
 
 ⊕ **new Base**(value?: *`any`*): [Base](_codec_base_.base.md)
 
-*Defined in [codec/Base.ts:10](https://github.com/polkadot-js/api/blob/9a49732/packages/types/src/codec/Base.ts#L10)*
+*Defined in [codec/Base.ts:10](https://github.com/polkadot-js/api/blob/dfac7a4/packages/types/src/codec/Base.ts#L10)*
 
 **Parameters:**
 
