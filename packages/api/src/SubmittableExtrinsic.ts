@@ -53,7 +53,7 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
 
   send (statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
     return this._onCall(
-      (...args: any[]) => (this._api.rpc.author
+      () => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
         .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
       [statusCb]
