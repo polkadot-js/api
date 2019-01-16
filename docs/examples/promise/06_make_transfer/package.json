@@ -1,5 +1,5 @@
 {
-  "name": "07_transfer_dots",
+  "name": "06_make_transfer",
   "version": "0.2.0",
   "description": "Example showing how to transfer DOTs",
   "main": "index.js",
