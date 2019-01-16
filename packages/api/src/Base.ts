@@ -267,7 +267,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return this;
   }
 
-  emit (type: ApiInterface$Events, ...args: Array<any>): void {
+  private emit (type: ApiInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
   }
 
