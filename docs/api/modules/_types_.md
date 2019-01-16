@@ -37,7 +37,7 @@
 
 **Ƭ ApiInterface$Events**: *`RpcRxInterface$Events` | "ready"*
 
-*Defined in [types.ts:97](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L97)*
+*Defined in [types.ts:97](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L97)*
 
 ___
 <a id="apiinterface_rx"></a>
@@ -46,7 +46,7 @@ ___
 
 **Ƭ ApiInterface$Rx**: *[ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)<`Observable`<`Codec` | `null` | `undefined`>>*
 
-*Defined in [types.ts:95](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L95)*
+*Defined in [types.ts:95](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L95)*
 
 ___
 <a id="decoratedrpc_method"></a>
@@ -55,7 +55,7 @@ ___
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L17)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `OnCall`
@@ -75,7 +75,7 @@ ___
 
 **Ƭ DeriveMethod**: *`function`*
 
-*Defined in [types.ts:61](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L61)*
+*Defined in [types.ts:61](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L61)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `OnCall`
@@ -95,7 +95,7 @@ ___
 
 **Ƭ OnCallFunction**: *`function`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L15)*
+*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L15)*
 
 #### Type declaration
 ▸(...args: *`any`[]*): `OnCall`
@@ -115,7 +115,7 @@ ___
 
 **Ƭ SubmittableSendResult**: *`object`*
 
-*Defined in [types.ts:55](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L55)*
+*Defined in [types.ts:55](https://github.com/polkadot-js/api/blob/35c6b0f/packages/api/src/types.ts#L55)*
 
 #### Type declaration
 
