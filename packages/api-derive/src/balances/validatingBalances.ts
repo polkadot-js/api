@@ -4,14 +4,14 @@
 
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId } from '@polkadot/types/index';
 
 import { DerivedBalancesMap } from '../types';
 import { drr } from '../util/drr';
 import { validatingBalance } from './validatingBalance';
 
-export function validatingBalances (api: ApiRx) {
+export function validatingBalances (api: ApiInterface$Rx) {
   return (...params: Array<any>): Observable<DerivedBalancesMap> => {
     const accountIds: Array<AccountId | string> = params.slice(0, params.length - 1);
 

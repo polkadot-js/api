@@ -10,11 +10,11 @@ const keyring = testingPairs();
 
 describe.skip('e2e transactions', () => {
   let api;
-  let nonce;
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     api = await Api.create();
     jest.setTimeout(30000);
+    done();
   });
 
   afterEach(() => {

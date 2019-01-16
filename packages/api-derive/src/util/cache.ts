@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import memoizee from 'memoizee';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 
 /**
  * Create memoization for a 2-currified function.
@@ -12,7 +12,7 @@ import ApiRx from '@polkadot/api/rx';
  * @param map - The Map used to cache function returns.
  * @example
  * ```javascript
- * const f = (api: ApiRx) => (b: number) => a * b;
+ * const f = (api: ApiInterface$Rx) => (b: number) => a * b;
  * const cached = cache(f);
  * f(api)(1, 2);
  * f(api)(1); // Cache not hit
@@ -20,7 +20,7 @@ import ApiRx from '@polkadot/api/rx';
  * f(api)(1, 2); // Cache hit
  * ```
  */
-export const cache = (fn: Function, map = new WeakMap()) => (api: ApiRx) => {
+export const cache = (fn: Function, map = new WeakMap()) => (api: ApiInterface$Rx) => {
   if (!map.has(api)) {
     const innerFn = fn(api);
     map.set(api, memoizee(innerFn));

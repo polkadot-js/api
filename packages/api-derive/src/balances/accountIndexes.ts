@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
@@ -13,7 +13,7 @@ import { drr } from '../util/drr';
 
 export type AccountIndexes = { [index: string]: AccountIndex };
 
-export function accountIndexes (api: ApiRx) {
+export function accountIndexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> =>
     (api.query.balances.nextEnumSet() as Observable<AccountIndex>)
       .pipe(

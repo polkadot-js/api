@@ -4,29 +4,31 @@
 
 import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
 
 describe.skip('derive e2e', () => {
-  let api: ApiRx;
+  let api: ApiInterface$Rx;
 
   beforeAll(() => {
     jest.setTimeout(30000);
   });
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     api = await ApiRx.create().toPromise();
+    done();
   });
 
   it('derive.chain.bestNumber', async (done) => {
-    api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
+    api.derive.chain.bestNumber().subscribe((blockNumber) => {
       expect(blockNumber instanceof BlockNumber).toBe(true);
-      expect(blockNumber.gten(0)).toBe(true);
+      expect((blockNumber as BlockNumber).gten(0)).toBe(true);
       done();
     });
   });
 
   it('derive.session.sessionProgress', async (done) => {
-    api.derive.session.sessionProgress().subscribe((progress: BN) => {
+    api.derive.session.sessionProgress().subscribe((progress) => {
       expect(progress instanceof BN).toBe(true);
       done();
     });

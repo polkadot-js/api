@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 
 import * as balances from './balances';
 import * as chain from './chain';
@@ -28,7 +28,7 @@ export interface Derive {
   session: ReturnTypes<typeof session>;
 }
 
-export default function decorateDerive (api: ApiRx): Derive {
+export default function decorateDerive (api: ApiInterface$Rx): Derive {
   const derive = {} as Derive;
 
   Object.keys(functions).forEach((sectionName: string) => {

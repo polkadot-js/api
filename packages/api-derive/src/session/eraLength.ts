@@ -5,12 +5,12 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
-export function eraLength (api: ApiRx) {
+export function eraLength (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
     (combineLatest(
       api.query.session.sessionLength(),

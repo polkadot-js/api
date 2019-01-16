@@ -4,12 +4,12 @@
 
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Vote } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
-export function votes (api: ApiRx) {
+export function votes (api: ApiInterface$Rx) {
   return (referendumId: BN, ...accountIds: Array<AccountId>): Observable<Array<Vote>> =>
     combineLatest(
       accountIds.map(
