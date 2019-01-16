@@ -13,10 +13,6 @@ import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 
-export function rxOnCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, _isSubscription?: boolean): OnCall {
-  return method(...params);
-}
-
 /**
  * # @polkadot/api/rx
  *
@@ -191,6 +187,6 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   }
 
   protected onCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>): OnCall {
-    return rxOnCall(method, params);
+    return method(...params);
   }
 }

@@ -27,7 +27,6 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
 
-import { rxOnCall } from './rx';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 type MetaDecoration = {
@@ -41,6 +40,18 @@ type MetaDecoration = {
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
 
 const l = logger('api/decorator');
+
+/**
+ * Put the `this.onCall` function of ApiRx here, because it is needed by
+ * `api._rx`.
+ */
+function rxOnCall (
+  method: OnCallFunction<Observable<Codec | undefined | null>>,
+  params: Array<any>,
+  _isSubscription?: boolean
+): Observable<Codec | undefined | null> {
+  return method(...params);
+}
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   protected _eventemitter: EventEmitter;
