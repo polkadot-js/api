@@ -20,7 +20,7 @@
 
 **Ƭ OnCall**: *`Observable`<`Codec` | `null` | `undefined`>*
 
-*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/rx/types.ts#L10)*
+*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/rx/types.ts#L10)*
 
 ___
 

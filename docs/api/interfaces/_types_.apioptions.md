@@ -12,7 +12,7 @@
 
 **● provider**: *`ProviderInterface`*
 
-*Defined in [types.ts:76](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/types.ts#L76)*
+*Defined in [types.ts:76](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L76)*
 
 *__description__*: Transport Provider from rpc-provider. If not specified, it will default to connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
 
@@ -23,7 +23,7 @@ ___
 
 **● types**: *`undefined` | `object`*
 
-*Defined in [types.ts:81](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/types.ts#L81)*
+*Defined in [types.ts:81](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/types.ts#L81)*
 
 *__description__*: Additional types used by runtime modules. This is nessusary if the runtime modules uses types not available in the base Substrate runtime.
 

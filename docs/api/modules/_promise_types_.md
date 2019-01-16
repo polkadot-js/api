@@ -21,7 +21,7 @@
 
 **Ƭ OnCall**: *`Promise`<`Codec` | `null` | `undefined`> | [PromiseSubscription](_promise_types_.md#promisesubscription)*
 
-*Defined in [promise/types.ts:9](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/promise/types.ts#L9)*
+*Defined in [promise/types.ts:9](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/promise/types.ts#L9)*
 
 ___
 <a id="promisesubscription"></a>
@@ -30,7 +30,7 @@ ___
 
 **Ƭ PromiseSubscription**: *`Promise`<`function`>*
 
-*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/promise/types.ts#L11)*
+*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/f548dd4/packages/api/src/promise/types.ts#L11)*
 
 ___
 

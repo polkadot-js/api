@@ -21,7 +21,7 @@
 
 **Ƭ RpcInterface$Section**: *`object`*
 
-*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/d07ed8a/packages/rpc-core/src/types.ts#L12)*
+*Defined in [types.ts:12](https://github.com/polkadot-js/api/blob/f548dd4/packages/rpc-core/src/types.ts#L12)*
 
 #### Type declaration
 
