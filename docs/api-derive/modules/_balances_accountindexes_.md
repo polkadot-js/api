@@ -8,7 +8,7 @@
 
 **Ƭ AccountIndexes**: *`object`*
 
-*Defined in [balances/accountIndexes.ts:14](https://github.com/polkadot-js/api/blob/dfac7a4/packages/api-derive/src/balances/accountIndexes.ts#L14)*
+*Defined in [balances/accountIndexes.ts:14](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api-derive/src/balances/accountIndexes.ts#L14)*
 
 #### Type declaration
 
@@ -22,15 +22,15 @@ ___
 
 ##  accountIndexes
 
-▸ **accountIndexes**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **accountIndexes**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [balances/accountIndexes.ts:16](https://github.com/polkadot-js/api/blob/dfac7a4/packages/api-derive/src/balances/accountIndexes.ts#L16)*
+*Defined in [balances/accountIndexes.ts:16](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api-derive/src/balances/accountIndexes.ts#L16)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

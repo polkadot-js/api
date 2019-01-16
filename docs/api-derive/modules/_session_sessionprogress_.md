@@ -6,15 +6,15 @@
 
 ##  sessionProgress
 
-▸ **sessionProgress**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **sessionProgress**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [session/sessionProgress.ts:14](https://github.com/polkadot-js/api/blob/dfac7a4/packages/api-derive/src/session/sessionProgress.ts#L14)*
+*Defined in [session/sessionProgress.ts:14](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api-derive/src/session/sessionProgress.ts#L14)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

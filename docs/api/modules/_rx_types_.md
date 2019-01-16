@@ -5,12 +5,22 @@
 ### Interfaces
 
 * [ApiRxInterface](../interfaces/_rx_types_.apirxinterface.md)
-* [QueryableModuleStorage](../interfaces/_rx_types_.queryablemodulestorage.md)
-* [QueryableStorage](../interfaces/_rx_types_.queryablestorage.md)
-* [QueryableStorageFunction](../interfaces/_rx_types_.queryablestoragefunction.md)
-* [SubmittableExtrinsicFunction](../interfaces/_rx_types_.submittableextrinsicfunction.md)
-* [SubmittableExtrinsics](../interfaces/_rx_types_.submittableextrinsics.md)
-* [SubmittableModuleExtrinsics](../interfaces/_rx_types_.submittablemoduleextrinsics.md)
+
+### Type aliases
+
+* [OnCall](_rx_types_.md#oncall)
 
 ---
+
+# Type aliases
+
+<a id="oncall"></a>
+
+##  OnCall
+
+**Ƭ OnCall**: *`Observable`<`Codec` | `null` | `undefined`>*
+
+*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/d07ed8a/packages/api/src/rx/types.ts#L10)*
+
+___
 
