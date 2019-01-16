@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { MethodFunction } from '@polkadot/types/Method';
+import { Storage } from '@polkadot/storage/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions,
   DecoratedRpc, DecoratedRpc$Section,
@@ -23,6 +23,7 @@ import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import registry from '@polkadot/types/codec/typeRegistry';
 import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
 import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
@@ -55,15 +56,15 @@ function rxOnCall (
 
 export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
   protected _eventemitter: EventEmitter;
-  protected _derive?: Derive<OnCall>;
-  protected _extrinsics?: SubmittableExtrinsics<OnCall>;
-  protected _genesisHash?: Hash;
-  protected _query?: QueryableStorage<OnCall>;
-  protected _rpc: DecoratedRpc<OnCall>;
+  private _derive?: Derive<OnCall>;
+  private _extrinsics?: SubmittableExtrinsics<OnCall>;
+  private _genesisHash?: Hash;
+  private _query?: QueryableStorage<OnCall>;
+  private _rpc: DecoratedRpc<OnCall>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged
   protected _rpcRx: RpcRx; // FIXME These two could be merged
-  protected _runtimeMetadata?: Metadata;
-  protected _runtimeVersion?: RuntimeVersion;
+  private _runtimeMetadata?: Metadata;
+  private _runtimeVersion?: RuntimeVersion;
   public _rx: Partial<ApiInterface$Rx> = {};
 
   /**
@@ -267,7 +268,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     this._eventemitter.emit(type, ...args);
   }
 
-  protected init (): void {
+  private init (): void {
     let isReady: boolean = false;
 
     this._rpcBase._provider.on('disconnected', () => {
@@ -298,13 +299,14 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
       const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+      const storage = storageFromMeta(this.runtimeMetadata);
 
-      this._extrinsics = this.decorateExtrinsics(this.onCall);
-      this._query = this.decorateStorage(this.onCall);
+      this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
+      this._query = this.decorateStorage(storage, this.onCall);
       this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
 
-      this._rx.tx = this.decorateExtrinsics(rxOnCall);
-      this._rx.query = this.decorateStorage(rxOnCall);
+      this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
+      this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
 
       Event.injectMetadata(this.runtimeMetadata);
@@ -337,6 +339,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     rpc: RpcRx,
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): DecoratedRpc<T> {
+
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DecoratedRpc<T>;
 
@@ -354,9 +357,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   private decorateExtrinsics<T> (
+    extrinsics: ModulesWithMethods,
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): SubmittableExtrinsics<T> {
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -382,9 +385,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
   }
 
   private decorateStorage<T> (
+    storage: Storage,
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): QueryableStorage<T> {
-    const storage = storageFromMeta(this.runtimeMetadata);
 
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
