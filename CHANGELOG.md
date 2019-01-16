@@ -1,3 +1,7 @@
+# 0.40.1
+
+- The API interfaces now require a WS-compatible provider, e.g. subscription support is a must. Previously the HTTPProvider could be use (although it was very limited in the interactions).
+
 # 0.39.1
 
 - The Promise API now returns a `Promise<UnsubFunction>` instead of `UnsubFunction` when making subscriptions.
