@@ -58,6 +58,8 @@ export default class AccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return AccountId.encode(this);
+    return this.isEmpty
+      ? '-'
+      : AccountId.encode(this);
   }
 }
