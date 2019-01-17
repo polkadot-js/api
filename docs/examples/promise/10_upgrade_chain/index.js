@@ -26,7 +26,7 @@ async function main () {
   // find the actual keypair in the keyring (if this is an changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
   // Alice as the key - and this already exists on the test keyring)
-  const keyring = testKeyring();
+  const keyring = testKeyring.default();
   const adminPair = keyring.getPair(adminId.toString());
 
   // retrieve the runtime to upgrade to

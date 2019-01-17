@@ -13,7 +13,9 @@ const AMOUNT = 10000;
 
 async function main () {
   // create an instance of our testign keyring
-  const keyring = testKeyring();
+  // If you're using ES6 module imports instead of require, just change this line to:
+  // const keyring = testKeyring();
+  const keyring = testKeyring.default();
 
   // Create the API and wait until ready
   const api = await ApiPromise.create();
