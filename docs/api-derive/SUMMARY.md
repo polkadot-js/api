@@ -24,6 +24,8 @@
 * [&quot;session/eraProgress&quot;](modules/_session_eraprogress_.md)
 * [&quot;session/index&quot;](modules/_session_index_.md)
 * [&quot;session/sessionProgress&quot;](modules/_session_sessionprogress_.md)
+* [&quot;staking/index&quot;](modules/_staking_index_.md)
+* [&quot;staking/intentionsBalances&quot;](modules/_staking_intentionsbalances_.md)
 * [&quot;types&quot;](modules/_types_.md)
 * [&quot;util/cache&quot;](modules/_util_cache_.md)
 * [&quot;util/cache.spec&quot;](modules/_util_cache_spec_.md)
