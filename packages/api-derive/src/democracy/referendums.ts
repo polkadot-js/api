@@ -19,9 +19,10 @@ export function referendums (api: ApiInterface$Rx) {
       switchMap(([nextTally, referendumCount]) =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? referendumInfos(api)(
-            ...[...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
+            [...Array(referendumCount.sub(nextTally).toNumber())].map((_, i) =>
               nextTally.addn(i)
-            ))
+            )
+          )
           : of([])
       ),
       drr()

@@ -8,17 +8,19 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Vector } from '@polkadot/types/codec';
 import { AccountId } from '@polkadot/types/index';
 
-import { DerivedBalances } from '../types';
+import { DerivedBalancesMap } from '../types';
+import { validatingBalances } from '../balances';
 import { drr } from '../util/drr';
-import { votingBalances } from './votingBalances';
 
-export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
-  return (accountId: AccountId | string): Observable<Array<DerivedBalances>> => {
+/**
+ * Get the balances for all intentions and their nominators
+ */
+export function intentionsBalances (api: ApiInterface$Rx) {
+  return (): Observable<DerivedBalancesMap> =>
     // tslint:disable-next-line
-    return (api.query.staking.nominatorsFor(accountId) as Observable<Vector<AccountId>>)
+    (api.query.staking.intentions() as Observable<Vector<AccountId>>)
       .pipe(
-        switchMap(votingBalances(api)),
+        switchMap(validatingBalances(api)),
         drr()
-      ) as Observable<Array<DerivedBalances>>;
-  };
+      ) as Observable<DerivedBalancesMap>;
 }
