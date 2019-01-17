@@ -19,6 +19,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[grandpa](#grandpa)**
 
+- **[indices](#indices)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -31,8 +33,6 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[treasury](#treasury)**
 
-- **[upgradeKey](#upgradeKey)**
-
 - **[substrate](#substrate)**
 
 
@@ -44,20 +44,11 @@ ___
 ▸ **creationFee**(): `Balance`
 - **summary**:   The fee required to create an account. At least as big as ReclaimRebate.
 
-▸ **enumSet**(`AccountIndex`): `Vec<AccountId>`
-- **summary**:   The enumeration sets.
-
 ▸ **existentialDeposit**(): `Balance`
 - **summary**:   The minimum amount allowed to keep an account open.
 
 ▸ **freeBalance**(`AccountId`): `Balance`
 - **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It is  alone used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to cleanup data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
-
-▸ **nextEnumSet**(): `AccountIndex`
-- **summary**:   The next free enumeration set.
-
-▸ **reclaimRebate**(): `Balance`
-- **summary**:   The amount credited to a destination's account whose index was reclaimed.
 
 ▸ **reservedBalance**(`AccountId`): `Balance`
 - **summary**:   The amount of the balance of a given account that is externally reserved; this can still get  slashed, but gets slashed last of all.   This balance is a 'reserve' balance that other subsystems use in order to set aside tokens  that are still 'owned' by the account holder, but which are suspendable. (This is different  and wholly unrelated to the `Bondage` system used in the staking module.)   When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'  is deleted: specifically, `ReservedBalance`.   `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
@@ -87,10 +78,10 @@ ___
 ### <a id='council'></a>council
 
 ▸ **activeCouncil**(): `Vec<(AccountId,BlockNumber)>`
-- **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters.
+- **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the council member was elected  and their term duration).
 
 ▸ **approvalsOf**(`AccountId`): `Vec<bool>`
-- **summary**:   The last cleared vote index that this voter was last active at.
+- **summary**:   A list of votes for each voter, respecting the last cleared vote index that this voter was  last active at.
 
 ▸ **candidacyBond**(): `Balance`
 - **summary**:   How much should be locked up in order to submit one's candidacy.
@@ -107,7 +98,7 @@ ___
 - **summary**:   Number of accounts that should be sitting on the council.
 
 ▸ **inactiveGracePeriod**(): `VoteIndex`
-- **summary**:   How many votes need to go by after a voter's last vote before they can be reaped if their  approvals are moot.
+- **summary**:   How many vote indexes need to go by after a target voter's last vote before they can be reaped if their  approvals are moot.
 
 ▸ **lastActiveOf**(`AccountId`): `VoteIndex`
 - **summary**:   The last cleared vote index that this voter was last active at.
@@ -240,6 +231,17 @@ ___
 ### <a id='grandpaFinality'></a>grandpaFinality
 
 ▸ **pendingChange**(): `StoredPendingChange`
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='indices'></a>indices
+
+▸ **enumSet**(`AccountIndex`): `Vec<AccountId>`
+- **summary**:   The enumeration sets.
+
+▸ **nextEnumSet**(): `AccountIndex`
+- **summary**:   The next free enumeration set.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -416,13 +418,6 @@ ___
 
 ▸ **spendPeriod**(): `BlockNumber`
 - **summary**:   Period between successive spends.
-
-___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
-
-### <a id='upgradeKey'></a>upgradeKey
-
-▸ **key**(): `AccountId`
 
 ---
 
