@@ -38,10 +38,11 @@ describe('derive', () => {
 
   beforeAll((done) => api.isReady.subscribe(() => done()));
 
-  testFunction(api)('balances', 'accountIdAndIndex', []);
-  testFunction(api)('balances', 'accountIdToIndex', []);
-  testFunction(api)('balances', 'accountIndexes', []);
-  testFunction(api)('balances', 'accountIndexToId', []);
+  testFunction(api)('accounts', 'idAndIndex', []);
+  testFunction(api)('accounts', 'idToIndex', []);
+  testFunction(api)('accounts', 'indexes', []);
+  testFunction(api)('accounts', 'indexToId', []);
+
   testFunction(api)('balances', 'fees', []);
   testFunction(api)('balances', 'validatingBalance', []);
   testFunction(api)('balances', 'validatingBalances', []);

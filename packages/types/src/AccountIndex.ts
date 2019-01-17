@@ -87,13 +87,6 @@ export default class AccountIndex extends U32 {
   }
 
   /**
-   * @description Returns the BN representation of the AccountIndex
-   */
-  toBn (): BN {
-    return new BN(this);
-  }
-
-  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
@@ -116,13 +109,5 @@ export default class AccountIndex extends U32 {
     const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   */
-  toU8a (isBare?: boolean): Uint8Array {
-    return super.toU8a(isBare);
   }
 }
