@@ -6,7 +6,7 @@ const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
 
 function main () {
   // Create our API with a default connection to the local node
-  ApiRx.create(provider).subscribe(async (api) => {
+  ApiRx.create().subscribe(async (api) => {
     // Use toPromise() with async/await to emit the last Observable value as a Promise
     const [accountNonce, blockPeriod, validators] = await Promise.all([
       api.query.system.accountNonce(Alice).pipe(first()).toPromise(),
