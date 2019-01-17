@@ -744,7 +744,7 @@
               "arguments": [
                 {
                   "name": "dest",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "value",
@@ -761,7 +761,7 @@
               "arguments": [
                 {
                   "name": "who",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "free",
@@ -1054,7 +1054,7 @@
               "arguments": [
                 {
                   "name": "target",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
               "documentation": []
@@ -1702,7 +1702,7 @@
                 },
                 {
                   "name": "who",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "who_index",
@@ -1755,7 +1755,7 @@
               "arguments": [
                 {
                   "name": "candidate",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "total",
@@ -1793,7 +1793,7 @@
               "arguments": [
                 {
                   "name": "who",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
               "documentation": [
@@ -2322,7 +2322,7 @@
                 },
                 {
                   "name": "beneficiary",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
               "documentation": [
@@ -2494,7 +2494,7 @@
               "arguments": [
                 {
                   "name": "dest",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "value",
@@ -2576,7 +2576,7 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
               "documentation": []
