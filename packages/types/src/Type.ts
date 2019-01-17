@@ -57,7 +57,7 @@ export default class Type extends Text {
       Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address'),
-      // alias Lookup::Source to Address
+      // alias Lookup::Source to Address (_could_ be AccountId on certain chains)
       Type._alias('Lookup::Source', 'Address'),
       // alias Lookup::Target to AccountId (always the case)
       Type._alias('Lookup::Target', 'AccountId'),
