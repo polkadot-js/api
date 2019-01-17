@@ -2007,6 +2007,8 @@
 </li>
 <li><p><strong><a href="#grandpa">grandpa</a></strong></p>
 </li>
+<li><p><strong><a href="#indices">indices</a></strong></p>
+</li>
 <li><p><strong><a href="#session">session</a></strong></p>
 </li>
 <li><p><strong><a href="#staking">staking</a></strong></p>
@@ -2018,8 +2020,6 @@
 <li><p><strong><a href="#timestamp">timestamp</a></strong></p>
 </li>
 <li><p><strong><a href="#treasury">treasury</a></strong></p>
-</li>
-<li><p><strong><a href="#upgradeKey">upgradeKey</a></strong></p>
 </li>
 </ul>
 <hr>
@@ -2063,7 +2063,7 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="contract"><a id="contract"></a>contract</h3>
-<p>&#x25B8; <strong>call</strong>(dest: <code>AccountId</code>, value: <code>Compact&lt;Balance&gt;</code>, gas_limit: <code>Compact&lt;Gas&gt;</code>, data: <code>Bytes</code>)</p>
+<p>&#x25B8; <strong>call</strong>(dest: <code>Address</code>, value: <code>Compact&lt;Balance&gt;</code>, gas_limit: <code>Compact&lt;Gas&gt;</code>, data: <code>Bytes</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Make a call to a specified account, optionally transferring some balance.  Make a call to a specified account, optionally transferring some balance.</li>
 </ul>
@@ -2126,7 +2126,7 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="democracy"><a id="democracy"></a>democracy</h3>
-<p>&#x25B8; <strong>cancelQueued</strong>(when: <code>BlockNumber</code>, which: <code>u32</code>)</p>
+<p>&#x25B8; <strong>cancelQueued</strong>(when: <code>Compact&lt;BlockNumber&gt;</code>, which: <code>Compact&lt;u32&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Cancel a proposal queued for enactment.</li>
 </ul>
@@ -2219,7 +2219,7 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="sudo"><a id="sudo"></a>sudo</h3>
-<p>&#x25B8; <strong>setKey</strong>(new: <code>AccountId</code>)</p>
+<p>&#x25B8; <strong>setKey</strong>(new: <code>Address</code>)</p>
 <p>&#x25B8; <strong>sudo</strong>(proposal: <code>Proposal</code>)</p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
@@ -2251,11 +2251,6 @@
 <ul>
 <li><strong>summary</strong>:   Set the balance of funds available to spend.</li>
 </ul>
-<hr>
-<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
-<h3 id="upgradekey"><a id="upgradeKey"></a>upgradeKey</h3>
-<p>&#x25B8; <strong>setKey</strong>(new: <code>AccountId</code>)</p>
-<p>&#x25B8; <strong>upgrade</strong>(new: <code>Bytes</code>)</p>
 
                                 
                                 </section>
@@ -2299,7 +2294,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-01-17T08:58:37.791Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T09:00:15.640Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-01-17T16:18:18.353Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T16:19:54.997Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

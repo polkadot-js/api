@@ -2003,6 +2003,8 @@
 </li>
 <li><p><strong><a href="#grandpa">grandpa</a></strong></p>
 </li>
+<li><p><strong><a href="#indices">indices</a></strong></p>
+</li>
 <li><p><strong><a href="#session">session</a></strong></p>
 </li>
 <li><p><strong><a href="#staking">staking</a></strong></p>
@@ -2013,13 +2015,11 @@
 </li>
 <li><p><strong><a href="#treasury">treasury</a></strong></p>
 </li>
-<li><p><strong><a href="#upgradeKey">upgradeKey</a></strong></p>
-</li>
 </ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="balances"><a id="balances"></a>balances</h3>
-<p>&#x25B8; <strong>NewAccount</strong>(<code>AccountId</code>, <code>AccountIndex</code>, <code>NewAccountOutcome</code>)</p>
+<p>&#x25B8; <strong>NewAccount</strong>(<code>AccountId</code>, <code>Balance</code>)</p>
 <ul>
 <li><strong>summary</strong>:   A new account was created.</li>
 </ul>
@@ -2113,6 +2113,13 @@
 </ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="indices"><a id="indices"></a>indices</h3>
+<p>&#x25B8; <strong>NewAccountIndex</strong>(<code>AccountId</code>, <code>AccountIndex</code>)</p>
+<ul>
+<li><strong>summary</strong>:   A new account was created.</li>
+</ul>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="session"><a id="session"></a>session</h3>
 <p>&#x25B8; <strong>NewSession</strong>(<code>BlockNumber</code>)</p>
 <ul>
@@ -2178,17 +2185,6 @@
 <ul>
 <li><strong>summary</strong>:   We have ended a spend period and will now allocate funds.</li>
 </ul>
-<hr>
-<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
-<h3 id="upgradekey"><a id="upgradeKey"></a>upgradeKey</h3>
-<p>&#x25B8; <strong>KeyChanged</strong>(<code>AccountId</code>)</p>
-<ul>
-<li><strong>summary</strong>:   An upgrade just happened; old key is supplied as an argument.</li>
-</ul>
-<p>&#x25B8; <strong>Upgraded</strong>()</p>
-<ul>
-<li><strong>summary</strong>:   An upgrade just happened.</li>
-</ul>
 
                                 
                                 </section>
@@ -2232,7 +2228,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Events (runtime)","level":"2.4","depth":1,"next":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]},{"title":"Display system events","level":"3.1.6","depth":2,"path":"examples/promise/08_system_events/README.md","ref":"examples/promise/08_system_events/README.md","articles":[]},{"title":"Transaction with events","level":"3.1.7","depth":2,"path":"examples/promise/09_transfer_events/README.md","ref":"examples/promise/09_transfer_events/README.md","articles":[]},{"title":"Upgrade via sudo","level":"3.1.8","depth":2,"path":"examples/promise/10_upgrade_chain/README.md","ref":"examples/promise/10_upgrade_chain/README.md","articles":[]}]},"previous":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EVENTS.md","mtime":"2019-01-17T08:58:37.791Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T09:00:15.640Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Events (runtime)","level":"2.4","depth":1,"next":{"title":"ApiPromise","level":"3.1","depth":1,"path":"examples/promise/README.md","ref":"examples/promise/README.md","articles":[{"title":"Simple connect","level":"3.1.1","depth":2,"path":"examples/promise/01_simple_connect/README.md","ref":"examples/promise/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.1.2","depth":2,"path":"examples/promise/02_listen_to_blocks/README.md","ref":"examples/promise/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},{"title":"Read chain state","level":"3.1.4","depth":2,"path":"examples/promise/05_read_storage/README.md","ref":"examples/promise/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]},{"title":"Display system events","level":"3.1.6","depth":2,"path":"examples/promise/08_system_events/README.md","ref":"examples/promise/08_system_events/README.md","articles":[]},{"title":"Transaction with events","level":"3.1.7","depth":2,"path":"examples/promise/09_transfer_events/README.md","ref":"examples/promise/09_transfer_events/README.md","articles":[]},{"title":"Upgrade via sudo","level":"3.1.8","depth":2,"path":"examples/promise/10_upgrade_chain/README.md","ref":"examples/promise/10_upgrade_chain/README.md","articles":[]}]},"previous":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EVENTS.md","mtime":"2019-01-17T16:18:18.353Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T16:19:54.997Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

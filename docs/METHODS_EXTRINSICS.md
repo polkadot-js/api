@@ -19,6 +19,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[grandpa](#grandpa)**
 
+- **[indices](#indices)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -30,8 +32,6 @@ _The following sections contain Extrinsics methods are part of the default Subst
 - **[timestamp](#timestamp)**
 
 - **[treasury](#treasury)**
-
-- **[upgradeKey](#upgradeKey)**
 
 
 ___
@@ -73,7 +73,7 @@ ___
 
 ### <a id='contract'></a>contract
 
-▸ **call**(dest: `AccountId`, value: `Compact<Balance>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
+▸ **call**(dest: `Address`, value: `Compact<Balance>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
 - **summary**:   Make a call to a specified account, optionally transferring some balance.  Make a call to a specified account, optionally transferring some balance.
 
 ▸ **create**(endowment: `Compact<Balance>`, gas_limit: `Compact<Gas>`, ctor_code: `Bytes`, data: `Bytes`)
@@ -140,7 +140,7 @@ ___
 
 ### <a id='democracy'></a>democracy
 
-▸ **cancelQueued**(when: `BlockNumber`, which: `u32`)
+▸ **cancelQueued**(when: `Compact<BlockNumber>`, which: `Compact<u32>`)
 - **summary**:   Cancel a proposal queued for enactment.
 
 ▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
@@ -222,7 +222,7 @@ ___
 
 ### <a id='sudo'></a>sudo
 
-▸ **setKey**(new: `AccountId`)
+▸ **setKey**(new: `Address`)
 
 ▸ **sudo**(proposal: `Proposal`)
 
@@ -253,12 +253,3 @@ ___
 
 ▸ **setPot**(new_pot: `Compact<Balance>`)
 - **summary**:   Set the balance of funds available to spend.
-
-___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
-
-### <a id='upgradeKey'></a>upgradeKey
-
-▸ **setKey**(new: `AccountId`)
-
-▸ **upgrade**(new: `Bytes`)

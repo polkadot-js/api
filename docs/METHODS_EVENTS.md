@@ -15,6 +15,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[grandpa](#grandpa)**
 
+- **[indices](#indices)**
+
 - **[session](#session)**
 
 - **[staking](#staking)**
@@ -25,15 +27,13 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[treasury](#treasury)**
 
-- **[upgradeKey](#upgradeKey)**
-
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='balances'></a>balances
 
-▸ **NewAccount**(`AccountId`, `AccountIndex`, `NewAccountOutcome`)
+▸ **NewAccount**(`AccountId`, `Balance`)
 - **summary**:   A new account was created.
 
 ▸ **ReapedAccount**(`AccountId`)
@@ -129,6 +129,14 @@ ___
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
+### <a id='indices'></a>indices
+
+▸ **NewAccountIndex**(`AccountId`, `AccountIndex`)
+- **summary**:   A new account was created.
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
 ### <a id='session'></a>session
 
 ▸ **NewSession**(`BlockNumber`)
@@ -189,14 +197,3 @@ ___
 
 ▸ **Spending**(`Balance`)
 - **summary**:   We have ended a spend period and will now allocate funds.
-
-___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
-
-### <a id='upgradeKey'></a>upgradeKey
-
-▸ **KeyChanged**(`AccountId`)
-- **summary**:   An upgrade just happened; old key is supplied as an argument.
-
-▸ **Upgraded**()
-- **summary**:   An upgrade just happened.

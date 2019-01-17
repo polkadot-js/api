@@ -7,12 +7,12 @@ import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
-import { accountIndexes, AccountIndexes } from './accountIndexes';
+import { indexes, AccountIndexes } from './indexes';
 import { drr } from '../util/drr';
 
-export function accountIdToIndex (api: ApiInterface$Rx) {
+export function idToIndex (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<AccountIndex> =>
-    accountIndexes(api)()
+    indexes(api)()
       .pipe(
         map((indexes: AccountIndexes) => (indexes || {})[accountId.toString()]),
         drr()

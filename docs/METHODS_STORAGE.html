@@ -2007,6 +2007,8 @@
 </li>
 <li><p><strong><a href="#grandpa">grandpa</a></strong></p>
 </li>
+<li><p><strong><a href="#indices">indices</a></strong></p>
+</li>
 <li><p><strong><a href="#session">session</a></strong></p>
 </li>
 <li><p><strong><a href="#staking">staking</a></strong></p>
@@ -2019,8 +2021,6 @@
 </li>
 <li><p><strong><a href="#treasury">treasury</a></strong></p>
 </li>
-<li><p><strong><a href="#upgradeKey">upgradeKey</a></strong></p>
-</li>
 <li><p><strong><a href="#substrate">substrate</a></strong></p>
 </li>
 </ul>
@@ -2031,10 +2031,6 @@
 <ul>
 <li><strong>summary</strong>:   The fee required to create an account. At least as big as ReclaimRebate.</li>
 </ul>
-<p>&#x25B8; <strong>enumSet</strong>(<code>AccountIndex</code>): <code>Vec&lt;AccountId&gt;</code></p>
-<ul>
-<li><strong>summary</strong>:   The enumeration sets.</li>
-</ul>
 <p>&#x25B8; <strong>existentialDeposit</strong>(): <code>Balance</code></p>
 <ul>
 <li><strong>summary</strong>:   The minimum amount allowed to keep an account open.</li>
@@ -2042,14 +2038,6 @@
 <p>&#x25B8; <strong>freeBalance</strong>(<code>AccountId</code>): <code>Balance</code></p>
 <ul>
 <li><strong>summary</strong>:   The &apos;free&apos; balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It is  alone used to determine the balance when in the contract execution environment. When this  balance falls below the value of <code>ExistentialDeposit</code>, then the &apos;current account&apos; is  deleted: specifically <code>FreeBalance</code>. Furthermore, <code>OnFreeBalanceZero</code> callback  is invoked, giving a chance to external modules to cleanup data associated with  the deleted account.   <code>system::AccountNonce</code> is also deleted if <code>ReservedBalance</code> is also zero (it also gets  collapsed to zero if it ever becomes less than <code>ExistentialDeposit</code>.</li>
-</ul>
-<p>&#x25B8; <strong>nextEnumSet</strong>(): <code>AccountIndex</code></p>
-<ul>
-<li><strong>summary</strong>:   The next free enumeration set.</li>
-</ul>
-<p>&#x25B8; <strong>reclaimRebate</strong>(): <code>Balance</code></p>
-<ul>
-<li><strong>summary</strong>:   The amount credited to a destination&apos;s account whose index was reclaimed.</li>
 </ul>
 <p>&#x25B8; <strong>reservedBalance</strong>(<code>AccountId</code>): <code>Balance</code></p>
 <ul>
@@ -2080,11 +2068,11 @@
 <h3 id="council"><a id="council"></a>council</h3>
 <p>&#x25B8; <strong>activeCouncil</strong>(): <code>Vec&lt;(AccountId,BlockNumber)&gt;</code></p>
 <ul>
-<li><strong>summary</strong>:   The current council. When there&apos;s a vote going on, this should still be used for executive  matters.</li>
+<li><strong>summary</strong>:   The current council. When there&apos;s a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the council member was elected  and their term duration).</li>
 </ul>
 <p>&#x25B8; <strong>approvalsOf</strong>(<code>AccountId</code>): <code>Vec&lt;bool&gt;</code></p>
 <ul>
-<li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
+<li><strong>summary</strong>:   A list of votes for each voter, respecting the last cleared vote index that this voter was  last active at.</li>
 </ul>
 <p>&#x25B8; <strong>candidacyBond</strong>(): <code>Balance</code></p>
 <ul>
@@ -2105,7 +2093,7 @@
 </ul>
 <p>&#x25B8; <strong>inactiveGracePeriod</strong>(): <code>VoteIndex</code></p>
 <ul>
-<li><strong>summary</strong>:   How many votes need to go by after a voter&apos;s last vote before they can be reaped if their  approvals are moot.</li>
+<li><strong>summary</strong>:   How many vote indexes need to go by after a target voter&apos;s last vote before they can be reaped if their  approvals are moot.</li>
 </ul>
 <p>&#x25B8; <strong>lastActiveOf</strong>(<code>AccountId</code>): <code>VoteIndex</code></p>
 <ul>
@@ -2255,6 +2243,17 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="grandpafinality"><a id="grandpaFinality"></a>grandpaFinality</h3>
 <p>&#x25B8; <strong>pendingChange</strong>(): <code>StoredPendingChange</code></p>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="indices"><a id="indices"></a>indices</h3>
+<p>&#x25B8; <strong>enumSet</strong>(<code>AccountIndex</code>): <code>Vec&lt;AccountId&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   The enumeration sets.</li>
+</ul>
+<p>&#x25B8; <strong>nextEnumSet</strong>(): <code>AccountIndex</code></p>
+<ul>
+<li><strong>summary</strong>:   The next free enumeration set.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="session"><a id="session"></a>session</h3>
@@ -2452,10 +2451,6 @@
 <li><strong>summary</strong>:   Period between successive spends.</li>
 </ul>
 <hr>
-<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
-<h3 id="upgradekey"><a id="upgradeKey"></a>upgradeKey</h3>
-<p>&#x25B8; <strong>key</strong>(): <code>AccountId</code></p>
-<hr>
 <h3 id="substrate">substrate</h3>
 <p><em>These are keys that are always available to the runtime implementation</em></p>
 <p>&#x25B8; <strong>authorityCount</strong>(): <code>u32</code></p>
@@ -2526,7 +2521,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-01-17T08:58:37.791Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T09:00:15.640Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-01-17T16:18:18.357Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T16:19:54.997Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

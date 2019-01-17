@@ -22,14 +22,28 @@
         ]
       ],
       [
+        "indices",
+        [
+          {
+            "name": "NewAccountIndex",
+            "arguments": [
+              "AccountId",
+              "AccountIndex"
+            ],
+            "documentation": [
+              " A new account was created."
+            ]
+          }
+        ]
+      ],
+      [
         "balances",
         [
           {
             "name": "NewAccount",
             "arguments": [
               "AccountId",
-              "AccountIndex",
-              "NewAccountOutcome"
+              "Balance"
             ],
             "documentation": [
               " A new account was created."
@@ -385,27 +399,6 @@
         ]
       ],
       [
-        "upgrade_key",
-        [
-          {
-            "name": "Upgraded",
-            "arguments": [],
-            "documentation": [
-              " An upgrade just happened."
-            ]
-          },
-          {
-            "name": "KeyChanged",
-            "arguments": [
-              "AccountId"
-            ],
-            "documentation": [
-              " An upgrade just happened; old key is supplied as an argument."
-            ]
-          }
-        ]
-      ],
-      [
         "sudo",
         [
           {
@@ -703,6 +696,42 @@
       }
     },
     {
+      "prefix": "indices",
+      "module": {
+        "name": "Module",
+        "call": {
+          "name": "Call",
+          "functions": []
+        }
+      },
+      "storage": {
+        "prefix": "Indices",
+        "functions": [
+          {
+            "name": "NextEnumSet",
+            "modifier": 1,
+            "type": "AccountIndex",
+            "default": "0x00000000",
+            "documentation": [
+              " The next free enumeration set."
+            ]
+          },
+          {
+            "name": "EnumSet",
+            "modifier": 1,
+            "type": {
+              "key": "AccountIndex",
+              "value": "Vec<AccountId>"
+            },
+            "default": "0x00",
+            "documentation": [
+              " The enumeration sets."
+            ]
+          }
+        ]
+      }
+    },
+    {
       "prefix": "balances",
       "module": {
         "name": "Module",
@@ -772,15 +801,6 @@
             ]
           },
           {
-            "name": "ReclaimRebate",
-            "modifier": 1,
-            "type": "Balance",
-            "default": "0x00000000000000000000000000000000",
-            "documentation": [
-              " The amount credited to a destination's account whose index was reclaimed."
-            ]
-          },
-          {
             "name": "TransferFee",
             "modifier": 1,
             "type": "Balance",
@@ -796,27 +816,6 @@
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee required to create an account. At least as big as ReclaimRebate."
-            ]
-          },
-          {
-            "name": "NextEnumSet",
-            "modifier": 1,
-            "type": "AccountIndex",
-            "default": "0x00000000",
-            "documentation": [
-              " The next free enumeration set."
-            ]
-          },
-          {
-            "name": "EnumSet",
-            "modifier": 1,
-            "type": {
-              "key": "AccountIndex",
-              "value": "Vec<AccountId>"
-            },
-            "default": "0x00",
-            "documentation": [
-              " The enumeration sets."
             ]
           },
           {
@@ -1493,11 +1492,11 @@
               "arguments": [
                 {
                   "name": "when",
-                  "type": "BlockNumber"
+                  "type": "Compact<BlockNumber>"
                 },
                 {
                   "name": "which",
-                  "type": "u32"
+                  "type": "Compact<u32>"
                 }
               ],
               "documentation": [
@@ -1888,7 +1887,7 @@
             "type": "VoteIndex",
             "default": "0x01000000",
             "documentation": [
-              " How many votes need to go by after a voter's last vote before they can be reaped if their",
+              " How many vote indexes need to go by after a target voter's last vote before they can be reaped if their",
               " approvals are moot."
             ]
           },
@@ -1926,7 +1925,9 @@
             "default": "0x00",
             "documentation": [
               " The current council. When there's a vote going on, this should still be used for executive",
-              " matters."
+              " matters. The block number (second element in the tuple) is the block that their position is",
+              " active until (calculated by the sum of the block number when the council member was elected",
+              " and their term duration)."
             ]
           },
           {
@@ -1947,7 +1948,8 @@
             },
             "default": "0x00",
             "documentation": [
-              " The last cleared vote index that this voter was last active at."
+              " A list of votes for each voter, respecting the last cleared vote index that this voter was",
+              " last active at."
             ]
           },
           {
@@ -2492,7 +2494,7 @@
               "arguments": [
                 {
                   "name": "dest",
-                  "type": "AccountId"
+                  "type": "Address"
                 },
                 {
                   "name": "value",
@@ -2551,51 +2553,6 @@
       "storage": null
     },
     {
-      "prefix": "upgrade_key",
-      "module": {
-        "name": "Module",
-        "call": {
-          "name": "Call",
-          "functions": [
-            {
-              "id": 0,
-              "name": "upgrade",
-              "arguments": [
-                {
-                  "name": "new",
-                  "type": "Bytes"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "id": 1,
-              "name": "set_key",
-              "arguments": [
-                {
-                  "name": "new",
-                  "type": "AccountId"
-                }
-              ],
-              "documentation": []
-            }
-          ]
-        }
-      },
-      "storage": {
-        "prefix": "UpgradeKey",
-        "functions": [
-          {
-            "name": "Key",
-            "modifier": 1,
-            "type": "AccountId",
-            "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
-            "documentation": []
-          }
-        ]
-      }
-    },
-    {
       "prefix": "sudo",
       "module": {
         "name": "Module",
@@ -2619,7 +2576,7 @@
               "arguments": [
                 {
                   "name": "new",
-                  "type": "AccountId"
+                  "type": "Address"
                 }
               ],
               "documentation": []
@@ -2655,58 +2612,58 @@
         "index": 1
       },
       {
+        "name": "Indices",
+        "prefix": "indices",
+        "index": 2
+      },
+      {
         "name": "Balances",
         "prefix": "balances",
-        "index": 2
+        "index": 3
       },
       {
         "name": "Session",
         "prefix": "session",
-        "index": 3
+        "index": 4
       },
       {
         "name": "Staking",
         "prefix": "staking",
-        "index": 4
+        "index": 5
       },
       {
         "name": "Democracy",
         "prefix": "democracy",
-        "index": 5
+        "index": 6
       },
       {
         "name": "Council",
         "prefix": "council",
-        "index": 6
+        "index": 7
       },
       {
         "name": "CouncilVoting",
         "prefix": "council_voting",
-        "index": 7
+        "index": 8
       },
       {
         "name": "CouncilMotions",
         "prefix": "council_motions",
-        "index": 8
+        "index": 9
       },
       {
         "name": "Grandpa",
         "prefix": "grandpa",
-        "index": 9
+        "index": 10
       },
       {
         "name": "Treasury",
         "prefix": "treasury",
-        "index": 10
+        "index": 11
       },
       {
         "name": "Contract",
         "prefix": "contract",
-        "index": 11
-      },
-      {
-        "name": "UpgradeKey",
-        "prefix": "upgrade_key",
         "index": 12
       },
       {

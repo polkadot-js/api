@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, bnToU8a, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
+import { bnToBn, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
 
 import { AnyNumber } from './types';
 import UInt from './codec/UInt';
@@ -87,13 +87,6 @@ export default class AccountIndex extends U32 {
   }
 
   /**
-   * @description Returns the BN representation of the AccountIndex
-   */
-  toBn (): BN {
-    return new BN(this);
-  }
-
-  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
@@ -116,22 +109,5 @@ export default class AccountIndex extends U32 {
     const length = AccountIndex.calcLength(this);
 
     return encodeAddress(this.toU8a().subarray(0, length));
-  }
-
-  /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
-   * @param isBare true when the value has none of the type-specific prefixes (internal)
-   * @param isStorageKey true when encoded as part of a key, taking case of specific logic
-   */
-  toU8a (isBare?: boolean, isStorageKey?: boolean): Uint8Array {
-    // HACK 15 Oct 2018 For isStorageKey assume that we are dealing with an AccountIndex
-    // lookup (it is the only place where AccountIndex is used in such a manner to
-    // construct a query). This is needed to get enumSet(AccountIndex) queries to
-    // work in the way it was intended
-    if (isStorageKey) {
-      return bnToU8a(this.div(ENUMSET_SIZE), 32, true);
-    }
-
-    return super.toU8a(isBare);
   }
 }
