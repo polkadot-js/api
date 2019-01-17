@@ -57,6 +57,10 @@ export default class Type extends Text {
       Type._alias('Vec<u8>', 'Bytes'),
       // alias RawAddress -> Address
       Type._alias('RawAddress', 'Address'),
+      // alias Lookup::Source to Address
+      Type._alias('Lookup::Source', 'Address'),
+      // alias Lookup::Target to AccountId (always the case)
+      Type._alias('Lookup::Target', 'AccountId'),
       // flattens tuples with one value, `(AccountId)` -> `AccountId`
       Type._flattenSingleTuple()
     ];
@@ -187,10 +191,16 @@ export default class Type extends Text {
         .replace(/\s/g, '')
         // anything `T::<type>` to end up as `<type>`
         .replace(/T::/g, '')
+        // anything `Self::<type>` to end up as `<type>`
+        .replace(/Self::/g, '')
         // `system::` with `` - basically we find `<T as system::Trait>`
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (whitespaces were removed above)
         .replace(/<TasTrait>::/g, '')
+        // replace `<Self as Trait>::` (whitespaces were removed above)
+        .replace(/<SelfasTrait>::/g, '')
+        // replace <Lookup as StaticLookup>
+        .replace(/<LookupasStaticLookup>/g, 'Lookup')
         // replace `<...>::Type`
         .replace(/::Type/g, '');
     };
