@@ -47,7 +47,7 @@ describe.skip('derive e2e', () => {
 
   // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe.only('accounts', () => {
+  describe('accounts', () => {
     const ID = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
     const IX = 'F7Gh';
 
