@@ -47,11 +47,12 @@ describe.skip('derive e2e', () => {
 
   // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
-  describe('accounts', () => {
+  describe.only('accounts', () => {
     const ID = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
     const IX = 'F7Gh';
 
     it('looks up id & index from id', async (done) => {
+      // @ts-ignore silence warning until we have static types here
       api.derive.accounts.idAndIndex(ID).subscribe(([id, ix]) => {
         expect(id.toString()).toEqual(ID);
         expect(ix.toString()).toEqual(IX);
@@ -60,6 +61,7 @@ describe.skip('derive e2e', () => {
     });
 
     it('looks up id & index from index', async (done) => {
+      // @ts-ignore silence warning until we have static types here
       api.derive.accounts.idAndIndex(IX).subscribe(([id, ix]) => {
         expect(id.toString()).toEqual(ID);
         expect(ix.toString()).toEqual(IX);

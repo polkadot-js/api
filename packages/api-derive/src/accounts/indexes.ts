@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
@@ -20,7 +19,7 @@ export function indexes (api: ApiInterface$Rx) {
     return (querySection.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
         map((next: AccountIndex) => {
-          const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()];
+          const enumRange = [...Array(next.div(ENUMSET_SIZE).toNumber() + 1).keys()];
 
           return enumRange;
         }),
