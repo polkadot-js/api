@@ -41,9 +41,8 @@ export interface Codec {
   /**
    * @description Encodes the value as a Uint8Array as per the parity-codec specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
-   * @param isStorageKey true when encoded as part of a key, taking case of specific logic
    */
-  toU8a (isBare?: boolean, isStorageKey?: boolean): Uint8Array;
+  toU8a (isBare?: boolean): Uint8Array;
 }
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';

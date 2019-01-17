@@ -11,15 +11,16 @@ import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
-export function accountIndexToId (api: ApiInterface$Rx) {
-  return (accountIndex: AccountIndex | string): Observable<AccountId> => {
-    const _accountIndex = accountIndex instanceof AccountIndex
-      ? accountIndex
-      : new AccountIndex(accountIndex);
+export function indexToId (api: ApiInterface$Rx) {
+  return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
+    const querySection = api.query.indices || api.query.balances;
+    const accountIndex = _accountIndex instanceof AccountIndex
+      ? _accountIndex
+      : new AccountIndex(_accountIndex);
 
-    return (api.query.balances.enumSet(accountIndex) as Observable<Vector<AccountId>>)
+    return (querySection.enumSet(accountIndex.div(ENUMSET_SIZE)) as Observable<Vector<AccountId>>)
       .pipe(
-        map((accounts) => (accounts || [])[_accountIndex.mod(ENUMSET_SIZE).toNumber()]),
+        map((accounts) => (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]),
         drr()
       );
   };

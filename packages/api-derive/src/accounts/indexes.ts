@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
@@ -13,17 +12,19 @@ import { drr } from '../util/drr';
 
 export type AccountIndexes = { [index: string]: AccountIndex };
 
-export function accountIndexes (api: ApiInterface$Rx) {
-  return (): Observable<AccountIndexes> =>
-    (api.query.balances.nextEnumSet() as Observable<AccountIndex>)
+export function indexes (api: ApiInterface$Rx) {
+  return (): Observable<AccountIndexes> => {
+    const querySection = api.query.indices || api.query.balances;
+
+    return (querySection.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
         map((next: AccountIndex) => {
-          const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()];
+          const enumRange = [...Array(next.div(ENUMSET_SIZE).toNumber() + 1).keys()];
 
           return enumRange;
         }),
         switchMap((enumRange) => combineLatest(
-          enumRange.map((index) => (api.query.balances.enumSet(index) as Observable<any>))
+          enumRange.map((index) => (querySection.enumSet(index) as Observable<any>))
         )),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
@@ -37,4 +38,5 @@ export function accountIndexes (api: ApiInterface$Rx) {
           }, {} as AccountIndexes)),
         drr()
       );
+  };
 }

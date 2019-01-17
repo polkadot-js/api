@@ -40,10 +40,7 @@ export default function createFunction (section: Text | string, method: Text | s
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-
-      // encode with full encoding, indicating that this is a storage key to allow any
-      // specific encoding to take place (and example here is AccountIndex)
-      const param = createType(type, arg).toU8a(false, true);
+      const param = createType(type, arg).toU8a(false);
 
       key = u8aConcat(key, param);
     }
