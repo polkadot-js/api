@@ -7,7 +7,7 @@ import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Balance } from '@polkadot/types/index';
 
-import { accountIdAndIndex } from './accountIdAndIndex';
+import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 
@@ -15,7 +15,7 @@ const EMPTY_ACCOUNT = new AccountId(new Uint8Array(32));
 
 export function votingBalance (api: ApiInterface$Rx) {
   return (address: AccountIndex | AccountId | string): Observable<DerivedBalances> => {
-    return accountIdAndIndex(api)(address).pipe(
+    return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
         (accountId
           ? combineLatest(
@@ -26,9 +26,9 @@ export function votingBalance (api: ApiInterface$Rx) {
           : of([undefined, undefined, undefined])
         ) as Observable<[AccountId?, Balance?, Balance?]>
       ),
-      map(([accountId, freeBalance = new Balance(0), reservedBalance = new Balance(0)]) => {
+      map(([accountId = EMPTY_ACCOUNT, freeBalance = new Balance(0), reservedBalance = new Balance(0)]) => {
         return {
-          accountId: accountId || EMPTY_ACCOUNT,
+          accountId,
           freeBalance,
           nominatedBalance: new Balance(0),
           reservedBalance,

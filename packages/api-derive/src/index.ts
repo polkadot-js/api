@@ -4,6 +4,7 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 
+import * as accounts from './accounts';
 import * as balances from './balances';
 import * as chain from './chain';
 import * as democracy from './democracy';
@@ -12,7 +13,7 @@ import * as staking from './staking';
 import { cache } from './util/cache';
 
 // Put all derived functions in an object, for easier Object.keys()-ing.
-const functions = { balances, chain, democracy, session, staking };
+const functions = { accounts, balances, chain, democracy, session, staking };
 
 /**
  * T represents the section here (chain, balances...), and P represents
@@ -23,6 +24,7 @@ type ReturnTypes<T extends Record<keyof T, (...args: any[]) => any>> = {
 };
 
 export interface Derive {
+  accounts: ReturnTypes<typeof accounts>;
   balances: ReturnTypes<typeof balances>;
   chain: ReturnTypes<typeof chain>;
   democracy: ReturnTypes<typeof democracy>;

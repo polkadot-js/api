@@ -8,7 +8,8 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
 import { WsProvider } from '@polkadot/rpc-provider/index';
 
-const WS = 'wss://poc3-rpc.polkadot.io/';
+const WS_LOCAL = 'ws://127.0.0.1:9944/';
+// const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiInterface$Rx;
@@ -18,7 +19,7 @@ describe.skip('derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiRx.create(new WsProvider(WS)).toPromise();
+    api = await ApiRx.create(new WsProvider(WS_LOCAL)).toPromise();
     done();
   });
 
@@ -41,6 +42,29 @@ describe.skip('derive e2e', () => {
     api.derive.staking.intentionsBalances().subscribe((balances) => {
       expect(Object.keys(balances as object)).not.toHaveLength(0);
       done();
+    });
+  });
+
+  // these only work on localhost, not the poc-3 URL
+  // (and it is assuming it sent at least 1 tx)
+  describe('accounts', () => {
+    const ID = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+    const IX = 'F7Gh';
+
+    it('looks up id & index from id', async (done) => {
+      api.derive.accounts.idAndIndex(ID).subscribe(([id, ix]) => {
+        expect(id.toString()).toEqual(ID);
+        expect(ix.toString()).toEqual(IX);
+        done();
+      });
+    });
+
+    it('looks up id & index from index', async (done) => {
+      api.derive.accounts.idAndIndex(IX).subscribe(([id, ix]) => {
+        expect(id.toString()).toEqual(ID);
+        expect(ix.toString()).toEqual(IX);
+        done();
+      });
     });
   });
 

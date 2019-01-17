@@ -8,14 +8,14 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
 import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
-import { accountIdToIndex } from './accountIdToIndex';
-import { accountIndexToId } from './accountIndexToId';
+import { idToIndex } from './idToIndex';
+import { indexToId } from './indexToId';
 import { drr } from '../util/drr';
 
-export type IdAndIndex = [AccountId?, AccountIndex?];
+export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 
-export function accountIdAndIndex (api: ApiInterface$Rx) {
-  return (address?: AccountId | AccountIndex | string | null): Observable<IdAndIndex> => {
+export function idAndIndex (api: ApiInterface$Rx) {
+  return (address?: AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
       const decoded = decodeAddress(address as any);
@@ -23,20 +23,20 @@ export function accountIdAndIndex (api: ApiInterface$Rx) {
       if (decoded.length === 32) {
         const accountId = new AccountId(decoded);
 
-        return accountIdToIndex(api)(accountId).pipe(
-          map((accountIndex) => [accountId, accountIndex] as IdAndIndex),
+        return idToIndex(api)(accountId).pipe(
+          map((accountIndex) => [accountId, accountIndex] as AccountIdAndIndex),
           drr()
         );
       }
 
-      const accountIndex = new AccountIndex(address as string);
+      const accountIndex = new AccountIndex(decoded);
 
-      return accountIndexToId(api)(accountIndex).pipe(
-        map((accountId) => [accountId, accountIndex] as IdAndIndex),
+      return indexToId(api)(accountIndex).pipe(
+        map((accountId) => [accountId, accountIndex] as AccountIdAndIndex),
         drr()
       );
     } catch (error) {
-      return of([undefined, undefined] as IdAndIndex).pipe(drr());
+      return of([undefined, undefined] as AccountIdAndIndex).pipe(drr());
     }
   };
 }

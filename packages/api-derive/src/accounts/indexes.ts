@@ -13,9 +13,11 @@ import { drr } from '../util/drr';
 
 export type AccountIndexes = { [index: string]: AccountIndex };
 
-export function accountIndexes (api: ApiInterface$Rx) {
-  return (): Observable<AccountIndexes> =>
-    (api.query.balances.nextEnumSet() as Observable<AccountIndex>)
+export function indexes (api: ApiInterface$Rx) {
+  return (): Observable<AccountIndexes> => {
+    const querySection = api.query.indices || api.query.balances;
+
+    return (querySection.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
         map((next: AccountIndex) => {
           const enumRange = [...Array((next || new BN(0)).div(ENUMSET_SIZE).toNumber() + 1).keys()];
@@ -23,7 +25,7 @@ export function accountIndexes (api: ApiInterface$Rx) {
           return enumRange;
         }),
         switchMap((enumRange) => combineLatest(
-          enumRange.map((index) => (api.query.balances.enumSet(index) as Observable<any>))
+          enumRange.map((index) => (querySection.enumSet(index) as Observable<any>))
         )),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
@@ -37,4 +39,5 @@ export function accountIndexes (api: ApiInterface$Rx) {
           }, {} as AccountIndexes)),
         drr()
       );
+  };
 }
