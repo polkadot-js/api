@@ -8,7 +8,7 @@
 
 **Ƭ DerivedBalances**: *`object`*
 
-*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L7)*
+*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/types.ts#L8)*
 
 #### Type declaration
 
@@ -19,11 +19,22 @@ ___
 
 **Ƭ DerivedBalancesMap**: *`object`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L17)*
+*Defined in [types.ts:26](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/types.ts#L26)*
 
 #### Type declaration
 
 [index: `string`]: [DerivedBalances](_types_.md#derivedbalances)
+
+___
+<a id="derivedfees"></a>
+
+##  DerivedFees
+
+**Ƭ DerivedFees**: *`object`*
+
+*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/types.ts#L18)*
+
+#### Type declaration
 
 ___
 <a id="derivedreferendumvote"></a>
@@ -32,7 +43,7 @@ ___
 
 **Ƭ DerivedReferendumVote**: *`object`*
 
-*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/types.ts#L21)*
+*Defined in [types.ts:30](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/types.ts#L30)*
 
 #### Type declaration
 

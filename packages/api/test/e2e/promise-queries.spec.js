@@ -12,10 +12,10 @@ const keyring = testingPairs();
 describe.skip('e2e queries', () => {
   let api;
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     api = await Api.create();
-
-    // console.error(api);
+    jest.setTimeout(30000);
+    done();
   });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {
@@ -25,6 +25,7 @@ describe.skip('e2e queries', () => {
     expect(api.rpc).toBeDefined();
     expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
+    expect(api.derive).toBeDefined();
   });
 
   it('queries state for a balance', async () => {

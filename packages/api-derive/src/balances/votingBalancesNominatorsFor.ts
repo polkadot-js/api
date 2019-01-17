@@ -3,19 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { switchMap } from 'rxjs/operators';
+import { ApiInterface$Rx } from '@polkadot/api/types';
+import { Vector } from '@polkadot/types/codec';
 import { AccountId } from '@polkadot/types/index';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
-export function votingBalancesNominatorsFor (api: ApiRx) {
-  return (accountId: AccountId | string): Observable<Array<DerivedBalances>> =>
-    (api.query.staking.nominatorsFor(accountId) as Observable<Array<AccountId | undefined | null> | undefined>).pipe(
-      map((nominators) => nominators || []),
-      switchMap(votingBalances(api)),
-      drr()
-    );
+export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
+  return (accountId: AccountId | string): Observable<Array<DerivedBalances>> => {
+    // tslint:disable-next-line
+    return (api.query.staking.nominatorsFor(accountId) as Observable<Vector<AccountId>>)
+      .pipe(
+        switchMap(votingBalances(api)),
+        drr()
+      ) as Observable<Array<DerivedBalances>>;
+  };
 }

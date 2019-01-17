@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber, Header } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
@@ -12,9 +12,9 @@ import { drr } from '../util/drr';
 /**
  * Get the latest block number.
  */
-export function bestNumber (api: ApiRx) {
+export function bestNumber (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>
-    api.rpc.chain.subscribeNewHead()
+    (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
         filter((header: Header) => header && !!header.blockNumber),
         map(({ blockNumber }: Header) => blockNumber),

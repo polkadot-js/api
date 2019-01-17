@@ -6,15 +6,15 @@
 
 ##  fees
 
-▸ **fees**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **fees**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [balances/fees.ts:12](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/balances/fees.ts#L12)*
+*Defined in [balances/fees.ts:13](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/balances/fees.ts#L13)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

@@ -6,9 +6,9 @@
 
 ##  bestNumberFinalised
 
-▸ **bestNumberFinalised**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **bestNumberFinalised**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/bestNumberFinalised.ts:15](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/chain/bestNumberFinalised.ts#L15)*
+*Defined in [chain/bestNumberFinalised.ts:15](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/chain/bestNumberFinalised.ts#L15)*
 
 Get the latest finalised block number.
 
@@ -16,7 +16,7 @@ Get the latest finalised block number.
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

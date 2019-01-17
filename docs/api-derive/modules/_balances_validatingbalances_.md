@@ -6,15 +6,15 @@
 
 ##  validatingBalances
 
-▸ **validatingBalances**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **validatingBalances**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [balances/validatingBalances.ts:14](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/balances/validatingBalances.ts#L14)*
+*Defined in [balances/validatingBalances.ts:14](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/balances/validatingBalances.ts#L14)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

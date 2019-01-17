@@ -18,15 +18,15 @@
 
 ##  decorateDerive
 
-▸ **decorateDerive**(api: *`ApiRx`*): [Derive](../interfaces/_index_.derive.md)
+▸ **decorateDerive**(api: *`ApiInterface$Rx`*): [Derive](../interfaces/_index_.derive.md)
 
-*Defined in [index.ts:31](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/index.ts#L31)*
+*Defined in [index.ts:33](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/index.ts#L33)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** [Derive](../interfaces/_index_.derive.md)
 

@@ -2,27 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcRxInterface$Method } from '@polkadot/rpc-rx/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction, PromiseSubscription } from './types';
+import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
 
-import { EMPTY } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
-import Rpc from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
-import { Storage } from '@polkadot/storage/types';
-import { Hash } from '@polkadot/types/index';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, first, tap } from 'rxjs/operators';
 import { Codec } from '@polkadot/types/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
-import { StorageFunction } from '@polkadot/types/StorageKey';
-import { isFunction, logger, assert } from '@polkadot/util';
+import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
-import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-const l = logger('api/promise');
+type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
 
 /**
  * # @polkadot/api/promise
@@ -110,7 +102,7 @@ const l = logger('api/promise');
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, SubmittableExtrinsics> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -173,65 +165,6 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: Rpc): DecoratedRpc {
-    const names = ['author', 'chain', 'state', 'system'] as Array<keyof DecoratedRpc>;
-    const rpcrx = new RpcRx(rpc);
-
-    return names.reduce((result, section) => {
-      result[section] = Object.keys(rpcrx[section]).reduce((fns, method) => {
-        fns[method] = this.decorateMethod(
-          rpcrx[section][method],
-          isFunction(rpc[section][method].unsubscribe)
-        );
-
-        return fns;
-      }, {} as DecoratedRpc$Section);
-
-      return result;
-    }, {} as DecoratedRpc);
-  }
-
-  protected decorateMethod (rxfn: RpcRxInterface$Method, isSubscription: boolean): DecoratedRpc$Method {
-    if (!isSubscription) {
-      return (...params: Array<any>): Promise<any> =>
-        rxfn(...params).toPromise();
-    }
-
-    return (..._params: Array<any>): PromiseSubscription => {
-      const cb = _params[_params.length - 1];
-
-      assert(isFunction(cb), 'Expected callback as last paramater for subscription');
-
-      return new Promise((resolve, reject) => {
-        let isCompleted = false;
-        const params = _params.slice(0, _params.length - 1);
-        const subscription = rxfn(...params)
-          .pipe(
-            // if we find an error (invalid params, etc), reject the promise
-            catchError((error) => {
-              if (!isCompleted) {
-                isCompleted = true;
-
-                reject(error);
-              }
-
-              // we don't want to continue, so empty observable it is
-              return EMPTY;
-            }),
-            // upon the first result, resolve the with the unsub function
-            tap(() => {
-              if (!isCompleted) {
-                isCompleted = true;
-
-                resolve(() => subscription.unsubscribe());
-              }
-            })
-          )
-          .subscribe(cb);
-      });
-    };
-  }
-
   /**
    * @description Creates a combinator that can be used to combine the latest results from multiple subscriptions
    * @param fns An array of function to combine, each in the form of `(cb: (value: void)) => void`
@@ -260,63 +193,46 @@ export default class ApiPromise extends ApiBase<DecoratedRpc, QueryableStorage, 
     };
   }
 
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
+  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
+    if (!params || params.length === 0 || isSubscription === false) {
+      return method(...params).pipe(first()).toPromise();
+    }
 
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
+    const cb = params[params.length - 1];
+    const remainingParams = params.slice(0, - 1);
 
-        return result;
-      }, {} as SubmittableModuleExtrinsics);
+    if (!isFunction(cb)) {
+      return method(...params).pipe(first()).toPromise();
+    }
 
-      return result;
-    }, {} as SubmittableExtrinsics);
-  }
+    // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
+    // when I remove it...
+    // tslint:disable-next-line
+    return new Promise((resolve, reject) => {
+      let isCompleted = false;
+      const subscription = method(...remainingParams)
+        .pipe(
+          // if we find an error (invalid params, etc), reject the promise
+          catchError((error) => {
+            if (!isCompleted) {
+              isCompleted = true;
 
-  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, method(...args));
+              reject(error);
+            }
 
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
-  }
+            // we don't want to continue, so empty observable it is
+            return EMPTY;
+          }),
+          // upon the first result, resolve the with the unsub function
+          tap(() => {
+            if (!isCompleted) {
+              isCompleted = true;
 
-  protected decorateStorage (storage: Storage): QueryableStorage {
-    return Object.keys(storage).reduce((result, sectionName) => {
-      const section = storage[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName]);
-
-        return result;
-      }, {} as QueryableModuleStorage);
-
-      return result;
-    }, {} as QueryableStorage);
-  }
-
-  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (...args: Array<any>): Promise<Codec | null | undefined> | PromiseSubscription => {
-      const cb = args[args.length - 1];
-
-      if (args.length === 0 || !isFunction(cb)) {
-        return this.rpc.state.getStorage([method, args[0]]);
-      } else if (!this.hasSubscriptions && isFunction(cb)) {
-        l.warn(`Storage subscription to ${method.section}.${method.name} ignored, provider does not support subscriptions`);
-
-        return this.rpc.state.getStorage([method, args.length === 1 ? undefined : args[0]]);
-      }
-
-      return this.rpc.state.subscribeStorage(
-        [[method, args.length === 1 ? undefined : args[0]]],
-        (result: Array<Codec | null | undefined> = []) =>
-          cb(result[0])
-      ) as PromiseSubscription;
-    };
-
-    decorated.at = (hash: Hash, arg?: any): Promise<Codec | null | undefined> =>
-      this.rpc.state.getStorage([method, arg], hash) as Promise<Codec | null | undefined>;
-
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
+              resolve(() => subscription.unsubscribe());
+            }
+          })
+        )
+        .subscribe(cb);
+    }) as PromiseSubscription;
   }
 }

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { AccountId, Balance, Vote } from '@polkadot/types/index';
 
 export type DerivedBalances = {
@@ -12,6 +13,14 @@ export type DerivedBalances = {
   votingBalance: Balance,
   stakingBalance: Balance,
   nominators?: Array<DerivedBalances>
+};
+
+export type DerivedFees = {
+  creationFee: BN,
+  existentialDeposit: BN,
+  transactionBaseFee: BN,
+  transactionByteFee: BN,
+  transferFee: BN
 };
 
 export type DerivedBalancesMap = {

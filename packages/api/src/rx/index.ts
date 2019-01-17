@@ -3,23 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
-import { ApiRxInterface, QueryableStorageFunction, QueryableModuleStorage, QueryableStorage, SubmittableExtrinsics, SubmittableModuleExtrinsics, SubmittableExtrinsicFunction } from './types';
+import { ApiRxInterface, OnCall } from './types';
+import { ApiOptions, OnCallFunction } from '../types';
 
-import { Observable, from, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import decorateDerive, { Derive } from '@polkadot/api-derive/index';
-import Rpc from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
-import { Storage } from '@polkadot/storage/types';
-import { Hash } from '@polkadot/types/index';
+import { Observable, from } from 'rxjs';
 import { Codec } from '@polkadot/types/types';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
-import { StorageFunction } from '@polkadot/types/StorageKey';
-import { assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
-import SubmittableExtrinsic from './SubmittableExtrinsic';
 
 /**
  * # @polkadot/api/rx
@@ -118,8 +108,7 @@ import SubmittableExtrinsic from './SubmittableExtrinsic';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableExtrinsics> implements ApiRxInterface {
-  protected _derive: Derive;
+export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
   private _isReady: Observable<ApiRx>;
 
   /**
@@ -162,12 +151,9 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
    * });
    * ```
    */
-  constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+  constructor (provider?: ApiOptions | ProviderInterface) {
+    super(provider);
 
-    assert(this.hasSubscriptions, 'ApiRx can only be used with a provider supporting subscriptions');
-
-    this._derive = decorateDerive(this);
     this._isReady = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
@@ -178,15 +164,11 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     );
   }
 
-  get derive (): Derive {
-    return this._derive;
-  }
-
   /**
    * @description Observable that carries the connected state for the provider. Results in a boolean flag that is true/false based on the connectivity.
    */
   get isConnected (): Observable<boolean> {
-    return this.rpc.isConnected();
+    return this._rpcRx.isConnected();
   }
 
   /**
@@ -196,69 +178,7 @@ export default class ApiRx extends ApiBase<RpcRx, QueryableStorage, SubmittableE
     return this._isReady;
   }
 
-  protected decorateRpc (rpc: Rpc): RpcRx {
-    return new RpcRx(rpc);
-  }
-
-  protected decorateExtrinsics (extrinsics: ModulesWithMethods): SubmittableExtrinsics {
-    return Object.keys(extrinsics).reduce((result, sectionName) => {
-      const section = extrinsics[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName]);
-
-        return result;
-      }, {} as SubmittableModuleExtrinsics);
-
-      return result;
-    }, {} as SubmittableExtrinsics);
-  }
-
-  private decorateExtrinsicEntry (method: MethodFunction): SubmittableExtrinsicFunction {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic =>
-      new SubmittableExtrinsic(this, method(...args));
-
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction;
-  }
-
-  protected decorateStorage (storage: Storage): QueryableStorage {
-    return Object.keys(storage).reduce((result, sectionName) => {
-      const section = storage[sectionName];
-
-      result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName]);
-
-        return result;
-      }, {} as QueryableModuleStorage);
-
-      return result;
-    }, {} as QueryableStorage);
-  }
-
-  private decorateStorageEntry (method: StorageFunction): QueryableStorageFunction {
-    const decorated: any = (arg?: any): Observable<Codec | null | undefined> => {
-
-      return this.rpc.state
-        .subscribeStorage([[method, arg]])
-        .pipe(
-          // errors can occur in the case of malformed methods + args
-          catchError(() => of([])),
-          // state_storage returns an array of values, since we have just subscribed to
-          // a single entry, we pull that from the array and return it as-is
-          map((result: Array<Codec | null | undefined> = []): Codec | null | undefined =>
-            result[0]
-          )
-        );
-    };
-
-    decorated.at = (hash: Hash, arg?: any): Observable<Codec | null | undefined> =>
-      this.rpc.state
-        .getStorage([method, arg], hash)
-        .pipe(
-          // same as above (for single result), in the case of errors on creation, return `undefined`
-          catchError(() => of())
-        );
-
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction;
+  protected onCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>): OnCall {
+    return method(...params);
   }
 }

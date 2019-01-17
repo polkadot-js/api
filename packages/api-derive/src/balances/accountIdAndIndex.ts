@@ -4,7 +4,7 @@
 
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
@@ -12,20 +12,19 @@ import { accountIdToIndex } from './accountIdToIndex';
 import { accountIndexToId } from './accountIndexToId';
 import { drr } from '../util/drr';
 
-export type IdAndIndex = [AccountId | undefined, AccountIndex | undefined];
+export type IdAndIndex = [AccountId?, AccountIndex?];
 
-export function accountIdAndIndex (api: ApiRx) {
-  return (address: AccountId | AccountIndex | string | null | undefined)
-    : Observable<(AccountIndex | AccountId | undefined)[]> => {
+export function accountIdAndIndex (api: ApiInterface$Rx) {
+  return (address?: AccountId | AccountIndex | string | null): Observable<IdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
-      const { length } = decodeAddress((address as any).toString());
+      const decoded = decodeAddress(address as any);
 
-      if (length === 32) {
-        const accountId = new AccountId(address as string);
+      if (decoded.length === 32) {
+        const accountId = new AccountId(decoded);
 
         return accountIdToIndex(api)(accountId).pipe(
-          map((accountIndex) => [accountId, accountIndex]),
+          map((accountIndex) => [accountId, accountIndex] as IdAndIndex),
           drr()
         );
       }
@@ -33,11 +32,11 @@ export function accountIdAndIndex (api: ApiRx) {
       const accountIndex = new AccountIndex(address as string);
 
       return accountIndexToId(api)(accountIndex).pipe(
-        map((accountId) => [accountId, accountIndex]),
+        map((accountId) => [accountId, accountIndex] as IdAndIndex),
         drr()
       );
     } catch (error) {
-      return of([undefined, undefined]).pipe(drr());
+      return of([undefined, undefined] as IdAndIndex).pipe(drr());
     }
   };
 }

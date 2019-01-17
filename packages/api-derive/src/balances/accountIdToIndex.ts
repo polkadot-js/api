@@ -4,13 +4,13 @@
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex } from '@polkadot/types/index';
 
 import { accountIndexes, AccountIndexes } from './accountIndexes';
 import { drr } from '../util/drr';
 
-export function accountIdToIndex (api: ApiRx) {
+export function accountIdToIndex (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<AccountIndex> =>
     accountIndexes(api)()
       .pipe(

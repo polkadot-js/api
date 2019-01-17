@@ -6,15 +6,15 @@
 
 ##  votingBalancesNominatorsFor
 
-▸ **votingBalancesNominatorsFor**(api: *`ApiRx`*): `(Anonymous function)`
+▸ **votingBalancesNominatorsFor**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [balances/votingBalancesNominatorsFor.ts:14](https://github.com/polkadot-js/api/blob/0576375/packages/api-derive/src/balances/votingBalancesNominatorsFor.ts#L14)*
+*Defined in [balances/votingBalancesNominatorsFor.ts:15](https://github.com/polkadot-js/api/blob/a69cff1/packages/api-derive/src/balances/votingBalancesNominatorsFor.ts#L15)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| api | `ApiRx` |
+| api | `ApiInterface$Rx` |
 
 **Returns:** `(Anonymous function)`
 

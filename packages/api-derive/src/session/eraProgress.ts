@@ -5,13 +5,13 @@
 import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import ApiRx from '@polkadot/api/rx';
+import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types/index';
 
 import { sessionProgress } from './sessionProgress';
 import { drr } from '../util/drr';
 
-export function eraProgress (api: ApiRx) {
+export function eraProgress (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
     (combineLatest(
       sessionProgress(api)(),

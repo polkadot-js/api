@@ -15,7 +15,7 @@ This library provides a clean wrapper around all the methods exposed by a Polkad
 
 ## tutorials
 
-Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API.
+Looking for tutorials to get started? Look at [examples](https://polkadot.js.org/api/examples/promise/) for guides on how to use the API to make queries and submit transactions.
 
 ## overview
 
