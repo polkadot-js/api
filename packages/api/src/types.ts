@@ -29,7 +29,7 @@ export interface DecoratedRpc<OnCall> {
 
 export interface QueryableStorageFunction<OnCall> extends StorageFunction {
   (arg?: any): OnCall;
-  at: (hash: Hash, arg?: any) => OnCall;
+  at: (hash: Uint8Array | string, arg?: any) => OnCall;
 }
 
 export interface QueryableModuleStorage<OnCall> {
