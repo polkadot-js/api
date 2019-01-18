@@ -35,14 +35,13 @@ async function main () {
   // preform the actual chain upgrade via the sudo module
   api.tx.sudo
     .sudo(proposal)
-    .sign(adminPair, adminNonce)
-    .send(({ events = [], status, type }) => {
+    .signAndSend(adminPair, ({ events = [], status, type }) => {
       console.log('Proposal status:', type);
 
       if (type === 'Finalised') {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.value.toHex());
+        console.log('Completed at block hash', status.asFinalised.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

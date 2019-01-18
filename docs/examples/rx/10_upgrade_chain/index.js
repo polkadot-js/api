@@ -35,7 +35,7 @@ async function main () {
       // preform the actual chain upgrade via the sudo module
       .sudo(proposal)
       // sign the proposal
-      .sign(adminPair, adminNonce)
+      .signAndSend(adminPair)
       // send the proposal
       .send()))
     // subscribe to overall result
@@ -46,7 +46,7 @@ async function main () {
       if (type === 'Finalised') {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.value.toHex());
+        console.log('Completed at block hash', status.asFinalised.toHex());
         console.log('Events:');
 
         // Log system events once the chain update is finalised
