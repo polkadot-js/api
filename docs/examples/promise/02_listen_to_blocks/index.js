@@ -13,12 +13,6 @@ async function main () {
   const unsubscribe = await api.rpc.chain.subscribeNewHead((header) => {
     console.log(`Chain is at block: #${header.blockNumber}`);
   });
-
-  // We can cleanup and unsubscribe using the unsubscribe() method of the API. In this example we're unsubscribing after 20s.
-  setTimeout(() => {
-    unsubscribe();
-    console.log('Unsubscribed')
-  }, 20000);
 }
 
 main().catch(console.error);
