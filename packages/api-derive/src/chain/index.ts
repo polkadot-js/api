@@ -4,3 +4,5 @@
 
 export * from './bestNumber';
 export * from './bestNumberFinalised';
+export * from './getHeader';
+export * from './subscribeNewHead';

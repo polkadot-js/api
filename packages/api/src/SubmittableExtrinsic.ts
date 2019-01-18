@@ -30,7 +30,8 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
           status,
           type: status.type
         }),
-        [statusCb]
+        [statusCb],
+        false
       ) as unknown as Observable<SubmittableSendResult>;
     }
 
@@ -47,7 +48,8 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
           type: status.type
         }))
       ),
-      [statusCb]
+      [statusCb],
+      false
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
@@ -56,7 +58,8 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
       () => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
         .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
-      [statusCb]
+      [statusCb],
+      true
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
@@ -76,7 +79,8 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
             this.sign(signerPair, nonce as Index).send(statusCb)
           )
         ),
-      [statusCb]
+      [statusCb],
+      false
     ) as unknown as Observable<SubmittableSendResult>;
   }
 }

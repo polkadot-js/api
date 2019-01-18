@@ -9,6 +9,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 
+import AccountId from './AccountId';
 import BlockNumber from './BlockNumber';
 import Digest, { DigestItem } from './Digest';
 import Hash from './Hash';
@@ -79,5 +80,32 @@ export default class Header extends Struct {
    */
   get stateRoot (): Hash {
     return this.get('stateRoot') as Hash;
+  }
+}
+
+/**
+ * @name HeaderExtended
+ * @description
+ * A [[Block]] header with an additional `author` field that indicates the block author
+ */
+export class HeaderExtended extends Header {
+  private _author?: AccountId;
+
+  constructor (header: Header, sessionValidators: Array<AccountId>) {
+    super(header);
+
+    const { digest: { logs } } = header;
+    const digestItem = logs.find(({ type }) => type === 'Seal');
+
+    this._author = digestItem && sessionValidators.length
+      ? sessionValidators[digestItem.asSeal.slot.toNumber() % sessionValidators.length]
+      : undefined;
+  }
+
+  /**
+   * @description Convenience method, returns the author for the block
+   */
+  get author (): AccountId | undefined {
+    return this._author;
   }
 }
