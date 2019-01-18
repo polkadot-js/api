@@ -27,7 +27,7 @@ async function main () {
   // Sign and send the transaction using our account. Send the transaction and retrieve the resulting Hash
   transfer.signAndSend(alice, ({ status, type }) => {
     if (type === 'Finalised') {
-      console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.value.toHex()}`);
+      console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalised.toHex()}`);
     } else {
       console.log(`Transaction status: ${type}`);
     }

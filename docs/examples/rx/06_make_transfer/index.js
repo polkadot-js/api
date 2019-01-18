@@ -28,7 +28,7 @@ async function main () {
       .signAndSend(alice)))
     .subscribe(({ status, type }) => {
       if (type === 'Finalised') {
-        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.value.toHex()}`);
+        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalised.toHex()}`);
       } else {
         console.log(`Staus of transfer: ${type}`);
       }
