@@ -27,6 +27,7 @@ export function getHeader (api: ApiInterface$Rx) {
         // where rpc.chain.getHeader throws, we will land here - it can happen that
         // we supplied an invalid hash. (Due to defaults, storeage will have an
         // empty value, so only the RPC is affected). So return undefined
+        // tslint:disable-next-line
         of() as Observable<undefined>
       ),
       drr()
