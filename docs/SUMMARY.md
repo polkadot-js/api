@@ -20,6 +20,7 @@
   - [Simple connect](examples/promise/01_simple_connect/README.md)
   - [Listen to blocks](examples/promise/02_listen_to_blocks/README.md)
   - [Listen to balance change](examples/promise/03_listen_to_balance_change/README.md)
+  - [Unsubscribe from listening](examples/promise/04_unsubscribe/README.md)
   - [Read chain state](examples/promise/05_read_storage/README.md)
   - [Make a transfer](examples/promise/06_make_transfer/README.md)
   - [Display system events](examples/promise/08_system_events/README.md)(
@@ -29,6 +30,7 @@
   - [Simple connect](examples/rx/01_simple_connect/README.md)
   - [Listen to blocks](examples/rx/02_listen_to_blocks/README.md)
   - [Listen to balance change](examples/rx/03_listen_to_balance_change/README.md)
+  - [Unsubscribe from listening](examples/rx/04_unsubscribe/README.md)
   - [Read chain state](examples/rx/05_read_storage/README.md)
   - [Make a transfer](examples/rx/06_make_transfer/README.md)
   - [Display system events](examples/rx/08_system_events/README.md)(
