@@ -11,8 +11,6 @@ async function main () {
     console.log(`Chain is at block: #${header.blockNumber}`);
   });
 
-  // We can cleanup and unsubscribe from a subscription using
-  // the unsubscribe() method of the API.
   // In this example we're calling the unsubscribe() function that is being
   // returned by the api call function after 20s.
   setTimeout(() => {
