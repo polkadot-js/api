@@ -29,7 +29,7 @@ async function main () {
     if (type === 'Finalised') {
       console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.value.toHex()}`);
     } else {
-      console.log(`Pending transfer of 12345 from Alice to Bob`);
+      console.log(`Transaction status: ${type}`);
     }
   });
 }
