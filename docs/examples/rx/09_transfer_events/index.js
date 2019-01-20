@@ -1,7 +1,5 @@
 // Import the API and some utility functions
 const { ApiRx } = require('@polkadot/api');
-// Import RxJs operators
-const { switchMap, first } = require('rxjs/operators');
 
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
@@ -31,20 +29,16 @@ async function main () {
   console.log('Sending', AMOUNT, 'from', alicePair.address(), 'to', recipient);
 
   // get the nonce for the admin key
-  api.query.system.accountNonce(ALICE).pipe(first(),
-    // pipe nonce into transfer
-    switchMap(aliceNonce => api.tx.balances
-      // Do the transfer, sign and send it and subscribe to the actual status
-      .transfer(recipient, AMOUNT)
-      // sign the transcation
-      .sign(alicePair, aliceNonce)
-      // send the transaction
-      .send()))
-    // subscribe to overall result
+  //  Create a extrinsic, transferring 12345 units to Bob.
+  api.tx.balances
+    // Do the transfer
+    .transfer(recipient, AMOUNT)
+    // Sign and send it
+    .signAndSend(alicePair)
+    // And subscribe to the actual status
     .subscribe(({ events = [], status, type }) => {
       // Log transfer events
-      console.log('Transaction status:', type);
-
+      console.log('Transfer status:', type);
       // Log system events once the transfer is finalised
       if (type === 'Finalised') {
         console.log('Completed at block hash', status.asFinalised.toHex());
