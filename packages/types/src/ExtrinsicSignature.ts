@@ -46,7 +46,7 @@ export default class ExtrinsicSignature extends Struct {
     if (!value) {
       return {
         // we always explicitly set the unsigned version
-        version: new U8(BIT_VERSION | BIT_UNSIGNED)
+        version: BIT_VERSION | BIT_UNSIGNED
       };
     }
 
