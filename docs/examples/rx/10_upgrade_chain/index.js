@@ -4,7 +4,6 @@ const { WsProvider } = require('@polkadot/rpc-provider');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 const fs = require('fs');
-const { switchMap, first } = require('rxjs/operators');
 
 async function main () {
   // Initialise the provider to connect to the local node
@@ -28,16 +27,11 @@ async function main () {
 
   console.log(`Upgrading chain runtime from ${adminId}`);
 
-  // get the nonce for the admin key
-  api.query.system.accountNonce(adminId).pipe(first(),
-    // pipe nonce into transfer
-    switchMap(adminNonce => api.tx.sudo
-      // preform the actual chain upgrade via the sudo module
-      .sudo(proposal)
-      // sign the proposal
-      .signAndSend(adminPair)
-      // send the proposal
-      .send()))
+  api.tx.sudo
+    // preform the actual chain upgrade via the sudo module
+    .sudo(proposal)
+    // sign and send the proposal
+    .signAndSend(adminPair)
     // subscribe to overall result
     .subscribe(({ events = [], status, type }) => {
       // Log transfer events
