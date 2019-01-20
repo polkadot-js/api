@@ -50,7 +50,13 @@ export default class ExtrinsicSignature extends Struct {
       };
     }
 
-    return value;
+    const version = value[0];
+
+    // only decode the full Uint8Array if we have the signed indicator,
+    // alternatively only return the version (default for others)
+    return (version & BIT_SIGNED) === BIT_SIGNED
+      ? value
+      : { version };
   }
 
   /**
