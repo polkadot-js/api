@@ -17,7 +17,7 @@ import U8 from './U8';
 export const IMMORTAL_ERA = new Uint8Array([0]);
 
 const BIT_SIGNED = 0b10000000;
-const BIT_UNSIGNED = 0b00000000;
+const BIT_UNSIGNED = 0;
 const BIT_VERSION = 0b0000001;
 
 /**
@@ -27,7 +27,7 @@ const BIT_VERSION = 0b0000001;
  */
 export default class ExtrinsicSignature extends Struct {
   // Signature Information.
-  //   1 byte version: BIT_VERSION | (isSigned ? 0 | 0b10000000)
+  //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format
   //   64 bytes: The Ed25519 signature of the Signing Payload
   //   8 bytes: The Transaction Index of the signing account
