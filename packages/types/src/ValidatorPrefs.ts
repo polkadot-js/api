@@ -4,6 +4,7 @@
 
 import { AnyNumber } from './types';
 
+import Compact from './codec/Compact';
 import Struct from './codec/Struct';
 import Balance from './Balance';
 import U32 from './U32';
@@ -22,7 +23,7 @@ export default class ValidatorPrefs extends Struct {
   constructor (value?: ValidatorPrefsValue | Uint8Array) {
     super({
       unstakeThreshold: U32,
-      validatorPayment: Balance
+      validatorPayment: Compact.with(Balance)
     }, value);
   }
 
@@ -34,9 +35,9 @@ export default class ValidatorPrefs extends Struct {
   }
 
   /**
-   * @description The payment config for the validator as [[Balance]]
+   * @description The payment config for the validator as a [[Compact]] [[Balance]]
    */
-  get validatorPayment (): Balance {
-    return this.get('validatorPayment') as Balance;
+  get validatorPayment (): Compact {
+    return this.get('validatorPayment') as Compact;
   }
 }
