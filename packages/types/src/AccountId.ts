@@ -44,7 +44,7 @@ export default class AccountId extends U8aFixed {
    * @description Returns true if the type wraps an empty value
    */
   get isEmpty (): boolean {
-    return isUndefined(this.find((value) => value !== 0));
+    return isUndefined(this.find((value) => !!value));
   }
 
   /**
