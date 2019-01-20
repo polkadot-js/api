@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a, Codec } from '../types';
 
@@ -35,6 +35,13 @@ export default class U8a extends Uint8Array implements Codec {
    */
   get encodedLength (): number {
     return this.length;
+  }
+
+  /**
+   * @description Returns true if the type wraps an empty/default all-0 value
+   */
+  get isEmpty (): boolean {
+    return !this.length || isUndefined(this.find((value) => !!value));
   }
 
   /**
