@@ -12,7 +12,8 @@ import USize from './USize';
 const JSON_MAP = new Map([
   ['bestHash', 'best_hash'],
   ['bestNumber', 'best_number'],
-  ['protocolVersion', 'protocol_version']
+  ['protocolVersion', 'protocol_version'],
+  ['peerId', 'peer_id']
 ]);
 
 /**
