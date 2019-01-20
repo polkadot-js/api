@@ -26,7 +26,7 @@ async function main () {
       return;
     }
     previous = current;
-    console.log(`New transaction balance of: ${change}`);
+    console.log(`New balance change of: ${change}`);
   });
 }
 
