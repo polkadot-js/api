@@ -1,4 +1,5 @@
 // Required imports
+import { zip } from 'rxjs';
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 
@@ -9,14 +10,17 @@ function main () {
   // Create the API and wait until ready
   const api = await ApiRx.create(provider).toPromise();
 
-  // Use toPromise() with async/await to emit the last Observable value as a Promise
-  const [chain, nodeName, nodeVersion] = await Promise.all([
-    api.rpc.system.chain().toPromise(),
-    api.rpc.system.name().toPromise(),
-    api.rpc.system.version().toPromise(),
-  ]);
-
-  console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
+  // We're using RxJs 'zip()' combination operator to get the emitted values
+  // of multiple observables as an array
+  zip(
+    api.rpc.system.chain(),
+    api.rpc.system.name(),
+    api.rpc.system.version()
+  )
+  // Then we subscribe to the result
+  .subscribe(([chain, nodeName, nodeVersion, properties]) => {
+    console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
+  });
 }
 
 main().catch(console.error).finally(() => process.exit());
