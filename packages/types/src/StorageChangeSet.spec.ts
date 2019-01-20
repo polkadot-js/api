@@ -18,7 +18,7 @@ describe('StorageChangeSet', () => {
     it('wraps blockHash', () => {
       expect(
         set.block.toHex()
-      ).toEqual('0x1234');
+      ).toEqual('0x1234000000000000000000000000000000000000000000000000000000000000');
     });
 
     it('wraps key/value', () => {

@@ -5,7 +5,7 @@
 import { AnyString, AnyU8a } from './types';
 
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { hexToU8a, isHex, isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isString, isU8a, isUndefined, u8aToU8a } from '@polkadot/util';
 
 import U8aFixed from './codec/U8aFixed';
 
@@ -44,14 +44,7 @@ export default class AccountId extends U8aFixed {
    * @description Returns true if the type wraps an empty value
    */
   get isEmpty (): boolean {
-    return this.length === 1 && this[0] === 0;
-  }
-
-  /**
-   * @description Returns true if the type wraps a non-valid value
-   */
-  get isInvalid (): boolean {
-    return this.length !== 32;
+    return isUndefined(this.find((value) => value !== 0));
   }
 
   /**
@@ -65,8 +58,6 @@ export default class AccountId extends U8aFixed {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return this.isEmpty
-      ? '-'
-      : AccountId.encode(this);
+    return AccountId.encode(this);
   }
 }

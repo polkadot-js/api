@@ -28,6 +28,6 @@ describe('U8aFixed', () => {
   it('allows empty values', () => {
     expect(
       new U8aFixed().toHex()
-    ).toEqual('0x');
+    ).toEqual('0x0000000000000000000000000000000000000000000000000000000000000000');
   });
 });
