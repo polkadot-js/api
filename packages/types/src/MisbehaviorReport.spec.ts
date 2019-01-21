@@ -16,11 +16,11 @@ describe('BftAtReport', () => {
   });
 
   it('has the correct hash (a)', () => {
-    expect(report.a.hash.toHex()).toEqual('0x1234');
+    expect(report.a.hash.toHex()).toEqual('0x1234000000000000000000000000000000000000000000000000000000000000');
   });
 
   it('has the correct signature (b)', () => {
-    expect(report.b.signature.toHex()).toEqual('0x4321');
+    expect(report.b.signature.toHex()).toEqual('0x43210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
   });
 });
 
@@ -37,11 +37,11 @@ describe('MisbehaviorReport', () => {
   });
 
   it('has the correct parent block', () => {
-    expect(report.parentHash.toHex()).toEqual('0x01020304');
+    expect(report.parentHash.toHex()).toEqual('0x0102030400000000000000000000000000000000000000000000000000000000');
     expect(report.parentNumber.toNumber()).toEqual(78);
   });
 
   it('identifies the misbehaving authority', () => {
-    expect(report.target.toHex()).toEqual('0x11112222');
+    expect(report.target.toHex()).toEqual('0x1111222200000000000000000000000000000000000000000000000000000000');
   });
 });

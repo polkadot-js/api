@@ -11,11 +11,11 @@ describe('BftAuthoritySignature', () => {
   ]);
 
   it('has the correct authorityId', () => {
-    expect(sig.authorityId.toHex()).toEqual('0x12344321');
+    expect(sig.authorityId.toHex()).toEqual('0x1234432100000000000000000000000000000000000000000000000000000000');
   });
 
   it('has the correct signature', () => {
-    expect(sig.signature.toHex()).toEqual('0x567890098765');
+    expect(sig.signature.toHex()).toEqual('0x56789009876500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
   });
 });
 
@@ -26,10 +26,10 @@ describe('BftHashSignature', () => {
   ]);
 
   it('has the correct hash', () => {
-    expect(sig.hash.toHex()).toEqual('0x12344321');
+    expect(sig.hash.toHex()).toEqual('0x1234432100000000000000000000000000000000000000000000000000000000');
   });
 
   it('has the correct signature', () => {
-    expect(sig.signature.toHex()).toEqual('0x567890098765');
+    expect(sig.signature.toHex()).toEqual('0x56789009876500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
   });
 });
