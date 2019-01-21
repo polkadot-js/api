@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { isString, isU8a, u8aToU8a, assert } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
@@ -46,7 +46,14 @@ export default class Bytes extends U8a {
       // i.e. new Bytes(new Bytes(...)) will work as expected
       return value;
     } else if (isU8a(value)) {
+      if (!value.length) {
+        return new Uint8Array();
+      }
+
       const [offset, length] = Compact.decodeU8a(value);
+      const total = offset + length.toNumber();
+
+      assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
 
       return value.subarray(offset, offset + length.toNumber());
     }
