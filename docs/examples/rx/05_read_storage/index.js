@@ -19,7 +19,7 @@ function main () {
         // If the node has active validators, get the balances
         const balances = (validators && validators.length > 0)
           ? combineLatest(validators.map(authorityId => api.query.balances.freeBalance(authorityId).pipe(first())))
-          : null;
+          : of(null);
 
         // If there are no validators, we're not returning any balances
         return combineLatest(
