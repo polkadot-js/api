@@ -1,5 +1,6 @@
 // Import the API
 const { ApiRx } = require('@polkadot/api');
+const { switchMap } = require('rxjs/operators');
 
 async function main () {
   // Here we don't pass the (optional) provider, connecting directly to the default

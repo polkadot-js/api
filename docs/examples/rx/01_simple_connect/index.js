@@ -1,5 +1,5 @@
 // Required imports
-import { zip } from 'rxjs';
+const { zip } = require('rxjs');
 const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
 

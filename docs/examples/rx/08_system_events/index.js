@@ -1,5 +1,5 @@
 // Import the API and selected RxJs operators
-import { switchMap } from 'rxjs/operators';
+const { switchMap } = require('rxjs/operators');
 const { ApiRx } = require('@polkadot/api');
 
 async function main () {

@@ -1,5 +1,6 @@
 // Import the API
 const { ApiRx } = require('@polkadot/api');
+const { switchMap } = require('rxjs/operators');
 
 async function main () {
   // Create a new instance of the api

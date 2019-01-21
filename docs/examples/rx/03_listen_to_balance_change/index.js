@@ -1,6 +1,6 @@
 // Import the API and operators from RxJs
 const { ApiRx } = require('@polkadot/api');
-import { pairwise, startWith } from 'rxjs/operators';
+const { pairwise, startWith } = require('rxjs/operators');
 
 // Known account we want to use (available on dev chain, with funds)
 const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
