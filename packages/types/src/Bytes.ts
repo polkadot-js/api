@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isString, isU8a, u8aToU8a, assert } from '@polkadot/util';
+import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from './types';
 import Compact from './codec/Compact';
