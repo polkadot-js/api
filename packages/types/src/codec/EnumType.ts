@@ -63,7 +63,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     } else if (isString(value)) {
       const _str = value.toString();
 
-      return isHex(value)
+      return isHex(_str)
         ? EnumType.decodeViaValue(def, hexToU8a(_str))
         : EnumType.createViaJSON(def, _str);
     } else if (isObject(value)) {
