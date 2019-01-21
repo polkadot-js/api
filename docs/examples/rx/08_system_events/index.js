@@ -1,18 +1,24 @@
-// Import the API
+// Import the API and selected RxJs operators
+import { switchMap } from 'rxjs/operators';
 const { ApiRx } = require('@polkadot/api');
 
 async function main () {
   // Create our API with a default connection to the local node
-  ApiRx.create().subscribe((api) => {
-  // subscribe to system events via storage
-    api.query.system.events().subscribe((events) => {
+  ApiRx.create()
+    .pipe(
+      switchMap((api) =>
+        // subscribe to system events via storage
+        api.query.system.events()
+      ))
+      // Then we're subscribing to the emitted results
+    .subscribe((events) => {
       console.log(`\nReceived ${events.length} events:`);
       // loop through the Vec<EventRecord>
       events.forEach((record) => {
-        // extract the phase, event and the event types
+      // extract the phase, event and the event types
         const { event, phase } = record;
         const types = event.typeDef;
-        
+
         // show what we are busy with
         console.log(`\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
         console.log(`\t\t${event.meta.documentation.toString()}`);
@@ -23,7 +29,7 @@ async function main () {
         });
       });
     });
-  });
+};
 
 main().catch((error) => {
   console.error(error);

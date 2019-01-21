@@ -2,14 +2,16 @@
 const { ApiRx } = require('@polkadot/api');
 
 async function main () {
-
   // Create a new instance of the api
-  const api = await new ApiRx();
-
   // Subscribe to chain updates and log the current block  number on update.
-  const subscription = api.rpc.chain.subscribeNewHead().subscribe((header) => {
-    console.log(`Chain is at block: #${header.blockNumber}`);
-  });
+  const subscription = new ApiRx().isReady
+    .pipe(
+      switchMap((api) =>
+        api.rpc.chain.subscribeNewHead()
+      ))
+    .subscribe((header) => {
+      console.log(`Chain is at block: #${header.blockNumber}`);
+    });
 
   // In this example we're calling the Overvables unsubscribe() //
   // function after 20s.
