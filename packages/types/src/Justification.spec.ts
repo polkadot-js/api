@@ -16,7 +16,7 @@ describe('RhdJustification', () => {
   });
 
   it('has the correct hash', () => {
-    expect(just.hash.toHex()).toEqual('0xabcd');
+    expect(just.hash.toHex()).toEqual('0xabcd000000000000000000000000000000000000000000000000000000000000');
   });
 
   it('has the correct round', () => {
@@ -26,7 +26,7 @@ describe('RhdJustification', () => {
   it('has the correct signatures', () => {
     const sig = just.signatures[1];
 
-    expect(sig.authorityId.toHex()).toEqual('0x9876');
+    expect(sig.authorityId.toHex()).toEqual('0x9876000000000000000000000000000000000000000000000000000000000000');
   });
 
   it('creates from a JSON strusture', () => {

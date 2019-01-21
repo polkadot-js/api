@@ -25,7 +25,20 @@ export default class U8aFixed extends U8a {
 
   private static decodeU8aFixed (value: AnyU8a, bitLength: BitLength = 256): AnyU8a {
     if (isU8a(value)) {
-      return value.subarray(0, bitLength / 8);
+      // ensure that we have an actual u8a with the full length as specified by
+      // the bitLength input (padded with zeros as required)
+      const byteLength = bitLength / 8;
+      const sub = value.subarray(0, byteLength);
+
+      if (sub.length === byteLength) {
+        return sub;
+      }
+
+      const u8a = new Uint8Array(byteLength);
+
+      u8a.set(sub, 0);
+
+      return u8a;
     } else if (Array.isArray(value) || isString(value)) {
       return U8aFixed.decodeU8aFixed(u8aToU8a(value), bitLength);
     }
