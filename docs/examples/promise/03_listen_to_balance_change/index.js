@@ -1,4 +1,4 @@
-// Import the Api
+// Import the API
 const { ApiPromise } = require('@polkadot/api');
 
 // Known account we want to use (available on dev chain, with funds)
@@ -22,11 +22,10 @@ async function main () {
 
     // Only display positive value changes (Since we are pulling `previous` above already,
     // the initial balance change will also be zero)
-    if (change.isZero()) {
-      return;
+    if (!change.isZero()) {
+      previous = current;
+      console.log(`New balance change of: ${change}`);
     }
-    previous = current;
-    console.log(`New balance change of: ${change}`);
   });
 }
 
