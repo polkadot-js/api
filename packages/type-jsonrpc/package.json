@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/jsonrpc",
-  "version": "0.40.11",
+  "version": "0.40.12",
   "description": "Method definitions for the Polkadot RPC layer",
   "main": "index.js",
   "engines": {
