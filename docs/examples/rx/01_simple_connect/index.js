@@ -18,7 +18,7 @@ function main () {
     api.rpc.system.version()
   )
   // Then we subscribe to the result
-  .subscribe(([chain, nodeName, nodeVersion, properties]) => {
+  .subscribe(([chain, nodeName, nodeVersion]) => {
     console.log(`You are connected to chain ${chain} using ${nodeName} v${nodeVersion}`);
   });
 }
