@@ -18,7 +18,7 @@ async function main () {
   const keyring = testKeyring.default();
 
   // Create our API with a connection to the node
-  const api = await ApiRx.create(provider).toPromise();
+  const api = await ApiRx.create().toPromise();
 
   // find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
