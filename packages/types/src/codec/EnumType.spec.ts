@@ -35,6 +35,15 @@ describe('Struct', () => {
     ).toEqual('some text value');
   });
 
+  it('decodes from hex', () => {
+    expect(
+      new EnumType(
+        { Text, U32 },
+        '0x0134120000'
+      ).value.toString()
+    ).toEqual('4660'); // 0x1234 in decimal
+  });
+
   it('decodes from a JSON input (mixed case)', () => {
     expect(
       new EnumType(
