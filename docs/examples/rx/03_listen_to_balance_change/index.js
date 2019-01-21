@@ -26,6 +26,7 @@ async function main () {
         console.log('You may leave this example running and start the "Make a transfer" example or transfer any value to Alice address');
         return;
       }
+
       const change = balance[1].sub(balance[0]);
       // Only display value changes
       if (!change.isZero()) {
