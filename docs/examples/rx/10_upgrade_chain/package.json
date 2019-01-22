@@ -1,5 +1,5 @@
 {
-  "name": "10_upgrade_chain",
+  "name": "rx_10_upgrade_chain",
   "version": "0.2.0",
   "description": "Example showing how to upgrade via upgradeKey",
   "main": "index.js",
