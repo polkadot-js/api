@@ -30,12 +30,12 @@ api.rpc.chain.subscribeNewHead().subscribe((header) => {
 });
 ```
 
-  
+
 
 Subscribing to chain state -  
 
 ```javascript
-import { combineLatest } from 'rxjs';
+import { combineLatest, switchMap } from 'rxjs';
 import { ApiRx } from '@polkadot/api';
 import { WsProvider } from '@polkadot/rpc-provider';
 
@@ -54,18 +54,18 @@ new ApiRx(provider)
         api.query.timestamp.blockPeriod(),
         api.query.timestamp.now()
       ])
-  )
-  .subscribe(([blockPeriod, timestamp]) => {
-    const elapsed = last
-      ? `, ${timestamp.toNumber() - last}s since last`
-      : '';
+    )
+    .subscribe(([blockPeriod, timestamp]) => {
+      const elapsed = last
+        ? `, ${timestamp.toNumber() - last}s since last`
+        : '';
 
-    last = timestamp.toNumber();
-    console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
-  });
+      last = timestamp.toNumber();
+      console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+    }));
 ```
 
-  
+
 
 Submitting a transaction -  
 
@@ -432,4 +432,3 @@ Api.create().subscribe((api) => {
 **Returns:** `Observable`<[ApiRx](_rx_index_.apirx.md)>
 
 ___
-

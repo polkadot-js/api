@@ -1,5 +1,5 @@
-// Import the API & Provider and some utility functions
-const { ApiPromise } = require('@polkadot/api');
+// Import the API and some utility functions
+const { ApiRx } = require('@polkadot/api');
 
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
@@ -17,11 +17,8 @@ async function main () {
   // const keyring = testKeyring();
   const keyring = testKeyring.default();
 
-  // Create the API and wait until ready
-  const api = await ApiPromise.create();
-
-  // get the nonce for the admin key
-  const aliceNonce = await api.query.system.accountNonce(ALICE);
+  // Create our API with a connection to the node
+  const api = await ApiRx.create().toPromise();
 
   // find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
@@ -29,15 +26,20 @@ async function main () {
   // create a new random recipient
   const recipient = keyring.addFromSeed(randomAsU8a(32)).address();
 
-  console.log('Sending', AMOUNT, 'from', alicePair.address(), 'to', recipient, 'with nonce', aliceNonce.toString());
+  console.log('Sending', AMOUNT, 'from', alicePair.address(), 'to', recipient);
 
-  // Do the transfer and track the actual status
+  // get the nonce for the admin key
+  //  Create a extrinsic, transferring 12345 units to Bob.
   api.tx.balances
+    // Do the transfer
     .transfer(recipient, AMOUNT)
-    .sign(alicePair, aliceNonce)
-    .send(({ events = [], status, type }) => {
-      console.log('Transaction status:', type);
-
+    // Sign and send it
+    .signAndSend(alicePair)
+    // And subscribe to the actual status
+    .subscribe(({ events = [], status, type }) => {
+      // Log transfer events
+      console.log('Transfer status:', type);
+      // Log system events once the transfer is finalised
       if (type === 'Finalised') {
         console.log('Completed at block hash', status.asFinalised.toHex());
         console.log('Events:');
@@ -45,8 +47,6 @@ async function main () {
         events.forEach(({ phase, event: { data, method, section } }) => {
           console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
         });
-
-        process.exit(0);
       }
     });
 }

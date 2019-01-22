@@ -1,10 +1,8 @@
 // Import the API & Provider and some utility functions
-const { ApiPromise } = require('@polkadot/api');
+const { ApiRx } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
-
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
-
 const fs = require('fs');
 
 async function main () {
@@ -12,13 +10,10 @@ async function main () {
   const provider = new WsProvider('ws://127.0.0.1:9944');
 
   // Create the API and wait until ready (optional provider passed through)
-  const api = await ApiPromise.create(provider);
+  const api = await ApiRx.create(provider).toPromise();
 
   // retrieve the upgrade key from the chain state
-  const adminId = await api.query.sudo.key();
-
-  // get the nonce for the admin key
-  const adminNonce = await api.query.system.accountNonce(adminId);
+  const adminId = await api.query.sudo.key().toPromise();
 
   // find the actual keypair in the keyring (if this is an changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
@@ -30,12 +25,16 @@ async function main () {
   const code = fs.readFileSync('./test.wasm').toString('hex');
   const proposal = api.tx.consensus.setCode(`0x${code}`);
 
-  console.log(`Upgrading from ${adminId} with nonce ${adminNonce}, ${code.length / 2} bytes`);
+  console.log(`Upgrading chain runtime from ${adminId}`);
 
-  // preform the actual chain upgrade via the sudo module
   api.tx.sudo
+    // preform the actual chain upgrade via the sudo module
     .sudo(proposal)
-    .signAndSend(adminPair, ({ events = [], status, type }) => {
+    // sign and send the proposal
+    .signAndSend(adminPair)
+    // subscribe to overall result
+    .subscribe(({ events = [], status, type }) => {
+      // Log transfer events
       console.log('Proposal status:', type);
 
       if (type === 'Finalised') {
@@ -44,6 +43,7 @@ async function main () {
         console.log('Completed at block hash', status.asFinalised.toHex());
         console.log('Events:');
 
+        // Log system events once the chain update is finalised
         events.forEach(({ phase, event: { data, method, section } }) => {
           console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
         });
