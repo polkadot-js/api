@@ -1,7 +1,7 @@
 {
-  "name": "02_listen_to_blocks",
+  "name": "rx_04_unsubscribe",
   "version": "0.2.0",
-  "description": "Example showing how to use subscriptions",
+  "description": "Example showing how to unsubscribe from a subscription",
   "main": "index.js",
   "author": "Stefie",
   "license": "MIT",

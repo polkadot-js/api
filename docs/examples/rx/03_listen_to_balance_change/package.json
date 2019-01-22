@@ -1,5 +1,5 @@
 {
-  "name": "03_listen_to_balance_change",
+  "name": "rx_03_listen_to_balance_change",
   "version": "0.2.0",
   "description": "Example showing how to subscribe to balance change",
   "main": "index.js",

@@ -1,7 +1,7 @@
 {
   "name": "06_make_transfer",
   "version": "0.2.0",
-  "description": "Example showing how to transfer DOTs",
+  "description": "Example showing how to make a transfer",
   "main": "index.js",
   "author": "chevdor",
   "license": "MIT",

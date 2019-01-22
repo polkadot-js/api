@@ -1,9 +1,9 @@
 {
-  "name": "09_transfer_events",
+  "name": "rx_09_transfer_events",
   "version": "0.1.0",
   "description": "Example showing how to transfer DOTs (with events)",
   "main": "index.js",
-  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "author": "Stefie",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",

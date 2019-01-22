@@ -1,5 +1,5 @@
 {
-  "name": "02_listen_to_blocks",
+  "name": "rx_02_listen_to_blocks",
   "version": "0.2.0",
   "description": "Example showing how to use subscriptions",
   "main": "index.js",
