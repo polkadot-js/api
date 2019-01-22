@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "description": "Example showing how to connect using a WebSocket",
   "main": "index.js",
-  "author": "stefie",
+  "author": "Stefie",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",
