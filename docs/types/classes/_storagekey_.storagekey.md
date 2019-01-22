@@ -27,7 +27,7 @@
 
 *Overrides [Bytes](_bytes_.bytes.md).[constructor](_bytes_.bytes.md#constructor)*
 
-*Defined in [StorageKey.ts:28](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L28)*
+*Defined in [StorageKey.ts:28](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L28)*
 
 **Parameters:**
 
@@ -51,11 +51,26 @@ getencodedLength(): `number`
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[encodedLength](_codec_u8a_.u8a.md#encodedlength)*
 
-*Defined in [Bytes.ts:60](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bytes.ts#L60)*
+*Defined in [Bytes.ts:60](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/Bytes.ts#L60)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
+
+___
+<a id="isempty"></a>
+
+##  isEmpty
+
+getisEmpty(): `boolean`
+
+*Inherited from [U8a](_codec_u8a_.u8a.md).[isEmpty](_codec_u8a_.u8a.md#isempty)*
+
+*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L43)*
+
+*__description__*: Returns true if the type wraps an empty/default all-0 value
+
+**Returns:** `boolean`
 
 ___
 <a id="length"></a>
@@ -68,7 +83,7 @@ getlength(): `number`
 
 *Overrides Uint8Array.length*
 
-*Defined in [codec/U8a.ts:43](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/codec/U8a.ts#L43)*
+*Defined in [codec/U8a.ts:50](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L50)*
 
 *__description__*: The length of the value
 
@@ -81,7 +96,7 @@ ___
 
 getmeta(): [StorageFunctionMetadata](_metadata_modules_.storagefunctionmetadata.md) | `null`
 
-*Defined in [StorageKey.ts:82](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L82)*
+*Defined in [StorageKey.ts:82](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L82)*
 
 *__description__*: The metadata or `null` when not available
 
@@ -94,7 +109,7 @@ ___
 
 getoutputType(): `string` | `null`
 
-*Defined in [StorageKey.ts:89](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L89)*
+*Defined in [StorageKey.ts:89](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L89)*
 
 *__description__*: The output type, `null` when not available
 
@@ -114,7 +129,7 @@ ___
 
 *Overrides Uint8Array.subarray*
 
-*Defined in [codec/U8a.ts:53](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/codec/U8a.ts#L53)*
+*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L60)*
 
 *__description__*: Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
 
@@ -138,7 +153,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toHex](_codec_u8a_.u8a.md#tohex)*
 
-*Defined in [codec/U8a.ts:60](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/codec/U8a.ts#L60)*
+*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L67)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -155,7 +170,7 @@ ___
 
 *Inherited from [U8a](_codec_u8a_.u8a.md).[toJSON](_codec_u8a_.u8a.md#tojson)*
 
-*Defined in [codec/U8a.ts:67](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/codec/U8a.ts#L67)*
+*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L74)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -174,7 +189,7 @@ ___
 
 *Overrides Uint8Array.toString*
 
-*Defined in [codec/U8a.ts:74](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/codec/U8a.ts#L74)*
+*Defined in [codec/U8a.ts:81](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/codec/U8a.ts#L81)*
 
 *__description__*: Returns the string representation of the value
 
@@ -193,7 +208,7 @@ ___
 
 *Overrides [U8a](_codec_u8a_.u8a.md).[toU8a](_codec_u8a_.u8a.md#tou8a)*
 
-*Defined in [Bytes.ts:68](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bytes.ts#L68)*
+*Defined in [Bytes.ts:68](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/Bytes.ts#L68)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -212,7 +227,7 @@ ___
 
 ▸ **decodeStorageKey**(value: *[AnyU8a](../modules/_types_.md#anyu8a) | [StorageKey](_storagekey_.storagekey.md) | [StorageFunction](../interfaces/_storagekey_.storagefunction.md) | [[StorageFunction](../interfaces/_storagekey_.storagefunction.md), `any`]*): `Uint8Array`
 
-*Defined in [StorageKey.ts:37](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L37)*
+*Defined in [StorageKey.ts:37](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L37)*
 
 **Parameters:**
 
@@ -229,7 +244,7 @@ ___
 
 ▸ **getMeta**(value: *[StorageKey](_storagekey_.storagekey.md) | [StorageFunction](../interfaces/_storagekey_.storagefunction.md) | [[StorageFunction](../interfaces/_storagekey_.storagefunction.md), `any`]*): [StorageFunctionMetadata](_metadata_modules_.storagefunctionmetadata.md) | `null`
 
-*Defined in [StorageKey.ts:51](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L51)*
+*Defined in [StorageKey.ts:51](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L51)*
 
 **Parameters:**
 
@@ -246,7 +261,7 @@ ___
 
 ▸ **getType**(value: *[StorageKey](_storagekey_.storagekey.md) | [StorageFunction](../interfaces/_storagekey_.storagefunction.md) | [[StorageFunction](../interfaces/_storagekey_.storagefunction.md), `any`]*): `string` | `null`
 
-*Defined in [StorageKey.ts:65](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/StorageKey.ts#L65)*
+*Defined in [StorageKey.ts:65](https://github.com/polkadot-js/api/blob/9373e5d/packages/types/src/StorageKey.ts#L65)*
 
 **Parameters:**
 

@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../07_transfer_dots/" />
+    <link rel="next" href="../06_make_transfer/" />
     
     
-    <link rel="prev" href="../03_listen_to_balance_change/" />
+    <link rel="prev" href="../04_unsubscribe/" />
     
 
     </head>
@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.4" data-path="./">
+        <li class="chapter " data-level="3.1.4" data-path="../04_unsubscribe/">
+            
+                <a href="../04_unsubscribe/">
+            
+                    
+                    Unsubscribe from listening
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.1.5" data-path="./">
             
                 <a href="./">
             
@@ -343,9 +356,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.5" data-path="../07_transfer_dots/">
+        <li class="chapter " data-level="3.1.6" data-path="../06_make_transfer/">
             
-                <a href="../07_transfer_dots/">
+                <a href="../06_make_transfer/">
             
                     
                     Make a transfer
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.6" data-path="../08_system_events/">
+        <li class="chapter " data-level="3.1.7" data-path="../08_system_events/">
             
                 <a href="../08_system_events/">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7" data-path="../09_transfer_events/">
+        <li class="chapter " data-level="3.1.8" data-path="../09_transfer_events/">
             
                 <a href="../09_transfer_events/">
             
@@ -382,9 +395,145 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.8" data-path="../10_upgrade_chain/">
+        <li class="chapter " data-level="3.1.9" data-path="../10_upgrade_chain/">
             
                 <a href="../10_upgrade_chain/">
+            
+                    
+                    Upgrade via sudo
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../rx/">
+            
+                <a href="../../rx/">
+            
+                    
+                    ApiRx
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../rx/01_simple_connect/">
+            
+                <a href="../../rx/01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../rx/02_listen_to_blocks/">
+            
+                <a href="../../rx/02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../rx/03_listen_to_balance_change/">
+            
+                <a href="../../rx/03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../rx/04_unsubscribe/">
+            
+                <a href="../../rx/04_unsubscribe/">
+            
+                    
+                    Unsubscribe from listening
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.5" data-path="../../rx/05_read_storage/">
+            
+                <a href="../../rx/05_read_storage/">
+            
+                    
+                    Read chain state
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.6" data-path="../../rx/06_make_transfer/">
+            
+                <a href="../../rx/06_make_transfer/">
+            
+                    
+                    Make a transfer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.7" data-path="../../rx/08_system_events/">
+            
+                <a href="../../rx/08_system_events/">
+            
+                    
+                    Display system events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.8" data-path="../../rx/09_transfer_events/">
+            
+                <a href="../../rx/09_transfer_events/">
+            
+                    
+                    Transaction with events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.9" data-path="../../rx/10_upgrade_chain/">
+            
+                <a href="../../rx/10_upgrade_chain/">
             
                     
                     Upgrade via sudo
@@ -2008,17 +2157,20 @@
 &#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">accountNonce</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">Alice</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">accountNonce</span><span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 &#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">`</span><span class="sunlight-ident">blockPeriod</span>&#xA0;<span class="sunlight-ident">$</span><span class="sunlight-punctuation">{</span><span class="sunlight-ident">blockPeriod</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toNumber</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-ident">seconds</span><span class="sunlight-punctuation">`</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Retrieve&#xA0;the&#xA0;balances&#xA0;for&#xA0;all&#xA0;validators</span>
-&#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">validatorBalances</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">Promise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">all</span><span class="sunlight-punctuation">(</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">validators</span><span class="sunlight-operator">.</span><span class="sunlight-ident">map</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>
-&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">query</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span><span class="sunlight-operator">.</span><span class="sunlight-ident">freeBalance</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span><span class="sunlight-punctuation">)</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">)</span>
-&#xA0;&#xA0;<span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-keyword">if</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-ident">validators</span>&#xA0;<span class="sunlight-operator">&amp;&amp;</span>&#xA0;<span class="sunlight-ident">validators</span><span class="sunlight-operator">.</span><span class="sunlight-ident">length</span>&#xA0;<span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-number">0</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Retrieve&#xA0;the&#xA0;balances&#xA0;for&#xA0;all&#xA0;validators</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">validatorBalances</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">await</span>&#xA0;<span class="sunlight-ident">Promise</span><span class="sunlight-operator">.</span><span class="sunlight-ident">all</span><span class="sunlight-punctuation">(</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">validators</span><span class="sunlight-operator">.</span><span class="sunlight-ident">map</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">query</span><span class="sunlight-operator">.</span><span class="sunlight-ident">balances</span><span class="sunlight-operator">.</span><span class="sunlight-ident">freeBalance</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;validators&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">validators</span><span class="sunlight-operator">.</span><span class="sunlight-ident">map</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">index</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">{</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">address</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-ident">authorityId</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">balance</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-ident">validatorBalances</span><span class="sunlight-punctuation">[</span><span class="sunlight-ident">index</span><span class="sunlight-punctuation">]</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>
-&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;Print&#xA0;out&#xA0;the&#xA0;authorityIds&#xA0;and&#xA0;balances&#xA0;of&#xA0;all&#xA0;validators</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;validators&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">validators</span><span class="sunlight-operator">.</span><span class="sunlight-ident">map</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">authorityId</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">index</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">address</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-ident">authorityId</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">,</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">balance</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-ident">validatorBalances</span><span class="sunlight-punctuation">[</span><span class="sunlight-ident">index</span><span class="sunlight-punctuation">]</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toString</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;<span class="sunlight-punctuation">}</span>
 <span class="sunlight-punctuation">}</span>
 
 <span class="sunlight-ident">main</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">catch</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">)</span><span class="sunlight-operator">.</span><span class="sunlight-keyword">finally</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">_</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-ident">process</span><span class="sunlight-operator">.</span><span class="sunlight-ident">exit</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
@@ -2050,12 +2202,12 @@
 
             
                 
-                <a href="../03_listen_to_balance_change/" class="navigation navigation-prev " aria-label="Previous page: Listen to balance change">
+                <a href="../04_unsubscribe/" class="navigation navigation-prev " aria-label="Previous page: Unsubscribe from listening">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../07_transfer_dots/" class="navigation navigation-next " aria-label="Next page: Make a transfer">
+                <a href="../06_make_transfer/" class="navigation navigation-next " aria-label="Next page: Make a transfer">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2066,7 +2218,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Read chain state","level":"3.1.4","depth":2,"next":{"title":"Make a transfer","level":"3.1.5","depth":2,"path":"examples/promise/07_transfer_dots/README.md","ref":"examples/promise/07_transfer_dots/README.md","articles":[]},"previous":{"title":"Listen to balance change","level":"3.1.3","depth":2,"path":"examples/promise/03_listen_to_balance_change/README.md","ref":"examples/promise/03_listen_to_balance_change/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/05_read_storage/README.md","mtime":"2019-01-17T16:15:44.321Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T16:19:54.997Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Read chain state","level":"3.1.5","depth":2,"next":{"title":"Make a transfer","level":"3.1.6","depth":2,"path":"examples/promise/06_make_transfer/README.md","ref":"examples/promise/06_make_transfer/README.md","articles":[]},"previous":{"title":"Unsubscribe from listening","level":"3.1.4","depth":2,"path":"examples/promise/04_unsubscribe/README.md","ref":"examples/promise/04_unsubscribe/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/05_read_storage/README.md","mtime":"2019-01-22T22:13:44.152Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-22T22:17:48.947Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

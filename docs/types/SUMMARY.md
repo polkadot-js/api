@@ -89,6 +89,7 @@
   * [Hash](classes/_hash_.hash.md)
 * [&quot;Header&quot;](modules/_header_.md)
   * [Header](classes/_header_.header.md)
+  * [HeaderExtended](classes/_header_.headerextended.md)
 * [&quot;Header.spec&quot;](modules/_header_spec_.md)
 * [&quot;Health&quot;](modules/_health_.md)
   * [Health](classes/_health_.health.md)
