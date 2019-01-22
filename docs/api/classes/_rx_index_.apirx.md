@@ -1,6 +1,4 @@
-
-
-@polkadot/api/rx
+ @polkadot/api/rx
 ================
 
 Overview
@@ -55,14 +53,15 @@ new ApiRx(provider)
         api.query.timestamp.now()
       ])
     )
-    .subscribe(([blockPeriod, timestamp]) => {
-      const elapsed = last
-        ? `, ${timestamp.toNumber() - last}s since last`
-        : '';
+  )
+  .subscribe(([blockPeriod, timestamp]) => {
+    const elapsed = last
+      ? `, ${timestamp.toNumber() - last}s since last`
+      : '';
 
-      last = timestamp.toNumber();
-      console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
-    }));
+    last = timestamp.toNumber();
+    console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+  });
 ```
 
 
@@ -70,30 +69,38 @@ new ApiRx(provider)
 Submitting a transaction -  
 
 ```javascript
+import { first, switchMap } from 'rxjs/operators';
 import ApiRx from '@polkadot/api/rx';
+
+// import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
+import testingPairs from '@polkadot/keyring/testingPairs';
+const keyring = testingPairs();
 
 // get api via Promise
 const api = await ApiRx.create().toPromise();
 
 // retrieve nonce for the account
 api.query.system
-  .accountNonce(keyring.alice.address())
-  .pipe(
-     // pipe nonce into transfer
-     switchMap((nonce) =>
-       api.tx.balances
-         // create transfer
-         .transfer(keyring.bob.address(), 12345)
-         // sign the transcation
-         .sign(keyring.alice, nonce)
-         // send the transaction
-         .send()
-     )
-  )
+    .accountNonce(keyring.alice.address())
+    .pipe(
+      first(),
+      // pipe nonce into transfer
+      switchMap((nonce) =>
+        api.tx.balances
+        // create transfer
+          .transfer(keyring.bob.address(), 12345)
+        // sign the transcation
+          .sign(keyring.alice, nonce)
+        // send the transaction
+          .send()
+      )
+    )
   // subscribe to overall result
-  .subscribe((hash) => {
-    console.log(`submitted with hash ${hash}`);
-  });
+    .subscribe(({ status, type }) => {
+      if (type === 'Finalised') {
+        console.log('Completed at block hash', status.asFinalised.toHex());
+      }
+    });
 ```
 
 # Hierarchy
@@ -124,13 +131,17 @@ api.query.system
 *__example__*:   
 
 ```javascript
+import { switchMap } from 'rxjs/operators';
 import Api from '@polkadot/api/rx';
 
-new Api().isReady.subscribe((api) => {
-  api.rpc.subscribeNewHead().subscribe((header) => {
+new Api().isReady
+  .pipe(
+    switchMap((api) =>
+      api.rpc.chain.subscribeNewHead()
+    ))
+  .subscribe((header) => {
     console.log(`new block #${header.blockNumber.toNumber()}`);
   });
-});
 ```
 
 **Parameters:**
@@ -322,8 +333,8 @@ gettx(): [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)
 api.tx.balances
   .transfer(<recipientId>, <balance>)
   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-  .send((status) => {
-    console.log('tx status', status);
+  .send(({status}) => {
+    console.log('tx status', status.asFinalised.toHex());
   });
 ```
 
@@ -414,13 +425,17 @@ ___
 *__example__*:   
 
 ```javascript
+const { switchMap } = require('rxjs/operators');
 import Api from '@polkadot/api/rx';
 
-Api.create().subscribe((api) => {
-  api.query.timestamp.now.subscribe((timestamp) => {
+Api.create()
+  .pipe(
+    switchMap((api) =>
+      api.query.timestamp.now()
+    ))
+  .subscribe((timestamp) => {
     console.log(`lastest block timestamp ${timestamp}`);
   });
-});
 ```
 
 **Parameters:**
