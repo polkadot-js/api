@@ -1,4 +1,4 @@
- @polkadot/api/rx
+@polkadot/api/rx
 ================
 
 Overview
@@ -81,26 +81,26 @@ const api = await ApiRx.create().toPromise();
 
 // retrieve nonce for the account
 api.query.system
-    .accountNonce(keyring.alice.address())
-    .pipe(
-      first(),
-      // pipe nonce into transfer
-      switchMap((nonce) =>
-        api.tx.balances
-        // create transfer
-          .transfer(keyring.bob.address(), 12345)
-        // sign the transcation
-          .sign(keyring.alice, nonce)
-        // send the transaction
-          .send()
-      )
+  .accountNonce(keyring.alice.address())
+  .pipe(
+    first(),
+    // pipe nonce into transfer
+    switchMap((nonce) =>
+      api.tx.balances
+      // create transfer
+        .transfer(keyring.bob.address(), 12345)
+      // sign the transcation
+        .sign(keyring.alice, nonce)
+      // send the transaction
+        .send()
     )
+  )
   // subscribe to overall result
-    .subscribe(({ status, type }) => {
-      if (type === 'Finalised') {
-        console.log('Completed at block hash', status.asFinalised.toHex());
-      }
-    });
+  .subscribe(({ status, type }) => {
+    if (type === 'Finalised') {
+      console.log('Completed at block hash', status.asFinalised.toHex());
+    }
+  });
 ```
 
 # Hierarchy
