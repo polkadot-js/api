@@ -198,7 +198,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
 
   protected onCall (method: RxFn, params: Array<any>, isSubscription: boolean = false): OnCall {
     if (!params || params.length === 0 || !isSubscription) {
-      return method().pipe(first()).toPromise();
+      return method(...params).pipe(first()).toPromise();
     }
 
     const cb = params[params.length - 1];
