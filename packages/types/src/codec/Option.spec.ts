@@ -5,7 +5,7 @@
 import Option from './Option';
 import Text from '../Text';
 
-const testDecode = (type, input, expected) =>
+const testDecode = (type: string, input: any, expected: any) =>
   it(`can decode from ${type}`, () => {
     const o = new Option(Text, input);
 
@@ -13,11 +13,11 @@ const testDecode = (type, input, expected) =>
     expect(o.isNone).toBe(!expected.length);
   });
 
-const testEncode = (to, expected) =>
+const testEncode = (to: string, expected: any) =>
   it(`can encode ${to}`, () => {
     const e = new Option(Text, 'foo');
 
-    expect(e[to]()).toEqual(expected);
+    expect((e as any)[to]()).toEqual(expected);
   });
 
 describe('Option', () => {
@@ -36,7 +36,7 @@ describe('Option', () => {
   testDecode('string (with)', 'foo', 'foo');
   testDecode('string (without)', undefined, '');
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
-  testDecode('Uint8Array (without)', Uint8Array.from([0]), '', false);
+  testDecode('Uint8Array (without)', Uint8Array.from([0]), '');
 
   testEncode('toHex', '0x010c666f6f');
   testEncode('toString', 'foo');
@@ -64,5 +64,17 @@ describe('Option', () => {
     expect(
       new Option(Text).toU8a()
     ).toEqual(new Uint8Array([0]));
+  });
+
+  describe('utils', () => {
+    const testeq = new Option(Text, '1234');
+
+    it('compares against other option', () => {
+      expect(testeq.eq(new Option(Text, '1234'))).toBe(true);
+    });
+
+    it('compares against raw value', () => {
+      expect(testeq.eq('1234')).toBe(true);
+    });
   });
 });

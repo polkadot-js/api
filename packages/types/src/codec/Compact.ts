@@ -81,6 +81,17 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return this.raw.eq(
+      other instanceof Compact
+        ? other.raw
+        : other
+    );
+  }
+
+  /**
    * @description Returns the BN representation of the number
    */
   toBn (): BN {

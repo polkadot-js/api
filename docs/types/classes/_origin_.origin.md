@@ -22,7 +22,7 @@
 
 ⊕ **new Origin**(): [Origin](_origin_.origin.md)
 
-*Defined in [Origin.ts:13](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Origin.ts#L13)*
+*Defined in [Origin.ts:13](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Origin.ts#L13)*
 
 **Returns:** [Origin](_origin_.origin.md)
 
@@ -38,7 +38,7 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_null_.null.md).[encodedLength](_null_.null.md#encodedlength)*
 
-*Defined in [Null.ts:16](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Null.ts#L16)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L17)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -48,6 +48,29 @@ ___
 
 # Methods
 
+<a id="eq"></a>
+
+##  eq
+
+▸ **eq**(other?: *`any`*): `boolean`
+
+*Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
+
+*Inherited from [Null](_null_.null.md).[eq](_null_.null.md#eq)*
+
+*Defined in [Null.ts:24](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L24)*
+
+*__description__*: Compares the value of the input to see if there is a match
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| `Optional` other | `any` |
+
+**Returns:** `boolean`
+
+___
 <a id="tohex"></a>
 
 ##  toHex
@@ -58,7 +81,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toHex](_null_.null.md#tohex)*
 
-*Defined in [Null.ts:23](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Null.ts#L23)*
+*Defined in [Null.ts:31](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L31)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -75,7 +98,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toJSON](_null_.null.md#tojson)*
 
-*Defined in [Null.ts:30](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Null.ts#L30)*
+*Defined in [Null.ts:38](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L38)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -92,7 +115,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toString](_null_.null.md#tostring)*
 
-*Defined in [Null.ts:37](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Null.ts#L37)*
+*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L45)*
 
 *__description__*: Returns the string representation of the value
 
@@ -109,7 +132,7 @@ ___
 
 *Inherited from [Null](_null_.null.md).[toU8a](_null_.null.md#tou8a)*
 
-*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/87b5b91/packages/types/src/Null.ts#L45)*
+*Defined in [Null.ts:53](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Null.ts#L53)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

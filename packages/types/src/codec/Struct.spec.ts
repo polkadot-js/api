@@ -154,4 +154,22 @@ describe('Struct', () => {
         .toString()
     ).toEqual('1234');
   });
+
+  describe('utils', () => {
+    it('compares against other objects', () => {
+      const test = {
+        foo: 'foo',
+        bar: 'bar',
+        baz: 3
+      };
+
+      expect(
+        new Struct({
+          foo: Text,
+          bar: Text,
+          baz: U32
+        }, test).eq(test)
+      ).toBe(true);
+    });
+  });
 });

@@ -42,4 +42,14 @@ describe('Moment', () => {
       ).toBe(true);
     });
   });
+
+  describe('utils', () => {
+    it('compares values', () => {
+      expect(new Moment(123).eq(123)).toBe(true);
+    });
+
+    it('compares values (non-match)', () => {
+      expect(new Moment(123).eq(456)).toBe(false);
+    });
+  });
 });

@@ -84,4 +84,23 @@ describe('Struct', () => {
     expect(enumType.type).toBe('Text');
     expect(enumType.value).toEqual(text);
   });
+
+  describe('utils', () => {
+    const eqtest = new EnumType(
+      { U32, Text },
+      new Uint8Array([1, 3 << 2, 88, 89, 90])
+    );
+
+    it('compares against index', () => {
+      expect(
+        eqtest.eq(1)
+      ).toBe(true);
+    });
+
+    it('compares against values', () => {
+      expect(
+        eqtest.eq('XYZ')
+      ).toBe(true);
+    });
+  });
 });

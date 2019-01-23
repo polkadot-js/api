@@ -42,4 +42,32 @@ describe('Set', () => {
 
     expect(set.toU8a()).toEqual(new Uint8Array([19]));
   });
+
+  describe('utils', () => {
+    const set = new Set(SET_ROLES, ['full', 'authority']);
+
+    it('compares against string array', () => {
+      expect(
+        set.eq(['authority', 'full'])
+      ).toBe(true);
+    });
+
+    it('compares against number (encoded)', () => {
+      expect(
+        set.eq(SET_ROLES.full | SET_ROLES.authority)
+      ).toBe(true);
+    });
+
+    it('compares against other sets', () => {
+      expect(
+        set.eq(new Set(SET_ROLES, ['authority', 'full']))
+      ).toBe(true);
+    });
+
+    it('returns false on other values', () => {
+      expect(
+        set.eq('full')
+      ).toBe(false);
+    });
+  });
 });

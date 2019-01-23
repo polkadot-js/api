@@ -30,6 +30,14 @@ describe('AccountIndex', () => {
     ).toEqual('Mwz15xN8');
   });
 
+  it('compares ss-58 values', () => {
+    expect(new AccountIndex(256 * 1).eq('25GUyk')).toBe(true);
+  });
+
+  it('compares numbers', () => {
+    expect(new AccountIndex('25GUyk').eq(256 * 1)).toBe(true);
+  });
+
   describe('calcLength', () => {
     const testLength = (value: number, length: number) =>
       expect(AccountIndex.calcLength(value)).toEqual(length);
