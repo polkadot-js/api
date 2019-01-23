@@ -48,11 +48,10 @@ import ApiBase from '../Base';
  *
  * ```javascript
  * import { combineLatest } from 'rxjs';
+ * import { pairwise, switchMap } from 'rxjs/operators';
  * import { ApiRx } from '@polkadot/api';
  * import { WsProvider } from '@polkadot/rpc-provider';
  *
- * // last block timestamp
- * let last = 0;
  *
  * // initialise a provider with a specific endpoint
  * const provider = new WsProvider('wss://example.com:9944')
@@ -64,16 +63,13 @@ import ApiBase from '../Base';
  *     switchMap((api) =>
  *       combineLatest([
  *         api.query.timestamp.blockPeriod(),
- *         api.query.timestamp.now()
+ *         api.query.timestamp.now().pipe(pairwise())
  *       ])
+ *     )
  *   )
  *   .subscribe(([blockPeriod, timestamp]) => {
- *     const elapsed = last
- *       ? `, ${timestamp.toNumber() - last}s since last`
- *       : '';
- *
- *     last = timestamp.toNumber();
- *     console.log(`timestamp ${timestamp}${elapsed} (${blockPeriod}s target)`);
+ *      const elapsed = timestamp[1].toNumber() - timestamp[0].toNumber();
+ *      console.log(`timestamp ${timestamp[1]} \nelapsed ${elapsed} \n(${blockPeriod}s target)`);
  *   });
  * ```
  * <BR>
@@ -82,7 +78,12 @@ import ApiBase from '../Base';
  * <BR>
  *
  * ```javascript
+ * import { first, switchMap } from 'rxjs/operators';
  * import ApiRx from '@polkadot/api/rx';
+ *
+ * // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
+ * import testingPairs from '@polkadot/keyring/testingPairs';
+ * const keyring = testingPairs();
  *
  * // get api via Promise
  * const api = await ApiRx.create().toPromise();
@@ -91,6 +92,7 @@ import ApiBase from '../Base';
  * api.query.system
  *   .accountNonce(keyring.alice.address())
  *   .pipe(
+ *      first(),
  *      // pipe nonce into transfer
  *      switchMap((nonce) =>
  *        api.tx.balances
@@ -103,8 +105,10 @@ import ApiBase from '../Base';
  *      )
  *   )
  *   // subscribe to overall result
- *   .subscribe((hash) => {
- *     console.log(`submitted with hash ${hash}`);
+ *   .subscribe(({ status, type }) => {
+ *     if (type === 'Finalised') {
+ *       console.log('Completed at block hash', status.asFinalised.toHex());
+ *     }
  *   });
  * ```
  */
@@ -120,13 +124,17 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
    * <BR>
    *
    * ```javascript
+   * import { switchMap } from 'rxjs/operators';
    * import Api from '@polkadot/api/rx';
    *
-   * Api.create().subscribe((api) => {
-   *   api.query.timestamp.now.subscribe((timestamp) => {
-   *     console.log(`lastest block timestamp ${timestamp}`);
+   * Api.create()
+   *   .pipe(
+   *     switchMap((api) =>
+   *       api.rpc.chain.subscribeNewHead()
+   *   ))
+   *   .subscribe((header) => {
+   *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
-   * });
    * ```
    */
   static create (options?: ApiOptions | ProviderInterface): Observable<ApiRx> {
@@ -142,13 +150,17 @@ export default class ApiRx extends ApiBase<OnCall> implements ApiRxInterface {
    * <BR>
    *
    * ```javascript
+   * import { switchMap } from 'rxjs/operators';
    * import Api from '@polkadot/api/rx';
    *
-   * new Api().isReady.subscribe((api) => {
-   *   api.rpc.subscribeNewHead().subscribe((header) => {
+   * new Api().isReady
+   *   .pipe(
+   *     switchMap((api) =>
+   *       api.rpc.chain.subscribeNewHead()
+   *   ))
+   *   .subscribe((header) => {
    *     console.log(`new block #${header.blockNumber.toNumber()}`);
    *   });
-   * });
    * ```
    */
   constructor (provider?: ApiOptions | ProviderInterface) {
