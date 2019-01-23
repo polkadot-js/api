@@ -8,9 +8,17 @@
 
 ▸ **bestNumber**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/bestNumber.ts:15](https://github.com/polkadot-js/api/blob/767a197/packages/api-derive/src/chain/bestNumber.ts#L15)*
+*Defined in [chain/bestNumber.ts:23](https://github.com/polkadot-js/api/blob/843f374/packages/api-derive/src/chain/bestNumber.ts#L23)*
 
-Get the latest block number.
+*__description__*: Get the latest block number.
+
+*__example__*:   
+
+```javascript
+api.derive.chain.bestNumber((blockNumber) => {
+  console.log(`the current best block is #${blockNumber}`);
+});
+```
 
 **Parameters:**
 

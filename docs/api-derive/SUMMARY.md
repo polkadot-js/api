@@ -12,6 +12,7 @@
 * [&quot;balances/votingBalancesNominatorsFor&quot;](modules/_balances_votingbalancesnominatorsfor_.md)
 * [&quot;chain/bestNumber&quot;](modules/_chain_bestnumber_.md)
 * [&quot;chain/bestNumberFinalised&quot;](modules/_chain_bestnumberfinalised_.md)
+* [&quot;chain/bestNumberLag&quot;](modules/_chain_bestnumberlag_.md)
 * [&quot;chain/getHeader&quot;](modules/_chain_getheader_.md)
 * [&quot;chain/index&quot;](modules/_chain_index_.md)
 * [&quot;chain/subscribeNewHead&quot;](modules/_chain_subscribenewhead_.md)

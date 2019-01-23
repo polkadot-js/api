@@ -2,7 +2,7 @@
 
 *__name__*: ChainProperties
 
-*__description__*: Wraps the properties retrieved from the chain via the `system.properties` RPC call. It extends the standard JS Map with known values exposed as a getter. While it implements a Codec, it is limited ain that it can only be used with input objects, i.e. no hex decoding.
+*__description__*: Wraps the properties retrieved from the chain via the `system.properties` RPC call. It extends the standard JS Map with de-facto values exposed as getters. While it implements a Codec, it is limited in that it can only be used with input objects via RPC, i.e. no hex decoding. Unlike a struct, this wrasp a JSON object with unknown keys and any values for those
 
 # Hierarchy
 
@@ -22,7 +22,7 @@
 
 ⊕ **new ChainProperties**(value?: *`object` | `null`*): [ChainProperties](_chainproperties_.chainproperties.md)
 
-*Defined in [ChainProperties.ts:18](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L18)*
+*Defined in [ChainProperties.ts:17](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L17)*
 
 **Parameters:**
 
@@ -54,11 +54,37 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [ChainProperties.ts:30](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L30)*
+*Defined in [ChainProperties.ts:29](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L29)*
 
 *__description__*: Always 0, never encodes as a Uint8Array
 
 **Returns:** `number`
+
+___
+<a id="tokendecimals"></a>
+
+##  tokenDecimals
+
+gettokenDecimals(): `number` | `undefined`
+
+*Defined in [ChainProperties.ts:36](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L36)*
+
+*__description__*: The token decimals, if defined (de-facto standard only)
+
+**Returns:** `number` | `undefined`
+
+___
+<a id="tokensymbol"></a>
+
+##  tokenSymbol
+
+gettokenSymbol(): `number` | `undefined`
+
+*Defined in [ChainProperties.ts:43](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L43)*
+
+*__description__*: The token system, if defined (de-facto standard only)
+
+**Returns:** `number` | `undefined`
 
 ___
 
@@ -72,7 +98,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [ChainProperties.ts:45](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L45)*
+*Defined in [ChainProperties.ts:50](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L50)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -85,27 +111,6 @@ ___
 **Returns:** `boolean`
 
 ___
-<a id="get"></a>
-
-##  get
-
-▸ **get**(name: *`string`*): `any` | `undefined`
-
-*Overrides Map.get*
-
-*Defined in [ChainProperties.ts:38](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L38)*
-
-*__description__*: Returns a specific names entry in the structure
-
-**Parameters:**
-
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| name | `string` |  The name of the entry to retrieve |
-
-**Returns:** `any` | `undefined`
-
-___
 <a id="tohex"></a>
 
 ##  toHex
@@ -114,7 +119,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [ChainProperties.ts:52](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L52)*
+*Defined in [ChainProperties.ts:57](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L57)*
 
 *__description__*: Unimplemented, will throw
 
@@ -129,7 +134,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [ChainProperties.ts:59](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L59)*
+*Defined in [ChainProperties.ts:64](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L64)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -144,7 +149,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [ChainProperties.ts:70](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L70)*
+*Defined in [ChainProperties.ts:75](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L75)*
 
 *__description__*: Returns the string representation of the value
 
@@ -159,7 +164,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [ChainProperties.ts:77](https://github.com/polkadot-js/api/blob/767a197/packages/types/src/ChainProperties.ts#L77)*
+*Defined in [ChainProperties.ts:82](https://github.com/polkadot-js/api/blob/843f374/packages/types/src/ChainProperties.ts#L82)*
 
 *__description__*: Unimplemented, will throw
 

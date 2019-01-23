@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...params: *`Array`<`any`>*): `Observable`<`any`> | `ReplaySubject`<`any`>
 
-*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L8)*
+*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/843f374/packages/rpc-rx/src/types.ts#L8)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● isSubscription**: *`boolean`*
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L10)*
+*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/843f374/packages/rpc-rx/src/types.ts#L10)*
 
 ___
 

@@ -8,9 +8,17 @@
 
 ▸ **getHeader**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/getHeader.ts:17](https://github.com/polkadot-js/api/blob/767a197/packages/api-derive/src/chain/getHeader.ts#L17)*
+*Defined in [chain/getHeader.ts:26](https://github.com/polkadot-js/api/blob/843f374/packages/api-derive/src/chain/getHeader.ts#L26)*
 
-Get the a specific block header and extend it with the author
+*__description__*: Get the a specific block header and extend it with the author
+
+*__example__*:   
+
+```javascript
+const { author, blockNumber } = await api.derive.chain.getHeader('0x123...456');
+
+console.log(`block #${blockNumber} was authored by ${author}`);
+```
 
 **Parameters:**
 

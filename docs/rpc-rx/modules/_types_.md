@@ -22,7 +22,7 @@
 
 **Ƭ RpcRxInterface**: *`object`*
 
-*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L19)*
+*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/843f374/packages/rpc-rx/src/types.ts#L19)*
 
 #### Type declaration
 
@@ -33,7 +33,7 @@ ___
 
 **Ƭ RpcRxInterface$Events**: *`ProviderInterface$Emitted`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/843f374/packages/rpc-rx/src/types.ts#L17)*
 
 ___
 <a id="rpcrxinterface_section"></a>
@@ -42,7 +42,7 @@ ___
 
 **Ƭ RpcRxInterface$Section**: *`object`*
 
-*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L13)*
+*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/843f374/packages/rpc-rx/src/types.ts#L13)*
 
 #### Type declaration
 
