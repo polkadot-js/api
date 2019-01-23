@@ -5,7 +5,7 @@
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber, Balance } from '@polkadot/types/index';
+import { BlockNumber } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 import { bestNumber } from './bestNumber';
@@ -29,7 +29,7 @@ export function bestNumberLag (api: ApiInterface$Rx) {
       bestNumberFinalised(api)()
     ).pipe(
       map(([bestNumber, bestNumberFinalised]) =>
-        new Balance(bestNumber.sub(bestNumberFinalised))
+        new BlockNumber(bestNumber.sub(bestNumberFinalised))
       ),
       drr()
     );
