@@ -8,4 +8,4 @@
 
 # Indexable
 
-\[index: `string`\]:&nbsp;[QueryableStorageFunction](_types_.queryablestoragefunction.md)<`OnCall`>
+\[index: `string`\]:&nbsp;[QueryableStorageFunction](../modules/_types_.md#queryablestoragefunction)<`OnCall`>

@@ -14,7 +14,10 @@ import { isFunction } from '@polkadot/util';
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 
-type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
+interface RxFn {
+  (...params: Array<any>): Observable<Codec | undefined | null>;
+  isSubscription: boolean;
+}
 
 /**
  * # @polkadot/api/promise
@@ -193,8 +196,8 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     };
   }
 
-  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
-    if (!params || params.length === 0 || isSubscription === false) {
+  protected onCall (method: RxFn, params: Array<any>, isSubscription: boolean = false): OnCall {
+    if (!params || params.length === 0 || !isSubscription) {
       return method(...params).pipe(first()).toPromise();
     }
 
