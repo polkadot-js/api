@@ -11,7 +11,7 @@ import { compareArray, decodeU8a } from './utils';
 /**
  * @name Vector
  * @description
- * This manages codec arrays. Interrnally it keeps track of the length (as decoded) and allows
+ * This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc

@@ -10,7 +10,7 @@ export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
     const length = [...a.entries()].length;
 
-    return length === b.length && isUndefined(
+    return (length === b.length) && isUndefined(
       b.find((entry) => {
         if (!Array.isArray(entry) || entry.length !== 2) {
           return true;

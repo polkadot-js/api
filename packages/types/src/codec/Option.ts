@@ -80,7 +80,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    */
   eq (other?: any): boolean {
     if (other instanceof Option) {
-      return this.isSome === other.isSome && this.value.eq(other.value);
+      return (this.isSome === other.isSome) && this.value.eq(other.value);
     }
 
     return this.value.eq(other);

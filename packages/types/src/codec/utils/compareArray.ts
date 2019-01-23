@@ -8,7 +8,7 @@ import { isFunction, isUndefined } from '@polkadot/util';
 // when the second is an Array<Codec> that the first has to be as well
 export default function compareArray (a: Array<any>, b?: any): boolean {
   if (Array.isArray(b)) {
-    return a.length === b.length && isUndefined(
+    return (a.length === b.length) && isUndefined(
       a.find((value, index) =>
         isFunction(value.eq)
           ? !value.eq(b[index])
