@@ -5,13 +5,10 @@
 import { ReplaySubject, Observable } from 'rxjs';
 import { ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 
-export interface RpcRxObervable {
-  (...params: Array<any>): Observable<any> | ReplaySubject<any>;
-  isSubscription: boolean;
-}
+export type RpcRxInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
 
 export type RpcRxInterface$Section = {
-  [index: string]: RpcRxObervable
+  [index: string]: RpcRxInterface$Method
 };
 
 export type RpcRxInterface$Events = ProviderInterface$Emitted;
