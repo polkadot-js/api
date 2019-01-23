@@ -8,9 +8,7 @@ import { isFunction, isObject, isUndefined } from '@polkadot/util';
 // when the second is an Map<string, Codec> that the first has to be as well
 export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
-    const length = [...a.entries()].length;
-
-    return (length === b.length) && isUndefined(
+    return (a.size === b.length) && isUndefined(
       b.find((entry) => {
         if (!Array.isArray(entry) || entry.length !== 2) {
           return true;
