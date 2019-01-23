@@ -76,8 +76,8 @@ export default abstract class AbstractInt extends BN implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean {
-    // Here we are actually overriding the buolt-in equal to take care of both
-    // number and BN inputs - numbers will be converted
+    // Here we are actually overriding the built-in .eq to take care of both
+    // number and BN inputs (no `.eqn` needed) - numbers will be converted
     return super.eq(
       isHex(other)
         ? hexToBn(other.toString(), { isLe: false, isNegative: this._isNegative })
