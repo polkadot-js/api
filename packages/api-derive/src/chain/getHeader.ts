@@ -12,7 +12,16 @@ import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
 
 /**
- * Get the a specific block header and extend it with the author
+ * @description Get the a specific block header and extend it with the author
+ * @param hash: Uint8Array | string
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * const { author, blockNumber } = await api.derive.chain.getHeader('0x123...456');
+ *
+ * console.log(`block #${blockNumber} was authored by ${author}`);
+ * ```
  */
 export function getHeader (api: ApiInterface$Rx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>

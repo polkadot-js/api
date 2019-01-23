@@ -10,7 +10,15 @@ import { BlockNumber, Header } from '@polkadot/types/index';
 import { drr } from '../util/drr';
 
 /**
- * Get the latest block number.
+ * @description Get the latest block number.
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.chain.bestNumber((blockNumber) => {
+ *   console.log(`the current best block is #${blockNumber}`);
+ * });
+ * ```
  */
 export function bestNumber (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>
