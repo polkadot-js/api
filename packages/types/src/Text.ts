@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 
 import { AnyU8a, Codec } from './types';
 import Compact from './codec/Compact';
@@ -34,8 +34,6 @@ export default class Text extends String implements Codec {
       const [offset, length] = Compact.decodeU8a(value);
 
       return u8aToString(value.subarray(offset, offset + length.toNumber()));
-    } else if (isFunction(value.toString)) {
-      return value.toString();
     }
 
     return `${value}`;

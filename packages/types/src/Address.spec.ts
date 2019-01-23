@@ -25,14 +25,14 @@ describe('Address', () => {
       '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
     );
     testDecode(
-      'AccountIndex',
+      'AccountIndex (mixed prefixes)',
       new Address('PrF3'),
       // NOTE Expected adress here is encoded with prefix 42, input above with 68
       'F7ih'
     );
     testDecode(
-      'AccountIndex',
-      new AccountIndex('0x0001'),
+      'AccountIndex (hex)',
+      new AccountIndex('0x0100'),
       '25GUyk'
     );
     testDecode(

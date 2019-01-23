@@ -46,6 +46,7 @@ export default class Bytes extends U8a {
       // i.e. new Bytes(new Bytes(...)) will work as expected
       return value;
     } else if (isU8a(value)) {
+      // handle all other Uint8Array inputs, these do have a length prefix
       const [offset, length] = Compact.decodeU8a(value);
 
       return value.subarray(offset, offset + length.toNumber());

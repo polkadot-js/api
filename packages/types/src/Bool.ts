@@ -20,7 +20,7 @@ export default class Bool extends Boolean implements Codec {
   }
 
   private static decodeBool (value: any): boolean {
-    if (value instanceof Bool || value instanceof Boolean) {
+    if (value instanceof Boolean) {
       return value.valueOf();
     } else if (isU8a(value)) {
       return value[0] === 1;

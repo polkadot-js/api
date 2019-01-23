@@ -4,14 +4,13 @@
 
 import { Codec } from './types';
 
-// TODO Expose known properties as they become known, currently we have `tokenSymbol` (e.g. BBQ)
-
 /**
  * @name ChainProperties
  * @description
  * Wraps the properties retrieved from the chain via the `system.properties` RPC call. It extends
- * the standard JS Map with known values exposed as a getter. While it implements a Codec, it is
- * limited ain that it can only be used with input objects, i.e. no hex decoding.
+ * the standard JS Map with de-facto values exposed as getters. While it implements a Codec, it is
+ * limited in that it can only be used with input objects via RPC, i.e. no hex decoding. Unlike a
+ * struct, this wrasp a JSON object with unknown keys and any values for those
  * @noInheritDoc
  */
 export default class ChainProperties extends Map<string, any> implements Codec {
@@ -31,11 +30,17 @@ export default class ChainProperties extends Map<string, any> implements Codec {
   }
 
   /**
-   * @description Returns a specific names entry in the structure
-   * @param name The name of the entry to retrieve
+   * @description The token decimals, if defined (de-facto standard only)
    */
-  get (name: string): any | undefined {
-    return super.get(name);
+  get tokenDecimals (): number | undefined {
+    return this.get('tokenDecimals');
+  }
+
+  /**
+   * @description The token system, if defined (de-facto standard only)
+   */
+  get tokenSymbol (): number | undefined {
+    return this.get('tokenSymbol');
   }
 
   /**
@@ -49,8 +54,8 @@ export default class ChainProperties extends Map<string, any> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
-    return [...this.keys()].reduce((json, key) => {
-      json[key] = this.get(key);
+    return [...this.entries()].reduce((json, [key, value]) => {
+      json[key] = value;
 
       return json;
     }, {} as any);
