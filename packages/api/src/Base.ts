@@ -206,8 +206,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
    *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-   *   .send((status) => {
-   *     console.log('tx status', status);
+   *   .send(({status}) => {
+   *     console.log('tx status', status.asFinalised.toHex());
    *   });
    * ```
    */
