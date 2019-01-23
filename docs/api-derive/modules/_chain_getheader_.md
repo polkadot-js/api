@@ -8,7 +8,7 @@
 
 ▸ **getHeader**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/getHeader.ts:17](https://github.com/polkadot-js/api/blob/0e73f22/packages/api-derive/src/chain/getHeader.ts#L17)*
+*Defined in [chain/getHeader.ts:17](https://github.com/polkadot-js/api/blob/767a197/packages/api-derive/src/chain/getHeader.ts#L17)*
 
 Get the a specific block header and extend it with the author
 
