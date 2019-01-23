@@ -21,8 +21,7 @@ describe('Address', () => {
     });
 
     it('equals on AccountIndex', () => {
-      const addr = 'PrF3';
-
+      // see the test below - these are equivalent (with different prefix encoding)
       expect(new Address('PrF3').eq('F7ih')).toBe(true);
     });
   });
