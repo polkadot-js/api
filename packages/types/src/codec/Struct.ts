@@ -5,7 +5,7 @@
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Codec, Constructor, ConstructorDef } from '../types';
-import decodeU8a from './utils/decodeU8a';
+import { compareMap, decodeU8a } from './utils';
 
 /**
  * @name Struct
@@ -150,6 +150,13 @@ export default class Struct<
     return this.toArray().reduce((length, entry) => {
       return length += entry.encodedLength;
     }, 0);
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return compareMap(this, other);
   }
 
   /**

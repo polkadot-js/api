@@ -66,6 +66,19 @@ export default class Enum extends Base<number> implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    if (other instanceof Enum) {
+      return this.raw === other.raw;
+    }
+
+    return isString(other)
+      ? this.toString() === other
+      : this.raw === other;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

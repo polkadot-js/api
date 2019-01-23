@@ -30,4 +30,18 @@ describe('Text', () => {
     testEncode('toString', 'foo');
     testEncode('toU8a', Uint8Array.from([12, 102, 111, 111]));
   });
+
+  describe('utils', () => {
+    it('compares actual string values', () => {
+      expect(new Text('123').eq('123')).toBe(true);
+    });
+
+    it('compares actual String values', () => {
+      expect(new Text('XYX').eq(new String('XYX'))).toBe(true);
+    });
+
+    it('compares actual non-string values (fails)', () => {
+      expect(new Text('123').eq(123)).toBe(false);
+    });
+  });
 });

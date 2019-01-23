@@ -6,12 +6,12 @@ import { u8aConcat, u8aToU8a, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
 import { Codec, Constructor } from '../types';
-import decodeU8a from './utils/decodeU8a';
+import { compareArray, decodeU8a } from './utils';
 
 /**
  * @name Vector
  * @description
- * This manages codec arrays. Intrernally it keeps track of the length (as decoded) and allows
+ * This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
  * @noInheritDoc
@@ -73,6 +73,13 @@ export default class Vector<
   get length (): number {
     // only included here since we ignore inherited docs
     return super.length;
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return compareArray(this, other);
   }
 
   /**

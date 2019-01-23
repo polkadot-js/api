@@ -41,6 +41,13 @@ export default class AccountId extends U8aFixed {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return super.eq(AccountId.decodeAccountId(other));
+  }
+
+  /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {

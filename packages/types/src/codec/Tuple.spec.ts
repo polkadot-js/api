@@ -85,4 +85,13 @@ describe('Tuple', () => {
     expect(tuple.map(v => v.toString())).toEqual(['bazzing', '69']);
   });
 
+  describe('utils', () => {
+    it('compares against inputs', () => {
+      expect(tuple.eq(['bazzing', 69])).toBe(true);
+    });
+
+    it('compares against inputs (mismatch)', () => {
+      expect(tuple.eq(['bazzing', 72])).toBe(false);
+    });
+  });
 });

@@ -19,4 +19,13 @@ describe('ChainProperties', () => {
       }).entries()]
     ).toEqual([['decimals', 15], ['tokenSymbol', 'BBQ']]);
   });
+
+  it('checks equality', () => {
+    expect(
+      new ChainProperties({
+        decimals: 15,
+        tokenSymbol: 'BBQ'
+      }).eq([['tokenSymbol', 'BBQ'], ['decimals', 15]])
+    ).toBe(true);
+  });
 });

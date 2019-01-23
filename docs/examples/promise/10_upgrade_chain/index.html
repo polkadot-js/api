@@ -61,7 +61,7 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../../types/classes/_accountid_.accountid.html" />
+    <link rel="next" href="../../rx/" />
     
     
     <link rel="prev" href="../09_transfer_events/" />
@@ -330,7 +330,20 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.4" data-path="../05_read_storage/">
+        <li class="chapter " data-level="3.1.4" data-path="../04_unsubscribe/">
+            
+                <a href="../04_unsubscribe/">
+            
+                    
+                    Unsubscribe from listening
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.5" data-path="../05_read_storage/">
             
                 <a href="../05_read_storage/">
             
@@ -343,9 +356,9 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.5" data-path="../07_transfer_dots/">
+        <li class="chapter " data-level="3.1.6" data-path="../06_make_transfer/">
             
-                <a href="../07_transfer_dots/">
+                <a href="../06_make_transfer/">
             
                     
                     Make a transfer
@@ -356,7 +369,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.6" data-path="../08_system_events/">
+        <li class="chapter " data-level="3.1.7" data-path="../08_system_events/">
             
                 <a href="../08_system_events/">
             
@@ -369,7 +382,7 @@
             
         </li>
     
-        <li class="chapter " data-level="3.1.7" data-path="../09_transfer_events/">
+        <li class="chapter " data-level="3.1.8" data-path="../09_transfer_events/">
             
                 <a href="../09_transfer_events/">
             
@@ -382,9 +395,145 @@
             
         </li>
     
-        <li class="chapter active" data-level="3.1.8" data-path="./">
+        <li class="chapter active" data-level="3.1.9" data-path="./">
             
                 <a href="./">
+            
+                    
+                    Upgrade via sudo
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../../rx/">
+            
+                <a href="../../rx/">
+            
+                    
+                    ApiRx
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../../rx/01_simple_connect/">
+            
+                <a href="../../rx/01_simple_connect/">
+            
+                    
+                    Simple connect
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../../rx/02_listen_to_blocks/">
+            
+                <a href="../../rx/02_listen_to_blocks/">
+            
+                    
+                    Listen to blocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../../rx/03_listen_to_balance_change/">
+            
+                <a href="../../rx/03_listen_to_balance_change/">
+            
+                    
+                    Listen to balance change
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../../rx/04_unsubscribe/">
+            
+                <a href="../../rx/04_unsubscribe/">
+            
+                    
+                    Unsubscribe from listening
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.5" data-path="../../rx/05_read_storage/">
+            
+                <a href="../../rx/05_read_storage/">
+            
+                    
+                    Read chain state
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.6" data-path="../../rx/06_make_transfer/">
+            
+                <a href="../../rx/06_make_transfer/">
+            
+                    
+                    Make a transfer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.7" data-path="../../rx/08_system_events/">
+            
+                <a href="../../rx/08_system_events/">
+            
+                    
+                    Display system events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.8" data-path="../../rx/09_transfer_events/">
+            
+                <a href="../../rx/09_transfer_events/">
+            
+                    
+                    Transaction with events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.9" data-path="../../rx/10_upgrade_chain/">
+            
+                <a href="../../rx/10_upgrade_chain/">
             
                     
                     Upgrade via sudo
@@ -1995,9 +2144,6 @@
 <span class="sunlight-comment">//&#xA0;import&#xA0;the&#xA0;test&#xA0;keyring&#xA0;(already&#xA0;has&#xA0;dev&#xA0;keys&#xA0;for&#xA0;Alice,&#xA0;Bob,&#xA0;Charlie,&#xA0;Eve&#xA0;&amp;&#xA0;Ferdie)</span>
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">testKeyring</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/keyring/testing&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-<span class="sunlight-comment">//&#xA0;utility&#xA0;functions</span>
-<span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">compactAddLength</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">hexToU8a</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;@polkadot/util&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
-
 <span class="sunlight-reservedWord">const</span>&#xA0;<span class="sunlight-ident">fs</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-ident">require</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;fs&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 <span class="sunlight-ident">async</span>&#xA0;<span class="sunlight-keyword">function</span>&#xA0;<span class="sunlight-named-ident">main</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
@@ -2028,14 +2174,13 @@
 &#xA0;&#xA0;<span class="sunlight-comment">//&#xA0;preform&#xA0;the&#xA0;actual&#xA0;chain&#xA0;upgrade&#xA0;via&#xA0;the&#xA0;sudo&#xA0;module</span>
 &#xA0;&#xA0;<span class="sunlight-ident">api</span><span class="sunlight-operator">.</span><span class="sunlight-ident">tx</span><span class="sunlight-operator">.</span><span class="sunlight-ident">sudo</span>
 &#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">sudo</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">proposal</span><span class="sunlight-punctuation">)</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">sign</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">adminPair</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">adminNonce</span><span class="sunlight-punctuation">)</span>
-&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">send</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">events</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-punctuation">[</span><span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">status</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">type</span>&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
-&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;Transaction&#xA0;status:&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">type</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-operator">.</span><span class="sunlight-ident">signAndSend</span><span class="sunlight-punctuation">(</span><span class="sunlight-ident">adminPair</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">events</span>&#xA0;<span class="sunlight-operator">=</span>&#xA0;<span class="sunlight-punctuation">[</span><span class="sunlight-punctuation">]</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">status</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">type</span>&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;Proposal&#xA0;status:&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">type</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-keyword">if</span>&#xA0;<span class="sunlight-punctuation">(</span><span class="sunlight-ident">type</span>&#xA0;<span class="sunlight-operator">===</span>&#xA0;<span class="sunlight-string">&apos;Finalised&apos;</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-punctuation">{</span>
 &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">error</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;You&#xA0;have&#xA0;just&#xA0;upgraded&#xA0;your&#xA0;chain&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
-&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;Completed&#xA0;at&#xA0;block&#xA0;hash&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">status</span><span class="sunlight-operator">.</span><span class="sunlight-ident">value</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toHex</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
+&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;Completed&#xA0;at&#xA0;block&#xA0;hash&apos;</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">status</span><span class="sunlight-operator">.</span><span class="sunlight-ident">asFinalised</span><span class="sunlight-operator">.</span><span class="sunlight-ident">toHex</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">console</span><span class="sunlight-operator">.</span><span class="sunlight-ident">log</span><span class="sunlight-punctuation">(</span><span class="sunlight-string">&apos;Events:&apos;</span><span class="sunlight-punctuation">)</span><span class="sunlight-punctuation">;</span>
 
 &#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;&#xA0;<span class="sunlight-ident">events</span><span class="sunlight-operator">.</span><span class="sunlight-ident">forEach</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">(</span><span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">phase</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">event</span><span class="sunlight-operator">:</span>&#xA0;<span class="sunlight-punctuation">{</span>&#xA0;<span class="sunlight-ident">data</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">method</span><span class="sunlight-punctuation">,</span>&#xA0;<span class="sunlight-ident">section</span>&#xA0;<span class="sunlight-punctuation">}</span>&#xA0;<span class="sunlight-punctuation">}</span><span class="sunlight-punctuation">)</span>&#xA0;<span class="sunlight-operator">=</span><span class="sunlight-operator">&gt;</span>&#xA0;<span class="sunlight-punctuation">{</span>
@@ -2084,7 +2229,7 @@
                 </a>
                 
                 
-                <a href="../../../types/classes/_accountid_.accountid.html" class="navigation navigation-next " aria-label="Next page: hidden">
+                <a href="../../rx/" class="navigation navigation-next " aria-label="Next page: ApiRx">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -2095,7 +2240,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Upgrade via sudo","level":"3.1.8","depth":2,"next":{"title":"hidden","level":"4.1","depth":1,"path":"types/classes/_accountid_.accountid.md","ref":"types/classes/_accountid_.accountid.md","articles":[]},"previous":{"title":"Transaction with events","level":"3.1.7","depth":2,"path":"examples/promise/09_transfer_events/README.md","ref":"examples/promise/09_transfer_events/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/10_upgrade_chain/README.md","mtime":"2019-01-17T16:15:44.325Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-17T16:19:54.997Z"},"basePath":"../../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Upgrade via sudo","level":"3.1.9","depth":2,"next":{"title":"ApiRx","level":"3.2","depth":1,"path":"examples/rx/README.md","ref":"examples/rx/README.md","articles":[{"title":"Simple connect","level":"3.2.1","depth":2,"path":"examples/rx/01_simple_connect/README.md","ref":"examples/rx/01_simple_connect/README.md","articles":[]},{"title":"Listen to blocks","level":"3.2.2","depth":2,"path":"examples/rx/02_listen_to_blocks/README.md","ref":"examples/rx/02_listen_to_blocks/README.md","articles":[]},{"title":"Listen to balance change","level":"3.2.3","depth":2,"path":"examples/rx/03_listen_to_balance_change/README.md","ref":"examples/rx/03_listen_to_balance_change/README.md","articles":[]},{"title":"Unsubscribe from listening","level":"3.2.4","depth":2,"path":"examples/rx/04_unsubscribe/README.md","ref":"examples/rx/04_unsubscribe/README.md","articles":[]},{"title":"Read chain state","level":"3.2.5","depth":2,"path":"examples/rx/05_read_storage/README.md","ref":"examples/rx/05_read_storage/README.md","articles":[]},{"title":"Make a transfer","level":"3.2.6","depth":2,"path":"examples/rx/06_make_transfer/README.md","ref":"examples/rx/06_make_transfer/README.md","articles":[]},{"title":"Display system events","level":"3.2.7","depth":2,"path":"examples/rx/08_system_events/README.md","ref":"examples/rx/08_system_events/README.md","articles":[]},{"title":"Transaction with events","level":"3.2.8","depth":2,"path":"examples/rx/09_transfer_events/README.md","ref":"examples/rx/09_transfer_events/README.md","articles":[]},{"title":"Upgrade via sudo","level":"3.2.9","depth":2,"path":"examples/rx/10_upgrade_chain/README.md","ref":"examples/rx/10_upgrade_chain/README.md","articles":[]}]},"previous":{"title":"Transaction with events","level":"3.1.8","depth":2,"path":"examples/promise/09_transfer_events/README.md","ref":"examples/promise/09_transfer_events/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"examples/promise/10_upgrade_chain/README.md","mtime":"2019-01-23T12:30:12.792Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-23T12:34:23.537Z"},"basePath":"../../..","book":{"language":""}});
         });
     </script>
 </div>

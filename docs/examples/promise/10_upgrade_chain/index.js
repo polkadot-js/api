@@ -5,9 +5,6 @@ const { WsProvider } = require('@polkadot/rpc-provider');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 
-// utility functions
-const { compactAddLength, hexToU8a } = require('@polkadot/util');
-
 const fs = require('fs');
 
 async function main () {
@@ -38,14 +35,13 @@ async function main () {
   // preform the actual chain upgrade via the sudo module
   api.tx.sudo
     .sudo(proposal)
-    .sign(adminPair, adminNonce)
-    .send(({ events = [], status, type }) => {
-      console.log('Transaction status:', type);
+    .signAndSend(adminPair, ({ events = [], status, type }) => {
+      console.log('Proposal status:', type);
 
       if (type === 'Finalised') {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.value.toHex());
+        console.log('Completed at block hash', status.asFinalised.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

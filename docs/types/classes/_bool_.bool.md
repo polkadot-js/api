@@ -22,7 +22,7 @@
 
 ⊕ **new Bool**(value?: *[Bool](_bool_.bool.md) | `Boolean` | `Uint8Array` | `boolean` | `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L15)*
+*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L15)*
 
 **Parameters:**
 
@@ -54,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L35)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L35)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -64,6 +64,27 @@ ___
 
 # Methods
 
+<a id="eq"></a>
+
+##  eq
+
+▸ **eq**(other?: *`any`*): `boolean`
+
+*Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
+
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L42)*
+
+*__description__*: Compares the value of the input to see if there is a match
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| `Optional` other | `any` |
+
+**Returns:** `boolean`
+
+___
 <a id="tohex"></a>
 
 ##  toHex
@@ -72,7 +93,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L42)*
+*Defined in [Bool.ts:53](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L53)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -87,7 +108,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Bool.ts:49](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L49)*
+*Defined in [Bool.ts:60](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L60)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -102,7 +123,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Bool.ts:56](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L56)*
+*Defined in [Bool.ts:67](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L67)*
 
 *__description__*: Returns the string representation of the value
 
@@ -117,7 +138,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Bool.ts:64](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Bool.ts#L64)*
+*Defined in [Bool.ts:75](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Bool.ts#L75)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

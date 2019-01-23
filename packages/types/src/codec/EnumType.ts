@@ -131,6 +131,19 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    // cater for the case where we only pass the enum index
+    if (isNumber(other)) {
+      return this.toNumber() === other;
+    }
+
+    // compare the actual wrapper value
+    return this.value.eq(other);
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

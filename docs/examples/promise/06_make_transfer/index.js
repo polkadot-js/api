@@ -24,13 +24,14 @@ async function main () {
   // here we split it out for the sake of readability
   const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
 
-  // Sign the transaction using our account
-  transfer.sign(alice, aliceNonce);
-
-  // Send the transaction and retrieve the resulting Hash
-  const hash = await transfer.send();
-
-  console.log(`transfer 12345 to Bob with hash ${hash}`);
+  // Sign and send the transaction using our account. Send the transaction and retrieve the resulting Hash
+  transfer.signAndSend(alice, ({ status, type }) => {
+    if (type === 'Finalised') {
+      console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalised.toHex()}`);
+    } else {
+      console.log(`Transaction status: ${type}`);
+    }
+  });
 }
 
 main().catch(console.error).finally(_ => process.exit());

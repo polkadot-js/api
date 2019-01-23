@@ -22,7 +22,7 @@ type ValidatorPrefsValue = {
 export default class ValidatorPrefs extends Struct {
   constructor (value?: ValidatorPrefsValue | Uint8Array) {
     super({
-      unstakeThreshold: U32,
+      unstakeThreshold: Compact.with(U32),
       validatorPayment: Compact.with(Balance)
     }, value);
   }

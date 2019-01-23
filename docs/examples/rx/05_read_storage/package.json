@@ -1,9 +1,9 @@
 {
-  "name": "07_transfer_dots",
+  "name": "rx_05_read_storage",
   "version": "0.2.0",
-  "description": "Example showing how to transfer DOTs",
+  "description": "Example showing how to query storage",
   "main": "index.js",
-  "author": "chevdor",
+  "author": "Stefie",
   "license": "MIT",
   "scripts": {
     "clean": "rimraf node_modules",

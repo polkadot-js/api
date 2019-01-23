@@ -26,7 +26,7 @@ import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/i
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
-import { assert, isFunction, isObject, isUndefined, logger } from '@polkadot/util';
+import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -205,9 +205,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * ```javascript
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
-   *   .sign(<keyPair>, <accountNonce>, <blockHash (optional)>)
-   *   .send((status) => {
-   *     console.log('tx status', status);
+   *   .signAndSend(<keyPair>, ({status}) => {
+   *     console.log('tx status', status.asFinalised.toHex());
    *   });
    * ```
    */
@@ -410,9 +409,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     method: StorageFunction,
     onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
   ): QueryableStorageFunction<T> {
-    const decorated: any = (...args: any): T => {
-
-      return onCall(
+    const decorated: any = (...args: any): T =>
+      onCall(
         (...args: any) => this._rpcRx.state
           .subscribeStorage([[method, args[0]]])
           .pipe(
@@ -426,7 +424,6 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
           ),
         args
       );
-    };
 
     decorated.at = (hash: Hash, arg?: any): T =>
       onCall(
@@ -438,6 +435,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
           ),
         [arg]
       );
+
+    decorated.key = (arg?: any): string =>
+      u8aToHex(compactStripLength(method(arg))[1]);
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<T>;
   }

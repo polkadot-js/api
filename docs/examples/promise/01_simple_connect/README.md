@@ -1,5 +1,5 @@
 # Simple Connect
 
-The following example shows how to instantiate a Polkadot API object and use it to connect to a node.
+The following example shows how to instantiate a Polkadot API object and use it to connect to a node using ApiPromise.
 
 [include](index.js)

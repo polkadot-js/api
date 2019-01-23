@@ -34,4 +34,14 @@ describe('Bool', () => {
   it('correctly encodes length', () => {
     expect(new Bool(true).encodedLength).toEqual(1);
   });
+
+  describe('utils', () => {
+    it('compares agains a boolean', () => {
+      expect(new Bool(true).eq(true)).toBe(true);
+    });
+
+    it('compares agains a Bool', () => {
+      expect(new Bool(false).eq(new Bool(false))).toBe(true);
+    });
+  });
 });

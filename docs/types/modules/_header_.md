@@ -5,6 +5,7 @@
 ### Classes
 
 * [Header](../classes/_header_.header.md)
+* [HeaderExtended](../classes/_header_.headerextended.md)
 
 ### Type aliases
 
@@ -20,7 +21,7 @@
 
 **Ƭ HeaderValue**: *`object`*
 
-*Defined in [Header.ts:16](https://github.com/polkadot-js/api/blob/f5b3d58/packages/types/src/Header.ts#L16)*
+*Defined in [Header.ts:17](https://github.com/polkadot-js/api/blob/52718d7/packages/types/src/Header.ts#L17)*
 
 #### Type declaration
 

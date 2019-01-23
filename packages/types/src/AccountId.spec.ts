@@ -20,6 +20,10 @@ describe('AccountId', () => {
     it('is empty by default', () => {
       expect(id.isEmpty).toBe(true);
     });
+
+    it('equals the empty address', () => {
+      expect(id.eq('5C4hrfjw9DjXZTzV3MwzrrAr9P1MJhSrvWGWqi1eSuyUppTZ')).toBe(true);
+    });
   });
 
   describe('decoding', () => {
