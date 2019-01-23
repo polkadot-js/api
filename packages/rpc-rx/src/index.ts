@@ -4,7 +4,7 @@
 
 import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section, RpcRxObervable } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
@@ -100,27 +100,21 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (subName: string, name: string, section: RpcInterface$Section): RpcRxObervable {
-    const isSubscription = isFunction(section[name].unsubscribe);
-    const fn = isSubscription
-      ? this.createCachedObservable(subName, name, section)
-      : (...params: Array<any>): Observable<any> =>
-          from(
-            section[name]
-              .apply(null, params)
-              .catch((error: Error) => {
-                console.error(error);
-              })
-          );
+  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
+    if (isFunction(section[name].unsubscribe)) {
+      return this.createCachedObservable(subName, name, section);
+    }
 
-    const result = fn as RpcRxObervable;
-
-    result.isSubscription = isSubscription;
-
-    return result;
+    return (...params: Array<any>): Observable<any> =>
+      from(
+        section[name]
+          .apply(null, params)
+          .catch((error: Error) => {
+            console.error(error);
+          })
+      );
   }
 
-  // FIXME Memoization as in derive, https://github.com/polkadot-js/api/issues/553
   private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
     if (!this._cacheMap[subName]) {
       this._cacheMap[subName] = {};
