@@ -116,4 +116,16 @@ describe('Vector', () => {
     testEncode('toString', '[1, 23, 345, 4567, 56789]');
     testEncode('toU8a', Uint8Array.from([20, 4, 49, 8, 50, 51, 12, 51, 52, 53, 16, 52, 53, 54, 55, 20, 53, 54, 55, 56, 57]));
   });
+
+  describe('utils', () => {
+    const vec = new Vector(Text, ['123', '456']);
+
+    it('compares against codec types', () => {
+      expect(vec.eq([new Text('123'), new Text('456')])).toBe(true);
+    });
+
+    it('compares against codec + primitive types', () => {
+      expect(vec.eq(['123', new Text('456')])).toBe(true);
+    });
+  });
 });

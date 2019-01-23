@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from './types';
+import { isNull } from '@polkadot/util';
 
 /**
  * @name Null
@@ -15,6 +16,13 @@ export default class Null implements Codec {
    */
   get encodedLength (): number {
     return 0;
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return other instanceof Null || isNull(other);
   }
 
   /**

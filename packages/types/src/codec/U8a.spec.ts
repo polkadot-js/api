@@ -51,4 +51,22 @@ describe('U8a', () => {
   it('implements subarray correctly', () => {
     expect(u8a.subarray(1, 3)).toEqual(Uint8Array.from([2, 3]));
   });
+
+  describe('utils', () => {
+    it('compares against other U8a', () => {
+      expect(u8a.eq(new Uint8Array([1, 2, 3, 4, 5]))).toBe(true);
+    });
+
+    it('compares against other U8a (non-length)', () => {
+      expect(u8a.eq(new Uint8Array([1, 2, 3, 4]))).toBe(false);
+    });
+
+    it('compares against other U8a (mismatch)', () => {
+      expect(u8a.eq(new Uint8Array([1, 2, 3, 4, 6]))).toBe(false);
+    });
+
+    it('compares against hex inputs', () => {
+      expect(u8a.eq('0x0102030405')).toBe(true);
+    });
+  });
 });

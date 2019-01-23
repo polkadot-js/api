@@ -87,6 +87,19 @@ export default class AccountIndex extends U32 {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    // shortcut for BN or Number, don't create an object
+    if (isBn(other) || isNumber(other)) {
+      return super.eq(other);
+    }
+
+    // convert and compare
+    return super.eq(new AccountIndex(other));
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

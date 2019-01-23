@@ -53,6 +53,13 @@ export default class Moment extends Date implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return Moment.decodeMoment(other).getTime() === this.getTime();
+  }
+
+  /**
    * @description Returns the number of bits in the value
    */
   bitLength (): UIntBitLength {

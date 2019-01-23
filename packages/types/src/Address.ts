@@ -85,6 +85,13 @@ export default class Address extends Base<AccountId | AccountIndex> {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return this.raw.eq(other);
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

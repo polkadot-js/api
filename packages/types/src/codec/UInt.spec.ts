@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
+
 import UInt from './UInt';
 
 describe('UInt', () => {
@@ -47,5 +49,21 @@ describe('UInt', () => {
   it('converts to JSON depending on flags', () => {
     expect(new UInt(0x12, 16).toJSON()).toEqual('0x0012');
     expect(new UInt(0x12, 16, false).toJSON()).toEqual(0x12);
+  });
+
+  describe('eq', () => {
+    const test = new UInt(12345);
+
+    it('compares against other BN values', () => {
+      expect(test.eq(new BN(12345))).toBe(true);
+    });
+
+    it('compares against other number values', () => {
+      expect(test.eq(12345)).toBe(true);
+    });
+
+    it('compares against hex values', () => {
+      expect(test.eq('0x3039')).toBe(true);
+    });
   });
 });
