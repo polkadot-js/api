@@ -13,6 +13,20 @@ describe('Address', () => {
       expect(a.toString()).toBe(expected);
     });
 
+  describe('utility', () => {
+    it('equals on AccountId', () => {
+      const addr = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s';
+
+      expect(new Address(addr).eq(addr)).toBe(true);
+    });
+
+    it('equals on AccountIndex', () => {
+      const addr = 'PrF3';
+
+      expect(new Address('PrF3').eq('F7ih')).toBe(true);
+    });
+  });
+
   describe('decoding', () => {
     testDecode(
       'Address',

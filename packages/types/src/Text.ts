@@ -60,7 +60,9 @@ export default class Text extends String implements Codec {
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean {
-    return this.toString() === `${other}`;
+    return isString(other)
+      ? this.toString() === other.toString()
+      : false;
   }
 
   /**

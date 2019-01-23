@@ -2,20 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../../types';
+import { isFunction, isObject, isUndefined } from '@polkadot/util';
 
-import { isObject, isUndefined } from '@polkadot/util';
-
-export default function compareMap (a: Map<any, Codec>, b?: any): boolean {
+// NOTE These are used internally and when comparing objects, expects that
+// when the second is an Map<string, Codec> that the first has to be as well
+export default function compareMap (a: Map<any, any>, b?: any): boolean {
   if (Array.isArray(b)) {
-    // compare the entries, assuming the b has an `[key, value]` map
-    const entries = [...a.entries()];
+    const length = [...a.entries()].length;
 
-    return entries.length === b.length && isUndefined(
-      entries.find(([key, value], index) => {
-        const test = b[index];
+    return length === b.length && isUndefined(
+      b.find((entry) => {
+        if (!Array.isArray(entry) || entry.length !== 2) {
+          return true;
+        }
 
-        return Array.isArray(test) && key === test[0] && value.eq(test[1]);
+        const value = a.get(entry[0]);
+
+        return isUndefined(value) || (
+          // Codec has .eq, use it here
+          isFunction(value.eq)
+            ? !value.eq(entry[1])
+            : value !== entry[1]
+        );
       })
     );
   } else if (b instanceof Map) {

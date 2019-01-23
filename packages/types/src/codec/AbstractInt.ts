@@ -21,6 +21,7 @@ export const DEFAULT_UINT_BITS = 64;
 export default abstract class AbstractInt extends BN implements Codec {
   protected _bitLength: UIntBitLength;
   private _isHexJson: boolean;
+  private _isNegative: boolean;
 
   constructor (
     isNegative: boolean,
@@ -32,6 +33,7 @@ export default abstract class AbstractInt extends BN implements Codec {
 
     this._bitLength = bitLength;
     this._isHexJson = isHexJson;
+    this._isNegative = isNegative;
   }
 
   static decodeAbstracInt (value: AnyNumber, bitLength: UIntBitLength, isNegative: boolean): string {
@@ -76,8 +78,10 @@ export default abstract class AbstractInt extends BN implements Codec {
   eq (other?: any): boolean {
     // Here we are actually overriding the buolt-in equal to take care of both
     // number and BN inputs - numbers will be converted
-    return this.toBn().eq(
-      bnToBn(other)
+    return super.eq(
+      isHex(other)
+        ? hexToBn(other.toString(), { isLe: false, isNegative: this._isNegative })
+        : bnToBn(other)
     );
   }
 

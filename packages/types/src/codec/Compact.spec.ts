@@ -137,6 +137,12 @@ describe('Compact', () => {
     });
   });
 
+  describe('utils', () => {
+    it('compares against a primitive', () => {
+      expect(new Compact(U32, 12345).eq(12345)).toBe(true);
+    });
+  });
+
   describe('helpers', () => {
     it('correctly adds the length prefix', () => {
       expect(

@@ -53,4 +53,30 @@ describe('Enum', () => {
       new Enum(['foo', 'bar'], 5).toString()
     ).toEqual('5');
   });
+
+  describe('utils', () => {
+    it('compares agains the index value', () => {
+      expect(
+        new Enum(['foo', 'bar'], 1).eq(1)
+      ).toBe(true);
+    });
+
+    it('compares agains the index value (false)', () => {
+      expect(
+        new Enum(['foo', 'bar'], 1).eq(0)
+      ).toBe(false);
+    });
+
+    it('compares agains the string value', () => {
+      expect(
+        new Enum(['foo', 'bar'], 1).eq('bar')
+      ).toBe(true);
+    });
+
+    it('compares agains the string value (false)', () => {
+      expect(
+        new Enum(['foo', 'bar'], 1).eq('foo')
+      ).toBe(false);
+    });
+  });
 });

@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../../types';
+import { isFunction, isUndefined } from '@polkadot/util';
 
-import { isUndefined } from '@polkadot/util';
-
-export default function compareArray (a: Array<Codec>, b?: any): boolean {
+// NOTE These are used internally and when comparing objects, expects that
+// when the second is an Array<Codec> that the first has to be as well
+export default function compareArray (a: Array<any>, b?: any): boolean {
   if (Array.isArray(b)) {
     return a.length === b.length && isUndefined(
-      a.find((value, index) => !value.eq(b[index]))
+      a.find((value, index) =>
+        isFunction(value.eq)
+          ? !value.eq(b[index])
+          : value !== b[index]
+      )
     );
   }
 
