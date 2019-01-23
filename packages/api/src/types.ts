@@ -27,11 +27,20 @@ export interface DecoratedRpc<OnCall> {
   system: DecoratedRpc$Section<OnCall>;
 }
 
-export interface QueryableStorageFunction<OnCall> extends StorageFunction {
+interface QueryableStorageFunctionBase<OnCall> extends StorageFunction {
   (arg?: any): OnCall;
   at: (hash: Uint8Array | string, arg?: any) => OnCall;
   key: (arg?: any) => string;
 }
+
+interface QueryableStorageFunctionPromise<OnCall> extends QueryableStorageFunctionBase<OnCall> {
+  (arg?: any, cb?: (value?: Codec) => any): OnCall;
+}
+
+export type QueryableStorageFunction<OnCall> =
+  OnCall extends Observable<any>
+    ? QueryableStorageFunctionBase<OnCall>
+    : QueryableStorageFunctionPromise<OnCall>;
 
 export interface QueryableModuleStorage<OnCall> {
   [index: string]: QueryableStorageFunction<OnCall>;
