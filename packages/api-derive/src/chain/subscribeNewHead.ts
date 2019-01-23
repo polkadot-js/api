@@ -13,7 +13,15 @@ import { drr } from '../util/drr';
 export type HeaderAndValidators = [Header, Array<AccountId>];
 
 /**
- * Subscribe to block headers and extend it with the author
+ * @description Subscribe to block headers and extend it with the author
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.chain.subscribeNewHead(({ author, blockNumber }) => {
+ *   console.log(`block #${blockNumber} was authored by ${author}`);
+ * });
+ * ```
  */
 export function subscribeNewHead (api: ApiInterface$Rx) {
   return (): Observable<HeaderExtended> =>
@@ -31,7 +39,7 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
             api.query.session.validators.at(header.hash) as any as Observable<Array<AccountId>>
           )
         ),
-        map(([header, validators]: HeaderAndValidators) =>
+        map(([header, validators]) =>
           new HeaderExtended(header, validators)
         ),
         drr()
