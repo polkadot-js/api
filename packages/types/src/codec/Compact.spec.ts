@@ -138,6 +138,10 @@ describe('Compact', () => {
   });
 
   describe('utils', () => {
+    it('compares against another Compact', () => {
+      expect(new Compact(U32, 12345).eq(new Compact(U32, 12345))).toBe(true);
+    });
+
     it('compares against a primitive', () => {
       expect(new Compact(U32, 12345).eq(12345)).toBe(true);
     });
