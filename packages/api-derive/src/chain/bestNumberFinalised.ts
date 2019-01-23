@@ -10,7 +10,15 @@ import { BlockNumber, Header } from '@polkadot/types/index';
 import { drr } from '../util/drr';
 
 /**
- * Get the latest finalised block number.
+ * @description Get the latest finalised block number.
+ * example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.chain.bestNumberFinalised((blockNumber) => {
+ *   console.log(`the current finalised block is #${blockNumber}`);
+ * });
+ * ```
  */
 export function bestNumberFinalised (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>

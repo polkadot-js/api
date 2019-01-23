@@ -4,10 +4,9 @@
 
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@polkadot/keyring';
-import { bnToBn, isBn, isNumber, isU8a, isHex, hexToU8a, u8aToHex } from '@polkadot/util';
+import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
 
 import { AnyNumber } from './types';
-import UInt from './codec/UInt';
 import U32 from './U32';
 
 export const ENUMSET_SIZE = new BN(64);
@@ -38,12 +37,8 @@ export default class AccountIndex extends U32 {
       // `value.toBn()` on AccountIndex returns a pure BN (i.e. not an
       // AccountIndex), which has the initial `toString()` implementation.
       return value.toBn();
-    } else if (value instanceof UInt || isBn(value) || isNumber(value) || isU8a(value)) {
+    } else if (isBn(value) || isNumber(value) || isHex(value) || isU8a(value)) {
       return value;
-    } else if (isHex(value)) {
-      // Here we convert via hexToU8a since we expect the LE encoded value representation. This
-      // is different than UInt where we expect a BE (human-readable representation)
-      return hexToU8a(value);
     }
 
     return AccountIndex.decodeAccountIndex(decodeAddress(value));
@@ -97,15 +92,6 @@ export default class AccountIndex extends U32 {
 
     // convert and compare
     return super.eq(new AccountIndex(other));
-  }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  toHex (): string {
-    // Like in our decoding function, we explicitly override this to allow us to output
-    // LE-hex encoded numbers (generally UInt in JSON are expected as BE, these LE)
-    return u8aToHex(this.toU8a());
   }
 
   /**

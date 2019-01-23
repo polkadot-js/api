@@ -1,5 +1,19 @@
 
 
+# Index
+
+### Interfaces
+
+* [RpcRxObervable](../interfaces/_types_.rpcrxobervable.md)
+
+### Type aliases
+
+* [RpcRxInterface](_types_.md#rpcrxinterface)
+* [RpcRxInterface$Events](_types_.md#rpcrxinterface_events)
+* [RpcRxInterface$Section](_types_.md#rpcrxinterface_section)
+
+---
+
 # Type aliases
 
 <a id="rpcrxinterface"></a>
@@ -8,7 +22,7 @@
 
 **Ƭ RpcRxInterface**: *`object`*
 
-*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/52718d7/packages/rpc-rx/src/types.ts#L16)*
+*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L19)*
 
 #### Type declaration
 
@@ -19,27 +33,7 @@ ___
 
 **Ƭ RpcRxInterface$Events**: *`ProviderInterface$Emitted`*
 
-*Defined in [types.ts:14](https://github.com/polkadot-js/api/blob/52718d7/packages/rpc-rx/src/types.ts#L14)*
-
-___
-<a id="rpcrxinterface_method"></a>
-
-##  RpcRxInterface$Method
-
-**Ƭ RpcRxInterface$Method**: *`function`*
-
-*Defined in [types.ts:8](https://github.com/polkadot-js/api/blob/52718d7/packages/rpc-rx/src/types.ts#L8)*
-
-#### Type declaration
-▸(...params: *`Array`<`any`>*): `Observable`<`any`> | `ReplaySubject`<`any`>
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| `Rest` params | `Array`<`any`> |
-
-**Returns:** `Observable`<`any`> | `ReplaySubject`<`any`>
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L17)*
 
 ___
 <a id="rpcrxinterface_section"></a>
@@ -48,11 +42,11 @@ ___
 
 **Ƭ RpcRxInterface$Section**: *`object`*
 
-*Defined in [types.ts:10](https://github.com/polkadot-js/api/blob/52718d7/packages/rpc-rx/src/types.ts#L10)*
+*Defined in [types.ts:13](https://github.com/polkadot-js/api/blob/767a197/packages/rpc-rx/src/types.ts#L13)*
 
 #### Type declaration
 
-[index: `string`]: [RpcRxInterface$Method](_types_.md#rpcrxinterface_method)
+[index: `string`]: [RpcRxObervable](../interfaces/_types_.rpcrxobervable.md)
 
 ___
 

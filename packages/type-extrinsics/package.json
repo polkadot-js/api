@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/extrinsics",
-  "version": "0.40.19",
+  "version": "0.40.21",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/api.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/types": "^0.40.19",
-    "@polkadot/util": "^0.33.35"
+    "@polkadot/types": "^0.40.21",
+    "@polkadot/util": "^0.33.36"
   }
 }

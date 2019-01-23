@@ -50,6 +50,7 @@ export default class Bytes extends U8a {
         return new Uint8Array();
       }
 
+      // handle all other Uint8Array inputs, these do have a length prefix
       const [offset, length] = Compact.decodeU8a(value);
       const total = offset + length.toNumber();
 

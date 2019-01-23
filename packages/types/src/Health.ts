@@ -7,7 +7,8 @@ import Bool from './Bool';
 import USize from './USize';
 
 const JSON_MAP = new Map([
-  ['isSyncing', 'is_syncing']
+  ['isSyncing', 'is_syncing'],
+  ['shouldHavePeers', 'should_have_peers']
 ]);
 
 /**
@@ -19,7 +20,8 @@ export default class Health extends Struct {
   constructor (value?: any) {
     super({
       peers: USize,
-      isSyncing: Bool
+      isSyncing: Bool,
+      shouldHavePeers: Bool
     }, value, JSON_MAP);
   }
 
@@ -35,5 +37,12 @@ export default class Health extends Struct {
    */
   get peers (): USize {
     return this.get('peers') as USize;
+  }
+
+  /**
+   * @description Should this node have peers (not active on --dev)
+   */
+  get shouldHavePeers (): Bool {
+    return this.get('shouldHavePeers') as Bool;
   }
 }
