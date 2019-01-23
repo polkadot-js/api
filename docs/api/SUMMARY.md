@@ -24,7 +24,6 @@
   * [DeriveSection](interfaces/_types_.derivesection.md)
   * [QueryableModuleStorage](interfaces/_types_.queryablemodulestorage.md)
   * [QueryableStorage](interfaces/_types_.queryablestorage.md)
-  * [QueryableStorageFunction](interfaces/_types_.queryablestoragefunction.md)
   * [SubmittableExtrinsicFunction](interfaces/_types_.submittableextrinsicfunction.md)
   * [SubmittableExtrinsics](interfaces/_types_.submittableextrinsics.md)
   * [SubmittableModuleExtrinsics](interfaces/_types_.submittablemoduleextrinsics.md)
