@@ -57,6 +57,13 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return this.toString() === `${other}`;
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

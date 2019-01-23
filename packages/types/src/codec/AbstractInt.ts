@@ -71,6 +71,17 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    // Here we are actually overriding the buolt-in equal to take care of both
+    // number and BN inputs - numbers will be converted
+    return this.toBn().eq(
+      bnToBn(other)
+    );
+  }
+
+  /**
    * @description Returns the BN representation of the number. (Compatibility)
    */
   toBn (): BN {

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { isU8a, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import { Codec } from '../types';
@@ -92,6 +92,25 @@ export default class Set extends Base<Array<string>> implements Codec {
    */
   get valueEncoded (): number {
     return Set.encodeSet(this._setValues, this.raw);
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    if (Array.isArray(other)) {
+      // this looks like what we have in compareArray, however here
+      // we cannot use the Codec.eq since the ntries are strings
+      return this.values.length === other.length && isUndefined(
+        this.values.find((value, index) => value !== other[index])
+      );
+    } else if (other instanceof Set) {
+      return this.eq(other.values);
+    } else if (isNumber(other)) {
+      return this.valueEncoded === other;
+    }
+
+    return false;
   }
 
   /**

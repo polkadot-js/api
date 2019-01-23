@@ -5,7 +5,7 @@
 import { isU8a, u8aConcat, u8aToHex, isHex, hexToU8a } from '@polkadot/util';
 
 import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
-import decodeU8a from './utils/decodeU8a';
+import { compareArray, decodeU8a } from './utils';
 
 type TupleConstructors = Array<Constructor> | {
   [index: string]: Constructor
@@ -69,6 +69,13 @@ export default class Tuple extends Array<Codec> implements Codec {
     return Array.isArray(this._Types)
       ? this._Types.map(({ name }) => name)
       : Object.keys(this._Types);
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return compareArray(this, other);
   }
 
   /**

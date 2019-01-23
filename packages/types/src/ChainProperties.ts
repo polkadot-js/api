@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from './types';
+import { compareMap } from './codec/utils';
 
 // TODO Expose known properties as they become known, currently we have `tokenSymbol` (e.g. BBQ)
 
@@ -36,6 +37,13 @@ export default class ChainProperties extends Map<string, any> implements Codec {
    */
   get (name: string): any | undefined {
     return super.get(name);
+  }
+
+  /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return compareMap(this, other);
   }
 
   /**

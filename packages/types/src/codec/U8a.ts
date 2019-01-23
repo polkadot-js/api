@@ -53,6 +53,19 @@ export default class U8a extends Uint8Array implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    if (other instanceof Uint8Array) {
+      return this.length === other.length && isUndefined(
+        this.find((value, index) => value !== other[index])
+      );
+    }
+
+    return this.eq(U8a.decodeU8a(other));
+  }
+
+  /**
    * @description Create a new subarray from the actual buffer. This is needed for compat reasons since a new Uint8Array gets returned here
    * @param begin The position to start at
    * @param end The position to end at

@@ -24,6 +24,11 @@ export interface Codec {
   encodedLength: number;
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean;
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string;

@@ -76,6 +76,17 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    if (other instanceof Option) {
+      return this.isSome === other.isSome && this.value.eq(other.value);
+    }
+
+    return this.value.eq(other);
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

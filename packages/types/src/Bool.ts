@@ -37,6 +37,17 @@ export default class Bool extends Boolean implements Codec {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return this.valueOf() === (
+      other instanceof Boolean
+        ? other.valueOf()
+        : other
+    );
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {

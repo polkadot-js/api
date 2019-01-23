@@ -87,6 +87,13 @@ export default class AccountIndex extends U32 {
   }
 
   /**
+   * @description Compares the value of the input to see if there is a match
+   */
+  eq (other?: any): boolean {
+    return super.eq(AccountIndex.decodeAccountIndex(other));
+  }
+
+  /**
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
