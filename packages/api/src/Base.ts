@@ -427,12 +427,20 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
     decorated.at = (hash: Hash, arg?: any): T =>
       onCall(
-        arg => this._rpcRx.state
-          .getStorage([method, arg], hash)
-          .pipe(
-            // same as above (for single result), in the case of errors on creation, return `undefined`
-            catchError(() => of())
-          ),
+        // same as above (for single result), in the case of errors on creation, return `undefined`
+        arg => this._rpcRx.state.getStorage([method, arg], hash).pipe(catchError(() => of())),
+        [arg]
+      );
+
+    decorated.hash = (arg?: any): T =>
+      onCall(
+        arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
+        [arg]
+      );
+
+    decorated.size = (arg?: any): T =>
+      onCall(
+        arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
         [arg]
       );
 

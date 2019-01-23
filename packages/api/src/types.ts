@@ -30,7 +30,9 @@ export interface DecoratedRpc<OnCall> {
 interface QueryableStorageFunctionBase<OnCall> extends StorageFunction {
   (arg?: any): OnCall;
   at: (hash: Uint8Array | string, arg?: any) => OnCall;
+  hash: (arg?: any) => OnCall; // Observable<Hash>
   key: (arg?: any) => string;
+  size: (arg?: any) => OnCall; // Observable<U64>
 }
 
 interface QueryableStorageFunctionPromise<OnCall> extends QueryableStorageFunctionBase<OnCall> {
