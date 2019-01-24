@@ -20,15 +20,16 @@ describe('Bool', () => {
   });
 
   describe('encode', () => {
-    const testEncode = (to: CodecTo, expected: string | Uint8Array | boolean) =>
+    const testEncode = (to: CodecTo, expected: string | Uint8Array | boolean, value: boolean) =>
       it(`can encode ${to}`, () => {
-        expect(new Bool(true)[to]()).toEqual(expected);
+        expect(new Bool(value)[to]()).toEqual(expected);
       });
 
-    testEncode('toJSON', true);
-    testEncode('toHex', '0x01');
-    testEncode('toString', 'true');
-    testEncode('toU8a', Uint8Array.from([1]));
+    testEncode('toJSON', true, true);
+    testEncode('toHex', '0x01', true);
+    testEncode('toString', 'true', true);
+    testEncode('toU8a', Uint8Array.from([1]), true);
+    testEncode('toU8a', Uint8Array.from([0]), false);
   });
 
   it('correctly encodes length', () => {
