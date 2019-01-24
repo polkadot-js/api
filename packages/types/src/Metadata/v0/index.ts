@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataInterface } from '../types';
+
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
 import Compact from '../../codec/Compact';
@@ -21,7 +23,7 @@ import { RuntimeModuleMetadata } from './Modules';
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV0 extends Struct {
+export default class MetadataV0 extends Struct implements MetadataInterface {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,

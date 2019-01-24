@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataInterface } from './types';
+
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Null from '../Null';
@@ -37,7 +39,7 @@ class MetadataEnum extends EnumType<Null | MetadataV1> {
  * @description
  * The versioned runtime metadata as a decoded structure
  */
-export default class MetadataVersioned extends Struct {
+export default class MetadataVersioned extends Struct implements MetadataInterface {
   constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
@@ -71,5 +73,9 @@ export default class MetadataVersioned extends Struct {
    */
   get asV1 (): MetadataV1 {
     return this.metadata.asV1;
+  }
+
+  getUniqTypes (): Array<string> {
+    return (this.metadata.value as any as MetadataInterface).getUniqTypes();
   }
 }
