@@ -7,45 +7,10 @@ import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../Text';
 
-class EventMetadata extends Struct {
-  constructor (value?: any) {
-    super({
-      // TODO
-    }, value);
-  }
-}
+import { OuterDispatchCall } from '../v0/Calls';
+import { EventMetadata } from '../v0/Events';
+import { CallMetadata, StorageMetadata } from '../v0/Modules';
 
-class OuterDispatchCall extends Struct {
-  constructor (value?: any) {
-    super({
-      // TODO
-    }, value);
-  }
-}
-
-class CallMetadata extends Struct {
-  constructor (value?: any) {
-    super({
-      // TODO
-    }, value);
-  }
-}
-
-class StorageMetadata extends Struct {
-  constructor (value?: any) {
-    super({
-      // TODO
-    }, value);
-  }
-}
-/*
-  pub name: DecodeDifferentStr,
-	pub prefix: DecodeDifferentStr,
-	pub storage: Option<DFn<StorageMetadata>>,
-	pub call: DFn<CallMetadata>,
-	pub outer_dispatch: DecodeDifferent<FnEncodeModule<Option<OuterDispatchCall>>, Option<OuterDispatchCall>>,
-  pub event: DecodeDifferent<FnEncodeModule<FnEncode<&'static [EventMetadata]>>, Vec<EventMetadata>>,
-*/
 class RuntimeModuleMetadata extends Struct {
   constructor (value?: any) {
     super({
@@ -56,6 +21,48 @@ class RuntimeModuleMetadata extends Struct {
       outerDispatch: Option.with(OuterDispatchCall),
       event: Vector.with(EventMetadata)
     }, value);
+  }
+
+  /**
+   * @description the module call
+   */
+  get call (): CallMetadata {
+    return this.get('call') as CallMetadata;
+  }
+
+  /**
+   * @description the module events
+   */
+  get event (): Vector<EventMetadata> {
+    return this.get('event') as Vector<EventMetadata>;
+  }
+
+  /**
+   * @description the module name
+   */
+  get name (): Text {
+    return this.get('name') as Text;
+  }
+
+  /**
+   * @description the outer dispatch
+   */
+  get outerDispatch (): Option<OuterDispatchCall> {
+    return this.get('outerDispatch') as Option<OuterDispatchCall>;
+  }
+
+  /**
+   * @description the module name
+   */
+  get prefix (): Text {
+    return this.get('prefix') as Text;
+  }
+
+  /**
+   * @description the associated module storage
+   */
+  get storage (): Option<StorageMetadata> {
+    return this.get('storage') as Option<StorageMetadata>;
   }
 }
 
