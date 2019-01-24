@@ -17,24 +17,24 @@ import { RuntimeModuleMetadata } from './Modules';
 // end and work up. (Just so we don't use before definition)
 
 /**
- * @name Metadata
+ * @name MetadataV0
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class Metadata extends Struct {
+export default class MetadataV0 extends Struct {
   constructor (value?: any) {
     super({
       outerEvent: OuterEventMetadata,
       modules: Vector.with(RuntimeModuleMetadata),
       outerDispatch: OuterDispatchMetadata
-    }, Metadata.decodeMetadata(value));
+    }, MetadataV0.decodeMetadata(value));
   }
 
   static decodeMetadata (value: string | Uint8Array | object): object | Uint8Array {
     if (isHex(value)) {
       // We receive this as an hex in the JSON output from the Node.
       // Convert to u8a and use the U8a version to do the actual parsing.
-      return Metadata.decodeMetadata(hexToU8a(value));
+      return MetadataV0.decodeMetadata(hexToU8a(value));
     } else if (isU8a(value)) {
       // HACK 13 Oct 2018 - For current running BBQ nodes, Metadata is not properly
       // encoded, it does not have a length prefix. For latest substrate master, it

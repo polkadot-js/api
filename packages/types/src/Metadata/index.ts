@@ -26,7 +26,7 @@ export default class Metadata extends MetadataVersioned {
     try {
       return new MetadataVersioned(u8a);
     } catch (error) {
-      console.error('Failed parsing metadata as versioned, falling back to unversioned');
+      // console.error('Failed parsing metadata as versioned, falling back to unversioned');
     }
 
     return new MetadataVersioned(

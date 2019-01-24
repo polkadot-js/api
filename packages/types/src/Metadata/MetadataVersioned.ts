@@ -53,7 +53,7 @@ export default class MetadataVersioned extends Struct {
   }
 
   /**
-   * @description the version this structure represents
+   * @description the metadata version this structure represents
    */
   get version (): number {
     return this.metadata.index;

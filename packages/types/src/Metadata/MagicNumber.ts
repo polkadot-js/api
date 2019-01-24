@@ -8,7 +8,7 @@ import U32 from '../U32';
 
 export const MAGIC_NUMBER = new U32(0x6174656d); // `meta`, reversed for LE encoding
 
-export default class Magic extends U32 {
+export default class MagicNumber extends U32 {
   constructor (value?: any) {
     super(value);
 
