@@ -73,6 +73,6 @@ export default class Bool extends Boolean implements Codec {
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
-    return new Uint8Array([this ? 1 : 0]);
+    return new Uint8Array([this.valueOf() ? 1 : 0]);
   }
 }
