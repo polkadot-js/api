@@ -10,7 +10,7 @@ import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
 import U8aFixed from './codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from './codec/createType';
-import Metadata from './Metadata';
+import MetadataV0 from './Metadata/v0';
 import { EventMetadata } from './Metadata/v0/Events';
 import Null from './Null';
 
@@ -119,7 +119,7 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
-  static injectMetadata (metadata: Metadata): void {
+  static injectMetadata (metadata: MetadataV0): void {
     metadata.events.forEach((section, sectionIndex) => {
       const sectionName = stringCamelCase(section.name.toString());
 

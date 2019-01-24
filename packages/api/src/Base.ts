@@ -22,7 +22,7 @@ import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import registry from '@polkadot/types/codec/typeRegistry';
-import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { Event, Hash, Method, Metadata, RuntimeVersion } from '@polkadot/types/index';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Codec } from '@polkadot/types/types';
@@ -300,8 +300,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
       this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-      const storage = storageFromMeta(this.runtimeMetadata);
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+      const storage = storageFromMeta(this.runtimeMetadata.asV0);
 
       this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
       this._query = this.decorateStorage(storage, this.onCall);
@@ -312,7 +312,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
 
-      Event.injectMetadata(this.runtimeMetadata);
+      Event.injectMetadata(this.runtimeMetadata.asV0);
       Method.injectMethods(extrinsics);
 
       return true;

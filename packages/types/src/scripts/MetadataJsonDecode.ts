@@ -8,7 +8,7 @@ import Metadata from '../Metadata';
 import rpcdata from '../Metadata/v0/static';
 
 function metadataStringifyAsJson () {
-  const decoded = new Metadata(rpcdata);
+  const decoded = new Metadata(rpcdata).asV0;
 
   return JSON.stringify(decoded.toJSON(), null, 2);
 }

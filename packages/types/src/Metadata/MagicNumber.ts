@@ -4,7 +4,7 @@
 
 import { assert } from '@polkadot/util';
 
-import U32 from '../../U32';
+import U32 from '../U32';
 
 export const MAGIC_NUMBER = new U32(0x6174656d); // `meta`, reversed for LE encoding
 

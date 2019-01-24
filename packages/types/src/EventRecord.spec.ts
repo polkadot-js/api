@@ -9,13 +9,13 @@ import json2 from './json/EventRecord.002.json';
 import AccountId from './AccountId';
 import Event from './Event';
 import EventRecord from './EventRecord';
-import Metadata from './Metadata//v0';
+import Metadata from './Metadata';
 import metadataRpc from './Metadata//v0/static';
 
 describe('EventRecord', () => {
   beforeEach(() => {
     Event.injectMetadata(
-      new Metadata(metadataRpc)
+      new Metadata(metadataRpc).asV0
     );
   });
 

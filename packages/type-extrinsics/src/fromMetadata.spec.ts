@@ -8,7 +8,7 @@ import json from '@polkadot/types/Metadata/v0/static';
 import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata(json);
+const metadata = new Metadata(json).asV0;
 const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
