@@ -13,7 +13,7 @@ import Struct from './codec/Struct';
 import Address from './Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
-import { FunctionMetadata } from './Metadata/Modules';
+import { FunctionMetadata } from './Metadata//v0/Modules';
 import Method from './Method';
 
 type ExtrinsicValue = {

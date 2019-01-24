@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Metadata from '@polkadot/types/Metadata';
-import json from '@polkadot/types/Metadata/static';
+import json from '@polkadot/types/Metadata/v0/static';
 
 import fromMetadata from './fromMetadata';
 

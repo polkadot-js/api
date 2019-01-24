@@ -11,7 +11,7 @@ import interfaces from '@polkadot/jsonrpc/index';
 import testKeyring from '@polkadot/keyring/testing';
 import storage from '@polkadot/storage/static';
 import { Codec } from '@polkadot/types/types';
-import metadata from '@polkadot/types/Metadata/static';
+import metadata from '@polkadot/types/Metadata/v0/static';
 import { Header } from '@polkadot/types/index';
 import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
 import { randomAsU8a } from '@polkadot/util-crypto';

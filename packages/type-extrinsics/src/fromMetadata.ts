@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/Modules';
+import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { Methods, ModulesWithMethods } from '@polkadot/types/Method';
 import { Metadata } from '@polkadot/types/index';
 

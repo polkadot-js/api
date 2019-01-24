@@ -9,7 +9,7 @@ import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 import { getTypeDef, getTypeClass } from './codec/createType';
 import Struct from './codec/Struct';
 import U8aFixed from './codec/U8aFixed';
-import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/Modules';
+import { FunctionMetadata, FunctionArgumentMetadata } from './Metadata/v0/Modules';
 
 interface ArgsDef {
   [index: string]: Constructor;
