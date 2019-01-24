@@ -24,7 +24,7 @@
 
 **Ƭ OnCall**: *`Promise`<`Codec` | `null` | `undefined`> | [PromiseSubscription](_promise_types_.md#promisesubscription)*
 
-*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/promise/types.ts#L11)*
+*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/10bdaf5/packages/api/src/promise/types.ts#L11)*
 
 ___
 <a id="promisesubscription"></a>
@@ -33,7 +33,7 @@ ___
 
 **Ƭ PromiseSubscription**: *`Promise`<`function`>*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/10bdaf5/packages/api/src/promise/types.ts#L13)*
 
 ___
 <a id="queryablestoragefunction"></a>
@@ -42,7 +42,7 @@ ___
 
 **Ƭ QueryableStorageFunction**: *`QueryableStorageFunctionBase`<[OnCall](_promise_types_.md#oncall)>*
 
-*Defined in [promise/types.ts:19](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/promise/types.ts#L19)*
+*Defined in [promise/types.ts:19](https://github.com/polkadot-js/api/blob/10bdaf5/packages/api/src/promise/types.ts#L19)*
 
 ___
 <a id="submittableextrinsic"></a>
@@ -51,7 +51,7 @@ ___
 
 **Ƭ SubmittableExtrinsic**: *`SubmittableExtrinsicBase`<[OnCall](_promise_types_.md#oncall)>*
 
-*Defined in [promise/types.ts:20](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/promise/types.ts#L20)*
+*Defined in [promise/types.ts:20](https://github.com/polkadot-js/api/blob/10bdaf5/packages/api/src/promise/types.ts#L20)*
 
 ___
 <a id="submittableextrinsicfunction"></a>
@@ -60,7 +60,7 @@ ___
 
 **Ƭ SubmittableExtrinsicFunction**: *`SubmittableExtrinsicFunctionBase`<[OnCall](_promise_types_.md#oncall)>*
 
-*Defined in [promise/types.ts:21](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/promise/types.ts#L21)*
+*Defined in [promise/types.ts:21](https://github.com/polkadot-js/api/blob/10bdaf5/packages/api/src/promise/types.ts#L21)*
 
 ___
 
