@@ -10,7 +10,7 @@ import AccountId from './AccountId';
 import Event from './Event';
 import EventRecord from './EventRecord';
 import Metadata from './Metadata';
-import metadataRpc from './Metadata//v0/static';
+import metadataRpc from './Metadata/v0/static';
 
 describe('EventRecord', () => {
   beforeEach(() => {
