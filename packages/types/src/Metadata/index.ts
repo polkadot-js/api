@@ -4,7 +4,7 @@
 
 import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 
-import { MAGIC_NUMBER } from './MagicNumber';
+import { MAGIC_ERROR, MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
 
 /**
@@ -25,16 +25,20 @@ export default class Metadata extends MetadataVersioned {
       ? hexToU8a(_value)
       : _value;
 
-    const metadata = new MetadataVersioned(value);
+    try {
+      return new MetadataVersioned(value);
+    } catch (error) {
+      if (error.code !== MAGIC_ERROR) {
+        throw error;
+      }
+    }
 
-    return metadata.magicNumber.isValid
-      ? metadata
-      : new MetadataVersioned(
-        u8aConcat(
-          MAGIC_NUMBER.toU8a(), // manually add the magic number
-          Uint8Array.from([0]), // add the version for the original
-          value // the actual data as retrieved
-        )
-      );
+    return new MetadataVersioned(
+      u8aConcat(
+        MAGIC_NUMBER.toU8a(), // manually add the magic number
+        Uint8Array.from([0]), // add the version for the original
+        value // the actual data as retrieved
+      )
+    );
   }
 }

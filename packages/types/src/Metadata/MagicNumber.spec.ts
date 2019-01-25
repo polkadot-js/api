@@ -6,10 +6,10 @@ import MagicNumber, { MAGIC_NUMBER } from './MagicNumber';
 
 describe('MagicNumber', () => {
   it('succeeds when the magic number matches', () => {
-    expect(new MagicNumber(MAGIC_NUMBER).isValid).toBe(true);
+    expect(() => new MagicNumber(MAGIC_NUMBER)).not.toThrow();
   });
 
   it('fails when the magic number missmatches', () => {
-    expect(new MagicNumber(0x12345).isValid).toBe(false);
+    expect(() => new MagicNumber(0x12345)).toThrow(/MagicNumber/);
   });
 });
