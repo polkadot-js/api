@@ -166,7 +166,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -180,7 +180,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L29)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -199,7 +199,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L34)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -212,7 +212,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L39)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -225,7 +225,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns the string representation of the value
 
@@ -238,7 +238,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/25c18bb/packages/types/src/types.ts#L50)*
+*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/98ea1f9/packages/types/src/types.ts#L50)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
