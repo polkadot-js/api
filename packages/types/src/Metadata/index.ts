@@ -25,18 +25,16 @@ export default class Metadata extends MetadataVersioned {
       ? hexToU8a(_value)
       : _value;
 
-    try {
-      return new MetadataVersioned(value);
-    } catch (error) {
-      // console.error('Failed parsing metadata as versioned, falling back to unversioned');
-    }
+    const metadata = new MetadataVersioned(value);
 
-    return new MetadataVersioned(
-      u8aConcat(
-        MAGIC_NUMBER.toU8a(), // manually add the magic number
-        Uint8Array.from([0]), // add the version for the original
-        value // the actual data as retrieved
-      )
-    );
+    return metadata.magicNumber.isValid
+      ? metadata
+      : new MetadataVersioned(
+        u8aConcat(
+          MAGIC_NUMBER.toU8a(), // manually add the magic number
+          Uint8Array.from([0]), // add the version for the original
+          value // the actual data as retrieved
+        )
+      );
   }
 }

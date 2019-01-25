@@ -10,9 +10,9 @@ import Vector from '../../codec/Vector';
 import Text from '../../Text';
 
 import { flattenUniq, validateTypes } from '../util';
-import { OuterDispatchCall } from '../v0/Calls';
 import { EventMetadata } from '../v0/Events';
 import { CallMetadata, StorageMetadata } from '../v0/Modules';
+import { OuterDispatchCall } from './outerDispatch';
 
 class RuntimeModuleMetadata extends Struct {
   constructor (value?: any) {

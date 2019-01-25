@@ -186,7 +186,6 @@
         },
         "outerDispatch": {
           "name": "Timestamp",
-          "prefix": "timestamp",
           "index": 0
         },
         "events": []
@@ -291,7 +290,6 @@
         },
         "outerDispatch": {
           "name": "Consensus",
-          "prefix": "consensus",
           "index": 1
         },
         "events": []
@@ -331,7 +329,6 @@
         },
         "outerDispatch": {
           "name": "Indices",
-          "prefix": "indices",
           "index": 2
         },
         "events": [
@@ -499,7 +496,6 @@
         },
         "outerDispatch": {
           "name": "Balances",
-          "prefix": "balances",
           "index": 3
         },
         "events": [
@@ -667,7 +663,6 @@
         },
         "outerDispatch": {
           "name": "Session",
-          "prefix": "session",
           "index": 4
         },
         "events": [
@@ -1063,7 +1058,6 @@
         },
         "outerDispatch": {
           "name": "Staking",
-          "prefix": "staking",
           "index": 5
         },
         "events": [
@@ -1368,7 +1362,6 @@
         },
         "outerDispatch": {
           "name": "Democracy",
-          "prefix": "democracy",
           "index": 6
         },
         "events": [
@@ -1784,7 +1777,6 @@
         },
         "outerDispatch": {
           "name": "Council",
-          "prefix": "council",
           "index": 7
         },
         "events": [
@@ -1972,7 +1964,6 @@
         },
         "outerDispatch": {
           "name": "CouncilVoting",
-          "prefix": "council_voting",
           "index": 8
         },
         "events": [
@@ -2095,7 +2086,6 @@
         },
         "outerDispatch": {
           "name": "CouncilMotions",
-          "prefix": "council_motions",
           "index": 9
         },
         "events": [
@@ -2190,7 +2180,6 @@
         },
         "outerDispatch": {
           "name": "Grandpa",
-          "prefix": "grandpa",
           "index": 10
         },
         "events": [
@@ -2380,7 +2369,6 @@
         },
         "outerDispatch": {
           "name": "Treasury",
-          "prefix": "treasury",
           "index": 11
         },
         "events": [
@@ -2534,7 +2522,6 @@
         },
         "outerDispatch": {
           "name": "Contract",
-          "prefix": "contract",
           "index": 12
         },
         "events": [
@@ -2634,7 +2621,6 @@
         },
         "outerDispatch": {
           "name": "Sudo",
-          "prefix": "sudo",
           "index": 13
         },
         "events": [

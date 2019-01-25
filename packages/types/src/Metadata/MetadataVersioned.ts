@@ -48,6 +48,13 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   }
 
   /**
+   * @description
+   */
+  get magicNumber (): MagicNumber {
+    return this.get('magicNumber') as MagicNumber;
+  }
+
+  /**
    * @description the metadata wrapped
    */
   private get metadata (): MetadataEnum {
