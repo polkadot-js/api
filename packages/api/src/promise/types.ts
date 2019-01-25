@@ -8,9 +8,9 @@ import { QueryableStorageFunction as QueryableStorageFunctionBase, SubmittableEx
 import ApiBase from '../Base';
 import SubmittableExtrinsicBase from '../SubmittableExtrinsic';
 
-export type OnCall = Promise<Codec | null | undefined> | PromiseSubscription;
-
 export type PromiseSubscription = Promise<() => any>;
+
+export type OnCall = Promise<Codec | null | undefined> | PromiseSubscription;
 
 export interface ApiPromiseInterface extends ApiBase<OnCall> {
   readonly isReady: Promise<ApiPromiseInterface>;
