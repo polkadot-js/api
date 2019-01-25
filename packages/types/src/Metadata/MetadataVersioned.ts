@@ -4,11 +4,14 @@
 
 import { MetadataInterface } from './types';
 
+import { assert, isUndefined } from '@polkadot/util';
+
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Null from '../Null';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
+import v1ToV0 from './v1/toV0';
 import MagicNumber from './MagicNumber';
 
 class MetadataEnum extends EnumType<Null | MetadataV1> {
@@ -32,6 +35,13 @@ class MetadataEnum extends EnumType<Null | MetadataV1> {
   get asV1 (): MetadataV1 {
     return this.value as MetadataV1;
   }
+
+  /**
+   * @description The version this metadata represents
+   */
+  get version (): number {
+    return this.index;
+  }
 }
 
 /**
@@ -40,6 +50,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1> {
  * The versioned runtime metadata as a decoded structure
  */
 export default class MetadataVersioned extends Struct implements MetadataInterface {
+  private _convertedV0?: MetadataV0;
+
   constructor (value?: any) {
     super({
       magicNumber: MagicNumber,
@@ -72,13 +84,25 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
    * @description Returns the wrapped metadata as a V0 object
    */
   get asV0 (): MetadataV0 {
-    return this.metadata.asV0;
+    if (this.metadata.version === 0) {
+      return this.metadata.asV0;
+    }
+
+    assert(this.metadata.version === 1, `Cannot convert metadata from v${this.metadata.version} to v0`);
+
+    if (isUndefined(this._convertedV0)) {
+      this._convertedV0 = v1ToV0(this.metadata.asV1);
+    }
+
+    return this._convertedV0;
   }
 
   /**
    * @description Returns the wrapped values as a V1 object
    */
   get asV1 (): MetadataV1 {
+    assert(this.metadata.version === 1, `Cannot convert metadata from v${this.metadata.version} to v1`);
+
     return this.metadata.asV1;
   }
 
