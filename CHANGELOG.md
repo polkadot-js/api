@@ -1,3 +1,7 @@
+# 0.41.1
+
+- Support the V1 metadata specification from Substrate in addition to the currently testnet-active V0 version
+
 # 0.40.1
 
 - The API interfaces now require a WS-compatible provider, e.g. subscription support is a must. Previously the HTTPProvider could be use (although it was very limited in the interactions).

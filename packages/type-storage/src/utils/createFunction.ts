@@ -4,7 +4,7 @@
 
 import Compact from '@polkadot/types/codec/Compact';
 import { createType } from '@polkadot/types/codec';
-import { StorageFunctionMetadata } from '@polkadot/types/Metadata/Modules';
+import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { Text } from '@polkadot/types/index';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';

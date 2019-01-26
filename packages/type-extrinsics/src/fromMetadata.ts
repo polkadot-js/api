@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/Modules';
+import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { Methods, ModulesWithMethods } from '@polkadot/types/Method';
-import { Metadata } from '@polkadot/types/index';
+import MetadataV0 from '@polkadot/types/Metadata/v0';
 
 import { stringCamelCase } from '@polkadot/util';
 
@@ -18,7 +18,7 @@ import extrinsics from './index';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
+export default function fromMetadata (metadata: MetadataV0): ModulesWithMethods {
   let indexCount = -1;
 
   const findIndex = (prefix: string): number => {

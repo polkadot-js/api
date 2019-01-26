@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
+import { AnyNumber } from '../../types';
 
-import Bytes from '../Bytes';
-import Enum from '../codec/Enum';
-import EnumType from '../codec/EnumType';
-import Option from '../codec/Option';
-import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
-import Text from '../Text';
-import Type from '../Type';
-import U16 from '../U16';
+import Bytes from '../../Bytes';
+import Enum from '../../codec/Enum';
+import EnumType from '../../codec/EnumType';
+import Option from '../../codec/Option';
+import Struct from '../../codec/Struct';
+import Vector from '../../codec/Vector';
+import Text from '../../Text';
+import Type from '../../Type';
+import U16 from '../../U16';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
