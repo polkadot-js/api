@@ -36,7 +36,9 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
             // theoretically we could combine at the first call with session.validators(), however
             // we make 100% sure we actually get the validators at a specific block so when these
             // change at an era boundary, we have the previous values to ensure our indexes are correct
-            api.query.session.validators.at(header.hash) as any as Observable<Array<AccountId>>
+            api.query.session
+              ? api.query.session.validators.at(header.hash)
+              : of([])
           )
         ),
         map(([header, validators]) =>
