@@ -27,7 +27,9 @@ export function getHeader (api: ApiInterface$Rx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     combineLatest(
       api.rpc.chain.getHeader(hash) as Observable<Header>,
-      api.query.session.validators.at(hash) as any as Observable<Array<AccountId>>
+      api.query.session
+        ? api.query.session.validators.at(hash) as any as Observable<Array<AccountId>>
+        : of([])
     ).pipe(
       map(([header, validators]: HeaderAndValidators) =>
         new HeaderExtended(header, validators)
