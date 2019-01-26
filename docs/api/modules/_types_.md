@@ -37,7 +37,7 @@
 
 **Ƭ ApiInterface$Events**: *`RpcRxInterface$Events` | "ready"*
 
-*Defined in [types.ts:109](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L109)*
+*Defined in [types.ts:109](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L109)*
 
 ___
 <a id="apiinterface_rx"></a>
@@ -46,7 +46,7 @@ ___
 
 **Ƭ ApiInterface$Rx**: *[ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)<`Observable`<`Codec` | `null` | `undefined`>>*
 
-*Defined in [types.ts:107](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L107)*
+*Defined in [types.ts:107](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L107)*
 
 ___
 <a id="decoratedrpc_method"></a>
@@ -55,7 +55,7 @@ ___
 
 **Ƭ DecoratedRpc$Method**: *`function`*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L17)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `OnCall`
@@ -75,7 +75,7 @@ ___
 
 **Ƭ DeriveMethod**: *`function`*
 
-*Defined in [types.ts:73](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L73)*
+*Defined in [types.ts:73](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L73)*
 
 #### Type declaration
 ▸(...params: *`Array`<`any`>*): `OnCall`
@@ -95,7 +95,7 @@ ___
 
 **Ƭ OnCallFunction**: *`function`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L15)*
+*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L15)*
 
 #### Type declaration
 ▸(...args: *`any`[]*): `OnCall`
@@ -115,7 +115,7 @@ ___
 
 **Ƭ QueryableStorageFunction**: *`QueryableStorageFunction&lt;OnCall&gt;`*
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L42)*
+*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L42)*
 
 ___
 <a id="submittablesendresult"></a>
@@ -124,7 +124,7 @@ ___
 
 **Ƭ SubmittableSendResult**: *`object`*
 
-*Defined in [types.ts:67](https://github.com/polkadot-js/api/blob/fd93fbc/packages/api/src/types.ts#L67)*
+*Defined in [types.ts:67](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/types.ts#L67)*
 
 #### Type declaration
 
