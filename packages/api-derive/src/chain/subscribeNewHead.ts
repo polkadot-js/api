@@ -5,7 +5,6 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Vector } from '@polkadot/types/codec';
 import { AccountId, Header } from '@polkadot/types/index';
 import { HeaderExtended } from '@polkadot/types/Header';
 
@@ -38,7 +37,7 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
             // we make 100% sure we actually get the validators at a specific block so when these
             // change at an era boundary, we have the previous values to ensure our indexes are correct
             api.query.session
-              ? api.query.session.validators.at(header.hash) as Observable<Vector<AccountId>>
+              ? api.query.session.validators.at(header.hash)
               : of([])
           )
         ),

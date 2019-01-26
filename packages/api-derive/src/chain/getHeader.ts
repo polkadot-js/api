@@ -5,7 +5,6 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Header } from '@polkadot/types/index';
 import { HeaderExtended } from '@polkadot/types/Header';
 
 import { drr } from '../util/drr';
@@ -25,13 +24,14 @@ import { HeaderAndValidators } from './subscribeNewHead';
  */
 export function getHeader (api: ApiInterface$Rx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
-    combineLatest(
-      api.rpc.chain.getHeader(hash) as Observable<Header>,
+    // tslint:disable-next-line
+    (combineLatest(
+      api.rpc.chain.getHeader(hash),
       api.query.session
-        ? api.query.session.validators.at(hash) as any as Observable<Array<AccountId>>
+        ? api.query.session.validators.at(hash)
         : of([])
-    ).pipe(
-      map(([header, validators]: HeaderAndValidators) =>
+    ) as Observable<HeaderAndValidators>).pipe(
+      map(([header, validators]) =>
         new HeaderExtended(header, validators)
       ),
       catchError(() =>
