@@ -91,7 +91,7 @@ export default class Header extends Struct {
 export class HeaderExtended extends Header {
   private _author?: AccountId;
 
-  constructor (header: Header, sessionValidators: Array<AccountId>) {
+  constructor (header: Header, sessionValidators: Array<AccountId> = []) {
     super(header);
 
     const { digest: { logs } } = header;
