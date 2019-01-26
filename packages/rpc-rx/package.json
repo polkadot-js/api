@@ -32,7 +32,9 @@
     "@babel/runtime": "^7.2.0",
     "@polkadot/rpc-core": "^0.40.23",
     "@polkadot/rpc-provider": "^0.40.23",
+    "@types/memoizee": "^0.4.2",
     "@types/rx": "^4.1.1",
+    "memoizee": "^0.4.14",
     "rxjs": "^6.3.3"
   }
 }

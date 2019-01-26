@@ -2,41 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Observable } from 'rxjs';
+import { RpcInterface$Section } from '@polkadot/rpc-core/types';
+
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
   send = () => true;
 });
 
-const RpcRx = require('./index').default;
+import RpcRx from './index';
 
 describe('replay', () => {
   const params = [123, false];
-  let api;
-  let update;
-  let section;
-  let observable;
+  let api: RpcRx;
+  let section: RpcInterface$Section;
+  let observable: Observable<any>;
 
   beforeEach(() => {
     api = new RpcRx();
   });
 
   beforeEach(() => {
-    const subMethod = jest.fn((name, ...params) => {
-      update = params.pop();
-
-      return Promise.resolve(12345);
-    });
-
-    subMethod.unsubscribe = jest.fn(() => {
-      return Promise.resolve(true);
-    });
+    const subMethod: any = jest.fn(() => Promise.resolve(12345));
+    subMethod.unsubscribe = jest.fn(() => Promise.resolve(true));
 
     section = {
       subMethod
     };
 
-    observable = api.createReplay('subMethod', params, section);
+    // @ts-ignore
+    observable = api.createObservable('subMethod', section)(...params);
   });
 
   it('subscribes via the api section', (done) => {
@@ -49,19 +45,15 @@ describe('replay', () => {
         done();
       }
     });
-
-    update('test');
   });
 
   it('returns the observable value', (done) => {
     observable.subscribe((value) => {
       if (value) {
-        expect(value).toEqual('test');
+        expect(value).toEqual(12345);
         done();
       }
     });
-
-    update('test');
   });
 
   it('unsubscribes as required', (done) => {
@@ -74,7 +66,5 @@ describe('replay', () => {
         subscription.unsubscribe();
       }
     });
-
-    update('test');
   });
 });

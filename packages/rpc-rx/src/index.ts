@@ -7,16 +7,13 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { BehaviorSubject, Observable, Subscriber, from } from 'rxjs';
-import { map, publishReplay, refCount } from 'rxjs/operators';
+import memoize, { Memoized } from 'memoizee';
+import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
+import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
 
-type CachedMap = {
-  [index: string]: {
-    [index: string]: Observable<any>
-  }
-};
+type RxFn = (...params: Array<any>) => Observable<any>;
 
 /**
  * @name RpcRx
@@ -36,7 +33,6 @@ type CachedMap = {
  */
 export default class RpcRx implements RpcRxInterface {
   private _api: Rpc;
-  private _cacheMap: CachedMap;
   private _eventemitter: EventEmitter;
   private _isConnected: BehaviorSubject<boolean>;
   readonly author: RpcRxInterface$Section;
@@ -51,16 +47,15 @@ export default class RpcRx implements RpcRxInterface {
     this._api = providerOrRpc instanceof Rpc
       ? providerOrRpc
       : new Rpc(providerOrRpc);
-    this._cacheMap = {};
     this._eventemitter = new EventEmitter();
     this._isConnected = new BehaviorSubject(this._api._provider.isConnected());
 
     this.initEmitters(this._api._provider);
 
-    this.author = this.createInterface('author', this._api.author);
-    this.chain = this.createInterface('chain', this._api.chain);
-    this.state = this.createInterface('state', this._api.state);
-    this.system = this.createInterface('system', this._api.system);
+    this.author = this.createInterface(this._api.author);
+    this.chain = this.createInterface(this._api.chain);
+    this.state = this.createInterface(this._api.state);
+    this.system = this.createInterface(this._api.system);
   }
 
   isConnected (): BehaviorSubject<boolean> {
@@ -89,20 +84,23 @@ export default class RpcRx implements RpcRxInterface {
     });
   }
 
-  private createInterface (sectionName: string, section: RpcInterface$Section): RpcRxInterface$Section {
+  private createInterface (section: RpcInterface$Section): RpcRxInterface$Section {
     return Object
       .keys(section)
       .filter((name) => !['subscribe', 'unsubscribe'].includes(name))
       .reduce((observables, name) => {
-        observables[name] = this.createObservable(`${sectionName}_${name}`, name, section);
+        observables[name] = this.createObservable(name, section);
 
         return observables;
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
+  private createObservable (name: string, section: RpcInterface$Section): RxFn {
     if (isFunction(section[name].unsubscribe)) {
-      return this.createCachedObservable(subName, name, section);
+      const memoized: Memoized<RxFn> = memoize(
+        (...params: Array<any>) => this.createReplay(name, params, section, memoized),
+        { length: false }
+      );
     }
 
     return (...params: Array<any>): Observable<any> =>
@@ -115,32 +113,16 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createCachedObservable (subName: string, name: string, section: RpcInterface$Section): (...params: Array<any>) => Observable<any> {
-    if (!this._cacheMap[subName]) {
-      this._cacheMap[subName] = {};
-    }
-
-    return (...params: Array<any>): Observable<any> => {
-      const paramStr = JSON.stringify(params);
-
-      if (!this._cacheMap[subName][paramStr]) {
-        this._cacheMap[subName][paramStr] = this.createReplay(name, params, section, subName, paramStr);
-      }
-
-      return this._cacheMap[subName][paramStr];
-    };
-  }
-
-  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, subName: string, paramStr: string): Observable<any> {
+  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RxFn>): Observable<any> {
     return Observable
-      .create((observer: Subscriber<any>): Function => {
+      .create((observer: Observer<any>): Function => {
         const fn = section[name];
         const callback = this.createReplayCallback(observer);
         const subscribe = fn(...params, callback).catch((error) =>
           observer.next(error)
         );
 
-        return this.createReplayUnsub(fn, subscribe, subName, paramStr);
+        return this.createReplayUnsub(fn, subscribe, params, memoized);
       })
       .pipe(
         map((value) => {
@@ -155,12 +137,12 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createReplayCallback (observer: Subscriber<any>) {
+  private createReplayCallback (observer: Observer<any>) {
     let cachedResult: any;
 
     return (result: any) => {
       if (isUndefined(cachedResult) || !Array.isArray(cachedResult) || !Array.isArray(result)
-      || result.length !== cachedResult.length) {
+        || result.length !== cachedResult.length) {
         cachedResult = result;
       } else {
         cachedResult = cachedResult.map((cachedValue, index) =>
@@ -174,14 +156,14 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, subName: string, paramStr: string): () => void {
+  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, params: Array<any>, memoized: Memoized<RxFn>): () => void {
     return (): void => {
       subscribe
         .then((subscriptionId: number) =>
           fn.unsubscribe(subscriptionId)
         )
         .then(() => {
-          delete this._cacheMap[subName][paramStr];
+          memoized.delete(...params);
         })
         .catch((error) => {
           console.error('Unsubscribe failed', error);
