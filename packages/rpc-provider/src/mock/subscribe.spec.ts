@@ -39,7 +39,6 @@ describe('subscribe', () => {
 
   it('calls back with new headers', (done) => {
     return mock.subscribe('chain_newHead', 'chain_subscribeNewHead', (_: any, header: any) => {
-      console.error('header', header);
       if (header.number === '0x0000000000000004') {
         done();
       }
