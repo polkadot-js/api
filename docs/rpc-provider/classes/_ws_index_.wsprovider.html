@@ -2156,7 +2156,7 @@
 <p><a id="constructor"></a></p>
 <h2 id="constructor">constructor</h2>
 <p>&#x2295; <strong>new WsProvider</strong>(endpoint?: <em><code>string</code></em>, autoConnect?: <em><code>boolean</code></em>): <a href="_ws_index_.wsprovider.html">WsProvider</a></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L75" target="_blank">ws/index.ts:75</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L75" target="_blank">ws/index.ts:75</a></em></p>
 <p><strong>Parameters:</strong></p>
 <table>
 <thead>
@@ -2188,7 +2188,7 @@
 <p><a id="hassubscriptions"></a></p>
 <h2 id="hassubscriptions">hasSubscriptions</h2>
 <p>gethasSubscriptions(): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L101" target="_blank">ws/index.ts:101</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L101" target="_blank">ws/index.ts:101</a></em></p>
 <p><em><strong>summary</strong></em>: <code>true</code> when this provider supports subscriptions</p>
 <p><strong>Returns:</strong> <code>boolean</code></p>
 <hr>
@@ -2196,7 +2196,7 @@
 <p><a id="connect"></a></p>
 <h2 id="connect">connect</h2>
 <p>&#x25B8; <strong>connect</strong>(): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L110" target="_blank">ws/index.ts:110</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L110" target="_blank">ws/index.ts:110</a></em></p>
 <p><em><strong>summary</strong></em>: Manually connect</p>
 <p><em><strong>description</strong></em>: The <a href="_ws_index_.wsprovider.html">WsProvider</a> connects automatically by default, however if you decided otherwise, you may connect manually using this method.</p>
 <p><strong>Returns:</strong> <code>void</code></p>
@@ -2204,7 +2204,7 @@
 <p><a id="isconnected"></a></p>
 <h2 id="isconnected">isConnected</h2>
 <p>&#x25B8; <strong>isConnected</strong>(): <code>boolean</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L127" target="_blank">ws/index.ts:127</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L127" target="_blank">ws/index.ts:127</a></em></p>
 <p><em><strong>summary</strong></em>: Whether the node is connected or not.</p>
 <p><strong>Returns:</strong> <code>boolean</code>
 true if connected</p>
@@ -2212,7 +2212,7 @@ true if connected</p>
 <p><a id="on"></a></p>
 <h2 id="on">on</h2>
 <p>&#x25B8; <strong>on</strong>(type: <em><a href="../modules/_types_.md#providerinterface_emitted">ProviderInterface$Emitted</a></em>, sub: <em><a href="../modules/_types_.md#providerinterface_emitcb">ProviderInterface$EmitCb</a></em>): <code>void</code></p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L136" target="_blank">ws/index.ts:136</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L136" target="_blank">ws/index.ts:136</a></em></p>
 <p><em><strong>summary</strong></em>: Listens on events after having subscribed using the <a href="_ws_index_.wsprovider.html#subscribe">subscribe</a> function.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2241,7 +2241,7 @@ true if connected</p>
 <p><a id="send"></a></p>
 <h2 id="send">send</h2>
 <p>&#x25B8; <strong>send</strong>(method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, subscription?: <em><code>SubscriptionHandler</code></em>): <code>Promise</code>&lt;<code>any</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L146" target="_blank">ws/index.ts:146</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L146" target="_blank">ws/index.ts:146</a></em></p>
 <p><em><strong>summary</strong></em>: Send JSON data using WebSockets to configured HTTP Endpoint or queue.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2275,7 +2275,7 @@ true if connected</p>
 <p><a id="subscribe"></a></p>
 <h2 id="subscribe">subscribe</h2>
 <p>&#x25B8; <strong>subscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, params: <em><code>Array</code>&lt;<code>any</code>&gt;</em>, callback: <em><a href="../modules/_types_.md#providerinterface_callback">ProviderInterface$Callback</a></em>): <code>Promise</code>&lt;<code>number</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L200" target="_blank">ws/index.ts:200</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L200" target="_blank">ws/index.ts:200</a></em></p>
 <p><em><strong>name</strong></em>: subscribe</p>
 <p><em><strong>summary</strong></em>: Allows subscribing to a specific event.</p>
 <p><em><strong>example</strong></em>:   </p>
@@ -2326,7 +2326,7 @@ Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
 <p><a id="unsubscribe"></a></p>
 <h2 id="unsubscribe">unsubscribe</h2>
 <p>&#x25B8; <strong>unsubscribe</strong>(type: <em><code>string</code></em>, method: <em><code>string</code></em>, id: <em><code>number</code></em>): <code>Promise</code>&lt;<code>boolean</code>&gt;</p>
-<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/e798df9/packages/rpc-provider/src/ws/index.ts#L209" target="_blank">ws/index.ts:209</a></em></p>
+<p><em>Defined in <a href="https://github.com/polkadot-js/api/blob/b34277a/packages/rpc-provider/src/ws/index.ts#L209" target="_blank">ws/index.ts:209</a></em></p>
 <p><em><strong>summary</strong></em>: Allows unsubscribing to subscriptions made with <a href="_ws_index_.wsprovider.html#subscribe">subscribe</a>.</p>
 <p><strong>Parameters:</strong></p>
 <table>
@@ -2396,7 +2396,7 @@ Promise resolving to the dd of the subscription you can use with [[unsubscribe]]
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"WsProvider","level":"1.3.2","depth":2,"next":{"title":"types (codec implementation)","level":"1.4","depth":1,"path":"types/README.md","ref":"types/README.md","articles":[]},"previous":{"title":"HttpProvider","level":"1.3.1","depth":2,"path":"rpc-provider/classes/_http_index_.httpprovider.md","ref":"rpc-provider/classes/_http_index_.httpprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-provider/classes/_ws_index_.wsprovider.md","mtime":"2019-01-28T12:16:02.648Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-28T12:17:13.598Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"WsProvider","level":"1.3.2","depth":2,"next":{"title":"types (codec implementation)","level":"1.4","depth":1,"path":"types/README.md","ref":"types/README.md","articles":[]},"previous":{"title":"HttpProvider","level":"1.3.1","depth":2,"path":"rpc-provider/classes/_http_index_.httpprovider.md","ref":"rpc-provider/classes/_http_index_.httpprovider.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"rpc-provider/classes/_ws_index_.wsprovider.md","mtime":"2019-01-28T15:54:47.697Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-28T15:55:53.893Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
