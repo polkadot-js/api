@@ -6,7 +6,8 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { decodeAddress } from '@polkadot/keyring';
-import { AccountId, AccountIndex } from '@polkadot/types/index';
+import { AccountId, AccountIndex, Address } from '@polkadot/types/index';
+import { isU8a } from '@polkadot/util';
 
 import { idToIndex } from './idToIndex';
 import { indexToId } from './indexToId';
@@ -15,10 +16,12 @@ import { drr } from '../util/drr';
 export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 
 export function idAndIndex (api: ApiInterface$Rx) {
-  return (address?: AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
+  return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
       // yes, this can fail, don't care too much, catch will catch it
-      const decoded = decodeAddress(address as any);
+      const decoded = isU8a(address)
+        ? address
+        : decodeAddress((address || '').toString());
 
       if (decoded.length === 32) {
         const accountId = new AccountId(decoded);
