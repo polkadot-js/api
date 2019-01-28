@@ -4,7 +4,7 @@
 
 import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section, RxFn } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
@@ -93,14 +93,14 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (name: string, section: RpcInterface$Section): RxFn {
+  private createObservable (name: string, section: RpcInterface$Section): RpcRxInterface$Method {
     if (isFunction(section[name].unsubscribe)) {
-      const memoized: Memoized<RxFn> = memoize(
+      const memoized: Memoized<RpcRxInterface$Method> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
         { length: false }
       );
 
-      return memoized as unknown as RxFn;
+      return memoized as unknown as RpcRxInterface$Method;
     }
 
     return (...params: Array<any>): Observable<any> =>
@@ -113,7 +113,7 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RxFn>): Observable<any> {
+  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RpcRxInterface$Method>): Observable<any> {
     return Observable
       .create((observer: Observer<any>): Function => {
         const fn = section[name];
@@ -156,7 +156,7 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, params: Array<any>, memoized: Memoized<RxFn>): () => void {
+  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, params: Array<any>, memoized: Memoized<RpcRxInterface$Method>): () => void {
     return (): void => {
       subscribe
         .then((subscriptionId: number) =>

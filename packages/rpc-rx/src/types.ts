@@ -5,9 +5,7 @@
 import { Observable } from 'rxjs';
 import { ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 
-export type RxFn = (...params: Array<any>) => Observable<any>;
-
-export type RpcRxInterface$Method = RxFn;
+export type RpcRxInterface$Method = (...params: Array<any>) => Observable<any>;
 
 export type RpcRxInterface$Section = {
   [index: string]: RpcRxInterface$Method
