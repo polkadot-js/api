@@ -27,6 +27,10 @@ describe('createCachedObservable', () => {
       return Promise.resolve(12345);
     }) as any;
 
+    subMethod.unsubscribe = jest.fn(() => {
+      return Promise.resolve(true);
+    });
+
     section = {
       subMethod
     };
@@ -49,7 +53,7 @@ describe('createCachedObservable', () => {
 
     expect(
       observable2
-    ).toEqual(observable1);
+    ).toBe(observable1);
   });
 
   it('creates multiple observables for different values', () => {

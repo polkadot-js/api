@@ -2,10 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ReplaySubject, Observable } from 'rxjs';
+import { Memoized } from 'memoizee';
+import { Observable } from 'rxjs';
 import { ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 
-export type RpcRxInterface$Method = (...params: Array<any>) => Observable<any> | ReplaySubject<any>;
+export type RxFn = (...params: Array<any>) => Observable<any>;
+
+export type RpcRxInterface$Method = RxFn | Memoized<RxFn>;
 
 export type RpcRxInterface$Section = {
   [index: string]: RpcRxInterface$Method

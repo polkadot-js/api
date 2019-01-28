@@ -4,7 +4,7 @@
 
 import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section, RxFn } from './types';
 
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
@@ -12,8 +12,6 @@ import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
 import Rpc from '@polkadot/rpc-core/index';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
-
-type RxFn = (...params: Array<any>) => Observable<any>;
 
 /**
  * @name RpcRx
@@ -95,12 +93,14 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (name: string, section: RpcInterface$Section): RxFn {
+  private createObservable (name: string, section: RpcInterface$Section): RpcRxInterface$Method {
     if (isFunction(section[name].unsubscribe)) {
       const memoized: Memoized<RxFn> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
         { length: false }
       );
+
+      return memoized;
     }
 
     return (...params: Array<any>): Observable<any> =>
