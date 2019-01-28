@@ -54,7 +54,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
     } else if (isString(value)) {
       return new Type(
         isHex(value, -1, true)
-          ? hexToBn(value)
+          ? hexToBn(value, { isLe: false, isNegative: false })
           : new BN(value, 10)
       );
     } else if (isNumber(value) || isBn(value)) {

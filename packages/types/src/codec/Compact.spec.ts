@@ -130,6 +130,12 @@ describe('Compact', () => {
       ).toEqual(new BN(0xffff).toNumber());
     });
 
+    it('constructs from hex (as BE)', () => {
+      expect(
+        new Compact(U32, '0xf9f8f7f7').toNumber()
+      ).toEqual(0xf9f8f7f7);
+    });
+
     it('constructs properly via number as Moment', () => {
       expect(
         new Compact(Moment, 1537968546).toString().startsWith('Wed Sep 26 2018') // The time depends on the timezone this test is run in
