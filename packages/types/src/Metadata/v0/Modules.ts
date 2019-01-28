@@ -128,7 +128,7 @@ export class StorageFunctionModifier extends Enum {
   }
 }
 
-export class StorageFunctionType$Map extends Struct {
+export class MapType extends Struct {
   constructor (value?: any) {
     super({
       key: Type,
@@ -151,11 +151,14 @@ export class StorageFunctionType$Map extends Struct {
   }
 }
 
-export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map> {
+class PlainType extends Type {
+}
+
+export class StorageFunctionType extends EnumType<PlainType | MapType> {
   constructor (value?: any, index?: number) {
     super({
-      Type,
-      StorageFunctionType$Map
+      PlainType,
+      MapType
     }, value, index);
   }
 
@@ -169,15 +172,15 @@ export class StorageFunctionType extends EnumType<Type | StorageFunctionType$Map
   /**
    * @description The value as a mapped value
    */
-  get asMap (): StorageFunctionType$Map {
-    return this.value as StorageFunctionType$Map;
+  get asMap (): MapType {
+    return this.value as MapType;
   }
 
   /**
    * @description The value as a [[Type]] value
    */
-  get asType (): Type {
-    return this.value as Type;
+  get asType (): PlainType {
+    return this.value as PlainType;
   }
 
   /**

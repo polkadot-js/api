@@ -27,8 +27,10 @@ function modulesV0 (v1: MetadataV1): Array<RuntimeModuleMetadata> {
 function outerDispatchV0 (v1: MetadataV1): OuterDispatchMetadata {
   return new OuterDispatchMetadata({
     name: 'Call',
+    // only add the where we have an actual outer dispatch available, only these
+    // are assigned indexes for this dispatch
     calls: v1.modules
-      .filter((mod) => mod.outerDispatch.isSome)
+      .filter(({ outerDispatch }) => outerDispatch.isSome)
       .map((mod) => {
         const dispatch = mod.outerDispatch.unwrap();
 
@@ -44,9 +46,13 @@ function outerDispatchV0 (v1: MetadataV1): OuterDispatchMetadata {
 function outerEventV0 (v1: MetadataV1): OuterEventMetadata {
   return new OuterEventMetadata({
     name: 'Event',
-    events: v1.modules.map((mod) =>
-      new OuterEventMetadataEvent([mod.prefix, mod.events])
-    )
+    // Events are different to storage and calls - it does not use the module prefix, but
+    // rather based on whether there are events or not, it gets included and indexed
+    events: v1.modules
+      .filter(({ events }) => events && events.length)
+      .map((mod) =>
+        new OuterEventMetadataEvent([mod.prefix, mod.events])
+      )
   });
 }
 

@@ -85,6 +85,7 @@
 * [KeyValueOption](../classes/_keyvalue_.keyvalueoption.md)
 * [LocKPeriods](../classes/_lockperiods_.lockperiods.md)
 * [MagicNumber](../classes/_metadata_magicnumber_.magicnumber.md)
+* [MapType](../classes/_metadata_v0_modules_.maptype.md)
 * [Metadata](../classes/_metadata_index_.metadata.md)
 * [MetadataV0](../classes/_metadata_v0_index_.metadatav0.md)
 * [MetadataV1](../classes/_metadata_v1_index_.metadatav1.md)
@@ -103,8 +104,8 @@
 * [Option](../classes/_codec_option_.option.md)
 * [Origin](../classes/_origin_.origin.md)
 * [Other](../classes/_digest_.other.md)
-* [OuterDispatchCall](../classes/_metadata_v0_calls_.outerdispatchcall.md)
 * [OuterDispatchCall](../classes/_metadata_v1_outerdispatch_.outerdispatchcall.md)
+* [OuterDispatchCall](../classes/_metadata_v0_calls_.outerdispatchcall.md)
 * [OuterDispatchMetadata](../classes/_metadata_v0_calls_.outerdispatchmetadata.md)
 * [OuterEventMetadata](../classes/_metadata_v0_events_.outereventmetadata.md)
 * [OuterEventMetadataEvent](../classes/_metadata_v0_events_.outereventmetadataevent.md)
@@ -136,7 +137,6 @@
 * [StorageFunctionMetadata](../classes/_metadata_v0_modules_.storagefunctionmetadata.md)
 * [StorageFunctionModifier](../classes/_metadata_v0_modules_.storagefunctionmodifier.md)
 * [StorageFunctionType](../classes/_metadata_v0_modules_.storagefunctiontype.md)
-* [StorageFunctionType$Map](../classes/_metadata_v0_modules_.storagefunctiontype_map.md)
 * [StorageKey](../classes/_storagekey_.storagekey.md)
 * [StorageMetadata](../classes/_metadata_v0_modules_.storagemetadata.md)
 * [StoredPendingChange](../classes/_storedpendingchange_.storedpendingchange.md)
@@ -171,7 +171,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -185,7 +185,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L29)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -204,7 +204,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L34)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -217,7 +217,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L39)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -230,7 +230,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns the string representation of the value
 
@@ -243,7 +243,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L50)*
+*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/types.ts#L50)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

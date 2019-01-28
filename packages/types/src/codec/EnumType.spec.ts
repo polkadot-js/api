@@ -62,6 +62,23 @@ describe('Struct', () => {
     ).toEqual('Null');
   });
 
+  it('stringifies with custom types', () => {
+    class A extends Null { }
+    class B extends Null { }
+    class C extends Null { }
+    class Test extends EnumType<A | B | C> {
+      constructor (value?: string, index?: number) {
+        super({
+          a: A,
+          b: B,
+          c: C
+        }, value, index);
+      }
+    }
+
+    expect(new Test().toJSON()).toEqual({ a: null });
+  });
+
   // We are currently not using this approach, none of the types in Substrate currently
   // have any overrides. Insteda of trying to support it (just-in-case), rather have it
   // removed to simplyfy the code - it can be pulled-back if needed
