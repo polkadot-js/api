@@ -5,14 +5,14 @@
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId } from '@polkadot/types/index';
+import { AccountId, Address } from '@polkadot/types/index';
 
 import { DerivedBalancesMap } from '../types';
 import { drr } from '../util/drr';
 import { validatingBalance } from './validatingBalance';
 
 export function validatingBalances (api: ApiInterface$Rx) {
-  return (accountIds: Array<AccountId | string>): Observable<DerivedBalancesMap> => {
+  return (accountIds: Array<AccountId | Address | string>): Observable<DerivedBalancesMap> => {
     return !accountIds || !accountIds.length
       ? of({}).pipe(drr())
       : combineLatest(
