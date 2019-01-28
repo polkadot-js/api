@@ -24,7 +24,7 @@
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[constructor](../classes/_base_.apibase.md#constructor)*
 
-*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L68)*
+*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L68)*
 
 *__description__*: Create an instance of the class
 
@@ -58,7 +58,7 @@ ___
 
 **● isReady**: *`Promise`<[ApiPromiseInterface](_promise_types_.apipromiseinterface.md)>*
 
-*Defined in [promise/types.ts:16](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/promise/types.ts#L16)*
+*Defined in [promise/types.ts:16](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/promise/types.ts#L16)*
 
 ___
 
@@ -72,7 +72,7 @@ getderive(): [Derive](_types_.derive.md)<[OnCall](../modules/_promise_types_.md#
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[derive](../classes/_base_.apibase.md#derive)*
 
-*Defined in [Base.ts:155](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L155)*
+*Defined in [Base.ts:155](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L155)*
 
 *__description__*: Derived results that are injected into the API, allowing for combinations of various query results.
 
@@ -95,7 +95,7 @@ getgenesisHash(): `Hash`
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[genesisHash](../classes/_base_.apibase.md#genesishash)*
 
-*Defined in [Base.ts:112](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L112)*
+*Defined in [Base.ts:112](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L112)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -110,7 +110,7 @@ gethasSubscriptions(): `boolean`
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[hasSubscriptions](../classes/_base_.apibase.md#hassubscriptions)*
 
-*Defined in [Base.ts:121](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L121)*
+*Defined in [Base.ts:121](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L121)*
 
 *__description__*: `true` when subscriptions are supported
 
@@ -125,7 +125,7 @@ getquery(): [QueryableStorage](_types_.queryablestorage.md)<[OnCall](../modules/
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[query](../classes/_base_.apibase.md#query)*
 
-*Defined in [Base.ts:175](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L175)*
+*Defined in [Base.ts:175](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L175)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -150,7 +150,7 @@ getrpc(): [DecoratedRpc](_types_.decoratedrpc.md)<[OnCall](../modules/_promise_t
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[rpc](../classes/_base_.apibase.md#rpc)*
 
-*Defined in [Base.ts:195](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L195)*
+*Defined in [Base.ts:195](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L195)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -175,7 +175,7 @@ getruntimeMetadata(): `Metadata`
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[runtimeMetadata](../classes/_base_.apibase.md#runtimemetadata)*
 
-*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L128)*
+*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L128)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -190,7 +190,7 @@ getruntimeVersion(): `RuntimeVersion`
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[runtimeVersion](../classes/_base_.apibase.md#runtimeversion)*
 
-*Defined in [Base.ts:137](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L137)*
+*Defined in [Base.ts:137](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L137)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -205,7 +205,7 @@ gettx(): [SubmittableExtrinsics](_types_.submittableextrinsics.md)<[OnCall](../m
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[tx](../classes/_base_.apibase.md#tx)*
 
-*Defined in [Base.ts:213](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L213)*
+*Defined in [Base.ts:213](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L213)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -233,7 +233,7 @@ ___
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[on](../classes/_base_.apibase.md#on)*
 
-*Defined in [Base.ts:238](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L238)*
+*Defined in [Base.ts:238](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L238)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -267,7 +267,7 @@ ___
 
 *Inherited from [ApiBase](../classes/_base_.apibase.md).[once](../classes/_base_.apibase.md#once)*
 
-*Defined in [Base.ts:263](https://github.com/polkadot-js/api/blob/3ced943/packages/api/src/Base.ts#L263)*
+*Defined in [Base.ts:263](https://github.com/polkadot-js/api/blob/bfe5661/packages/api/src/Base.ts#L263)*
 
 *__description__*: Attach an one-time eventemitter handler to listen to a specific event
 
