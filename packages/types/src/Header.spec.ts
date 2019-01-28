@@ -7,6 +7,7 @@ import BN from 'bn.js';
 import Header from './Header';
 import json1 from './json/Header.001.json';
 import json2 from './json/Header.002.json';
+import json3 from './json/Header.003.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
@@ -38,5 +39,11 @@ describe('Header', () => {
     expect(
       header.blockNumber.eq(new BN(2918))
     ).toBe(true);
+  });
+
+  it('decodes an actual hex response', () => {
+    const header = new Header(json3.result);
+
+    expect(header.blockNumber.toNumber()).toEqual(683);
   });
 });

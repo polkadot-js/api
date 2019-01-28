@@ -1,0 +1,20 @@
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "digest": {
+      "logs": [
+        {
+          "Seal": [
+            154868977,
+            "0xbb1343013545e579bbbb30c7ca7f102bd685c551814a71e25c26aaa2b3ac03183cb4ada19ccf694e420ab41c1950364db88282567757f8a17f5e27a440109308"
+          ]
+        }
+      ]
+    },
+    "extrinsicsRoot": "0x0ca95328e70e5dc7370097863a0e3c3e10304e8e8652544f56879cc2a9a4733a",
+    "number": "0x2ab",
+    "parentHash": "0x61a776ec47dd289f619732c60208f8b770f8d6e9ef67d13728b25de90ccc9fa3",
+    "stateRoot": "0x225b64bdae48ad12f0077757e1eeb836234630c3d0dd3169935782ede64700c3"
+  },
+  "id": 1
+}
