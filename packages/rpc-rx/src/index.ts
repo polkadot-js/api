@@ -93,14 +93,14 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (name: string, section: RpcInterface$Section): RpcRxInterface$Method {
+  private createObservable (name: string, section: RpcInterface$Section): RxFn {
     if (isFunction(section[name].unsubscribe)) {
       const memoized: Memoized<RxFn> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
         { length: false }
       );
 
-      return memoized;
+      return memoized as unknown as RxFn;
     }
 
     return (...params: Array<any>): Observable<any> =>
