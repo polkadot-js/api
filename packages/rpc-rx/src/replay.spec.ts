@@ -18,14 +18,22 @@ describe('replay', () => {
   let api: RpcRx;
   let section: RpcInterface$Section;
   let observable: Observable<any>;
+  let update: any;
 
   beforeEach(() => {
     api = new RpcRx();
   });
 
   beforeEach(() => {
-    const subMethod: any = jest.fn(() => Promise.resolve(12345));
-    subMethod.unsubscribe = jest.fn(() => Promise.resolve(true));
+    const subMethod: any = jest.fn((name, ...params) => {
+      update = params.pop();
+
+      return Promise.resolve(12345);
+    });
+
+    subMethod.unsubscribe = jest.fn(() => {
+      return Promise.resolve(true);
+    });
 
     section = {
       subMethod
@@ -45,15 +53,19 @@ describe('replay', () => {
         done();
       }
     });
+
+    update('test');
   });
 
   it('returns the observable value', (done) => {
     observable.subscribe((value) => {
       if (value) {
-        expect(value).toEqual(12345);
+        expect(value).toEqual('test');
         done();
       }
     });
+
+    update('test');
   });
 
   it('unsubscribes as required', (done) => {
@@ -66,5 +78,7 @@ describe('replay', () => {
         subscription.unsubscribe();
       }
     });
+
+    update('test');
   });
 });

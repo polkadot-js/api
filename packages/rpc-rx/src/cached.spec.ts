@@ -23,13 +23,8 @@ describe('createCachedObservable', () => {
   });
 
   beforeEach(() => {
-    const subMethod = jest.fn((name, ...params) => {
-      return Promise.resolve(12345);
-    }) as any;
-
-    subMethod.unsubscribe = jest.fn(() => {
-      return Promise.resolve(true);
-    });
+    const subMethod: any = jest.fn(() => Promise.resolve(12345));
+    subMethod.unsubscribe = jest.fn(() => Promise.resolve(true));
 
     section = {
       subMethod
