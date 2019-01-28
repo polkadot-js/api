@@ -103,6 +103,9 @@ export default class RpcRx implements RpcRxInterface {
       return memoized as unknown as RpcRxInterface$Method;
     }
 
+    // We voluntarily don't cache the "one-shot" RPC calls. For example,
+    // `getStorage('123')` returns the current value, but this value can change
+    // over time, so we wouldn't want to cache the Observable.
     return (...params: Array<any>): Observable<any> =>
       from(
         section[name]
