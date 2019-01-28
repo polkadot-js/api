@@ -26,7 +26,7 @@
 
 *Overrides [Int](_codec_int_.int.md).[constructor](_codec_int_.int.md#constructor)*
 
-*Defined in [I8.ts:14](https://github.com/polkadot-js/api/blob/b34277a/packages/types/src/I8.ts#L14)*
+*Defined in [I8.ts:14](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/I8.ts#L14)*
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/b34277a/packages/types/src/codec/Int.ts#L36)*
+*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/codec/Int.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -71,7 +71,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/b34277a/packages/types/src/codec/Int.ts#L48)*
+*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/ebcb795/packages/types/src/codec/Int.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
