@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecTo } from '../types';
+import Option from './Option';
 import Struct from './Struct';
+import BlockNumber from '../BlockNumber';
 import Text from '../Text';
 import U32 from '../U32';
 import Vector from './Vector';
@@ -171,5 +173,14 @@ describe('Struct', () => {
         }, test).eq(test)
       ).toBe(true);
     });
+  });
+
+  it('allows toString with large numbers', () => {
+    // replicate https://github.com/polkadot-js/api/issues/640
+    expect(
+      new Struct({
+        blockNumber: Option.with(BlockNumber)
+      }, { blockNumber: '0x1234567890abcdef' }).toString()
+    ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
   });
 });

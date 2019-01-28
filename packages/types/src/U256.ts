@@ -13,6 +13,6 @@ import UInt from './codec/UInt';
  */
 export default class U256 extends UInt {
   constructor (value?: AnyNumber) {
-    super(value, 256);
+    super(value, 256, true);
   }
 }
