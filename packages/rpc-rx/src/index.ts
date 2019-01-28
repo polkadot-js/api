@@ -4,7 +4,7 @@
 
 import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section, RxFn } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Section, RxFn } from './types';
 
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
