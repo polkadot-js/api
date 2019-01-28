@@ -161,7 +161,9 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
-    return this.raw;
+    return {
+      [this.type]: this.raw.toJSON()
+    };
   }
 
   /**
