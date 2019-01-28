@@ -13,6 +13,6 @@ import UInt from './codec/UInt';
  */
 export default class U128 extends UInt {
   constructor (value?: AnyNumber) {
-    super(value, 128);
+    super(value, 128, true);
   }
 }
