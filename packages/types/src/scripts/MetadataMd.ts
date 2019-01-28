@@ -7,7 +7,8 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
 import Metadata from '../Metadata';
-import rpcdata from '../Metadata/static';
+import MetadataV0 from '../Metadata/v0';
+import rpcdata from '../Metadata/v0/static';
 import Method from '../Method';
 
 const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
@@ -22,7 +23,7 @@ function sectionLink (sectionName: string) {
   return `- **[${stringCamelCase(sectionName)}](#${stringCamelCase(sectionName)})**\n\n`;
 }
 
-function generateSectionLinks (sectionName: string, metadata: Metadata) {
+function generateSectionLinks (sectionName: string, metadata: MetadataV0) {
   switch (sectionName) {
     case 'events':
       return metadata.events.map((i) => i).sort().map((data: any) =>
@@ -81,7 +82,7 @@ function sortExtrinsicsSectionMethods (a: any, b: any) {
   return nameA.localeCompare(nameB);
 }
 
-function addEvents (metadata: Metadata) {
+function addEvents (metadata: MetadataV0) {
   const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
   const orderedSections = metadata.events.map((i) => i).sort();
   const renderAnchors = generateSectionLinks('events', metadata);
@@ -108,7 +109,7 @@ function addEvents (metadata: Metadata) {
   }, renderHeading + renderAnchors);
 }
 
-function addExtrinsics (metadata: Metadata) {
+function addExtrinsics (metadata: MetadataV0) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
   const orderedSections = metadata.modules.map((i) => i).sort();
   const renderAnchors = generateSectionLinks('extrinsics', metadata);
@@ -134,7 +135,7 @@ function addExtrinsics (metadata: Metadata) {
   }, renderHeading + renderAnchors);
 }
 
-function addStorage (metadata: Metadata) {
+function addStorage (metadata: MetadataV0) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort();
   const renderAnchors = generateSectionLinks('storage', metadata) + sectionLink('substrate');
@@ -179,22 +180,22 @@ function writeToRpcMd () {
   writeFile('docs/METHODS_RPC.md', addRpc());
 }
 
-function writeToStorageMd (metadata: Metadata) {
+function writeToStorageMd (metadata: MetadataV0) {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', options);
 
   writeFile('docs/METHODS_STORAGE.md', addStorage(metadata), data);
 }
 
-function writeToExtrinsicsMd (metadata: Metadata) {
+function writeToExtrinsicsMd (metadata: MetadataV0) {
   writeFile('docs/METHODS_EXTRINSICS.md', addExtrinsics(metadata));
 }
 
-function writeToEventsMd (metadata: Metadata) {
+function writeToEventsMd (metadata: MetadataV0) {
   writeFile('docs/METHODS_EVENTS.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata);
+const metadata = new Metadata(rpcdata).asV0;
 
 writeToRpcMd();
 writeToStorageMd(metadata);

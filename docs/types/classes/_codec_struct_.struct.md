@@ -19,21 +19,21 @@
 
 ↳  [AttestedCandidate](_attestedcandidate_.attestedcandidate.md)
 
-↳  [FunctionArgumentMetadata](_metadata_modules_.functionargumentmetadata.md)
+↳  [FunctionArgumentMetadata](_metadata_v0_modules_.functionargumentmetadata.md)
 
-↳  [FunctionMetadata](_metadata_modules_.functionmetadata.md)
+↳  [FunctionMetadata](_metadata_v0_modules_.functionmetadata.md)
 
-↳  [CallMetadata](_metadata_modules_.callmetadata.md)
+↳  [CallMetadata](_metadata_v0_modules_.callmetadata.md)
 
-↳  [ModuleMetadata](_metadata_modules_.modulemetadata.md)
+↳  [ModuleMetadata](_metadata_v0_modules_.modulemetadata.md)
 
-↳  [StorageFunctionType$Map](_metadata_modules_.storagefunctiontype_map.md)
+↳  [StorageFunctionType$Map](_metadata_v0_modules_.storagefunctiontype_map.md)
 
-↳  [StorageFunctionMetadata](_metadata_modules_.storagefunctionmetadata.md)
+↳  [StorageFunctionMetadata](_metadata_v0_modules_.storagefunctionmetadata.md)
 
-↳  [StorageMetadata](_metadata_modules_.storagemetadata.md)
+↳  [StorageMetadata](_metadata_v0_modules_.storagemetadata.md)
 
-↳  [RuntimeModuleMetadata](_metadata_modules_.runtimemodulemetadata.md)
+↳  [RuntimeModuleMetadata](_metadata_v0_modules_.runtimemodulemetadata.md)
 
 ↳  [Method](_method_.method.md)
 
@@ -49,19 +49,25 @@
 
 ↳  [Block](_block_.block.md)
 
-↳  [OuterDispatchCall](_metadata_calls_.outerdispatchcall.md)
+↳  [OuterDispatchCall](_metadata_v0_calls_.outerdispatchcall.md)
 
-↳  [OuterDispatchMetadata](_metadata_calls_.outerdispatchmetadata.md)
+↳  [OuterDispatchMetadata](_metadata_v0_calls_.outerdispatchmetadata.md)
 
-↳  [EventMetadata](_metadata_events_.eventmetadata.md)
+↳  [EventMetadata](_metadata_v0_events_.eventmetadata.md)
 
-↳  [OuterEventMetadata](_metadata_events_.outereventmetadata.md)
+↳  [OuterEventMetadata](_metadata_v0_events_.outereventmetadata.md)
 
-↳  [Metadata](_metadata_index_.metadata.md)
+↳  [MetadataV0](_metadata_v0_index_.metadatav0.md)
 
 ↳  [Event](_event_.event.md)
 
 ↳  [EventRecord](_eventrecord_.eventrecord.md)
+
+↳  [OuterDispatchCall](_metadata_v1_outerdispatch_.outerdispatchcall.md)
+
+↳  [MetadataV1](_metadata_v1_index_.metadatav1.md)
+
+↳  [MetadataVersioned](_metadata_metadataversioned_.metadataversioned.md)
 
 ↳  [Health](_health_.health.md)
 
@@ -80,6 +86,8 @@
 ↳  [ReferendumInfo](_referenduminfo_.referenduminfo.md)
 
 ↳  [RuntimeVersion](_runtimeversion_.runtimeversion.md)
+
+↳  [Schedule](_schedule_.schedule.md)
 
 ↳  [SignedBlock](_signedblock_.signedblock.md)
 
@@ -101,7 +109,7 @@
 
 ⊕ **new Struct**(Types: *`S`*, value?: *`V` | `Map`<`any`, `any`> | `Array`<`any`>*, jsonMap?: *`Map`<`keyof S`, `string`>*): [Struct](_codec_struct_.struct.md)
 
-*Defined in [codec/Struct.ts:31](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L31)*
+*Defined in [codec/Struct.ts:31](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L31)*
 
 **Parameters:**
 
@@ -135,7 +143,7 @@ ___
 
 getType(): `E`
 
-*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L142)*
+*Defined in [codec/Struct.ts:142](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L142)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -148,7 +156,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L149)*
+*Defined in [codec/Struct.ts:149](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L149)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -166,7 +174,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L158)*
+*Defined in [codec/Struct.ts:158](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L158)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -187,7 +195,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L166)*
+*Defined in [codec/Struct.ts:166](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L166)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -206,7 +214,7 @@ ___
 
 ▸ **getAtIndex**(index: *`number`*): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L173)*
+*Defined in [codec/Struct.ts:173](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L173)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -225,7 +233,7 @@ ___
 
 ▸ **toArray**(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
-*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L180)*
+*Defined in [codec/Struct.ts:180](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L180)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -240,7 +248,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L187)*
+*Defined in [codec/Struct.ts:187](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L187)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -255,7 +263,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L194)*
+*Defined in [codec/Struct.ts:194](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L194)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -270,7 +278,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/Struct.ts:208](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L208)*
+*Defined in [codec/Struct.ts:208](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L208)*
 
 *__description__*: Returns the string representation of the value
 
@@ -285,7 +293,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Struct.ts:216](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L216)*
+*Defined in [codec/Struct.ts:216](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L216)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -304,7 +312,7 @@ ___
 
 ▸ **with**<`S`>(Types: *`S`*): [Constructor](../modules/_types_.md#constructor)<[Struct](_codec_struct_.struct.md)<`S`>>
 
-*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/codec/Struct.ts#L122)*
+*Defined in [codec/Struct.ts:122](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/codec/Struct.ts#L122)*
 
 **Type parameters:**
 

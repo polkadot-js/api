@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Metadata from '@polkadot/types/Metadata';
-import json from '@polkadot/types/Metadata/static';
+import { Metadata } from '@polkadot/types/index';
+import json from '@polkadot/types/Metadata/v0/static';
 
 import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
-const metadata = new Metadata(json);
+const metadata = new Metadata(json).asV0;
 const newStorage = fromMetadata(metadata);
 
 describe('fromMetadata', () => {

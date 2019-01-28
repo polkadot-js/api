@@ -8,27 +8,27 @@ import createType from '../codec/createType';
 import Method from '../Method';
 
 import Metadata from './index';
-import latestParsed from './latest.substrate.json';
+import latestParsed from './v1/latest.substrate.v1.json';
 import rpcData from './static';
 
 describe('Metadata', () => {
+  const metadata = new Metadata(rpcData);
+
   it('decodes latest properly', () => {
-    const metadata = new Metadata(rpcData);
     const str = JSON.stringify(metadata.toJSON());
 
     console.error(str);
     console.error(metadata.getUniqTypes());
 
-    expect(metadata.events.length).not.toBe(0);
+    expect(metadata.version).toBe(1);
+    expect(metadata.asV1.modules.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));
   });
 
   describe('storage with default values', () => {
-    const metadata = new Metadata(rpcData);
+    Method.injectMethods(extrinsicsFromMeta(metadata.asV0));
 
-    Method.injectMethods(extrinsicsFromMeta(metadata));
-
-    metadata.modules.forEach((mod) => {
+    metadata.asV1.modules.forEach((mod) => {
       if (mod.storage.isNone) {
         return;
       }
@@ -41,5 +41,14 @@ describe('Metadata', () => {
         });
       });
     });
+  });
+
+  it('converts v1 to V0', () => {
+    const v0 = metadata.asV0;
+    const str = JSON.stringify(metadata.toJSON());
+
+    console.error(str);
+
+    expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
   });
 });

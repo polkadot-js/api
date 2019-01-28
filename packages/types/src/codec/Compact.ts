@@ -133,4 +133,11 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   toU8a (isBare?: boolean): Uint8Array {
     return Compact.encodeU8a(this.raw.toBn());
   }
+
+  /**
+   * @description Returns the embedded [[UInt]] or [[Moment]] value
+   */
+  unwrap (): UInt | Moment {
+    return this.raw;
+  }
 }

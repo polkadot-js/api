@@ -145,6 +145,10 @@ describe('Compact', () => {
     it('compares against a primitive', () => {
       expect(new Compact(U32, 12345).eq(12345)).toBe(true);
     });
+
+    it('unwraps to the wrapped value', () => {
+      expect(new Compact(U32, 12345).unwrap() instanceof U32).toBe(true);
+    });
   });
 
   describe('helpers', () => {

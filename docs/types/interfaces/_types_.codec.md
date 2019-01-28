@@ -32,11 +32,12 @@
 * [Bool](../classes/_bool_.bool.md)
 * [Broadcast](../classes/_extrinsicstatus_.broadcast.md)
 * [Bytes](../classes/_bytes_.bytes.md)
-* [CallMetadata](../classes/_metadata_modules_.callmetadata.md)
+* [CallMetadata](../classes/_metadata_v0_modules_.callmetadata.md)
 * [CandidateReceipt](../classes/_attestedcandidate_.candidatereceipt.md)
 * [CandidateSignature](../classes/_attestedcandidate_.candidatesignature.md)
 * [ChainProperties](../classes/_chainproperties_.chainproperties.md)
 * [ChangesTrieRoot](../classes/_digest_.changestrieroot.md)
+* [CodeHash](../classes/_codehash_.codehash.md)
 * [Compact](../classes/_codec_compact_.compact.md)
 * [Data](../classes/_data_.data.md)
 * [Digest](../classes/_digest_.digest.md)
@@ -48,7 +49,7 @@
 * [Event](../classes/_event_.event.md)
 * [EventData](../classes/_event_.eventdata.md)
 * [EventIndex](../classes/_event_.eventindex.md)
-* [EventMetadata](../classes/_metadata_events_.eventmetadata.md)
+* [EventMetadata](../classes/_metadata_v0_events_.eventmetadata.md)
 * [EventRecord](../classes/_eventrecord_.eventrecord.md)
 * [ExplicitCandidateSignature](../classes/_attestedcandidate_.explicitcandidatesignature.md)
 * [Extrinsic](../classes/_extrinsic_.extrinsic.md)
@@ -58,8 +59,8 @@
 * [Extrinsics](../classes/_extrinsics_.extrinsics.md)
 * [Finalised](../classes/_extrinsicstatus_.finalised.md)
 * [Finalization](../classes/_eventrecord_.finalization.md)
-* [FunctionArgumentMetadata](../classes/_metadata_modules_.functionargumentmetadata.md)
-* [FunctionMetadata](../classes/_metadata_modules_.functionmetadata.md)
+* [FunctionArgumentMetadata](../classes/_metadata_v0_modules_.functionargumentmetadata.md)
+* [FunctionMetadata](../classes/_metadata_v0_modules_.functionmetadata.md)
 * [Future](../classes/_extrinsicstatus_.future.md)
 * [Gas](../classes/_gas_.gas.md)
 * [H256](../classes/_h256_.h256.md)
@@ -83,12 +84,16 @@
 * [KeyValue](../classes/_keyvalue_.keyvalue.md)
 * [KeyValueOption](../classes/_keyvalue_.keyvalueoption.md)
 * [LocKPeriods](../classes/_lockperiods_.lockperiods.md)
+* [MagicNumber](../classes/_metadata_magicnumber_.magicnumber.md)
 * [Metadata](../classes/_metadata_index_.metadata.md)
+* [MetadataV0](../classes/_metadata_v0_index_.metadatav0.md)
+* [MetadataV1](../classes/_metadata_v1_index_.metadatav1.md)
+* [MetadataVersioned](../classes/_metadata_metadataversioned_.metadataversioned.md)
 * [Method](../classes/_method_.method.md)
 * [MethodIndex](../classes/_method_.methodindex.md)
 * [MisbehaviorKind](../classes/_misbehaviorreport_.misbehaviorkind.md)
 * [MisbehaviorReport](../classes/_misbehaviorreport_.misbehaviorreport.md)
-* [ModuleMetadata](../classes/_metadata_modules_.modulemetadata.md)
+* [ModuleMetadata](../classes/_metadata_v0_modules_.modulemetadata.md)
 * [Moment](../classes/_moment_.moment.md)
 * [NewAccountOutcome](../classes/_newaccountoutcome_.newaccountoutcome.md)
 * [NextAuthority](../classes/_storedpendingchange_.nextauthority.md)
@@ -98,10 +103,11 @@
 * [Option](../classes/_codec_option_.option.md)
 * [Origin](../classes/_origin_.origin.md)
 * [Other](../classes/_digest_.other.md)
-* [OuterDispatchCall](../classes/_metadata_calls_.outerdispatchcall.md)
-* [OuterDispatchMetadata](../classes/_metadata_calls_.outerdispatchmetadata.md)
-* [OuterEventMetadata](../classes/_metadata_events_.outereventmetadata.md)
-* [OuterEventMetadataEvent](../classes/_metadata_events_.outereventmetadataevent.md)
+* [OuterDispatchCall](../classes/_metadata_v0_calls_.outerdispatchcall.md)
+* [OuterDispatchCall](../classes/_metadata_v1_outerdispatch_.outerdispatchcall.md)
+* [OuterDispatchMetadata](../classes/_metadata_v0_calls_.outerdispatchmetadata.md)
+* [OuterEventMetadata](../classes/_metadata_v0_events_.outereventmetadata.md)
+* [OuterEventMetadataEvent](../classes/_metadata_v0_events_.outereventmetadataevent.md)
 * [ParaId](../classes/_paraid_.paraid.md)
 * [PeerInfo](../classes/_peerinfo_.peerinfo.md)
 * [PendingExtrinsics](../classes/_pendingextrinsics_.pendingextrinsics.md)
@@ -115,9 +121,10 @@
 * [ReferendumIndex](../classes/_referendumindex_.referendumindex.md)
 * [ReferendumInfo](../classes/_referenduminfo_.referenduminfo.md)
 * [RhdJustification](../classes/_justification_.rhdjustification.md)
-* [RuntimeModuleMetadata](../classes/_metadata_modules_.runtimemodulemetadata.md)
+* [RuntimeModuleMetadata](../classes/_metadata_v0_modules_.runtimemodulemetadata.md)
 * [RuntimeVersion](../classes/_runtimeversion_.runtimeversion.md)
 * [RuntimeVersionApi](../classes/_runtimeversion_.runtimeversionapi.md)
+* [Schedule](../classes/_schedule_.schedule.md)
 * [Seal](../classes/_digest_.seal.md)
 * [SessionKey](../classes/_sessionkey_.sessionkey.md)
 * [Set](../classes/_codec_set_.set.md)
@@ -126,12 +133,12 @@
 * [SignedBlock](../classes/_signedblock_.signedblock.md)
 * [StorageChangeSet](../classes/_storagechangeset_.storagechangeset.md)
 * [StorageData](../classes/_storagedata_.storagedata.md)
-* [StorageFunctionMetadata](../classes/_metadata_modules_.storagefunctionmetadata.md)
-* [StorageFunctionModifier](../classes/_metadata_modules_.storagefunctionmodifier.md)
-* [StorageFunctionType](../classes/_metadata_modules_.storagefunctiontype.md)
-* [StorageFunctionType$Map](../classes/_metadata_modules_.storagefunctiontype_map.md)
+* [StorageFunctionMetadata](../classes/_metadata_v0_modules_.storagefunctionmetadata.md)
+* [StorageFunctionModifier](../classes/_metadata_v0_modules_.storagefunctionmodifier.md)
+* [StorageFunctionType](../classes/_metadata_v0_modules_.storagefunctiontype.md)
+* [StorageFunctionType$Map](../classes/_metadata_v0_modules_.storagefunctiontype_map.md)
 * [StorageKey](../classes/_storagekey_.storagekey.md)
-* [StorageMetadata](../classes/_metadata_modules_.storagemetadata.md)
+* [StorageMetadata](../classes/_metadata_v0_modules_.storagemetadata.md)
 * [StoredPendingChange](../classes/_storedpendingchange_.storedpendingchange.md)
 * [Struct](../classes/_codec_struct_.struct.md)
 * [Text](../classes/_text_.text.md)
@@ -164,7 +171,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -178,7 +185,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L29)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -197,7 +204,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L34)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -210,7 +217,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L39)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -223,7 +230,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns the string representation of the value
 
@@ -236,7 +243,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/ee21272/packages/types/src/types.ts#L50)*
+*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/e798df9/packages/types/src/types.ts#L50)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

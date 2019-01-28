@@ -14,7 +14,7 @@
 
 **● derive**: *[Derive](_types_.derive.md)<`OnCall`>*
 
-*Defined in [types.ts:99](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L99)*
+*Defined in [types.ts:101](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L101)*
 
 ___
 <a id="genesishash"></a>
@@ -23,7 +23,7 @@ ___
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [types.ts:95](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L95)*
+*Defined in [types.ts:97](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L97)*
 
 ___
 <a id="hassubscriptions"></a>
@@ -32,7 +32,7 @@ ___
 
 **● hasSubscriptions**: *`boolean`*
 
-*Defined in [types.ts:96](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L96)*
+*Defined in [types.ts:98](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L98)*
 
 ___
 <a id="query"></a>
@@ -41,7 +41,7 @@ ___
 
 **● query**: *[QueryableStorage](_types_.queryablestorage.md)<`OnCall`>*
 
-*Defined in [types.ts:100](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L100)*
+*Defined in [types.ts:102](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L102)*
 
 ___
 <a id="rpc"></a>
@@ -50,7 +50,7 @@ ___
 
 **● rpc**: *[DecoratedRpc](_types_.decoratedrpc.md)<`OnCall`>*
 
-*Defined in [types.ts:101](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L101)*
+*Defined in [types.ts:103](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L103)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -59,7 +59,7 @@ ___
 
 **● runtimeMetadata**: *`Metadata`*
 
-*Defined in [types.ts:97](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L97)*
+*Defined in [types.ts:99](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L99)*
 
 ___
 <a id="runtimeversion"></a>
@@ -68,7 +68,7 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [types.ts:98](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L98)*
+*Defined in [types.ts:100](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L100)*
 
 ___
 <a id="tx"></a>
@@ -77,7 +77,7 @@ ___
 
 **● tx**: *[SubmittableExtrinsics](_types_.submittableextrinsics.md)<`OnCall`>*
 
-*Defined in [types.ts:102](https://github.com/polkadot-js/api/blob/ee21272/packages/api/src/types.ts#L102)*
+*Defined in [types.ts:104](https://github.com/polkadot-js/api/blob/e798df9/packages/api/src/types.ts#L104)*
 
 ___
 

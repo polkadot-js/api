@@ -103,6 +103,13 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
   }
 
   /**
+   * @description The index of the metadata value
+   */
+  get index (): number {
+    return this._index;
+  }
+
+  /**
    * @description Checks if the Enum points to a [[Null]] type
    */
   get isNone (): boolean {

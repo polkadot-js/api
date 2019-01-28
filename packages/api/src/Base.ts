@@ -300,8 +300,8 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
       this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-      const storage = storageFromMeta(this.runtimeMetadata);
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+      const storage = storageFromMeta(this.runtimeMetadata.asV0);
 
       this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
       this._query = this.decorateStorage(storage, this.onCall);
@@ -312,7 +312,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
       this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
 
-      Event.injectMetadata(this.runtimeMetadata);
+      Event.injectMetadata(this.runtimeMetadata.asV0);
       Method.injectMethods(extrinsics);
 
       return true;
@@ -427,12 +427,20 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
 
     decorated.at = (hash: Hash, arg?: any): T =>
       onCall(
-        arg => this._rpcRx.state
-          .getStorage([method, arg], hash)
-          .pipe(
-            // same as above (for single result), in the case of errors on creation, return `undefined`
-            catchError(() => of())
-          ),
+        // same as above (for single result), in the case of errors on creation, return `undefined`
+        arg => this._rpcRx.state.getStorage([method, arg], hash).pipe(catchError(() => of())),
+        [arg]
+      );
+
+    decorated.hash = (arg?: any): T =>
+      onCall(
+        arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
+        [arg]
+      );
+
+    decorated.size = (arg?: any): T =>
+      onCall(
+        arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
         [arg]
       );
 
