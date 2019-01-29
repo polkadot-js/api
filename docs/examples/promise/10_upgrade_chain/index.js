@@ -17,9 +17,6 @@ async function main () {
   // retrieve the upgrade key from the chain state
   const adminId = await api.query.sudo.key();
 
-  // get the nonce for the admin key
-  const adminNonce = await api.query.system.accountNonce(adminId);
-
   // find the actual keypair in the keyring (if this is an changed value, the key
   // needs to be added to the keyring before - this assumes we have defaults, i.e.
   // Alice as the key - and this already exists on the test keyring)
@@ -30,7 +27,7 @@ async function main () {
   const code = fs.readFileSync('./test.wasm').toString('hex');
   const proposal = api.tx.consensus.setCode(`0x${code}`);
 
-  console.log(`Upgrading from ${adminId} with nonce ${adminNonce}, ${code.length / 2} bytes`);
+  console.log(`Upgrading from ${adminId}, ${code.length / 2} bytes`);
 
   // preform the actual chain upgrade via the sudo module
   api.tx.sudo
