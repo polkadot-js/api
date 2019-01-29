@@ -8,15 +8,14 @@ import EnumType from '../../codec/EnumType';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
+import Bytes from '../../Bytes';
 import Null from '../../Null';
 import Text from '../../Text';
 import Type from '../../Type';
 import u16 from '../../u16';
-
 import { flattenUniq, validateTypes } from '../util';
-import { Bytes } from '../..';
 
-class MetadataArgument extends Struct {
+class MetadataCallArg extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
@@ -49,16 +48,16 @@ export class MetadataCall extends Struct {
     super({
       id: u16,
       name: Text,
-      arguments: Vector.with(MetadataArgument),
+      arguments: Vector.with(MetadataCallArg),
       documentation: Vector.with(Text)
     }, value);
   }
 
   /**
-   * @description The [[MetadataArgument]] for arguments
+   * @description The [[MetadataCallArg]] for arguments
    */
-  get arguments (): Vector<MetadataArgument> {
-    return this.get('arguments') as Vector<MetadataArgument>;
+  get arguments (): Vector<MetadataCallArg> {
+    return this.get('arguments') as Vector<MetadataCallArg>;
   }
 
   /**
@@ -92,16 +91,16 @@ export class MetadataEvent extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      arguments: Vector.with(MetadataArgument),
+      arguments: Vector.with(Type),
       documentation: Vector.with(Text)
     }, value);
   }
 
   /**
-   * @description The [[MetadataArgument]] for arguments
+   * @description The [[Type]] for arguments
    */
-  get arguments (): Vector<MetadataArgument> {
-    return this.get('arguments') as Vector<MetadataArgument>;
+  get arguments (): Vector<Type> {
+    return this.get('arguments') as Vector<Type>;
   }
 
   /**
