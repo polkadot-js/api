@@ -208,7 +208,7 @@ describe('createType', () => {
         index: '0x10'
       }).toJSON()
     ).toEqual({
-      balance: '0x000000000000000000000000000004d2',
+      balance: 1234,
       index: 16
     });
   });
