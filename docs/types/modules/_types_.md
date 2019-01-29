@@ -26,7 +26,7 @@
 
 **Ƭ AnyNumber**: *`BN` | `Uint8Array` | `number` | `string`*
 
-*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L7)*
+*Defined in [types.ts:7](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L7)*
 
 ___
 <a id="anystring"></a>
@@ -35,7 +35,7 @@ ___
 
 **Ƭ AnyString**: *`string` | `String`*
 
-*Defined in [types.ts:9](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L9)*
+*Defined in [types.ts:9](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L9)*
 
 ___
 <a id="anyu8a"></a>
@@ -44,7 +44,7 @@ ___
 
 **Ƭ AnyU8a**: *`Uint8Array` | `Array`<`number`> | `string`*
 
-*Defined in [types.ts:11](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L11)*
+*Defined in [types.ts:11](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L11)*
 
 ___
 <a id="codecto"></a>
@@ -53,7 +53,7 @@ ___
 
 **Ƭ CodecTo**: *"toHex" | "toJSON" | "toString" | "toU8a"*
 
-*Defined in [types.ts:53](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L53)*
+*Defined in [types.ts:53](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L53)*
 
 ___
 <a id="constructor"></a>
@@ -62,7 +62,7 @@ ___
 
 **Ƭ Constructor**: *`object`*
 
-*Defined in [types.ts:55](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L55)*
+*Defined in [types.ts:55](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L55)*
 
 #### Type declaration
 
@@ -73,7 +73,7 @@ ___
 
 **Ƭ ConstructorDef**: *`object`*
 
-*Defined in [types.ts:57](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L57)*
+*Defined in [types.ts:57](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L57)*
 
 #### Type declaration
 
@@ -86,7 +86,7 @@ ___
 
 **Ƭ TypeDef**: *`object`*
 
-*Defined in [types.ts:59](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/types.ts#L59)*
+*Defined in [types.ts:59](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L59)*
 
 #### Type declaration
 
