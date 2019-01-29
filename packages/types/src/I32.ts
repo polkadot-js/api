@@ -13,6 +13,6 @@ import Int from './codec/Int';
  */
 export default class I32 extends Int {
   constructor (value?: AnyNumber) {
-    super(value, 32, false);
+    super(value, 32);
   }
 }
