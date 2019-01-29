@@ -10,48 +10,32 @@ import Vector from '../../codec/Vector';
 import Text from '../../Text';
 
 import { flattenUniq, validateTypes } from '../util';
-import { EventMetadata } from '../v0/Events';
-import { CallMetadata, StorageMetadata } from '../v0/Modules';
-import { OuterDispatchCall } from './outerDispatch';
+import { StorageMetadata } from '../v0/Modules';
+import { CallsMetadata } from './calls';
+import { EventsMetadata } from './events';
 
 class RuntimeModuleMetadata extends Struct {
   constructor (value?: any) {
     super({
-      name: Text,
       prefix: Text,
       storage: Option.with(StorageMetadata),
-      calls: CallMetadata,
-      outerDispatch: Option.with(OuterDispatchCall),
-      events: Vector.with(EventMetadata)
+      calls: Option.with(CallsMetadata),
+      events: Option.with(EventsMetadata)
     }, value);
   }
 
   /**
-   * @description the module call
+   * @description the module calls
    */
-  get calls (): CallMetadata {
-    return this.get('calls') as CallMetadata;
+  get calls (): Option<CallsMetadata> {
+    return this.get('calls') as Option<CallsMetadata>;
   }
 
   /**
    * @description the module events
    */
-  get events (): Vector<EventMetadata> {
-    return this.get('events') as Vector<EventMetadata>;
-  }
-
-  /**
-   * @description the module name
-   */
-  get name (): Text {
-    return this.get('name') as Text;
-  }
-
-  /**
-   * @description the outer dispatch
-   */
-  get outerDispatch (): Option<OuterDispatchCall> {
-    return this.get('outerDispatch') as Option<OuterDispatchCall>;
+  get events (): Option<EventsMetadata> {
+    return this.get('events') as Option<EventsMetadata>;
   }
 
   /**
@@ -89,30 +73,34 @@ export default class MetadataV1 extends Struct implements MetadataInterface {
   }
 
   private get callNames () {
-    return this.modules.map((module) =>
-      module.calls.functions.map((fn) =>
-        fn.arguments.map((argument) => argument.type.toString())
-      )
+    return this.modules.map((mod) =>
+      mod.calls.isNone
+        ? []
+        : mod.calls.unwrap().functions.map((fn) =>
+          fn.arguments.map((argument) => argument.type.toString())
+        )
     );
   }
 
   private get eventNames () {
-    return this.modules.map((module) =>
-      module.events.map((event) =>
-        event.arguments.map((argument) => argument.toString())
-      )
+    return this.modules.map((mod) =>
+      mod.events.isNone
+        ? []
+        : mod.events.unwrap().map((event) =>
+          event.arguments.map((arg) => arg.toString())
+        )
     );
   }
 
   private get storageNames () {
-    return this.modules.map((module) =>
-      module.storage.isSome
-        ? module.storage.unwrap().functions.map((fn) =>
+    return this.modules.map((mod) =>
+      mod.storage.isNone
+        ? []
+        : mod.storage.unwrap().functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
         )
-        : []
     );
   }
 
