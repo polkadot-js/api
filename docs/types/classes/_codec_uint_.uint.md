@@ -36,7 +36,7 @@
 
 *Overrides AbstractInt.__constructor*
 
-*Defined in [codec/UInt.ts:21](https://github.com/polkadot-js/api/blob/e811d73/packages/types/src/codec/UInt.ts#L21)*
+*Defined in [codec/UInt.ts:21](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/codec/UInt.ts#L21)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@
 | ------ | ------ | ------ |
 | `Default value` value | [AnyNumber](../modules/_types_.md#anynumber) | 0 |
 | `Default value` bitLength | [UIntBitLength](../modules/_codec_abstractint_.md#uintbitlength) |  DEFAULT_UINT_BITS |
-| `Default value` isHexJson | `boolean` | true |
+| `Default value` isHexJson | `boolean` | false |
 
 **Returns:** [UInt](_codec_uint_.uint.md)
 
@@ -62,7 +62,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/UInt.ts:36](https://github.com/polkadot-js/api/blob/e811d73/packages/types/src/codec/UInt.ts#L36)*
+*Defined in [codec/UInt.ts:36](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/codec/UInt.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -79,7 +79,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/UInt.ts:48](https://github.com/polkadot-js/api/blob/e811d73/packages/types/src/codec/UInt.ts#L48)*
+*Defined in [codec/UInt.ts:48](https://github.com/polkadot-js/api/blob/3835736/packages/types/src/codec/UInt.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
