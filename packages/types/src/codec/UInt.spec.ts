@@ -46,9 +46,10 @@ describe('UInt', () => {
     ).toEqual(123);
   });
 
-  it('converts to JSON depending on flags', () => {
-    expect(new UInt(0x12, 16).toJSON()).toEqual('0x0012');
-    expect(new UInt(0x12, 16, false).toJSON()).toEqual(0x12);
+  it('converts to JSON representation based on flags/size', () => {
+    expect(new UInt('0x12345678', 64, true).toJSON()).toEqual('0x0000000012345678');
+    expect(new UInt('0x1234567890', 64, false).toJSON()).toEqual(0x1234567890);
+    expect(new UInt('0x1234567890abcdef', 64, false).toJSON()).toEqual('0x1234567890abcdef');
   });
 
   describe('eq', () => {
