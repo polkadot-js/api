@@ -119,7 +119,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  // FIXME As per previous FICME on send, same applied
+  // FIXME As per previous FIXME on send, same applies
   signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult> {
     return this._onCall(
       () => (this._api.query.system
