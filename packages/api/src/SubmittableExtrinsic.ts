@@ -12,11 +12,11 @@ import { first, map, switchMap } from 'rxjs/operators';
 
 import filterEvents from './util/filterEvents';
 
-export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
+export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> extends Extrinsic {
   private _api: ApiInterface$Rx;
-  private _onCall: OnCallFunction<OnCall>;
+  private _onCall: OnCallFunction<CodecResult, SubscriptionResult>;
 
-  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<OnCall>, extrinsic: Extrinsic | Method) {
+  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
@@ -63,7 +63,7 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
-  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<OnCall> {
+  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
     super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
 
     return this;

@@ -3,18 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RxResult } from '../rx/types';
 import { ApiOptions } from '../types';
-import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
+import { ApiPromiseInterface, CodecResult, SubscriptionResult } from './types';
 
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
-import { Codec } from '@polkadot/types/types';
 import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 
-type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
+type RxFn = (...params: Array<any>) => RxResult;
 
 /**
  * # @polkadot/api/promise
@@ -102,7 +102,7 @@ type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -185,7 +185,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
    * });
    * ```
    */
-  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): SubscriptionResult {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -193,7 +193,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     };
   }
 
-  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
+  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): CodecResult | SubscriptionResult {
     if (!params || params.length === 0 || isSubscription === false) {
       return method(...params).pipe(first()).toPromise();
     }
@@ -233,6 +233,6 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
           })
         )
         .subscribe(cb);
-    }) as PromiseSubscription;
+    }) as SubscriptionResult;
   }
 }

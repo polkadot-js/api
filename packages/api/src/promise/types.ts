@@ -8,14 +8,14 @@ import { QueryableStorageFunction as QueryableStorageFunctionBase, SubmittableEx
 import ApiBase from '../Base';
 import SubmittableExtrinsicBase from '../SubmittableExtrinsic';
 
-export type PromiseSubscription = Promise<() => any>;
+export type SubscriptionResult = Promise<() => any>;
 
-export type OnCall = Promise<Codec | null | undefined> | PromiseSubscription;
+export type CodecResult = Promise<Codec | null | undefined>;
 
-export interface ApiPromiseInterface extends ApiBase<OnCall> {
+export interface ApiPromiseInterface extends ApiBase<CodecResult, SubscriptionResult> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
 
-export type QueryableStorageFunction = QueryableStorageFunctionBase<OnCall>;
-export type SubmittableExtrinsic = SubmittableExtrinsicBase<OnCall>;
-export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<OnCall>;
+export type QueryableStorageFunction = QueryableStorageFunctionBase<CodecResult, SubscriptionResult>;
+export type SubmittableExtrinsic = SubmittableExtrinsicBase<CodecResult, SubscriptionResult>;
+export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<CodecResult, SubscriptionResult>;

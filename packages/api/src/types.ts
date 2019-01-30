@@ -10,58 +10,59 @@ import { Codec, Constructor } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
+import { RxResult } from './rx/types';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export type OnCallFunction<OnCall> = (...args: any[]) => OnCall;
+export type OnCallFunction<CodecResult, SubscriptionResult> = (...args: any[]) => CodecResult | SubscriptionResult;
 
-export type DecoratedRpc$Method<OnCall> = (...params: Array<any>) => OnCall;
+export type DecoratedRpc$Method<CodecResult, SubscriptionResult> = (...params: Array<any>) => CodecResult | SubscriptionResult;
 
-export interface DecoratedRpc$Section<OnCall> {
-  [index: string]: DecoratedRpc$Method<OnCall>;
+export interface DecoratedRpc$Section<CodecResult, SubscriptionResult> {
+  [index: string]: DecoratedRpc$Method<CodecResult, SubscriptionResult>;
 }
 
-export interface DecoratedRpc<OnCall> {
-  author: DecoratedRpc$Section<OnCall>;
-  chain: DecoratedRpc$Section<OnCall>;
-  state: DecoratedRpc$Section<OnCall>;
-  system: DecoratedRpc$Section<OnCall>;
+export interface DecoratedRpc<CodecResult, SubscriptionResult> {
+  author: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
+  chain: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
+  state: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
+  system: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
 }
 
-interface QueryableStorageFunctionBase<OnCall> extends StorageFunction {
-  (arg?: any): OnCall;
-  at: (hash: Uint8Array | string, arg?: any) => OnCall;
-  hash: (arg?: any) => OnCall; // Observable<Hash>
+interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
+  (arg?: any): CodecResult | SubscriptionResult;
+  at: (hash: Uint8Array | string, arg?: any) => CodecResult;
+  hash: (arg?: any) => CodecResult; // Observable<Hash>
   key: (arg?: any) => string;
-  size: (arg?: any) => OnCall; // Observable<U64>
+  size: (arg?: any) => CodecResult; // Observable<U64>
 }
 
-interface QueryableStorageFunctionPromise<OnCall> extends QueryableStorageFunctionBase<OnCall> {
-  (arg?: any, cb?: (value?: Codec) => any): OnCall;
+interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
+  (arg?: any, cb?: (value?: Codec) => any): CodecResult | SubscriptionResult;
 }
 
-export type QueryableStorageFunction<OnCall> =
-  OnCall extends Observable<any>
-    ? QueryableStorageFunctionBase<OnCall>
-    : QueryableStorageFunctionPromise<OnCall>;
+export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? QueryableStorageFunctionBase<CodecResult, SubscriptionResult>
+    : QueryableStorageFunctionPromise<CodecResult, SubscriptionResult>;
 
-export interface QueryableModuleStorage<OnCall> {
-  [index: string]: QueryableStorageFunction<OnCall>;
+export interface QueryableModuleStorage<CodecResult, SubscriptionResult> {
+  [index: string]: QueryableStorageFunction<CodecResult, SubscriptionResult>;
 }
 
-export interface QueryableStorage<OnCall> {
-  [index: string]: QueryableModuleStorage<OnCall>;
+export interface QueryableStorage<CodecResult, SubscriptionResult> {
+  [index: string]: QueryableModuleStorage<CodecResult, SubscriptionResult>;
 }
 
-export interface SubmittableExtrinsicFunction<OnCall> extends MethodFunction {
-  (...args: any[]): SubmittableExtrinsic<OnCall>;
+export interface SubmittableExtrinsicFunction<CodecResult, SubscriptionResult> extends MethodFunction {
+  (...args: any[]): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
 }
 
-export interface SubmittableModuleExtrinsics<OnCall> {
-  [index: string]: SubmittableExtrinsicFunction<OnCall>;
+export interface SubmittableModuleExtrinsics<CodecResult, SubscriptionResult> {
+  [index: string]: SubmittableExtrinsicFunction<CodecResult, SubscriptionResult>;
 }
 
-export interface SubmittableExtrinsics<OnCall> {
-  [index: string]: SubmittableModuleExtrinsics<OnCall>;
+export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
+  [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
 }
 
 export type SubmittableSendResult = {
@@ -70,14 +71,14 @@ export type SubmittableSendResult = {
   type: string
 };
 
-export type DeriveMethod<OnCall> = (...params: Array<any>) => OnCall;
+export type DeriveMethod<CodecResult, SubscriptionResult> = (...params: Array<any>) => CodecResult | SubscriptionResult;
 
-export interface DeriveSection<OnCall> {
-  [index: string]: DeriveMethod<OnCall>;
+export interface DeriveSection<CodecResult, SubscriptionResult> {
+  [index: string]: DeriveMethod<CodecResult, SubscriptionResult>;
 }
 
-export interface Derive<OnCall> {
-  [index: string]: DeriveSection<OnCall>;
+export interface Derive<CodecResult, SubscriptionResult> {
+  [index: string]: DeriveSection<CodecResult, SubscriptionResult>;
 }
 
 export interface ApiOptions {
@@ -93,22 +94,22 @@ export interface ApiOptions {
   types?: { [name: string]: Constructor };
 }
 
-export interface ApiInterface$Decorated<OnCall> {
+export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   genesisHash: Hash;
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
-  derive: Derive<OnCall>;
-  query: QueryableStorage<OnCall>;
-  rpc: DecoratedRpc<OnCall>;
-  tx: SubmittableExtrinsics<OnCall>;
+  derive: Derive<CodecResult, SubscriptionResult>;
+  query: QueryableStorage<CodecResult, SubscriptionResult>;
+  rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
+  tx: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
 }
 
-export type ApiInterface$Rx = ApiInterface$Decorated<Observable<Codec | null | undefined>>;
+export type ApiInterface$Rx = ApiInterface$Decorated<RxResult, RxResult>;
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
-export interface ApiBaseInterface<OnCall> extends Readonly<ApiInterface$Decorated<OnCall>> {
+export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Readonly<ApiInterface$Decorated<CodecResult, SubscriptionResult>> {
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }

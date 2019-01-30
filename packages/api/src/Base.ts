@@ -4,6 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
+import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions,
   DecoratedRpc, DecoratedRpc$Section,
@@ -47,20 +48,20 @@ const l = logger('api/decorator');
  * `api._rx`.
  */
 function rxOnCall (
-  method: OnCallFunction<Observable<Codec | undefined | null>>,
+  method: OnCallFunction<RxResult, RxResult>,
   params: Array<any>,
   _isSubscription?: boolean
-): Observable<Codec | undefined | null> {
+): RxResult {
   return method(...params);
 }
 
-export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall> {
+export default abstract class ApiBase<CodecResult, SubscriptionResult> implements ApiBaseInterface<CodecResult, SubscriptionResult> {
   private _eventemitter: EventEmitter;
-  private _derive?: Derive<OnCall>;
-  private _extrinsics?: SubmittableExtrinsics<OnCall>;
+  private _derive?: Derive<CodecResult, SubscriptionResult>;
+  private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
-  private _query?: QueryableStorage<OnCall>;
-  private _rpc: DecoratedRpc<OnCall>;
+  private _query?: QueryableStorage<CodecResult, SubscriptionResult>;
+  private _rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged
   protected _rpcRx: RpcRx; // FIXME These two could be merged
   private _runtimeMetadata?: Metadata;
@@ -152,10 +153,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * });
    * ```
    */
-  get derive (): Derive<OnCall> {
+  get derive (): Derive<CodecResult, SubscriptionResult> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
-    return this._derive as Derive<OnCall>;
+    return this._derive as Derive<CodecResult, SubscriptionResult>;
   }
 
   /**
@@ -172,10 +173,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * });
    * ```
    */
-  get query (): QueryableStorage<OnCall> {
+  get query (): QueryableStorage<CodecResult, SubscriptionResult> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
-    return this._query as QueryableStorage<OnCall>;
+    return this._query as QueryableStorage<CodecResult, SubscriptionResult>;
   }
 
   /**
@@ -192,7 +193,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    * });
    * ```
    */
-  get rpc (): DecoratedRpc<OnCall> {
+  get rpc (): DecoratedRpc<CodecResult, SubscriptionResult> {
     return this._rpc;
   }
 
@@ -210,10 +211,10 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
    *   });
    * ```
    */
-  get tx (): SubmittableExtrinsics<OnCall> {
+  get tx (): SubmittableExtrinsics<CodecResult, SubscriptionResult> {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
-    return this._extrinsics as SubmittableExtrinsics<OnCall>;
+    return this._extrinsics as SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   }
 
   /**
@@ -323,7 +324,7 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     }
   }
 
-  protected abstract onCall (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean): OnCall;
+  protected abstract onCall (method: OnCallFunction<RxResult, Observable<Codec | null | undefined>>, params: Array<any>, isSubscription?: boolean): CodecResult | SubscriptionResult;
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
@@ -338,13 +339,13 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     return output;
   }
 
-  private decorateRpc<T> (
+  private decorateRpc<C, S> (
     rpc: RpcRx,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): DecoratedRpc<T> {
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): DecoratedRpc<C, S> {
 
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
-      const sectionName = _sectionName as keyof DecoratedRpc<T>;
+      const sectionName = _sectionName as keyof DecoratedRpc<C, S>;
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
         // FIXME Find a better way to know if a particular method is a subscription or not
@@ -353,16 +354,16 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
         section[methodName] = method;
 
         return section;
-      }, {} as DecoratedRpc$Section<T>);
+      }, {} as DecoratedRpc$Section<C, S>);
 
       return result;
-    }, {} as DecoratedRpc<T>);
+    }, {} as DecoratedRpc<C, S>);
   }
 
-  private decorateExtrinsics<T> (
+  private decorateExtrinsics<C, S> (
     extrinsics: ModulesWithMethods,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): SubmittableExtrinsics<T> {
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): SubmittableExtrinsics<C, S> {
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -371,26 +372,26 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
         result[methodName] = this.decorateExtrinsicEntry(section[methodName], onCall);
 
         return result;
-      }, {} as SubmittableModuleExtrinsics<T>);
+      }, {} as SubmittableModuleExtrinsics<C, S>);
 
       return result;
-    }, {} as SubmittableExtrinsics<T>);
+    }, {} as SubmittableExtrinsics<C, S>);
   }
 
-  private decorateExtrinsicEntry<T> (
+  private decorateExtrinsicEntry<C, S> (
     method: MethodFunction,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): SubmittableExtrinsicFunction<T> {
-    const decorated: any = (...args: Array<any>): SubmittableExtrinsic<T> =>
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): SubmittableExtrinsicFunction<C, S> {
+    const decorated: any = (...args: Array<any>): SubmittableExtrinsic<C, S> =>
       new SubmittableExtrinsic(this._rx as ApiInterface$Rx, onCall, method(...args));
 
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<T>;
+    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }
 
-  private decorateStorage<T> (
+  private decorateStorage<C, S> (
     storage: Storage,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): QueryableStorage<T> {
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): QueryableStorage<C, S> {
 
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
@@ -399,17 +400,17 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
         result[methodName] = this.decorateStorageEntry(section[methodName], onCall);
 
         return result;
-      }, {} as QueryableModuleStorage<T>);
+      }, {} as QueryableModuleStorage<C, S>);
 
       return result;
-    }, {} as QueryableStorage<T>);
+    }, {} as QueryableStorage<C, S>);
   }
 
-  private decorateStorageEntry<T> (
+  private decorateStorageEntry<C, S> (
     method: StorageFunction,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): QueryableStorageFunction<T> {
-    const decorated: any = (...args: any): T =>
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): QueryableStorageFunction<C, S> {
+    const decorated: any = (...args: any): C | S =>
       onCall(
         (...args: any) => this._rpcRx.state
           .subscribeStorage([[method, args[0]]])
@@ -425,20 +426,20 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
         args
       );
 
-    decorated.at = (hash: Hash, arg?: any): T =>
+    decorated.at = (hash: Hash, arg?: any): C | S =>
       onCall(
         // same as above (for single result), in the case of errors on creation, return `undefined`
         arg => this._rpcRx.state.getStorage([method, arg], hash).pipe(catchError(() => of())),
         [arg]
       );
 
-    decorated.hash = (arg?: any): T =>
+    decorated.hash = (arg?: any): C | S =>
       onCall(
         arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
         [arg]
       );
 
-    decorated.size = (arg?: any): T =>
+    decorated.size = (arg?: any): C | S =>
       onCall(
         arg => this._rpcRx.state.getStorageSize([method, arg]).pipe(catchError(() => of())),
         [arg]
@@ -447,13 +448,13 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
     decorated.key = (arg?: any): string =>
       u8aToHex(compactStripLength(method(arg))[1]);
 
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<T>;
+    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
   }
 
-  private decorateDerive<T> (
+  private decorateDerive<C, S> (
     apiRx: ApiInterface$Rx,
-    onCall: (method: OnCallFunction<Observable<Codec | undefined | null>>, params: Array<any>, isSubscription?: boolean) => T
-  ): Derive<T> {
+    onCall: (method: OnCallFunction<RxResult, RxResult>, params: Array<any>, isSubscription?: boolean) => C | S
+  ): Derive<C, S> {
     const derive = decorateDerive(apiRx);
 
     return Object.keys(derive).reduce((result, _sectionName) => {
@@ -464,9 +465,9 @@ export default abstract class ApiBase<OnCall> implements ApiBaseInterface<OnCall
         section[methodName] = method;
 
         return section;
-      }, {} as DeriveSection<T>);
+      }, {} as DeriveSection<C, S>);
 
       return result;
-    }, {} as Derive<T>);
+    }, {} as Derive<C, S>);
   }
 }
