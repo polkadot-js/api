@@ -10,8 +10,9 @@ import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions,
   DecoratedRpc, DecoratedRpc$Section,
   Derive, DeriveSection,
+  HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageFunctionBase,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
 } from './types';
 
@@ -417,7 +418,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         params,
         callback
       );
-    }) as QueryableStorageFunctionBase<C, S>;
+    }) as QueryableStorageFunction<C, S>;
 
     decorated.at = (hash: Hash | Uint8Array | string, arg?: CodecArg): C =>
       onCall(
@@ -425,17 +426,20 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         [arg]
       ) as C;
 
-    decorated.hash = (arg?: CodecArg): C =>
+    // FIXME The unknown cast is needed since the onCall result, `C | S` cannot
+    // be converted from C to the actual result required
+    decorated.hash = (arg?: CodecArg): HashResult<C, S> =>
       onCall(
         (arg: CodecArg) => this._rpcRx.state.getStorageSize([method, arg]),
         [arg]
-      ) as C;
+      ) as unknown as HashResult<C, S>;
 
-    decorated.size = (arg?: CodecArg): C =>
+    // FIXME as above...
+    decorated.size = (arg?: CodecArg): U64Result<C, S> =>
       onCall(
         (arg: CodecArg) => this._rpcRx.state.getStorageSize([method, arg]),
         [arg]
-      ) as C;
+      ) as unknown as U64Result<C, S>;
 
     decorated.key = (arg?: CodecArg): string =>
       u8aToHex(compactStripLength(method(arg))[1]);

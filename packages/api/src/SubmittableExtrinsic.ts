@@ -57,6 +57,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
 
   private trackStatus (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (status.type !== 'Finalised') {
+      // FIXME onCall really needs some way of returning the inferred types
       return this._onCall(
         () => of(
           new SubmittableResult({
@@ -89,9 +90,11 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this._onCall(
       () => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
-        .pipe(switchMap((status) =>
-          this.trackStatus(status)
-        )),
+        .pipe(
+          switchMap((status) =>
+            this.trackStatus(status)
+          )
+        ),
       [],
       statusCb as CodecCallback
     ) as unknown as Observable<SubmittableResult>;

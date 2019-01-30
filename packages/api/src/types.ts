@@ -5,7 +5,7 @@
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
+import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
 import { CodecArg, CodecCallback, Constructor } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -30,18 +30,27 @@ export interface DecoratedRpc<CodecResult, SubscriptionResult> {
   system: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
 }
 
+export type HashResult<CodecResult, SubscriptionResult> =
+CodecResult extends Observable<any>
+  ? Observable<Hash>
+  : Promise<Hash>;
+
+export type U64Result<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? Observable<U64>
+    : Promise<U64>;
+
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
   (arg?: CodecArg): CodecResult;
-  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
-  (callback: CodecCallback): SubscriptionResult;
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
-  hash: (arg?: CodecArg) => CodecResult; // Observable<Hash>
+  hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
-  size: (arg?: CodecArg) => CodecResult; // Observable<U64>
+  size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
 }
 
 interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
-  (arg?: CodecArg, cb?: CodecCallback): CodecResult | SubscriptionResult;
+  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
+  (callback: CodecCallback): SubscriptionResult;
 }
 
 export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
