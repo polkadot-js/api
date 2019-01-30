@@ -39,8 +39,7 @@ export default class Vector<
     }
 
     const u8a = u8aToU8a(value);
-
-    let [offset, _length] = Compact.decodeU8a(u8a);
+    const [offset, _length] = Compact.decodeU8a(u8a);
     const length = _length.toNumber();
 
     return decodeU8a(u8a.subarray(offset), new Array(length).fill(Type)) as T[];

@@ -3,67 +3,100 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { OuterDispatchCall, OuterDispatchMetadata } from '../v0/Calls';
-import { OuterEventMetadata, OuterEventMetadataEvent } from '../v0/Events';
-import { RuntimeModuleMetadata, ModuleMetadata } from '../v0/Modules';
+import { EventMetadata, OuterEventMetadata, OuterEventMetadataEvent } from '../v0/Events';
+import { CallMetadata, FunctionMetadata, RuntimeModuleMetadata, ModuleMetadata, StorageFunctionMetadata, StorageMetadata } from '../v0/Modules';
 
 import MetadataV0 from '../v0';
-import MetadataV1 from './index';
+import MetadataV1, { MetadataModule as MetadataModuleV1 } from './index';
+
+function storageV0 (mod: MetadataModuleV1): StorageMetadata | null {
+  if (mod.storage.isNone) {
+    return null;
+  }
+
+  return new StorageMetadata({
+    prefix: mod.prefix,
+    functions: mod.storage.unwrap().map(({ docs, fallback, name, type }) =>
+      new StorageFunctionMetadata({
+        name,
+        modifier: 0, // unused, don't specify
+        type,
+        default: fallback,
+        documentation: docs
+      })
+    )
+  });
+}
+
+function moduleV0 (mod: MetadataModuleV1): ModuleMetadata {
+  return new ModuleMetadata({
+    name: 'Module',
+    call: new CallMetadata({
+      name: 'Call',
+      functions: mod.calls.isNone
+        ? []
+        : mod.calls.unwrap().map(({ args, docs, name }, id) =>
+          new FunctionMetadata({
+            id,
+            name,
+            arguments: args,
+            documentation: docs
+          })
+        )
+    })
+  });
+}
 
 function modulesV0 (v1: MetadataV1): Array<RuntimeModuleMetadata> {
-  return v1.modules.map((mod) => {
-    return new RuntimeModuleMetadata({
-      prefix: mod.prefix,
-      module: new ModuleMetadata({
-        name: 'Module',
-        call: mod.calls
-      }),
-      storage: mod.storage.isNone
-        ? null
-        : mod.storage.unwrap()
-    });
-  });
+  return v1.modules.map((mod) =>
+    new RuntimeModuleMetadata({
+      prefix: mod.name, // passed from name, compact with casing
+      module: moduleV0(mod),
+      storage: storageV0(mod)
+    })
+  );
 }
 
 function outerDispatchV0 (v1: MetadataV1): OuterDispatchMetadata {
   return new OuterDispatchMetadata({
     name: 'Call',
-    // only add the where we have an actual outer dispatch available, only these
-    // are assigned indexes for this dispatch
     calls: v1.modules
-      .filter(({ outerDispatch }) => outerDispatch.isSome)
-      .map((mod) => {
-        const dispatch = mod.outerDispatch.unwrap();
-
-        return new OuterDispatchCall({
-          name: dispatch.name,
-          prefix: mod.prefix,
-          index: dispatch.index
-        });
-      })
+      .filter(({ calls }) => calls.isSome)
+      .map((mod, index) =>
+        new OuterDispatchCall({
+          // name and prefix are swapped in the actual V0 data, i.e. name is UpperCase
+          name: mod.prefix,
+          prefix: mod.name,
+          index
+        })
+      )
   });
 }
 
 function outerEventV0 (v1: MetadataV1): OuterEventMetadata {
   return new OuterEventMetadata({
     name: 'Event',
-    // Events are different to storage and calls - it does not use the module prefix, but
-    // rather based on whether there are events or not, it gets included and indexed
     events: v1.modules
-      .filter(({ events }) => events && events.length)
+      .filter(({ events }) => events.isSome)
       .map((mod) =>
-        new OuterEventMetadataEvent([mod.prefix, mod.events])
+        new OuterEventMetadataEvent([
+          mod.name,
+          mod.events.unwrap().map(({ args, docs, name }) =>
+            new EventMetadata({
+              name,
+              arguments: args,
+              documentation: docs
+            })
+          )
+        ])
       )
   });
 }
 
 export default function toV0 (v1: MetadataV1): MetadataV0 {
-  const outerEvent = outerEventV0(v1);
-  const modules = modulesV0(v1);
-  const outerDispatch = outerDispatchV0(v1);
-
   return new MetadataV0({
-    outerEvent,
-    modules,
-    outerDispatch
+    outerEvent: outerEventV0(v1),
+    modules: modulesV0(v1),
+    outerDispatch: outerDispatchV0(v1)
   });
 }

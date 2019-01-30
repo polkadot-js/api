@@ -25,30 +25,27 @@ describe('Metadata', () => {
     expect(str).toEqual(JSON.stringify(latestParsed));
   });
 
+  it('converts v1 to V0', () => {
+    const v0 = metadata.asV0;
+
+    // console.error(JSON.stringify(v0.toJSON()));
+
+    expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
+  });
+
   describe('storage with default values', () => {
     Method.injectMethods(extrinsicsFromMeta(metadata.asV0));
 
-    metadata.asV1.modules.forEach((mod) => {
-      if (mod.storage.isNone) {
-        return;
-      }
-
-      mod.storage.unwrap().functions.forEach((fn) => {
-        it(`creates default types for ${mod.prefix}.${fn.name}, type ${fn.type}`, () => {
-          expect(
-            () => createType(fn.type.toString(), fn.default)
-          ).not.toThrow();
-        });
-      });
-    });
-  });
-
-  it('converts v1 to V0', () => {
-    const v0 = metadata.asV0;
-    const str = JSON.stringify(metadata.toJSON());
-
-    console.error(str);
-
-    expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
+    metadata.asV1.modules
+      .filter(({ storage }) => storage.isSome)
+      .map((mod) =>
+        mod.storage.unwrap().forEach(({ fallback, name, type }) => {
+          it(`creates default types for ${mod.prefix}.${name}, type ${type}`, () => {
+            expect(
+              () => createType(type.toString(), fallback)
+            ).not.toThrow();
+          });
+        })
+      );
   });
 });

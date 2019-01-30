@@ -387,13 +387,42 @@
             ]
           },
           {
-            "name": "Created",
+            "name": "Instantiated",
             "arguments": [
               "AccountId",
               "AccountId"
             ],
             "documentation": [
               " Contract deployed by address at the specified address."
+            ]
+          },
+          {
+            "name": "CodeStored",
+            "arguments": [
+              "Hash"
+            ],
+            "documentation": [
+              " Code with the specified hash has been stored."
+            ]
+          },
+          {
+            "name": "ScheduleUpdated",
+            "arguments": [
+              "u32"
+            ],
+            "documentation": [
+              " Triggered when the current schedule is updated."
+            ]
+          },
+          {
+            "name": "Dispatched",
+            "arguments": [
+              "AccountId",
+              "bool"
+            ],
+            "documentation": [
+              " A call was dispatched from the given account. The bool signals whether it was",
+              " successful execution or not."
             ]
           }
         ]
@@ -438,10 +467,12 @@
         "functions": [
           {
             "name": "AccountNonce",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Index"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Index"
+              }
             },
             "default": "0x0000000000000000",
             "documentation": []
@@ -449,41 +480,51 @@
           {
             "name": "ExtrinsicCount",
             "modifier": 0,
-            "type": "u32",
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00",
             "documentation": []
           },
           {
             "name": "BlockHash",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "BlockNumber",
-              "value": "Hash"
+              "MapType": {
+                "key": "BlockNumber",
+                "value": "Hash"
+              }
             },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "ExtrinsicData",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "u32",
-              "value": "Bytes"
+              "MapType": {
+                "key": "u32",
+                "value": "Bytes"
+              }
             },
             "default": "0x00",
             "documentation": []
           },
           {
             "name": "RandomSeed",
-            "modifier": 1,
-            "type": "Hash",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Hash"
+            },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "Number",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " The current block number being processed. Set by `execute_block`."
@@ -491,29 +532,37 @@
           },
           {
             "name": "ParentHash",
-            "modifier": 1,
-            "type": "Hash",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Hash"
+            },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "ExtrinsicsRoot",
-            "modifier": 1,
-            "type": "Hash",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Hash"
+            },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           },
           {
             "name": "Digest",
-            "modifier": 1,
-            "type": "Digest",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Digest"
+            },
             "default": "0x00",
             "documentation": []
           },
           {
             "name": "Events",
-            "modifier": 1,
-            "type": "Vec<EventRecord>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<EventRecord>"
+            },
             "default": "0x00",
             "documentation": []
           }
@@ -566,8 +615,10 @@
         "functions": [
           {
             "name": "Now",
-            "modifier": 1,
-            "type": "Moment",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Moment"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " Current time for the current block."
@@ -575,8 +626,10 @@
           },
           {
             "name": "BlockPeriod",
-            "modifier": 1,
-            "type": "Moment",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Moment"
+            },
             "default": "0x0500000000000000",
             "documentation": [
               " The minimum (and advised) period between blocks."
@@ -584,8 +637,10 @@
           },
           {
             "name": "DidUpdate",
-            "modifier": 1,
-            "type": "bool",
+            "modifier": 0,
+            "type": {
+              "PlainType": "bool"
+            },
             "default": "0x00",
             "documentation": [
               " Did the timestamp get updated in this block?"
@@ -688,7 +743,9 @@
           {
             "name": "OriginalAuthorities",
             "modifier": 0,
-            "type": "Vec<SessionKey>",
+            "type": {
+              "PlainType": "Vec<SessionKey>"
+            },
             "default": "0x00",
             "documentation": []
           }
@@ -709,8 +766,10 @@
         "functions": [
           {
             "name": "NextEnumSet",
-            "modifier": 1,
-            "type": "AccountIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "AccountIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " The next free enumeration set."
@@ -718,10 +777,12 @@
           },
           {
             "name": "EnumSet",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountIndex",
-              "value": "Vec<AccountId>"
+              "MapType": {
+                "key": "AccountIndex",
+                "value": "Vec<AccountId>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -784,8 +845,10 @@
         "functions": [
           {
             "name": "TotalIssuance",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The total amount of stake on the system."
@@ -793,8 +856,10 @@
           },
           {
             "name": "ExistentialDeposit",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The minimum amount allowed to keep an account open."
@@ -802,8 +867,10 @@
           },
           {
             "name": "TransferFee",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee required to make a transfer."
@@ -811,8 +878,10 @@
           },
           {
             "name": "CreationFee",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee required to create an account. At least as big as ReclaimRebate."
@@ -820,10 +889,12 @@
           },
           {
             "name": "FreeBalance",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Balance"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Balance"
+              }
             },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
@@ -842,10 +913,12 @@
           },
           {
             "name": "ReservedBalance",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Balance"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Balance"
+              }
             },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
@@ -865,8 +938,10 @@
           },
           {
             "name": "TransactionBaseFee",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee to be paid for making a transaction; the base."
@@ -874,8 +949,10 @@
           },
           {
             "name": "TransactionByteFee",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The fee to be paid for making a transaction; the per-byte portion."
@@ -939,8 +1016,10 @@
         "functions": [
           {
             "name": "Validators",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<AccountId>"
+            },
             "default": "0x00",
             "documentation": [
               " The current set of validators."
@@ -948,8 +1027,10 @@
           },
           {
             "name": "SessionLength",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " Current length of the session."
@@ -957,8 +1038,10 @@
           },
           {
             "name": "CurrentIndex",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " Current index of the session."
@@ -966,8 +1049,10 @@
           },
           {
             "name": "CurrentStart",
-            "modifier": 1,
-            "type": "Moment",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Moment"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " Timestamp when current session started."
@@ -976,7 +1061,9 @@
           {
             "name": "ForcingNewSession",
             "modifier": 0,
-            "type": "bool",
+            "type": {
+              "PlainType": "bool"
+            },
             "default": "0x00",
             "documentation": [
               " New session is being forced is this entry exists; in which case, the boolean value is whether",
@@ -986,7 +1073,9 @@
           {
             "name": "LastLengthChange",
             "modifier": 0,
-            "type": "BlockNumber",
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x00",
             "documentation": [
               " Block at which the session length last changed."
@@ -996,8 +1085,10 @@
             "name": "NextKeyFor",
             "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "SessionKey"
+              "MapType": {
+                "key": "AccountId",
+                "value": "SessionKey"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1007,7 +1098,9 @@
           {
             "name": "NextSessionLength",
             "modifier": 0,
-            "type": "BlockNumber",
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x00",
             "documentation": [
               " The next session length."
@@ -1179,8 +1272,10 @@
         "functions": [
           {
             "name": "ValidatorCount",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00000000",
             "documentation": [
               " The ideal number of staking participants."
@@ -1188,8 +1283,10 @@
           },
           {
             "name": "MinimumValidatorCount",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x04000000",
             "documentation": [
               " Minimum number of staking participants before emergency conditions are imposed."
@@ -1197,8 +1294,10 @@
           },
           {
             "name": "SessionsPerEra",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " The length of a staking era in sessions."
@@ -1206,8 +1305,10 @@
           },
           {
             "name": "SessionReward",
-            "modifier": 1,
-            "type": "Perbill",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Perbill"
+            },
             "default": "0x3c000000",
             "documentation": [
               " Maximum reward, per validator, that is provided per acceptable session."
@@ -1215,8 +1316,10 @@
           },
           {
             "name": "OfflineSlash",
-            "modifier": 1,
-            "type": "Perbill",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Perbill"
+            },
             "default": "0x40420f00",
             "documentation": [
               " Slash, per validator that is taken for the first time they are found to be offline."
@@ -1224,8 +1327,10 @@
           },
           {
             "name": "OfflineSlashGrace",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00000000",
             "documentation": [
               " Number of instances of offline reports before slashing begins for validators."
@@ -1233,8 +1338,10 @@
           },
           {
             "name": "BondingDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " The length of the bonding duration in blocks."
@@ -1242,8 +1349,10 @@
           },
           {
             "name": "Invulerables",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<AccountId>"
+            },
             "default": "0x00",
             "documentation": [
               " Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise",
@@ -1252,8 +1361,10 @@
           },
           {
             "name": "CurrentEra",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " The current era index."
@@ -1261,10 +1372,12 @@
           },
           {
             "name": "ValidatorPreferences",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "ValidatorPrefs"
+              "MapType": {
+                "key": "AccountId",
+                "value": "ValidatorPrefs"
+              }
             },
             "default": "0x0c00",
             "documentation": [
@@ -1273,8 +1386,10 @@
           },
           {
             "name": "Intentions",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<AccountId>"
+            },
             "default": "0x00",
             "documentation": [
               " All the accounts with a desire to stake."
@@ -1284,8 +1399,10 @@
             "name": "Nominating",
             "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "AccountId"
+              "MapType": {
+                "key": "AccountId",
+                "value": "AccountId"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1294,10 +1411,12 @@
           },
           {
             "name": "NominatorsFor",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Vec<AccountId>"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Vec<AccountId>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1306,10 +1425,12 @@
           },
           {
             "name": "CurrentNominatorsFor",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Vec<AccountId>"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Vec<AccountId>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1318,8 +1439,10 @@
           },
           {
             "name": "CurrentSessionReward",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Maximum reward, per validator, that is provided per acceptable session."
@@ -1327,8 +1450,10 @@
           },
           {
             "name": "CurrentOfflineSlash",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Slash, per validator that is taken for the first time they are found to be offline."
@@ -1337,7 +1462,9 @@
           {
             "name": "NextSessionsPerEra",
             "modifier": 0,
-            "type": "BlockNumber",
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x00",
             "documentation": [
               " The next value of sessions per era."
@@ -1345,8 +1472,10 @@
           },
           {
             "name": "LastEraLengthChange",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " The session index at which the era length last changed."
@@ -1354,8 +1483,10 @@
           },
           {
             "name": "StakeRange",
-            "modifier": 1,
-            "type": "(Balance,Balance)",
+            "modifier": 0,
+            "type": {
+              "PlainType": "(Balance,Balance)"
+            },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": [
               " The highest and lowest staked validator slashable balances."
@@ -1363,10 +1494,12 @@
           },
           {
             "name": "Bondage",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "BlockNumber"
+              "MapType": {
+                "key": "AccountId",
+                "value": "BlockNumber"
+              }
             },
             "default": "0x0000000000000000",
             "documentation": [
@@ -1375,10 +1508,12 @@
           },
           {
             "name": "SlashCount",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "u32"
+              "MapType": {
+                "key": "AccountId",
+                "value": "u32"
+              }
             },
             "default": "0x00000000",
             "documentation": [
@@ -1388,7 +1523,9 @@
           {
             "name": "ForcingNewEra",
             "modifier": 0,
-            "type": "Null",
+            "type": {
+              "PlainType": "Null"
+            },
             "default": "0x00",
             "documentation": [
               " We are forcing a new era."
@@ -1511,8 +1648,10 @@
         "functions": [
           {
             "name": "PublicPropCount",
-            "modifier": 1,
-            "type": "PropIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "PropIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " The number of (public) proposals that have been made so far."
@@ -1520,8 +1659,10 @@
           },
           {
             "name": "PublicProps",
-            "modifier": 1,
-            "type": "Vec<(PropIndex,Proposal,AccountId)>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
+            },
             "default": "0x00",
             "documentation": [
               " The public proposals. Unsorted."
@@ -1531,8 +1672,10 @@
             "name": "DepositOf",
             "modifier": 0,
             "type": {
-              "key": "PropIndex",
-              "value": "(Balance,Vec<AccountId>)"
+              "MapType": {
+                "key": "PropIndex",
+                "value": "(Balance,Vec<AccountId>)"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1541,8 +1684,10 @@
           },
           {
             "name": "LaunchPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) new public referenda are launched."
@@ -1550,8 +1695,10 @@
           },
           {
             "name": "MinimumDeposit",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " The minimum amount to be used as a deposit for a public referendum proposal."
@@ -1559,8 +1706,10 @@
           },
           {
             "name": "PublicDelay",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " The delay before enactment for all public referenda."
@@ -1568,8 +1717,10 @@
           },
           {
             "name": "MaxLockPeriods",
-            "modifier": 1,
-            "type": "LockPeriods",
+            "modifier": 0,
+            "type": {
+              "PlainType": "LockPeriods"
+            },
             "default": "0x00",
             "documentation": [
               " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
@@ -1577,8 +1728,10 @@
           },
           {
             "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) to check for new votes."
@@ -1586,8 +1739,10 @@
           },
           {
             "name": "ReferendumCount",
-            "modifier": 1,
-            "type": "ReferendumIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "ReferendumIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " The next free referendum index, aka the number of referendums started so far."
@@ -1595,8 +1750,10 @@
           },
           {
             "name": "NextTally",
-            "modifier": 1,
-            "type": "ReferendumIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "ReferendumIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " The next referendum index that should be tallied."
@@ -1606,8 +1763,10 @@
             "name": "ReferendumInfoOf",
             "modifier": 0,
             "type": {
-              "key": "ReferendumIndex",
-              "value": "ReferendumInfo"
+              "MapType": {
+                "key": "ReferendumIndex",
+                "value": "ReferendumInfo"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1616,10 +1775,12 @@
           },
           {
             "name": "DispatchQueue",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "BlockNumber",
-              "value": "Vec<Option<(Proposal,ReferendumIndex)>>"
+              "MapType": {
+                "key": "BlockNumber",
+                "value": "Vec<Option<(Proposal,ReferendumIndex)>>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1628,10 +1789,12 @@
           },
           {
             "name": "Bondage",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "BlockNumber"
+              "MapType": {
+                "key": "AccountId",
+                "value": "BlockNumber"
+              }
             },
             "default": "0x0000000000000000",
             "documentation": [
@@ -1640,10 +1803,12 @@
           },
           {
             "name": "VotersFor",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "ReferendumIndex",
-              "value": "Vec<AccountId>"
+              "MapType": {
+                "key": "ReferendumIndex",
+                "value": "Vec<AccountId>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1652,10 +1817,12 @@
           },
           {
             "name": "VoteOf",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "(ReferendumIndex,AccountId)",
-              "value": "Vote"
+              "MapType": {
+                "key": "(ReferendumIndex,AccountId)",
+                "value": "Vote"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1838,8 +2005,10 @@
         "functions": [
           {
             "name": "CandidacyBond",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x09000000000000000000000000000000",
             "documentation": [
               " How much should be locked up in order to submit one's candidacy."
@@ -1847,8 +2016,10 @@
           },
           {
             "name": "VotingBond",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " How much should be locked up in order to be able to submit votes."
@@ -1856,8 +2027,10 @@
           },
           {
             "name": "PresentSlashPerVoter",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x01000000000000000000000000000000",
             "documentation": [
               " The punishment, per voter, if you provide an invalid presentation."
@@ -1865,8 +2038,10 @@
           },
           {
             "name": "CarryCount",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x02000000",
             "documentation": [
               " How many runners-up should have their approvals persist until the next vote."
@@ -1874,8 +2049,10 @@
           },
           {
             "name": "PresentationDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " How long to give each top candidate to present themselves after the vote ends."
@@ -1883,8 +2060,10 @@
           },
           {
             "name": "InactiveGracePeriod",
-            "modifier": 1,
-            "type": "VoteIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "VoteIndex"
+            },
             "default": "0x01000000",
             "documentation": [
               " How many vote indexes need to go by after a target voter's last vote before they can be reaped if their",
@@ -1893,8 +2072,10 @@
           },
           {
             "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": [
               " How often (in blocks) to check for new votes."
@@ -1902,8 +2083,10 @@
           },
           {
             "name": "TermDuration",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0500000000000000",
             "documentation": [
               " How long each position is active for."
@@ -1911,8 +2094,10 @@
           },
           {
             "name": "DesiredSeats",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00000000",
             "documentation": [
               " Number of accounts that should be sitting on the council."
@@ -1920,8 +2105,10 @@
           },
           {
             "name": "ActiveCouncil",
-            "modifier": 1,
-            "type": "Vec<(AccountId,BlockNumber)>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<(AccountId,BlockNumber)>"
+            },
             "default": "0x00",
             "documentation": [
               " The current council. When there's a vote going on, this should still be used for executive",
@@ -1932,8 +2119,10 @@
           },
           {
             "name": "VoteCount",
-            "modifier": 1,
-            "type": "VoteIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "VoteIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " The total number of votes that have happened or are in progress."
@@ -1941,10 +2130,12 @@
           },
           {
             "name": "ApprovalsOf",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "Vec<bool>"
+              "MapType": {
+                "key": "AccountId",
+                "value": "Vec<bool>"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1956,8 +2147,10 @@
             "name": "RegisterInfoOf",
             "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "(VoteIndex,u32)"
+              "MapType": {
+                "key": "AccountId",
+                "value": "(VoteIndex,u32)"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1969,8 +2162,10 @@
             "name": "LastActiveOf",
             "modifier": 0,
             "type": {
-              "key": "AccountId",
-              "value": "VoteIndex"
+              "MapType": {
+                "key": "AccountId",
+                "value": "VoteIndex"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -1979,8 +2174,10 @@
           },
           {
             "name": "Voters",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<AccountId>"
+            },
             "default": "0x00",
             "documentation": [
               " The present voter list."
@@ -1988,8 +2185,10 @@
           },
           {
             "name": "Candidates",
-            "modifier": 1,
-            "type": "Vec<AccountId>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<AccountId>"
+            },
             "default": "0x00",
             "documentation": [
               " The present candidate list."
@@ -1997,15 +2196,19 @@
           },
           {
             "name": "CandidateCount",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00000000",
             "documentation": []
           },
           {
             "name": "NextFinalise",
             "modifier": 0,
-            "type": "(BlockNumber,u32,Vec<AccountId>)",
+            "type": {
+              "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
+            },
             "default": "0x00",
             "documentation": [
               " The accounts holding the seats that will become free on the next tally."
@@ -2013,8 +2216,10 @@
           },
           {
             "name": "SnapshotedStakes",
-            "modifier": 1,
-            "type": "Vec<Balance>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<Balance>"
+            },
             "default": "0x00",
             "documentation": [
               " The stakes as they were at the point that the vote ended."
@@ -2023,7 +2228,9 @@
           {
             "name": "Leaderboard",
             "modifier": 0,
-            "type": "Vec<(Balance,AccountId)>",
+            "type": {
+              "PlainType": "Vec<(Balance,AccountId)>"
+            },
             "default": "0x00",
             "documentation": [
               " Get the leaderboard if we;re in the presentation phase."
@@ -2106,22 +2313,28 @@
         "functions": [
           {
             "name": "CooloffPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0xe803000000000000",
             "documentation": []
           },
           {
             "name": "VotingPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0300000000000000",
             "documentation": []
           },
           {
             "name": "EnactDelayPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0000000000000000",
             "documentation": [
               " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
@@ -2129,8 +2342,10 @@
           },
           {
             "name": "Proposals",
-            "modifier": 1,
-            "type": "Vec<(BlockNumber,Hash)>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<(BlockNumber,Hash)>"
+            },
             "default": "0x00",
             "documentation": []
           },
@@ -2138,18 +2353,22 @@
             "name": "ProposalOf",
             "modifier": 0,
             "type": {
-              "key": "Hash",
-              "value": "Proposal"
+              "MapType": {
+                "key": "Hash",
+                "value": "Proposal"
+              }
             },
             "default": "0x00",
             "documentation": []
           },
           {
             "name": "ProposalVoters",
-            "modifier": 1,
+            "modifier": 0,
             "type": {
-              "key": "Hash",
-              "value": "Vec<AccountId>"
+              "MapType": {
+                "key": "Hash",
+                "value": "Vec<AccountId>"
+              }
             },
             "default": "0x00",
             "documentation": []
@@ -2158,8 +2377,10 @@
             "name": "CouncilVoteOf",
             "modifier": 0,
             "type": {
-              "key": "(Hash,AccountId)",
-              "value": "bool"
+              "MapType": {
+                "key": "(Hash,AccountId)",
+                "value": "bool"
+              }
             },
             "default": "0x00",
             "documentation": []
@@ -2168,8 +2389,10 @@
             "name": "VetoedProposal",
             "modifier": 0,
             "type": {
-              "key": "Hash",
-              "value": "(BlockNumber,Vec<AccountId>)"
+              "MapType": {
+                "key": "Hash",
+                "value": "(BlockNumber,Vec<AccountId>)"
+              }
             },
             "default": "0x00",
             "documentation": []
@@ -2226,8 +2449,10 @@
         "functions": [
           {
             "name": "Proposals",
-            "modifier": 1,
-            "type": "Vec<Hash>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<Hash>"
+            },
             "default": "0x00",
             "documentation": [
               " The (hashes of) the active proposals."
@@ -2237,8 +2462,10 @@
             "name": "ProposalOf",
             "modifier": 0,
             "type": {
-              "key": "Hash",
-              "value": "Proposal"
+              "MapType": {
+                "key": "Hash",
+                "value": "Proposal"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -2249,8 +2476,10 @@
             "name": "Voting",
             "modifier": 0,
             "type": {
-              "key": "Hash",
-              "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
+              "MapType": {
+                "key": "Hash",
+                "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -2259,8 +2488,10 @@
           },
           {
             "name": "ProposalCount",
-            "modifier": 1,
-            "type": "u32",
+            "modifier": 0,
+            "type": {
+              "PlainType": "u32"
+            },
             "default": "0x00000000",
             "documentation": [
               " Proposals so far."
@@ -2298,7 +2529,9 @@
           {
             "name": "PendingChange",
             "modifier": 0,
-            "type": "StoredPendingChange",
+            "type": {
+              "PlainType": "StoredPendingChange"
+            },
             "default": "0x00",
             "documentation": []
           }
@@ -2350,7 +2583,7 @@
               "arguments": [
                 {
                   "name": "proposal_bond",
-                  "type": "Permill"
+                  "type": "Compact<Permill>"
                 },
                 {
                   "name": "proposal_bond_minimum",
@@ -2362,7 +2595,7 @@
                 },
                 {
                   "name": "burn",
-                  "type": "Permill"
+                  "type": "Compact<Permill>"
                 }
               ],
               "documentation": [
@@ -2404,8 +2637,10 @@
         "functions": [
           {
             "name": "ProposalBond",
-            "modifier": 1,
-            "type": "Permill",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Permill"
+            },
             "default": "0x00000000",
             "documentation": [
               " Proportion of funds that should be bonded in order to place a proposal. An accepted",
@@ -2414,8 +2649,10 @@
           },
           {
             "name": "ProposalBondMinimum",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Minimum amount of funds that should be placed in a deposit for making a proposal."
@@ -2423,8 +2660,10 @@
           },
           {
             "name": "SpendPeriod",
-            "modifier": 1,
-            "type": "BlockNumber",
+            "modifier": 0,
+            "type": {
+              "PlainType": "BlockNumber"
+            },
             "default": "0x0100000000000000",
             "documentation": [
               " Period between successive spends."
@@ -2432,8 +2671,10 @@
           },
           {
             "name": "Burn",
-            "modifier": 1,
-            "type": "Permill",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Permill"
+            },
             "default": "0x00000000",
             "documentation": [
               " Percentage of spare funds (if any) that are burnt per spend period."
@@ -2441,8 +2682,10 @@
           },
           {
             "name": "Pot",
-            "modifier": 1,
-            "type": "Balance",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Balance"
+            },
             "default": "0x00000000000000000000000000000000",
             "documentation": [
               " Total funds available to this module for spending."
@@ -2450,8 +2693,10 @@
           },
           {
             "name": "ProposalCount",
-            "modifier": 1,
-            "type": "ProposalIndex",
+            "modifier": 0,
+            "type": {
+              "PlainType": "ProposalIndex"
+            },
             "default": "0x00000000",
             "documentation": [
               " Number of proposals that have been made."
@@ -2461,8 +2706,10 @@
             "name": "Proposals",
             "modifier": 0,
             "type": {
-              "key": "ProposalIndex",
-              "value": "Proposal"
+              "MapType": {
+                "key": "ProposalIndex",
+                "value": "Proposal"
+              }
             },
             "default": "0x00",
             "documentation": [
@@ -2471,8 +2718,10 @@
           },
           {
             "name": "Approvals",
-            "modifier": 1,
-            "type": "Vec<ProposalIndex>",
+            "modifier": 0,
+            "type": {
+              "PlainType": "Vec<ProposalIndex>"
+            },
             "default": "0x00",
             "documentation": [
               " Proposal indices that have been approved but not yet awarded."
@@ -2490,6 +2739,38 @@
           "functions": [
             {
               "id": 0,
+              "name": "update_schedule",
+              "arguments": [
+                {
+                  "name": "schedule",
+                  "type": "Schedule"
+                }
+              ],
+              "documentation": [
+                " Updates the schedule for metering contracts.",
+                "",
+                " The schedule must have a greater version than the stored schedule."
+              ]
+            },
+            {
+              "id": 1,
+              "name": "put_code",
+              "arguments": [
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "code",
+                  "type": "Bytes"
+                }
+              ],
+              "documentation": [
+                " Stores code in the storage. You can instantiate contracts only with stored code."
+              ]
+            },
+            {
+              "id": 2,
               "name": "call",
               "arguments": [
                 {
@@ -2510,12 +2791,11 @@
                 }
               ],
               "documentation": [
-                " Make a call to a specified account, optionally transferring some balance.",
                 " Make a call to a specified account, optionally transferring some balance."
               ]
             },
             {
-              "id": 1,
+              "id": 3,
               "name": "create",
               "arguments": [
                 {
@@ -2527,8 +2807,8 @@
                   "type": "Compact<Gas>"
                 },
                 {
-                  "name": "ctor_code",
-                  "type": "Bytes"
+                  "name": "code_hash",
+                  "type": "CodeHash"
                 },
                 {
                   "name": "data",
@@ -2589,8 +2869,10 @@
         "functions": [
           {
             "name": "Key",
-            "modifier": 1,
-            "type": "AccountId",
+            "modifier": 0,
+            "type": {
+              "PlainType": "AccountId"
+            },
             "default": "0x0000000000000000000000000000000000000000000000000000000000000000",
             "documentation": []
           }
@@ -2652,7 +2934,7 @@
         "index": 9
       },
       {
-        "name": "Grandpa",
+        "name": "GrandpaFinality",
         "prefix": "grandpa",
         "index": 10
       },
@@ -2662,7 +2944,7 @@
         "index": 11
       },
       {
-        "name": "Contract",
+        "name": "",
         "prefix": "contract",
         "index": 12
       },

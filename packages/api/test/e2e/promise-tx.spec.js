@@ -24,7 +24,7 @@ describe.skip('e2e transactions', () => {
   it('makes a transfer (sign, then send)', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
-    api.tx.balances
+    return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .sign(keyring.dave, nonce)
       .send(({ events, status, type }) => {
@@ -46,7 +46,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (signAndSend)', async (done) => {
-    api.tx.balances
+    return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .signAndSend(keyring.dave, ({ events, status, type }) => {
         console.log('Transaction status:', type);
@@ -66,7 +66,7 @@ describe.skip('e2e transactions', () => {
       });
   });
 
-  it('makes a proposal', async () => {
+  it.skip('makes a proposal', async () => {
     const nonce = await api.query.system.accountNonce(keyring.alice.address());
 
     // don't wait for status, just get hash

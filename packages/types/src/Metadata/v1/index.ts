@@ -8,36 +8,40 @@ import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../Text';
-
 import { flattenUniq, validateTypes } from '../util';
-import { EventMetadata } from '../v0/Events';
-import { CallMetadata, StorageMetadata } from '../v0/Modules';
-import { OuterDispatchCall } from './outerDispatch';
 
-class RuntimeModuleMetadata extends Struct {
+import { MetadataCall } from './Calls';
+import { MetadataEvent } from './Events';
+import { MetadataStorage } from './Storage';
+
+/**
+ * @name MetadataModule
+ * @description
+ * The definition of a module in the system
+ */
+export class MetadataModule extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
       prefix: Text,
-      storage: Option.with(StorageMetadata),
-      calls: CallMetadata,
-      outerDispatch: Option.with(OuterDispatchCall),
-      events: Vector.with(EventMetadata)
+      storage: Option.with(Vector.with(MetadataStorage)),
+      calls: Option.with(Vector.with(MetadataCall)),
+      events: Option.with(Vector.with(MetadataEvent))
     }, value);
   }
 
   /**
-   * @description the module call
+   * @description the module calls
    */
-  get calls (): CallMetadata {
-    return this.get('calls') as CallMetadata;
+  get calls (): Option<Vector<MetadataCall>> {
+    return this.get('calls') as Option<Vector<MetadataCall>>;
   }
 
   /**
    * @description the module events
    */
-  get events (): Vector<EventMetadata> {
-    return this.get('events') as Vector<EventMetadata>;
+  get events (): Option<Vector<MetadataEvent>> {
+    return this.get('events') as Option<Vector<MetadataEvent>>;
   }
 
   /**
@@ -48,14 +52,7 @@ class RuntimeModuleMetadata extends Struct {
   }
 
   /**
-   * @description the outer dispatch
-   */
-  get outerDispatch (): Option<OuterDispatchCall> {
-    return this.get('outerDispatch') as Option<OuterDispatchCall>;
-  }
-
-  /**
-   * @description the module name
+   * @description the module prefix
    */
   get prefix (): Text {
     return this.get('prefix') as Text;
@@ -64,8 +61,8 @@ class RuntimeModuleMetadata extends Struct {
   /**
    * @description the associated module storage
    */
-  get storage (): Option<StorageMetadata> {
-    return this.get('storage') as Option<StorageMetadata>;
+  get storage (): Option<Vector<MetadataStorage>> {
+    return this.get('storage') as Option<Vector<MetadataStorage>>;
   }
 }
 
@@ -77,42 +74,46 @@ class RuntimeModuleMetadata extends Struct {
 export default class MetadataV1 extends Struct implements MetadataInterface {
   constructor (value?: any) {
     super({
-      modules: Vector.with(RuntimeModuleMetadata)
+      modules: Vector.with(MetadataModule)
     }, value);
   }
 
   /**
    * @description The associated modules for this structure
    */
-  get modules (): Vector<RuntimeModuleMetadata> {
-    return this.get('modules') as Vector<RuntimeModuleMetadata>;
+  get modules (): Vector<MetadataModule> {
+    return this.get('modules') as Vector<MetadataModule>;
   }
 
   private get callNames () {
-    return this.modules.map((module) =>
-      module.calls.functions.map((fn) =>
-        fn.arguments.map((argument) => argument.type.toString())
-      )
+    return this.modules.map((mod) =>
+      mod.calls.isNone
+        ? []
+        : mod.calls.unwrap().map((fn) =>
+          fn.args.map((arg) => arg.type.toString())
+        )
     );
   }
 
   private get eventNames () {
-    return this.modules.map((module) =>
-      module.events.map((event) =>
-        event.arguments.map((argument) => argument.toString())
-      )
+    return this.modules.map((mod) =>
+      mod.events.isNone
+        ? []
+        : mod.events.unwrap().map((event) =>
+          event.args.map((arg) => arg.toString())
+        )
     );
   }
 
   private get storageNames () {
-    return this.modules.map((module) =>
-      module.storage.isSome
-        ? module.storage.unwrap().functions.map((fn) =>
+    return this.modules.map((mod) =>
+      mod.storage.isNone
+        ? []
+        : mod.storage.unwrap().map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
         )
-        : []
     );
   }
 
