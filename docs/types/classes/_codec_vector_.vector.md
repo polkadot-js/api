@@ -33,7 +33,7 @@
 
 ⊕ **new Vector**(Type: *[Constructor](../modules/_types_.md#constructor)<`T`>*, value?: *[Vector](_codec_vector_.vector.md)<`any`> | `Uint8Array` | `string` | `Array`<`any`>*): [Vector](_codec_vector_.vector.md)
 
-*Defined in [codec/Vector.ts:22](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L22)*
+*Defined in [codec/Vector.ts:22](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L22)*
 
 **Parameters:**
 
@@ -66,7 +66,7 @@ ___
 
 getType(): `string`
 
-*Defined in [codec/Vector.ts:57](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L57)*
+*Defined in [codec/Vector.ts:56](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L56)*
 
 **Returns:** `string`
 
@@ -77,7 +77,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/Vector.ts:64](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L64)*
+*Defined in [codec/Vector.ts:63](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L63)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -92,7 +92,7 @@ getlength(): `number`
 
 *Overrides Array.length*
 
-*Defined in [codec/Vector.ts:73](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L73)*
+*Defined in [codec/Vector.ts:72](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L72)*
 
 *__description__*: The length of the value
 
@@ -110,7 +110,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [codec/Vector.ts:81](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L81)*
+*Defined in [codec/Vector.ts:80](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L80)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -131,7 +131,7 @@ ___
 
 *Overrides Array.filter*
 
-*Defined in [codec/Vector.ts:146](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L146)*
+*Defined in [codec/Vector.ts:145](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L145)*
 
 *__description__*: Filters the array with the callback
 
@@ -153,7 +153,7 @@ ___
 
 *Overrides Array.map*
 
-*Defined in [codec/Vector.ts:155](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L155)*
+*Defined in [codec/Vector.ts:154](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L154)*
 
 *__description__*: Maps the array with the callback
 
@@ -176,7 +176,7 @@ ___
 
 ▸ **toArray**(): `Array`<`T`>
 
-*Defined in [codec/Vector.ts:88](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L88)*
+*Defined in [codec/Vector.ts:87](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L87)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -191,7 +191,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/Vector.ts:95](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L95)*
+*Defined in [codec/Vector.ts:94](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L94)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -206,7 +206,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/Vector.ts:102](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L102)*
+*Defined in [codec/Vector.ts:101](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L101)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -223,7 +223,7 @@ ___
 
 *Overrides Array.toString*
 
-*Defined in [codec/Vector.ts:111](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L111)*
+*Defined in [codec/Vector.ts:110](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L110)*
 
 *__description__*: Returns the string representation of the value
 
@@ -238,7 +238,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/Vector.ts:124](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L124)*
+*Defined in [codec/Vector.ts:123](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L123)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -257,7 +257,7 @@ ___
 
 ▸ **decodeVector**<`T`>(Type: *[Constructor](../modules/_types_.md#constructor)<`T`>*, value: *[Vector](_codec_vector_.vector.md)<`any`> | `Uint8Array` | `string` | `Array`<`any`>*): `Array`<`T`>
 
-*Defined in [codec/Vector.ts:32](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L32)*
+*Defined in [codec/Vector.ts:32](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L32)*
 
 **Type parameters:**
 
@@ -278,7 +278,7 @@ ___
 
 ▸ **with**<`O`>(Type: *[Constructor](../modules/_types_.md#constructor)<`O`>*): [Constructor](../modules/_types_.md#constructor)<[Vector](_codec_vector_.vector.md)<`O`>>
 
-*Defined in [codec/Vector.ts:49](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/codec/Vector.ts#L49)*
+*Defined in [codec/Vector.ts:48](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/codec/Vector.ts#L48)*
 
 **Type parameters:**
 

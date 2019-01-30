@@ -40,6 +40,7 @@
 * [CodeHash](../classes/_codehash_.codehash.md)
 * [Compact](../classes/_codec_compact_.compact.md)
 * [Data](../classes/_data_.data.md)
+* [Default](../classes/_metadata_v1_storage_.default.md)
 * [Digest](../classes/_digest_.digest.md)
 * [DigestItem](../classes/_digest_.digestitem.md)
 * [Dropped](../classes/_extrinsicstatus_.dropped.md)
@@ -86,7 +87,15 @@
 * [LocKPeriods](../classes/_lockperiods_.lockperiods.md)
 * [MagicNumber](../classes/_metadata_magicnumber_.magicnumber.md)
 * [MapType](../classes/_metadata_v0_modules_.maptype.md)
+* [MapType](../classes/_metadata_v1_storage_.maptype.md)
 * [Metadata](../classes/_metadata_index_.metadata.md)
+* [MetadataCall](../classes/_metadata_v1_calls_.metadatacall.md)
+* [MetadataCallArg](../classes/_metadata_v1_calls_.metadatacallarg.md)
+* [MetadataEvent](../classes/_metadata_v1_events_.metadataevent.md)
+* [MetadataModule](../classes/_metadata_v1_index_.metadatamodule.md)
+* [MetadataStorage](../classes/_metadata_v1_storage_.metadatastorage.md)
+* [MetadataStorageModifier](../classes/_metadata_v1_storage_.metadatastoragemodifier.md)
+* [MetadataStorageType](../classes/_metadata_v1_storage_.metadatastoragetype.md)
 * [MetadataV0](../classes/_metadata_v0_index_.metadatav0.md)
 * [MetadataV1](../classes/_metadata_v1_index_.metadatav1.md)
 * [MetadataVersioned](../classes/_metadata_metadataversioned_.metadataversioned.md)
@@ -102,9 +111,9 @@
 * [NonceCompact](../classes/_noncecompact_.noncecompact.md)
 * [Null](../classes/_null_.null.md)
 * [Option](../classes/_codec_option_.option.md)
+* [Optional](../classes/_metadata_v1_storage_.optional.md)
 * [Origin](../classes/_origin_.origin.md)
 * [Other](../classes/_digest_.other.md)
-* [OuterDispatchCall](../classes/_metadata_v1_outerdispatch_.outerdispatchcall.md)
 * [OuterDispatchCall](../classes/_metadata_v0_calls_.outerdispatchcall.md)
 * [OuterDispatchMetadata](../classes/_metadata_v0_calls_.outerdispatchmetadata.md)
 * [OuterEventMetadata](../classes/_metadata_v0_events_.outereventmetadata.md)
@@ -115,6 +124,7 @@
 * [Perbill](../classes/_perbill_.perbill.md)
 * [Permill](../classes/_permill_.permill.md)
 * [Phase](../classes/_eventrecord_.phase.md)
+* [PlainType](../classes/_metadata_v1_storage_.plaintype.md)
 * [PropIndex](../classes/_propindex_.propindex.md)
 * [Proposal](../classes/_proposal_.proposal.md)
 * [ProposalIndex](../classes/_proposalindex_.proposalindex.md)
@@ -171,7 +181,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L24)*
+*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L24)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -185,7 +195,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L29)*
+*Defined in [types.ts:29](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L29)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -204,7 +214,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L34)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -217,7 +227,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L39)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -230,7 +240,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns the string representation of the value
 
@@ -243,7 +253,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/4fa8ee0/packages/types/src/types.ts#L50)*
+*Defined in [types.ts:50](https://github.com/polkadot-js/api/blob/aea223f/packages/types/src/types.ts#L50)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
