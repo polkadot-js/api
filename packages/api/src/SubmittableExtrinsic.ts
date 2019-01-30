@@ -110,7 +110,9 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
         .pipe(
           first(),
           switchMap((nonce) =>
-            this.sign(signerPair, nonce as Index).send(statusCb)
+            this
+              .sign(signerPair, nonce)
+              .send(statusCb)
           )
         )
     ) as unknown as Observable<SubmittableResult>;
