@@ -108,7 +108,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this._onCall(
       () => this.sendObservable(),
       [],
-      statusCb as CodecCallback
+      statusCb as CodecCallback,
+      true
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 
@@ -132,7 +133,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           )
         ),
         [],
-        statusCb as CodecCallback
+        statusCb as CodecCallback,
+        true
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 }

@@ -8,7 +8,7 @@ import { Codec, CodecArg, CodecCallback } from '@polkadot/types/types';
 import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions,
-  DecoratedRpc, DecoratedRpc$Section,
+  DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
   Derive, DeriveSection,
   HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
@@ -267,7 +267,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     return this;
   }
 
-  protected abstract onCall (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback): CodecResult | SubscriptionResult;
+  protected abstract onCall (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean): CodecResult | SubscriptionResult;
 
   private emit (type: ApiInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
@@ -345,8 +345,24 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
         // FIXME Find a better way to know if a particular method is a subscription or not
-        // const isSubscription = methodName.includes('subscribe');
-        const method = (...params: Array<CodecArg>) => onCall(rpc[sectionName][methodName], params);
+        const needsCallback = methodName.includes('subscribe');
+        // These signatures are allowed and exposed here (bit or a stoopid way, but checked
+        // RPCs and we have 3 max args, with subs max one arg... YMMV) -
+        //   (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): CodecResult;
+        //    (arg1: CodecArg, callback: CodecCallback): SubscriptionResult;
+        //    (callback: CodecCallback): SubscriptionResult;
+        const method = ((...args: Array<any>): C | S => {
+          let callback: CodecCallback | undefined;
+          let params = args;
+
+          if (args.length && isFunction(args[args.length - 1])) {
+            callback = args[args.length - 1];
+            params = args.slice(0, args.length - 1);
+          }
+
+          return onCall(rpc[sectionName][methodName], params, callback, needsCallback);
+        }) as DecoratedRpc$Method<C, S>;
+
         section[methodName] = method;
 
         return section;

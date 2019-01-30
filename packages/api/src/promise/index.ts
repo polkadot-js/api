@@ -192,12 +192,13 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
     };
   }
 
-  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], callback?: CodecCallback): CodecResult | SubscriptionResult {
+  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], callback?: CodecCallback, needsCallback?: boolean): CodecResult | SubscriptionResult {
+    // When we need a subscription, ensure that a valid callback is actually passed
+    assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
+
     if (!callback) {
       return method(...params).pipe(first()).toPromise();
     }
-
-    assert(isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
     // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
     // when I remove it...
