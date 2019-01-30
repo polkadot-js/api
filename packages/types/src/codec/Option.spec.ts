@@ -76,5 +76,13 @@ describe('Option', () => {
     it('compares against raw value', () => {
       expect(testeq.eq('1234')).toBe(true);
     });
+
+    it('unwraps to default if empty', () => {
+      expect(new Option(Text).unwrapOr('6789')).toBe('6789');
+    });
+
+    it('unwraps to value if non-empty', () => {
+      expect((new Option(Text, '1234').unwrapOr(null) as Text).toString()).toBe('1234');
+    });
   });
 });
