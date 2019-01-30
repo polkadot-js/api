@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { CodecArg, CodecCallback } from '@polkadot/types/types';
+import { CodecArg } from '@polkadot/types/types';
 import { ApiRxInterface, RxResult } from './types';
 import { ApiOptions, OnCallFunction } from '../types';
 
@@ -190,7 +190,7 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
     return this._isReady;
   }
 
-  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg>): RxResult {
+  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = []): RxResult {
     return method(...params);
   }
 }

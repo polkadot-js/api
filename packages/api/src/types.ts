@@ -13,7 +13,9 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 import { RxResult } from './rx/types';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export type OnCallFunction<CodecResult, SubscriptionResult> = (...args: Array<CodecArg | CodecCallback>) => CodecResult | SubscriptionResult;
+export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback) => CodecResult | SubscriptionResult;
+
+export type OnCallFunction<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => CodecResult | SubscriptionResult;
 
 export type DecoratedRpc$Method<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => CodecResult | SubscriptionResult;
 
@@ -29,7 +31,9 @@ export interface DecoratedRpc<CodecResult, SubscriptionResult> {
 }
 
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
-  (arg?: CodecArg): CodecResult | SubscriptionResult;
+  (arg?: CodecArg): CodecResult;
+  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
+  (callback: CodecCallback): SubscriptionResult;
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => CodecResult; // Observable<Hash>
   key: (arg?: CodecArg) => string;
@@ -54,7 +58,7 @@ export interface QueryableStorage<CodecResult, SubscriptionResult> {
 }
 
 export interface SubmittableExtrinsicFunction<CodecResult, SubscriptionResult> extends MethodFunction {
-  (...args: any[]): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
+  (...params: Array<CodecArg>): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
 }
 
 export interface SubmittableModuleExtrinsics<CodecResult, SubscriptionResult> {

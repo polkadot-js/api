@@ -4,9 +4,8 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Extrinsic, ExtrinsicStatus, EventRecord, Index, Method, SignedBlock, Text } from '@polkadot/types/index';
-import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { RxResult } from './rx/types';
-import { ApiInterface$Rx, OnCallFunction } from './types';
+import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
+import { ApiInterface$Rx, OnCallDefinition } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -47,16 +46,16 @@ export class SubmittableResult extends Struct {
 
 export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> extends Extrinsic {
   private _api: ApiInterface$Rx;
-  private _onCall: OnCallFunction<RxResult, RxResult>;
+  private _onCall: OnCallDefinition<CodecResult, SubscriptionResult>;
 
-  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<RxResult, RxResult>, extrinsic: Extrinsic | Method) {
+  constructor (api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
     this._onCall = onCall;
   }
 
-  private trackStatus (status: ExtrinsicStatus, statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
+  private trackStatus (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (status.type !== 'Finalised') {
       return this._onCall(
         () => of(
@@ -64,9 +63,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
             status,
             type: status.type
           })
-        ),
-        [statusCb],
-        false
+        )
       ) as unknown as Observable<SubmittableResult>;
     }
 
@@ -84,9 +81,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
             type: status.type
           })
         )
-      ),
-      [statusCb],
-      false
+      )
     ) as unknown as Observable<SubmittableResult>;
   }
 
@@ -94,9 +89,11 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this._onCall(
       () => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
-        .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
-      [statusCb],
-      true
+        .pipe(switchMap((status) =>
+          this.trackStatus(status)
+        )),
+      [],
+      statusCb as CodecCallback
     ) as unknown as Observable<SubmittableResult>;
   }
 
@@ -115,9 +112,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           switchMap((nonce) =>
             this.sign(signerPair, nonce as Index).send(statusCb)
           )
-        ),
-      [statusCb],
-      false
+        )
     ) as unknown as Observable<SubmittableResult>;
   }
 }

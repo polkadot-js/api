@@ -10,7 +10,7 @@ import { ApiPromiseInterface, CodecResult, SubscriptionResult } from './types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
-import { isFunction } from '@polkadot/util';
+import { isFunction, assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
@@ -192,24 +192,19 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
     };
   }
 
-  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg>, isSubscription?: boolean): CodecResult | SubscriptionResult {
-    if (!params || params.length === 0 || isSubscription === false) {
+  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], callback?: CodecCallback): CodecResult | SubscriptionResult {
+    if (!callback) {
       return method(...params).pipe(first()).toPromise();
     }
 
-    const cb = params[params.length - 1];
-    const remainingParams = params.slice(0, - 1);
-
-    if (!isFunction(cb)) {
-      return method(...params).pipe(first()).toPromise();
-    }
+    assert(isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
     // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
     // when I remove it...
     // tslint:disable-next-line
     return new Promise((resolve, reject) => {
       let isCompleted = false;
-      const subscription = method(...remainingParams)
+      const subscription = method(...params)
         .pipe(
           // if we find an error (invalid params, etc), reject the promise
           catchError((error) => {
@@ -231,7 +226,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
             }
           })
         )
-        .subscribe(cb as any as CodecCallback);
+        .subscribe(callback);
     }) as SubscriptionResult;
   }
 }

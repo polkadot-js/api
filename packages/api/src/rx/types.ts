@@ -7,7 +7,7 @@ import { Codec } from '@polkadot/types/types';
 
 import ApiBase from '../Base';
 
-export type RxResult = Observable<Codec | undefined>;
+export type RxResult = Observable<Codec>;
 
 export interface ApiRxInterface extends ApiBase<RxResult, RxResult> {
   readonly isConnected: Observable<boolean>;
