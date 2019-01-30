@@ -14,25 +14,23 @@ import rpcData from './static';
 describe('Metadata', () => {
   const metadata = new Metadata(rpcData);
 
-  describe('encoding and dceoding', () => {
-    it('decodes latest properly', () => {
-      const str = JSON.stringify(metadata.toJSON());
+  it('decodes latest properly', () => {
+    const str = JSON.stringify(metadata.toJSON());
 
-      console.error(str);
-      console.error(metadata.getUniqTypes());
+    console.error(str);
+    console.error(metadata.getUniqTypes());
 
-      expect(metadata.version).toBe(1);
-      expect(metadata.asV1.modules.length).not.toBe(0);
-      expect(str).toEqual(JSON.stringify(latestParsed));
-    });
+    expect(metadata.version).toBe(1);
+    expect(metadata.asV1.modules.length).not.toBe(0);
+    expect(str).toEqual(JSON.stringify(latestParsed));
+  });
 
-    it('converts v1 to V0', () => {
-      const v0 = metadata.asV0;
+  it('converts v1 to V0', () => {
+    const v0 = metadata.asV0;
 
-      // console.error(JSON.stringify(v0.toJSON()));
+    // console.error(JSON.stringify(v0.toJSON()));
 
-      expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
-    });
+    expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
   });
 
   describe('storage with default values', () => {
@@ -41,10 +39,10 @@ describe('Metadata', () => {
     metadata.asV1.modules
       .filter(({ storage }) => storage.isSome)
       .map((mod) =>
-        mod.storage.unwrap().forEach((fn) => {
-          it(`creates default types for ${mod.prefix}.${fn.name}, type ${fn.type}`, () => {
+        mod.storage.unwrap().forEach(({ fallback, name, type }) => {
+          it(`creates default types for ${mod.prefix}.${name}, type ${type}`, () => {
             expect(
-              () => createType(fn.type.toString(), fn.default)
+              () => createType(type.toString(), fallback)
             ).not.toThrow();
           });
         })

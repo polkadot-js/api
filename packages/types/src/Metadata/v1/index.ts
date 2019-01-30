@@ -90,7 +90,7 @@ export default class MetadataV1 extends Struct implements MetadataInterface {
       mod.calls.isNone
         ? []
         : mod.calls.unwrap().map((fn) =>
-          fn.arguments.map((arg) => arg.type.toString())
+          fn.args.map((arg) => arg.type.toString())
         )
     );
   }
@@ -100,7 +100,7 @@ export default class MetadataV1 extends Struct implements MetadataInterface {
       mod.events.isNone
         ? []
         : mod.events.unwrap().map((event) =>
-          event.arguments.map((arg) => arg.toString())
+          event.args.map((arg) => arg.toString())
         )
     );
   }

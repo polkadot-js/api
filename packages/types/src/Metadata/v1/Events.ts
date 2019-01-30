@@ -16,23 +16,23 @@ export class MetadataEvent extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      arguments: Vector.with(Type),
-      documentation: Vector.with(Text)
+      args: Vector.with(Type),
+      docs: Vector.with(Text)
     }, value);
   }
 
   /**
-   * @description The [[Type]] for arguments
+   * @description The [[Type]] for args
    */
-  get arguments (): Vector<Type> {
-    return this.get('arguments') as Vector<Type>;
+  get args (): Vector<Type> {
+    return this.get('args') as Vector<Type>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  get docs (): Vector<Text> {
+    return this.get('docs') as Vector<Text>;
   }
 
   /**

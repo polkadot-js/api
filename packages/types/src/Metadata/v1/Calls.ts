@@ -6,7 +6,6 @@ import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../Text';
 import Type from '../../Type';
-import u16 from '../../u16';
 
 export class MetadataCallArg extends Struct {
   constructor (value?: any) {
@@ -39,29 +38,29 @@ export class MetadataCallArg extends Struct {
 export class MetadataCall extends Struct {
   constructor (value?: any) {
     super({
+      // NOTE Just commented out, it is not available in current, but an open question
+      // around the usefulness of supplying this remains (could be re-added)
       // id: u16,
       name: Text,
-      arguments: Vector.with(MetadataCallArg),
-      documentation: Vector.with(Text)
+      args: Vector.with(MetadataCallArg),
+      docs: Vector.with(Text)
     }, value);
   }
 
   /**
    * @description The [[MetadataCallArg]] for arguments
    */
-  get arguments (): Vector<MetadataCallArg> {
-    return this.get('arguments') as Vector<MetadataCallArg>;
+  get args (): Vector<MetadataCallArg> {
+    return this.get('args') as Vector<MetadataCallArg>;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  get docs (): Vector<Text> {
+    return this.get('docs') as Vector<Text>;
   }
 
-  // NOTE Just commented out, not available in current, but an open question
-  // around it remains
   // /**
   //  * @description The call function id
   //  */

@@ -110,23 +110,23 @@ export class MetadataStorage extends Struct {
       name: Text,
       modifier: MetadataStorageModifier,
       type: MetadataStorageType,
-      default: Bytes,
-      documentation: Vector.with(Text)
+      fallback: Bytes,
+      docs: Vector.with(Text)
     }, value);
-  }
-
-  /**
-   * @description The [[Bytes]] default
-   */
-  get default (): Bytes {
-    return this.get('default') as Bytes;
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
+  get docs (): Vector<Text> {
+    return this.get('docs') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Bytes]] fallback default
+   */
+  get fallback (): Bytes {
+    return this.get('fallback') as Bytes;
   }
 
   /**
