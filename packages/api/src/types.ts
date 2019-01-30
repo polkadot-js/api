@@ -31,9 +31,9 @@ export interface DecoratedRpc<CodecResult, SubscriptionResult> {
 }
 
 export type HashResult<CodecResult, SubscriptionResult> =
-CodecResult extends Observable<any>
-  ? Observable<Hash>
-  : Promise<Hash>;
+  CodecResult extends Observable<any>
+    ? Observable<Hash>
+    : Promise<Hash>;
 
 export type U64Result<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
