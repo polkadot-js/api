@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { CodecArg, CodecCallback } from '@polkadot/types/types';
 import { RxResult } from '../rx/types';
-import { ApiOptions } from '../types';
+import { ApiOptions, OnCallFunction } from '../types';
 import { ApiPromiseInterface, CodecResult, SubscriptionResult } from './types';
 
 import { EMPTY } from 'rxjs';
@@ -13,8 +14,6 @@ import { isFunction } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
-
-type RxFn = (...params: Array<any>) => RxResult;
 
 /**
  * # @polkadot/api/promise
@@ -193,7 +192,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
     };
   }
 
-  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): CodecResult | SubscriptionResult {
+  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg>, isSubscription?: boolean): CodecResult | SubscriptionResult {
     if (!params || params.length === 0 || isSubscription === false) {
       return method(...params).pipe(first()).toPromise();
     }
@@ -232,7 +231,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
             }
           })
         )
-        .subscribe(cb);
+        .subscribe(cb as any as CodecCallback);
     }) as SubscriptionResult;
   }
 }

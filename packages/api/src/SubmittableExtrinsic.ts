@@ -3,64 +3,101 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { Extrinsic, ExtrinsicStatus, Index, Method, SignedBlock } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, EventRecord, Index, Method, SignedBlock, Text } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a } from '@polkadot/types/types';
-import { ApiInterface$Rx, OnCallFunction, SubmittableSendResult } from './types';
+import { RxResult } from './rx/types';
+import { ApiInterface$Rx, OnCallFunction } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
+import { Struct, Vector } from '@polkadot/types/codec';
 
 import filterEvents from './util/filterEvents';
 
+export class SubmittableResult extends Struct {
+  constructor (value?: any) {
+    super({
+      events: Vector.with(EventRecord),
+      status: ExtrinsicStatus,
+      type: Text
+    }, value);
+  }
+
+  /**
+   * @description the contained events
+   */
+  get events (): Array<EventRecord> {
+    return this.get('events') as Vector<EventRecord>;
+  }
+
+  /**
+   * @description the status
+   */
+  get status (): ExtrinsicStatus {
+    return this.get('status') as ExtrinsicStatus;
+  }
+
+  /**
+   * @description the type
+   */
+  get type (): string {
+    return (this.get('type') as Text).toString();
+  }
+}
+
 export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> extends Extrinsic {
   private _api: ApiInterface$Rx;
-  private _onCall: OnCallFunction<CodecResult, SubscriptionResult>;
+  private _onCall: OnCallFunction<RxResult, RxResult>;
 
-  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
+  constructor (api: ApiInterface$Rx, onCall: OnCallFunction<RxResult, RxResult>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
     this._api = api;
     this._onCall = onCall;
   }
 
-  private trackStatus (status: ExtrinsicStatus, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+  private trackStatus (status: ExtrinsicStatus, statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
     if (status.type !== 'Finalised') {
       return this._onCall(
-        () => of({
-          status,
-          type: status.type
-        }),
+        () => of(
+          new SubmittableResult({
+            status,
+            type: status.type
+          })
+        ),
         [statusCb],
         false
-      ) as unknown as Observable<SubmittableSendResult>;
+      ) as unknown as Observable<SubmittableResult>;
     }
 
     const blockHash = status.asFinalised;
 
     return this._onCall(
       () => combineLatest(
-        this._api.rpc.chain.getBlock(blockHash),
-        this._api.query.system.events.at(blockHash)
+        this._api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
+        this._api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
       ).pipe(
-        map(([signedBlock, allEvents]) => ({
-          events: filterEvents(this.hash, signedBlock as SignedBlock, allEvents as any),
-          status,
-          type: status.type
-        }))
+        map(([signedBlock, allEvents]) =>
+          new SubmittableResult({
+            events: filterEvents(this.hash, signedBlock, allEvents),
+            status,
+            type: status.type
+          })
+        )
       ),
       [statusCb],
       false
-    ) as unknown as Observable<SubmittableSendResult>;
+    ) as unknown as Observable<SubmittableResult>;
   }
 
-  send (statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+  send (statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
     return this._onCall(
       () => (this._api.rpc.author
         .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
         .pipe(switchMap((status) => this.trackStatus(status, statusCb))),
       [statusCb],
       true
-    ) as unknown as Observable<SubmittableSendResult>;
+    ) as unknown as Observable<SubmittableResult>;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
@@ -69,10 +106,10 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
     return this._onCall(
-      () => this._api.query.system
-        .accountNonce(signerPair.address())
+      () => (this._api.query.system
+        .accountNonce(signerPair.address()) as Observable<Index>)
         .pipe(
           first(),
           switchMap((nonce) =>
@@ -81,6 +118,6 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
         ),
       [statusCb],
       false
-    ) as unknown as Observable<SubmittableSendResult>;
+    ) as unknown as Observable<SubmittableResult>;
   }
 }

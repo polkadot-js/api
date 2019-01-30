@@ -5,17 +5,17 @@
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { EventRecord, ExtrinsicStatus, Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
-import { Codec, Constructor } from '@polkadot/types/types';
+import { Hash, Metadata, RuntimeVersion } from '@polkadot/types/index';
+import { CodecArg, CodecCallback, Constructor } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
 import { RxResult } from './rx/types';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
-export type OnCallFunction<CodecResult, SubscriptionResult> = (...args: any[]) => CodecResult | SubscriptionResult;
+export type OnCallFunction<CodecResult, SubscriptionResult> = (...args: Array<CodecArg | CodecCallback>) => CodecResult | SubscriptionResult;
 
-export type DecoratedRpc$Method<CodecResult, SubscriptionResult> = (...params: Array<any>) => CodecResult | SubscriptionResult;
+export type DecoratedRpc$Method<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => CodecResult | SubscriptionResult;
 
 export interface DecoratedRpc$Section<CodecResult, SubscriptionResult> {
   [index: string]: DecoratedRpc$Method<CodecResult, SubscriptionResult>;
@@ -28,16 +28,16 @@ export interface DecoratedRpc<CodecResult, SubscriptionResult> {
   system: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
 }
 
-interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
-  (arg?: any): CodecResult | SubscriptionResult;
-  at: (hash: Uint8Array | string, arg?: any) => CodecResult;
-  hash: (arg?: any) => CodecResult; // Observable<Hash>
-  key: (arg?: any) => string;
-  size: (arg?: any) => CodecResult; // Observable<U64>
+export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
+  (arg?: CodecArg): CodecResult | SubscriptionResult;
+  at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
+  hash: (arg?: CodecArg) => CodecResult; // Observable<Hash>
+  key: (arg?: CodecArg) => string;
+  size: (arg?: CodecArg) => CodecResult; // Observable<U64>
 }
 
 interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
-  (arg?: any, cb?: (value?: Codec) => any): CodecResult | SubscriptionResult;
+  (arg?: CodecArg, cb?: CodecCallback): CodecResult | SubscriptionResult;
 }
 
 export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
@@ -65,13 +65,7 @@ export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
   [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
 }
 
-export type SubmittableSendResult = {
-  events?: Array<EventRecord>,
-  status: ExtrinsicStatus,
-  type: string
-};
-
-export type DeriveMethod<CodecResult, SubscriptionResult> = (...params: Array<any>) => CodecResult | SubscriptionResult;
+export type DeriveMethod<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => CodecResult | SubscriptionResult;
 
 export interface DeriveSection<CodecResult, SubscriptionResult> {
   [index: string]: DeriveMethod<CodecResult, SubscriptionResult>;

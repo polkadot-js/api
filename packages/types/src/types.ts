@@ -4,7 +4,7 @@
 
 import BN from 'bn.js';
 
-export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | CodecArgArray | CodecArgObject;
+export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type CodecCallback = (value?: Codec) => any;
 

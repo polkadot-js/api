@@ -10,7 +10,7 @@ import SubmittableExtrinsicBase from '../SubmittableExtrinsic';
 
 export type SubscriptionResult = Promise<() => any>;
 
-export type CodecResult = Promise<Codec | null | undefined>;
+export type CodecResult = Promise<Codec | undefined>;
 
 export interface ApiPromiseInterface extends ApiBase<CodecResult, SubscriptionResult> {
   readonly isReady: Promise<ApiPromiseInterface>;
