@@ -4,8 +4,8 @@
     "MetadataV1": {
       "modules": [
         {
-          "name": "Module",
-          "prefix": "system",
+          "name": "system",
+          "prefix": "System",
           "storage": [
             {
               "name": "AccountNonce",
@@ -128,15 +128,15 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "aura",
+          "name": "aura",
+          "prefix": "",
           "storage": null,
           "calls": null,
           "events": null
         },
         {
-          "name": "Module",
-          "prefix": "timestamp",
+          "name": "timestamp",
+          "prefix": "Timestamp",
           "storage": [
             {
               "name": "Now",
@@ -174,7 +174,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "set",
               "arguments": [
                 {
@@ -197,8 +196,8 @@
           "events": null
         },
         {
-          "name": "Module",
-          "prefix": "consensus",
+          "name": "consensus",
+          "prefix": "Consensus",
           "storage": [
             {
               "name": "OriginalAuthorities",
@@ -212,7 +211,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "report_misbehavior",
               "arguments": [
                 {
@@ -225,7 +223,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "note_offline",
               "arguments": [
                 {
@@ -238,7 +235,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "remark",
               "arguments": [
                 {
@@ -251,7 +247,6 @@
               ]
             },
             {
-              "id": 3,
               "name": "set_heap_pages",
               "arguments": [
                 {
@@ -264,7 +259,6 @@
               ]
             },
             {
-              "id": 4,
               "name": "set_code",
               "arguments": [
                 {
@@ -277,7 +271,6 @@
               ]
             },
             {
-              "id": 5,
               "name": "set_storage",
               "arguments": [
                 {
@@ -293,8 +286,8 @@
           "events": null
         },
         {
-          "name": "Module",
-          "prefix": "indices",
+          "name": "indices",
+          "prefix": "Indices",
           "storage": [
             {
               "name": "NextEnumSet",
@@ -337,8 +330,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "balances",
+          "name": "balances",
+          "prefix": "Balances",
           "storage": [
             {
               "name": "TotalIssuance",
@@ -458,7 +451,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "transfer",
               "arguments": [
                 {
@@ -475,7 +467,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "set_balance",
               "arguments": [
                 {
@@ -531,8 +522,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "session",
+          "name": "session",
+          "prefix": "Session",
           "storage": [
             {
               "name": "Validators",
@@ -629,7 +620,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "set_key",
               "arguments": [
                 {
@@ -643,7 +633,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "set_length",
               "arguments": [
                 {
@@ -656,7 +645,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "force_new_session",
               "arguments": [
                 {
@@ -683,8 +671,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "staking",
+          "name": "staking",
+          "prefix": "Staking",
           "storage": [
             {
               "name": "ValidatorCount",
@@ -950,7 +938,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "stake",
               "arguments": [],
               "documentation": [
@@ -960,7 +947,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "unstake",
               "arguments": [
                 {
@@ -975,7 +961,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "nominate",
               "arguments": [
                 {
@@ -986,7 +971,6 @@
               "documentation": []
             },
             {
-              "id": 3,
               "name": "unnominate",
               "arguments": [
                 {
@@ -1000,7 +984,6 @@
               ]
             },
             {
-              "id": 4,
               "name": "register_preferences",
               "arguments": [
                 {
@@ -1019,7 +1002,6 @@
               ]
             },
             {
-              "id": 5,
               "name": "set_sessions_per_era",
               "arguments": [
                 {
@@ -1032,7 +1014,6 @@
               ]
             },
             {
-              "id": 6,
               "name": "set_bonding_duration",
               "arguments": [
                 {
@@ -1045,7 +1026,6 @@
               ]
             },
             {
-              "id": 7,
               "name": "set_validator_count",
               "arguments": [
                 {
@@ -1058,7 +1038,6 @@
               ]
             },
             {
-              "id": 8,
               "name": "force_new_era",
               "arguments": [
                 {
@@ -1072,7 +1051,6 @@
               ]
             },
             {
-              "id": 9,
               "name": "set_offline_slash_grace",
               "arguments": [
                 {
@@ -1085,7 +1063,6 @@
               ]
             },
             {
-              "id": 10,
               "name": "set_invulnerables",
               "arguments": [
                 {
@@ -1132,8 +1109,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "democracy",
+          "name": "democracy",
+          "prefix": "Democracy",
           "storage": [
             {
               "name": "PublicPropCount",
@@ -1323,7 +1300,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "propose",
               "arguments": [
                 {
@@ -1340,7 +1316,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "second",
               "arguments": [
                 {
@@ -1353,7 +1328,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "vote",
               "arguments": [
                 {
@@ -1371,7 +1345,6 @@
               ]
             },
             {
-              "id": 3,
               "name": "start_referendum",
               "arguments": [
                 {
@@ -1392,7 +1365,6 @@
               ]
             },
             {
-              "id": 4,
               "name": "cancel_referendum",
               "arguments": [
                 {
@@ -1405,7 +1377,6 @@
               ]
             },
             {
-              "id": 5,
               "name": "cancel_queued",
               "arguments": [
                 {
@@ -1472,8 +1443,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "council",
+          "name": "council",
+          "prefix": "Council",
           "storage": [
             {
               "name": "CandidacyBond",
@@ -1711,7 +1682,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "set_approvals",
               "arguments": [
                 {
@@ -1729,7 +1699,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "reap_inactive_voter",
               "arguments": [
                 {
@@ -1758,7 +1727,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "retract_voter",
               "arguments": [
                 {
@@ -1771,7 +1739,6 @@
               ]
             },
             {
-              "id": 3,
               "name": "submit_candidacy",
               "arguments": [
                 {
@@ -1786,7 +1753,6 @@
               ]
             },
             {
-              "id": 4,
               "name": "present_winner",
               "arguments": [
                 {
@@ -1809,7 +1775,6 @@
               ]
             },
             {
-              "id": 5,
               "name": "set_desired_seats",
               "arguments": [
                 {
@@ -1824,7 +1789,6 @@
               ]
             },
             {
-              "id": 6,
               "name": "remove_member",
               "arguments": [
                 {
@@ -1839,7 +1803,6 @@
               ]
             },
             {
-              "id": 7,
               "name": "set_presentation_duration",
               "arguments": [
                 {
@@ -1853,7 +1816,6 @@
               ]
             },
             {
-              "id": 8,
               "name": "set_term_duration",
               "arguments": [
                 {
@@ -1909,8 +1871,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "council_voting",
+          "name": "council_voting",
+          "prefix": "CouncilVoting",
           "storage": [
             {
               "name": "CooloffPeriod",
@@ -2001,7 +1963,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "propose",
               "arguments": [
                 {
@@ -2012,7 +1973,6 @@
               "documentation": []
             },
             {
-              "id": 1,
               "name": "vote",
               "arguments": [
                 {
@@ -2027,7 +1987,6 @@
               "documentation": []
             },
             {
-              "id": 2,
               "name": "veto",
               "arguments": [
                 {
@@ -2038,7 +1997,6 @@
               "documentation": []
             },
             {
-              "id": 3,
               "name": "set_cooloff_period",
               "arguments": [
                 {
@@ -2049,7 +2007,6 @@
               "documentation": []
             },
             {
-              "id": 4,
               "name": "set_voting_period",
               "arguments": [
                 {
@@ -2090,8 +2047,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "council_motions",
+          "name": "council_motions",
+          "prefix": "CouncilMotions",
           "storage": [
             {
               "name": "Proposals",
@@ -2146,7 +2103,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "propose",
               "arguments": [
                 {
@@ -2161,7 +2117,6 @@
               "documentation": []
             },
             {
-              "id": 1,
               "name": "vote",
               "arguments": [
                 {
@@ -2238,8 +2193,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "grandpa",
+          "name": "grandpa",
+          "prefix": "GrandpaFinality",
           "storage": [
             {
               "name": "PendingChange",
@@ -2253,7 +2208,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "report_misbehavior",
               "arguments": [
                 {
@@ -2279,8 +2233,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "treasury",
+          "name": "treasury",
+          "prefix": "Treasury",
           "storage": [
             {
               "name": "ProposalBond",
@@ -2377,7 +2331,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "propose_spend",
               "arguments": [
                 {
@@ -2396,7 +2349,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "set_pot",
               "arguments": [
                 {
@@ -2409,7 +2361,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "configure",
               "arguments": [
                 {
@@ -2434,7 +2385,6 @@
               ]
             },
             {
-              "id": 3,
               "name": "reject_proposal",
               "arguments": [
                 {
@@ -2447,7 +2397,6 @@
               ]
             },
             {
-              "id": 4,
               "name": "approve_proposal",
               "arguments": [
                 {
@@ -2512,12 +2461,11 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "contract",
+          "name": "contract",
+          "prefix": "",
           "storage": null,
           "calls": [
             {
-              "id": 0,
               "name": "update_schedule",
               "arguments": [
                 {
@@ -2532,7 +2480,6 @@
               ]
             },
             {
-              "id": 1,
               "name": "put_code",
               "arguments": [
                 {
@@ -2549,7 +2496,6 @@
               ]
             },
             {
-              "id": 2,
               "name": "call",
               "arguments": [
                 {
@@ -2574,7 +2520,6 @@
               ]
             },
             {
-              "id": 3,
               "name": "create",
               "arguments": [
                 {
@@ -2661,8 +2606,8 @@
           ]
         },
         {
-          "name": "Module",
-          "prefix": "sudo",
+          "name": "sudo",
+          "prefix": "Sudo",
           "storage": [
             {
               "name": "Key",
@@ -2676,7 +2621,6 @@
           ],
           "calls": [
             {
-              "id": 0,
               "name": "sudo",
               "arguments": [
                 {
@@ -2687,7 +2631,6 @@
               "documentation": []
             },
             {
-              "id": 1,
               "name": "set_key",
               "arguments": [
                 {
