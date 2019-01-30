@@ -80,7 +80,7 @@ function outerEventV0 (v1: MetadataV1): OuterEventMetadata {
       .filter(({ events }) => events.isSome)
       .map((mod) =>
         new OuterEventMetadataEvent([
-          mod.prefix,
+          mod.name,
           mod.events.unwrap().map(({ args, docs, name }) =>
             new EventMetadata({
               name,

@@ -3,7 +3,7 @@
     "name": "Event",
     "events": [
       [
-        "System",
+        "system",
         [
           {
             "name": "ExtrinsicSuccess",
@@ -22,7 +22,7 @@
         ]
       ],
       [
-        "Indices",
+        "indices",
         [
           {
             "name": "NewAccountIndex",
@@ -37,7 +37,7 @@
         ]
       ],
       [
-        "Balances",
+        "balances",
         [
           {
             "name": "NewAccount",
@@ -73,7 +73,7 @@
         ]
       ],
       [
-        "Session",
+        "session",
         [
           {
             "name": "NewSession",
@@ -88,7 +88,7 @@
         ]
       ],
       [
-        "Staking",
+        "staking",
         [
           {
             "name": "Reward",
@@ -123,7 +123,7 @@
         ]
       ],
       [
-        "Democracy",
+        "democracy",
         [
           {
             "name": "Tabled",
@@ -174,7 +174,7 @@
         ]
       ],
       [
-        "Council",
+        "council",
         [
           {
             "name": "VoterReaped",
@@ -217,7 +217,7 @@
         ]
       ],
       [
-        "CouncilVoting",
+        "council_voting",
         [
           {
             "name": "TallyCancelation",
@@ -248,7 +248,7 @@
         ]
       ],
       [
-        "CouncilMotions",
+        "council_motions",
         [
           {
             "name": "Proposed",
@@ -307,7 +307,7 @@
         ]
       ],
       [
-        "GrandpaFinality",
+        "grandpa",
         [
           {
             "name": "NewAuthorities",
@@ -321,7 +321,7 @@
         ]
       ],
       [
-        "Treasury",
+        "treasury",
         [
           {
             "name": "Proposed",
@@ -373,7 +373,7 @@
         ]
       ],
       [
-        "",
+        "contract",
         [
           {
             "name": "Transfer",
@@ -428,7 +428,7 @@
         ]
       ],
       [
-        "Sudo",
+        "sudo",
         [
           {
             "name": "Sudid",
