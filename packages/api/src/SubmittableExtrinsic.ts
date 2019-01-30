@@ -13,6 +13,17 @@ import { Struct, Vector } from '@polkadot/types/codec';
 
 import filterEvents from './util/filterEvents';
 
+// Re-introduce once we use submitExtrinsic as well
+// type SumbitableResultResult<CodecResult, SubscriptionResult> =
+//   CodecResult extends Observable<any>
+//     ? Observable<SubmittableResult>
+//     : Promise<SubmittableResult>;
+
+type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
+  SubscriptionResult extends Observable<any>
+    ? Observable<SubmittableResult>
+    : Promise<() => void>;
+
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
     super({
@@ -55,49 +66,50 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     this._onCall = onCall;
   }
 
-  private trackStatus (status: ExtrinsicStatus): Observable<SubmittableResult> {
+  private statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (status.type !== 'Finalised') {
-      // FIXME onCall really needs some way of returning the inferred types
-      return this._onCall(
-        () => of(
-          new SubmittableResult({
-            status,
-            type: status.type
-          })
-        )
-      ) as unknown as Observable<SubmittableResult>;
+      return of(
+        new SubmittableResult({
+          status,
+          type: status.type
+        })
+      );
     }
 
     const blockHash = status.asFinalised;
 
-    return this._onCall(
-      () => combineLatest(
-        this._api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
-        this._api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
-      ).pipe(
-        map(([signedBlock, allEvents]) =>
-          new SubmittableResult({
-            events: filterEvents(this.hash, signedBlock, allEvents),
-            status,
-            type: status.type
-          })
-        )
+    return combineLatest(
+      this._api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
+      this._api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
+    ).pipe(
+      map(([signedBlock, allEvents]) =>
+        new SubmittableResult({
+          events: filterEvents(this.hash, signedBlock, allEvents),
+          status,
+          type: status.type
+        })
       )
-    ) as unknown as Observable<SubmittableResult>;
+    );
   }
 
-  send (statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
+  private sendObservable (): Observable<SubmittableResult> {
+    return (this._api.rpc.author
+      .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
+      .pipe(
+        switchMap((status) =>
+          this.statusObservable(status)
+        )
+      );
+  }
+
+  // FIXME We currently only cater for callback in Promise-world, submitExtrinsic -> Hash
+  // should also be catered for returning SumbitableResultResult
+  send (statusCb?: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult> {
     return this._onCall(
-      () => (this._api.rpc.author
-        .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
-        .pipe(
-          switchMap((status) =>
-            this.trackStatus(status)
-          )
-        ),
+      () => this.sendObservable(),
       [],
       statusCb as CodecCallback
-    ) as unknown as Observable<SubmittableResult>;
+    ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 
   sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
@@ -106,7 +118,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableResult) => any): Observable<SubmittableResult> {
+  // FIXME As per previous FICME on send, same applied
+  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult> {
     return this._onCall(
       () => (this._api.query.system
         .accountNonce(signerPair.address()) as Observable<Index>)
@@ -115,9 +128,11 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           switchMap((nonce) =>
             this
               .sign(signerPair, nonce)
-              .send(statusCb)
+              .sendObservable()
           )
-        )
-    ) as unknown as Observable<SubmittableResult>;
+        ),
+        [],
+        statusCb as CodecCallback
+    ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 }
