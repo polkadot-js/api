@@ -138,11 +138,12 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
-   * @description Returns the value that the Option represents (if available) or null if none
+   * @description Returns the value that the Option represents (if available) or defaultValue if none
+   * @param defaultValue The value to return if the option isNone
    */
-  unwrapOrNull (): T | null {
+  unwrapOr <O> (defaultValue: O): T | O {
     return this.isSome
       ? this.unwrap()
-      : null;
+      : defaultValue;
   }
 }
