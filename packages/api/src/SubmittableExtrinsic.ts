@@ -4,9 +4,9 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Struct, Vector } from '@polkadot/types/codec';
-import { Extrinsic, ExtrinsicStatus, EventRecord, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
+import { Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
-import { ApiInterface$Rx, OnCallDefinition } from './types';
+import { ApiInterface$Rx, ApiType, OnCallDefinition } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
@@ -22,11 +22,11 @@ type SignatureOptionsPartial = {
 };
 
 type StatusCb = (result: SubmittableResult) => any;
-// Re-introduce once we use submitExtrinsic as well
-// type SumbitableResultResult<CodecResult, SubscriptionResult> =
-//   CodecResult extends Observable<any>
-//     ? Observable<SubmittableResult>
-//     : Promise<SubmittableResult>;
+
+type SumbitableResultResult<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? Observable<SubmittableResult>
+     : Promise<Hash>;
 
 type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
   SubscriptionResult extends Observable<any>
@@ -67,10 +67,12 @@ export class SubmittableResult extends Struct {
 export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> extends Extrinsic {
   private _api: ApiInterface$Rx;
   private _onCall: OnCallDefinition<CodecResult, SubscriptionResult>;
+  private _noStatusCb?: boolean;
 
-  constructor (api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
+  constructor (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
     super(extrinsic);
 
+    this._noStatusCb = type === 'rxjs';
     this._api = api;
     this._onCall = onCall;
   }
@@ -101,7 +103,11 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     );
   }
 
-  private sendObservable (): Observable<SubmittableResult> {
+  private sendObservable (): Observable<Hash> {
+    return this._api.rpc.author.submitExtrinsic(this) as Observable<Hash>;
+  }
+
+  private subscribeObservable (): Observable<SubmittableResult> {
     return (this._api.rpc.author
       .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
       .pipe(
@@ -111,14 +117,18 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
       );
   }
 
-  // FIXME We currently only cater for callback in Promise-world, submitExtrinsic -> Hash
-  // should also be catered for returning SumbitableResultResult
-  send (statusCb?: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+  send (): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  send (statusCb: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
+  send (statusCb?: (result: SubmittableResult) => any): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+    const isSubscription = this._noStatusCb || !!statusCb;
+
     return this._onCall(
-      () => this.sendObservable(),
+      () => isSubscription
+        ? this.subscribeObservable()
+        : this.sendObservable(),
       [],
       statusCb as CodecCallback,
-      true
+      isSubscription
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 
@@ -141,17 +151,18 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  // FIXME As per previous FIXME on send, same applies
-  signAndSend (account: KeyringPair, statusCb?: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
-  signAndSend (account: KeyringPair, _options?: Partial<SignatureOptionsPartial> | StatusCb, _statusCb?: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+  signAndSend (account: KeyringPair, options?: Partial<SignatureOptionsPartial>): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair, _options?: Partial<SignatureOptionsPartial> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
     let options: Partial<SignatureOptionsPartial> = {};
-    let statusCb: StatusCb | undefined;
 
     if (isFunction(_options)) {
       statusCb = _options;
     } else {
       options = _options || {};
     }
+
+    const isSubscription = this._noStatusCb || !!statusCb;
 
     return this._onCall(
       () => (
@@ -160,15 +171,17 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           : of(new Index(options.nonce))
         ).pipe(
           first(),
-          switchMap((nonce) =>
-            this
-              .sign(account, { ...options, nonce })
-              .sendObservable()
-          )
+          switchMap((nonce) => {
+            this.sign(account, { ...options, nonce });
+
+            return isSubscription
+              ? this.subscribeObservable()
+              : this.sendObservable() as any; // ???
+          })
         ),
         [],
         statusCb as CodecCallback,
-        true
+        isSubscription
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 }

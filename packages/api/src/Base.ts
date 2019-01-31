@@ -7,7 +7,7 @@ import { Storage } from '@polkadot/storage/types';
 import { Codec, CodecArg, CodecCallback } from '@polkadot/types/types';
 import { RxResult } from './rx/types';
 import {
-  ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions,
+  ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
   Derive, DeriveSection,
   HashResult, U64Result,
@@ -67,6 +67,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   private _runtimeMetadata?: Metadata;
   private _runtimeVersion?: RuntimeVersion;
   private _rx: Partial<ApiInterface$Rx> = {};
+  private _type: ApiType;
 
   /**
    * @description Create an instance of the class
@@ -86,11 +87,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}) {
+  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
 
+    this._type = type;
     this._eventemitter = new EventEmitter();
     this._rpcBase = new RpcBase(options.provider);
 
@@ -139,6 +141,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
 
     return this._runtimeVersion as RuntimeVersion;
+  }
+
+  /**
+   * @description The type of this API instance, either 'rxjs' or 'promise'
+   */
+  get type (): ApiType {
+    return this._type;
   }
 
   /**
@@ -388,7 +397,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
     const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
-      new SubmittableExtrinsic(this._rx as ApiInterface$Rx, onCall, method(...params));
+      new SubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }

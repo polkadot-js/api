@@ -13,7 +13,10 @@ describe.skip('e2e transactions', () => {
   let api;
 
   beforeEach(async (done) => {
-    api = await Api.create();
+    if (!api) {
+      api = await Api.create();
+    }
+
     jest.setTimeout(30000);
     done();
   });
@@ -91,8 +94,16 @@ describe.skip('e2e transactions', () => {
       });
   });
 
+  it('makes a transfer (no callback)', async () => {
+    const hash = await api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.dave);
+
+    expect(hash.toHex()).toHaveLength(66);
+  });
+
   it('makes a proposal', async () => {
-    const nonce = await api.query.system.accountNonce(keyring.bob.address());
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
 
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
@@ -101,11 +112,6 @@ describe.skip('e2e transactions', () => {
       .sign(keyring.bob, { nonce })
       .send();
 
-    // FIXME this is what we actually want, however we get a StatusResult back here
-    // expect(
-    //   result.toString()
-    // ).not.toEqual('0x');
-
-    expect(result.status).toBe('Ready');
+    expect(hash.toHex()).toHaveLength(66);
   });
 });
