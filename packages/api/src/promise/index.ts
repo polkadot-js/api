@@ -3,18 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { ApiOptions } from '../types';
-import { ApiPromiseInterface, OnCall, PromiseSubscription } from './types';
+import { CodecArg, CodecCallback } from '@polkadot/types/types';
+import { RxResult } from '../rx/types';
+import { ApiOptions, OnCallFunction } from '../types';
+import { ApiPromiseInterface, CodecResult, SubscriptionResult } from './types';
 
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
-import { Codec } from '@polkadot/types/types';
-import { isFunction } from '@polkadot/util';
+import { isFunction, assert } from '@polkadot/util';
 
 import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
-
-type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
 
 /**
  * # @polkadot/api/promise
@@ -102,7 +101,7 @@ type RxFn = (...params: Array<any>) => Observable<Codec | undefined | null>;
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult> implements ApiPromiseInterface {
   private _isReady: Promise<ApiPromise>;
 
   /**
@@ -185,7 +184,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
    * });
    * ```
    */
-  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): PromiseSubscription {
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): SubscriptionResult {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -193,15 +192,11 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     };
   }
 
-  protected onCall (method: RxFn, params: Array<any>, isSubscription?: boolean): OnCall {
-    if (!params || params.length === 0 || isSubscription === false) {
-      return method(...params).pipe(first()).toPromise();
-    }
+  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], callback?: CodecCallback, needsCallback?: boolean): CodecResult | SubscriptionResult {
+    // When we need a subscription, ensure that a valid callback is actually passed
+    assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
-    const cb = params[params.length - 1];
-    const remainingParams = params.slice(0, - 1);
-
-    if (!isFunction(cb)) {
+    if (!callback) {
       return method(...params).pipe(first()).toPromise();
     }
 
@@ -210,7 +205,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
     // tslint:disable-next-line
     return new Promise((resolve, reject) => {
       let isCompleted = false;
-      const subscription = method(...remainingParams)
+      const subscription = method(...params)
         .pipe(
           // if we find an error (invalid params, etc), reject the promise
           catchError((error) => {
@@ -232,7 +227,7 @@ export default class ApiPromise extends ApiBase<OnCall> implements ApiPromiseInt
             }
           })
         )
-        .subscribe(cb);
-    }) as PromiseSubscription;
+        .subscribe(callback);
+    }) as SubscriptionResult;
   }
 }
