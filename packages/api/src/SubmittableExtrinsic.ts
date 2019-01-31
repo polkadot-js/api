@@ -9,6 +9,7 @@ import { ApiInterface$Rx, OnCallFunction, SubmittableSendResult } from './types'
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
+import { isFunction } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -18,6 +19,8 @@ type SignatureOptionsPartial = {
   nonce: AnyNumber,
   version?: RuntimeVersion
 };
+
+type StatusCb = (result: SubmittableSendResult) => any;
 
 export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
   private _api: ApiInterface$Rx;
@@ -30,7 +33,7 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     this._onCall = onCall;
   }
 
-  private trackStatus (status: ExtrinsicStatus, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+  private trackStatus (status: ExtrinsicStatus, statusCb?: StatusCb): Observable<SubmittableSendResult> {
     if (status.type !== 'Finalised') {
       return this._onCall(
         () => of({
@@ -75,22 +78,33 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
       blockHash: blockHash || this._api.genesisHash,
       era,
       nonce,
-      version
+      version: version || this._api.runtimeVersion
     });
 
     return this;
   }
 
-  signAndSend (account: KeyringPair, statusCb?: (result: SubmittableSendResult) => any): Observable<SubmittableSendResult> {
+  signAndSend (account: KeyringPair, statusCb?: StatusCb): Observable<SubmittableSendResult>;
+  signAndSend (account: KeyringPair, _optionsOrStatusCb?: Partial<SignatureOptionsPartial> | StatusCb, _statusCb?: StatusCb): Observable<SubmittableSendResult> {
+    let options: Partial<SignatureOptionsPartial> = {};
+    let statusCb: StatusCb | undefined;
+
+    if (isFunction(_optionsOrStatusCb)) {
+      statusCb = _optionsOrStatusCb;
+    } else {
+      options = _optionsOrStatusCb || {};
+    }
+
     return this._onCall(
-      () => combineLatest(
-        this._api.query.system.accountNonce(account.address()) as Observable<Index>,
-        this._api.rpc.chain.getRuntimeVersion() as Observable<RuntimeVersion>
-      ).pipe(
+      () => (
+        options.nonce
+          ? of(new Index(options.nonce))
+          : this._api.query.system.accountNonce(account.address()) as Observable<Index>
+        ).pipe(
           first(),
-          switchMap(([nonce, version]) =>
+          switchMap((nonce) =>
             this
-              .sign(account, { nonce, version })
+              .sign(account, { ...options, nonce })
               .send(statusCb)
           )
         ),
