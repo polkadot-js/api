@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
 
@@ -26,7 +27,7 @@ describe.skip('e2e transactions', () => {
 
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .sign(account, { nonce })
+      .sign(keyring.dave, { nonce })
       .send(({ events, status, type }) => {
         console.log('Transaction status:', type);
 
@@ -45,12 +46,12 @@ describe.skip('e2e transactions', () => {
       });
   });
 
-  t('makes a transfer (sign, then send - compat version)', async (done) => {
+  it('makes a transfer (sign, then send - compat version)', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .sign(account, nonce)
+      .sign(keyring.dave, nonce)
       .send(({ events, status, type }) => {
         console.log('Transaction status:', type);
 
@@ -90,17 +91,21 @@ describe.skip('e2e transactions', () => {
       });
   });
 
-  it.skip('makes a proposal', async () => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+  it('makes a proposal', async () => {
+    const nonce = await api.query.system.accountNonce(keyring.bob.address());
 
-    // don't wait for status, just get hash
-    const hash = await api.tx.democracy
-      .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
-      .sign(keyring.alice, { nonce })
+    // don't wait for status, just get hash. Here we generate a large-ish payload
+    // to ensure that we can sign with the hashed version as well (and have it accepted)
+    const result = await api.tx.democracy
+      .propose(api.tx.consensus.setCode(randomAsU8a(1024)), 10000)
+      .sign(keyring.bob, { nonce })
       .send();
 
-    expect(
-      hash.toString()
-    ).not.toEqual('0x');
+    // FIXME this is what we actually want, however we get a StatusResult back here
+    // expect(
+    //   result.toString()
+    // ).not.toEqual('0x');
+
+    expect(result.status).toBe('Ready');
   });
 });

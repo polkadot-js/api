@@ -163,7 +163,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           switchMap((nonce) =>
             this
               .sign(account, { ...options, nonce })
-              .sendObservable(statusCb)
+              .sendObservable()
           )
         ),
         [],
