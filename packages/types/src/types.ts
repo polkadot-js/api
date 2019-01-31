@@ -4,6 +4,16 @@
 
 import BN from 'bn.js';
 
+export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
+
+export type CodecCallback <T extends Codec = Codec> = (result: T) => any;
+
+interface CodecArgObject {
+  [index: string]: CodecArg;
+}
+
+interface CodecArgArray extends Array<CodecArg> { }
+
 export type AnyNumber = BN | Uint8Array | number | string;
 
 export type AnyString = string | String;

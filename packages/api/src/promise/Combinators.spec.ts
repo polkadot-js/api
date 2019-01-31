@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { PromiseSubscription } from './types';
+import { SubscriptionResult } from './types';
 
 import Combinator from './Combinator';
 
 describe('Combinator', () => {
   let fns: Array<(value: any) => void> = [];
-  const storeFn = async (cb: (value: any) => void): PromiseSubscription => {
+  const storeFn = async (cb: (value: any) => void): SubscriptionResult => {
     fns.push(cb);
 
     return () => undefined;

@@ -8,11 +8,13 @@
 * [ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)
 * [ApiOptions](../interfaces/_types_.apioptions.md)
 * [DecoratedRpc](../interfaces/_types_.decoratedrpc.md)
+* [DecoratedRpc$Method](../interfaces/_types_.decoratedrpc_method.md)
 * [DecoratedRpc$Section](../interfaces/_types_.decoratedrpc_section.md)
 * [Derive](../interfaces/_types_.derive.md)
 * [DeriveSection](../interfaces/_types_.derivesection.md)
 * [QueryableModuleStorage](../interfaces/_types_.queryablemodulestorage.md)
 * [QueryableStorage](../interfaces/_types_.queryablestorage.md)
+* [QueryableStorageFunctionBase](../interfaces/_types_.queryablestoragefunctionbase.md)
 * [SubmittableExtrinsicFunction](../interfaces/_types_.submittableextrinsicfunction.md)
 * [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)
 * [SubmittableModuleExtrinsics](../interfaces/_types_.submittablemoduleextrinsics.md)
@@ -21,11 +23,12 @@
 
 * [ApiInterface$Events](_types_.md#apiinterface_events)
 * [ApiInterface$Rx](_types_.md#apiinterface_rx)
-* [DecoratedRpc$Method](_types_.md#decoratedrpc_method)
 * [DeriveMethod](_types_.md#derivemethod)
+* [HashResult](_types_.md#hashresult)
+* [OnCallDefinition](_types_.md#oncalldefinition)
 * [OnCallFunction](_types_.md#oncallfunction)
 * [QueryableStorageFunction](_types_.md#queryablestoragefunction)
-* [SubmittableSendResult](_types_.md#submittablesendresult)
+* [U64Result](_types_.md#u64result)
 
 ---
 
@@ -37,36 +40,16 @@
 
 **Ƭ ApiInterface$Events**: *`RpcRxInterface$Events` | "ready"*
 
-*Defined in [types.ts:109](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L109)*
+*Defined in [types.ts:122](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L122)*
 
 ___
 <a id="apiinterface_rx"></a>
 
 ##  ApiInterface$Rx
 
-**Ƭ ApiInterface$Rx**: *[ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)<`Observable`<`Codec` | `null` | `undefined`>>*
+**Ƭ ApiInterface$Rx**: *[ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)<[RxResult](_rx_types_.md#rxresult), [RxResult](_rx_types_.md#rxresult)>*
 
-*Defined in [types.ts:107](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L107)*
-
-___
-<a id="decoratedrpc_method"></a>
-
-##  DecoratedRpc$Method
-
-**Ƭ DecoratedRpc$Method**: *`function`*
-
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L17)*
-
-#### Type declaration
-▸(...params: *`Array`<`any`>*): `OnCall`
-
-**Parameters:**
-
-| Name | Type |
-| ------ | ------ |
-| `Rest` params | `Array`<`any`> |
-
-**Returns:** `OnCall`
+*Defined in [types.ts:120](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L120)*
 
 ___
 <a id="derivemethod"></a>
@@ -75,18 +58,50 @@ ___
 
 **Ƭ DeriveMethod**: *`function`*
 
-*Defined in [types.ts:73](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L73)*
+*Defined in [types.ts:86](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L86)*
 
 #### Type declaration
-▸(...params: *`Array`<`any`>*): `OnCall`
+▸(...params: *`Array`<`CodecArg`>*): `CodecResult` | `SubscriptionResult`
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Rest` params | `Array`<`any`> |
+| `Rest` params | `Array`<`CodecArg`> |
 
-**Returns:** `OnCall`
+**Returns:** `CodecResult` | `SubscriptionResult`
+
+___
+<a id="hashresult"></a>
+
+##  HashResult
+
+**Ƭ HashResult**: *`HashResult&lt;CodecResult, SubscriptionResult&gt;`*
+
+*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L38)*
+
+___
+<a id="oncalldefinition"></a>
+
+##  OnCallDefinition
+
+**Ƭ OnCallDefinition**: *`function`*
+
+*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L16)*
+
+#### Type declaration
+▸(method: *[OnCallFunction](_types_.md#oncallfunction)<[RxResult](_rx_types_.md#rxresult), [RxResult](_rx_types_.md#rxresult)>*, params?: *`Array`<`CodecArg`>*, callback?: *`CodecCallback`*, needsCallback?: *`undefined` | `false` | `true`*): `CodecResult` | `SubscriptionResult`
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| method | [OnCallFunction](_types_.md#oncallfunction)<[RxResult](_rx_types_.md#rxresult), [RxResult](_rx_types_.md#rxresult)> |
+| `Optional` params | `Array`<`CodecArg`> |
+| `Optional` callback | `CodecCallback` |
+| `Optional` needsCallback | `undefined` | `false` | `true` |
+
+**Returns:** `CodecResult` | `SubscriptionResult`
 
 ___
 <a id="oncallfunction"></a>
@@ -95,38 +110,36 @@ ___
 
 **Ƭ OnCallFunction**: *`function`*
 
-*Defined in [types.ts:15](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L15)*
+*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L18)*
 
 #### Type declaration
-▸(...args: *`any`[]*): `OnCall`
+▸(...params: *`Array`<`CodecArg`>*): `CodecResult` | `SubscriptionResult`
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Rest` args | `any`[] |
+| `Rest` params | `Array`<`CodecArg`> |
 
-**Returns:** `OnCall`
+**Returns:** `CodecResult` | `SubscriptionResult`
 
 ___
 <a id="queryablestoragefunction"></a>
 
 ##  QueryableStorageFunction
 
-**Ƭ QueryableStorageFunction**: *`QueryableStorageFunction&lt;OnCall&gt;`*
+**Ƭ QueryableStorageFunction**: *`QueryableStorageFunction&lt;CodecResult, SubscriptionResult&gt;`*
 
-*Defined in [types.ts:42](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L42)*
+*Defined in [types.ts:61](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L61)*
 
 ___
-<a id="submittablesendresult"></a>
+<a id="u64result"></a>
 
-##  SubmittableSendResult
+##  U64Result
 
-**Ƭ SubmittableSendResult**: *`object`*
+**Ƭ U64Result**: *`U64Result&lt;CodecResult, SubscriptionResult&gt;`*
 
-*Defined in [types.ts:67](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L67)*
-
-#### Type declaration
+*Defined in [types.ts:43](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L43)*
 
 ___
 

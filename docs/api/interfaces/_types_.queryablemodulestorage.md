@@ -1,11 +1,12 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **QueryableModuleStorage**
 
 # Indexable
 
-\[index: `string`\]:&nbsp;[QueryableStorageFunction](../modules/_types_.md#queryablestoragefunction)<`OnCall`>
+\[index: `string`\]:&nbsp;[QueryableStorageFunction](../modules/_types_.md#queryablestoragefunction)<`CodecResult`, `SubscriptionResult`>

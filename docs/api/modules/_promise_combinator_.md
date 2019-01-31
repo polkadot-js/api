@@ -21,7 +21,7 @@
 
 **Ƭ CombinatorCallback**: *`function`*
 
-*Defined in [promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/promise/Combinator.ts#L9)*
+*Defined in [promise/Combinator.ts:9](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/promise/Combinator.ts#L9)*
 
 #### Type declaration
 ▸(value: *`Array`<`any`>*): `any`
@@ -41,10 +41,10 @@ ___
 
 **Ƭ CombinatorFunction**: *`function`*
 
-*Defined in [promise/Combinator.ts:10](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/promise/Combinator.ts#L10)*
+*Defined in [promise/Combinator.ts:10](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/promise/Combinator.ts#L10)*
 
 #### Type declaration
-▸(cb: *`function`*): [PromiseSubscription](_promise_types_.md#promisesubscription)
+▸(cb: *`function`*): [SubscriptionResult]()
 
 **Parameters:**
 
@@ -52,7 +52,7 @@ ___
 | ------ | ------ |
 | cb | `function` |
 
-**Returns:** [PromiseSubscription](_promise_types_.md#promisesubscription)
+**Returns:** [SubscriptionResult]()
 
 ___
 

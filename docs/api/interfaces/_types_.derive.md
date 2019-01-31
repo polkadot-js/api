@@ -1,11 +1,12 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **Derive**
 
 # Indexable
 
-\[index: `string`\]:&nbsp;[DeriveSection](_types_.derivesection.md)<`OnCall`>
+\[index: `string`\]:&nbsp;[DeriveSection](_types_.derivesection.md)<`CodecResult`, `SubscriptionResult`>

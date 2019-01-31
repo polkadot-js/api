@@ -1,7 +1,8 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **DecoratedRpc**
@@ -12,36 +13,36 @@
 
 ##  author
 
-**● author**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`OnCall`>*
+**● author**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:24](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L24)*
+*Defined in [types.ts:32](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L32)*
 
 ___
 <a id="chain"></a>
 
 ##  chain
 
-**● chain**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`OnCall`>*
+**● chain**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:25](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L25)*
+*Defined in [types.ts:33](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L33)*
 
 ___
 <a id="state"></a>
 
 ##  state
 
-**● state**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`OnCall`>*
+**● state**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:26](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L26)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L34)*
 
 ___
 <a id="system"></a>
 
 ##  system
 
-**● system**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`OnCall`>*
+**● system**: *[DecoratedRpc$Section](_types_.decoratedrpc_section.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:27](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L27)*
+*Defined in [types.ts:35](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L35)*
 
 ___
 

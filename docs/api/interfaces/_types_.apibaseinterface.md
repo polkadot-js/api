@@ -1,7 +1,8 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
  `object`
@@ -24,7 +25,7 @@
 
 **● on**: *`function`*
 
-*Defined in [types.ts:112](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L112)*
+*Defined in [types.ts:125](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L125)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
@@ -45,7 +46,7 @@ ___
 
 **● once**: *`function`*
 
-*Defined in [types.ts:113](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/types.ts#L113)*
+*Defined in [types.ts:126](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L126)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`

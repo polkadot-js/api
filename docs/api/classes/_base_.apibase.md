@@ -1,22 +1,23 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **ApiBase**
+
+↳  [ApiRxInterface](../interfaces/_rx_types_.apirxinterface.md)
 
 ↳  [ApiPromiseInterface](../interfaces/_promise_types_.apipromiseinterface.md)
 
 ↳  [ApiPromise](_promise_index_.apipromise.md)
 
-↳  [ApiRxInterface](../interfaces/_rx_types_.apirxinterface.md)
-
 ↳  [ApiRx](_rx_index_.apirx.md)
 
 # Implements
 
-* [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)<`OnCall`>
+* [ApiBaseInterface](../interfaces/_types_.apibaseinterface.md)<`CodecResult`, `SubscriptionResult`>
 
 # Constructors
 
@@ -26,7 +27,7 @@
 
 ⊕ **new ApiBase**(provider?: *[ApiOptions](../interfaces/_types_.apioptions.md) | `ProviderInterface`*): [ApiBase](_base_.apibase.md)
 
-*Defined in [Base.ts:68](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L68)*
+*Defined in [Base.ts:69](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L69)*
 
 *__description__*: Create an instance of the class
 
@@ -58,9 +59,9 @@ ___
 
 ##  derive
 
-getderive(): [Derive](../interfaces/_types_.derive.md)<`OnCall`>
+getderive(): [Derive](../interfaces/_types_.derive.md)<`CodecResult`, `SubscriptionResult`>
 
-*Defined in [Base.ts:155](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L155)*
+*Defined in [Base.ts:156](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L156)*
 
 *__description__*: Derived results that are injected into the API, allowing for combinations of various query results.
 
@@ -72,7 +73,7 @@ api.derive.chain.bestNumber((number) => {
 });
 ```
 
-**Returns:** [Derive](../interfaces/_types_.derive.md)<`OnCall`>
+**Returns:** [Derive](../interfaces/_types_.derive.md)<`CodecResult`, `SubscriptionResult`>
 
 ___
 <a id="genesishash"></a>
@@ -81,7 +82,7 @@ ___
 
 getgenesisHash(): `Hash`
 
-*Defined in [Base.ts:112](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L112)*
+*Defined in [Base.ts:113](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L113)*
 
 *__description__*: Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
 
@@ -94,7 +95,7 @@ ___
 
 gethasSubscriptions(): `boolean`
 
-*Defined in [Base.ts:121](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L121)*
+*Defined in [Base.ts:122](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L122)*
 
 *__description__*: `true` when subscriptions are supported
 
@@ -105,9 +106,9 @@ ___
 
 ##  query
 
-getquery(): [QueryableStorage](../interfaces/_types_.queryablestorage.md)<`OnCall`>
+getquery(): [QueryableStorage](../interfaces/_types_.queryablestorage.md)<`CodecResult`, `SubscriptionResult`>
 
-*Defined in [Base.ts:175](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L175)*
+*Defined in [Base.ts:176](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L176)*
 
 *__description__*: Contains all the chain state modules and their subsequent methods in the API. These are attached dynamically from the runtime metadata.
 
@@ -121,16 +122,16 @@ api.query.balances.freeBalance(<accountId>, (balance) => {
 });
 ```
 
-**Returns:** [QueryableStorage](../interfaces/_types_.queryablestorage.md)<`OnCall`>
+**Returns:** [QueryableStorage](../interfaces/_types_.queryablestorage.md)<`CodecResult`, `SubscriptionResult`>
 
 ___
 <a id="rpc"></a>
 
 ##  rpc
 
-getrpc(): [DecoratedRpc](../interfaces/_types_.decoratedrpc.md)<`OnCall`>
+getrpc(): [DecoratedRpc](../interfaces/_types_.decoratedrpc.md)<`CodecResult`, `SubscriptionResult`>
 
-*Defined in [Base.ts:195](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L195)*
+*Defined in [Base.ts:196](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L196)*
 
 *__description__*: Contains all the raw rpc sections and their subsequent methods in the API as defined by the jsonrpc interface definitions. Unlike the dynamic `api.query` and `api.tx` sections, these methods are fixed (although extensible with node upgrades) and not determined by the runtime.
 
@@ -144,7 +145,7 @@ api.rpc.chain.subscribeNewHead((header) => {
 });
 ```
 
-**Returns:** [DecoratedRpc](../interfaces/_types_.decoratedrpc.md)<`OnCall`>
+**Returns:** [DecoratedRpc](../interfaces/_types_.decoratedrpc.md)<`CodecResult`, `SubscriptionResult`>
 
 ___
 <a id="runtimemetadata"></a>
@@ -153,7 +154,7 @@ ___
 
 getruntimeMetadata(): `Metadata`
 
-*Defined in [Base.ts:128](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L128)*
+*Defined in [Base.ts:129](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L129)*
 
 *__description__*: Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
 
@@ -166,7 +167,7 @@ ___
 
 getruntimeVersion(): `RuntimeVersion`
 
-*Defined in [Base.ts:137](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L137)*
+*Defined in [Base.ts:138](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L138)*
 
 *__description__*: Contains the version information for the current runtime.
 
@@ -177,9 +178,9 @@ ___
 
 ##  tx
 
-gettx(): [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)<`OnCall`>
+gettx(): [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)<`CodecResult`, `SubscriptionResult`>
 
-*Defined in [Base.ts:213](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L213)*
+*Defined in [Base.ts:214](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L214)*
 
 *__description__*: Contains all the extrinsic modules and their subsequent methods in the API. It allows for the construction of transactions and the submission thereof. These are attached dynamically from the runtime metadata.
 
@@ -193,7 +194,7 @@ api.tx.balances
   });
 ```
 
-**Returns:** [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)<`OnCall`>
+**Returns:** [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)<`CodecResult`, `SubscriptionResult`>
 
 ___
 
@@ -205,7 +206,7 @@ ___
 
 ▸ **on**(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
 
-*Defined in [Base.ts:238](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L238)*
+*Defined in [Base.ts:239](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L239)*
 
 *__description__*: Attach an eventemitter handler to listen to a specific event
 
@@ -237,7 +238,7 @@ ___
 
 ▸ **once**(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
 
-*Defined in [Base.ts:263](https://github.com/polkadot-js/api/blob/aea223f/packages/api/src/Base.ts#L263)*
+*Defined in [Base.ts:264](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/Base.ts#L264)*
 
 *__description__*: Attach an one-time eventemitter handler to listen to a specific event
 
