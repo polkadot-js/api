@@ -24,8 +24,6 @@ export type HeaderAndValidators = [Header, Array<AccountId>];
  * ```
  */
 export function subscribeNewHead (api: ApiInterface$Rx) {
-  console.error('api', api, api.rpc);
-
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
