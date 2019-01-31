@@ -3,6 +3,8 @@ const { ApiPromise } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
 const { stringToU8a } = require('@polkadot/util');
 
+// Important to note that we pad the seed to a length of 32 bytes using ' '
+// The underlying seed needs to be exactly 32 bytes in length
 const ALICE_SEED = 'Alice'.padEnd(32, ' ');
 const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
 
