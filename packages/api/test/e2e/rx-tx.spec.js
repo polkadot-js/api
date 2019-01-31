@@ -30,7 +30,7 @@ describe.skip('e2e transactions', () => {
         switchMap((nonce) =>
           api.tx.balances
             .transfer(keyring.bob.address(), 12345)
-            .sign(keyring.alice, nonce)
+            .sign(keyring.alice, { nonce })
             .send()
         )
       )
@@ -49,7 +49,7 @@ describe.skip('e2e transactions', () => {
         switchMap((nonce) =>
           api.tx.democracy
             .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
-            .sign(keyring.alice, nonce)
+            .sign(keyring.alice, { nonce })
             .send()
         )
       )

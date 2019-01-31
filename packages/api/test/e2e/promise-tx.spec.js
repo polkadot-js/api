@@ -26,7 +26,7 @@ describe.skip('e2e transactions', () => {
 
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .sign(keyring.dave, nonce)
+      .sign(account, { nonce })
       .send(({ events, status, type }) => {
         console.log('Transaction status:', type);
 
@@ -72,7 +72,7 @@ describe.skip('e2e transactions', () => {
     // don't wait for status, just get hash
     const hash = await api.tx.democracy
       .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
-      .sign(keyring.alice, nonce)
+      .sign(keyring.alice, { nonce })
       .send();
 
     expect(

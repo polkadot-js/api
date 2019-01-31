@@ -5,11 +5,14 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a } from './types';
 
+import { blake2AsU8a } from '@polkadot/util-crypto';
+
 import Struct from './codec/Struct';
-import Method from './Method';
-import Hash from './Hash';
-import Nonce from './NonceCompact';
 import ExtrinsicEra from './ExtrinsicEra';
+import Hash from './Hash';
+import Method from './Method';
+import Nonce from './NonceCompact';
+import RuntimeVersion from './RuntimeVersion';
 
 type SignaturePayloadValue = {
   nonce?: AnyNumber,
@@ -90,8 +93,17 @@ export default class SignaturePayload extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  sign (signerPair: KeyringPair): Uint8Array {
-    this._signature = signerPair.sign(this.toU8a());
+  sign (signerPair: KeyringPair, version?: RuntimeVersion): Uint8Array {
+    // for newer api versions, hash when length > 256
+    const isLegacy = !version ||
+      (version.specName.eq('node') && version.specVersion.ltn(17)) ||
+      (version.specName.eq('polkadot') && version.specVersion.ltn(107));
+    const encoded = this.toU8a();
+    const signaturePayload = !isLegacy && (encoded.length > 256)
+      ? blake2AsU8a(encoded)
+      : encoded;
+
+    this._signature = signerPair.sign(signaturePayload);
 
     return this._signature;
   }
