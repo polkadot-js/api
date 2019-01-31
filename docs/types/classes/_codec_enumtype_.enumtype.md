@@ -42,7 +42,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [codec/EnumType.ts:32](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L32)*
+*Defined in [codec/EnumType.ts:32](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L32)*
 
 **Parameters:**
 
@@ -64,7 +64,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L101)*
+*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L101)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -77,7 +77,7 @@ ___
 
 getindex(): `number`
 
-*Defined in [codec/EnumType.ts:108](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L108)*
+*Defined in [codec/EnumType.ts:108](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L108)*
 
 *__description__*: The index of the metadata value
 
@@ -90,7 +90,7 @@ ___
 
 getisNone(): `boolean`
 
-*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L115)*
+*Defined in [codec/EnumType.ts:115](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L115)*
 
 *__description__*: Checks if the Enum points to a [Null](_null_.null.md) type
 
@@ -103,7 +103,7 @@ ___
 
 getisNull(): `boolean`
 
-*Defined in [codec/EnumType.ts:122](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L122)*
+*Defined in [codec/EnumType.ts:122](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L122)*
 
 *__description__*: Checks if the Enum points to a [Null](_null_.null.md) type (deprecated, use isNone)
 
@@ -116,7 +116,7 @@ ___
 
 gettype(): `string`
 
-*Defined in [codec/EnumType.ts:129](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L129)*
+*Defined in [codec/EnumType.ts:129](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L129)*
 
 *__description__*: The name of the type this enum value represents
 
@@ -129,7 +129,7 @@ ___
 
 getvalue(): [Codec](../interfaces/_types_.codec.md)
 
-*Defined in [codec/EnumType.ts:136](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L136)*
+*Defined in [codec/EnumType.ts:136](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L136)*
 
 *__description__*: The value of the enum
 
@@ -147,7 +147,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [codec/EnumType.ts:143](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L143)*
+*Defined in [codec/EnumType.ts:143](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L143)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -168,7 +168,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [codec/EnumType.ts:156](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L156)*
+*Defined in [codec/EnumType.ts:156](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L156)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -183,7 +183,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [codec/EnumType.ts:163](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L163)*
+*Defined in [codec/EnumType.ts:163](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L163)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -196,7 +196,7 @@ ___
 
 ▸ **toNumber**(): `number`
 
-*Defined in [codec/EnumType.ts:172](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L172)*
+*Defined in [codec/EnumType.ts:172](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L172)*
 
 *__description__*: Returns the number representation for the value
 
@@ -211,7 +211,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [codec/EnumType.ts:179](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L179)*
+*Defined in [codec/EnumType.ts:179](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L179)*
 
 *__description__*: Returns the string representation of the value
 
@@ -226,7 +226,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [codec/EnumType.ts:187](https://github.com/polkadot-js/api/blob/c1a6f02/packages/types/src/codec/EnumType.ts#L187)*
+*Defined in [codec/EnumType.ts:187](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/EnumType.ts#L187)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
