@@ -9,7 +9,7 @@ import { ApiInterface$Rx, OnCallFunction, SubmittableSendResult } from './types'
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { isFunction, isUndefined } from '@polkadot/util';
+import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -73,26 +73,34 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
     ) as unknown as Observable<SubmittableSendResult>;
   }
 
-  sign (account: KeyringPair, { blockHash, era, nonce, version }: SignatureOptionsPartial): SubmittableExtrinsic<OnCall> {
+  // NOTE with the nonce hack, we don't add a signature overload for 2 reasons -
+  //   - it makes it incompatible with the base Extrinsic
+  //   - for those using TS, we would like to move them towards the new version
+  sign (account: KeyringPair, _options: SignatureOptionsPartial): SubmittableExtrinsic<OnCall> {
+    // HACK here we actually override nonce if it was specified (backwards compat for
+    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    const options: SignatureOptionsPartial = isBn(_options) || isNumber(_options)
+      ? { nonce: _options as any as number }
+      : _options;
+
     super.sign(account, {
-      blockHash: blockHash || this._api.genesisHash,
-      era,
-      nonce,
-      version: version || this._api.runtimeVersion
+      blockHash: this._api.genesisHash,
+      version: this._api.runtimeVersion,
+      ...options
     });
 
     return this;
   }
 
   signAndSend (account: KeyringPair, statusCb?: StatusCb): Observable<SubmittableSendResult>;
-  signAndSend (account: KeyringPair, _optionsOrStatusCb?: Partial<SignatureOptionsPartial> | StatusCb, _statusCb?: StatusCb): Observable<SubmittableSendResult> {
+  signAndSend (account: KeyringPair, _options?: Partial<SignatureOptionsPartial> | StatusCb, _statusCb?: StatusCb): Observable<SubmittableSendResult> {
     let options: Partial<SignatureOptionsPartial> = {};
     let statusCb: StatusCb | undefined;
 
-    if (isFunction(_optionsOrStatusCb)) {
-      statusCb = _optionsOrStatusCb;
+    if (isFunction(_options)) {
+      statusCb = _options;
     } else {
-      options = _optionsOrStatusCb || {};
+      options = _options || {};
     }
 
     return this._onCall(

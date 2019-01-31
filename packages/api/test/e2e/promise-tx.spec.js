@@ -45,6 +45,30 @@ describe.skip('e2e transactions', () => {
       });
   });
 
+  t('makes a transfer (sign, then send - compat version)', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+
+    return api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .sign(account, nonce)
+      .send(({ events, status, type }) => {
+        console.log('Transaction status:', type);
+
+        if (type === 'Finalised') {
+          console.log('Completed at block hash', status.value.toHex());
+          console.log('Events:');
+
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+          });
+
+          if (events.length) {
+            done();
+          }
+        }
+      });
+  });
+
   it('makes a transfer (signAndSend)', async (done) => {
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
