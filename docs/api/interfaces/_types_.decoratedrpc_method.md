@@ -14,7 +14,7 @@
 
 ▸ **__call**(arg1?: *`CodecArg`*, arg2?: *`CodecArg`*, arg3?: *`CodecArg`*): `CodecResult`
 
-*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/8341538/packages/api/src/types.ts#L21)*
+*Defined in [types.ts:21](https://github.com/polkadot-js/api/blob/c1a6f02/packages/api/src/types.ts#L21)*
 
 **Parameters:**
 
@@ -24,7 +24,7 @@
 
 **Returns:** `SubscriptionResult`
 
-*Defined in [types.ts:22](https://github.com/polkadot-js/api/blob/8341538/packages/api/src/types.ts#L22)*
+*Defined in [types.ts:22](https://github.com/polkadot-js/api/blob/c1a6f02/packages/api/src/types.ts#L22)*
 
 **Parameters:**
 
@@ -35,7 +35,7 @@
 
 **Returns:** `SubscriptionResult`
 
-*Defined in [types.ts:23](https://github.com/polkadot-js/api/blob/8341538/packages/api/src/types.ts#L23)*
+*Defined in [types.ts:23](https://github.com/polkadot-js/api/blob/c1a6f02/packages/api/src/types.ts#L23)*
 
 **Parameters:**
 
