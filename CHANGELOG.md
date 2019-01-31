@@ -1,3 +1,8 @@
+# 0.42.1
+
+- Support for substrate hash signing with implVersion >= 18
+- Changed signatures for Extrinsic signing, this should not have (much) of an impact since it is generally not used directly. SubmittableExtrinsic (as exposed by the API), supports the old-style use.
+
 # 0.41.1
 
 - Support the V1 metadata specification from Substrate in addition to the currently testnet-active V0 version
