@@ -10,9 +10,17 @@ import Address from './Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from './Method';
 import Nonce from './NonceCompact';
+import RuntimeVersion from './RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 import U8 from './U8';
+
+export type SignatureOptions = {
+  blockHash: AnyU8a,
+  era?: Uint8Array,
+  nonce: AnyNumber,
+  version?: RuntimeVersion
+};
 
 export const IMMORTAL_ERA = new Uint8Array([0]);
 
@@ -139,15 +147,15 @@ export default class ExtrinsicSignature extends Struct {
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  sign (method: Method, signerPair: KeyringPair, nonce: AnyNumber, blockHash: AnyU8a, era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
-    const signer = new Address(signerPair.publicKey());
+  sign (method: Method, account: KeyringPair, { blockHash, era, nonce, version }: SignatureOptions): ExtrinsicSignature {
+    const signer = new Address(account.publicKey());
     const signingPayload = new SignaturePayload({
       nonce,
       method,
-      era,
+      era: era || IMMORTAL_ERA,
       blockHash
     });
-    const signature = new Signature(signingPayload.sign(signerPair));
+    const signature = new Signature(signingPayload.sign(account, version));
 
     return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
   }

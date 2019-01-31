@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
 
@@ -25,6 +26,30 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (sign, then send)', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+
+    return api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .sign(keyring.dave, { nonce })
+      .send(({ events, status, type }) => {
+        console.log('Transaction status:', type);
+
+        if (type === 'Finalised') {
+          console.log('Completed at block hash', status.value.toHex());
+          console.log('Events:');
+
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+          });
+
+          if (events.length) {
+            done();
+          }
+        }
+      });
+  });
+
+  it('makes a transfer (sign, then send - compat version)', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     return api.tx.balances
@@ -78,13 +103,11 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a proposal', async () => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
-
-    // don't wait for status, just get hash
+    // don't wait for status, just get hash. Here we generate a large-ish payload
+    // to ensure that we can sign with the hashed version as well (and have it accepted)
     const hash = await api.tx.democracy
-      .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
-      .sign(keyring.alice, nonce)
-      .send();
+      .propose(api.tx.consensus.setCode(randomAsHex(4096)), 10000)
+      .signAndSend(keyring.bob);
 
     expect(hash.toHex()).toHaveLength(66);
   });

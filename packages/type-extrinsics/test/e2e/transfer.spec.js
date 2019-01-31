@@ -30,7 +30,7 @@ describe.skip('e2e transfer', () => {
       .then((genesisHash) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
 
-        extrinsic.sign(keyring.alice, 0, genesisHash);
+        extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
         return api.author.submitExtrinsic(extrinsic.toU8a());
       })
@@ -43,7 +43,7 @@ describe.skip('e2e transfer', () => {
       .then((genesisHash) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969);
 
-        extrinsic.sign(keyring.alice, 0, genesisHash);
+        extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
         return api.author.submitAndWatchExtrinsic(extrinsic, (status) => {
           console.log(status);

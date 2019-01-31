@@ -21,7 +21,7 @@ async function main () {
   const api = await ApiPromise.create();
 
   // get the nonce for the admin key
-  const aliceNonce = await api.query.system.accountNonce(ALICE);
+  const nonce = await api.query.system.accountNonce(ALICE);
 
   // find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
@@ -34,7 +34,7 @@ async function main () {
   // Do the transfer and track the actual status
   api.tx.balances
     .transfer(recipient, AMOUNT)
-    .sign(alicePair, aliceNonce)
+    .sign(alicePair, { nonce })
     .send(({ events = [], status, type }) => {
       console.log('Transaction status:', type);
 

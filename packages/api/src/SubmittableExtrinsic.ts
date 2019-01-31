@@ -3,15 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Text } from '@polkadot/types/index';
+import { Struct, Vector } from '@polkadot/types/codec';
+import { Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { Struct, Vector } from '@polkadot/types/codec';
+import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
+
+type SignatureOptionsPartial = {
+  blockHash?: AnyU8a,
+  era?: Uint8Array,
+  nonce: AnyNumber,
+  version?: RuntimeVersion
+};
+
+type StatusCb = (result: SubmittableResult) => any;
 
 type SumbitableResultResult<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
@@ -122,24 +132,47 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 
-  sign (signerPair: KeyringPair, nonce: AnyNumber, blockHash?: AnyU8a): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
-    super.sign(signerPair, nonce, blockHash || this._api.genesisHash);
+  // NOTE with the nonce hack, we don't add a signature overload for 2 reasons -
+  //   - it makes it incompatible with the base Extrinsic
+  //   - for those using TS, we would like to move them towards the new version
+  sign (account: KeyringPair, _options: SignatureOptionsPartial): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+    // HACK here we actually override nonce if it was specified (backwards compat for
+    // the previous signature - don't let userspace break, but allow then time to upgrade)
+    const options: SignatureOptionsPartial = isBn(_options) || isNumber(_options)
+      ? { nonce: _options as any as number }
+      : _options;
+
+    super.sign(account, {
+      blockHash: this._api.genesisHash,
+      version: this._api.runtimeVersion,
+      ...options
+    });
 
     return this;
   }
 
-  signAndSend (signerPair: KeyringPair): SumbitableResultResult<CodecResult, SubscriptionResult>;
-  signAndSend (signerPair: KeyringPair, statusCb: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
-  signAndSend (signerPair: KeyringPair, statusCb?: (result: SubmittableResult) => any): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+  signAndSend (account: KeyringPair, options?: Partial<SignatureOptionsPartial>): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair, _options?: Partial<SignatureOptionsPartial> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+    let options: Partial<SignatureOptionsPartial> = {};
+
+    if (isFunction(_options)) {
+      statusCb = _options;
+    } else {
+      options = _options || {};
+    }
+
     const isSubscription = this._noStatusCb || !!statusCb;
 
     return this._onCall(
-      () => (this._api.query.system
-        .accountNonce(signerPair.address()) as Observable<Index>)
-        .pipe(
+      () => (
+        isUndefined(options.nonce)
+          ? this._api.query.system.accountNonce(account.address()) as Observable<Index>
+          : of(new Index(options.nonce))
+        ).pipe(
           first(),
           switchMap((nonce) => {
-            this.sign(signerPair, nonce);
+            this.sign(account, { ...options, nonce });
 
             return isSubscription
               ? this.subscribeObservable()

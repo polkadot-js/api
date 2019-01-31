@@ -99,7 +99,7 @@ import ApiBase from '../Base';
  *          // create transfer
  *          .transfer(keyring.bob.address(), 12345)
  *          // sign the transcation
- *          .sign(keyring.alice, nonce)
+ *          .sign(keyring.alice, { nonce })
  *          // send the transaction
  *          .send()
  *      )
