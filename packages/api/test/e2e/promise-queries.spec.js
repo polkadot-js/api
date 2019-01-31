@@ -9,7 +9,7 @@ import Api from '../../src/promise';
 
 const keyring = testingPairs();
 
-describe.only('e2e queries', () => {
+describe.skip('e2e queries', () => {
   let api;
 
   beforeEach(async (done) => {
@@ -47,7 +47,7 @@ describe.only('e2e queries', () => {
     });
   });
 
-  it.only('subscribes to derive', (done) => {
+  it('subscribes to derive', (done) => {
     api.derive.chain.subscribeNewHead((header) => {
       expect(header.blockNumber.isZero()).toBe(false);
 

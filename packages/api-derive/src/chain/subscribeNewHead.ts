@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Header } from '@polkadot/types/index';
 import { HeaderExtended } from '@polkadot/types/Header';
@@ -29,7 +29,6 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
   return (): Observable<HeaderExtended> =>
     (api.rpc.chain.subscribeNewHead() as Observable<Header>)
       .pipe(
-        tap((header) => console.error('header 1', JSON.stringify(header))),
         filter((header: Header) =>
           header && !!header.blockNumber
         ),
@@ -44,11 +43,9 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
               : of([])
           )
         ),
-        tap((header) => console.error('header 2', JSON.stringify(header))),
         map(([header, validators]) =>
           new HeaderExtended(header, validators)
         ),
-        tap((header) => console.error('header 3', JSON.stringify(header))),
         drr()
       );
 }
