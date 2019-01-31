@@ -8,7 +8,7 @@
 
 ▸ **eraLength**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [session/eraLength.ts:13](https://github.com/polkadot-js/api/blob/aea223f/packages/api-derive/src/session/eraLength.ts#L13)*
+*Defined in [session/eraLength.ts:13](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api-derive/src/session/eraLength.ts#L13)*
 
 **Parameters:**
 
