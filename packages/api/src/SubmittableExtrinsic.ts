@@ -9,7 +9,7 @@ import { ApiInterface$Rx, OnCallFunction, SubmittableSendResult } from './types'
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
-import { isFunction } from '@polkadot/util';
+import { isFunction, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -97,9 +97,9 @@ export default class SubmittableExtrinsic<OnCall> extends Extrinsic {
 
     return this._onCall(
       () => (
-        options.nonce
-          ? of(new Index(options.nonce))
-          : this._api.query.system.accountNonce(account.address()) as Observable<Index>
+        isUndefined(options.nonce)
+          ? this._api.query.system.accountNonce(account.address()) as Observable<Index>
+          : of(new Index(options.nonce))
         ).pipe(
           first(),
           switchMap((nonce) =>
