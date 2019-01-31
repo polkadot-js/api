@@ -480,7 +480,19 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       const sectionName = _sectionName as keyof DeriveInterface;
 
       result[sectionName] = Object.keys(derive[sectionName]).reduce((section, methodName) => {
-        const method = (...params: any[]) => onCall((derive[sectionName] as any)[methodName], params);
+        // FIXME The callback extraction we do way too much - de-dupe
+        const method = (...args: Array<any>) => {
+          let callback: CodecCallback | undefined;
+          let params = args;
+
+          if (args.length && isFunction(args[args.length - 1])) {
+            callback = args[args.length - 1];
+            params = args.slice(0, args.length - 1);
+          }
+
+          return onCall((derive[sectionName] as any)[methodName], params, callback, !!callback);
+        };
+
         section[methodName] = method;
 
         return section;

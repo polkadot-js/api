@@ -13,7 +13,10 @@ describe.skip('e2e queries', () => {
   let api;
 
   beforeEach(async (done) => {
-    api = await Api.create();
+    if (!api) {
+      api = await Api.create();
+    }
+
     jest.setTimeout(30000);
     done();
   });
@@ -38,6 +41,14 @@ describe.skip('e2e queries', () => {
 
   it('subscribes to rpc', (done) => {
     api.rpc.chain.subscribeNewHead((header) => {
+      expect(header.blockNumber.isZero()).toBe(false);
+
+      done();
+    });
+  });
+
+  it('subscribes to derive', (done) => {
+    api.derive.chain.subscribeNewHead((header) => {
       expect(header.blockNumber.isZero()).toBe(false);
 
       done();
