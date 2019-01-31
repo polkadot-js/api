@@ -1,11 +1,12 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **SubmittableModuleExtrinsics**
 
 # Indexable
 
-\[index: `string`\]:&nbsp;[SubmittableExtrinsicFunction](_types_.submittableextrinsicfunction.md)<`OnCall`>
+\[index: `string`\]:&nbsp;[SubmittableExtrinsicFunction](_types_.submittableextrinsicfunction.md)<`CodecResult`, `SubscriptionResult`>

@@ -1,7 +1,8 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **ApiInterface$Decorated**
@@ -12,9 +13,9 @@
 
 ##  derive
 
-**● derive**: *[Derive](_types_.derive.md)<`OnCall`>*
+**● derive**: *[Derive](_types_.derive.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:101](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L101)*
+*Defined in [types.ts:114](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L114)*
 
 ___
 <a id="genesishash"></a>
@@ -23,7 +24,7 @@ ___
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [types.ts:97](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L97)*
+*Defined in [types.ts:110](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L110)*
 
 ___
 <a id="hassubscriptions"></a>
@@ -32,25 +33,25 @@ ___
 
 **● hasSubscriptions**: *`boolean`*
 
-*Defined in [types.ts:98](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L98)*
+*Defined in [types.ts:111](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L111)*
 
 ___
 <a id="query"></a>
 
 ##  query
 
-**● query**: *[QueryableStorage](_types_.queryablestorage.md)<`OnCall`>*
+**● query**: *[QueryableStorage](_types_.queryablestorage.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:102](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L102)*
+*Defined in [types.ts:115](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L115)*
 
 ___
 <a id="rpc"></a>
 
 ##  rpc
 
-**● rpc**: *[DecoratedRpc](_types_.decoratedrpc.md)<`OnCall`>*
+**● rpc**: *[DecoratedRpc](_types_.decoratedrpc.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:103](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L103)*
+*Defined in [types.ts:116](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L116)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -59,7 +60,7 @@ ___
 
 **● runtimeMetadata**: *`Metadata`*
 
-*Defined in [types.ts:99](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L99)*
+*Defined in [types.ts:112](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L112)*
 
 ___
 <a id="runtimeversion"></a>
@@ -68,16 +69,16 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [types.ts:100](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L100)*
+*Defined in [types.ts:113](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L113)*
 
 ___
 <a id="tx"></a>
 
 ##  tx
 
-**● tx**: *[SubmittableExtrinsics](_types_.submittableextrinsics.md)<`OnCall`>*
+**● tx**: *[SubmittableExtrinsics](_types_.submittableextrinsics.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:104](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/types.ts#L104)*
+*Defined in [types.ts:117](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/types.ts#L117)*
 
 ___
 

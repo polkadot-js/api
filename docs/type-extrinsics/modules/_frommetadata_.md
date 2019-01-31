@@ -8,7 +8,7 @@
 
 ▸ **fromMetadata**(metadata: *`MetadataV0`*): `ModulesWithMethods`
 
-*Defined in [fromMetadata.ts:21](https://github.com/polkadot-js/api/blob/8d7ca09/packages/type-extrinsics/src/fromMetadata.ts#L21)*
+*Defined in [fromMetadata.ts:21](https://github.com/polkadot-js/api/blob/661cb3c/packages/type-extrinsics/src/fromMetadata.ts#L21)*
 
 Extend a storage object with the storage modules & module functions present in the metadata.
 

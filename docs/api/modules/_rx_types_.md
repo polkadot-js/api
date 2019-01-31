@@ -8,19 +8,19 @@
 
 ### Type aliases
 
-* [OnCall](_rx_types_.md#oncall)
+* [RxResult](_rx_types_.md#rxresult)
 
 ---
 
 # Type aliases
 
-<a id="oncall"></a>
+<a id="rxresult"></a>
 
-##  OnCall
+##  RxResult
 
-**Ƭ OnCall**: *`Observable`<`Codec` | `null` | `undefined`>*
+**Ƭ RxResult**: *`Observable`<`Codec`>*
 
-*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/8d7ca09/packages/api/src/rx/types.ts#L10)*
+*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/661cb3c/packages/api/src/rx/types.ts#L10)*
 
 ___
 

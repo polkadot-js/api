@@ -1,11 +1,12 @@
 
 
 # Type parameters
-#### OnCall 
+#### CodecResult 
+#### SubscriptionResult 
 # Hierarchy
 
 **DecoratedRpc$Section**
 
 # Indexable
 
-\[index: `string`\]:&nbsp;[DecoratedRpc$Method](../modules/_types_.md#decoratedrpc_method)<`OnCall`>
+\[index: `string`\]:&nbsp;[DecoratedRpc$Method](_types_.decoratedrpc_method.md)<`CodecResult`, `SubscriptionResult`>
