@@ -320,6 +320,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
 
       this._rx.genesisHash = this._genesisHash;
+      this._rx.runtimeVersion = this._runtimeVersion;
       this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
       this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);

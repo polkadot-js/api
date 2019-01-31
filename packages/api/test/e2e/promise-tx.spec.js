@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { randomAsU8a } from '@polkadot/util-crypto';
+import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
 
@@ -103,14 +103,11 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a proposal', async () => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
-
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
-    const result = await api.tx.democracy
-      .propose(api.tx.consensus.setCode(randomAsU8a(1024)), 10000)
-      .sign(keyring.bob, { nonce })
-      .send();
+    const hash = await api.tx.democracy
+      .propose(api.tx.consensus.setCode(randomAsHex(4096)), 10000)
+      .signAndSend(keyring.bob);
 
     expect(hash.toHex()).toHaveLength(66);
   });

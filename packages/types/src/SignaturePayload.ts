@@ -98,12 +98,12 @@ export default class SignaturePayload extends Struct {
     const isLegacy = !version ||
       (version.specName.eq('node') && version.specVersion.ltn(18)) ||
       (version.specName.eq('polkadot') && version.specVersion.ltn(107));
-    const encoded = this.toU8a();
-    const signaturePayload = !isLegacy && (encoded.length > 256)
-      ? blake2AsU8a(encoded)
-      : encoded;
+    const u8a = this.toU8a();
+    const encoded = !isLegacy && (u8a.length > 256)
+      ? blake2AsU8a(u8a)
+      : u8a;
 
-    this._signature = signerPair.sign(signaturePayload);
+    this._signature = signerPair.sign(encoded);
 
     return this._signature;
   }
