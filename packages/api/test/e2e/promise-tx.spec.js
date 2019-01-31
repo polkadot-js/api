@@ -66,6 +66,15 @@ describe.skip('e2e transactions', () => {
       });
   });
 
+  it('makes a transfer (no callback)', async () => {
+    const result = await api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.dave);
+
+    // FIXME, we actually want the hash here, no callback
+    expect(result).toBeDefined();
+  });
+
   it.skip('makes a proposal', async () => {
     const nonce = await api.query.system.accountNonce(keyring.alice.address());
 
