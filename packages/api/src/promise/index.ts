@@ -148,7 +148,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
    * ```
    */
   constructor (options?: ApiOptions | ProviderInterface) {
-    super(options);
+    super(options, 'promise');
 
     this._isReady = new Promise((resolveReady) =>
       super.once('ready', () =>

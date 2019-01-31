@@ -12,7 +12,10 @@ describe.skip('e2e transactions', () => {
   let api;
 
   beforeEach(async (done) => {
-    api = await Api.create();
+    if (!api) {
+      api = await Api.create();
+    }
+
     jest.setTimeout(30000);
     done();
   });
@@ -67,15 +70,14 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (no callback)', async () => {
-    const result = await api.tx.balances
+    const hash = await api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .signAndSend(keyring.dave);
 
-    // FIXME, we actually want the hash here, no callback
-    expect(result).toBeDefined();
+    expect(hash.toHex()).toHaveLength(66);
   });
 
-  it.skip('makes a proposal', async () => {
+  it('makes a proposal', async () => {
     const nonce = await api.query.system.accountNonce(keyring.alice.address());
 
     // don't wait for status, just get hash
@@ -84,8 +86,6 @@ describe.skip('e2e transactions', () => {
       .sign(keyring.alice, nonce)
       .send();
 
-    expect(
-      hash.toString()
-    ).not.toEqual('0x');
+    expect(hash.toHex()).toHaveLength(66);
   });
 });
