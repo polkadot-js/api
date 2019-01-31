@@ -121,7 +121,11 @@ export type ApiInterface$Rx = ApiInterface$Decorated<RxResult, RxResult>;
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
+export type ApiType = 'promise' | 'rxjs';
+
 export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Readonly<ApiInterface$Decorated<CodecResult, SubscriptionResult>> {
+  readonly type: ApiType;
+
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
