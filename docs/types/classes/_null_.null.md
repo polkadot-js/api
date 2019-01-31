@@ -36,7 +36,7 @@
 
 getencodedLength(): `number`
 
-*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L17)*
+*Defined in [Null.ts:17](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L17)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -54,7 +54,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [Null.ts:24](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L24)*
+*Defined in [Null.ts:24](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L24)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -75,7 +75,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Null.ts:31](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L31)*
+*Defined in [Null.ts:31](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L31)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -90,7 +90,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Null.ts:38](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L38)*
+*Defined in [Null.ts:38](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L38)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -105,7 +105,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L45)*
+*Defined in [Null.ts:45](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L45)*
 
 *__description__*: Returns the string representation of the value
 
@@ -120,7 +120,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Null.ts:53](https://github.com/polkadot-js/api/blob/661cb3c/packages/types/src/Null.ts#L53)*
+*Defined in [Null.ts:53](https://github.com/polkadot-js/api/blob/8341538/packages/types/src/Null.ts#L53)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
