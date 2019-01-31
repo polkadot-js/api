@@ -24,6 +24,10 @@ type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
     ? Observable<SubmittableResult>
     : Promise<() => void>;
 
+const EMPTY_CALLBACK = () => {
+  // noop
+};
+
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
     super({
@@ -108,7 +112,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this._onCall(
       () => this.sendObservable(),
       [],
-      statusCb as CodecCallback,
+      // as per above FIXME, hack check for callback
+      (statusCb || EMPTY_CALLBACK) as CodecCallback,
       true
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
@@ -133,7 +138,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           )
         ),
         [],
-        statusCb as CodecCallback,
+        // as per above FIXME, hack check for callback
+        (statusCb || EMPTY_CALLBACK) as CodecCallback,
         true
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
