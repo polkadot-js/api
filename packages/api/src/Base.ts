@@ -13,7 +13,7 @@ import {
   HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
-  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
+  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
 import EventEmitter from 'eventemitter3';
@@ -148,6 +148,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   get type (): ApiType {
     return this._type;
+  }
+
+  /**
+   * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
+   */
+  setSigner(signer: Signer) {
+    this._rx.signer = signer;
   }
 
   /**

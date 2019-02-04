@@ -6,6 +6,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
+import SimpleSigner from "../util/SimpleSigner";
 
 const keyring = testingPairs();
 
@@ -92,6 +93,48 @@ describe.skip('e2e transactions', () => {
           }
         }
       });
+  });
+
+  it('makes a transfer (signAndSend via Signer)', async (done) => {
+    const signer = new SimpleSigner(keyring.dave);
+    api.setSigner(signer);
+    return api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.dave.address(), ({ events, status, type }) => {
+        console.log('Transaction status:', type);
+
+        if (type === 'Finalised') {
+          console.log('Completed at block hash', status.value.toHex());
+          console.log('Events:');
+
+          events.forEach(({ phase, event: { data, method, section } }) => {
+            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+          });
+
+          if (events.length) {
+            done();
+          }
+        }
+      });
+  });
+
+  it('makes a transfer (signAndSend via Signer) - sad path', async () => {
+    //no signer
+    api.setSigner();
+    await expect(api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.alice.address())).rejects.toThrow('no signer exists');
+    const signer = new SimpleSigner(keyring.dave);
+    api.setSigner(signer);
+    //no callback
+    await expect(api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.alice.address())).rejects.toThrow('does not have the keyringPair');
+    //with callback
+    await expect(api.tx.balances
+      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .signAndSend(keyring.alice.address(), ({ events, status, type }) => {
+      })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
