@@ -6,11 +6,11 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { Struct, Vector } from '@polkadot/types/codec';
 import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiType, OnCallDefinition } from './types';
+import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, mergeMap, switchMap } from 'rxjs/operators';
-import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { isBn, isFunction, isNumber, isUndefined, assert } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -163,7 +163,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     }
 
     const isSubscription = this._noStatusCb || !!statusCb;
-    const isKeyringPair = typeof (account as KeyringPair).address === 'function' && typeof (account as KeyringPair).sign === 'function';
+    const isKeyringPair = isFunction((account as KeyringPair).address) && isFunction((account as KeyringPair).sign);
     const address = isKeyringPair ? (account as KeyringPair).address() : account.toString();
     return this._onCall(
       () => (
@@ -173,18 +173,15 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
       ).pipe(
         first(),
         mergeMap(async (nonce) => {
-          if(isKeyringPair){
+          if (isKeyringPair) {
             this.sign(account as KeyringPair, { ...options, nonce });
-          }else{
-            if(!this._api.signer){
-              throw new Error('no signer exists');
-            }
-            await this._api.signer.sign(this, {
+          } else {
+            assert(this._api.signer, 'no signer exists');
+            await (this._api.signer as Signer).sign(this, address, {
               blockHash: options.blockHash || this._api.genesisHash,
               version: options.version || this._api.runtimeVersion,
               era: options.era,
-              nonce,
-              from: address
+              nonce
             });
           }
         }),

@@ -101,6 +101,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpcRx = new RpcRx(options.provider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
+    this._rx.signer = options.signer;
 
     if (options.types) {
       registry.register(options.types);
@@ -153,7 +154,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   /**
    * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
    */
-  setSigner(signer: Signer) {
+  setSigner (signer: Signer) {
     this._rx.signer = signer;
   }
 

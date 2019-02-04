@@ -6,7 +6,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
-import SimpleSigner from "../util/SimpleSigner";
+import SingleAccountSigner from "../util/SingleAccountSigner";
 
 const keyring = testingPairs();
 
@@ -96,7 +96,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (signAndSend via Signer)', async (done) => {
-    const signer = new SimpleSigner(keyring.dave);
+    const signer = new SingleAccountSigner(keyring.dave);
     api.setSigner(signer);
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
@@ -124,7 +124,7 @@ describe.skip('e2e transactions', () => {
     await expect(api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('no signer exists');
-    const signer = new SimpleSigner(keyring.dave);
+    const signer = new SingleAccountSigner(keyring.dave);
     api.setSigner(signer);
     //no callback
     await expect(api.tx.balances
