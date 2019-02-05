@@ -75,6 +75,10 @@ export default class Mock implements ProviderInterface {
     return true;
   }
 
+  disconnect (): void {
+    throw new Error('Unimplemented');
+  }
+
   isConnected (): boolean {
     return true;
   }
