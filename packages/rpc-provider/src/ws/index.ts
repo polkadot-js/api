@@ -103,6 +103,13 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   /**
+   * @description Returns a clone of the object
+   */
+  clone (): WsProvider {
+    return new WsProvider(this.endpoint);
+  }
+
+  /**
    * @summary Manually connect
    * @description The [[WsProvider]] connects automatically by default, however if you decided otherwise, you may
    * connect manually using this method.

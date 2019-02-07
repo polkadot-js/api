@@ -165,6 +165,16 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
   }
 
   /**
+   * @description Returns a clone of this ApiPromise instance (new underlying provider connection)
+   */
+  clone (): ApiPromise {
+    return new ApiPromise({
+      ...this._options,
+      source: this
+    });
+  }
+
+  /**
    * @description Creates a combinator that can be used to combine the latest results from multiple subscriptions
    * @param fns An array of function to combine, each in the form of `(cb: (value: void)) => void`
    * @param callback A callback that will return an Array of all the values this combinator has been applied to

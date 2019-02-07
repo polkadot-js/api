@@ -190,6 +190,16 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
     return this._isReady;
   }
 
+  /**
+   * @description Returns a clone of this ApiRx instance (new underlying provider connection)
+   */
+  clone (): ApiRx {
+    return new ApiRx({
+      ...this._options,
+      source: this
+    });
+  }
+
   protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = []): RxResult {
     return method(...params);
   }

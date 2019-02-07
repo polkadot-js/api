@@ -57,6 +57,13 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @description Returns a clone of the object
+   */
+  clone (): HttpProvider {
+    throw new Error('Unimplemented');
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
