@@ -4,22 +4,19 @@
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ReferendumInfo } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
+import { referendumInfo, ReferendumInfoExtended } from './referendumInfo';
 
 export function referendumInfos (api: ApiInterface$Rx) {
-  return (ids: Array<BN | number> = []): Observable<Array<ReferendumInfo>> => {
+  const referendumInfoOf = referendumInfo(api);
+
+  return (ids: Array<BN | number> = []): Observable<Array<ReferendumInfoExtended>> => {
     return !ids || !ids.length
       ? of([]).pipe(drr())
       : combineLatest(
-        ids.map(
-          (id) => (api.query.democracy.referendumInfoOf(id) as Observable<ReferendumInfo>).pipe(
-            filter((info) => !!info)
-          )
-        )
+        ids.map((id) => referendumInfoOf(id))
       ).pipe(
         drr()
       );
