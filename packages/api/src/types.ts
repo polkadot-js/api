@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
-import { CodecArg, CodecCallback, Constructor } from '@polkadot/types/types';
+import { CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
@@ -103,7 +103,7 @@ export interface ApiOptions {
    * @description Additional types used by runtime modules. This is nessusary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
-  types?: { [name: string]: Constructor };
+  types?: RegistryTypes;
 }
 
 export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {

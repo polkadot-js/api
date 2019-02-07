@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import { Codec, CodecArg, CodecCallback } from '@polkadot/types/types';
+import { Codec, CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
 import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
@@ -102,9 +102,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
 
-    if (options.types) {
-      registry.register(options.types);
-    }
+    this.registerTypes(options.types);
 
     this.init();
   }
@@ -274,6 +272,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._eventemitter.once(type, handler);
 
     return this;
+  }
+
+  /**
+   * @description Register additional user-defined of chain-specific types in the type registry
+   */
+  registerTypes (types?: RegistryTypes): void {
+    if (types) {
+      registry.register(types);
+    }
   }
 
   protected abstract onCall (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean): CodecResult | SubscriptionResult;
