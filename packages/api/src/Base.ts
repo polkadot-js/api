@@ -60,6 +60,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   private _derive?: Derive<CodecResult, SubscriptionResult>;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
+  private _isReady: boolean = false;
   protected readonly _options: ApiOptions;
   private _query?: QueryableStorage<CodecResult, SubscriptionResult>;
   private _rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
@@ -289,8 +290,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private init (): void {
-    let isReady: boolean = false;
-
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
     });
@@ -304,8 +303,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       const hasMeta = await this.loadMeta();
 
-      if (hasMeta && !isReady) {
-        isReady = true;
+      if (hasMeta && !this._isReady) {
+        this._isReady = true;
 
         this.emit('ready', this);
       }
@@ -316,7 +315,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     try {
       // only load from on-chain if we are not a clone (default path), alternatively
       // just use the values from the source instance provided
-      if (!this._options.source) {
+      if (!this._options.source || !this._options.source._isReady) {
         this._runtimeMetadata = await this._rpcBase.state.getMetadata();
         this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
         this._genesisHash = await this._rpcBase.chain.getBlockHash(0);

@@ -102,7 +102,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * ```
  */
 export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult> implements ApiPromiseInterface {
-  private _isReady: Promise<ApiPromise>;
+  private _isReadyPromise: Promise<ApiPromise>;
 
   /**
    * @description Creates an ApiPromise instance using the supplied provider. Returns an Promise containing the actual Api instance.
@@ -150,7 +150,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
   constructor (options?: ApiOptions | ProviderInterface) {
     super(options, 'promise');
 
-    this._isReady = new Promise((resolveReady) =>
+    this._isReadyPromise = new Promise((resolveReady) =>
       super.once('ready', () =>
         resolveReady(this)
       )
@@ -161,7 +161,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
    * @description Promise that returns the first time we are connected and loaded
    */
   get isReady (): Promise<ApiPromise> {
-    return this._isReady;
+    return this._isReadyPromise;
   }
 
   /**
