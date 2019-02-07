@@ -456,7 +456,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     // be converted from C to the actual result required
     decorated.hash = (arg?: CodecArg): HashResult<C, S> =>
       onCall(
-        (arg: CodecArg) => this._rpcRx.state.getStorageSize([method, arg]),
+        (arg: CodecArg) => this._rpcRx.state.getStorageHash([method, arg]),
         [arg]
       ) as unknown as HashResult<C, S>;
 
