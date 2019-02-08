@@ -4,7 +4,7 @@ The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow
 
 The API wrappers provide a standard interface for use -
 
-- A static `.create(<optional WsProvider>, <optional CustomTypes>)` that returns an API instance when connected, decorated and ready-to use
+- A static `.create(<optional WsProvider>, <optional CustomTypes>)` that returns an API instance when connected, decorated and ready-to use.
 - The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
   - [RPC (node interface)](../METHODS_RPC.md)
@@ -64,7 +64,7 @@ api.rpc.chain.subscribeNewHead().subscribe((header) => {
 
 ## Registering custom types
 
-Additional types used by runtime modules can be added when a new instanmce of the API is created. This is necessary if the runtime modules use types which are not available in the base Substrate runtime.
+Additional types used by runtime modules can be added when a new instance of the API is created. This is necessary if the runtime modules use types which are not available in the base Substrate runtime.
 
 ```javascript
 import { ApiPromise } from '@polkadot/api';
