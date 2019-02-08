@@ -128,6 +128,22 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   /**
+   * @description Manually disconnect from the connection, clearing autoconnect logic
+   */
+  disconnect (): void {
+    if (isNull(this.websocket)) {
+      throw new Error('Cannot disconnect on a non-open websocket');
+    }
+
+    // switch off autoConnect, we are in manual mode now
+    this.autoConnect = false;
+
+    // 1000 - Normal closure; the connection successfully completed
+    this.websocket.close(1000);
+    this.websocket = null;
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
@@ -238,7 +254,9 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketClose = (event: CloseEvent): void => {
-    l.error(`disconnected from ${this.endpoint}::${event.code}: ${event.reason}`);
+    if (this.autoConnect) {
+      l.error(`disconnected from ${this.endpoint}::${event.code}: ${event.reason}`);
+    }
 
     this._isConnected = false;
     this.emit('disconnected');

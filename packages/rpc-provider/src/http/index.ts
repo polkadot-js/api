@@ -64,6 +64,13 @@ export default class HttpProvider implements ProviderInterface {
   }
 
   /**
+   * @description Manually disconnect from the connection
+   */
+  disconnect (): void {
+    // noop
+  }
+
+  /**
    * @summary Whether the node is connected or not.
    * @return {boolean} true if connected
    */
