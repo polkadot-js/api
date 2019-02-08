@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-rx",
-  "version": "0.42.2",
+  "version": "0.42.3",
   "description": "An RxJs wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
@@ -30,8 +30,8 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "@polkadot/rpc-core": "^0.42.2",
-    "@polkadot/rpc-provider": "^0.42.2",
+    "@polkadot/rpc-core": "^0.42.3",
+    "@polkadot/rpc-provider": "^0.42.3",
     "@types/memoizee": "^0.4.2",
     "@types/rx": "^4.1.1",
     "memoizee": "^0.4.14",

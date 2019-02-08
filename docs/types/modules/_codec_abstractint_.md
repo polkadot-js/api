@@ -8,7 +8,7 @@
 
 **Ƭ UIntBitLength**: *`8` | `16` | `32` | `64` | `128` | `256`*
 
-*Defined in [codec/AbstractInt.ts:10](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/AbstractInt.ts#L10)*
+*Defined in [codec/AbstractInt.ts:10](https://github.com/polkadot-js/api/blob/a2f863c/packages/types/src/codec/AbstractInt.ts#L10)*
 
 ___
 
@@ -20,7 +20,7 @@ ___
 
 **● DEFAULT_UINT_BITS**: *`64`* = 64
 
-*Defined in [codec/AbstractInt.ts:12](https://github.com/polkadot-js/api/blob/ea7ecec/packages/types/src/codec/AbstractInt.ts#L12)*
+*Defined in [codec/AbstractInt.ts:12](https://github.com/polkadot-js/api/blob/a2f863c/packages/types/src/codec/AbstractInt.ts#L12)*
 
 ___
 
