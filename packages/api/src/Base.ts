@@ -227,6 +227,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   /**
+   * @description Disconnect from the underlying provider, halting all comms
+   */
+  disconnect (): void {
+    this._rpcBase.disconnect();
+  }
+
+  /**
    * @description Attach an eventemitter handler to listen to a specific event
    *
    * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
