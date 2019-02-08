@@ -100,7 +100,7 @@ export interface ApiOptions {
    */
   provider?: ProviderInterface;
   /**
-   * @description Additional types used by runtime modules. This is nessusary if the runtime modules
+   * @description Additional types used by runtime modules. This is necessary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
   types?: { [name: string]: Constructor };
