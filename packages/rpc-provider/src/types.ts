@@ -43,6 +43,7 @@ export type ProviderInterface$EmitCb = (value?: any) => any;
 
 export interface ProviderInterface {
   readonly hasSubscriptions: boolean;
+  clone (): ProviderInterface;
   disconnect (): void;
   isConnected (): boolean;
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void;

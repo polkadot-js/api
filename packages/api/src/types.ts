@@ -12,6 +12,7 @@ import { StorageFunction } from '@polkadot/types/StorageKey';
 
 import { RxResult } from './rx/types';
 import SubmittableExtrinsic from './SubmittableExtrinsic';
+import ApiBase from './Base';
 
 export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean) => CodecResult | SubscriptionResult;
 
@@ -99,6 +100,10 @@ export interface ApiOptions {
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
    */
   provider?: ProviderInterface;
+  /**
+   * @description The source object to use for runtime information (only used when cloning)
+   */
+  source?: ApiBase<any, any>;
   /**
    * @description Additional types used by runtime modules. This is nessusary if the runtime modules
    * uses types not available in the base Substrate runtime.

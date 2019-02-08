@@ -60,6 +60,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   private _derive?: Derive<CodecResult, SubscriptionResult>;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
+  private _isReady: boolean = false;
+  protected readonly _options: ApiOptions;
   private _query?: QueryableStorage<CodecResult, SubscriptionResult>;
   private _rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged
@@ -91,18 +93,23 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
+    const thisProvider = options.source
+      ? options.source._rpcBase._provider.clone()
+      : options.provider;
 
+    this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new RpcBase(options.provider);
+    this._rpcBase = new RpcBase(thisProvider);
 
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
-    this._rpcRx = new RpcRx(options.provider);
+    this._rpcRx = new RpcRx(thisProvider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
 
-    if (options.types) {
+    // we only re-register the types (global) if this is not a cloned instance
+    if (!options.source && options.types) {
       registry.register(options.types);
     }
 
@@ -290,8 +297,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private init (): void {
-    let isReady: boolean = false;
-
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
     });
@@ -305,8 +310,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       const hasMeta = await this.loadMeta();
 
-      if (hasMeta && !isReady) {
-        isReady = true;
+      if (hasMeta && !this._isReady) {
+        this._isReady = true;
 
         this.emit('ready', this);
       }
@@ -315,9 +320,17 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private async loadMeta (): Promise<boolean> {
     try {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+      // only load from on-chain if we are not a clone (default path), alternatively
+      // just use the values from the source instance provided
+      if (!this._options.source || !this._options.source._isReady) {
+        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+        this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+        this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+      } else {
+        this._runtimeMetadata = this._options.source.runtimeMetadata;
+        this._runtimeVersion = this._options.source.runtimeVersion;
+        this._genesisHash = this._options.source.genesisHash;
+      }
 
       const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
       const storage = storageFromMeta(this.runtimeMetadata.asV0);
@@ -332,8 +345,11 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._rx.query = this.decorateStorage(storage, rxOnCall);
       this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
 
-      Event.injectMetadata(this.runtimeMetadata.asV0);
-      Method.injectMethods(extrinsics);
+      // only inject if we are not a clone (global init)
+      if (!this._options.source) {
+        Event.injectMetadata(this.runtimeMetadata.asV0);
+        Method.injectMethods(extrinsics);
+      }
 
       return true;
     } catch (error) {
