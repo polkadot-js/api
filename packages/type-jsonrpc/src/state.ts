@@ -54,6 +54,14 @@ const getMetadata: RpcMethodOpt = {
   type: 'Metadata'
 };
 
+const getRuntimeVersion: RpcMethodOpt = {
+  description: 'Get the runtime version',
+  params: [
+    createParam('hash', 'Hash', { isOptional: true })
+  ],
+  type: 'RuntimeVersion'
+};
+
 const queryStorage: RpcMethodOpt = {
   description: 'Query historical storage entries (by key) starting from a start block',
   params: [
@@ -93,6 +101,7 @@ export default {
   methods: {
     call: createMethod(section, 'call', call),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
+    getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     getStorage: createMethod(section, 'getStorage', getStorage),
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
