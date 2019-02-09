@@ -16,19 +16,19 @@ import { drr } from '../util/drr';
  * A [[ReferendumInfo]] with an additional `referendumIndex` field
  */
 export class ReferendumInfoExtended extends ReferendumInfo {
-  private _referendumIndex: ReferendumIndex;
+  private _index: ReferendumIndex;
 
-  constructor (info: ReferendumInfo, referendumIndex: BN | number) {
+  constructor (info: ReferendumInfo, index: BN | number) {
     super(info);
 
-    this._referendumIndex = new ReferendumIndex(referendumIndex);
+    this._index = new ReferendumIndex(index);
   }
 
   /**
    * @description Convenience getter, returns the referendumIndex
    */
-  get referendumIndex (): ReferendumIndex {
-    return this._referendumIndex;
+  get index (): ReferendumIndex {
+    return this._index;
   }
 }
 
