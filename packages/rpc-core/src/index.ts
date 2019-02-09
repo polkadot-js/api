@@ -84,6 +84,13 @@ export default class Rpc implements RpcInterface {
     return `${method} (${inputs}): ${type}`;
   }
 
+  /**
+   * @description Manually disconnect from the attached provider
+   */
+  disconnect (): void {
+    this._provider.disconnect();
+  }
+
   private createInterface ({ methods }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)

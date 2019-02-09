@@ -15,6 +15,7 @@
 * [QueryableModuleStorage](../interfaces/_types_.queryablemodulestorage.md)
 * [QueryableStorage](../interfaces/_types_.queryablestorage.md)
 * [QueryableStorageFunctionBase](../interfaces/_types_.queryablestoragefunctionbase.md)
+* [Signer](../interfaces/_types_.signer.md)
 * [SubmittableExtrinsicFunction](../interfaces/_types_.submittableextrinsicfunction.md)
 * [SubmittableExtrinsics](../interfaces/_types_.submittableextrinsics.md)
 * [SubmittableModuleExtrinsics](../interfaces/_types_.submittablemoduleextrinsics.md)
@@ -41,7 +42,7 @@
 
 **Ƭ ApiInterface$Events**: *`RpcRxInterface$Events` | "ready"*
 
-*Defined in [types.ts:122](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L122)*
+*Defined in [types.ts:133](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L133)*
 
 ___
 <a id="apiinterface_rx"></a>
@@ -50,7 +51,7 @@ ___
 
 **Ƭ ApiInterface$Rx**: *[ApiInterface$Decorated](../interfaces/_types_.apiinterface_decorated.md)<[RxResult](_rx_types_.md#rxresult), [RxResult](_rx_types_.md#rxresult)>*
 
-*Defined in [types.ts:120](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L120)*
+*Defined in [types.ts:131](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L131)*
 
 ___
 <a id="apitype"></a>
@@ -59,7 +60,7 @@ ___
 
 **Ƭ ApiType**: *"promise" | "rxjs"*
 
-*Defined in [types.ts:124](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L124)*
+*Defined in [types.ts:135](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L135)*
 
 ___
 <a id="derivemethod"></a>
@@ -68,7 +69,7 @@ ___
 
 **Ƭ DeriveMethod**: *`function`*
 
-*Defined in [types.ts:86](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L86)*
+*Defined in [types.ts:88](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L88)*
 
 #### Type declaration
 ▸(...params: *`Array`<`CodecArg`>*): `CodecResult` | `SubscriptionResult`
@@ -88,7 +89,7 @@ ___
 
 **Ƭ HashResult**: *`HashResult&lt;CodecResult, SubscriptionResult&gt;`*
 
-*Defined in [types.ts:38](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L38)*
+*Defined in [types.ts:40](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L40)*
 
 ___
 <a id="oncalldefinition"></a>
@@ -97,7 +98,7 @@ ___
 
 **Ƭ OnCallDefinition**: *`function`*
 
-*Defined in [types.ts:16](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L16)*
+*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L18)*
 
 #### Type declaration
 ▸(method: *[OnCallFunction](_types_.md#oncallfunction)<[RxResult](_rx_types_.md#rxresult), [RxResult](_rx_types_.md#rxresult)>*, params?: *`Array`<`CodecArg`>*, callback?: *`CodecCallback`*, needsCallback?: *`undefined` | `false` | `true`*): `CodecResult` | `SubscriptionResult`
@@ -120,7 +121,7 @@ ___
 
 **Ƭ OnCallFunction**: *`function`*
 
-*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L18)*
+*Defined in [types.ts:20](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L20)*
 
 #### Type declaration
 ▸(...params: *`Array`<`CodecArg`>*): `CodecResult` | `SubscriptionResult`
@@ -140,7 +141,7 @@ ___
 
 **Ƭ QueryableStorageFunction**: *`QueryableStorageFunction&lt;CodecResult, SubscriptionResult&gt;`*
 
-*Defined in [types.ts:61](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L61)*
+*Defined in [types.ts:63](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L63)*
 
 ___
 <a id="u64result"></a>
@@ -149,7 +150,7 @@ ___
 
 **Ƭ U64Result**: *`U64Result&lt;CodecResult, SubscriptionResult&gt;`*
 
-*Defined in [types.ts:43](https://github.com/polkadot-js/api/blob/ea7ecec/packages/api/src/types.ts#L43)*
+*Defined in [types.ts:45](https://github.com/polkadot-js/api/blob/c1672e8/packages/api/src/types.ts#L45)*
 
 ___
 
