@@ -8,7 +8,7 @@
 
 ▸ **bestNumberFinalised**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/bestNumberFinalised.ts:23](https://github.com/polkadot-js/api/blob/c1672e8/packages/api-derive/src/chain/bestNumberFinalised.ts#L23)*
+*Defined in [chain/bestNumberFinalised.ts:23](https://github.com/polkadot-js/api/blob/b960580/packages/api-derive/src/chain/bestNumberFinalised.ts#L23)*
 
 *__description__*: Get the latest finalised block number. example  
 
