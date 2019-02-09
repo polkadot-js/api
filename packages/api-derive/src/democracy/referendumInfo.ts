@@ -13,7 +13,7 @@ import { drr } from '../util/drr';
 /**
  * @name ReferendumInfoExtended
  * @description
- * A [[ReferendumInfo]] with an additional `referendumIndex` field
+ * A [[ReferendumInfo]] with an additional `index` field
  */
 export class ReferendumInfoExtended extends ReferendumInfo {
   private _index: ReferendumIndex;
