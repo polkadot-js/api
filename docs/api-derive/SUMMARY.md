@@ -17,6 +17,8 @@
 * [&quot;chain/index&quot;](modules/_chain_index_.md)
 * [&quot;chain/subscribeNewHead&quot;](modules/_chain_subscribenewhead_.md)
 * [&quot;democracy/index&quot;](modules/_democracy_index_.md)
+* [&quot;democracy/referendumInfo&quot;](modules/_democracy_referenduminfo_.md)
+  * [ReferendumInfoExtended](classes/_democracy_referenduminfo_.referenduminfoextended.md)
 * [&quot;democracy/referendumInfos&quot;](modules/_democracy_referenduminfos_.md)
 * [&quot;democracy/referendumVotesFor&quot;](modules/_democracy_referendumvotesfor_.md)
 * [&quot;democracy/referendums&quot;](modules/_democracy_referendums_.md)

@@ -12,7 +12,7 @@
 
 ▸ **sign**(extrinsic: *`Extrinsic`*, address: *`string`*, opt: *`SignatureOptions`*): `Promise`<`void`>
 
-*Defined in [types.ts:145](https://github.com/polkadot-js/api/blob/b960580/packages/api/src/types.ts#L145)*
+*Defined in [types.ts:145](https://github.com/polkadot-js/api/blob/b40d7a3/packages/api/src/types.ts#L145)*
 
 **Parameters:**
 
