@@ -145,7 +145,7 @@ export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: Extrinsic, address: string, opt: SignatureOptions): Promise<number>;
+  sign (extrinsic: Extrinsic, address: string, options: SignatureOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
