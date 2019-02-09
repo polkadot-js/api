@@ -20,7 +20,7 @@
 
 **Ƭ RxResult**: *`Observable`<`Codec`>*
 
-*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/b40d7a3/packages/api/src/rx/types.ts#L10)*
+*Defined in [rx/types.ts:10](https://github.com/polkadot-js/api/blob/6d759cd/packages/api/src/rx/types.ts#L10)*
 
 ___
 

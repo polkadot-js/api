@@ -8,7 +8,7 @@
 
 ▸ **validatingBalance**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [balances/validatingBalance.ts:16](https://github.com/polkadot-js/api/blob/b40d7a3/packages/api-derive/src/balances/validatingBalance.ts#L16)*
+*Defined in [balances/validatingBalance.ts:16](https://github.com/polkadot-js/api/blob/6d759cd/packages/api-derive/src/balances/validatingBalance.ts#L16)*
 
 **Parameters:**
 
