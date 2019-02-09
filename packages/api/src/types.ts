@@ -148,7 +148,7 @@ export interface Signer {
   sign (extrinsic: Extrinsic, address: string, opt: SignatureOptions): Promise<number>;
 
   /**
-   * @description Receives an update for the extrinsic signed by `sign`. id === -1 when not submitted via signAndSend
+   * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
   update?: (id: number, status: Hash | SubmittableResult) => void;
 }
