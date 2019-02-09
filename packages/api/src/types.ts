@@ -5,9 +5,9 @@
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion, u64 as U64, Extrinsic } from '@polkadot/types/index';
+import { Extrinsic, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
 import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
-import { CodecArg, CodecCallback, Constructor } from '@polkadot/types/types';
+import { CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
@@ -102,6 +102,10 @@ export interface ApiOptions {
    */
   provider?: ProviderInterface;
   /**
+   * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
+   */
+  signer?: Signer;
+  /**
    * @description The source object to use for runtime information (only used when cloning)
    */
   source?: ApiBase<any, any>;
@@ -109,11 +113,7 @@ export interface ApiOptions {
    * @description Additional types used by runtime modules. This is nessusary if the runtime modules
    * uses types not available in the base Substrate runtime.
    */
-  types?: { [name: string]: Constructor };
-  /**
-   * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
-   */
-  signer?: Signer;
+  types?: RegistryTypes;
 }
 
 export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
