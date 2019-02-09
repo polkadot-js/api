@@ -20,7 +20,7 @@
 
 ▸ **decorateDerive**(api: *`ApiInterface$Rx`*): [Derive](../interfaces/_index_.derive.md)
 
-*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/b2f0618/packages/api-derive/src/index.ts#L35)*
+*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/c1672e8/packages/api-derive/src/index.ts#L35)*
 
 **Parameters:**
 
