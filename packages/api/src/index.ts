@@ -4,3 +4,4 @@
 
 export { default as ApiPromise } from './promise';
 export { default as ApiRx } from './rx';
+export { default as SubmittableExtrinsic, SubmittableResult } from './SubmittableExtrinsic';

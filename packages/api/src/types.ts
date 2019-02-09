@@ -12,7 +12,7 @@ import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 
 import { RxResult } from './rx/types';
-import SubmittableExtrinsic from './SubmittableExtrinsic';
+import SubmittableExtrinsic, { SubmittableResult } from './SubmittableExtrinsic';
 import ApiBase from './Base';
 
 export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean) => CodecResult | SubscriptionResult;
@@ -142,5 +142,13 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
 }
 
 export interface Signer {
-  sign (extrinsic: Extrinsic, address: string, opt: SignatureOptions): Promise<void>;
+  /**
+   * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
+   */
+  sign (extrinsic: Extrinsic, address: string, opt: SignatureOptions): Promise<number>;
+
+  /**
+   * @description Receives an update for the extrinsic signed by `sign`. id === -1 when not submitted via signAndSend
+   */
+  update?: (id: number, status: Hash | SubmittableResult) => void;
 }
