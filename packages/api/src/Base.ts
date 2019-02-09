@@ -13,7 +13,7 @@ import {
   HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
-  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
+  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
 import EventEmitter from 'eventemitter3';
@@ -107,6 +107,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpcRx = new RpcRx(thisProvider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
+    this._rx.signer = options.signer;
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source && options.types) {
@@ -155,6 +156,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   get type (): ApiType {
     return this._type;
+  }
+
+  /**
+   * @description Set an external signer which will be used to sign extrinsic when account passed in is not KeyringPair
+   */
+  setSigner (signer: Signer) {
+    this._rx.signer = signer;
   }
 
   /**

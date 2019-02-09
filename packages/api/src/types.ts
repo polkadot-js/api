@@ -5,7 +5,8 @@
 import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
+import { Hash, Metadata, RuntimeVersion, u64 as U64, Extrinsic } from '@polkadot/types/index';
+import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 import { CodecArg, CodecCallback, Constructor } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
@@ -109,6 +110,10 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: { [name: string]: Constructor };
+  /**
+   * @description An external signer which will be used to sign extrinsic when account passed in is not KeyringPair
+   */
+  signer?: Signer;
 }
 
 export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
@@ -120,6 +125,7 @@ export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   query: QueryableStorage<CodecResult, SubscriptionResult>;
   rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   tx: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
+  signer?: Signer;
 }
 
 export type ApiInterface$Rx = ApiInterface$Decorated<RxResult, RxResult>;
@@ -133,4 +139,8 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
 
   on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
+}
+
+export interface Signer {
+  sign (extrinsic: Extrinsic, address: string, opt: SignatureOptions): Promise<void>;
 }

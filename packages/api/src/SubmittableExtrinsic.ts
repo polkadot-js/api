@@ -4,13 +4,13 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Struct, Vector } from '@polkadot/types/codec';
-import { Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
+import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiType, OnCallDefinition } from './types';
+import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
-import { isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { first, map, mergeMap, switchMap } from 'rxjs/operators';
+import { isBn, isFunction, isNumber, isUndefined, assert } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -151,9 +151,9 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  signAndSend (account: KeyringPair, options?: Partial<SignatureOptionsPartial>): SumbitableResultResult<CodecResult, SubscriptionResult>;
-  signAndSend (account: KeyringPair, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
-  signAndSend (account: KeyringPair, _options?: Partial<SignatureOptionsPartial> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+  signAndSend (account: KeyringPair | string | AccountId | Address, options?: Partial<SignatureOptionsPartial>): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair | string | AccountId | Address, _options?: Partial<SignatureOptionsPartial> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
     let options: Partial<SignatureOptionsPartial> = {};
 
     if (isFunction(_options)) {
@@ -163,25 +163,37 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     }
 
     const isSubscription = this._noStatusCb || !!statusCb;
-
+    const isKeyringPair = isFunction((account as KeyringPair).address) && isFunction((account as KeyringPair).sign);
+    const address = isKeyringPair ? (account as KeyringPair).address() : account.toString();
     return this._onCall(
       () => (
         isUndefined(options.nonce)
-          ? this._api.query.system.accountNonce(account.address()) as Observable<Index>
+          ? this._api.query.system.accountNonce(address) as Observable<Index>
           : of(new Index(options.nonce))
-        ).pipe(
-          first(),
-          switchMap((nonce) => {
-            this.sign(account, { ...options, nonce });
-
-            return isSubscription
-              ? this.subscribeObservable()
-              : this.sendObservable() as any; // ???
-          })
-        ),
-        [],
-        statusCb as CodecCallback,
-        isSubscription
+      ).pipe(
+        first(),
+        mergeMap(async (nonce) => {
+          if (isKeyringPair) {
+            this.sign(account as KeyringPair, { ...options, nonce });
+          } else {
+            assert(this._api.signer, 'no signer exists');
+            await (this._api.signer as Signer).sign(this, address, {
+              blockHash: options.blockHash || this._api.genesisHash,
+              version: options.version || this._api.runtimeVersion,
+              era: options.era,
+              nonce
+            });
+          }
+        }),
+        switchMap(() => {
+          return isSubscription
+            ? this.subscribeObservable()
+            : this.sendObservable() as any; // ???
+        })
+      ),
+      [],
+      statusCb as CodecCallback,
+      isSubscription
     ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
   }
 }
