@@ -79,7 +79,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
   }
 
   private updateSigner (updateId: number, status: Hash | SubmittableResult): void {
-    if (updateId && this._api.signer && this._api.signer.update) {
+    if (this._api.signer && this._api.signer.update) {
       this._api.signer.update(updateId, status);
     }
   }
