@@ -190,7 +190,9 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return this.type;
+    return this.isNull
+      ? this.type
+      : JSON.stringify(this.toJSON());
   }
 
   /**

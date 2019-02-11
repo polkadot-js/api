@@ -6,6 +6,7 @@ import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
 import Text from '../Text';
+import EnumType from './EnumType';
 import Compact from './Compact';
 import Option from './Option';
 import Struct from './Struct';
@@ -13,7 +14,6 @@ import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 import registry from './typeRegistry';
-import { EnumType } from '.';
 
 export enum TypeDefInfo {
   Compact,
