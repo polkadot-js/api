@@ -137,7 +137,6 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef): Constructor {
-  console.error(value);
   if (value.info === TypeDefInfo.Compact) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
