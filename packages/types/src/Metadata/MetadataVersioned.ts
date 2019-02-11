@@ -11,6 +11,7 @@ import Struct from '../codec/Struct';
 import Null from '../Null';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
+import MetadataV2 from './v2';
 import v1ToV0 from './v1/toV0';
 import MagicNumber from './MagicNumber';
 
@@ -18,7 +19,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1> {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with Null
-      MetadataV1
+      MetadataV1,
+      MetadataV2
     }, value);
   }
 
@@ -34,6 +36,13 @@ class MetadataEnum extends EnumType<Null | MetadataV1> {
    */
   get asV1 (): MetadataV1 {
     return this.value as MetadataV1;
+  }
+
+  /**
+   * @description Returns the wrapped values as a V1 object
+   */
+  get asV2 (): MetadataV2 {
+    return this.value as MetadataV2;
   }
 
   /**
@@ -88,10 +97,10 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
       return this.metadata.asV0;
     }
 
-    assert(this.metadata.version === 1, `Cannot convert metadata from v${this.metadata.version} to v0`);
+    const v1 = this.asV1;
 
     if (isUndefined(this._convertedV0)) {
-      this._convertedV0 = v1ToV0(this.metadata.asV1);
+      this._convertedV0 = v1ToV0(v1);
     }
 
     return this._convertedV0;
@@ -101,9 +110,19 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
    * @description Returns the wrapped values as a V1 object
    */
   get asV1 (): MetadataV1 {
-    assert(this.metadata.version === 1, `Cannot convert metadata from v${this.metadata.version} to v1`);
+    if (this.metadata.version === 1) {
+      return this.metadata.asV1;
+    }
+    throw new Error('Unimplemented');
+  }
 
-    return this.metadata.asV1;
+  /**
+   * @description Returns the wrapped values as a V1 object
+   */
+  get asV2 (): MetadataV2 {
+    assert(this.metadata.version === 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
+
+    return this.metadata.asV2;
   }
 
   getUniqTypes (): Array<string> {
