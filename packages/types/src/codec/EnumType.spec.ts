@@ -23,7 +23,7 @@ describe('Struct', () => {
         { Text, U32 },
         new Uint8Array([1, 2 << 2, 49, 50])
       ).toString()
-    ).toEqual('U32');
+    ).toEqual('{"U32":3289352}');
   });
 
   it('decodes from a JSON input (lowercase)', () => {
