@@ -13,9 +13,11 @@ import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 import registry from './typeRegistry';
+import { EnumType } from '.';
 
 export enum TypeDefInfo {
   Compact,
+  Enum,
   Option,
   Plain,
   Struct,
@@ -105,9 +107,20 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
+    const keys = Object.keys(parsed);
 
-    value.info = TypeDefInfo.Struct;
-    value.sub = Object.keys(parsed).map((name) => getTypeDef(parsed[name], name));
+    if (keys.length === 1 && keys[0] === '_enum') {
+      const details = parsed[keys[0]];
+
+      // not as pretty, but remain compatible with oo7 for both struct and Array types
+      value.sub = Array.isArray(details)
+        ? details.map((name) => ({ info: TypeDefInfo.Plain, name, type: 'Null' }))
+        : Object.keys(details).map((name) => ({ info: TypeDefInfo.Plain, name, type: details[name] || 'Null' }));
+      value.info = TypeDefInfo.Enum;
+    } else {
+      value.info = TypeDefInfo.Struct;
+      value.sub = keys.map((name) => getTypeDef(parsed[name], name));
+    }
   } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
     value.sub = getTypeDef(subType);
@@ -124,11 +137,22 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef): Constructor {
+  console.error(value);
   if (value.info === TypeDefInfo.Compact) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
     return Compact.with(
       getTypeClass(value.sub as TypeDef) as Constructor<UInt>
+    );
+  } else if (value.info === TypeDefInfo.Enum) {
+    assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
+
+    return EnumType.with(
+      (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
+        result[sub.name as string] = getTypeClass(sub);
+
+        return result;
+      }, {} as { [index: string]: Constructor })
     );
   } else if (value.info === TypeDefInfo.Option) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');

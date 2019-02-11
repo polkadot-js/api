@@ -212,4 +212,16 @@ describe('createType', () => {
       index: 16
     });
   });
+
+  it('allows creation of a Enum (simple)', () => {
+    expect(
+      createType('{"_enum": ["A", "B", "C"]}', 1).toJSON()
+    ).toEqual({ B: null });
+  });
+
+  it('allows creation of a Enum (parametrised)', () => {
+    expect(
+      createType('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
+    ).toEqual({ B: 0 });
+  });
 });
