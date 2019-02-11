@@ -370,6 +370,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._runtimeVersion = this._options.source.runtimeVersion;
         this._genesisHash = this._options.source.genesisHash;
       }
+      if (this.runtimeMetadata.version === 2) {
+        getTypeRegistry().register(this.runtimeMetadata.asV2.typeRegistry);
+      }
 
       const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
       const storage = storageFromMeta(this.runtimeMetadata.asV0);

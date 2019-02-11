@@ -5,13 +5,13 @@
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
+import { MetadataName } from './MetadataRegistry';
 
 export class MetadataCallArg extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      type: Type
+      type: MetadataName
     }, value);
   }
 
@@ -23,10 +23,10 @@ export class MetadataCallArg extends Struct {
   }
 
   /**
-   * @description The [[Type]]
+   * @description The [[MetadataName]]
    */
-  get type (): Type {
-    return this.get('type') as Type;
+  get type (): MetadataName {
+    return this.get('type') as MetadataName;
   }
 }
 

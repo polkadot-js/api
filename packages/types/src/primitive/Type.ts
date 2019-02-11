@@ -46,7 +46,7 @@ export default class Type extends Text {
       // remove boxing, `Box<Proposal>` -> `Proposal`
       Type._removeWrap('Box'),
       // remove generics, `MisbehaviorReport<Hash, BlockNumber>` -> `MisbehaviorReport`
-      Type._removeGenerics(),
+      // Type._removeGenerics(),
       // alias String -> Text (compat with jsonrpc methods)
       Type._alias('String', 'Text'),
       // alias () -> Null
@@ -89,6 +89,28 @@ export default class Type extends Text {
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
     // helper, so treat it as such.
     throw new Error('Type::toU8a: unimplemented');
+  }
+
+  removeGenerics (): Type {
+    let value = this.toString();
+    for (let index = 0; index < value.length; index++) {
+      if (value[index] === '<') {
+        // check against the allowed wrappers, be it Vec<..>, Option<...> ...
+        const box = ALLOWED_BOXES.find((box) => {
+          const start = index - box.length;
+
+          return start >= 0 && value.substr(start, box.length) === box;
+        });
+
+        // we have not found anything, unwrap generic innards
+        if (!box) {
+          const end = Type._findClosing(value, index + 1);
+
+          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+        }
+      }
+    }
+    return new Type(value);
   }
 
   // given a starting index, find the closing >
@@ -142,29 +164,29 @@ export default class Type extends Text {
     };
   }
 
-  private static _removeGenerics (): Mapper {
-    return (value: string): string => {
-      for (let index = 0; index < value.length; index++) {
-        if (value[index] === '<') {
-          // check against the allowed wrappers, be it Vec<..>, Option<...> ...
-          const box = ALLOWED_BOXES.find((box) => {
-            const start = index - box.length;
-
-            return start >= 0 && value.substr(start, box.length) === box;
-          });
-
-          // we have not found anything, unwrap generic innards
-          if (!box) {
-            const end = Type._findClosing(value, index + 1);
-
-            value = `${value.substr(0, index)}${value.substr(end + 1)}`;
-          }
-        }
-      }
-
-      return value;
-    };
-  }
+  // private static _removeGenerics (): Mapper {
+  //   return (value: string): string => {
+  //     for (let index = 0; index < value.length; index++) {
+  //       if (value[index] === '<') {
+  //         // check against the allowed wrappers, be it Vec<..>, Option<...> ...
+  //         const box = ALLOWED_BOXES.find((box) => {
+  //           const start = index - box.length;
+  //
+  //           return start >= 0 && value.substr(start, box.length) === box;
+  //         });
+  //
+  //         // we have not found anything, unwrap generic innards
+  //         if (!box) {
+  //           const end = Type._findClosing(value, index + 1);
+  //
+  //           value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+  //         }
+  //       }
+  //     }
+  //
+  //     return value;
+  //   };
+  // }
 
   // remove the PairOf wrappers
   private static _removePairOf (): Mapper {

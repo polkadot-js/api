@@ -15,7 +15,7 @@ import SingleAccountSigner from "../util/SingleAccountSigner";
 
 const keyring = testingPairs({ type: 'ed25519' });
 
-describe.skip('e2e transactions', () => {
+describe('e2e transactions', () => {
   let api;
 
   beforeEach(async (done) => {

@@ -9,7 +9,7 @@ import Api from '../../src/promise';
 
 const keyring = testingPairs({ type: 'ed25519' });
 
-describe.skip('e2e queries', () => {
+describe('e2e queries', () => {
   let api;
 
   beforeEach(async (done) => {
@@ -33,7 +33,8 @@ describe.skip('e2e queries', () => {
 
   it('queries state for a balance', async () => {
     const balance = await api.query.balances.freeBalance(keyring.alice.address());
-
+    const ts = await api.query.timestamp.now();
+    console.log(ts);
     expect(
       balance.isZero()
     ).toBe(false);
@@ -63,7 +64,7 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it('subscribes to queries (default)', (done) => {
+  it.only('subscribes to queries (default)', (done) => {
     api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
