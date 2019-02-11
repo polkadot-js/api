@@ -20,21 +20,48 @@
 
 ##  constructor
 
-⊕ **new Vote**(value?: *[AnyNumber](../modules/_types_.md#anynumber)*): [Vote](_vote_.vote.md)
+⊕ **new Vote**(value?: *`any`*): [Vote](_vote_.vote.md)
 
-*Inherited from [I8](_i8_.i8.md).[constructor](_i8_.i8.md#constructor)*
+*Overrides [I8](_i8_.i8.md).[constructor](_i8_.i8.md#constructor)*
 
-*Overrides [Int](_codec_int_.int.md).[constructor](_codec_int_.int.md#constructor)*
-
-*Defined in [I8.ts:14](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/I8.ts#L14)*
+*Defined in [Vote.ts:14](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/Vote.ts#L14)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| `Optional` value | [AnyNumber](../modules/_types_.md#anynumber) |
+| `Optional` value | `any` |
 
 **Returns:** [Vote](_vote_.vote.md)
+
+___
+
+# Accessors
+
+<a id="isaye"></a>
+
+##  isAye
+
+getisAye(): `boolean`
+
+*Defined in [Vote.ts:32](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/Vote.ts#L32)*
+
+*__description__*: true is the wrapped value is a positive vote
+
+**Returns:** `boolean`
+
+___
+<a id="isnay"></a>
+
+##  isNay
+
+getisNay(): `boolean`
+
+*Defined in [Vote.ts:39](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/Vote.ts#L39)*
+
+*__description__*: true is the wrapped value is a negative vote
+
+**Returns:** `boolean`
 
 ___
 
@@ -52,7 +79,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/codec/Int.ts#L36)*
+*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/Int.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -71,7 +98,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/codec/Int.ts#L48)*
+*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/Int.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

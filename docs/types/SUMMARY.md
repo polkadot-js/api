@@ -283,6 +283,7 @@
 * [&quot;VoteThreshold&quot;](modules/_votethreshold_.md)
   * [VoteThreshold](classes/_votethreshold_.votethreshold.md)
 * [&quot;VoteThreshold.spec&quot;](modules/_votethreshold_spec_.md)
+* [&quot;Votes.spec&quot;](modules/_votes_spec_.md)
 * [&quot;classes&quot;](modules/_classes_.md)
 * [&quot;codec/AbstractInt&quot;](modules/_codec_abstractint_.md)
 * [&quot;codec/Base&quot;](modules/_codec_base_.md)
