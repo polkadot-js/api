@@ -23,7 +23,7 @@ describe('Struct', () => {
         { Text, U32 },
         new Uint8Array([1, 2 << 2, 49, 50])
       ).toString()
-    ).toEqual('U32');
+    ).toEqual('{"U32":3289352}');
   });
 
   it('decodes from a JSON input (lowercase)', () => {
@@ -77,6 +77,16 @@ describe('Struct', () => {
     }
 
     expect(new Test().toJSON()).toEqual({ a: null });
+  });
+
+  it('creates via with', () => {
+    class A extends Null { }
+    class B extends U32 { }
+    class C extends Null { }
+    const Test = EnumType.with({ A, B, C });
+
+    expect(new Test().toJSON()).toEqual({ A: null });
+    expect(new Test(1234, 1).toJSON()).toEqual({ B: 1234 });
   });
 
   // We are currently not using this approach, none of the types in Substrate currently
