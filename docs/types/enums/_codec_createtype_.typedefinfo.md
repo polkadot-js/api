@@ -5,6 +5,7 @@
 ### Enumeration members
 
 * [Compact](_codec_createtype_.typedefinfo.md#compact)
+* [Enum](_codec_createtype_.typedefinfo.md#enum)
 * [Option](_codec_createtype_.typedefinfo.md#option)
 * [Plain](_codec_createtype_.typedefinfo.md#plain)
 * [Struct](_codec_createtype_.typedefinfo.md#struct)
@@ -21,7 +22,16 @@
 
 **Compact**: 
 
-*Defined in [codec/createType.ts:18](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L18)*
+*Defined in [codec/createType.ts:19](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L19)*
+
+___
+<a id="enum"></a>
+
+##  Enum
+
+**Enum**: 
+
+*Defined in [codec/createType.ts:20](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L20)*
 
 ___
 <a id="option"></a>
@@ -30,7 +40,7 @@ ___
 
 **Option**: 
 
-*Defined in [codec/createType.ts:19](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L19)*
+*Defined in [codec/createType.ts:21](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L21)*
 
 ___
 <a id="plain"></a>
@@ -39,7 +49,7 @@ ___
 
 **Plain**: 
 
-*Defined in [codec/createType.ts:20](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L20)*
+*Defined in [codec/createType.ts:22](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L22)*
 
 ___
 <a id="struct"></a>
@@ -48,7 +58,7 @@ ___
 
 **Struct**: 
 
-*Defined in [codec/createType.ts:21](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L21)*
+*Defined in [codec/createType.ts:23](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L23)*
 
 ___
 <a id="tuple"></a>
@@ -57,7 +67,7 @@ ___
 
 **Tuple**: 
 
-*Defined in [codec/createType.ts:22](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L22)*
+*Defined in [codec/createType.ts:24](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L24)*
 
 ___
 <a id="vector"></a>
@@ -66,7 +76,7 @@ ___
 
 **Vector**: 
 
-*Defined in [codec/createType.ts:23](https://github.com/polkadot-js/api/blob/96624a6/packages/types/src/codec/createType.ts#L23)*
+*Defined in [codec/createType.ts:25](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/createType.ts#L25)*
 
 ___
 
