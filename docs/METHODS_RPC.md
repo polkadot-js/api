@@ -46,7 +46,7 @@ _Retrieval of chain data_
 - **summary**: Retrieves the header for a specific block
 
 ▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
-- **summary**: Get the runtime version
+- **summary**: Get the runtime version (alias of state_getRuntimeVersion)
 
 ▸ **subscribeFinalisedHeads**(): `Header`
 - **summary**: Retrieves the best finalised header via subscription
@@ -69,6 +69,9 @@ _Query of state_
 
 ▸ **getMetadata**(block?: `Hash`): `Metadata`
 - **summary**: Returns the runtime metadata
+
+▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
+- **summary**: Get the runtime version
 
 ▸ **getStorage**(key: `StorageKey`, block?: `Hash`): `StorageData`
 - **summary**: Retrieves the storage for a key

@@ -67,3 +67,7 @@ export type Constructor<T = Codec> = { new(value?: any): T };
 export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 
 export type TypeDef = { [index: string]: Codec };
+
+export type RegistryTypes = {
+  [name: string]: Constructor | string | { [name: string]: string }
+};

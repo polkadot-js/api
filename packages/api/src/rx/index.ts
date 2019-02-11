@@ -113,7 +113,7 @@ import ApiBase from '../Base';
  * ```
  */
 export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxInterface {
-  private _isReady: Observable<ApiRx>;
+  private _isReadyRx: Observable<ApiRx>;
 
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
@@ -166,7 +166,7 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
   constructor (provider?: ApiOptions | ProviderInterface) {
     super(provider, 'rxjs');
 
-    this._isReady = from(
+    this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better
       new Promise((resolveReady) =>
         super.on('ready', () =>
@@ -187,7 +187,17 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
    * @description Observable that returns the first time we are connected and loaded
    */
   get isReady (): Observable<ApiRx> {
-    return this._isReady;
+    return this._isReadyRx;
+  }
+
+  /**
+   * @description Returns a clone of this ApiRx instance (new underlying provider connection)
+   */
+  clone (): ApiRx {
+    return new ApiRx({
+      ...this._options,
+      source: this
+    });
   }
 
   protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = []): RxResult {
