@@ -92,12 +92,16 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   /**
    * @description Returns the wrapped metadata as a V0 object
    */
-  get asV0 (): MetadataV0 {
+  get asV0 (): MetadataV0 | undefined {
     if (this.metadata.version === 0) {
       return this.metadata.asV0;
     }
 
     const v1 = this.asV1;
+
+    if (isUndefined(v1)) {
+      return undefined;
+    }
 
     if (isUndefined(this._convertedV0)) {
       this._convertedV0 = v1ToV0(v1);
@@ -109,20 +113,21 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   /**
    * @description Returns the wrapped values as a V1 object
    */
-  get asV1 (): MetadataV1 {
+  get asV1 (): MetadataV1 | undefined {
     if (this.metadata.version === 1) {
       return this.metadata.asV1;
     }
-    throw new Error('Unimplemented');
+    return undefined;
   }
 
   /**
    * @description Returns the wrapped values as a V1 object
    */
-  get asV2 (): MetadataV2 {
-    assert(this.metadata.version === 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
-
-    return this.metadata.asV2;
+  get asV2 (): MetadataV2 | undefined {
+    if (this.metadata.version === 2) {
+      return this.metadata.asV2;
+    }
+    return undefined;
   }
 
   getUniqTypes (): Array<string> {

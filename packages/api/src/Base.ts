@@ -349,7 +349,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._genesisHash = this._options.source.genesisHash;
       }
 
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
       const storage = storageFromMeta(this.runtimeMetadata.asV0);
 
       this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
