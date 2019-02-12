@@ -43,7 +43,7 @@ export default class Text extends String implements Codec {
    * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
-    return this.length + Compact.encodeU8a(this.length).length;
+    return this.toU8a().length;
   }
 
   /**

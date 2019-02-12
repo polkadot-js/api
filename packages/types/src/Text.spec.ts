@@ -43,5 +43,19 @@ describe('Text', () => {
     it('compares actual non-string values (fails)', () => {
       expect(new Text('123').eq(123)).toBe(false);
     });
+
+    it('calulates the length & encoded length correctly for ASCII', () => {
+      const test = new Text('abcde');
+
+      expect(test.encodedLength).toEqual(6);
+      expect(test).toHaveLength(5);
+    });
+
+    it('calulates the length & encoded length correctly for non-ASCII', () => {
+      const test = new Text('中文');
+
+      expect(test.encodedLength).toEqual(7);
+      expect(test).toHaveLength(2);
+    });
   });
 });
