@@ -24,7 +24,7 @@
 
 *Overrides [I8](_i8_.i8.md).[constructor](_i8_.i8.md#constructor)*
 
-*Defined in [Vote.ts:14](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/Vote.ts#L14)*
+*Defined in [Vote.ts:14](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/Vote.ts#L14)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@ ___
 
 getisAye(): `boolean`
 
-*Defined in [Vote.ts:32](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/Vote.ts#L32)*
+*Defined in [Vote.ts:32](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/Vote.ts#L32)*
 
 *__description__*: true is the wrapped value is a positive vote
 
@@ -57,7 +57,7 @@ ___
 
 getisNay(): `boolean`
 
-*Defined in [Vote.ts:39](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/Vote.ts#L39)*
+*Defined in [Vote.ts:39](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/Vote.ts#L39)*
 
 *__description__*: true is the wrapped value is a negative vote
 
@@ -79,7 +79,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/Int.ts#L36)*
+*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/codec/Int.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -98,7 +98,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/dbd37da/packages/types/src/codec/Int.ts#L48)*
+*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/codec/Int.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
