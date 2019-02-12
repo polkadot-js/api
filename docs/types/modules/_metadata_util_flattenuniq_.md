@@ -8,7 +8,7 @@
 
 ▸ **flattenUniq**(list: *`Array`<`any`>*): `Array`<`any`>
 
-*Defined in [Metadata/util/flattenUniq.ts:6](https://github.com/polkadot-js/api/blob/acc3187/packages/types/src/Metadata/util/flattenUniq.ts#L6)*
+*Defined in [Metadata/util/flattenUniq.ts:6](https://github.com/polkadot-js/api/blob/7792663/packages/types/src/Metadata/util/flattenUniq.ts#L6)*
 
 **Parameters:**
 
