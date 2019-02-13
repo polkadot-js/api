@@ -8,7 +8,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from '../../src/static';
 
-const keyring = testingPairs();
+const keyring = testingPairs({ type: 'ed25519' });
 
 describe.skip('e2e transfer', () => {
   let api;

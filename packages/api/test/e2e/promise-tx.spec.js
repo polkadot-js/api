@@ -8,7 +8,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 import Api from '../../src/promise';
 import SingleAccountSigner from "../util/SingleAccountSigner";
 
-const keyring = testingPairs();
+const keyring = testingPairs({ type: 'ed25519' });
 
 describe.skip('e2e transactions', () => {
   let api;
