@@ -5,8 +5,7 @@
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Vector } from '@polkadot/types/codec';
-import { AccountId } from '@polkadot/types/index';
+import { AccountId, Vector } from '@polkadot/types/index';
 
 import { DerivedBalancesMap } from '../types';
 import { validatingBalances } from '../balances';

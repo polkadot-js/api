@@ -9,8 +9,7 @@ import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types
 import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Codec } from '@polkadot/types/types';
-import { Vector, createType } from '@polkadot/types/codec';
-import { StorageChangeSet, StorageKey } from '@polkadot/types/index';
+import { StorageChangeSet, StorageKey, Vector, createType } from '@polkadot/types/index';
 import { ExtError, assert, isFunction, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');

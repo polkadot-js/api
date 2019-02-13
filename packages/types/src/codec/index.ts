@@ -23,3 +23,4 @@ export { default as UInt } from './UInt';
 
 // Type management helper functions
 export { default as createType, getTypeClass, getTypeDef, TypeDef, TypeDefInfo } from './createType';
+export { default as typeRegistry } from './typeRegistry';
