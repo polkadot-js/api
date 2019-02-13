@@ -18,7 +18,7 @@ describe('drr', () => {
   });
 
   it('should be a ReplaySubject(1)', (done) => {
-    const obs = timer(0, 50).pipe(drr()); // Starts at 0, increments every 50ms
+    const obs = timer(0, 200).pipe(drr()); // Starts at 0, increments every 200ms
     obs.subscribe(); // Fire the observable
 
     // Subscribe another time after some time, i.e. after the observable has fired
@@ -27,6 +27,6 @@ describe('drr', () => {
         expect(value).toBe(2);
         done();
       });
-    }, 120);
+    }, 500);
   });
 });
