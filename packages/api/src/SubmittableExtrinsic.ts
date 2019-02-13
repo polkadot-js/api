@@ -5,12 +5,13 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Struct, Vector } from '@polkadot/types/codec';
 import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
+import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
-import { first, map, mergeMap, switchMap } from 'rxjs/operators';
-import { isBn, isFunction, isNumber, isUndefined, assert } from '@polkadot/util';
+import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
+import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -77,6 +78,12 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     this._onCall = onCall;
   }
 
+  private updateSigner (updateId: number, status: Hash | SubmittableResult): void {
+    if ((updateId !== -1) && this._api.signer && this._api.signer.update) {
+      this._api.signer.update(updateId, status);
+    }
+  }
+
   private statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (status.type !== 'Finalised') {
       return of(
@@ -103,18 +110,35 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     );
   }
 
-  private sendObservable (): Observable<Hash> {
-    return this._api.rpc.author.submitExtrinsic(this) as Observable<Hash>;
+  private sendObservable (updateId: number = -1): Observable<Hash> {
+    return (this._api.rpc.author
+      .submitExtrinsic(this) as Observable<Hash>)
+      .pipe(
+        tap((hash) => {
+          this.updateSigner(updateId, hash);
+        })
+      );
   }
 
-  private subscribeObservable (): Observable<SubmittableResult> {
+  private subscribeObservable (updateId: number = -1): Observable<SubmittableResult> {
     return (this._api.rpc.author
       .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
       .pipe(
         switchMap((status) =>
           this.statusObservable(status)
-        )
+        ),
+        tap((status) => {
+          this.updateSigner(updateId, status);
+        })
       );
+  }
+
+  private expandOptions (options: SignatureOptionsPartial): SignatureOptions {
+    return {
+      blockHash: this._api.genesisHash,
+      version: this._api.runtimeVersion,
+      ...options
+    };
   }
 
   send (): SumbitableResultResult<CodecResult, SubscriptionResult>;
@@ -142,11 +166,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
       ? { nonce: _options as any as number }
       : _options;
 
-    super.sign(account, {
-      blockHash: this._api.genesisHash,
-      version: this._api.runtimeVersion,
-      ...options
-    });
+    super.sign(account, this.expandOptions(options));
 
     return this;
   }
@@ -165,6 +185,8 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     const isSubscription = this._noStatusCb || !!statusCb;
     const isKeyringPair = isFunction((account as KeyringPair).address) && isFunction((account as KeyringPair).sign);
     const address = isKeyringPair ? (account as KeyringPair).address() : account.toString();
+    let updateId: number | undefined;
+
     return this._onCall(
       () => (
         isUndefined(options.nonce)
@@ -177,18 +199,14 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
             this.sign(account as KeyringPair, { ...options, nonce });
           } else {
             assert(this._api.signer, 'no signer exists');
-            await (this._api.signer as Signer).sign(this, address, {
-              blockHash: options.blockHash || this._api.genesisHash,
-              version: options.version || this._api.runtimeVersion,
-              era: options.era,
-              nonce
-            });
+
+            updateId = await (this._api.signer as Signer).sign(this, address, this.expandOptions({ ...options, nonce }));
           }
         }),
         switchMap(() => {
           return isSubscription
-            ? this.subscribeObservable()
-            : this.sendObservable() as any; // ???
+            ? this.subscribeObservable(updateId)
+            : this.sendObservable(updateId) as any; // ???
         })
       ),
       [],

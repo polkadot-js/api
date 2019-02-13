@@ -12,5 +12,5 @@ These types implement specific types that are found as part of the Substrate bas
 Codec types
 -----------
 
-These are the base types of the codec, typically not used directly, but rather inherited from to create specific types: [Base](classes/_codec_base_.base.md), [Compact](classes/_codec_compact_.compact.md), [Enum](classes/_codec_enum_.enum.md), [EnumType](classes/_codec_enumtype_.enumtype.md), [Option](classes/_codec_option_.option.md), [Set](classes/_codec_set_.set.md), [Struct](classes/_codec_struct_.struct.md), [Tuple](classes/_codec_tuple_.tuple.md), [U8a](classes/_codec_u8a_.u8a.md), [U8aFixed](classes/_codec_u8afixed_.u8afixed.md), [UInt](classes/_codec_uint_.uint.md), [Vector](classes/_codec_vector_.vector.md)
+These are the base types of the codec, typically not used directly, but rather inherited from to create specific types: [Base](classes/_codec_base_.base.md), [Compact](classes/_codec_compact_.compact.md), [Enum](enums/_codec_createtype_.typedefinfo.md#enum), [EnumType](classes/_codec_enumtype_.enumtype.md), [Option](classes/_codec_option_.option.md), [Set](classes/_codec_set_.set.md), [Struct](classes/_codec_struct_.struct.md), [Tuple](classes/_codec_tuple_.tuple.md), [U8a](classes/_codec_u8a_.u8a.md), [U8aFixed](classes/_codec_u8afixed_.u8afixed.md), [UInt](classes/_codec_uint_.uint.md), [Vector](classes/_codec_vector_.vector.md)
 

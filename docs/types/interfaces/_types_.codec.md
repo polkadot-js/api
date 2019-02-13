@@ -11,6 +11,7 @@
 # Implemented by
 
 * [AccountId](../classes/_accountid_.accountid.md)
+* [AccountIdOf](../classes/_accountidof_.accountidof.md)
 * [AccountIndex](../classes/_accountindex_.accountindex.md)
 * [ApiId](../classes/_runtimeversion_.apiid.md)
 * [ApplyExtrinsic](../classes/_eventrecord_.applyextrinsic.md)
@@ -19,6 +20,7 @@
 * [AuthorityId](../classes/_authorityid_.authorityid.md)
 * [AvailabilityVote](../classes/_attestedcandidate_.availabilityvote.md)
 * [Balance](../classes/_balance_.balance.md)
+* [BalanceOf](../classes/_balanceof_.balanceof.md)
 * [BalanceUpload](../classes/_attestedcandidate_.balanceupload.md)
 * [BftAtReport](../classes/_misbehaviorreport_.bftatreport.md)
 * [BftAuthoritySignature](../classes/_bft_.bftauthoritysignature.md)
@@ -105,6 +107,7 @@
 * [MisbehaviorReport](../classes/_misbehaviorreport_.misbehaviorreport.md)
 * [ModuleMetadata](../classes/_metadata_v0_modules_.modulemetadata.md)
 * [Moment](../classes/_moment_.moment.md)
+* [MomentOf](../classes/_momentof_.momentof.md)
 * [NewAccountOutcome](../classes/_newaccountoutcome_.newaccountoutcome.md)
 * [NextAuthority](../classes/_storedpendingchange_.nextauthority.md)
 * [Nonce](../classes/_nonce_.nonce.md)
@@ -137,6 +140,7 @@
 * [RuntimeVersionApi](../classes/_runtimeversion_.runtimeversionapi.md)
 * [Schedule](../classes/_schedule_.schedule.md)
 * [Seal](../classes/_digest_.seal.md)
+* [SeedOf](../classes/_seedof_.seedof.md)
 * [SessionKey](../classes/_sessionkey_.sessionkey.md)
 * [Set](../classes/_codec_set_.set.md)
 * [Signature](../classes/_signature_.signature.md)
@@ -181,7 +185,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L34)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -195,7 +199,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L39)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -214,7 +218,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -227,7 +231,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L49)*
+*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L49)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -240,7 +244,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L54)*
+*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L54)*
 
 *__description__*: Returns the string representation of the value
 
@@ -253,7 +257,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:60](https://github.com/polkadot-js/api/blob/d16671c/packages/types/src/types.ts#L60)*
+*Defined in [types.ts:60](https://github.com/polkadot-js/api/blob/be17bf5/packages/types/src/types.ts#L60)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
