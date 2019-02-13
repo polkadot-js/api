@@ -110,3 +110,11 @@ export default class Moment extends Date implements Codec {
     return bnToU8a(this.toNumber(), BITLENGTH, true);
   }
 }
+
+/**
+ * @name MomentOf
+ * @description
+ * The Substrate MomentOf representation as a [[Moment]].
+ */
+export class MomentOf extends Moment {
+}

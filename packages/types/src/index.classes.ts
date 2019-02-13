@@ -8,14 +8,12 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as AccountId } from './AccountId';
-export { default as AccountIdOf } from './AccountIdOf';
+export { default as AccountId, AccountIdOf } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
 export { default as AttestedCandidate } from './AttestedCandidate';
 export { default as AuthorityId } from './AuthorityId';
-export { default as Balance } from './Balance';
-export { default as BalanceOf } from './BalanceOf';
+export { default as Balance, BalanceOf } from './Balance';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;
 export { default as Block } from './Block';
@@ -53,8 +51,7 @@ export { default as LockPeriods } from './LockPeriods';
 export { default as Metadata } from './Metadata';
 export { default as Method } from './Method';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
-export { default as Moment } from './Moment';
-export { default as MomentOf } from './MomentOf';
+export { default as Moment, MomentOf } from './Moment';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index

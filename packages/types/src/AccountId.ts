@@ -61,3 +61,11 @@ export default class AccountId extends U8aFixed {
     return AccountId.encode(this);
   }
 }
+
+/**
+ * @name AccountIdOf
+ * @description
+ * The Substrate AccountIdOf representation as a [[AccountId]].
+ */
+export class AccountIdOf extends AccountId {
+}
