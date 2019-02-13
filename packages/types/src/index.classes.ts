@@ -5,20 +5,17 @@
 // NOTE When adding any types here, we need to update the coumentation links as
 // well - <root>/docs/SUMMARY.md as well as ../README.md
 
-// NOTE We are not re-exporting the index.ts from codec here. The reasoning being
-// that these should be enough to actually _use_ the codec, i.e. from a api-user
-// perspective these are the value classes. (Codec is for the cases where you need
-// to construct values dynamically)
-
 /**
  * @summary Type definitions that are used in the system
  */
 export { default as AccountId } from './AccountId';
+export { default as AccountIdOf } from './AccountIdOf';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
 export { default as AttestedCandidate } from './AttestedCandidate';
 export { default as AuthorityId } from './AuthorityId';
 export { default as Balance } from './Balance';
+export { default as BalanceOf } from './BalanceOf';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;
 export { default as Block } from './Block';
@@ -57,6 +54,7 @@ export { default as Metadata } from './Metadata';
 export { default as Method } from './Method';
 export { default as MisbehaviorReport } from './MisbehaviorReport';
 export { default as Moment } from './Moment';
+export { default as MomentOf } from './MomentOf';
 export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Null } from './Null';
 // NOTE Nonce is renamed to Index
@@ -76,6 +74,7 @@ export { default as ReferendumIndex } from './ReferendumIndex';
 export { default as ReferendumInfo } from './ReferendumInfo';
 export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Schedule } from './Schedule';
+export { default as SeedOf } from './SeedOf';
 export { default as SessionKey } from './SessionKey';
 export { default as Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
