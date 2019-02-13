@@ -6,8 +6,7 @@ import { Observable } from 'rxjs';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Extrinsic, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
-import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
-import { CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
+import { CodecArg, CodecCallback, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber, AnyU8a } from './types';
+import { AnyNumber, AnyU8a, RuntimeVersionInterface } from './types';
 
 import Struct from './codec/Struct';
 import Tuple from './codec/Tuple';
@@ -69,7 +69,7 @@ type RuntimeVersionValue = {
  * @description
  * A defintion of the runtime and the associated versions thereof
  */
-export default class RuntimeVersion extends Struct {
+export default class RuntimeVersion extends Struct implements RuntimeVersionInterface {
   constructor (value?: RuntimeVersionValue | Uint8Array) {
     super({
       specName: Text,

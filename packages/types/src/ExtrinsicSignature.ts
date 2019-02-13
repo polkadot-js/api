@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AnyNumber, AnyU8a } from './types';
+import { AnyNumber, SignatureOptions } from './types';
 
 import Struct from './codec/Struct';
 import Address from './Address';
@@ -14,13 +14,6 @@ import RuntimeVersion from './RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 import U8 from './U8';
-
-export type SignatureOptions = {
-  blockHash: AnyU8a,
-  era?: Uint8Array,
-  nonce: AnyNumber,
-  version?: RuntimeVersion
-};
 
 export const IMMORTAL_ERA = new Uint8Array([0]);
 
@@ -155,7 +148,7 @@ export default class ExtrinsicSignature extends Struct {
       era: era || IMMORTAL_ERA,
       blockHash
     });
-    const signature = new Signature(signingPayload.sign(account, version));
+    const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
 
     return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
   }

@@ -3,9 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
-import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
-import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
+import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
+import { CodecCallback, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
@@ -13,13 +12,6 @@ import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
-
-type SignatureOptionsPartial = {
-  blockHash?: AnyU8a,
-  era?: Uint8Array,
-  nonce: AnyNumber,
-  version?: RuntimeVersion
-};
 
 type StatusCb = (result: SubmittableResult) => any;
 
@@ -132,12 +124,12 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
       );
   }
 
-  private expandOptions (options: SignatureOptionsPartial): SignatureOptions {
+  private expandOptions (options: Partial<SignatureOptions>): SignatureOptions {
     return {
       blockHash: this._api.genesisHash,
       version: this._api.runtimeVersion,
       ...options
-    };
+    } as SignatureOptions;
   }
 
   send (): SumbitableResultResult<CodecResult, SubscriptionResult>;
@@ -158,10 +150,10 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
   // NOTE with the nonce hack, we don't add a signature overload for 2 reasons -
   //   - it makes it incompatible with the base Extrinsic
   //   - for those using TS, we would like to move them towards the new version
-  sign (account: KeyringPair, _options: SignatureOptionsPartial): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+  sign (account: KeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
     // HACK here we actually override nonce if it was specified (backwards compat for
     // the previous signature - don't let userspace break, but allow then time to upgrade)
-    const options: SignatureOptionsPartial = isBn(_options) || isNumber(_options)
+    const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
       ? { nonce: _options as any as number }
       : _options;
 
@@ -170,10 +162,10 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     return this;
   }
 
-  signAndSend (account: KeyringPair | string | AccountId | Address, options?: Partial<SignatureOptionsPartial>): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  signAndSend (account: KeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<CodecResult, SubscriptionResult>;
   signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
-  signAndSend (account: KeyringPair | string | AccountId | Address, _options?: Partial<SignatureOptionsPartial> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
-    let options: Partial<SignatureOptionsPartial> = {};
+  signAndSend (account: KeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+    let options: Partial<Partial<SignatureOptions>> = {};
 
     if (isFunction(_options)) {
       statusCb = _options;
