@@ -2,11 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Compact from '@polkadot/types/codec/Compact';
-import { createType } from '@polkadot/types/codec';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { StorageFunction } from '@polkadot/types/StorageKey';
-import { Text } from '@polkadot/types/index';
+import { Compact, Text, createType } from '@polkadot/types/index';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 

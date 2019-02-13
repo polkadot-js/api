@@ -11,3 +11,11 @@ import U128 from './U128';
  */
 export default class Balance extends U128 {
 }
+
+/**
+ * @name BalanceOf
+ * @description
+ * The Substrate BalanceOf representation as a [[Balance]].
+ */
+export class BalanceOf extends Balance {
+}

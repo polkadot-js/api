@@ -6,9 +6,9 @@ import { Constructor } from './types';
 
 import extrinsics from '@polkadot/extrinsics/static';
 
-import * as _Types from './index';
+import * as Classes from './index.classes';
 
-const Types = _Types as { [index: string]: Constructor };
+const Types = Classes as { [index: string]: Constructor };
 
 describe('types', () => {
   describe('default creation', () => {

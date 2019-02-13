@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { Struct, Vector } from '@polkadot/types/codec';
-import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Text } from '@polkadot/types/index';
+import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, RuntimeVersion, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
 import { SignatureOptions } from '@polkadot/types/ExtrinsicSignature';
 import { AnyNumber, AnyU8a, CodecCallback } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
