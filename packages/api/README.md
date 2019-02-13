@@ -4,8 +4,8 @@ The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow
 
 The API wrappers provide a standard interface for use -
 
-- A static `.create(<optional WsProvider>)` that returns an API instance when connected, decorated and ready-to use
-- The above is just a wrapper for `new Api(<optional WsProvider>) `, exposing the `isReady` getter
+- A static `.create(<optional ApiOptions>)` that returns an API instance when connected, decorated and ready-to use. ApiOptions can include an optional WsProvider and optional custom type definitions `{ provider: <Optional WsProvider>, types: <Optional RegistryTypes> }`.
+- The above is just a wrapper for `new Api(<optional ApiOptions>) `, exposing the `isReady` getter
 - `api.rpc.<section>.<method>` provides access to actual RPC calls, be it for queries, submission or retrieving chain information
   - [RPC (node interface)](../METHODS_RPC.md)
 - `api.query.<section>.<method>` provides access to chain state queries. These are dynamically populated based on what the runtime provides
@@ -59,6 +59,29 @@ const api = await ApiRx.create().toPromise();
 // make a call to retrieve the current network head
 api.rpc.chain.subscribeNewHead().subscribe((header) => {
   console.log(`Chain is at #${header.blockNumber}`);
+});
+```
+
+## Registering custom types
+
+Additional types used by runtime modules can be added when a new instance of the API is created. This is necessary if the runtime modules use types which are not available in the base Substrate runtime.
+
+```javascript
+import { ApiPromise } from '@polkadot/api';
+
+// initialise via static create and register custom types
+const api = await ApiPromise.create({
+  types: {
+    CustomTypesExample: {
+      "id": "u32",
+      "data": "Vec<u8>",
+      "deposit": "Balance",
+      "owner": "AccountId",
+      "application_expiry": "Moment",
+      "whitelisted": "bool",
+      "challenge_id": "u32"
+    }
+  }
 });
 ```
 
