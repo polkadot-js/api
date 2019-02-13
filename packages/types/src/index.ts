@@ -10,6 +10,8 @@
 // perspective these are the value classes. (Codec is for the cases where you need
 // to construct values dynamically)
 
+export * from './codec';
+
 /**
  * @summary Type definitions that are used in the system
  */
