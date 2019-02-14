@@ -73,7 +73,7 @@ export { default as RuntimeVersion } from './RuntimeVersion';
 export { default as Schedule } from './Schedule';
 export { default as SeedOf } from './SeedOf';
 export { default as SessionKey } from './SessionKey';
-export { default as Signature } from './Signature';
+export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as SignedBlock } from './SignedBlock';
 export { default as StorageChangeSet } from './StorageChangeSet';
 export { default as StorageData } from './StorageData';
