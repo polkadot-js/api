@@ -73,38 +73,20 @@ Registering custom types
 Additional types used by runtime modules can be added when a new instance of the API is created. This is necessary if the runtime modules use types which are not available in the base Substrate runtime.
 
 ```javascript
-// The examples are valid for both versions of the api
 import { ApiPromise } from '@polkadot/api';
 
 // initialise via static create and register custom types
 const api = await ApiPromise.create({
   types: {
     CustomTypesExample: {
-      'id': 'u32',
-      'data': 'Vec<u8>'
+      "id": "u32",
+      "data": "Vec<u8>",
+      "deposit": "Balance",
+      "owner": "AccountId",
+      "application_expiry": "Moment",
+      "whitelisted": "bool",
+      "challenge_id": "u32"
     }
-  }
-});
-```
-
-An alternative approach to register custom types is to define them as a Javascript class which you can then use in the constructor function of the api.
-
-```javascript
-// Define your struct in JS
-class MyCustomTypes extends Struct {
-  constructor() {
-    super({
-        'id': 'u32',
-        'data': 'Vec<u8>'
-    }); 
-  }
-}
-
-// Then add it in the constructor
-const api = new Api({
-  provider: /* some provider */,
-  types: {
-    MyCustomTypes: MyCustomTypes
   }
 });
 ```

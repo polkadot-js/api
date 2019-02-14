@@ -16,7 +16,7 @@
 
 **● author**: *[RpcInterface$Section](../modules/_types_.md#rpcinterface_section)*
 
-*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/b88b664/packages/rpc-core/src/types.ts#L17)*
+*Defined in [types.ts:17](https://github.com/polkadot-js/api/blob/f8f41b5/packages/rpc-core/src/types.ts#L17)*
 
 ___
 <a id="chain"></a>
@@ -25,7 +25,7 @@ ___
 
 **● chain**: *[RpcInterface$Section](../modules/_types_.md#rpcinterface_section)*
 
-*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/b88b664/packages/rpc-core/src/types.ts#L18)*
+*Defined in [types.ts:18](https://github.com/polkadot-js/api/blob/f8f41b5/packages/rpc-core/src/types.ts#L18)*
 
 ___
 <a id="state"></a>
@@ -34,7 +34,7 @@ ___
 
 **● state**: *[RpcInterface$Section](../modules/_types_.md#rpcinterface_section)*
 
-*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/b88b664/packages/rpc-core/src/types.ts#L19)*
+*Defined in [types.ts:19](https://github.com/polkadot-js/api/blob/f8f41b5/packages/rpc-core/src/types.ts#L19)*
 
 ___
 <a id="system"></a>
@@ -43,7 +43,7 @@ ___
 
 **● system**: *[RpcInterface$Section](../modules/_types_.md#rpcinterface_section)*
 
-*Defined in [types.ts:20](https://github.com/polkadot-js/api/blob/b88b664/packages/rpc-core/src/types.ts#L20)*
+*Defined in [types.ts:20](https://github.com/polkadot-js/api/blob/f8f41b5/packages/rpc-core/src/types.ts#L20)*
 
 ___
 
