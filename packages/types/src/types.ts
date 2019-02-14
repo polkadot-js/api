@@ -71,3 +71,19 @@ export type TypeDef = { [index: string]: Codec };
 export type RegistryTypes = {
   [name: string]: Constructor | string | { [name: string]: string }
 };
+
+export interface RuntimeVersionInterface {
+  readonly apis: Array<any>;
+  readonly authoringVersion: BN;
+  readonly implName: String;
+  readonly implVersion: BN;
+  readonly specName: String;
+  readonly specVersion: BN;
+}
+
+export type SignatureOptions = {
+  blockHash: AnyU8a,
+  era?: Uint8Array,
+  nonce: AnyNumber,
+  version?: RuntimeVersionInterface
+};

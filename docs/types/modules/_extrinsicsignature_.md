@@ -6,29 +6,11 @@
 
 * [ExtrinsicSignature](../classes/_extrinsicsignature_.extrinsicsignature.md)
 
-### Type aliases
-
-* [SignatureOptions](_extrinsicsignature_.md#signatureoptions)
-
 ### Variables
 
 * [IMMORTAL_ERA](_extrinsicsignature_.md#immortal_era)
 
 ---
-
-# Type aliases
-
-<a id="signatureoptions"></a>
-
-##  SignatureOptions
-
-**Ƭ SignatureOptions**: *`object`*
-
-*Defined in [ExtrinsicSignature.ts:18](https://github.com/polkadot-js/api/blob/f957639/packages/types/src/ExtrinsicSignature.ts#L18)*
-
-#### Type declaration
-
-___
 
 # Variables
 
@@ -38,7 +20,7 @@ ___
 
 **● IMMORTAL_ERA**: *`Uint8Array`* =  new Uint8Array([0])
 
-*Defined in [ExtrinsicSignature.ts:25](https://github.com/polkadot-js/api/blob/f957639/packages/types/src/ExtrinsicSignature.ts#L25)*
+*Defined in [ExtrinsicSignature.ts:18](https://github.com/polkadot-js/api/blob/b88b664/packages/types/src/ExtrinsicSignature.ts#L18)*
 
 ___
 

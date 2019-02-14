@@ -348,3 +348,4 @@
 * [&quot;scripts/MetadataMd&quot;](modules/_scripts_metadatamd_.md)
 * [&quot;types&quot;](modules/_types_.md)
   * [Codec](interfaces/_types_.codec.md)
+  * [RuntimeVersionInterface](interfaces/_types_.runtimeversioninterface.md)

@@ -28,14 +28,14 @@ export type HeaderValue = {
  * A [[Block]] header
  */
 export default class Header extends Struct {
-  constructor (value?: HeaderValue | Uint8Array) {
+  constructor (value?: HeaderValue | Uint8Array | null) {
     super({
       parentHash: Hash,
       number: Compact.with(BlockNumber),
       stateRoot: Hash,
       extrinsicsRoot: Hash,
       digest: Digest
-    }, value);
+    }, value || {});
   }
 
   /**
@@ -91,11 +91,10 @@ export default class Header extends Struct {
 export class HeaderExtended extends Header {
   private _author?: AccountId;
 
-  constructor (header: Header, sessionValidators: Array<AccountId> = []) {
+  constructor (header: Header | null = null, sessionValidators: Array<AccountId> = []) {
     super(header);
 
-    const { digest: { logs } } = header;
-    const digestItem = logs.find(({ type }) => type === 'Seal');
+    const digestItem = header && header.digest && header.digest.logs.find(({ type }) => type === 'Seal');
 
     this._author = digestItem && sessionValidators.length
       ? sessionValidators[digestItem.asSeal.slot.toNumber() % sessionValidators.length]
