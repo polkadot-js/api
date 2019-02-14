@@ -1,3 +1,7 @@
+# 0.43.1
+
+- Intrduces support for the new keyring with sr25519 support in addition to ed25519. While this does not change the exposed API, it is considerred breaking since @polkadot/keuyring has interface changes. (Unless needed, don't rush the upgrade)
+
 # 0.42.1
 
 - Support for substrate hash signing with implVersion >= 18

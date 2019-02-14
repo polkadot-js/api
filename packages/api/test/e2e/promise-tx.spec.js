@@ -3,19 +3,24 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
+import createPair from '@polkadot/keyring/pair';
 import { randomAsHex } from '@polkadot/util-crypto';
+import { stringToU8a } from '@polkadot/util';
 
 import Api from '../../src/promise';
+import WsProvider from '../../../rpc-provider/src/ws';
 import SingleAccountSigner from "../util/SingleAccountSigner";
 
-const keyring = testingPairs();
+const keyring = testingPairs({ type: 'ed25519' });
 
 describe.skip('e2e transactions', () => {
   let api;
 
   beforeEach(async (done) => {
     if (!api) {
-      api = await Api.create();
+      api = await Api.create({
+        provider: new WsProvider('ws://127.0.0.1:9944')
+      });
     }
 
     jest.setTimeout(30000);
@@ -153,5 +158,52 @@ describe.skip('e2e transactions', () => {
       .signAndSend(keyring.bob);
 
     expect(hash.toHex()).toHaveLength(66);
+  });
+
+  it('makes a transfer, swaps types and then another one', async (done) => {
+    const pair = createPair('sr25519', { seed: stringToU8a('testing123'.padEnd(32)) });
+
+    function doOne (cb) {
+      return api.tx.balances
+        .transfer(pair.address(), 123456)
+        .signAndSend(keyring.dave, ({ events, status, type }) => {
+          console.log('One: Transaction status:', type);
+
+          if (type === 'Finalised') {
+            console.log('Completed at block hash', status.value.toHex());
+            console.log('Events:');
+
+            events.forEach(({ phase, event: { data, method, section } }) => {
+              console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+            });
+
+            cb()
+          }
+        });
+    };
+
+    function doTwo (cb) {
+      return api.tx.balances
+        .transfer(keyring.alice.address(), 12345)
+        .signAndSend(pair, ({ events, status, type }) => {
+          console.log('One: Transaction status:', type);
+
+          if (type === 'Finalised') {
+            console.log('Completed at block hash', status.value.toHex());
+            console.log('Events:');
+
+            events.forEach(({ phase, event: { data, method, section } }) => {
+              console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+            });
+
+            cb()
+          }
+        });
+    }
+
+    // return doTwo(done);
+    return doOne(() => {
+      doTwo(done)
+    });
   });
 });

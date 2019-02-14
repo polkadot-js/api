@@ -7,7 +7,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-const keyring = testingPairs();
+const keyring = testingPairs({ type: 'ed25519' });
 
 describe.skip('e2e transactions', () => {
   let api;

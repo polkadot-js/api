@@ -12,3 +12,19 @@ import H512 from './H512';
  */
 export default class Signature extends H512 {
 }
+
+/**
+ * @name Ed25519Signature
+ * @description
+ * The default Ed25519 that is used accross the system. It is currectly defined
+ * as a 512-bit value, represented by a [[H512]].
+ */
+export class Ed25519Signature extends Signature {}
+
+/**
+ * @name Sr25519Signature
+ * @description
+ * The default Sr25519 signature that is used accross the system. It is currectly defined
+ * as a 512-bit value, represented by a [[H512]].
+ */
+export class Sr25519Signature extends Signature {}
