@@ -25,7 +25,7 @@
 
 **● on**: *`function`*
 
-*Defined in [types.ts:139](https://github.com/polkadot-js/api/blob/f8f41b5/packages/api/src/types.ts#L139)*
+*Defined in [types.ts:139](https://github.com/polkadot-js/api/blob/ead67ec/packages/api/src/types.ts#L139)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
@@ -46,7 +46,7 @@ ___
 
 **● once**: *`function`*
 
-*Defined in [types.ts:140](https://github.com/polkadot-js/api/blob/f8f41b5/packages/api/src/types.ts#L140)*
+*Defined in [types.ts:140](https://github.com/polkadot-js/api/blob/ead67ec/packages/api/src/types.ts#L140)*
 
 #### Type declaration
 ▸(type: *[ApiInterface$Events](../modules/_types_.md#apiinterface_events)*, handler: *`function`*): `this`
@@ -67,7 +67,7 @@ ___
 
 **● type**: *[ApiType](../modules/_types_.md#apitype)*
 
-*Defined in [types.ts:137](https://github.com/polkadot-js/api/blob/f8f41b5/packages/api/src/types.ts#L137)*
+*Defined in [types.ts:137](https://github.com/polkadot-js/api/blob/ead67ec/packages/api/src/types.ts#L137)*
 
 ___
 

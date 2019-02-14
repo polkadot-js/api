@@ -1,14 +1,14 @@
 
 
+*__name__*: Ed25519Signature
+
+*__description__*: The default Ed25519 that is used accross the system. It is currectly defined as a 512-bit value, represented by a [H512](_h512_.h512.md).
+
 # Hierarchy
 
 ↳  [Signature](_signature_.signature.md)
 
-**↳ CandidateSignature**
-
-↳  [ExplicitCandidateSignature](_attestedcandidate_.explicitcandidatesignature.md)
-
-↳  [ImplicitCandidateSignature](_attestedcandidate_.implicitcandidatesignature.md)
+**↳ Ed25519Signature**
 
 # Implements
 
@@ -23,7 +23,7 @@
 
 ##  constructor
 
-⊕ **new CandidateSignature**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*): [CandidateSignature](_attestedcandidate_.candidatesignature.md)
+⊕ **new Ed25519Signature**(value?: *[AnyU8a](../modules/_types_.md#anyu8a)*): [Ed25519Signature](_signature_.ed25519signature.md)
 
 *Inherited from [H512](_h512_.h512.md).[constructor](_h512_.h512.md#constructor)*
 
@@ -37,7 +37,7 @@
 | ------ | ------ |
 | `Optional` value | [AnyU8a](../modules/_types_.md#anyu8a) |
 
-**Returns:** [CandidateSignature](_attestedcandidate_.candidatesignature.md)
+**Returns:** [Ed25519Signature](_signature_.ed25519signature.md)
 
 ___
 

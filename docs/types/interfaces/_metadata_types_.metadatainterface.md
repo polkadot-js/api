@@ -19,7 +19,7 @@
 
 ▸ **getUniqTypes**(): `Array`<`string`>
 
-*Defined in [Metadata/types.ts:6](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/Metadata/types.ts#L6)*
+*Defined in [Metadata/types.ts:6](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/Metadata/types.ts#L6)*
 
 **Returns:** `Array`<`string`>
 

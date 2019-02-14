@@ -46,6 +46,7 @@
 * [Digest](../classes/_digest_.digest.md)
 * [DigestItem](../classes/_digest_.digestitem.md)
 * [Dropped](../classes/_extrinsicstatus_.dropped.md)
+* [Ed25519Signature](../classes/_signature_.ed25519signature.md)
 * [EgressQueueRoot](../classes/_attestedcandidate_.egressqueueroot.md)
 * [Enum](../classes/_codec_enum_.enum.md)
 * [EnumType](../classes/_codec_enumtype_.enumtype.md)
@@ -146,6 +147,7 @@
 * [Signature](../classes/_signature_.signature.md)
 * [SignaturePayload](../classes/_signaturepayload_.signaturepayload.md)
 * [SignedBlock](../classes/_signedblock_.signedblock.md)
+* [Sr25519Signature](../classes/_signature_.sr25519signature.md)
 * [StorageChangeSet](../classes/_storagechangeset_.storagechangeset.md)
 * [StorageData](../classes/_storagedata_.storagedata.md)
 * [StorageFunctionMetadata](../classes/_metadata_v0_modules_.storagefunctionmetadata.md)
@@ -185,7 +187,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L34)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -199,7 +201,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L39)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -218,7 +220,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L44)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -231,7 +233,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L49)*
+*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L49)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -244,7 +246,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L54)*
+*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L54)*
 
 *__description__*: Returns the string representation of the value
 
@@ -257,7 +259,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
 
-*Defined in [types.ts:60](https://github.com/polkadot-js/api/blob/f8f41b5/packages/types/src/types.ts#L60)*
+*Defined in [types.ts:60](https://github.com/polkadot-js/api/blob/ead67ec/packages/types/src/types.ts#L60)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
