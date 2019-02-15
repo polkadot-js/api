@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(...args: *`any`[]*): [Method](../classes/_method_.method.md)
 
-*Defined in [Method.ts:28](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L28)*
+*Defined in [Method.ts:28](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L28)*
 
 **Parameters:**
 
@@ -25,7 +25,7 @@
 
 **● callIndex**: *`Uint8Array`*
 
-*Defined in [Method.ts:30](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L30)*
+*Defined in [Method.ts:30](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L30)*
 
 ___
 <a id="meta"></a>
@@ -34,7 +34,7 @@ ___
 
 **● meta**: *[FunctionMetadata](../classes/_metadata_v0_modules_.functionmetadata.md)*
 
-*Defined in [Method.ts:31](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L31)*
+*Defined in [Method.ts:31](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L31)*
 
 ___
 <a id="method"></a>
@@ -43,7 +43,7 @@ ___
 
 **● method**: *`string`*
 
-*Defined in [Method.ts:32](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L32)*
+*Defined in [Method.ts:32](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L32)*
 
 ___
 <a id="section"></a>
@@ -52,7 +52,7 @@ ___
 
 **● section**: *`string`*
 
-*Defined in [Method.ts:33](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L33)*
+*Defined in [Method.ts:33](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L33)*
 
 ___
 <a id="tojson"></a>
@@ -61,7 +61,7 @@ ___
 
 **● toJSON**: *`function`*
 
-*Defined in [Method.ts:34](https://github.com/polkadot-js/api/blob/15b22da/packages/types/src/Method.ts#L34)*
+*Defined in [Method.ts:34](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Method.ts#L34)*
 
 #### Type declaration
 ▸(): `any`

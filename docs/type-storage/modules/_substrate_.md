@@ -11,7 +11,7 @@
   type: 'u32'
 })
 
-*Defined in [substrate.ts:44](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L44)*
+*Defined in [substrate.ts:44](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L44)*
 
 ___
 <a id="authorityprefix"></a>
@@ -23,7 +23,7 @@ ___
   type: 'u32'
 })
 
-*Defined in [substrate.ts:49](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L49)*
+*Defined in [substrate.ts:49](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L49)*
 
 ___
 <a id="changestrieconfig"></a>
@@ -35,7 +35,7 @@ ___
   type: 'u32'
 })
 
-*Defined in [substrate.ts:59](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L59)*
+*Defined in [substrate.ts:59](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L59)*
 
 ___
 <a id="code"></a>
@@ -47,7 +47,7 @@ ___
   type: 'Bytes'
 })
 
-*Defined in [substrate.ts:34](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L34)*
+*Defined in [substrate.ts:34](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L34)*
 
 ___
 <a id="extrinsicindex"></a>
@@ -59,7 +59,7 @@ ___
   type: 'u32'
 })
 
-*Defined in [substrate.ts:54](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L54)*
+*Defined in [substrate.ts:54](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L54)*
 
 ___
 <a id="heappages"></a>
@@ -71,7 +71,7 @@ ___
   type: 'u64'
 })
 
-*Defined in [substrate.ts:39](https://github.com/polkadot-js/api/blob/15b22da/packages/type-storage/src/substrate.ts#L39)*
+*Defined in [substrate.ts:39](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/substrate.ts#L39)*
 
 ___
 
