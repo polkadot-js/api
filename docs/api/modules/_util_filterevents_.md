@@ -6,9 +6,9 @@
 
 ##  filterEvents
 
-▸ **filterEvents**(extHash: *`Hash`*, __namedParameters: *`object`*, allEvents: *`Array`<`EventRecord`>*): `Array`<`EventRecord`> | `undefined`
+▸ **filterEvents**(extHash: *`Hash`*, __namedParameters: *`object`*, allEvents: *`Array`<`EventRecord`>*): `Array`<`EventRecord`> \| `undefined`
 
-*Defined in [util/filterEvents.ts:9](https://github.com/polkadot-js/api/blob/1b2694d/packages/api/src/util/filterEvents.ts#L9)*
+*Defined in [util/filterEvents.ts:9](https://github.com/polkadot-js/api/blob/4735253/packages/api/src/util/filterEvents.ts#L9)*
 
 **Parameters:**
 
@@ -18,7 +18,7 @@
 | __namedParameters | `object` |
 | allEvents | `Array`<`EventRecord`> |
 
-**Returns:** `Array`<`EventRecord`> | `undefined`
+**Returns:** `Array`<`EventRecord`> \| `undefined`
 
 ___
 

@@ -20,15 +20,15 @@
 
 ##  constructor
 
-⊕ **new Bool**(value?: *[Bool](_bool_.bool.md) | `Boolean` | `Uint8Array` | `boolean` | `number`*): [Bool](_bool_.bool.md)
+⊕ **new Bool**(value?: *[Bool](_bool_.bool.md) \| `Boolean` \| `Uint8Array` \| `boolean` \| `number`*): [Bool](_bool_.bool.md)
 
-*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L15)*
+*Defined in [Bool.ts:15](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L15)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | [Bool](_bool_.bool.md) | `Boolean` | `Uint8Array` | `boolean` | `number` | false |
+| `Default value` value | [Bool](_bool_.bool.md) \| `Boolean` \| `Uint8Array` \| `boolean` \| `number` | false |
 
 **Returns:** [Bool](_bool_.bool.md)
 
@@ -42,7 +42,7 @@ ___
 
 **● Boolean**: *`BooleanConstructor`*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:530*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:540*
 
 ___
 
@@ -54,7 +54,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L35)*
+*Defined in [Bool.ts:35](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L35)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -72,7 +72,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L42)*
+*Defined in [Bool.ts:42](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L42)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -93,7 +93,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Bool.ts:53](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L53)*
+*Defined in [Bool.ts:53](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L53)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -108,7 +108,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Bool.ts:60](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L60)*
+*Defined in [Bool.ts:60](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L60)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -123,7 +123,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [Bool.ts:67](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L67)*
+*Defined in [Bool.ts:67](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L67)*
 
 *__description__*: Returns the string representation of the value
 
@@ -134,11 +134,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` \| `false` \| `true`*): `Uint8Array`
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Bool.ts:75](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Bool.ts#L75)*
+*Defined in [Bool.ts:75](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Bool.ts#L75)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -146,7 +146,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` \| `false` \| `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 

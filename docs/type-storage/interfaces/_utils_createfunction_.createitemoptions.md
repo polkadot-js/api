@@ -10,18 +10,18 @@
 
 ## `<Optional>` isUnhashed
 
-**● isUnhashed**: *`undefined` | `false` | `true`*
+**● isUnhashed**: *`undefined` \| `false` \| `true`*
 
-*Defined in [utils/createFunction.ts:12](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/utils/createFunction.ts#L12)*
+*Defined in [utils/createFunction.ts:12](https://github.com/polkadot-js/api/blob/4735253/packages/type-storage/src/utils/createFunction.ts#L12)*
 
 ___
 <a id="key"></a>
 
 ## `<Optional>` key
 
-**● key**: *`undefined` | `string`*
+**● key**: *`undefined` \| `string`*
 
-*Defined in [utils/createFunction.ts:13](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/utils/createFunction.ts#L13)*
+*Defined in [utils/createFunction.ts:13](https://github.com/polkadot-js/api/blob/4735253/packages/type-storage/src/utils/createFunction.ts#L13)*
 
 ___
 

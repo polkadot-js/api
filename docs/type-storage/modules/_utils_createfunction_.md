@@ -18,9 +18,9 @@
 
 ##  createFunction
 
-▸ **createFunction**(section: *`Text` | `string`*, method: *`Text` | `string`*, meta: *`StorageFunctionMetadata`*, options?: *[CreateItemOptions](../interfaces/_utils_createfunction_.createitemoptions.md)*): `StorageFunction`
+▸ **createFunction**(section: *`Text` \| `string`*, method: *`Text` \| `string`*, meta: *`StorageFunctionMetadata`*, options?: *[CreateItemOptions](../interfaces/_utils_createfunction_.createitemoptions.md)*): `StorageFunction`
 
-*Defined in [utils/createFunction.ts:26](https://github.com/polkadot-js/api/blob/1b2694d/packages/type-storage/src/utils/createFunction.ts#L26)*
+*Defined in [utils/createFunction.ts:26](https://github.com/polkadot-js/api/blob/4735253/packages/type-storage/src/utils/createFunction.ts#L26)*
 
 From the schema of a function in the module's storage, generate the function that will return the correct storage key.
 
@@ -28,8 +28,8 @@ From the schema of a function in the module's storage, generate the function tha
 
 | Name | Type | Default value | Description |
 | ------ | ------ | ------ | ------ |
-| section | `Text` | `string` | - |
-| method | `Text` | `string` | - |
+| section | `Text` \| `string` | - |
+| method | `Text` \| `string` | - |
 | meta | `StorageFunctionMetadata` | - |
 | `Default value` options | [CreateItemOptions](../interfaces/_utils_createfunction_.createitemoptions.md) |  {} |  Additional options when creating the function. These options are not known at runtime (from state\_getMetadata), they need to be supplied by us manually at compile time. |
 

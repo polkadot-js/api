@@ -25,15 +25,15 @@
 
 ##  constructor
 
-⊕ **new Text**(value?: *[Text](_text_.text.md) | `string` | [AnyU8a](../modules/_types_.md#anyu8a) | `object`*): [Text](_text_.text.md)
+⊕ **new Text**(value?: *[Text](_text_.text.md) \| `string` \| [AnyU8a](../modules/_types_.md#anyu8a) \| `object`*): [Text](_text_.text.md)
 
-*Defined in [Text.ts:23](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L23)*
+*Defined in [Text.ts:23](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L23)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | [Text](_text_.text.md) | `string` | [AnyU8a](../modules/_types_.md#anyu8a) | `object` | &quot;&quot; |
+| `Default value` value | [Text](_text_.text.md) \| `string` \| [AnyU8a](../modules/_types_.md#anyu8a) \| `object` | &quot;&quot; |
 
 **Returns:** [Text](_text_.text.md)
 
@@ -47,7 +47,7 @@ ___
 
 **● String**: *`StringConstructor`*
 
-*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:517*
+*Defined in /home/travis/build/polkadot-js/api/node_modules/typescript/lib/lib.es5.d.ts:527*
 
 Allows manipulation and formatting of text strings and determination and location of substrings within strings.
 
@@ -61,7 +61,7 @@ ___
 
 getencodedLength(): `number`
 
-*Defined in [Text.ts:45](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L45)*
+*Defined in [Text.ts:45](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L45)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -76,7 +76,7 @@ getlength(): `number`
 
 *Overrides String.length*
 
-*Defined in [Text.ts:52](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L52)*
+*Defined in [Text.ts:52](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L52)*
 
 *__description__*: The length of the value
 
@@ -94,7 +94,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [Text.ts:60](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L60)*
+*Defined in [Text.ts:60](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L60)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -115,7 +115,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L69)*
+*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L69)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -130,7 +130,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L76)*
+*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L76)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -147,7 +147,7 @@ ___
 
 *Overrides String.toString*
 
-*Defined in [Text.ts:83](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L83)*
+*Defined in [Text.ts:83](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L83)*
 
 *__description__*: Returns the string representation of the value
 
@@ -158,11 +158,11 @@ ___
 
 ##  toU8a
 
-▸ **toU8a**(isBare?: *`undefined` | `false` | `true`*): `Uint8Array`
+▸ **toU8a**(isBare?: *`undefined` \| `false` \| `true`*): `Uint8Array`
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [Text.ts:92](https://github.com/polkadot-js/api/blob/1b2694d/packages/types/src/Text.ts#L92)*
+*Defined in [Text.ts:92](https://github.com/polkadot-js/api/blob/4735253/packages/types/src/Text.ts#L92)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -170,7 +170,7 @@ ___
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `Optional` isBare | `undefined` | `false` | `true` |  true when the value has none of the type-specific prefixes (internal) |
+| `Optional` isBare | `undefined` \| `false` \| `true` |  true when the value has none of the type-specific prefixes (internal) |
 
 **Returns:** `Uint8Array`
 
