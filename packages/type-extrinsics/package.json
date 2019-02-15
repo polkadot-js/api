@@ -10,8 +10,8 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.1",
     "@polkadot/types": "^0.43.5",
-    "@polkadot/util": "^0.34.12"
+    "@polkadot/util": "^0.34.13"
   }
 }

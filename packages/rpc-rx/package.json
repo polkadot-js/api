@@ -29,12 +29,12 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.3.1",
     "@polkadot/rpc-core": "^0.43.5",
     "@polkadot/rpc-provider": "^0.43.5",
     "@types/memoizee": "^0.4.2",
     "@types/rx": "^4.1.1",
     "memoizee": "^0.4.14",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.4.0"
   }
 }

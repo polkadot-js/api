@@ -10,7 +10,7 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.3.3"
   },
   "scripts": {
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@polkadot/dev": "^0.23.15",
+    "@polkadot/dev": "^0.24.2",
     "@polkadot/ts": "^0.1.52"
   }
 }

@@ -41,7 +41,8 @@ export default class Struct<
     this._Types = (Object
       .keys(Types) as Array<keyof S>)
       .reduce((result: E, key) => {
-        result[key] = Types[key].name;
+        // TS2322: Type 'string' is not assignable to type 'E[keyof S]'.
+        (result as any)[key] = Types[key].name;
 
         return result;
       }, {} as E);
@@ -76,7 +77,8 @@ export default class Struct<
 
       // Transform array of values to {key: value} mapping
       return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
-        raw[key] = values[index];
+        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+        (raw as any)[key] = values[index];
         return raw;
       }, {} as T);
     } else if (!value) {
@@ -104,7 +106,8 @@ export default class Struct<
       } else if (value instanceof Map) {
         const mapped = value.get(jsonKey);
 
-        raw[key] = mapped instanceof Types[key]
+        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+        (raw as any)[key] = mapped instanceof Types[key]
           ? mapped
           : new Types[key](mapped);
       } else if (isObject(value)) {

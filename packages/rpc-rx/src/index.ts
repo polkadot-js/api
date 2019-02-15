@@ -117,27 +117,26 @@ export default class RpcRx implements RpcRxInterface {
   }
 
   private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RpcRxInterface$Method>): Observable<any> {
-    return Observable
-      .create((observer: Observer<any>): Function => {
-        const fn = section[name];
-        const callback = this.createReplayCallback(observer);
-        const subscribe = fn(...params, callback).catch((error) =>
-          observer.next(error)
-        );
-
-        return this.createReplayUnsub(fn, subscribe, params, memoized);
-      })
-      .pipe(
-        map((value) => {
-          if (value instanceof Error) {
-            throw value;
-          }
-
-          return value;
-        }),
-        publishReplay(1),
-        refCount()
+    return new Observable((observer: Observer<any>): Function => {
+      const fn = section[name];
+      const callback = this.createReplayCallback(observer);
+      const subscribe = fn(...params, callback).catch((error) =>
+        observer.next(error)
       );
+
+      return this.createReplayUnsub(fn, subscribe, params, memoized);
+    })
+    .pipe(
+      map((value) => {
+        if (value instanceof Error) {
+          throw value;
+        }
+
+        return value;
+      }),
+      publishReplay(1),
+      refCount()
+    );
   }
 
   private createReplayCallback (observer: Observer<any>) {
