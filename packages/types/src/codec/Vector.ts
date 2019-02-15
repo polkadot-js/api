@@ -91,7 +91,7 @@ export default class Vector<
       : new this._Type(_other);
 
     for (let i = 0; i < this.length; i++) {
-      if (this[i].eq(other)) {
+      if (other.eq(this[i])) {
         return i;
       }
     }
