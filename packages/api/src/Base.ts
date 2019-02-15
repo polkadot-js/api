@@ -27,6 +27,7 @@ import { Event, Hash, Metadata, Method, RuntimeVersion, typeRegistry } from '@po
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
 import { StorageFunction } from '@polkadot/types/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import SubmittableExtrinsic from './SubmittableExtrinsic';
 
@@ -324,9 +325,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
 
-      const hasMeta = await this.loadMeta();
+      const [hasMeta, cryptoReady] = await Promise.all([
+        this.loadMeta(),
+        cryptoWaitReady()
+      ]);
 
-      if (hasMeta && !this._isReady) {
+      if (hasMeta && !this._isReady && cryptoReady) {
         this._isReady = true;
 
         this.emit('ready', this);
