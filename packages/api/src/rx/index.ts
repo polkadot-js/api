@@ -173,7 +173,7 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
           resolveReady(this)
         )
       )
-    );
+    ) as Observable<ApiRx>;
   }
 
   /**

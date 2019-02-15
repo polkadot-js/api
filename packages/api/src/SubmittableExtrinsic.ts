@@ -4,7 +4,7 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
-import { CodecCallback, SignatureOptions } from '@polkadot/types/types';
+import { Codec, CodecCallback, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
@@ -179,7 +179,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     let updateId: number | undefined;
 
     return this._onCall(
-      () => (
+      () => ((
         isUndefined(options.nonce)
           ? this._api.query.system.accountNonce(address) as Observable<Index>
           : of(new Index(options.nonce))
@@ -199,7 +199,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
             ? this.subscribeObservable(updateId)
             : this.sendObservable(updateId) as any; // ???
         })
-      ),
+      ) as Observable<Codec>),
       [],
       statusCb as CodecCallback,
       isSubscription

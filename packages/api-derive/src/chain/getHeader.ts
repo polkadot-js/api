@@ -5,7 +5,7 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { HeaderExtended } from '@polkadot/types/Header';
+import { Header, HeaderExtended } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
@@ -26,7 +26,7 @@ export function getHeader (api: ApiInterface$Rx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     // tslint:disable-next-line
     (combineLatest(
-      api.rpc.chain.getHeader(hash),
+      api.rpc.chain.getHeader(hash) as Observable<Header>,
       api.query.session
         ? api.query.session.validators.at(hash)
         : of([])
