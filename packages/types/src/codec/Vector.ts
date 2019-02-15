@@ -82,6 +82,19 @@ export default class Vector<
   }
 
   /**
+   * @description Finds the index of the value in the array
+   */
+  indexOf (other?: any): number {
+    for (let i = 0; i < this.length; i++) {
+      if (this[i].eq(other)) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  /**
    * @description Converts the Object to an standard JavaScript Array
    */
   toArray (): Array<T> {
