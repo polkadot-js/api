@@ -84,7 +84,12 @@ export default class Vector<
   /**
    * @description Finds the index of the value in the array
    */
-  indexOf (other?: any): number {
+  indexOf (_other?: any): number {
+    // convert type first, this removes overhead from the eq
+    const other = _other instanceof this._Type
+      ? _other
+      : new this._Type(_other);
+
     for (let i = 0; i < this.length; i++) {
       if (this[i].eq(other)) {
         return i;
