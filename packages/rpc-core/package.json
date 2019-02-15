@@ -33,6 +33,6 @@
     "@polkadot/jsonrpc": "^0.43.4",
     "@polkadot/rpc-provider": "^0.43.4",
     "@polkadot/types": "^0.43.4",
-    "@polkadot/util": "^0.34.10"
+    "@polkadot/util": "^0.34.11"
   }
 }
