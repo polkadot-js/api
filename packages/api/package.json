@@ -36,6 +36,7 @@
     "@polkadot/rpc-rx": "^0.43.2",
     "@polkadot/storage": "^0.43.2",
     "@polkadot/types": "^0.43.2",
+    "@polkadot/util-crypto": "^0.34.9",
     "@types/rx": "^4.1.1",
     "rxjs": "^6.3.3"
   }

@@ -30,7 +30,7 @@ const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(
   )
 );
 
-const keyring = testKeyring({ type: 'sr25519' });
+const keyring = testKeyring({ type: 'ed25519' });
 const l = logger('api-mock');
 
 /**
