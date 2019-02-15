@@ -36,6 +36,6 @@
     "@polkadot/rpc-rx": "^0.43.5",
     "@polkadot/storage": "^0.43.5",
     "@polkadot/types": "^0.43.5",
-    "@polkadot/util-crypto": "^0.34.13"
+    "@polkadot/util-crypto": "^0.34.15"
   }
 }
