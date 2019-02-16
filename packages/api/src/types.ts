@@ -48,7 +48,6 @@ export type U64Result<CodecResult, SubscriptionResult> =
 
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
   (arg?: CodecArg): CodecResult;
-  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
@@ -85,7 +84,21 @@ export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
   [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
 }
 
-export type DeriveMethod<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => CodecResult | SubscriptionResult;
+export interface DeriveMethodBase<CodecResult, SubscriptionResult> {
+  (...params: Array<CodecArg>): CodecResult;
+}
+
+interface DeriveMethodPromise<CodecResult, SubscriptionResult> extends DeriveMethodBase<CodecResult, SubscriptionResult> {
+  (callback: CodecCallback): SubscriptionResult;
+  (arg0: CodecArg, callback: CodecCallback): SubscriptionResult;
+  (arg0: CodecArg, arg1: CodecArg, callback: CodecCallback): SubscriptionResult;
+  (arg0: CodecArg, arg1: CodecArg, arg2: CodecArg, callback: CodecCallback): SubscriptionResult;
+}
+
+export type DeriveMethod<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? DeriveMethodBase<CodecResult, SubscriptionResult>
+    : DeriveMethodPromise<CodecResult, SubscriptionResult>;
 
 export interface DeriveSection<CodecResult, SubscriptionResult> {
   [index: string]: DeriveMethod<CodecResult, SubscriptionResult>;

@@ -6,7 +6,7 @@
 
 import { ApiPromise } from '@polkadot/api/index';
 import testKeyring from '@polkadot/keyring/testingPairs';
-// import { Header, HeaderExtended } from '@polkadot/types/index';
+import { Header, HeaderExtended } from '@polkadot/types/index';
 
 export default async function test () {
   const api = await ApiPromise.create();
@@ -19,13 +19,13 @@ export default async function test () {
     console.log('intentions:', intentions);
   });
 
-  // api.rpc.chain.subscribeNewHead((header: Header) => {
-  //   console.log('current blockNumber:', header.blockNumber);
-  // });
+  api.rpc.chain.subscribeNewHead((header: Header) => {
+    console.log('current blockNumber:', header.blockNumber);
+  });
 
-  // api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
-  //   console.log('current author:', header.author);
-  // });
+  api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
+    console.log('current author:', header.author);
+  });
 
   const hash = await api.tx.balances
     .transfer(keyring.bob.address(), 12345)
