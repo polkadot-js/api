@@ -48,6 +48,7 @@ export type U64Result<CodecResult, SubscriptionResult> =
 
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
   (arg?: CodecArg): CodecResult;
+  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;

@@ -1415,14 +1415,14 @@
     typedoc-plugin-no-inherit "^1.1.6"
     typescript "^3.3.3"
 
-"@polkadot/keyring@^0.34.15":
-  version "0.34.15"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.34.15.tgz#ba8d1293cbfdd70dd9ef7d9568fd9303314cee54"
-  integrity sha512-unMuFK5i8w7g1w10gPHqSgHNHMLrrr33eBkIZg5DwKjbHphhBa3vdUpLR72Gsrc3W285y8qZIUhC8E/SUAR7eg==
+"@polkadot/keyring@^0.34.16":
+  version "0.34.16"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.34.16.tgz#0d232e5cd27dc77dc20121d3a98a0237e7a89d55"
+  integrity sha512-z+VzoFpaca7k6VEtq8Rzi72gygsqAHhy9RXYGraV7lEix0X9kAF35Zb+AMKYK+Hy9FXtN8WyVesZ+zEfilKADQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
-    "@polkadot/util" "^0.34.15"
-    "@polkadot/util-crypto" "^0.34.15"
+    "@polkadot/util" "^0.34.16"
+    "@polkadot/util-crypto" "^0.34.16"
     "@types/bs58" "^4.0.0"
     bs58 "^4.0.1"
 
@@ -1431,14 +1431,14 @@
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.52.tgz#6fb09e494d244dad4b3a9ca581bfe13beec66565"
   integrity sha512-sij1O0x4CY51A394RYD4/aQwDPwIxIeTOpYI4AZgdF/vq5nvF14b4XFq9vAcSnblaIosf0sYKoz1f3dkN3QqLw==
 
-"@polkadot/util-crypto@^0.34.15":
-  version "0.34.15"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.34.15.tgz#528a98d73a744b220e43f1f220140c866a886f39"
-  integrity sha512-UO+8yb8obHA0BxjCdHsnMRxL61SJ/kzQ2gGAOMPf3k0CgrNWlNF+SfBiZhaPkf+nqyRJPS6R3SxC7Pl6PrynNA==
+"@polkadot/util-crypto@^0.34.16":
+  version "0.34.16"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.34.16.tgz#e095e40b3ae0b34c07f261fc5dc3a440e00ecc37"
+  integrity sha512-L8jZgYnhKLydDeGqfc8KRZBUm3jQb5IBJ4+GPVLNdxpw06fIv+5/DiKfNwQ/2LOVNkphd88TisZfA4zXllPlWQ==
   dependencies:
     "@babel/runtime" "^7.3.1"
     "@parity/schnorrkel-js" "^0.1.2"
-    "@polkadot/util" "^0.34.15"
+    "@polkadot/util" "^0.34.16"
     "@types/bip39" "^2.4.2"
     "@types/webassembly-js-api" "^0.0.2"
     "@types/xxhashjs" "^0.2.0"
@@ -1448,10 +1448,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.34.15":
-  version "0.34.15"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.34.15.tgz#ea7168748fab68244d915f9e88cb1d5cdad27023"
-  integrity sha512-PkmLRZq+XQc27RHTtvaP+V8uWVR5cT1Y6spVKMlEadYreQtesfUNN5Ujaj9zCFuMnmV3Ye89bYqTvaA4cNy99A==
+"@polkadot/util@^0.34.16":
+  version "0.34.16"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.34.16.tgz#759efc861d68072a92fac90668fa0d88e816590b"
+  integrity sha512-Y9Y9nCx+e6H3HGvOHJ75+4owt5fwVIqNYtHrkjqG4ygIBEj5vfpF01iPVR/M8DG6lmt6PCP2QZXV5ZC8cjPcLw==
   dependencies:
     "@babel/runtime" "^7.3.1"
     "@types/bn.js" "^4.11.4"
