@@ -15,7 +15,7 @@
 
 **● derive**: *[Derive](_types_.derive.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:137](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L137)*
+*Defined in [types.ts:137](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L137)*
 
 ___
 <a id="genesishash"></a>
@@ -24,7 +24,7 @@ ___
 
 **● genesisHash**: *`Hash`*
 
-*Defined in [types.ts:133](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L133)*
+*Defined in [types.ts:133](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L133)*
 
 ___
 <a id="hassubscriptions"></a>
@@ -33,7 +33,7 @@ ___
 
 **● hasSubscriptions**: *`boolean`*
 
-*Defined in [types.ts:134](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L134)*
+*Defined in [types.ts:134](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L134)*
 
 ___
 <a id="query"></a>
@@ -42,7 +42,7 @@ ___
 
 **● query**: *[QueryableStorage](_types_.queryablestorage.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:138](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L138)*
+*Defined in [types.ts:138](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L138)*
 
 ___
 <a id="rpc"></a>
@@ -51,7 +51,7 @@ ___
 
 **● rpc**: *[DecoratedRpc](_types_.decoratedrpc.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:139](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L139)*
+*Defined in [types.ts:139](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L139)*
 
 ___
 <a id="runtimemetadata"></a>
@@ -60,7 +60,7 @@ ___
 
 **● runtimeMetadata**: *`Metadata`*
 
-*Defined in [types.ts:135](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L135)*
+*Defined in [types.ts:135](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L135)*
 
 ___
 <a id="runtimeversion"></a>
@@ -69,7 +69,7 @@ ___
 
 **● runtimeVersion**: *`RuntimeVersion`*
 
-*Defined in [types.ts:136](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L136)*
+*Defined in [types.ts:136](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L136)*
 
 ___
 <a id="signer"></a>
@@ -78,7 +78,7 @@ ___
 
 **● signer**: *[Signer](_types_.signer.md)*
 
-*Defined in [types.ts:141](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L141)*
+*Defined in [types.ts:141](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L141)*
 
 ___
 <a id="tx"></a>
@@ -87,7 +87,7 @@ ___
 
 **● tx**: *[SubmittableExtrinsics](_types_.submittableextrinsics.md)<`CodecResult`, `SubscriptionResult`>*
 
-*Defined in [types.ts:140](https://github.com/polkadot-js/api/blob/c4ba8ca/packages/api/src/types.ts#L140)*
+*Defined in [types.ts:140](https://github.com/polkadot-js/api/blob/9921792/packages/api/src/types.ts#L140)*
 
 ___
 
