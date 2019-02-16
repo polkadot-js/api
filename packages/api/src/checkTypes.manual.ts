@@ -15,15 +15,15 @@ export default async function test () {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
 
-  api.query.staking.intentions((intentions) => {
+  await api.query.staking.intentions((intentions) => {
     console.log('intentions:', intentions);
   });
 
-  api.rpc.chain.subscribeNewHead((header: Header) => {
+  await api.rpc.chain.subscribeNewHead((header: Header) => {
     console.log('current blockNumber:', header.blockNumber);
   });
 
-  api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
     console.log('current author:', header.author);
   });
 
