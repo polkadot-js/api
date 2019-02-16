@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/extrinsics",
-  "version": "0.43.6",
+  "version": "0.43.8",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/api.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",

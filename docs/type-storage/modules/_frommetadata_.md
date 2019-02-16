@@ -8,7 +8,7 @@
 
 ▸ **fromMetadata**(metadata: *`MetadataV0`*): [Storage](../interfaces/_types_.storage.md)
 
-*Defined in [fromMetadata.ts:20](https://github.com/polkadot-js/api/blob/4735253/packages/type-storage/src/fromMetadata.ts#L20)*
+*Defined in [fromMetadata.ts:20](https://github.com/polkadot-js/api/blob/89c6289/packages/type-storage/src/fromMetadata.ts#L20)*
 
 Extend a storage object with the storage modules & module functions present in the metadata.
 
