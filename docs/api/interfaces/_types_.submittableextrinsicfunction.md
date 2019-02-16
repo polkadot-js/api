@@ -14,7 +14,7 @@
 
 ▸ **__call**(...args: *`any`[]*): `Method`
 
-*Defined in [types.ts:75](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/types.ts#L75)*
+*Defined in [types.ts:75](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/types.ts#L75)*
 
 **Parameters:**
 
@@ -24,7 +24,7 @@
 
 **Returns:** [SubmittableExtrinsic](../classes/_submittableextrinsic_.submittableextrinsic.md)<`CodecResult`, `SubscriptionResult`>
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:28](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L28)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:28](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L28)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@
 
 *Inherited from MethodFunction.callIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:30](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L30)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:30](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L30)*
 
 ___
 <a id="meta"></a>
@@ -55,7 +55,7 @@ ___
 
 *Inherited from MethodFunction.meta*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:31](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L31)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:31](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L31)*
 
 ___
 <a id="method"></a>
@@ -66,7 +66,7 @@ ___
 
 *Inherited from MethodFunction.method*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:32](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L32)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:32](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L32)*
 
 ___
 <a id="section"></a>
@@ -77,7 +77,7 @@ ___
 
 *Inherited from MethodFunction.section*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:33](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L33)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:33](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L33)*
 
 ___
 <a id="tojson"></a>
@@ -88,7 +88,7 @@ ___
 
 *Inherited from MethodFunction.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:34](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/Method.ts#L34)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/Method.ts:34](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/Method.ts#L34)*
 
 #### Type declaration
 ▸(): `any`

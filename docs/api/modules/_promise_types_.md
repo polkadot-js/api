@@ -24,7 +24,7 @@
 
 **Ƭ CodecResult**: *`Promise`<`Codec`>*
 
-*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/promise/types.ts#L13)*
+*Defined in [promise/types.ts:13](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/promise/types.ts#L13)*
 
 ___
 <a id="queryablestoragefunction"></a>
@@ -33,7 +33,7 @@ ___
 
 **Ƭ QueryableStorageFunction**: *[QueryableStorageFunctionBase](../interfaces/_types_.queryablestoragefunctionbase.md)<[CodecResult](_promise_types_.md#codecresult), [SubscriptionResult](_promise_types_.md#subscriptionresult)>*
 
-*Defined in [promise/types.ts:19](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/promise/types.ts#L19)*
+*Defined in [promise/types.ts:19](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/promise/types.ts#L19)*
 
 ___
 <a id="submittableextrinsic"></a>
@@ -42,7 +42,7 @@ ___
 
 **Ƭ SubmittableExtrinsic**: *`SubmittableExtrinsicBase`<[CodecResult](_promise_types_.md#codecresult), [SubscriptionResult](_promise_types_.md#subscriptionresult)>*
 
-*Defined in [promise/types.ts:20](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/promise/types.ts#L20)*
+*Defined in [promise/types.ts:20](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/promise/types.ts#L20)*
 
 ___
 <a id="submittableextrinsicfunction"></a>
@@ -51,7 +51,7 @@ ___
 
 **Ƭ SubmittableExtrinsicFunction**: *`SubmittableExtrinsicFunctionBase`<[CodecResult](_promise_types_.md#codecresult), [SubscriptionResult](_promise_types_.md#subscriptionresult)>*
 
-*Defined in [promise/types.ts:21](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/promise/types.ts#L21)*
+*Defined in [promise/types.ts:21](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/promise/types.ts#L21)*
 
 ___
 <a id="subscriptionresult"></a>
@@ -60,7 +60,7 @@ ___
 
 **Ƭ SubscriptionResult**: *`Promise`<`function`>*
 
-*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/api/src/promise/types.ts#L11)*
+*Defined in [promise/types.ts:11](https://github.com/polkadot-js/api/blob/89c6289/packages/api/src/promise/types.ts#L11)*
 
 ___
 

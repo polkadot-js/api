@@ -31,7 +31,7 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [SignaturePayload.ts:36](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L36)*
+*Defined in [SignaturePayload.ts:36](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L36)*
 
 **Parameters:**
 
@@ -78,7 +78,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L145)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -91,7 +91,7 @@ ___
 
 getblockHash(): [Hash](_hash_.hash.md)
 
-*Defined in [SignaturePayload.ts:57](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L57)*
+*Defined in [SignaturePayload.ts:57](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L57)*
 
 *__description__*: The block [Hash](_hash_.hash.md) the signature applies to (mortal/immortal)
 
@@ -106,7 +106,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L152)*
+*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L152)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -119,7 +119,7 @@ ___
 
 getera(): [ExtrinsicEra](_extrinsicera_.extrinsicera.md)
 
-*Defined in [SignaturePayload.ts:71](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L71)*
+*Defined in [SignaturePayload.ts:71](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L71)*
 
 *__description__*: The [ExtrinsicEra](_extrinsicera_.extrinsicera.md)
 
@@ -132,7 +132,7 @@ ___
 
 getisSigned(): `boolean`
 
-*Defined in [SignaturePayload.ts:50](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L50)*
+*Defined in [SignaturePayload.ts:50](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L50)*
 
 *__description__*: `true` if the payload refers to a valid signature
 
@@ -145,7 +145,7 @@ ___
 
 getmethod(): [Method](_method_.method.md)
 
-*Defined in [SignaturePayload.ts:64](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L64)*
+*Defined in [SignaturePayload.ts:64](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L64)*
 
 *__description__*: The [Method](_method_.method.md) contained in the payload
 
@@ -158,7 +158,7 @@ ___
 
 getnonce(): [Nonce](_nonce_.nonce.md)
 
-*Defined in [SignaturePayload.ts:78](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L78)*
+*Defined in [SignaturePayload.ts:78](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L78)*
 
 *__description__*: The [Nonce](_nonce_.nonce.md)
 
@@ -171,7 +171,7 @@ ___
 
 getsignature(): `Uint8Array`
 
-*Defined in [SignaturePayload.ts:85](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L85)*
+*Defined in [SignaturePayload.ts:85](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L85)*
 
 *__description__*: The raw signature as a `Uint8Array`
 
@@ -253,7 +253,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[eq](_codec_struct_.struct.md#eq)*
 
-*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L161)*
+*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L161)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -296,7 +296,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L169)*
+*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L169)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -317,7 +317,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L176)*
+*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L176)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -390,7 +390,7 @@ ___
 
 ▸ **sign**(signerPair: *`KeyringPair`*, version?: *[RuntimeVersion](_runtimeversion_.runtimeversion.md)*): `Uint8Array`
 
-*Defined in [SignaturePayload.ts:96](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/SignaturePayload.ts#L96)*
+*Defined in [SignaturePayload.ts:96](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/SignaturePayload.ts#L96)*
 
 *__description__*: Sign the payload with the keypair
 
@@ -412,7 +412,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L183)*
+*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L183)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -429,7 +429,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L190)*
+*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L190)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -446,7 +446,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L197)*
+*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L197)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -463,7 +463,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L211)*
+*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L211)*
 
 *__description__*: Returns the string representation of the value
 
@@ -480,7 +480,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L219)*
+*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L219)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -516,7 +516,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/89c6289/packages/types/src/codec/Struct.ts#L125)*
 
 **Type parameters:**
 

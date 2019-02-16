@@ -38,7 +38,7 @@ const api = new Api(provider);
 
 ⊕ **new Rpc**(provider?: *`ProviderInterface`*): [Rpc](_index_.rpc.md)
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L45)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L45)*
 
 *__constructor__*: Default constructor for the Api Object
 
@@ -60,7 +60,7 @@ ___
 
 **● _provider**: *`ProviderInterface`*
 
-*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L41)*
+*Defined in [index.ts:41](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L41)*
 
 ___
 <a id="author"></a>
@@ -71,7 +71,7 @@ ___
 
 *Implementation of [RpcInterface](../interfaces/_types_.rpcinterface.md).[author](../interfaces/_types_.rpcinterface.md#author)*
 
-*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L42)*
+*Defined in [index.ts:42](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L42)*
 
 ___
 <a id="chain"></a>
@@ -82,7 +82,7 @@ ___
 
 *Implementation of [RpcInterface](../interfaces/_types_.rpcinterface.md).[chain](../interfaces/_types_.rpcinterface.md#chain)*
 
-*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L43)*
+*Defined in [index.ts:43](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L43)*
 
 ___
 <a id="state"></a>
@@ -93,7 +93,7 @@ ___
 
 *Implementation of [RpcInterface](../interfaces/_types_.rpcinterface.md).[state](../interfaces/_types_.rpcinterface.md#state)*
 
-*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L44)*
+*Defined in [index.ts:44](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L44)*
 
 ___
 <a id="system"></a>
@@ -104,7 +104,7 @@ ___
 
 *Implementation of [RpcInterface](../interfaces/_types_.rpcinterface.md).[system](../interfaces/_types_.rpcinterface.md#system)*
 
-*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L45)*
+*Defined in [index.ts:45](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L45)*
 
 ___
 
@@ -116,7 +116,7 @@ ___
 
 ▸ **disconnect**(): `void`
 
-*Defined in [index.ts:89](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L89)*
+*Defined in [index.ts:89](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L89)*
 
 *__description__*: Manually disconnect from the attached provider
 
@@ -129,7 +129,7 @@ ___
 
 ▸ **signature**(__namedParameters: *`object`*): `string`
 
-*Defined in [index.ts:78](https://github.com/polkadot-js/api/blob/eb5e2f7/packages/rpc-core/src/index.ts#L78)*
+*Defined in [index.ts:78](https://github.com/polkadot-js/api/blob/89c6289/packages/rpc-core/src/index.ts#L78)*
 
 *__name__*: signature
 
