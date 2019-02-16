@@ -26,10 +26,15 @@ async function main () {
     // retrieve the hash once we are finalised
     if (type === 'Finalised') {
       console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalised.toHex()}`);
+
+      process.exit();
     } else {
       console.log(`Transaction status: ${type}`);
     }
   });
 }
 
-main().catch(console.error).finally(_ => process.exit());
+main().catch((error) => {
+  console.error(error);
+  process.exit(-1);
+});
