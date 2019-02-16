@@ -1,3 +1,4 @@
+// @ts-check
 // Import the API
 const { ApiPromise } = require('@polkadot/api');
 

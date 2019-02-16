@@ -1,3 +1,4 @@
+// @ts-check
 // Required imports
 const { ApiPromise } = require('@polkadot/api');
 const { WsProvider } = require('@polkadot/rpc-provider');
