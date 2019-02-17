@@ -24,7 +24,7 @@
 
 *Inherited from [Moment](_moment_.moment.md).[constructor](_moment_.moment.md#constructor)*
 
-*Defined in [Moment.ts:24](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L24)*
+*Defined in [Moment.ts:24](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L24)*
 
 **Parameters:**
 
@@ -65,7 +65,7 @@ getencodedLength(): `number`
 
 *Inherited from [Moment](_moment_.moment.md).[encodedLength](_moment_.moment.md#encodedlength)*
 
-*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L51)*
+*Defined in [Moment.ts:51](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L51)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -155,7 +155,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[bitLength](_moment_.moment.md#bitlength)*
 
-*Defined in [Moment.ts:65](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L65)*
+*Defined in [Moment.ts:65](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L65)*
 
 *__description__*: Returns the number of bits in the value
 
@@ -172,7 +172,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[eq](_moment_.moment.md#eq)*
 
-*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L58)*
+*Defined in [Moment.ts:58](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L58)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -796,7 +796,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[toBn](_moment_.moment.md#tobn)*
 
-*Defined in [Moment.ts:72](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L72)*
+*Defined in [Moment.ts:72](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L72)*
 
 *__description__*: Returns the BN representation of the timestamp
 
@@ -828,7 +828,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[toHex](_moment_.moment.md#tohex)*
 
-*Defined in [Moment.ts:79](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L79)*
+*Defined in [Moment.ts:79](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L79)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -862,7 +862,7 @@ ___
 
 *Overrides Date.toJSON*
 
-*Defined in [Moment.ts:86](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L86)*
+*Defined in [Moment.ts:86](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L86)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -922,7 +922,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[toNumber](_moment_.moment.md#tonumber)*
 
-*Defined in [Moment.ts:93](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L93)*
+*Defined in [Moment.ts:93](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L93)*
 
 *__description__*: Returns the number representation for the timestamp
 
@@ -941,7 +941,7 @@ ___
 
 *Overrides Date.toString*
 
-*Defined in [Moment.ts:100](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L100)*
+*Defined in [Moment.ts:100](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L100)*
 
 *__description__*: Returns the string representation of the value
 
@@ -973,7 +973,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[toU8a](_moment_.moment.md#tou8a)*
 
-*Defined in [Moment.ts:109](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L109)*
+*Defined in [Moment.ts:109](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L109)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -1024,7 +1024,7 @@ ___
 
 *Inherited from [Moment](_moment_.moment.md).[decodeMoment](_moment_.moment.md#decodemoment)*
 
-*Defined in [Moment.ts:34](https://github.com/polkadot-js/api/blob/40a1ec9/packages/types/src/Moment.ts#L34)*
+*Defined in [Moment.ts:34](https://github.com/polkadot-js/api/blob/5a0d692/packages/types/src/Moment.ts#L34)*
 
 **Parameters:**
 

@@ -1,33 +1,33 @@
 ## <a id='top' style='text-decoration: none;'>Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
-- **[sectionName](#sectionName)**
+- **[balances](#balances)**
 
-- **[sectionName](#sectionName)**
+- **[consensus](#consensus)**
 
-- **[sectionName](#sectionName)**
+- **[council](#council)**
 
-- **[sectionName](#sectionName)**
+- **[councilMotions](#councilMotions)**
 
-- **[sectionName](#sectionName)**
+- **[councilVoting](#councilVoting)**
 
-- **[sectionName](#sectionName)**
+- **[democracy](#democracy)**
 
-- **[sectionName](#sectionName)**
+- **[grandpaFinality](#grandpaFinality)**
 
-- **[sectionName](#sectionName)**
+- **[indices](#indices)**
 
-- **[sectionName](#sectionName)**
+- **[session](#session)**
 
-- **[sectionName](#sectionName)**
+- **[staking](#staking)**
 
-- **[sectionName](#sectionName)**
+- **[sudo](#sudo)**
 
-- **[sectionName](#sectionName)**
+- **[system](#system)**
 
-- **[sectionName](#sectionName)**
+- **[timestamp](#timestamp)**
 
-- **[sectionName](#sectionName)**
+- **[treasury](#treasury)**
 
 - **[substrate](#substrate)**
 
