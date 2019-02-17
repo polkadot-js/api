@@ -202,7 +202,9 @@ export default class Type extends Text {
         // replace <Lookup as StaticLookup>
         .replace(/<LookupasStaticLookup>/g, 'Lookup')
         // replace `<...>::Type`
-        .replace(/::Type/g, '');
+        .replace(/::Type/g, '')
+        // replace `wasm::*` eg. `wasm::PrefabWasmModule`
+        .replace(/wasm::/g, '');
     };
   }
 
