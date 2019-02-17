@@ -136,7 +136,7 @@ function addStorage (metadata: MetadataV0) {
 
     const sectionName = stringLowerFirst(moduleMetadata.storage.unwrap().prefix.toString());
 
-    renderAnchors += sectionLink('sectionName');
+    renderAnchors += sectionLink(sectionName);
 
     const renderSection = generateSectionHeader(md, sectionName);
     const orderedMethods = moduleMetadata.storage.unwrap().functions.sort();
