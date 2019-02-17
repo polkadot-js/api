@@ -1,8 +1,6 @@
 ## <a id='top' style='text-decoration: none;'>Extrinsics
 
-_The following sections contain Extrinsics methods are part of the default Substrate runtime. Since an Extrinsic is a holder of an object that is just an array of bytes to be included, it does not have a return._
-- **[aura](#aura)**
-
+_The following sections contain Extrinsics methods are part of the default Substrate runtime._
 - **[balances](#balances)**
 
 - **[consensus](#consensus)**
@@ -19,15 +17,11 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[grandpa](#grandpa)**
 
-- **[indices](#indices)**
-
 - **[session](#session)**
 
 - **[staking](#staking)**
 
 - **[sudo](#sudo)**
-
-- **[system](#system)**
 
 - **[timestamp](#timestamp)**
 

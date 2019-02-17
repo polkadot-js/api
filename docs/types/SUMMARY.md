@@ -350,7 +350,6 @@
 * [&quot;index&quot;](modules/_index_.md)
 * [&quot;index.classes&quot;](modules/_index_classes_.md)
 * [&quot;index.spec&quot;](modules/_index_spec_.md)
-* [&quot;scripts/MetadataJsonDecode&quot;](modules/_scripts_metadatajsondecode_.md)
 * [&quot;scripts/MetadataMd&quot;](modules/_scripts_metadatamd_.md)
 * [&quot;types&quot;](modules/_types_.md)
   * [Codec](interfaces/_types_.codec.md)
