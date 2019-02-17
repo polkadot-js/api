@@ -68,17 +68,23 @@ ___
 ### <a id='contract'></a>contract
 
 ▸ **call**(dest: `Address`, value: `Compact<Balance>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
-- **summary**:   Make a call to a specified account, optionally transferring some balance.  Make a call to a specified account, optionally transferring some balance.
+- **summary**:   Make a call to a specified account, optionally transferring some balance.
 
-▸ **create**(endowment: `Compact<Balance>`, gas_limit: `Compact<Gas>`, ctor_code: `Bytes`, data: `Bytes`)
+▸ **create**(endowment: `Compact<Balance>`, gas_limit: `Compact<Gas>`, code_hash: `CodeHash`, data: `Bytes`)
 - **summary**:   Create a new contract, optionally transfering some balance to the created account.   Creation is executed as follows:   - the destination address is computed based on the sender and hash of the code.  - account is created at the computed address.  - the `ctor_code` is executed in the context of the newly created account. Buffer returned    after the execution is saved as the `code` of the account. That code will be invoked    upon any message received by this account.
+
+▸ **putCode**(gas_limit: `Compact<Gas>`, code: `Bytes`)
+- **summary**:   Stores code in the storage. You can instantiate contracts only with stored code.
+
+▸ **updateSchedule**(schedule: `Schedule`)
+- **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='council'></a>council
 
-▸ **presentWinner**(candidate: `Address`, total: `Compact<Balance>`, index: `Compact<VoteIndex>`)
+▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
 - **summary**:   Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``  `signed` should have at least
 
 ▸ **reapInactiveVoter**(reporter_index: `Compact<u32>`, who: `Address`, who_index: `Compact<u32>`, assumed_vote_index: `Compact<VoteIndex>`)
@@ -140,7 +146,7 @@ ___
 ▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
 - **summary**:   Remove a referendum.
 
-▸ **propose**(proposal: `Proposal`, value: `Compact<Balance>`)
+▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
 - **summary**:   Propose a sensitive action to be taken.
 
 ▸ **second**(proposal: `Compact<PropIndex>`)
@@ -236,14 +242,14 @@ ___
 ▸ **approveProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary  and the original deposit will be returned.
 
-▸ **configure**(proposal_bond: `Permill`, proposal_bond_minimum: `Compact<Balance>`, spend_period: `Compact<BlockNumber>`, burn: `Permill`)
+▸ **configure**(proposal_bond: `Compact<Permill>`, proposal_bond_minimum: `Compact<BalanceOf>`, spend_period: `Compact<BlockNumber>`, burn: `Compact<Permill>`)
 - **summary**:   (Re-)configure this module.
 
-▸ **proposeSpend**(value: `Compact<Balance>`, beneficiary: `Address`)
+▸ **proposeSpend**(value: `Compact<BalanceOf>`, beneficiary: `Address`)
 - **summary**:   Put forward a suggestion for spending. A deposit proportional to the value  is reserved and slashed if the proposal is rejected. It is returned once the  proposal is awarded.
 
 ▸ **rejectProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**:   Reject a proposed spend. The original deposit will be slashed.
 
-▸ **setPot**(new_pot: `Compact<Balance>`)
+▸ **setPot**(new_pot: `Compact<BalanceOf>`)
 - **summary**:   Set the balance of funds available to spend.

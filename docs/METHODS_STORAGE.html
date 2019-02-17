@@ -2142,6 +2142,8 @@
 </li>
 <li><p><strong><a href="#consensus">consensus</a></strong></p>
 </li>
+<li><p><strong><a href="#contract">contract</a></strong></p>
+</li>
 <li><p><strong><a href="#council">council</a></strong></p>
 </li>
 <li><p><strong><a href="#councilMotions">councilMotions</a></strong></p>
@@ -2204,10 +2206,61 @@
 <ul>
 <li><strong>summary</strong>:   The fee required to make a transfer.</li>
 </ul>
+<p>&#x25B8; <strong>vesting</strong>(<code>AccountId</code>): <code>VestingSchedule</code></p>
+<ul>
+<li><strong>summary</strong>:   Information regarding the vesting of a given account.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="consensus"><a id="consensus"></a>consensus</h3>
 <p>&#x25B8; <strong>originalAuthorities</strong>(): <code>Vec&lt;SessionKey&gt;</code></p>
+<hr>
+<p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
+<h3 id="contract"><a id="contract"></a>contract</h3>
+<p>&#x25B8; <strong>blockGasLimit</strong>(): <code>Gas</code></p>
+<ul>
+<li><strong>summary</strong>:   The maximum amount of gas that could be expended per block.</li>
+</ul>
+<p>&#x25B8; <strong>callBaseFee</strong>(): <code>Gas</code></p>
+<ul>
+<li><strong>summary</strong>:   The fee charged for a call into a contract.</li>
+</ul>
+<p>&#x25B8; <strong>codeHashOf</strong>(<code>AccountId</code>): <code>CodeHash</code></p>
+<ul>
+<li><strong>summary</strong>:   The code associated with a given account.</li>
+</ul>
+<p>&#x25B8; <strong>codeStorage</strong>(<code>CodeHash</code>): <code>PrefabWasmModule</code></p>
+<ul>
+<li><strong>summary</strong>:   A mapping between an original code hash and instrumented wasm code, ready for the execution.</li>
+</ul>
+<p>&#x25B8; <strong>contractFee</strong>(): <code>Balance</code></p>
+<ul>
+<li><strong>summary</strong>:   The fee required to create a contract. At least as big as staking&apos;s ReclaimRebate.</li>
+</ul>
+<p>&#x25B8; <strong>createBaseFee</strong>(): <code>Gas</code></p>
+<ul>
+<li><strong>summary</strong>:   The fee charged for a create of a contract.</li>
+</ul>
+<p>&#x25B8; <strong>currentSchedule</strong>(): <code>Schedule</code></p>
+<ul>
+<li><strong>summary</strong>:   Current cost schedule for contracts.</li>
+</ul>
+<p>&#x25B8; <strong>gasPrice</strong>(): <code>Balance</code></p>
+<ul>
+<li><strong>summary</strong>:   The price of one unit of gas.</li>
+</ul>
+<p>&#x25B8; <strong>gasSpent</strong>(): <code>Gas</code></p>
+<ul>
+<li><strong>summary</strong>:   Gas spent so far in this block.</li>
+</ul>
+<p>&#x25B8; <strong>maxDepth</strong>(): <code>u32</code></p>
+<ul>
+<li><strong>summary</strong>:   The maximum nesting level of a call/create stack.</li>
+</ul>
+<p>&#x25B8; <strong>pristineCode</strong>(<code>CodeHash</code>): <code>Bytes</code></p>
+<ul>
+<li><strong>summary</strong>:   A mapping from an original code hash to the original code, untouched by instrumentation.</li>
+</ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="council"><a id="council"></a>council</h3>
@@ -2219,7 +2272,7 @@
 <ul>
 <li><strong>summary</strong>:   A list of votes for each voter, respecting the last cleared vote index that this voter was  last active at.</li>
 </ul>
-<p>&#x25B8; <strong>candidacyBond</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>candidacyBond</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   How much should be locked up in order to submit one&apos;s candidacy.</li>
 </ul>
@@ -2244,7 +2297,7 @@
 <ul>
 <li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
 </ul>
-<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(Balance,AccountId)&gt;</code></p>
+<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(BalanceOf,AccountId)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Get the leaderboard if we;re in the presentation phase.</li>
 </ul>
@@ -2252,7 +2305,7 @@
 <ul>
 <li><strong>summary</strong>:   The accounts holding the seats that will become free on the next tally.</li>
 </ul>
-<p>&#x25B8; <strong>presentSlashPerVoter</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>presentSlashPerVoter</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   The punishment, per voter, if you provide an invalid presentation.</li>
 </ul>
@@ -2264,7 +2317,7 @@
 <ul>
 <li><strong>summary</strong>:   The vote index and list slot that the candidate <code>who</code> was registered or <code>None</code> if they are not  currently registered.</li>
 </ul>
-<p>&#x25B8; <strong>snapshotedStakes</strong>(): <code>Vec&lt;Balance&gt;</code></p>
+<p>&#x25B8; <strong>snapshotedStakes</strong>(): <code>Vec&lt;BalanceOf&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The stakes as they were at the point that the vote ended.</li>
 </ul>
@@ -2280,7 +2333,7 @@
 <ul>
 <li><strong>summary</strong>:   The present voter list.</li>
 </ul>
-<p>&#x25B8; <strong>votingBond</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>votingBond</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   How much should be locked up in order to be able to submit votes.</li>
 </ul>
@@ -2328,7 +2381,7 @@
 <ul>
 <li><strong>summary</strong>:   The block at which the <code>who</code>&apos;s funds become liquid.</li>
 </ul>
-<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(Balance,Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(BalanceOf,Vec&lt;AccountId&gt;)</code></p>
 <ul>
 <li><strong>summary</strong>:   Those who have locked a deposit.</li>
 </ul>
@@ -2344,7 +2397,7 @@
 <ul>
 <li><strong>summary</strong>:   The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of <code>PublicDelay</code>.</li>
 </ul>
-<p>&#x25B8; <strong>minimumDeposit</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>minimumDeposit</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   The minimum amount to be used as a deposit for a public referendum proposal.</li>
 </ul>
@@ -2453,11 +2506,11 @@
 <ul>
 <li><strong>summary</strong>:   Nominators for a particular account that is in action right now.</li>
 </ul>
-<p>&#x25B8; <strong>currentOfflineSlash</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>currentOfflineSlash</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   Slash, per validator that is taken for the first time they are found to be offline.</li>
 </ul>
-<p>&#x25B8; <strong>currentSessionReward</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>currentSessionReward</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   Maximum reward, per validator, that is provided per acceptable session.</li>
 </ul>
@@ -2501,6 +2554,10 @@
 <ul>
 <li><strong>summary</strong>:   Number of instances of offline reports before slashing begins for validators.</li>
 </ul>
+<p>&#x25B8; <strong>recentlyOffline</strong>(): <code>Vec&lt;(AccountId,BlockNumber,u32)&gt;</code></p>
+<ul>
+<li><strong>summary</strong>:   Most recent <code>RECENT_OFFLINE_COUNT</code> instances. (who it was, when it was reported, how many instances they were offline for).</li>
+</ul>
 <p>&#x25B8; <strong>sessionReward</strong>(): <code>Perbill</code></p>
 <ul>
 <li><strong>summary</strong>:   Maximum reward, per validator, that is provided per acceptable session.</li>
@@ -2513,7 +2570,7 @@
 <ul>
 <li><strong>summary</strong>:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.</li>
 </ul>
-<p>&#x25B8; <strong>stakeRange</strong>(): <code>(Balance,Balance)</code></p>
+<p>&#x25B8; <strong>stakeRange</strong>(): <code>(BalanceOf,BalanceOf)</code></p>
 <ul>
 <li><strong>summary</strong>:   The highest and lowest staked validator slashable balances.</li>
 </ul>
@@ -2533,6 +2590,7 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="system"><a id="system"></a>system</h3>
 <p>&#x25B8; <strong>accountNonce</strong>(<code>AccountId</code>): <code>Index</code></p>
+<p>&#x25B8; <strong>allExtrinsicsLen</strong>(): <code>u32</code></p>
 <p>&#x25B8; <strong>blockHash</strong>(<code>BlockNumber</code>): <code>Hash</code></p>
 <p>&#x25B8; <strong>digest</strong>(): <code>Digest</code></p>
 <p>&#x25B8; <strong>events</strong>(): <code>Vec&lt;EventRecord&gt;</code></p>
@@ -2571,7 +2629,7 @@
 <ul>
 <li><strong>summary</strong>:   Percentage of spare funds (if any) that are burnt per spend period.</li>
 </ul>
-<p>&#x25B8; <strong>pot</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>pot</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   Total funds available to this module for spending.</li>
 </ul>
@@ -2579,7 +2637,7 @@
 <ul>
 <li><strong>summary</strong>:   Proportion of funds that should be bonded in order to place a proposal. An accepted  proposal gets these back. A rejected proposal doesn&apos;t.</li>
 </ul>
-<p>&#x25B8; <strong>proposalBondMinimum</strong>(): <code>Balance</code></p>
+<p>&#x25B8; <strong>proposalBondMinimum</strong>(): <code>BalanceOf</code></p>
 <ul>
 <li><strong>summary</strong>:   Minimum amount of funds that should be placed in a deposit for making a proposal.</li>
 </ul>
@@ -2666,7 +2724,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-02-17T07:57:04.548Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-17T07:58:51.561Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-02-17T10:07:01.823Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-17T10:08:50.481Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
