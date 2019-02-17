@@ -8,7 +8,7 @@ import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 import interfaces from '../../../type-jsonrpc/src';
 import Metadata from '../Metadata';
 import MetadataV0 from '../Metadata/v0';
-import rpcdata from '../Metadata/v0/static';
+import rpcdata from '../Metadata/static';
 import Method from '../Method';
 
 const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
