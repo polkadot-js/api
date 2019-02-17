@@ -31,7 +31,7 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Method.ts:70](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L70)*
+*Defined in [Method.ts:70](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L70)*
 
 **Parameters:**
 
@@ -79,7 +79,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L145)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -94,7 +94,7 @@ getargs(): `Array`<[Codec](../interfaces/_types_.codec.md)>
 
 *Inherited from [Method](_method_.method.md).[args](_method_.method.md#args)*
 
-*Defined in [Method.ts:192](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L192)*
+*Defined in [Method.ts:192](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L192)*
 
 *__description__*: The arguments for the function call
 
@@ -109,7 +109,7 @@ getargsDef(): `ArgsDef`
 
 *Inherited from [Method](_method_.method.md).[argsDef](_method_.method.md#argsdef)*
 
-*Defined in [Method.ts:200](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L200)*
+*Defined in [Method.ts:200](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L200)*
 
 *__description__*: Thge argument defintions
 
@@ -124,7 +124,7 @@ getcallIndex(): `Uint8Array`
 
 *Inherited from [Method](_method_.method.md).[callIndex](_method_.method.md#callindex)*
 
-*Defined in [Method.ts:207](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L207)*
+*Defined in [Method.ts:207](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L207)*
 
 *__description__*: The encoded `[sectionIndex, methodIndex]` identifier
 
@@ -139,7 +139,7 @@ getdata(): `Uint8Array`
 
 *Inherited from [Method](_method_.method.md).[data](_method_.method.md#data)*
 
-*Defined in [Method.ts:214](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L214)*
+*Defined in [Method.ts:214](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L214)*
 
 *__description__*: The encoded data
 
@@ -154,7 +154,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L152)*
+*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L152)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -169,7 +169,7 @@ gethasOrigin(): `boolean`
 
 *Inherited from [Method](_method_.method.md).[hasOrigin](_method_.method.md#hasorigin)*
 
-*Defined in [Method.ts:221](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L221)*
+*Defined in [Method.ts:221](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L221)*
 
 *__description__*: `true` if the `Origin` type is on the method (extrinsic method)
 
@@ -184,7 +184,7 @@ getmeta(): [FunctionMetadata](_metadata_v0_modules_.functionmetadata.md)
 
 *Inherited from [Method](_method_.method.md).[meta](_method_.method.md#meta)*
 
-*Defined in [Method.ts:230](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L230)*
+*Defined in [Method.ts:230](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L230)*
 
 *__description__*: The [FunctionMetadata](_metadata_v0_modules_.functionmetadata.md)
 
@@ -266,7 +266,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[eq](_codec_struct_.struct.md#eq)*
 
-*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L161)*
+*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L161)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -309,7 +309,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L169)*
+*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L169)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -330,7 +330,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L176)*
+*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L176)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -405,7 +405,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L183)*
+*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L183)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -422,7 +422,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L190)*
+*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L190)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -439,7 +439,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L197)*
+*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L197)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -456,7 +456,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L211)*
+*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L211)*
 
 *__description__*: Returns the string representation of the value
 
@@ -473,7 +473,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L219)*
+*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L219)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -509,7 +509,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[filterOrigin](_method_.method.md#filterorigin)*
 
-*Defined in [Method.ts:140](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L140)*
+*Defined in [Method.ts:140](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L140)*
 
 **Parameters:**
 
@@ -528,7 +528,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[findFunction](_method_.method.md#findfunction)*
 
-*Defined in [Method.ts:156](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L156)*
+*Defined in [Method.ts:156](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L156)*
 
 **Parameters:**
 
@@ -547,7 +547,7 @@ ___
 
 *Inherited from [Method](_method_.method.md).[injectMethods](_method_.method.md#injectmethods)*
 
-*Defined in [Method.ts:181](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/Method.ts#L181)*
+*Defined in [Method.ts:181](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/Method.ts#L181)*
 
 **Parameters:**
 
@@ -566,7 +566,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/9921792/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/9a56f1b/packages/types/src/codec/Struct.ts#L125)*
 
 **Type parameters:**
 
