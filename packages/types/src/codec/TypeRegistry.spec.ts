@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TypeRegistry } from './typeRegistry';
-import Text from '../Text';
-import U32 from '../U32';
+import Text from '../primitives/Text';
+import U32 from '../primitives/U32';
 
 describe('TypeRegistry', () => {
   let registry: TypeRegistry;

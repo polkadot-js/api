@@ -5,10 +5,10 @@
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Bytes from '../../Bytes';
-import Null from '../../Null';
-import Text from '../../Text';
-import Type from '../../Type';
+import Bytes from '../../primitives/Bytes';
+import Null from '../../primitives/Null';
+import Text from '../../primitives/Text';
+import Type from '../../primitives/Type';
 
 export class Default extends Null {}
 

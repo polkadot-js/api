@@ -5,7 +5,7 @@
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/AccountIndex';
+import { ENUMSET_SIZE } from '@polkadot/types/structs/AccountIndex';
 import { AccountId, AccountIndex, Vector } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';

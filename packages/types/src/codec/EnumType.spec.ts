@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import EnumType from './EnumType';
-import Null from '../Null';
-import Text from '../Text';
-import U32 from '../U32';
+import Null from '../primitives/Null';
+import Text from '../primitives/Text';
+import U32 from '../primitives/U32';
 
 describe('Struct', () => {
   it('provides a clean toString() (value)', () => {

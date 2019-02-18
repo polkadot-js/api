@@ -4,15 +4,15 @@
 
 import { AnyNumber } from '../../types';
 
-import Bytes from '../../Bytes';
 import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Text from '../../Text';
-import Type from '../../Type';
-import U16 from '../../U16';
+import Bytes from '../../primitives/Bytes';
+import Text from '../../primitives/Text';
+import Type from '../../primitives/Type';
+import U16 from '../../primitives/U16';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {

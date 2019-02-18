@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import U32 from '../U32';
+import U32 from '../primitives/U32';
 import { assert } from '@polkadot/util';
 
 export const MAGIC_NUMBER = new U32(0x6174656d); // `meta`, reversed for LE encoding

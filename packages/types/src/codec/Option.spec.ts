@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Option from './Option';
-import Text from '../Text';
+import Text from '../primitives/Text';
 
 const testDecode = (type: string, input: any, expected: any) =>
   it(`can decode from ${type}`, () => {

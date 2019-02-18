@@ -4,8 +4,8 @@
 
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Text from '../../Text';
-import Type from '../../Type';
+import Text from '../../primitives/Text';
+import Type from '../../primitives/Type';
 
 /**
  * @name MetadataEvent

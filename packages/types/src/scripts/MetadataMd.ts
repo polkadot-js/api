@@ -6,10 +6,10 @@ import fs from 'fs';
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import interfaces from '../../../type-jsonrpc/src';
+import Method from '../primitives/Method';
 import Metadata from '../Metadata';
-import MetadataV0 from '../Metadata/v0';
 import rpcdata from '../Metadata/static';
-import Method from '../Method';
+import MetadataV0 from '../Metadata/v0';
 
 const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
 const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>`;

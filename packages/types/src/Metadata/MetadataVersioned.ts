@@ -8,7 +8,7 @@ import { assert, isUndefined } from '@polkadot/util';
 
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
-import Null from '../Null';
+import Null from '../primitives/Null';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
 import v1ToV0 from './v1/toV0';

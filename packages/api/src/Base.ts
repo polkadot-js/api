@@ -24,8 +24,8 @@ import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, Hash, Metadata, Method, RuntimeVersion, typeRegistry } from '@polkadot/types/index';
-import { MethodFunction, ModulesWithMethods } from '@polkadot/types/Method';
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitives/Method';
+import { StorageFunction } from '@polkadot/types/primitives/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 

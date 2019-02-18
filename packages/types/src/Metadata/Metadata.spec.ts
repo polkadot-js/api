@@ -5,7 +5,7 @@
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 
 import createType from '../codec/createType';
-import Method from '../Method';
+import Method from '../primitives/Method';
 
 import Metadata from './index';
 import latestParsed from './v1/latest.substrate.v1.json';
