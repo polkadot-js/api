@@ -2208,16 +2208,24 @@
 <h3 id="contract"><a id="contract"></a>contract</h3>
 <p>&#x25B8; <strong>call</strong>(dest: <code>Address</code>, value: <code>Compact&lt;Balance&gt;</code>, gas_limit: <code>Compact&lt;Gas&gt;</code>, data: <code>Bytes</code>)</p>
 <ul>
-<li><strong>summary</strong>:   Make a call to a specified account, optionally transferring some balance.  Make a call to a specified account, optionally transferring some balance.</li>
+<li><strong>summary</strong>:   Make a call to a specified account, optionally transferring some balance.</li>
 </ul>
-<p>&#x25B8; <strong>create</strong>(endowment: <code>Compact&lt;Balance&gt;</code>, gas_limit: <code>Compact&lt;Gas&gt;</code>, ctor_code: <code>Bytes</code>, data: <code>Bytes</code>)</p>
+<p>&#x25B8; <strong>create</strong>(endowment: <code>Compact&lt;Balance&gt;</code>, gas_limit: <code>Compact&lt;Gas&gt;</code>, code_hash: <code>CodeHash</code>, data: <code>Bytes</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Create a new contract, optionally transfering some balance to the created account.   Creation is executed as follows:   - the destination address is computed based on the sender and hash of the code.  - account is created at the computed address.  - the <code>ctor_code</code> is executed in the context of the newly created account. Buffer returned    after the execution is saved as the <code>code</code> of the account. That code will be invoked    upon any message received by this account.</li>
+</ul>
+<p>&#x25B8; <strong>putCode</strong>(gas_limit: <code>Compact&lt;Gas&gt;</code>, code: <code>Bytes</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Stores code in the storage. You can instantiate contracts only with stored code.</li>
+</ul>
+<p>&#x25B8; <strong>updateSchedule</strong>(schedule: <code>Schedule</code>)</p>
+<ul>
+<li><strong>summary</strong>:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.</li>
 </ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="council"><a id="council"></a>council</h3>
-<p>&#x25B8; <strong>presentWinner</strong>(candidate: <code>Address</code>, total: <code>Compact&lt;Balance&gt;</code>, index: <code>Compact&lt;VoteIndex&gt;</code>)</p>
+<p>&#x25B8; <strong>presentWinner</strong>(candidate: <code>Address</code>, total: <code>Compact&lt;BalanceOf&gt;</code>, index: <code>Compact&lt;VoteIndex&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Claim that <code>signed</code> is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the <code>block_number &gt;= current_vote().0</code> and <code>&lt; current_vote().0 + presentation_duration()`` </code>signed` should have at least</li>
 </ul>
@@ -2277,7 +2285,7 @@
 <ul>
 <li><strong>summary</strong>:   Remove a referendum.</li>
 </ul>
-<p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>, value: <code>Compact&lt;Balance&gt;</code>)</p>
+<p>&#x25B8; <strong>propose</strong>(proposal: <code>Proposal</code>, value: <code>Compact&lt;BalanceOf&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Propose a sensitive action to be taken.</li>
 </ul>
@@ -2378,11 +2386,11 @@
 <ul>
 <li><strong>summary</strong>:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary  and the original deposit will be returned.</li>
 </ul>
-<p>&#x25B8; <strong>configure</strong>(proposal_bond: <code>Permill</code>, proposal_bond_minimum: <code>Compact&lt;Balance&gt;</code>, spend_period: <code>Compact&lt;BlockNumber&gt;</code>, burn: <code>Permill</code>)</p>
+<p>&#x25B8; <strong>configure</strong>(proposal_bond: <code>Compact&lt;Permill&gt;</code>, proposal_bond_minimum: <code>Compact&lt;BalanceOf&gt;</code>, spend_period: <code>Compact&lt;BlockNumber&gt;</code>, burn: <code>Compact&lt;Permill&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   (Re-)configure this module.</li>
 </ul>
-<p>&#x25B8; <strong>proposeSpend</strong>(value: <code>Compact&lt;Balance&gt;</code>, beneficiary: <code>Address</code>)</p>
+<p>&#x25B8; <strong>proposeSpend</strong>(value: <code>Compact&lt;BalanceOf&gt;</code>, beneficiary: <code>Address</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Put forward a suggestion for spending. A deposit proportional to the value  is reserved and slashed if the proposal is rejected. It is returned once the  proposal is awarded.</li>
 </ul>
@@ -2390,7 +2398,7 @@
 <ul>
 <li><strong>summary</strong>:   Reject a proposed spend. The original deposit will be slashed.</li>
 </ul>
-<p>&#x25B8; <strong>setPot</strong>(new_pot: <code>Compact&lt;Balance&gt;</code>)</p>
+<p>&#x25B8; <strong>setPot</strong>(new_pot: <code>Compact&lt;BalanceOf&gt;</code>)</p>
 <ul>
 <li><strong>summary</strong>:   Set the balance of funds available to spend.</li>
 </ul>
@@ -2437,7 +2445,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-02-17T07:57:04.544Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-17T07:58:51.561Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"next":{"title":"Events (runtime)","level":"2.4","depth":1,"path":"METHODS_EVENTS.md","ref":"METHODS_EVENTS.md","articles":[]},"previous":{"title":"Chain state (runtime)","level":"2.2","depth":1,"path":"METHODS_STORAGE.md","ref":"METHODS_STORAGE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_EXTRINSICS.md","mtime":"2019-02-17T10:07:01.815Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-17T10:08:50.481Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

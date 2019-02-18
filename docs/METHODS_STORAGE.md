@@ -5,6 +5,8 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[consensus](#consensus)**
 
+- **[contract](#contract)**
+
 - **[council](#council)**
 
 - **[councilMotions](#councilMotions)**
@@ -61,12 +63,53 @@ ___
 ▸ **transferFee**(): `Balance`
 - **summary**:   The fee required to make a transfer.
 
+▸ **vesting**(`AccountId`): `VestingSchedule`
+- **summary**:   Information regarding the vesting of a given account.
+
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
 ### <a id='consensus'></a>consensus
 
 ▸ **originalAuthorities**(): `Vec<SessionKey>`
+
+___
+<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
+
+### <a id='contract'></a>contract
+
+▸ **blockGasLimit**(): `Gas`
+- **summary**:   The maximum amount of gas that could be expended per block.
+
+▸ **callBaseFee**(): `Gas`
+- **summary**:   The fee charged for a call into a contract.
+
+▸ **codeHashOf**(`AccountId`): `CodeHash`
+- **summary**:   The code associated with a given account.
+
+▸ **codeStorage**(`CodeHash`): `PrefabWasmModule`
+- **summary**:   A mapping between an original code hash and instrumented wasm code, ready for the execution.
+
+▸ **contractFee**(): `Balance`
+- **summary**:   The fee required to create a contract. At least as big as staking's ReclaimRebate.
+
+▸ **createBaseFee**(): `Gas`
+- **summary**:   The fee charged for a create of a contract.
+
+▸ **currentSchedule**(): `Schedule`
+- **summary**:   Current cost schedule for contracts.
+
+▸ **gasPrice**(): `Balance`
+- **summary**:   The price of one unit of gas.
+
+▸ **gasSpent**(): `Gas`
+- **summary**:   Gas spent so far in this block.
+
+▸ **maxDepth**(): `u32`
+- **summary**:   The maximum nesting level of a call/create stack.
+
+▸ **pristineCode**(`CodeHash`): `Bytes`
+- **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -79,7 +122,7 @@ ___
 ▸ **approvalsOf**(`AccountId`): `Vec<bool>`
 - **summary**:   A list of votes for each voter, respecting the last cleared vote index that this voter was  last active at.
 
-▸ **candidacyBond**(): `Balance`
+▸ **candidacyBond**(): `BalanceOf`
 - **summary**:   How much should be locked up in order to submit one's candidacy.
 
 ▸ **candidateCount**(): `u32`
@@ -99,13 +142,13 @@ ___
 ▸ **lastActiveOf**(`AccountId`): `VoteIndex`
 - **summary**:   The last cleared vote index that this voter was last active at.
 
-▸ **leaderboard**(): `Vec<(Balance,AccountId)>`
+▸ **leaderboard**(): `Vec<(BalanceOf,AccountId)>`
 - **summary**:   Get the leaderboard if we;re in the presentation phase.
 
 ▸ **nextFinalise**(): `(BlockNumber,u32,Vec<AccountId>)`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
 
-▸ **presentSlashPerVoter**(): `Balance`
+▸ **presentSlashPerVoter**(): `BalanceOf`
 - **summary**:   The punishment, per voter, if you provide an invalid presentation.
 
 ▸ **presentationDuration**(): `BlockNumber`
@@ -114,7 +157,7 @@ ___
 ▸ **registerInfoOf**(`AccountId`): `(VoteIndex,u32)`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
 
-▸ **snapshotedStakes**(): `Vec<Balance>`
+▸ **snapshotedStakes**(): `Vec<BalanceOf>`
 - **summary**:   The stakes as they were at the point that the vote ended.
 
 ▸ **termDuration**(): `BlockNumber`
@@ -126,7 +169,7 @@ ___
 ▸ **voters**(): `Vec<AccountId>`
 - **summary**:   The present voter list.
 
-▸ **votingBond**(): `Balance`
+▸ **votingBond**(): `BalanceOf`
 - **summary**:   How much should be locked up in order to be able to submit votes.
 
 ▸ **votingPeriod**(): `BlockNumber`
@@ -179,7 +222,7 @@ ___
 ▸ **bondage**(`AccountId`): `BlockNumber`
 - **summary**:   The block at which the `who`'s funds become liquid.
 
-▸ **depositOf**(`PropIndex`): `(Balance,Vec<AccountId>)`
+▸ **depositOf**(`PropIndex`): `(BalanceOf,Vec<AccountId>)`
 - **summary**:   Those who have locked a deposit.
 
 ▸ **dispatchQueue**(`BlockNumber`): `Vec<Option<(Proposal,ReferendumIndex)>>`
@@ -191,7 +234,7 @@ ___
 ▸ **maxLockPeriods**(): `LockPeriods`
 - **summary**:   The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`.
 
-▸ **minimumDeposit**(): `Balance`
+▸ **minimumDeposit**(): `BalanceOf`
 - **summary**:   The minimum amount to be used as a deposit for a public referendum proposal.
 
 ▸ **nextTally**(): `ReferendumIndex`
@@ -285,10 +328,10 @@ ___
 ▸ **currentNominatorsFor**(`AccountId`): `Vec<AccountId>`
 - **summary**:   Nominators for a particular account that is in action right now.
 
-▸ **currentOfflineSlash**(): `Balance`
+▸ **currentOfflineSlash**(): `BalanceOf`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
 
-▸ **currentSessionReward**(): `Balance`
+▸ **currentSessionReward**(): `BalanceOf`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
 ▸ **forcingNewEra**(): `Null`
@@ -321,6 +364,9 @@ ___
 ▸ **offlineSlashGrace**(): `u32`
 - **summary**:   Number of instances of offline reports before slashing begins for validators.
 
+▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
+- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for).
+
 ▸ **sessionReward**(): `Perbill`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
@@ -330,7 +376,7 @@ ___
 ▸ **slashCount**(`AccountId`): `u32`
 - **summary**:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.
 
-▸ **stakeRange**(): `(Balance,Balance)`
+▸ **stakeRange**(): `(BalanceOf,BalanceOf)`
 - **summary**:   The highest and lowest staked validator slashable balances.
 
 ▸ **validatorCount**(): `u32`
@@ -352,6 +398,8 @@ ___
 ### <a id='system'></a>system
 
 ▸ **accountNonce**(`AccountId`): `Index`
+
+▸ **allExtrinsicsLen**(): `u32`
 
 ▸ **blockHash**(`BlockNumber`): `Hash`
 
@@ -397,13 +445,13 @@ ___
 ▸ **burn**(): `Permill`
 - **summary**:   Percentage of spare funds (if any) that are burnt per spend period.
 
-▸ **pot**(): `Balance`
+▸ **pot**(): `BalanceOf`
 - **summary**:   Total funds available to this module for spending.
 
 ▸ **proposalBond**(): `Permill`
 - **summary**:   Proportion of funds that should be bonded in order to place a proposal. An accepted  proposal gets these back. A rejected proposal doesn't.
 
-▸ **proposalBondMinimum**(): `Balance`
+▸ **proposalBondMinimum**(): `BalanceOf`
 - **summary**:   Minimum amount of funds that should be placed in a deposit for making a proposal.
 
 ▸ **proposalCount**(): `ProposalIndex`

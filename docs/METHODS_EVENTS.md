@@ -47,8 +47,17 @@ ___
 
 ### <a id='contract'></a>contract
 
-▸ **Created**(`AccountId`, `AccountId`)
+▸ **CodeStored**(`Hash`)
+- **summary**:   Code with the specified hash has been stored.
+
+▸ **Dispatched**(`AccountId`, `bool`)
+- **summary**:   A call was dispatched from the given account. The bool signals whether it was  successful execution or not.
+
+▸ **Instantiated**(`AccountId`, `AccountId`)
 - **summary**:   Contract deployed by address at the specified address.
+
+▸ **ScheduleUpdated**(`u32`)
+- **summary**:   Triggered when the current schedule is updated.
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
 - **summary**:   Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.
@@ -114,6 +123,8 @@ ___
 
 ▸ **Passed**(`ReferendumIndex`)
 
+▸ **Proposed**(`PropIndex`, `Balance`)
+
 ▸ **Started**(`ReferendumIndex`, `VoteThreshold`)
 
 ▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
@@ -132,7 +143,7 @@ ___
 ### <a id='indices'></a>indices
 
 ▸ **NewAccountIndex**(`AccountId`, `AccountIndex`)
-- **summary**:   A new account was created.
+- **summary**:   A new account index was assigned.   This event is not triggered when an existing index is reassigned  to another `AccountId`.
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
