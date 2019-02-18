@@ -40,7 +40,7 @@ export default class ChainProperties extends Map<string, any> implements Codec {
   /**
    * @description The token system, if defined (de-facto standard only)
    */
-  get tokenSymbol (): number | undefined {
+  get tokenSymbol (): string | undefined {
     return this.get('tokenSymbol');
   }
 
