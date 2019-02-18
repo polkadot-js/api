@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
+import { DeriveCustom } from '@polkadot/api-derive/index';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Extrinsic, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
@@ -109,6 +110,10 @@ export interface Derive<CodecResult, SubscriptionResult> {
 }
 
 export interface ApiOptions {
+  /**
+   * @description Add custom derives to be injected
+   */
+  derives?: DeriveCustom;
   /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
