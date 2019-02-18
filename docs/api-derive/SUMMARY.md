@@ -25,6 +25,8 @@
 * [&quot;democracy/votes&quot;](modules/_democracy_votes_.md)
 * [&quot;index&quot;](modules/_index_.md)
   * [Derive](interfaces/_index_.derive.md)
+  * [DeriveCustom](interfaces/_index_.derivecustom.md)
+  * [DeriveCustomMethod](interfaces/_index_.derivecustommethod.md)
 * [&quot;index.spec&quot;](modules/_index_spec_.md)
 * [&quot;session/eraLength&quot;](modules/_session_eralength_.md)
 * [&quot;session/eraProgress&quot;](modules/_session_eraprogress_.md)

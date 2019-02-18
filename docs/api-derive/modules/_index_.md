@@ -5,6 +5,8 @@
 ### Interfaces
 
 * [Derive](../interfaces/_index_.derive.md)
+* [DeriveCustom](../interfaces/_index_.derivecustom.md)
+* [DeriveCustomMethod](../interfaces/_index_.derivecustommethod.md)
 
 ### Functions
 
@@ -18,15 +20,16 @@
 
 ##  decorateDerive
 
-▸ **decorateDerive**(api: *`ApiInterface$Rx`*): [Derive](../interfaces/_index_.derive.md)
+▸ **decorateDerive**(api: *`ApiInterface$Rx`*, custom?: *[DeriveCustom](../interfaces/_index_.derivecustom.md)*): [Derive](../interfaces/_index_.derive.md)
 
-*Defined in [index.ts:35](https://github.com/polkadot-js/api/blob/29c83a0/packages/api-derive/src/index.ts#L35)*
+*Defined in [index.ts:65](https://github.com/polkadot-js/api/blob/b846152/packages/api-derive/src/index.ts#L65)*
 
 **Parameters:**
 
-| Name | Type |
-| ------ | ------ |
-| api | `ApiInterface$Rx` |
+| Name | Type | Default value |
+| ------ | ------ | ------ |
+| api | `ApiInterface$Rx` | - |
+| `Default value` custom | [DeriveCustom](../interfaces/_index_.derivecustom.md) |  {} |
 
 **Returns:** [Derive](../interfaces/_index_.derive.md)
 
