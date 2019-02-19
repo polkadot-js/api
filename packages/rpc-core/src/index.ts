@@ -192,15 +192,13 @@ export default class Rpc implements RpcInterface {
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+      const value = isNull(result)
+        ? null
+        : base;
 
       return meta.modifier.isOptional
-        ? new Option(
-          createClass(type),
-          isNull(result)
-            ? null
-            : base
-        )
-        : createType(type, base);
+        ? new Option(createClass(type), value)
+        : createType(type, value);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -227,19 +225,10 @@ export default class Rpc implements RpcInterface {
               meta.modifier.isOptional
                 // create option either with the existing value, or empty when
                 // there is no value returned
-                ? new Option(
-                  createClass(type),
-                  item.value.isNone
-                    ? null
-                    : item.value.unwrap()
-                )
+                ? new Option(createClass(type), item.value.unwrapOr(null))
                 // for `null` we fallback to the default value, or create an empty type,
                 // otherwise we return the actual value as retrieved
-                : (
-                  item.value.isNone
-                    ? createType(type, meta.default)
-                    : createType(type, item.value.unwrap())
-                )
+                : createType(type, item.value.unwrapOr(meta.default))
             )
         );
 
