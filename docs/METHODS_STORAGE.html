@@ -2206,14 +2206,14 @@
 <ul>
 <li><strong>summary</strong>:   The fee required to make a transfer.</li>
 </ul>
-<p>&#x25B8; <strong>vesting</strong>(<code>AccountId</code>): <code>VestingSchedule</code></p>
+<p>&#x25B8; <strong>vesting</strong>(<code>AccountId</code>): <code>Option&lt;VestingSchedule&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Information regarding the vesting of a given account.</li>
 </ul>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="consensus"><a id="consensus"></a>consensus</h3>
-<p>&#x25B8; <strong>originalAuthorities</strong>(): <code>Vec&lt;SessionKey&gt;</code></p>
+<p>&#x25B8; <strong>originalAuthorities</strong>(): <code>Option&lt;Vec&lt;SessionKey&gt;&gt;</code></p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="contract"><a id="contract"></a>contract</h3>
@@ -2225,11 +2225,11 @@
 <ul>
 <li><strong>summary</strong>:   The fee charged for a call into a contract.</li>
 </ul>
-<p>&#x25B8; <strong>codeHashOf</strong>(<code>AccountId</code>): <code>CodeHash</code></p>
+<p>&#x25B8; <strong>codeHashOf</strong>(<code>AccountId</code>): <code>Option&lt;CodeHash&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The code associated with a given account.</li>
 </ul>
-<p>&#x25B8; <strong>codeStorage</strong>(<code>CodeHash</code>): <code>PrefabWasmModule</code></p>
+<p>&#x25B8; <strong>codeStorage</strong>(<code>CodeHash</code>): <code>Option&lt;PrefabWasmModule&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   A mapping between an original code hash and instrumented wasm code, ready for the execution.</li>
 </ul>
@@ -2257,7 +2257,7 @@
 <ul>
 <li><strong>summary</strong>:   The maximum nesting level of a call/create stack.</li>
 </ul>
-<p>&#x25B8; <strong>pristineCode</strong>(<code>CodeHash</code>): <code>Bytes</code></p>
+<p>&#x25B8; <strong>pristineCode</strong>(<code>CodeHash</code>): <code>Option&lt;Bytes&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   A mapping from an original code hash to the original code, untouched by instrumentation.</li>
 </ul>
@@ -2293,15 +2293,15 @@
 <ul>
 <li><strong>summary</strong>:   How many vote indexes need to go by after a target voter&apos;s last vote before they can be reaped if their  approvals are moot.</li>
 </ul>
-<p>&#x25B8; <strong>lastActiveOf</strong>(<code>AccountId</code>): <code>VoteIndex</code></p>
+<p>&#x25B8; <strong>lastActiveOf</strong>(<code>AccountId</code>): <code>Option&lt;VoteIndex&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The last cleared vote index that this voter was last active at.</li>
 </ul>
-<p>&#x25B8; <strong>leaderboard</strong>(): <code>Vec&lt;(BalanceOf,AccountId)&gt;</code></p>
+<p>&#x25B8; <strong>leaderboard</strong>(): <code>Option&lt;Vec&lt;(BalanceOf,AccountId)&gt;&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Get the leaderboard if we;re in the presentation phase.</li>
 </ul>
-<p>&#x25B8; <strong>nextFinalise</strong>(): <code>(BlockNumber,u32,Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>nextFinalise</strong>(): <code>Option&lt;(BlockNumber,u32,Vec&lt;AccountId&gt;)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The accounts holding the seats that will become free on the next tally.</li>
 </ul>
@@ -2313,7 +2313,7 @@
 <ul>
 <li><strong>summary</strong>:   How long to give each top candidate to present themselves after the vote ends.</li>
 </ul>
-<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>(VoteIndex,u32)</code></p>
+<p>&#x25B8; <strong>registerInfoOf</strong>(<code>AccountId</code>): <code>Option&lt;(VoteIndex,u32)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The vote index and list slot that the candidate <code>who</code> was registered or <code>None</code> if they are not  currently registered.</li>
 </ul>
@@ -2348,7 +2348,7 @@
 <ul>
 <li><strong>summary</strong>:   Proposals so far.</li>
 </ul>
-<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
+<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Option&lt;Proposal&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Actual proposal for a given hash, if it&apos;s current.</li>
 </ul>
@@ -2356,7 +2356,7 @@
 <ul>
 <li><strong>summary</strong>:   The (hashes of) the active proposals.</li>
 </ul>
-<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>(ProposalIndex,u32,Vec&lt;AccountId&gt;,Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>voting</strong>(<code>Hash</code>): <code>Option&lt;(ProposalIndex,u32,Vec&lt;AccountId&gt;,Vec&lt;AccountId&gt;)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).</li>
 </ul>
@@ -2364,15 +2364,15 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="councilvoting"><a id="councilVoting"></a>councilVoting</h3>
 <p>&#x25B8; <strong>cooloffPeriod</strong>(): <code>BlockNumber</code></p>
-<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash,AccountId)</code>): <code>bool</code></p>
+<p>&#x25B8; <strong>councilVoteOf</strong>(<code>(Hash,AccountId)</code>): <code>Option&lt;bool&gt;</code></p>
 <p>&#x25B8; <strong>enactDelayPeriod</strong>(): <code>BlockNumber</code></p>
 <ul>
 <li><strong>summary</strong>:   Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals.</li>
 </ul>
-<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Proposal</code></p>
+<p>&#x25B8; <strong>proposalOf</strong>(<code>Hash</code>): <code>Option&lt;Proposal&gt;</code></p>
 <p>&#x25B8; <strong>proposalVoters</strong>(<code>Hash</code>): <code>Vec&lt;AccountId&gt;</code></p>
 <p>&#x25B8; <strong>proposals</strong>(): <code>Vec&lt;(BlockNumber,Hash)&gt;</code></p>
-<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>(BlockNumber,Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>vetoedProposal</strong>(<code>Hash</code>): <code>Option&lt;(BlockNumber,Vec&lt;AccountId&gt;)&gt;</code></p>
 <p>&#x25B8; <strong>votingPeriod</strong>(): <code>BlockNumber</code></p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
@@ -2381,7 +2381,7 @@
 <ul>
 <li><strong>summary</strong>:   The block at which the <code>who</code>&apos;s funds become liquid.</li>
 </ul>
-<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>(BalanceOf,Vec&lt;AccountId&gt;)</code></p>
+<p>&#x25B8; <strong>depositOf</strong>(<code>PropIndex</code>): <code>Option&lt;(BalanceOf,Vec&lt;AccountId&gt;)&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Those who have locked a deposit.</li>
 </ul>
@@ -2421,7 +2421,7 @@
 <ul>
 <li><strong>summary</strong>:   The next free referendum index, aka the number of referendums started so far.</li>
 </ul>
-<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>ReferendumInfo</code></p>
+<p>&#x25B8; <strong>referendumInfoOf</strong>(<code>ReferendumIndex</code>): <code>Option&lt;ReferendumInfo&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Information concerning any given referendum.</li>
 </ul>
@@ -2440,7 +2440,7 @@
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="grandpafinality"><a id="grandpaFinality"></a>grandpaFinality</h3>
-<p>&#x25B8; <strong>pendingChange</strong>(): <code>StoredPendingChange</code></p>
+<p>&#x25B8; <strong>pendingChange</strong>(): <code>Option&lt;StoredPendingChange&gt;</code></p>
 <hr>
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="indices"><a id="indices"></a>indices</h3>
@@ -2463,19 +2463,19 @@
 <ul>
 <li><strong>summary</strong>:   Timestamp when current session started.</li>
 </ul>
-<p>&#x25B8; <strong>forcingNewSession</strong>(): <code>bool</code></p>
+<p>&#x25B8; <strong>forcingNewSession</strong>(): <code>Option&lt;bool&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   New session is being forced is this entry exists; in which case, the boolean value is whether  the new session should be considered a normal rotation (rewardable) or exceptional (slashable).</li>
 </ul>
-<p>&#x25B8; <strong>lastLengthChange</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>lastLengthChange</strong>(): <code>Option&lt;BlockNumber&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Block at which the session length last changed.</li>
 </ul>
-<p>&#x25B8; <strong>nextKeyFor</strong>(<code>AccountId</code>): <code>SessionKey</code></p>
+<p>&#x25B8; <strong>nextKeyFor</strong>(<code>AccountId</code>): <code>Option&lt;SessionKey&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The next key for a given validator.</li>
 </ul>
-<p>&#x25B8; <strong>nextSessionLength</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>nextSessionLength</strong>(): <code>Option&lt;BlockNumber&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The next session length.</li>
 </ul>
@@ -2514,7 +2514,7 @@
 <ul>
 <li><strong>summary</strong>:   Maximum reward, per validator, that is provided per acceptable session.</li>
 </ul>
-<p>&#x25B8; <strong>forcingNewEra</strong>(): <code>Null</code></p>
+<p>&#x25B8; <strong>forcingNewEra</strong>(): <code>Option&lt;Null&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   We are forcing a new era.</li>
 </ul>
@@ -2534,11 +2534,11 @@
 <ul>
 <li><strong>summary</strong>:   Minimum number of staking participants before emergency conditions are imposed.</li>
 </ul>
-<p>&#x25B8; <strong>nextSessionsPerEra</strong>(): <code>BlockNumber</code></p>
+<p>&#x25B8; <strong>nextSessionsPerEra</strong>(): <code>Option&lt;BlockNumber&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   The next value of sessions per era.</li>
 </ul>
-<p>&#x25B8; <strong>nominating</strong>(<code>AccountId</code>): <code>AccountId</code></p>
+<p>&#x25B8; <strong>nominating</strong>(<code>AccountId</code>): <code>Option&lt;AccountId&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   All nominator -&gt; nominee relationships.</li>
 </ul>
@@ -2590,11 +2590,11 @@
 <p><a href="#top" style="float: right; font-size: 1.6rem; font-weight: bold;">Back To Top</a></p>
 <h3 id="system"><a id="system"></a>system</h3>
 <p>&#x25B8; <strong>accountNonce</strong>(<code>AccountId</code>): <code>Index</code></p>
-<p>&#x25B8; <strong>allExtrinsicsLen</strong>(): <code>u32</code></p>
+<p>&#x25B8; <strong>allExtrinsicsLen</strong>(): <code>Option&lt;u32&gt;</code></p>
 <p>&#x25B8; <strong>blockHash</strong>(<code>BlockNumber</code>): <code>Hash</code></p>
 <p>&#x25B8; <strong>digest</strong>(): <code>Digest</code></p>
 <p>&#x25B8; <strong>events</strong>(): <code>Vec&lt;EventRecord&gt;</code></p>
-<p>&#x25B8; <strong>extrinsicCount</strong>(): <code>u32</code></p>
+<p>&#x25B8; <strong>extrinsicCount</strong>(): <code>Option&lt;u32&gt;</code></p>
 <p>&#x25B8; <strong>extrinsicData</strong>(<code>u32</code>): <code>Bytes</code></p>
 <p>&#x25B8; <strong>extrinsicsRoot</strong>(): <code>Hash</code></p>
 <p>&#x25B8; <strong>number</strong>(): <code>BlockNumber</code></p>
@@ -2645,7 +2645,7 @@
 <ul>
 <li><strong>summary</strong>:   Number of proposals that have been made.</li>
 </ul>
-<p>&#x25B8; <strong>proposals</strong>(<code>ProposalIndex</code>): <code>Proposal</code></p>
+<p>&#x25B8; <strong>proposals</strong>(<code>ProposalIndex</code>): <code>Option&lt;Proposal&gt;</code></p>
 <ul>
 <li><strong>summary</strong>:   Proposals that have been made.</li>
 </ul>
@@ -2724,7 +2724,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-02-19T08:44:09.063Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-19T08:45:56.134Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Chain state (runtime)","level":"2.2","depth":1,"next":{"title":"Extrinsics (runtime)","level":"2.3","depth":1,"path":"METHODS_EXTRINSICS.md","ref":"METHODS_EXTRINSICS.md","articles":[]},"previous":{"title":"RPC","level":"2.1","depth":1,"path":"METHODS_RPC.md","ref":"METHODS_RPC.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","insert-logo-link","mermaid-gb3","-highlight","sunlight-highlighter"],"root":"docs","styles":{"website":"styles/website.css"},"pluginsConfig":{"insert-logo-link":{"src":"/api/logo.png","url":"https://polkadot.js.org"},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"mermaid-gb3":{},"include-codeblock":{"check":false,"edit":false,"lang":"","fixlang":false,"template":"default","theme":"chrome","unindent":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"sunlight-highlighter":{"theme":"gitbook","lineNumbers":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Polkadot API Book","gitbook":">=2.4.0"},"file":{"path":"METHODS_STORAGE.md","mtime":"2019-02-19T12:51:33.989Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-02-19T12:53:28.914Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

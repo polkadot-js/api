@@ -20,11 +20,26 @@ getencodedLength(): `number`
 
 *Inherited from [Null](_primitive_null_.null.md).[encodedLength](_primitive_null_.null.md#encodedlength)*
 
-*Defined in [primitive/Null.ts:17](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L17)*
+*Defined in [primitive/Null.ts:17](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L17)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
 **Returns:** `number`
+
+___
+<a id="isempty"></a>
+
+##  isEmpty
+
+getisEmpty(): `boolean`
+
+*Inherited from [Null](_primitive_null_.null.md).[isEmpty](_primitive_null_.null.md#isempty)*
+
+*Defined in [primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L24)*
+
+*__description__*: Checks if the value is an empty value (always true)
+
+**Returns:** `boolean`
 
 ___
 
@@ -40,7 +55,7 @@ ___
 
 *Inherited from [Null](_primitive_null_.null.md).[eq](_primitive_null_.null.md#eq)*
 
-*Defined in [primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L24)*
+*Defined in [primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L31)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -63,7 +78,7 @@ ___
 
 *Inherited from [Null](_primitive_null_.null.md).[toHex](_primitive_null_.null.md#tohex)*
 
-*Defined in [primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L31)*
+*Defined in [primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L38)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -80,7 +95,7 @@ ___
 
 *Inherited from [Null](_primitive_null_.null.md).[toJSON](_primitive_null_.null.md#tojson)*
 
-*Defined in [primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L38)*
+*Defined in [primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L45)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -97,7 +112,7 @@ ___
 
 *Inherited from [Null](_primitive_null_.null.md).[toString](_primitive_null_.null.md#tostring)*
 
-*Defined in [primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L45)*
+*Defined in [primitive/Null.ts:52](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L52)*
 
 *__description__*: Returns the string representation of the value
 
@@ -114,7 +129,7 @@ ___
 
 *Inherited from [Null](_primitive_null_.null.md).[toU8a](_primitive_null_.null.md#tou8a)*
 
-*Defined in [primitive/Null.ts:53](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Null.ts#L53)*
+*Defined in [primitive/Null.ts:60](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/primitive/Null.ts#L60)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

@@ -61,6 +61,7 @@
 * [&quot;codec/Compact.spec&quot;](modules/_codec_compact_spec_.md)
 * [&quot;codec/Enum&quot;](modules/_codec_enum_.md)
   * [Enum](classes/_codec_enum_.enum.md)
+* [&quot;codec/Enum.spec&quot;](modules/_codec_enum_spec_.md)
 * [&quot;codec/EnumType&quot;](modules/_codec_enumtype_.md)
   * [EnumType](classes/_codec_enumtype_.enumtype.md)
 * [&quot;codec/EnumType.spec&quot;](modules/_codec_enumtype_spec_.md)
@@ -357,4 +358,5 @@
 * [&quot;type/index&quot;](modules/_type_index_.md)
 * [&quot;types&quot;](modules/_types_.md)
   * [Codec](interfaces/_types_.codec.md)
+  * [Constructor](interfaces/_types_.constructor.md)
   * [RuntimeVersionInterface](interfaces/_types_.runtimeversioninterface.md)

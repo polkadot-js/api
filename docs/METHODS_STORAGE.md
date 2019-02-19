@@ -63,7 +63,7 @@ ___
 ▸ **transferFee**(): `Balance`
 - **summary**:   The fee required to make a transfer.
 
-▸ **vesting**(`AccountId`): `VestingSchedule`
+▸ **vesting**(`AccountId`): `Option<VestingSchedule>`
 - **summary**:   Information regarding the vesting of a given account.
 
 ___
@@ -71,7 +71,7 @@ ___
 
 ### <a id='consensus'></a>consensus
 
-▸ **originalAuthorities**(): `Vec<SessionKey>`
+▸ **originalAuthorities**(): `Option<Vec<SessionKey>>`
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -84,10 +84,10 @@ ___
 ▸ **callBaseFee**(): `Gas`
 - **summary**:   The fee charged for a call into a contract.
 
-▸ **codeHashOf**(`AccountId`): `CodeHash`
+▸ **codeHashOf**(`AccountId`): `Option<CodeHash>`
 - **summary**:   The code associated with a given account.
 
-▸ **codeStorage**(`CodeHash`): `PrefabWasmModule`
+▸ **codeStorage**(`CodeHash`): `Option<PrefabWasmModule>`
 - **summary**:   A mapping between an original code hash and instrumented wasm code, ready for the execution.
 
 ▸ **contractFee**(): `Balance`
@@ -108,7 +108,7 @@ ___
 ▸ **maxDepth**(): `u32`
 - **summary**:   The maximum nesting level of a call/create stack.
 
-▸ **pristineCode**(`CodeHash`): `Bytes`
+▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
 
 ___
@@ -139,13 +139,13 @@ ___
 ▸ **inactiveGracePeriod**(): `VoteIndex`
 - **summary**:   How many vote indexes need to go by after a target voter's last vote before they can be reaped if their  approvals are moot.
 
-▸ **lastActiveOf**(`AccountId`): `VoteIndex`
+▸ **lastActiveOf**(`AccountId`): `Option<VoteIndex>`
 - **summary**:   The last cleared vote index that this voter was last active at.
 
-▸ **leaderboard**(): `Vec<(BalanceOf,AccountId)>`
+▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
 - **summary**:   Get the leaderboard if we;re in the presentation phase.
 
-▸ **nextFinalise**(): `(BlockNumber,u32,Vec<AccountId>)`
+▸ **nextFinalise**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
 
 ▸ **presentSlashPerVoter**(): `BalanceOf`
@@ -154,7 +154,7 @@ ___
 ▸ **presentationDuration**(): `BlockNumber`
 - **summary**:   How long to give each top candidate to present themselves after the vote ends.
 
-▸ **registerInfoOf**(`AccountId`): `(VoteIndex,u32)`
+▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
 
 ▸ **snapshotedStakes**(): `Vec<BalanceOf>`
@@ -183,13 +183,13 @@ ___
 ▸ **proposalCount**(): `u32`
 - **summary**:   Proposals so far.
 
-▸ **proposalOf**(`Hash`): `Proposal`
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
 - **summary**:   Actual proposal for a given hash, if it's current.
 
 ▸ **proposals**(): `Vec<Hash>`
 - **summary**:   The (hashes of) the active proposals.
 
-▸ **voting**(`Hash`): `(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)`
+▸ **voting**(`Hash`): `Option<(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)>`
 - **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
 
 ___
@@ -199,18 +199,18 @@ ___
 
 ▸ **cooloffPeriod**(): `BlockNumber`
 
-▸ **councilVoteOf**(`(Hash,AccountId)`): `bool`
+▸ **councilVoteOf**(`(Hash,AccountId)`): `Option<bool>`
 
 ▸ **enactDelayPeriod**(): `BlockNumber`
 - **summary**:   Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals.
 
-▸ **proposalOf**(`Hash`): `Proposal`
+▸ **proposalOf**(`Hash`): `Option<Proposal>`
 
 ▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
 
 ▸ **proposals**(): `Vec<(BlockNumber,Hash)>`
 
-▸ **vetoedProposal**(`Hash`): `(BlockNumber,Vec<AccountId>)`
+▸ **vetoedProposal**(`Hash`): `Option<(BlockNumber,Vec<AccountId>)>`
 
 ▸ **votingPeriod**(): `BlockNumber`
 
@@ -222,7 +222,7 @@ ___
 ▸ **bondage**(`AccountId`): `BlockNumber`
 - **summary**:   The block at which the `who`'s funds become liquid.
 
-▸ **depositOf**(`PropIndex`): `(BalanceOf,Vec<AccountId>)`
+▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
 - **summary**:   Those who have locked a deposit.
 
 ▸ **dispatchQueue**(`BlockNumber`): `Vec<Option<(Proposal,ReferendumIndex)>>`
@@ -252,7 +252,7 @@ ___
 ▸ **referendumCount**(): `ReferendumIndex`
 - **summary**:   The next free referendum index, aka the number of referendums started so far.
 
-▸ **referendumInfoOf**(`ReferendumIndex`): `ReferendumInfo`
+▸ **referendumInfoOf**(`ReferendumIndex`): `Option<ReferendumInfo>`
 - **summary**:   Information concerning any given referendum.
 
 ▸ **voteOf**(`(ReferendumIndex,AccountId)`): `Vote`
@@ -269,7 +269,7 @@ ___
 
 ### <a id='grandpaFinality'></a>grandpaFinality
 
-▸ **pendingChange**(): `StoredPendingChange`
+▸ **pendingChange**(): `Option<StoredPendingChange>`
 
 ___
 <a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
@@ -293,16 +293,16 @@ ___
 ▸ **currentStart**(): `Moment`
 - **summary**:   Timestamp when current session started.
 
-▸ **forcingNewSession**(): `bool`
+▸ **forcingNewSession**(): `Option<bool>`
 - **summary**:   New session is being forced is this entry exists; in which case, the boolean value is whether  the new session should be considered a normal rotation (rewardable) or exceptional (slashable).
 
-▸ **lastLengthChange**(): `BlockNumber`
+▸ **lastLengthChange**(): `Option<BlockNumber>`
 - **summary**:   Block at which the session length last changed.
 
-▸ **nextKeyFor**(`AccountId`): `SessionKey`
+▸ **nextKeyFor**(`AccountId`): `Option<SessionKey>`
 - **summary**:   The next key for a given validator.
 
-▸ **nextSessionLength**(): `BlockNumber`
+▸ **nextSessionLength**(): `Option<BlockNumber>`
 - **summary**:   The next session length.
 
 ▸ **sessionLength**(): `BlockNumber`
@@ -334,7 +334,7 @@ ___
 ▸ **currentSessionReward**(): `BalanceOf`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
-▸ **forcingNewEra**(): `Null`
+▸ **forcingNewEra**(): `Option<Null>`
 - **summary**:   We are forcing a new era.
 
 ▸ **intentions**(): `Vec<AccountId>`
@@ -349,10 +349,10 @@ ___
 ▸ **minimumValidatorCount**(): `u32`
 - **summary**:   Minimum number of staking participants before emergency conditions are imposed.
 
-▸ **nextSessionsPerEra**(): `BlockNumber`
+▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
 - **summary**:   The next value of sessions per era.
 
-▸ **nominating**(`AccountId`): `AccountId`
+▸ **nominating**(`AccountId`): `Option<AccountId>`
 - **summary**:   All nominator -> nominee relationships.
 
 ▸ **nominatorsFor**(`AccountId`): `Vec<AccountId>`
@@ -399,7 +399,7 @@ ___
 
 ▸ **accountNonce**(`AccountId`): `Index`
 
-▸ **allExtrinsicsLen**(): `u32`
+▸ **allExtrinsicsLen**(): `Option<u32>`
 
 ▸ **blockHash**(`BlockNumber`): `Hash`
 
@@ -407,7 +407,7 @@ ___
 
 ▸ **events**(): `Vec<EventRecord>`
 
-▸ **extrinsicCount**(): `u32`
+▸ **extrinsicCount**(): `Option<u32>`
 
 ▸ **extrinsicData**(`u32`): `Bytes`
 
@@ -457,7 +457,7 @@ ___
 ▸ **proposalCount**(): `ProposalIndex`
 - **summary**:   Number of proposals that have been made.
 
-▸ **proposals**(`ProposalIndex`): `Proposal`
+▸ **proposals**(`ProposalIndex`): `Option<Proposal>`
 - **summary**:   Proposals that have been made.
 
 ▸ **spendPeriod**(): `BlockNumber`
