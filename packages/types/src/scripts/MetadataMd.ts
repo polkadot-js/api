@@ -145,7 +145,10 @@ function addStorage (metadata: MetadataV0) {
       const methodName = stringLowerFirst(func.name.toString());
       const arg = func.type.isMap ? ('`' + func.type.asMap.key.toString() + '`') : '';
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
-      const renderSignature = `${md}\n▸ **${methodName}**(${arg}): ` + '`' + func.type + '`';
+      const type = func.modifier.isOptional
+        ? `Option<${func.type}>`
+        : func.type;
+      const renderSignature = `${md}\n▸ **${methodName}**(${arg}): ` + '`' + type + '`';
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
 
       return renderSignature + renderSummary;
