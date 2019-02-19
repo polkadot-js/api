@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import storage from '@polkadot/storage/static';
 
 import Api from './index';
@@ -13,8 +14,8 @@ const ENC_ONE = '0x24988a82b3bbaae58680bc9de5dea5aa';
 const ENC_TWO = '0xdb190750267d8849c35316ec9d342111';
 
 describe('formatting', () => {
-  let api;
-  let provider;
+  let api: Api;
+  let provider: any;
 
   beforeEach(() => {
     provider = {
@@ -51,30 +52,29 @@ describe('formatting', () => {
   });
 
   it('encodes multiple keys, decoding multiple results', (done) => {
-    api.state
-      .subscribeStorage(
-        [
-          [storage.balances.freeBalance, ADDR_ONE],
-          [storage.balances.freeBalance, ADDR_TWO]
-        ],
-        (value) => {
-          console.error(value);
+    api.state.subscribeStorage(
+      [
+        [storage.balances.freeBalance, ADDR_ONE],
+        [storage.balances.freeBalance, ADDR_TWO]
+      ],
+      (value: any) => {
+        console.error(value);
 
-          expect(
-            provider.subscribe
-          ).toHaveBeenCalledWith(
-            'state_storage',
-            'state_subscribeStorage',
-            [[ENC_ONE, ENC_TWO]],
-            expect.anything()
-          );
-          expect(
-            value.map((balance) =>
-              balance.toNumber()
-            )
-          ).toEqual([513, 258]);
+        expect(
+          provider.subscribe
+        ).toHaveBeenCalledWith(
+          'state_storage',
+          'state_subscribeStorage',
+          [[ENC_ONE, ENC_TWO]],
+          expect.anything()
+        );
+        expect(
+          value.map((balance: BN) =>
+            balance.toNumber()
+          )
+        ).toEqual([513, 258]);
 
-          done();
-        });
+        done();
+      });
   });
 });

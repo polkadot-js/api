@@ -20,7 +20,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     new Text(method),
     {
       documentation: new Vector(Text, [documentation]),
-      modifier: new StorageFunctionModifier(0),
+      modifier: new StorageFunctionModifier(1), // default
       type: new StorageFunctionType(type, 0),
       toJSON: (): any =>
         key

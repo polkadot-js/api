@@ -124,7 +124,14 @@ export class ModuleMetadata extends Struct {
 
 export class StorageFunctionModifier extends Enum {
   constructor (value?: any) {
-    super(['None', 'Default', 'Required'], value);
+    super(['Optional', 'Default', 'Required'], value);
+  }
+
+  /**
+   * @description `true` if the storage entry is optional
+   */
+  get isOptional (): boolean {
+    return this.toNumber() === 0;
   }
 }
 

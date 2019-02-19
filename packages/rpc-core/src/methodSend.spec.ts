@@ -5,9 +5,9 @@
 import Api from './index';
 
 describe('methodSend', () => {
-  let api;
-  let methods;
-  let provider;
+  let api: Api;
+  let methods: any;
+  let provider: any;
 
   beforeEach(() => {
     methods = {
@@ -37,6 +37,7 @@ describe('methodSend', () => {
   });
 
   it('wraps errors with the call signature', () => {
+    // @ts-ignore private method
     const method = api.createMethodSend(methods.blah);
 
     return method().catch((error) => {
@@ -45,6 +46,7 @@ describe('methodSend', () => {
   });
 
   it('checks for mismatched parameters', () => {
+    // @ts-ignore private method
     const method = api.createMethodSend(methods.bleh);
 
     return method(1).catch((error) => {
@@ -53,6 +55,7 @@ describe('methodSend', () => {
   });
 
   it('calls the provider with the correct parameters', () => {
+    // @ts-ignore private method
     const method = api.createMethodSend(methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
