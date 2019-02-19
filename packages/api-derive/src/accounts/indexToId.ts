@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/structs/AccountIndex';
 import { AccountId, AccountIndex, Vector } from '@polkadot/types/index';
@@ -19,6 +19,7 @@ export function indexToId (api: ApiInterface$Rx) {
 
     return (querySection.enumSet(accountIndex.div(ENUMSET_SIZE)) as Observable<Vector<AccountId>>)
       .pipe(
+        startWith([]),
         map((accounts) => (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]),
         drr()
       );

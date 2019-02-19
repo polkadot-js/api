@@ -7,7 +7,7 @@
 # Callable
 ▸ **__call**(api: *`ApiInterface$Rx`*): `function`
 
-*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/b846152/packages/api-derive/src/index.ts#L27)*
+*Defined in [index.ts:27](https://github.com/polkadot-js/api/blob/8beac7b/packages/api-derive/src/index.ts#L27)*
 
 **Parameters:**
 

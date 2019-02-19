@@ -25,7 +25,7 @@
 
 *Overrides [Struct](_codec_struct_.struct.md).[constructor](_codec_struct_.struct.md#constructor)*
 
-*Defined in [Metadata/v0/Modules.ts:274](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/Metadata/v0/Modules.ts#L274)*
+*Defined in [Metadata/v0/Modules.ts:274](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Metadata/v0/Modules.ts#L274)*
 
 **Parameters:**
 
@@ -72,7 +72,7 @@ getType(): `E`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[Type](_codec_struct_.struct.md#type)*
 
-*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L145)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -87,7 +87,7 @@ getencodedLength(): `number`
 
 *Inherited from [Struct](_codec_struct_.struct.md).[encodedLength](_codec_struct_.struct.md#encodedlength)*
 
-*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L152)*
+*Defined in [codec/Struct.ts:152](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L152)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -100,7 +100,7 @@ ___
 
 getmodule(): [ModuleMetadata](_metadata_v0_modules_.modulemetadata.md)
 
-*Defined in [Metadata/v0/Modules.ts:286](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/Metadata/v0/Modules.ts#L286)*
+*Defined in [Metadata/v0/Modules.ts:286](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Metadata/v0/Modules.ts#L286)*
 
 *__description__*: The [ModuleMetadata](_metadata_v0_modules_.modulemetadata.md)
 
@@ -113,7 +113,7 @@ ___
 
 getprefix(): [Text](_text_.text.md)
 
-*Defined in [Metadata/v0/Modules.ts:293](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/Metadata/v0/Modules.ts#L293)*
+*Defined in [Metadata/v0/Modules.ts:293](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Metadata/v0/Modules.ts#L293)*
 
 *__description__*: The prefix
 
@@ -126,7 +126,7 @@ ___
 
 getstorage(): [Option](_codec_option_.option.md)<[StorageMetadata](_metadata_v0_modules_.storagemetadata.md)>
 
-*Defined in [Metadata/v0/Modules.ts:300](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/Metadata/v0/Modules.ts#L300)*
+*Defined in [Metadata/v0/Modules.ts:300](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Metadata/v0/Modules.ts#L300)*
 
 *__description__*: The optional [StorageMetadata](_metadata_v0_modules_.storagemetadata.md)
 
@@ -208,7 +208,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[eq](_codec_struct_.struct.md#eq)*
 
-*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L161)*
+*Defined in [codec/Struct.ts:161](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L161)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -251,7 +251,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L169)*
+*Defined in [codec/Struct.ts:169](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L169)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -272,7 +272,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[getAtIndex](_codec_struct_.struct.md#getatindex)*
 
-*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L176)*
+*Defined in [codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L176)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -347,7 +347,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toArray](_codec_struct_.struct.md#toarray)*
 
-*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L183)*
+*Defined in [codec/Struct.ts:183](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L183)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -364,7 +364,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toHex](_codec_struct_.struct.md#tohex)*
 
-*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L190)*
+*Defined in [codec/Struct.ts:190](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L190)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -381,7 +381,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toJSON](_codec_struct_.struct.md#tojson)*
 
-*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L197)*
+*Defined in [codec/Struct.ts:197](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L197)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -398,7 +398,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toString](_codec_struct_.struct.md#tostring)*
 
-*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L211)*
+*Defined in [codec/Struct.ts:211](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L211)*
 
 *__description__*: Returns the string representation of the value
 
@@ -415,7 +415,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[toU8a](_codec_struct_.struct.md#tou8a)*
 
-*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L219)*
+*Defined in [codec/Struct.ts:219](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L219)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -451,7 +451,7 @@ ___
 
 *Inherited from [Struct](_codec_struct_.struct.md).[with](_codec_struct_.struct.md#with)*
 
-*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Struct.ts#L125)*
 
 **Type parameters:**
 

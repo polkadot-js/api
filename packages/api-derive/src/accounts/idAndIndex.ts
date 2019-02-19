@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { decodeAddress } from '@polkadot/keyring';
 import { AccountId, AccountIndex, Address } from '@polkadot/types/index';
@@ -27,6 +27,7 @@ export function idAndIndex (api: ApiInterface$Rx) {
         const accountId = new AccountId(decoded);
 
         return idToIndex(api)(accountId).pipe(
+          startWith(undefined),
           map((accountIndex) => [accountId, accountIndex] as AccountIdAndIndex),
           drr()
         );
@@ -35,6 +36,7 @@ export function idAndIndex (api: ApiInterface$Rx) {
       const accountIndex = new AccountIndex(decoded);
 
       return indexToId(api)(accountIndex).pipe(
+        startWith(undefined),
         map((accountId) => [accountId, accountIndex] as AccountIdAndIndex),
         drr()
       );
