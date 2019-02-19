@@ -5,7 +5,7 @@
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
-import Text from '../Text';
+import Text from '../primitive/Text';
 import EnumType from './EnumType';
 import Compact from './Compact';
 import Option from './Option';
@@ -184,7 +184,7 @@ export function getTypeClass (value: TypeDef): Constructor {
   }
 
   // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
-  const Types = require('../index.classes');
+  const Types = require('../index.types');
   const Type = registry.get(value.type) || Types[value.type];
 
   assert(Type, `Unable to determine type from '${value.type}'`);

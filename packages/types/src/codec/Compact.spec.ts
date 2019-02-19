@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import Balance from '../Balance';
-import BlockNumber from '../BlockNumber';
-import Moment from '../Moment';
-import U32 from '../U32';
+import Moment from '../primitive/Moment';
+import U32 from '../primitive/U32';
+import Balance from '../type/Balance';
+import BlockNumber from '../type/BlockNumber';
 import Compact from './Compact';
 import UInt from './UInt';
 

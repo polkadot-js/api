@@ -4,13 +4,13 @@
 
 import extrinsics from '@polkadot/extrinsics/static';
 
-import AccountId from '../AccountId';
+import Method from '../primitive/Method';
+import Text from '../primitive/Text';
+import PropIndex from '../type/PropIndex';
+import Proposal from '../type/Proposal';
+import AccountId from '../type/AccountId';
 import { Codec, CodecTo } from '../types';
 import createType from './createType';
-import Method from '../Method';
-import PropIndex from '../PropIndex';
-import Proposal from '../Proposal';
-import Text from '../Text';
 import Vector from './Vector';
 import Tuple from './Tuple';
 

@@ -6,7 +6,7 @@ import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import { Codec, Constructor } from '../types';
-import Null from '../Null';
+import Null from '../primitive/Null';
 
 /**
  * @name Option

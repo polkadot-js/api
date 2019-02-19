@@ -6,11 +6,11 @@ import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
+import Moment from '../primitive/Moment';
 import { AnyNumber, Codec, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 import UInt from './UInt';
-import Moment from '../Moment';
 
 /**
  * @name Compact

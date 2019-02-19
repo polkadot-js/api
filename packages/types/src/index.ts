@@ -6,4 +6,4 @@
 // well - <root>/docs/SUMMARY.md as well as ../README.md
 
 export * from './codec';
-export * from './index.classes';
+export * from './index.types';

@@ -8,8 +8,8 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Extrinsic, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
 import { CodecArg, CodecCallback, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
-import { MethodFunction } from '@polkadot/types/Method';
-import { StorageFunction } from '@polkadot/types/StorageKey';
+import { MethodFunction } from '@polkadot/types/primitive/Method';
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import { RxResult } from './rx/types';
 import SubmittableExtrinsic, { SubmittableResult } from './SubmittableExtrinsic';
