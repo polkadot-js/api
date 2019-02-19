@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumInfo, ReferendumIndex } from '@polkadot/types/index';
+import { isNull } from '@polkadot/util';
 
 import { drr } from '../util/drr';
 
@@ -16,17 +17,19 @@ import { drr } from '../util/drr';
  * A [[ReferendumInfo]] with an additional `index` field
  */
 export class ReferendumInfoExtended extends ReferendumInfo {
-  constructor (value: ReferendumInfo) {
+  private _index: ReferendumIndex;
+
+  constructor (value: ReferendumInfo, index: ReferendumIndex) {
     super(value);
 
-    this.set('index', value.get('index') as ReferendumIndex);
+    this._index = index;
   }
 
   /**
    * @description Convenience getter, returns the referendumIndex
    */
   get index (): ReferendumIndex {
-    return this.get('index') as ReferendumIndex;
+    return this._index;
   }
 }
 
@@ -37,11 +40,12 @@ export function referendumInfo (api: ApiInterface$Rx) {
         map((optionInfo) => {
           const info = optionInfo.unwrapOr(null);
 
-          if (info) {
-            info.set('index', new ReferendumIndex(index));
-          }
-
-          return new Option<ReferendumInfoExtended>(ReferendumInfoExtended, info);
+          return new Option<ReferendumInfoExtended>(
+            ReferendumInfoExtended,
+            isNull(info)
+              ? null
+              : new ReferendumInfoExtended(info, new ReferendumIndex(index))
+          );
         }),
         drr()
       );

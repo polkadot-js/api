@@ -34,7 +34,11 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
 
     return isNull(value) || isUndefined(value) || value instanceof Null
       ? new Null()
-      : new Type(value);
+      : (
+        value instanceof Type
+          ? value
+          : new Type(value)
+      );
   }
 
   static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
