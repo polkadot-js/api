@@ -10,17 +10,17 @@
 
 **↳ Int**
 
-↳  [I8](_i8_.i8.md)
+↳  [I8](_primitive_i8_.i8.md)
 
-↳  [I16](_i16_.i16.md)
+↳  [I16](_primitive_i16_.i16.md)
 
-↳  [I32](_i32_.i32.md)
+↳  [I32](_primitive_i32_.i32.md)
 
-↳  [I64](_i64_.i64.md)
+↳  [I64](_primitive_i64_.i64.md)
 
-↳  [I128](_i128_.i128.md)
+↳  [I128](_primitive_i128_.i128.md)
 
-↳  [I256](_i256_.i256.md)
+↳  [I256](_primitive_i256_.i256.md)
 
 # Implements
 
@@ -36,7 +36,7 @@
 
 *Overrides AbstractInt.__constructor*
 
-*Defined in [codec/Int.ts:21](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Int.ts#L21)*
+*Defined in [codec/Int.ts:21](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/codec/Int.ts#L21)*
 
 **Parameters:**
 
@@ -62,7 +62,7 @@ ___
 
 *Overrides AbstractInt.toHex*
 
-*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Int.ts#L36)*
+*Defined in [codec/Int.ts:36](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/codec/Int.ts#L36)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -79,7 +79,7 @@ ___
 
 *Overrides AbstractInt.toU8a*
 
-*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/codec/Int.ts#L48)*
+*Defined in [codec/Int.ts:48](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/codec/Int.ts#L48)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

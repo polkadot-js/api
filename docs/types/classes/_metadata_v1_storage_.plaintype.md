@@ -2,7 +2,7 @@
 
 # Hierarchy
 
-↳  [Type](_type_.type.md)
+↳  [Type](_primitive_type_.type.md)
 
 **↳ PlainType**
 
@@ -19,19 +19,19 @@
 
 ##  constructor
 
-⊕ **new PlainType**(value?: *[Text](_text_.text.md) \| `Uint8Array` \| `string`*): [PlainType](_metadata_v1_storage_.plaintype.md)
+⊕ **new PlainType**(value?: *[Text](_primitive_text_.text.md) \| `Uint8Array` \| `string`*): [PlainType](_metadata_v1_storage_.plaintype.md)
 
-*Inherited from [Type](_type_.type.md).[constructor](_type_.type.md#constructor)*
+*Inherited from [Type](_primitive_type_.type.md).[constructor](_primitive_type_.type.md#constructor)*
 
-*Overrides [Text](_text_.text.md).[constructor](_text_.text.md#constructor)*
+*Overrides [Text](_primitive_text_.text.md).[constructor](_primitive_text_.text.md#constructor)*
 
-*Defined in [Type.ts:19](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Type.ts#L19)*
+*Defined in [primitive/Type.ts:19](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Type.ts#L19)*
 
 **Parameters:**
 
 | Name | Type | Default value |
 | ------ | ------ | ------ |
-| `Default value` value | [Text](_text_.text.md) \| `Uint8Array` \| `string` | &quot;&quot; |
+| `Default value` value | [Text](_primitive_text_.text.md) \| `Uint8Array` \| `string` | &quot;&quot; |
 
 **Returns:** [PlainType](_metadata_v1_storage_.plaintype.md)
 
@@ -45,11 +45,11 @@ ___
 
 getencodedLength(): `number`
 
-*Inherited from [Type](_type_.type.md).[encodedLength](_type_.type.md#encodedlength)*
+*Inherited from [Type](_primitive_type_.type.md).[encodedLength](_primitive_type_.type.md#encodedlength)*
 
-*Overrides [Text](_text_.text.md).[encodedLength](_text_.text.md#encodedlength)*
+*Overrides [Text](_primitive_text_.text.md).[encodedLength](_primitive_text_.text.md#encodedlength)*
 
-*Defined in [Type.ts:76](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Type.ts#L76)*
+*Defined in [primitive/Type.ts:76](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Type.ts#L76)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -62,11 +62,11 @@ ___
 
 getlength(): `number`
 
-*Inherited from [Text](_text_.text.md).[length](_text_.text.md#length)*
+*Inherited from [Text](_primitive_text_.text.md).[length](_primitive_text_.text.md#length)*
 
 *Overrides String.length*
 
-*Defined in [Text.ts:52](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Text.ts#L52)*
+*Defined in [primitive/Text.ts:52](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Text.ts#L52)*
 
 *__description__*: The length of the value
 
@@ -271,9 +271,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Inherited from [Text](_text_.text.md).[eq](_text_.text.md#eq)*
+*Inherited from [Text](_primitive_text_.text.md).[eq](_primitive_text_.text.md#eq)*
 
-*Defined in [Text.ts:60](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Text.ts#L60)*
+*Defined in [primitive/Text.ts:60](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Text.ts#L60)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -853,9 +853,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Inherited from [Text](_text_.text.md).[toHex](_text_.text.md#tohex)*
+*Inherited from [Text](_primitive_text_.text.md).[toHex](_primitive_text_.text.md#tohex)*
 
-*Defined in [Text.ts:69](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Text.ts#L69)*
+*Defined in [primitive/Text.ts:69](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Text.ts#L69)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -870,9 +870,9 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Inherited from [Text](_text_.text.md).[toJSON](_text_.text.md#tojson)*
+*Inherited from [Text](_primitive_text_.text.md).[toJSON](_primitive_text_.text.md#tojson)*
 
-*Defined in [Text.ts:76](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Text.ts#L76)*
+*Defined in [primitive/Text.ts:76](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Text.ts#L76)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -932,11 +932,11 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Inherited from [Text](_text_.text.md).[toString](_text_.text.md#tostring)*
+*Inherited from [Text](_primitive_text_.text.md).[toString](_primitive_text_.text.md#tostring)*
 
 *Overrides String.toString*
 
-*Defined in [Text.ts:83](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Text.ts#L83)*
+*Defined in [primitive/Text.ts:83](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Text.ts#L83)*
 
 *__description__*: Returns the string representation of the value
 
@@ -951,11 +951,11 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Inherited from [Type](_type_.type.md).[toU8a](_type_.type.md#tou8a)*
+*Inherited from [Type](_primitive_type_.type.md).[toU8a](_primitive_type_.type.md#tou8a)*
 
-*Overrides [Text](_text_.text.md).[toU8a](_text_.text.md#tou8a)*
+*Overrides [Text](_primitive_text_.text.md).[toU8a](_primitive_text_.text.md#tou8a)*
 
-*Defined in [Type.ts:87](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Type.ts#L87)*
+*Defined in [primitive/Type.ts:87](https://github.com/polkadot-js/api/blob/cf5ca51/packages/types/src/primitive/Type.ts#L87)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
