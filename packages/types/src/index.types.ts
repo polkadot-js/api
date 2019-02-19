@@ -9,5 +9,5 @@
  * @summary Type definitions that are used in the system
  */
 export { default as Metadata } from './Metadata';
-export * from './primitives';
-export * from './structs';
+export * from './primitive';
+export * from './type';

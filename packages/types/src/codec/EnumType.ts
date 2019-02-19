@@ -6,7 +6,7 @@ import { Codec, Constructor, ConstructorDef } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import Null from '../primitives/Null';
+import Null from '../primitive/Null';
 import Base from './Base';
 
 type EnumConstructor<T = Codec> = { new(value?: any, index?: number): T };

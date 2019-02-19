@@ -7,7 +7,7 @@ import { MetadataInterface } from '../types';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Text from '../../primitives/Text';
+import Text from '../../primitive/Text';
 import { flattenUniq, validateTypes } from '../util';
 
 import { MetadataCall } from './Calls';

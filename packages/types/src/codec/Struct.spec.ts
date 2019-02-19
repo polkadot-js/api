@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Text from '../primitives/Text';
-import U32 from '../primitives/U32';
-import BlockNumber from '../structs/BlockNumber';
+import Text from '../primitive/Text';
+import U32 from '../primitive/U32';
+import BlockNumber from '../type/BlockNumber';
 import { CodecTo } from '../types';
 import Option from './Option';
 import Struct from './Struct';

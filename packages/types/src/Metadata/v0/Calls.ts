@@ -4,8 +4,8 @@
 
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Text from '../../primitives/Text';
-import U16 from '../../primitives/U16';
+import Text from '../../primitive/Text';
+import U16 from '../../primitive/U16';
 
 export class OuterDispatchCall extends Struct {
   constructor (value?: any) {

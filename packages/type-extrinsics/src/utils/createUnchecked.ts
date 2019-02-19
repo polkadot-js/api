@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
-import { MethodFunction } from '@polkadot/types/primitives/Method';
+import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { Method } from '@polkadot/types/index';
 import { assert } from '@polkadot/util';
 

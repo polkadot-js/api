@@ -4,8 +4,8 @@
 
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Text from '../../primitives/Text';
-import Type from '../../primitives/Type';
+import Text from '../../primitive/Text';
+import Type from '../../primitive/Type';
 
 export class MetadataCallArg extends Struct {
   constructor (value?: any) {

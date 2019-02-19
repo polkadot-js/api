@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '../../types';
-import U32 from '../../primitives/U32';
+import U32 from '../../primitive/U32';
 import compareMap from './compareMap';
 
 describe('compareMap', () => {

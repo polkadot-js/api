@@ -5,7 +5,7 @@
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
-import Text from '../primitives/Text';
+import Text from '../primitive/Text';
 import EnumType from './EnumType';
 import Compact from './Compact';
 import Option from './Option';

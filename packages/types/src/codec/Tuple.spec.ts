@@ -5,12 +5,12 @@
 import extrinsics from '@polkadot/extrinsics/static';
 
 import { CodecTo } from '../types';
-import Method from '../primitives/Method';
-import Text from '../primitives/Text';
-import U32 from '../primitives/U32';
-import BlockNumber from '../structs/BlockNumber';
-import Proposal from '../structs/Proposal';
-import VoteThreshold from '../structs/VoteThreshold';
+import Method from '../primitive/Method';
+import Text from '../primitive/Text';
+import U32 from '../primitive/U32';
+import BlockNumber from '../type/BlockNumber';
+import Proposal from '../type/Proposal';
+import VoteThreshold from '../type/VoteThreshold';
 import Tuple from './Tuple';
 
 describe('Tuple', () => {
