@@ -19,10 +19,12 @@ import { drr } from '../util/drr';
 export class ReferendumInfoExtended extends ReferendumInfo {
   private _index: ReferendumIndex;
 
-  constructor (value: ReferendumInfo, index: ReferendumIndex) {
+  constructor (value: ReferendumInfo | ReferendumInfoExtended, index?: BN | number) {
     super(value);
 
-    this._index = index;
+    this._index = value instanceof ReferendumInfoExtended
+      ? value.index
+      : new ReferendumIndex(index);
   }
 
   /**
@@ -44,7 +46,7 @@ export function referendumInfo (api: ApiInterface$Rx) {
             ReferendumInfoExtended,
             isNull(info)
               ? null
-              : new ReferendumInfoExtended(info, new ReferendumIndex(index))
+              : new ReferendumInfoExtended(info, index)
           );
         }),
         drr()
