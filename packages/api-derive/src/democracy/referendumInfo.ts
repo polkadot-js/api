@@ -16,10 +16,10 @@ import { drr } from '../util/drr';
  * A [[ReferendumInfo]] with an additional `index` field
  */
 export class ReferendumInfoExtended extends ReferendumInfo {
-  constructor (info: any) {
-    super(info);
+  constructor (value: ReferendumInfo) {
+    super(value);
 
-    this.set('index', new ReferendumIndex(info.index));
+    this.set('index', value.get('index') as ReferendumIndex);
   }
 
   /**
@@ -34,14 +34,15 @@ export function referendumInfo (api: ApiInterface$Rx) {
   return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
     return (api.query.democracy.referendumInfoOf(index) as Observable<Option<ReferendumInfo>>)
       .pipe(
-        map((info) =>
-          new Option<ReferendumInfoExtended>(
-            ReferendumInfoExtended,
-            info.isSome
-              ? { ...info.toJSON(), index }
-              : null
-          )
-        ),
+        map((optionInfo) => {
+          const info = optionInfo.unwrapOr(null);
+
+          if (info) {
+            info.set('index', new ReferendumIndex(index));
+          }
+
+          return new Option<ReferendumInfoExtended>(ReferendumInfoExtended, info);
+        }),
         drr()
       );
   };
