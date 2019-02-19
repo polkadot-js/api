@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ReferendumInfo, ReferendumIndex } from '@polkadot/types/index';
+import { Option, ReferendumInfo, ReferendumIndex } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 
@@ -16,27 +16,32 @@ import { drr } from '../util/drr';
  * A [[ReferendumInfo]] with an additional `index` field
  */
 export class ReferendumInfoExtended extends ReferendumInfo {
-  private _index: ReferendumIndex;
-
-  constructor (info: ReferendumInfo, index: BN | number) {
+  constructor (info: any) {
     super(info);
 
-    this._index = new ReferendumIndex(index);
+    this.set('index', new ReferendumIndex(info.index));
   }
 
   /**
    * @description Convenience getter, returns the referendumIndex
    */
   get index (): ReferendumIndex {
-    return this._index;
+    return this.get('index') as ReferendumIndex;
   }
 }
 
 export function referendumInfo (api: ApiInterface$Rx) {
-  return (id: BN | number): Observable<ReferendumInfoExtended> => {
-    return (api.query.democracy.referendumInfoOf(id) as Observable<ReferendumInfo>)
+  return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
+    return (api.query.democracy.referendumInfoOf(index) as Observable<Option<ReferendumInfo>>)
       .pipe(
-        map((info) => new ReferendumInfoExtended(info, id)),
+        map((info) =>
+          new Option<ReferendumInfoExtended>(
+            ReferendumInfoExtended,
+            info.isSome
+              ? { ...info.toJSON(), index }
+              : null
+          )
+        ),
         drr()
       );
   };

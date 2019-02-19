@@ -62,7 +62,9 @@ export interface Codec {
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
-export type Constructor<T = Codec> = { new(value?: any): T };
+export interface Constructor<T = Codec> {
+  new(...value: Array<any>): T;
+}
 
 export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 

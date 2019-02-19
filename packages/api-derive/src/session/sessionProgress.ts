@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types/index';
+import { BlockNumber, Option } from '@polkadot/types/index';
 
 import { bestNumber } from '../chain';
 import { drr } from '../util/drr';
@@ -21,7 +21,7 @@ export function sessionProgress (api: ApiInterface$Rx) {
       map(
         ([bestNumber, sessionLength, lastLengthChange]) =>
           (bestNumber || new BN(0))
-            .sub(lastLengthChange as BlockNumber || new BN(0))
+            .sub((lastLengthChange as Option<BlockNumber>).unwrapOr(new BN(0)))
             .add(sessionLength as BlockNumber || new BN(1))
             .mod(sessionLength as BlockNumber || new BN(1))
       ),

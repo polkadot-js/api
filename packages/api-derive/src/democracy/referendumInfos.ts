@@ -5,6 +5,7 @@
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterface$Rx } from '@polkadot/api/types';
+import { Option } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 import { referendumInfo, ReferendumInfoExtended } from './referendumInfo';
@@ -12,7 +13,7 @@ import { referendumInfo, ReferendumInfoExtended } from './referendumInfo';
 export function referendumInfos (api: ApiInterface$Rx) {
   const referendumInfoOf = referendumInfo(api);
 
-  return (ids: Array<BN | number> = []): Observable<Array<ReferendumInfoExtended>> => {
+  return (ids: Array<BN | number> = []): Observable<Array<Option<ReferendumInfoExtended>>> => {
     return !ids || !ids.length
       ? of([]).pipe(drr())
       : combineLatest(
