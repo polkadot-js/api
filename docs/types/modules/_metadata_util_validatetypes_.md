@@ -8,7 +8,7 @@
 
 ▸ **validateTypes**(types: *`Array`<`string`>*): `void`
 
-*Defined in [Metadata/util/validateTypes.ts:10](https://github.com/polkadot-js/api/blob/b846152/packages/types/src/Metadata/util/validateTypes.ts#L10)*
+*Defined in [Metadata/util/validateTypes.ts:10](https://github.com/polkadot-js/api/blob/8beac7b/packages/types/src/Metadata/util/validateTypes.ts#L10)*
 
 **Parameters:**
 
