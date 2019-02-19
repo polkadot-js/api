@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '../codec/types';
+
 import BlockNumber from './BlockNumber';
 import Struct from '../codec/Struct';
 import Proposal from './Proposal';
@@ -20,7 +22,7 @@ type ReferendumInfoValue = {
  * Info regarding an ongoing referendum
  */
 export default class ReferendumInfo extends Struct {
-  constructor (value?: ReferendumInfoValue | Uint8Array) {
+  constructor (value?: ReferendumInfoValue | Uint8Array | Map<string, Codec>) {
     super({
       end: BlockNumber,
       proposal: Proposal,
