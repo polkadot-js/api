@@ -19,6 +19,13 @@ export default class Null implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value (always true)
+   */
+  get isEmpty (): boolean {
+    return true;
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean {

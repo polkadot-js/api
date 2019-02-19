@@ -47,6 +47,13 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.length === 0;
+  }
+
+  /**
    * @description The length of the value
    */
   get length (): number {

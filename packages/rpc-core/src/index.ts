@@ -9,8 +9,8 @@ import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types
 import interfaces from '@polkadot/jsonrpc/index';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Codec } from '@polkadot/types/types';
-import { StorageChangeSet, StorageKey, Vector, createType } from '@polkadot/types/index';
-import { ExtError, assert, isFunction, logger } from '@polkadot/util';
+import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types/index';
+import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
@@ -189,24 +189,32 @@ export default class Rpc implements RpcInterface {
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
       // outputType that we have specified. Fallback to Data on nothing
-      const type = (params[0] as StorageKey).outputType || 'Data';
+      const key = params[0] as StorageKey;
+      const type = key.outputType || 'Data';
+      const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+      const value = isNull(result)
+        ? null
+        : base;
 
-      return createType(type, base);
+      return meta.modifier.isOptional
+        ? new Option(createClass(type), value)
+        : createType(type, value);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey>).reduce((result, _key: StorageKey) => {
+      return (params[0] as Vector<StorageKey>).reduce((result, key: StorageKey) => {
         // Fallback to Data (i.e. just the encoding) if we don't have a specific type
-        const type = _key.outputType || 'Data';
+        const type = key.outputType || 'Data';
 
         // see if we have a result value for this specific key
-        const key = _key.toHex();
+        const hexKey = key.toHex();
         const item = (base as StorageChangeSet).changes.find((item) =>
-          item.key.toHex() === key
+          item.key.toHex() === hexKey
         );
+        const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
         // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
@@ -214,11 +222,13 @@ export default class Rpc implements RpcInterface {
           !item
             ? undefined
             : (
-              // for `null` we fallback to the default value, or create an empty type,
-              // otherwise we return the actual value as retrieved
-              item.value.isNone
-                ? createType(type, (_key.meta || { default: undefined }).default)
-                : createType(type, item.value.unwrap())
+              meta.modifier.isOptional
+                // create option either with the existing value, or empty when
+                // there is no value returned
+                ? new Option(createClass(type), item.value.unwrapOr(null))
+                // for `null` we fallback to the default value, or create an empty type,
+                // otherwise we return the actual value as retrieved
+                : createType(type, item.value.unwrapOr(meta.default))
             )
         );
 

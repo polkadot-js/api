@@ -1,3 +1,19 @@
+# 0.45.1
+
+- Storage with option values now correctly return `Option<Type>` and is indicated as such in the documentation
+
+```js
+// old
+const ll = await api.query.session.lastLengthChange();
+
+console.log('ll', ll /* BlockNumber */); // would be 0 if not set yet
+
+// new
+const llo = await api.query.session.lastLengthChange();
+
+console.log('llo', llo.unwrapOr('not set') /* Option<BlockNumber> */)
+```
+
 # 0.44.1
 
 - Split primitives and types into seperate folders. This should not affect external use since the exports remain the same, however does have an impact where classes are referenced directly. e.g.

@@ -66,6 +66,13 @@ export default class Enum extends Base<number> implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value (always false)
+   */
+  get isEmpty (): boolean {
+    return false;
+  }
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean {

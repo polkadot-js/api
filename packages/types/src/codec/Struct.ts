@@ -140,6 +140,21 @@ export default class Struct<
   }
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    const items = this.toArray();
+
+    for (let i = 0; i < items.length; i++) {
+      if (!items[i].isEmpty) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  /**
    * @description Returns the Type description to sthe structure
    */
   get Type (): E {

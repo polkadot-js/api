@@ -31,6 +31,13 @@ export default class ChainProperties extends Map<string, any> implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return [...this.keys()].length === 0;
+  }
+
+  /**
    * @description The token decimals, if defined (de-facto standard only)
    */
   get tokenDecimals (): number | undefined {

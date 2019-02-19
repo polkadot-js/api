@@ -5,14 +5,14 @@
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ReferendumIndex } from '@polkadot/types/index';
+import { Option, ReferendumIndex } from '@polkadot/types/index';
 
 import { drr } from '../util/drr';
 import { ReferendumInfoExtended } from './referendumInfo';
 import { referendumInfos } from './referendumInfos';
 
 export function referendums (api: ApiInterface$Rx) {
-  return (): Observable<Array<ReferendumInfoExtended>> =>
+  return (): Observable<Array<Option<ReferendumInfoExtended>>> =>
     (combineLatest(
       api.query.democracy.nextTally(),
       api.query.democracy.referendumCount()

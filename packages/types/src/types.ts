@@ -34,6 +34,11 @@ export interface Codec {
   encodedLength: number;
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  isEmpty: boolean;
+
+  /**
    * @description Compares the value of the input to see if there is a match
    */
   eq (other?: any): boolean;
@@ -62,7 +67,9 @@ export interface Codec {
 
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
-export type Constructor<T = Codec> = { new(value?: any): T };
+export interface Constructor<T = Codec> {
+  new(...value: Array<any>): T;
+}
 
 export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 

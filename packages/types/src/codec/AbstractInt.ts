@@ -66,6 +66,13 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Checks if the value is a zero value (align elsewhere)
+   */
+  get isEmpty (): boolean {
+    return this.isZero();
+  }
+
+  /**
    * @description Returns the number of bits in the value
    */
   bitLength (): UIntBitLength {

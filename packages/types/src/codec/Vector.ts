@@ -53,6 +53,16 @@ export default class Vector<
     };
   }
 
+  /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.length === 0;
+  }
+
+  /**
+   * @description The type for the items
+   */
   get Type (): string {
     return this._Type.name;
   }

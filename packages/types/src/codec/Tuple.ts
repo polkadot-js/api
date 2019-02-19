@@ -63,6 +63,13 @@ export default class Tuple extends Array<Codec> implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.length === 0;
+  }
+
+  /**
    * @description The types definition of the tuple
    */
   get Types (): Array<string> {
