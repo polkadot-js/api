@@ -25,17 +25,17 @@
 
 ##  constructor
 
-⊕ **new ReferendumInfoExtended**(info: *`any`*): [ReferendumInfoExtended](_democracy_referenduminfo_.referenduminfoextended.md)
+⊕ **new ReferendumInfoExtended**(value: *`ReferendumInfo`*): [ReferendumInfoExtended](_democracy_referenduminfo_.referenduminfoextended.md)
 
 *Overrides ReferendumInfo.__constructor*
 
-*Defined in [democracy/referendumInfo.ts:18](https://github.com/polkadot-js/api/blob/f807a93/packages/api-derive/src/democracy/referendumInfo.ts#L18)*
+*Defined in [democracy/referendumInfo.ts:18](https://github.com/polkadot-js/api/blob/f820dfc/packages/api-derive/src/democracy/referendumInfo.ts#L18)*
 
 **Parameters:**
 
 | Name | Type |
 | ------ | ------ |
-| info | `any` |
+| value | `ReferendumInfo` |
 
 **Returns:** [ReferendumInfoExtended](_democracy_referenduminfo_.referenduminfoextended.md)
 
@@ -76,7 +76,7 @@ getType(): `E`
 
 *Inherited from Struct.Type*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L160)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:160](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L160)*
 
 *__description__*: Returns the Type description to sthe structure
 
@@ -91,7 +91,7 @@ getdelay(): `BlockNumber`
 
 *Inherited from ReferendumInfo.delay*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:56](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/type/ReferendumInfo.ts#L56)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:58](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/type/ReferendumInfo.ts#L58)*
 
 *__description__*: The delay (in blocks) to wait after a successful referendum before deploying
 
@@ -106,7 +106,7 @@ getencodedLength(): `number`
 
 *Inherited from Struct.encodedLength*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:167](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L167)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:167](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L167)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -121,7 +121,7 @@ getend(): `BlockNumber`
 
 *Inherited from ReferendumInfo.end*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:35](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/type/ReferendumInfo.ts#L35)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:37](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/type/ReferendumInfo.ts#L37)*
 
 *__description__*: When voting on this referendum will end
 
@@ -134,7 +134,7 @@ ___
 
 getindex(): `ReferendumIndex`
 
-*Defined in [democracy/referendumInfo.ts:28](https://github.com/polkadot-js/api/blob/f807a93/packages/api-derive/src/democracy/referendumInfo.ts#L28)*
+*Defined in [democracy/referendumInfo.ts:28](https://github.com/polkadot-js/api/blob/f820dfc/packages/api-derive/src/democracy/referendumInfo.ts#L28)*
 
 *__description__*: Convenience getter, returns the referendumIndex
 
@@ -149,7 +149,7 @@ getisEmpty(): `boolean`
 
 *Inherited from Struct.isEmpty*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L145)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:145](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L145)*
 
 *__description__*: Checks if the value is an empty value
 
@@ -164,7 +164,7 @@ getproposal(): `Proposal`
 
 *Inherited from ReferendumInfo.proposal*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:42](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/type/ReferendumInfo.ts#L42)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:44](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/type/ReferendumInfo.ts#L44)*
 
 *__description__*: The proposal being voted on
 
@@ -179,7 +179,7 @@ getthreshold(): `VoteThreshold`
 
 *Inherited from ReferendumInfo.threshold*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:49](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/type/ReferendumInfo.ts#L49)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/type/ReferendumInfo.ts:51](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/type/ReferendumInfo.ts#L51)*
 
 *__description__*: The thresholding mechanism to determine whether it passed
 
@@ -259,7 +259,7 @@ ___
 
 *Inherited from Struct.eq*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L176)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:176](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L176)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -302,7 +302,7 @@ ___
 
 *Overrides Map.get*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:184](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L184)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:184](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L184)*
 
 *__description__*: Returns a specific names entry in the structure
 
@@ -323,7 +323,7 @@ ___
 
 *Inherited from Struct.getAtIndex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:191](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L191)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:191](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L191)*
 
 *__description__*: Returns the values of a member at a specific index (Rather use get(name) for performance)
 
@@ -398,7 +398,7 @@ ___
 
 *Inherited from Struct.toArray*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:198](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L198)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:198](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L198)*
 
 *__description__*: Converts the Object to an standard JavaScript Array
 
@@ -413,7 +413,7 @@ ___
 
 *Inherited from Struct.toHex*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:205](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L205)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:205](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L205)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -428,7 +428,7 @@ ___
 
 *Inherited from Struct.toJSON*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:212](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L212)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:212](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L212)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -443,7 +443,7 @@ ___
 
 *Inherited from Struct.toString*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:226](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L226)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:226](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L226)*
 
 *__description__*: Returns the string representation of the value
 
@@ -458,7 +458,7 @@ ___
 
 *Inherited from Struct.toU8a*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:234](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L234)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:234](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L234)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -494,7 +494,7 @@ ___
 
 *Inherited from Struct.with*
 
-*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/f807a93/packages/types/src/codec/Struct.ts#L125)*
+*Defined in [/home/travis/build/polkadot-js/api/packages/types/src/codec/Struct.ts:125](https://github.com/polkadot-js/api/blob/f820dfc/packages/types/src/codec/Struct.ts#L125)*
 
 **Type parameters:**
 

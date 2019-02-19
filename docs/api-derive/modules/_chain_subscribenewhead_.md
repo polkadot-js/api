@@ -8,7 +8,7 @@
 
 **Ƭ HeaderAndValidators**: *[`Header`, `Array`<`AccountId`>]*
 
-*Defined in [chain/subscribeNewHead.ts:12](https://github.com/polkadot-js/api/blob/f807a93/packages/api-derive/src/chain/subscribeNewHead.ts#L12)*
+*Defined in [chain/subscribeNewHead.ts:12](https://github.com/polkadot-js/api/blob/f820dfc/packages/api-derive/src/chain/subscribeNewHead.ts#L12)*
 
 ___
 
@@ -20,7 +20,7 @@ ___
 
 ▸ **subscribeNewHead**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [chain/subscribeNewHead.ts:25](https://github.com/polkadot-js/api/blob/f807a93/packages/api-derive/src/chain/subscribeNewHead.ts#L25)*
+*Defined in [chain/subscribeNewHead.ts:25](https://github.com/polkadot-js/api/blob/f820dfc/packages/api-derive/src/chain/subscribeNewHead.ts#L25)*
 
 *__description__*: Subscribe to block headers and extend it with the author
 

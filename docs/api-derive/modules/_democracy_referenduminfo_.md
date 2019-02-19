@@ -20,7 +20,7 @@
 
 ▸ **referendumInfo**(api: *`ApiInterface$Rx`*): `(Anonymous function)`
 
-*Defined in [democracy/referendumInfo.ts:33](https://github.com/polkadot-js/api/blob/f807a93/packages/api-derive/src/democracy/referendumInfo.ts#L33)*
+*Defined in [democracy/referendumInfo.ts:33](https://github.com/polkadot-js/api/blob/f820dfc/packages/api-derive/src/democracy/referendumInfo.ts#L33)*
 
 **Parameters:**
 
