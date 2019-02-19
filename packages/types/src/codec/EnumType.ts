@@ -123,6 +123,13 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
   }
 
   /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.isEmpty;
+  }
+
+  /**
    * @description Checks if the Enum points to a [[Null]] type
    */
   get isNone (): boolean {

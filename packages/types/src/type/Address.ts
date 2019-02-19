@@ -6,6 +6,7 @@ import BN from 'bn.js';
 import { decodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 
+import { Codec } from '../types';
 import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -22,7 +23,7 @@ export const ACCOUNT_ID_PREFIX = new Uint8Array([0xff]);
  * we extend from Base with an AccountId/AccountIndex wrapper. Basically the Address
  * is encoded as `[ <prefix-byte>, ...publicKey/...bytes ]` as per spec
  */
-export default class Address extends Base<AccountId | AccountIndex> {
+export default class Address extends Base<AccountId | AccountIndex> implements Codec {
   constructor (value: AnyAddress = new Uint8Array()) {
     super(
       Address.decodeAddress(value)
@@ -73,6 +74,13 @@ export default class Address extends Base<AccountId | AccountIndex> {
         ? 1
         : 0
     );
+  }
+
+  /**
+   * @description Checks if the value is an empty value
+   */
+  get isEmpty (): boolean {
+    return this.raw.isEmpty;
   }
 
   /**
