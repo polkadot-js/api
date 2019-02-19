@@ -35,9 +35,7 @@ export function referendumInfo (api: ApiInterface$Rx) {
     return (api.query.democracy.referendumInfoOf(index) as Observable<Option<ReferendumInfo>>)
       .pipe(
         map((optionInfo) => {
-          const info = optionInfo.isSome
-            ? optionInfo.unwrap()
-            : null;
+          const info = optionInfo.unwrapOr(null);
 
           if (info) {
             info.set('index', new ReferendumIndex(index));
