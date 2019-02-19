@@ -12,7 +12,7 @@
 
 ⊕ **new Combinator**(fns: *`Array`<[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction) \| [[CombinatorFunction](../modules/_promise_combinator_.md#combinatorfunction), `Array`]>*, callback: *[CombinatorCallback](../modules/_promise_combinator_.md#combinatorcallback)*): [Combinator](_promise_combinator_.combinator.md)
 
-*Defined in [promise/Combinator.ts:21](https://github.com/polkadot-js/api/blob/447ab2f/packages/api/src/promise/Combinator.ts#L21)*
+*Defined in [promise/Combinator.ts:21](https://github.com/polkadot-js/api/blob/67a1bcc/packages/api/src/promise/Combinator.ts#L21)*
 
 **Parameters:**
 
@@ -33,7 +33,7 @@ ___
 
 ▸ **unsubscribe**(): `void`
 
-*Defined in [promise/Combinator.ts:67](https://github.com/polkadot-js/api/blob/447ab2f/packages/api/src/promise/Combinator.ts#L67)*
+*Defined in [promise/Combinator.ts:67](https://github.com/polkadot-js/api/blob/67a1bcc/packages/api/src/promise/Combinator.ts#L67)*
 
 **Returns:** `void`
 
