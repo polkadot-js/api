@@ -11,7 +11,7 @@ console.log('ll', ll /* BlockNumber */); // would be 0 if not set yet
 // new
 const llo = await api.query.session.lastLengthChange();
 
-console.log('ll0', ll.unwrapOr('not set') /* Option<BlockNumber> */)
+console.log('llo', llo.unwrapOr('not set') /* Option<BlockNumber> */)
 ```
 
 # 0.44.1
