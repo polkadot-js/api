@@ -191,14 +191,12 @@ export default class Rpc implements RpcInterface {
       // outputType that we have specified. Fallback to Data on nothing
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
+      const Clazz = createClass(type);
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
-      const value = isNull(result)
-        ? null
-        : base;
 
       return meta.modifier.isOptional
-        ? new Option(createClass(type), value)
-        : createType(type, value);
+        ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
+        : new Clazz(base);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -208,6 +206,7 @@ export default class Rpc implements RpcInterface {
       return (params[0] as Vector<StorageKey>).reduce((result, key: StorageKey) => {
         // Fallback to Data (i.e. just the encoding) if we don't have a specific type
         const type = key.outputType || 'Data';
+        const Clazz = createClass(type);
 
         // see if we have a result value for this specific key
         const hexKey = key.toHex();
@@ -225,10 +224,10 @@ export default class Rpc implements RpcInterface {
               meta.modifier.isOptional
                 // create option either with the existing value, or empty when
                 // there is no value returned
-                ? new Option(createClass(type), item.value.unwrapOr(null))
+                ? new Option(Clazz, item.value.isNone ? null : new Clazz(item.value.unwrap()))
                 // for `null` we fallback to the default value, or create an empty type,
                 // otherwise we return the actual value as retrieved
-                : createType(type, item.value.unwrapOr(meta.default))
+                : new Clazz(item.value.unwrapOr(meta.default))
             )
         );
 
