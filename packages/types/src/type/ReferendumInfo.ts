@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../codec/types';
+import { Codec } from '../types';
 
-import BlockNumber from './BlockNumber';
 import Struct from '../codec/Struct';
+import BlockNumber from './BlockNumber';
 import Proposal from './Proposal';
 import VoteThreshold from './VoteThreshold';
 
