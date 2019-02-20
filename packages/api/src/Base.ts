@@ -43,6 +43,15 @@ const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`
 
 const l = logger('api/decorator');
 
+let pkgJson: { name: string, version: string };
+
+try {
+  pkgJson = require('./package.json');
+} catch (error) {
+  // development environment
+  pkgJson = { name: '@polkadot/api', version: '-' };
+}
+
 /**
  * Put the `this.onCall` function of ApiRx here, because it is needed by
  * `api._rx`.
@@ -131,6 +140,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   get hasSubscriptions (): boolean {
     return this._rpcBase._provider.hasSubscriptions;
+  }
+
+  /**
+   * @description The library information name & version (from package.json)
+   */
+  get libraryInfo (): string {
+    return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
