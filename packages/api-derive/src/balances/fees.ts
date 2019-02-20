@@ -15,8 +15,12 @@ export function fees (api: ApiInterface$Rx) {
     return (combineLatest(
       api.query.balances.creationFee(),
       api.query.balances.existentialDeposit(),
-      api.query.balances.transactionBaseFee(),
-      api.query.balances.transactionByteFee(),
+      api.query.fees
+        ? api.query.fees.transactionBaseFee()
+        : api.query.balances.transactionBaseFee(),
+      api.query.fees
+        ? api.query.fees.transactionByteFee()
+        : api.query.balances.transactionByteFee(),
       api.query.balances.transferFee()
     ) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
