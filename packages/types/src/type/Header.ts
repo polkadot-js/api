@@ -107,4 +107,16 @@ export class HeaderExtended extends Header {
   get author (): AccountId | undefined {
     return this._author;
   }
+
+  /**
+   * @description Creates the JSON representation
+   */
+  toJSON (): any {
+    return {
+      ...super.toJSON(),
+      author: this.author
+        ? this.author.toJSON()
+        : undefined
+    };
+  }
 }

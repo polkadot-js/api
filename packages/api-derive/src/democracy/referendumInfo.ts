@@ -33,6 +33,16 @@ export class ReferendumInfoExtended extends ReferendumInfo {
   get index (): ReferendumIndex {
     return this._index;
   }
+
+  /**
+   * @description Creates the JSON representation
+   */
+  toJSON (): any {
+    return {
+      ...super.toJSON(),
+      index: this.index.toJSON()
+    };
+  }
 }
 
 export function referendumInfo (api: ApiInterface$Rx) {
