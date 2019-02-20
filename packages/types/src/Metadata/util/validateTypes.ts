@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isUndefined } from '@polkadot/util';
+import { isUndefined } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 
-export default function validateTypes (types: Array<string>): void {
+export default function validateTypes (types: Array<string>, throwError: boolean): void {
   const extractTypes = (types: Array<string>): Array<any> => {
     return types.map((type) => {
       const decoded = getTypeDef(type);
@@ -37,5 +37,13 @@ export default function validateTypes (types: Array<string>): void {
     isUndefined(allTypes[type])
   );
 
-  assert(missing.length === 0, `Unknown types found, no types for ${missing}`);
+  if (missing.length !== 0) {
+    const message = `Unknown types found, no types for ${missing}`;
+
+    if (throwError) {
+      throw new Error(message);
+    } else {
+      console.error(message);
+    }
+  }
 }

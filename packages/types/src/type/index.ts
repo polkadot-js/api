@@ -11,6 +11,8 @@
 export { default as AccountId, AccountIdOf } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
 export { default as Address } from './Address';
+export { default as Amount } from './Amount';
+export { default as AssetOf } from './AssetOf';
 export { default as AttestedCandidate } from './AttestedCandidate';
 export { default as AuthorityId } from './AuthorityId';
 export { default as Balance, BalanceOf } from './Balance';

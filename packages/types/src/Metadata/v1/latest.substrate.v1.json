@@ -451,28 +451,6 @@
                 " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
                 " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
               ]
-            },
-            {
-              "name": "TransactionBaseFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "docs": [
-                " The fee to be paid for making a transaction; the base."
-              ]
-            },
-            {
-              "name": "TransactionByteFee",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Balance"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "docs": [
-                " The fee to be paid for making a transaction; the per-byte portion."
-              ]
             }
           ],
           "calls": [
@@ -2834,6 +2812,64 @@
               ],
               "docs": [
                 " The sudoer just switched identity; the old key is supplied."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fees",
+          "prefix": "Fees",
+          "storage": [
+            {
+              "name": "TransactionBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "AssetOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "AssetOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "CurrentTransactionFee",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "u32",
+                  "value": "AssetOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The `extrinsic_index => accumulated_fees` map, containing records to",
+                " track the overall charged fees for each transaction.",
+                "",
+                " All records should be removed at finalise stage."
+              ]
+            }
+          ],
+          "calls": null,
+          "events": [
+            {
+              "name": "Charged",
+              "args": [
+                "u32",
+                "Amount"
+              ],
+              "docs": [
+                " Fee charged (extrinsic_index, fee_amount)"
               ]
             }
           ]
