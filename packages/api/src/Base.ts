@@ -362,6 +362,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._runtimeMetadata = await this._rpcBase.state.getMetadata();
         this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
         this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+
+        // get unique types & validate
+        this.runtimeMetadata.getUniqTypes(false);
       } else {
         this._runtimeMetadata = this._options.source.runtimeMetadata;
         this._runtimeVersion = this._options.source.runtimeVersion;

@@ -106,7 +106,7 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
     return this.metadata.asV1;
   }
 
-  getUniqTypes (): Array<string> {
-    return (this.metadata.value as any as MetadataInterface).getUniqTypes();
+  getUniqTypes (throwError: boolean): Array<string> {
+    return (this.metadata.value as any as MetadataInterface).getUniqTypes(throwError);
   }
 }

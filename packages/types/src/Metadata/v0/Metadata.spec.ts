@@ -17,7 +17,7 @@ describe('Metadata', () => {
     const str = JSON.stringify(metadata.toJSON());
 
     console.error(str);
-    console.error(metadata.getUniqTypes());
+    console.error(metadata.getUniqTypes(true));
 
     expect(metadata.events.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));

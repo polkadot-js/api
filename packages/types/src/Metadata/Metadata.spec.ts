@@ -18,7 +18,7 @@ describe('Metadata', () => {
     const str = JSON.stringify(metadata.toJSON());
 
     console.error(str);
-    console.error(metadata.getUniqTypes());
+    console.error(metadata.getUniqTypes(true));
 
     expect(metadata.version).toBe(1);
     expect(metadata.asV1.modules.length).not.toBe(0);
@@ -30,7 +30,7 @@ describe('Metadata', () => {
 
     // console.error(JSON.stringify(v0.toJSON()));
 
-    expect(metadata.getUniqTypes()).toEqual(v0.getUniqTypes());
+    expect(metadata.getUniqTypes(true)).toEqual(v0.getUniqTypes(true));
   });
 
   describe('storage with default values', () => {
