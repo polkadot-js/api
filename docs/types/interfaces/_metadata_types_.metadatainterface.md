@@ -17,9 +17,15 @@
 
 ##  getUniqTypes
 
-▸ **getUniqTypes**(): `Array`<`string`>
+▸ **getUniqTypes**(throwError: *`boolean`*): `Array`<`string`>
 
-*Defined in [Metadata/types.ts:6](https://github.com/polkadot-js/api/blob/f4119bf/packages/types/src/Metadata/types.ts#L6)*
+*Defined in [Metadata/types.ts:6](https://github.com/polkadot-js/api/blob/d1825c7/packages/types/src/Metadata/types.ts#L6)*
+
+**Parameters:**
+
+| Name | Type |
+| ------ | ------ |
+| throwError | `boolean` |
 
 **Returns:** `Array`<`string`>
 
