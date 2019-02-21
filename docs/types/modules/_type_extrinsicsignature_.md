@@ -20,7 +20,7 @@
 
 **● IMMORTAL_ERA**: *`Uint8Array`* =  new Uint8Array([0])
 
-*Defined in [type/ExtrinsicSignature.ts:18](https://github.com/polkadot-js/api/blob/d1825c7/packages/types/src/type/ExtrinsicSignature.ts#L18)*
+*Defined in [type/ExtrinsicSignature.ts:18](https://github.com/polkadot-js/api/blob/5a4519d/packages/types/src/type/ExtrinsicSignature.ts#L18)*
 
 ___
 
