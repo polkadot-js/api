@@ -195,7 +195,7 @@ export default class Rpc implements RpcInterface {
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
       return meta.modifier.isOptional
-        ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
+        ? new Option(Clazz, isNull(result) ? null : base)
         : new Clazz(base);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
@@ -224,7 +224,7 @@ export default class Rpc implements RpcInterface {
               meta.modifier.isOptional
                 // create option either with the existing value, or empty when
                 // there is no value returned
-                ? new Option(Clazz, item.value.isNone ? null : new Clazz(item.value.unwrap()))
+                ? new Option(Clazz, item.value)
                 // for `null` we fallback to the default value, or create an empty type,
                 // otherwise we return the actual value as retrieved
                 : new Clazz(item.value.unwrapOr(meta.default))
