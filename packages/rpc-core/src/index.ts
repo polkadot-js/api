@@ -195,7 +195,7 @@ export default class Rpc implements RpcInterface {
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
       return meta.modifier.isOptional
-        ? new Option(Clazz, isNull(result) ? null : base)
+        ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
         : new Clazz(base);
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
@@ -210,24 +210,24 @@ export default class Rpc implements RpcInterface {
 
         // see if we have a result value for this specific key
         const hexKey = key.toHex();
-        const item = (base as StorageChangeSet).changes.find((item) =>
+        const { value } = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === hexKey
-        );
+        ) || { value: null };
         const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
         // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
         result.push(
-          !item
+          !value
             ? undefined
             : (
               meta.modifier.isOptional
                 // create option either with the existing value, or empty when
                 // there is no value returned
-                ? new Option(Clazz, item.value)
+                ? new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap()))
                 // for `null` we fallback to the default value, or create an empty type,
                 // otherwise we return the actual value as retrieved
-                : new Clazz(item.value.unwrapOr(meta.default))
+                : new Clazz(value.unwrapOr(meta.default))
             )
         );
 
