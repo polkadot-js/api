@@ -2,9 +2,17 @@
 
 Implementation of the types and their (de-)serialisation via [parity-codec](https://github.com/paritytech/parity-codec).
 
+## Primitive types
+
+There primitive types are available: [[Bool]], [[Bytes]], [[Data]], [[H160]], [[H256]], [[H512]], [[I8]], [[I16]], [[I32]], [[I64]], [[I128]], [[I256]], [[Method]], [[Moment]], [[Null]], [[StorageData]], [[StorageKey]], [[Text]], [[Type]], [[U8]], [[U16]], [[U32]], [[U64]], [[U128]], [[U256]], [[USize]]
+
 ## Substrate types
 
-These types implement specific types that are found as part of the Substrate base: [[AccountId]], [[AccountIndex]], [[Address]], [[AuthorityId]], [[Balance]], [[Block]], [[BlockNumber]], [[Bool]], [[Bytes]], [[ChainProperties]] [[Data]], [[Digest]], [[Event]], [[EventRecord]], [[Extrinsic]], [[Extrinsics]], [[ExtrinsicEra]], [[ExtrinsicSignature]], [[ExtrinsicStatus]], [[Gas]], [[H256]], [[H512]], [[Hash]], [[Header]], [[Justification]], [[KeyValue]], [[Metadata]], [[Method]], [[MisbehaviorReport]], [[Moment]], [[NewAccountOutcome]], [[Nonce]], [[Null]], [[Origin]], [[ParachainId]], [[PendingExtrinsics]], [[Perbill]], [[Permill]], [[PropIndex]], [[Proposal]], [[ProposalIndex]], [[ReferendumIndex]], [[RuntimeVersion]], [[SessionKey]], [[Signature]], [[SignaturePayload]], [[SignedBlock]], [[StorageChangeSet]], [[StorageData]], [[StorageKey]], [[StoredPendingChange]], [[Text]], [[Type]], [[U8]], [[U16]], [[U32]], [[U64]], [[U128]], [[U256]], [[ValidatorPrefs]], [[VoteIndex]], [[VoteThreshold]]
+These types implement specific types that are found as part of the Substrate base: [[AccountId]], [[AccountIndex]], [[Address]], [[Amount]], [[AssetOf]], [[AttestedCandidate]], [[AuthorityId]], [[Balance]], [[BalanceOf]], [[Block]], [[BlockNumber]], [[ChainProperties]], [[CodeHash]], [[Digest]], [[Event]], [[EventRecord]], [[Extrinsic]], [[Extrinsics]], [[ExtrinsicEra]], [[ExtrinsicSignature]], [[ExtrinsicStatus]], [[Gas]], [[Hash]], [[Header]], [[Health]], [[InherentOfflineReport]], [[Justification]], [[KeyValue]], [[Metadata]], [[MisbehaviorReport]], [[NewAccountOutcome]], [[Nonce]], [[Origin]], [[ParaId]], [[PendingExtrinsics]], [[Perbill]], [[Permill]], [[PrefabWasmModule]], [[PropIndex]], [[Proposal]], [[ProposalIndex]], [[ReferendumIndex]], [[ReferendumInfo]], [[RuntimeVersion]], [[Schedule]], [[SeedOf]], [[SessionKey]], [[Signature]], [[SignaturePayload]], [[SignedBlock]], [[StorageChangeSet]], [[StoredPendingChange]], [[ValidatorPrefs]], [[VestingSchedule]], [[Vote]], [[VoteIndex]], [[VoteThreshold]]
+
+## Derived types
+
+Some types are extended from the base to provide additional information: [[HeaderExtended]], [[ReferendumInfoExtended]]
 
 ## Codec types
 
