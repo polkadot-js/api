@@ -10,7 +10,7 @@
 # Callable
 ▸ **__call**(...params: *`Array`<`CodecArg`>*): `CodecResult`
 
-*Defined in [types.ts:88](https://github.com/polkadot-js/api/blob/8a946ae/packages/api/src/types.ts#L88)*
+*Defined in [types.ts:88](https://github.com/polkadot-js/api/blob/d86b9c8/packages/api/src/types.ts#L88)*
 
 **Parameters:**
 
