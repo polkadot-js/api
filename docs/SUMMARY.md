@@ -86,6 +86,10 @@
 - [hidden](types/classes/_primitive_u8_.u8.md)
 - [hidden](types/classes/_primitive_usize_.usize.md)
 
+<!-- derived -->
+- [hidden](types/classes/_type_header_.headerextended.md)
+- [hidden](api-derive/classes/_democracy_referenduminfo_.referenduminfoextended.md)
+
 <!-- metadata -->
 
 - [hidden](types/classes/_metadata_index_.metadata.md)
@@ -177,7 +181,6 @@
 - [hidden](types/classes/_type_gas_.gas.md)
 - [hidden](types/classes/_type_hash_.hash.md)
 - [hidden](types/classes/_type_header_.header.md)
-- [hidden](types/classes/_type_header_.headerextended.md)
 - [hidden](types/classes/_type_health_.health.md)
 - [hidden](types/classes/_type_inherentofflinereport_.inherentofflinereport.md)
 - [hidden](types/classes/_type_justification_.justification.md)

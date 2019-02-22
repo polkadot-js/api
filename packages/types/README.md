@@ -10,7 +10,7 @@ There primitive types are available: [[Bool]], [[Bytes]], [[Data]], [[H160]], [[
 
 These types implement specific types that are found as part of the Substrate base: [[AccountId]], [[AccountIndex]], [[Address]], [[Amount]], [[AssetOf]], [[AttestedCandidate]], [[AuthorityId]], [[Balance]], [[BalanceOf]], [[Block]], [[BlockNumber]], [[ChainProperties]], [[CodeHash]], [[Digest]], [[Event]], [[EventRecord]], [[Extrinsic]], [[Extrinsics]], [[ExtrinsicEra]], [[ExtrinsicSignature]], [[ExtrinsicStatus]], [[Gas]], [[Hash]], [[Header]], [[Health]], [[InherentOfflineReport]], [[Justification]], [[KeyValue]], [[Metadata]], [[MisbehaviorReport]], [[NewAccountOutcome]], [[Nonce]], [[Origin]], [[ParaId]], [[PendingExtrinsics]], [[Perbill]], [[Permill]], [[PrefabWasmModule]], [[PropIndex]], [[Proposal]], [[ProposalIndex]], [[ReferendumIndex]], [[ReferendumInfo]], [[RuntimeVersion]], [[Schedule]], [[SeedOf]], [[SessionKey]], [[Signature]], [[SignaturePayload]], [[SignedBlock]], [[StorageChangeSet]], [[StoredPendingChange]], [[ValidatorPrefs]], [[VestingSchedule]], [[Vote]], [[VoteIndex]], [[VoteThreshold]]
 
-## Extended types
+## Derived types
 
 Some types are extended from the base to provide additional information: [[HeaderExtended]], [[ReferendumInfoExtended]]
 
