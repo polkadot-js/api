@@ -24,23 +24,22 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   static decodeOption<O> (Type: Constructor, value?: any): Codec {
-    if (isU8a(value)) {
+    if (isNull(value) || isUndefined(value) || value instanceof Null) {
+      return new Null();
+    } else if (value instanceof Type) {
+      // don't re-create, use as it (which also caters for derived types)
+      return value;
+    } else if (value instanceof Option) {
+      return Option.decodeOption(Type, value.value);
+    } else if (isU8a(value)) {
+      // the isU8a check happens last in the if-tree - since the wrapped value
+      // may be an instance of it, so Type and Option checks go in first
       return value[0] === 0
         ? new Null()
         : new Type(value.subarray(1));
-    } else if (value instanceof Option) {
-      return Option.decodeOption(Type, value.value);
     }
 
-    return isNull(value) || isUndefined(value) || value instanceof Null
-      ? new Null()
-      : (
-        // don't re-create when the type is correct - it could be derived from the base
-        // and at the same time since it exists, no need to have additional overhead
-        value instanceof Type
-          ? value
-          : new Type(value)
-      );
+    return new Type(value);
   }
 
   static with<O extends Codec> (Type: Constructor): Constructor<Option<O>> {
