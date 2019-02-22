@@ -35,6 +35,8 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     return isNull(value) || isUndefined(value) || value instanceof Null
       ? new Null()
       : (
+        // don't re-create when the type is correct - it could be derived from the base
+        // and at the same time since it exists, no need to have additional overhead
         value instanceof Type
           ? value
           : new Type(value)
