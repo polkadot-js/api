@@ -22,7 +22,7 @@
 
 ⊕ **new ChainProperties**(value?: *`object` \| `null`*): [ChainProperties](_type_chainproperties_.chainproperties.md)
 
-*Defined in [type/ChainProperties.ts:17](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L17)*
+*Defined in [type/ChainProperties.ts:17](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L17)*
 
 **Parameters:**
 
@@ -52,9 +52,9 @@ ___
 
 ##  encodedLength
 
-getencodedLength(): `number`
+**get encodedLength**(): `number`
 
-*Defined in [type/ChainProperties.ts:29](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L29)*
+*Defined in [type/ChainProperties.ts:29](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L29)*
 
 *__description__*: Always 0, never encodes as a Uint8Array
 
@@ -65,9 +65,9 @@ ___
 
 ##  isEmpty
 
-getisEmpty(): `boolean`
+**get isEmpty**(): `boolean`
 
-*Defined in [type/ChainProperties.ts:36](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L36)*
+*Defined in [type/ChainProperties.ts:36](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L36)*
 
 *__description__*: Checks if the value is an empty value
 
@@ -78,9 +78,9 @@ ___
 
 ##  tokenDecimals
 
-gettokenDecimals(): `number` \| `undefined`
+**get tokenDecimals**(): `number` \| `undefined`
 
-*Defined in [type/ChainProperties.ts:43](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L43)*
+*Defined in [type/ChainProperties.ts:43](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L43)*
 
 *__description__*: The token decimals, if defined (de-facto standard only)
 
@@ -91,9 +91,9 @@ ___
 
 ##  tokenSymbol
 
-gettokenSymbol(): `string` \| `undefined`
+**get tokenSymbol**(): `string` \| `undefined`
 
-*Defined in [type/ChainProperties.ts:50](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L50)*
+*Defined in [type/ChainProperties.ts:50](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L50)*
 
 *__description__*: The token system, if defined (de-facto standard only)
 
@@ -111,7 +111,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [type/ChainProperties.ts:57](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L57)*
+*Defined in [type/ChainProperties.ts:57](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L57)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -132,7 +132,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [type/ChainProperties.ts:64](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L64)*
+*Defined in [type/ChainProperties.ts:64](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L64)*
 
 *__description__*: Unimplemented, will throw
 
@@ -147,7 +147,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [type/ChainProperties.ts:71](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L71)*
+*Defined in [type/ChainProperties.ts:71](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L71)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -162,7 +162,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [type/ChainProperties.ts:82](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L82)*
+*Defined in [type/ChainProperties.ts:82](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L82)*
 
 *__description__*: Returns the string representation of the value
 
@@ -177,7 +177,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [type/ChainProperties.ts:89](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/ChainProperties.ts#L89)*
+*Defined in [type/ChainProperties.ts:89](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/ChainProperties.ts#L89)*
 
 *__description__*: Unimplemented, will throw
 

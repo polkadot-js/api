@@ -24,7 +24,7 @@
 
 *Overrides [EnumType](_codec_enumtype_.enumtype.md).[constructor](_codec_enumtype_.enumtype.md#constructor)*
 
-*Defined in [type/Digest.ts:73](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/Digest.ts#L73)*
+*Defined in [type/Digest.ts:73](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/Digest.ts#L73)*
 
 **Parameters:**
 
@@ -42,9 +42,9 @@ ___
 
 ##  asAuthoritiesChange
 
-getasAuthoritiesChange(): [AuthoritiesChange](_type_digest_.authoritieschange.md)
+**get asAuthoritiesChange**(): [AuthoritiesChange](_type_digest_.authoritieschange.md)
 
-*Defined in [type/Digest.ts:86](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/Digest.ts#L86)*
+*Defined in [type/Digest.ts:86](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/Digest.ts#L86)*
 
 *__description__*: Returns the item as a [AuthoritiesChange](_type_digest_.authoritieschange.md)
 
@@ -55,9 +55,9 @@ ___
 
 ##  asChangesTrieRoot
 
-getasChangesTrieRoot(): [ChangesTrieRoot](_type_digest_.changestrieroot.md)
+**get asChangesTrieRoot**(): [ChangesTrieRoot](_type_digest_.changestrieroot.md)
 
-*Defined in [type/Digest.ts:93](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/Digest.ts#L93)*
+*Defined in [type/Digest.ts:93](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/Digest.ts#L93)*
 
 *__description__*: Returns the item as a [ChangesTrieRoot](_type_digest_.changestrieroot.md)
 
@@ -68,9 +68,9 @@ ___
 
 ##  asOther
 
-getasOther(): [Other](_type_digest_.other.md)
+**get asOther**(): [Other](_type_digest_.other.md)
 
-*Defined in [type/Digest.ts:100](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/Digest.ts#L100)*
+*Defined in [type/Digest.ts:100](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/Digest.ts#L100)*
 
 *__description__*: Returns the item as a [Other](_type_digest_.other.md)
 
@@ -81,9 +81,9 @@ ___
 
 ##  asSeal
 
-getasSeal(): [Seal](_type_digest_.seal.md)
+**get asSeal**(): [Seal](_type_digest_.seal.md)
 
-*Defined in [type/Digest.ts:107](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/type/Digest.ts#L107)*
+*Defined in [type/Digest.ts:107](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/type/Digest.ts#L107)*
 
 *__description__*: Returns the item as a [Seal](_type_digest_.seal.md)
 
@@ -94,11 +94,11 @@ ___
 
 ##  encodedLength
 
-getencodedLength(): `number`
+**get encodedLength**(): `number`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[encodedLength](_codec_enumtype_.enumtype.md#encodedlength)*
 
-*Defined in [codec/EnumType.ts:114](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L114)*
+*Defined in [codec/EnumType.ts:114](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L114)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -109,11 +109,11 @@ ___
 
 ##  index
 
-getindex(): `number`
+**get index**(): `number`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[index](_codec_enumtype_.enumtype.md#index)*
 
-*Defined in [codec/EnumType.ts:121](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L121)*
+*Defined in [codec/EnumType.ts:121](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L121)*
 
 *__description__*: The index of the metadata value
 
@@ -124,11 +124,11 @@ ___
 
 ##  isEmpty
 
-getisEmpty(): `boolean`
+**get isEmpty**(): `boolean`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[isEmpty](_codec_enumtype_.enumtype.md#isempty)*
 
-*Defined in [codec/EnumType.ts:128](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L128)*
+*Defined in [codec/EnumType.ts:128](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L128)*
 
 *__description__*: Checks if the value is an empty value
 
@@ -139,11 +139,11 @@ ___
 
 ##  isNone
 
-getisNone(): `boolean`
+**get isNone**(): `boolean`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[isNone](_codec_enumtype_.enumtype.md#isnone)*
 
-*Defined in [codec/EnumType.ts:135](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L135)*
+*Defined in [codec/EnumType.ts:135](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L135)*
 
 *__description__*: Checks if the Enum points to a [Null](_primitive_null_.null.md) type
 
@@ -154,11 +154,11 @@ ___
 
 ##  isNull
 
-getisNull(): `boolean`
+**get isNull**(): `boolean`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[isNull](_codec_enumtype_.enumtype.md#isnull)*
 
-*Defined in [codec/EnumType.ts:142](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L142)*
+*Defined in [codec/EnumType.ts:142](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L142)*
 
 *__description__*: Checks if the Enum points to a [Null](_primitive_null_.null.md) type (deprecated, use isNone)
 
@@ -169,11 +169,11 @@ ___
 
 ##  type
 
-gettype(): `string`
+**get type**(): `string`
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[type](_codec_enumtype_.enumtype.md#type)*
 
-*Defined in [codec/EnumType.ts:149](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L149)*
+*Defined in [codec/EnumType.ts:149](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L149)*
 
 *__description__*: The name of the type this enum value represents
 
@@ -184,11 +184,11 @@ ___
 
 ##  value
 
-getvalue(): [Codec](../interfaces/_types_.codec.md)
+**get value**(): [Codec](../interfaces/_types_.codec.md)
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[value](_codec_enumtype_.enumtype.md#value)*
 
-*Defined in [codec/EnumType.ts:156](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L156)*
+*Defined in [codec/EnumType.ts:156](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L156)*
 
 *__description__*: The value of the enum
 
@@ -208,7 +208,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[eq](_codec_enumtype_.enumtype.md#eq)*
 
-*Defined in [codec/EnumType.ts:163](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L163)*
+*Defined in [codec/EnumType.ts:163](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L163)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -231,7 +231,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toHex](_codec_enumtype_.enumtype.md#tohex)*
 
-*Defined in [codec/EnumType.ts:176](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L176)*
+*Defined in [codec/EnumType.ts:176](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L176)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -248,7 +248,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toJSON](_codec_enumtype_.enumtype.md#tojson)*
 
-*Defined in [codec/EnumType.ts:183](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L183)*
+*Defined in [codec/EnumType.ts:183](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L183)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -263,7 +263,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toNumber](_codec_enumtype_.enumtype.md#tonumber)*
 
-*Defined in [codec/EnumType.ts:192](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L192)*
+*Defined in [codec/EnumType.ts:192](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L192)*
 
 *__description__*: Returns the number representation for the value
 
@@ -280,7 +280,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toString](_codec_enumtype_.enumtype.md#tostring)*
 
-*Defined in [codec/EnumType.ts:199](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L199)*
+*Defined in [codec/EnumType.ts:199](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L199)*
 
 *__description__*: Returns the string representation of the value
 
@@ -297,7 +297,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[toU8a](_codec_enumtype_.enumtype.md#tou8a)*
 
-*Defined in [codec/EnumType.ts:209](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L209)*
+*Defined in [codec/EnumType.ts:209](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L209)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -318,7 +318,7 @@ ___
 
 *Inherited from [EnumType](_codec_enumtype_.enumtype.md).[with](_codec_enumtype_.enumtype.md#with)*
 
-*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/d86b9c8/packages/types/src/codec/EnumType.ts#L101)*
+*Defined in [codec/EnumType.ts:101](https://github.com/polkadot-js/api/blob/0b9484f/packages/types/src/codec/EnumType.ts#L101)*
 
 **Type parameters:**
 
