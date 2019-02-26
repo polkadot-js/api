@@ -34,10 +34,10 @@ module.exports = {
         collapsable: false,
         sidebarDepth: 0,
         children: [
-          '/METHODS_RPC.md',
-          '/METHODS_STORAGE.md',
-          '/METHODS_EXTRINSICS.md',
-          '/METHODS_EVENTS.md',
+          ['/METHODS_RPC.md', 'Substrate RPC'],
+          ['/METHODS_STORAGE.md', 'State storage (defaults)'],
+          ['/METHODS_EXTRINSICS.md', 'Extrinsics (defaults)'],
+          ['/METHODS_EVENTS.md', 'System events (defaults)']
         ]
       },
       ['/api/', '@polkadot/api'],
