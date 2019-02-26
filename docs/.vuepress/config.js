@@ -41,8 +41,6 @@ module.exports = {
         ]
       },
       ['/api/', '@polkadot/api'],
-      ['/api-derive/', '@polkadot/api-derive'],
-      ['/types/', '@polkadot/types'],
       '/CONTRIBUTING.md'
     ]
   }
