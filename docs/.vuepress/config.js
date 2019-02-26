@@ -32,15 +32,16 @@ module.exports = {
       {
         title: 'Substrate interfaces',
         collapsable: false,
-        sidebarDepth: 1,
+        sidebarDepth: 0,
         children: [
-          ['/METHODS_RPC.md', 'RPC endpoints'],
-          ['/METHODS_STORAGE.md', 'Substrate state'],
-          ['/METHODS_EXTRINSICS.md', 'Substrate extrinsics'],
-          ['/METHODS_EVENTS.md', 'Substrate events']
+          '/METHODS_RPC.md',
+          '/METHODS_STORAGE.md',
+          '/METHODS_EXTRINSICS.md',
+          '/METHODS_EVENTS.md',
         ]
       },
       ['/api/', '@polkadot/api'],
+      ['/types/', '@polkadot/types'],
       '/CONTRIBUTING.md'
     ]
   }
