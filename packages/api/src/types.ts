@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive/index';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Extrinsic, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
-import { CodecArg, CodecCallback, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
+import { CodecArg, CodecCallback, ExtrinsicLike, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
@@ -163,7 +163,7 @@ export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: Extrinsic, address: string, options: SignatureOptions): Promise<number>;
+  sign (extrinsic: ExtrinsicLike, address: string, options: SignatureOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

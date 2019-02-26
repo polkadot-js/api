@@ -13,7 +13,7 @@ import Struct from './Struct';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
-import registry from './typeRegistry';
+import getRegistry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
@@ -137,6 +137,10 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
 // Returns the type Class for construction
 export function getTypeClass (value: TypeDef): Constructor {
+  const Type = getRegistry().get(value.type);
+  if (Type) {
+    return Type;
+  }
   if (value.info === TypeDefInfo.Compact) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
@@ -183,13 +187,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     );
   }
 
-  // NOTE We only load types via require - we have to avoid circular deps between type usage and creation
-  const Types = require('../index.types');
-  const Type = registry.get(value.type) || Types[value.type];
-
-  assert(Type, `Unable to determine type from '${value.type}'`);
-
-  return Type;
+  throw new Error(`Unable to determine type from '${value.type}'`);
 }
 
 export function createClass (type: Text | string, value?: any): Constructor {

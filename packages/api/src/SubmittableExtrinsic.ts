@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, Extrinsic, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
-import { Codec, CodecCallback, SignatureOptions } from '@polkadot/types/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
+import { Codec, CodecCallback, ExtrinsicLike, SignatureOptions } from '@polkadot/types/types';
+import getRegistry from '@polkadot/types/codec/typeRegistry';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
@@ -56,14 +57,18 @@ export class SubmittableResult extends Struct {
   }
 }
 
-export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> extends Extrinsic {
+export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+  private _extrinsic: ExtrinsicLike;
   private _api: ApiInterface$Rx;
   private _onCall: OnCallDefinition<CodecResult, SubscriptionResult>;
   private _noStatusCb?: boolean;
 
-  constructor (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Extrinsic | Method) {
-    super(extrinsic);
+  get extrinsic () {
+    return this._extrinsic;
+  }
 
+  constructor (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method) {
+    this._extrinsic = new (getRegistry().getOrThrow('Extrinsic'))(extrinsic) as ExtrinsicLike;
     this._noStatusCb = type === 'rxjs';
     this._api = api;
     this._onCall = onCall;
@@ -93,7 +98,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
     ).pipe(
       map(([signedBlock, allEvents]) =>
         new SubmittableResult({
-          events: filterEvents(this.hash, signedBlock, allEvents),
+          events: filterEvents(this.extrinsic.hash, signedBlock, allEvents),
           status,
           type: status.type
         })
@@ -103,7 +108,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
 
   private sendObservable (updateId: number = -1): Observable<Hash> {
     return (this._api.rpc.author
-      .submitExtrinsic(this) as Observable<Hash>)
+      .submitExtrinsic(this.extrinsic) as Observable<Hash>)
       .pipe(
         tap((hash) => {
           this.updateSigner(updateId, hash);
@@ -113,7 +118,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
 
   private subscribeObservable (updateId: number = -1): Observable<SubmittableResult> {
     return (this._api.rpc.author
-      .submitAndWatchExtrinsic(this) as Observable<ExtrinsicStatus>)
+      .submitAndWatchExtrinsic(this.extrinsic) as Observable<ExtrinsicStatus>)
       .pipe(
         switchMap((status) =>
           this.statusObservable(status)
@@ -157,7 +162,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
       ? { nonce: _options as any as number }
       : _options;
 
-    super.sign(account, this.expandOptions(options));
+    this.extrinsic.sign(account, this.expandOptions(options));
 
     return this;
   }
@@ -191,7 +196,7 @@ export default class SubmittableExtrinsic<CodecResult, SubscriptionResult> exten
           } else {
             assert(this._api.signer, 'no signer exists');
 
-            updateId = await (this._api.signer as Signer).sign(this, address, this.expandOptions({ ...options, nonce }));
+            updateId = await (this._api.signer as Signer).sign(this.extrinsic, address, this.expandOptions({ ...options, nonce }));
           }
         }),
         switchMap(() => {

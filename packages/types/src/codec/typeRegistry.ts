@@ -4,7 +4,9 @@
 
 import { Constructor, RegistryTypes } from '../types';
 
-import { isFunction, isString } from '@polkadot/util';
+import * as primitiveTypes from '../primitive';
+import * as defaultTypes from '../type';
+import { isFunction, isString, isUndefined } from '@polkadot/util';
 
 import { createClass } from './createType';
 
@@ -12,6 +14,12 @@ export class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
 
   private _registry: Map<string, Constructor> = new Map();
+
+  constructor (types?: RegistryTypes) {
+    if (types) {
+      this.register(types);
+    }
+  }
 
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
@@ -31,15 +39,17 @@ export class TypeRegistry {
     }
   }
 
-  private registerObject (obj: RegistryTypes) {
+  private registerObject (obj: RegistryTypes, overwrite: boolean = true) {
     Object.entries(obj).forEach(([name, type]) => {
-      if (isString(type)) {
-        this._registry.set(name, createClass(type));
-      } else if (isFunction(type)) {
-        // This _looks_ a bit funny, but `typeof Clazz === 'function'
-        this._registry.set(name, type);
-      } else {
-        this._registry.set(name, createClass(JSON.stringify(type)));
+      if (overwrite || !this.get(name)) {
+        if (isString(type)) {
+          this._registry.set(name, createClass(type));
+        } else if (isFunction(type)) {
+          // This _looks_ a bit funny, but `typeof Clazz === 'function'
+          this._registry.set(name, type);
+        } else {
+          this._registry.set(name, createClass(JSON.stringify(type)));
+        }
       }
     });
   }
@@ -47,6 +57,21 @@ export class TypeRegistry {
   get (name: string): Constructor | undefined {
     return this._registry.get(name);
   }
+
+  getOrThrow (name: string, msg?: string): Constructor {
+    const type = this.get(name);
+    if (isUndefined(type)) {
+      throw new Error(msg || `type ${name} not found`);
+    }
+    return type;
+  }
 }
 
-export default TypeRegistry.defaultRegistry;
+let defaultRegistry: TypeRegistry;
+
+export default function getDefaultRegistry () {
+  if (!defaultRegistry) {
+    defaultRegistry = new TypeRegistry({ ...primitiveTypes, ...defaultTypes });
+  }
+  return defaultRegistry;
+}

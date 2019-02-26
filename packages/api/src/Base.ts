@@ -23,7 +23,8 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, Hash, Metadata, Method, RuntimeVersion, typeRegistry } from '@polkadot/types/index';
+import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import getRegistry from '@polkadot/types/codec/typeRegistry';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
@@ -319,7 +320,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   registerTypes (types?: RegistryTypes): void {
     if (types) {
-      typeRegistry.register(types);
+      getRegistry().register(types);
     }
   }
 
