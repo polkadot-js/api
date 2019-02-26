@@ -40,9 +40,9 @@ module.exports = {
           ['/METHODS_EVENTS.md', 'Substrate events']
         ]
       },
-      '/api/',
-      '/api-derive/',
-      '/types/',
+      ['/api/', '@polkadot/api'],
+      ['/api-derive/', '@polkadot/api-derive'],
+      ['/types/', '@polkadot/types'],
       '/CONTRIBUTING.md'
     ]
   }

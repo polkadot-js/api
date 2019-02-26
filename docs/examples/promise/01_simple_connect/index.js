@@ -1,7 +1,6 @@
 // @ts-check
 // Required imports
-const { ApiPromise } = require('@polkadot/api');
-const { WsProvider } = require('@polkadot/rpc-provider');
+const { ApiPromise, WsProvider } = require('@polkadot/api');
 
 async function main () {
   // Initialise the provider to connect to the local node
