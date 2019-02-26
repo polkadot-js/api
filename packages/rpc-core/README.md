@@ -65,3 +65,7 @@ api.chain
     console.error('error subscribing:', error);
   });
 ```
+
+## Classes
+
+[Classes](SUMMARY.md)

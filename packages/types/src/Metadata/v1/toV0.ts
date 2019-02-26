@@ -6,8 +6,8 @@ import { OuterDispatchCall, OuterDispatchMetadata } from '../v0/Calls';
 import { EventMetadata, OuterEventMetadata, OuterEventMetadataEvent } from '../v0/Events';
 import { CallMetadata, FunctionMetadata, RuntimeModuleMetadata, ModuleMetadata, StorageFunctionMetadata, StorageMetadata } from '../v0/Modules';
 
-import MetadataV0 from '../v0';
-import MetadataV1, { MetadataModule as MetadataModuleV1 } from './index';
+import MetadataV0 from '../v0/Metadata';
+import MetadataV1, { MetadataModuleV1 } from './index';
 
 function storageV0 (mod: MetadataModuleV1): StorageMetadata | null {
   if (mod.storage.isNone) {

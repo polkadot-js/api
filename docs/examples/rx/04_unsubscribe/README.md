@@ -4,4 +4,4 @@ This example shows how to subscribe to and later unsubscribe from listening to b
 
 In this example we're calling the built-in unsubscribe() function after a timeOut of 20s to cleanup and unsubscribe from listening to updates.
 
-[include](index.js)
+<<< @/docs/examples/rx/04_unsubscribe/index.js

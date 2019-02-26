@@ -2,4 +2,4 @@
 
 This sample shows how to create a transaction to make a transfer from one an account to another.
 
-[include](index.js)
+<<< @/docs/examples/rx/06_make_transfer/index.js

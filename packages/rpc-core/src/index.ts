@@ -7,7 +7,7 @@ import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
 import interfaces from '@polkadot/jsonrpc/index';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import { WsProvider } from '@polkadot/rpc-provider/index';
 import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types/index';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
