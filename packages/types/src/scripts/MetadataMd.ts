@@ -24,7 +24,7 @@ function sectionLink (sectionName: string) {
 }
 
 function generateSectionHeader (md: string, sectionName: string) {
-  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n### <a id='${sectionName}'></a>${sectionName}\n`;
+  return `${md}\n___\n${LINK_BACK_TO_TOP}\n\n### ${sectionName}\n`;
 }
 
 function addRpc () {
