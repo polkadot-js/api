@@ -1,8 +1,3 @@
-* [&quot;formatting.spec&quot;](modules/_formatting_spec_.md)
-* [&quot;index&quot;](modules/_index_.md)
-  * [Rpc](classes/_index_.rpc.md)
-* [&quot;index.spec&quot;](modules/_index_spec_.md)
-* [&quot;methodSend.spec&quot;](modules/_methodsend_spec_.md)
 * [&quot;types&quot;](modules/_types_.md)
   * [RpcInterface](interfaces/_types_.rpcinterface.md)
   * [RpcInterface$Method](interfaces/_types_.rpcinterface_method.md)

@@ -1,4 +1,4 @@
-## <a id='top' style='text-decoration: none;'>Storage
+## Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
 - **[balances](#balances)**
@@ -37,9 +37,9 @@ _The following sections contain Storage methods are part of the default Substrat
 
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='balances'></a>balances
+
+### balances
 
 ▸ **creationFee**(): `Balance`
 - **summary**:   The fee required to create an account. At least as big as ReclaimRebate.
@@ -63,16 +63,16 @@ ___
 - **summary**:   Information regarding the vesting of a given account.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='consensus'></a>consensus
+
+### consensus
 
 ▸ **originalAuthorities**(): `Option<Vec<SessionKey>>`
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='contract'></a>contract
+
+### contract
 
 ▸ **blockGasLimit**(): `Gas`
 - **summary**:   The maximum amount of gas that could be expended per block.
@@ -108,9 +108,9 @@ ___
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='council'></a>council
+
+### council
 
 ▸ **activeCouncil**(): `Vec<(AccountId,BlockNumber)>`
 - **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the council member was elected  and their term duration).
@@ -172,9 +172,9 @@ ___
 - **summary**:   How often (in blocks) to check for new votes.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilMotions'></a>councilMotions
+
+### councilMotions
 
 ▸ **proposalCount**(): `u32`
 - **summary**:   Proposals so far.
@@ -189,9 +189,9 @@ ___
 - **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilVoting'></a>councilVoting
+
+### councilVoting
 
 ▸ **cooloffPeriod**(): `BlockNumber`
 
@@ -211,9 +211,9 @@ ___
 ▸ **votingPeriod**(): `BlockNumber`
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='democracy'></a>democracy
+
+### democracy
 
 ▸ **bondage**(`AccountId`): `BlockNumber`
 - **summary**:   The block at which the `who`'s funds become liquid.
@@ -261,9 +261,9 @@ ___
 - **summary**:   How often (in blocks) to check for new votes.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='fees'></a>fees
+
+### fees
 
 ▸ **currentTransactionFee**(`u32`): `AssetOf`
 - **summary**:   The `extrinsic_index => accumulated_fees` map, containing records to  track the overall charged fees for each transaction.   All records should be removed at finalise stage.
@@ -275,16 +275,16 @@ ___
 - **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='grandpaFinality'></a>grandpaFinality
+
+### grandpaFinality
 
 ▸ **pendingChange**(): `Option<StoredPendingChange>`
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='indices'></a>indices
+
+### indices
 
 ▸ **enumSet**(`AccountIndex`): `Vec<AccountId>`
 - **summary**:   The enumeration sets.
@@ -293,9 +293,9 @@ ___
 - **summary**:   The next free enumeration set.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='session'></a>session
+
+### session
 
 ▸ **currentIndex**(): `BlockNumber`
 - **summary**:   Current index of the session.
@@ -322,9 +322,9 @@ ___
 - **summary**:   The current set of validators.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='staking'></a>staking
+
+### staking
 
 ▸ **bondage**(`AccountId`): `BlockNumber`
 - **summary**:   The block at which the `who`'s funds become entirely liquid.
@@ -396,16 +396,16 @@ ___
 - **summary**:   Preferences that a validator has.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='sudo'></a>sudo
+
+### sudo
 
 ▸ **key**(): `AccountId`
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='system'></a>system
+
+### system
 
 ▸ **accountNonce**(`AccountId`): `Index`
 
@@ -431,9 +431,9 @@ ___
 ▸ **randomSeed**(): `Hash`
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='timestamp'></a>timestamp
+
+### timestamp
 
 ▸ **blockPeriod**(): `Moment`
 - **summary**:   The minimum (and advised) period between blocks.
@@ -445,9 +445,9 @@ ___
 - **summary**:   Current time for the current block.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='treasury'></a>treasury
+
+### treasury
 
 ▸ **approvals**(): `Vec<ProposalIndex>`
 - **summary**:   Proposal indices that have been approved but not yet awarded.

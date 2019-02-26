@@ -1,4 +1,4 @@
-## <a id='top' style='text-decoration: none;'>JSON-RPC
+## JSON-RPC
 
 _The following sections contain RPC methods that are Remote Calls available by default and allow you to interact with the actual node, query, and submit. The RPCs are provided by Substrate itself._
 - **[author](#author)**
@@ -11,9 +11,9 @@ _The following sections contain RPC methods that are Remote Calls available by d
 
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='author'></a>author
+
+### author
 
 _Authoring of network items_
 
@@ -27,9 +27,9 @@ _Authoring of network items_
 - **summary**: Submit a fully formatted extrinsic for block inclusion
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='chain'></a>chain
+
+### chain
 
 _Retrieval of chain data_
 
@@ -58,9 +58,9 @@ _Retrieval of chain data_
 - **summary**: Retrieves the runtime version via subscription
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='state'></a>state
+
+### state
 
 _Query of state_
 
@@ -89,9 +89,9 @@ _Query of state_
 - **summary**: Subscribes to storage changes for the provided keys
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='system'></a>system
+
+### system
 
 _Methods to retrieve system info_
 

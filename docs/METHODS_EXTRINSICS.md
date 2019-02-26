@@ -1,4 +1,4 @@
-## <a id='top' style='text-decoration: none;'>Extrinsics
+## Extrinsics
 
 _The following sections contain Extrinsics methods are part of the default Substrate runtime._
 - **[balances](#balances)**
@@ -29,9 +29,9 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='balances'></a>balances
+
+### balances
 
 ▸ **setBalance**(who: `Address`, free: `Compact<Balance>`, reserved: `Compact<Balance>`)
 - **summary**:   Set the balances of a given account.
@@ -40,9 +40,9 @@ ___
 - **summary**:   Transfer some liquid free balance to another staker.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='consensus'></a>consensus
+
+### consensus
 
 ▸ **noteOffline**(offline: `InherentOfflineReport`)
 - **summary**:   Note the previous block's validator missed their opportunity to propose a block.
@@ -63,9 +63,9 @@ ___
 - **summary**:   Set some items of storage.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='contract'></a>contract
+
+### contract
 
 ▸ **call**(dest: `Address`, value: `Compact<Balance>`, gas_limit: `Compact<Gas>`, data: `Bytes`)
 - **summary**:   Make a call to a specified account, optionally transferring some balance.
@@ -80,9 +80,9 @@ ___
 - **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='council'></a>council
+
+### council
 
 ▸ **presentWinner**(candidate: `Address`, total: `Compact<BalanceOf>`, index: `Compact<VoteIndex>`)
 - **summary**:   Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.  Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``  `signed` should have at least
@@ -112,18 +112,18 @@ ___
 - **summary**:   Submit oneself for candidacy.   Account must have enough transferrable funds in it to pay the bond.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilMotions'></a>councilMotions
+
+### councilMotions
 
 ▸ **propose**(threshold: `Compact<u32>`, proposal: `Proposal`)
 
 ▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilVoting'></a>councilVoting
+
+### councilVoting
 
 ▸ **propose**(proposal: `Proposal`)
 
@@ -136,9 +136,9 @@ ___
 ▸ **vote**(proposal: `Hash`, approve: `bool`)
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='democracy'></a>democracy
+
+### democracy
 
 ▸ **cancelQueued**(when: `Compact<BlockNumber>`, which: `Compact<u32>`)
 - **summary**:   Cancel a proposal queued for enactment.
@@ -159,17 +159,17 @@ ___
 - **summary**:   Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='grandpa'></a>grandpa
+
+### grandpa
 
 ▸ **reportMisbehavior**(_report: `Bytes`)
 - **summary**:   Report some misbehaviour.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='session'></a>session
+
+### session
 
 ▸ **forceNewSession**(apply_rewards: `bool`)
 - **summary**:   Forces a new session.
@@ -181,9 +181,9 @@ ___
 - **summary**:   Set a new session length. Won't kick in until the next session change (at current length).
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='staking'></a>staking
+
+### staking
 
 ▸ **forceNewEra**(apply_rewards: `bool`)
 - **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.
@@ -218,26 +218,26 @@ ___
 - **summary**:   Retract the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='sudo'></a>sudo
+
+### sudo
 
 ▸ **setKey**(new: `Address`)
 
 ▸ **sudo**(proposal: `Proposal`)
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='timestamp'></a>timestamp
+
+### timestamp
 
 ▸ **set**(now: `Compact<Moment>`)
 - **summary**:   Set the current time.   Extrinsic with this call should be placed at the specific position in the each block  (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.  This call should be invoked exactly once per block. It will panic at the finalization phase,  if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by `block_period`.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='treasury'></a>treasury
+
+### treasury
 
 ▸ **approveProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary  and the original deposit will be returned.

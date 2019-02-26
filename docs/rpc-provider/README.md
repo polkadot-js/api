@@ -7,7 +7,7 @@ Generic transport providers to handle the transport of method calls to and from 
 Provider Selection
 ------------------
 
-There are two flavours of the providers provided, one allowing for using HTTP as a transport mechanism, the other using WebSockets. It is generally recommended to use the [WsProvider](classes/_ws_index_.wsprovider.md) since in addition to standard calls, it allows for subscriptions where all changes to state can be pushed from the node to the client.
+There are two flavours of the providers provided, one allowing for using HTTP as a transport mechanism, the other using WebSockets. It is generally recommended to use the [WsProvider](classes/_ws_provider_.wsprovider.md) since in addition to standard calls, it allows for subscriptions where all changes to state can be pushed from the node to the client.
 
 Both providers are usable (as is the API), in both browser-based and Node.js environments. Polyfills for unsupported functionality are automatically applied based on feature-detection.
 
@@ -43,4 +43,9 @@ const version = await provider.send('chain_getBlockHash', []);
 
 console.log('latest block Hash', hash);
 ```
+
+Classes
+-------
+
+[Classes](SUMMARY.md)
 

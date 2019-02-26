@@ -69,3 +69,8 @@ api.chain
   });
 ```
 
+Classes
+-------
+
+[Classes](SUMMARY.md)
+

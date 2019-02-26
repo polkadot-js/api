@@ -20,8 +20,8 @@ API Selection
 
 There are two flavours of the API provided, one allowing a standard interface via JavaScript Promises and the second provides an Observable wrapper using [RxJS](https://github.com/ReactiveX/rxjs). Depending on your use-case and familiarity, you can choose either (or even both) for your application.
 
-*   [ApiPromise](classes/_promise_index_.apipromise.md) All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method uses `(value) => {}` callbacks, returning the value as the subscription is updated.
-*   [ApiRx](classes/_rx_index_.apirx.md) All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion subscription-based methods return long-running Observables that update with the latest values.
+*   [ApiPromise](classes/_promise_api_.apipromise.md) All interface calls returns Promises, including the static `.create(...)`. Additionally any subscription method uses `(value) => {}` callbacks, returning the value as the subscription is updated.
+*   [ApiRx](classes/_rx_api_.apirx.md) All interface calls return RxJS Observables, including the static `.create(...)`. In the same fashion subscription-based methods return long-running Observables that update with the latest values.
 
 Dynamic by default
 ------------------
@@ -98,4 +98,10 @@ Some of the users of the API (let us know if you are missing from the list), inc
 
 *   [Polkadot-JS UI](https://github.com/polkadot-js/apps) A user-interface that allows you to make transactions, query the network or participate in actions on the network such as referendums and staking
 *   [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in [https://matrix.to/#/#polkadot-network-status:matrix.org](https://matrix.to/#/#polkadot-network-status:matrix.org)
+*   [Polkawallet.io](https://polkawallet.io) and [Polkawallet (Github)](https://github.com/polkawallet-io/polkawallet-RN/) A mobile wallet for the Polkadot network to manage funds and make transactions, available on both Androind and iOS
+
+Classes
+-------
+
+[Classes](SUMMARY.md)
 

@@ -1,4 +1,4 @@
-## <a id='top' style='text-decoration: none;'>Events
+## Events
 
 Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.
 - **[balances](#balances)**
@@ -31,9 +31,9 @@ Events are emitted for certain operations on the runtime. The following sections
 
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='balances'></a>balances
+
+### balances
 
 ▸ **NewAccount**(`AccountId`, `Balance`)
 - **summary**:   A new account was created.
@@ -45,9 +45,9 @@ ___
 - **summary**:   Transfer succeeded (from, to, value, fees).
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='contract'></a>contract
+
+### contract
 
 ▸ **CodeStored**(`Hash`)
 - **summary**:   Code with the specified hash has been stored.
@@ -65,9 +65,9 @@ ___
 - **summary**:   Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='council'></a>council
+
+### council
 
 ▸ **BadReaperSlashed**(`AccountId`)
 - **summary**:   slashed reaper
@@ -82,9 +82,9 @@ ___
 - **summary**:   reaped voter, reaper
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilMotions'></a>councilMotions
+
+### councilMotions
 
 ▸ **Approved**(`Hash`)
 - **summary**:   A motion was approved by the required threshold.
@@ -102,9 +102,9 @@ ___
 - **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given as u32s respectively).
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='councilVoting'></a>councilVoting
+
+### councilVoting
 
 ▸ **TallyCancelation**(`Hash`, `u32`, `u32`, `u32`)
 - **summary**:   A voting tally has happened for a referendum cancellation vote.  Last three are yes, no, abstain counts.
@@ -113,9 +113,9 @@ ___
 - **summary**:   A voting tally has happened for a referendum vote.  Last three are yes, no, abstain counts.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='democracy'></a>democracy
+
+### democracy
 
 ▸ **Cancelled**(`ReferendumIndex`)
 
@@ -132,41 +132,41 @@ ___
 ▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='fees'></a>fees
+
+### fees
 
 ▸ **Charged**(`u32`, `Amount`)
 - **summary**:   Fee charged (extrinsic_index, fee_amount)
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='grandpa'></a>grandpa
+
+### grandpa
 
 ▸ **NewAuthorities**(`Vec<(SessionKey,u64)>`)
 - **summary**:   New authority set has been applied.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='indices'></a>indices
+
+### indices
 
 ▸ **NewAccountIndex**(`AccountId`, `AccountIndex`)
 - **summary**:   A new account index was assigned.   This event is not triggered when an existing index is reassigned  to another `AccountId`.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='session'></a>session
+
+### session
 
 ▸ **NewSession**(`BlockNumber`)
 - **summary**:   New session has happened. Note that the argument is the session index, not the block  number as the type might suggest.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='staking'></a>staking
+
+### staking
 
 ▸ **OfflineSlash**(`AccountId`, `Balance`)
 - **summary**:   One validator (and their nominators) has been slashed by the given amount.
@@ -178,9 +178,9 @@ ___
 - **summary**:   All validators have been rewarded by the given balance.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='sudo'></a>sudo
+
+### sudo
 
 ▸ **KeyChanged**(`AccountId`)
 - **summary**:   The sudoer just switched identity; the old key is supplied.
@@ -189,9 +189,9 @@ ___
 - **summary**:   A sudo just took place.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='system'></a>system
+
+### system
 
 ▸ **ExtrinsicFailed**()
 - **summary**:   An extrinsic failed.
@@ -200,9 +200,9 @@ ___
 - **summary**:   An extrinsic completed successfully.
 
 ___
-<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>
 
-### <a id='treasury'></a>treasury
+
+### treasury
 
 ▸ **Awarded**(`ProposalIndex`, `Balance`, `AccountId`)
 - **summary**:   Some funds have been allocated.
