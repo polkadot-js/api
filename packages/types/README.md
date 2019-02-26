@@ -17,3 +17,7 @@ Some types are extended from the base to provide additional information: [[Heade
 ## Codec types
 
 These are the base types of the codec, typically not used directly, but rather inherited from to create specific types: [[Base]], [[Compact]], [[Enum]], [[EnumType]], [[Option]], [[Set]], [[Struct]], [[Tuple]], [[U8a]], [[U8aFixed]], [[UInt]], [[Vector]]
+
+## Classes
+
+[Classes](SUMMARY.md)
