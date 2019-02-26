@@ -11,7 +11,7 @@ import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
 import MetadataV0 from '../Metadata/v0';
 
-const ANCHOR_TOP = '# ';
+const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
 
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime._\n';
