@@ -30,10 +30,10 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-provider#readme",
   "dependencies": {
     "@babel/runtime": "^7.3.1",
-    "@polkadot/keyring": "^0.34.25",
+    "@polkadot/keyring": "^0.34.27",
     "@polkadot/storage": "^0.45.14",
-    "@polkadot/util": "^0.34.25",
-    "@polkadot/util-crypto": "^0.34.25",
+    "@polkadot/util": "^0.34.27",
+    "@polkadot/util-crypto": "^0.34.27",
     "@types/nock": "^9.3.1",
     "eventemitter3": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
