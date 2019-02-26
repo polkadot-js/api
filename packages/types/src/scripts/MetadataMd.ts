@@ -11,8 +11,8 @@ import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
 import MetadataV0 from '../Metadata/v0';
 
-const ANCHOR_TOP = `<a id='top' style='text-decoration: none;'>`;
-const LINK_BACK_TO_TOP = `<a href='#top' style='float: right; font-size: 1.6rem; font-weight: bold;'>Back To Top</a>`;
+const ANCHOR_TOP = '# ';
+const LINK_BACK_TO_TOP = '';
 
 const DESC_EXTRINSICS = '\n\n_The following sections contain Extrinsics methods are part of the default Substrate runtime._\n';
 const DESC_EVENTS = '\n\nEvents are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.\n';
