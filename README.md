@@ -46,6 +46,6 @@ To get started -
 2. Ensure that you have a recent version of Node.js, for development purposes [Node 10](https://nodejs.org/en/) is recommended.
 3. Ensure that you have a recent version of Yarn, for development purposes [Yarn >=1.10.1](https://yarnpkg.com/docs/install) is required.
 4. Install the dependencies by running `yarn`
-5. Build the API Docs, via `yarn run build`
-6. Ready! Now you can launch the API Docs, via `yarn gitbook serve`
-7. Access the API Docs via [http://localhost:4000](http://localhost:4000)
+5. Build the everything via `yarn run build`
+6. You can also launch the API Docs, via `yarn vuepress dev docs`
+7. Access the docs via [http://localhost:8080](http://localhost:8080)
