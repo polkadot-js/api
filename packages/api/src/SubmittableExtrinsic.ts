@@ -71,12 +71,10 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
 export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   const _noStatusCb = type === 'rxjs';
-  const _api = api;
-  const _onCall = onCall;
 
   function updateSigner (updateId: number, status: Hash | SubmittableResult): void {
-    if ((updateId !== -1) && _api.signer && _api.signer.update) {
-      _api.signer.update(updateId, status);
+    if ((updateId !== -1) && api.signer && api.signer.update) {
+      api.signer.update(updateId, status);
     }
   }
 
@@ -93,8 +91,8 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
     const blockHash = status.asFinalised;
 
     return combineLatest(
-      _api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
-      _api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
+      api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
+      api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ).pipe(
       map(([signedBlock, allEvents]) =>
         new SubmittableResult({
@@ -107,7 +105,7 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
   }
 
   function sendObservable (updateId: number = -1): Observable<Hash> {
-    return (_api.rpc.author
+    return (api.rpc.author
       .submitExtrinsic(_extrinsic) as Observable<Hash>)
       .pipe(
         tap((hash) => {
@@ -117,7 +115,7 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
   }
 
   function subscribeObservable (updateId: number = -1): Observable<SubmittableResult> {
-    return (_api.rpc.author
+    return (api.rpc.author
       .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
       .pipe(
         switchMap((status) =>
@@ -131,8 +129,8 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
 
   function expandOptions (options: Partial<SignatureOptions>): SignatureOptions {
     return {
-      blockHash: _api.genesisHash,
-      version: _api.runtimeVersion,
+      blockHash: api.genesisHash,
+      version: api.runtimeVersion,
       ...options
     } as SignatureOptions;
   }
@@ -145,7 +143,7 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
         value: function (statusCb?: (result: SubmittableResult) => any): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
           const isSubscription = _noStatusCb || !!statusCb;
 
-          return _onCall(
+          return onCall(
             () => isSubscription
               ? subscribeObservable()
               : sendObservable(),
@@ -183,10 +181,10 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
           const address = isKeyringPair ? (account as KeyringPair).address() : account.toString();
           let updateId: number | undefined;
 
-          return _onCall(
+          return onCall(
             () => ((
               isUndefined(options.nonce)
-                ? _api.query.system.accountNonce(address) as Observable<Index>
+                ? api.query.system.accountNonce(address) as Observable<Index>
                 : of(new Index(options.nonce))
             ).pipe(
               first(),
@@ -194,9 +192,9 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
                 if (isKeyringPair) {
                   this.sign(account as KeyringPair, { ...options, nonce });
                 } else {
-                  assert(_api.signer, 'no signer exists');
+                  assert(api.signer, 'no signer exists');
 
-                  updateId = await (_api.signer as Signer).sign(_extrinsic, address, expandOptions({
+                  updateId = await (api.signer as Signer).sign(_extrinsic, address, expandOptions({
                     ...options,
                     nonce
                   }));
