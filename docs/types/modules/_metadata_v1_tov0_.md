@@ -8,7 +8,7 @@
 
 ▸ **toV0**(v1: *[MetadataV1](../classes/_metadata_v1_metadata_.metadatav1.md)*): [MetadataV0](../classes/_metadata_v0_metadata_.metadatav0.md)
 
-*Defined in [Metadata/v1/toV0.ts:96](https://github.com/polkadot-js/api/blob/5f98849/packages/types/src/Metadata/v1/toV0.ts#L96)*
+*Defined in [Metadata/v1/toV0.ts:96](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/Metadata/v1/toV0.ts#L96)*
 
 **Parameters:**
 
