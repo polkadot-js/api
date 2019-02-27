@@ -42,4 +42,4 @@ This is an experiment and feedback is welcome! This document may also be subject
 
 ## Heritage
 
-These contributing guidelines are modified from the "OPEN Open Source Project" guidelines for the Level project: https://github.com/Level/community/blob/master/CONTRIBUTING.md
+These contributing guidelines are modified from the "OPEN Open Source Project" guidelines for the Level project: [https://github.com/Level/community/blob/master/CONTRIBUTING.md](https://github.com/Level/community/blob/master/CONTRIBUTING.md)
