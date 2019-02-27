@@ -2,13 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor, RegistryTypes } from '../types';
-
-import Metadata from '../Metadata';
-import * as primitiveTypes from '../primitive';
-import * as defaultTypes from '../type';
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
+import { Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
 
 export class TypeRegistry {
@@ -73,6 +69,9 @@ let defaultRegistry: TypeRegistry;
 
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
+    const Metadata = require('../Metadata');
+    const primitiveTypes = require('../primitive');
+    const defaultTypes = require('../type');
     defaultRegistry = new TypeRegistry({ Metadata, ...primitiveTypes, ...defaultTypes });
   }
 
