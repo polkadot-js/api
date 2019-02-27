@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
 import Method from './primitive/Method';
 import Address from './type/Address';
+import U8a from './codec/U8a';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
@@ -98,8 +99,8 @@ export type SignatureOptions = {
   version?: RuntimeVersionInterface
 };
 
-export interface ExtrinsicLike extends Codec {
-  hash: any;
+export interface IExtrinsic extends Codec {
+  hash: U8a;
   isSigned: boolean;
   method: Method;
   signature: Codec;

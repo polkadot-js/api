@@ -23,14 +23,13 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core/index';
 import RpcRx from '@polkadot/rpc-rx/index';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
-import getRegistry from '@polkadot/types/codec/typeRegistry';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import SubmittableExtrinsic from './SubmittableExtrinsic';
+import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -320,7 +319,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   registerTypes (types?: RegistryTypes): void {
     if (types) {
-      getRegistry().register(types);
+      getTypeRegistry().register(types);
     }
   }
 
@@ -461,7 +460,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
     const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
-      new SubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
+      createSubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }

@@ -4,6 +4,7 @@
 
 import { Constructor, RegistryTypes } from '../types';
 
+import Metadata from '../Metadata';
 import * as primitiveTypes from '../primitive';
 import * as defaultTypes from '../type';
 import { isFunction, isString, isUndefined } from '@polkadot/util';
@@ -63,6 +64,7 @@ export class TypeRegistry {
     if (isUndefined(type)) {
       throw new Error(msg || `type ${name} not found`);
     }
+
     return type;
   }
 }
@@ -71,7 +73,8 @@ let defaultRegistry: TypeRegistry;
 
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
-    defaultRegistry = new TypeRegistry({ ...primitiveTypes, ...defaultTypes });
+    defaultRegistry = new TypeRegistry({ Metadata, ...primitiveTypes, ...defaultTypes });
   }
+
   return defaultRegistry;
 }

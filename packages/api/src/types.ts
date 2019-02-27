@@ -7,12 +7,18 @@ import { DeriveCustom } from '@polkadot/api-derive/index';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
-import { CodecArg, CodecCallback, ExtrinsicLike, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import {
+  CodecArg,
+  CodecCallback,
+  IExtrinsic,
+  RegistryTypes,
+  SignatureOptions
+} from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import { RxResult } from './rx/types';
-import SubmittableExtrinsic, { SubmittableResult } from './SubmittableExtrinsic';
+import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 import ApiBase from './Base';
 
 export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean) => CodecResult | SubscriptionResult;
@@ -163,7 +169,7 @@ export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: ExtrinsicLike, address: string, options: SignatureOptions): Promise<number>;
+  sign (extrinsic: IExtrinsic, address: string, options: SignatureOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
