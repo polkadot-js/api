@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-provider",
-  "version": "0.45.15",
+  "version": "0.45.16",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
