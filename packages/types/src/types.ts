@@ -99,11 +99,15 @@ export type SignatureOptions = {
   version?: RuntimeVersionInterface
 };
 
+export interface IHash extends U8a {}
+
+export interface ISignature extends Codec {}
+
 export interface IExtrinsic extends Codec {
-  hash: U8a;
+  hash: IHash;
   isSigned: boolean;
   method: Method;
-  signature: Codec;
+  signature: ISignature;
   addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): this;
   sign (account: KeyringPair, options: SignatureOptions): this;
 }
