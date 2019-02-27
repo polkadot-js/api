@@ -12,12 +12,6 @@ export class TypeRegistry {
 
   private _registry: Map<string, Constructor> = new Map();
 
-  constructor (types?: RegistryTypes) {
-    if (types) {
-      this.register(types);
-    }
-  }
-
   register (type: Constructor | RegistryTypes): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes, arg2?: Constructor): void {
@@ -69,10 +63,11 @@ let defaultRegistry: TypeRegistry;
 
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
-    const Metadata = require('../Metadata');
+    const Metadata = require('../Metadata').default;
     const primitiveTypes = require('../primitive');
     const defaultTypes = require('../type');
-    defaultRegistry = new TypeRegistry({ Metadata, ...primitiveTypes, ...defaultTypes });
+    defaultRegistry = new TypeRegistry();
+    defaultRegistry.register({ Metadata, ...primitiveTypes, ...defaultTypes });
   }
 
   return defaultRegistry;
