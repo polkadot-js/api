@@ -7,7 +7,6 @@ module.exports = {
   },
   themeConfig: {
     displayAllHeaders: true,
-    lastUpdated: 'Last Updated',
     nav: [
       { text: 'GitHub', link: 'https://github.com/polkadot-js/api' }
     ],
