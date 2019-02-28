@@ -1,5 +1,6 @@
 _book/
 build/
+build-docs/
 coverage/
 docs/.vuepress/dist/
 node_modules/
