@@ -45,6 +45,12 @@ const peers: RpcMethodOpt = {
   type: 'Vec<PeerInfo>'
 };
 
+const networkState: RpcMethodOpt = {
+  description: 'Returns current state of the network',
+  params: [],
+  type: 'NetworkState'
+};
+
 const section = 'system';
 
 /**
@@ -59,6 +65,7 @@ export default {
     chain: createMethod(section, 'chain', chain),
     health: createMethod(section, 'health', health),
     name: createMethod(section, 'name', name),
+    networkState: createMethod(section, 'networkState', networkState),
     peers: createMethod(section, 'peers', peers),
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Extrinsics from './Extrinsics';
+import Json from './Json';
 
 /**
- * @name PendingExtrinsics
+ * @name NetworkState
  * @description
- * A list of pending [[Extrinsics]]
+ * Wraps the properties retrieved from the chain via the `system.network_state` RPC call.
  */
-export default class PendingExtrinsics extends Extrinsics {
+export default class NetworkState extends Json {
 }

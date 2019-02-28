@@ -4,7 +4,7 @@
 
 import extrinsics from '@polkadot/extrinsics/static';
 
-import Extrinsics from './Extrinsics';
+import Extrinsics from '../type/Extrinsics';
 import Method from '../primitive/Method';
 import rpc from '../json/SignedBlock.001.json';
 import events from '../json/SignedBlock.002.json';

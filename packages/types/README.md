@@ -8,12 +8,16 @@ There primitive types are available: [[Bool]], [[Bytes]], [[Data]], [[H160]], [[
 
 ## Substrate types
 
-These types implement specific types that are found as part of the Substrate base: [[AccountId]], [[AccountIndex]], [[Address]], [[Amount]], [[AssetOf]], [[AttestedCandidate]], [[AuthorityId]], [[Balance]], [[BalanceOf]], [[Block]], [[BlockNumber]], [[ChainProperties]], [[CodeHash]], [[Digest]], [[Event]], [[EventRecord]], [[Extrinsic]], [[Extrinsics]], [[ExtrinsicEra]], [[ExtrinsicSignature]], [[ExtrinsicStatus]], [[Gas]], [[Hash]], [[Header]], [[Health]], [[InherentOfflineReport]], [[Justification]], [[KeyValue]], [[Metadata]], [[MisbehaviorReport]], [[NewAccountOutcome]], [[Nonce]], [[Origin]], [[ParaId]], [[PendingExtrinsics]], [[Perbill]], [[Permill]], [[PrefabWasmModule]], [[PropIndex]], [[Proposal]], [[ProposalIndex]], [[ReferendumIndex]], [[ReferendumInfo]], [[RuntimeVersion]], [[Schedule]], [[SeedOf]], [[SessionKey]], [[Signature]], [[SignaturePayload]], [[SignedBlock]], [[StorageChangeSet]], [[StoredPendingChange]], [[ValidatorPrefs]], [[VestingSchedule]], [[Vote]], [[VoteIndex]], [[VoteThreshold]]
-
-## Derived types
-
-Some types are extended from the base to provide additional information: [[HeaderExtended]], [[ReferendumInfoExtended]]
+These types implement specific types that are found as part of the Substrate base: [[AccountId]], [[AccountIndex]], [[Address]], [[Amount]], [[AssetOf]], [[AttestedCandidate]], [[AuthorityId]], [[Balance]], [[BalanceOf]], [[Block]], [[BlockNumber]], [[CodeHash]], [[Digest]], [[Event]], [[EventRecord]], [[Extrinsic]], [[ExtrinsicEra]], [[ExtrinsicSignature]], [[Gas]], [[Hash]], [[Header]], [[InherentOfflineReport]], [[Justification]], [[KeyValue]], [[MisbehaviorReport]], [[NewAccountOutcome]], [[Nonce]], [[Origin]], [[ParaId]], [[Perbill]], [[Permill]], [[PrefabWasmModule]], [[PropIndex]], [[Proposal]], [[ProposalIndex]], [[ReferendumIndex]], [[ReferendumInfo]], [[Schedule]], [[SeedOf]], [[SessionKey]], [[Signature]], [[SignaturePayload]], [[StoredPendingChange]], [[ValidatorPrefs]], [[VestingSchedule]], [[Vote]], [[VoteIndex]], [[VoteThreshold]]
 
 ## Codec types
 
 These are the base types of the codec, typically not used directly, but rather inherited from to create specific types: [[Base]], [[Compact]], [[Enum]], [[EnumType]], [[Option]], [[Set]], [[Struct]], [[Tuple]], [[U8a]], [[U8aFixed]], [[UInt]], [[Vector]]
+
+## RPC types
+
+These types are not used in the runtime, but rather are used in RPC results: [[ChainProperties]], [[ExtrinsicStatus]], [[Health]], [[Json]], [[NetworkState]], [[Metadata]], [[PeerInfo]], [[PendingExtrinsics]], [[RuntimeVersion]], [[SignedBlock]], [[StorageChangeSet]]
+
+## Derived types
+
+Some types are extended from the base to provide additional information: [[HeaderExtended]], [[ReferendumInfoExtended]]

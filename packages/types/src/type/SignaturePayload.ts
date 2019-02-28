@@ -12,7 +12,7 @@ import ExtrinsicEra from './ExtrinsicEra';
 import Hash from './Hash';
 import Method from '../primitive/Method';
 import Nonce from './NonceCompact';
-import RuntimeVersion from './RuntimeVersion';
+import RuntimeVersion from '../rpc/RuntimeVersion';
 
 type SignaturePayloadValue = {
   nonce?: AnyNumber,

@@ -6,20 +6,19 @@ import { Codec } from '../types';
 import { compareMap } from '../codec/utils';
 
 /**
- * @name ChainProperties
+ * @name Json
  * @description
- * Wraps the properties retrieved from the chain via the `system.properties` RPC call. It extends
- * the standard JS Map with de-facto values exposed as getters. While it implements a Codec, it is
- * limited in that it can only be used with input objects via RPC, i.e. no hex decoding. Unlike a
- * struct, this wrasp a JSON object with unknown keys and any values for those
+ * Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map with. While it
+ * implements a Codec, it is limited in that it can only be used with input objects via RPC,
+ * i.e. no hex decoding. Unlike a struct, this waps a JSON object with unknown keys
  * @noInheritDoc
  */
-export default class ChainProperties extends Map<string, any> implements Codec {
+export default class Json extends Map<string, any> implements Codec {
   constructor (value?: { [index: string]: any } | null) {
-    super(ChainProperties.decodeChainProperties(value));
+    super(Json.decodeJson(value));
   }
 
-  private static decodeChainProperties (value?: { [index: string]: any } | null): Array<[string, any]> {
+  private static decodeJson (value?: { [index: string]: any } | null): Array<[string, any]> {
     return Object.entries(value || {});
   }
 
@@ -35,20 +34,6 @@ export default class ChainProperties extends Map<string, any> implements Codec {
    */
   get isEmpty (): boolean {
     return [...this.keys()].length === 0;
-  }
-
-  /**
-   * @description The token decimals, if defined (de-facto standard only)
-   */
-  get tokenDecimals (): number | undefined {
-    return this.get('tokenDecimals');
-  }
-
-  /**
-   * @description The token system, if defined (de-facto standard only)
-   */
-  get tokenSymbol (): string | undefined {
-    return this.get('tokenSymbol');
   }
 
   /**
