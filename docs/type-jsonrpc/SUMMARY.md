@@ -1,7 +1,0 @@
-* [&quot;author&quot;](modules/_author_.md)
-* [&quot;chain&quot;](modules/_chain_.md)
-* [&quot;create/method&quot;](modules/_create_method_.md)
-* [&quot;create/param&quot;](modules/_create_param_.md)
-* [&quot;state&quot;](modules/_state_.md)
-* [&quot;system&quot;](modules/_system_.md)
-* [&quot;types&quot;](modules/_types_.md)
