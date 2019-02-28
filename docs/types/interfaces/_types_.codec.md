@@ -15,7 +15,7 @@
 * [AccountIndex](../classes/_type_accountindex_.accountindex.md)
 * [Address](../classes/_type_address_.address.md)
 * [Amount](../classes/_type_amount_.amount.md)
-* [ApiId](../classes/_type_runtimeversion_.apiid.md)
+* [ApiId](../classes/_rpc_runtimeversion_.apiid.md)
 * [ApplyExtrinsic](../classes/_type_eventrecord_.applyextrinsic.md)
 * [AssetOf](../classes/_type_assetof_.assetof.md)
 * [AttestedCandidate](../classes/_type_attestedcandidate_.attestedcandidate.md)
@@ -35,12 +35,12 @@
 * [Block](../classes/_type_block_.block.md)
 * [BlockNumber](../classes/_type_blocknumber_.blocknumber.md)
 * [Bool](../classes/_primitive_bool_.bool.md)
-* [Broadcast](../classes/_type_extrinsicstatus_.broadcast.md)
+* [Broadcast](../classes/_rpc_extrinsicstatus_.broadcast.md)
 * [Bytes](../classes/_primitive_bytes_.bytes.md)
 * [CallMetadata](../classes/_metadata_v0_modules_.callmetadata.md)
 * [CandidateReceipt](../classes/_type_attestedcandidate_.candidatereceipt.md)
 * [CandidateSignature](../classes/_type_attestedcandidate_.candidatesignature.md)
-* [ChainProperties](../classes/_type_chainproperties_.chainproperties.md)
+* [ChainProperties](../classes/_rpc_chainproperties_.chainproperties.md)
 * [ChangesTrieRoot](../classes/_type_digest_.changestrieroot.md)
 * [CodeHash](../classes/_type_codehash_.codehash.md)
 * [Compact](../classes/_codec_compact_.compact.md)
@@ -48,7 +48,7 @@
 * [Default](../classes/_metadata_v1_storage_.default.md)
 * [Digest](../classes/_type_digest_.digest.md)
 * [DigestItem](../classes/_type_digest_.digestitem.md)
-* [Dropped](../classes/_type_extrinsicstatus_.dropped.md)
+* [Dropped](../classes/_rpc_extrinsicstatus_.dropped.md)
 * [Ed25519Signature](../classes/_type_signature_.ed25519signature.md)
 * [EgressQueueRoot](../classes/_type_attestedcandidate_.egressqueueroot.md)
 * [Enum](../classes/_codec_enum_.enum.md)
@@ -62,13 +62,13 @@
 * [Extrinsic](../classes/_type_extrinsic_.extrinsic.md)
 * [ExtrinsicEra](../classes/_type_extrinsicera_.extrinsicera.md)
 * [ExtrinsicSignature](../classes/_type_extrinsicsignature_.extrinsicsignature.md)
-* [ExtrinsicStatus](../classes/_type_extrinsicstatus_.extrinsicstatus.md)
+* [ExtrinsicStatus](../classes/_rpc_extrinsicstatus_.extrinsicstatus.md)
 * [Extrinsics](../classes/_type_extrinsics_.extrinsics.md)
-* [Finalised](../classes/_type_extrinsicstatus_.finalised.md)
+* [Finalised](../classes/_rpc_extrinsicstatus_.finalised.md)
 * [Finalization](../classes/_type_eventrecord_.finalization.md)
 * [FunctionArgumentMetadata](../classes/_metadata_v0_modules_.functionargumentmetadata.md)
 * [FunctionMetadata](../classes/_metadata_v0_modules_.functionmetadata.md)
-* [Future](../classes/_type_extrinsicstatus_.future.md)
+* [Future](../classes/_rpc_extrinsicstatus_.future.md)
 * [Gas](../classes/_type_gas_.gas.md)
 * [H160](../classes/_primitive_h160_.h160.md)
 * [H256](../classes/_primitive_h256_.h256.md)
@@ -77,7 +77,7 @@
 * [HeadData](../classes/_type_attestedcandidate_.headdata.md)
 * [Header](../classes/_type_header_.header.md)
 * [HeaderExtended](../classes/_type_header_.headerextended.md)
-* [Health](../classes/_type_health_.health.md)
+* [Health](../classes/_rpc_health_.health.md)
 * [I128](../classes/_primitive_i128_.i128.md)
 * [I16](../classes/_primitive_i16_.i16.md)
 * [I256](../classes/_primitive_i256_.i256.md)
@@ -87,7 +87,8 @@
 * [ImplicitCandidateSignature](../classes/_type_attestedcandidate_.implicitcandidatesignature.md)
 * [InherentOfflineReport](../classes/_type_inherentofflinereport_.inherentofflinereport.md)
 * [Int](../classes/_codec_int_.int.md)
-* [Invalid](../classes/_type_extrinsicstatus_.invalid.md)
+* [Invalid](../classes/_rpc_extrinsicstatus_.invalid.md)
+* [Json](../classes/_rpc_json_.json.md)
 * [Justification](../classes/_type_justification_.justification.md)
 * [KeyValue](../classes/_type_keyvalue_.keyvalue.md)
 * [KeyValueOption](../classes/_type_keyvalue_.keyvalueoption.md)
@@ -113,6 +114,7 @@
 * [ModuleMetadata](../classes/_metadata_v0_modules_.modulemetadata.md)
 * [Moment](../classes/_primitive_moment_.moment.md)
 * [MomentOf](../classes/_primitive_moment_.momentof.md)
+* [NetworkState](../classes/_rpc_networkstate_.networkstate.md)
 * [NewAccountOutcome](../classes/_type_newaccountoutcome_.newaccountoutcome.md)
 * [NextAuthority](../classes/_type_storedpendingchange_.nextauthority.md)
 * [Nonce](../classes/_type_nonce_.nonce.md)
@@ -127,8 +129,8 @@
 * [OuterEventMetadata](../classes/_metadata_v0_events_.outereventmetadata.md)
 * [OuterEventMetadataEvent](../classes/_metadata_v0_events_.outereventmetadataevent.md)
 * [ParaId](../classes/_type_paraid_.paraid.md)
-* [PeerInfo](../classes/_type_peerinfo_.peerinfo.md)
-* [PendingExtrinsics](../classes/_type_pendingextrinsics_.pendingextrinsics.md)
+* [PeerInfo](../classes/_rpc_peerinfo_.peerinfo.md)
+* [PendingExtrinsics](../classes/_rpc_pendingextrinsics_.pendingextrinsics.md)
 * [Perbill](../classes/_type_perbill_.perbill.md)
 * [Permill](../classes/_type_permill_.permill.md)
 * [Phase](../classes/_type_eventrecord_.phase.md)
@@ -137,13 +139,13 @@
 * [PropIndex](../classes/_type_propindex_.propindex.md)
 * [Proposal](../classes/_type_proposal_.proposal.md)
 * [ProposalIndex](../classes/_type_proposalindex_.proposalindex.md)
-* [Ready](../classes/_type_extrinsicstatus_.ready.md)
+* [Ready](../classes/_rpc_extrinsicstatus_.ready.md)
 * [ReferendumIndex](../classes/_type_referendumindex_.referendumindex.md)
 * [ReferendumInfo](../classes/_type_referenduminfo_.referenduminfo.md)
 * [RhdJustification](../classes/_type_justification_.rhdjustification.md)
 * [RuntimeModuleMetadata](../classes/_metadata_v0_modules_.runtimemodulemetadata.md)
-* [RuntimeVersion](../classes/_type_runtimeversion_.runtimeversion.md)
-* [RuntimeVersionApi](../classes/_type_runtimeversion_.runtimeversionapi.md)
+* [RuntimeVersion](../classes/_rpc_runtimeversion_.runtimeversion.md)
+* [RuntimeVersionApi](../classes/_rpc_runtimeversion_.runtimeversionapi.md)
 * [Schedule](../classes/_type_schedule_.schedule.md)
 * [Seal](../classes/_type_digest_.seal.md)
 * [SeedOf](../classes/_type_seedof_.seedof.md)
@@ -151,9 +153,9 @@
 * [Set](../classes/_codec_set_.set.md)
 * [Signature](../classes/_type_signature_.signature.md)
 * [SignaturePayload](../classes/_type_signaturepayload_.signaturepayload.md)
-* [SignedBlock](../classes/_type_signedblock_.signedblock.md)
+* [SignedBlock](../classes/_rpc_signedblock_.signedblock.md)
 * [Sr25519Signature](../classes/_type_signature_.sr25519signature.md)
-* [StorageChangeSet](../classes/_type_storagechangeset_.storagechangeset.md)
+* [StorageChangeSet](../classes/_rpc_storagechangeset_.storagechangeset.md)
 * [StorageData](../classes/_primitive_storagedata_.storagedata.md)
 * [StorageFunctionMetadata](../classes/_metadata_v0_modules_.storagefunctionmetadata.md)
 * [StorageFunctionModifier](../classes/_metadata_v0_modules_.storagefunctionmodifier.md)
@@ -175,7 +177,7 @@
 * [U8aFixed](../classes/_codec_u8afixed_.u8afixed.md)
 * [UInt](../classes/_codec_uint_.uint.md)
 * [USize](../classes/_primitive_usize_.usize.md)
-* [Usurped](../classes/_type_extrinsicstatus_.usurped.md)
+* [Usurped](../classes/_rpc_extrinsicstatus_.usurped.md)
 * [ValidatorPrefs](../classes/_type_validatorprefs_.validatorprefs.md)
 * [ValidityAttestation](../classes/_type_attestedcandidate_.validityattestation.md)
 * [ValidityVote](../classes/_type_attestedcandidate_.validityvote.md)
@@ -193,7 +195,7 @@
 
 **● encodedLength**: *`number`*
 
-*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L34)*
+*Defined in [types.ts:34](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L34)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -204,7 +206,7 @@ ___
 
 **● isEmpty**: *`boolean`*
 
-*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L39)*
+*Defined in [types.ts:39](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L39)*
 
 *__description__*: Checks if the value is an empty value
 
@@ -218,7 +220,7 @@ ___
 
 ▸ **eq**(other?: *`any`*): `boolean`
 
-*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L44)*
+*Defined in [types.ts:44](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L44)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -237,7 +239,7 @@ ___
 
 ▸ **toHex**(): `string`
 
-*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L49)*
+*Defined in [types.ts:49](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L49)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -250,7 +252,7 @@ ___
 
 ▸ **toJSON**(): `any`
 
-*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L54)*
+*Defined in [types.ts:54](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L54)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -263,7 +265,7 @@ ___
 
 ▸ **toString**(): `string`
 
-*Defined in [types.ts:59](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L59)*
+*Defined in [types.ts:59](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L59)*
 
 *__description__*: Returns the string representation of the value
 
@@ -276,7 +278,7 @@ ___
 
 ▸ **toU8a**(isBare?: *`undefined` \| `false` \| `true`*): `Uint8Array`
 
-*Defined in [types.ts:65](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/types.ts#L65)*
+*Defined in [types.ts:65](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/types.ts#L65)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

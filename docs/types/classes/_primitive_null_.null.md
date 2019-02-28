@@ -12,15 +12,15 @@
 
 ↳  [Optional](_metadata_v1_storage_.optional.md)
 
+↳  [Dropped](_rpc_extrinsicstatus_.dropped.md)
+
+↳  [Future](_rpc_extrinsicstatus_.future.md)
+
+↳  [Ready](_rpc_extrinsicstatus_.ready.md)
+
+↳  [Invalid](_rpc_extrinsicstatus_.invalid.md)
+
 ↳  [Finalization](_type_eventrecord_.finalization.md)
-
-↳  [Dropped](_type_extrinsicstatus_.dropped.md)
-
-↳  [Future](_type_extrinsicstatus_.future.md)
-
-↳  [Ready](_type_extrinsicstatus_.ready.md)
-
-↳  [Invalid](_type_extrinsicstatus_.invalid.md)
 
 ↳  [Origin](_type_origin_.origin.md)
 
@@ -36,7 +36,7 @@
 
 **get encodedLength**(): `number`
 
-*Defined in [primitive/Null.ts:17](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L17)*
+*Defined in [primitive/Null.ts:17](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L17)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -49,7 +49,7 @@ ___
 
 **get isEmpty**(): `boolean`
 
-*Defined in [primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L24)*
+*Defined in [primitive/Null.ts:24](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L24)*
 
 *__description__*: Checks if the value is an empty value (always true)
 
@@ -67,7 +67,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L31)*
+*Defined in [primitive/Null.ts:31](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L31)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -88,7 +88,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L38)*
+*Defined in [primitive/Null.ts:38](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L38)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -103,7 +103,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L45)*
+*Defined in [primitive/Null.ts:45](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L45)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -118,7 +118,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [primitive/Null.ts:52](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L52)*
+*Defined in [primitive/Null.ts:52](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L52)*
 
 *__description__*: Returns the string representation of the value
 
@@ -133,7 +133,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [primitive/Null.ts:60](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/primitive/Null.ts#L60)*
+*Defined in [primitive/Null.ts:60](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/primitive/Null.ts#L60)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 

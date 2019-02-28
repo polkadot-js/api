@@ -104,6 +104,9 @@ _Methods to retrieve system info_
 ▸ **name**(): `Text`
 - **summary**: Retrieves the node name
 
+▸ **networkState**(): `NetworkState`
+- **summary**: Returns current state of the network
+
 ▸ **peers**(): `Vec<PeerInfo>`
 - **summary**: Returns the currently connected peers
 

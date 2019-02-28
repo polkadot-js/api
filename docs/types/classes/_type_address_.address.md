@@ -24,7 +24,7 @@
 
 *Overrides [Base](_codec_base_.base.md).[constructor](_codec_base_.base.md#constructor)*
 
-*Defined in [type/Address.ts:26](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L26)*
+*Defined in [type/Address.ts:26](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L26)*
 
 **Parameters:**
 
@@ -44,7 +44,7 @@ ___
 
 **get encodedLength**(): `number`
 
-*Defined in [type/Address.ts:68](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L68)*
+*Defined in [type/Address.ts:68](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L68)*
 
 *__description__*: The length of the value when encoded as a Uint8Array
 
@@ -57,7 +57,7 @@ ___
 
 **get isEmpty**(): `boolean`
 
-*Defined in [type/Address.ts:82](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L82)*
+*Defined in [type/Address.ts:82](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L82)*
 
 *__description__*: Checks if the value is an empty value
 
@@ -70,7 +70,7 @@ ___
 
 **get rawLength**(): `number`
 
-*Defined in [type/Address.ts:89](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L89)*
+*Defined in [type/Address.ts:89](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L89)*
 
 *__description__*: The length of the raw value, either AccountIndex or AccountId
 
@@ -88,7 +88,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[eq](../interfaces/_types_.codec.md#eq)*
 
-*Defined in [type/Address.ts:98](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L98)*
+*Defined in [type/Address.ts:98](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L98)*
 
 *__description__*: Compares the value of the input to see if there is a match
 
@@ -109,7 +109,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toHex](../interfaces/_types_.codec.md#tohex)*
 
-*Defined in [type/Address.ts:105](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L105)*
+*Defined in [type/Address.ts:105](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L105)*
 
 *__description__*: Returns a hex string representation of the value
 
@@ -124,7 +124,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toJSON](../interfaces/_types_.codec.md#tojson)*
 
-*Defined in [type/Address.ts:112](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L112)*
+*Defined in [type/Address.ts:112](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L112)*
 
 *__description__*: Converts the Object to JSON, typically used for RPC transfers
 
@@ -139,7 +139,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toString](../interfaces/_types_.codec.md#tostring)*
 
-*Defined in [type/Address.ts:119](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L119)*
+*Defined in [type/Address.ts:119](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L119)*
 
 *__description__*: Returns the string representation of the value
 
@@ -154,7 +154,7 @@ ___
 
 *Implementation of [Codec](../interfaces/_types_.codec.md).[toU8a](../interfaces/_types_.codec.md#tou8a)*
 
-*Defined in [type/Address.ts:127](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L127)*
+*Defined in [type/Address.ts:127](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L127)*
 
 *__description__*: Encodes the value as a Uint8Array as per the parity-codec specifications
 
@@ -173,7 +173,7 @@ ___
 
 ▸ **decodeAddress**(value: *`AnyAddress`*): [AccountId](_type_accountid_.accountid.md) \| [AccountIndex](_type_accountindex_.accountindex.md)
 
-*Defined in [type/Address.ts:33](https://github.com/polkadot-js/api/blob/255b495/packages/types/src/type/Address.ts#L33)*
+*Defined in [type/Address.ts:33](https://github.com/polkadot-js/api/blob/1ea1f6f/packages/types/src/type/Address.ts#L33)*
 
 **Parameters:**
 
