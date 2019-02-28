@@ -5,9 +5,9 @@
 import { AnyU8a } from '../types';
 
 import Struct from '../codec/Struct';
-import Block, { BlockValue } from './Block';
-import Hash from './Hash';
-import Justification from './Justification';
+import Block, { BlockValue } from '../type/Block';
+import Hash from '../type/Hash';
+import Justification from '../type/Justification';
 
 type SignedBlockValue = {
   block?: BlockValue,

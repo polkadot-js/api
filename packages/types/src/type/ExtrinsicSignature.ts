@@ -11,7 +11,7 @@ import Method from '../primitive/Method';
 import U8 from '../primitive/U8';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
-import RuntimeVersion from './RuntimeVersion';
+import RuntimeVersion from '../rpc/RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 

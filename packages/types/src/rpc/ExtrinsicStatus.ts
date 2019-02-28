@@ -6,7 +6,7 @@ import EnumType from '../codec/EnumType';
 import Vector from '../codec/Vector';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
-import Hash from './Hash';
+import Hash from '../type/Hash';
 
 /**
  * @name Broadcast
