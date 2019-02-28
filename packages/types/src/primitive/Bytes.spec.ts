@@ -9,6 +9,12 @@ describe('Bytes', () => {
   const CODE = new Uint8Array([0x14, 0x3a, 0x63, 0x6f, 0x64, 0x65]);
 
   describe('construction', () => {
+    it('decodes when input is string', () => {
+      expect(
+        new Bytes(':code').toU8a()
+      ).toEqual(CODE);
+    });
+
     it('decodes when hex is not length prefixed', () => {
       expect(
         new Bytes('0x3a636f6465').toU8a()
