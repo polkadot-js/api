@@ -65,7 +65,7 @@ export default {
     chain: createMethod(section, 'chain', chain),
     health: createMethod(section, 'health', health),
     name: createMethod(section, 'name', name),
-    networkState: createMethod(section, 'network_state', networkState),
+    networkState: createMethod(section, 'networkState', networkState),
     peers: createMethod(section, 'peers', peers),
     properties: createMethod(section, 'properties', properties),
     version: createMethod(section, 'version', version)
