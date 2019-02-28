@@ -16,10 +16,10 @@ function storageV0 (mod: MetadataModuleV2): StorageMetadata | null {
 
   return new StorageMetadata({
     prefix: mod.prefix,
-    functions: mod.storage.unwrap().map(({ docs, fallback, name, type }) =>
+    functions: mod.storage.unwrap().map(({ docs, fallback, modifier, name, type }) =>
       new StorageFunctionMetadata({
         name,
-        modifier: 0, // unused, don't specify
+        modifier: modifier.toNumber(),
         type: type.asV0,
         default: fallback,
         documentation: docs

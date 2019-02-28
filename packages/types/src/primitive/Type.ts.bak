@@ -3,6 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Text from './Text';
+import Struct from '../codec/Struct';
+import { isString } from '@polkadot/util';
 
 type Mapper = (value: string) => string;
 
@@ -15,23 +17,39 @@ const ALLOWED_BOXES = ['Compact', 'Option', 'Vec'];
  * on what string provides us, however we also adjust the types received from the runtime,
  * i.e. we remove the `T::` prefixes found in some types for consistency accross implementation.
  */
-export default class Type extends Text {
+export default class Type extends Struct {
   private _originalLength: number;
 
-  constructor (value: Text | Uint8Array | string = '') {
-    // First decode it with Text
-    const textValue = new Text(value);
-
-    // Then cleanup the textValue to get the @polkadot/types type, and pass the
-    // sanitized value to constructor
-    super(
-      Type.decodeType(
-        textValue.toString()
-      )
-    );
-
-    this._originalLength = textValue.encodedLength;
+  constructor (value?: any) {
+    // provide backward compatibility
+    if (isString(value)) {
+      const textValue = new Text(value);
+      const displayName = Type.decodeType(textValue.toString());
+      super({ typeName: Text, displayName: Text }, { displayName });
+      this._originalLength = textValue.encodedLength;
+    } else {
+      const structValue = new Struct({ typeName: Text, displayName: Text }, value);
+      const displayName = Type.decodeType((structValue.get('displayName') || '').toString());
+      const typeName = structValue.get('typeName');
+      super({ typeName: Text, displayName: Text }, { displayName, typeName });
+      this._originalLength = this.displayName.encodedLength;
+    }
   }
+
+  // constructor (value: Text | Uint8Array | string = '') {
+  //   // First decode it with Text
+  //   const textValue = new Text(value);
+  //
+  //   // Then cleanup the textValue to get the @polkadot/types type, and pass the
+  //   // sanitized value to constructor
+  //   super(
+  //     Type.decodeType(
+  //       textValue.toString()
+  //     )
+  //   );
+  //
+  //   this._originalLength = textValue.encodedLength;
+  // }
 
   private static decodeType (value: string): string {
     const mappings: Array<Mapper> = [
@@ -71,6 +89,20 @@ export default class Type extends Text {
   }
 
   /**
+   * @description The displayName of the type, which is the original type in metadata v0/v1
+   */
+  get displayName (): Text {
+    return this.get('displayName') as Text;
+  }
+
+  /**
+   * @description The typeName comes from metadata v2
+   */
+  get typeName (): Text {
+    return this.get('typeName') as Text;
+  }
+
+  /**
    * @description The length of the value when encoded as a Uint8Array
    */
   get encodedLength (): number {
@@ -91,27 +123,31 @@ export default class Type extends Text {
     throw new Error('Type::toU8a: unimplemented');
   }
 
-  removeGenerics (): Type {
-    let value = this.toString();
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
-        // check against the allowed wrappers, be it Vec<..>, Option<...> ...
-        const box = ALLOWED_BOXES.find((box) => {
-          const start = index - box.length;
-
-          return start >= 0 && value.substr(start, box.length) === box;
-        });
-
-        // we have not found anything, unwrap generic innards
-        if (!box) {
-          const end = Type._findClosing(value, index + 1);
-
-          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
-        }
-      }
-    }
-    return new Type(value);
+  toString (): string {
+    return (this.get('displayName') || '').toString();
   }
+
+  // removeGenerics (): Type {
+  //   let value = this.toString();
+  //   for (let index = 0; index < value.length; index++) {
+  //     if (value[index] === '<') {
+  //       // check against the allowed wrappers, be it Vec<..>, Option<...> ...
+  //       const box = ALLOWED_BOXES.find((box) => {
+  //         const start = index - box.length;
+  //
+  //         return start >= 0 && value.substr(start, box.length) === box;
+  //       });
+  //
+  //       // we have not found anything, unwrap generic innards
+  //       if (!box) {
+  //         const end = Type._findClosing(value, index + 1);
+  //
+  //         value = `${value.substr(0, index)}${value.substr(end + 1)}`;
+  //       }
+  //     }
+  //   }
+  //   return new Type(value);
+  // }
 
   // given a starting index, find the closing >
   private static _findClosing (value: string, start: number): number {

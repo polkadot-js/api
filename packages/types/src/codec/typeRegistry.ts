@@ -35,7 +35,7 @@ export class TypeRegistry {
     } else if (arg1 instanceof Array) {
       this.registerTypeMetadata(arg1);
     } else {
-      this.registerObject(arg1 as RegistryTypes);
+      this.registerObject(arg1);
     }
   }
 

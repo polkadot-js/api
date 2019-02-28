@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { stringCamelCase } from '@polkadot/util';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
@@ -261,11 +260,7 @@ export class Metadata$H512 extends Null {
 }
 
 export class FieldName$Unnamed extends U16 {}
-export class FieldName$Named extends Text {
-  toString (): string {
-    return stringCamelCase(super.toString());
-  }
-}
+export class FieldName$Named extends Text {}
 
 export class FieldName extends EnumType<FieldName$Unnamed | FieldName$Named> {
   constructor (value: any) {

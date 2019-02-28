@@ -23,6 +23,8 @@ describe('Metadata', () => {
 
     // console.error(metadata.getUniqTypes());
 
+    console.log(JSON.stringify(metadata, null, 2));
+
     expect(metadata.version).toBe(2);
     // expect(metadata.asV2.modules.length).not.toBe(0);
     // expect(str).toEqual(JSON.stringify(latestParsed));

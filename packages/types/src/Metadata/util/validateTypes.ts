@@ -9,6 +9,7 @@ import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
 export default function validateTypes (types: Array<string>, throwError: boolean): void {
+  return;
   const extractTypes = (types: Array<string>): Array<any> => {
     return types.map((type) => {
       const decoded = getTypeDef(type);

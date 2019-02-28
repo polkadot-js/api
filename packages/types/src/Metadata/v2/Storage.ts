@@ -8,7 +8,7 @@ import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
-import { MetadataName } from './MetadataRegistry';
+import TypeName from './TypeName';
 import { StorageFunctionType as StorageFunctionTypeV0, MapType as MapTypeV0 } from '../v0/Modules';
 
 export class Default extends Null {
@@ -40,27 +40,27 @@ export class MetadataStorageModifier extends EnumType<Optional | Default> {
 export class MapType extends Struct {
   constructor (value?: any) {
     super({
-      key: MetadataName,
-      value: MetadataName
+      key: TypeName,
+      value: TypeName
     }, value);
   }
 
   /**
-   * @description The mapped key as [[MetadataName]]
+   * @description The mapped key as [[TypeName]]
    */
-  get key (): MetadataName {
-    return this.get('key') as MetadataName;
+  get key (): TypeName {
+    return this.get('key') as TypeName;
   }
 
   /**
-   * @description The mapped value as [[MetadataName]]
+   * @description The mapped value as [[TypeName]]
    */
-  get value (): MetadataName {
-    return this.get('value') as MetadataName;
+  get value (): TypeName {
+    return this.get('value') as TypeName;
   }
 }
 
-export class PlainType extends MetadataName {
+export class PlainType extends TypeName {
 }
 
 export class MetadataStorageType extends EnumType<PlainType | MapType> {

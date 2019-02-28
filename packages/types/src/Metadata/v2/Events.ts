@@ -5,7 +5,7 @@
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
-import { MetadataName } from './MetadataRegistry';
+import TypeName from './TypeName';
 
 /**
  * @name MetadataEvent
@@ -16,16 +16,16 @@ export class MetadataEvent extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      args: Vector.with(MetadataName),
+      args: Vector.with(TypeName),
       docs: Vector.with(Text)
     }, value);
   }
 
   /**
-   * @description The [[MetadataName]] for args
+   * @description The [[TypeName]] for args
    */
-  get args (): Vector<MetadataName> {
-    return this.get('args') as Vector<MetadataName>;
+  get args (): Vector<TypeName> {
+    return this.get('args') as Vector<TypeName>;
   }
 
   /**
