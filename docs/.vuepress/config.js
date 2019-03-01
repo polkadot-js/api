@@ -8,8 +8,19 @@ module.exports = {
   themeConfig: {
     displayAllHeaders: true,
     nav: [
+      { text: 'Polkadot/Substrate Apps', link: 'https://polkadot.js.org/apps/' },
+      { text: 'Project family', link: 'https://polkadot.js.org/' },
+      {
+        text: 'Documentation',
+        items: [
+          { text: 'API Reference (this)', link: 'https://polkadot.js.org/api/' },
+          { text: 'Utility Reference', link: 'https://polkadot.js.org/common/' },
+          { text: 'UI Libs Reference', link: 'https://polkadot.js.org/ui/' },
+        ]
+      },
       { text: 'GitHub', link: 'https://github.com/polkadot-js/api' }
     ],
+    search: false,
     sidebar: [
       {
         title: 'Examples (Promise API)',

@@ -1,6 +1,35 @@
-# Polkadot Javascript API
+---
+home: true
+heroText:
+tagline:
+# Bringing JavaScript to the Polkadot world.
+# actionText: Repository Overview
+# actionLink: /REPOS.md
+features:
+- title: API
+  details: A powerful dynamic API that allows chain interactions with transparent encoding and decoding.
+- title: Substrate defaults
+  details: An overview of the various default methods, state entries and RPCs for Substrate-based chains.
+- title: Types
+  details: Various type interfaces to make using returned values from API calls transparent in your code.
 
-You can query a node and interact with the Polkadot network using Javascript. This guide describes the Polkadot Javascript API.
+footer: Apache-2 Licensed | Copyright © 2017-2019 polkadot-js authors and contributors
+---
+
+## Welcome
+
+The API provides application developers the ability to query a node and interact with the Polkadot or Substrate chains using Javascript. Here you will find documentation and examples to get you started.
+
+::: tip Examples
+In a rush and just want examples? [Jump right in](/examples/promise/) and get a handle on using the API in your projects.
+:::
+
+## Available packages
+
+This repository split up into a number of internal packages, namely -
+
+- [api](api/README.md) Promise and RxJS-based APIs
+- [types](types/README.md) Type encoding and decoding wrappers
 
 ## The Polkadot Project
 
