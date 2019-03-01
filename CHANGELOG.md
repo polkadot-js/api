@@ -1,3 +1,7 @@
+# 0.46.1
+
+- Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version. (There should be no external use impact from either change)
+
 # 0.45.1
 
 - Storage with option values now correctly return `Option<Type>` and is indicated as such in the documentation
