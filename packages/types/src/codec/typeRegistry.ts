@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Type from '../primitive/Type';
 import { Constructor, RegistryTypes } from '../types';
 
 import { isFunction, isString, isUndefined } from '@polkadot/util';
@@ -19,7 +18,7 @@ export class TypeRegistry {
 
   private _registry: Map<string, Constructor> = new Map();
 
-  register (type: Constructor | RegistryTypes): void;
+  register (type: Constructor | RegistryTypes | MetadataRegistry): void;
   register (name: string, type: Constructor): void;
   register (arg1: string | Constructor | RegistryTypes | MetadataRegistry, arg2?: Constructor): void {
     if (isString(arg1)) {
@@ -70,7 +69,6 @@ export class TypeRegistry {
             const typeCls = this.get(name.toString());
             if (!typeCls) {
               skipped.push(typeMetadata);
-              console.warn(`${typeCls} is Primitive, but not found in type registry`);
             }
             break;
           }
@@ -112,12 +110,7 @@ export class TypeRegistry {
   }
 
   get (name: string): Constructor | undefined {
-    let retType = this._registry.get(name);
-    if (!retType) {
-      const genericType = new Type(name).removeGenerics();
-      retType = this._registry.get(genericType.toString());
-    }
-    return retType;
+    return this._registry.get(name);
   }
 
   getOrThrow (name: string, msg?: string): Constructor {
@@ -134,29 +127,8 @@ let defaultRegistry: TypeRegistry;
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
     const defaultTypes = require('../index.types');
-    const V2_DEFAULT = {
-      // FIXME some code in api relay on the implementation of Phase and EventRecord
-      'sr_primitives#AccountId': defaultTypes.AccountId,
-      'srml_indices::address#Address': defaultTypes.Address,
-      'node_runtime#Call': defaultTypes.Proposal,
-      // 'srml_system#Phase': Phase,
-      'srml_system#EventRecord': defaultTypes.EventRecord,
-      'node_runtime#Event': defaultTypes.Event,
-      'sr_primitives::generic::digest#Digest': defaultTypes.Digest,
-      // TODO: remove when Bryan commit a fix
-      '(Vec<u8>,Vec<u8>)': defaultTypes.KeyValue,
-      'substrate_primitives::authority_id#Ed25519AuthorityId': defaultTypes.SessionKey,
-      'sr_primitives#Perbill': defaultTypes.Perbill,
-      'sr_primitives#Permill': defaultTypes.Permill,
-      'srml_democracy#ReferendumInfo': defaultTypes.ReferendumIndex,
-      'srml_contract#Schedule': defaultTypes.Schedule,
-      'srml_grandpa#StoredPendingChange': defaultTypes.StoredPendingChange,
-      'srml_staking#ValidatorPrefs': defaultTypes.ValidatorPrefs,
-      'srml_democracy#Vote': defaultTypes.Vote,
-      'srml_democracy::vote_threshold#VoteThreshold': defaultTypes.VoteThreshold
-    };
     defaultRegistry = new TypeRegistry();
-    defaultRegistry.register({ ...defaultTypes, ...V2_DEFAULT });
+    defaultRegistry.register({ ...defaultTypes });
   }
 
   return defaultRegistry;

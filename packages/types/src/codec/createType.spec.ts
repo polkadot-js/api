@@ -63,7 +63,7 @@ describe('getTypeValue', () => {
 
   it('returns a type structure', () => {
     expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))').displayType
     ).toEqual({
       info: TypeDefInfo.Tuple,
       type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))',
@@ -130,7 +130,7 @@ describe('getTypeValue', () => {
 
   it('returns a type structure (actual)', () => {
     expect(
-      getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
+      getTypeDef('Vec<(PropIndex, Proposal, AccountId)>').displayType
     ).toEqual({
       info: TypeDefInfo.Vector,
       type: 'Vec<(PropIndex, Proposal, AccountId)>',
@@ -157,7 +157,7 @@ describe('getTypeValue', () => {
 
   it('returns an actual Struct', () => {
     expect(
-      getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}')
+      getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}').displayType
     ).toEqual({
       info: TypeDefInfo.Struct,
       type: '{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}',
@@ -195,7 +195,7 @@ describe('getTypeValue', () => {
 describe('getTypeClass', () => {
   it('does not allow invalid types', () => {
     expect(
-      () => getTypeClass('SomethingInvalid' as any)
+      () => getTypeClass(getTypeDef('SomethingInvalid'))
     ).toThrow(/determine type/);
   });
 });

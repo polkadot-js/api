@@ -95,8 +95,8 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   const [displayName, typeName] = type.split('|');
 
   return {
-    displayType: getInnerTypeDef(displayName),
-    implType: typeName ? getInnerTypeDef(typeName) : undefined
+    displayType: getInnerTypeDef(displayName || ''),
+    implType: getInnerTypeDef(typeName || '')
   };
 }
 

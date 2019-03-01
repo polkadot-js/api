@@ -34,6 +34,7 @@ export default class Type extends Text {
   }
 
   private static decodeType (value: string): string {
+    const [displayName, implName] = value.split('|');
     const mappings: Array<Mapper> = [
       // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
       Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
@@ -65,9 +66,11 @@ export default class Type extends Text {
       Type._flattenSingleTuple()
     ];
 
-    return mappings.reduce((result, fn) => {
+    const decodedDisplayName = mappings.reduce((result, fn) => {
       return fn(result);
-    }, value).trim();
+    }, displayName).trim();
+
+    return implName ? `${decodedDisplayName}|${implName}` : decodedDisplayName;
   }
 
   /**
@@ -89,28 +92,6 @@ export default class Type extends Text {
     // not allow the re-encoding. Additionally, this is probably more of a decoder-only
     // helper, so treat it as such.
     throw new Error('Type::toU8a: unimplemented');
-  }
-
-  removeGenerics (): Type {
-    let value = this.toString();
-    for (let index = 0; index < value.length; index++) {
-      if (value[index] === '<') {
-        // check against the allowed wrappers, be it Vec<..>, Option<...> ...
-        const box = ALLOWED_BOXES.find((box) => {
-          const start = index - box.length;
-
-          return start >= 0 && value.substr(start, box.length) === box;
-        });
-
-        // we have not found anything, unwrap generic innards
-        if (!box) {
-          const end = Type._findClosing(value, index + 1);
-
-          value = `${value.substr(0, index)}${value.substr(end + 1)}`;
-        }
-      }
-    }
-    return new Type(value);
   }
 
   // given a starting index, find the closing >
