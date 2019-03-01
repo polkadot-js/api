@@ -6,7 +6,7 @@ import { Codec } from '@polkadot/types/types';
 import { QueryableStorageFunction as QueryableStorageFunctionBase, SubmittableExtrinsicFunction as SubmittableExtrinsicFunctionBase } from '../types';
 
 import ApiBase from '../Base';
-import SubmittableExtrinsicBase from '../SubmittableExtrinsic';
+import { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../SubmittableExtrinsic';
 
 export type SubscriptionResult = Promise<() => any>;
 

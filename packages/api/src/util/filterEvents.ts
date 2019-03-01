@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, SignedBlock } from '@polkadot/types/index';
+import { EventRecord, SignedBlock, U8a } from '@polkadot/types/index';
 
 import l from './logging';
 
-export default function filterEvents (extHash: Hash, { block: { extrinsics, header } }: SignedBlock, allEvents: Array<EventRecord>): Array<EventRecord> | undefined {
+export default function filterEvents (extHash: U8a, { block: { extrinsics, header } }: SignedBlock, allEvents: Array<EventRecord>): Array<EventRecord> | undefined {
   // extrinsics to hashes
   const myHash = extHash.toHex();
   const allHashes = extrinsics.map((ext) => ext.hash.toHex());

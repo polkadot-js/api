@@ -6,6 +6,7 @@ import { isUndefined } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
+import { getTypeRegistry } from '../../codec';
 
 export default function validateTypes (types: Array<string>, throwError: boolean): void {
   const extractTypes = (types: Array<string>): Array<any> => {
@@ -32,9 +33,9 @@ export default function validateTypes (types: Array<string>, throwError: boolean
     });
   };
 
-  const allTypes = require('../../index');
+  const typeRegistry = getTypeRegistry();
   const missing = flattenUniq(extractTypes(types)).filter((type) =>
-    isUndefined(allTypes[type])
+    isUndefined(typeRegistry.get(type))
   );
 
   if (missing.length !== 0) {
