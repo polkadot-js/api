@@ -63,11 +63,9 @@ let defaultRegistry: TypeRegistry;
 
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
-    const Metadata = require('../Metadata').default;
-    const primitiveTypes = require('../primitive');
-    const defaultTypes = require('../type');
+    const defaultTypes = require('../index.types');
     defaultRegistry = new TypeRegistry();
-    defaultRegistry.register({ Metadata, ...primitiveTypes, ...defaultTypes });
+    defaultRegistry.register({ ...defaultTypes });
   }
 
   return defaultRegistry;
