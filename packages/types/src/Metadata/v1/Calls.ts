@@ -38,6 +38,9 @@ export class MetadataCallArg extends Struct {
 export class MetadataCall extends Struct {
   constructor (value?: any) {
     super({
+      // NOTE Just commented out, it is not available in current, but an open question
+      // around the usefulness of supplying this remains (could be re-added)
+      // id: u16,
       name: Text,
       args: Vector.with(MetadataCallArg),
       docs: Vector.with(Text)

@@ -155,7 +155,6 @@ describe.skip('e2e transactions', () => {
   it('makes a proposal', async () => {
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
-    const t = api.tx.consensus.setCode(randomAsHex(4096));
     const hash = await api.tx.democracy
       .propose(api.tx.consensus.setCode(randomAsHex(4096)), 10000)
       .signAndSend(keyring.bob);

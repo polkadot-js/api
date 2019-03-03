@@ -26,6 +26,7 @@ export default function createDescriptor (
 
   extrinsicFn = (...args: any[]): Method => {
     assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+
     return new Method({
       args,
       callIndex

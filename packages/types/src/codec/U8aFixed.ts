@@ -53,11 +53,3 @@ export default class U8aFixed extends U8a {
     return this.length * 8;
   }
 }
-
-export function deriveU8aFixed (length: BitLength): any {
-  return class extends U8aFixed {
-    constructor (value?: AnyU8a) {
-      super(value, length);
-    }
-  };
-}

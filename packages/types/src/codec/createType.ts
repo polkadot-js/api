@@ -28,15 +28,15 @@ export enum TypeDefInfo {
 }
 
 export type TypeDef = {
-  displayType: InnerTypeDef,
-  implType?: InnerTypeDef
+  displayType: DetailTypeDef,
+  implType?: DetailTypeDef
 };
 
-export type InnerTypeDef = {
+export type DetailTypeDef = {
   info: TypeDefInfo,
   name?: string,
   type: string,
-  sub?: InnerTypeDef | Array<InnerTypeDef>
+  sub?: DetailTypeDef | Array<DetailTypeDef>
 };
 
 type TypeClsMap = { [name: string]: Constructor };
@@ -95,13 +95,13 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   const [displayName, typeName] = type.split('|');
 
   return {
-    displayType: getInnerTypeDef(displayName || ''),
-    implType: getInnerTypeDef(typeName || '')
+    displayType: getDetailTypeDef(displayName || ''),
+    implType: typeName ? getDetailTypeDef(typeName) : undefined
   };
 }
 
-export function getInnerTypeDef (type: string, name?: string): InnerTypeDef {
-  const value: InnerTypeDef = {
+export function getDetailTypeDef (type: string, name?: string): DetailTypeDef {
+  const value: DetailTypeDef = {
     info: TypeDefInfo.Plain,
     name,
     type
@@ -122,7 +122,7 @@ export function getInnerTypeDef (type: string, name?: string): InnerTypeDef {
 
   if (startingWith(type, '(', ')')) {
     value.info = TypeDefInfo.Tuple;
-    value.sub = typeSplit(subType).map((inner) => getInnerTypeDef(inner));
+    value.sub = typeSplit(subType).map((inner) => getDetailTypeDef(inner));
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
     const keys = Object.keys(parsed);
@@ -137,17 +137,17 @@ export function getInnerTypeDef (type: string, name?: string): InnerTypeDef {
       value.info = TypeDefInfo.Enum;
     } else {
       value.info = TypeDefInfo.Struct;
-      value.sub = keys.map((name) => getInnerTypeDef(parsed[name], name));
+      value.sub = keys.map((name) => getDetailTypeDef(parsed[name], name));
     }
   } else if (startingWith(type, 'Compact<', '>')) {
     value.info = TypeDefInfo.Compact;
-    value.sub = getInnerTypeDef(subType);
+    value.sub = getDetailTypeDef(subType);
   } else if (startingWith(type, 'Option<', '>')) {
     value.info = TypeDefInfo.Option;
-    value.sub = getInnerTypeDef(subType);
+    value.sub = getDetailTypeDef(subType);
   } else if (startingWith(type, 'Vec<', '>')) {
     value.info = TypeDefInfo.Vector;
-    value.sub = getInnerTypeDef(subType);
+    value.sub = getDetailTypeDef(subType);
   }
 
   return value;
@@ -155,16 +155,18 @@ export function getInnerTypeDef (type: string, name?: string): InnerTypeDef {
 
 export function getTypeClass (value: TypeDef): Constructor {
   try {
-    const Type = _getTypeClass(value.displayType);
-    return Type;
+    return _getTypeClass(value.displayType);
   } catch (e) {
-    const Type = _getTypeClass(value.implType as InnerTypeDef);
-    return Type;
+    if (value.implType) {
+      return _getTypeClass(value.implType);
+    } else {
+      throw e;
+    }
   }
 }
 
 // Returns the type Class for construction
-function _getTypeClass (value: InnerTypeDef): Constructor {
+function _getTypeClass (value: DetailTypeDef): Constructor {
   const Type = getRegistry().get(value.type);
   if (Type) {
     return Type;
@@ -173,13 +175,13 @@ function _getTypeClass (value: InnerTypeDef): Constructor {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
     return Compact.with(
-      _getTypeClass(value.sub as InnerTypeDef) as Constructor<UInt>
+      _getTypeClass(value.sub as DetailTypeDef) as Constructor<UInt>
     );
   } else if (value.info === TypeDefInfo.Enum) {
     assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
     return EnumType.with(
-      (value.sub as Array<InnerTypeDef>).reduce((result, sub, index) => {
+      (value.sub as Array<DetailTypeDef>).reduce((result, sub, index) => {
         result[sub.name as string] = _getTypeClass(sub);
 
         return result;
@@ -189,13 +191,13 @@ function _getTypeClass (value: InnerTypeDef): Constructor {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
 
     return Option.with(
-      _getTypeClass(value.sub as InnerTypeDef)
+      _getTypeClass(value.sub as DetailTypeDef)
     );
   } else if (value.info === TypeDefInfo.Struct) {
     assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
 
     return Struct.with(
-      (value.sub as Array<InnerTypeDef>).reduce((result, sub) => {
+      (value.sub as Array<DetailTypeDef>).reduce((result, sub) => {
         result[sub.name as string] = _getTypeClass(sub);
 
         return result;
@@ -205,13 +207,13 @@ function _getTypeClass (value: InnerTypeDef): Constructor {
     assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
     return Tuple.with(
-      (value.sub as Array<InnerTypeDef>).map(_getTypeClass)
+      (value.sub as Array<DetailTypeDef>).map(_getTypeClass)
     );
   } else if (value.info === TypeDefInfo.Vector) {
     assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
 
     return Vector.with(
-      _getTypeClass(value.sub as InnerTypeDef)
+      _getTypeClass(value.sub as DetailTypeDef)
     );
   }
 

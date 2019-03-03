@@ -33,8 +33,6 @@ describe.skip('e2e queries', () => {
 
   it('queries state for a balance', async () => {
     const balance = await api.query.balances.freeBalance(keyring.alice.address());
-    const ts = await api.query.timestamp.now();
-    console.log(ts);
     expect(
       balance.isZero()
     ).toBe(false);

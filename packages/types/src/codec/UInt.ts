@@ -53,11 +53,3 @@ export default class UInt extends AbstractInt {
     });
   }
 }
-
-export function deriveUInt (length: UIntBitLength): any {
-  return class extends UInt {
-    constructor (value?: AnyNumber) {
-      super(value, length);
-    }
-  };
-}

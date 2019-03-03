@@ -4,7 +4,7 @@
 
 import { isUndefined } from '@polkadot/util';
 
-import { getTypeDef, TypeDefInfo, InnerTypeDef } from '../../codec/createType';
+import { getTypeDef, TypeDefInfo, DetailTypeDef } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
 import { getTypeRegistry } from '../../codec';
 
@@ -20,11 +20,11 @@ export default function validateTypes (types: Array<string>, throwError: boolean
         case TypeDefInfo.Compact:
         case TypeDefInfo.Option:
         case TypeDefInfo.Vector:
-          return extractTypes([(decoded.sub as InnerTypeDef).type]);
+          return extractTypes([(decoded.sub as DetailTypeDef).type]);
 
         case TypeDefInfo.Tuple:
           return extractTypes(
-            (decoded.sub as Array<InnerTypeDef>).map((sub) => sub.type)
+            (decoded.sub as Array<DetailTypeDef>).map((sub) => sub.type)
           );
 
         default:
