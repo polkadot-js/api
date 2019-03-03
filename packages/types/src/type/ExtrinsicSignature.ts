@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AnyNumber, SignatureOptions } from '../types';
+import { AnyNumber, IExtrinsicSignature, SignatureOptions } from '../types';
 
 import Struct from '../codec/Struct';
 import Address from './Address';
@@ -26,7 +26,7 @@ const BIT_VERSION = 0b0000001;
  * @description
  * A container for the [[Signature]] associated with a specific [[Extrinsic]]
  */
-export default class ExtrinsicSignature extends Struct {
+export default class ExtrinsicSignature extends Struct implements IExtrinsicSignature {
   // Signature Information.
   //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format

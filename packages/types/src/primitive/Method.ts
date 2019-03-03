@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, Codec, Constructor } from '../types';
+import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
 
 import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
@@ -10,10 +10,6 @@ import { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
 import { FunctionMetadata, FunctionArgumentMetadata } from '../Metadata/v0/Modules';
-
-interface ArgsDef {
-  [index: string]: Constructor;
-}
 
 interface DecodeMethodInput {
   args: any;
@@ -66,7 +62,7 @@ export class MethodIndex extends U8aFixed {
  * Extrinsic function descriptor, as defined in
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
-export default class Method extends Struct {
+export default class Method extends Struct implements IMethod {
   protected _meta: FunctionMetadata;
 
   constructor (value: any, meta?: FunctionMetadata) {

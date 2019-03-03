@@ -6,6 +6,7 @@
 
 import { ApiPromise } from '@polkadot/api/index';
 import testKeyring from '@polkadot/keyring/testingPairs';
+import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { Header, HeaderExtended } from '@polkadot/types/index';
 
 export default async function test () {
@@ -27,9 +28,12 @@ export default async function test () {
     console.log('current author:', header.author);
   });
 
-  const hash = await api.tx.balances
-    .transfer(keyring.bob.address(), 12345)
-    .signAndSend(keyring.alice);
+  const transfer = api.tx.balances.transfer(keyring.bob.address(), 12345);
+
+  console.log('transfer as Method', transfer as IMethod);
+  console.log('transfer as Extrinsic', transfer as IExtrinsic);
+
+  const hash = await transfer.signAndSend(keyring.alice);
   console.log('hash:', hash.toHex());
 
   const unsub = await api.tx.balances

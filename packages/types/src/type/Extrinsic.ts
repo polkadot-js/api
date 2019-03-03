@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AnyNumber, AnyU8a, Codec, SignatureOptions } from '../types';
+import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, SignatureOptions } from '../types';
 
 import { isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
@@ -33,7 +33,7 @@ type ExtrinsicValue = {
  * - signed, to create a transaction
  * - left as is, to create an inherent
  */
-export default class Extrinsic extends Struct {
+export default class Extrinsic extends Struct implements IExtrinsic {
   constructor (value?: ExtrinsicValue | AnyU8a | Method) {
     super({
       signature: ExtrinsicSignature,
@@ -78,6 +78,13 @@ export default class Extrinsic extends Struct {
   }
 
   /**
+   * @description Thge argument defintions, compatible with [[Method]]
+   */
+  get argsDef (): ArgsDef {
+    return this.method.argsDef;
+  }
+
+  /**
    * @description The actual `[sectionIndex, methodIndex]` as used in the Method
    */
   get callIndex (): Uint8Array {
@@ -107,6 +114,13 @@ export default class Extrinsic extends Struct {
     return new Hash(
       blake2AsU8a(this.toU8a(), 256)
     );
+  }
+
+  /**
+   * @description `true` is method has `Origin` argument (compatibility with [[Method]])
+   */
+  get hasOrigin (): boolean {
+    return this.method.hasOrigin;
   }
 
   /**

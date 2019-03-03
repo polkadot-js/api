@@ -64,6 +64,7 @@ let defaultRegistry: TypeRegistry;
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
     const defaultTypes = require('../index.types');
+
     defaultRegistry = new TypeRegistry();
     defaultRegistry.register({ ...defaultTypes });
   }

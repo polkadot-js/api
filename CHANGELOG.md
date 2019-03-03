@@ -1,6 +1,8 @@
 # 0.46.1
 
-- Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version. (There should be no external use impact from either change)
+- Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version.
+- Where `Extrinsic` and `Method` is used as types, considder importing `{ IMethod, IExtrinsic }` from `@polkadot/types/types`, especially in the cases where this is uased from a `SubmittableExtrinsic`
+- The `typeRegistry` constant is now `getTypeRegistry()` as a function
 
 # 0.45.1
 
