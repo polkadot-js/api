@@ -26,7 +26,7 @@ export default class Struct<
   V extends { [K in keyof S]: any } = { [K in keyof S]: any },
   // type names, mapped by key, name of Class in S
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
-  > extends Map<keyof S, Codec> implements Codec {
+  > extends Map<keyof S, Codec> {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
 

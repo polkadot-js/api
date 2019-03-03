@@ -4,9 +4,10 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
+import U8a from './codec/U8a';
 import Method from './primitive/Method';
 import Address from './type/Address';
-import U8a from './codec/U8a';
+import { FunctionMetadata } from './Metadata/v0/Modules';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
@@ -99,15 +100,30 @@ export type SignatureOptions = {
   version?: RuntimeVersionInterface
 };
 
+export interface ArgsDef {
+  [index: string]: Constructor;
+}
+
 export interface IHash extends U8a {}
 
-export interface ISignature extends Codec {}
+export interface IMethod extends Codec {
+  readonly args: Array<Codec>;
+  readonly argsDef: ArgsDef;
+  readonly callIndex: Uint8Array;
+  readonly data: Uint8Array;
+  readonly hasOrigin: boolean;
+  readonly meta: FunctionMetadata;
+}
 
-export interface IExtrinsic extends Codec {
+export interface IExtrinsicSignature extends Codec {
+  readonly isSigned: boolean;
+}
+
+export interface IExtrinsic extends IMethod {
   hash: IHash;
   isSigned: boolean;
   method: Method;
-  signature: ISignature;
-  addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): this;
-  sign (account: KeyringPair, options: SignatureOptions): this;
+  signature: IExtrinsicSignature;
+  addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
+  sign (account: KeyringPair, options: SignatureOptions): IExtrinsic;
 }

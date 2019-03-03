@@ -1445,10 +1445,10 @@
   resolved "https://registry.yarnpkg.com/@polkadot/schnorrkel-js/-/schnorrkel-js-0.1.2-3.tgz#9117ac5126b465a1cf53c2b6bb68a17efc7e0390"
   integrity sha512-1LgF4wtER3q5uqY67CdOsQQ/SBqT6v0ZKQIS3cOTVByF16WtApD6U324uCJyMdie+GZFv0xr/40I4Ni2It+8jw==
 
-"@polkadot/ts@^0.1.54":
-  version "0.1.54"
-  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.54.tgz#cac6a12809f886fb7698bfbf3ffb27b793f7745d"
-  integrity sha512-wYiJZ62v0IyG7jO6nQ7XsxHiYJH1i0x3BuHPiV/LiAq4QSX0LVv0q3SbN7hwrEDb4kmHtHkKpF9iXV8fKLFH2w==
+"@polkadot/ts@^0.1.55":
+  version "0.1.55"
+  resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.55.tgz#6bd5840035e8bde0e53932b136253e90398313b7"
+  integrity sha512-OWB9GTS3BUVY1VU5JtDnN02RytchS+nN5WJg/aLhGR1BMU4DNqef7rgDonhJEaEbZzlQ/j+S+colK/0MYzQ9Bw==
 
 "@polkadot/util-crypto@^0.34.37":
   version "0.34.37"
