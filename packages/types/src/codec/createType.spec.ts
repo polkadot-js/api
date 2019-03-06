@@ -61,9 +61,10 @@ describe('getTypeValue', () => {
     ).toThrow(/Expected 'Vec<' closing with '>'/);
   });
 
-  it('returns a type structure', () => {
+  it('can return a type structure including only display type', () => {
+    const type = getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))');
     expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))').displayType
+      type.displayType
     ).toEqual({
       info: TypeDefInfo.Tuple,
       type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))',
@@ -126,11 +127,13 @@ describe('getTypeValue', () => {
         }
       ]
     });
+    expect(type.implType).toEqual(undefined);
   });
 
-  it('returns a type structure (actual)', () => {
+  it('can return a type structure including only display type (actual)', () => {
+    const type = getTypeDef('Vec<(PropIndex, Proposal, AccountId)>');
     expect(
-      getTypeDef('Vec<(PropIndex, Proposal, AccountId)>').displayType
+      type.displayType
     ).toEqual({
       info: TypeDefInfo.Vector,
       type: 'Vec<(PropIndex, Proposal, AccountId)>',
@@ -153,11 +156,13 @@ describe('getTypeValue', () => {
         ]
       }
     });
+    expect(type.implType).toEqual(undefined);
   });
 
   it('returns an actual Struct', () => {
+    const type = getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}');
     expect(
-      getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}').displayType
+      type.displayType
     ).toEqual({
       info: TypeDefInfo.Struct,
       type: '{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}',
@@ -188,6 +193,60 @@ describe('getTypeValue', () => {
           ]
         }
       ]
+    });
+    expect(type.implType).toEqual(undefined);
+  });
+
+  it('can return a type structure including both display type and implement type', () => {
+    const type = getTypeDef('Vec<(PropIndex,Proposal,AccountId)>|Vec<(u32,node_runtime#Call,sr_primitives#AccountId)>');
+    expect(
+      type.displayType
+    ).toEqual({
+      info: TypeDefInfo.Vector,
+      type: 'Vec<(PropIndex,Proposal,AccountId)>',
+      sub: {
+        info: TypeDefInfo.Tuple,
+        type: '(PropIndex,Proposal,AccountId)',
+        sub: [
+          {
+            info: TypeDefInfo.Plain,
+            type: 'PropIndex'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'Proposal'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'AccountId'
+          }
+        ]
+      }
+    });
+
+    expect(
+      type.implType
+    ).toEqual({
+      info: TypeDefInfo.Vector,
+      type: 'Vec<(u32,node_runtime#Call,sr_primitives#AccountId)>',
+      sub: {
+        info: TypeDefInfo.Tuple,
+        type: '(u32,node_runtime#Call,sr_primitives#AccountId)',
+        sub: [
+          {
+            info: TypeDefInfo.Plain,
+            type: 'u32'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'node_runtime#Call'
+          },
+          {
+            info: TypeDefInfo.Plain,
+            type: 'sr_primitives#AccountId'
+          }
+        ]
+      }
     });
   });
 });

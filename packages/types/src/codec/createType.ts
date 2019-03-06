@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
 import Text from '../primitive/Text';
@@ -263,7 +263,7 @@ function createTuple (types: FieldMetadata[]) {
  */
 function createStruct (types: FieldMetadata[]) {
   const typeClsMap = types.reduce((acc, typeMetadata) => {
-    const typeName = typeMetadata.name.value.toString();
+    const typeName = stringCamelCase(typeMetadata.name.value.toString());
     acc[typeName] = createClass(typeMetadata.ty.toString());
     return acc;
   }, {} as TypeClsMap);

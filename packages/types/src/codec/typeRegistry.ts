@@ -14,8 +14,6 @@ import MetadataRegistry, {
 } from '../Metadata/v2/MetadataRegistry';
 
 export class TypeRegistry {
-  static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
-
   private _registry: Map<string, Constructor> = new Map();
 
   register (type: Constructor | RegistryTypes | MetadataRegistry): void;
@@ -123,6 +121,10 @@ export class TypeRegistry {
 }
 
 let defaultRegistry: TypeRegistry;
+
+export function setDefaultRegistry (registry: TypeRegistry) {
+  defaultRegistry = registry;
+}
 
 export default function getDefaultRegistry () {
   if (!defaultRegistry) {
