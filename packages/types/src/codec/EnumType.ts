@@ -133,7 +133,7 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
    * @description Checks if the Enum points to a [[Null]] type
    */
   get isNone (): boolean {
-    return this.raw instanceof Null;
+    return this.isNull;
   }
 
   /**

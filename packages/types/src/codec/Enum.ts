@@ -66,6 +66,13 @@ export default class Enum extends Base<number> implements Codec {
   }
 
   /**
+   * @description Returns the index for this value (equivalent to toNumber)
+   */
+  get index (): number {
+    return this.raw;
+  }
+
+  /**
    * @description Checks if the value is an empty value (always false)
    */
   get isEmpty (): boolean {
