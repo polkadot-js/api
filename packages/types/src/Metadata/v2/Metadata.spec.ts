@@ -12,14 +12,23 @@ import latestParsed from './latest.substrate.v2.json';
 import rpcData from './static';
 
 describe('Metadata', () => {
-  it('decodes latest properly', () => {
+  it('converts to V0', () => {
     const metadata = new Metadata(rpcData).asV0;
+
+    console.error(metadata.getUniqTypes(true));
+
+    expect(metadata.events.length).not.toBe(0);
+    expect(metadata.calls.length).not.toBe(0);
+    expect(metadata.modules.length).not.toBe(0);
+  });
+
+  it('decodes latest properly', () => {
+    const metadata = new Metadata(rpcData);
     const str = JSON.stringify(metadata.toJSON());
 
     console.error(str);
     console.error(metadata.getUniqTypes(true));
 
-    expect(metadata.events.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));
   });
 
