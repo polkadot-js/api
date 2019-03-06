@@ -2,55 +2,44 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-//
-// import createType from '../../codec/createType';
-// import Method from '../../Method';
+import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 
-import Metadata from '../index';
-// import latestParsed from './v1/latest.substrate.v1.json';
+import createType from '../../codec/createType';
+import Method from '../../primitive/Method';
+
+import Metadata from '../Metadata';
+import latestParsed from './latest.substrate.v2.json';
 import rpcData from './static';
-import getRegistry from '../../codec/typeRegistry';
 
 describe('Metadata', () => {
-  const metadata = new Metadata(rpcData);
+  it('decodes latest properly', () => {
+    const metadata = new Metadata(rpcData).asV0;
+    const str = JSON.stringify(metadata.toJSON());
 
-  it.only('decodes latest properly', () => {
-    // const str = JSON.stringify(metadata.asV2.toJSON());
-    // const v0 = metadata.asV0;
-    const registry = getRegistry();
-    registry.register(metadata.asV2.typeRegistry);
+    console.error(str);
+    console.error(metadata.getUniqTypes(true));
 
-    // console.error(metadata.getUniqTypes());
-
-    console.log(JSON.stringify(metadata, null, 2));
-
-    expect(metadata.version).toBe(2);
-    // expect(metadata.asV2.modules.length).not.toBe(0);
-    // expect(str).toEqual(JSON.stringify(latestParsed));
+    expect(metadata.events.length).not.toBe(0);
+    expect(str).toEqual(JSON.stringify(latestParsed));
   });
 
-  it('converts v1 to V0', () => {
-    const v0 = metadata.asV0;
+  describe('storage with default values', () => {
+    const metadata = new Metadata(rpcData).asV0;
 
-    // console.error(JSON.stringify(v0.toJSON()));
+    Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    expect(metadata.getUniqTypes(true)).toEqual(v0.getUniqTypes(true));
+    metadata.modules.forEach((mod) => {
+      if (mod.storage.isNone) {
+        return;
+      }
+
+      mod.storage.unwrap().functions.forEach((fn) => {
+        it(`creates default types for ${mod.prefix}.${fn.name}, type ${fn.type}`, () => {
+          expect(
+            () => createType(fn.type.toString(), fn.default)
+          ).not.toThrow();
+        });
+      });
+    });
   });
-  //
-  // describe('storage with default values', () => {
-  //   Method.injectMethods(extrinsicsFromMeta(metadata.asV0));
-  //
-  //   metadata.asV1.modules
-  //     .filter(({ storage }) => storage.isSome)
-  //     .map((mod) =>
-  //       mod.storage.unwrap().forEach(({ fallback, name, type }) => {
-  //         it(`creates default types for ${mod.prefix}.${name}, type ${type}`, () => {
-  //           expect(
-  //             () => createType(type.toString(), fallback)
-  //           ).not.toThrow();
-  //         });
-  //       })
-  //     );
-  // });
 });

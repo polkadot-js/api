@@ -1,0 +1,5687 @@
+{
+  "magicNumber": 1635018093,
+  "metadata": {
+    "MetadataV2": {
+      "modules": [
+        {
+          "name": "system",
+          "prefix": "System",
+          "storage": [
+            {
+              "name": "AccountNonce",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u64",
+                    "displayName": "Index"
+                  }
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicCount",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "AllExtrinsicsLen",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "BlockHash",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u64",
+                    "displayName": "BlockNumber"
+                  },
+                  "value": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  }
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicData",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "u32"
+                  },
+                  "value": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "RandomSeed",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "Number",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The current block number being processed. Set by `execute_block`."
+              ]
+            },
+            {
+              "name": "ParentHash",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicsRoot",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "Digest",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives::generic::digest#Digest<node_runtime#Log>",
+                  "displayName": "Digest"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "Events",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<srml_system#EventRecord<node_runtime#Event>>",
+                  "displayName": "Vec<EventRecord>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": null,
+          "events": [
+            {
+              "name": "ExtrinsicSuccess",
+              "args": [],
+              "docs": [
+                " An extrinsic completed successfully."
+              ]
+            },
+            {
+              "name": "ExtrinsicFailed",
+              "args": [],
+              "docs": [
+                " An extrinsic failed."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "aura",
+          "prefix": "",
+          "storage": null,
+          "calls": null,
+          "events": null
+        },
+        {
+          "name": "timestamp",
+          "prefix": "Timestamp",
+          "storage": [
+            {
+              "name": "Now",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Moment"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Current time for the current block."
+              ]
+            },
+            {
+              "name": "BlockPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Moment"
+                }
+              },
+              "fallback": "0x0500000000000000",
+              "docs": [
+                " The minimum (and advised) period between blocks."
+              ]
+            },
+            {
+              "name": "DidUpdate",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Did the timestamp get updated in this block?"
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set",
+              "args": [
+                {
+                  "name": "now",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<Moment>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the current time.",
+                "",
+                " Extrinsic with this call should be placed at the specific position in the each block",
+                " (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.",
+                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
+                " if this call hasn't been invoked by that time.",
+                "",
+                " The timestamp should be greater than the previous one by the amount specified by `block_period`."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
+          "name": "consensus",
+          "prefix": "Consensus",
+          "storage": [
+            {
+              "name": "OriginalAuthorities",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<substrate_primitives::authority_id#Ed25519AuthorityId>",
+                  "displayName": "Vec<SessionKey>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "report_misbehavior",
+              "args": [
+                {
+                  "name": "_report",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Report some misbehaviour."
+              ]
+            },
+            {
+              "name": "note_offline",
+              "args": [
+                {
+                  "name": "offline",
+                  "type": {
+                    "typeName": "Null",
+                    "displayName": "InherentOfflineReport"
+                  }
+                }
+              ],
+              "docs": [
+                " Note the previous block's validator missed their opportunity to propose a block."
+              ]
+            },
+            {
+              "name": "remark",
+              "args": [
+                {
+                  "name": "_remark",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Make some on-chain remark."
+              ]
+            },
+            {
+              "name": "set_heap_pages",
+              "args": [
+                {
+                  "name": "pages",
+                  "type": {
+                    "typeName": "u64",
+                    "displayName": "u64"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the number of pages in the WebAssembly environment's heap."
+              ]
+            },
+            {
+              "name": "set_code",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the new code."
+              ]
+            },
+            {
+              "name": "set_storage",
+              "args": [
+                {
+                  "name": "items",
+                  "type": {
+                    "typeName": "Vec<(Vec<u8>,Vec<u8>)>",
+                    "displayName": "Vec<KeyValue>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set some items of storage."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
+          "name": "indices",
+          "prefix": "Indices",
+          "storage": [
+            {
+              "name": "NextEnumSet",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "AccountIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next free enumeration set."
+              ]
+            },
+            {
+              "name": "EnumSet",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "AccountIndex"
+                  },
+                  "value": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The enumeration sets."
+              ]
+            }
+          ],
+          "calls": [],
+          "events": [
+            {
+              "name": "NewAccountIndex",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "AccountIndex"
+                }
+              ],
+              "docs": [
+                " A new account index was assigned.",
+                "",
+                " This event is not triggered when an existing index is reassigned",
+                " to another `AccountId`."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "balances",
+          "prefix": "Balances",
+          "storage": [
+            {
+              "name": "TotalIssuance",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The total amount of stake on the system."
+              ]
+            },
+            {
+              "name": "ExistentialDeposit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The minimum amount allowed to keep an account open."
+              ]
+            },
+            {
+              "name": "TransferFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to make a transfer."
+              ]
+            },
+            {
+              "name": "CreationFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to create an account. At least as big as ReclaimRebate."
+              ]
+            },
+            {
+              "name": "Vesting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_balances#VestingSchedule<u128>",
+                    "displayName": "VestingSchedule"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Information regarding the vesting of a given account."
+              ]
+            },
+            {
+              "name": "FreeBalance",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u128",
+                    "displayName": "Balance"
+                  }
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The 'free' balance of a given account.",
+                "",
+                " This is the only balance that matters in terms of most operations on tokens. It is",
+                " alone used to determine the balance when in the contract execution environment. When this",
+                " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
+                " deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback",
+                " is invoked, giving a chance to external modules to cleanup data associated with",
+                " the deleted account.",
+                "",
+                " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
+                " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+              ]
+            },
+            {
+              "name": "ReservedBalance",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u128",
+                    "displayName": "Balance"
+                  }
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The amount of the balance of a given account that is externally reserved; this can still get",
+                " slashed, but gets slashed last of all.",
+                "",
+                " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
+                " that are still 'owned' by the account holder, but which are suspendable. (This is different",
+                " and wholly unrelated to the `Bondage` system used in the staking module.)",
+                "",
+                " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
+                " is deleted: specifically, `ReservedBalance`.",
+                "",
+                " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
+                " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "transfer",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<Balance>"
+                  }
+                }
+              ],
+              "docs": [
+                " Transfer some liquid free balance to another staker."
+              ]
+            },
+            {
+              "name": "set_balance",
+              "args": [
+                {
+                  "name": "who",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                },
+                {
+                  "name": "free",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<Balance>"
+                  }
+                },
+                {
+                  "name": "reserved",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<Balance>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the balances of a given account."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewAccount",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " A new account was created."
+              ]
+            },
+            {
+              "name": "ReapedAccount",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " An account was reaped."
+              ]
+            },
+            {
+              "name": "Transfer",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " Transfer succeeded (from, to, value, fees)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "session",
+          "prefix": "Session",
+          "storage": [
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The current set of validators."
+              ]
+            },
+            {
+              "name": "SessionLength",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " Current length of the session."
+              ]
+            },
+            {
+              "name": "CurrentIndex",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Current index of the session."
+              ]
+            },
+            {
+              "name": "CurrentStart",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Moment"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Timestamp when current session started."
+              ]
+            },
+            {
+              "name": "ForcingNewSession",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " New session is being forced is this entry exists; in which case, the boolean value is whether",
+                " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
+              ]
+            },
+            {
+              "name": "LastLengthChange",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Block at which the session length last changed."
+              ]
+            },
+            {
+              "name": "NextKeyFor",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "substrate_primitives::authority_id#Ed25519AuthorityId",
+                    "displayName": "SessionKey"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next key for a given validator."
+              ]
+            },
+            {
+              "name": "NextSessionLength",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next session length."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "key",
+                  "type": {
+                    "typeName": "substrate_primitives::authority_id#Ed25519AuthorityId",
+                    "displayName": "SessionKey"
+                  }
+                }
+              ],
+              "docs": [
+                " Sets the session key of `_validator` to `_key`. This doesn't take effect until the next",
+                " session."
+              ]
+            },
+            {
+              "name": "set_length",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set a new session length. Won't kick in until the next session change (at current length)."
+              ]
+            },
+            {
+              "name": "force_new_session",
+              "args": [
+                {
+                  "name": "apply_rewards",
+                  "type": {
+                    "typeName": "bool",
+                    "displayName": "bool"
+                  }
+                }
+              ],
+              "docs": [
+                " Forces a new session."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewSession",
+              "args": [
+                {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              ],
+              "docs": [
+                " New session has happened. Note that the argument is the session index, not the block",
+                " number as the type might suggest."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "staking",
+          "prefix": "Staking",
+          "storage": [
+            {
+              "name": "ValidatorCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The ideal number of staking participants."
+              ]
+            },
+            {
+              "name": "MinimumValidatorCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x04000000",
+              "docs": [
+                " Minimum number of staking participants before emergency conditions are imposed."
+              ]
+            },
+            {
+              "name": "SessionsPerEra",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " The length of a staking era in sessions."
+              ]
+            },
+            {
+              "name": "SessionReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives#Perbill",
+                  "displayName": "Perbill"
+                }
+              },
+              "fallback": "0x3c000000",
+              "docs": [
+                " Maximum reward, per validator, that is provided per acceptable session."
+              ]
+            },
+            {
+              "name": "OfflineSlash",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives#Perbill",
+                  "displayName": "Perbill"
+                }
+              },
+              "fallback": "0x40420f00",
+              "docs": [
+                " Slash, per validator that is taken for the first time they are found to be offline."
+              ]
+            },
+            {
+              "name": "OfflineSlashGrace",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of instances of offline reports before slashing begins for validators."
+              ]
+            },
+            {
+              "name": "BondingDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " The length of the bonding duration in blocks."
+              ]
+            },
+            {
+              "name": "Invulerables",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise",
+                " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
+              ]
+            },
+            {
+              "name": "CurrentEra",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The current era index."
+              ]
+            },
+            {
+              "name": "ValidatorPreferences",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_staking#ValidatorPrefs<u128>",
+                    "displayName": "ValidatorPrefs"
+                  }
+                }
+              },
+              "fallback": "0x0c00",
+              "docs": [
+                " Preferences that a validator has."
+              ]
+            },
+            {
+              "name": "Intentions",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " All the accounts with a desire to stake."
+              ]
+            },
+            {
+              "name": "Nominating",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " All nominator -> nominee relationships."
+              ]
+            },
+            {
+              "name": "NominatorsFor",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Nominators for a particular account."
+              ]
+            },
+            {
+              "name": "CurrentNominatorsFor",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Nominators for a particular account that is in action right now."
+              ]
+            },
+            {
+              "name": "CurrentSessionReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Maximum reward, per validator, that is provided per acceptable session."
+              ]
+            },
+            {
+              "name": "CurrentOfflineSlash",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Slash, per validator that is taken for the first time they are found to be offline."
+              ]
+            },
+            {
+              "name": "NextSessionsPerEra",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next value of sessions per era."
+              ]
+            },
+            {
+              "name": "LastEraLengthChange",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The session index at which the era length last changed."
+              ]
+            },
+            {
+              "name": "StakeRange",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "(u128,u128)",
+                  "displayName": "(BalanceOf,BalanceOf)"
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": [
+                " The highest and lowest staked validator slashable balances."
+              ]
+            },
+            {
+              "name": "Bondage",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u64",
+                    "displayName": "BlockNumber"
+                  }
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The block at which the `who`'s funds become entirely liquid."
+              ]
+            },
+            {
+              "name": "SlashCount",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u32",
+                    "displayName": "u32"
+                  }
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
+              ]
+            },
+            {
+              "name": "ForcingNewEra",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "Null",
+                  "displayName": "Null"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " We are forcing a new era."
+              ]
+            },
+            {
+              "name": "RecentlyOffline",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<(sr_primitives#AccountId,u64,u32)>",
+                  "displayName": "Vec<(AccountId,BlockNumber,u32)>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for)."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "stake",
+              "args": [],
+              "docs": [
+                " Declare the desire to stake for the transactor.",
+                "",
+                " Effects will be felt at the beginning of the next era."
+              ]
+            },
+            {
+              "name": "unstake",
+              "args": [
+                {
+                  "name": "intentions_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Retract the desire to stake for the transactor.",
+                "",
+                " Effects will be felt at the beginning of the next era."
+              ]
+            },
+            {
+              "name": "nominate",
+              "args": [
+                {
+                  "name": "target",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "unnominate",
+              "args": [
+                {
+                  "name": "target_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Will panic if called when source isn't currently nominating target.",
+                " Updates Nominating, NominatorsFor and NominationBalance."
+              ]
+            },
+            {
+              "name": "register_preferences",
+              "args": [
+                {
+                  "name": "intentions_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                },
+                {
+                  "name": "prefs",
+                  "type": {
+                    "typeName": "srml_staking#ValidatorPrefs<u128>",
+                    "displayName": "ValidatorPrefs"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the given account's preference for slashing behaviour should they be a validator.",
+                "",
+                " An error (no-op) if `Self::intentions()[intentions_index] != origin`."
+              ]
+            },
+            {
+              "name": "set_sessions_per_era",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the number of sessions in an era."
+              ]
+            },
+            {
+              "name": "set_bonding_duration",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " The length of the bonding duration in eras."
+              ]
+            },
+            {
+              "name": "set_validator_count",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " The ideal number of validators."
+              ]
+            },
+            {
+              "name": "force_new_era",
+              "args": [
+                {
+                  "name": "apply_rewards",
+                  "type": {
+                    "typeName": "bool",
+                    "displayName": "bool"
+                  }
+                }
+              ],
+              "docs": [
+                " Force there to be a new era. This also forces a new session immediately after.",
+                " `apply_rewards` should be true for validators to get the session reward."
+              ]
+            },
+            {
+              "name": "set_offline_slash_grace",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the offline slash grace period."
+              ]
+            },
+            {
+              "name": "set_invulnerables",
+              "args": [
+                {
+                  "name": "validators",
+                  "type": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the validators who cannot be slashed (if any)."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Reward",
+              "args": [
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " All validators have been rewarded by the given balance."
+              ]
+            },
+            {
+              "name": "OfflineWarning",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " One validator (and their nominators) has been given a offline-warning (they're still",
+                " within their grace). The accrued number of slashes is recorded, too."
+              ]
+            },
+            {
+              "name": "OfflineSlash",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " One validator (and their nominators) has been slashed by the given amount."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "democracy",
+          "prefix": "Democracy",
+          "storage": [
+            {
+              "name": "PublicPropCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "PropIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The number of (public) proposals that have been made so far."
+              ]
+            },
+            {
+              "name": "PublicProps",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<(u32,node_runtime#Call,sr_primitives#AccountId)>",
+                  "displayName": "Vec<(PropIndex,Proposal,AccountId)>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The public proposals. Unsorted."
+              ]
+            },
+            {
+              "name": "DepositOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "PropIndex"
+                  },
+                  "value": {
+                    "typeName": "(u128,Vec<sr_primitives#AccountId>)",
+                    "displayName": "(BalanceOf,Vec<AccountId>)"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Those who have locked a deposit."
+              ]
+            },
+            {
+              "name": "LaunchPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) new public referenda are launched."
+              ]
+            },
+            {
+              "name": "MinimumDeposit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The minimum amount to be used as a deposit for a public referendum proposal."
+              ]
+            },
+            {
+              "name": "PublicDelay",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The delay before enactment for all public referenda."
+              ]
+            },
+            {
+              "name": "MaxLockPeriods",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "i8",
+                  "displayName": "LockPeriods"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
+              ]
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "ReferendumCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next free referendum index, aka the number of referendums started so far."
+              ]
+            },
+            {
+              "name": "NextTally",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next referendum index that should be tallied."
+              ]
+            },
+            {
+              "name": "ReferendumInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "ReferendumIndex"
+                  },
+                  "value": {
+                    "typeName": "srml_democracy#ReferendumInfo<u64,node_runtime#Call>",
+                    "displayName": "ReferendumInfo"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Information concerning any given referendum."
+              ]
+            },
+            {
+              "name": "DispatchQueue",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u64",
+                    "displayName": "BlockNumber"
+                  },
+                  "value": {
+                    "typeName": "Vec<Option<(node_runtime#Call,u32)>>",
+                    "displayName": "Vec<Option<(Proposal,ReferendumIndex)>>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Queue of successful referenda to be dispatched."
+              ]
+            },
+            {
+              "name": "Bondage",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u64",
+                    "displayName": "BlockNumber"
+                  }
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The block at which the `who`'s funds become liquid."
+              ]
+            },
+            {
+              "name": "VotersFor",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "ReferendumIndex"
+                  },
+                  "value": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the voters for the current proposal."
+              ]
+            },
+            {
+              "name": "VoteOf",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "(u32,sr_primitives#AccountId)",
+                    "displayName": "(ReferendumIndex,AccountId)"
+                  },
+                  "value": {
+                    "typeName": "srml_democracy#Vote",
+                    "displayName": "Vote"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
+                " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
+                " `voters_for`, then you can also check for simple existence with `VoteOf::exists` first."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                }
+              ],
+              "docs": [
+                " Propose a sensitive action to be taken."
+              ]
+            },
+            {
+              "name": "second",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<PropIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Propose a sensitive action to be taken."
+              ]
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<ReferendumIndex>"
+                  }
+                },
+                {
+                  "name": "vote",
+                  "type": {
+                    "typeName": "srml_democracy#Vote",
+                    "displayName": "Vote"
+                  }
+                }
+              ],
+              "docs": [
+                " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
+                " otherwise it is a vote to keep the status quo."
+              ]
+            },
+            {
+              "name": "start_referendum",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                },
+                {
+                  "name": "threshold",
+                  "type": {
+                    "typeName": "srml_democracy::vote_threshold#VoteThreshold",
+                    "displayName": "VoteThreshold"
+                  }
+                },
+                {
+                  "name": "delay",
+                  "type": {
+                    "typeName": "u64",
+                    "displayName": "BlockNumber"
+                  }
+                }
+              ],
+              "docs": [
+                " Start a referendum."
+              ]
+            },
+            {
+              "name": "cancel_referendum",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<ReferendumIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Remove a referendum."
+              ]
+            },
+            {
+              "name": "cancel_queued",
+              "args": [
+                {
+                  "name": "when",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                },
+                {
+                  "name": "which",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Cancel a proposal queued for enactment."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "PropIndex"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "Tabled",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "PropIndex"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                },
+                {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "Started",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                },
+                {
+                  "typeName": "srml_democracy::vote_threshold#VoteThreshold",
+                  "displayName": "VoteThreshold"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "Passed",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "NotPassed",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "Cancelled",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "Executed",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ReferendumIndex"
+                },
+                {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              ],
+              "docs": []
+            }
+          ]
+        },
+        {
+          "name": "council",
+          "prefix": "Council",
+          "storage": [
+            {
+              "name": "CandidacyBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x09000000000000000000000000000000",
+              "docs": [
+                " How much should be locked up in order to submit one's candidacy."
+              ]
+            },
+            {
+              "name": "VotingBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " How much should be locked up in order to be able to submit votes."
+              ]
+            },
+            {
+              "name": "PresentSlashPerVoter",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x01000000000000000000000000000000",
+              "docs": [
+                " The punishment, per voter, if you provide an invalid presentation."
+              ]
+            },
+            {
+              "name": "CarryCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x02000000",
+              "docs": [
+                " How many runners-up should have their approvals persist until the next vote."
+              ]
+            },
+            {
+              "name": "PresentationDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How long to give each top candidate to present themselves after the vote ends."
+              ]
+            },
+            {
+              "name": "InactiveGracePeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "VoteIndex"
+                }
+              },
+              "fallback": "0x01000000",
+              "docs": [
+                " How many vote indexes need to go by after a target voter's last vote before they can be reaped if their",
+                " approvals are moot."
+              ]
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "TermDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0500000000000000",
+              "docs": [
+                " How long each position is active for."
+              ]
+            },
+            {
+              "name": "DesiredSeats",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of accounts that should be sitting on the council."
+              ]
+            },
+            {
+              "name": "ActiveCouncil",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<(sr_primitives#AccountId,u64)>",
+                  "displayName": "Vec<(AccountId,BlockNumber)>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The current council. When there's a vote going on, this should still be used for executive",
+                " matters. The block number (second element in the tuple) is the block that their position is",
+                " active until (calculated by the sum of the block number when the council member was elected",
+                " and their term duration)."
+              ]
+            },
+            {
+              "name": "VoteCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "VoteIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The total number of votes that have happened or are in progress."
+              ]
+            },
+            {
+              "name": "ApprovalsOf",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "Vec<bool>",
+                    "displayName": "Vec<bool>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A list of votes for each voter, respecting the last cleared vote index that this voter was",
+                " last active at."
+              ]
+            },
+            {
+              "name": "RegisterInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "(u32,u32)",
+                    "displayName": "(VoteIndex,u32)"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
+                " currently registered."
+              ]
+            },
+            {
+              "name": "LastActiveOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "u32",
+                    "displayName": "VoteIndex"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The last cleared vote index that this voter was last active at."
+              ]
+            },
+            {
+              "name": "Voters",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The present voter list."
+              ]
+            },
+            {
+              "name": "Candidates",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The present candidate list."
+              ]
+            },
+            {
+              "name": "CandidateCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": []
+            },
+            {
+              "name": "NextFinalise",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "(u64,u32,Vec<sr_primitives#AccountId>)",
+                  "displayName": "(BlockNumber,u32,Vec<AccountId>)"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The accounts holding the seats that will become free on the next tally."
+              ]
+            },
+            {
+              "name": "SnapshotedStakes",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<u128>",
+                  "displayName": "Vec<BalanceOf>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The stakes as they were at the point that the vote ended."
+              ]
+            },
+            {
+              "name": "Leaderboard",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<(u128,sr_primitives#AccountId)>",
+                  "displayName": "Vec<(BalanceOf,AccountId)>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the leaderboard if we;re in the presentation phase."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_approvals",
+              "args": [
+                {
+                  "name": "votes",
+                  "type": {
+                    "typeName": "Vec<bool>",
+                    "displayName": "Vec<bool>"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<VoteIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set candidate approvals. Approval slots stay valid as long as candidates in those slots",
+                " are registered."
+              ]
+            },
+            {
+              "name": "reap_inactive_voter",
+              "args": [
+                {
+                  "name": "reporter_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                },
+                {
+                  "name": "who",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                },
+                {
+                  "name": "who_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                },
+                {
+                  "name": "assumed_vote_index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<VoteIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices",
+                " must now be either unregistered or registered to a candidate that registered the slot after",
+                " the voter gave their last approval set.",
+                "",
+                " May be called by anyone. Returns the voter deposit to `signed`."
+              ]
+            },
+            {
+              "name": "retract_voter",
+              "args": [
+                {
+                  "name": "index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Remove a voter. All votes are cancelled and the voter deposit is returned."
+              ]
+            },
+            {
+              "name": "submit_candidacy",
+              "args": [
+                {
+                  "name": "slot",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Submit oneself for candidacy.",
+                "",
+                " Account must have enough transferrable funds in it to pay the bond."
+              ]
+            },
+            {
+              "name": "present_winner",
+              "args": [
+                {
+                  "name": "candidate",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                },
+                {
+                  "name": "total",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<VoteIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.",
+                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``",
+                " `signed` should have at least"
+              ]
+            },
+            {
+              "name": "set_desired_seats",
+              "args": [
+                {
+                  "name": "count",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the desired member count; if lower than the current count, then seats will not be up",
+                " election when they expire. If more, then a new vote will be started if one is not already",
+                " in progress."
+              ]
+            },
+            {
+              "name": "remove_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                }
+              ],
+              "docs": [
+                " Remove a particular member. A tally will happen instantly (if not already in a presentation",
+                " period) to fill the seat if removal means that the desired members are not met.",
+                " This is effective immediately."
+              ]
+            },
+            {
+              "name": "set_presentation_duration",
+              "args": [
+                {
+                  "name": "count",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the presentation duration. If there is currently a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
+            },
+            {
+              "name": "set_term_duration",
+              "args": [
+                {
+                  "name": "count",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the presentation duration. If there is current a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "VoterReaped",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " reaped voter, reaper"
+              ]
+            },
+            {
+              "name": "BadReaperSlashed",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " slashed reaper"
+              ]
+            },
+            {
+              "name": "TallyStarted",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " A tally (for approval votes of council seat(s)) has started."
+              ]
+            },
+            {
+              "name": "TallyFinalised",
+              "args": [
+                {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                },
+                {
+                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "displayName": "Vec<AccountId>"
+                }
+              ],
+              "docs": [
+                " A tally (for approval votes of council seat(s)) has ended (with one or more new members)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "council_voting",
+          "prefix": "CouncilVoting",
+          "storage": [
+            {
+              "name": "CooloffPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0xe803000000000000",
+              "docs": []
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0300000000000000",
+              "docs": []
+            },
+            {
+              "name": "EnactDelayPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
+              ]
+            },
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<(u64,H256)>",
+                  "displayName": "Vec<(BlockNumber,Hash)>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  },
+                  "value": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "ProposalVoters",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  },
+                  "value": {
+                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "CouncilVoteOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "(H256,sr_primitives#AccountId)",
+                    "displayName": "(Hash,AccountId)"
+                  },
+                  "value": {
+                    "typeName": "bool",
+                    "displayName": "bool"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "VetoedProposal",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  },
+                  "value": {
+                    "typeName": "(u64,Vec<sr_primitives#AccountId>)",
+                    "displayName": "(BlockNumber,Vec<AccountId>)"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  }
+                },
+                {
+                  "name": "approve",
+                  "type": {
+                    "typeName": "bool",
+                    "displayName": "bool"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "veto",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_cooloff_period",
+              "args": [
+                {
+                  "name": "blocks",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_voting_period",
+              "args": [
+                {
+                  "name": "blocks",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "TallyCancelation",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " A voting tally has happened for a referendum cancellation vote.",
+                " Last three are yes, no, abstain counts."
+              ]
+            },
+            {
+              "name": "TallyReferendum",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " A voting tally has happened for a referendum vote.",
+                " Last three are yes, no, abstain counts."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "council_motions",
+          "prefix": "CouncilMotions",
+          "storage": [
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<H256>",
+                  "displayName": "Vec<Hash>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The (hashes of) the active proposals."
+              ]
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  },
+                  "value": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Actual proposal for a given hash, if it's current."
+              ]
+            },
+            {
+              "name": "Voting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  },
+                  "value": {
+                    "typeName": "(u32,u32,Vec<sr_primitives#AccountId>,Vec<sr_primitives#AccountId>)",
+                    "displayName": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Proposals so far."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<u32>"
+                  }
+                },
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "H256",
+                    "displayName": "Hash"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<ProposalIndex>"
+                  }
+                },
+                {
+                  "name": "approve",
+                  "type": {
+                    "typeName": "bool",
+                    "displayName": "bool"
+                  }
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "ProposalIndex"
+                },
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " A motion (given hash) has been proposed (by given account) with a threshold (given u32)."
+              ]
+            },
+            {
+              "name": "Voted",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                },
+                {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " A motion (given hash) has been voted on by given account, leaving",
+                " a tally (yes votes and no votes given as u32s respectively)."
+              ]
+            },
+            {
+              "name": "Approved",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              ],
+              "docs": [
+                " A motion was approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Disapproved",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              ],
+              "docs": [
+                " A motion was not approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Executed",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                },
+                {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              ],
+              "docs": [
+                " A motion was executed; `bool` is true if returned without error."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "grandpa",
+          "prefix": "GrandpaFinality",
+          "storage": [
+            {
+              "name": "PendingChange",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "srml_grandpa#StoredPendingChange<u64,substrate_primitives::authority_id#Ed25519AuthorityId>",
+                  "displayName": "StoredPendingChange"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "report_misbehavior",
+              "args": [
+                {
+                  "name": "_report",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Report some misbehaviour."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewAuthorities",
+              "args": [
+                {
+                  "typeName": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>",
+                  "displayName": "Vec<(SessionKey,u64)>"
+                }
+              ],
+              "docs": [
+                " New authority set has been applied."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "treasury",
+          "prefix": "Treasury",
+          "storage": [
+            {
+              "name": "ProposalBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives#Permill",
+                  "displayName": "Permill"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Proportion of funds that should be bonded in order to place a proposal. An accepted",
+                " proposal gets these back. A rejected proposal doesn't."
+              ]
+            },
+            {
+              "name": "ProposalBondMinimum",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "SpendPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
+                }
+              },
+              "fallback": "0x0100000000000000",
+              "docs": [
+                " Period between successive spends."
+              ]
+            },
+            {
+              "name": "Burn",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives#Permill",
+                  "displayName": "Permill"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Percentage of spare funds (if any) that are burnt per spend period."
+              ]
+            },
+            {
+              "name": "Pot",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Total funds available to this module for spending."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "ProposalIndex"
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of proposals that have been made."
+              ]
+            },
+            {
+              "name": "Proposals",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "ProposalIndex"
+                  },
+                  "value": {
+                    "typeName": "srml_treasury#Proposal<sr_primitives#AccountId,u128>",
+                    "displayName": "Proposal"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Proposals that have been made."
+              ]
+            },
+            {
+              "name": "Approvals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<u32>",
+                  "displayName": "Vec<ProposalIndex>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Proposal indices that have been approved but not yet awarded."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose_spend",
+              "args": [
+                {
+                  "name": "value",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                },
+                {
+                  "name": "beneficiary",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                }
+              ],
+              "docs": [
+                " Put forward a suggestion for spending. A deposit proportional to the value",
+                " is reserved and slashed if the proposal is rejected. It is returned once the",
+                " proposal is awarded."
+              ]
+            },
+            {
+              "name": "set_pot",
+              "args": [
+                {
+                  "name": "new_pot",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                }
+              ],
+              "docs": [
+                " Set the balance of funds available to spend."
+              ]
+            },
+            {
+              "name": "configure",
+              "args": [
+                {
+                  "name": "proposal_bond",
+                  "type": {
+                    "typeName": "Compact<sr_primitives#Permill>",
+                    "displayName": "Compact<Permill>"
+                  }
+                },
+                {
+                  "name": "proposal_bond_minimum",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                },
+                {
+                  "name": "spend_period",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                },
+                {
+                  "name": "burn",
+                  "type": {
+                    "typeName": "Compact<sr_primitives#Permill>",
+                    "displayName": "Compact<Permill>"
+                  }
+                }
+              ],
+              "docs": [
+                " (Re-)configure this module."
+              ]
+            },
+            {
+              "name": "reject_proposal",
+              "args": [
+                {
+                  "name": "proposal_id",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<ProposalIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Reject a proposed spend. The original deposit will be slashed."
+              ]
+            },
+            {
+              "name": "approve_proposal",
+              "args": [
+                {
+                  "name": "proposal_id",
+                  "type": {
+                    "typeName": "Compact<u32>",
+                    "displayName": "Compact<ProposalIndex>"
+                  }
+                }
+              ],
+              "docs": [
+                " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
+                " and the original deposit will be returned."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ProposalIndex"
+                }
+              ],
+              "docs": [
+                " New proposal."
+              ]
+            },
+            {
+              "name": "Spending",
+              "args": [
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " We have ended a spend period and will now allocate funds."
+              ]
+            },
+            {
+              "name": "Awarded",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "ProposalIndex"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                },
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " Some funds have been allocated."
+              ]
+            },
+            {
+              "name": "Burnt",
+              "args": [
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " Some of our funds have been burnt."
+              ]
+            },
+            {
+              "name": "Rollover",
+              "args": [
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " Spending has finished; this is the amount that rolls over until next spend."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "contract",
+          "prefix": "Contract",
+          "storage": [
+            {
+              "name": "ContractFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x15000000000000000000000000000000",
+              "docs": [
+                " The fee required to create a contract. At least as big as staking's ReclaimRebate."
+              ]
+            },
+            {
+              "name": "CallBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Gas"
+                }
+              },
+              "fallback": "0x8700000000000000",
+              "docs": [
+                " The fee charged for a call into a contract."
+              ]
+            },
+            {
+              "name": "CreateBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Gas"
+                }
+              },
+              "fallback": "0xaf00000000000000",
+              "docs": [
+                " The fee charged for a create of a contract."
+              ]
+            },
+            {
+              "name": "GasPrice",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              },
+              "fallback": "0x01000000000000000000000000000000",
+              "docs": [
+                " The price of one unit of gas."
+              ]
+            },
+            {
+              "name": "MaxDepth",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              },
+              "fallback": "0x64000000",
+              "docs": [
+                " The maximum nesting level of a call/create stack."
+              ]
+            },
+            {
+              "name": "BlockGasLimit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Gas"
+                }
+              },
+              "fallback": "0x40420f0000000000",
+              "docs": [
+                " The maximum amount of gas that could be expended per block."
+              ]
+            },
+            {
+              "name": "GasSpent",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "Gas"
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Gas spent so far in this block."
+              ]
+            },
+            {
+              "name": "CurrentSchedule",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "srml_contract#Schedule<u64>",
+                  "displayName": "Schedule"
+                }
+              },
+              "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000000010010000000",
+              "docs": [
+                " Current cost schedule for contracts."
+              ]
+            },
+            {
+              "name": "CodeHashOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "sr_primitives#AccountId",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "H256",
+                    "displayName": "CodeHash"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The code associated with a given account."
+              ]
+            },
+            {
+              "name": "PristineCode",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "CodeHash"
+                  },
+                  "value": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A mapping from an original code hash to the original code, untouched by instrumentation."
+              ]
+            },
+            {
+              "name": "CodeStorage",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "CodeHash"
+                  },
+                  "value": {
+                    "typeName": "srml_contract::wasm#PrefabWasmModule",
+                    "displayName": "PrefabWasmModule"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A mapping between an original code hash and instrumented wasm code, ready for the execution."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "update_schedule",
+              "args": [
+                {
+                  "name": "schedule",
+                  "type": {
+                    "typeName": "srml_contract#Schedule<u64>",
+                    "displayName": "Schedule"
+                  }
+                }
+              ],
+              "docs": [
+                " Updates the schedule for metering contracts.",
+                "",
+                " The schedule must have a greater version than the stored schedule."
+              ]
+            },
+            {
+              "name": "put_code",
+              "args": [
+                {
+                  "name": "gas_limit",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<Gas>"
+                  }
+                },
+                {
+                  "name": "code",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Stores code in the storage. You can instantiate contracts only with stored code."
+              ]
+            },
+            {
+              "name": "call",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                },
+                {
+                  "name": "value",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<Balance>"
+                  }
+                },
+                {
+                  "name": "gas_limit",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<Gas>"
+                  }
+                },
+                {
+                  "name": "data",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Make a call to a specified account, optionally transferring some balance."
+              ]
+            },
+            {
+              "name": "create",
+              "args": [
+                {
+                  "name": "endowment",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<Balance>"
+                  }
+                },
+                {
+                  "name": "gas_limit",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<Gas>"
+                  }
+                },
+                {
+                  "name": "code_hash",
+                  "type": {
+                    "typeName": "H256",
+                    "displayName": "CodeHash"
+                  }
+                },
+                {
+                  "name": "data",
+                  "type": {
+                    "typeName": "Vec<u8>",
+                    "displayName": "Bytes"
+                  }
+                }
+              ],
+              "docs": [
+                " Create a new contract, optionally transfering some balance to the created account.",
+                "",
+                " Creation is executed as follows:",
+                "",
+                " - the destination address is computed based on the sender and hash of the code.",
+                " - account is created at the computed address.",
+                " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
+                "   after the execution is saved as the `code` of the account. That code will be invoked",
+                "   upon any message received by this account."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Transfer",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Balance"
+                }
+              ],
+              "docs": [
+                " Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`."
+              ]
+            },
+            {
+              "name": "Instantiated",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " Contract deployed by address at the specified address."
+              ]
+            },
+            {
+              "name": "CodeStored",
+              "args": [
+                {
+                  "typeName": "H256",
+                  "displayName": "Hash"
+                }
+              ],
+              "docs": [
+                " Code with the specified hash has been stored."
+              ]
+            },
+            {
+              "name": "ScheduleUpdated",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                }
+              ],
+              "docs": [
+                " Triggered when the current schedule is updated."
+              ]
+            },
+            {
+              "name": "Dispatched",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                },
+                {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              ],
+              "docs": [
+                " A call was dispatched from the given account. The bool signals whether it was",
+                " successful execution or not."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sudo",
+          "prefix": "Sudo",
+          "storage": [
+            {
+              "name": "Key",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "sudo",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": {
+                    "typeName": "node_runtime#Call",
+                    "displayName": "Proposal"
+                  }
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": {
+                    "typeName": "srml_indices::address#Address",
+                    "displayName": "Address"
+                  }
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "Sudid",
+              "args": [
+                {
+                  "typeName": "bool",
+                  "displayName": "bool"
+                }
+              ],
+              "docs": [
+                " A sudo just took place."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [
+                {
+                  "typeName": "sr_primitives#AccountId",
+                  "displayName": "AccountId"
+                }
+              ],
+              "docs": [
+                " The sudoer just switched identity; the old key is supplied."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "fees",
+          "prefix": "Fees",
+          "storage": [
+            {
+              "name": "TransactionBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "AssetOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "AssetOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "CurrentTransactionFee",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "u32",
+                    "displayName": "u32"
+                  },
+                  "value": {
+                    "typeName": "u128",
+                    "displayName": "AssetOf"
+                  }
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The `extrinsic_index => accumulated_fees` map, containing records to",
+                " track the overall charged fees for each transaction.",
+                "",
+                " All records should be removed at finalise stage."
+              ]
+            }
+          ],
+          "calls": null,
+          "events": [
+            {
+              "name": "Charged",
+              "args": [
+                {
+                  "typeName": "u32",
+                  "displayName": "u32"
+                },
+                {
+                  "typeName": "u128",
+                  "displayName": "Amount"
+                }
+              ],
+              "docs": [
+                " Fee charged (extrinsic_index, fee_amount)"
+              ]
+            }
+          ]
+        }
+      ],
+      "module_path": "node_runtime",
+      "typeRegistry": [
+        {
+          "name": "sr_primitives::generic::block#Block<sr_primitives::generic::header#Header<u64,sr_primitives::traits#BlakeTwo256,node_runtime#Log>,sr_primitives::generic::unchecked_mortal_compact_extrinsic#UncheckedMortalCompactExtrinsic<srml_indices::address#Address,u64,node_runtime#Call,sr_primitives#Ed25519Signature>>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "header"
+                },
+                "ty": "sr_primitives::generic::header#Header<u64,sr_primitives::traits#BlakeTwo256,node_runtime#Log>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "extrinsics"
+                },
+                "ty": "Vec<sr_primitives::generic::unchecked_mortal_compact_extrinsic#UncheckedMortalCompactExtrinsic<srml_indices::address#Address,u64,node_runtime#Call,sr_primitives#Ed25519Signature>>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives::generic::header#Header<u64,sr_primitives::traits#BlakeTwo256,node_runtime#Log>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "parent_hash"
+                },
+                "ty": "H256"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "number"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "state_root"
+                },
+                "ty": "H256"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "extrinsics_root"
+                },
+                "ty": "H256"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "digest"
+                },
+                "ty": "sr_primitives::generic::digest#Digest<node_runtime#Log>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives::generic::digest#Digest<node_runtime#Log>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "logs"
+                },
+                "ty": "Vec<node_runtime#Log>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "node_runtime#Log",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "node_runtime#InternalLog"
+              }
+            ]
+          }
+        },
+        {
+          "name": "node_runtime#InternalLog",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "system",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_system#RawLog<H256>"
+                  }
+                ]
+              },
+              {
+                "name": "consensus",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_consensus#RawLog<substrate_primitives::authority_id#Ed25519AuthorityId>"
+                  }
+                ]
+              },
+              {
+                "name": "grandpa",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_grandpa#RawLog<u64,substrate_primitives::authority_id#Ed25519AuthorityId>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_system#RawLog<H256>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "ChangesTrieRoot",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_consensus#RawLog<substrate_primitives::authority_id#Ed25519AuthorityId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "AuthoritiesChange",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "Vec<substrate_primitives::authority_id#Ed25519AuthorityId>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "substrate_primitives::authority_id#Ed25519AuthorityId",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "Vec<u8>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_grandpa#RawLog<u64,substrate_primitives::authority_id#Ed25519AuthorityId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "AuthoritiesChangeSignal",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u64"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives::generic::unchecked_mortal_compact_extrinsic#UncheckedMortalCompactExtrinsic<srml_indices::address#Address,u64,node_runtime#Call,sr_primitives#Ed25519Signature>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "signature"
+                },
+                "ty": "Option<(srml_indices::address#Address,sr_primitives#Ed25519Signature,Compact<u64>,sr_primitives::generic::era#Era)>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "function"
+                },
+                "ty": "node_runtime#Call"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_indices::address#Address",
+          "kind": {
+            "TypeMetadataKind$Primitive": null
+          }
+        },
+        {
+          "name": "sr_primitives#Ed25519Signature",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "H512"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives::generic::era#Era",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Immortal",
+                "index": 0,
+                "fields": []
+              },
+              {
+                "name": "Mortal",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u64"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "node_runtime#Call",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Timestamp",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_timestamp#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Consensus",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_consensus#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Indices",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_indices#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Balances",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_balances#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Session",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_session#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Staking",
+                "index": 5,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_staking#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Democracy",
+                "index": 6,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_democracy#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Council",
+                "index": 7,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::seats#Module"
+                  }
+                ]
+              },
+              {
+                "name": "CouncilVoting",
+                "index": 8,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::voting#Module"
+                  }
+                ]
+              },
+              {
+                "name": "CouncilMotions",
+                "index": 9,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::motions#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Grandpa",
+                "index": 10,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_grandpa#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Treasury",
+                "index": 11,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_treasury#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Contract",
+                "index": 12,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_contract#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Sudo",
+                "index": 13,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_sudo#Module"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_timestamp#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_consensus#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_indices#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_balances#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_session#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_staking#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_democracy#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_council::seats#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_council::voting#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_council::motions#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_grandpa#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_treasury#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_contract#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "srml_sudo#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
+          "name": "sr_primitives#AccountId",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "H256"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_system#EventRecord<node_runtime#Event>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "phase"
+                },
+                "ty": "srml_system#Phase"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "event"
+                },
+                "ty": "node_runtime#Event"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_system#Phase",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "ApplyExtrinsic",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Finalization",
+                "index": 1,
+                "fields": []
+              }
+            ]
+          }
+        },
+        {
+          "name": "node_runtime#Event",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "system",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_system#Event"
+                  }
+                ]
+              },
+              {
+                "name": "indices",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_indices#RawEvent<sr_primitives#AccountId,u32>"
+                  }
+                ]
+              },
+              {
+                "name": "balances",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_balances#RawEvent<sr_primitives#AccountId,u128>"
+                  }
+                ]
+              },
+              {
+                "name": "session",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_session#RawEvent<u64>"
+                  }
+                ]
+              },
+              {
+                "name": "staking",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_staking#RawEvent<u128,sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "democracy",
+                "index": 5,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_democracy#RawEvent<u128,sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "council",
+                "index": 6,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::seats#RawEvent<sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "council_voting",
+                "index": 7,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::voting#RawEvent<H256>"
+                  }
+                ]
+              },
+              {
+                "name": "council_motions",
+                "index": 8,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_council::motions#RawEvent<H256,sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "grandpa",
+                "index": 9,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_grandpa#RawEvent<substrate_primitives::authority_id#Ed25519AuthorityId>"
+                  }
+                ]
+              },
+              {
+                "name": "treasury",
+                "index": 10,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_treasury#RawEvent<u128,sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "contract",
+                "index": 11,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_contract#RawEvent<u128,sr_primitives#AccountId,H256>"
+                  }
+                ]
+              },
+              {
+                "name": "sudo",
+                "index": 12,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_sudo#RawEvent<sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "fees",
+                "index": 13,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_fees#RawEvent<u128>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_system#Event",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "ExtrinsicSuccess",
+                "index": 0,
+                "fields": []
+              },
+              {
+                "name": "ExtrinsicFailed",
+                "index": 1,
+                "fields": []
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_indices#RawEvent<sr_primitives#AccountId,u32>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "NewAccountIndex",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_balances#RawEvent<sr_primitives#AccountId,u128>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "NewAccount",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "ReapedAccount",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              },
+              {
+                "name": "Transfer",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "u128"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 3
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_session#RawEvent<u64>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "NewSession",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u64"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#RawEvent<u128,sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Reward",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "OfflineWarning",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "OfflineSlash",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_democracy#RawEvent<u128,sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Proposed",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "Tabled",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "Vec<sr_primitives#AccountId>"
+                  }
+                ]
+              },
+              {
+                "name": "Started",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "srml_democracy::vote_threshold#VoteThreshold"
+                  }
+                ]
+              },
+              {
+                "name": "Passed",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "NotPassed",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Cancelled",
+                "index": 5,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Executed",
+                "index": 6,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "bool"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_democracy::vote_threshold#VoteThreshold",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "SuperMajorityApprove",
+                "index": 0,
+                "fields": []
+              },
+              {
+                "name": "SuperMajorityAgainst",
+                "index": 1,
+                "fields": []
+              },
+              {
+                "name": "SimpleMajority",
+                "index": 2,
+                "fields": []
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_council::seats#RawEvent<sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "VoterReaped",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              },
+              {
+                "name": "BadReaperSlashed",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              },
+              {
+                "name": "TallyStarted",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "TallyFinalised",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "Vec<sr_primitives#AccountId>"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "Vec<sr_primitives#AccountId>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_council::voting#RawEvent<H256>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "TallyCancelation",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 3
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "TallyReferendum",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 3
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_council::motions#RawEvent<H256,sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Proposed",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "H256"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 3
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Voted",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "H256"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "bool"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 3
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 4
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Approved",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  }
+                ]
+              },
+              {
+                "name": "Disapproved",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  }
+                ]
+              },
+              {
+                "name": "Executed",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "bool"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_grandpa#RawEvent<substrate_primitives::authority_id#Ed25519AuthorityId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "NewAuthorities",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_treasury#RawEvent<u128,sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Proposed",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Spending",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "Awarded",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              },
+              {
+                "name": "Burnt",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "Rollover",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_contract#RawEvent<u128,sr_primitives#AccountId,H256>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Transfer",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              },
+              {
+                "name": "Instantiated",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              },
+              {
+                "name": "CodeStored",
+                "index": 2,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "H256"
+                  }
+                ]
+              },
+              {
+                "name": "ScheduleUpdated",
+                "index": 3,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  }
+                ]
+              },
+              {
+                "name": "Dispatched",
+                "index": 4,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "bool"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_sudo#RawEvent<sr_primitives#AccountId>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Sudid",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "bool"
+                  }
+                ]
+              },
+              {
+                "name": "KeyChanged",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "sr_primitives#AccountId"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_fees#RawEvent<u128>",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Charged",
+                "index": 0,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u32"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u128"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_balances#VestingSchedule<u128>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "offset"
+                },
+                "ty": "u128"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "per_block"
+                },
+                "ty": "u128"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives#Perbill",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "u32"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#ValidatorPrefs<u128>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "unstake_threshold"
+                },
+                "ty": "Compact<u32>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "validator_payment"
+                },
+                "ty": "Compact<u128>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_democracy#ReferendumInfo<u64,node_runtime#Call>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "end"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "proposal"
+                },
+                "ty": "node_runtime#Call"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "threshold"
+                },
+                "ty": "srml_democracy::vote_threshold#VoteThreshold"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "delay"
+                },
+                "ty": "u64"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_democracy#Vote",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "i8"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_grandpa#StoredPendingChange<u64,substrate_primitives::authority_id#Ed25519AuthorityId>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "scheduled_at"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "delay"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "next_authorities"
+                },
+                "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "sr_primitives#Permill",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Unnamed": 0
+                },
+                "ty": "u32"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_treasury#Proposal<sr_primitives#AccountId,u128>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "proposer"
+                },
+                "ty": "sr_primitives#AccountId"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "value"
+                },
+                "ty": "u128"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "beneficiary"
+                },
+                "ty": "sr_primitives#AccountId"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "bond"
+                },
+                "ty": "u128"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_contract#Schedule<u64>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "version"
+                },
+                "ty": "u32"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "put_code_per_byte_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "grow_mem_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "regular_op_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "return_data_per_byte_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "sandbox_data_read_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "sandbox_data_write_cost"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "max_stack_height"
+                },
+                "ty": "u32"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "max_memory_pages"
+                },
+                "ty": "u32"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_contract::wasm#PrefabWasmModule",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "schedule_version"
+                },
+                "ty": "Compact<u32>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "initial"
+                },
+                "ty": "Compact<u32>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "maximum"
+                },
+                "ty": "Compact<u32>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "_reserved"
+                },
+                "ty": "Option<Null>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "code"
+                },
+                "ty": "Vec<u8>"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

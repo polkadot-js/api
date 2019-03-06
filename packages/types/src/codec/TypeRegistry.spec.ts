@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { setDefaultRegistry } from '../codec/typeRegistry';
 import { Metadata, AccountId } from '../index';
 import json from '../Metadata/v2/static';
 import * as PrimitiveTypes from '../primitive';
@@ -12,7 +11,7 @@ import * as RpcTypes from '../rpc';
 import { Phase } from '../type/EventRecord';
 import Gas from '../type/Gas';
 import Schedule from '../type/Schedule';
-import { TypeRegistry } from './typeRegistry';
+import { TypeRegistry, setDefaultRegistry } from './typeRegistry';
 import U8a from './U8a';
 
 // Use the pre-generated metadata
