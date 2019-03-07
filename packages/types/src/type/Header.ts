@@ -69,6 +69,13 @@ export default class Header extends Struct {
   }
 
   /**
+   * @description Alias for `blockNumber` (this is displayed in JSON)
+   */
+  get number (): BlockNumber {
+    return this.blockNumber;
+  }
+
+  /**
    * @description The wrapped parent as a [[Hash]]
    */
   get parentHash (): Hash {
