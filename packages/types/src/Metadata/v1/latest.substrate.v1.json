@@ -451,6 +451,20 @@
                 " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
                 " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
               ]
+            },
+            {
+              "name": "Locks",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Vec<BalanceLock>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Any liquidity locks on some account balances."
+              ]
             }
           ],
           "calls": [
@@ -762,9 +776,107 @@
                 "PlainType": "Vec<AccountId>"
               },
               "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "Invulnerables",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
               "docs": [
-                " Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise",
+                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise",
                 " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
+              ]
+            },
+            {
+              "name": "Bonded",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "AccountId"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all locked \"stash\" accounts to the controller account."
+              ]
+            },
+            {
+              "name": "Ledger",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "StakingLedger"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
+              ]
+            },
+            {
+              "name": "Payee",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "RewardDestination"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Where the reward payment should be made."
+              ]
+            },
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "ValidatorPrefs"
+                }
+              },
+              "fallback": "0x0c00",
+              "docs": [
+                " The set of keys are all controllers that want to validate.",
+                " ",
+                " The values are the preferences that a validator has."
+              ]
+            },
+            {
+              "name": "Nominators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The set of keys are all controllers that want to nominate.",
+                " ",
+                " The value are the nominations."
+              ]
+            },
+            {
+              "name": "Stakers",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Exposure"
+                }
+              },
+              "fallback": "0x000000",
+              "docs": [
+                " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
+                " but you can find them in the `sessions` module."
               ]
             },
             {
@@ -776,73 +888,6 @@
               "fallback": "0x0000000000000000",
               "docs": [
                 " The current era index."
-              ]
-            },
-            {
-              "name": "ValidatorPreferences",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "ValidatorPrefs"
-                }
-              },
-              "fallback": "0x0c00",
-              "docs": [
-                " Preferences that a validator has."
-              ]
-            },
-            {
-              "name": "Intentions",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<AccountId>"
-              },
-              "fallback": "0x00",
-              "docs": [
-                " All the accounts with a desire to stake."
-              ]
-            },
-            {
-              "name": "Nominating",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "AccountId"
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " All nominator -> nominee relationships."
-              ]
-            },
-            {
-              "name": "NominatorsFor",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "Vec<AccountId>"
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " Nominators for a particular account."
-              ]
-            },
-            {
-              "name": "CurrentNominatorsFor",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "Vec<AccountId>"
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " Nominators for a particular account that is in action right now."
               ]
             },
             {
@@ -868,6 +913,18 @@
               ]
             },
             {
+              "name": "CurrentEraReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The accumulated reward for the current era. Reset to zero at the beginning of the era and",
+                " increased for every successfully finished session."
+              ]
+            },
+            {
               "name": "NextSessionsPerEra",
               "modifier": "Optional",
               "type": {
@@ -890,28 +947,16 @@
               ]
             },
             {
-              "name": "StakeRange",
+              "name": "SlotStake",
               "modifier": "Default",
               "type": {
-                "PlainType": "(BalanceOf,BalanceOf)"
+                "PlainType": "BalanceOf"
               },
-              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "fallback": "0x00000000000000000000000000000000",
               "docs": [
-                " The highest and lowest staked validator slashable balances."
-              ]
-            },
-            {
-              "name": "Bondage",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "BlockNumber"
-                }
-              },
-              "fallback": "0x0000000000000000",
-              "docs": [
-                " The block at which the `who`'s funds become entirely liquid."
+                " The amount of balance actively at stake for each validator slot, currently.",
+                "",
+                " This is used to derive rewards and punishments."
               ]
             },
             {
@@ -953,67 +998,135 @@
           ],
           "calls": [
             {
-              "name": "stake",
+              "name": "bond",
+              "args": [
+                {
+                  "name": "controller",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "payee",
+                  "type": "RewardDestination"
+                }
+              ],
+              "docs": [
+                " Take the origin account as a stash and lock up `value` of its balance. `controller` will be the",
+                " account that controls it."
+              ]
+            },
+            {
+              "name": "bond_extra",
+              "args": [
+                {
+                  "name": "max_additional",
+                  "type": "BalanceOf"
+                }
+              ],
+              "docs": [
+                " Add some extra amount that have appeared in the stash `free_balance` into the balance up for",
+                " staking.",
+                " ",
+                " Use this if there are additional funds in your stash account that you wish to bond.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "unbond",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "docs": [
+                " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
+                " period ends. If this leaves an amount actively bonded less than ",
+                " T::Currency::existential_deposit(), then it is increased to the full amount.",
+                " ",
+                " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
+                " the funds out of management ready for transfer. ",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash.",
+                " ",
+                " See also `withdraw_unbonded`."
+              ]
+            },
+            {
+              "name": "withdraw_unbonded",
               "args": [],
               "docs": [
-                " Declare the desire to stake for the transactor.",
-                "",
-                " Effects will be felt at the beginning of the next era."
+                " Remove any unlocked chunks from the `unlocking` queue from our management.",
+                " ",
+                " This essentially frees up that balance to be used by the stash account to do",
+                " whatever it wants.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash.",
+                " ",
+                " See also `unbond`."
               ]
             },
             {
-              "name": "unstake",
+              "name": "validate",
               "args": [
-                {
-                  "name": "intentions_index",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "docs": [
-                " Retract the desire to stake for the transactor.",
-                "",
-                " Effects will be felt at the beginning of the next era."
-              ]
-            },
-            {
-              "name": "nominate",
-              "args": [
-                {
-                  "name": "target",
-                  "type": "Address"
-                }
-              ],
-              "docs": []
-            },
-            {
-              "name": "unnominate",
-              "args": [
-                {
-                  "name": "target_index",
-                  "type": "Compact<u32>"
-                }
-              ],
-              "docs": [
-                " Will panic if called when source isn't currently nominating target.",
-                " Updates Nominating, NominatorsFor and NominationBalance."
-              ]
-            },
-            {
-              "name": "register_preferences",
-              "args": [
-                {
-                  "name": "intentions_index",
-                  "type": "Compact<u32>"
-                },
                 {
                   "name": "prefs",
                   "type": "ValidatorPrefs"
                 }
               ],
               "docs": [
-                " Set the given account's preference for slashing behaviour should they be a validator.",
+                " Declare the desire to validate for the origin controller.",
                 "",
-                " An error (no-op) if `Self::intentions()[intentions_index] != origin`."
+                " Effects will be felt at the beginning of the next era.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "nominate",
+              "args": [
+                {
+                  "name": "targets",
+                  "type": "Vec<Address>"
+                }
+              ],
+              "docs": [
+                " Declare the desire to nominate `targets` for the origin controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "chill",
+              "args": [],
+              "docs": [
+                " Declare no desire to either validate or nominate.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_payee",
+              "args": [
+                {
+                  "name": "payee",
+                  "type": "RewardDestination"
+                }
+              ],
+              "docs": [
+                " (Re-)set the payment target for a controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                " ",
+                " NOTE: This call must be made by the controller, not the stash."
               ]
             },
             {
@@ -1266,20 +1379,6 @@
               "fallback": "0x00",
               "docs": [
                 " Queue of successful referenda to be dispatched."
-              ]
-            },
-            {
-              "name": "Bondage",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": "AccountId",
-                  "value": "BlockNumber"
-                }
-              },
-              "fallback": "0x0000000000000000",
-              "docs": [
-                " The block at which the `who`'s funds become liquid."
               ]
             },
             {
@@ -2216,6 +2315,27 @@
           ]
         },
         {
+          "name": "finality_tracker",
+          "prefix": "",
+          "storage": null,
+          "calls": [
+            {
+              "name": "final_hint",
+              "args": [
+                {
+                  "name": "hint",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Hint that the author of this block thinks the best finalized",
+                " block is the given number."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
           "name": "grandpa",
           "prefix": "GrandpaFinality",
           "storage": [
@@ -2224,6 +2344,15 @@
               "modifier": "Optional",
               "type": {
                 "PlainType": "StoredPendingChange"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "NextForced",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "BlockNumber"
               },
               "fallback": "0x00",
               "docs": []
