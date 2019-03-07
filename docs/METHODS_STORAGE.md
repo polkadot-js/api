@@ -50,6 +50,9 @@ ___
 ▸ **freeBalance**(`AccountId`): `Balance`
 - **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It is  alone used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to cleanup data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
 
+▸ **locks**(`AccountId`): `Vec<BalanceLock>`
+- **summary**:   Any liquidity locks on some account balances.
+
 ▸ **reservedBalance**(`AccountId`): `Balance`
 - **summary**:   The amount of the balance of a given account that is externally reserved; this can still get  slashed, but gets slashed last of all.   This balance is a 'reserve' balance that other subsystems use in order to set aside tokens  that are still 'owned' by the account holder, but which are suspendable. (This is different  and wholly unrelated to the `Bondage` system used in the staking module.)   When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'  is deleted: specifically, `ReservedBalance`.   `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
 
@@ -215,9 +218,6 @@ ___
 
 ### democracy
 
-▸ **bondage**(`AccountId`): `BlockNumber`
-- **summary**:   The block at which the `who`'s funds become liquid.
-
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
 - **summary**:   Those who have locked a deposit.
 
@@ -279,6 +279,8 @@ ___
 
 ### grandpaFinality
 
+▸ **nextForced**(): `Option<BlockNumber>`
+
 ▸ **pendingChange**(): `Option<StoredPendingChange>`
 
 ___
@@ -326,8 +328,8 @@ ___
 
 ### staking
 
-▸ **bondage**(`AccountId`): `BlockNumber`
-- **summary**:   The block at which the `who`'s funds become entirely liquid.
+▸ **bonded**(`AccountId`): `Option<AccountId>`
+- **summary**:   Map from all locked "stash" accounts to the controller account.
 
 ▸ **bondingDuration**(): `BlockNumber`
 - **summary**:   The length of the bonding duration in blocks.
@@ -335,8 +337,8 @@ ___
 ▸ **currentEra**(): `BlockNumber`
 - **summary**:   The current era index.
 
-▸ **currentNominatorsFor**(`AccountId`): `Vec<AccountId>`
-- **summary**:   Nominators for a particular account that is in action right now.
+▸ **currentEraReward**(): `BalanceOf`
+- **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era and  increased for every successfully finished session.
 
 ▸ **currentOfflineSlash**(): `BalanceOf`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
@@ -347,14 +349,16 @@ ___
 ▸ **forcingNewEra**(): `Option<Null>`
 - **summary**:   We are forcing a new era.
 
-▸ **intentions**(): `Vec<AccountId>`
-- **summary**:   All the accounts with a desire to stake.
-
 ▸ **invulerables**(): `Vec<AccountId>`
-- **summary**:   Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
+
+▸ **invulnerables**(): `Vec<AccountId>`
+- **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
 
 ▸ **lastEraLengthChange**(): `BlockNumber`
 - **summary**:   The session index at which the era length last changed.
+
+▸ **ledger**(`AccountId`): `Option<StakingLedger>`
+- **summary**:   Map from all (unlocked) "controller" accounts to the info regarding the staking.
 
 ▸ **minimumValidatorCount**(): `u32`
 - **summary**:   Minimum number of staking participants before emergency conditions are imposed.
@@ -362,17 +366,17 @@ ___
 ▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
 - **summary**:   The next value of sessions per era.
 
-▸ **nominating**(`AccountId`): `Option<AccountId>`
-- **summary**:   All nominator -> nominee relationships.
-
-▸ **nominatorsFor**(`AccountId`): `Vec<AccountId>`
-- **summary**:   Nominators for a particular account.
+▸ **nominators**(`AccountId`): `Vec<AccountId>`
+- **summary**:   The set of keys are all controllers that want to nominate.    The value are the nominations.
 
 ▸ **offlineSlash**(): `Perbill`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
 
 ▸ **offlineSlashGrace**(): `u32`
 - **summary**:   Number of instances of offline reports before slashing begins for validators.
+
+▸ **payee**(`AccountId`): `RewardDestination`
+- **summary**:   Where the reward payment should be made.
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
 - **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for).
@@ -386,14 +390,17 @@ ___
 ▸ **slashCount**(`AccountId`): `u32`
 - **summary**:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.
 
-▸ **stakeRange**(): `(BalanceOf,BalanceOf)`
-- **summary**:   The highest and lowest staked validator slashable balances.
+▸ **slotStake**(): `BalanceOf`
+- **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.
+
+▸ **stakers**(`AccountId`): `Exposure`
+- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
 
-▸ **validatorPreferences**(`AccountId`): `ValidatorPrefs`
-- **summary**:   Preferences that a validator has.
+▸ **validators**(`AccountId`): `ValidatorPrefs`
+- **summary**:   The set of keys are all controllers that want to validate.    The values are the preferences that a validator has.
 
 ___
 

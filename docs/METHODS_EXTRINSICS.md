@@ -15,6 +15,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[democracy](#democracy)**
 
+- **[finalityTracker](#finalityTracker)**
+
 - **[grandpa](#grandpa)**
 
 - **[session](#session)**
@@ -161,6 +163,14 @@ ___
 ___
 
 
+### finalityTracker
+
+▸ **finalHint**(hint: `Compact<BlockNumber>`)
+- **summary**:   Hint that the author of this block thinks the best finalized  block is the given number.
+
+___
+
+
 ### grandpa
 
 ▸ **reportMisbehavior**(_report: `Bytes`)
@@ -185,13 +195,20 @@ ___
 
 ### staking
 
+▸ **bond**(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
+- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will be the  account that controls it.
+
+▸ **bondExtra**(max_additional: `BalanceOf`)
+- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up for  staking.    Use this if there are additional funds in your stash account that you wish to bond.    NOTE: This call must be made by the controller, not the stash.
+
+▸ **chill**()
+- **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+
 ▸ **forceNewEra**(apply_rewards: `bool`)
 - **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.
 
-▸ **nominate**(target: `Address`)
-
-▸ **registerPreferences**(intentions_index: `Compact<u32>`, prefs: `ValidatorPrefs`)
-- **summary**:   Set the given account's preference for slashing behaviour should they be a validator.   An error (no-op) if `Self::intentions()[intentions_index] != origin`.
+▸ **nominate**(targets: `Vec<Address>`)
+- **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
 
 ▸ **setBondingDuration**(new: `Compact<BlockNumber>`)
 - **summary**:   The length of the bonding duration in eras.
@@ -202,20 +219,23 @@ ___
 ▸ **setOfflineSlashGrace**(new: `Compact<u32>`)
 - **summary**:   Set the offline slash grace period.
 
+▸ **setPayee**(payee: `RewardDestination`)
+- **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+
 ▸ **setSessionsPerEra**(new: `Compact<BlockNumber>`)
 - **summary**:   Set the number of sessions in an era.
 
 ▸ **setValidatorCount**(new: `Compact<u32>`)
 - **summary**:   The ideal number of validators.
 
-▸ **stake**()
-- **summary**:   Declare the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
+▸ **unbond**(value: `Compact<BalanceOf>`)
+- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than   T::Currency::existential_deposit(), then it is increased to the full amount.    Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.     NOTE: This call must be made by the controller, not the stash.    See also `withdraw_unbonded`.
 
-▸ **unnominate**(target_index: `Compact<u32>`)
-- **summary**:   Will panic if called when source isn't currently nominating target.  Updates Nominating, NominatorsFor and NominationBalance.
+▸ **validate**(prefs: `ValidatorPrefs`)
+- **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
 
-▸ **unstake**(intentions_index: `Compact<u32>`)
-- **summary**:   Retract the desire to stake for the transactor.   Effects will be felt at the beginning of the next era.
+▸ **withdrawUnbonded**()
+- **summary**:   Remove any unlocked chunks from the `unlocking` queue from our management.    This essentially frees up that balance to be used by the stash account to do  whatever it wants.    NOTE: This call must be made by the controller, not the stash.    See also `unbond`.
 
 ___
 
