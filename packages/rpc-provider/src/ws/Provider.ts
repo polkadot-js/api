@@ -72,6 +72,9 @@ export default class WsProvider implements WSProviderInterface {
   private subscriptions: {
     [index: string]: WsState$Subscription
   };
+  private waitingForId: {
+    [index: string]: JsonRpcResponse
+  };
   private websocket: WebSocket | null;
 
   /**
@@ -88,6 +91,7 @@ export default class WsProvider implements WSProviderInterface {
     this.handlers = {};
     this.queued = {};
     this.subscriptions = {};
+    this.waitingForId = {};
     this.websocket = null;
 
     if (autoConnect) {
@@ -298,11 +302,17 @@ export default class WsProvider implements WSProviderInterface {
       const result = this.coder.decodeResponse(response);
 
       if (subscription) {
-        this.subscriptions[`${subscription.type}::${result}`] = {
+        const id = `${subscription.type}::${result}`;
+
+        this.subscriptions[id] = {
           ...subscription,
           method,
           params
         };
+
+        if (this.waitingForId[id]) {
+          this.onSocketMessageSubscribe(this.waitingForId[id]);
+        }
       }
 
       handler.callback(null, result);
@@ -321,9 +331,13 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.subscriptions[subscription];
 
     if (!handler) {
+      this.waitingForId[subscription] = response;
+
       l.debug(() => `Unable to find handler for subscription=${subscription}`);
       return;
     }
+
+    delete this.waitingForId[subscription];
 
     try {
       const result = this.coder.decodeResponse(response);
