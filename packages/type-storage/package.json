@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "@polkadot/keyring": "^0.35.7",
-    "@polkadot/types": "^0.46.7",
+    "@polkadot/types": "^0.46.8",
     "@polkadot/util": "^0.35.7",
     "@polkadot/util-crypto": "^0.35.7"
   }
