@@ -8,6 +8,7 @@ import { ModulesWithMethods } from '@polkadot/types/primitive/Method';
 
 import fromMetadata from './fromMetadata';
 
-export default fromMetadata(
+const staticMetadata: ModulesWithMethods = fromMetadata(
   new Metadata(metadataRpc).asV0
-) as ModulesWithMethods;
+);
+export default staticMetadata;
