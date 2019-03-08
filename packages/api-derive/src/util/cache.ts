@@ -3,8 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import memoizee from 'memoizee';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-
+import { ApiInterface$Decorated } from '@polkadot/api/types';
+import { Codec } from '@polkadot/types/types';
+import { Observable } from 'rxjs';
 /**
  * Create memoization for a 2-currified function.
  *
@@ -20,7 +21,7 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
  * f(api)(1, 2); // Cache hit
  * ```
  */
-export const cache = (fn: Function, map = new WeakMap()) => (api: ApiInterface$Rx) => {
+export const cache = (fn: Function, map = new WeakMap()) => (api: ApiInterface$Decorated<Observable<Codec>, Observable<Codec>>) => {
   if (!map.has(api)) {
     const innerFn = fn(api);
     map.set(api, memoizee(innerFn));

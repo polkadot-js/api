@@ -4,9 +4,10 @@
 
 import { Metadata } from '@polkadot/types/index';
 import metadataRpc from '@polkadot/types/Metadata/v0/static';
+import { ModulesWithMethods } from '@polkadot/types/primitive/Method';
 
 import fromMetadata from './fromMetadata';
 
 export default fromMetadata(
   new Metadata(metadataRpc).asV0
-);
+) as ModulesWithMethods;
