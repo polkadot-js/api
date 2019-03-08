@@ -72,6 +72,9 @@ export default class WsProvider implements WSProviderInterface {
   private subscriptions: {
     [index: string]: WsState$Subscription
   };
+  private waitingForId: {
+    [index: string]: JsonRpcResponse
+  };
   private websocket: WebSocket | null;
 
   /**
@@ -88,6 +91,7 @@ export default class WsProvider implements WSProviderInterface {
     this.handlers = {};
     this.queued = {};
     this.subscriptions = {};
+    this.waitingForId = {};
     this.websocket = null;
 
     if (autoConnect) {
@@ -297,15 +301,24 @@ export default class WsProvider implements WSProviderInterface {
       const { method, params, subscription } = handler;
       const result = this.coder.decodeResponse(response);
 
+      // first send the result - in case of subs, we may have an update
+      // immediately if we have some queued results already
+      handler.callback(null, result);
+
       if (subscription) {
-        this.subscriptions[`${subscription.type}::${result}`] = {
+        const subId = `${subscription.type}::${result}`;
+
+        this.subscriptions[subId] = {
           ...subscription,
           method,
           params
         };
-      }
 
-      handler.callback(null, result);
+        // if we have a result waiting for this subscription already
+        if (this.waitingForId[subId]) {
+          this.onSocketMessageSubscribe(this.waitingForId[subId]);
+        }
+      }
     } catch (error) {
       handler.callback(error, undefined);
     }
@@ -314,16 +327,22 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const subscription = `${response.method}::${response.params.subscription}`;
+    const subId = `${response.method}::${response.params.subscription}`;
 
-    l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
+    l.debug(() => ['handling: response =', response, 'subscription =', subId]);
 
-    const handler = this.subscriptions[subscription];
+    const handler = this.subscriptions[subId];
 
     if (!handler) {
-      l.debug(() => `Unable to find handler for subscription=${subscription}`);
+      // store the JSON, we could have out-of-order subid coming in
+      this.waitingForId[subId] = response;
+
+      l.debug(() => `Unable to find handler for subscription=${subId}`);
       return;
     }
+
+    // housekeeping
+    delete this.waitingForId[subId];
 
     try {
       const result = this.coder.decodeResponse(response);
