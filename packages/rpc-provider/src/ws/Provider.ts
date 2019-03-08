@@ -306,17 +306,17 @@ export default class WsProvider implements WSProviderInterface {
       handler.callback(null, result);
 
       if (subscription) {
-        const id = `${subscription.type}::${result}`;
+        const subId = `${subscription.type}::${result}`;
 
-        this.subscriptions[id] = {
+        this.subscriptions[subId] = {
           ...subscription,
           method,
           params
         };
 
         // if we have a result waiting for this subscription already
-        if (this.waitingForId[id]) {
-          this.onSocketMessageSubscribe(this.waitingForId[id]);
+        if (this.waitingForId[subId]) {
+          this.onSocketMessageSubscribe(this.waitingForId[subId]);
         }
       }
     } catch (error) {
@@ -327,22 +327,22 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const subscription = `${response.method}::${response.params.subscription}`;
+    const subId = `${response.method}::${response.params.subscription}`;
 
-    l.debug(() => ['handling: response =', response, 'subscription =', subscription]);
+    l.debug(() => ['handling: response =', response, 'subscription =', subId]);
 
-    const handler = this.subscriptions[subscription];
+    const handler = this.subscriptions[subId];
 
     if (!handler) {
       // store the JSON, we could have out-of-order subid coming in
-      this.waitingForId[subscription] = response;
+      this.waitingForId[subId] = response;
 
-      l.debug(() => `Unable to find handler for subscription=${subscription}`);
+      l.debug(() => `Unable to find handler for subscription=${subId}`);
       return;
     }
 
     // housekeeping
-    delete this.waitingForId[subscription];
+    delete this.waitingForId[subId];
 
     try {
       const result = this.coder.decodeResponse(response);
