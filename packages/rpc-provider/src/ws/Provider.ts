@@ -301,6 +301,10 @@ export default class WsProvider implements WSProviderInterface {
       const { method, params, subscription } = handler;
       const result = this.coder.decodeResponse(response);
 
+      // first send the result - in case of subs, we may have an update
+      // immediately if we have some queued results already
+      handler.callback(null, result);
+
       if (subscription) {
         const id = `${subscription.type}::${result}`;
 
@@ -310,12 +314,11 @@ export default class WsProvider implements WSProviderInterface {
           params
         };
 
+        // if we have a result waiting for this subscription already
         if (this.waitingForId[id]) {
           this.onSocketMessageSubscribe(this.waitingForId[id]);
         }
       }
-
-      handler.callback(null, result);
     } catch (error) {
       handler.callback(error, undefined);
     }
@@ -331,12 +334,14 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.subscriptions[subscription];
 
     if (!handler) {
+      // store the JSON, we could have out-of-order subid coming in
       this.waitingForId[subscription] = response;
 
       l.debug(() => `Unable to find handler for subscription=${subscription}`);
       return;
     }
 
+    // housekeeping
     delete this.waitingForId[subscription];
 
     try {
