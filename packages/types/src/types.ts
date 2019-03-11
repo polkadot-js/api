@@ -12,6 +12,7 @@ import { FunctionMetadata } from './Metadata/v0/Modules';
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type CodecCallback <T extends Codec = any> = (result: T) => any;
+export type CodecArrayCallback <T extends Codec = any> = (result: Array<T>) => any;
 
 interface CodecArgObject {
   [index: string]: CodecArg;

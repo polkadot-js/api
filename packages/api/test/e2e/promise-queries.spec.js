@@ -63,9 +63,26 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it('subscribes to queries (default)', (done) => {
+  // FIXME We need to find a different one here (with an expected value), this is not
+  // available in the latest substrate master in this form anymore
+  it.skip('subscribes to queries (default)', (done) => {
     api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
+
+      done();
+    });
+  });
+
+  it('subscribes to multiple results (freeBalance.multi)', (done) => {
+    api.query.balances.freeBalance.multi([
+      keyring.alice.address(),
+      keyring.bob.address(),
+      keyring.ferdie.address(),
+      '5GfWeNe33QeyzVMV2uENuvSXLVfVXCiuLvfEP6WCDHADZhen'
+    ], (balances) => {
+      expect(balances).toHaveLength(4);
+
+      console.error(balances);
 
       done();
     });

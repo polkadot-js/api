@@ -10,6 +10,7 @@ import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/inde
 import {
   CodecArg,
   CodecCallback,
+  CodecArrayCallback,
   IExtrinsic,
   RegistryTypes,
   SignatureOptions
@@ -58,6 +59,7 @@ export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> e
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
+  multi: (args: Array<CodecArg>, callback: CodecArrayCallback) => SubscriptionResult;
   size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
 }
 

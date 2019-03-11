@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import { Codec, CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
+import { Codec, CodecArg, CodecCallback, CodecArrayCallback, RegistryTypes } from '@polkadot/types/types';
 import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
@@ -515,22 +515,28 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       ) as C;
 
     // FIXME The unknown cast is needed since the onCall result, `C | S` cannot
-    // be converted from C to the actual result required
+    // be converted from C to the actual result required (same with multi and size)
     decorated.hash = (arg?: CodecArg): HashResult<C, S> =>
       onCall(
         (arg: CodecArg) => this._rpcRx.state.getStorageHash([method, arg]),
         [arg]
       ) as unknown as HashResult<C, S>;
 
-    // FIXME as above...
+    decorated.key = (arg?: CodecArg): string =>
+      u8aToHex(compactStripLength(method(arg))[1]);
+
+    decorated.multi = (args: Array<CodecArg>, callback: CodecArrayCallback): S =>
+      onCall(
+        () => this._rpcRx.state.subscribeStorage(args.map((arg) => [method, arg])),
+        [],
+        callback
+      ) as unknown as S;
+
     decorated.size = (arg?: CodecArg): U64Result<C, S> =>
       onCall(
         (arg: CodecArg) => this._rpcRx.state.getStorageSize([method, arg]),
         [arg]
       ) as unknown as U64Result<C, S>;
-
-    decorated.key = (arg?: CodecArg): string =>
-      u8aToHex(compactStripLength(method(arg))[1]);
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
   }
