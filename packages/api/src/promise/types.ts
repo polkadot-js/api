@@ -12,10 +12,10 @@ export type SubscriptionResult = Promise<() => any>;
 
 export type CodecResult = Promise<Codec>;
 
-export interface ApiPromiseInterface extends ApiBase<CodecResult, SubscriptionResult> {
+export interface ApiPromiseInterface extends ApiBase<CodecResult, SubscriptionResult, SubscriptionResult> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
 
-export type QueryableStorageFunction = QueryableStorageFunctionBase<CodecResult, SubscriptionResult>;
+export type QueryableStorageFunction = QueryableStorageFunctionBase<CodecResult, SubscriptionResult, SubscriptionResult>;
 export type SubmittableExtrinsic = SubmittableExtrinsicBase<CodecResult, SubscriptionResult>;
 export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<CodecResult, SubscriptionResult>;

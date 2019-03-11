@@ -64,14 +64,14 @@ function rxOnCall (
   return method(...params);
 }
 
-export default abstract class ApiBase<CodecResult, SubscriptionResult> implements ApiBaseInterface<CodecResult, SubscriptionResult> {
+export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResult> implements ApiBaseInterface<CodecResult, SubscriptionResult, MultiResult> {
   private _eventemitter: EventEmitter;
   private _derive?: Derive<CodecResult, SubscriptionResult>;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
   private _isReady: boolean = false;
   protected readonly _options: ApiOptions;
-  private _query?: QueryableStorage<CodecResult, SubscriptionResult>;
+  private _query?: QueryableStorage<CodecResult, SubscriptionResult, MultiResult>;
   private _rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged
   protected _rpcRx: RpcRx; // FIXME These two could be merged
@@ -213,10 +213,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    * });
    * ```
    */
-  get query (): QueryableStorage<CodecResult, SubscriptionResult> {
+  get query (): QueryableStorage<CodecResult, SubscriptionResult, MultiResult> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
-    return this._query as QueryableStorage<CodecResult, SubscriptionResult>;
+    return this._query as QueryableStorage<CodecResult, SubscriptionResult, MultiResult>;
   }
 
   /**
@@ -465,7 +465,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }
 
-  private decorateStorage<C, S> (storage: Storage, onCall: OnCallDefinition<C, S>): QueryableStorage<C, S> {
+  private decorateStorage<C, S, M> (storage: Storage, onCall: OnCallDefinition<C, S>): QueryableStorage<C, S, M> {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -473,13 +473,13 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         result[methodName] = this.decorateStorageEntry(section[methodName], onCall);
 
         return result;
-      }, {} as QueryableModuleStorage<C, S>);
+      }, {} as QueryableModuleStorage<C, S, M>);
 
       return result;
-    }, {} as QueryableStorage<C, S>);
+    }, {} as QueryableStorage<C, S, M>);
   }
 
-  private decorateStorageEntry<C, S> (method: StorageFunction, onCall: OnCallDefinition<C, S>): QueryableStorageFunction<C, S> {
+  private decorateStorageEntry<C, S, M> (method: StorageFunction, onCall: OnCallDefinition<C, S>): QueryableStorageFunction<C, S, M> {
     // These signatures are allowed and exposed here -
     //   (arg?: CodecArg): CodecResult;
     //   (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
@@ -506,7 +506,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         params,
         callback
       );
-    }) as QueryableStorageFunction<C, S>;
+    }) as QueryableStorageFunction<C, S, M>;
 
     decorated.at = (hash: Hash | Uint8Array | string, arg?: CodecArg): C =>
       onCall(
@@ -525,12 +525,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     decorated.key = (arg?: CodecArg): string =>
       u8aToHex(compactStripLength(method(arg))[1]);
 
-    decorated.multi = (args: Array<CodecArg>, callback: CodecArrayCallback): S =>
+    decorated.multi = (args: Array<CodecArg>, callback: CodecArrayCallback): M =>
       onCall(
         () => this._rpcRx.state.subscribeStorage(args.map((arg) => [method, arg])),
         [],
         callback
-      ) as unknown as S;
+      ) as unknown as M;
 
     decorated.size = (arg?: CodecArg): U64Result<C, S> =>
       onCall(
@@ -538,7 +538,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         [arg]
       ) as unknown as U64Result<C, S>;
 
-    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
+    return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S, M>;
   }
 
   private decorateDerive<C, S> (apiRx: ApiInterface$Rx, onCall: OnCallDefinition<C, S>): Derive<C, S> {

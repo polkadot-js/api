@@ -100,7 +100,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult, SubscriptionResult> implements ApiPromiseInterface {
   private _isReadyPromise: Promise<ApiPromise>;
 
   /**

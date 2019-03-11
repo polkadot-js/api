@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { CodecArg } from '@polkadot/types/types';
-import { ApiRxInterface, RxResult } from './types';
+import { ApiRxInterface, RxResult, RxArrayResult } from './types';
 import { ApiOptions, OnCallFunction } from '../types';
 
 import { Observable, from } from 'rxjs';
@@ -111,7 +111,7 @@ import ApiBase from '../Base';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxInterface {
+export default class ApiRx extends ApiBase<RxResult, RxResult, RxArrayResult> implements ApiRxInterface {
   private _isReadyRx: Observable<ApiRx>;
 
   /**

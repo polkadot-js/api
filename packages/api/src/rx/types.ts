@@ -9,7 +9,9 @@ import ApiBase from '../Base';
 
 export type RxResult = Observable<Codec>;
 
-export interface ApiRxInterface extends ApiBase<RxResult, RxResult> {
+export type RxArrayResult = Observable<Array<Codec>>;
+
+export interface ApiRxInterface extends ApiBase<RxResult, RxResult, RxArrayResult> {
   readonly isConnected: Observable<boolean>;
   readonly isReady: Observable<ApiRxInterface>;
 }
