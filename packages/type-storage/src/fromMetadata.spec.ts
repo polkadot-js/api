@@ -12,7 +12,7 @@ import { Storage } from './types';
 
 const keyring = testingPairs();
 
-const metadataTest = (newExtrinsics: Storage) => {
+const metadataTest = (newStorage: Storage) => {
   it('should throw if the storage function expects an argument', () => {
     expect(() => newStorage.balances.freeBalance()).toThrowError(/expects one argument/);
   });
@@ -30,13 +30,12 @@ const metadataTest = (newExtrinsics: Storage) => {
   });
 };
 
-// Use the pre-generated metadata
-const metadata = new Metadata(jsonV0).asV0;
-const newStorage = fromMetadata(metadata);
-const metadataV2 = new Metadata(jsonV2).asV0;
-const newStorageV2 = fromMetadata(metadataV2);
-
 describe('fromMetadata', () => {
+  // Use the pre-generated metadata
+  const metadata = new Metadata(jsonV0).asV0;
+  const newStorage = fromMetadata(metadata);
+  const metadataV2 = new Metadata(jsonV2).asV0;
+  const newStorageV2 = fromMetadata(metadataV2);
   describe('v0', () => {
     metadataTest(newStorage);
   });
