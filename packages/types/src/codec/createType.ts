@@ -238,7 +238,11 @@ export function createMetadataKind$Struct (types: FieldMetadata[]) {
   if (types.length === 0) {
     return Null;
   } else if (types[0].name.type === 'FieldName$Unnamed') {
-    return createTuple(types);
+    if (types.length === 1) {
+      return createClass(types[0].ty.toString());
+    } else {
+      return createTuple(types);
+    }
   } else {
     return createStruct(types);
   }

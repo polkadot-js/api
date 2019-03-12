@@ -156,11 +156,11 @@ describe('TypeRegistry', () => {
   });
 
   it('metadata registration should not overwrite exist type', () => {
-    const name = 'sr_primitives#AccountId';
-    // register 'sr_primitives#AccountId'
+    const name = 'sr_primitives#Perbill';
+    // register 'sr_primitives#Perbill'
     registry.register(name, Text);
 
-    // register 'sr_primitives#AccountId' again from metadata.asV2.typeRegistry
+    // register 'sr_primitives#Perbill' again from metadata.asV2.typeRegistry
     setDefaultRegistry(registry); // Set default registry to avoid read data from defaultTypes when get registry
     registry.register({ Metadata, ...PrimitiveTypes, ...RpcTypes }); // Register some types for preparing to register types from metadata
     registry.register(metadata.asV2.typeRegistry); // metadata.asV2.typeRegistry has a type named 'sr_primitives#AccountId'
