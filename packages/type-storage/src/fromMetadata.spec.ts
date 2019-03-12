@@ -8,13 +8,11 @@ import jsonV0 from '@polkadot/types/Metadata/v0/static';
 import jsonV2 from '@polkadot/types/Metadata/v2/static';
 
 import fromMetadata from './fromMetadata';
+import { Storage } from './types';
 
-// Use the pre-generated metadata
-const metadata = new Metadata(jsonV0).asV0;
-const newStorage = fromMetadata(metadata);
 const keyring = testingPairs();
 
-describe('fromMetadata', () => {
+const metadataTest = (newExtrinsics: Storage) => {
   it('should throw if the storage function expects an argument', () => {
     expect(() => newStorage.balances.freeBalance()).toThrowError(/expects one argument/);
   });
@@ -30,10 +28,21 @@ describe('fromMetadata', () => {
       Uint8Array.from([64, 52, 103, 23, 10, 157, 95, 244, 9, 70, 215, 120, 149, 1, 238, 109, 69])
     );
   });
+};
+
+// Use the pre-generated metadata
+const metadata = new Metadata(jsonV0).asV0;
+const newStorage = fromMetadata(metadata);
+const metadataV2 = new Metadata(jsonV2).asV0;
+const newStorageV2 = fromMetadata(metadataV2);
+
+describe('fromMetadata', () => {
+  describe('v0', () => {
+    metadataTest(newStorage);
+  });
 
   describe('v2', () => {
-    const metadataV2 = new Metadata(jsonV2).asV0;
-    const newStorageV2 = fromMetadata(metadataV2);
+    metadataTest(newStorageV2);
     it('should have same hash', () => {
       expect(newStorage.balances.freeBalance(keyring.alice.address())).toEqual(newStorageV2.balances.freeBalance(keyring.alice.address()));
     });
