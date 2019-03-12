@@ -76,7 +76,7 @@ export default class MetadataV2 extends Struct implements MetadataInterface {
   constructor (value?: any) {
     super({
       modules: Vector.with(MetadataModule),
-      module_path: Text,
+      modulePath: Text,
       typeRegistry: MetadataRegistry
     }, value);
   }

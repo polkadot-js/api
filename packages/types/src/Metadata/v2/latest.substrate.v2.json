@@ -13,7 +13,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -397,7 +397,7 @@
                     "displayName": "AccountIndex"
                   },
                   "value": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "typeName": "Vec<H256>",
                     "displayName": "Vec<AccountId>"
                   }
                 }
@@ -414,7 +414,7 @@
               "name": "NewAccountIndex",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -497,7 +497,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -517,7 +517,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -547,7 +547,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -570,6 +570,26 @@
                 "",
                 " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
                 " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+              ]
+            },
+            {
+              "name": "Locks",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "Vec<srml_balances#BalanceLock<u128,u64>>",
+                    "displayName": "Vec<BalanceLock>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Any liquidity locks on some account balances."
               ]
             }
           ],
@@ -631,7 +651,7 @@
               "name": "NewAccount",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -647,7 +667,7 @@
               "name": "ReapedAccount",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -659,11 +679,11 @@
               "name": "Transfer",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -690,7 +710,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               },
@@ -776,7 +796,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -976,14 +996,151 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
+                  "displayName": "Vec<AccountId>"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "Invulnerables",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               },
               "fallback": "0x00",
               "docs": [
-                " Any validators that may never be slashed or forcible kicked. It's a Vec since they're easy to initialise",
+                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise",
                 " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
+              ]
+            },
+            {
+              "name": "Bonded",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all locked \"stash\" accounts to the controller account."
+              ]
+            },
+            {
+              "name": "Ledger",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_staking#StakingLedger<H256,u128,u64>",
+                    "displayName": "StakingLedger"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
+              ]
+            },
+            {
+              "name": "Payee",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_staking#RewardDestination",
+                    "displayName": "RewardDestination"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Where the reward payment should be made."
+              ]
+            },
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_staking#ValidatorPrefs<u128>",
+                    "displayName": "ValidatorPrefs"
+                  }
+                }
+              },
+              "fallback": "0x0c00",
+              "docs": [
+                " The set of keys are all controllers that want to validate.",
+                "",
+                " The values are the preferences that a validator has."
+              ]
+            },
+            {
+              "name": "Nominators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "Vec<H256>",
+                    "displayName": "Vec<AccountId>"
+                  }
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The set of keys are all controllers that want to nominate.",
+                "",
+                " The value are the nominations."
+              ]
+            },
+            {
+              "name": "Stakers",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": {
+                    "typeName": "H256",
+                    "displayName": "AccountId"
+                  },
+                  "value": {
+                    "typeName": "srml_staking#Exposure<H256,u128>",
+                    "displayName": "Exposure"
+                  }
+                }
+              },
+              "fallback": "0x000000",
+              "docs": [
+                " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
+                " but you can find them in the `sessions` module."
               ]
             },
             {
@@ -998,100 +1155,6 @@
               "fallback": "0x0000000000000000",
               "docs": [
                 " The current era index."
-              ]
-            },
-            {
-              "name": "ValidatorPreferences",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "srml_staking#ValidatorPrefs<u128>",
-                    "displayName": "ValidatorPrefs"
-                  }
-                }
-              },
-              "fallback": "0x0c00",
-              "docs": [
-                " Preferences that a validator has."
-              ]
-            },
-            {
-              "name": "Intentions",
-              "modifier": "Default",
-              "type": {
-                "PlainType": {
-                  "typeName": "Vec<sr_primitives#AccountId>",
-                  "displayName": "Vec<AccountId>"
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " All the accounts with a desire to stake."
-              ]
-            },
-            {
-              "name": "Nominating",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  }
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " All nominator -> nominee relationships."
-              ]
-            },
-            {
-              "name": "NominatorsFor",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
-                    "displayName": "Vec<AccountId>"
-                  }
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " Nominators for a particular account."
-              ]
-            },
-            {
-              "name": "CurrentNominatorsFor",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
-                    "displayName": "Vec<AccountId>"
-                  }
-                }
-              },
-              "fallback": "0x00",
-              "docs": [
-                " Nominators for a particular account that is in action right now."
               ]
             },
             {
@@ -1123,6 +1186,21 @@
               ]
             },
             {
+              "name": "CurrentEraReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": {
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The accumulated reward for the current era. Reset to zero at the beginning of the era and",
+                " increased for every successfully finished session."
+              ]
+            },
+            {
               "name": "NextSessionsPerEra",
               "modifier": "Optional",
               "type": {
@@ -1151,37 +1229,19 @@
               ]
             },
             {
-              "name": "StakeRange",
+              "name": "SlotStake",
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "(u128,u128)",
-                  "displayName": "(BalanceOf,BalanceOf)"
+                  "typeName": "u128",
+                  "displayName": "BalanceOf"
                 }
               },
-              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "fallback": "0x00000000000000000000000000000000",
               "docs": [
-                " The highest and lowest staked validator slashable balances."
-              ]
-            },
-            {
-              "name": "Bondage",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "u64",
-                    "displayName": "BlockNumber"
-                  }
-                }
-              },
-              "fallback": "0x0000000000000000",
-              "docs": [
-                " The block at which the `who`'s funds become entirely liquid."
+                " The amount of balance actively at stake for each validator slot, currently.",
+                "",
+                " This is used to derive rewards and punishments."
               ]
             },
             {
@@ -1190,7 +1250,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -1223,7 +1283,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<(sr_primitives#AccountId,u64,u32)>",
+                  "typeName": "Vec<(H256,u64,u32)>",
                   "displayName": "Vec<(AccountId,BlockNumber,u32)>"
                 }
               },
@@ -1235,70 +1295,96 @@
           ],
           "calls": [
             {
-              "name": "stake",
-              "args": [],
-              "docs": [
-                " Declare the desire to stake for the transactor.",
-                "",
-                " Effects will be felt at the beginning of the next era."
-              ]
-            },
-            {
-              "name": "unstake",
+              "name": "bond",
               "args": [
                 {
-                  "name": "intentions_index",
-                  "type": {
-                    "typeName": "Compact<u32>",
-                    "displayName": "Compact<u32>"
-                  }
-                }
-              ],
-              "docs": [
-                " Retract the desire to stake for the transactor.",
-                "",
-                " Effects will be felt at the beginning of the next era."
-              ]
-            },
-            {
-              "name": "nominate",
-              "args": [
-                {
-                  "name": "target",
+                  "name": "controller",
                   "type": {
                     "typeName": "srml_indices::address#Address",
                     "displayName": "Address"
                   }
-                }
-              ],
-              "docs": []
-            },
-            {
-              "name": "unnominate",
-              "args": [
+                },
                 {
-                  "name": "target_index",
+                  "name": "value",
                   "type": {
-                    "typeName": "Compact<u32>",
-                    "displayName": "Compact<u32>"
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                },
+                {
+                  "name": "payee",
+                  "type": {
+                    "typeName": "srml_staking#RewardDestination",
+                    "displayName": "RewardDestination"
                   }
                 }
               ],
               "docs": [
-                " Will panic if called when source isn't currently nominating target.",
-                " Updates Nominating, NominatorsFor and NominationBalance."
+                " Take the origin account as a stash and lock up `value` of its balance. `controller` will be the",
+                " account that controls it."
               ]
             },
             {
-              "name": "register_preferences",
+              "name": "bond_extra",
               "args": [
                 {
-                  "name": "intentions_index",
+                  "name": "max_additional",
                   "type": {
-                    "typeName": "Compact<u32>",
-                    "displayName": "Compact<u32>"
+                    "typeName": "u128",
+                    "displayName": "BalanceOf"
                   }
-                },
+                }
+              ],
+              "docs": [
+                " Add some extra amount that have appeared in the stash `free_balance` into the balance up for",
+                " staking.",
+                "",
+                " Use this if there are additional funds in your stash account that you wish to bond.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "unbond",
+              "args": [
+                {
+                  "name": "value",
+                  "type": {
+                    "typeName": "Compact<u128>",
+                    "displayName": "Compact<BalanceOf>"
+                  }
+                }
+              ],
+              "docs": [
+                " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
+                " period ends. If this leaves an amount actively bonded less than",
+                " T::Currency::existential_deposit(), then it is increased to the full amount.",
+                "",
+                " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
+                " the funds out of management ready for transfer.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash.",
+                "",
+                " See also `withdraw_unbonded`."
+              ]
+            },
+            {
+              "name": "withdraw_unbonded",
+              "args": [],
+              "docs": [
+                " Remove any unlocked chunks from the `unlocking` queue from our management.",
+                "",
+                " This essentially frees up that balance to be used by the stash account to do",
+                " whatever it wants.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash.",
+                "",
+                " See also `unbond`."
+              ]
+            },
+            {
+              "name": "validate",
+              "args": [
                 {
                   "name": "prefs",
                   "type": {
@@ -1308,9 +1394,60 @@
                 }
               ],
               "docs": [
-                " Set the given account's preference for slashing behaviour should they be a validator.",
+                " Declare the desire to validate for the origin controller.",
                 "",
-                " An error (no-op) if `Self::intentions()[intentions_index] != origin`."
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "nominate",
+              "args": [
+                {
+                  "name": "targets",
+                  "type": {
+                    "typeName": "Vec<srml_indices::address#Address>",
+                    "displayName": "Vec<Address>"
+                  }
+                }
+              ],
+              "docs": [
+                " Declare the desire to nominate `targets` for the origin controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "chill",
+              "args": [],
+              "docs": [
+                " Declare no desire to either validate or nominate.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_payee",
+              "args": [
+                {
+                  "name": "payee",
+                  "type": {
+                    "typeName": "srml_staking#RewardDestination",
+                    "displayName": "RewardDestination"
+                  }
+                }
+              ],
+              "docs": [
+                " (Re-)set the payment target for a controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " NOTE: This call must be made by the controller, not the stash."
               ]
             },
             {
@@ -1395,7 +1532,7 @@
                 {
                   "name": "validators",
                   "type": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "typeName": "Vec<H256>",
                     "displayName": "Vec<AccountId>"
                   }
                 }
@@ -1422,7 +1559,7 @@
               "name": "OfflineWarning",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -1439,7 +1576,7 @@
               "name": "OfflineSlash",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -1476,7 +1613,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<(u32,node_runtime#Call,sr_primitives#AccountId)>",
+                  "typeName": "Vec<(u32,node_runtime#Call,H256)>",
                   "displayName": "Vec<(PropIndex,Proposal,AccountId)>"
                 }
               },
@@ -1495,7 +1632,7 @@
                     "displayName": "PropIndex"
                   },
                   "value": {
-                    "typeName": "(u128,Vec<sr_primitives#AccountId>)",
+                    "typeName": "(u128,Vec<H256>)",
                     "displayName": "(BalanceOf,Vec<AccountId>)"
                   }
                 }
@@ -1644,26 +1781,6 @@
               ]
             },
             {
-              "name": "Bondage",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "key": {
-                    "typeName": "sr_primitives#AccountId",
-                    "displayName": "AccountId"
-                  },
-                  "value": {
-                    "typeName": "u64",
-                    "displayName": "BlockNumber"
-                  }
-                }
-              },
-              "fallback": "0x0000000000000000",
-              "docs": [
-                " The block at which the `who`'s funds become liquid."
-              ]
-            },
-            {
               "name": "VotersFor",
               "modifier": "Default",
               "type": {
@@ -1673,7 +1790,7 @@
                     "displayName": "ReferendumIndex"
                   },
                   "value": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "typeName": "Vec<H256>",
                     "displayName": "Vec<AccountId>"
                   }
                 }
@@ -1689,7 +1806,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "(u32,sr_primitives#AccountId)",
+                    "typeName": "(u32,H256)",
                     "displayName": "(ReferendumIndex,AccountId)"
                   },
                   "value": {
@@ -1861,7 +1978,7 @@
                   "displayName": "Balance"
                 },
                 {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               ],
@@ -2063,7 +2180,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<(sr_primitives#AccountId,u64)>",
+                  "typeName": "Vec<(H256,u64)>",
                   "displayName": "Vec<(AccountId,BlockNumber)>"
                 }
               },
@@ -2095,7 +2212,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -2116,7 +2233,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -2137,7 +2254,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -2156,7 +2273,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               },
@@ -2170,7 +2287,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               },
@@ -2196,7 +2313,7 @@
               "modifier": "Optional",
               "type": {
                 "PlainType": {
-                  "typeName": "(u64,u32,Vec<sr_primitives#AccountId>)",
+                  "typeName": "(u64,u32,Vec<H256>)",
                   "displayName": "(BlockNumber,u32,Vec<AccountId>)"
                 }
               },
@@ -2224,7 +2341,7 @@
               "modifier": "Optional",
               "type": {
                 "PlainType": {
-                  "typeName": "Vec<(u128,sr_primitives#AccountId)>",
+                  "typeName": "Vec<(u128,H256)>",
                   "displayName": "Vec<(BalanceOf,AccountId)>"
                 }
               },
@@ -2433,11 +2550,11 @@
               "name": "VoterReaped",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -2449,7 +2566,7 @@
               "name": "BadReaperSlashed",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -2473,11 +2590,11 @@
               "name": "TallyFinalised",
               "args": [
                 {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 },
                 {
-                  "typeName": "Vec<sr_primitives#AccountId>",
+                  "typeName": "Vec<H256>",
                   "displayName": "Vec<AccountId>"
                 }
               ],
@@ -2569,7 +2686,7 @@
                     "displayName": "Hash"
                   },
                   "value": {
-                    "typeName": "Vec<sr_primitives#AccountId>",
+                    "typeName": "Vec<H256>",
                     "displayName": "Vec<AccountId>"
                   }
                 }
@@ -2583,7 +2700,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "(H256,sr_primitives#AccountId)",
+                    "typeName": "(H256,H256)",
                     "displayName": "(Hash,AccountId)"
                   },
                   "value": {
@@ -2605,7 +2722,7 @@
                     "displayName": "Hash"
                   },
                   "value": {
-                    "typeName": "(u64,Vec<sr_primitives#AccountId>)",
+                    "typeName": "(u64,Vec<H256>)",
                     "displayName": "(BlockNumber,Vec<AccountId>)"
                   }
                 }
@@ -2789,7 +2906,7 @@
                     "displayName": "Hash"
                   },
                   "value": {
-                    "typeName": "(u32,u32,Vec<sr_primitives#AccountId>,Vec<sr_primitives#AccountId>)",
+                    "typeName": "(u32,u32,Vec<H256>,Vec<H256>)",
                     "displayName": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)"
                   }
                 }
@@ -2868,7 +2985,7 @@
               "name": "Proposed",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -2892,7 +3009,7 @@
               "name": "Voted",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -2960,6 +3077,30 @@
           ]
         },
         {
+          "name": "finality_tracker",
+          "prefix": "",
+          "storage": null,
+          "calls": [
+            {
+              "name": "final_hint",
+              "args": [
+                {
+                  "name": "hint",
+                  "type": {
+                    "typeName": "Compact<u64>",
+                    "displayName": "Compact<BlockNumber>"
+                  }
+                }
+              ],
+              "docs": [
+                " Hint that the author of this block thinks the best finalized",
+                " block is the given number."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
           "name": "grandpa",
           "prefix": "GrandpaFinality",
           "storage": [
@@ -2970,6 +3111,18 @@
                 "PlainType": {
                   "typeName": "srml_grandpa#StoredPendingChange<u64,substrate_primitives::authority_id#Ed25519AuthorityId>",
                   "displayName": "StoredPendingChange"
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "NextForced",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": {
+                  "typeName": "u64",
+                  "displayName": "BlockNumber"
                 }
               },
               "fallback": "0x00",
@@ -3107,7 +3260,7 @@
                     "displayName": "ProposalIndex"
                   },
                   "value": {
-                    "typeName": "srml_treasury#Proposal<sr_primitives#AccountId,u128>",
+                    "typeName": "srml_treasury#Proposal<H256,u128>",
                     "displayName": "Proposal"
                   }
                 }
@@ -3277,7 +3430,7 @@
                   "displayName": "Balance"
                 },
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -3433,7 +3586,7 @@
               "type": {
                 "MapType": {
                   "key": {
-                    "typeName": "sr_primitives#AccountId",
+                    "typeName": "H256",
                     "displayName": "AccountId"
                   },
                   "value": {
@@ -3614,11 +3767,11 @@
               "name": "Transfer",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -3634,11 +3787,11 @@
               "name": "Instantiated",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -3674,7 +3827,7 @@
               "name": "Dispatched",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 },
                 {
@@ -3698,7 +3851,7 @@
               "modifier": "Default",
               "type": {
                 "PlainType": {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               },
@@ -3751,7 +3904,7 @@
               "name": "KeyChanged",
               "args": [
                 {
-                  "typeName": "sr_primitives#AccountId",
+                  "typeName": "H256",
                   "displayName": "AccountId"
                 }
               ],
@@ -3838,7 +3991,7 @@
           ]
         }
       ],
-      "module_path": "node_runtime",
+      "modulePath": "node_runtime",
       "typeRegistry": [
         {
           "name": "sr_primitives::generic::block#Block<sr_primitives::generic::header#Header<u64,sr_primitives::traits#BlakeTwo256,node_runtime#Log>,sr_primitives::generic::unchecked_mortal_compact_extrinsic#UncheckedMortalCompactExtrinsic<srml_indices::address#Address,u64,node_runtime#Call,sr_primitives#Ed25519Signature>>",
@@ -4033,6 +4186,30 @@
                   {
                     "name": {
                       "FieldName$Unnamed": 1
+                    },
+                    "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
+                  }
+                ]
+              },
+              {
+                "name": "ForcedAuthoritiesChangeSignal",
+                "index": 1,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "u64"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 1
+                    },
+                    "ty": "u64"
+                  },
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 2
                     },
                     "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
                   }
@@ -4234,8 +4411,20 @@
                 ]
               },
               {
-                "name": "Grandpa",
+                "name": "FinalityTracker",
                 "index": 10,
+                "fields": [
+                  {
+                    "name": {
+                      "FieldName$Unnamed": 0
+                    },
+                    "ty": "srml_finality_tracker#Module"
+                  }
+                ]
+              },
+              {
+                "name": "Grandpa",
+                "index": 11,
                 "fields": [
                   {
                     "name": {
@@ -4247,7 +4436,7 @@
               },
               {
                 "name": "Treasury",
-                "index": 11,
+                "index": 12,
                 "fields": [
                   {
                     "name": {
@@ -4259,7 +4448,7 @@
               },
               {
                 "name": "Contract",
-                "index": 12,
+                "index": 13,
                 "fields": [
                   {
                     "name": {
@@ -4271,7 +4460,7 @@
               },
               {
                 "name": "Sudo",
-                "index": 13,
+                "index": 14,
                 "fields": [
                   {
                     "name": {
@@ -4345,6 +4534,12 @@
           }
         },
         {
+          "name": "srml_finality_tracker#Module",
+          "kind": {
+            "TypeMetadataKind$Struct": []
+          }
+        },
+        {
           "name": "srml_grandpa#Module",
           "kind": {
             "TypeMetadataKind$Struct": []
@@ -4366,19 +4561,6 @@
           "name": "srml_sudo#Module",
           "kind": {
             "TypeMetadataKind$Struct": []
-          }
-        },
-        {
-          "name": "sr_primitives#AccountId",
-          "kind": {
-            "TypeMetadataKind$Struct": [
-              {
-                "name": {
-                  "FieldName$Unnamed": 0
-                },
-                "ty": "H256"
-              }
-            ]
           }
         },
         {
@@ -4448,7 +4630,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_indices#RawEvent<sr_primitives#AccountId,u32>"
+                    "ty": "srml_indices#RawEvent<H256,u32>"
                   }
                 ]
               },
@@ -4460,7 +4642,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_balances#RawEvent<sr_primitives#AccountId,u128>"
+                    "ty": "srml_balances#RawEvent<H256,u128>"
                   }
                 ]
               },
@@ -4484,7 +4666,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_staking#RawEvent<u128,sr_primitives#AccountId>"
+                    "ty": "srml_staking#RawEvent<u128,H256>"
                   }
                 ]
               },
@@ -4496,7 +4678,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_democracy#RawEvent<u128,sr_primitives#AccountId>"
+                    "ty": "srml_democracy#RawEvent<u128,H256>"
                   }
                 ]
               },
@@ -4508,7 +4690,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_council::seats#RawEvent<sr_primitives#AccountId>"
+                    "ty": "srml_council::seats#RawEvent<H256>"
                   }
                 ]
               },
@@ -4532,7 +4714,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_council::motions#RawEvent<H256,sr_primitives#AccountId>"
+                    "ty": "srml_council::motions#RawEvent<H256,H256>"
                   }
                 ]
               },
@@ -4556,7 +4738,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_treasury#RawEvent<u128,sr_primitives#AccountId>"
+                    "ty": "srml_treasury#RawEvent<u128,H256>"
                   }
                 ]
               },
@@ -4568,7 +4750,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_contract#RawEvent<u128,sr_primitives#AccountId,H256>"
+                    "ty": "srml_contract#RawEvent<u128,H256,H256>"
                   }
                 ]
               },
@@ -4580,7 +4762,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "srml_sudo#RawEvent<sr_primitives#AccountId>"
+                    "ty": "srml_sudo#RawEvent<H256>"
                   }
                 ]
               },
@@ -4617,7 +4799,7 @@
           }
         },
         {
-          "name": "srml_indices#RawEvent<sr_primitives#AccountId,u32>",
+          "name": "srml_indices#RawEvent<H256,u32>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -4628,7 +4810,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -4642,7 +4824,7 @@
           }
         },
         {
-          "name": "srml_balances#RawEvent<sr_primitives#AccountId,u128>",
+          "name": "srml_balances#RawEvent<H256,u128>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -4653,7 +4835,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -4671,7 +4853,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               },
@@ -4683,13 +4865,13 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
                       "FieldName$Unnamed": 1
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -4728,7 +4910,7 @@
           }
         },
         {
-          "name": "srml_staking#RawEvent<u128,sr_primitives#AccountId>",
+          "name": "srml_staking#RawEvent<u128,H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -4751,7 +4933,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -4769,7 +4951,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -4783,7 +4965,7 @@
           }
         },
         {
-          "name": "srml_democracy#RawEvent<u128,sr_primitives#AccountId>",
+          "name": "srml_democracy#RawEvent<u128,H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -4824,7 +5006,7 @@
                     "name": {
                       "FieldName$Unnamed": 2
                     },
-                    "ty": "Vec<sr_primitives#AccountId>"
+                    "ty": "Vec<H256>"
                   }
                 ]
               },
@@ -4926,7 +5108,7 @@
           }
         },
         {
-          "name": "srml_council::seats#RawEvent<sr_primitives#AccountId>",
+          "name": "srml_council::seats#RawEvent<H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -4937,13 +5119,13 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
                       "FieldName$Unnamed": 1
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               },
@@ -4955,7 +5137,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               },
@@ -4979,13 +5161,13 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "Vec<sr_primitives#AccountId>"
+                    "ty": "Vec<H256>"
                   },
                   {
                     "name": {
                       "FieldName$Unnamed": 1
                     },
-                    "ty": "Vec<sr_primitives#AccountId>"
+                    "ty": "Vec<H256>"
                   }
                 ]
               }
@@ -5060,7 +5242,7 @@
           }
         },
         {
-          "name": "srml_council::motions#RawEvent<H256,sr_primitives#AccountId>",
+          "name": "srml_council::motions#RawEvent<H256,H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -5071,7 +5253,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -5101,7 +5283,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -5194,7 +5376,7 @@
           }
         },
         {
-          "name": "srml_treasury#RawEvent<u128,sr_primitives#AccountId>",
+          "name": "srml_treasury#RawEvent<u128,H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -5241,7 +5423,7 @@
                     "name": {
                       "FieldName$Unnamed": 2
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               },
@@ -5273,7 +5455,7 @@
           }
         },
         {
-          "name": "srml_contract#RawEvent<u128,sr_primitives#AccountId,H256>",
+          "name": "srml_contract#RawEvent<u128,H256,H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -5284,13 +5466,13 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
                       "FieldName$Unnamed": 1
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -5308,13 +5490,13 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
                       "FieldName$Unnamed": 1
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               },
@@ -5350,7 +5532,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   },
                   {
                     "name": {
@@ -5364,7 +5546,7 @@
           }
         },
         {
-          "name": "srml_sudo#RawEvent<sr_primitives#AccountId>",
+          "name": "srml_sudo#RawEvent<H256>",
           "kind": {
             "TypeMetadataKind$Enum": [
               {
@@ -5387,7 +5569,7 @@
                     "name": {
                       "FieldName$Unnamed": 0
                     },
-                    "ty": "sr_primitives#AccountId"
+                    "ty": "H256"
                   }
                 ]
               }
@@ -5439,6 +5621,50 @@
           }
         },
         {
+          "name": "srml_balances#BalanceLock<u128,u64>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "id"
+                },
+                "ty": "Vec<u8>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "amount"
+                },
+                "ty": "u128"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "until"
+                },
+                "ty": "u64"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "reasons"
+                },
+                "ty": "srml_support::traits#WithdrawReasons"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_support::traits#WithdrawReasons",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "mask"
+                },
+                "ty": "i8"
+              }
+            ]
+          }
+        },
+        {
           "name": "sr_primitives#Perbill",
           "kind": {
             "TypeMetadataKind$Struct": [
@@ -5447,6 +5673,78 @@
                   "FieldName$Unnamed": 0
                 },
                 "ty": "u32"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#StakingLedger<H256,u128,u64>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "stash"
+                },
+                "ty": "H256"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "total"
+                },
+                "ty": "Compact<u128>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "active"
+                },
+                "ty": "Compact<u128>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "unlocking"
+                },
+                "ty": "Vec<srml_staking#UnlockChunk<u128,u64>>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#UnlockChunk<u128,u64>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "value"
+                },
+                "ty": "Compact<u128>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "era"
+                },
+                "ty": "Compact<u64>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#RewardDestination",
+          "kind": {
+            "TypeMetadataKind$Enum": [
+              {
+                "name": "Staked",
+                "index": 0,
+                "fields": []
+              },
+              {
+                "name": "Stash",
+                "index": 1,
+                "fields": []
+              },
+              {
+                "name": "Controller",
+                "index": 2,
+                "fields": []
               }
             ]
           }
@@ -5464,6 +5762,50 @@
               {
                 "name": {
                   "FieldName$Named": "validator_payment"
+                },
+                "ty": "Compact<u128>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#Exposure<H256,u128>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "total"
+                },
+                "ty": "Compact<u128>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "own"
+                },
+                "ty": "Compact<u128>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "others"
+                },
+                "ty": "Vec<srml_staking#IndividualExposure<H256,u128>>"
+              }
+            ]
+          }
+        },
+        {
+          "name": "srml_staking#IndividualExposure<H256,u128>",
+          "kind": {
+            "TypeMetadataKind$Struct": [
+              {
+                "name": {
+                  "FieldName$Named": "who"
+                },
+                "ty": "H256"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "value"
                 },
                 "ty": "Compact<u128>"
               }
@@ -5535,6 +5877,12 @@
                   "FieldName$Named": "next_authorities"
                 },
                 "ty": "Vec<(substrate_primitives::authority_id#Ed25519AuthorityId,u64)>"
+              },
+              {
+                "name": {
+                  "FieldName$Named": "forced"
+                },
+                "ty": "Option<u64>"
               }
             ]
           }
@@ -5553,14 +5901,14 @@
           }
         },
         {
-          "name": "srml_treasury#Proposal<sr_primitives#AccountId,u128>",
+          "name": "srml_treasury#Proposal<H256,u128>",
           "kind": {
             "TypeMetadataKind$Struct": [
               {
                 "name": {
                   "FieldName$Named": "proposer"
                 },
-                "ty": "sr_primitives#AccountId"
+                "ty": "H256"
               },
               {
                 "name": {
@@ -5572,7 +5920,7 @@
                 "name": {
                   "FieldName$Named": "beneficiary"
                 },
-                "ty": "sr_primitives#AccountId"
+                "ty": "H256"
               },
               {
                 "name": {

@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Metadata, AccountId } from '../index';
+import { u8aToHex } from '@polkadot/util';
+import { Metadata, Perbill } from '../index';
 import json from '../Metadata/v2/static';
 import * as PrimitiveTypes from '../primitive';
 import Text from '../primitive/Text';
@@ -103,13 +104,12 @@ describe('TypeRegistry', () => {
     });
 
     it('can register struct type with unnamed field', () => {
-      const name = 'sr_primitives#AccountId';
+      const name = 'sr_primitives#Perbill';
       const AccountIdFromRegistry = registry.getOrThrow(name);
       const value = new U8a([
-        1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
-        1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
+        1, 2, 3, 4
       ]);
-      expect(new AccountIdFromRegistry(value).toHex()).toEqual(new AccountId(value).toHex());
+      expect(u8aToHex(new AccountIdFromRegistry(value).toU8a())).toEqual(u8aToHex(new Perbill(value).toU8a()));
     });
 
     it('can register struct type with named field', () => {
