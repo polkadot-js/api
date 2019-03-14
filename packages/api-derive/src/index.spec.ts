@@ -7,7 +7,7 @@ import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import MockProvider from '@polkadot/rpc-provider/mock';
 
-import { Derive } from './index';
+import { Derive } from '.';
 
 const testFunction = (api: ApiInterface$Rx) => {
   return <

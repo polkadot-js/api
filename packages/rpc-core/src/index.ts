@@ -6,10 +6,10 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-pro
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
-import interfaces from '@polkadot/jsonrpc/index';
-import { WsProvider } from '@polkadot/rpc-provider/index';
+import interfaces from '@polkadot/jsonrpc';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { Codec } from '@polkadot/types/types';
-import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types/index';
+import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');

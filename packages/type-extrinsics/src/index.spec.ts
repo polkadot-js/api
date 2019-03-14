@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { Extrinsic } from '@polkadot/types/index';
+import { Extrinsic } from '@polkadot/types';
 
 import extrinsics from './static';
 

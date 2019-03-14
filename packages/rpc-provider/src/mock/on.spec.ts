@@ -4,7 +4,7 @@
 
 import { ProviderInterface$Emitted } from '../types';
 
-import Mock from './index';
+import Mock from '.';
 
 describe('on', () => {
   let mock: Mock;

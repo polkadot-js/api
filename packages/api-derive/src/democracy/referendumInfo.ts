@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Option, ReferendumInfo, ReferendumIndex } from '@polkadot/types/index';
+import { Option, ReferendumInfo, ReferendumIndex } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
 import { drr } from '../util/drr';

@@ -18,12 +18,12 @@ import {
 
 import EventEmitter from 'eventemitter3';
 import { map } from 'rxjs/operators';
-import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
+import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import RpcBase from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
+import RpcBase from '@polkadot/rpc-core';
+import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';

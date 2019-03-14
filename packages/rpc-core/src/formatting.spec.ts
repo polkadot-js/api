@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import storage from '@polkadot/storage/static';
 
-import Api from './index';
+import Api from '.';
 
 const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
 const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';

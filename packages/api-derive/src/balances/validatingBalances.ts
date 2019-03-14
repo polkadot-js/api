@@ -5,7 +5,7 @@
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Address } from '@polkadot/types/index';
+import { AccountId, Address } from '@polkadot/types';
 
 import { DerivedBalancesMap } from '../types';
 import { drr } from '../util/drr';

@@ -8,7 +8,7 @@ import MetadataV0 from '@polkadot/types/Metadata/v0';
 import { stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './utils/createFunction';
-import storage from './index';
+import storage from '.';
 
 /**
  * Extend a storage object with the storage modules & module functions present

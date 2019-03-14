@@ -5,7 +5,7 @@
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Option, ReferendumIndex } from '@polkadot/types/index';
+import { Option, ReferendumIndex } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { ReferendumInfoExtended } from './referendumInfo';

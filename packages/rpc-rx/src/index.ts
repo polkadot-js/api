@@ -9,7 +9,7 @@ import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInte
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
 import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
-import Rpc from '@polkadot/rpc-core/index';
+import Rpc from '@polkadot/rpc-core';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
 
