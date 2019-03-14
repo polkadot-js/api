@@ -1,3 +1,7 @@
+# 0.47.1
+
+- Swap to publishing -beta.x on merge (non-breaking testing)
+
 # 0.46.1
 
 - Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version.
