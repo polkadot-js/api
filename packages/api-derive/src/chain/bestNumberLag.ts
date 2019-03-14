@@ -5,7 +5,7 @@
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types/index';
+import { BlockNumber } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from './bestNumber';

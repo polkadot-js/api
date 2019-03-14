@@ -11,7 +11,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
   send = () => true;
 });
 
-import RpcRx from './index';
+import RpcRx from '.';
 
 describe('createCachedObservable', () => {
   let api: RpcRx;

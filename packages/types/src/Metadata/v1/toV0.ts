@@ -7,7 +7,7 @@ import { EventMetadata, OuterEventMetadata, OuterEventMetadataEvent } from '../v
 import { CallMetadata, FunctionMetadata, RuntimeModuleMetadata, ModuleMetadata, StorageFunctionMetadata, StorageMetadata } from '../v0/Modules';
 
 import MetadataV0 from '../v0/Metadata';
-import MetadataV1, { MetadataModuleV1 } from './index';
+import MetadataV1, { MetadataModuleV1 } from '.';
 
 function storageV0 (mod: MetadataModuleV1): StorageMetadata | null {
   if (mod.storage.isNone) {

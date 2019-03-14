@@ -5,8 +5,8 @@
 import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types/index';
-import { WsProvider } from '@polkadot/rpc-provider/index';
+import { BlockNumber } from '@polkadot/types';
+import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
 // const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';

@@ -4,10 +4,10 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ApiPromise } from '@polkadot/api/index';
+import { ApiPromise } from '@polkadot/api';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header, HeaderExtended } from '@polkadot/types/index';
+import { Header, HeaderExtended } from '@polkadot/types';
 
 export default async function test () {
   const api = await ApiPromise.create();

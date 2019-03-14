@@ -9,7 +9,7 @@ import MetadataV0 from '@polkadot/types/Metadata/v0';
 import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';
-import extrinsics from './index';
+import extrinsics from '.';
 
 /**
  * Extend a storage object with the storage modules & module functions present

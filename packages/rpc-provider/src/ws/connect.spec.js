@@ -4,7 +4,7 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from './index';
+import Ws from '.';
 
 describe('onConnect', () => {
   let mock;
