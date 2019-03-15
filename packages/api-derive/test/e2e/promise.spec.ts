@@ -9,7 +9,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
 // const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
 
-describe('derive e2e', () => {
+describe.skip('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
