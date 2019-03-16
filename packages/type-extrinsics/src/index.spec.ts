@@ -7,7 +7,7 @@ import { Extrinsic } from '@polkadot/types';
 
 import extrinsics from './static';
 
-const keyring = testingPairs({ type: 'ed25519' });
+const keyring = testingPairs({ type: 'ed25519' }, false);
 
 describe('extrinsics', () => {
   it('encodes extrinsic correctly (nobody)', () => {
