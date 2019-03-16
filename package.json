@@ -25,7 +25,7 @@
     "@babel/core": "^7.3.3",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.3.4",
-    "@polkadot/dev": "^0.26.1",
+    "@polkadot/dev": "^0.27.1",
     "@polkadot/ts": "^0.1.56",
     "gh-pages": "^2.0.1"
   }

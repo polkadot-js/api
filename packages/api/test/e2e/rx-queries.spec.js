@@ -7,9 +7,8 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-const keyring = testingPairs({ type: 'ed25519' });
-
 describe.skip('e2e queries', () => {
+  const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
   beforeEach(async (done) => {

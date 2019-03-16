@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/util-crypto/schnorrkel/test-polyfill';
-
 import testingPairs from '@polkadot/keyring/testingPairs';
 import createPair from '@polkadot/keyring/pair';
 import { randomAsHex } from '@polkadot/util-crypto';
@@ -13,9 +11,8 @@ import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 import SingleAccountSigner from "../util/SingleAccountSigner";
 
-const keyring = testingPairs({ type: 'ed25519' });
-
 describe.skip('e2e transactions', () => {
+  const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
   beforeEach(async (done) => {
