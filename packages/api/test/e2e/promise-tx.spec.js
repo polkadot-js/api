@@ -159,9 +159,8 @@ describe.skip('e2e transactions', () => {
     expect(hash.toHex()).toHaveLength(66);
   });
 
-  // skipped (needs sr25519 enabled on chain)
-  it.skip('makes a transfer, swaps types and then another one', async (done) => {
-    const pair = createPair('sr25519', { seed: stringToU8a('testing123'.padEnd(32)) });
+  it('makes a transfer, and uses new balance to transfers to new', async (done) => {
+    const pair = createPair('ed25519', { seed: stringToU8a('testing123'.padEnd(32)) });
 
     function doOne (cb) {
       return api.tx.balances
