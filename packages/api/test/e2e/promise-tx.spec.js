@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import createPair from '@polkadot/keyring/pair';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { stringToU8a } from '@polkadot/util';
 
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 import SingleAccountSigner from "../util/SingleAccountSigner";
 
-describe.skip('e2e transactions', () => {
+describe.only('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
@@ -160,7 +159,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer, and uses new balance to transfers to new', async (done) => {
-    const pair = createPair('ed25519', { seed: stringToU8a('testing123'.padEnd(32)) });
+    const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
     function doOne (cb) {
       return api.tx.balances
