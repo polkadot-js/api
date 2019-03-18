@@ -39,7 +39,7 @@ describe('decodeResponse', () => {
   it('throws any error found', () => {
     expect(
       () => coder.decodeResponse({ id: 1, jsonrpc: '2.0', error: { code: 123, message: 'test error' } } as JsonRpcResponse)
-    ).toThrow(/\[123\]: test error/);
+    ).toThrow(/123: test error/);
   });
 
   it('returns the result', () => {

@@ -90,7 +90,7 @@ describe('send', () => {
     return createWs()
       .send('test_error', [])
       .catch((error) => {
-        expect(error.message).toMatch(/\[666\]: error/);
+        expect(error.message).toMatch(/666: error/);
       });
   });
 
