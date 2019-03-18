@@ -52,8 +52,11 @@ export default class RpcCoder {
   private checkError (error?: JsonRpcResponseBase$Error): void {
     if (error) {
       const { code, data, message } = error;
+      const _data = `${data}`;
 
-      throw new Error(`${code}:${isUndefined(data) ? '' : data}: ${message}`);
+      console.error(`${code}: ${message} (${data})`);
+
+      throw new Error(`${code}: ${message} (${_data.length > 10 ? _data.substr(0, 10) : _data})`);
     }
   }
 }
