@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import createPair from '@polkadot/keyring/pair';
 import { randomAsHex } from '@polkadot/util-crypto';
-import { stringToU8a } from '@polkadot/util';
 
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
@@ -159,9 +158,8 @@ describe.skip('e2e transactions', () => {
     expect(hash.toHex()).toHaveLength(66);
   });
 
-  // skipped (needs sr25519 enabled on chain)
-  it.skip('makes a transfer, swaps types and then another one', async (done) => {
-    const pair = createPair('sr25519', { seed: stringToU8a('testing123'.padEnd(32)) });
+  it('makes a transfer, and uses new balance to transfers to new', async (done) => {
+    const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
     function doOne (cb) {
       return api.tx.balances
