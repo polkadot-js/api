@@ -367,7 +367,7 @@ ___
 - **summary**:   The next value of sessions per era.
 
 ▸ **nominators**(`AccountId`): `Vec<AccountId>`
-- **summary**:   The set of keys are all controllers that want to nominate.    The value are the nominations.
+- **summary**:   The set of keys are all controllers that want to nominate.   The value are the nominations.
 
 ▸ **offlineSlash**(): `Perbill`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
@@ -400,7 +400,7 @@ ___
 - **summary**:   The ideal number of staking participants.
 
 ▸ **validators**(`AccountId`): `ValidatorPrefs`
-- **summary**:   The set of keys are all controllers that want to validate.    The values are the preferences that a validator has.
+- **summary**:   The set of keys are all controllers that want to validate.   The values are the preferences that a validator has.
 
 ___
 

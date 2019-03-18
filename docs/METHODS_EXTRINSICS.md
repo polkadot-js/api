@@ -199,16 +199,16 @@ ___
 - **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will be the  account that controls it.
 
 ▸ **bondExtra**(max_additional: `BalanceOf`)
-- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up for  staking.    Use this if there are additional funds in your stash account that you wish to bond.    NOTE: This call must be made by the controller, not the stash.
+- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up for  staking.   Use this if there are additional funds in your stash account that you wish to bond.   NOTE: This call must be made by the controller, not the stash.
 
 ▸ **chill**()
-- **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+- **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.   NOTE: This call must be made by the controller, not the stash.
 
 ▸ **forceNewEra**(apply_rewards: `bool`)
 - **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.
 
 ▸ **nominate**(targets: `Vec<Address>`)
-- **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+- **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.   NOTE: This call must be made by the controller, not the stash.
 
 ▸ **setBondingDuration**(new: `Compact<BlockNumber>`)
 - **summary**:   The length of the bonding duration in eras.
@@ -220,7 +220,7 @@ ___
 - **summary**:   Set the offline slash grace period.
 
 ▸ **setPayee**(payee: `RewardDestination`)
-- **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+- **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   NOTE: This call must be made by the controller, not the stash.
 
 ▸ **setSessionsPerEra**(new: `Compact<BlockNumber>`)
 - **summary**:   Set the number of sessions in an era.
@@ -229,13 +229,13 @@ ___
 - **summary**:   The ideal number of validators.
 
 ▸ **unbond**(value: `Compact<BalanceOf>`)
-- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than   T::Currency::existential_deposit(), then it is increased to the full amount.    Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.     NOTE: This call must be made by the controller, not the stash.    See also `withdraw_unbonded`.
+- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than  T::Currency::existential_deposit(), then it is increased to the full amount.   Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.   NOTE: This call must be made by the controller, not the stash.   See also [`Call::withdraw_unbonded`].
 
 ▸ **validate**(prefs: `ValidatorPrefs`)
-- **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.    NOTE: This call must be made by the controller, not the stash.
+- **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.   NOTE: This call must be made by the controller, not the stash.
 
 ▸ **withdrawUnbonded**()
-- **summary**:   Remove any unlocked chunks from the `unlocking` queue from our management.    This essentially frees up that balance to be used by the stash account to do  whatever it wants.    NOTE: This call must be made by the controller, not the stash.    See also `unbond`.
+- **summary**:   Remove any unlocked chunks from the `unlocking` queue from our management.   This essentially frees up that balance to be used by the stash account to do  whatever it wants.   NOTE: This call must be made by the controller, not the stash.   See also [`Call::unbond`].
 
 ___
 
@@ -252,7 +252,7 @@ ___
 ### timestamp
 
 ▸ **set**(now: `Compact<Moment>`)
-- **summary**:   Set the current time.   Extrinsic with this call should be placed at the specific position in the each block  (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.  This call should be invoked exactly once per block. It will panic at the finalization phase,  if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by `block_period`.
+- **summary**:   Set the current time.   This call should be invoked exactly once per block. It will panic at the finalization phase,  if this call hasn't been invoked by that time.   The timestamp should be greater than the previous one by the amount specified by `block_period`.    The dispatch origin for this call must be `Inherent`.
 
 ___
 
