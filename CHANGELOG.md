@@ -1,3 +1,8 @@
+# 0.48.1
+
+- Pull in new sr25519 capable keyring for dev nodes
+- When using dev mode, it assumes that the node is the latest with derived sr25519 keys
+
 # 0.47.1
 
 - Swap to publishing -beta.x on merge (non-breaking testing)
