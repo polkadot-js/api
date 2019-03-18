@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.48.0-beta.1",
+  "version": "0.48.0-beta.2",
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
   "main": "index.js",
   "keywords": [

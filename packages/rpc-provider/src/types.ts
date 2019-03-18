@@ -14,6 +14,7 @@ export type JsonRpcRequest = JsonRpcObject & {
 
 export type JsonRpcResponseBase$Error = {
   code: number,
+  data?: number | string,
   message: string
 };
 

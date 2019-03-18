@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/storage",
-  "version": "0.48.0-beta.1",
+  "version": "0.48.0-beta.2",
   "description": "Generic wrapper wrapper around state storage",
   "main": "index.js",
   "engines": {
