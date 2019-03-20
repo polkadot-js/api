@@ -1,3 +1,8 @@
+# 0.49.1
+
+- Fix large message signing on non-known nodes (default is now hashing, enough time between upgrades)
+- Lastest util-crypto
+
 # 0.48.1
 
 - Pull in new sr25519 capable keyring for dev nodes
