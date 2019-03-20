@@ -94,12 +94,8 @@ export default class SignaturePayload extends Struct {
    * @description Sign the payload with the keypair
    */
   sign (signerPair: KeyringPair, version?: RuntimeVersion): Uint8Array {
-    // for newer api versions, hash when length > 256
-    const isLegacy = !version ||
-      (version.specName.eq('node') && version.specVersion.ltn(18)) ||
-      (version.specName.eq('polkadot') && version.specVersion.ltn(107));
     const u8a = this.toU8a();
-    const encoded = !isLegacy && (u8a.length > 256)
+    const encoded = u8a.length > 256
       ? blake2AsU8a(u8a)
       : u8a;
 
