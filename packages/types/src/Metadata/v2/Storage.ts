@@ -5,40 +5,23 @@
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
+import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
+import { MetadataStorageModifier } from '../v1/Storage';
 
 export class Default extends Null {}
 
 export class Optional extends Null {}
 
-export class MetadataStorageModifier extends EnumType<Optional | Default> {
-  constructor (value?: any, index?: number) {
-    super({
-      Optional,
-      Default
-    }, value, index);
-  }
-
-  /**
-   * @description `true` if the storage entry is optional
-   */
-  get isOptional (): boolean {
-    return this.toNumber() === 0;
-  }
-
-  toJSON (): any {
-    return this.toString();
-  }
-}
-
 export class MapType extends Struct {
   constructor (value?: any) {
     super({
       key: Type,
-      value: Type
+      value: Type,
+      isLinked: Bool
     }, value);
   }
 
@@ -60,7 +43,7 @@ export class MapType extends Struct {
    * @description Is this an enumerable linked map
    */
   get isLinked (): boolean {
-    return false;
+    return (this.get('isLinked') as Bool).valueOf();
   }
 }
 
