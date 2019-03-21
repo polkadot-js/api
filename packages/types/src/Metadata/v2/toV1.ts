@@ -6,6 +6,5 @@ import MetadataV1 from '../v1/Metadata';
 import MetadataV2 from '.';
 
 export default function toV1 (v2: MetadataV2): MetadataV1 {
-  // V2 and V1 have same interface
-  return v2 as any as MetadataV1;
+  return new MetadataV1(v2);
 }

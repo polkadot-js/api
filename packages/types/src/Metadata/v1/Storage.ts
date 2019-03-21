@@ -35,11 +35,17 @@ export class MetadataStorageModifier extends EnumType<Optional | Default> {
 }
 
 export class MapType extends Struct {
+  private _isLinked = false;
+
   constructor (value?: any) {
     super({
       key: Type,
       value: Type
     }, value);
+
+    if (value && value.isLinked) {
+      this._isLinked = true;
+    }
   }
 
   /**
@@ -60,7 +66,7 @@ export class MapType extends Struct {
    * @description Is this an enumerable linked map
    */
   get isLinked (): boolean {
-    return false;
+    return this._isLinked;
   }
 }
 
