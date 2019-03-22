@@ -24,16 +24,16 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
+  let key = stringToU8a(
+    options.key
+      ? options.key
+      : `${section.toString()} ${method.toString()}`
+  );
+
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
   // - storage.timestamp.blockPeriod()
   const storageFn = (arg?: any): Uint8Array => {
-    let key = stringToU8a(
-      options.key
-        ? options.key
-        : `${section.toString()} ${method.toString()}`
-    );
-
     if (meta.type.isMap) {
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
@@ -50,6 +50,10 @@ export default function createFunction (section: Text | string, method: Text | s
         : xxhashAsU8a(key, 128)
     );
   };
+
+  if (meta.type.isMap && meta.type.asMap.isLinked) {
+    storageFn.headKey = xxhashAsU8a(`head of ${key}`, 128);
+  }
 
   storageFn.meta = meta;
   storageFn.method = stringLowerFirst(method.toString());

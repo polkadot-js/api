@@ -50,4 +50,22 @@ describe.skip('e2e queries', () => {
         done();
       });
   });
+
+  describe('linked map', () => {
+    it('queries state witha key', (done) => {
+      api.query.staking.validators(keyring.alice.address()).subscribe((res) => {
+        expect(res.unstakeThreshold).toBeTruthy()
+
+        done();
+      });
+    });
+    it('queries state head', (done) => {
+      api.query.staking.validators.head().subscribe((res) => {
+        console.log(res.toJSON());
+        expect(res.unstakeThreshold).toBeTruthy()
+
+        done();
+      });
+    });
+  })
 });

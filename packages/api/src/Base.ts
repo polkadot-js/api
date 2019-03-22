@@ -532,6 +532,30 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     decorated.key = (arg?: CodecArg): string =>
       u8aToHex(compactStripLength(method(arg))[1]);
 
+    // Linked Map support
+
+    if (method.headKey) {
+      decorated.head = ((callback?: CodecCallback) => {
+        return onCall(
+          (arg: CodecArg) => this._rpcRx.state
+            .subscribeStorage([[method, arg]])
+            .pipe(
+              // state_storage returns an array of values, since we have just subscribed to
+              // a single entry, we pull that from the array and return it as-is
+              map((result: Array<Codec>): Codec =>
+                result[0]
+              )
+            ),
+          [method.headKey],
+          callback
+        ) as C;
+      });
+    } else {
+      decorated.head = () => {
+        throw new Error(`${method.name} is not LinkedMap`);
+      };
+    }
+
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
   }
 
