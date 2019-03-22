@@ -1,7 +1,7 @@
 # 0.49.1
 
 - Fix large message signing on non-known nodes (default is now hashing, enough time between upgrades)
-- Lastest util-crypto
+- Lastest util-crypto, including usage of WASM
 
 # 0.48.1
 
