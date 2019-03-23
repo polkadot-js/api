@@ -30,7 +30,7 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/types#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.0",
-    "@polkadot/keyring": "^0.40.1",
-    "@polkadot/util": "^0.40.1"
+    "@polkadot/keyring": "^0.41.0-beta.1",
+    "@polkadot/util": "^0.41.0-beta.1"
   }
 }
