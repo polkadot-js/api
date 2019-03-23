@@ -81,6 +81,12 @@ ___
 
 ### contract
 
+▸ **accountCounter**(): `u64`
+- **summary**:   The subtrie counter
+
+▸ **accountInfoOf**(`AccountId`): `Option<AccountInfo>`
+- **summary**:   The code associated with a given account.
+
 ▸ **blockGasLimit**(): `Gas`
 - **summary**:   The maximum amount of gas that could be expended per block.
 
@@ -327,22 +333,20 @@ ___
 ▸ **bondingDuration**(): `BlockNumber`
 - **summary**:   The length of the bonding duration in blocks.
 
+▸ **currentElected**(): `Vec<AccountId>`
+- **summary**:   The currently elected validator set keyed by stash account ID.
+
 ▸ **currentEra**(): `BlockNumber`
 - **summary**:   The current era index.
 
 ▸ **currentEraReward**(): `BalanceOf`
 - **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era and  increased for every successfully finished session.
 
-▸ **currentOfflineSlash**(): `BalanceOf`
-- **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
-
 ▸ **currentSessionReward**(): `BalanceOf`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
 ▸ **forcingNewEra**(): `Option<Null>`
 - **summary**:   We are forcing a new era.
-
-▸ **invulerables**(): `Vec<AccountId>`
 
 ▸ **invulnerables**(): `Vec<AccountId>`
 - **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
@@ -360,7 +364,7 @@ ___
 - **summary**:   The next value of sessions per era.
 
 ▸ **nominators**(`AccountId`): `Vec<AccountId>`
-- **summary**:   The set of keys are all controllers that want to nominate.   The value are the nominations.
+- **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
 
 ▸ **offlineSlash**(): `Perbill`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
@@ -369,7 +373,7 @@ ___
 - **summary**:   Number of instances of offline reports before slashing begins for validators.
 
 ▸ **payee**(`AccountId`): `RewardDestination`
-- **summary**:   Where the reward payment should be made.
+- **summary**:   Where the reward payment should be made. Keyed by stash.
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
 - **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for).
@@ -387,13 +391,13 @@ ___
 - **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.
 
 ▸ **stakers**(`AccountId`): `Exposure`
-- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.
+- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.   This is keyed by the stash account.
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
 
 ▸ **validators**(`AccountId`): `ValidatorPrefs`
-- **summary**:   The set of keys are all controllers that want to validate.   The values are the preferences that a validator has.
+- **summary**:   The map from (wannabe) validator stash key to the preferences of that validator.
 
 ___
 
