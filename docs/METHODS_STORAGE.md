@@ -15,8 +15,6 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[democracy](#democracy)**
 
-- **[fees](#fees)**
-
 - **[grandpaFinality](#grandpaFinality)**
 
 - **[indices](#indices)**
@@ -58,6 +56,12 @@ ___
 
 ▸ **totalIssuance**(): `Balance`
 - **summary**:   The total amount of stake on the system.
+
+▸ **transactionBaseFee**(): `Balance`
+- **summary**:   The fee to be paid for making a transaction; the base.
+
+▸ **transactionByteFee**(): `Balance`
+- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ▸ **transferFee**(): `Balance`
 - **summary**:   The fee required to make a transfer.
@@ -218,6 +222,9 @@ ___
 
 ### democracy
 
+▸ **delegations**(`AccountId`): `(AccountId,LockPeriods)`
+- **summary**:   Get the account (and lock periods) to which another account is delegating vote.
+
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
 - **summary**:   Those who have locked a deposit.
 
@@ -259,20 +266,6 @@ ___
 
 ▸ **votingPeriod**(): `BlockNumber`
 - **summary**:   How often (in blocks) to check for new votes.
-
-___
-
-
-### fees
-
-▸ **currentTransactionFee**(`u32`): `AssetOf`
-- **summary**:   The `extrinsic_index => accumulated_fees` map, containing records to  track the overall charged fees for each transaction.   All records should be removed at finalise stage.
-
-▸ **transactionBaseFee**(): `AssetOf`
-- **summary**:   The fee to be paid for making a transaction; the base.
-
-▸ **transactionByteFee**(): `AssetOf`
-- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ___
 

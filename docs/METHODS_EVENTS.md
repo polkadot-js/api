@@ -13,8 +13,6 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[democracy](#democracy)**
 
-- **[fees](#fees)**
-
 - **[grandpa](#grandpa)**
 
 - **[indices](#indices)**
@@ -119,6 +117,8 @@ ___
 
 ▸ **Cancelled**(`ReferendumIndex`)
 
+▸ **Delegated**(`AccountId`, `AccountId`)
+
 ▸ **Executed**(`ReferendumIndex`, `bool`)
 
 ▸ **NotPassed**(`ReferendumIndex`)
@@ -131,13 +131,7 @@ ___
 
 ▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
 
-___
-
-
-### fees
-
-▸ **Charged**(`u32`, `Amount`)
-- **summary**:   Fee charged (extrinsic_index, fee_amount)
+▸ **Undelegated**(`AccountId`)
 
 ___
 

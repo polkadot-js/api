@@ -73,7 +73,7 @@ ___
 - **summary**:   Make a call to a specified account, optionally transferring some balance.
 
 ▸ **create**(endowment: `Compact<Balance>`, gas_limit: `Compact<Gas>`, code_hash: `CodeHash`, data: `Bytes`)
-- **summary**:   Create a new contract, optionally transfering some balance to the created account.   Creation is executed as follows:   - the destination address is computed based on the sender and hash of the code.  - account is created at the computed address.  - the `ctor_code` is executed in the context of the newly created account. Buffer returned    after the execution is saved as the `code` of the account. That code will be invoked    upon any message received by this account.
+- **summary**:   Create a new contract, optionally transferring some balance to the created account.   Creation is executed as follows:   - the destination address is computed based on the sender and hash of the code.  - account is created at the computed address.  - the `ctor_code` is executed in the context of the newly created account. Buffer returned    after the execution is saved as the `code` of the account. That code will be invoked    upon any message received by this account.
 
 ▸ **putCode**(gas_limit: `Compact<Gas>`, code: `Bytes`)
 - **summary**:   Stores code in the storage. You can instantiate contracts only with stored code.
@@ -148,6 +148,9 @@ ___
 ▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
 - **summary**:   Remove a referendum.
 
+▸ **delegate**(to: `AccountId`, lock_periods: `LockPeriods`)
+- **summary**:   Delegate vote.
+
 ▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
 - **summary**:   Propose a sensitive action to be taken.
 
@@ -156,6 +159,9 @@ ___
 
 ▸ **startReferendum**(proposal: `Proposal`, threshold: `VoteThreshold`, delay: `BlockNumber`)
 - **summary**:   Start a referendum.
+
+▸ **undelegate**()
+- **summary**:   Undelegate vote.
 
 ▸ **vote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
 - **summary**:   Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.
