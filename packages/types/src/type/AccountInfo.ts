@@ -4,7 +4,7 @@
 
 import Struct from '../codec/Struct';
 import Bytes from '../primitive/Bytes';
-import u64 from '../primitive/u64';
+import U64 from '../primitive/U64';
 
 /**
  * @name AccountInfo
@@ -15,15 +15,15 @@ export default class AccountInfo extends Struct {
   constructor (value: any) {
     super({
       trieId: Bytes,
-	    currentMemStored: u64
+	    currentMemStored: U64
     }, value);
   }
 
   /**
    * @description The size of stored value in octet
    */
-  get currentMemStored (): u64 {
-    return this.get('currentMemStored') as u64;
+  get currentMemStored (): U64 {
+    return this.get('currentMemStored') as U64;
   }
 
   /**
