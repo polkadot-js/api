@@ -1,6 +1,7 @@
 # 0.50.1
 
-- Lastest util-crypto and keyring, including usage of WASM (JS fallbacks if not available)
+- Lastest util-crypto (usage of WASM with JS fallbacks if not available)
+- Update util & keyring
 
 # 0.49.1
 
