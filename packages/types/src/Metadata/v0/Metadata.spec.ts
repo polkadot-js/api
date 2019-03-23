@@ -16,8 +16,8 @@ describe('Metadata', () => {
     const metadata = new Metadata(rpcData);
     const str = JSON.stringify(metadata.toJSON());
 
-    console.error(str);
-    console.error(metadata.getUniqTypes(true));
+    // console.error(str);
+    // console.error(metadata.getUniqTypes(true));
 
     expect(metadata.events.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));

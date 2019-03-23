@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import metadata from './v2/static';
+import MetadataV1 from '../v1/Metadata';
+import MetadataV2 from '.';
 
-export default metadata;
+export default function toV1 (v2: MetadataV2): MetadataV1 {
+  return new MetadataV1(v2);
+}

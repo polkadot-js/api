@@ -4,21 +4,21 @@
 
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 
-import createType from '../codec/createType';
-import Method from '../primitive/Method';
+import createType from '../../codec/createType';
+import Method from '../../primitive/Method';
 
-import Metadata from './Metadata';
-import latestParsed from './v1/latest.substrate.v1.json';
+import Metadata from '../Metadata';
+import latestParsed from './latest.substrate.v1.json';
 import rpcData from './static';
 
-describe('Metadata', () => {
+describe('MetadataV1', () => {
   const metadata = new Metadata(rpcData);
 
   it('decodes latest properly', () => {
     const str = JSON.stringify(metadata.toJSON());
 
-    console.error(str);
-    console.error(metadata.getUniqTypes(true));
+    // console.error(str);
+    // console.error(metadata.getUniqTypes(true));
 
     expect(metadata.version).toBe(1);
     expect(metadata.asV1.modules.length).not.toBe(0);
