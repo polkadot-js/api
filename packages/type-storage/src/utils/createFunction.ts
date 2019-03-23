@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
+import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v0/Modules';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { Compact, Text, createType } from '@polkadot/types';
+import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@polkadot/types';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
+import { PlainType } from '@polkadot/types/Metadata/v2/Storage';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -24,11 +25,10 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
-  let key = stringToU8a(
-    options.key
-      ? options.key
-      : `${section.toString()} ${method.toString()}`
-  );
+  let stringKey = options.key
+    ? options.key
+    : `${section.toString()} ${method.toString()}`;
+  let key = stringToU8a(stringKey);
 
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
@@ -52,7 +52,17 @@ export default function createFunction (section: Text | string, method: Text | s
   };
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
-    storageFn.headKey = xxhashAsU8a(`head of ${key}`, 128);
+    // TODO: there needs some better way to do this
+    const keyHash = new U8a(xxhashAsU8a(`head of ${stringKey}`, 128));
+    const keyFn: any = () => keyHash;
+    keyFn.meta = new StorageFunctionMetadata({
+      name: meta.name,
+      modifier: new StorageFunctionModifier('Required'),
+      type: new StorageFunctionType(new PlainType(meta.type.asMap.key), 0),
+      default: new Bytes(),
+      documentation: meta.documentation
+    });
+    storageFn.headKey = new StorageKey(keyFn);
   }
 
   storageFn.meta = meta;

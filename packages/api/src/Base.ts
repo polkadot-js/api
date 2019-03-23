@@ -17,7 +17,7 @@ import {
 } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
@@ -535,21 +535,16 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     // Linked Map support
 
     if (method.headKey) {
-      decorated.head = ((callback?: CodecCallback) => {
-        return onCall(
+      decorated.head = (): C =>
+        onCall(
           (arg: CodecArg) => this._rpcRx.state
-            .subscribeStorage([[method, arg]])
+            .getStorage(arg)
             .pipe(
-              // state_storage returns an array of values, since we have just subscribed to
-              // a single entry, we pull that from the array and return it as-is
-              map((result: Array<Codec>): Codec =>
-                result[0]
-              )
-            ),
-          [method.headKey],
-          callback
+              switchMap(key => this._rpcRx.state.getStorage([method, key]))
+            )
+            ,
+          [method.headKey]
         ) as C;
-      });
     } else {
       decorated.head = () => {
         throw new Error(`${method.name} is not LinkedMap`);
