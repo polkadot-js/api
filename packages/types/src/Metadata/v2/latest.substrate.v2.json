@@ -801,15 +801,6 @@
               ]
             },
             {
-              "name": "Invulerables",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<AccountId>"
-              },
-              "fallback": "0x00",
-              "docs": []
-            },
-            {
               "name": "Invulnerables",
               "modifier": "Default",
               "type": {
@@ -863,7 +854,7 @@
               },
               "fallback": "0x00",
               "docs": [
-                " Where the reward payment should be made."
+                " Where the reward payment should be made. Keyed by stash."
               ]
             },
             {
@@ -878,9 +869,7 @@
               },
               "fallback": "0x0c00",
               "docs": [
-                " The set of keys are all controllers that want to validate.",
-                "",
-                " The values are the preferences that a validator has."
+                " The map from (wannabe) validator stash key to the preferences of that validator."
               ]
             },
             {
@@ -895,9 +884,7 @@
               },
               "fallback": "0x00",
               "docs": [
-                " The set of keys are all controllers that want to nominate.",
-                "",
-                " The value are the nominations."
+                " The map from nominator stash key to the set of stash keys of all validators to nominate."
               ]
             },
             {
@@ -913,7 +900,20 @@
               "fallback": "0x000000",
               "docs": [
                 " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
-                " but you can find them in the `sessions` module."
+                " but you can find them in the `sessions` module.",
+                "",
+                " This is keyed by the stash account."
+              ]
+            },
+            {
+              "name": "CurrentElected",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The currently elected validator set keyed by stash account ID."
               ]
             },
             {
@@ -936,17 +936,6 @@
               "fallback": "0x00000000000000000000000000000000",
               "docs": [
                 " Maximum reward, per validator, that is provided per acceptable session."
-              ]
-            },
-            {
-              "name": "CurrentOfflineSlash",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "docs": [
-                " Slash, per validator that is taken for the first time they are found to be offline."
               ]
             },
             {
@@ -1053,7 +1042,9 @@
               ],
               "docs": [
                 " Take the origin account as a stash and lock up `value` of its balance. `controller` will be the",
-                " account that controls it."
+                " account that controls it.",
+                "",
+                " The dispatch origin for this call must be _Signed_."
               ]
             },
             {
@@ -1070,7 +1061,7 @@
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
               ]
             },
             {
@@ -1089,7 +1080,7 @@
                 " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
                 " the funds out of management ready for transfer.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash.",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
                 " See also [`Call::withdraw_unbonded`]."
               ]
@@ -1103,7 +1094,7 @@
                 " This essentially frees up that balance to be used by the stash account to do",
                 " whatever it wants.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash.",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
                 " See also [`Call::unbond`]."
               ]
@@ -1121,7 +1112,7 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
               ]
             },
             {
@@ -1137,7 +1128,7 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
               ]
             },
             {
@@ -1148,7 +1139,7 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
               ]
             },
             {
@@ -1164,7 +1155,23 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " NOTE: This call must be made by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_controller",
+              "args": [
+                {
+                  "name": "controller",
+                  "type": "Address"
+                }
+              ],
+              "docs": [
+                " (Re-)set the payment target for a controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
               ]
             },
             {
@@ -1437,7 +1444,7 @@
                 " Get the voters for the current proposal."
               ]
             },
-            { 
+            {
               "name": "VoteOf",
               "modifier": "Default",
               "type": {
@@ -2853,6 +2860,32 @@
               "fallback": "0x00",
               "docs": [
                 " A mapping between an original code hash and instrumented wasm code, ready for the execution."
+              ]
+            },
+            {
+              "name": "AccountCounter",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u64"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The subtrie counter"
+              ]
+            },
+            {
+              "name": "AccountInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "AccountInfo",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The code associated with a given account."
               ]
             }
           ],

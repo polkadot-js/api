@@ -10,6 +10,7 @@
  */
 export { default as AccountId, AccountIdOf } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
+export { default as AccountInfo } from './AccountInfo';
 export { default as Address } from './Address';
 export { default as Amount } from './Amount';
 export { default as AssetOf } from './AssetOf';
