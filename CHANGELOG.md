@@ -1,7 +1,9 @@
 # 0.50.1
 
+- Support metadata V2 as per latest substrate master
+- Update metadata with new types as per lastest substrate master
 - Lastest util-crypto (usage of WASM with JS fallbacks if not available)
-- Update util & keyring
+- Update upstream @polkadot dependencies (for new crypto)
 
 # 0.49.1
 
