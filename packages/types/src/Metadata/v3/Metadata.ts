@@ -67,11 +67,11 @@ export class MetadataModule extends Struct {
 }
 
 /**
- * @name MetadataV2
+ * @name MetadataV3
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV2 extends Struct implements MetadataInterface {
+export default class MetadataV3 extends Struct implements MetadataInterface {
   constructor (value?: any) {
     super({
       modules: Vector.with(MetadataModule)
