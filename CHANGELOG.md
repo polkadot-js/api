@@ -1,7 +1,14 @@
-# 0.50.1
+# 0.52.1
+
+- Check for single instances for api and types as they are loaded (assertSingletonPackage)
+
+# 0.51.1
 
 - Support metadata V2 as per latest substrate master
 - Update metadata with new types as per lastest substrate master
+
+# 0.50.1
+
 - Lastest util-crypto (usage of WASM with JS fallbacks if not available)
 - Update upstream @polkadot dependencies (for new crypto)
 
