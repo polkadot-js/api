@@ -5,5 +5,9 @@
 // NOTE When adding any types here, we need to update the coumentation links as
 // well - <root>/docs/SUMMARY.md as well as ../README.md
 
+import { assertSingletonPackage } from '@polkadot/util';
+
+assertSingletonPackage('@polkadot/types');
+
 export * from './codec';
 export * from './index.types';
