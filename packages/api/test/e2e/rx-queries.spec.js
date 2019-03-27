@@ -53,8 +53,8 @@ describe.skip('e2e queries', () => {
 
   describe('linked map', () => {
     it('queries state witha key', (done) => {
-      api.query.staking.test(1).subscribe((res) => {
-        console.log('!!', res)
+      api.query.staking.test(10).subscribe((res) => {
+        console.log('!!', res.toJSON())
 
         done();
       });
@@ -62,6 +62,14 @@ describe.skip('e2e queries', () => {
 
     it.only('queries state head', (done) => {
       api.query.staking.test.head().subscribe((res) => {
+        console.log('!!', res.toJSON());
+
+        done();
+      });
+    });
+
+    it('queries state all values', (done) => {
+      api.query.staking.test().subscribe((res) => {
         console.log('!!', res.toJSON());
 
         done();
