@@ -10,5 +10,5 @@ import Bytes from '../primitive/Bytes';
  * The Substrate Balance representation as a [[Bytes]] (`vec<u8>`).
  */
 
-export class Key extends Bytes {
+export default class Key extends Bytes {
 }
