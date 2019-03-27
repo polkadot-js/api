@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Struct, Option } from '.';
+import { Struct, Option, Tuple, Vector } from '.';
 import { Constructor, Codec } from '../types';
+
+type TypeWithValues = [Constructor, Array<any>];
 
 export class Linkage<T extends Codec> extends Struct {
   constructor (Type: Constructor, value?: any) {
@@ -27,5 +29,14 @@ export class Linkage<T extends Codec> extends Struct {
 
   get next (): Option<T> {
     return this.get('next') as Option<T>;
+  }
+}
+
+export class LinkageResult extends Tuple {
+  constructor ([TypeKey, keys]: TypeWithValues, [TypeValue, values]: TypeWithValues) {
+    super({
+      Keys: Vector.with(TypeKey),
+      Values: Vector.with(TypeValue)
+    }, [keys, values]);
   }
 }
