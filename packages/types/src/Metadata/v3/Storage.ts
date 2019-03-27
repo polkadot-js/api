@@ -31,7 +31,21 @@ export class DoubleMapType extends Struct {
    * @description The mapped key as [[Text]]
    */
   get key2 (): Text {
-    return this.get('key1') as Text;
+    return this.get('key2') as Text;
+  }
+
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get keyHasher (): Text {
+    return this.get('keyHasher') as Text;
+  }
+
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get value (): Text {
+    return this.get('value') as Text;
   }
 }
 
@@ -45,24 +59,10 @@ export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMa
   }
 
   /**
-   * @description `true` if the storage entry is a doublemap
-   */
-  get isDoubleMap (): boolean {
-    return this.toNumber() === 2;
-  }
-
-  /**
    * @description The value as a mapped value
    */
   get asDoubleMap (): DoubleMapType {
     return this.value as DoubleMapType;
-  }
-
-  /**
-   * @description `true` if the storage entry is a map
-   */
-  get isMap (): boolean {
-    return this.toNumber() === 1;
   }
 
   /**
@@ -80,9 +80,27 @@ export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMa
   }
 
   /**
+   * @description `true` if the storage entry is a doublemap
+   */
+  get isDoubleMap (): boolean {
+    return this.toNumber() === 2;
+  }
+
+  /**
+   * @description `true` if the storage entry is a map
+   */
+  get isMap (): boolean {
+    return this.toNumber() === 1;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
+    if (this.isDoubleMap) {
+      return this.asDoubleMap.toString();
+    }
+
     return this.isMap
       ? this.asMap.value.toString()
       : this.asType.toString();
