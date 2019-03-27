@@ -14,6 +14,7 @@ import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 import getRegistry from './typeRegistry';
+import { Linkage } from './Linkage';
 
 export enum TypeDefInfo {
   Compact,
@@ -22,7 +23,8 @@ export enum TypeDefInfo {
   Plain,
   Struct,
   Tuple,
-  Vector
+  Vector,
+  Linkage
 }
 
 export type TypeDef = {
@@ -130,6 +132,9 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   } else if (startingWith(type, 'Vec<', '>')) {
     value.info = TypeDefInfo.Vector;
     value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Linkage<', '>')) {
+    value.info = TypeDefInfo.Linkage;
+    value.sub = getTypeDef(subType);
   }
 
   return value;
@@ -141,50 +146,56 @@ export function getTypeClass (value: TypeDef): Constructor {
   if (Type) {
     return Type;
   }
-  if (value.info === TypeDefInfo.Compact) {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
+  switch (value.info) {
+    case TypeDefInfo.Compact:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
-    return Compact.with(
-      getTypeClass(value.sub as TypeDef) as Constructor<UInt>
-    );
-  } else if (value.info === TypeDefInfo.Enum) {
-    assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
+      return Compact.with(
+        getTypeClass(value.sub as TypeDef) as Constructor<UInt>
+      );
+    case TypeDefInfo.Enum:
+      assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
-    return EnumType.with(
-      (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
-        result[sub.name as string] = getTypeClass(sub);
+      return EnumType.with(
+        (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
+          result[sub.name as string] = getTypeClass(sub);
 
-        return result;
-      }, {} as { [index: string]: Constructor })
-    );
-  } else if (value.info === TypeDefInfo.Option) {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
+          return result;
+        }, {} as { [index: string]: Constructor })
+      );
+    case TypeDefInfo.Option:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
 
-    return Option.with(
-      getTypeClass(value.sub as TypeDef)
-    );
-  } else if (value.info === TypeDefInfo.Struct) {
-    assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
+      return Option.with(
+        getTypeClass(value.sub as TypeDef)
+      );
+    case TypeDefInfo.Struct:
+      assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
 
-    return Struct.with(
-      (value.sub as Array<TypeDef>).reduce((result, sub) => {
-        result[sub.name as string] = getTypeClass(sub);
+      return Struct.with(
+        (value.sub as Array<TypeDef>).reduce((result, sub) => {
+          result[sub.name as string] = getTypeClass(sub);
 
-        return result;
-      }, {} as { [index: string]: Constructor })
-    );
-  } else if (value.info === TypeDefInfo.Tuple) {
-    assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
+          return result;
+        }, {} as { [index: string]: Constructor })
+      );
+    case TypeDefInfo.Tuple:
+      assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
-    return Tuple.with(
-      (value.sub as Array<TypeDef>).map(getTypeClass)
-    );
-  } else if (value.info === TypeDefInfo.Vector) {
-    assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
+      return Tuple.with(
+        (value.sub as Array<TypeDef>).map(getTypeClass)
+      );
+    case TypeDefInfo.Vector:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
 
-    return Vector.with(
-      getTypeClass(value.sub as TypeDef)
-    );
+      return Vector.with(
+        getTypeClass(value.sub as TypeDef)
+      );
+    case TypeDefInfo.Linkage:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
+      return Linkage.withKey(
+        getTypeClass(value.sub as TypeDef)
+      );
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);

@@ -13,7 +13,7 @@ describe.skip('e2e queries', () => {
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
-    jest.setTimeout(30000);
+    jest.setTimeout(3000000);
     done();
   });
 

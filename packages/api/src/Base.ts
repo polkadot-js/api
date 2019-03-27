@@ -17,19 +17,21 @@ import {
 } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Tuple, Null } from '@polkadot/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
+import { Observable, of } from 'rxjs';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -491,6 +493,77 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         params = args.slice(0, args.length - 1);
       }
 
+      if (method.headKey && params.length === 0) {
+        // Fetch all values for this linked map
+        const result: Map<Codec, Tuple> = new Map();
+        let head: Codec | null = null;
+        const getNext = (key: Codec): Observable<any> => {
+          if (head === null) {
+            head = key;
+          }
+
+          return this._rpcRx.state.subscribeStorage([[method, key]])
+            .pipe(
+              switchMap(([data]: [Tuple]) => {
+                const linkage = data[1] as Linkage<Codec>;
+
+                if (linkage.next && linkage.previous) {
+                  result.set(key, data);
+
+                  if (linkage.next && linkage.next.isSome) {
+                    return getNext(linkage.next.unwrap());
+                  }
+                }
+
+                const keys = [];
+                const values = [];
+                let nextKey = head;
+
+                while (nextKey) {
+                  const entry = result.get(nextKey);
+
+                  if (!entry) {
+                    break;
+                  }
+
+                  const [item, linkage] = entry as any as [Codec, Linkage<Codec>];
+
+                  keys.push(nextKey);
+                  values.push(item);
+
+                  nextKey = linkage.next && linkage.next.unwrapOr(null);
+                }
+
+                return of(
+                  values.length
+                    ? new LinkageResult(
+                      [keys[0].constructor as any, keys],
+                      [values[0].constructor as any, values]
+                    )
+                    : new LinkageResult(
+                      [Null, []],
+                      [Null, []]
+                    )
+                );
+              })
+            );
+        };
+
+        return onCall(
+          (arg: CodecArg) => this._rpcRx.state
+            .subscribeStorage([arg])
+            .pipe(
+              switchMap((result: Array<Codec>) => {
+                const key = result[0];
+
+                return getNext(key);
+              })
+            ),
+          [method.headKey],
+          callback
+        );
+      }
+
       return onCall(
         (arg: CodecArg) => this._rpcRx.state
           .subscribeStorage([[method, arg]])
@@ -529,6 +602,25 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     decorated.key = (arg?: CodecArg): string =>
       u8aToHex(compactStripLength(method(arg))[1]);
+
+    // Linked Map support
+
+    if (method.headKey) {
+      decorated.head = (): C =>
+        onCall(
+          (arg: CodecArg) => this._rpcRx.state
+            .getStorage(arg)
+            .pipe(
+              switchMap(key => this._rpcRx.state.getStorage([method, key]))
+            )
+            ,
+          [method.headKey]
+        ) as C;
+    } else {
+      decorated.head = () => {
+        throw new Error(`${method.name} is not LinkedMap`);
+      };
+    }
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
   }
