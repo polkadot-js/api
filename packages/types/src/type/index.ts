@@ -37,6 +37,7 @@ export { default as Hash } from './Hash';
 export { default as Header, HeaderExtended } from './Header';
 export { default as IndividualExposure } from './IndividualExposure';
 export { default as InherentOfflineReport } from './InherentOfflineReport';
+export { default as Key } from './Key';
 export { default as KeyValue } from './KeyValue';
 export { default as LockIdentifier } from './LockIdentifier';
 export { default as LockPeriods } from './LockPeriods';
