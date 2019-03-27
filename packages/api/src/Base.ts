@@ -341,61 +341,59 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
 
-      const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
-        cryptoWaitReady()
-      ]);
+      try {
+        const [hasMeta, cryptoReady] = await Promise.all([
+          this.loadMeta(),
+          cryptoWaitReady()
+        ]);
 
-      if (hasMeta && !this._isReady && cryptoReady) {
-        this._isReady = true;
+        if (hasMeta && !this._isReady && cryptoReady) {
+          this._isReady = true;
 
-        this.emit('ready', this);
+          this.emit('ready', this);
+        }
+      } catch (error) {
+        console.error('FATAL: Unable to initialize the API: ', error.message);
       }
     });
   }
 
   private async loadMeta (): Promise<boolean> {
-    try {
-      // only load from on-chain if we are not a clone (default path), alternatively
-      // just use the values from the source instance provided
-      if (!this._options.source || !this._options.source._isReady) {
-        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-        this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-        this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+    // only load from on-chain if we are not a clone (default path), alternatively
+    // just use the values from the source instance provided
+    if (!this._options.source || !this._options.source._isReady) {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
-        // get unique types & validate
-        this.runtimeMetadata.getUniqTypes(false);
-      } else {
-        this._runtimeMetadata = this._options.source.runtimeMetadata;
-        this._runtimeVersion = this._options.source.runtimeVersion;
-        this._genesisHash = this._options.source.genesisHash;
-      }
-
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
-      const storage = storageFromMeta(this.runtimeMetadata.asV0);
-
-      this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
-      this._query = this.decorateStorage(storage, this.onCall);
-      this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
-
-      this._rx.genesisHash = this._genesisHash;
-      this._rx.runtimeVersion = this._runtimeVersion;
-      this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
-      this._rx.query = this.decorateStorage(storage, rxOnCall);
-      this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
-
-      // only inject if we are not a clone (global init)
-      if (!this._options.source) {
-        Event.injectMetadata(this.runtimeMetadata.asV0);
-        Method.injectMethods(extrinsics);
-      }
-
-      return true;
-    } catch (error) {
-      l.error('loadMeta', error);
-
-      return false;
+      // get unique types & validate
+      this.runtimeMetadata.getUniqTypes(false);
+    } else {
+      this._runtimeMetadata = this._options.source.runtimeMetadata;
+      this._runtimeVersion = this._options.source.runtimeVersion;
+      this._genesisHash = this._options.source.genesisHash;
     }
+
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+    const storage = storageFromMeta(this.runtimeMetadata.asV0);
+
+    this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
+    this._query = this.decorateStorage(storage, this.onCall);
+    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
+
+    this._rx.genesisHash = this._genesisHash;
+    this._rx.runtimeVersion = this._runtimeVersion;
+    this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
+    this._rx.query = this.decorateStorage(storage, rxOnCall);
+    this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
+
+    // only inject if we are not a clone (global init)
+    if (!this._options.source) {
+      Event.injectMetadata(this.runtimeMetadata.asV0);
+      Method.injectMethods(extrinsics);
+    }
+
+    return true;
   }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
