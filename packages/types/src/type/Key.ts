@@ -7,7 +7,7 @@ import Bytes from '../primitive/Bytes';
 /**
  * @name Key
  * @description
- * The Substrate Balance representation as a [[Bytes]] (`vec<u8>`).
+ * The Substrate Key representation as a [[Bytes]] (`vec<u8>`).
  */
 
 export default class Key extends Bytes {
