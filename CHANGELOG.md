@@ -1,6 +1,7 @@
 # 0.52.1
 
 - Check for single instances for api and types as they are loaded (assertSingletonPackage)
+- Add Key type as per latest substrate master
 
 # 0.51.1
 
