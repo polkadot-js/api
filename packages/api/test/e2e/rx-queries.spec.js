@@ -13,7 +13,7 @@ describe.skip('e2e queries', () => {
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
-    jest.setTimeout(30000);
+    jest.setTimeout(3000000);
     done();
   });
 
@@ -60,7 +60,7 @@ describe.skip('e2e queries', () => {
       });
     });
 
-    it.only('queries state head', (done) => {
+    it('queries state head', (done) => {
       api.query.staking.test.head().subscribe((res) => {
         console.log('!!', res.toJSON());
 
@@ -68,7 +68,7 @@ describe.skip('e2e queries', () => {
       });
     });
 
-    it('queries state all values', (done) => {
+    fit('queries state all values', (done) => {
       api.query.staking.test().subscribe((res) => {
         console.log('!!', res.toJSON());
 

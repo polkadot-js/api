@@ -17,19 +17,21 @@ import {
 } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Tuple, Option, Vector, Null } from '@polkadot/types';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import { Linkage } from '@polkadot/types/codec/Linkage';
+import { Observable, of } from 'rxjs';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -491,6 +493,62 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       if (args.length && isFunction(args[args.length - 1])) {
         callback = args[args.length - 1];
         params = args.slice(0, args.length - 1);
+      }
+
+      if (method.headKey && params.length === 0) {
+        // Fetch all values for this linked map
+        const result: Map<Codec, Tuple> = new Map();
+        let head: Codec | null = null;
+        const getNext = (key: Codec): Observable<any> => {
+          if (head === null) {
+            head = key;
+          }
+          return this._rpcRx.state.subscribeStorage([[method, key]])
+            .pipe(
+              switchMap(([data]: [Tuple]) => {
+                const linkage = data[1] as Linkage<Codec>;
+                if (linkage.next && linkage.previous) {
+                  console.log('!!data', key.toJSON(), data.toJSON());
+                  result.set(key, data);
+
+                  if (linkage.next && linkage.next.isSome) {
+                    return getNext(linkage.next.unwrap());
+                  }
+                }
+
+                const resultArray = [];
+                let nextKey = head;
+                while (nextKey) {
+                  const entry = result.get(nextKey);
+                  if (!entry) {
+                    break;
+                  }
+                  const [item, linkage] = entry as any as [Codec, Linkage<Codec>];
+                  resultArray.push(item);
+                  nextKey = linkage.next && linkage.next.unwrapOr(null);
+                }
+                console.log(resultArray, result);
+                if (resultArray.length) {
+                  return of(new Vector(resultArray[0].constructor as any, resultArray));
+                } else {
+                  return of(new Vector(Null));
+                }
+              })
+            );
+        };
+
+        return onCall(
+          (arg: CodecArg) => this._rpcRx.state
+            .subscribeStorage([arg])
+            .pipe(
+              switchMap((result: Array<Codec>) => {
+                const key = result[0];
+                return getNext(key);
+              })
+            ),
+          [method.headKey],
+          callback
+        );
       }
 
       return onCall(

@@ -25,15 +25,16 @@ export interface CreateItemOptions {
  * by us manually at compile time.
  */
 export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
-  let stringKey = options.key
+  const stringKey = options.key
     ? options.key
     : `${section.toString()} ${method.toString()}`;
-  let key = stringToU8a(stringKey);
+  const rawKey = stringToU8a(stringKey);
 
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
   // - storage.timestamp.blockPeriod()
   const storageFn = (arg?: any): Uint8Array => {
+    let key = rawKey;
     if (meta.type.isMap) {
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
