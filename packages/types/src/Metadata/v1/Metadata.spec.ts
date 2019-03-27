@@ -17,9 +17,6 @@ describe('MetadataV1', () => {
   it('decodes latest properly', () => {
     const str = JSON.stringify(metadata.toJSON());
 
-    // console.error(str);
-    // console.error(metadata.getUniqTypes(true));
-
     expect(metadata.version).toBe(1);
     expect(metadata.asV1.modules.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));
@@ -27,8 +24,6 @@ describe('MetadataV1', () => {
 
   it('converts v1 to V0', () => {
     const v0 = metadata.asV0;
-
-    // console.error(JSON.stringify(v0.toJSON()));
 
     expect(metadata.getUniqTypes(true)).toEqual(v0.getUniqTypes(true));
   });

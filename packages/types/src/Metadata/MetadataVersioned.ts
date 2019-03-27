@@ -9,19 +9,22 @@ import { assert, isUndefined } from '@polkadot/util';
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Null from '../primitive/Null';
+import MagicNumber from './MagicNumber';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
 import MetadataV2 from './v2';
+import MetadataV3 from './v3';
 import v1ToV0 from './v1/toV0';
 import v2ToV1 from './v2/toV1';
-import MagicNumber from './MagicNumber';
+import v3ToV2 from './v3/toV2';
 
 class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with Null
       MetadataV1, // once rolled-out, can replace this with Null
-      MetadataV2
+      MetadataV2, // once rolled-out, can replace this with Null
+      MetadataV3
     }, value);
   }
 
@@ -40,10 +43,17 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
   }
 
   /**
-   * @description Returns the wrapped values as a V1 object
+   * @description Returns the wrapped values as a V2 object
    */
   get asV2 (): MetadataV2 {
     return this.value as MetadataV2;
+  }
+
+  /**
+   * @description Returns the wrapped values as a V3 object
+   */
+  get asV3 (): MetadataV3 {
+    return this.value as MetadataV3;
   }
 
   /**
@@ -62,6 +72,7 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
 export default class MetadataVersioned extends Struct implements MetadataInterface {
   private _convertedV0?: MetadataV0;
   private _convertedV1?: MetadataV1;
+  private _convertedV2?: MetadataV2;
 
   constructor (value?: any) {
     super({
@@ -99,10 +110,8 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
       return this.metadata.asV0;
     }
 
-    let v1 = this.asV1;
-
     if (isUndefined(this._convertedV0)) {
-      this._convertedV0 = v1ToV0(v1);
+      this._convertedV0 = v1ToV0(this.asV1);
     }
 
     return this._convertedV0;
@@ -116,7 +125,7 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
       return this.metadata.asV1;
     }
 
-    assert(this.metadata.version === 2, `Cannot convert metadata from v${this.metadata.version} to v1`);
+    assert([2, 3].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v1`);
 
     if (isUndefined(this._convertedV1)) {
       this._convertedV1 = v2ToV1(this.metadata.asV2);
@@ -126,12 +135,29 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   }
 
   /**
-   * @description Returns the wrapped values as a V1 object
+   * @description Returns the wrapped values as a V2 object
    */
   get asV2 (): MetadataV2 {
-    assert(this.metadata.version === 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
+    if (this.metadata.version === 2) {
+      return this.metadata.asV2;
+    }
 
-    return this.metadata.asV2;
+    assert(this.metadata.version === 3, `Cannot convert metadata from v${this.metadata.version} to v1`);
+
+    if (isUndefined(this._convertedV2)) {
+      this._convertedV2 = v3ToV2(this.metadata.asV3);
+    }
+
+    return this._convertedV2;
+  }
+
+  /**
+   * @description Returns the wrapped values as a V3 object
+   */
+  get asV3 (): MetadataV3 {
+    assert(this.metadata.version === 3, `Cannot convert metadata from v${this.metadata.version} to v3`);
+
+    return this.metadata.asV3;
   }
 
   getUniqTypes (throwError: boolean): Array<string> {
