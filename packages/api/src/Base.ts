@@ -353,7 +353,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
           this.emit('ready', this);
         }
       } catch (error) {
-        console.error('FATAL: Unable to initialize the API: ', error.message);
+        l.error('FATAL: Unable to initialize the API: ', error.message);
       }
     });
   }

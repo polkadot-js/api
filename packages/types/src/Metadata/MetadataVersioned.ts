@@ -21,7 +21,7 @@ import v3ToV2 from './v3/toV2';
 class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
   constructor (value?: any) {
     super({
-      Null, // V0 support has been removed
+      MetadataV0, // once rolled-out, can replace this with Null
       MetadataV1, // once rolled-out, can replace this with Null
       MetadataV2, // once rolled-out, can replace this with Null
       MetadataV3
