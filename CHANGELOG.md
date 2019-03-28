@@ -1,10 +1,11 @@
 # 0.52.1
 
-- Support queries to linked maps for new staking interfaces
+- Support queries to linked mapped storage (found in new staking interfaces)
 - Add derive.staking.controllers to retrieve all active staking controllers
-- Check for single instances for api and types as they are loaded (assertSingletonPackage)
 - Align types as per latest substrate master
-- Allow parsing of V3 metadata with DoubleMp support
+- PeerInfo from system_peers does not have the index field anymore (dropped in substrate)
+- Allow parsing of V3 metadata with DoubleMap support
+- Check for single instances for api and types as they are loaded (assertSingletonPackage)
 
 # 0.51.1
 
