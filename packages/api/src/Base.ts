@@ -558,7 +558,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
 
-    // retrieve a value based on the key, iterating if it has a next entry
+    // retrieve a value based on the key, iterating if it has a next entry. Since
+    // entries can be re-linked in the middle of a list, we subscribe here to make
+    // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
       return this._rpcRx.state.subscribeStorage([[method, key]])
         .pipe(
@@ -567,6 +569,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
             result.set(key, data);
 
+            // iterate from this key to the children, constructing
+            // entries for all those found and available
             if (linkage.next.isSome) {
               return getNext(linkage.next.unwrap());
             }
