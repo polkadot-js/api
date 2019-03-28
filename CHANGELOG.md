@@ -1,5 +1,7 @@
 # 0.52.1
 
+- Support linked maps for new staking interfaces
+- Add derive.staking.controllers to retrieve all active controllers
 - Check for single instances for api and types as they are loaded (assertSingletonPackage)
 - Add Key type as per latest substrate master
 
