@@ -333,8 +333,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private init (): void {
+    let healthTimer: NodeJS.Timeout | null = null;
+
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
+
+      if (healthTimer) {
+        clearInterval(healthTimer);
+        healthTimer = null;
+      }
     });
 
     this._rpcBase._provider.on('error', (error) => {
@@ -354,15 +361,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
           this._isReady = true;
 
           this.emit('ready', this);
-
-          setInterval(() => {
-            if (this._rpcBase._provider.isConnected()) {
-              this._rpcRx.system.health().toPromise().catch(() => {
-                // ignore
-              });
-            }
-          }, KEEPALIVE_INTERVAL);
         }
+
+        healthTimer = setInterval(() => {
+          if (this._rpcBase._provider.isConnected()) {
+            this._rpcRx.system.health().toPromise().catch(() => {
+              // ignore
+            });
+          }
+        }, KEEPALIVE_INTERVAL);
       } catch (error) {
         l.error('FATAL: Unable to initialize the API: ', error.message);
       }
