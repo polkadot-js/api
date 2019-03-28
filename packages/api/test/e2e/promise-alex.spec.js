@@ -36,6 +36,14 @@ describe.skip('alex queries', () => {
     });
   });
 
+  it('derives a list of the controllers', (done) => {
+    api.derive.staking.controllers((res) => {
+      console.log('api.derive.staking.controllers:', JSON.stringify(res));
+
+      done();
+    });
+  });
+
   it.skip('retrieves the list of nominators', (done) => {
     let count = 0;
     api.query.staking.nominators((res) => {
