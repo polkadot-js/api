@@ -18,7 +18,7 @@ import {
 
 import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
@@ -562,7 +562,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const getNext = (key: Codec): Observable<LinkageResult> => {
       return this._rpcRx.state.subscribeStorage([[method, key]])
         .pipe(
-          tap(() => console.log(`list changed: ${key}`)),
           switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
             const linkage = data[1];
 
@@ -576,6 +575,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
             const values = [];
             let nextKey = head;
 
+            // loop through the results collected, starting at the head an re-creating
+            // the list. Our map may have old entries, based on the linking these will
+            // not be returned in the final result
             while (nextKey) {
               const entry = result.get(nextKey);
 
@@ -601,6 +603,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
                 [Null, []]
               );
 
+            // we set our result into a subject so we have a single observable for
+            // which the value changes over time. Initially create, follow-up next
             if (subject) {
               subject.next(nextResult);
             } else {
@@ -618,7 +622,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       (arg: CodecArg) => this._rpcRx.state
         .subscribeStorage([arg])
         .pipe(
-          tap(() => console.log('head changed')),
           switchMap(([key]: Array<Codec>) => {
             head = key;
 
