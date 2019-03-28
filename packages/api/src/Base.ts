@@ -364,11 +364,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         }
 
         healthTimer = setInterval(() => {
-          if (this._rpcBase._provider.isConnected()) {
-            this._rpcRx.system.health().toPromise().catch(() => {
-              // ignore
-            });
-          }
+          this._rpcRx.system.health().toPromise().catch(() => {
+            // ignore
+          });
         }, KEEPALIVE_INTERVAL);
       } catch (error) {
         l.error('FATAL: Unable to initialize the API: ', error.message);
