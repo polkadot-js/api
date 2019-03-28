@@ -42,6 +42,7 @@ type MetaDecoration = {
 };
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
+const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
 
@@ -353,6 +354,14 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
           this._isReady = true;
 
           this.emit('ready', this);
+
+          setInterval(() => {
+            if (this._rpcBase._provider.isConnected()) {
+              this._rpcRx.system.health().toPromise().catch(() => {
+                // ignore
+              });
+            }
+          }, KEEPALIVE_INTERVAL);
         }
       } catch (error) {
         l.error('FATAL: Unable to initialize the API: ', error.message);
