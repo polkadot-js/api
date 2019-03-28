@@ -17,7 +17,7 @@ describe.skip('alex queries', () => {
   });
 
   beforeEach(() => {
-    jest.setTimeout(30000);
+    jest.setTimeout(3000000);
   });
 
   it('retrieves the list of validators', (done) => {
@@ -33,6 +33,15 @@ describe.skip('alex queries', () => {
       console.log('api.query.staking.validators(id):', res.toJSON());
 
       done();
+    });
+  });
+
+  it.skip('retrieves the list of nominators', (done) => {
+    let count = 0;
+    api.query.staking.nominators((res) => {
+      console.log(`[${++count}]:: nominators(${res[0].length}):`, res.toJSON());
+
+      // done();
     });
   });
 });

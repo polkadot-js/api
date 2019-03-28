@@ -17,21 +17,21 @@ import {
 } from './types';
 
 import EventEmitter from 'eventemitter3';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Tuple, Null } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
-import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Observable, of } from 'rxjs';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -42,6 +42,7 @@ type MetaDecoration = {
 };
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
+const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
 
@@ -332,8 +333,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private init (): void {
+    let healthTimer: NodeJS.Timeout | null = null;
+
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
+
+      if (healthTimer) {
+        clearInterval(healthTimer);
+        healthTimer = null;
+      }
     });
 
     this._rpcBase._provider.on('error', (error) => {
@@ -354,6 +362,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
           this.emit('ready', this);
         }
+
+        healthTimer = setInterval(() => {
+          this._rpcRx.system.health().toPromise().catch(() => {
+            // ignore
+          });
+        }, KEEPALIVE_INTERVAL);
       } catch (error) {
         l.error('FATAL: Unable to initialize the API: ', error.message);
       }
@@ -494,74 +508,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       }
 
       if (method.headKey && params.length === 0) {
-        // Fetch all values for this linked map
-        const result: Map<Codec, Tuple> = new Map();
-        let head: Codec | null = null;
-        const getNext = (key: Codec): Observable<any> => {
-          if (head === null) {
-            head = key;
-          }
-
-          return this._rpcRx.state.subscribeStorage([[method, key]])
-            .pipe(
-              switchMap(([data]: [Tuple]) => {
-                const linkage = data[1] as Linkage<Codec>;
-
-                if (linkage.next && linkage.previous) {
-                  result.set(key, data);
-
-                  if (linkage.next && linkage.next.isSome) {
-                    return getNext(linkage.next.unwrap());
-                  }
-                }
-
-                const keys = [];
-                const values = [];
-                let nextKey = head;
-
-                while (nextKey) {
-                  const entry = result.get(nextKey);
-
-                  if (!entry) {
-                    break;
-                  }
-
-                  const [item, linkage] = entry as any as [Codec, Linkage<Codec>];
-
-                  keys.push(nextKey);
-                  values.push(item);
-
-                  nextKey = linkage.next && linkage.next.unwrapOr(null);
-                }
-
-                return of(
-                  values.length
-                    ? new LinkageResult(
-                      [keys[0].constructor as any, keys],
-                      [values[0].constructor as any, values]
-                    )
-                    : new LinkageResult(
-                      [Null, []],
-                      [Null, []]
-                    )
-                );
-              })
-            );
-        };
-
-        return onCall(
-          (arg: CodecArg) => this._rpcRx.state
-            .subscribeStorage([arg])
-            .pipe(
-              switchMap((result: Array<Codec>) => {
-                const key = result[0];
-
-                return getNext(key);
-              })
-            ),
-          [method.headKey],
-          callback
-        );
+        return this.decorateStorageEntryLinked(method, onCall, callback);
       }
 
       return onCall(
@@ -603,26 +550,91 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     decorated.key = (arg?: CodecArg): string =>
       u8aToHex(compactStripLength(method(arg))[1]);
 
-    // Linked Map support
-
-    if (method.headKey) {
-      decorated.head = (): C =>
-        onCall(
-          (arg: CodecArg) => this._rpcRx.state
-            .getStorage(arg)
-            .pipe(
-              switchMap(key => this._rpcRx.state.getStorage([method, key]))
-            )
-            ,
-          [method.headKey]
-        ) as C;
-    } else {
-      decorated.head = () => {
-        throw new Error(`${method.name} is not LinkedMap`);
-      };
-    }
-
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S>;
+  }
+
+  private decorateStorageEntryLinked<C, S> (method: StorageFunction, onCall: OnCallDefinition<C, S>, callback: CodecCallback | undefined): C | S {
+    const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
+    let subject: BehaviorSubject<LinkageResult>;
+    let head: Codec | null = null;
+
+    // retrieve a value based on the key, iterating if it has a next entry. Since
+    // entries can be re-linked in the middle of a list, we subscribe here to make
+    // sure we catch any updates, no matter the list position
+    const getNext = (key: Codec): Observable<LinkageResult> => {
+      return this._rpcRx.state.subscribeStorage([[method, key]])
+        .pipe(
+          switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
+            const linkage = data[1];
+
+            result.set(key, data);
+
+            // iterate from this key to the children, constructing
+            // entries for all those found and available
+            if (linkage.next.isSome) {
+              return getNext(linkage.next.unwrap());
+            }
+
+            const keys = [];
+            const values = [];
+            let nextKey = head;
+
+            // loop through the results collected, starting at the head an re-creating
+            // the list. Our map may have old entries, based on the linking these will
+            // not be returned in the final result
+            while (nextKey) {
+              const entry = result.get(nextKey);
+
+              if (!entry) {
+                break;
+              }
+
+              const [item, linkage] = entry;
+
+              keys.push(nextKey);
+              values.push(item);
+
+              nextKey = linkage.next && linkage.next.unwrapOr(null);
+            }
+
+            const nextResult = values.length
+              ? new LinkageResult(
+                [keys[0].constructor as any, keys],
+                [values[0].constructor as any, values]
+              )
+              : new LinkageResult(
+                [Null, []],
+                [Null, []]
+              );
+
+            // we set our result into a subject so we have a single observable for
+            // which the value changes over time. Initially create, follow-up next
+            if (subject) {
+              subject.next(nextResult);
+            } else {
+              subject = new BehaviorSubject(nextResult);
+            }
+
+            return subject;
+          })
+        );
+    };
+
+    // this handles the case where the head changes effectively, i.e. a new entry
+    // appears at the top of the list, the new getNext gets kicked off
+    return onCall(
+      (arg: CodecArg) => this._rpcRx.state
+        .subscribeStorage([arg])
+        .pipe(
+          switchMap(([key]: Array<Codec>) => {
+            head = key;
+
+            return getNext(key);
+          })
+        ),
+      [method.headKey],
+      callback
+    );
   }
 
   private decorateDerive<C, S> (apiRx: ApiInterface$Rx, onCall: OnCallDefinition<C, S>): Derive<C, S> {
