@@ -17,6 +17,7 @@ import {
 } from './types';
 
 import EventEmitter from 'eventemitter3';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
@@ -24,14 +25,13 @@ import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
 import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
-import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Observable, of } from 'rxjs';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -550,10 +550,11 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private decorateStorageEntryLinked<C, S> (method: StorageFunction, onCall: OnCallDefinition<C, S>, callback: CodecCallback | undefined): C | S {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
+    let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
 
     // retrieve a value based on the key, iterating if it has a next entry
-    const getNext = (key: Codec): Observable<any> => {
+    const getNext = (key: Codec): Observable<LinkageResult> => {
       return this._rpcRx.state.subscribeStorage([[method, key]])
         .pipe(
           tap(() => console.log(`list changed: ${key}`)),
@@ -585,17 +586,23 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
               nextKey = linkage.next && linkage.next.unwrapOr(null);
             }
 
-            return of(
-              values.length
-                ? new LinkageResult(
-                  [keys[0].constructor as any, keys],
-                  [values[0].constructor as any, values]
-                )
-                : new LinkageResult(
-                  [Null, []],
-                  [Null, []]
-                )
-            );
+            const nextResult = values.length
+              ? new LinkageResult(
+                [keys[0].constructor as any, keys],
+                [values[0].constructor as any, values]
+              )
+              : new LinkageResult(
+                [Null, []],
+                [Null, []]
+              );
+
+            if (subject) {
+              subject.next(nextResult);
+            } else {
+              subject = new BehaviorSubject(nextResult);
+            }
+
+            return subject;
           })
         );
     };
