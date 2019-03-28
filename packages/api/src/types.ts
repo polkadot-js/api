@@ -59,7 +59,6 @@ export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> e
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
   size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
-  head: () => CodecResult;
 }
 
 interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
