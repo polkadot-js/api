@@ -1,9 +1,10 @@
 # 0.52.1
 
-- Support linked maps for new staking interfaces
-- Add derive.staking.controllers to retrieve all active controllers
+- Support queries to linked maps for new staking interfaces
+- Add derive.staking.controllers to retrieve all active staking controllers
 - Check for single instances for api and types as they are loaded (assertSingletonPackage)
-- Add Key type as per latest substrate master
+- Align types as per latest substrate master
+- Allow parsing of V3 metadata with DoubleMp support
 
 # 0.51.1
 
