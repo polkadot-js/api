@@ -1,6 +1,5 @@
 // Import the API & Provider and some utility functions
-const { ApiRx } = require('@polkadot/api');
-const { WsProvider } = require('@polkadot/rpc-provider');
+const { ApiRx, WsPovider } = require('@polkadot/api');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 const fs = require('fs');

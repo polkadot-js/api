@@ -2,22 +2,18 @@
 // Import the API, Keyring and some utility functions
 const { ApiPromise } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
-const { stringToU8a } = require('@polkadot/util');
 
-// Important to note that we pad the seed to a length of 32 bytes using ' '
-// The underlying seed needs to be exactly 32 bytes in length
-const ALICE_SEED = 'Alice'.padEnd(32, ' ');
-const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+const BOB_ADDR = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
 
 async function main () {
-  // Create an instance of the keyring
-  const keyring = new Keyring();
-
-  // Add Alice to our keyring (with the known seed for the account)
-  const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
-
   // Instantiate the API
   const api = await ApiPromise.create();
+
+  // Constuct the keying after the API (crypto has an async init)
+  const keyring = new Keyring({ type: 'sr25519' });
+
+  // Add alice to our keyring with a hard-deived path (empty phrase, so uses dev)
+  const alice = keyring.addFromUri('//Alice');
 
   // Create a extrinsic, transferring 12345 units to Bob
   const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);

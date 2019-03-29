@@ -5,7 +5,7 @@ const { combineLatest, of } = require('rxjs');
 const { first, switchMap } = require('rxjs/operators');
 
 // Our address for Alice on the dev chain
-const Alice = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
 
 function main () {
   // Create our API with a default connection to the local node
