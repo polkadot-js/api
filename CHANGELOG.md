@@ -1,3 +1,10 @@
+# 0.53.1
+
+- Change spelling to US English as per substrate master (1.0-rc1), potential breaking
+  - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised` now check on the status for `result.status.isFinalized` or `result.status.isBoadcast`, ... (the `type` property is now accessible only on `result.status.type`)
+  - If using `subscribeFinalisedHeads` update to `subscribeFinalizedHeads` (likewise `'getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
+- All examples have been updated with sr25519 addesses
+
 # 0.52.1
 
 - Support queries to linked mapped storage (found in new staking interfaces)

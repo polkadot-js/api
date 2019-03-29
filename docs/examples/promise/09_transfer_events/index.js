@@ -36,11 +36,11 @@ async function main () {
   api.tx.balances
     .transfer(recipient, AMOUNT)
     .sign(alicePair, { nonce })
-    .send(({ events = [], status, type }) => {
-      console.log('Transaction status:', type);
+    .send(({ events = [], status }) => {
+      console.log('Transaction status:', status.type);
 
-      if (type === 'Finalised') {
-        console.log('Completed at block hash', status.asFinalised.toHex());
+      if (status.isFinalized) {
+        console.log('Completed at block hash', status.asFinalized.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

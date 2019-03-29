@@ -25,11 +25,11 @@ export class Dropped extends Null {
 }
 
 /**
- * @name Finalised
+ * @name Finalized
  * @description
- * An [[ExtrinsicStats] indicating that the [[Extrinsic]]] has been finalised and included
+ * An [[ExtrinsicStatus] indicating that the [[Extrinsic]]] has been finalized and included
  */
-export class Finalised extends Hash {
+export class Finalized extends Hash {
 }
 
 /**
@@ -69,17 +69,19 @@ export class Usurped extends Hash {
  * @description
  * An [[EnumType]] that indicates the status of the [[Extrinsic]] as been submitted
  */
-export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalised | Usurped | Broadcast | Dropped | Invalid> {
+export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized | Usurped | Broadcast | Dropped | Invalid> {
   constructor (value: any, index?: number) {
     super({
       Future,
       Ready,
-      Finalised,
+      Finalized,
       Usurped,
       Broadcast,
       Dropped,
       Invalid
-    }, value, index);
+    }, value, index, {
+      'Finalised': 'Finalized' // old UK spelling to US spelling
+    });
   }
 
   /**
@@ -97,10 +99,10 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalised
   }
 
   /**
-   * @description Returns the item as a [[Finalised]]
+   * @description Returns the item as a [[Finalized]]
    */
-  get asFinalised (): Finalised {
-    return this.value as Finalised;
+  get asFinalized (): Finalized {
+    return this.value as Finalized;
   }
 
   /**
@@ -129,5 +131,54 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalised
    */
   get asUsurped (): Usurped {
     return this.value as Usurped;
+  }
+
+  /**
+   * @description Returns true if the status is boadcast
+   */
+  get isBroadcast (): boolean {
+    return this.type === 'Broadcast';
+  }
+
+  /**
+   * @description Returns true if the status is dropped
+   */
+  get isDropped (): boolean {
+    return this.type === 'Dropped';
+  }
+
+  /**
+   * @description Returns true if the status is finalized
+   */
+  get isFinalized (): boolean {
+    return this.type === 'Finalized';
+  }
+
+  /**
+   * @description Returns true if the status is future
+   */
+  get isFuture (): boolean {
+    return this.type === 'Future';
+  }
+
+  /**
+   * @description Returns true if the status is invalid
+   */
+  get isInvalid (): boolean {
+    return this.type === 'Invalid';
+  }
+
+  /**
+   * @description Returns true if the status is eady
+   */
+  get isReady (): boolean {
+    return this.type === 'Ready';
+  }
+
+  /**
+   * @description Returns true if the status is usurped
+   */
+  get isUsurped (): boolean {
+    return this.type === 'Usurped';
   }
 }

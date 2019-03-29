@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
 import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
@@ -29,8 +29,7 @@ export class SubmittableResult extends Struct {
   constructor (value?: any) {
     super({
       events: Vector.with(EventRecord),
-      status: ExtrinsicStatus,
-      type: Text
+      status: ExtrinsicStatus
     }, value);
   }
 
@@ -46,13 +45,6 @@ export class SubmittableResult extends Struct {
    */
   get status (): ExtrinsicStatus {
     return this.get('status') as ExtrinsicStatus;
-  }
-
-  /**
-   * @description the type
-   */
-  get type (): string {
-    return (this.get('type') as Text).toString();
   }
 }
 
@@ -79,7 +71,7 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
   }
 
   function statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
-    if (status.type !== 'Finalised') {
+    if (!status.isFinalized) {
       return of(
         new SubmittableResult({
           status,
@@ -88,7 +80,7 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
       );
     }
 
-    const blockHash = status.asFinalised;
+    const blockHash = status.asFinalized;
 
     return combineLatest(
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,

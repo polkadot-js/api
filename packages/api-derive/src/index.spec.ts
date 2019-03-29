@@ -47,7 +47,7 @@ describe('derive', () => {
     testFunction(api)('balances', 'votingBalancesNominatorsFor', []);
 
     testFunction(api)('chain', 'bestNumber', []);
-    testFunction(api)('chain', 'bestNumberFinalised', []);
+    testFunction(api)('chain', 'bestNumberFinalized', []);
 
     testFunction(api)('democracy', 'referendumInfos', []);
     testFunction(api)('democracy', 'referendums', []);
