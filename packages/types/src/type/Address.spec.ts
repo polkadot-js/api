@@ -15,38 +15,38 @@ describe('Address', () => {
 
   describe('utility', () => {
     it('equals on AccountId', () => {
-      const addr = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s';
+      const addr = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 
       expect(new Address(addr).eq(addr)).toBe(true);
     });
 
     it('equals on AccountIndex', () => {
       // see the test below - these are equivalent (with different prefix encoding)
-      expect(new Address('PrF3').eq('F7ih')).toBe(true);
+      expect(new Address('2jpAFn').eq('25GUyv')).toBe(true);
     });
   });
 
   describe('decoding', () => {
     testDecode(
       'Address',
-      new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'),
-      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
+      new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'AccountId',
-      new AccountId('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'),
-      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
+      new AccountId('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'),
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'AccountIndex (mixed prefixes)',
-      new Address('PrF3'),
+      new Address('2jpAFn'),
       // NOTE Expected adress here is encoded with prefix 42, input above with 68
-      'F7ih'
+      '25GUyv'
     );
     testDecode(
       'AccountIndex (hex)',
       new AccountIndex('0x0100'),
-      '25GUyk'
+      '25GUyv'
     );
     testDecode(
       'Array',
@@ -55,7 +55,7 @@ describe('Address', () => {
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
       ],
-      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'Uint8Array (with prefix 255)',
@@ -64,22 +64,22 @@ describe('Address', () => {
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8,
         1, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8
       ]),
-      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testDecode(
       'Uint8Array (with prefix 1 byte)',
       Uint8Array.from([1]),
-      'F7L6'
+      'F7NZ'
     );
     testDecode(
       'Uint8Array (with prefix 2 bytes)',
       Uint8Array.from([0xfc, 0, 1]),
-      '25GUyk'
+      '25GUyv'
     );
     testDecode(
       'Uint8Array (with prefix 4 bytes)',
       Uint8Array.from([0xfd, 17, 18, 19, 20]),
-      'Mwz15xN8'
+      'Mwz15xP2'
     );
     // FIXME The specification allows for 8 byte addresses, however since AccountIndex is u32 internally
     // (and defined that way in thd efault Substrate),this does not actually work since it is 8 bytes,
@@ -94,7 +94,7 @@ describe('Address', () => {
   describe('encoding', () => {
     const testEncode = (to: 'toHex' | 'toString' | 'toU8a', expected: string | Uint8Array) =>
       it(`can encode ${to}`, () => {
-        const a = new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s');
+        const a = new Address('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF');
         expect(a[to]()).toEqual(expected);
       });
 
@@ -104,7 +104,7 @@ describe('Address', () => {
     );
     testEncode(
       'toString',
-      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s'
+      '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF'
     );
     testEncode(
       'toU8a',

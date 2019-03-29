@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { u8aToHex } from '@polkadot/util';
 import { Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v0/static';
 
@@ -20,11 +21,13 @@ describe('fromMetadata', () => {
     expect(() => newStorage.timestamp.now()).not.toThrow();
   });
 
-  // FIXME check again when we have a valid chain/UI
   it('should return the correct length-prefixed storage key', () => {
-    expect(newStorage.balances.freeBalance('5GwPuAgYgP6q58uWTXp4uSg6FwfzQv9HfFZwAFEREUrQjCvy')).toEqual(
-      // U8a is length-prefixed
-      Uint8Array.from([64, 52, 103, 23, 10, 157, 95, 244, 9, 70, 215, 120, 149, 1, 238, 109, 69])
+    expect(
+      u8aToHex(
+        newStorage.balances.freeBalance('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo')
+      )
+    ).toEqual(
+      '0x404af2c53fce3ec33c6ccccf22e926f1a7'
     );
   });
 });

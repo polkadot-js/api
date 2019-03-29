@@ -17,7 +17,7 @@ describe('fromMetadata', () => {
   });
 
   it('should return a value if the storage function does not expect an argument', () => {
-    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s', 2, 3)).not.toThrow();
+    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
   });
 
   it('should return properly-encoded transactions', () => {

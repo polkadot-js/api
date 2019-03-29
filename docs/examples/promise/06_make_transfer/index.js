@@ -3,7 +3,7 @@
 const { ApiPromise } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
 
-const BOB_ADDR = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 async function main () {
   // Instantiate the API
@@ -16,7 +16,7 @@ async function main () {
   const alice = keyring.addFromUri('//Alice');
 
   // Create a extrinsic, transferring 12345 units to Bob
-  const transfer = api.tx.balances.transfer(BOB_ADDR, 12345);
+  const transfer = api.tx.balances.transfer(BOB, 12345);
 
   // Sign and send the transaction using our account
   const hash = await transfer.signAndSend(alice);

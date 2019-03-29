@@ -7,11 +7,11 @@ import storage from '@polkadot/storage/static';
 
 import Api from '.';
 
-const ADDR_ONE = '5EhmTa7fL6SdjgKXo9g6hetR6nHnRAmrtisoGFWEESjzECtY';
-const ADDR_TWO = '5FjbQAHSptRU4Q7Py6zDsRnE7UkpZikJVg5nm1tmu3WuZXKd';
+const ADDR_ONE = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
+const ADDR_TWO = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF';
 
-const ENC_ONE = '0x24988a82b3bbaae58680bc9de5dea5aa';
-const ENC_TWO = '0xdb190750267d8849c35316ec9d342111';
+const ENC_ONE = '0x4af2c53fce3ec33c6ccccf22e926f1a7';
+const ENC_TWO = '0x3e62f7ed6e788e1337bce2a97b68a12a';
 
 describe('formatting', () => {
   let api: Api;

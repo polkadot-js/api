@@ -14,28 +14,28 @@ describe('AccountIndex', () => {
 
   it('creates a BN representation (from ss-58)', () => {
     expect(
-      new AccountIndex('Mwz15xN8').toNumber()
+      new AccountIndex('Mwz15xP2').toNumber()
     ).toEqual(336794129);
   });
 
   it('constructs 2-byte from number', () => {
     expect(
       new AccountIndex(256 * 1).toString()
-    ).toEqual('25GUyk');
+    ).toEqual('25GUyv');
   });
 
   it('constructs from number', () => {
     expect(
       new AccountIndex(new BN(336794129)).toString()
-    ).toEqual('Mwz15xN8');
+    ).toEqual('Mwz15xP2');
   });
 
   it('compares ss-58 values', () => {
-    expect(new AccountIndex(256 * 1).eq('25GUyk')).toBe(true);
+    expect(new AccountIndex(256 * 1).eq('25GUyv')).toBe(true);
   });
 
   it('compares numbers', () => {
-    expect(new AccountIndex('25GUyk').eq(256 * 1)).toBe(true);
+    expect(new AccountIndex('2jpAFn').eq(256 * 1)).toBe(true);
   });
 
   describe('calcLength', () => {

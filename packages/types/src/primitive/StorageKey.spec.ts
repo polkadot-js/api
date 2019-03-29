@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { hexToU8a } from '@polkadot/util';
 import storage from '@polkadot/storage/static';
 
 import StorageKey from './StorageKey';
@@ -12,10 +13,10 @@ describe('StorageKey', () => {
       new StorageKey(
         storage
           .balances
-          .freeBalance('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ')
+          .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
       )
         .toHex()
-    ).toBe('0xce3f3d8f09e3411403f5ca59d042a40e'); // FIXME OK this should be length-prefixed in reality
+    ).toBe('0xc99f5446efa57788f39ab529311f4550'); // FIXME OK this should be length-prefixed in reality
   });
 
   it(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
@@ -23,11 +24,12 @@ describe('StorageKey', () => {
       new StorageKey(
         storage
           .balances
-          .freeBalance('5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ')
+          .freeBalance('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')
       )
         .toU8a()
     ).toEqual(
-      Uint8Array.from([64, 206, 63, 61, 143, 9, 227, 65, 20, 3, 245, 202, 89, 208, 66, 164, 14]) // Length-prefixed
+      // length prefix attached
+      hexToU8a('0x40c99f5446efa57788f39ab529311f4550')
     );
   });
 });

@@ -1,9 +1,10 @@
 # 0.53.1
 
-- Change spelling to US English as per substrate master (1.0-rc1), potential breaking
+- Change spelling to US English as per substrate master (1.0-rc1). Breaking changes as a result:
   - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised` now check on the status for `result.status.isFinalized` or `result.status.isBoadcast`, ... (the `type` property is now accessible only on `result.status.type`)
-  - If using `subscribeFinalisedHeads` update to `subscribeFinalizedHeads` (likewise `'getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
-- All examples have been updated with sr25519 addesses
+  - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `'getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
+- The underlying ss58 addess checksums have changed in the keyring along with the latest specs
+- All examples have been updated with sr25519 addresses (with the new checksums)
 
 # 0.52.1
 

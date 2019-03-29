@@ -2,7 +2,7 @@
 const { ApiRx } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
 
-const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 
 async function main () {
   // Instantiate the API

@@ -7,7 +7,7 @@ import storage from '@polkadot/storage/static';
 
 import Rpc from '../../src';
 
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 describe.skip('e2e state', () => {
   let api;
