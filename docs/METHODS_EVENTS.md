@@ -60,7 +60,7 @@ ___
 - **summary**:   Triggered when the current schedule is updated.
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
-- **summary**:   Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.
+- **summary**:   Transfer happened `from` to `to` with given `value` as part of a `call` or `create`.
 
 ___
 
@@ -70,7 +70,7 @@ ___
 ▸ **BadReaperSlashed**(`AccountId`)
 - **summary**:   slashed reaper
 
-▸ **TallyFinalised**(`Vec<AccountId>`, `Vec<AccountId>`)
+▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
 - **summary**:   A tally (for approval votes of council seat(s)) has ended (with one or more new members).
 
 ▸ **TallyStarted**(`u32`)
