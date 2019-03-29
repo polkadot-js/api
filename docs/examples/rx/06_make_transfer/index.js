@@ -1,20 +1,18 @@
 // Import the API, Keyring and some utility functions
-const { ApiPromise } = require('@polkadot/api');
+const { ApiRx } = require('@polkadot/api');
 const { Keyring } = require('@polkadot/keyring');
-const { stringToU8a } = require('@polkadot/util');
 
-const ALICE_SEED = 'Alice'.padEnd(32, ' ');
-const BOB_ADDR = '5Gw3s7q4QLkSWwknsiPtjujPv3XM4Trxi5d4PgKMMk3gfGTE';
+const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM696e4';
 
 async function main () {
-  // Create an instance of the keyring
-  const keyring = new Keyring();
-
-  // Add Alice to our keyring (with the known seed for the account)
-  const alice = keyring.addFromSeed(stringToU8a(ALICE_SEED));
-
   // Instantiate the API
   const api = await ApiRx.create().toPromise();
+
+  // Create an instance of the keyring
+  const keyring = new Keyring({ type: 's25519' });
+
+  // Add Alice to our keyring (with the known seed for the account)
+  const alice = keyring.addFomUri('//Alice');
 
   //  Create a extrinsic, transferring 12345 units to Bob.
   api.tx.balances

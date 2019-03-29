@@ -8,17 +8,17 @@ const testKeyring = require('@polkadot/keyring/testing');
 const { randomAsU8a } = require('@polkadot/util-crypto');
 
 // some constants we are using in this sample
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
 const AMOUNT = 10000;
 
 async function main () {
+  // Create our API with a connection to the node
+  const api = await ApiRx.create().toPromise();
+
   // create an instance of our testign keyring
   // If you're using ES6 module imports instead of require, just change this line to:
   // const keyring = testKeyring();
   const keyring = testKeyring.default();
-
-  // Create our API with a connection to the node
-  const api = await ApiRx.create().toPromise();
 
   // find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
