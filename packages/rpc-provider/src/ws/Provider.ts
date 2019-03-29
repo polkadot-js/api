@@ -35,6 +35,10 @@ interface WSProviderInterface extends ProviderInterface {
   connect (): void;
 }
 
+const ALIASSES: { [index: string]: string } = {
+  'chain_finalisedHead': 'chain_finalizedHead'
+};
+
 const l = logger('api-ws');
 
 /**
@@ -327,7 +331,8 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageSubscribe = (response: JsonRpcResponse): void => {
-    const subId = `${response.method}::${response.params.subscription}`;
+    const method = ALIASSES[response.method as string] || response.method;
+    const subId = `${method}::${response.params.subscription}`;
 
     l.debug(() => ['handling: response =', response, 'subscription =', subId]);
 

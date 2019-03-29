@@ -132,10 +132,10 @@ export default class Rpc implements RpcInterface {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
-    const subscriptionType = `${method.section}_${updateType}`;
+    const subType = `${method.section}_${updateType}`;
 
     const unsubscribe = (subscriptionId: any): Promise<any> =>
-      this._provider.unsubscribe(subscriptionType, unsubName, subscriptionId);
+      this._provider.unsubscribe(subType, unsubName, subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
       try {
         const cb: ProviderInterface$Callback = values.pop();
@@ -153,7 +153,7 @@ export default class Rpc implements RpcInterface {
           cb(this.formatOutput(method, params, result));
         };
 
-        return this._provider.subscribe(subscriptionType, subName, paramsJson, update);
+        return this._provider.subscribe(subType, subName, paramsJson, update);
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 

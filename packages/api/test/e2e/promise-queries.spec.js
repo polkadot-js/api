@@ -46,6 +46,14 @@ describe.skip('e2e queries', () => {
     });
   });
 
+  it('subscribes to finalized', (done) => {
+    api.rpc.chain.subscribeFinalizedHeads((header) => {
+      expect(header.blockNumber.isZero()).toBe(false);
+
+      done();
+    });
+  });
+
   it('subscribes to derive', (done) => {
     api.derive.chain.subscribeNewHead((header) => {
       expect(header.blockNumber.isZero()).toBe(false);
@@ -62,8 +70,8 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it('subscribes to queries (default)', (done) => {
-    api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
+  it.skip('subscribes to queries (default)', (done) => {
+    api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
       done();
