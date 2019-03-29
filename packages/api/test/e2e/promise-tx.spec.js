@@ -35,10 +35,10 @@ describe.skip('e2e transactions', () => {
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .sign(keyring.dave, { nonce })
-      .send(({ events, status, type }) => {
-        console.log('Transaction status:', type);
+      .send(({ events, status }) => {
+        console.log('Transaction status:', status.type);
 
-        if (type === 'Finalised') {
+        if (status.isFinalized) {
           console.log('Completed at block hash', status.value.toHex());
           console.log('Events:');
 
@@ -59,10 +59,10 @@ describe.skip('e2e transactions', () => {
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
       .sign(keyring.dave, nonce)
-      .send(({ events, status, type }) => {
-        console.log('Transaction status:', type);
+      .send(({ events, status }) => {
+        console.log('Transaction status:', status.type);
 
-        if (type === 'Finalised') {
+        if (status.isFinalized) {
           console.log('Completed at block hash', status.value.toHex());
           console.log('Events:');
 
@@ -80,10 +80,10 @@ describe.skip('e2e transactions', () => {
   it('makes a transfer (signAndSend)', async (done) => {
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .signAndSend(keyring.dave, ({ events, status, type }) => {
-        console.log('Transaction status:', type);
+      .signAndSend(keyring.dave, ({ events, status }) => {
+        console.log('Transaction status:', status.type);
 
-        if (type === 'Finalised') {
+        if (status.isFinalized) {
           console.log('Completed at block hash', status.value.toHex());
           console.log('Events:');
 
@@ -103,10 +103,10 @@ describe.skip('e2e transactions', () => {
     api.setSigner(signer);
     return api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .signAndSend(keyring.dave.address(), ({ events, status, type }) => {
-        console.log('Transaction status:', type);
+      .signAndSend(keyring.dave.address(), ({ events, status }) => {
+        console.log('Transaction status:', status.type);
 
-        if (type === 'Finalised') {
+        if (status.isFinalized) {
           console.log('Completed at block hash', status.value.toHex());
           console.log('Events:');
 
@@ -136,7 +136,7 @@ describe.skip('e2e transactions', () => {
     //with callback
     await expect(api.tx.balances
       .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
-      .signAndSend(keyring.alice.address(), ({ events, status, type }) => {
+      .signAndSend(keyring.alice.address(), ({ events, status }) => {
       })).rejects.toThrow('does not have the keyringPair');
   });
 
@@ -164,10 +164,10 @@ describe.skip('e2e transactions', () => {
     function doOne (cb) {
       return api.tx.balances
         .transfer(pair.address(), 123456)
-        .signAndSend(keyring.dave, ({ events, status, type }) => {
-          console.log('One: Transaction status:', type);
+        .signAndSend(keyring.dave, ({ events, status }) => {
+          console.log('One: Transaction status:', status.type);
 
-          if (type === 'Finalised') {
+          if (status.isFinalized) {
             console.log('Completed at block hash', status.value.toHex());
             console.log('Events:');
 
@@ -183,10 +183,10 @@ describe.skip('e2e transactions', () => {
     function doTwo (cb) {
       return api.tx.balances
         .transfer(keyring.alice.address(), 12345)
-        .signAndSend(pair, ({ events, status, type }) => {
-          console.log('One: Transaction status:', type);
+        .signAndSend(pair, ({ events, status }) => {
+          console.log('One: Transaction status:', status.type);
 
-          if (type === 'Finalised') {
+          if (status.isFinalized) {
             console.log('Completed at block hash', status.value.toHex());
             console.log('Events:');
 

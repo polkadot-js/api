@@ -250,7 +250,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
    *   .signAndSend(<keyPair>, ({status}) => {
-   *     console.log('tx status', status.asFinalised.toHex());
+   *     console.log('tx status', status.asFinalized.toHex());
    *   });
    * ```
    */

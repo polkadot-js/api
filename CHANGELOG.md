@@ -1,3 +1,9 @@
+# 0.53.1
+
+- Change spelling to US English as per substrate master (1.0-rc1)
+- Beaking change: For extrinsic status results, if you have checked the type returns, i.e. `type === 'Finalised` now check on the status for `status.isFinalized` or `status.isBoadcast`, ... (the `type` property is now accessible on `status.type`)
+- All examples have been updated with sr25519 addesses
+
 # 0.52.1
 
 - Support queries to linked mapped storage (found in new staking interfaces)

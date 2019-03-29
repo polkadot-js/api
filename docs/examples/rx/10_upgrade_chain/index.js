@@ -32,14 +32,14 @@ async function main () {
     // sign and send the proposal
     .signAndSend(adminPair)
     // subscribe to overall result
-    .subscribe(({ events = [], status, type }) => {
+    .subscribe(({ events = [], status }) => {
       // Log transfer events
-      console.log('Proposal status:', type);
+      console.log('Proposal status:', status.type);
 
-      if (type === 'Finalised') {
+      if (status.isFinalized) {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.asFinalised.toHex());
+        console.log('Completed at block hash', status.asFinalized.toHex());
         console.log('Events:');
 
         // Log system events once the chain update is finalised

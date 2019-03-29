@@ -36,12 +36,13 @@ async function main () {
     // Sign and send it
     .signAndSend(alicePair)
     // And subscribe to the actual status
-    .subscribe(({ events = [], status, type }) => {
+    .subscribe(({ events = [], status }) => {
       // Log transfer events
-      console.log('Transfer status:', type);
+      console.log('Transfer status:', status.type);
+
       // Log system events once the transfer is finalised
-      if (type === 'Finalised') {
-        console.log('Completed at block hash', status.asFinalised.toHex());
+      if (status.isFinalized) {
+        console.log('Completed at block hash', status.asFinalized.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

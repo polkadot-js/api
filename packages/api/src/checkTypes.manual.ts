@@ -38,8 +38,8 @@ export default async function test () {
 
   const unsub = await api.tx.balances
     .transfer(keyring.bob.address(), 12345)
-    .signAndSend(keyring.alice, ({ type }) => {
-      console.log('transfer status:', type);
+    .signAndSend(keyring.alice, ({ status }) => {
+      console.log('transfer status:', status.type);
 
       unsub();
     });

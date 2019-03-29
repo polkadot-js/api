@@ -33,8 +33,8 @@ describe.skip('e2e transactions', () => {
             .send()
         )
       )
-      .subscribe((status) => {
-        if (status.type === 'Finalised') {
+      .subscribe(({ status }) => {
+        if (status.isFinalized) {
           done();
         }
       });
@@ -52,8 +52,8 @@ describe.skip('e2e transactions', () => {
             .send()
         )
       )
-      .subscribe((status) => {
-        if (status && status.type === 'Finalised') {
+      .subscribe(({ status }) => {
+        if (status.isFinalized) {
           done();
         }
       });

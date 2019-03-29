@@ -21,11 +21,11 @@ async function main () {
     // Sign and send the transcation
     .signAndSend(alice)
     // Subscribe to the status updates of the transfer
-    .subscribe(({ status, type }) => {
-      if (type === 'Finalised') {
-        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalised.toHex()}`);
+    .subscribe(({ status }) => {
+      if (status.isFinalized) {
+        console.log(`Successful transfer of 12345 from Alice to Bob with hash ${status.asFinalized.toHex()}`);
       } else {
-        console.log(`Staus of transfer: ${type}`);
+        console.log(`Staus of transfer: ${status.type}`);
       }
     });
 }
