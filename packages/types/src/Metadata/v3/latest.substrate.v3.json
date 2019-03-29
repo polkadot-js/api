@@ -18,7 +18,9 @@
                 }
               },
               "fallback": "0x0000000000000000",
-              "docs": []
+              "docs": [
+                " Extrinsics nonce for accounts."
+              ]
             },
             {
               "name": "ExtrinsicCount",
@@ -27,7 +29,9 @@
                 "PlainType": "u32"
               },
               "fallback": "0x00",
-              "docs": []
+              "docs": [
+                " Total extrinsics count for the current block."
+              ]
             },
             {
               "name": "AllExtrinsicsLen",
@@ -36,7 +40,9 @@
                 "PlainType": "u32"
               },
               "fallback": "0x00",
-              "docs": []
+              "docs": [
+                " Total length in bytes for all extrinsics put together, for the current block."
+              ]
             },
             {
               "name": "BlockHash",
@@ -49,7 +55,9 @@
                 }
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "docs": []
+              "docs": [
+                " Map of block numbers to block hashes."
+              ]
             },
             {
               "name": "ExtrinsicData",
@@ -62,7 +70,9 @@
                 }
               },
               "fallback": "0x00",
-              "docs": []
+              "docs": [
+                " Extrinsics data for the current block (maps extrinsic's index to its data)."
+              ]
             },
             {
               "name": "RandomSeed",
@@ -71,7 +81,9 @@
                 "PlainType": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "docs": []
+              "docs": [
+                " Random seed of the current block."
+              ]
             },
             {
               "name": "Number",
@@ -91,7 +103,9 @@
                 "PlainType": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "docs": []
+              "docs": [
+                " Hash of the previous block."
+              ]
             },
             {
               "name": "ExtrinsicsRoot",
@@ -100,7 +114,9 @@
                 "PlainType": "Hash"
               },
               "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
-              "docs": []
+              "docs": [
+                " Extrinsics root of the current block, also part of the block header."
+              ]
             },
             {
               "name": "Digest",
@@ -109,7 +125,9 @@
                 "PlainType": "Digest"
               },
               "fallback": "0x00",
-              "docs": []
+              "docs": [
+                " Digest of the current block, also part of the block header."
+              ]
             },
             {
               "name": "Events",
@@ -118,7 +136,9 @@
                 "PlainType": "Vec<EventRecord>"
               },
               "fallback": "0x00",
-              "docs": []
+              "docs": [
+                " Events deposited for the current block."
+              ]
             }
           ],
           "calls": null,
@@ -163,13 +183,27 @@
             },
             {
               "name": "BlockPeriod",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "Moment"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Old storage item provided for compatibility. Remove after all networks upgraded."
+              ]
+            },
+            {
+              "name": "MinimumPeriod",
               "modifier": "Default",
               "type": {
                 "PlainType": "Moment"
               },
-              "fallback": "0x0500000000000000",
+              "fallback": "0x0300000000000000",
               "docs": [
-                " The minimum (and advised) period between blocks."
+                " The minimum period between blocks. Beware that this is different to the *expected* period",
+                " that the block production apparatus provides. Your chosen consensus system will generally",
+                " work with this to determine a sensible block time. e.g. For Aura, it will be double this",
+                " period on default settings."
               ]
             },
             {
@@ -199,7 +233,7 @@
                 " This call should be invoked exactly once per block. It will panic at the finalization phase,",
                 " if this call hasn't been invoked by that time.",
                 "",
-                " The timestamp should be greater than the previous one by the amount specified by `block_period`.",
+                " The timestamp should be greater than the previous one by the amount specified by `minimum_period`.",
                 " ",
                 " The dispatch origin for this call must be `Inherent`."
               ]
@@ -231,7 +265,7 @@
                 }
               ],
               "docs": [
-                " Report some misbehaviour."
+                " Report some misbehavior."
               ]
             },
             {
@@ -292,6 +326,18 @@
               ],
               "docs": [
                 " Set some items of storage."
+              ]
+            },
+            {
+              "name": "kill_storage",
+              "args": [
+                {
+                  "name": "keys",
+                  "type": "Vec<Key>"
+                }
+              ],
+              "docs": [
+                " Kill some items from storage."
               ]
             }
           ],
@@ -357,7 +403,7 @@
               },
               "fallback": "0x00000000000000000000000000000000",
               "docs": [
-                " The total amount of stake on the system."
+                " The total units issued in the system."
               ]
             },
             {
@@ -368,7 +414,7 @@
               },
               "fallback": "0x00000000000000000000000000000000",
               "docs": [
-                " The minimum amount allowed to keep an account open."
+                " The minimum amount required to keep an account open."
               ]
             },
             {
@@ -390,7 +436,7 @@
               },
               "fallback": "0x00000000000000000000000000000000",
               "docs": [
-                " The fee required to create an account. At least as big as ReclaimRebate."
+                " The fee required to create an account."
               ]
             },
             {
@@ -444,11 +490,11 @@
               "docs": [
                 " The 'free' balance of a given account.",
                 "",
-                " This is the only balance that matters in terms of most operations on tokens. It is",
-                " alone used to determine the balance when in the contract execution environment. When this",
+                " This is the only balance that matters in terms of most operations on tokens. It",
+                " alone is used to determine the balance when in the contract execution environment. When this",
                 " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
-                " deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback",
-                " is invoked, giving a chance to external modules to cleanup data associated with",
+                " deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback",
+                " is invoked, giving a chance to external modules to clean up data associated with",
                 " the deleted account.",
                 "",
                 " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
@@ -471,14 +517,13 @@
                 " slashed, but gets slashed last of all.",
                 "",
                 " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
-                " that are still 'owned' by the account holder, but which are suspendable. (This is different",
-                " and wholly unrelated to the `Bondage` system used in the staking module.)",
+                " that are still 'owned' by the account holder, but which are suspendable.",
                 "",
                 " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
                 " is deleted: specifically, `ReservedBalance`.",
                 "",
                 " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
-                " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+                " collapsed to zero if it ever becomes less than `ExistentialDeposit`.)"
               ]
             },
             {
@@ -511,7 +556,14 @@
                 }
               ],
               "docs": [
-                " Transfer some liquid free balance to another staker."
+                " Transfer some liquid free balance to another account.",
+                "",
+                " `transfer` will set the `FreeBalance` of the sender and receiver.",
+                " It will decrease the total issuance of the system by the `TransferFee`.",
+                " If the sender's account is below the existential deposit as a result",
+                " of the transfer, the account will be reaped.",
+                "",
+                " The dispatch origin for this call must be `Signed` by the transactor."
               ]
             },
             {
@@ -531,7 +583,14 @@
                 }
               ],
               "docs": [
-                " Set the balances of a given account."
+                " Set the balances of a given account.",
+                "",
+                " This will alter `FreeBalance` and `ReservedBalance` in storage.",
+                " If the new free or reserved balance is below the existential deposit,",
+                " it will also decrease the total issuance of the system (`TotalIssuance`)",
+                " and reset the account nonce (`system::AccountNonce`).",
+                "",
+                " The dispatch origin for this call is `root`."
               ]
             }
           ],
@@ -808,7 +867,7 @@
               },
               "fallback": "0x00",
               "docs": [
-                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise",
+                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialize",
                 " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
               ]
             },
@@ -1052,7 +1111,7 @@
               "args": [
                 {
                   "name": "max_additional",
-                  "type": "BalanceOf"
+                  "type": "Compact<BalanceOf>"
                 }
               ],
               "docs": [
@@ -1061,7 +1120,7 @@
                 "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the stash, not the controller."
               ]
             },
             {
@@ -1171,7 +1230,7 @@
                 "",
                 " Effects will be felt at the beginning of the next era.",
                 "",
-                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+                " The dispatch origin for this call must be _Signed_ by the stash, not the controller."
               ]
             },
             {
@@ -1875,7 +1934,7 @@
               "docs": []
             },
             {
-              "name": "NextFinalise",
+              "name": "NextFinalize",
               "modifier": "Optional",
               "type": {
                 "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
@@ -2040,7 +2099,7 @@
               ],
               "docs": [
                 " Set the presentation duration. If there is currently a vote being presented for, will",
-                " invoke `finalise_vote`."
+                " invoke `finalize_vote`."
               ]
             },
             {
@@ -2053,7 +2112,7 @@
               ],
               "docs": [
                 " Set the presentation duration. If there is current a vote being presented for, will",
-                " invoke `finalise_vote`."
+                " invoke `finalize_vote`."
               ]
             }
           ],
@@ -2087,7 +2146,7 @@
               ]
             },
             {
-              "name": "TallyFinalised",
+              "name": "TallyFinalized",
               "args": [
                 "Vec<AccountId>",
                 "Vec<AccountId>"
@@ -2480,7 +2539,7 @@
                 }
               ],
               "docs": [
-                " Report some misbehaviour."
+                " Report some misbehavior."
               ]
             }
           ],
@@ -2730,14 +2789,58 @@
           "prefix": "Contract",
           "storage": [
             {
+              "name": "TransferFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to make a transfer."
+              ]
+            },
+            {
+              "name": "CreationFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to create an account."
+              ]
+            },
+            {
+              "name": "TransactionBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
               "name": "ContractFee",
               "modifier": "Default",
               "type": {
-                "PlainType": "Balance"
+                "PlainType": "BalanceOf"
               },
               "fallback": "0x15000000000000000000000000000000",
               "docs": [
-                " The fee required to create a contract. At least as big as staking's ReclaimRebate."
+                " The fee required to create a contract instance."
               ]
             },
             {
@@ -2748,7 +2851,7 @@
               },
               "fallback": "0x8700000000000000",
               "docs": [
-                " The fee charged for a call into a contract."
+                " The base fee charged for calling into a contract."
               ]
             },
             {
@@ -2759,14 +2862,14 @@
               },
               "fallback": "0xaf00000000000000",
               "docs": [
-                " The fee charged for a create of a contract."
+                " The base fee charged for creating a contract."
               ]
             },
             {
               "name": "GasPrice",
               "modifier": "Default",
               "type": {
-                "PlainType": "Balance"
+                "PlainType": "BalanceOf"
               },
               "fallback": "0x01000000000000000000000000000000",
               "docs": [
@@ -2917,7 +3020,8 @@
                 }
               ],
               "docs": [
-                " Stores code in the storage. You can instantiate contracts only with stored code."
+                " Stores the given binary Wasm code into the chains storage and returns its `codehash`.",
+                " You can instantiate contracts only with stored code."
               ]
             },
             {
@@ -2929,7 +3033,7 @@
                 },
                 {
                   "name": "value",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<BalanceOf>"
                 },
                 {
                   "name": "gas_limit",
@@ -2941,7 +3045,13 @@
                 }
               ],
               "docs": [
-                " Make a call to a specified account, optionally transferring some balance."
+                " Makes a call to an account, optionally transferring some balance.",
+                "",
+                " * If the account is a smart-contract account, the associated code will be",
+                " executed and any value will be transferred.",
+                " * If the account is a regular account, any value will be transferred.",
+                " * If no account exists and the call value is not less than `existential_deposit`,",
+                " a regular account will be created and any value will be transferred."
               ]
             },
             {
@@ -2949,7 +3059,7 @@
               "args": [
                 {
                   "name": "endowment",
-                  "type": "Compact<Balance>"
+                  "type": "Compact<BalanceOf>"
                 },
                 {
                   "name": "gas_limit",
@@ -2965,15 +3075,16 @@
                 }
               ],
               "docs": [
-                " Create a new contract, optionally transferring some balance to the created account.",
+                " Creates a new contract from the `codehash` generated by `put_code`, optionally transferring some balance.",
                 "",
                 " Creation is executed as follows:",
                 "",
                 " - the destination address is computed based on the sender and hash of the code.",
-                " - account is created at the computed address.",
+                " - the smart-contract account is created at the computed address.",
                 " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
                 "   after the execution is saved as the `code` of the account. That code will be invoked",
-                "   upon any message received by this account."
+                "   upon any call received by this account.",
+                " - The contract is initialized."
               ]
             }
           ],
@@ -2986,7 +3097,7 @@
                 "Balance"
               ],
               "docs": [
-                " Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`."
+                " Transfer happened `from` to `to` with given `value` as part of a `call` or `create`."
               ]
             },
             {
