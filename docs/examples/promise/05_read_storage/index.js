@@ -3,7 +3,7 @@
 const { ApiPromise } = require('@polkadot/api');
 
 // Our address for Alice on the dev chain
-const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 async function main () {
   // Create our API with a default connection to the local node

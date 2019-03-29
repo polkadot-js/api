@@ -3,7 +3,7 @@ const { ApiRx } = require('@polkadot/api');
 const { pairwise, startWith } = require('rxjs/operators');
 
 // Known account we want to use (available on dev chain, with funds)
-const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 async function main () {
   // Create an await for the API

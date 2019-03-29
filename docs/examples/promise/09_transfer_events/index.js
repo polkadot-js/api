@@ -9,7 +9,7 @@ const testKeyring = require('@polkadot/keyring/testing');
 const { randomAsU8a } = require('@polkadot/util-crypto');
 
 // some constants we are using in this sample
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKv3gB';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const AMOUNT = 10000;
 
 async function main () {
