@@ -83,23 +83,22 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     return EnumType.createValue(def, 0);
   }
 
-  private static createViaJSON (def: TypesDef, aliasses: Aliasses, key: string, value?: any) {
+  private static createViaJSON (def: TypesDef, _aliasses: Aliasses, key: string, value?: any) {
     // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
     // additionally force to lower to ensure forward compat
-    const keys = Object.keys(def).map((u) => u.toLowerCase());
-    const index = keys
-      .map((k) => {
-        const a = Object
-          .keys(aliasses)
-          .find((a) => aliasses[a].toLowerCase() === k);
+    const keys = Object.keys(def).map((k) => k.toLowerCase());
 
-        return a
-          ? a.toLowerCase()
-          : k;
-      })
-      .indexOf(key.toLowerCase());
+    // FIXME This whole lookup process is not vey efficient
+    const keyLower = key.toLowerCase();
+    const aliasses = Object.keys(_aliasses).reduce((aliasses, a) => {
+      aliasses[a.toLowerCase()] = _aliasses[a].toLowerCase();
 
-    assert(index !== -1, `Unable to reliably map input on JSON, cannot find '${key}' in ${keys.join(', ')}`);
+      return aliasses;
+    }, {} as Aliasses);
+    const aliasKey = aliasses[keyLower] || keyLower;
+    const index = keys.indexOf(aliasKey);
+
+    assert(index !== -1, `Cannot map input on JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
     return EnumType.createValue(def, index, value);
   }

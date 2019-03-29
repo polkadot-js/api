@@ -1,15 +1,19 @@
+# 0.75.1
+
+- Start journey to 1.0
+
 # 0.53.1
 
 - Change spelling to US English as per substrate master (1.0-rc1). Breaking changes as a result:
-  - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised` now check on the status for `result.status.isFinalized` or `result.status.isBoadcast`, ... (the `type` property is now accessible only on `result.status.type`)
-  - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `'getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
+  - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised'` now check on the status for `result.status.isFinalized` or `result.status.isBroadcast`, ... (the `type` property is now accessible only on `result.status.type`)
+  - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
 - The underlying ss58 addess checksums have changed in the keyring along with the latest specs
 - All examples have been updated with sr25519 addresses (with the new checksums)
 
 # 0.52.1
 
 - Support queries to linked mapped storage (found in new staking interfaces)
-- Add derive.staking.controllers to retrieve all active staking controllers
+- Add `derive.staking.controllers` to retrieve all active staking controllers
 - Align types as per latest substrate master
 - PeerInfo from system_peers does not have the index field anymore (dropped in substrate)
 - Allow parsing of V3 metadata with DoubleMap support

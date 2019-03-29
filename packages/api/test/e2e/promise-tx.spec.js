@@ -33,7 +33,7 @@ describe.skip('e2e transactions', () => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     return api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, { nonce })
       .send(({ events, status }) => {
         console.log('Transaction status:', status.type);
@@ -57,7 +57,7 @@ describe.skip('e2e transactions', () => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     return api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, nonce)
       .send(({ events, status }) => {
         console.log('Transaction status:', status.type);
@@ -79,7 +79,7 @@ describe.skip('e2e transactions', () => {
 
   it('makes a transfer (signAndSend)', async (done) => {
     return api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.dave, ({ events, status }) => {
         console.log('Transaction status:', status.type);
 
@@ -100,9 +100,11 @@ describe.skip('e2e transactions', () => {
 
   it('makes a transfer (signAndSend via Signer)', async (done) => {
     const signer = new SingleAccountSigner(keyring.dave);
+
     api.setSigner(signer);
+
     return api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.dave.address(), ({ events, status }) => {
         console.log('Transaction status:', status.type);
 
@@ -124,25 +126,30 @@ describe.skip('e2e transactions', () => {
   it('makes a transfer (signAndSend via Signer) - sad path', async () => {
     //no signer
     api.setSigner();
+
     await expect(api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('no signer exists');
+
     const signer = new SingleAccountSigner(keyring.dave);
+
     api.setSigner(signer);
+
     //no callback
     await expect(api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('does not have the keyringPair');
+
     //with callback
     await expect(api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address(), ({ events, status }) => {
       })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
     const hash = await api.tx.balances
-      .transfer('12ghjsRJpeJpUQaCQeHcBv9pRQA3tdcMxeL8cVk9JHWJGHjd', 12345)
+      .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.dave);
 
     expect(hash.toHex()).toHaveLength(66);
