@@ -1,3 +1,8 @@
+# 0.76.1
+
+- Update @polkadot/keyring to enable Alice's stash account on dev chains
+- Update @polkadot/util-crypto with smaller footprint
+
 # 0.75.1
 
 - Start journey to 1.0
