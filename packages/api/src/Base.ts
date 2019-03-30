@@ -117,7 +117,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
     this._rpcRx = new RpcRx(thisProvider);
-    this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
+    this._rpc = this.decorateRpc(this._rpcRx, this.onCall) as any; // FIXME 3.4.1
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
     this._rx.signer = options.signer;
 
@@ -394,8 +394,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const storage = storageFromMeta(this.runtimeMetadata.asV0);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
-    this._query = this.decorateStorage(storage, this.onCall);
-    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
+    this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
+    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall) as any; // FIXME 3.4.1
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;

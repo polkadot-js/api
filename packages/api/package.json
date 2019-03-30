@@ -29,13 +29,13 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.0",
+    "@babel/runtime": "^7.4.2",
     "@polkadot/api-derive": "^0.76.0-beta.0",
     "@polkadot/extrinsics": "^0.76.0-beta.0",
     "@polkadot/rpc-provider": "^0.76.0-beta.0",
     "@polkadot/rpc-rx": "^0.76.0-beta.0",
     "@polkadot/storage": "^0.76.0-beta.0",
     "@polkadot/types": "^0.76.0-beta.0",
-    "@polkadot/util-crypto": "^0.76.0-beta.2"
+    "@polkadot/util-crypto": "^0.76.0-beta.3"
   }
 }
