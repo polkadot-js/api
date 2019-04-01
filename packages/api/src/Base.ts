@@ -4,13 +4,13 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import { Codec, CodecArg, CodecCallback, RegistryTypes } from '@polkadot/types/types';
+import { Codec, CodecArg, CodecCallback, RegistryTypes, Constructor } from '@polkadot/types/types';
 import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
+  Contract, ContractABI, ContractABIArgs, ContractFn,
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
-  Derive, DeriveSection,
-  HashResult, U64Result,
+  Derive, DeriveSection, HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
@@ -24,14 +24,15 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { AccountId, Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, createClass } from '@polkadot/types';
 import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
+import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, stringCamelCase, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import createSubmittable, { SubmittableExtrinsic, SubmittableResult } from './SubmittableExtrinsic';
+import validateAbi from './util/validateAbi';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -68,8 +69,8 @@ function rxOnCall (
 }
 
 export default abstract class ApiBase<CodecResult, SubscriptionResult> implements ApiBaseInterface<CodecResult, SubscriptionResult> {
-  private _eventemitter: EventEmitter;
   private _derive?: Derive<CodecResult, SubscriptionResult>;
+  private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
   private _isReady: boolean = false;
@@ -260,6 +261,14 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     return this._extrinsics as SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   }
 
+  contract(abi: ContractABI, address?: string | AccountId): Contract<CodecResult, SubscriptionResult> {
+    assert(this.tx.contracts && isFunction(this.tx.contracts.call) && isFunction(this.tx.contracts.create), 'Contracts module not available with call & create functions');
+
+    validateAbi(abi);
+
+    return this.decorateContract(abi, address);
+  }
+
   /**
    * @description Disconnect from the underlying provider, halting all comms
    */
@@ -412,6 +421,66 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     return true;
   }
 
+  private decorateContract (abi: ContractABI, _address?: string | AccountId): Contract<CodecResult, SubscriptionResult> {
+
+    const deploy = this.decodrateContractCreate(abi.deploy.args, (result: SubmittableResult) => {
+      // track results for deployment here
+    });
+
+    return Object.keys(abi.messages).reduce((methods, _name) => {
+      const name = stringCamelCase(_name);
+
+      methods[name] = this.decodrateContractMethod(abi.messages[_name].args);
+
+      return methods;
+    }, {
+      address: new AccountId(_address),
+      deploy
+    } as Contract<CodecResult, SubscriptionResult>);
+  }
+
+  private createContractClazz (args: ContractABIArgs): Constructor {
+    const def = args.reduce((def, { name, type }) => {
+      def[name] = type;
+
+      return def;
+    }, {} as { [index: string]: string });
+
+    return createClass(JSON.stringify(def));
+  }
+
+  private createContractData (Clazz: Constructor, args: ContractABIArgs, params: Array<CodecArg>): Codec {
+    assert(params.length === args.length, `Expected ${args.length} arguments to contract create, found ${params.length}`);
+
+    const mapped = args.reduce((mapped, { name }, index) => {
+      mapped[name] = params[index];
+
+      return mapped;
+    }, {} as { [index: string]: any });
+
+    return new Clazz(mapped);
+  }
+
+  private decodrateContractCreate (args: ContractABIArgs, trackingCb: (result: SubmittableResult) => any): ContractFn<CodecResult, SubscriptionResult> {
+    const Clazz = this.createContractClazz(args);
+
+    return (...params: Array<CodecArg>): SubmittableExtrinsic<CodecResult, SubscriptionResult> => {
+      const data = this.createContractData(Clazz, args, params).toHex();
+
+      return this.tx.contracts.create(...params);
+    }
+  }
+
+  private decodrateContractMethod (args: ContractABIArgs): ContractFn<CodecResult, SubscriptionResult> {
+    const Clazz = this.createContractClazz(args);
+
+    return (...params: Array<CodecArg>): SubmittableExtrinsic<CodecResult, SubscriptionResult> => {
+      const data = this.createContractData(Clazz, args, params).toHex();
+
+      return this.tx.contracts.call(...params);
+    }
+  }
+
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
     output.meta = input.meta;
     output.method = input.method;
@@ -474,7 +543,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
     const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
-      createSubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }
