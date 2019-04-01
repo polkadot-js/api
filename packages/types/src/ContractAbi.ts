@@ -4,11 +4,10 @@
 
 import { CodecArg, Constructor } from './types';
 
-import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase, u8aConcat } from '@polkadot/util';
+import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Compact from './codec/Compact';
 import { createClass } from './codec/createType';
-import U32 from './primitive/U32';
 
 export type ContractABIArgs = Array<{
   name: string,
