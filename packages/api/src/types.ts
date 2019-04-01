@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { AccountId, Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
+import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
@@ -14,35 +14,6 @@ import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { RxResult } from './rx/types';
 import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 import ApiBase from './Base';
-
-export type ContractABIArgs = Array<{
-  name: string,
-  type: string
-}>;
-
-export type ContractABI = {
-  deploy: {
-    args: ContractABIArgs
-  },
-  messages: {
-    [index: string]: {
-      args: ContractABIArgs,
-      mutates?: boolean,
-      name: string,
-      selector: number,
-      return_type: string | null
-    }
-  },
-  name: string
-};
-
-export type ContractFn<CodecResult, SubscriptionResult> = (...params: Array<CodecArg>) => SubmittableExtrinsic<CodecResult, SubscriptionResult>;
-
-export type Contract<CodecResult, SubscriptionResult> = {
-  address: AccountId,
-  deploy: ContractFn<CodecResult, SubscriptionResult>,
-  [index: string]: ContractFn<CodecResult, SubscriptionResult>
-};
 
 export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean) => CodecResult | SubscriptionResult;
 
@@ -168,7 +139,6 @@ export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
-  contract: (abi: ContractABI, address?: string | AccountId) => Contract<CodecResult, SubscriptionResult>,
   derive: Derive<CodecResult, SubscriptionResult>;
   query: QueryableStorage<CodecResult, SubscriptionResult>;
   rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
