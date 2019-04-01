@@ -14,8 +14,11 @@ export type ContractABIArgs = Array<{
   type: string
 }>;
 
-export type ContractABIMethod = {
-  args: ContractABIArgs,
+export type ContractABIMethodBase = {
+  args: ContractABIArgs
+};
+
+export type ContractABIMethod = ContractABIMethodBase & {
   mutates?: boolean,
   name: string,
   selector: number,
@@ -23,20 +26,23 @@ export type ContractABIMethod = {
 };
 
 export type ContractABI = {
-  deploy: {
-    args: ContractABIArgs
-  },
+  deploy: ContractABIMethodBase,
   messages: Array<ContractABIMethod>,
   name: string
 };
 
-export type ContractABIEncoder = (...args: Array<CodecArg>) => Uint8Array;
+export interface ContractABIFn {
+  (...args: Array<CodecArg>): Uint8Array;
+  args: ContractABIArgs;
+  isConstant: boolean,
+  type: string | null;
+}
 
 export interface Contract {
   abi: ContractABI;
-  deploy: ContractABIEncoder;
+  deploy: ContractABIFn;
   messages: {
-    [index: string]: ContractABIEncoder
+    [index: string]: ContractABIFn
   };
 }
 
@@ -82,19 +88,19 @@ export function validateAbi (abi: ContractABI): void {
 
 export default class ContractAbi implements Contract {
   abi: ContractABI;
-  deploy: ContractABIEncoder;
-  messages: { [index: string]: ContractABIEncoder } = {};
+  deploy: ContractABIFn;
+  messages: { [index: string]: ContractABIFn } = {};
 
   constructor (abi: ContractABI) {
     validateAbi(abi);
 
     this.abi = abi;
-    this.deploy = this._createEncoded('deploy', abi.deploy.args);
+    this.deploy = this._createEncoded('deploy', abi.deploy);
 
     abi.messages.forEach((method) => {
       const name = stringCamelCase(method.name);
 
-      this.messages[name] = this._createEncoded(`messages.${name}`, method.args, method.selector);
+      this.messages[name] = this._createEncoded(`messages.${name}`, method);
     });
   }
 
@@ -110,11 +116,14 @@ export default class ContractAbi implements Contract {
     );
   }
 
-  private _createEncoded (name: string, args: ContractABIArgs, selector?: number): ContractABIEncoder {
-    const Clazz = this._createClazz(args, isUndefined(selector));
-    const base: { [index: string]: any } = { __selector: selector };
-
-    return (...params: Array<CodecArg>): Uint8Array => {
+  private _createEncoded (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
+    const args = method.args.map(({ name, type }) => ({
+      name: stringCamelCase(name),
+      type
+    }));
+    const Clazz = this._createClazz(args, isUndefined(method.selector));
+    const base: { [index: string]: any } = { __selector: method.selector };
+    const encoder = (...params: Array<CodecArg>): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
       return Compact.addLengthPrefix(
@@ -127,5 +136,13 @@ export default class ContractAbi implements Contract {
         ).toU8a()
       );
     };
+
+    const fn = (encoder as ContractABIFn);
+
+    fn.args = args;
+    fn.isConstant = !(method.mutates || false);
+    fn.type = method.return_type || null;
+
+    return fn;
   }
 }
