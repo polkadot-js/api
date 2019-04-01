@@ -50,6 +50,20 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
   get asFinalization (): Finalization {
     return this.value as Finalization;
   }
+
+  /**
+   * @description true when this is a ApplyExtrinsic
+   */
+  get isApplyExtrinsic (): boolean {
+    return this.type === 'ApplyExtrinsic';
+  }
+
+  /**
+   * @description true when this is a ApplyExtrinsic
+   */
+  get isFinalization (): boolean {
+    return this.type === 'Finalization';
+  }
 }
 
 /**

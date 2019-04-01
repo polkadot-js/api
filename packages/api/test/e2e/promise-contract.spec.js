@@ -37,7 +37,7 @@ describe.skip('e2e contracts', () => {
   });
 
   it('allows putCode', (done) => {
-    const code = fs.readFileSync(path.join(__dirname, '../data/erc20.wasm')).toString('hex');
+    const code = fs.readFileSync(path.join(__dirname, '../data/erc20-fixed.wasm')).toString('hex');
 
     api.tx.contract
       .putCode(200000, `0x${code}`)
@@ -45,9 +45,13 @@ describe.skip('e2e contracts', () => {
         console.error('putCode', JSON.stringify(result));
 
         if (result.status.isFinalized) {
-          // TODO Retrieve codeHash from events
+          result.events.forEach(({ event: { data, method, section } }) => {
+            if (phase.isApplyExtrinsic && section === 'contract' && method === 'CodeStored') {
+              codeHash = data[0];
 
-          done();
+              done();
+            }
+          });
         }
       });
   });
@@ -61,9 +65,13 @@ describe.skip('e2e contracts', () => {
         console.error('create', JSON.stringify(result));
 
         if (result.status.isFinalized) {
-          // TODO Retrieve address from events
+          result.events.forEach(({ event: { data, method, section }, phase }) => {
+            if (phase.isApplyExtrinsic && section === 'contract' && method === 'Instantiated') {
+              address = data[1];
 
-          done();
+              done();
+            }
+          });
         }
       });
   });
@@ -77,7 +85,11 @@ describe.skip('e2e contracts', () => {
         console.error('call', JSON.stringify(result));
 
         if (result.status.isFinalized) {
-          done();
+          result.events.forEach(({ event: { method, section }, phase }) => {
+            if (phase.isApplyExtrinsic && section === 'system' && method === 'ExtrinsicSuccess') {
+              done();
+            }
+          });
         }
       });
   });
