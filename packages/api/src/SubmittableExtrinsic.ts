@@ -46,6 +46,15 @@ export class SubmittableResult extends Struct {
   get status (): ExtrinsicStatus {
     return this.get('status') as ExtrinsicStatus;
   }
+
+  /**
+   * @description Finds an EventRecord for the specified method & section
+   */
+  findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }) =>
+      event.section === section && event.method === method
+    );
+  }
 }
 
 export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends IExtrinsic {

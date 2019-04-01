@@ -12,7 +12,7 @@ import json from '../data/erc20.json';
 import Api from '../../src/promise';
 
 describe.skip('e2e contracts', () => {
-  let addrress;
+  let address;
   let codeHash;
   let keyring;
   let abi;
@@ -26,7 +26,7 @@ describe.skip('e2e contracts', () => {
       keyring = testingPairs({ type: 'sr25519' });
     }
 
-    jest.setTimeout(30000);
+    jest.setTimeout(10000);
     done();
   });
 
@@ -37,7 +37,7 @@ describe.skip('e2e contracts', () => {
   });
 
   it('allows putCode', (done) => {
-    const code = fs.readFileSync(path.join(__dirname, '../data/erc20-fixed.wasm')).toString('hex');
+    const code = fs.readFileSync(path.join(__dirname, '../data/erc20.wasm')).toString('hex');
 
     api.tx.contract
       .putCode(200000, `0x${code}`)
@@ -45,13 +45,13 @@ describe.skip('e2e contracts', () => {
         console.error('putCode', JSON.stringify(result));
 
         if (result.status.isFinalized) {
-          result.events.forEach(({ event: { data, method, section } }) => {
-            if (phase.isApplyExtrinsic && section === 'contract' && method === 'CodeStored') {
-              codeHash = data[0];
+          const record = result.findRecord('contract', 'CodeStored');
 
-              done();
-            }
-          });
+          if (record) {
+            codeHash = record.event.data[0];
+
+            done();
+          }
         }
       });
   });
@@ -65,13 +65,13 @@ describe.skip('e2e contracts', () => {
         console.error('create', JSON.stringify(result));
 
         if (result.status.isFinalized) {
-          result.events.forEach(({ event: { data, method, section }, phase }) => {
-            if (phase.isApplyExtrinsic && section === 'contract' && method === 'Instantiated') {
-              address = data[1];
+          const record = result.findRecord('contract', 'Instantiated');
 
-              done();
-            }
-          });
+          if (record) {
+            address = record.event.data[1];
+
+            done();
+          }
         }
       });
   });
@@ -84,12 +84,8 @@ describe.skip('e2e contracts', () => {
       .signAndSend(keyring.bob, (result) => {
         console.error('call', JSON.stringify(result));
 
-        if (result.status.isFinalized) {
-          result.events.forEach(({ event: { method, section }, phase }) => {
-            if (phase.isApplyExtrinsic && section === 'system' && method === 'ExtrinsicSuccess') {
-              done();
-            }
-          });
+        if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
+          done();
         }
       });
   });
