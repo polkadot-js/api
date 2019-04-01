@@ -26,9 +26,7 @@ export type ContractABI = {
   deploy: {
     args: ContractABIArgs
   },
-  messages: {
-    [index: string]: ContractABIMethod
-  },
+  messages: Array<ContractABIMethod>,
   name: string
 };
 
@@ -39,7 +37,7 @@ export interface Contract {
   deploy: ContractABIEncoder;
   messages: {
     [index: string]: ContractABIEncoder
-  }
+  };
 }
 
 export function validateArgs (name: string, args: ContractABIArgs): void {
@@ -62,15 +60,13 @@ export function validateDeploy ({ deploy }: ContractABI): void {
 }
 
 export function validateMethods ({ messages }: ContractABI): void {
-  Object.keys(messages).forEach((name) => {
-    const method = messages[name];
-
+  messages.forEach((method) => {
     const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${name}`);
-    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type)), `Expected name, selector & rreturn_type specified for messages.${name}`);
+    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
 
-    validateArgs(`messages.${name}`, method.args);
+    validateArgs(`messages.${method.name}`, method.args);
   });
 }
 
@@ -95,11 +91,10 @@ export default class ContractAbi implements Contract {
     this.abi = abi;
     this.deploy = this._createEncoded('deploy', abi.deploy.args);
 
-    Object.keys(abi.messages).forEach((_name) => {
-      const name = stringCamelCase(_name);
-      const { args } = abi.messages[_name];
+    abi.messages.forEach((method) => {
+      const name = stringCamelCase(method.name);
 
-      this.messages[name] = this._createEncoded(`messages.${name}`, args);
+      this.messages[name] = this._createEncoded(`messages.${name}`, method.args);
     });
   }
 
