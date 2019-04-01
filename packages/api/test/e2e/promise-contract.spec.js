@@ -45,6 +45,8 @@ describe.skip('e2e contracts', () => {
         console.error('putCode', JSON.stringify(result));
 
         if (result.status.isFinalized) {
+          // TODO Retrieve codeHash from events
+
           done();
         }
       });
@@ -59,6 +61,8 @@ describe.skip('e2e contracts', () => {
         console.error('create', JSON.stringify(result));
 
         if (result.status.isFinalized) {
+          // TODO Retrieve address from events
+
           done();
         }
       });
