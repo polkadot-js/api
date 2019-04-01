@@ -34,7 +34,7 @@ export type ContractABI = {
 export interface ContractABIFn {
   (...args: Array<CodecArg>): Uint8Array;
   args: ContractABIArgs;
-  isConstant: boolean,
+  isConstant: boolean;
   type: string | null;
 }
 
