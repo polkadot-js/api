@@ -4,10 +4,11 @@
 
 import { CodecArg, Constructor } from './types';
 
-import { assert, isNumber, isNull, isString, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase, u8aConcat } from '@polkadot/util';
 
 import Compact from './codec/Compact';
 import { createClass } from './codec/createType';
+import U32 from './primitive/U32';
 
 export type ContractABIArgs = Array<{
   name: string,
@@ -94,34 +95,37 @@ export default class ContractAbi implements Contract {
     abi.messages.forEach((method) => {
       const name = stringCamelCase(method.name);
 
-      this.messages[name] = this._createEncoded(`messages.${name}`, method.args);
+      this.messages[name] = this._createEncoded(`messages.${name}`, method.args, method.selector);
     });
   }
 
-  private _createClazz (args: ContractABIArgs): Constructor {
-    const def = args.reduce((def, { name, type }) => {
-      def[name] = type;
+  private _createClazz (args: ContractABIArgs, isDeploy: boolean): Constructor {
+    return createClass(
+      JSON.stringify(
+        args.reduce((base: { [index: string]: string }, { name, type }) => {
+          base[name] = type;
 
-      return def;
-    }, {} as { [index: string]: string });
-
-    return createClass(JSON.stringify(def));
+          return base;
+        }, isDeploy ? {} : { __selector: 'u32' })
+      )
+    );
   }
 
-  private _createEncoded (name: string, args: ContractABIArgs): ContractABIEncoder {
-    const Clazz = this._createClazz(args);
+  private _createEncoded (name: string, args: ContractABIArgs, selector?: number): ContractABIEncoder {
+    const Clazz = this._createClazz(args, isUndefined(selector));
+    const base: { [index: string]: any } = { __selector: selector };
 
     return (...params: Array<CodecArg>): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
-      const mapped = args.reduce((mapped, { name }, index) => {
-        mapped[name] = params[index];
-
-        return mapped;
-      }, {} as { [index: string]: any });
-
       return Compact.addLengthPrefix(
-        new Clazz(mapped).toU8a()
+        new Clazz(
+          args.reduce((mapped, { name }, index) => {
+            mapped[name] = params[index];
+
+            return mapped;
+          }, { ...base })
+        ).toU8a()
       );
     };
   }

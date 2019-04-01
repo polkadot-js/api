@@ -37,7 +37,7 @@ describe.skip('e2e contracts', () => {
   it('allows putCode', (done) => {
     const code = fs.readFileSync(path.join(__dirname, '../data/erc20.wasm')).toString('hex');
 
-    api.tx.contract.putCode(12345, `0x${code}`).signAndSend(keyring.eve, (result) => {
+    api.tx.contract.putCode(200000, `0x${code}`).signAndSend(keyring.eve, (result) => {
       console.error(JSON.stringify(result));
 
       if (result.status.isFinalized) {
