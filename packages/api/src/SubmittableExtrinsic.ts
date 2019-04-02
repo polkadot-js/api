@@ -46,6 +46,15 @@ export class SubmittableResult extends Struct {
   get status (): ExtrinsicStatus {
     return this.get('status') as ExtrinsicStatus;
   }
+
+  /**
+   * @description Finds an EventRecord for the specified method & section
+   */
+  findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }) =>
+      event.section === section && event.method === method
+    );
+  }
 }
 
 export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends IExtrinsic {
@@ -60,7 +69,7 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
   signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
 }
 
-export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   const _noStatusCb = type === 'rxjs';
 
@@ -72,12 +81,11 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
 
   function statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (!status.isFinalized) {
-      return of(
-        new SubmittableResult({
-          status,
-          type: status.type
-        })
-      );
+      const result = new SubmittableResult({ status });
+
+      trackingCb && trackingCb(result);
+
+      return of(result);
     }
 
     const blockHash = status.asFinalized;
@@ -86,13 +94,16 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ).pipe(
-      map(([signedBlock, allEvents]) =>
-        new SubmittableResult({
+      map(([signedBlock, allEvents]) => {
+        const result = new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
-          status,
-          type: status.type
-        })
-      )
+          status
+        });
+
+        trackingCb && trackingCb(result);
+
+        return result;
+      })
     );
   }
 

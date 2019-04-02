@@ -9,8 +9,7 @@ import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
-  Derive, DeriveSection,
-  HashResult, U64Result,
+  Derive, DeriveSection, HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
@@ -31,7 +30,7 @@ import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -68,8 +67,8 @@ function rxOnCall (
 }
 
 export default abstract class ApiBase<CodecResult, SubscriptionResult> implements ApiBaseInterface<CodecResult, SubscriptionResult> {
-  private _eventemitter: EventEmitter;
   private _derive?: Derive<CodecResult, SubscriptionResult>;
+  private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
   private _isReady: boolean = false;
@@ -474,7 +473,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
     const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
-      createSubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }
