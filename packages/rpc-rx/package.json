@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.2",
+    "@babel/runtime": "^7.4.3",
     "@polkadot/rpc-core": "^0.76.0-beta.3",
     "@polkadot/rpc-provider": "^0.76.0-beta.3",
     "@types/memoizee": "^0.4.2",
