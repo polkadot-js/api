@@ -99,10 +99,13 @@ export default class RpcRx implements RpcRxInterface {
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
         {
           length: false,
-          // Primitive=true means: If two params `.toString()` methods give the
-          // same result, they'll be cached together.
+          // Normalize args so that different args that should be cached
+          // together are cached together.
           // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
-          primitive: true
+          normalizer: (args) => {
+            // `args` is arguments object as accessible in memoized function
+            return JSON.stringify(args);
+          }
         }
       );
 
