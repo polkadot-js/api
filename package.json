@@ -23,10 +23,10 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
+    "@babel/core": "^7.4.3",
     "@babel/register": "^7.4.0",
-    "@babel/runtime": "^7.4.0",
-    "@polkadot/dev": "^0.29.1",
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/dev": "^0.30.0-beta.0",
     "@polkadot/ts": "^0.1.56",
     "gh-pages": "^2.0.1"
   }
