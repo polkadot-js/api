@@ -26,14 +26,18 @@ describe('createCachedObservable', () => {
   });
 
   beforeEach(() => {
-    const subMethod: any = jest.fn(() => Promise.resolve(12345));
+    // Create two methods in our section
+    const subMethod: any = jest.fn(() => Promise.resolve('subMethodResult'));
     subMethod.unsubscribe = jest.fn(() => Promise.resolve(true));
+    const subMethod2: any = jest.fn(() => Promise.resolve('subMethod2Result'));
+    subMethod2.unsubscribe = jest.fn(() => Promise.resolve(true));
 
     section = {
-      subMethod
+      subMethod,
+      subMethod2
     };
 
-    // @ts-ignore
+    // @ts-ignore Private method
     creator = api.createObservable('subMethod', section);
   });
 
@@ -69,6 +73,16 @@ describe('createCachedObservable', () => {
 
     expect(
       observable2
-    ).not.toEqual(observable1);
+    ).not.toBe(observable1);
+  });
+
+  it('creates different observables for different methods but same arguments', () => {
+    const observable1 = creator(123);
+    // @ts-ignore Private method
+    const observable2 = api.createObservable('subMethod2', section)(123);
+
+    expect(
+      observable2
+    ).not.toBe(observable1);
   });
 });
