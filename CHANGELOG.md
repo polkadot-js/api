@@ -1,5 +1,6 @@
 # 0.76.1
 
+- Caching improvements (duplicate queries, no duplicate subscriptions)
 - Experimental contract API
 - Update @polkadot/keyring to enable Alice's stash account on dev chains
 - Update @polkadot/util-crypto with smaller footprint
