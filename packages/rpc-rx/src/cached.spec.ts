@@ -3,7 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
+import testingPairs from '@polkadot/keyring/testingPairs';
 import { RpcInterface$Section } from '@polkadot/rpc-core/types';
+import { AccountId } from '@polkadot/types';
 
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
@@ -16,6 +18,7 @@ import RpcRx from '.';
 describe('createCachedObservable', () => {
   let api: RpcRx;
   let creator: (...params: Array<any>) => Observable<any>;
+  const keyring = testingPairs();
   let section: RpcInterface$Section;
 
   beforeEach(() => {
@@ -45,6 +48,15 @@ describe('createCachedObservable', () => {
   it('creates a single observable (multiple calls)', () => {
     const observable1 = creator(123);
     const observable2 = creator(123);
+
+    expect(
+      observable2
+    ).toBe(observable1);
+  });
+
+  it('creates a single observable (multiple calls, different arguments that should be cached together)', () => {
+    const observable1 = creator(keyring.alice.address());
+    const observable2 = creator(new AccountId(keyring.alice.address()));
 
     expect(
       observable2

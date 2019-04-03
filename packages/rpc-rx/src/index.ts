@@ -97,7 +97,13 @@ export default class RpcRx implements RpcRxInterface {
     if (isFunction(section[name].unsubscribe)) {
       const memoized: Memoized<RpcRxInterface$Method> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
-        { length: false }
+        {
+          length: false,
+          // Primitive=true means: If two params `.toString()` methods give the
+          // same result, they'll be cached together.
+          // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
+          primitive: true
+        }
       );
 
       return memoized as unknown as RpcRxInterface$Method;
@@ -126,17 +132,17 @@ export default class RpcRx implements RpcRxInterface {
 
       return this.createReplayUnsub(fn, subscribe, params, memoized);
     })
-    .pipe(
-      map((value) => {
-        if (value instanceof Error) {
-          throw value;
-        }
+      .pipe(
+        map((value) => {
+          if (value instanceof Error) {
+            throw value;
+          }
 
-        return value;
-      }),
-      publishReplay(1),
-      refCount()
-    );
+          return value;
+        }),
+        publishReplay(1),
+        refCount()
+      );
   }
 
   private createReplayCallback (observer: Observer<any>) {
