@@ -2632,7 +2632,7 @@
               "type": {
                 "MapType": {
                   "key": "ProposalIndex",
-                  "value": "Proposal",
+                  "value": "TreasuryProposal",
                   "isLinked": false
                 }
               },

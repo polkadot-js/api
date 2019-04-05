@@ -1,3 +1,7 @@
+# 0.77.1
+
+- Add TresuryProposal (not the same as democracy, type aliassed)
+
 # 0.76.1
 
 - Caching improvements (duplicate queries, no duplicate subscriptions)
