@@ -37,6 +37,8 @@ export default class Type extends Text {
     const mappings: Array<Mapper> = [
       // alias <T::InherentOfflineReport as InherentOfflineReport>::Inherent -> InherentOfflineReport
       Type._alias('<T::InherentOfflineReport as InherentOfflineReport>::Inherent', 'InherentOfflineReport'),
+      // alias TreasuryProposal from Proposal<T::AccountId, BalanceOf<T>>
+      Type._alias('Proposal<T::AccountId, BalanceOf<T>>', 'TreasuryProposal'),
       // <T::Balance as HasCompact>
       Type._cleanupCompact(),
       // Remove all the trait prefixes

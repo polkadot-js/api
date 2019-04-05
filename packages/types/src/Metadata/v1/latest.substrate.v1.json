@@ -2461,7 +2461,7 @@
               "type": {
                 "MapType": {
                   "key": "ProposalIndex",
-                  "value": "Proposal"
+                  "value": "TreasuryProposal"
                 }
               },
               "fallback": "0x00",

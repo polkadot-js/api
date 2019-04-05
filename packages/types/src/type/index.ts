@@ -64,6 +64,7 @@ export { default as SessionKey } from './SessionKey';
 export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
+export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as UnlockChunk } from './UnlockChunk';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VestingSchedule } from './VestingSchedule';
