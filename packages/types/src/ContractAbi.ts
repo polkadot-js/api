@@ -104,14 +104,14 @@ export default class ContractAbi implements Contract {
     });
   }
 
-  private _createClazz (args: ContractABIArgs, isDeploy: boolean): Constructor {
+  private _createClazz (args: ContractABIArgs, baseDef: { [index: string]: string }): Constructor {
     return createClass(
       JSON.stringify(
         args.reduce((base: { [index: string]: string }, { name, type }) => {
           base[name] = type;
 
           return base;
-        }, isDeploy ? {} : { __selector: 'u32' })
+        }, baseDef)
       )
     );
   }
@@ -121,7 +121,7 @@ export default class ContractAbi implements Contract {
       name: stringCamelCase(name),
       type
     }));
-    const Clazz = this._createClazz(args, isUndefined(method.selector));
+    const Clazz = this._createClazz(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
     const base: { [index: string]: any } = { __selector: method.selector };
     const encoder = (...params: Array<CodecArg>): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
@@ -135,7 +135,6 @@ export default class ContractAbi implements Contract {
       ).toU8a();
 
       console.error('hexToU8a(encoded)', u8aToHex(u8a));
-
 
       return Compact.addLengthPrefix(u8a);
     };
