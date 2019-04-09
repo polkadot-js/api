@@ -17,7 +17,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
 /**
  * Returns all the indexes on the system - this is an unwieldly query since it loops through
  * all of the enumsets and returns all of the values found. This could be up to 32k depending
- * on the number of active acocunt in the system
+ * on the number of active accounts in the system
  */
 export function indexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> => {
