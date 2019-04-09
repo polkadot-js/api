@@ -12,24 +12,33 @@ import { drr } from '../util/drr';
 
 export type AccountIndexes = { [index: string]: AccountIndex };
 
+const enumsetSize = ENUMSET_SIZE.toNumber();
+
+/**
+ * Returns all the indexes on the system - this is an unwieldly query since it loops through
+ * all of the enumsets and returns all of the values found. This could be up to 32k depending
+ * on the number of active acocunt in the system
+ */
 export function indexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> => {
-    const querySection = api.query.indices || api.query.balances;
-
-    return (querySection.nextEnumSet() as Observable<AccountIndex>)
+    return (api.query.indices.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
-        map((next: AccountIndex) => {
-          const enumRange = [...Array(next.div(ENUMSET_SIZE).toNumber() + 1).keys()];
-
-          return enumRange;
-        }),
+        // use the nextEnumSet (which is a counter of the number of sets) to construct
+        // a range of values to query [0, 1, 2, ...]
+        map((next: AccountIndex) =>
+          [...Array(next.toNumber() + 1).keys()]
+        ),
         switchMap((enumRange) => combineLatest(
-          enumRange.map((index) => (querySection.enumSet(index) as Observable<any>))
+          // retrieve the full enum set for the specific index - each query can return
+          // up to ENUMSET_SIZE (64) records, each containing an AccountId
+          enumRange.map((index) => (api.query.indices.enumSet(index) as Observable<any>))
         )),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
             (list || []).forEach((accountId, innerIndex) => {
-              const index = (outerIndex * ENUMSET_SIZE.toNumber()) + innerIndex;
+              // re-create the index based on position 0 is [0][0] and likewise
+              // 64 (0..63 in first) is [1][0] (the first index value in set 2)
+              const index = (outerIndex * enumsetSize) + innerIndex;
 
               result[accountId.toString()] = new AccountIndex(index);
             });
