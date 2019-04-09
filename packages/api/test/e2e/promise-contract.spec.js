@@ -8,21 +8,20 @@ import path from 'path';
 import { ContractAbi } from '@plugnet/types';
 import testingPairs from '@plugnet/keyring/testingPairs';
 
-import json from '../data/erc20.json';
+import incrementer from '../data/incrementer.json';
+import erc20 from '../data/erc20.json';
 import Api from '../../src/promise';
 
 describe.skip('e2e contracts', () => {
   let address;
   let codeHash;
   let keyring;
-  let abi;
   let api;
 
   beforeEach(async (done) => {
     if (!api) {
       api = await Api.create();
 
-      abi = new ContractAbi(json);
       keyring = testingPairs({ type: 'sr25519' });
     }
 
@@ -30,63 +29,79 @@ describe.skip('e2e contracts', () => {
     done();
   });
 
-  it('has the attached methods', () => {
-    expect(Object.keys(abi.messages)).toEqual(
-      ['totalSupply', 'balanceOf', 'allowance', 'transfer', 'approve', 'transferFrom']
-    );
-  });
+  describe('incrementer', () => {
+    let abi;
 
-  it('allows putCode', (done) => {
-    const code = fs.readFileSync(path.join(__dirname, '../data/erc20.wasm')).toString('hex');
+    beforeAll(() => {
+      abi = new ContractAbi(incrementer);
+    });
 
-    api.tx.contract
-      .putCode(200000, `0x${code}`)
-      .signAndSend(keyring.eve, (result) => {
-        console.error('putCode', JSON.stringify(result));
+    it('allows putCode', (done) => {
+      const code = fs.readFileSync(path.join(__dirname, '../data/incrementer-opt.wasm')).toString('hex');
 
-        if (result.status.isFinalized) {
-          const record = result.findRecord('contract', 'CodeStored');
+      api.tx.contract
+        .putCode(200000, `0x${code}`)
+        .signAndSend(keyring.eve, (result) => {
+          console.error('putCode', JSON.stringify(result));
 
-          if (record) {
-            codeHash = record.event.data[0];
+          if (result.status.isFinalized) {
+            const record = result.findRecord('contract', 'CodeStored');
 
+            if (record) {
+              codeHash = record.event.data[0];
+
+              done();
+            }
+          }
+        });
+    });
+
+    it('allows contract create', (done) => {
+      expect(codeHash).toBeDefined();
+
+      api.tx.contract
+        .create(12345, 500000, codeHash, abi.deploy(12345))
+        .signAndSend(keyring.bob, (result) => {
+          console.error('create', JSON.stringify(result));
+
+          if (result.status.isFinalized) {
+            const record = result.findRecord('contract', 'Instantiated');
+
+            if (record) {
+              address = record.event.data[1];
+
+              done();
+            }
+          }
+        });
+    });
+
+    it('allows contract call', (done) => {
+      expect(address).toBeDefined();
+
+      api.tx.contract
+        .call(address, 12345, 500000, abi.messages.inc(123))
+        .signAndSend(keyring.bob, (result) => {
+          console.error('call', JSON.stringify(result));
+
+          if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
             done();
           }
-        }
-      });
+        });
+    });
   });
 
-  it('allows contract create', (done) => {
-    expect(codeHash).toBeDefined();
+  describe('erc20', () => {
+    let abi;
 
-    api.tx.contract
-      .create(1234, 12345, codeHash, abi.deploy(12345))
-      .signAndSend(keyring.bob, (result) => {
-        console.error('create', JSON.stringify(result));
+    beforeAll(() => {
+      abi = abi = new ContractAbi(erc20);
+    });
 
-        if (result.status.isFinalized) {
-          const record = result.findRecord('contract', 'Instantiated');
-
-          if (record) {
-            address = record.event.data[1];
-
-            done();
-          }
-        }
-      });
-  });
-
-  it('allows contract call', (done) => {
-    expect(address).toBeDefined();
-
-    api.tx.contract
-      .call(address, 123, 12345, abi.messages.balanceOf(keyring.alice.address()))
-      .signAndSend(keyring.bob, (result) => {
-        console.error('call', JSON.stringify(result));
-
-        if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
-          done();
-        }
-      });
+    it('has the attached methods', () => {
+      expect(Object.keys(abi.messages)).toEqual(
+        ['totalSupply', 'balanceOf', 'allowance', 'transfer', 'approve', 'transferFrom']
+      );
+    });
   });
 });
