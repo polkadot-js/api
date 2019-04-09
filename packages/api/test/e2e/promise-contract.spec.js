@@ -60,7 +60,7 @@ describe.skip('e2e contracts', () => {
       expect(codeHash).toBeDefined();
 
       api.tx.contract
-        .create(1234, 12345, codeHash, abi.deploy(12345))
+        .create(12345, 500000, codeHash, abi.deploy(12345))
         .signAndSend(keyring.bob, (result) => {
           console.error('create', JSON.stringify(result));
 
@@ -76,11 +76,11 @@ describe.skip('e2e contracts', () => {
         });
     });
 
-    it.skip('allows contract call', (done) => {
+    it('allows contract call', (done) => {
       expect(address).toBeDefined();
 
       api.tx.contract
-        .call(address, 123, 12345, abi.messages.balanceOf(keyring.alice.address()))
+        .call(address, 12345, 500000, abi.messages.inc(123))
         .signAndSend(keyring.bob, (result) => {
           console.error('call', JSON.stringify(result));
 
