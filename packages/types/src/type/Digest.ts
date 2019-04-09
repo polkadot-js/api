@@ -77,6 +77,39 @@ export class Consensus extends Tuple {
       Bytes
     }, value);
   }
+
+  /**
+   * @description `true` if the engine matches aura
+   */
+  get isAura (): boolean {
+    return this.engine.eq(0x61727561); // ['a', 'u', 'r', 'a']
+  }
+
+  /**
+   * @description The wrapped engine [[U32]]
+   */
+  get engine (): U32 {
+    return this[0] as U32;
+  }
+
+  /**
+   * @description The wrapped [[Bytes]]
+   */
+  get data (): Bytes {
+    return this[1] as Bytes;
+  }
+
+  /**
+   * @description The slot and signature extracted from the raw data (assuming Aura)
+   */
+  get asAura (): [U64, Signature] {
+    const raw = this.data.toU8a(true);
+
+    return [
+      new U64(raw.subarray(0, 4)),
+      new Signature(raw.subarray(64))
+    ];
+  }
 }
 
 /**
