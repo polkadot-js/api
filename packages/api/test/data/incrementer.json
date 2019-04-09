@@ -1,0 +1,44 @@
+{
+    "name": "Incrementer",
+    "deploy": {
+        "args": [
+            {
+                "name": "init_value",
+                "type": "u32"
+            }
+        ]
+    },
+    "messages": [
+        {
+            "name": "inc",
+            "selector": 257544423,
+            "mutates": true,
+            "args": [
+                {
+                    "name": "by",
+                    "type": "u32"
+                }
+            ],
+            "return_type": null
+        },
+        {
+            "name": "get",
+            "selector": 4266279973,
+            "mutates": false,
+            "args": [],
+            "return_type": "u32"
+        },
+        {
+            "name": "compare",
+            "selector": 363906316,
+            "mutates": false,
+            "args": [
+                {
+                    "name": "with",
+                    "type": "u32"
+                }
+            ],
+            "return_type": "bool"
+        }
+    ]
+}
