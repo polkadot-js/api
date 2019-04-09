@@ -8,6 +8,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
+import U64 from '../primitive/U64';
 
 import AccountId from './AccountId';
 import BlockNumber from './BlockNumber';
@@ -101,11 +102,33 @@ export class HeaderExtended extends Header {
   constructor (header: Header | null = null, sessionValidators: Array<AccountId> = []) {
     super(header);
 
-    const digestItem = header && header.digest && header.digest.logs.find(({ type }) => type === 'Seal');
+    if (!header || !header.digest || !sessionValidators.length) {
+      return;
+    }
 
-    this._author = digestItem && sessionValidators.length
-      ? sessionValidators[digestItem.asSeal.slot.toNumber() % sessionValidators.length]
-      : undefined;
+    let item = header.digest.logs.find((log) => log.isConsensus);
+    let slot: U64 | undefined;
+
+    // extract author from the consensus (substrate 1.0, digest)
+    if (item) {
+      const consensus = item.asConsensus;
+
+      if (consensus.isAura) {
+        slot = consensus.asAura[0];
+      }
+    } else {
+      item = header.digest.logs.find((log) => log.isSeal);
+
+      // extract author from the seal (pre substrate 1.0, backwards compat)
+      if (item) {
+        slot = item.asSeal.slot;
+      }
+    }
+
+    // found a slot? Great, extract the validator
+    if (slot) {
+      this._author = sessionValidators[slot.toNumber() % sessionValidators.length];
+    }
   }
 
   /**

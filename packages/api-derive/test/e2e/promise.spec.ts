@@ -6,8 +6,8 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-const WS_LOCAL = 'ws://127.0.0.1:9944/';
-// const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
+// const WS = 'ws://127.0.0.1:9944/';
+const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiPromise;
@@ -17,7 +17,7 @@ describe.skip('derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiPromise.create(new WsProvider(WS_LOCAL));
+    api = await ApiPromise.create(new WsProvider(WS));
     done();
   });
 
@@ -28,5 +28,15 @@ describe.skip('derive e2e', () => {
     const block2 = await api.derive.chain.bestNumber();
 
     expect((block1 as BlockNumber).eq(block2)).toBe(false);
+  });
+
+  it('subscribes to newHead, retrieving the actual validator', (done) => {
+    return api.derive.chain.subscribeNewHead(({ author }) => {
+      console.error('author', author.toString());
+
+      if (author) {
+        done();
+      }
+    });
   });
 });
