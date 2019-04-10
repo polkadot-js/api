@@ -9,10 +9,8 @@
     "packages/*"
   ],
   "resolutions": {
-    "@vuepress/core": "1.0.0-alpha.44",
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.4.1",
-    "vuepress": "1.0.0-alpha.44"
+    "typescript": "^3.4.3"
   },
   "scripts": {
     "build": "plugnet-dev-build-ts && yarn run build:methodsdoc",
