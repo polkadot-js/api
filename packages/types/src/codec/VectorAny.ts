@@ -11,7 +11,6 @@ import AbstractArray from './AbstractArray';
  * This manages codec arrays, assuming that the inputs are already of type Codec. Unlike
  * a vector, this cane be used to manage array-like structures with variable arguments of
  * any types
- * @noInheritDoc
  */
 export default class VectorAny<T extends Codec> extends AbstractArray<T> {
 }

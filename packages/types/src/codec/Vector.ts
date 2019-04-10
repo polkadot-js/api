@@ -15,7 +15,6 @@ import AbstractArray from './AbstractArray';
  * This manages codec arrays. Internally it keeps track of the length (as decoded) and allows
  * construction with the passed `Type` in the constructor. It is an extension to Array, providing
  * specific encoding/decoding on top of the base type.
- * @noInheritDoc
  */
 export default class Vector<T extends Codec> extends AbstractArray<T> {
   private _Type: Constructor<T>;

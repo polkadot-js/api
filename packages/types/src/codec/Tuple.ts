@@ -17,7 +17,6 @@ type TupleConstructors = Array<Constructor> | {
  * @description
  * A Tuple defines an anonymous fixed-length array, where each element has its
  * own type. It extends the base JS `Array` object.
- * @noInheritDoc
  */
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
