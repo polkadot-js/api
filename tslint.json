@@ -1,5 +1,5 @@
 {
-  "extends": "@polkadot/dev/config/tslint",
+  "extends": "@plugnet/dev/config/tslint",
   "linterOptions": {
     "exclude": "packages/**/src/**/*.json"
   },

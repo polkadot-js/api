@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, u8aConcat, u8aToHex, isHex, hexToU8a } from '@plugnet/util';
+import { isU8a, u8aConcat, isHex, hexToU8a } from '@plugnet/util';
 
 import { AnyNumber, AnyU8a, AnyString, Codec, Constructor } from '../types';
-import { compareArray, decodeU8a } from './utils';
+import { decodeU8a } from './utils';
+import AbstractArray from './AbstractArray';
 
 type TupleConstructors = Array<Constructor> | {
   [index: string]: Constructor
@@ -16,9 +17,8 @@ type TupleConstructors = Array<Constructor> | {
  * @description
  * A Tuple defines an anonymous fixed-length array, where each element has its
  * own type. It extends the base JS `Array` object.
- * @noInheritDoc
  */
-export default class Tuple extends Array<Codec> implements Codec {
+export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
   constructor (Types: TupleConstructors, value: any) {
@@ -63,49 +63,12 @@ export default class Tuple extends Array<Codec> implements Codec {
   }
 
   /**
-   * @description Checks if the value is an empty value
-   */
-  get isEmpty (): boolean {
-    return this.length === 0;
-  }
-
-  /**
    * @description The types definition of the tuple
    */
   get Types (): Array<string> {
     return Array.isArray(this._Types)
       ? this._Types.map(({ name }) => name)
       : Object.keys(this._Types);
-  }
-
-  /**
-   * @description Compares the value of the input to see if there is a match
-   */
-  eq (other?: any): boolean {
-    return compareArray(this, other);
-  }
-
-  /**
-   * @description Converts the Object to an standard JavaScript Array
-   */
-  toArray (): Array<Codec> {
-    return Array.from(this);
-  }
-
-  /**
-   * @description Returns a hex string representation of the value
-   */
-  toHex () {
-    return u8aToHex(this.toU8a());
-  }
-
-  /**
-   * @description Converts the Object to JSON, typically used for RPC transfers
-   */
-  toJSON (): any {
-    return this.map((entry) =>
-      entry.toJSON()
-    );
   }
 
   /**
@@ -126,27 +89,5 @@ export default class Tuple extends Array<Codec> implements Codec {
         entry.toU8a(isBare)
       )
     );
-  }
-
-  // Below are methods that we override. When we do a `new Tuple(...).map()`,
-  // we want it to throw an error. We only override the methods that return a
-  // new instance.
-
-  /**
-   * @description Filters the array with the callback
-   * @param callbackfn The filter function
-   * @param thisArg The `this` object to apply the result to
-   */
-  filter (callbackfn: (value: Codec, index: number, array: Array<Codec>) => any, thisArg?: any): Array<Codec> {
-    return this.toArray().filter(callbackfn, thisArg);
-  }
-
-  /**
-   * @description Maps the array with the callback
-   * @param callbackfn The mapping function
-   * @param thisArg The `this` onject to apply the result to
-   */
-  map<U> (callbackfn: (value: Codec, index: number, array: Array<Codec>) => U, thisArg?: any): Array<U> {
-    return this.toArray().map(callbackfn, thisArg);
   }
 }
