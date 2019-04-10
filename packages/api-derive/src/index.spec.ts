@@ -7,7 +7,7 @@ import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import MockProvider from '@polkadot/rpc-provider/mock';
 
-import { Derive } from './index';
+import { Derive } from '.';
 
 const testFunction = (api: ApiInterface$Rx) => {
   return <
@@ -21,13 +21,6 @@ const testFunction = (api: ApiInterface$Rx) => {
 
       it('should return an Observable', () => {
         expect((api.derive[section][method] as any)(...inputs)).toBeInstanceOf(Observable);
-      });
-
-      it('should be memoized', () => {
-        const first = (api.derive[section][method] as any)(...inputs);
-        const second = (api.derive[section][method] as any)(...inputs);
-
-        expect(first).toBe(second);
       });
     });
   };
@@ -54,7 +47,7 @@ describe('derive', () => {
     testFunction(api)('balances', 'votingBalancesNominatorsFor', []);
 
     testFunction(api)('chain', 'bestNumber', []);
-    testFunction(api)('chain', 'bestNumberFinalised', []);
+    testFunction(api)('chain', 'bestNumberFinalized', []);
 
     testFunction(api)('democracy', 'referendumInfos', []);
     testFunction(api)('democracy', 'referendums', []);

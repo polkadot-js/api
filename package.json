@@ -1,5 +1,5 @@
 {
-  "version": "0.46.9",
+  "version": "0.77.0-beta.1",
   "private": true,
   "engines": {
     "node": ">=10.13.0",
@@ -9,23 +9,26 @@
     "packages/*"
   ],
   "resolutions": {
+    "@vuepress/core": "1.0.0-alpha.44",
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.4.1",
+    "vuepress": "1.0.0-alpha.44"
   },
   "scripts": {
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
-    "check": "tslint --project . && tsc --noEmit --pretty",
+    "check": "yarn lint",
+    "lint": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.3",
-    "@babel/register": "^7.0.0",
-    "@babel/runtime": "^7.3.4",
-    "@polkadot/dev": "^0.25.13",
+    "@babel/core": "^7.4.3",
+    "@babel/register": "^7.4.0",
+    "@babel/runtime": "^7.4.3",
+    "@polkadot/dev": "^0.30.0-beta.0",
     "@polkadot/ts": "^0.1.56",
     "gh-pages": "^2.0.1"
   }

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Text, Vector } from '@polkadot/types/index';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
 import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
@@ -29,8 +29,7 @@ export class SubmittableResult extends Struct {
   constructor (value?: any) {
     super({
       events: Vector.with(EventRecord),
-      status: ExtrinsicStatus,
-      type: Text
+      status: ExtrinsicStatus
     }, value);
   }
 
@@ -49,10 +48,12 @@ export class SubmittableResult extends Struct {
   }
 
   /**
-   * @description the type
+   * @description Finds an EventRecord for the specified method & section
    */
-  get type (): string {
-    return (this.get('type') as Text).toString();
+  findRecord (section: string, method: string): EventRecord | undefined {
+    return this.events.find(({ event }) =>
+      event.section === section && event.method === method
+    );
   }
 }
 
@@ -68,7 +69,7 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
   signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
 }
 
-export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   const _noStatusCb = type === 'rxjs';
 
@@ -79,28 +80,30 @@ export function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (typ
   }
 
   function statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
-    if (status.type !== 'Finalised') {
-      return of(
-        new SubmittableResult({
-          status,
-          type: status.type
-        })
-      );
+    if (!status.isFinalized) {
+      const result = new SubmittableResult({ status });
+
+      trackingCb && trackingCb(result);
+
+      return of(result);
     }
 
-    const blockHash = status.asFinalised;
+    const blockHash = status.asFinalized;
 
     return combineLatest(
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ).pipe(
-      map(([signedBlock, allEvents]) =>
-        new SubmittableResult({
+      map(([signedBlock, allEvents]) => {
+        const result = new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
-          status,
-          type: status.type
-        })
-      )
+          status
+        });
+
+        trackingCb && trackingCb(result);
+
+        return result;
+      })
     );
   }
 

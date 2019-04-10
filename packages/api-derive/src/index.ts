@@ -5,7 +5,6 @@
 import { Observable } from 'rxjs';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 
-import { cache } from './util/cache';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as chain from './chain';
@@ -49,13 +48,8 @@ function injectFunctions (api: ApiInterface$Rx, derive: Derive, functions: Deriv
     const result = derive[sectionName as keyof Derive] = derive[sectionName as keyof Derive] || {};
 
     Object.keys(section).forEach((methodName) => {
-      // Create cache for the section_method function
       // @ts-ignore No idea how to make this work...
-      const cached = cache(section[methodName as keyof section]);
-
-      // Add this cached function into the result
-      // @ts-ignore No idea how to make this work...
-      result[methodName as keyof section] = cached(api);
+      result[methodName as keyof section] = section[methodName as keyof section](api);
     });
   });
 

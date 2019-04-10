@@ -4,10 +4,10 @@
 
 // Simple non-runnable checks to test type definitions in the editor itself
 
-import { ApiPromise } from '@polkadot/api/index';
+import { ApiPromise } from '@polkadot/api';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header, HeaderExtended } from '@polkadot/types/index';
+import { Header, HeaderExtended } from '@polkadot/types';
 
 export default async function test () {
   const api = await ApiPromise.create();
@@ -38,8 +38,8 @@ export default async function test () {
 
   const unsub = await api.tx.balances
     .transfer(keyring.bob.address(), 12345)
-    .signAndSend(keyring.alice, ({ type }) => {
-      console.log('transfer status:', type);
+    .signAndSend(keyring.alice, ({ status }) => {
+      console.log('transfer status:', status.type);
 
       unsub();
     });

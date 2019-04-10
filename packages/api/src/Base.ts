@@ -9,27 +9,28 @@ import { RxResult } from './rx/types';
 import {
   ApiBaseInterface, ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType,
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
-  Derive, DeriveSection,
-  HashResult, U64Result,
+  Derive, DeriveSection, HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
 import EventEmitter from 'eventemitter3';
-import { map } from 'rxjs/operators';
-import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive/index';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import decorateDerive, { Derive as DeriveInterface } from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import RpcBase from '@polkadot/rpc-core/index';
-import RpcRx from '@polkadot/rpc-rx/index';
+import RpcBase from '@polkadot/rpc-core';
+import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion } from '@polkadot/types/index';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
-import { createSubmittableExtrinsic, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,
@@ -40,6 +41,7 @@ type MetaDecoration = {
 };
 
 const INIT_ERROR = `Api needs to be initialised before using, listen on 'ready'`;
+const KEEPALIVE_INTERVAL = 15000;
 
 const l = logger('api/decorator');
 
@@ -65,8 +67,8 @@ function rxOnCall (
 }
 
 export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResult> implements ApiBaseInterface<CodecResult, SubscriptionResult, MultiResult> {
-  private _eventemitter: EventEmitter;
   private _derive?: Derive<CodecResult, SubscriptionResult>;
+  private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   private _genesisHash?: Hash;
   private _isReady: boolean = false;
@@ -114,7 +116,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
     this._rpcRx = new RpcRx(thisProvider);
-    this._rpc = this.decorateRpc(this._rpcRx, this.onCall);
+    this._rpc = this.decorateRpc(this._rpcRx, this.onCall) as any; // FIXME 3.4.1
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
     this._rx.signer = options.signer;
 
@@ -247,7 +249,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
    * api.tx.balances
    *   .transfer(<recipientId>, <balance>)
    *   .signAndSend(<keyPair>, ({status}) => {
-   *     console.log('tx status', status.asFinalised.toHex());
+   *     console.log('tx status', status.asFinalized.toHex());
    *   });
    * ```
    */
@@ -330,8 +332,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
   }
 
   private init (): void {
+    let healthTimer: NodeJS.Timeout | null = null;
+
     this._rpcBase._provider.on('disconnected', () => {
       this.emit('disconnected');
+
+      if (healthTimer) {
+        clearInterval(healthTimer);
+        healthTimer = null;
+      }
     });
 
     this._rpcBase._provider.on('error', (error) => {
@@ -341,61 +350,65 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
     this._rpcBase._provider.on('connected', async () => {
       this.emit('connected');
 
-      const [hasMeta, cryptoReady] = await Promise.all([
-        this.loadMeta(),
-        cryptoWaitReady()
-      ]);
+      try {
+        const [hasMeta, cryptoReady] = await Promise.all([
+          this.loadMeta(),
+          cryptoWaitReady()
+        ]);
 
-      if (hasMeta && !this._isReady && cryptoReady) {
-        this._isReady = true;
+        if (hasMeta && !this._isReady && cryptoReady) {
+          this._isReady = true;
 
-        this.emit('ready', this);
+          this.emit('ready', this);
+        }
+
+        healthTimer = setInterval(() => {
+          this._rpcRx.system.health().toPromise().catch(() => {
+            // ignore
+          });
+        }, KEEPALIVE_INTERVAL);
+      } catch (error) {
+        l.error('FATAL: Unable to initialize the API: ', error.message);
       }
     });
   }
 
   private async loadMeta (): Promise<boolean> {
-    try {
-      // only load from on-chain if we are not a clone (default path), alternatively
-      // just use the values from the source instance provided
-      if (!this._options.source || !this._options.source._isReady) {
-        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-        this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-        this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+    // only load from on-chain if we are not a clone (default path), alternatively
+    // just use the values from the source instance provided
+    if (!this._options.source || !this._options.source._isReady) {
+      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
+      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
-        // get unique types & validate
-        this.runtimeMetadata.getUniqTypes(false);
-      } else {
-        this._runtimeMetadata = this._options.source.runtimeMetadata;
-        this._runtimeVersion = this._options.source.runtimeVersion;
-        this._genesisHash = this._options.source.genesisHash;
-      }
-
-      const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
-      const storage = storageFromMeta(this.runtimeMetadata.asV0);
-
-      this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
-      this._query = this.decorateStorage(storage, this.onCall);
-      this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
-
-      this._rx.genesisHash = this._genesisHash;
-      this._rx.runtimeVersion = this._runtimeVersion;
-      this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
-      this._rx.query = this.decorateStorage(storage, rxOnCall);
-      this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
-
-      // only inject if we are not a clone (global init)
-      if (!this._options.source) {
-        Event.injectMetadata(this.runtimeMetadata.asV0);
-        Method.injectMethods(extrinsics);
-      }
-
-      return true;
-    } catch (error) {
-      l.error('loadMeta', error);
-
-      return false;
+      // get unique types & validate
+      this.runtimeMetadata.getUniqTypes(false);
+    } else {
+      this._runtimeMetadata = this._options.source.runtimeMetadata;
+      this._runtimeVersion = this._options.source.runtimeVersion;
+      this._genesisHash = this._options.source.genesisHash;
     }
+
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+    const storage = storageFromMeta(this.runtimeMetadata.asV0);
+
+    this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
+    this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
+    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall) as any; // FIXME 3.4.1
+
+    this._rx.genesisHash = this._genesisHash;
+    this._rx.runtimeVersion = this._runtimeVersion;
+    this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
+    this._rx.query = this.decorateStorage(storage, rxOnCall);
+    this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
+
+    // only inject if we are not a clone (global init)
+    if (!this._options.source) {
+      Event.injectMetadata(this.runtimeMetadata.asV0);
+      Method.injectMethods(extrinsics);
+    }
+
+    return true;
   }
 
   private decorateFunctionMeta (input: MetaDecoration, output: MetaDecoration): MetaDecoration {
@@ -460,7 +473,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
     const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
-      createSubmittableExtrinsic(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
   }
@@ -491,6 +504,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
       if (args.length && isFunction(args[args.length - 1])) {
         callback = args[args.length - 1];
         params = args.slice(0, args.length - 1);
+      }
+
+      if (method.headKey && params.length === 0) {
+        return this.decorateStorageEntryLinked(method, onCall, callback);
       }
 
       return onCall(
@@ -539,6 +556,90 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult, MultiResu
       ) as unknown as U64Result<C, S>;
 
     return this.decorateFunctionMeta(method, decorated) as QueryableStorageFunction<C, S, M>;
+  }
+
+  private decorateStorageEntryLinked<C, S> (method: StorageFunction, onCall: OnCallDefinition<C, S>, callback: CodecCallback | undefined): C | S {
+    const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
+    let subject: BehaviorSubject<LinkageResult>;
+    let head: Codec | null = null;
+
+    // retrieve a value based on the key, iterating if it has a next entry. Since
+    // entries can be re-linked in the middle of a list, we subscribe here to make
+    // sure we catch any updates, no matter the list position
+    const getNext = (key: Codec): Observable<LinkageResult> => {
+      return this._rpcRx.state.subscribeStorage([[method, key]])
+        .pipe(
+          switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
+            const linkage = data[1];
+
+            result.set(key, data);
+
+            // iterate from this key to the children, constructing
+            // entries for all those found and available
+            if (linkage.next.isSome) {
+              return getNext(linkage.next.unwrap());
+            }
+
+            const keys = [];
+            const values = [];
+            let nextKey = head;
+
+            // loop through the results collected, starting at the head an re-creating
+            // the list. Our map may have old entries, based on the linking these will
+            // not be returned in the final result
+            while (nextKey) {
+              const entry = result.get(nextKey);
+
+              if (!entry) {
+                break;
+              }
+
+              const [item, linkage] = entry;
+
+              keys.push(nextKey);
+              values.push(item);
+
+              nextKey = linkage.next && linkage.next.unwrapOr(null);
+            }
+
+            const nextResult = values.length
+              ? new LinkageResult(
+                [keys[0].constructor as any, keys],
+                [values[0].constructor as any, values]
+              )
+              : new LinkageResult(
+                [Null, []],
+                [Null, []]
+              );
+
+            // we set our result into a subject so we have a single observable for
+            // which the value changes over time. Initially create, follow-up next
+            if (subject) {
+              subject.next(nextResult);
+            } else {
+              subject = new BehaviorSubject(nextResult);
+            }
+
+            return subject;
+          })
+        );
+    };
+
+    // this handles the case where the head changes effectively, i.e. a new entry
+    // appears at the top of the list, the new getNext gets kicked off
+    return onCall(
+      (arg: CodecArg) => this._rpcRx.state
+        .subscribeStorage([arg])
+        .pipe(
+          switchMap(([key]: Array<Codec>) => {
+            head = key;
+
+            return getNext(key);
+          })
+        ),
+      [method.headKey],
+      callback
+    );
   }
 
   private decorateDerive<C, S> (apiRx: ApiInterface$Rx, onCall: OnCallDefinition<C, S>): Derive<C, S> {

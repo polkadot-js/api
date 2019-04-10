@@ -7,14 +7,13 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-const keyring = testingPairs({ type: 'ed25519' });
-
 describe.skip('e2e queries', () => {
+  const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
-    jest.setTimeout(30000);
+    jest.setTimeout(3000000);
     done();
   });
 

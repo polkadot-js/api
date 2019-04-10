@@ -3,18 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
-import { DeriveCustom } from '@polkadot/api-derive/index';
+import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types/index';
-import {
-  CodecArg,
-  CodecCallback,
-  CodecArrayCallback,
-  IExtrinsic,
-  RegistryTypes,
-  SignatureOptions
-} from '@polkadot/types/types';
+import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
+import { CodecArg, CodecArrayCallback, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 

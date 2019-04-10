@@ -5,7 +5,6 @@
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
-import USize from '../primitive/USize';
 import BlockNumber from '../type/BlockNumber';
 import Hash from '../type/Hash';
 
@@ -24,7 +23,6 @@ const JSON_MAP = new Map([
 export default class PeerInfo extends Struct {
   constructor (value?: any) {
     super({
-      index: USize,
       peerId: Text,
       roles: Text,
       protocolVersion: U32,
@@ -45,13 +43,6 @@ export default class PeerInfo extends Struct {
    */
   get bestNumber (): BlockNumber {
     return this.get('bestNumber') as BlockNumber;
-  }
-
-  /**
-   * @description The index of the peer in our list
-   */
-  get index (): USize {
-    return this.get('index') as USize;
   }
 
   /**

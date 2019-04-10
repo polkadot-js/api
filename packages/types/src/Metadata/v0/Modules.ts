@@ -136,11 +136,17 @@ export class StorageFunctionModifier extends Enum {
 }
 
 export class MapType extends Struct {
+  private _isLinked = false;
+
   constructor (value?: any) {
     super({
       key: Type,
       value: Type
     }, value);
+
+    if (value && value.isLinked) {
+      this._isLinked = true;
+    }
   }
 
   /**
@@ -155,6 +161,13 @@ export class MapType extends Struct {
    */
   get value (): Type {
     return this.get('value') as Type;
+  }
+
+  /**
+   * @description Is this an enumerable linked map
+   */
+  get isLinked (): boolean {
+    return this._isLinked;
   }
 }
 
@@ -194,9 +207,13 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return this.isMap
-      ? this.asMap.value.toString()
-      : this.asType.toString();
+    if (this.isMap) {
+      if (this.asMap.isLinked) {
+        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
+      }
+      return this.asMap.value.toString();
+    }
+    return this.asType.toString();
   }
 }
 

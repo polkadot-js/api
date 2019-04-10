@@ -1,12 +1,12 @@
-// Copyright 2017-2018 @polkadot/api-derive authors & contributors
+// Copyright 2017-2019 @polkadot/api-derive authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types/index';
-import { WsProvider } from '@polkadot/rpc-provider/index';
+import { BlockNumber } from '@polkadot/types';
+import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
 // const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
@@ -48,7 +48,7 @@ describe.skip('derive e2e', () => {
   // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
   describe('accounts', () => {
-    const ID = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+    const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
     const IX = 'F7Gh';
 
     it('looks up id & index from id', async (done) => {

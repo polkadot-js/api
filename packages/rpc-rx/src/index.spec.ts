@@ -10,7 +10,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
   send = () => true;
 });
 
-import RpcRx from './index';
+import RpcRx from '.';
 
 describe('RpcRx', () => {
   let api: RpcRx;

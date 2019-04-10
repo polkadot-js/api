@@ -104,9 +104,9 @@ import ApiBase from '../Base';
  *      )
  *   )
  *   // subscribe to overall result
- *   .subscribe(({ status, type }) => {
- *     if (type === 'Finalised') {
- *       console.log('Completed at block hash', status.asFinalised.toHex());
+ *   .subscribe(({ status }) => {
+ *     if (status.isFinalized) {
+ *       console.log('Completed at block hash', status.asFinalized.toHex());
  *     }
  *   });
  * ```

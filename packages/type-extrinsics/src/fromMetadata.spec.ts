@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic, Metadata } from '@polkadot/types/index';
+import { Extrinsic, Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v0/static';
 
 import fromMetadata from './fromMetadata';
@@ -17,7 +17,7 @@ describe('fromMetadata', () => {
   });
 
   it('should return a value if the storage function does not expect an argument', () => {
-    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCt72s', 2, 3)).not.toThrow();
+    expect(() => newExtrinsics.balances.setBalance('5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF', 2, 3)).not.toThrow();
   });
 
   it('should return properly-encoded transactions', () => {

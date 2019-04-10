@@ -4,7 +4,7 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from './index';
+import Ws from '.';
 
 let ws;
 let mock;
@@ -90,7 +90,7 @@ describe('send', () => {
     return createWs()
       .send('test_error', [])
       .catch((error) => {
-        expect(error.message).toMatch(/\[666\]: error/);
+        expect(error.message).toMatch(/666: error/);
       });
   });
 

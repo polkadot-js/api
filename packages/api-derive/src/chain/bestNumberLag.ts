@@ -5,11 +5,11 @@
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types/index';
+import { BlockNumber } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from './bestNumber';
-import { bestNumberFinalised } from './bestNumberFinalised';
+import { bestNumberFinalized } from './bestNumberFinalized';
 
 /**
  * @description Calculates the lag between finalised head and best head
@@ -26,10 +26,10 @@ export function bestNumberLag (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>
     combineLatest(
       bestNumber(api)(),
-      bestNumberFinalised(api)()
+      bestNumberFinalized(api)()
     ).pipe(
-      map(([bestNumber, bestNumberFinalised]) =>
-        new BlockNumber(bestNumber.sub(bestNumberFinalised))
+      map(([bestNumber, bestNumberFinalized]) =>
+        new BlockNumber(bestNumber.sub(bestNumberFinalized))
       ),
       drr()
     );

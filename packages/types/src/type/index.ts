@@ -10,6 +10,7 @@
  */
 export { default as AccountId, AccountIdOf } from './AccountId';
 export { default as AccountIndex } from './AccountIndex';
+export { default as AccountInfo } from './AccountInfo';
 export { default as Address } from './Address';
 export { default as Amount } from './Amount';
 export { default as AssetOf } from './AssetOf';
@@ -36,6 +37,7 @@ export { default as Hash } from './Hash';
 export { default as Header, HeaderExtended } from './Header';
 export { default as IndividualExposure } from './IndividualExposure';
 export { default as InherentOfflineReport } from './InherentOfflineReport';
+export { default as Key } from './Key';
 export { default as KeyValue } from './KeyValue';
 export { default as LockIdentifier } from './LockIdentifier';
 export { default as LockPeriods } from './LockPeriods';
@@ -62,6 +64,7 @@ export { default as SessionKey } from './SessionKey';
 export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
+export { default as TreasuryProposal } from './TreasuryProposal';
 export { default as UnlockChunk } from './UnlockChunk';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
 export { default as VestingSchedule } from './VestingSchedule';

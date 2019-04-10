@@ -7,6 +7,7 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
+import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
 import AuthorityId from './AuthorityId';
 import Hash from './Hash';
@@ -65,6 +66,53 @@ export class Seal extends Tuple {
 }
 
 /**
+ * @name Consensus
+ * @description
+ * Log item indicating consensus
+ */
+export class Consensus extends Tuple {
+  constructor (value: any) {
+    super({
+      U32, // actually a [u8; 4]
+      Bytes
+    }, value);
+  }
+
+  /**
+   * @description `true` if the engine matches aura
+   */
+  get isAura (): boolean {
+    return this.engine.eq(0x61727561); // ['a', 'u', 'r', 'a']
+  }
+
+  /**
+   * @description The wrapped engine [[U32]]
+   */
+  get engine (): U32 {
+    return this[0] as U32;
+  }
+
+  /**
+   * @description The wrapped [[Bytes]]
+   */
+  get data (): Bytes {
+    return this[1] as Bytes;
+  }
+
+  /**
+   * @description The slot and signature extracted from the raw data (assuming Aura)
+   */
+  get asAura (): [U64, Signature] {
+    const raw = this.data.toU8a(true);
+
+    return [
+      new U64(raw.subarray(0, 4)),
+      new Signature(raw.subarray(64))
+    ];
+  }
+}
+
+/**
  * @name DigestItem
  * @description
  * A [[EnumType]] the specifies the specific item in the logs of a [[Digest]]
@@ -76,7 +124,8 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
       Other, // Position 0, as per Rust (encoding control)
       AuthoritiesChange,
       ChangesTrieRoot,
-      Seal
+      Seal,
+      Consensus
     }, value);
   }
 
@@ -95,6 +144,13 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
   }
 
   /**
+   * @desciption Retuns the item as a [[Consensus]]
+   */
+  get asConsensus (): Consensus {
+    return this.value as Consensus;
+  }
+
+  /**
    * @description Returns the item as a [[Other]]
    */
   get asOther (): Other {
@@ -106,6 +162,20 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    */
   get asSeal (): Seal {
     return this.value as Seal;
+  }
+
+  /**
+   * @description Returns true on [[Consensus]]
+   */
+  get isConsensus (): boolean {
+    return this.type === 'Consensus';
+  }
+
+  /**
+   * @description Returns true on [[Seal]]
+   */
+  get isSeal (): boolean {
+    return this.type === 'Seal';
   }
 }
 

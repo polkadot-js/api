@@ -4,7 +4,7 @@
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
 
-import Http from './index';
+import Http from '.';
 
 describe('Http', () => {
   let http;

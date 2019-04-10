@@ -5,7 +5,7 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { SignatureOptions } from '@polkadot/types/types';
 
-import { Extrinsic } from '@polkadot/types/index';
+import { Extrinsic } from '@polkadot/types';
 
 let id = 0;
 

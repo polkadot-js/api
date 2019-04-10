@@ -5,7 +5,7 @@
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber, Header } from '@polkadot/types/index';
+import { BlockNumber, Header } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -15,14 +15,14 @@ import { drr } from '../util/drr';
  * <BR>
  *
  * ```javascript
- * api.derive.chain.bestNumberFinalised((blockNumber) => {
+ * api.derive.chain.bestNumberFinalized((blockNumber) => {
  *   console.log(`the current finalised block is #${blockNumber}`);
  * });
  * ```
  */
-export function bestNumberFinalised (api: ApiInterface$Rx) {
+export function bestNumberFinalized (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>
-    (api.rpc.chain.subscribeFinalisedHeads() as Observable<Header>)
+    (api.rpc.chain.subscribeFinalizedHeads() as Observable<Header>)
       .pipe(
         filter((header: Header) => header && !!header.blockNumber),
         map(({ blockNumber }: Header) => blockNumber),

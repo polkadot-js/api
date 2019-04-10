@@ -8,17 +8,17 @@ const testKeyring = require('@polkadot/keyring/testing');
 const { randomAsU8a } = require('@polkadot/util-crypto');
 
 // some constants we are using in this sample
-const ALICE = '5GoKvZWG5ZPYL1WUovuHW3zJBWBP5eT8CbqjdRY4Q6iMaDtZ';
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const AMOUNT = 10000;
 
 async function main () {
+  // Create our API with a connection to the node
+  const api = await ApiRx.create().toPromise();
+
   // create an instance of our testign keyring
   // If you're using ES6 module imports instead of require, just change this line to:
   // const keyring = testKeyring();
   const keyring = testKeyring.default();
-
-  // Create our API with a connection to the node
-  const api = await ApiRx.create().toPromise();
 
   // find the actual keypair in the keyring
   const alicePair = keyring.getPair(ALICE);
@@ -36,12 +36,13 @@ async function main () {
     // Sign and send it
     .signAndSend(alicePair)
     // And subscribe to the actual status
-    .subscribe(({ events = [], status, type }) => {
+    .subscribe(({ events = [], status }) => {
       // Log transfer events
-      console.log('Transfer status:', type);
+      console.log('Transfer status:', status.type);
+
       // Log system events once the transfer is finalised
-      if (type === 'Finalised') {
-        console.log('Completed at block hash', status.asFinalised.toHex());
+      if (status.isFinalized) {
+        console.log('Completed at block hash', status.asFinalized.toHex());
         console.log('Events:');
 
         events.forEach(({ phase, event: { data, method, section } }) => {

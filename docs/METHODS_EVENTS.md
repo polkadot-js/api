@@ -13,8 +13,6 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[democracy](#democracy)**
 
-- **[fees](#fees)**
-
 - **[grandpa](#grandpa)**
 
 - **[indices](#indices)**
@@ -62,7 +60,7 @@ ___
 - **summary**:   Triggered when the current schedule is updated.
 
 ▸ **Transfer**(`AccountId`, `AccountId`, `Balance`)
-- **summary**:   Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`.
+- **summary**:   Transfer happened `from` to `to` with given `value` as part of a `call` or `create`.
 
 ___
 
@@ -72,7 +70,7 @@ ___
 ▸ **BadReaperSlashed**(`AccountId`)
 - **summary**:   slashed reaper
 
-▸ **TallyFinalised**(`Vec<AccountId>`, `Vec<AccountId>`)
+▸ **TallyFinalized**(`Vec<AccountId>`, `Vec<AccountId>`)
 - **summary**:   A tally (for approval votes of council seat(s)) has ended (with one or more new members).
 
 ▸ **TallyStarted**(`u32`)
@@ -119,6 +117,8 @@ ___
 
 ▸ **Cancelled**(`ReferendumIndex`)
 
+▸ **Delegated**(`AccountId`, `AccountId`)
+
 ▸ **Executed**(`ReferendumIndex`, `bool`)
 
 ▸ **NotPassed**(`ReferendumIndex`)
@@ -131,13 +131,7 @@ ___
 
 ▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
 
-___
-
-
-### fees
-
-▸ **Charged**(`u32`, `Amount`)
-- **summary**:   Fee charged (extrinsic_index, fee_amount)
+▸ **Undelegated**(`AccountId`)
 
 ___
 

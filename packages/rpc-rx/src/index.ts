@@ -9,7 +9,7 @@ import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInte
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
 import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
-import Rpc from '@polkadot/rpc-core/index';
+import Rpc from '@polkadot/rpc-core';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
 
@@ -97,7 +97,16 @@ export default class RpcRx implements RpcRxInterface {
     if (isFunction(section[name].unsubscribe)) {
       const memoized: Memoized<RpcRxInterface$Method> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
-        { length: false }
+        {
+          length: false,
+          // Normalize args so that different args that should be cached
+          // together are cached together.
+          // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
+          normalizer: (args) => {
+            // `args` is arguments object as accessible in memoized function
+            return JSON.stringify(args);
+          }
+        }
       );
 
       return memoized as unknown as RpcRxInterface$Method;
@@ -126,17 +135,17 @@ export default class RpcRx implements RpcRxInterface {
 
       return this.createReplayUnsub(fn, subscribe, params, memoized);
     })
-    .pipe(
-      map((value) => {
-        if (value instanceof Error) {
-          throw value;
-        }
+      .pipe(
+        map((value) => {
+          if (value instanceof Error) {
+            throw value;
+          }
 
-        return value;
-      }),
-      publishReplay(1),
-      refCount()
-    );
+          return value;
+        }),
+        publishReplay(1),
+        refCount()
+      );
   }
 
   private createReplayCallback (observer: Observer<any>) {

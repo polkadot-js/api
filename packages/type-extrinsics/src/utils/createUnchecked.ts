@@ -4,7 +4,7 @@
 
 import { FunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { Method } from '@polkadot/types/index';
+import { Method } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 
 /**

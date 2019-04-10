@@ -1,3 +1,58 @@
+# 0.77.1
+
+- Add TresuryProposal (not the same as democracy, type aliassed)
+
+# 0.76.1
+
+- Caching improvements (duplicate queries, no duplicate subscriptions)
+- Experimental contract API
+- Update @polkadot/keyring to enable Alice's stash account on dev chains
+- Update @polkadot/util-crypto with smaller footprint
+
+# 0.75.1
+
+- Start journey to 1.0
+
+# 0.53.1
+
+- Change spelling to US English as per substrate master (1.0-rc1). Breaking changes as a result:
+  - For extrinsic status results, if you have checked the type returns, i.e. `result.type === 'Finalised'` now check on the status for `result.status.isFinalized` or `result.status.isBroadcast`, ... (the `type` property is now accessible only on `result.status.type`)
+  - If using `subscribeFinalisedHeads` update this to `subscribeFinalizedHeads` (likewise `getFinalisedHead` should be updated to `getFinalizedHead` and `derive.bestNumberFinalized`)
+- The underlying ss58 addess checksums have changed in the keyring along with the latest specs
+- All examples have been updated with sr25519 addresses (with the new checksums)
+
+# 0.52.1
+
+- Support queries to linked mapped storage (found in new staking interfaces)
+- Add `derive.staking.controllers` to retrieve all active staking controllers
+- Align types as per latest substrate master
+- PeerInfo from system_peers does not have the index field anymore (dropped in substrate)
+- Allow parsing of V3 metadata with DoubleMap support
+- Check for single instances for api and types as they are loaded (assertSingletonPackage)
+
+# 0.51.1
+
+- Support metadata V2 as per latest substrate master
+- Update metadata with new types as per lastest substrate master
+
+# 0.50.1
+
+- Lastest util-crypto (usage of WASM with JS fallbacks if not available)
+- Update upstream @polkadot dependencies (for new crypto)
+
+# 0.49.1
+
+- Fix large message signing on non-known nodes (default is now hashing, there has been enough time between upgrades)
+
+# 0.48.1
+
+- Pull in new sr25519 capable keyring for dev nodes
+- When using dev mode, it assumes that the node is the latest with derived sr25519 keys
+
+# 0.47.1
+
+- Swap to publishing -beta.x on merge (non-breaking testing)
+
 # 0.46.1
 
 - Extended type registration to now handle internal types as well. Additionally the built-in Extrinsic type can now we overridden with a custom version.

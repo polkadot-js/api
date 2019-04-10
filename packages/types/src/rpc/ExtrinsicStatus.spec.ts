@@ -11,7 +11,7 @@ describe('ExtrinsicStatus', () => {
   it('has the correct type', () => {
     expect(
       status.type
-    ).toEqual('Finalised');
+    ).toEqual('Finalized');
   });
 
   it('has the correct hash', () => {

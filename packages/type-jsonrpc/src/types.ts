@@ -4,6 +4,8 @@
 
 import { CodecTypes } from '@polkadot/types/classes';
 
+type PubSub = [string, string, string];
+
 export type RpcParam = {
   isOptional: boolean,
   name: string,
@@ -17,7 +19,7 @@ export type RpcMethodOpt = {
   isSigned?: boolean,
   isSubscription?: boolean,
   params: Array<RpcParam>,
-  pubsub?: [string, string, string],
+  pubsub?: PubSub,
   type: CodecTypes
 };
 
@@ -30,7 +32,7 @@ export type RpcMethod = {
   isSubscription: boolean,
   method: string,
   params: Array<RpcParam>,
-  pubsub: [string, string, string],
+  pubsub: PubSub,
   section: string,
   type: CodecTypes
 };

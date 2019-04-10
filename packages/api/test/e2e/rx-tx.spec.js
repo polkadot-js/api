@@ -7,9 +7,8 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-const keyring = testingPairs({ type: 'ed25519' });
-
 describe.skip('e2e transactions', () => {
+  const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
   beforeEach(async (done) => {
@@ -34,8 +33,8 @@ describe.skip('e2e transactions', () => {
             .send()
         )
       )
-      .subscribe((status) => {
-        if (status.type === 'Finalised') {
+      .subscribe(({ status }) => {
+        if (status.isFinalized) {
           done();
         }
       });
@@ -53,8 +52,8 @@ describe.skip('e2e transactions', () => {
             .send()
         )
       )
-      .subscribe((status) => {
-        if (status && status.type === 'Finalised') {
+      .subscribe(({ status }) => {
+        if (status.isFinalized) {
           done();
         }
       });

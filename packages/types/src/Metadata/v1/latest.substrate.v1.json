@@ -193,12 +193,12 @@
               "docs": [
                 " Set the current time.",
                 "",
-                " Extrinsic with this call should be placed at the specific position in the each block",
-                " (specified by the Trait::TIMESTAMP_SET_POSITION) typically at the start of the each block.",
                 " This call should be invoked exactly once per block. It will panic at the finalization phase,",
                 " if this call hasn't been invoked by that time.",
                 "",
-                " The timestamp should be greater than the previous one by the amount specified by `block_period`."
+                " The timestamp should be greater than the previous one by the amount specified by `block_period`.",
+                " ",
+                " The dispatch origin for this call must be `Inherent`."
               ]
             }
           ],
@@ -844,7 +844,7 @@
               "fallback": "0x0c00",
               "docs": [
                 " The set of keys are all controllers that want to validate.",
-                " ",
+                "",
                 " The values are the preferences that a validator has."
               ]
             },
@@ -860,7 +860,7 @@
               "fallback": "0x00",
               "docs": [
                 " The set of keys are all controllers that want to nominate.",
-                " ",
+                "",
                 " The value are the nominations."
               ]
             },
@@ -1029,9 +1029,9 @@
               "docs": [
                 " Add some extra amount that have appeared in the stash `free_balance` into the balance up for",
                 " staking.",
-                " ",
+                "",
                 " Use this if there are additional funds in your stash account that you wish to bond.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash."
               ]
             },
@@ -1045,15 +1045,15 @@
               ],
               "docs": [
                 " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
-                " period ends. If this leaves an amount actively bonded less than ",
+                " period ends. If this leaves an amount actively bonded less than",
                 " T::Currency::existential_deposit(), then it is increased to the full amount.",
-                " ",
+                "",
                 " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
-                " the funds out of management ready for transfer. ",
-                " ",
+                " the funds out of management ready for transfer.",
+                "",
                 " NOTE: This call must be made by the controller, not the stash.",
-                " ",
-                " See also `withdraw_unbonded`."
+                "",
+                " See also [`Call::withdraw_unbonded`]."
               ]
             },
             {
@@ -1061,13 +1061,13 @@
               "args": [],
               "docs": [
                 " Remove any unlocked chunks from the `unlocking` queue from our management.",
-                " ",
+                "",
                 " This essentially frees up that balance to be used by the stash account to do",
                 " whatever it wants.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash.",
-                " ",
-                " See also `unbond`."
+                "",
+                " See also [`Call::unbond`]."
               ]
             },
             {
@@ -1082,7 +1082,7 @@
                 " Declare the desire to validate for the origin controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash."
               ]
             },
@@ -1098,7 +1098,7 @@
                 " Declare the desire to nominate `targets` for the origin controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash."
               ]
             },
@@ -1109,7 +1109,7 @@
                 " Declare no desire to either validate or nominate.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash."
               ]
             },
@@ -1125,7 +1125,7 @@
                 " (Re-)set the payment target for a controller.",
                 "",
                 " Effects will be felt at the beginning of the next era.",
-                " ",
+                "",
                 " NOTE: This call must be made by the controller, not the stash."
               ]
             },
@@ -2461,7 +2461,7 @@
               "type": {
                 "MapType": {
                   "key": "ProposalIndex",
-                  "value": "Proposal"
+                  "value": "TreasuryProposal"
                 }
               },
               "fallback": "0x00",

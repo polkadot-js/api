@@ -2708,7 +2708,7 @@
             "type": {
               "MapType": {
                 "key": "ProposalIndex",
-                "value": "Proposal"
+                "value": "TreasuryProposal"
               }
             },
             "default": "0x00",

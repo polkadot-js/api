@@ -39,7 +39,7 @@ _Retrieval of chain data_
 ▸ **getBlockHash**(blockNumber?: `BlockNumber`): `Hash`
 - **summary**: Get the block hash for a specific block
 
-▸ **getFinalisedHead**(): `Hash`
+▸ **getFinalizedHead**(): `Hash`
 - **summary**: Get hash of the last finalised block in the canon chain
 
 ▸ **getHeader**(hash?: `Hash`): `Header`
@@ -48,8 +48,8 @@ _Retrieval of chain data_
 ▸ **getRuntimeVersion**(hash?: `Hash`): `RuntimeVersion`
 - **summary**: Get the runtime version (alias of state_getRuntimeVersion)
 
-▸ **subscribeFinalisedHeads**(): `Header`
-- **summary**: Retrieves the best finalised header via subscription
+▸ **subscribeFinalizedHeads**(): `Header`
+- **summary**: Retrieves the best finalized header via subscription
 
 ▸ **subscribeNewHead**(): `Header`
 - **summary**: Retrieves the best header via subscription

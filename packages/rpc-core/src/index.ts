@@ -6,10 +6,10 @@ import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-pro
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
-import interfaces from '@polkadot/jsonrpc/index';
-import { WsProvider } from '@polkadot/rpc-provider/index';
+import interfaces from '@polkadot/jsonrpc';
+import { WsProvider } from '@polkadot/rpc-provider';
 import { Codec } from '@polkadot/types/types';
-import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types/index';
+import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -132,10 +132,10 @@ export default class Rpc implements RpcInterface {
     const [updateType, subMethod, unsubMethod] = method.pubsub;
     const subName = `${method.section}_${subMethod}`;
     const unsubName = `${method.section}_${unsubMethod}`;
-    const subscriptionType = `${method.section}_${updateType}`;
+    const subType = `${method.section}_${updateType}`;
 
     const unsubscribe = (subscriptionId: any): Promise<any> =>
-      this._provider.unsubscribe(subscriptionType, unsubName, subscriptionId);
+      this._provider.unsubscribe(subType, unsubName, subscriptionId);
     const _call = async (...values: Array<any>): Promise<any> => {
       try {
         const cb: ProviderInterface$Callback = values.pop();
@@ -153,7 +153,7 @@ export default class Rpc implements RpcInterface {
           cb(this.formatOutput(method, params, result));
         };
 
-        return this._provider.subscribe(subscriptionType, subName, paramsJson, update);
+        return this._provider.subscribe(subType, subName, paramsJson, update);
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
@@ -194,9 +194,14 @@ export default class Rpc implements RpcInterface {
       const Clazz = createClass(type);
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
-      return meta.modifier.isOptional
-        ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
-        : new Clazz(base);
+      if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
+        // linked map
+        return new Clazz(base);
+      } else {
+        return meta.modifier.isOptional
+          ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
+          : new Clazz(base);
+      }
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -215,21 +220,26 @@ export default class Rpc implements RpcInterface {
         ) || { value: null };
         const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
-        // if we don't have a value, do not fill in the entry, it will be up to the
+        if (!value) {
+          // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
-        result.push(
-          !value
-            ? undefined
-            : (
-              meta.modifier.isOptional
-                // create option either with the existing value, or empty when
-                // there is no value returned
-                ? new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap()))
-                // for `null` we fallback to the default value, or create an empty type,
-                // otherwise we return the actual value as retrieved
-                : new Clazz(value.unwrapOr(meta.default))
-            )
-        );
+          result.push(undefined);
+        } else {
+          if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
+            // linked map
+            result.push(new Clazz(value.unwrapOr(null)));
+          } else {
+            if (meta.modifier.isOptional) {
+              // create option either with the existing value, or empty when
+              // there is no value returned
+              result.push(new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap())));
+            } else {
+              // for `null` we fallback to the default value, or create an empty type,
+              // otherwise we return the actual value as retrieved
+              result.push(new Clazz(value.unwrapOr(meta.default)));
+            }
+          }
+        }
 
         return result;
       }, [] as Array<Codec | null | undefined>);

@@ -129,12 +129,12 @@ describe('Vector', () => {
     });
 
     it('finds the index of an value', () => {
-      const myId = '5GfWeNe33QeyzVMV2uENuvSXLVfVXCiuLvfEP6WCDHADZhen';
+      const myId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
       const vec = new Vector(AccountId, [
-        '5H4787dXL43BaA6PvTwUTyA38JBbfC9r8QyK3ay8Nozc2Ta3', '5GeJHN5EcUGPoa5pUwYkXjymoDVN1DJHsBR4UGX4XRAwKBVk', '5Dn8F1SUX6SoLt1BTfKEPL5VY9wMvG1A6tEJTSCHpLsinThm', '5DPW1n4q2THUjKGj3QKkcqdh6oxY1bmLsSQ7t8FuiuNtRoUc', '5E8k3u7iRysqPPYsBK1UgetCquZznwRZxryTzynkDTzg3vNy', '5DteAmjoppNJ8rrBugKctCXM82UVWZSCHeU8pqFwQBbyAWyB', '5GfWeNe33QeyzVMV2uENuvSXLVfVXCiuLvfEP6WCDHADZhen'
+        '5HGjWAeFDfFCWPsjFQdVV2Msvz2XtMktvgocEZcCj68kUMaw', '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty', '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
       ]);
 
-      expect(vec.indexOf(myId)).toEqual(6);
+      expect(vec.indexOf(myId)).toEqual(2);
     });
   });
 });

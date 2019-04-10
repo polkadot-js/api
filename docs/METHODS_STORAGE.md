@@ -15,8 +15,6 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[democracy](#democracy)**
 
-- **[fees](#fees)**
-
 - **[grandpaFinality](#grandpaFinality)**
 
 - **[indices](#indices)**
@@ -42,22 +40,28 @@ ___
 ### balances
 
 ▸ **creationFee**(): `Balance`
-- **summary**:   The fee required to create an account. At least as big as ReclaimRebate.
+- **summary**:   The fee required to create an account.
 
 ▸ **existentialDeposit**(): `Balance`
-- **summary**:   The minimum amount allowed to keep an account open.
+- **summary**:   The minimum amount required to keep an account open.
 
 ▸ **freeBalance**(`AccountId`): `Balance`
-- **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It is  alone used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to cleanup data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
+- **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It  alone is used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to clean up data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
 
 ▸ **locks**(`AccountId`): `Vec<BalanceLock>`
 - **summary**:   Any liquidity locks on some account balances.
 
 ▸ **reservedBalance**(`AccountId`): `Balance`
-- **summary**:   The amount of the balance of a given account that is externally reserved; this can still get  slashed, but gets slashed last of all.   This balance is a 'reserve' balance that other subsystems use in order to set aside tokens  that are still 'owned' by the account holder, but which are suspendable. (This is different  and wholly unrelated to the `Bondage` system used in the staking module.)   When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'  is deleted: specifically, `ReservedBalance`.   `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
+- **summary**:   The amount of the balance of a given account that is externally reserved; this can still get  slashed, but gets slashed last of all.   This balance is a 'reserve' balance that other subsystems use in order to set aside tokens  that are still 'owned' by the account holder, but which are suspendable.   When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'  is deleted: specifically, `ReservedBalance`.   `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.)
 
 ▸ **totalIssuance**(): `Balance`
-- **summary**:   The total amount of stake on the system.
+- **summary**:   The total units issued in the system.
+
+▸ **transactionBaseFee**(): `Balance`
+- **summary**:   The fee to be paid for making a transaction; the base.
+
+▸ **transactionByteFee**(): `Balance`
+- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ▸ **transferFee**(): `Balance`
 - **summary**:   The fee required to make a transfer.
@@ -77,11 +81,17 @@ ___
 
 ### contract
 
+▸ **accountCounter**(): `u64`
+- **summary**:   The subtrie counter
+
+▸ **accountInfoOf**(`AccountId`): `Option<AccountInfo>`
+- **summary**:   The code associated with a given account.
+
 ▸ **blockGasLimit**(): `Gas`
 - **summary**:   The maximum amount of gas that could be expended per block.
 
 ▸ **callBaseFee**(): `Gas`
-- **summary**:   The fee charged for a call into a contract.
+- **summary**:   The base fee charged for calling into a contract.
 
 ▸ **codeHashOf**(`AccountId`): `Option<CodeHash>`
 - **summary**:   The code associated with a given account.
@@ -89,16 +99,19 @@ ___
 ▸ **codeStorage**(`CodeHash`): `Option<PrefabWasmModule>`
 - **summary**:   A mapping between an original code hash and instrumented wasm code, ready for the execution.
 
-▸ **contractFee**(): `Balance`
-- **summary**:   The fee required to create a contract. At least as big as staking's ReclaimRebate.
+▸ **contractFee**(): `BalanceOf`
+- **summary**:   The fee required to create a contract instance.
 
 ▸ **createBaseFee**(): `Gas`
-- **summary**:   The fee charged for a create of a contract.
+- **summary**:   The base fee charged for creating a contract.
+
+▸ **creationFee**(): `BalanceOf`
+- **summary**:   The fee required to create an account.
 
 ▸ **currentSchedule**(): `Schedule`
 - **summary**:   Current cost schedule for contracts.
 
-▸ **gasPrice**(): `Balance`
+▸ **gasPrice**(): `BalanceOf`
 - **summary**:   The price of one unit of gas.
 
 ▸ **gasSpent**(): `Gas`
@@ -109,6 +122,15 @@ ___
 
 ▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
+
+▸ **transactionBaseFee**(): `BalanceOf`
+- **summary**:   The fee to be paid for making a transaction; the base.
+
+▸ **transactionByteFee**(): `BalanceOf`
+- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
+
+▸ **transferFee**(): `BalanceOf`
+- **summary**:   The fee required to make a transfer.
 
 ___
 
@@ -144,7 +166,7 @@ ___
 ▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
 - **summary**:   Get the leaderboard if we;re in the presentation phase.
 
-▸ **nextFinalise**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
+▸ **nextFinalize**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
 
 ▸ **presentSlashPerVoter**(): `BalanceOf`
@@ -218,6 +240,9 @@ ___
 
 ### democracy
 
+▸ **delegations**(`AccountId`): `((AccountId,LockPeriods), Linkage<AccountId>)`
+- **summary**:   Get the account (and lock periods) to which another account is delegating vote.
+
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
 - **summary**:   Those who have locked a deposit.
 
@@ -259,20 +284,6 @@ ___
 
 ▸ **votingPeriod**(): `BlockNumber`
 - **summary**:   How often (in blocks) to check for new votes.
-
-___
-
-
-### fees
-
-▸ **currentTransactionFee**(`u32`): `AssetOf`
-- **summary**:   The `extrinsic_index => accumulated_fees` map, containing records to  track the overall charged fees for each transaction.   All records should be removed at finalise stage.
-
-▸ **transactionBaseFee**(): `AssetOf`
-- **summary**:   The fee to be paid for making a transaction; the base.
-
-▸ **transactionByteFee**(): `AssetOf`
-- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
 
 ___
 
@@ -334,14 +345,14 @@ ___
 ▸ **bondingDuration**(): `BlockNumber`
 - **summary**:   The length of the bonding duration in blocks.
 
+▸ **currentElected**(): `Vec<AccountId>`
+- **summary**:   The currently elected validator set keyed by stash account ID.
+
 ▸ **currentEra**(): `BlockNumber`
 - **summary**:   The current era index.
 
 ▸ **currentEraReward**(): `BalanceOf`
 - **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era and  increased for every successfully finished session.
-
-▸ **currentOfflineSlash**(): `BalanceOf`
-- **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
 
 ▸ **currentSessionReward**(): `BalanceOf`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
@@ -349,10 +360,8 @@ ___
 ▸ **forcingNewEra**(): `Option<Null>`
 - **summary**:   We are forcing a new era.
 
-▸ **invulerables**(): `Vec<AccountId>`
-
 ▸ **invulnerables**(): `Vec<AccountId>`
-- **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
+- **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialize  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
 
 ▸ **lastEraLengthChange**(): `BlockNumber`
 - **summary**:   The session index at which the era length last changed.
@@ -366,8 +375,8 @@ ___
 ▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
 - **summary**:   The next value of sessions per era.
 
-▸ **nominators**(`AccountId`): `Vec<AccountId>`
-- **summary**:   The set of keys are all controllers that want to nominate.    The value are the nominations.
+▸ **nominators**(`AccountId`): `(Vec<AccountId>, Linkage<AccountId>)`
+- **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
 
 ▸ **offlineSlash**(): `Perbill`
 - **summary**:   Slash, per validator that is taken for the first time they are found to be offline.
@@ -376,7 +385,7 @@ ___
 - **summary**:   Number of instances of offline reports before slashing begins for validators.
 
 ▸ **payee**(`AccountId`): `RewardDestination`
-- **summary**:   Where the reward payment should be made.
+- **summary**:   Where the reward payment should be made. Keyed by stash.
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
 - **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for).
@@ -394,13 +403,13 @@ ___
 - **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.
 
 ▸ **stakers**(`AccountId`): `Exposure`
-- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.
+- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.   This is keyed by the stash account.
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
 
-▸ **validators**(`AccountId`): `ValidatorPrefs`
-- **summary**:   The set of keys are all controllers that want to validate.    The values are the preferences that a validator has.
+▸ **validators**(`AccountId`): `(ValidatorPrefs, Linkage<AccountId>)`
+- **summary**:   The map from (wannabe) validator stash key to the preferences of that validator.
 
 ___
 
@@ -415,38 +424,51 @@ ___
 ### system
 
 ▸ **accountNonce**(`AccountId`): `Index`
+- **summary**:   Extrinsics nonce for accounts.
 
 ▸ **allExtrinsicsLen**(): `Option<u32>`
+- **summary**:   Total length in bytes for all extrinsics put together, for the current block.
 
 ▸ **blockHash**(`BlockNumber`): `Hash`
+- **summary**:   Map of block numbers to block hashes.
 
 ▸ **digest**(): `Digest`
+- **summary**:   Digest of the current block, also part of the block header.
 
 ▸ **events**(): `Vec<EventRecord>`
+- **summary**:   Events deposited for the current block.
 
 ▸ **extrinsicCount**(): `Option<u32>`
+- **summary**:   Total extrinsics count for the current block.
 
 ▸ **extrinsicData**(`u32`): `Bytes`
+- **summary**:   Extrinsics data for the current block (maps extrinsic's index to its data).
 
 ▸ **extrinsicsRoot**(): `Hash`
+- **summary**:   Extrinsics root of the current block, also part of the block header.
 
 ▸ **number**(): `BlockNumber`
 - **summary**:   The current block number being processed. Set by `execute_block`.
 
 ▸ **parentHash**(): `Hash`
+- **summary**:   Hash of the previous block.
 
 ▸ **randomSeed**(): `Hash`
+- **summary**:   Random seed of the current block.
 
 ___
 
 
 ### timestamp
 
-▸ **blockPeriod**(): `Moment`
-- **summary**:   The minimum (and advised) period between blocks.
+▸ **blockPeriod**(): `Option<Moment>`
+- **summary**:   Old storage item provided for compatibility. Remove after all networks upgraded.
 
 ▸ **didUpdate**(): `bool`
 - **summary**:   Did the timestamp get updated in this block?
+
+▸ **minimumPeriod**(): `Moment`
+- **summary**:   The minimum period between blocks. Beware that this is different to the *expected* period  that the block production apparatus provides. Your chosen consensus system will generally  work with this to determine a sensible block time. e.g. For Aura, it will be double this  period on default settings.
 
 ▸ **now**(): `Moment`
 - **summary**:   Current time for the current block.
@@ -474,7 +496,7 @@ ___
 ▸ **proposalCount**(): `ProposalIndex`
 - **summary**:   Number of proposals that have been made.
 
-▸ **proposals**(`ProposalIndex`): `Option<Proposal>`
+▸ **proposals**(`ProposalIndex`): `Option<TreasuryProposal>`
 - **summary**:   Proposals that have been made.
 
 ▸ **spendPeriod**(): `BlockNumber`

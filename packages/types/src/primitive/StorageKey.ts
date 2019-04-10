@@ -15,6 +15,7 @@ export interface StorageFunction {
   method: string;
   section: string;
   toJSON: () => any;
+  headKey?: Uint8Array;
 }
 
 /**
@@ -38,10 +39,10 @@ export default class StorageKey extends Bytes {
     if (isFunction(value)) {
       return value();
     } else if (Array.isArray(value)) {
-      const [fn, arg] = value;
+      const [fn, ...arg] = value;
 
       if (isFunction(fn)) {
-        return fn(arg);
+        return fn(...arg);
       }
     }
 

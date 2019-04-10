@@ -7,9 +7,8 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
 
-const keyring = testingPairs({ type: 'ed25519' });
-
 describe.skip('e2e queries', () => {
+  const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
   beforeEach(async (done) => {
@@ -47,6 +46,14 @@ describe.skip('e2e queries', () => {
     });
   });
 
+  it('subscribes to finalized', (done) => {
+    api.rpc.chain.subscribeFinalizedHeads((header) => {
+      expect(header.blockNumber.isZero()).toBe(false);
+
+      done();
+    });
+  });
+
   it('subscribes to derive', (done) => {
     api.derive.chain.subscribeNewHead((header) => {
       expect(header.blockNumber.isZero()).toBe(false);
@@ -63,10 +70,8 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  // FIXME We need to find a different one here (with an expected value), this is not
-  // available in the latest substrate master in this form anymore
   it.skip('subscribes to queries (default)', (done) => {
-    api.query.staking.validatorPreferences(keyring.ferdie.address(), (prefs) => {
+    api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
       done();
