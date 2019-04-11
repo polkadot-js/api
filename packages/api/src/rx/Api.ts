@@ -12,7 +12,7 @@ import { Observable, from } from 'rxjs';
 import ApiBase from '../Base';
 
 /**
- * # @polkadot/api/rx
+ * # @plugnet/api/rx
  *
  *  ## Overview
  *

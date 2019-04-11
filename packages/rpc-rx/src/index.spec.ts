@@ -4,7 +4,7 @@
 
 import { isFunction } from '@plugnet/util';
 
-jest.mock('@polkadot/rpc-provider/ws', () => class {
+jest.mock('@plugnet/rpc-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
   send = () => true;

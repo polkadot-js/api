@@ -36,6 +36,6 @@
     "@plugnet/rpc-rx": "^0.76.1",
     "@plugnet/storage": "^0.76.1",
     "@plugnet/types": "^0.76.1",
-    "@plugnet/util-crypto": "^0.76.1"
+    "@plugnet/util-crypto": "^0.76.2-beta.0"
   }
 }

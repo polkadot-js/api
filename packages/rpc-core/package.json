@@ -33,6 +33,6 @@
     "@plugnet/jsonrpc": "^0.76.1",
     "@plugnet/rpc-provider": "^0.76.1",
     "@plugnet/types": "^0.76.1",
-    "@plugnet/util": "^0.76.1"
+    "@plugnet/util": "^0.76.2-beta.0"
   }
 }

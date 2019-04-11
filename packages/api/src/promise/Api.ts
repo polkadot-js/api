@@ -16,7 +16,7 @@ import ApiBase from '../Base';
 import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator';
 
 /**
- * # @polkadot/api/promise
+ * # @plugnet/api/promise
  *
  * ## Overview
  *

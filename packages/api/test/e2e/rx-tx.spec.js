@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { first, switchMap } from 'rxjs/operators';
-import testingPairs from '@polkadot/keyring/testingPairs';
+import testingPairs from '@plugnet/keyring/testingPairs';
 
 import Api from '../../src/rx';
 

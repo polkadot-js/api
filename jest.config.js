@@ -8,10 +8,7 @@ module.exports = Object.assign({}, config, {
     '@plugnet/extrinsics(.*)$': '<rootDir>/packages/type-extrinsics/src/$1',
     '@plugnet/jsonrpc(.*)$': '<rootDir>/packages/type-jsonrpc/src/$1',
     '@plugnet/storage(.*)$': '<rootDir>/packages/type-storage/src/$1',
-    '@plugnet/types(.*)$': '<rootDir>/packages/types/src/$1',
-    '@plugnet/keyring(.*)$': '<rootDir>/packages/keyring/src/$1',
-    '@plugnet/util(.*)$': '<rootDir>/packages/util/src/$1',
-    '@plugnet/util-crypto(.*)$': '<rootDir>/packages/util-crypto/src/$1'
+    '@plugnet/types(.*)$': '<rootDir>/packages/types/src/$1'
   },
   modulePathIgnorePatterns: [
     '<rootDir>/packages/api/build',
@@ -22,9 +19,6 @@ module.exports = Object.assign({}, config, {
     '<rootDir>/packages/type-extrinsics/build',
     '<rootDir>/packages/type-jsonrpc/build',
     '<rootDir>/packages/type-storage/build/',
-    '<rootDir>/packages/types/build',
-    '<rootDir>/packages/keyring/build',
-    '<rootDir>/packages/util/build/',
-    '<rootDir>/packages/util-crypto/build'
+    '<rootDir>/packages/types/build'
   ]
 });

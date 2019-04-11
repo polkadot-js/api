@@ -1,6 +1,6 @@
-# @polkadot/rpc-rx
+# @plugnet/rpc-rx
 
-An RxJs wrapper around the [@polkadot/rpc-core](../rpc-core).
+An RxJs wrapper around the [@plugnet/rpc-core](../rpc-core).
 
 ## Classes
 

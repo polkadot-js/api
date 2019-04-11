@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Keyring from '@polkadot/keyring';
-import testingPairs from '@polkadot/keyring/testingPairs';
-import { randomAsHex } from '@polkadot/util-crypto';
+import Keyring from '@plugnet/keyring';
+import testingPairs from '@plugnet/keyring/testingPairs';
+import { randomAsHex } from '@plugnet/util-crypto';
 
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';

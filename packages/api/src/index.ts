@@ -5,7 +5,7 @@
 export { WsProvider } from '@plugnet/rpc-provider';
 import { assertSingletonPackage } from '@plugnet/util';
 
-assertSingletonPackage('@polkadot/api');
+assertSingletonPackage('@plugnet/api');
 
 export { default as ApiPromise } from './promise';
 export { default as ApiRx } from './rx';

@@ -1,4 +1,4 @@
-# @polkadot/rpc-core
+# @plugnet/rpc-core
 
 This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
 

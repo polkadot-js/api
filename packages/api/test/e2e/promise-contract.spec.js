@@ -5,8 +5,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import { ContractAbi } from '@polkadot/types';
-import testingPairs from '@polkadot/keyring/testingPairs';
+import { ContractAbi } from '@plugnet/types';
+import testingPairs from '@plugnet/keyring/testingPairs';
 
 import json from '../data/erc20.json';
 import Api from '../../src/promise';

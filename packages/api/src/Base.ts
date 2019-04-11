@@ -51,7 +51,7 @@ try {
   pkgJson = require('./package.json');
 } catch (error) {
   // development environment
-  pkgJson = { name: '@polkadot/api', version: '-' };
+  pkgJson = { name: '@plugnet/api', version: '-' };
 }
 
 /**

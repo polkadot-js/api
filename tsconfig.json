@@ -22,13 +22,7 @@
       "@plugnet/storage": ["packages/type-storage/src"],
       "@plugnet/storage/*": ["packages/type-storage/src/*"],
       "@plugnet/types": ["packages/types/src"],
-      "@plugnet/types/*": ["packages/types/src/*"],
-      "@plugnet/keyring": ["packages/keyring/src"],
-      "@plugnet/keyring/*": ["packages/keyring/src/*"],
-      "@plugnet/util": ["packages/util/src"],
-      "@plugnet/util/*": ["packages/util/src/*"],
-      "@plugnet/util-crypto": ["packages/util-crypto/src"],
-      "@plugnet/util-crypto/*": ["packages/util-crypto/src/*"]
+      "@plugnet/types/*": ["packages/types/src/*"]
     },
     "typeRoots": [
       "./node_modules/@polkadot/ts",

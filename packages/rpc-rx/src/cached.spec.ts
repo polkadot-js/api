@@ -7,7 +7,7 @@ import testingPairs from '@plugnet/keyring/testingPairs';
 import { RpcInterface$Section } from '@plugnet/rpc-core/types';
 import { AccountId } from '@plugnet/types';
 
-jest.mock('@polkadot/rpc-provider/ws', () => class {
+jest.mock('@plugnet/rpc-provider/ws', () => class {
   isConnected = () => true;
   on = () => true;
   send = () => true;
