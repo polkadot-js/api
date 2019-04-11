@@ -134,8 +134,6 @@ export default class ContractAbi implements Contract {
         }, { ...baseStruct })
       ).toU8a();
 
-      console.error('hexToU8a(encoded)', u8aToHex(u8a));
-
       return Compact.addLengthPrefix(u8a);
     };
 
