@@ -4,7 +4,7 @@
 
 import { CodecArg, Constructor } from './types';
 
-import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Compact from './codec/Compact';
 import { createClass } from './codec/createType';
