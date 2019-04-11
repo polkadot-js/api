@@ -1,0 +1,40 @@
+{
+  "extends": "./node_modules/@plugnet/dev/config/tsconfig",
+  "compilerOptions":
+  {
+    "baseUrl": ".",
+    "paths":
+    {
+      "@plugnet/api": ["packages/api/src"],
+      "@plugnet/api/*": ["packages/api/src/*"],
+      "@plugnet/api-derive": ["packages/api-derive/src"],
+      "@plugnet/api-derive/*": ["packages/api-derive/src/*"],
+      "@plugnet/rpc-core": ["packages/rpc-core/src"],
+      "@plugnet/rpc-core/*": ["packages/rpc-core/src/*"],
+      "@plugnet/rpc-provider": ["packages/rpc-provider/src"],
+      "@plugnet/rpc-provider/*": ["packages/rpc-provider/src/*"],
+      "@plugnet/rpc-rx": ["packages/rpc-rx/src"],
+      "@plugnet/rpc-rx/*": ["packages/rpc-rx/src/*"],
+      "@plugnet/extrinsics": ["packages/type-extrinsics/src"],
+      "@plugnet/extrinsics/*": ["packages/type-extrinsics/src/*"],
+      "@plugnet/jsonrpc": ["packages/type-jsonrpc/src"],
+      "@plugnet/jsonrpc/*": ["packages/type-jsonrpc/src/*"],
+      "@plugnet/storage": ["packages/type-storage/src"],
+      "@plugnet/storage/*": ["packages/type-storage/src/*"],
+      "@plugnet/types": ["packages/types/src"],
+      "@plugnet/types/*": ["packages/types/src/*"],
+      "@plugnet/keyring": ["packages/keyring/src"],
+      "@plugnet/keyring/*": ["packages/keyring/src/*"],
+      "@plugnet/util": ["packages/util/src"],
+      "@plugnet/util/*": ["packages/util/src/*"],
+      "@plugnet/util-crypto": ["packages/util-crypto/src"],
+      "@plugnet/util-crypto/*": ["packages/util-crypto/src/*"]
+    },
+    "typeRoots": [
+      "./node_modules/@polkadot/ts",
+      "./node_modules/@types"
+    ],
+    // FIXME This is a HACK that is needed for the current mock-socket defs
+    "skipLibCheck": true
+  }
+}

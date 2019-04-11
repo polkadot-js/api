@@ -1,0 +1,39 @@
+{
+  "name": "@plugnet/api-derive",
+  "version": "0.76.1",
+  "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "Promise",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@plugnet/api": "^0.76.1",
+    "@plugnet/types": "^0.76.1",
+    "@types/memoizee": "^0.4.2",
+    "memoizee": "^0.4.14"
+  }
+}

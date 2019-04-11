@@ -1,0 +1,16 @@
+{
+  "jsonrpc": "2.0",
+  "method": "state_storage",
+  "params": {
+    "result": {
+      "block": "0x3265584ff8e6a66cb6c334cdaf8bb6938b49b96e644b5bacc0d06f2b13f75230",
+      "changes": [
+        [
+          "0x329586a7b97f2ac15f6c26a02c3c5621",
+          "0x2082c39b31a2b79a90f8e66e7a77fdb85a4ed5517f2ae39f6a80565e8ecae85cf54de37a07567ebcbf8c64568428a835269a566723687058e017b6d69db00a77e758d67e0f9be62dce75adbb005e8097de5c45f32b1ba7264717df2db4ae9f276e8101764f45778d4980dadaceee6e8af2517d3ab91ac9bec9cd1714fa5994081ca070532405ebf20fba389cbabfe1885cc134ee18028d488714eae621b47baf9d227cee94fa4e88d8d25abe706f15aca03b1d753d433f5ef9aa9ad1bcf5e5b81e040c8dc048a6d129803caa851c4c9633610068e4ef9eaa0bfbf40dfbfd43d9222347812ef77d9fd3cca1673e1b2bde54da96fddcf79d92832b1e2a819724f140"
+        ]
+      ]
+    },
+    "subscription": 43614
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "@plugnet/api",
+  "version": "0.76.1",
+  "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
+  "main": "index.js",
+  "keywords": [
+    "Polkadot",
+    "RxJs"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@plugnet/api-derive": "^0.76.1",
+    "@plugnet/extrinsics": "^0.76.1",
+    "@plugnet/rpc-provider": "^0.76.1",
+    "@plugnet/rpc-rx": "^0.76.1",
+    "@plugnet/storage": "^0.76.1",
+    "@plugnet/types": "^0.76.1",
+    "@plugnet/util-crypto": "^0.76.1"
+  }
+}

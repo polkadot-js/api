@@ -1,0 +1,34 @@
+{
+  "name": "@plugnet/jsonrpc",
+  "version": "0.76.1",
+  "description": "Method definitions for the Polkadot RPC layer",
+  "main": "index.js",
+  "engines": {
+    "node": ">=6.4"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/api.git"
+  },
+  "keywords": [
+    "Polkadot",
+    "JsonRPC"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/polkadot-js/api/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.4.3"
+  }
+}

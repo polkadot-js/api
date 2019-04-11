@@ -1,0 +1,39 @@
+{
+  "name": "@plugnet/keyring",
+  "version": "0.76.1",
+  "description": "Keyring management",
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polkadot-js/common.git"
+  },
+  "keywords": [
+    "Plugnet",
+    "Keyring",
+    "ed25519"
+  ],
+  "author": "Jaco Greeff <jacogr@gmail.com>",
+  "maintainers": [
+    "Jaco Greeff <jacogr@gmail.com>"
+  ],
+  "contributors": [],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/polkadot-js/common/issues"
+  },
+  "homepage": "https://github.com/polkadot-js/common/tree/master/packages/keyring#readme",
+  "dependencies": {
+    "@babel/runtime": "^7.4.3",
+    "@plugnet/util": "^0.76.1",
+    "@plugnet/util-crypto": "^0.76.1",
+    "@types/bs58": "^4.0.0",
+    "bs58": "^4.0.1"
+  }
+}

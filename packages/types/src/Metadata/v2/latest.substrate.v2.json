@@ -1,0 +1,3093 @@
+{
+  "magicNumber": 1635018093,
+  "metadata": {
+    "MetadataV2": {
+      "modules": [
+        {
+          "name": "system",
+          "prefix": "System",
+          "storage": [
+            {
+              "name": "AccountNonce",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Index",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x0000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicCount",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "AllExtrinsicsLen",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "BlockHash",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "BlockNumber",
+                  "value": "Hash",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicData",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "u32",
+                  "value": "Bytes",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "RandomSeed",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Hash"
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "Number",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The current block number being processed. Set by `execute_block`."
+              ]
+            },
+            {
+              "name": "ParentHash",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Hash"
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "ExtrinsicsRoot",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Hash"
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            },
+            {
+              "name": "Digest",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Digest"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "Events",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<EventRecord>"
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": null,
+          "events": [
+            {
+              "name": "ExtrinsicSuccess",
+              "args": [],
+              "docs": [
+                " An extrinsic completed successfully."
+              ]
+            },
+            {
+              "name": "ExtrinsicFailed",
+              "args": [],
+              "docs": [
+                " An extrinsic failed."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "aura",
+          "prefix": "",
+          "storage": null,
+          "calls": null,
+          "events": null
+        },
+        {
+          "name": "timestamp",
+          "prefix": "Timestamp",
+          "storage": [
+            {
+              "name": "Now",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Moment"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Current time for the current block."
+              ]
+            },
+            {
+              "name": "BlockPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Moment"
+              },
+              "fallback": "0x0500000000000000",
+              "docs": [
+                " The minimum (and advised) period between blocks."
+              ]
+            },
+            {
+              "name": "DidUpdate",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Did the timestamp get updated in this block?"
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set",
+              "args": [
+                {
+                  "name": "now",
+                  "type": "Compact<Moment>"
+                }
+              ],
+              "docs": [
+                " Set the current time.",
+                "",
+                " This call should be invoked exactly once per block. It will panic at the finalization phase,",
+                " if this call hasn't been invoked by that time.",
+                "",
+                " The timestamp should be greater than the previous one by the amount specified by `block_period`.",
+                " ",
+                " The dispatch origin for this call must be `Inherent`."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
+          "name": "consensus",
+          "prefix": "Consensus",
+          "storage": [
+            {
+              "name": "OriginalAuthorities",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "Vec<SessionKey>"
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "report_misbehavior",
+              "args": [
+                {
+                  "name": "_report",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Report some misbehaviour."
+              ]
+            },
+            {
+              "name": "note_offline",
+              "args": [
+                {
+                  "name": "offline",
+                  "type": "InherentOfflineReport"
+                }
+              ],
+              "docs": [
+                " Note the previous block's validator missed their opportunity to propose a block."
+              ]
+            },
+            {
+              "name": "remark",
+              "args": [
+                {
+                  "name": "_remark",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Make some on-chain remark."
+              ]
+            },
+            {
+              "name": "set_heap_pages",
+              "args": [
+                {
+                  "name": "pages",
+                  "type": "u64"
+                }
+              ],
+              "docs": [
+                " Set the number of pages in the WebAssembly environment's heap."
+              ]
+            },
+            {
+              "name": "set_code",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Set the new code."
+              ]
+            },
+            {
+              "name": "set_storage",
+              "args": [
+                {
+                  "name": "items",
+                  "type": "Vec<KeyValue>"
+                }
+              ],
+              "docs": [
+                " Set some items of storage."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
+          "name": "indices",
+          "prefix": "Indices",
+          "storage": [
+            {
+              "name": "NextEnumSet",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "AccountIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next free enumeration set."
+              ]
+            },
+            {
+              "name": "EnumSet",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountIndex",
+                  "value": "Vec<AccountId>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The enumeration sets."
+              ]
+            }
+          ],
+          "calls": [],
+          "events": [
+            {
+              "name": "NewAccountIndex",
+              "args": [
+                "AccountId",
+                "AccountIndex"
+              ],
+              "docs": [
+                " A new account index was assigned.",
+                "",
+                " This event is not triggered when an existing index is reassigned",
+                " to another `AccountId`."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "balances",
+          "prefix": "Balances",
+          "storage": [
+            {
+              "name": "TotalIssuance",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The total amount of stake on the system."
+              ]
+            },
+            {
+              "name": "ExistentialDeposit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The minimum amount allowed to keep an account open."
+              ]
+            },
+            {
+              "name": "TransferFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to make a transfer."
+              ]
+            },
+            {
+              "name": "CreationFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee required to create an account. At least as big as ReclaimRebate."
+              ]
+            },
+            {
+              "name": "TransactionBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the base."
+              ]
+            },
+            {
+              "name": "TransactionByteFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The fee to be paid for making a transaction; the per-byte portion."
+              ]
+            },
+            {
+              "name": "Vesting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "VestingSchedule",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Information regarding the vesting of a given account."
+              ]
+            },
+            {
+              "name": "FreeBalance",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Balance",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The 'free' balance of a given account.",
+                "",
+                " This is the only balance that matters in terms of most operations on tokens. It is",
+                " alone used to determine the balance when in the contract execution environment. When this",
+                " balance falls below the value of `ExistentialDeposit`, then the 'current account' is",
+                " deleted: specifically `FreeBalance`. Furthermore, `OnFreeBalanceZero` callback",
+                " is invoked, giving a chance to external modules to cleanup data associated with",
+                " the deleted account.",
+                "",
+                " `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets",
+                " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+              ]
+            },
+            {
+              "name": "ReservedBalance",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Balance",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The amount of the balance of a given account that is externally reserved; this can still get",
+                " slashed, but gets slashed last of all.",
+                "",
+                " This balance is a 'reserve' balance that other subsystems use in order to set aside tokens",
+                " that are still 'owned' by the account holder, but which are suspendable. (This is different",
+                " and wholly unrelated to the `Bondage` system used in the staking module.)",
+                "",
+                " When this balance falls below the value of `ExistentialDeposit`, then this 'reserve account'",
+                " is deleted: specifically, `ReservedBalance`.",
+                "",
+                " `system::AccountNonce` is also deleted if `FreeBalance` is also zero (it also gets",
+                " collapsed to zero if it ever becomes less than `ExistentialDeposit`."
+              ]
+            },
+            {
+              "name": "Locks",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Vec<BalanceLock>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Any liquidity locks on some account balances."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "transfer",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<Balance>"
+                }
+              ],
+              "docs": [
+                " Transfer some liquid free balance to another staker."
+              ]
+            },
+            {
+              "name": "set_balance",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "Address"
+                },
+                {
+                  "name": "free",
+                  "type": "Compact<Balance>"
+                },
+                {
+                  "name": "reserved",
+                  "type": "Compact<Balance>"
+                }
+              ],
+              "docs": [
+                " Set the balances of a given account."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewAccount",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "docs": [
+                " A new account was created."
+              ]
+            },
+            {
+              "name": "ReapedAccount",
+              "args": [
+                "AccountId"
+              ],
+              "docs": [
+                " An account was reaped."
+              ]
+            },
+            {
+              "name": "Transfer",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance",
+                "Balance"
+              ],
+              "docs": [
+                " Transfer succeeded (from, to, value, fees)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "session",
+          "prefix": "Session",
+          "storage": [
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The current set of validators."
+              ]
+            },
+            {
+              "name": "SessionLength",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " Current length of the session."
+              ]
+            },
+            {
+              "name": "CurrentIndex",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Current index of the session."
+              ]
+            },
+            {
+              "name": "CurrentStart",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Moment"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Timestamp when current session started."
+              ]
+            },
+            {
+              "name": "ForcingNewSession",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " New session is being forced is this entry exists; in which case, the boolean value is whether",
+                " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
+              ]
+            },
+            {
+              "name": "LastLengthChange",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Block at which the session length last changed."
+              ]
+            },
+            {
+              "name": "NextKeyFor",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "SessionKey",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next key for a given validator."
+              ]
+            },
+            {
+              "name": "NextSessionLength",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next session length."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "key",
+                  "type": "SessionKey"
+                }
+              ],
+              "docs": [
+                " Sets the session key of `_validator` to `_key`. This doesn't take effect until the next",
+                " session."
+              ]
+            },
+            {
+              "name": "set_length",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Set a new session length. Won't kick in until the next session change (at current length)."
+              ]
+            },
+            {
+              "name": "force_new_session",
+              "args": [
+                {
+                  "name": "apply_rewards",
+                  "type": "bool"
+                }
+              ],
+              "docs": [
+                " Forces a new session."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewSession",
+              "args": [
+                "BlockNumber"
+              ],
+              "docs": [
+                " New session has happened. Note that the argument is the session index, not the block",
+                " number as the type might suggest."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "staking",
+          "prefix": "Staking",
+          "storage": [
+            {
+              "name": "ValidatorCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The ideal number of staking participants."
+              ]
+            },
+            {
+              "name": "MinimumValidatorCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x04000000",
+              "docs": [
+                " Minimum number of staking participants before emergency conditions are imposed."
+              ]
+            },
+            {
+              "name": "SessionsPerEra",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " The length of a staking era in sessions."
+              ]
+            },
+            {
+              "name": "SessionReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Perbill"
+              },
+              "fallback": "0x3c000000",
+              "docs": [
+                " Maximum reward, per validator, that is provided per acceptable session."
+              ]
+            },
+            {
+              "name": "OfflineSlash",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Perbill"
+              },
+              "fallback": "0x40420f00",
+              "docs": [
+                " Slash, per validator that is taken for the first time they are found to be offline."
+              ]
+            },
+            {
+              "name": "OfflineSlashGrace",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of instances of offline reports before slashing begins for validators."
+              ]
+            },
+            {
+              "name": "BondingDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " The length of the bonding duration in blocks."
+              ]
+            },
+            {
+              "name": "Invulnerables",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialise",
+                " and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets."
+              ]
+            },
+            {
+              "name": "Bonded",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "AccountId",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all locked \"stash\" accounts to the controller account."
+              ]
+            },
+            {
+              "name": "Ledger",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "StakingLedger",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Map from all (unlocked) \"controller\" accounts to the info regarding the staking."
+              ]
+            },
+            {
+              "name": "Payee",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "RewardDestination",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Where the reward payment should be made. Keyed by stash."
+              ]
+            },
+            {
+              "name": "Validators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "ValidatorPrefs",
+                  "isLinked": true
+                }
+              },
+              "fallback": "0x0c00",
+              "docs": [
+                " The map from (wannabe) validator stash key to the preferences of that validator."
+              ]
+            },
+            {
+              "name": "Nominators",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Vec<AccountId>",
+                  "isLinked": true
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The map from nominator stash key to the set of stash keys of all validators to nominate."
+              ]
+            },
+            {
+              "name": "Stakers",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Exposure",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x000000",
+              "docs": [
+                " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
+                " but you can find them in the `sessions` module.",
+                "",
+                " This is keyed by the stash account."
+              ]
+            },
+            {
+              "name": "CurrentElected",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The currently elected validator set keyed by stash account ID."
+              ]
+            },
+            {
+              "name": "CurrentEra",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The current era index."
+              ]
+            },
+            {
+              "name": "CurrentSessionReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Maximum reward, per validator, that is provided per acceptable session."
+              ]
+            },
+            {
+              "name": "CurrentEraReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The accumulated reward for the current era. Reset to zero at the beginning of the era and",
+                " increased for every successfully finished session."
+              ]
+            },
+            {
+              "name": "NextSessionsPerEra",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The next value of sessions per era."
+              ]
+            },
+            {
+              "name": "LastEraLengthChange",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The session index at which the era length last changed."
+              ]
+            },
+            {
+              "name": "SlotStake",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The amount of balance actively at stake for each validator slot, currently.",
+                "",
+                " This is used to derive rewards and punishments."
+              ]
+            },
+            {
+              "name": "SlashCount",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "u32",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The number of times a given validator has been reported offline. This gets decremented by one each era that passes."
+              ]
+            },
+            {
+              "name": "ForcingNewEra",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "Null"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " We are forcing a new era."
+              ]
+            },
+            {
+              "name": "RecentlyOffline",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(AccountId,BlockNumber,u32)>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for)."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "bond",
+              "args": [
+                {
+                  "name": "controller",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "payee",
+                  "type": "RewardDestination"
+                }
+              ],
+              "docs": [
+                " Take the origin account as a stash and lock up `value` of its balance. `controller` will be the",
+                " account that controls it.",
+                "",
+                " The dispatch origin for this call must be _Signed_."
+              ]
+            },
+            {
+              "name": "bond_extra",
+              "args": [
+                {
+                  "name": "max_additional",
+                  "type": "BalanceOf"
+                }
+              ],
+              "docs": [
+                " Add some extra amount that have appeared in the stash `free_balance` into the balance up for",
+                " staking.",
+                "",
+                " Use this if there are additional funds in your stash account that you wish to bond.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "unbond",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "docs": [
+                " Schedule a portion of the stash to be unlocked ready for transfer out after the bond",
+                " period ends. If this leaves an amount actively bonded less than",
+                " T::Currency::existential_deposit(), then it is increased to the full amount.",
+                "",
+                " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
+                " the funds out of management ready for transfer.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " See also [`Call::withdraw_unbonded`]."
+              ]
+            },
+            {
+              "name": "withdraw_unbonded",
+              "args": [],
+              "docs": [
+                " Remove any unlocked chunks from the `unlocking` queue from our management.",
+                "",
+                " This essentially frees up that balance to be used by the stash account to do",
+                " whatever it wants.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
+                "",
+                " See also [`Call::unbond`]."
+              ]
+            },
+            {
+              "name": "validate",
+              "args": [
+                {
+                  "name": "prefs",
+                  "type": "ValidatorPrefs"
+                }
+              ],
+              "docs": [
+                " Declare the desire to validate for the origin controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "nominate",
+              "args": [
+                {
+                  "name": "targets",
+                  "type": "Vec<Address>"
+                }
+              ],
+              "docs": [
+                " Declare the desire to nominate `targets` for the origin controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "chill",
+              "args": [],
+              "docs": [
+                " Declare no desire to either validate or nominate.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_payee",
+              "args": [
+                {
+                  "name": "payee",
+                  "type": "RewardDestination"
+                }
+              ],
+              "docs": [
+                " (Re-)set the payment target for a controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_controller",
+              "args": [
+                {
+                  "name": "controller",
+                  "type": "Address"
+                }
+              ],
+              "docs": [
+                " (Re-)set the payment target for a controller.",
+                "",
+                " Effects will be felt at the beginning of the next era.",
+                "",
+                " The dispatch origin for this call must be _Signed_ by the controller, not the stash."
+              ]
+            },
+            {
+              "name": "set_sessions_per_era",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Set the number of sessions in an era."
+              ]
+            },
+            {
+              "name": "set_bonding_duration",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " The length of the bonding duration in eras."
+              ]
+            },
+            {
+              "name": "set_validator_count",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " The ideal number of validators."
+              ]
+            },
+            {
+              "name": "force_new_era",
+              "args": [
+                {
+                  "name": "apply_rewards",
+                  "type": "bool"
+                }
+              ],
+              "docs": [
+                " Force there to be a new era. This also forces a new session immediately after.",
+                " `apply_rewards` should be true for validators to get the session reward."
+              ]
+            },
+            {
+              "name": "set_offline_slash_grace",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " Set the offline slash grace period."
+              ]
+            },
+            {
+              "name": "set_invulnerables",
+              "args": [
+                {
+                  "name": "validators",
+                  "type": "Vec<AccountId>"
+                }
+              ],
+              "docs": [
+                " Set the validators who cannot be slashed (if any)."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Reward",
+              "args": [
+                "Balance"
+              ],
+              "docs": [
+                " All validators have been rewarded by the given balance."
+              ]
+            },
+            {
+              "name": "OfflineWarning",
+              "args": [
+                "AccountId",
+                "u32"
+              ],
+              "docs": [
+                " One validator (and their nominators) has been given a offline-warning (they're still",
+                " within their grace). The accrued number of slashes is recorded, too."
+              ]
+            },
+            {
+              "name": "OfflineSlash",
+              "args": [
+                "AccountId",
+                "Balance"
+              ],
+              "docs": [
+                " One validator (and their nominators) has been slashed by the given amount."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "democracy",
+          "prefix": "Democracy",
+          "storage": [
+            {
+              "name": "PublicPropCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "PropIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The number of (public) proposals that have been made so far."
+              ]
+            },
+            {
+              "name": "PublicProps",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(PropIndex,Proposal,AccountId)>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The public proposals. Unsorted."
+              ]
+            },
+            {
+              "name": "DepositOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "PropIndex",
+                  "value": "(BalanceOf,Vec<AccountId>)",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Those who have locked a deposit."
+              ]
+            },
+            {
+              "name": "LaunchPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) new public referenda are launched."
+              ]
+            },
+            {
+              "name": "MinimumDeposit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " The minimum amount to be used as a deposit for a public referendum proposal."
+              ]
+            },
+            {
+              "name": "PublicDelay",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The delay before enactment for all public referenda."
+              ]
+            },
+            {
+              "name": "MaxLockPeriods",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "LockPeriods"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
+              ]
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "ReferendumCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "ReferendumIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next free referendum index, aka the number of referendums started so far."
+              ]
+            },
+            {
+              "name": "NextTally",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "ReferendumIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The next referendum index that should be tallied."
+              ]
+            },
+            {
+              "name": "ReferendumInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "ReferendumIndex",
+                  "value": "ReferendumInfo",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Information concerning any given referendum."
+              ]
+            },
+            {
+              "name": "DispatchQueue",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "BlockNumber",
+                  "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Queue of successful referenda to be dispatched."
+              ]
+            },
+            {
+              "name": "VotersFor",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "ReferendumIndex",
+                  "value": "Vec<AccountId>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the voters for the current proposal."
+              ]
+            },
+            {
+              "name": "VoteOf",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "(ReferendumIndex,AccountId)",
+                  "value": "Vote",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
+                " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
+                " `voters_for`, then you can also check for simple existence with `VoteOf::exists` first."
+              ]
+            },
+            {
+              "name": "Delegations",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "(AccountId,LockPeriods)",
+                  "isLinked": true
+                }
+              },
+              "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
+              "docs": [
+                " Get the account (and lock periods) to which another account is delegating vote."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "docs": [
+                " Propose a sensitive action to be taken."
+              ]
+            },
+            {
+              "name": "second",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Compact<PropIndex>"
+                }
+              ],
+              "docs": [
+                " Propose a sensitive action to be taken."
+              ]
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": "Compact<ReferendumIndex>"
+                },
+                {
+                  "name": "vote",
+                  "type": "Vote"
+                }
+              ],
+              "docs": [
+                " Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;",
+                " otherwise it is a vote to keep the status quo."
+              ]
+            },
+            {
+              "name": "start_referendum",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                },
+                {
+                  "name": "threshold",
+                  "type": "VoteThreshold"
+                },
+                {
+                  "name": "delay",
+                  "type": "BlockNumber"
+                }
+              ],
+              "docs": [
+                " Start a referendum."
+              ]
+            },
+            {
+              "name": "cancel_referendum",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": "Compact<ReferendumIndex>"
+                }
+              ],
+              "docs": [
+                " Remove a referendum."
+              ]
+            },
+            {
+              "name": "cancel_queued",
+              "args": [
+                {
+                  "name": "when",
+                  "type": "Compact<BlockNumber>"
+                },
+                {
+                  "name": "which",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " Cancel a proposal queued for enactment."
+              ]
+            },
+            {
+              "name": "delegate",
+              "args": [
+                {
+                  "name": "to",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "lock_periods",
+                  "type": "LockPeriods"
+                }
+              ],
+              "docs": [
+                " Delegate vote."
+              ]
+            },
+            {
+              "name": "undelegate",
+              "args": [],
+              "docs": [
+                " Undelegate vote."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                "PropIndex",
+                "Balance"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Tabled",
+              "args": [
+                "PropIndex",
+                "Balance",
+                "Vec<AccountId>"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Started",
+              "args": [
+                "ReferendumIndex",
+                "VoteThreshold"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Passed",
+              "args": [
+                "ReferendumIndex"
+              ],
+              "docs": []
+            },
+            {
+              "name": "NotPassed",
+              "args": [
+                "ReferendumIndex"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Cancelled",
+              "args": [
+                "ReferendumIndex"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Executed",
+              "args": [
+                "ReferendumIndex",
+                "bool"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Delegated",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "docs": []
+            },
+            {
+              "name": "Undelegated",
+              "args": [
+                "AccountId"
+              ],
+              "docs": []
+            }
+          ]
+        },
+        {
+          "name": "council",
+          "prefix": "Council",
+          "storage": [
+            {
+              "name": "CandidacyBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x09000000000000000000000000000000",
+              "docs": [
+                " How much should be locked up in order to submit one's candidacy."
+              ]
+            },
+            {
+              "name": "VotingBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " How much should be locked up in order to be able to submit votes."
+              ]
+            },
+            {
+              "name": "PresentSlashPerVoter",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x01000000000000000000000000000000",
+              "docs": [
+                " The punishment, per voter, if you provide an invalid presentation."
+              ]
+            },
+            {
+              "name": "CarryCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x02000000",
+              "docs": [
+                " How many runners-up should have their approvals persist until the next vote."
+              ]
+            },
+            {
+              "name": "PresentationDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How long to give each top candidate to present themselves after the vote ends."
+              ]
+            },
+            {
+              "name": "InactiveGracePeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "VoteIndex"
+              },
+              "fallback": "0x01000000",
+              "docs": [
+                " How many vote indexes need to go by after a target voter's last vote before they can be reaped if their",
+                " approvals are moot."
+              ]
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": [
+                " How often (in blocks) to check for new votes."
+              ]
+            },
+            {
+              "name": "TermDuration",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0500000000000000",
+              "docs": [
+                " How long each position is active for."
+              ]
+            },
+            {
+              "name": "DesiredSeats",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of accounts that should be sitting on the council."
+              ]
+            },
+            {
+              "name": "ActiveCouncil",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(AccountId,BlockNumber)>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The current council. When there's a vote going on, this should still be used for executive",
+                " matters. The block number (second element in the tuple) is the block that their position is",
+                " active until (calculated by the sum of the block number when the council member was elected",
+                " and their term duration)."
+              ]
+            },
+            {
+              "name": "VoteCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "VoteIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " The total number of votes that have happened or are in progress."
+              ]
+            },
+            {
+              "name": "ApprovalsOf",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "Vec<bool>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A list of votes for each voter, respecting the last cleared vote index that this voter was",
+                " last active at."
+              ]
+            },
+            {
+              "name": "RegisterInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "(VoteIndex,u32)",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The vote index and list slot that the candidate `who` was registered or `None` if they are not",
+                " currently registered."
+              ]
+            },
+            {
+              "name": "LastActiveOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "VoteIndex",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The last cleared vote index that this voter was last active at."
+              ]
+            },
+            {
+              "name": "Voters",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The present voter list."
+              ]
+            },
+            {
+              "name": "Candidates",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<AccountId>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The present candidate list."
+              ]
+            },
+            {
+              "name": "CandidateCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "docs": []
+            },
+            {
+              "name": "NextFinalise",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "(BlockNumber,u32,Vec<AccountId>)"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The accounts holding the seats that will become free on the next tally."
+              ]
+            },
+            {
+              "name": "SnapshotedStakes",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<BalanceOf>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The stakes as they were at the point that the vote ended."
+              ]
+            },
+            {
+              "name": "Leaderboard",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "Vec<(BalanceOf,AccountId)>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Get the leaderboard if we;re in the presentation phase."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "set_approvals",
+              "args": [
+                {
+                  "name": "votes",
+                  "type": "Vec<bool>"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<VoteIndex>"
+                }
+              ],
+              "docs": [
+                " Set candidate approvals. Approval slots stay valid as long as candidates in those slots",
+                " are registered."
+              ]
+            },
+            {
+              "name": "reap_inactive_voter",
+              "args": [
+                {
+                  "name": "reporter_index",
+                  "type": "Compact<u32>"
+                },
+                {
+                  "name": "who",
+                  "type": "Address"
+                },
+                {
+                  "name": "who_index",
+                  "type": "Compact<u32>"
+                },
+                {
+                  "name": "assumed_vote_index",
+                  "type": "Compact<VoteIndex>"
+                }
+              ],
+              "docs": [
+                " Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices",
+                " must now be either unregistered or registered to a candidate that registered the slot after",
+                " the voter gave their last approval set.",
+                "",
+                " May be called by anyone. Returns the voter deposit to `signed`."
+              ]
+            },
+            {
+              "name": "retract_voter",
+              "args": [
+                {
+                  "name": "index",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " Remove a voter. All votes are cancelled and the voter deposit is returned."
+              ]
+            },
+            {
+              "name": "submit_candidacy",
+              "args": [
+                {
+                  "name": "slot",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " Submit oneself for candidacy.",
+                "",
+                " Account must have enough transferrable funds in it to pay the bond."
+              ]
+            },
+            {
+              "name": "present_winner",
+              "args": [
+                {
+                  "name": "candidate",
+                  "type": "Address"
+                },
+                {
+                  "name": "total",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<VoteIndex>"
+                }
+              ],
+              "docs": [
+                " Claim that `signed` is one of the top Self::carry_count() + current_vote().1 candidates.",
+                " Only works if the `block_number >= current_vote().0` and `< current_vote().0 + presentation_duration()``",
+                " `signed` should have at least"
+              ]
+            },
+            {
+              "name": "set_desired_seats",
+              "args": [
+                {
+                  "name": "count",
+                  "type": "Compact<u32>"
+                }
+              ],
+              "docs": [
+                " Set the desired member count; if lower than the current count, then seats will not be up",
+                " election when they expire. If more, then a new vote will be started if one is not already",
+                " in progress."
+              ]
+            },
+            {
+              "name": "remove_member",
+              "args": [
+                {
+                  "name": "who",
+                  "type": "Address"
+                }
+              ],
+              "docs": [
+                " Remove a particular member. A tally will happen instantly (if not already in a presentation",
+                " period) to fill the seat if removal means that the desired members are not met.",
+                " This is effective immediately."
+              ]
+            },
+            {
+              "name": "set_presentation_duration",
+              "args": [
+                {
+                  "name": "count",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Set the presentation duration. If there is currently a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
+            },
+            {
+              "name": "set_term_duration",
+              "args": [
+                {
+                  "name": "count",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Set the presentation duration. If there is current a vote being presented for, will",
+                " invoke `finalise_vote`."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "VoterReaped",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "docs": [
+                " reaped voter, reaper"
+              ]
+            },
+            {
+              "name": "BadReaperSlashed",
+              "args": [
+                "AccountId"
+              ],
+              "docs": [
+                " slashed reaper"
+              ]
+            },
+            {
+              "name": "TallyStarted",
+              "args": [
+                "u32"
+              ],
+              "docs": [
+                " A tally (for approval votes of council seat(s)) has started."
+              ]
+            },
+            {
+              "name": "TallyFinalised",
+              "args": [
+                "Vec<AccountId>",
+                "Vec<AccountId>"
+              ],
+              "docs": [
+                " A tally (for approval votes of council seat(s)) has ended (with one or more new members)."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "council_voting",
+          "prefix": "CouncilVoting",
+          "storage": [
+            {
+              "name": "CooloffPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0xe803000000000000",
+              "docs": []
+            },
+            {
+              "name": "VotingPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0300000000000000",
+              "docs": []
+            },
+            {
+              "name": "EnactDelayPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
+              ]
+            },
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(BlockNumber,Hash)>"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "Hash",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "ProposalVoters",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "key": "Hash",
+                  "value": "Vec<AccountId>",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "CouncilVoteOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "(Hash,AccountId)",
+                  "value": "bool",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "VetoedProposal",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "Hash",
+                  "value": "(BlockNumber,Vec<AccountId>)",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Hash"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "veto",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_cooloff_period",
+              "args": [
+                {
+                  "name": "blocks",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_voting_period",
+              "args": [
+                {
+                  "name": "blocks",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "TallyCancelation",
+              "args": [
+                "Hash",
+                "u32",
+                "u32",
+                "u32"
+              ],
+              "docs": [
+                " A voting tally has happened for a referendum cancellation vote.",
+                " Last three are yes, no, abstain counts."
+              ]
+            },
+            {
+              "name": "TallyReferendum",
+              "args": [
+                "Hash",
+                "u32",
+                "u32",
+                "u32"
+              ],
+              "docs": [
+                " A voting tally has happened for a referendum vote.",
+                " Last three are yes, no, abstain counts."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "council_motions",
+          "prefix": "CouncilMotions",
+          "storage": [
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<Hash>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The (hashes of) the active proposals."
+              ]
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "Hash",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Actual proposal for a given hash, if it's current."
+              ]
+            },
+            {
+              "name": "Voting",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "Hash",
+                  "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Proposals so far."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose",
+              "args": [
+                {
+                  "name": "threshold",
+                  "type": "Compact<u32>"
+                },
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "vote",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Hash"
+                },
+                {
+                  "name": "index",
+                  "type": "Compact<ProposalIndex>"
+                },
+                {
+                  "name": "approve",
+                  "type": "bool"
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                "AccountId",
+                "ProposalIndex",
+                "Hash",
+                "u32"
+              ],
+              "docs": [
+                " A motion (given hash) has been proposed (by given account) with a threshold (given u32)."
+              ]
+            },
+            {
+              "name": "Voted",
+              "args": [
+                "AccountId",
+                "Hash",
+                "bool",
+                "u32",
+                "u32"
+              ],
+              "docs": [
+                " A motion (given hash) has been voted on by given account, leaving",
+                " a tally (yes votes and no votes given as u32s respectively)."
+              ]
+            },
+            {
+              "name": "Approved",
+              "args": [
+                "Hash"
+              ],
+              "docs": [
+                " A motion was approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Disapproved",
+              "args": [
+                "Hash"
+              ],
+              "docs": [
+                " A motion was not approved by the required threshold."
+              ]
+            },
+            {
+              "name": "Executed",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "docs": [
+                " A motion was executed; `bool` is true if returned without error."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "finality_tracker",
+          "prefix": "",
+          "storage": null,
+          "calls": [
+            {
+              "name": "final_hint",
+              "args": [
+                {
+                  "name": "hint",
+                  "type": "Compact<BlockNumber>"
+                }
+              ],
+              "docs": [
+                " Hint that the author of this block thinks the best finalized",
+                " block is the given number."
+              ]
+            }
+          ],
+          "events": null
+        },
+        {
+          "name": "grandpa",
+          "prefix": "GrandpaFinality",
+          "storage": [
+            {
+              "name": "PendingChange",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "StoredPendingChange"
+              },
+              "fallback": "0x00",
+              "docs": []
+            },
+            {
+              "name": "NextForced",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x00",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "report_misbehavior",
+              "args": [
+                {
+                  "name": "_report",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Report some misbehaviour."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "NewAuthorities",
+              "args": [
+                "Vec<(SessionKey,u64)>"
+              ],
+              "docs": [
+                " New authority set has been applied."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "treasury",
+          "prefix": "Treasury",
+          "storage": [
+            {
+              "name": "ProposalBond",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Permill"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Proportion of funds that should be bonded in order to place a proposal. An accepted",
+                " proposal gets these back. A rejected proposal doesn't."
+              ]
+            },
+            {
+              "name": "ProposalBondMinimum",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Minimum amount of funds that should be placed in a deposit for making a proposal."
+              ]
+            },
+            {
+              "name": "SpendPeriod",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0100000000000000",
+              "docs": [
+                " Period between successive spends."
+              ]
+            },
+            {
+              "name": "Burn",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Permill"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Percentage of spare funds (if any) that are burnt per spend period."
+              ]
+            },
+            {
+              "name": "Pot",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "docs": [
+                " Total funds available to this module for spending."
+              ]
+            },
+            {
+              "name": "ProposalCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "ProposalIndex"
+              },
+              "fallback": "0x00000000",
+              "docs": [
+                " Number of proposals that have been made."
+              ]
+            },
+            {
+              "name": "Proposals",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "ProposalIndex",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Proposals that have been made."
+              ]
+            },
+            {
+              "name": "Approvals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<ProposalIndex>"
+              },
+              "fallback": "0x00",
+              "docs": [
+                " Proposal indices that have been approved but not yet awarded."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "propose_spend",
+              "args": [
+                {
+                  "name": "value",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "beneficiary",
+                  "type": "Address"
+                }
+              ],
+              "docs": [
+                " Put forward a suggestion for spending. A deposit proportional to the value",
+                " is reserved and slashed if the proposal is rejected. It is returned once the",
+                " proposal is awarded."
+              ]
+            },
+            {
+              "name": "set_pot",
+              "args": [
+                {
+                  "name": "new_pot",
+                  "type": "Compact<BalanceOf>"
+                }
+              ],
+              "docs": [
+                " Set the balance of funds available to spend."
+              ]
+            },
+            {
+              "name": "configure",
+              "args": [
+                {
+                  "name": "proposal_bond",
+                  "type": "Compact<Permill>"
+                },
+                {
+                  "name": "proposal_bond_minimum",
+                  "type": "Compact<BalanceOf>"
+                },
+                {
+                  "name": "spend_period",
+                  "type": "Compact<BlockNumber>"
+                },
+                {
+                  "name": "burn",
+                  "type": "Compact<Permill>"
+                }
+              ],
+              "docs": [
+                " (Re-)configure this module."
+              ]
+            },
+            {
+              "name": "reject_proposal",
+              "args": [
+                {
+                  "name": "proposal_id",
+                  "type": "Compact<ProposalIndex>"
+                }
+              ],
+              "docs": [
+                " Reject a proposed spend. The original deposit will be slashed."
+              ]
+            },
+            {
+              "name": "approve_proposal",
+              "args": [
+                {
+                  "name": "proposal_id",
+                  "type": "Compact<ProposalIndex>"
+                }
+              ],
+              "docs": [
+                " Approve a proposal. At a later time, the proposal will be allocated to the beneficiary",
+                " and the original deposit will be returned."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Proposed",
+              "args": [
+                "ProposalIndex"
+              ],
+              "docs": [
+                " New proposal."
+              ]
+            },
+            {
+              "name": "Spending",
+              "args": [
+                "Balance"
+              ],
+              "docs": [
+                " We have ended a spend period and will now allocate funds."
+              ]
+            },
+            {
+              "name": "Awarded",
+              "args": [
+                "ProposalIndex",
+                "Balance",
+                "AccountId"
+              ],
+              "docs": [
+                " Some funds have been allocated."
+              ]
+            },
+            {
+              "name": "Burnt",
+              "args": [
+                "Balance"
+              ],
+              "docs": [
+                " Some of our funds have been burnt."
+              ]
+            },
+            {
+              "name": "Rollover",
+              "args": [
+                "Balance"
+              ],
+              "docs": [
+                " Spending has finished; this is the amount that rolls over until next spend."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "contract",
+          "prefix": "Contract",
+          "storage": [
+            {
+              "name": "ContractFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x15000000000000000000000000000000",
+              "docs": [
+                " The fee required to create a contract. At least as big as staking's ReclaimRebate."
+              ]
+            },
+            {
+              "name": "CallBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Gas"
+              },
+              "fallback": "0x8700000000000000",
+              "docs": [
+                " The fee charged for a call into a contract."
+              ]
+            },
+            {
+              "name": "CreateBaseFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Gas"
+              },
+              "fallback": "0xaf00000000000000",
+              "docs": [
+                " The fee charged for a create of a contract."
+              ]
+            },
+            {
+              "name": "GasPrice",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Balance"
+              },
+              "fallback": "0x01000000000000000000000000000000",
+              "docs": [
+                " The price of one unit of gas."
+              ]
+            },
+            {
+              "name": "MaxDepth",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u32"
+              },
+              "fallback": "0x64000000",
+              "docs": [
+                " The maximum nesting level of a call/create stack."
+              ]
+            },
+            {
+              "name": "BlockGasLimit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Gas"
+              },
+              "fallback": "0x40420f0000000000",
+              "docs": [
+                " The maximum amount of gas that could be expended per block."
+              ]
+            },
+            {
+              "name": "GasSpent",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Gas"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " Gas spent so far in this block."
+              ]
+            },
+            {
+              "name": "CurrentSchedule",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Schedule"
+              },
+              "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000000010010000000",
+              "docs": [
+                " Current cost schedule for contracts."
+              ]
+            },
+            {
+              "name": "CodeHashOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "CodeHash",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The code associated with a given account."
+              ]
+            },
+            {
+              "name": "PristineCode",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "CodeHash",
+                  "value": "Bytes",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A mapping from an original code hash to the original code, untouched by instrumentation."
+              ]
+            },
+            {
+              "name": "CodeStorage",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "CodeHash",
+                  "value": "PrefabWasmModule",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " A mapping between an original code hash and instrumented wasm code, ready for the execution."
+              ]
+            },
+            {
+              "name": "AccountCounter",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u64"
+              },
+              "fallback": "0x0000000000000000",
+              "docs": [
+                " The subtrie counter"
+              ]
+            },
+            {
+              "name": "AccountInfoOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "key": "AccountId",
+                  "value": "AccountInfo",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "docs": [
+                " The code associated with a given account."
+              ]
+            }
+          ],
+          "calls": [
+            {
+              "name": "update_schedule",
+              "args": [
+                {
+                  "name": "schedule",
+                  "type": "Schedule"
+                }
+              ],
+              "docs": [
+                " Updates the schedule for metering contracts.",
+                "",
+                " The schedule must have a greater version than the stored schedule."
+              ]
+            },
+            {
+              "name": "put_code",
+              "args": [
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "code",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Stores code in the storage. You can instantiate contracts only with stored code."
+              ]
+            },
+            {
+              "name": "call",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "Address"
+                },
+                {
+                  "name": "value",
+                  "type": "Compact<Balance>"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Make a call to a specified account, optionally transferring some balance."
+              ]
+            },
+            {
+              "name": "create",
+              "args": [
+                {
+                  "name": "endowment",
+                  "type": "Compact<Balance>"
+                },
+                {
+                  "name": "gas_limit",
+                  "type": "Compact<Gas>"
+                },
+                {
+                  "name": "code_hash",
+                  "type": "CodeHash"
+                },
+                {
+                  "name": "data",
+                  "type": "Bytes"
+                }
+              ],
+              "docs": [
+                " Create a new contract, optionally transferring some balance to the created account.",
+                "",
+                " Creation is executed as follows:",
+                "",
+                " - the destination address is computed based on the sender and hash of the code.",
+                " - account is created at the computed address.",
+                " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
+                "   after the execution is saved as the `code` of the account. That code will be invoked",
+                "   upon any message received by this account."
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "Transfer",
+              "args": [
+                "AccountId",
+                "AccountId",
+                "Balance"
+              ],
+              "docs": [
+                " Transfer happened `from` -> `to` with given `value` as part of a `message-call` or `create`."
+              ]
+            },
+            {
+              "name": "Instantiated",
+              "args": [
+                "AccountId",
+                "AccountId"
+              ],
+              "docs": [
+                " Contract deployed by address at the specified address."
+              ]
+            },
+            {
+              "name": "CodeStored",
+              "args": [
+                "Hash"
+              ],
+              "docs": [
+                " Code with the specified hash has been stored."
+              ]
+            },
+            {
+              "name": "ScheduleUpdated",
+              "args": [
+                "u32"
+              ],
+              "docs": [
+                " Triggered when the current schedule is updated."
+              ]
+            },
+            {
+              "name": "Dispatched",
+              "args": [
+                "AccountId",
+                "bool"
+              ],
+              "docs": [
+                " A call was dispatched from the given account. The bool signals whether it was",
+                " successful execution or not."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "sudo",
+          "prefix": "Sudo",
+          "storage": [
+            {
+              "name": "Key",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "AccountId"
+              },
+              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "docs": []
+            }
+          ],
+          "calls": [
+            {
+              "name": "sudo",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "docs": []
+            },
+            {
+              "name": "set_key",
+              "args": [
+                {
+                  "name": "new",
+                  "type": "Address"
+                }
+              ],
+              "docs": []
+            }
+          ],
+          "events": [
+            {
+              "name": "Sudid",
+              "args": [
+                "bool"
+              ],
+              "docs": [
+                " A sudo just took place."
+              ]
+            },
+            {
+              "name": "KeyChanged",
+              "args": [
+                "AccountId"
+              ],
+              "docs": [
+                " The sudoer just switched identity; the old key is supplied."
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
