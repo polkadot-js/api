@@ -1,0 +1,20 @@
+{
+  "name": "rx_01_simple_connect",
+  "version": "0.2.0",
+  "description": "Example showing how to connect using a WebSocket",
+  "main": "index.js",
+  "author": "Stefie",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rimraf node_modules",
+    "start": "node index.js"
+  },
+
+  "dependencies": {
+    "@polkadot/api": "^0.43.6",
+    "@polkadot/rpc-provider": "^0.43.6"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2"
+  }
+}
