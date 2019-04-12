@@ -1,6 +1,5 @@
 // Import the API & Provider and some utility functions
-const { ApiRx } = require('@polkadot/api');
-const { WsProvider } = require('@polkadot/rpc-provider');
+const { ApiRx, WsPovider } = require('@polkadot/api');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
 const testKeyring = require('@polkadot/keyring/testing');
 const fs = require('fs');
@@ -33,14 +32,14 @@ async function main () {
     // sign and send the proposal
     .signAndSend(adminPair)
     // subscribe to overall result
-    .subscribe(({ events = [], status, type }) => {
+    .subscribe(({ events = [], status }) => {
       // Log transfer events
-      console.log('Proposal status:', type);
+      console.log('Proposal status:', status.type);
 
-      if (type === 'Finalised') {
+      if (status.isFinalized) {
         console.error('You have just upgraded your chain');
 
-        console.log('Completed at block hash', status.asFinalised.toHex());
+        console.log('Completed at block hash', status.asFinalized.toHex());
         console.log('Events:');
 
         // Log system events once the chain update is finalised
