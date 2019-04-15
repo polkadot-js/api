@@ -125,7 +125,7 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    */
   toString (): string {
     if (this.isDoubleMap) {
-      return this.asDoubleMap.toString();
+      return this.asDoubleMap.value.toString();
     }
 
     if (this.isMap) {

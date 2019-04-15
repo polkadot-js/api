@@ -109,11 +109,15 @@ export default class MetadataV3 extends Struct implements MetadataInterface {
     return this.modules.map((mod) =>
       mod.storage.isNone
         ? []
-        : mod.storage.unwrap().map((fn) =>
-          fn.type.isMap
-            ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
-            : [fn.type.asType.toString()]
-        )
+        : mod.storage.unwrap().map((fn) => {
+          if (fn.type.isMap) {
+            return [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()];
+          } else if (fn.type.isDoubleMap) {
+            return [fn.type.asDoubleMap.key1.toString(), fn.type.asDoubleMap.key2.toString(), fn.type.asDoubleMap.value.toString()];
+          } else {
+            return [fn.type.asType.toString()];
+          }
+        })
     );
   }
 
