@@ -135,6 +135,45 @@ export class StorageFunctionModifier extends Enum {
   }
 }
 
+export class DoubleMapType extends Struct {
+  constructor (value?: any) {
+    super({
+      key1: Text,
+      key2: Text,
+      value: Text,
+      keyHasher: Text
+    }, value);
+  }
+
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get key1 (): Text {
+    return this.get('key1') as Text;
+  }
+  
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get key2 (): Text {
+    return this.get('key2') as Text;
+  }
+
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get keyHasher (): Text {
+    return this.get('keyHasher') as Text;
+  }
+
+  /**
+   * @description The mapped key as [[Text]]
+   */
+  get value (): Text {
+    return this.get('value') as Text;
+  }
+}
+
 export class MapType extends Struct {
   private _isLinked = false;
 
