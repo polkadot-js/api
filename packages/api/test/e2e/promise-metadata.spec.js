@@ -19,7 +19,6 @@ describe('Metadata queries', () => {
     const specVersion = '62';
     const genesisSpecToMetaDataMap = {};
     const key = `${genesisHash}${specVersion}`;
-    console.log("Key from test "+key);
     genesisSpecToMetaDataMap[key] = rpcData;
     const api = await ApiPromise.create({
       GenesisSpecToMetaDataMap: genesisSpecToMetaDataMap
@@ -55,7 +54,6 @@ describe('Metadata queries', () => {
     const specVersion = '62';
     const genesisSpecToMetaDataMap = {};
     const key = `${genesisHash}${specVersion}`;
-    console.log("Key from test "+key);
     genesisSpecToMetaDataMap[key] = rpcData;
     const api = await ApiPromise.create({
       GenesisSpecToMetaDataMap: genesisSpecToMetaDataMap
