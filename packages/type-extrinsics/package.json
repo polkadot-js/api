@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/extrinsics",
-  "version": "0.76.101",
+  "version": "0.76.102",
   "main": "index.js",
   "repository": "https://github.com/polkadot-js/api.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -11,7 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
-    "@plugnet/types": "^0.76.101",
+    "@plugnet/types": "^0.76.102",
     "@plugnet/util": "^0.76.2-beta.0"
   }
 }
