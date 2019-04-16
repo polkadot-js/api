@@ -132,6 +132,10 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
+
+  GenesisSpecToMetaDataMap?: {
+    [key: string]: string
+  };
 }
 
 export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {

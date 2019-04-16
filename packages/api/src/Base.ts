@@ -107,7 +107,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const thisProvider = options.source
       ? options.source._rpcBase._provider.clone()
       : options.provider;
-
+    const genesisSpecToMetaDataMap = options.GenesisSpecToMetaDataMap ? options.GenesisSpecToMetaDataMap : {};
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
@@ -125,7 +125,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this.registerTypes(options.types);
     }
 
-    this.init();
+    this.init(genesisSpecToMetaDataMap);
   }
 
   /**
@@ -331,7 +331,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._eventemitter.emit(type, ...args);
   }
 
-  private init (): void {
+  private init (genesisSpecToMetaDataMap: {[key: string]: string}): void {
     let healthTimer: NodeJS.Timeout | null = null;
 
     this._rpcBase._provider.on('disconnected', () => {
@@ -352,7 +352,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       try {
         const [hasMeta, cryptoReady] = await Promise.all([
-          this.loadMeta(),
+          this.loadMeta(genesisSpecToMetaDataMap),
           cryptoWaitReady()
         ]);
 
@@ -361,7 +361,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
           this.emit('ready', this);
         }
-
         healthTimer = setInterval(() => {
           this._rpcRx.system.health().toPromise().catch(() => {
             // ignore
@@ -373,15 +372,30 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     });
   }
 
-  private async loadMeta (): Promise<boolean> {
+  private async loadMeta (genesisSpecToMetaDataMap: {[key: string]: string}): Promise<boolean> {
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
-
-      // get unique types & validate
+      [this._genesisHash, this._runtimeVersion] = await Promise.all([
+        this._rpcBase.chain.getBlockHash(0),
+        this._rpcBase.chain.getRuntimeVersion()
+      ]);
+      let key = '';
+      if (this._runtimeVersion) {
+        key = `${this._genesisHash}${this._runtimeVersion.specVersion}`;
+      }
+      if (key in genesisSpecToMetaDataMap) {
+        try {
+          const rpcData = genesisSpecToMetaDataMap[key];
+          const metadata = new Metadata(rpcData);
+          this._runtimeMetadata = metadata;
+          this.runtimeMetadata.getUniqTypes(false);
+        } catch (e) {
+          this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+        }
+      } else {
+        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      }
       this.runtimeMetadata.getUniqTypes(false);
     } else {
       this._runtimeMetadata = this._options.source.runtimeMetadata;
