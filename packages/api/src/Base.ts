@@ -107,7 +107,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const thisProvider = options.source
       ? options.source._rpcBase._provider.clone()
       : options.provider;
-    const genesisSpecToMetaDataMap = options.GenesisSpecToMetaDataMap ? options.GenesisSpecToMetaDataMap : {};
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
@@ -125,7 +124,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this.registerTypes(options.types);
     }
 
-    this.init(genesisSpecToMetaDataMap);
+    this.init();
   }
 
   /**
@@ -331,7 +330,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._eventemitter.emit(type, ...args);
   }
 
-  private init (genesisSpecToMetaDataMap: {[key: string]: string}): void {
+  private init (): void {
     let healthTimer: NodeJS.Timeout | null = null;
 
     this._rpcBase._provider.on('disconnected', () => {
@@ -352,7 +351,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       try {
         const [hasMeta, cryptoReady] = await Promise.all([
-          this.loadMeta(genesisSpecToMetaDataMap),
+          this.loadMeta(),
           cryptoWaitReady()
         ]);
 
@@ -372,7 +371,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     });
   }
 
-  private async loadMeta (genesisSpecToMetaDataMap: {[key: string]: string}): Promise<boolean> {
+  private async loadMeta (): Promise<boolean> {
+    const {prebundles = {}} = this._options;
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
@@ -380,13 +380,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._rpcBase.chain.getBlockHash(0),
         this._rpcBase.chain.getRuntimeVersion()
       ]);
-      let key = '';
-      if (this._runtimeVersion) {
-        key = `${this._genesisHash}${this._runtimeVersion.specVersion}`;
-      }
-      if (key in genesisSpecToMetaDataMap) {
+      if (`${this._genesisHash}${(this._runtimeVersion as RuntimeVersion).specVersion}` in prebundles) {
         try {
-          const rpcData = genesisSpecToMetaDataMap[key];
+          const rpcData = prebundles[`${this._genesisHash}${(this._runtimeVersion as RuntimeVersion).specVersion}`];
           const metadata = new Metadata(rpcData);
           this._runtimeMetadata = metadata;
           this.runtimeMetadata.getUniqTypes(false);

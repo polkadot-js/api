@@ -133,7 +133,7 @@ export interface ApiOptions {
    */
   types?: RegistryTypes;
 
-  GenesisSpecToMetaDataMap?: {
+  prebundles?: {
     [key: string]: string
   };
 }
