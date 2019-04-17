@@ -6,6 +6,7 @@ import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/v0/Modules';
 import { Methods, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import MetadataV0 from '@polkadot/types/Metadata/v0';
 
+import { Metadata, TypeRegistry } from '@polkadot/types';
 import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';
@@ -18,7 +19,14 @@ import extrinsics from '.';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: MetadataV0): ModulesWithMethods {
+export default function fromMetadata (metadata: Metadata, typeRegistry: TypeRegistry): ModulesWithMethods {
+  if (metadata.version <= 3) {
+    return fromMetadataV0(metadata.asV0, typeRegistry);
+  }
+  throw new Error('metadata version not supported');
+}
+
+export function fromMetadataV0 (metadata: MetadataV0, typeRegistry: TypeRegistry): ModulesWithMethods {
   let indexCount = -1;
 
   const findIndex = (prefix: string): number => {
@@ -48,7 +56,12 @@ export default function fromMetadata (metadata: MetadataV0): ModulesWithMethods 
       // extrinsics.balances.set_balance -> extrinsics.balances.setBalance
       const funcName = stringCamelCase(funcMeta.name.toString());
 
-      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta);
+      // TODO: convert FunctionMetadata to IFunctionMetadata
+      newModule[funcName] = createUnchecked(prefix, funcName, index, {
+        id: funcMeta.id.toNumber(),
+        name: funcMeta.name.toString(),
+        arguments: funcMeta.arguments.toArray()
+      }, typeRegistry);
 
       return newModule;
     }, {} as Methods);

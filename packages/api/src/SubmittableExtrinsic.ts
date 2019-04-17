@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
 import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
@@ -70,7 +70,7 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
 }
 
 export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
-  const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
+  const _extrinsic = new (api.typeRegistry.getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | SubmittableResult): void {

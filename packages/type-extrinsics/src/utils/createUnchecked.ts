@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadata } from '@polkadot/types/Metadata/v0/Modules';
-import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { Method } from '@polkadot/types';
+import { IFunctionMetadata, MethodFunction } from '@polkadot/types/primitive/Method';
+import { Method, TypeRegistry } from '@polkadot/types';
 import { assert } from '@polkadot/util';
 
 /**
@@ -17,20 +16,20 @@ export default function createDescriptor (
   section: string,
   method: string,
   index: number,
-  meta: FunctionMetadata
+  meta: IFunctionMetadata,
+  typeRegistry: TypeRegistry
 ): MethodFunction {
-  const callIndex = new Uint8Array([index, meta.id.toNumber()]);
+  const callIndex = new Uint8Array([index, meta.id]);
   let extrinsicFn: any;
 
   const expectedArgs = Method.filterOrigin(meta);
 
   extrinsicFn = (...args: any[]): Method => {
     assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
-
-    return new Method({
+    return TypeRegistry.withRegistry(typeRegistry, () => new Method({
       args,
       callIndex
-    }, meta);
+    }, meta));
   };
 
   extrinsicFn.callIndex = callIndex;

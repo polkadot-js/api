@@ -10,8 +10,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v0/Modules';
-import Method from '../primitive/Method';
+import Method, { IFunctionMetadata } from '../primitive/Method';
 import Address from './Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from './Hash';
@@ -140,7 +139,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
-  get meta (): FunctionMetadata {
+  get meta (): IFunctionMetadata {
     return this.method.meta;
   }
 

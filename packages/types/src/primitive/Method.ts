@@ -4,12 +4,12 @@
 
 import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
 
-import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+import { isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
-import { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
-import { FunctionMetadata, FunctionArgumentMetadata } from '../Metadata/v0/Modules';
+import TypeRegistry from '../codec/TypeRegistry';
+import Type from './Type';
 
 interface DecodeMethodInput {
   args: any;
@@ -18,13 +18,25 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
-  meta: FunctionMetadata;
+  meta: IFunctionMetadata;
+}
+
+export interface IFunctionArgumentMetadata {
+  name: Text;
+  type: Type;
+}
+
+export interface IFunctionMetadata {
+  id: number;
+  name: string;
+  arguments: IFunctionArgumentMetadata[];
 }
 
 export interface MethodFunction {
   (...args: any[]): Method;
+
   callIndex: Uint8Array;
-  meta: FunctionMetadata;
+  meta: IFunctionMetadata;
   method: string;
   section: string;
   toJSON: () => any;
@@ -38,12 +50,12 @@ export interface ModulesWithMethods {
   [key: string]: Methods; // Will hold modules returned by state_getMetadata
 }
 
-const FN_UNKNOWN = {
-  method: 'unknown',
-  section: 'unknown'
-} as MethodFunction;
-
-const injected: { [index: string]: MethodFunction } = {};
+// const FN_UNKNOWN = {
+//   method: 'unknown',
+//   section: 'unknown'
+// } as MethodFunction;
+//
+// const injected: { [index: string]: MethodFunction } = {};
 
 /**
  * @name MethodIndex
@@ -63,16 +75,15 @@ export class MethodIndex extends U8aFixed {
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
 export default class Method extends Struct implements IMethod {
-  protected _meta: FunctionMetadata;
+  protected _meta: IFunctionMetadata;
 
-  constructor (value: any, meta?: FunctionMetadata) {
+  constructor (value: any, meta?: IFunctionMetadata) {
     const decoded = Method.decodeMethod(value, meta);
 
     super({
       callIndex: MethodIndex,
       args: Struct.with(decoded.argsDef)
     }, decoded);
-
     this._meta = decoded.meta;
   }
 
@@ -86,7 +97,7 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: IFunctionMetadata): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
@@ -94,11 +105,11 @@ export default class Method extends Struct implements IMethod {
       const callIndex = value.subarray(0, 2);
 
       // Find metadata with callIndex
-      const meta = _meta || Method.findFunction(callIndex).meta;
+      const meta = _meta || TypeRegistry.TYPE_REGISTRY.findFunction(callIndex.toString()).meta;
 
       return {
         args: value.subarray(2),
-        argsDef: Method.getArgsDef(meta),
+        argsDef: TypeRegistry.TYPE_REGISTRY.getArgsDef(meta),
         callIndex,
         meta
       };
@@ -112,11 +123,11 @@ export default class Method extends Struct implements IMethod {
         : callIndex;
 
       // Find metadata with callIndex
-      const meta = _meta || Method.findFunction(lookupIndex).meta;
+      const meta = _meta || TypeRegistry.TYPE_REGISTRY.findFunction(lookupIndex.toString()).meta;
 
       return {
         args,
-        argsDef: Method.getArgsDef(meta),
+        argsDef: TypeRegistry.TYPE_REGISTRY.getArgsDef(meta),
         meta,
         callIndex
       };
@@ -127,13 +138,15 @@ export default class Method extends Struct implements IMethod {
     return {
       args: new Uint8Array(),
       argsDef: {},
-      meta: new FunctionMetadata(),
+      meta: {
+        id: -1, name: '', arguments: []
+      },
       callIndex: new Uint8Array([255, 255])
     };
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  static filterOrigin (meta?: FunctionMetadata): Array<FunctionArgumentMetadata> {
+  static filterOrigin (meta?: IFunctionMetadata): Array<IFunctionArgumentMetadata> {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
     return meta
       ? meta.arguments.filter(({ type }) =>
@@ -149,11 +162,11 @@ export default class Method extends Struct implements IMethod {
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
-  static findFunction (callIndex: Uint8Array): MethodFunction {
-    assert(Object.keys(injected).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
-
-    return injected[callIndex.toString()] || FN_UNKNOWN;
-  }
+  // static findFunction (callIndex: Uint8Array): MethodFunction {
+  //   assert(Object.keys(injected).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
+  //
+  //   return injected[callIndex.toString()] || FN_UNKNOWN;
+  // }
 
   /**
    * Get a mapping of `argument name -> argument type` for the function, from
@@ -161,26 +174,26 @@ export default class Method extends Struct implements IMethod {
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: FunctionMetadata): ArgsDef {
-    return Method.filterOrigin(meta).reduce((result, { name, type }) => {
-      const Type = getTypeClass(
-        getTypeDef(type)
-      );
-      result[name.toString()] = Type;
-
-      return result;
-    }, {} as ArgsDef);
-  }
+  // private static getArgsDef (meta: IFunctionMetadata): ArgsDef {
+  //   return Method.filterOrigin(meta).reduce((result, { name, type }) => {
+  //     const Type = getTypeClass(
+  //       getTypeDef(type)
+  //     );
+  //     result[name.toString()] = Type;
+  //
+  //     return result;
+  //   }, {} as ArgsDef);
+  // }
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system extrinsics to be used in lookups
-  static injectMethods (moduleMethods: ModulesWithMethods): void {
-    Object.values(moduleMethods).forEach((methods) =>
-      Object.values(methods).forEach((method) =>
-        injected[method.callIndex.toString()] = method
-      )
-    );
-  }
+  // static injectMethods (moduleMethods: ModulesWithMethods): void {
+  //   Object.values(moduleMethods).forEach((methods) =>
+  //     Object.values(methods).forEach((method) =>
+  //       injected[method.callIndex.toString()] = method
+  //     )
+  //   );
+  // }
 
   /**
    * @description The arguments for the function call
@@ -194,7 +207,7 @@ export default class Method extends Struct implements IMethod {
    * @description Thge argument defintions
    */
   get argsDef (): ArgsDef {
-    return Method.getArgsDef(this.meta);
+    return this._typeRegistry.getArgsDef(this.meta);
   }
 
   /**
@@ -223,7 +236,7 @@ export default class Method extends Struct implements IMethod {
   /**
    * @description The [[FunctionMetadata]]
    */
-  get meta (): FunctionMetadata {
+  get meta (): IFunctionMetadata {
     return this._meta;
   }
 }

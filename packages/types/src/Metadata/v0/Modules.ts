@@ -13,6 +13,7 @@ import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
+import { IFunctionMetadata } from '../../primitive/Method';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -37,7 +38,7 @@ export class FunctionArgumentMetadata extends Struct {
   }
 }
 
-export class FunctionMetadata extends Struct {
+export class FunctionMetadata extends Struct implements IFunctionMetadata{
   constructor (value?: any) {
     super({
       id: U16,

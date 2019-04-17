@@ -6,6 +6,7 @@ import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
+import { TypeRegistry } from './TypeRegistry';
 
 /**
  * @name Struct
@@ -29,6 +30,7 @@ export default class Struct<
   > extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
+  protected _typeRegistry: TypeRegistry;
 
   constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
@@ -46,6 +48,7 @@ export default class Struct<
 
         return result;
       }, {} as E);
+    this._typeRegistry = TypeRegistry.TYPE_REGISTRY;
   }
 
   /**

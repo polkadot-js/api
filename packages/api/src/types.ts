@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
+import { Hash, Metadata, RuntimeVersion, TypeRegistry, u64 as U64 } from '@polkadot/types';
 import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
@@ -139,6 +139,7 @@ export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   hasSubscriptions: boolean;
   runtimeMetadata: Metadata;
   runtimeVersion: RuntimeVersion;
+  typeRegistry: TypeRegistry;
   derive: Derive<CodecResult, SubscriptionResult>;
   query: QueryableStorage<CodecResult, SubscriptionResult>;
   rpc: DecoratedRpc<CodecResult, SubscriptionResult>;

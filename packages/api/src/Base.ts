@@ -23,7 +23,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Hash, Metadata, RuntimeVersion, TypeRegistry, Null } from '@polkadot/types';
 import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
@@ -81,6 +81,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   private _runtimeVersion?: RuntimeVersion;
   private _rx: Partial<ApiInterface$Rx> = {};
   private _type: ApiType;
+  private _typeRegistry: TypeRegistry;
 
   /**
    * @description Create an instance of the class
@@ -111,6 +112,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
+    this._typeRegistry = new TypeRegistry();
     this._rpcBase = new RpcBase(thisProvider);
 
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
@@ -174,6 +176,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   get type (): ApiType {
     return this._type;
+  }
+
+  get typeRegistry (): TypeRegistry {
+    return this._typeRegistry;
   }
 
   /**
@@ -321,7 +327,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    */
   registerTypes (types?: RegistryTypes): void {
     if (types) {
-      getTypeRegistry().register(types);
+      this._typeRegistry.register(types);
     }
   }
 
@@ -389,8 +395,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
-    const storage = storageFromMeta(this.runtimeMetadata.asV0);
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata, this._typeRegistry);
+    const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
     this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
@@ -401,11 +407,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
     this._rx.query = this.decorateStorage(storage, rxOnCall);
     this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
+    this._rx.typeRegistry = this._typeRegistry;
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata.asV0);
-      Method.injectMethods(extrinsics);
+      this._typeRegistry.injectEvents(this.runtimeMetadata);
+      this._typeRegistry.injectMethods(extrinsics);
     }
 
     return true;

@@ -5,9 +5,8 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
 import U8a from './codec/U8a';
-import Method from './primitive/Method';
+import Method, { IFunctionMetadata } from './primitive/Method';
 import Address from './type/Address';
-import { FunctionMetadata } from './Metadata/v0/Modules';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
@@ -112,7 +111,7 @@ export interface IMethod extends Codec {
   readonly callIndex: Uint8Array;
   readonly data: Uint8Array;
   readonly hasOrigin: boolean;
-  readonly meta: FunctionMetadata;
+  readonly meta: IFunctionMetadata;
 }
 
 export interface IExtrinsicSignature extends Codec {

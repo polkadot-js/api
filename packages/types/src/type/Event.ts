@@ -4,17 +4,16 @@
 
 import { Constructor } from '../types';
 
-import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { isUndefined, u8aToHex } from '@polkadot/util';
 
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import Null from '../primitive/Null';
-import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
-import MetadataV0 from '../Metadata/v0';
 import { EventMetadata } from '../Metadata/v0/Events';
+import { ITypeDef, TypeRegistry } from '../codec/typeRegistry';
 
-const EventTypes: { [index: string]: Constructor<EventData> } = {};
+// const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
 /**
  * @name EventData
@@ -25,9 +24,9 @@ export class EventData extends Tuple {
   private _meta: EventMetadata;
   private _method: string;
   private _section: string;
-  private _typeDef: Array<TypeDef>;
+  private _typeDef: Array<ITypeDef>;
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<ITypeDef>, meta: EventMetadata, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -60,7 +59,7 @@ export class EventData extends Tuple {
   /**
    * @description The [[TypeDef]] for this event
    */
-  get typeDef (): Array<TypeDef> {
+  get typeDef (): Array<ITypeDef> {
     return this._typeDef;
   }
 }
@@ -86,8 +85,8 @@ export class EventIndex extends U8aFixed {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value?: Uint8Array) {
-    const { DataType, value } = Event.decodeEvent(_value);
+  constructor (_value: Uint8Array = new Uint8Array(), typeRegistry: TypeRegistry) {
+    const { DataType, value } = Event.decodeEvent(_value, typeRegistry);
 
     super({
       index: EventIndex,
@@ -95,9 +94,9 @@ export default class Event extends Struct {
     }, value);
   }
 
-  static decodeEvent (value: Uint8Array = new Uint8Array()) {
+  static decodeEvent (value: Uint8Array, typeRegistry: TypeRegistry) {
     const index = value.subarray(0, 2);
-    const DataType = EventTypes[index.toString()];
+    const DataType = typeRegistry.findEventType(index.toString());
 
     if (isUndefined(DataType)) {
       console.error(`Unable to decode event for index ${u8aToHex(index)}`);
@@ -119,24 +118,24 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
-  static injectMetadata (metadata: MetadataV0): void {
-    metadata.events.forEach((section, sectionIndex) => {
-      const sectionName = stringCamelCase(section.name.toString());
-
-      section.events.forEach((meta, methodIndex) => {
-        const methodName = meta.name.toString();
-        const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-        const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
-        const Types = typeDef.map(getTypeClass);
-
-        EventTypes[eventIndex.toString()] = class extends EventData {
-          constructor (value: Uint8Array) {
-            super(Types, value, typeDef, meta, sectionName, methodName);
-          }
-        };
-      });
-    });
-  }
+  // static injectMetadata (metadata: MetadataV0): void {
+  //   metadata.events.forEach((section, sectionIndex) => {
+  //     const sectionName = stringCamelCase(section.name.toString());
+  //
+  //     section.events.forEach((meta, methodIndex) => {
+  //       const methodName = meta.name.toString();
+  //       const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+  //       const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
+  //       const Types = typeDef.map(getTypeClass);
+  //
+  //       EventTypes[eventIndex.toString()] = class extends EventData {
+  //         constructor (value: Uint8Array) {
+  //           super(Types, value, typeDef, meta, sectionName, methodName);
+  //         }
+  //       };
+  //     });
+  //   });
+  // }
 
   /**
    * @description The wrapped [[EventData]]
@@ -176,7 +175,7 @@ export default class Event extends Struct {
   /**
    * @description The [[TypeDef]] for the event
    */
-  get typeDef (): Array<TypeDef> {
+  get typeDef (): Array<ITypeDef> {
     return this.data.typeDef;
   }
 }

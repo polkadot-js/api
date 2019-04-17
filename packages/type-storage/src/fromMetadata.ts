@@ -9,6 +9,7 @@ import { stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './utils/createFunction';
 import storage from '.';
+import { Metadata } from '@polkadot/types';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -17,7 +18,14 @@ import storage from '.';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: MetadataV0): Storage {
+export default function fromMetadata (metadata: Metadata): Storage {
+  if (metadata.version <= 3) {
+    return fromMetadataV0(metadata.asV0);
+  }
+  throw new Error('metadata version not supported');
+}
+
+export function fromMetadataV0 (metadata: MetadataV0): Storage {
   return metadata.modules.reduce((result, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return result;
