@@ -112,34 +112,36 @@ These custom types implement specific types that are found as part of the Substr
 | [[MisbehaviorKind]] | An [[EnumType]] containing a Bft misbehaviour |
 | [[MisbehaviorReport]] | A Misbehaviour report of [[MisbehavioirKind]] against a specific [[AuthorityId]] |
 | [[NewAccountOutcome]] | Enum to track the outcome for creation of an [[AccountId]] |
-| [[Nonce]] | Value1 |
-| [[Origin]] | Value1 |
-| [[ParaId]] | Value1 |
-| [[Perbill]] | Value1 |
-| [[Permill]] | Value1 |
-| [[PrefabWasmModule]] | Value1 |
-| [[PropIndex]] | Value1 |
-| [[Proposal]] | Value1 |
-| [[ProposalIndex]] | Value1 |
-| [[ReferendumIndex]] | Value1 |
+| [[NextAuthority]] | The next authority available as [[SessionKey]] |
+| [[Nonce]] | The Nonce or number of transactions sent by a specific account |
+| [[NonceCompact]] | The Compact<Nonce> or number of transactions sent by a specific account |
+| [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
+| [[ParaId]] | Identifier for a deployed parachain implemented as a [[U32]] |
+| [[Perbill]] | Parts per billion (see also [[Permill]]) |
+| [[Permill]] | Parts per million (See also [[Perbill]]) |
+| [[PrefabWasmModule]] | Struct to encode the vesting schedule of an individual account |
+| [[PropIndex]] | An increasing number that represents a specific council proposal index in the system |
+| [[Proposal]] | A proposal in the system. It just extends [[Method]] (Proposal = Call in Rust) |
+| [[ProposalIndex]] | An increasing number that represents a specific council proposal index in the system |
+| [[ReferendumIndex]] | An increasing number that represents a specific referendum in the system |
 | [[ReferendumInfo]] | Info regarding an ongoing referendum |
-| [[RewardDestination]] | Value1 |
-| [[Schedule]] | Value1 |
+| [[RewardDestination]] | A destination account for payment |
+| [[Schedule]] | Definition of the cost schedule and other parameterizations for wasm vm |
 | [[Seal]] | Log item indicating a sealing event |
-| [[SeedOf]] | Value1 |
-| [[SessionKey]] | Value1 |
-| [[Signature]] | Value1 |
-| [[SignaturePayload]] | Value1 |
-| [[StakingLedger]] | Value1 |
-| [[StoredPendingChange]] | Value1 |
-| [[TreasuryProposal]] | Value1 |
-| [[UnlockChunk]] | Value1 |
-| [[ValidatorPrefs]] | Value1 |
-| [[VestingSchedule]] | Value1 |
-| [[Vote]] | Value1 |
-| [[VoteIndex]] | Value1 |
-| [[VoteThreshold]] | Value1 |
-| [[WithdrawReasons]] | Value1 |
+| [[SeedOf]] | The Substrate SeedOf representation as a [[Hash]] |
+| [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
+| [[Signature]] | The default signature that is used accross the system |
+| [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
+| [[StakingLedger]] | The ledger of a (bonded) stash |
+| [[StoredPendingChange]] | Stored pending change for a Grandpa events |
+| [[TreasuryProposal]] | A Proposal made for Treasury |
+| [[UnlockChunk]] | Just a Balance/BlockNumber tuple to encode when a chunk of funds will be unlocked |
+| [[ValidatorPrefs]] | Validator preferences |
+| [[VestingSchedule]] | Struct to encode the vesting schedule of an individual account |
+| [[Vote]] | A number of lock periods, plus a vote, one way or the other |
+| [[VoteIndex]] | Voting index, implemented as a [[U32]] |
+| [[VoteThreshold]] | Voting threshold, used inside proposals to set change the voting tally |
+| [[WithdrawReasons]] | The Substrate WithdrawReasons for staking |
 
 
 ## RPC types
