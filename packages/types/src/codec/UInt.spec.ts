@@ -19,13 +19,13 @@ describe('UInt', () => {
     ).toEqual(4567);
   });
 
-  it('converts toLittle Endian from the provided value', () => {
+  it('converts to Little Endian from the provided value', () => {
     expect(
       new UInt(1234567).toU8a()
     ).toEqual(new Uint8Array([135, 214, 18, 0, 0, 0, 0, 0]));
   });
 
-  it('converts toLittle Endian from the provided value (bitLength)', () => {
+  it('converts to Little Endian from the provided value (bitLength)', () => {
     expect(
       new UInt(1234567, 32).toU8a()
     ).toEqual(new Uint8Array([135, 214, 18, 0]));
