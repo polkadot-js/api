@@ -107,7 +107,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[KeyValue]] |  KeyValue structure. Since most of the keys and resultant values in Subtrate are hashed and/or encoded, keys and values are reprsented as [[Bytes]] |
 | [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
 | [[LockIdentifier]] | The Substrate LockIdentifier for staking |
-| [[LocKPeriods]] | A number of lock periods |
+| [[LockPeriods]] | A number of lock periods |
 | [[MisbehaviorKind]] | An [[EnumType]] containing a Bft misbehaviour |
 | [[MisbehaviorReport]] | A Misbehaviour report of [[MisbehavioirKind]] against a specific [[AuthorityId]] |
 | [[NewAccountOutcome]] | Enum to track the outcome for creation of an [[AccountId]] |
