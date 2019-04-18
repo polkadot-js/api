@@ -11,7 +11,7 @@ import AbstractInt, { DEFAULT_UINT_BITS, UIntBitLength } from './AbstractInt';
 /**
  * @name Int
  * @description
- * A generic signed integer codec. For Substrate all numbers are LE encoded,
+ * A generic signed integer codec. For Substrate all numbers areLittle Endian encoded,
  * this handles the encoding and decoding of those numbers. Upon construction
  * the bitLength is provided and any additional use keeps the number to this
  * length. This extends `BN`, so all methods available on a normal `BN` object

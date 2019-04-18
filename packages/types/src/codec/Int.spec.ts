@@ -17,13 +17,13 @@ describe('Int', () => {
     ).toEqual(-1234);
   });
 
-  it('converts to LE from the provided value', () => {
+  it('converts toLittle Endian from the provided value', () => {
     expect(
       new Int(-1234).toU8a()
     ).toEqual(new Uint8Array([46, 251, 255, 255, 255, 255, 255, 255]));
   });
 
-  it('converts to LE from the provided value (bitLength)', () => {
+  it('converts toLittle Endian from the provided value (bitLength)', () => {
     expect(
       new Int(-1234, 32).toU8a()
     ).toEqual(new Uint8Array([46, 251, 255, 255]));
