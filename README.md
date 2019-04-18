@@ -32,7 +32,7 @@ Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 - [@polkadot/extrinsics](packages/type-extrinsics/) Base extrinsic definitions & codecs
 - [@polkadot/jsonrpc](packages/type-jsonrpc/) Definitions for JSONRPC endpoints
 - [@polkadot/storage](packages/type-storage/) Definitions for storage entries
-- [@polkadot/types](packages/types/) Codecs for all Polkadot primitives
+- [@polkadot/types](packages/types/) Codecs for all Polkadot and Substrate primitives
 
 ## development
 
