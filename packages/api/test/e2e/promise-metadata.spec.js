@@ -3,9 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import ApiPromise from '../../src/promise';
-import WsProvider from '../../../rpc-provider/src/ws';
-import Metadata from "../../../types/src/Metadata";
-//import rpcData from './static';
 
 describe('Metadata queries', () => {
   //let api;

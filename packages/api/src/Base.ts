@@ -382,7 +382,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._rpcBase.chain.getBlockHash(0),
         this._rpcBase.chain.getRuntimeVersion()
       ]);
-      const prebundlesKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`
+      const prebundlesKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
       if (prebundlesKey in prebundles) {
         try {
           const rpcData = prebundles[prebundlesKey];
