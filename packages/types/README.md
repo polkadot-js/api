@@ -67,38 +67,51 @@ These custom types implement specific types that are found as part of the Substr
 
 | | | |
 |-|-|-|
-| [[AccountId]] | Value1 |
-| [[AccountIndex]] | Value1 |
-| [[Address]] | Value1 |
-| [[Amount]] | Value1 |
-| [[AssetOf]] | Value1 |
-| [[AttestedCandidate]] | Value1 |
-| [[AuthorityId]] | Value1 |
-| [[Balance]] | Value1 |
-| [[BalanceLock]] | Value1 |
-| [[BalanceOf]] | Value1 |
-| [[Block]] | Value1 |
-| [[BlockNumber]] | Value1 |
-| [[CodeHash]] | Value1 |
-| [[Digest]] | Value1 |
-| [[Event]] | Value1 |
-| [[EventRecord]] | Value1 |
-| [[Exposure]] | Value1 |
-| [[Extrinsic]] | Value1 |
-| [[ExtrinsicEra]] | Value1 |
-| [[ExtrinsicSignature]] | Value1 |
-| [[Gas]] | Value1 |
-| [[Hash]] | Value1 |
+| [[AccountId]] | A wrapper around an AccountId/PublicKey representation |
+| [[AccountIndex]] | A wrapper around an AccountIndex, which is a shortened, variable-length encoding for an Account |
+| [[AccountInfo]] | An Account information structure for contracts |
+| [[Address]] | A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix |
+| [[Amount]] | The Substrate Amount representation as a [[Balance]] |
+| [[AssetOf]] | The Substrate AssetOf representation as a [[Balance]] |
+| [[AttestedCandidate]] | An attested candidate |
+| [[AuthorityId]] | Wrapper for a AuthorityId. Same as an normal AccountId |
+| [[AuthoritiesChange]] | Log for Authories changed |
+| [[Balance]] | The Substrate Balance representation as a [[U128]] |
+| [[BalanceLock]] | The Substrate BalanceLock for staking |
+| [[BalanceOf]] | The Substrate BalanceOf representation as a [[Balance]] |
+| [[BftAtReport]] | A report of a/b hash-signature pairs for a specific index |
+| [[BftAuthoritySignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
+| [[BftHashSignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
+| [[BftProposeOutOfTurn]] | A report for out-of-turn proposals |
+| [[Nonce]] | Value1 |
+| [[Block]] | A block encoded with header and extrinsics |
+| [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
+| [[CodeHash]] | The default contract code hash that is used accross the system |
+| [[Consensus]] | Log item indicating consensus |
+| [[Digest]] | A [[Header]] Digest |
+| [[DigestItem]] | A [[EnumType]] the specifies the specific item in the logs of a [[Digest]] |
+| [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
+| [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
+| [[Exposure]] | A snapshot of the stake backing a single validator in the system |
+| [[Extrinsic]] | Representation of an Extrinsic in the system |
+| [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
+| [[Extrinsics]] | A [[Vector]] of [[Extrinsic]] |
+| [[ExtrinsicSignature]] | A container for the [[Signature]] associated with a specific [[Extrinsic]] |
+| [[Gas]] | A gas number type for Substrate, extending [[U64]] |
+| [[Hash]] | The default hash that is used accross the system. It is just a thin wrapper around [[H256]] |
 | [[Header]] | A [[Block]] header |
 | [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
-| [[IndividualExposure]] | Value1 |
-| [[InherentOfflineReport]] | Value1 |
-| [[Justification]] | Value1 |
-| [[Key]] | Value1 |
-| [[KeyValue]] | Value1 |
-| [[LockIdentifier]] | Value1 |
-| [[MisbehaviorReport]] | Value1 |
-| [[NewAccountOutcome]] | Value1 |
+| [[IndividualExposure]] | The Substrate IndividualExposure for staking |
+| [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
+| [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
+| [[Key]] | The Substrate Key representation as a [[Bytes]] (`vec<u8>`) |
+| [[KeyValue]] |  KeyValue structure. Since most of the keys and resultant values in Subtrate are hashed and/or encoded, keys and values are reprsented as [[Bytes]] |
+| [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
+| [[LockIdentifier]] | The Substrate LockIdentifier for staking |
+| [[LocKPeriods]] | A number of lock periods |
+| [[MisbehaviorKind]] | An [[EnumType]] containing a Bft misbehaviour |
+| [[MisbehaviorReport]] | A Misbehaviour report of [[MisbehavioirKind]] against a specific [[AuthorityId]] |
+| [[NewAccountOutcome]] | Enum to track the outcome for creation of an [[AccountId]] |
 | [[Nonce]] | Value1 |
 | [[Origin]] | Value1 |
 | [[ParaId]] | Value1 |
@@ -112,6 +125,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[ReferendumInfo]] | Info regarding an ongoing referendum |
 | [[RewardDestination]] | Value1 |
 | [[Schedule]] | Value1 |
+| [[Seal]] | Log item indicating a sealing event |
 | [[SeedOf]] | Value1 |
 | [[SessionKey]] | Value1 |
 | [[Signature]] | Value1 |
@@ -130,7 +144,7 @@ These custom types implement specific types that are found as part of the Substr
 
 ## RPC types
 
-These types are not used in the runtime, but rather are used in RPC results: 
+These types are not used in the runtime, but are rather used in RPC results: 
 
 | | | |
 |-|-|-|
@@ -139,7 +153,7 @@ These types are not used in the runtime, but rather are used in RPC results:
 | [[Health]] | A system health indicator, reported back over RPC |
 | [[Json]] | Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map |
 | [[NetworkState]] | Wraps the properties retrieved from the chain via the `system.network_state` RPC call |
-| [[Metadata]] | Value1 |
+| [[Metadata]] | The versioned runtime metadata as a decoded structure |
 | [[PeerInfo]] | A system peer info indicator, reported back over RPC |
 | [[PendingExtrinsics]] | A list of pending [[Extrinsics]] |
 | [[RuntimeVersion]] | A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version |
