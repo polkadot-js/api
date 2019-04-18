@@ -83,7 +83,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[BftAuthoritySignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
 | [[BftHashSignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
 | [[BftProposeOutOfTurn]] | A report for out-of-turn proposals |
-| [[Nonce]] | Value1 |
 | [[Block]] | A block encoded with header and extrinsics |
 | [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
 | [[CodeHash]] | The default contract code hash that is used accross the system |
