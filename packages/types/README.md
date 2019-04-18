@@ -147,14 +147,3 @@ These types are not used in the runtime, but rather are used in RPC results:
 | [[StorageChangeSet]] | A set of storage changes. It contains the [[Block]] hash and a list of the actual changes |
 
 
-## Derived types
-
-Some types are extended from the base to provide additional information: 
-
-| | | |
-|-|-|-|
-| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author |
-| [[ReferendumInfoExtended]] | Value1 |
-
-## Metadata
-

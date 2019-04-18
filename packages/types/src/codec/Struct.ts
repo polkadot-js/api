@@ -10,7 +10,7 @@ import { compareMap, decodeU8a } from './utils';
 /**
  * @name Struct
  * @description
- * A Struct defines an Object with key-values pairs - where the values are Codec values. It removes
+ * A Struct defines an Object with key-value pairs - where the values are Codec values. It removes
  * a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
  * values in the constructor and it manages the decoding. It is important that the constructor
  * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
