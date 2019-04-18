@@ -18,7 +18,7 @@ describe('Metadata queries', () => {
     const genesisHash = '0x8579ded4438b26597e188cda8579fdd6abf09b74ab672e604b9584cd8b4c3d0b';
     const specVersion = '62';
     const prebundles = {};
-    const key = `${genesisHash}${specVersion}`;
+    const key = `${genesisHash}-${specVersion}`;
     prebundles[key] = rpcData;
     const api = await ApiPromise.create({
       prebundles
@@ -53,7 +53,7 @@ describe('Metadata queries', () => {
     const genesisHash = '0x8579ded4438b26597e188cda8579fdd6abf09b74ab672e604b9584cd8b4c3d0b';
     const specVersion = '62';
     const prebundles = {};
-    const key = `${genesisHash}${specVersion}`;
+    const key = `${genesisHash}-${specVersion}`;
     prebundles[key] = rpcData;
     const api = await ApiPromise.create({
       prebundles

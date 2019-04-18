@@ -107,6 +107,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     const thisProvider = options.source
       ? options.source._rpcBase._provider.clone()
       : options.provider;
+
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
@@ -360,6 +361,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
           this.emit('ready', this);
         }
+
         healthTimer = setInterval(() => {
           this._rpcRx.system.health().toPromise().catch(() => {
             // ignore
@@ -380,9 +382,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._rpcBase.chain.getBlockHash(0),
         this._rpcBase.chain.getRuntimeVersion()
       ]);
-      if (`${this._genesisHash}${(this._runtimeVersion as RuntimeVersion).specVersion}` in prebundles) {
+      const prebundlesKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`
+      if (prebundlesKey in prebundles) {
         try {
-          const rpcData = prebundles[`${this._genesisHash}${(this._runtimeVersion as RuntimeVersion).specVersion}`];
+          const rpcData = prebundles[prebundlesKey];
           const metadata = new Metadata(rpcData);
           this._runtimeMetadata = metadata;
           this.runtimeMetadata.getUniqTypes(false);
