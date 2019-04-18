@@ -8,8 +8,7 @@ import { isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
-import TypeRegistry from '../codec/TypeRegistry';
-import Type from './Type';
+import TypeRegistry, { ITypeDef } from '../codec/TypeRegistry';
 
 interface DecodeMethodInput {
   args: any;
@@ -22,8 +21,8 @@ interface DecodedMethod extends DecodeMethodInput {
 }
 
 export interface IFunctionArgumentMetadata {
-  name: Text;
-  type: Type;
+  name: string;
+  type: ITypeDef;
 }
 
 export interface IFunctionMetadata {

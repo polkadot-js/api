@@ -6,7 +6,7 @@ import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
-import { TypeRegistry } from './TypeRegistry';
+import TypeRegistry from './TypeRegistry';
 
 /**
  * @name Struct

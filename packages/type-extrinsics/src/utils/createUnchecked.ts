@@ -16,16 +16,16 @@ export default function createDescriptor (
   section: string,
   method: string,
   index: number,
-  meta: IFunctionMetadata,
-  typeRegistry: TypeRegistry
+  meta: IFunctionMetadata
 ): MethodFunction {
   const callIndex = new Uint8Array([index, meta.id]);
   let extrinsicFn: any;
 
   const expectedArgs = Method.filterOrigin(meta);
-
+  const typeRegistry = TypeRegistry.TYPE_REGISTRY;
   extrinsicFn = (...args: any[]): Method => {
     assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+
     return TypeRegistry.withRegistry(typeRegistry, () => new Method({
       args,
       callIndex
@@ -36,8 +36,7 @@ export default function createDescriptor (
   extrinsicFn.meta = meta;
   extrinsicFn.method = method;
   extrinsicFn.section = section;
-  extrinsicFn.toJSON = (): any =>
-    meta.toJSON();
+  extrinsicFn.toJSON = () => meta;
 
   return extrinsicFn as MethodFunction;
 }

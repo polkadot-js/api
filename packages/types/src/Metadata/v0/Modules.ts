@@ -13,7 +13,7 @@ import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
-import { IFunctionMetadata } from '../../primitive/Method';
+import { IFunctionArgumentMetadata, IFunctionMetadata } from '../../primitive/Method';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -36,9 +36,16 @@ export class FunctionArgumentMetadata extends Struct {
   get type (): Type {
     return this.get('type') as Type;
   }
+
+  toInterface (): IFunctionArgumentMetadata {
+    return {
+      name: this.name.toString(),
+      type: this.type
+    };
+  }
 }
 
-export class FunctionMetadata extends Struct implements IFunctionMetadata{
+export class FunctionMetadata extends Struct {
   constructor (value?: any) {
     super({
       id: U16,
@@ -74,6 +81,14 @@ export class FunctionMetadata extends Struct implements IFunctionMetadata{
    */
   get name (): Text {
     return this.get('name') as Text;
+  }
+
+  toInterface (): IFunctionMetadata {
+    return {
+      id: this.id.toNumber(),
+      name: this.name.toString(),
+      arguments: this.arguments.map(arg => arg.toInterface())
+    };
   }
 }
 

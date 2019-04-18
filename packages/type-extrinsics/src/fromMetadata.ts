@@ -19,14 +19,14 @@ import extrinsics from '.';
  * @param extrinsics - An extrinsics object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: Metadata, typeRegistry: TypeRegistry): ModulesWithMethods {
+export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   if (metadata.version <= 3) {
-    return fromMetadataV0(metadata.asV0, typeRegistry);
+    return fromMetadataV0(metadata.asV0);
   }
   throw new Error('metadata version not supported');
 }
 
-export function fromMetadataV0 (metadata: MetadataV0, typeRegistry: TypeRegistry): ModulesWithMethods {
+export function fromMetadataV0 (metadata: MetadataV0): ModulesWithMethods {
   let indexCount = -1;
 
   const findIndex = (prefix: string): number => {
@@ -57,11 +57,7 @@ export function fromMetadataV0 (metadata: MetadataV0, typeRegistry: TypeRegistry
       const funcName = stringCamelCase(funcMeta.name.toString());
 
       // TODO: convert FunctionMetadata to IFunctionMetadata
-      newModule[funcName] = createUnchecked(prefix, funcName, index, {
-        id: funcMeta.id.toNumber(),
-        name: funcMeta.name.toString(),
-        arguments: funcMeta.arguments.toArray()
-      }, typeRegistry);
+      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta.toInterface());
 
       return newModule;
     }, {} as Methods);

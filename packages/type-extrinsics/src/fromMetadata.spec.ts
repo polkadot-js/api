@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic, Metadata } from '@polkadot/types';
+import { Extrinsic, Metadata, TypeRegistry } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v0/static';
 
 import fromMetadata from './fromMetadata';
 
+const typeRegistry = new TypeRegistry();
 // Use the pre-generated metadata
-const metadata = new Metadata(json);
-const newExtrinsics = fromMetadata(metadata);
+const metadata = TypeRegistry.withRegistry(typeRegistry, () => new Metadata(json));
+const newExtrinsics = TypeRegistry.withRegistry(typeRegistry, () => fromMetadata(metadata));
 
 describe('fromMetadata', () => {
   it('should throw if an incorrect number of args is supplied', () => {
