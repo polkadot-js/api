@@ -395,6 +395,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       } else {
         this._runtimeMetadata = await this._rpcBase.state.getMetadata();
       }
+
+      // get unique types & validate
       this.runtimeMetadata.getUniqTypes(false);
     } else {
       this._runtimeMetadata = this._options.source.runtimeMetadata;
