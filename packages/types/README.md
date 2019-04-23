@@ -160,4 +160,3 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[RuntimeVersion]] | A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version |
 | [[SignedBlock]] | A [[Block]] that has been signed and contains a [[Justification]] |
 | [[StorageChangeSet]] | A set of storage changes. It contains the [[Block]] hash and a list of the actual changes |
-
