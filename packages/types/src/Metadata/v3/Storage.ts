@@ -131,10 +131,26 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   /**
+   * @description The default value of the storage function
+   * @deprecated Use `.fallback` instead.
+   */
+  get default (): Bytes {
+    return this.fallback;
+  }
+
+  /**
    * @description The [[Text]] documentation
    */
-  get docs (): Vector<Text> {
+  get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
+  get docs (): Vector<Text> {
+    return this.documentation;
   }
 
   /**
