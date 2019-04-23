@@ -390,7 +390,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     }
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
-    const storage = storageFromMeta(this.runtimeMetadata.asV0);
+    const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
     this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
