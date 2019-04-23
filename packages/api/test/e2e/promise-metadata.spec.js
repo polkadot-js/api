@@ -4,7 +4,7 @@
 
 import ApiPromise from '../../src/promise';
 
-describe('Metadata queries', () => {
+describe.skip('Metadata queries', () => {
   //let api;
   beforeEach(() => {
     jest.setTimeout(3000000);
