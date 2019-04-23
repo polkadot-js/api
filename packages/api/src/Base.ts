@@ -113,7 +113,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._type = type;
     this._eventemitter = new EventEmitter();
     this._typeRegistry = new TypeRegistry();
-    this._rpcBase = new RpcBase(thisProvider);
+    this._typeRegistry.loadDefault();
+    this._rpcBase = new RpcBase(thisProvider, this._typeRegistry);
 
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
@@ -358,7 +359,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       try {
         const [hasMeta, cryptoReady] = await Promise.all([
-          this.loadMeta(),
+          TypeRegistry.withRegistry(this.typeRegistry, () => this.loadMeta()),
           cryptoWaitReady()
         ]);
 
@@ -388,14 +389,14 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
 
       // get unique types & validate
-      this.runtimeMetadata.getUniqTypes(false);
+      this.typeRegistry.validateTypes(this.runtimeMetadata.getUniqTypes(), false);
     } else {
       this._runtimeMetadata = this._options.source.runtimeMetadata;
       this._runtimeVersion = this._options.source.runtimeVersion;
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata, this._typeRegistry);
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
@@ -411,8 +412,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      this._typeRegistry.injectEvents(this.runtimeMetadata);
-      this._typeRegistry.injectMethods(extrinsics);
+      // this.typeRegistry.injectEvents(this.runtimeMetadata);
+      // this.typeRegistry.injectMethods(extrinsics);
     }
 
     return true;

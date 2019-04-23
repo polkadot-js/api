@@ -7,7 +7,7 @@ import { CodecArg, Constructor } from './types';
 import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Compact from './codec/Compact';
-import { createClass } from './codec/createType';
+import TypeRegistry from './codec/TypeRegistry';
 
 export type ContractABIArgs = Array<{
   name: string,
@@ -87,13 +87,15 @@ export function validateAbi (abi: ContractABI): void {
 }
 
 export default class ContractAbi implements Contract {
+  protected _typeRegistry: TypeRegistry;
+
   abi: ContractABI;
   deploy: ContractABIFn;
   messages: { [index: string]: ContractABIFn } = {};
 
   constructor (abi: ContractABI) {
     validateAbi(abi);
-
+    this._typeRegistry = TypeRegistry.TYPE_REGISTRY;
     this.abi = abi;
     this.deploy = this._createEncoded('deploy', abi.deploy);
 
@@ -105,7 +107,7 @@ export default class ContractAbi implements Contract {
   }
 
   private _createClazz (args: ContractABIArgs, baseDef: { [index: string]: string }): Constructor {
-    return createClass(
+    return this._typeRegistry.createClass(
       JSON.stringify(
         args.reduce((base: { [index: string]: string }, { name, type }) => {
           base[name] = type;

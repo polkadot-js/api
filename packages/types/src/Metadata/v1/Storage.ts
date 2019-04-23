@@ -8,7 +8,7 @@ import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
+import { MapType, PlainType } from '../v0/Modules';
 
 export class Default extends Null {}
 
@@ -32,45 +32,6 @@ export class MetadataStorageModifier extends EnumType<Optional | Default> {
   toJSON (): any {
     return this.toString();
   }
-}
-
-export class MapType extends Struct {
-  private _isLinked = false;
-
-  constructor (value?: any) {
-    super({
-      key: Type,
-      value: Type
-    }, value);
-
-    if (value && value.isLinked) {
-      this._isLinked = true;
-    }
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  get value (): Type {
-    return this.get('value') as Type;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  get isLinked (): boolean {
-    return this._isLinked;
-  }
-}
-
-export class PlainType extends Type {
 }
 
 export class MetadataStorageType extends EnumType<PlainType | MapType> {

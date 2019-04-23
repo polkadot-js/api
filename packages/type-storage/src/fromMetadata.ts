@@ -5,7 +5,8 @@
 import { ModuleStorage, Storage } from './types';
 
 import MetadataV0 from '@polkadot/types/Metadata/v0';
-import { stringLowerFirst } from '@polkadot/util';
+import MetadataV3 from '@polkadot/types/Metadata/v3/Metadata';
+import { stringCamelCase } from '@polkadot/util';
 
 import createFunction from './utils/createFunction';
 import storage from '.';
@@ -19,9 +20,13 @@ import { Metadata } from '@polkadot/types';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): Storage {
-  if (metadata.version <= 3) {
+  if (metadata.version <= 2) {
     return fromMetadataV0(metadata.asV0);
   }
+  if (metadata.version === 3) {
+    return fromMetadataV3(metadata.asV3);
+  }
+
   throw new Error('metadata version not supported');
 }
 
@@ -31,11 +36,30 @@ export function fromMetadataV0 (metadata: MetadataV0): Storage {
       return result;
     }
 
-    const prefix = moduleMetadata.storage.unwrap().prefix;
+    const prefix = stringCamelCase(moduleMetadata.storage.unwrap().prefix.toString());
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
-      newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
+    result[prefix] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
+      newModule[prefix] = createFunction(prefix, func.name, func.toInterface(prefix));
+
+      return newModule;
+    }, {} as ModuleStorage);
+
+    return result;
+  }, { ...storage });
+}
+
+export function fromMetadataV3 (metadata: MetadataV3): Storage {
+  return metadata.modules.reduce((result, moduleMetadata) => {
+    if (moduleMetadata.storage.isNone) {
+      return result;
+    }
+
+    const prefix = stringCamelCase(moduleMetadata.prefix.toString());
+
+    // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
+    result[prefix] = moduleMetadata.storage.unwrap().reduce((newModule, func) => {
+      newModule[prefix] = createFunction(prefix, func.name, func.toInterface(prefix));
 
       return newModule;
     }, {} as ModuleStorage);

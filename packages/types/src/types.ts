@@ -126,3 +126,7 @@ export interface IExtrinsic extends IMethod {
   addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
   sign (account: KeyringPair, options: SignatureOptions): IExtrinsic;
 }
+
+export enum StorageModifier {
+  Optional, Default, Required
+}

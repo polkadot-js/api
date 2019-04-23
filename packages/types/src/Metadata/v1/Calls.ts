@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { getTypeDef } from '../../codec/createType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
+import { IFunctionArgumentMetadata, IFunctionMetadata } from '../../primitive/Method';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
@@ -27,6 +29,13 @@ export class MetadataCallArg extends Struct {
    */
   get type (): Type {
     return this.get('type') as Type;
+  }
+
+  toInterface (module: string): IFunctionArgumentMetadata {
+    return {
+      name: this.name.toString(),
+      type: getTypeDef(this.type.toString(), module)
+    };
   }
 }
 
@@ -73,5 +82,13 @@ export class MetadataCall extends Struct {
    */
   get name (): Text {
     return this.get('name') as Text;
+  }
+
+  toInterface (id: number, module: string): IFunctionMetadata {
+    return {
+      id,
+      name: this.name.toString(),
+      arguments: this.args.map(arg => arg.toInterface(module))
+    };
   }
 }

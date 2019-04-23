@@ -9,7 +9,7 @@ import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import { flattenUniq, validateTypes } from '../util';
+import { flattenUniq } from '../util';
 import { OuterDispatchMetadata, OuterDispatchCall } from './Calls';
 import { OuterEventMetadata, OuterEventMetadataEvent } from './Events';
 import { RuntimeModuleMetadata } from './Modules';
@@ -106,11 +106,7 @@ export default class MetadataV0 extends Struct implements MetadataInterface {
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): Array<string> {
-    const types = flattenUniq([this.argNames, this.eventNames, this.storageNames]);
-
-    validateTypes(types, throwError);
-
-    return types;
+  getUniqTypes (): Array<string> {
+    return flattenUniq([this.argNames, this.eventNames, this.storageNames]);
   }
 }

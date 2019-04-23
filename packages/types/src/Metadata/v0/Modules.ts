@@ -4,6 +4,7 @@
 
 import { AnyNumber } from '../../types';
 
+import { getTypeDef } from '../../codec/createType';
 import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Option from '../../codec/Option';
@@ -14,6 +15,7 @@ import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
 import { IFunctionArgumentMetadata, IFunctionMetadata } from '../../primitive/Method';
+import { IStorageFunctionMetadata, IStorageFunctionType } from '../../primitive/StorageKey';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -37,10 +39,10 @@ export class FunctionArgumentMetadata extends Struct {
     return this.get('type') as Type;
   }
 
-  toInterface (): IFunctionArgumentMetadata {
+  toInterface (module: string): IFunctionArgumentMetadata {
     return {
       name: this.name.toString(),
-      type: this.type
+      type: getTypeDef(this.type.toString(), module)
     };
   }
 }
@@ -83,11 +85,11 @@ export class FunctionMetadata extends Struct {
     return this.get('name') as Text;
   }
 
-  toInterface (): IFunctionMetadata {
+  toInterface (module: string): IFunctionMetadata {
     return {
       id: this.id.toNumber(),
       name: this.name.toString(),
-      arguments: this.arguments.map(arg => arg.toInterface())
+      arguments: this.arguments.map(arg => arg.toInterface(module))
     };
   }
 }
@@ -185,9 +187,34 @@ export class MapType extends Struct {
   get isLinked (): boolean {
     return this._isLinked;
   }
+
+  toInterface (module: string): IStorageFunctionType {
+    return {
+      isDoubleMap: false,
+      isLinked: this.isLinked,
+      isMap: true,
+      asMap: () => ({
+        key: getTypeDef(this.key, module),
+        value: getTypeDef(this.value, module),
+        isLinked: this.isLinked
+      }),
+      asDoubleMap: () => { throw new Error(); },
+      asType: () => { throw new Error(); }
+    };
+  }
 }
 
-class PlainType extends Type {
+export class PlainType extends Type {
+  toInterface (module: string): IStorageFunctionType {
+    return {
+      isDoubleMap: false,
+      isLinked: false,
+      isMap: false,
+      asMap: () => { throw new Error(); },
+      asDoubleMap: () => { throw new Error(); },
+      asType: () => getTypeDef(this, module)
+    };
+  }
 }
 
 export class StorageFunctionType extends EnumType<PlainType | MapType> {
@@ -285,6 +312,22 @@ export class StorageFunctionMetadata extends Struct {
    */
   get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;
+  }
+
+  toInterface (module: string): IStorageFunctionMetadata {
+    let type;
+    if (this.type.isMap) {
+      type = this.type.asMap.toInterface(module);
+    } else {
+      type = this.type.asType.toInterface(module);
+    }
+    return {
+      name: this.name.toString(),
+      modifier: this.modifier.index,
+      type,
+      fallback: this.default,
+      documentation: this.documentation.map(line => line.toString())
+    };
   }
 }
 

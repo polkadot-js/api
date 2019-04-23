@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Metadata } from '@polkadot/types';
 import { RuntimeModuleMetadata } from '@polkadot/types/Metadata/v0/Modules';
-import { Methods, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import MetadataV0 from '@polkadot/types/Metadata/v0';
-
-import { Metadata, TypeRegistry } from '@polkadot/types';
+import MetadataV3, { MetadataModule } from '@polkadot/types/Metadata/v3/Metadata';
+import { Methods, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { stringCamelCase } from '@polkadot/util';
 
 import createUnchecked from './utils/createUnchecked';
@@ -20,8 +20,11 @@ import extrinsics from '.';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
-  if (metadata.version <= 3) {
+  if (metadata.version <= 2) {
     return fromMetadataV0(metadata.asV0);
+  }
+  if (metadata.version === 3) {
+    return fromMetadataV3(metadata.asV3);
   }
   throw new Error('metadata version not supported');
 }
@@ -57,7 +60,25 @@ export function fromMetadataV0 (metadata: MetadataV0): ModulesWithMethods {
       const funcName = stringCamelCase(funcMeta.name.toString());
 
       // TODO: convert FunctionMetadata to IFunctionMetadata
-      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta.toInterface());
+      newModule[funcName] = createUnchecked(prefix, funcName, index, funcMeta.toInterface(meta.module.name.toString()));
+
+      return newModule;
+    }, {} as Methods);
+
+    return result;
+  }, { ...extrinsics });
+}
+
+export function fromMetadataV3 (metadata: MetadataV3): ModulesWithMethods {
+  return metadata.modules.reduce((result, module: MetadataModule) => {
+    if (!module.calls || module.calls.isEmpty) {
+      return result;
+    }
+
+    const prefix = stringCamelCase(module.prefix.toString());
+    result[prefix] = module.calls.unwrap().reduce((newModule, call, index) => {
+      const funcName = stringCamelCase(call.name.toString());
+      newModule[funcName] = createUnchecked(prefix, funcName, index, call.toInterface(index, module.name.toString()));
 
       return newModule;
     }, {} as Methods);

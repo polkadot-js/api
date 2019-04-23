@@ -7,7 +7,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/promise';
 
-describe.skip('e2e queries', () => {
+describe('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
@@ -30,7 +30,7 @@ describe.skip('e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it('queries state for a balance', async () => {
+  it.only('queries state for a balance', async () => {
     const balance = await api.query.balances.freeBalance(keyring.alice.address());
 
     expect(

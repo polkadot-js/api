@@ -6,9 +6,11 @@ import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
+import { IStorageFunctionMetadata, IStorageFunctionType } from '../../primitive/StorageKey';
 import Text from '../../primitive/Text';
+import { MapType, PlainType } from '../v0/Modules';
 import { MetadataStorageModifier } from '../v1/Storage';
-import { MapType, PlainType } from '../v2/Storage';
+import { getTypeDef } from "@polkadot/types/codec/createType";
 
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
@@ -46,6 +48,22 @@ export class DoubleMapType extends Struct {
    */
   get value (): Text {
     return this.get('value') as Text;
+  }
+
+  toInterface (module: string): IStorageFunctionType {
+    return {
+      isDoubleMap: true,
+      isLinked: false,
+      isMap: false,
+      asMap: () => { throw new Error(); },
+      asDoubleMap: () => ({
+        key1: getTypeDef(this.key1, module),
+        key2: getTypeDef(this.key2, module),
+        value: getTypeDef(this.value, module),
+        keyHasher: this.keyHasher.toString()
+      }),
+      asType: () => { throw new Error(); }
+    };
   }
 }
 
@@ -156,5 +174,23 @@ export class MetadataStorage extends Struct {
    */
   get type (): MetadataStorageType {
     return this.get('type') as MetadataStorageType;
+  }
+
+  toInterface (module: string): IStorageFunctionMetadata {
+    let type;
+    if (this.type.isMap) {
+      type = this.type.asMap.toInterface(module);
+    } else if (this.type.isDoubleMap) {
+      type = this.type.asDoubleMap.toInterface(module);
+    } else {
+      type = this.type.asType.toInterface(module);
+    }
+    return {
+      name: this.name.toString(),
+      modifier: this.modifier.index,
+      type,
+      fallback: this.fallback,
+      documentation: this.docs.map(line => line.toString())
+    };
   }
 }

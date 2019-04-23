@@ -8,6 +8,7 @@ import json from '@polkadot/types/Metadata/v0/static';
 import fromMetadata from './fromMetadata';
 
 const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
 // Use the pre-generated metadata
 const metadata = TypeRegistry.withRegistry(typeRegistry, () => new Metadata(json));
 const newExtrinsics = TypeRegistry.withRegistry(typeRegistry, () => fromMetadata(metadata));
@@ -23,7 +24,7 @@ describe('fromMetadata', () => {
 
   it('should return properly-encoded transactions', () => {
     expect(
-      new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a()
+      TypeRegistry.withRegistry(typeRegistry, () => new Extrinsic(newExtrinsics.timestamp.set([10101])).toU8a())
     ).toEqual(
       new Uint8Array([
         // length (encoded)

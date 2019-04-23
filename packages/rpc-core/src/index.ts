@@ -3,14 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-provider/types';
-import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
+import { RpcMethod, RpcSection } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
 import interfaces from '@polkadot/jsonrpc';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Codec } from '@polkadot/types/types';
-import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
-import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
+import { Codec, StorageModifier } from '@polkadot/types/types';
+import { Option, StorageChangeSet, StorageKey, TypeRegistry, Vector } from '@polkadot/types';
+import { assert, ExtError, isFunction, isNull, logger } from '@polkadot/util';
+import { IStorageFunctionMetadata } from '@polkadot/types/primitive/StorageKey';
 
 const l = logger('rpc-core');
 
@@ -43,16 +44,18 @@ export default class Rpc implements RpcInterface {
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
   readonly system: RpcInterface$Section;
+  readonly _typeRegistry: TypeRegistry;
 
   /**
    * @constructor
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface = new WsProvider()) {
+  constructor (provider: ProviderInterface = new WsProvider(), typeRegistry: TypeRegistry) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
+    this._typeRegistry = typeRegistry;
 
     this.author = this.createInterface(interfaces.author);
     this.chain = this.createInterface(interfaces.chain);
@@ -179,26 +182,26 @@ export default class Rpc implements RpcInterface {
     assert(inputs.length >= reqArgCount && inputs.length <= method.params.length, `Expected ${method.params.length} parameters${optText}, ${inputs.length} found instead`);
 
     return inputs.map((input, index) =>
-      createType(method.params[index].type, input)
+      this._typeRegistry.createType(method.params[index].type, input)
     );
   }
 
   private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
-    const base = createType(method.type as string, result);
+    const base = this._typeRegistry.createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
       // outputType that we have specified. Fallback to Data on nothing
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
-      const Clazz = createClass(type);
+      const Clazz = this._typeRegistry.createClass(type);
       const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
-      if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
+      if (key.meta && key.meta.type.isMap && key.meta.type.asMap().isLinked) {
         // linked map
         return new Clazz(base);
       } else {
-        return meta.modifier.isOptional
+        return meta.modifier === StorageModifier.Optional
           ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
           : new Clazz(base);
       }
@@ -211,32 +214,32 @@ export default class Rpc implements RpcInterface {
       return (params[0] as Vector<StorageKey>).reduce((result, key: StorageKey) => {
         // Fallback to Data (i.e. just the encoding) if we don't have a specific type
         const type = key.outputType || 'Data';
-        const Clazz = createClass(type);
+        const Clazz = this._typeRegistry.createClass(type);
 
         // see if we have a result value for this specific key
         const hexKey = key.toHex();
         const { value } = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === hexKey
         ) || { value: null };
-        const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+        const meta: IStorageFunctionMetadata = key.meta || { fallback: undefined, modifier: StorageModifier.Optional } as any;
 
         if (!value) {
           // if we don't have a value, do not fill in the entry, it will be up to the
         // caller to sort this out, either ignoring or having a cache for older values
           result.push(undefined);
         } else {
-          if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
+          if (key.meta && key.meta.type.isMap && key.meta.type.asMap().isLinked) {
             // linked map
             result.push(new Clazz(value.unwrapOr(null)));
           } else {
-            if (meta.modifier.isOptional) {
+            if (meta.modifier === StorageModifier.Optional) {
               // create option either with the existing value, or empty when
               // there is no value returned
               result.push(new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap())));
             } else {
               // for `null` we fallback to the default value, or create an empty type,
               // otherwise we return the actual value as retrieved
-              result.push(new Clazz(value.unwrapOr(meta.default)));
+              result.push(new Clazz(value.unwrapOr(meta.fallback)));
             }
           }
         }

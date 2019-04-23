@@ -2,16 +2,45 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { AnyU8a, StorageModifier } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
+import { ITypeDef } from '../codec/TypeRegistry';
 import Bytes from './Bytes';
-import { StorageFunctionMetadata } from '../Metadata/v0/Modules';
+
+export interface IMapType {
+  key: ITypeDef;
+  value: ITypeDef;
+  isLinked: boolean;
+}
+
+export interface IDoubleMapType {
+  key1: ITypeDef;
+  key2: ITypeDef;
+  value: ITypeDef;
+  keyHasher: string;
+}
+export interface IStorageFunctionType {
+  isMap: boolean;
+  isLinked: boolean;
+  isDoubleMap: boolean;
+  asMap (): IMapType;
+  asType (): ITypeDef;
+  asDoubleMap (): IDoubleMapType;
+}
+
+export interface IStorageFunctionMetadata {
+  name: string;
+  modifier: StorageModifier;
+  type: IStorageFunctionType;
+  fallback: Bytes;
+  documentation: string[];
+}
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
-  meta: StorageFunctionMetadata;
+  meta: IStorageFunctionMetadata;
   method: string;
   section: string;
   toJSON: () => any;
@@ -25,7 +54,7 @@ export interface StorageFunction {
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta: StorageFunctionMetadata | null;
+  private _meta: IStorageFunctionMetadata | null;
   private _outputType: string | null;
 
   constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
@@ -49,7 +78,7 @@ export default class StorageKey extends Bytes {
     return value as Uint8Array;
   }
 
-  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): StorageFunctionMetadata | null {
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): IStorageFunctionMetadata | null {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -80,7 +109,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `null` when not available
    */
-  get meta (): StorageFunctionMetadata | null {
+  get meta (): IStorageFunctionMetadata | null {
     return this._meta;
   }
 

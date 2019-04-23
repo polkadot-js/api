@@ -8,7 +8,7 @@ import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
-import { flattenUniq, validateTypes } from '../util';
+import { flattenUniq } from '../util';
 
 import { MetadataCall } from '../v1/Calls';
 import { MetadataEvent } from '../v1/Events';
@@ -120,11 +120,7 @@ export default class MetadataV3 extends Struct implements MetadataInterface {
   /**
    * @description Helper to retrieve a list of all type that are found, sorted and de-deuplicated
    */
-  getUniqTypes (throwError: boolean): Array<string> {
-    const types = flattenUniq([this.callNames, this.eventNames, this.storageNames]);
-
-    validateTypes(types, throwError);
-
-    return types;
+  getUniqTypes (): Array<string> {
+    return flattenUniq([this.callNames, this.eventNames, this.storageNames]);
   }
 }
