@@ -374,7 +374,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private async loadMeta (): Promise<boolean> {
-    const {prebundles = {}} = this._options;
+    const { prebundles = {} } = this._options;
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
