@@ -16,7 +16,7 @@ describe('MetadataV3', () => {
     console.error(metadata.getUniqTypes(true));
 
     expect(metadata.version).toBe(4);
-    expect(metadata.asV3.modules.length).not.toBe(0);
+    expect(metadata.asV4.modules.length).not.toBe(0);
     expect(str).toEqual(JSON.stringify(latestParsed));
   });
 });
