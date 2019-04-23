@@ -20,7 +20,7 @@ import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
 import v4ToV3 from './v4/toV3';
 
-class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
+class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with Null

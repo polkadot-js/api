@@ -6,7 +6,7 @@ import Metadata from '../Metadata';
 import latestParsed from './latest.substrate.v4.json';
 import rpcData from './static';
 
-describe('MetadataV3', () => {
+describe('MetadataV4', () => {
   const metadata = new Metadata(rpcData);
 
   it('decodes latest properly', () => {
