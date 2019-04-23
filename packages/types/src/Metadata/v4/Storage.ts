@@ -16,10 +16,10 @@ import { DoubleMapType } from '../v3/Storage';
 export class MapType extends Struct {
   constructor (value?: any) {
     super({
-      isLinked: Bool,
+      hasher: Text,
       key: Type,
-      keyHasher: Text,
-      value: Type
+      value: Type,
+      isLinked: Bool
     }, value);
   }
 
