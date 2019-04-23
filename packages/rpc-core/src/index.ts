@@ -192,7 +192,7 @@ export default class Rpc implements RpcInterface {
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
       const Clazz = createClass(type);
-      const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
+      const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
       if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
         // linked map
@@ -218,7 +218,7 @@ export default class Rpc implements RpcInterface {
         const { value } = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === hexKey
         ) || { value: null };
-        const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
+        const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
 
         if (!value) {
           // if we don't have a value, do not fill in the entry, it will be up to the

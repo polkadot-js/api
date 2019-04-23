@@ -18,7 +18,7 @@ import storage from '../..';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromV0 (metadata: MetadataV0): Storage<StorageFunctionMetadata> {
+export default function fromV4 (metadata: MetadataV0): Storage<StorageFunctionMetadata> {
   return metadata.modules.reduce((result, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return result;
