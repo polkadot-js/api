@@ -6,7 +6,7 @@ import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType }
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
-import createFunction from './utils/createFunction';
+import createFunction from './fromMetadata/v0/createFunction';
 
 interface SubstrateMetadata {
   documentation: string;

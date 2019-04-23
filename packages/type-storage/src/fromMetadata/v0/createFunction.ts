@@ -60,7 +60,7 @@ export default function createFunction (section: Text | string, method: Text | s
       name: meta.name,
       modifier: new StorageFunctionModifier('Required'),
       type: new StorageFunctionType(new PlainType(meta.type.asMap.key), 0),
-      default: new Bytes(),
+      fallback: new Bytes(),
       documentation: meta.documentation
     });
     storageFn.headKey = new StorageKey(keyFn);

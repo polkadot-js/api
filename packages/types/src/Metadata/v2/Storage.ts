@@ -12,9 +12,9 @@ import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import { MetadataStorageModifier } from '../v1/Storage';
 
-export class Default extends Null {}
+export class Default extends Null { }
 
-export class Optional extends Null {}
+export class Optional extends Null { }
 
 export class MapType extends Struct {
   constructor (value?: any) {
@@ -50,7 +50,7 @@ export class MapType extends Struct {
 export class PlainType extends Type {
 }
 
-export class MetadataStorageType extends EnumType<PlainType | MapType> {
+export class StorageFunctionMetadata extends EnumType<PlainType | MapType> {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -99,9 +99,9 @@ export class MetadataStorage extends Struct {
     super({
       name: Text,
       modifier: MetadataStorageModifier,
-      type: MetadataStorageType,
+      type: StorageFunctionMetadata,
       fallback: Bytes,
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -109,7 +109,7 @@ export class MetadataStorage extends Struct {
    * @description The [[Text]] documentation
    */
   get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+    return this.get('documentation') as Vector<Text>;
   }
 
   /**
@@ -134,9 +134,9 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[MetadataStorageType]]
+   * @description The [[StorageFunctionMetadata]]
    */
-  get type (): MetadataStorageType {
-    return this.get('type') as MetadataStorageType;
+  get type (): StorageFunctionMetadata {
+    return this.get('type') as StorageFunctionMetadata;
   }
 }

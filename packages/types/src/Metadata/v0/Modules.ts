@@ -124,7 +124,7 @@ export class ModuleMetadata extends Struct {
 
 export class StorageFunctionModifier extends Enum {
   constructor (value?: any) {
-    super(['Optional', 'Default', 'Required'], value);
+    super(['Optional', 'fallback', 'Required'], value);
   }
 
   /**
@@ -217,11 +217,11 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
   }
 }
 
-type StorageFunctionMetadataValue = {
+export type StorageFunctionMetadataValue = {
   name: string | Text,
   modifier: StorageFunctionModifier | AnyNumber,
   type: StorageFunctionType,
-  default: Bytes,
+  fallback: Bytes,
   documentation: Vector<Text> | Array<string>
 };
 
@@ -231,7 +231,7 @@ export class StorageFunctionMetadata extends Struct {
       name: Text,
       modifier: StorageFunctionModifier,
       type: StorageFunctionType,
-      default: Bytes,
+      fallback: Bytes,
       documentation: Vector.with(Text)
     }, value);
   }
@@ -239,8 +239,8 @@ export class StorageFunctionMetadata extends Struct {
   /**
    * @description The default value of the storage function
    */
-  get default (): Bytes {
-    return this.get('default') as Bytes;
+  get fallback (): Bytes {
+    return this.get('fallback') as Bytes;
   }
 
   /**

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber } from '../../types';
+
 import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
@@ -10,6 +12,7 @@ import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
+import { StorageFunctionModifier } from '../v0/Modules';
 import { MetadataStorageModifier } from '../v1/Storage';
 import { PlainType } from '../v2/Storage';
 
@@ -30,6 +33,13 @@ export class MapType extends Struct {
   }
 
   /**
+   * @description The hash algorithm used to hash keys, as [[StorageHasher]]
+   */
+  get hasher (): StorageHasher {
+    return this.get('hasher') as StorageHasher;
+  }
+
+  /**
    * @description Is this an enumerable linked map
    */
   get isLinked (): boolean {
@@ -41,13 +51,6 @@ export class MapType extends Struct {
    */
   get key (): Type {
     return this.get('key') as Type;
-  }
-
-  /**
-   * @description The hash algorithm used to hash keys, as [[Text]]
-   */
-  get keyHasher (): Text {
-    return this.get('keyHasher') as Text;
   }
 
   /**
@@ -64,7 +67,8 @@ export class DoubleMapType extends Struct {
       hasher: StorageHasher,
       key1: Text,
       key2: Text,
-      value: Text
+      value: Text,
+      key2Hasher: Text
     }, value);
   }
 
@@ -90,6 +94,13 @@ export class DoubleMapType extends Struct {
   }
 
   /**
+   * @description The hashing algorithm used to hash key2, as [[Text]]
+   */
+  get key2Hasher (): Text {
+    return this.get('key2Hasher') as Text;
+  }
+
+  /**
    * @description The mapped key as [[Text]]
    */
   get value (): Text {
@@ -97,7 +108,7 @@ export class DoubleMapType extends Struct {
   }
 }
 
-export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -155,6 +166,14 @@ export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMa
   }
 }
 
+export type StorageFunctionMetadataValue = {
+  name: string | Text,
+  modifier: StorageFunctionModifier | AnyNumber,
+  type: StorageFunctionType,
+  fallback: Bytes,
+  documentation: Vector<Text> | Array<string>
+};
+
 /**
  * @name MetadataModule
  * @description
@@ -165,17 +184,17 @@ export class MetadataStorage extends Struct {
     super({
       name: Text,
       modifier: MetadataStorageModifier,
-      type: MetadataStorageType,
+      type: StorageFunctionType,
       fallback: Bytes,
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
   /**
    * @description The [[Text]] documentation
    */
-  get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+  get documentation (): Vector<Text> {
+    return this.get('documentation') as Vector<Text>;
   }
 
   /**
@@ -200,9 +219,9 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[MetadataStorageType]]
+   * @description The [[StorageFunctionMetadata]]
    */
-  get type (): MetadataStorageType {
-    return this.get('type') as MetadataStorageType;
+  get type (): StorageFunctionType {
+    return this.get('type') as StorageFunctionType;
   }
 }

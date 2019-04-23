@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
@@ -10,21 +11,20 @@ import Text from '../../primitive/Text';
 import { MetadataStorageModifier } from '../v1/Storage';
 import { MapType, PlainType } from '../v2/Storage';
 
+export class StorageHasher extends Enum {
+  constructor (value?: any) {
+    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
+  }
+}
+
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
     super({
-      keyHasher: Text,
       key1: Text,
       key2: Text,
-      value: Text
+      value: Text,
+      key2Hasher: Text
     }, value);
-  }
-
-  /**
-   * @description The hashing algorithm used to hash keys, as [[Text]]
-   */
-  get hasher (): Text {
-    return this.get('keyHasher') as Text;
   }
 
   /**
@@ -42,11 +42,10 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The hashing algorithm used to hash keys, as [[Text]]
-   * @deprecated Use `.hasher` instead
+   * @description The hashing algorithm used to hash key2, as [[Text]]
    */
-  get keyHasher (): Text {
-    return this.get('keyHasher') as Text;
+  get key2Hasher (): Text {
+    return this.get('key2Hasher') as Text;
   }
 
   /**
@@ -57,7 +56,7 @@ export class DoubleMapType extends Struct {
   }
 }
 
-export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionMetadata extends EnumType<PlainType | MapType | DoubleMapType> {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -125,9 +124,9 @@ export class MetadataStorage extends Struct {
     super({
       name: Text,
       modifier: MetadataStorageModifier,
-      type: MetadataStorageType,
+      type: StorageFunctionMetadata,
       fallback: Bytes,
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -135,7 +134,7 @@ export class MetadataStorage extends Struct {
    * @description The [[Text]] documentation
    */
   get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+    return this.get('documentation') as Vector<Text>;
   }
 
   /**
@@ -160,9 +159,9 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[MetadataStorageType]]
+   * @description The [[StorageFunctionMetadata]]
    */
-  get type (): MetadataStorageType {
-    return this.get('type') as MetadataStorageType;
+  get type (): StorageFunctionMetadata {
+    return this.get('type') as StorageFunctionMetadata;
   }
 }

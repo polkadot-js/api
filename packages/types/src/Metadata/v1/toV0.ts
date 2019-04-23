@@ -16,13 +16,13 @@ function storageV0 (mod: MetadataModuleV1): StorageMetadata | null {
 
   return new StorageMetadata({
     prefix: mod.prefix,
-    functions: mod.storage.unwrap().map(({ docs, fallback, modifier, name, type }) =>
+    functions: mod.storage.unwrap().map(({ documentation, fallback, modifier, name, type }) =>
       new StorageFunctionMetadata({
         name,
         modifier: modifier.toNumber(),
         type: new StorageFunctionType(type),
-        default: fallback,
-        documentation: docs
+        fallback,
+        documentation
       })
     )
   });
