@@ -14,9 +14,11 @@ import MetadataV0 from './v0';
 import MetadataV1 from './v1';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';
+import MetadataV4 from './v4';
 import v1ToV0 from './v1/toV0';
 import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
+import v4ToV3 from './v4/toV3';
 
 class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
   constructor (value?: any) {
@@ -24,7 +26,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
       MetadataV0, // once rolled-out, can replace this with Null
       MetadataV1, // once rolled-out, can replace this with Null
       MetadataV2, // once rolled-out, can replace this with Null
-      MetadataV3
+      MetadataV3, // once rolled-out, can replace this with Null
+      MetadataV4
     }, value);
   }
 
@@ -57,6 +60,13 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2> {
   }
 
   /**
+   * @description Returns the wrapped values as a V4 object
+   */
+  get asV4 (): MetadataV4 {
+    return this.value as MetadataV4;
+  }
+
+  /**
    * @description The version this metadata represents
    */
   get version (): number {
@@ -73,6 +83,7 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   private _convertedV0?: MetadataV0;
   private _convertedV1?: MetadataV1;
   private _convertedV2?: MetadataV2;
+  private _convertedV3?: MetadataV3;
 
   constructor (value?: any) {
     super({
@@ -142,7 +153,7 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
       return this.metadata.asV2;
     }
 
-    assert(this.metadata.version === 3, `Cannot convert metadata from v${this.metadata.version} to v1`);
+    assert(this.metadata.version === 3, `Cannot convert metadata from v${this.metadata.version} to v2`);
 
     if (isUndefined(this._convertedV2)) {
       this._convertedV2 = v3ToV2(this.metadata.asV3);
@@ -162,5 +173,14 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
 
   getUniqTypes (throwError: boolean): Array<string> {
     return (this.metadata.value as any as MetadataInterface).getUniqTypes(throwError);
+  }
+
+  /**
+   * @description Returns the wrapped values as a V3 object
+   */
+  get asV4 (): MetadataV4 {
+    assert(this.metadata.version === 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
+
+    return this.metadata.asV4;
   }
 }
