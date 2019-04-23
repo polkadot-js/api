@@ -9,7 +9,7 @@ import Int from '../codec/Int';
 /**
  * @name I64
  * @description
- * An 64-bit signed integer
+ * A 64-bit signed integer
  */
 export default class I64 extends Int {
   constructor (value?: AnyNumber) {

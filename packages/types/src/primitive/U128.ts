@@ -9,7 +9,7 @@ import UInt from '../codec/UInt';
 /**
  * @name U128
  * @description
- * An 128-bit unsigned integer
+ * A 128-bit unsigned integer
  */
 export default class U128 extends UInt {
   constructor (value?: AnyNumber) {
