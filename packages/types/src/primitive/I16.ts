@@ -9,7 +9,7 @@ import Int from '../codec/Int';
 /**
  * @name I16
  * @description
- * An 16-bit signed integer
+ * A 16-bit signed integer
  */
 export default class I16 extends Int {
   constructor (value?: AnyNumber) {
