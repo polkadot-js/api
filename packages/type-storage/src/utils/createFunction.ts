@@ -6,7 +6,7 @@ import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType }
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@polkadot/types';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
-import { blake2AsU8a } from '@polkadot/util-crypto';
+import { xxhashAsU8a } from '@polkadot/util-crypto';
 import { PlainType } from '@polkadot/types/Metadata/v2/Storage';
 
 export interface CreateItemOptions {
@@ -48,13 +48,13 @@ export default function createFunction (section: Text | string, method: Text | s
     return Compact.addLengthPrefix(
       options.isUnhashed
         ? key
-        : blake2AsU8a(key, 128)
+        : xxhashAsU8a(key, 128)
     );
   };
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     // TODO: there needs some better way to do this
-    const keyHash = new U8a(blake2AsU8a(`head of ${stringKey}`, 128));
+    const keyHash = new U8a(xxhashAsU8a(`head of ${stringKey}`, 128));
     const keyFn: any = () => keyHash;
     keyFn.meta = new StorageFunctionMetadata({
       name: meta.name,
