@@ -2,18 +2,68 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { getTypeDef } from '../../codec/createType';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
+import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
-import { MapType, PlainType } from '../v0/Modules';
+import Type from '../../primitive/Type';
+import { IStorageFunctionType } from '../../primitive/StorageKey';
+import { PlainType } from '../v0/Modules';
 import { MetadataStorageModifier } from '../v1/Storage';
 
 export class Default extends Null {}
 
 export class Optional extends Null {}
+
+export class MapType extends Struct {
+  constructor (value?: any) {
+    super({
+      key: Type,
+      value: Type,
+      isLinked: Bool
+    }, value);
+  }
+
+  /**
+   * @description The mapped key as [[Type]]
+   */
+  get key (): Type {
+    return this.get('key') as Type;
+  }
+
+  /**
+   * @description The mapped value as [[Type]]
+   */
+  get value (): Type {
+    return this.get('value') as Type;
+  }
+
+  /**
+   * @description Is this an enumerable linked map
+   */
+  get isLinked (): boolean {
+    return (this.get('isLinked') as Bool).valueOf();
+  }
+
+  toInterface (module: string): IStorageFunctionType {
+    return {
+      isDoubleMap: false,
+      isLinked: this.isLinked,
+      isMap: true,
+      asMap: () => ({
+        key: getTypeDef(this.key, module),
+        value: getTypeDef(this.value, module),
+        isLinked: this.isLinked
+      }),
+      asDoubleMap: () => { throw new Error(); },
+      asType: () => { throw new Error(); }
+    };
+  }
+}
 
 export class MetadataStorageType extends EnumType<PlainType | MapType> {
   constructor (value?: any, index?: number) {

@@ -6,11 +6,11 @@ import { ModuleStorage, Storage } from './types';
 
 import MetadataV0 from '@polkadot/types/Metadata/v0';
 import MetadataV3 from '@polkadot/types/Metadata/v3/Metadata';
-import { stringCamelCase } from '@polkadot/util';
+import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './utils/createFunction';
-import storage from '.';
-import { Metadata } from '@polkadot/types';
+import storageFn from '.';
+import { Metadata, TypeRegistry } from '@polkadot/types';
 
 /**
  * Extend a storage object with the storage modules & module functions present
@@ -36,17 +36,17 @@ export function fromMetadataV0 (metadata: MetadataV0): Storage {
       return result;
     }
 
-    const prefix = stringCamelCase(moduleMetadata.storage.unwrap().prefix.toString());
+    const prefix = moduleMetadata.storage.unwrap().prefix.toString();
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[prefix] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
-      newModule[prefix] = createFunction(prefix, func.name, func.toInterface(prefix));
+    result[stringLowerFirst(prefix)] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
+      newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func.toInterface(prefix));
 
       return newModule;
     }, {} as ModuleStorage);
 
     return result;
-  }, { ...storage });
+  }, { ...storageFn(TypeRegistry.TYPE_REGISTRY) });
 }
 
 export function fromMetadataV3 (metadata: MetadataV3): Storage {
@@ -55,15 +55,15 @@ export function fromMetadataV3 (metadata: MetadataV3): Storage {
       return result;
     }
 
-    const prefix = stringCamelCase(moduleMetadata.prefix.toString());
+    const prefix = moduleMetadata.prefix.toString();
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[prefix] = moduleMetadata.storage.unwrap().reduce((newModule, func) => {
-      newModule[prefix] = createFunction(prefix, func.name, func.toInterface(prefix));
+    result[stringLowerFirst(prefix)] = moduleMetadata.storage.unwrap().reduce((newModule, func) => {
+      newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func.toInterface(prefix));
 
       return newModule;
     }, {} as ModuleStorage);
 
     return result;
-  }, { ...storage });
+  }, { ...storageFn(TypeRegistry.TYPE_REGISTRY) });
 }

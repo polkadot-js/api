@@ -16,9 +16,9 @@ describe('e2e queries', () => {
       api = await Api.create();
     }
 
-    jest.setTimeout(30000);
+    // jest.setTimeout(30000);
     done();
-  });
+  }, 3000000);
 
   it('makes the runtime, rpc, state & extrinsics available', () => {
     expect(api.genesisHash).toBeDefined();

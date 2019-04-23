@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { getTypeDef } from '../../codec/createType';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import { IStorageFunctionMetadata, IStorageFunctionType } from '../../primitive/StorageKey';
 import Text from '../../primitive/Text';
-import { MapType, PlainType } from '../v0/Modules';
+import { PlainType } from '../v0/Modules';
 import { MetadataStorageModifier } from '../v1/Storage';
-import { getTypeDef } from "@polkadot/types/codec/createType";
+import { MapType } from '../v2/Storage';
 
 export class DoubleMapType extends Struct {
   constructor (value?: any) {

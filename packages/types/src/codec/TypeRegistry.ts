@@ -42,7 +42,7 @@ export interface ITypeDef {
 
 function isITypeDef (obj: Object): boolean {
   const keys = Object.keys(obj);
-  return keys.includes('info') && keys.includes('module') && keys.includes('displayName');
+  return keys.includes('type') && keys.includes('meta');
 }
 
 function isPromise (promise: any): boolean {
@@ -57,6 +57,7 @@ export default class TypeRegistry {
 
   protected static _TYPE_REGISTRY?: TypeRegistry;
   protected static TY_STACK: (TypeRegistry | undefined)[] = [];
+
   static get TYPE_REGISTRY (): TypeRegistry {
     assert(TypeRegistry._TYPE_REGISTRY, 'TYPE_REGISTRY is undefined, make sure it is wrapped in withRegistry()');
     return TypeRegistry._TYPE_REGISTRY as TypeRegistry;
@@ -67,8 +68,13 @@ export default class TypeRegistry {
     TypeRegistry._TYPE_REGISTRY = typeRegistry;
     const ret = wrapFn();
     if (isPromise(ret)) {
-      return ret.then(() => { TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop(); },
-        () => { TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop(); });
+      return ret.then((res: any) => {
+        TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
+        return res;
+      }, (err: any) => {
+        TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
+        throw err;
+      });
     } else {
       TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
     }
@@ -184,7 +190,7 @@ export default class TypeRegistry {
 
     const Type = this.createClass(type);
 
-    return new Type(value);
+    return TypeRegistry.withRegistry(this, () => new Type(value));
   }
 
   getTypeClass (value: ITypeDef): Constructor {

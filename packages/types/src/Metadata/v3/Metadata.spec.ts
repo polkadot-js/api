@@ -14,13 +14,13 @@ describe('MetadataV3', () => {
   const metadata = TypeRegistry.withRegistry(typeRegistry, () => new Metadata(rpcData));
 
   it('decodes latest properly', () => {
-    // const str = JSON.stringify(metadata.toJSON());
-    //
-    // console.error(str);
-    // console.error(metadata.getUniqTypes());
-    //
-    // expect(metadata.version).toBe(3);
-    // expect(metadata.asV3.modules.length).not.toBe(0);
-    // expect(str).toEqual(JSON.stringify(latestParsed));
+    const str = JSON.stringify(metadata.toJSON());
+
+    console.error(str);
+    console.error(metadata.getUniqTypes());
+
+    expect(metadata.version).toBe(3);
+    expect(metadata.asV3.modules.length).not.toBe(0);
+    expect(str).toEqual(JSON.stringify(latestParsed));
   });
 });

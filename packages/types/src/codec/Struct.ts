@@ -47,7 +47,7 @@ export default class Struct<
 
         return result;
       }, {} as E);
-    const TypeRegistry = require('./TypeRegistry');
+    const TypeRegistry = require('./TypeRegistry').default;
     this._typeRegistry = TypeRegistry.TYPE_REGISTRY;
   }
 

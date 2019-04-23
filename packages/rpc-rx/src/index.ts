@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
 import Rpc from '@polkadot/rpc-core';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
+import { TypeRegistry } from "@polkadot/types/codec";
 
 /**
  * @name RpcRx
@@ -41,10 +42,10 @@ export default class RpcRx implements RpcRxInterface {
   /**
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (providerOrRpc?: Rpc | ProviderInterface) {
+  constructor (providerOrRpc: Rpc | ProviderInterface | undefined, typeRegistry: TypeRegistry) {
     this._api = providerOrRpc instanceof Rpc
       ? providerOrRpc
-      : new Rpc(providerOrRpc);
+      : new Rpc(providerOrRpc, typeRegistry);
     this._eventemitter = new EventEmitter();
     this._isConnected = new BehaviorSubject(this._api._provider.isConnected());
 
