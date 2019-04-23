@@ -13,7 +13,7 @@ import { MapType, PlainType } from '../v2/Storage';
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
     super({
-      hasher: Text,
+      keyHasher: Text,
       key1: Text,
       key2: Text,
       value: Text
@@ -24,7 +24,7 @@ export class DoubleMapType extends Struct {
    * @description The hashing algorithm used to hash keys, as [[Text]]
    */
   get hasher (): Text {
-    return this.get('hasher') as Text;
+    return this.get('keyHasher') as Text;
   }
 
   /**
@@ -42,11 +42,11 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The mapped key as [[Text]]
-   * @deprecated Use `.hasher` instead of this.
+   * @description The hashing algorithm used to hash keys, as [[Text]]
+   * @deprecated Use `.hasher` instead
    */
   get keyHasher (): Text {
-    return this.get('hasher') as Text;
+    return this.get('keyHasher') as Text;
   }
 
   /**

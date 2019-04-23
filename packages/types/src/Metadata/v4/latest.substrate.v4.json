@@ -12,7 +12,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Index",
                   "isLinked": false
@@ -50,7 +50,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "BlockNumber",
                   "value": "Hash",
                   "isLinked": false
@@ -66,7 +66,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "u32",
                   "value": "Bytes",
                   "isLinked": false
@@ -366,7 +366,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountIndex",
                   "value": "Vec<AccountId>",
                   "isLinked": false
@@ -470,7 +470,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "VestingSchedule",
                   "isLinked": false
@@ -486,7 +486,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Balance",
                   "isLinked": false
@@ -512,7 +512,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Balance",
                   "isLinked": false
@@ -538,7 +538,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Vec<BalanceLock>",
                   "isLinked": false
@@ -712,7 +712,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "SessionKey",
                   "isLinked": false
@@ -885,7 +885,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "AccountId",
                   "isLinked": false
@@ -901,7 +901,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "StakingLedger",
                   "isLinked": false
@@ -917,7 +917,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "RewardDestination",
                   "isLinked": false
@@ -933,7 +933,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "ValidatorPrefs",
                   "isLinked": true
@@ -949,7 +949,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Vec<AccountId>",
                   "isLinked": true
@@ -965,7 +965,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Exposure",
                   "isLinked": false
@@ -1064,7 +1064,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "u32",
                   "isLinked": false
@@ -1387,7 +1387,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "PropIndex",
                   "value": "(BalanceOf,Vec<AccountId>)",
                   "isLinked": false
@@ -1480,7 +1480,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "ReferendumIndex",
                   "value": "ReferendumInfo",
                   "isLinked": false
@@ -1496,7 +1496,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "BlockNumber",
                   "value": "Vec<Option<(Proposal,ReferendumIndex)>>",
                   "isLinked": false
@@ -1512,7 +1512,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "ReferendumIndex",
                   "value": "Vec<AccountId>",
                   "isLinked": false
@@ -1528,7 +1528,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "(ReferendumIndex,AccountId)",
                   "value": "Vote",
                   "isLinked": false
@@ -1546,7 +1546,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "AccountId",
                   "isLinked": false
@@ -1562,7 +1562,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "(AccountId,LockPeriods)",
                   "isLinked": true
@@ -1946,7 +1946,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "Vec<bool>",
                   "isLinked": false
@@ -1963,7 +1963,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "(VoteIndex,u32)",
                   "isLinked": false
@@ -1980,7 +1980,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "VoteIndex",
                   "isLinked": false
@@ -2310,7 +2310,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "Hash",
                   "value": "Proposal",
                   "isLinked": false
@@ -2324,7 +2324,7 @@
               "modifier": "Default",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "Hash",
                   "value": "Vec<AccountId>",
                   "isLinked": false
@@ -2338,7 +2338,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "(Hash,AccountId)",
                   "value": "bool",
                   "isLinked": false
@@ -2352,7 +2352,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "Hash",
                   "value": "(BlockNumber,Vec<AccountId>)",
                   "isLinked": false
@@ -2467,7 +2467,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "Hash",
                   "value": "Proposal",
                   "isLinked": false
@@ -2483,7 +2483,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "Hash",
                   "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)",
                   "isLinked": false
@@ -2743,7 +2743,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "ProposalIndex",
                   "value": "Proposal",
                   "isLinked": false
@@ -3038,7 +3038,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "CodeHash",
                   "isLinked": false
@@ -3054,7 +3054,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "CodeHash",
                   "value": "Bytes",
                   "isLinked": false
@@ -3070,7 +3070,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "CodeHash",
                   "value": "PrefabWasmModule",
                   "isLinked": false
@@ -3097,7 +3097,7 @@
               "modifier": "Optional",
               "type": {
                 "MapType": {
-                  "hasher": "",
+                  "hasher": 0,
                   "key": "AccountId",
                   "value": "AccountInfo",
                   "isLinked": false
