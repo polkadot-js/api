@@ -5,8 +5,7 @@
 import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@polkadot/types';
 import { StorageFunctionModifier } from '@polkadot/types/Metadata/v0/Modules';
 import { PlainType } from '@polkadot/types/Metadata/v2/Storage';
-import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v4/Modules';
-import { MetadataStorage, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
+import { StorageFunctionMetadata, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
@@ -27,7 +26,7 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (section: Text | string, method: Text | string, meta: MetadataStorage, options: CreateItemOptions = {}): StorageFunction {
+export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction<StorageFunctionMetadata> {
   const stringKey = options.key
     ? options.key
     : `${section.toString()} ${method.toString()}`;
@@ -83,5 +82,5 @@ export default function createFunction (section: Text | string, method: Text | s
   storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any => meta.toJSON();
 
-  return storageFn as StorageFunction;
+  return storageFn as StorageFunction<StorageFunctionMetadata>;
 }

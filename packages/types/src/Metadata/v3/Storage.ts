@@ -8,7 +8,7 @@ import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MetadataStorageModifier } from '../v1/Storage';
+import { StorageFunctionModifier } from '../v1/Storage';
 import { MapType, PlainType } from '../v2/Storage';
 
 export class StorageHasher extends Enum {
@@ -56,7 +56,7 @@ export class DoubleMapType extends Struct {
   }
 }
 
-export class StorageFunctionMetadata extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -119,12 +119,12 @@ export class StorageFunctionMetadata extends EnumType<PlainType | MapType | Doub
  * @description
  * The definition of a storage function
  */
-export class MetadataStorage extends Struct {
+export class StorageFunctionMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
-      modifier: MetadataStorageModifier,
-      type: StorageFunctionMetadata,
+      modifier: StorageFunctionModifier,
+      type: StorageFunctionType,
       fallback: Bytes,
       documentation: Vector.with(Text)
     }, value);
@@ -147,8 +147,8 @@ export class MetadataStorage extends Struct {
   /**
    * @description The [[MetadataArgument]] for arguments
    */
-  get modifier (): MetadataStorageModifier {
-    return this.get('modifier') as MetadataStorageModifier;
+  get modifier (): StorageFunctionModifier {
+    return this.get('modifier') as StorageFunctionModifier;
   }
 
   /**
@@ -159,9 +159,9 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[StorageFunctionMetadata]]
+   * @description The [[StorageFunctionType]]
    */
-  get type (): StorageFunctionMetadata {
-    return this.get('type') as StorageFunctionMetadata;
+  get type (): StorageFunctionType {
+    return this.get('type') as StorageFunctionType;
   }
 }

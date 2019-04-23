@@ -12,8 +12,7 @@ import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { StorageFunctionModifier } from '../v0/Modules';
-import { MetadataStorageModifier } from '../v1/Storage';
+import { StorageFunctionModifier } from '../v1/Storage';
 import { PlainType } from '../v2/Storage';
 
 export class StorageHasher extends Enum {
@@ -175,19 +174,26 @@ export type StorageFunctionMetadataValue = {
 };
 
 /**
- * @name MetadataModule
+ * @name StorageFunctionMetadata
  * @description
  * The definition of a storage function
  */
-export class MetadataStorage extends Struct {
-  constructor (value?: any) {
+export class StorageFunctionMetadata extends Struct {
+  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: Text,
-      modifier: MetadataStorageModifier,
+      modifier: StorageFunctionModifier,
       type: StorageFunctionType,
       fallback: Bytes,
       documentation: Vector.with(Text)
     }, value);
+  }
+
+  /**
+   * @description The default value of the storage function
+   */
+  get fallback (): Bytes {
+    return this.get('fallback') as Bytes;
   }
 
   /**
@@ -198,28 +204,21 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[Bytes]] fallback default
-   */
-  get fallback (): Bytes {
-    return this.get('fallback') as Bytes;
-  }
-
-  /**
-   * @description The [[MetadataArgument]] for arguments
-   */
-  get modifier (): MetadataStorageModifier {
-    return this.get('modifier') as MetadataStorageModifier;
-  }
-
-  /**
-   * @description The call name
+   * @description The key name
    */
   get name (): Text {
     return this.get('name') as Text;
   }
 
   /**
-   * @description The [[StorageFunctionMetadata]]
+   * @description The modifier
+   */
+  get modifier (): StorageFunctionModifier {
+    return this.get('modifier') as StorageFunctionModifier;
+  }
+
+  /**
+   * @description The [[StorageFunctionType]]
    */
   get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;

@@ -9,7 +9,7 @@ type HasherFunction = (data: string | Buffer | Uint8Array, bitLength?: number) =
 
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
   // Backwards-compatibility: before introducing custom hashers, we used
-  // xxhashAsU8a everywhere
+  // to use xxhashAsU8a everywhere
   if (!hasher) {
     return xxhashAsU8a;
   }
