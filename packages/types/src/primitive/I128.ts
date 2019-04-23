@@ -9,7 +9,7 @@ import Int from '../codec/Int';
 /**
  * @name I128
  * @description
- * An 128-bit signed integer
+ * A 128-bit signed integer
  */
 export default class I128 extends Int {
   constructor (value?: AnyNumber) {
