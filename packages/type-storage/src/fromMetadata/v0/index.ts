@@ -5,7 +5,6 @@
 import { ModuleStorage, Storage } from '../../types';
 
 import MetadataV0 from '@polkadot/types/Metadata/v0';
-import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v0/Storage';
 import { stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './createFunction';
@@ -18,7 +17,7 @@ import { storage } from './storage';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromV0 (metadata: MetadataV0): Storage<StorageFunctionMetadata> {
+export default function fromV0 (metadata: MetadataV0): Storage {
   return metadata.modules.reduce((result, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return result;
@@ -31,7 +30,7 @@ export default function fromV0 (metadata: MetadataV0): Storage<StorageFunctionMe
       newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
 
       return newModule;
-    }, {} as ModuleStorage<StorageFunctionMetadata>);
+    }, {} as ModuleStorage);
 
     return result;
   }, { ...storage });

@@ -10,9 +10,9 @@ import Bytes from './Bytes';
 import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
 import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 
-export interface StorageFunction<Meta> {
+export interface StorageFunction {
   (arg?: any): Uint8Array;
-  meta: Meta;
+  meta: MetaV0 | MetaV4;
   method: string;
   section: string;
   toJSON: () => any;
@@ -25,18 +25,18 @@ export interface StorageFunction<Meta> {
  * A representation of a storage key (typically hashed) in the system. It can be
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
-export default class StorageKey<Meta extends MetaV0 | MetaV4> extends Bytes {
-  private _meta: Meta | null;
+export default class StorageKey extends Bytes {
+  private _meta: MetaV0 | MetaV4 | null;
   private _outputType: string | null;
 
-  constructor (value: AnyU8a | StorageKey<Meta> | StorageFunction<Meta> | [StorageFunction<Meta>, any]) {
+  constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.decodeStorageKey(value));
 
-    this._meta = StorageKey.getMeta(value as StorageKey<Meta>);
-    this._outputType = StorageKey.getType(value as StorageKey<Meta>);
+    this._meta = StorageKey.getMeta(value as StorageKey);
+    this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static decodeStorageKey<Meta extends MetaV0 | MetaV4> (value: AnyU8a | StorageKey<Meta> | StorageFunction<Meta> | [StorageFunction<Meta>, any]): Uint8Array {
+  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
     if (isFunction(value)) {
       return value();
     } else if (Array.isArray(value)) {
@@ -50,7 +50,7 @@ export default class StorageKey<Meta extends MetaV0 | MetaV4> extends Bytes {
     return value as Uint8Array;
   }
 
-  static getMeta<Meta extends MetaV0 | MetaV4> (value: StorageKey<Meta> | StorageFunction<Meta> | [StorageFunction<Meta>, any]): Meta | null {
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -64,7 +64,7 @@ export default class StorageKey<Meta extends MetaV0 | MetaV4> extends Bytes {
     return null;
   }
 
-  static getType<Meta extends MetaV0 | MetaV4> (value: StorageKey<Meta> | StorageFunction<Meta> | [StorageFunction<Meta>, any]): string | null {
+  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -81,7 +81,7 @@ export default class StorageKey<Meta extends MetaV0 | MetaV4> extends Bytes {
   /**
    * @description The metadata or `null` when not available
    */
-  get meta (): Meta | null {
+  get meta (): MetaV0 | MetaV4 | null {
     return this._meta;
   }
 

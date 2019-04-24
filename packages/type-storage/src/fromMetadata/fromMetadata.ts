@@ -5,8 +5,6 @@
 import { Storage } from '../types';
 
 import Metadata from '@polkadot/types/Metadata';
-import { StorageFunctionMetadata as MetaV0 } from '@polkadot/types/Metadata/v0/Storage';
-import { StorageFunctionMetadata as MetaV4 } from '@polkadot/types/Metadata/v4/Storage';
 
 import fromV0 from './v0';
 import fromV4 from './v4';
@@ -18,7 +16,7 @@ import fromV4 from './v4';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromMetadata (metadata: Metadata): Storage<MetaV0 | MetaV4> {
+export default function fromMetadata (metadata: Metadata): Storage {
   // For v0-v3 we convert to v0, and use the fromV0 function to parse
   if ([0, 1, 2, 3].includes(metadata.version)) {
     return fromV0(metadata.asV0);

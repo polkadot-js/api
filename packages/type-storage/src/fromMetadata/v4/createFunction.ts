@@ -24,7 +24,7 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction<StorageFunctionMetadata> {
+export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
   const stringKey = options.key
     ? options.key
     : `${section.toString()} ${method.toString()}`;
@@ -77,5 +77,5 @@ export default function createFunction (section: Text | string, method: Text | s
   storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any => meta.toJSON();
 
-  return storageFn as StorageFunction<StorageFunctionMetadata>;
+  return storageFn as StorageFunction;
 }

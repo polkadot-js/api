@@ -189,10 +189,10 @@ export default class Rpc implements RpcInterface {
     if (method.type === 'StorageData') {
       // single return value (via state.getStorage), decode the value based on the
       // outputType that we have specified. Fallback to Data on nothing
-      const key = params[0] as StorageKey<any>; // FIXME Should not use any here
+      const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
       const Clazz = createClass(type);
-      const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+      const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
 
       if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
         // linked map
@@ -208,7 +208,7 @@ export default class Rpc implements RpcInterface {
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey<any>>).reduce((result, key: StorageKey<any>) => {
+      return (params[0] as Vector<StorageKey>).reduce((result, key: StorageKey) => {
         // Fallback to Data (i.e. just the encoding) if we don't have a specific type
         const type = key.outputType || 'Data';
         const Clazz = createClass(type);
@@ -218,7 +218,7 @@ export default class Rpc implements RpcInterface {
         const { value } = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === hexKey
         ) || { value: null };
-        const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+        const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
 
         if (!value) {
           // if we don't have a value, do not fill in the entry, it will be up to the

@@ -14,7 +14,7 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction<StorageFunctionMetadata> =>
+const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
   createFunction(
     new Text('Substrate'),
     new Text(method),

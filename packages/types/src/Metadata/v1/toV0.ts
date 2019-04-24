@@ -82,11 +82,11 @@ function outerEventV0 (v1: MetadataV1): OuterEventMetadata {
       .map((mod) =>
         new OuterEventMetadataEvent([
           mod.name,
-          mod.events.unwrap().map(({ args, docs, name }) =>
+          mod.events.unwrap().map(({ args, documentation, name }) =>
             new EventMetadata({
               name,
               arguments: args,
-              documentation: docs
+              documentation
             })
           )
         ])
