@@ -15,7 +15,7 @@ import Type from '../../primitive/Type';
 import {
   PlainType,
   StorageFunctionModifier
-} from '../v2/Storage';
+} from '../v3/Storage';
 
 // Re-export classes that haven't changed between V3 and V4
 export {
@@ -26,6 +26,11 @@ export {
 export class StorageHasher extends Enum {
   constructor (value?: any) {
     super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
+  }
+
+  toJSON (): any {
+    // This looks prettier in the generated JSON
+    return this.toString();
   }
 }
 
