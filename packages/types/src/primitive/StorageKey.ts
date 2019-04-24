@@ -7,8 +7,8 @@ import { AnyU8a } from '../types';
 import { isFunction } from '@polkadot/util';
 
 import Bytes from './Bytes';
-import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Modules';
-import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Modules';
+import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
+import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 
 export interface StorageFunction<Meta> {
   (arg?: any): Uint8Array;

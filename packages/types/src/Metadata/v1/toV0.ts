@@ -4,7 +4,8 @@
 
 import { OuterDispatchCall, OuterDispatchMetadata } from '../v0/Calls';
 import { EventMetadata, OuterEventMetadata, OuterEventMetadataEvent } from '../v0/Events';
-import { CallMetadata, FunctionMetadata, RuntimeModuleMetadata, ModuleMetadata, StorageFunctionMetadata, StorageMetadata, StorageFunctionType } from '../v0/Modules';
+import { CallMetadata, FunctionMetadata, RuntimeModuleMetadata, ModuleMetadata } from '../v0/Modules';
+import { StorageFunctionMetadata, StorageMetadata, StorageFunctionType } from '../v0/Storage';
 
 import MetadataV0 from '../v0/Metadata';
 import MetadataV1, { MetadataModuleV1 } from '.';
@@ -35,12 +36,12 @@ function moduleV0 (mod: MetadataModuleV1): ModuleMetadata {
       name: 'Call',
       functions: mod.calls.isNone
         ? []
-        : mod.calls.unwrap().map(({ args, docs, name }, id) =>
+        : mod.calls.unwrap().map(({ args, documentation, name }, id) =>
           new FunctionMetadata({
             id,
             name,
             arguments: args,
-            documentation: docs
+            documentation
           })
         )
     })
