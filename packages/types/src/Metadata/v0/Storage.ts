@@ -6,7 +6,6 @@ import { AnyNumber } from '../../types';
 
 import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
-import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
