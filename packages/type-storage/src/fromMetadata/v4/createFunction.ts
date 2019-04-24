@@ -50,14 +50,11 @@ export default function createFunction (section: Text | string, method: Text | s
       key = u8aConcat(key, param);
     }
 
-    // Some keys (see `substrate.ts`) are not hashed, return as-is
-    if (options.isUnhashed) {
-      return key;
-    }
-
     // StorageKey is a Bytes, so is length-prefixed
     return Compact.addLengthPrefix(
-      hasher(key, 128)
+      options.isUnhashed
+        ? key
+        : hasher(key, 128)
     );
   };
 

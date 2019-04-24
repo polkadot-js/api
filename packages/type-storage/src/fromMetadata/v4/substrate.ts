@@ -4,7 +4,7 @@
 
 import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { Text, Vector, Bytes } from '@polkadot/types';
+import { Text, Vector } from '@polkadot/types';
 
 import createFunction from './createFunction';
 
@@ -18,13 +18,12 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
   createFunction(
     new Text('Substrate'),
     new Text(method),
-    new StorageFunctionMetadata({
+    {
       documentation: new Vector(Text, [documentation]),
-      fallback: new Bytes(), // unused
       modifier: new StorageFunctionModifier(1), // default
-      name: key,
-      type: new StorageFunctionType(type, 0)
-    }),
+      type: new StorageFunctionType(type, 0),
+      toJSON: (): any => key
+    } as StorageFunctionMetadata,
     {
       isUnhashed: true,
       key
