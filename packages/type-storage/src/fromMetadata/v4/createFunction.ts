@@ -54,13 +54,13 @@ export default function createFunction (section: Text | string, method: Text | s
     return Compact.addLengthPrefix(
       options.isUnhashed
         ? key
-        : hasher(key, 128)
+        : hasher(key)
     );
   };
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     // TODO: there needs some better way to do this
-    const keyHash = new U8a(hasher(`head of ${stringKey}`, 128));
+    const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = () => keyHash;
     keyFn.meta = new StorageFunctionMetadata({
       name: meta.name,
