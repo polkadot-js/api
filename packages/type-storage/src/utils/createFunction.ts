@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { IStorageFunctionMetadata, StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { Compact, StorageKey, Text, TypeRegistry, U8a } from '@polkadot/types';
+import {
+  IStorageFunctionMetadata,
+  StorageFunction
+} from '@polkadot/types/primitive/StorageKey';
+import { Bytes, Compact, StorageKey, Text, TypeRegistry, U8a } from '@polkadot/types';
+import { StorageModifier } from '@polkadot/types/types';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 import { xxhashAsU8a } from '@polkadot/util-crypto';
 
@@ -55,7 +59,20 @@ export default function createFunction (section: string, method: Text | string, 
     // TODO: there needs some better way to do this
     const keyHash = new U8a(xxhashAsU8a(`head of ${stringKey}`, 128));
     const keyFn: any = () => keyHash;
-    keyFn.meta = meta;
+    keyFn.meta = {
+      name: meta.name,
+      modifier: StorageModifier.Required,
+      type: {
+        isMap: false,
+        isLinked: false,
+        isDoubleMap: false,
+        asMap: () => { throw new Error(); },
+        asType: () => meta.type.asMap().key,
+        asDoubleMap: () => { throw new Error(); }
+      },
+      default: new Bytes(),
+      documentation: meta.documentation
+    };
     storageFn.headKey = new StorageKey(keyFn);
   }
 

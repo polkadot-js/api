@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Option, ReferendumInfo, ReferendumIndex } from '@polkadot/types';
+import { Option, ReferendumInfo, ReferendumIndex, TypeRegistry } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
 
 import { drr } from '../util/drr';
@@ -52,12 +52,12 @@ export function referendumInfo (api: ApiInterface$Rx) {
         map((optionInfo) => {
           const info = optionInfo.unwrapOr(null);
 
-          return new Option<ReferendumInfoExtended>(
+          return TypeRegistry.withRegistry(api.typeRegistry, () => new Option<ReferendumInfoExtended>(
             ReferendumInfoExtended,
             isNull(info)
               ? null
               : new ReferendumInfoExtended(info, index)
-          );
+          ));
         }),
         drr()
       );

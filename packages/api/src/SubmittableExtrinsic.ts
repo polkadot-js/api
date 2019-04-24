@@ -3,7 +3,19 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { AccountId, Address, ExtrinsicStatus, EventRecord, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
+import {
+  AccountId,
+  Address,
+  ExtrinsicStatus,
+  EventRecord,
+  Hash,
+  Index,
+  Method,
+  SignedBlock,
+  Struct,
+  Vector,
+  TypeRegistry
+} from '@polkadot/types';
 import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
@@ -70,7 +82,8 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
 }
 
 export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
-  const _extrinsic = new (api.typeRegistry.getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
+  const Extrinsic = api.typeRegistry.getOrThrow('Extrinsic');
+  const _extrinsic = TypeRegistry.withRegistry(api.typeRegistry, () => new Extrinsic(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>);
   const _noStatusCb = type === 'rxjs';
 
   function updateSigner (updateId: number, status: Hash | SubmittableResult): void {
@@ -81,7 +94,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
 
   function statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
     if (!status.isFinalized) {
-      const result = new SubmittableResult({ status });
+      const result = TypeRegistry.withRegistry(api.typeRegistry, () => new SubmittableResult({ status }));
 
       trackingCb && trackingCb(result);
 
@@ -95,10 +108,10 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
     ).pipe(
       map(([signedBlock, allEvents]) => {
-        const result = new SubmittableResult({
+        const result = TypeRegistry.withRegistry(api.typeRegistry, () => new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
           status
-        });
+        }));
 
         trackingCb && trackingCb(result);
 

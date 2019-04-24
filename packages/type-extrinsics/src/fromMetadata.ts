@@ -70,15 +70,16 @@ export function fromMetadataV0 (metadata: MetadataV0): ModulesWithMethods {
 }
 
 export function fromMetadataV3 (metadata: MetadataV3): ModulesWithMethods {
+  let indexCount = -1;
   return metadata.modules.reduce((result, module: MetadataModule) => {
     if (!module.calls || module.calls.isEmpty) {
       return result;
     }
-
+    indexCount++;
     const prefix = stringCamelCase(module.prefix.toString());
     result[prefix] = module.calls.unwrap().reduce((newModule, call, index) => {
       const funcName = stringCamelCase(call.name.toString());
-      newModule[funcName] = createUnchecked(prefix, funcName, index, call.toInterface(index, module.name.toString()));
+      newModule[funcName] = createUnchecked(prefix, funcName, indexCount, call.toInterface(index, module.name.toString()));
 
       return newModule;
     }, {} as Methods);

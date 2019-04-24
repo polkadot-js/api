@@ -118,7 +118,7 @@ export default class Rpc implements RpcInterface {
         const paramsJson = params.map((param) => param.toJSON());
         const result = await this._provider.send(rpcName, paramsJson);
 
-        return this.formatOutput(method, params, result);
+        return TypeRegistry.withRegistry(this._typeRegistry, () => this.formatOutput(method, params, result));
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
@@ -195,7 +195,7 @@ export default class Rpc implements RpcInterface {
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
       const Clazz = this._typeRegistry.createClass(type);
-      const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+      const meta: IStorageFunctionMetadata = key.meta || { fallback: undefined, modifier: StorageModifier.Optional } as any;
 
       if (key.meta && key.meta.type.isMap && key.meta.type.asMap().isLinked) {
         // linked map

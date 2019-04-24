@@ -4,7 +4,7 @@
 
 import { MetadataInterface } from '../types';
 
-import { hexToU8a, isHex, isU8a } from '@polkadot/util';
+import { hexToU8a, isHex, isU8a, stringCamelCase } from '@polkadot/util';
 
 import Compact from '../../codec/Compact';
 import Struct from '../../codec/Struct';
@@ -13,6 +13,8 @@ import { flattenUniq } from '../util';
 import { OuterDispatchMetadata, OuterDispatchCall } from './Calls';
 import { OuterEventMetadata, OuterEventMetadataEvent } from './Events';
 import { RuntimeModuleMetadata } from './Modules';
+import { IMetadataEvent } from '../../types';
+import { getTypeDef } from '../../codec/createType';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call. This
 // file is probably best understood from the bottom-up, i.e. start reading right at the
@@ -73,6 +75,28 @@ export default class MetadataV0 extends Struct implements MetadataInterface {
    */
   get modules (): Vector<RuntimeModuleMetadata> {
     return this.get('modules') as Vector<RuntimeModuleMetadata>;
+  }
+
+  toIModuleEvents (): IMetadataEvent[] {
+    const ret: IMetadataEvent[] = [];
+    this.events.forEach((section, sectionIndex) => {
+      const sectionName = stringCamelCase(section.name.toString());
+
+      section.events.forEach((meta, methodIndex) => {
+        const methodName = meta.name.toString();
+        const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+        const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
+
+        ret.push({
+          id: eventIndex.toString(),
+          module: sectionName,
+          name: methodName,
+          args: typeDef,
+          docs: meta.documentation.map(line => line.toString())
+        });
+      });
+    });
+    return ret;
   }
 
   private get argNames () {

@@ -55,7 +55,7 @@ export interface StorageFunction {
  */
 export default class StorageKey extends Bytes {
   private _meta: IStorageFunctionMetadata | null;
-  private _outputType: string | null;
+  private _outputType: ITypeDef | null;
 
   constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.decodeStorageKey(value));
@@ -92,15 +92,18 @@ export default class StorageKey extends Bytes {
     return null;
   }
 
-  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
+  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): ITypeDef | null {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
-      return value.meta.type.toString();
+      return value.meta.type.asType();
     } else if (Array.isArray(value)) {
       const [fn] = value;
-
-      return fn.meta.type.toString();
+      if (fn.meta.type.isMap) {
+        return fn.meta.type.asMap().value;
+      } else {
+        return fn.meta.type.asType();
+      }
     }
 
     return null;
@@ -116,7 +119,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The output type, `null` when not available
    */
-  get outputType (): string | null {
+  get outputType (): ITypeDef | null {
     return this._outputType;
   }
 }

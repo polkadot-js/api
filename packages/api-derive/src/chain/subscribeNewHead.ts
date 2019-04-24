@@ -5,7 +5,7 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Header, HeaderExtended } from '@polkadot/types';
+import { AccountId, Header, HeaderExtended, TypeRegistry } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -41,7 +41,7 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
           ) as Observable<HeaderAndValidators>)
         ),
         map(([header, validators]) =>
-          new HeaderExtended(header, validators)
+          TypeRegistry.withRegistry(api.typeRegistry, () => new HeaderExtended(header, validators))
         ),
         drr()
       );

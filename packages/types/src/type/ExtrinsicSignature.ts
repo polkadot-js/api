@@ -6,6 +6,7 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, IExtrinsicSignature, SignatureOptions } from '../types';
 
 import Struct from '../codec/Struct';
+import TypeRegistry from '../codec/TypeRegistry';
 import Address from './Address';
 import Method from '../primitive/Method';
 import U8 from '../primitive/U8';
@@ -129,12 +130,14 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
    * @description Adds a raw signature
    */
   addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
-    const signer = new Address(_signer);
-    const nonce = new Nonce(_nonce);
-    const era = new ExtrinsicEra(_era);
-    const signature = new Signature(_signature);
+    return TypeRegistry.withRegistry(this._typeRegistry, () => {
+      const signer = new Address(_signer);
+      const nonce = new Nonce(_nonce);
+      const era = new ExtrinsicEra(_era);
+      const signature = new Signature(_signature);
 
-    return this.injectSignature(signature, signer, nonce, era);
+      return this.injectSignature(signature, signer, nonce, era);
+    });
   }
 
   /**
@@ -142,15 +145,17 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
    */
   sign (method: Method, account: KeyringPair, { blockHash, era, nonce, version }: SignatureOptions): ExtrinsicSignature {
     const signer = new Address(account.publicKey());
-    const signingPayload = new SignaturePayload({
-      nonce,
-      method,
-      era: era || IMMORTAL_ERA,
-      blockHash
-    });
-    const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
+    return TypeRegistry.withRegistry(this._typeRegistry, () => {
+      const signingPayload = new SignaturePayload({
+        nonce,
+        method,
+        era: era || IMMORTAL_ERA,
+        blockHash
+      });
+      const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
 
-    return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
+      return this.injectSignature(signature, signer, signingPayload.nonce, signingPayload.era);
+    });
   }
 
   /**

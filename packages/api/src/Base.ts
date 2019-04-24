@@ -412,8 +412,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      // this.typeRegistry.injectEvents(this.runtimeMetadata);
-      // this.typeRegistry.injectMethods(extrinsics);
+      this.typeRegistry.injectEvents(this.runtimeMetadata.toIModuleEvents());
+      this.typeRegistry.injectMethods(extrinsics);
     }
 
     return true;

@@ -9,6 +9,7 @@ import { assert, isUndefined } from '@polkadot/util';
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Null from '../primitive/Null';
+import { IMetadataEvent } from '../types';
 import MagicNumber from './MagicNumber';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
@@ -162,5 +163,9 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
 
   getUniqTypes (): Array<string> {
     return (this.metadata.value as any as MetadataInterface).getUniqTypes();
+  }
+
+  toIModuleEvents (): IMetadataEvent[] {
+    return (this.metadata.value as any as MetadataInterface).toIModuleEvents();
   }
 }

@@ -5,7 +5,7 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Header, HeaderExtended } from '@polkadot/types';
+import { Header, HeaderExtended, TypeRegistry } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
@@ -32,7 +32,7 @@ export function getHeader (api: ApiInterface$Rx) {
         : of([])
     ) as Observable<HeaderAndValidators>).pipe(
       map(([header, validators]) =>
-        new HeaderExtended(header, validators)
+        TypeRegistry.withRegistry(api.typeRegistry, () => new HeaderExtended(header, validators))
       ),
       catchError(() =>
         // where rpc.chain.getHeader throws, we will land here - it can happen that

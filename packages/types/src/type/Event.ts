@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from '../types';
+import { Constructor, IMetadataEvent } from '../types';
 
 import { isUndefined, u8aToHex } from '@polkadot/util';
 
@@ -10,10 +10,7 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import Null from '../primitive/Null';
-import { EventMetadata } from '../Metadata/v0/Events';
 import { default as TypeRegistry, ITypeDef } from '../codec/TypeRegistry';
-
-// const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
 /**
  * @name EventData
@@ -21,12 +18,12 @@ import { default as TypeRegistry, ITypeDef } from '../codec/TypeRegistry';
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadata;
+  private _meta: IMetadataEvent;
   private _method: string;
   private _section: string;
   private _typeDef: Array<ITypeDef>;
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<ITypeDef>, meta: EventMetadata, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<ITypeDef>, meta: IMetadataEvent, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -38,7 +35,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  get meta (): EventMetadata {
+  get meta (): IMetadataEvent {
     return this._meta;
   }
 
@@ -154,7 +151,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  get meta (): EventMetadata {
+  get meta (): IMetadataEvent {
     return this.data.meta;
   }
 

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { assert, isString, isFunction, isUndefined } from '@polkadot/util';
-import { ArgsDef, Codec, Constructor, RegistryTypes } from '../types';
+import { ArgsDef, Codec, Constructor, IMetadataEvent, RegistryTypes } from '../types';
 import Text from '../primitive/Text';
 import EnumType from './EnumType';
 import Compact from './Compact';
@@ -13,8 +13,7 @@ import Struct from './Struct';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
-import Method, { IFunctionMetadata, MethodFunction, ModulesWithMethods } from '../primitive/Method';
-import Metadata from '../Metadata';
+import Method, { FN_UNKNOWN, IFunctionMetadata, MethodFunction, ModulesWithMethods } from '../primitive/Method';
 import { EventData } from '../type/Event';
 import { getTypeDef } from './createType';
 import flattenUniq from '../Metadata/util/flattenUniq';
@@ -86,7 +85,8 @@ export default class TypeRegistry {
    */
   private _registry: Map<string, Constructor> = new Map();
 
-  protected EventTypes: { [index: string]: Constructor<EventData> } = {};
+  protected eventTypes: { [index: string]: Constructor<EventData> } = {};
+  protected methods: { [index: string]: MethodFunction } = {};
 
   loadDefault () {
     const defaultTypes = require('../index.types');
@@ -145,7 +145,7 @@ export default class TypeRegistry {
     return typeClass;
   }
 
-  getOrThrow (typeDef: string | ITypeDef, msg?: string): Constructor {
+  getOrThrow (name: string | ITypeDef, msg?: string): Constructor {
     const type = this.get(name);
     if (isUndefined(type)) {
       throw new Error(msg || `type ${name} not found`);
@@ -155,11 +155,17 @@ export default class TypeRegistry {
   }
 
   injectMethods (moduleMethods: ModulesWithMethods): void {
-    throw new Error('todo');
+    Object.values(moduleMethods).forEach((methods) =>
+      Object.values(methods).forEach((method) =>
+        this.methods[method.callIndex.toString()] = method
+      )
+    );
   }
 
   findFunction (callIndex: string): MethodFunction {
-    throw new Error('todo');
+    assert(Object.keys(this.methods).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
+
+    return this.methods[callIndex.toString()] || FN_UNKNOWN;
   }
 
   getArgsDef (meta: IFunctionMetadata): ArgsDef {
@@ -171,12 +177,19 @@ export default class TypeRegistry {
     }, {} as ArgsDef);
   }
 
-  injectEvents (metadata: Metadata): void {
-    throw new Error('todo');
+  injectEvents (events: IMetadataEvent[]): void {
+    for (const eventMeta of events) {
+      const Types = eventMeta.args.map((typeDef) => this.getTypeClass(typeDef));
+      this.eventTypes[eventMeta.id] = class extends EventData {
+        constructor (value: Uint8Array) {
+          super(Types, value, eventMeta.args, eventMeta, eventMeta.module, eventMeta.name);
+        }
+      };
+    }
   }
 
   findEventType (index: string): Constructor<EventData> {
-    throw new Error('todo');
+    return this.eventTypes[index];
   }
 
   createClass (type: Text | string | ITypeDef): Constructor {
@@ -237,7 +250,7 @@ export default class TypeRegistry {
         assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
         return Tuple.with(
-          (value.sub as Array<ITypeDef>).map(this.getTypeClass)
+          (value.sub as Array<ITypeDef>).map(type => this.getTypeClass(type))
         );
       case TypeDefInfo.Vector:
         assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');

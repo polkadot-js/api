@@ -2,17 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataInterface } from '../types';
+import { stringCamelCase } from '@polkadot/util';
 
+import { MetadataInterface } from '../types';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
-import { flattenUniq } from '../util';
 
+import { flattenUniq } from '../util';
 import { MetadataCall } from '../v1/Calls';
 import { MetadataEvent } from '../v1/Events';
 import { MetadataStorage } from './Storage';
+import { IMetadataEvent } from '../../types';
+import { getTypeDef } from '../../codec/createType';
 
 /**
  * @name MetadataModule
@@ -83,6 +86,29 @@ export default class MetadataV2 extends Struct implements MetadataInterface {
    */
   get modules (): Vector<MetadataModule> {
     return this.get('modules') as Vector<MetadataModule>;
+  }
+
+  toIModuleEvents (): IMetadataEvent[] {
+    const ret: IMetadataEvent[] = [];
+    let sectionIndex = -1;
+    this.modules.forEach((section) => {
+      const sectionName = stringCamelCase(section.name.toString());
+      if (section.events.isSome) {
+        sectionIndex++;
+        section.events.unwrap().forEach((meta, methodIndex) => {
+          const methodName = meta.name.toString();
+          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+          ret.push({
+            id: eventIndex.toString(),
+            module: sectionName,
+            name: methodName,
+            args: meta.args.map(type => getTypeDef(type, sectionName)),
+            docs: meta.docs.map(line => line.toString())
+          });
+        });
+      }
+    });
+    return ret;
   }
 
   private get callNames () {

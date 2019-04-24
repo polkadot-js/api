@@ -4,6 +4,7 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import BN from 'bn.js';
+import { ITypeDef } from './codec/TypeRegistry';
 import U8a from './codec/U8a';
 import Method, { IFunctionMetadata } from './primitive/Method';
 import Address from './type/Address';
@@ -129,4 +130,12 @@ export interface IExtrinsic extends IMethod {
 
 export enum StorageModifier {
   Optional, Default, Required
+}
+
+export interface IMetadataEvent {
+  id: string;
+  module: string;
+  name: string;
+  args: ITypeDef[];
+  docs: string[];
 }
