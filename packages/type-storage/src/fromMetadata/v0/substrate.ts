@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v0/Modules';
+import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v0/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
-import createFunction from './fromMetadata/v0/createFunction';
+import createFunction from './createFunction';
 
 interface SubstrateMetadata {
   documentation: string;
@@ -14,7 +14,7 @@ interface SubstrateMetadata {
 }
 
 // Small helper function to factorize code on this page.
-const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
+const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction<StorageFunctionMetadata> =>
   createFunction(
     new Text('Substrate'),
     new Text(method),

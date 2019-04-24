@@ -4,28 +4,45 @@
 
 import { AnyNumber } from '../../types';
 
+import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
+import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { PlainType, StorageFunctionModifier } from '../v1/Storage';
 
-// Re-export classes that haven't changed between V1 and V2
-export {
-  PlainType,
-  StorageFunctionModifier
-};
+export class StorageFunctionModifier extends Enum {
+  constructor (value?: any) {
+    super(['Optional', 'Default', 'Required'], value);
+  }
+
+  /**
+   * @description `true` if the storage entry is optional
+   */
+  get isOptional (): boolean {
+    return this.toNumber() === 0;
+  }
+
+  toJSON (): any {
+    // This looks prettier in the generated JSON
+    return this.toString();
+  }
+}
 
 export class MapType extends Struct {
+  private _isLinked = false;
+
   constructor (value?: any) {
     super({
       key: Type,
-      value: Type,
-      isLinked: Bool
+      value: Type
     }, value);
+
+    if (value && value.isLinked) {
+      this._isLinked = true;
+    }
   }
 
   /**
@@ -46,8 +63,11 @@ export class MapType extends Struct {
    * @description Is this an enumerable linked map
    */
   get isLinked (): boolean {
-    return (this.get('isLinked') as Bool).valueOf();
+    return this._isLinked;
   }
+}
+
+export class PlainType extends Type {
 }
 
 export class StorageFunctionType extends EnumType<PlainType | MapType> {
@@ -83,9 +103,13 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return this.isMap
-      ? this.asMap.value.toString()
-      : this.asType.toString();
+    if (this.isMap) {
+      if (this.asMap.isLinked) {
+        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
+      }
+      return this.asMap.value.toString();
+    }
+    return this.asType.toString();
   }
 }
 
@@ -97,11 +121,6 @@ export type StorageFunctionMetadataValue = {
   documentation: Vector<Text> | Array<string>
 };
 
-/**
- * @name MetadataModule
- * @description
- * The definition of a storage function
- */
 export class StorageFunctionMetadata extends Struct {
   constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
@@ -122,6 +141,13 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   /**
+   * @description The default value of the storage function
+   */
+  get fallback (): Bytes {
+    return this.get('fallback') as Bytes;
+  }
+
+  /**
    * @description The [[Text]] documentation
    */
   get documentation (): Vector<Text> {
@@ -137,24 +163,17 @@ export class StorageFunctionMetadata extends Struct {
   }
 
   /**
-   * @description The [[Bytes]] fallback default
-   */
-  get fallback (): Bytes {
-    return this.get('fallback') as Bytes;
-  }
-
-  /**
-   * @description The [[MetadataArgument]] for arguments
-   */
-  get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
-  }
-
-  /**
-   * @description The call name
+   * @description The key name
    */
   get name (): Text {
     return this.get('name') as Text;
+  }
+
+  /**
+   * @description The modifier
+   */
+  get modifier (): StorageFunctionModifier {
+    return this.get('modifier') as StorageFunctionModifier;
   }
 
   /**
@@ -162,5 +181,28 @@ export class StorageFunctionMetadata extends Struct {
    */
   get type (): StorageFunctionType {
     return this.get('type') as StorageFunctionType;
+  }
+}
+
+export class StorageMetadata extends Struct {
+  constructor (value?: any) {
+    super({
+      prefix: Text,
+      functions: Vector.with(StorageFunctionMetadata)
+    }, value);
+  }
+
+  /**
+   * @description The [[StorageFunctionMetadata]] for the section
+   */
+  get functions (): Vector<StorageFunctionMetadata> {
+    return this.get('functions') as Vector<StorageFunctionMetadata>;
+  }
+
+  /**
+   * @description The section prefix
+   */
+  get prefix (): Text {
+    return this.get('prefix') as Text;
   }
 }

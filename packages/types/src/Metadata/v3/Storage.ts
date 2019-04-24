@@ -2,20 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Enum from '../../codec/Enum';
+import { AnyNumber } from '../../types';
+
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { StorageFunctionModifier } from '../v1/Storage';
-import { MapType, PlainType } from '../v2/Storage';
+import {
+  MapType,
+  PlainType,
+  StorageFunctionModifier
+} from '../v2/Storage';
 
-export class StorageHasher extends Enum {
-  constructor (value?: any) {
-    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
-  }
-}
+// Re-export classes that haven't changed between V2 and V3
+export {
+  MapType,
+  PlainType,
+  StorageFunctionModifier
+};
 
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
@@ -114,13 +119,21 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
   }
 }
 
+export type StorageFunctionMetadataValue = {
+  name: string | Text,
+  modifier: StorageFunctionModifier | AnyNumber,
+  type: StorageFunctionType,
+  fallback: Bytes,
+  documentation: Vector<Text> | Array<string>
+};
+
 /**
- * @name MetadataModule
+ * @name StorageFunctionMetadata
  * @description
  * The definition of a storage function
  */
 export class StorageFunctionMetadata extends Struct {
-  constructor (value?: any) {
+  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: Text,
       modifier: StorageFunctionModifier,

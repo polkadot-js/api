@@ -4,7 +4,7 @@
 
 import { ModuleStorage, Storage } from '../../types';
 
-import MetadataV0 from '@polkadot/types/Metadata/v0';
+import MetadataV4 from '@polkadot/types/Metadata/v4';
 import { StorageFunctionMetadata } from '@polkadot/types/Metadata/v4/Storage';
 import { stringLowerFirst } from '@polkadot/util';
 
@@ -18,17 +18,17 @@ import storage from '../..';
  * @param storage - A storage object to be extended.
  * @param metadata - The metadata to extend the storage object against.
  */
-export default function fromV4 (metadata: MetadataV0): Storage<StorageFunctionMetadata> {
+export default function fromV4 (metadata: MetadataV4): Storage<StorageFunctionMetadata> {
   return metadata.modules.reduce((result, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return result;
     }
 
-    const prefix = moduleMetadata.storage.unwrap().prefix;
+    const prefix = moduleMetadata.prefix;
 
     // For access, we change the index names, i.e. Balances.FreeBalance -> balances.freeBalance
-    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.unwrap().functions.reduce((newModule, func) => {
-      newModule[stringLowerFirst(func.name.toString())] = createFunction(prefix, func.name, func);
+    result[stringLowerFirst(prefix.toString())] = moduleMetadata.storage.unwrap().reduce((newModule, storageFnMeta) => {
+      newModule[stringLowerFirst(storageFnMeta.name.toString())] = createFunction(prefix, storageFnMeta.name, storageFnMeta);
 
       return newModule;
     }, {} as ModuleStorage<StorageFunctionMetadata>);

@@ -3,9 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@polkadot/types';
-import { StorageFunctionModifier } from '@polkadot/types/Metadata/v0/Modules';
-import { PlainType } from '@polkadot/types/Metadata/v2/Storage';
-import { StorageFunctionMetadata, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
+import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 

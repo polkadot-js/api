@@ -12,8 +12,16 @@ import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { StorageFunctionModifier } from '../v1/Storage';
-import { PlainType } from '../v2/Storage';
+import {
+  PlainType,
+  StorageFunctionModifier
+} from '../v2/Storage';
+
+// Re-export classes that haven't changed between V3 and V4
+export {
+  PlainType,
+  StorageFunctionModifier
+};
 
 export class StorageHasher extends Enum {
   constructor (value?: any) {
