@@ -124,7 +124,7 @@ export class ModuleMetadata extends Struct {
 
 export class StorageFunctionModifier extends Enum {
   constructor (value?: any) {
-    super(['Optional', 'fallback', 'Required'], value);
+    super(['Optional', 'Default', 'Required'], value);
   }
 
   /**
