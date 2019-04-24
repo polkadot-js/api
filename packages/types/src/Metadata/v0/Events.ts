@@ -32,6 +32,14 @@ export class EventMetadata extends Struct {
   }
 
   /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
+  get docs (): Vector<Text> {
+    return this.documentation;
+  }
+
+  /**
    * @description The name for the event
    */
   get name (): Text {

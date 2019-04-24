@@ -59,6 +59,14 @@ export class FunctionMetadata extends Struct {
   }
 
   /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
+  get docs (): Vector<Text> {
+    return this.documentation;
+  }
+
+  /**
    * @description The `[sectionIndex, methodIndex]` call id
    */
   get id (): U16 {

@@ -61,6 +61,14 @@ export class MetadataCall extends Struct {
     return this.get('documentation') as Vector<Text>;
   }
 
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
+  get docs (): Vector<Text> {
+    return this.documentation;
+  }
+
   // /**
   //  * @description The call function id
   //  */
