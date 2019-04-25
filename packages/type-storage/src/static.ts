@@ -8,5 +8,5 @@ import metadataRpc from '@polkadot/types/Metadata/v0/static';
 import fromMetadata from './fromMetadata';
 
 export default fromMetadata(
-  new Metadata(metadataRpc).asV0
+  new Metadata(metadataRpc)
 );

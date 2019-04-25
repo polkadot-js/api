@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v0/Modules';
+import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
-import createFunction from './utils/createFunction';
+import createFunction from './createFunction';
 
 interface SubstrateMetadata {
   documentation: string;
@@ -22,8 +22,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
       documentation: new Vector(Text, [documentation]),
       modifier: new StorageFunctionModifier(1), // default
       type: new StorageFunctionType(type, 0),
-      toJSON: (): any =>
-        key
+      toJSON: (): any => key
     } as StorageFunctionMetadata,
     {
       isUnhashed: true,
@@ -47,7 +46,7 @@ export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len
 });
 
 export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
-  documentation: 'Prefix under which authorities are storied.',
+  documentation: 'Prefix under which authorities are stored.',
   type: 'u32'
 });
 
