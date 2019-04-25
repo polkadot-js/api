@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageHasher } from '@polkadot/types/Metadata/v4/Storage';
-import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
+import { StorageHasher } from '@plugnet/types/Metadata/v4/Storage';
+import { blake2AsU8a, xxhashAsU8a } from '@plugnet/util-crypto';
 
 type HasherInput = string | Buffer | Uint8Array;
 

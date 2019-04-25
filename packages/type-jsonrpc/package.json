@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/jsonrpc",
-  "version": "0.76.102",
+  "version": "0.77.100",
   "description": "Method definitions for the Plugnet RPC layer",
   "main": "index.js",
   "engines": {

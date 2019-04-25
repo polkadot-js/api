@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { createType, Bytes, Compact, StorageKey, Text, U8a } from '@polkadot/types';
-import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
+import { createType, Bytes, Compact, StorageKey, Text, U8a } from '@plugnet/types';
+import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@plugnet/types/Metadata/v4/Storage';
+import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
+import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@plugnet/util';
 
 import getHasher from './getHasher';
 

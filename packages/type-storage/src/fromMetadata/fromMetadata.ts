@@ -4,7 +4,7 @@
 
 import { Storage } from '../types';
 
-import Metadata from '@polkadot/types/Metadata';
+import Metadata from '@plugnet/types/Metadata';
 
 import fromV0 from './v0';
 import fromV4 from './v4';

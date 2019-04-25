@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { stringToU8a, u8aConcat } from '@polkadot/util';
+import { stringToU8a, u8aConcat } from '@plugnet/util';
 
 import createFunction from './createFunction';
 
