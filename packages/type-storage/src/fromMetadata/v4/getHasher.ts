@@ -10,11 +10,9 @@ type HasherInput = string | Buffer | Uint8Array;
 type HasherFunction = (data: HasherInput) => Uint8Array;
 
 export default function getHasher (hasher?: StorageHasher): HasherFunction {
-  // Backwards-compatibility: before introducing custom hashers, we used
-  // to use xxhashAsU8a everywhere
-
+  // This one is the default for PlainType storage keys
   if (!hasher) {
-    return xxhashAsU8a;
+    return (data: HasherInput) => xxhashAsU8a(data, 128);
   }
 
   if (hasher.isBlake2128) {
@@ -35,5 +33,7 @@ export default function getHasher (hasher?: StorageHasher): HasherFunction {
 
   // FIXME Add Twox128Concat
 
-  return xxhashAsU8a;
+  // All cases should be handled above, but if not, return Twox128 for
+  // backwards-compatbility
+  return (data: HasherInput) => xxhashAsU8a(data, 128);
 }
