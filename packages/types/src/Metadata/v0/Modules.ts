@@ -2,17 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../../types';
-
-import Enum from '../../codec/Enum';
-import EnumType from '../../codec/EnumType';
 import Option from '../../codec/Option';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
+
+import { StorageMetadata } from './Storage';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
@@ -59,6 +56,14 @@ export class FunctionMetadata extends Struct {
    */
   get documentation (): Vector<Text> {
     return this.get('documentation') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
+  get docs (): Vector<Text> {
+    return this.documentation;
   }
 
   /**
@@ -119,237 +124,6 @@ export class ModuleMetadata extends Struct {
    */
   get name (): Text {
     return this.get('name') as Text;
-  }
-}
-
-export class StorageFunctionModifier extends Enum {
-  constructor (value?: any) {
-    super(['Optional', 'Default', 'Required'], value);
-  }
-
-  /**
-   * @description `true` if the storage entry is optional
-   */
-  get isOptional (): boolean {
-    return this.toNumber() === 0;
-  }
-}
-
-export class DoubleMapType extends Struct {
-  constructor (value?: any) {
-    super({
-      key1: Text,
-      key2: Text,
-      value: Text,
-      keyHasher: Text
-    }, value);
-  }
-
-  /**
-   * @description The mapped key as [[Text]]
-   */
-  get key1 (): Text {
-    return this.get('key1') as Text;
-  }
-
-  /**
-   * @description The mapped key as [[Text]]
-   */
-  get key2 (): Text {
-    return this.get('key2') as Text;
-  }
-
-  /**
-   * @description The mapped key as [[Text]]
-   */
-  get keyHasher (): Text {
-    return this.get('keyHasher') as Text;
-  }
-
-  /**
-   * @description The mapped key as [[Text]]
-   */
-  get value (): Text {
-    return this.get('value') as Text;
-  }
-}
-
-export class MapType extends Struct {
-  private _isLinked = false;
-
-  constructor (value?: any) {
-    super({
-      key: Type,
-      value: Type
-    }, value);
-
-    if (value && value.isLinked) {
-      this._isLinked = true;
-    }
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  get value (): Type {
-    return this.get('value') as Type;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  get isLinked (): boolean {
-    return this._isLinked;
-  }
-}
-
-class PlainType extends Type {
-}
-
-export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
-  constructor (value?: any, index?: number) {
-    super({
-      PlainType,
-      MapType,
-      DoubleMapType
-    }, value, index);
-  }
-
-  /**
-   * @description `true` if the storage entry is a doublemap
-   */
-  get isDoubleMap (): boolean {
-    return this.toNumber() === 2;
-  }
-
-  /**
-   * @description `true` if the storage entry is a map
-   */
-  get isMap (): boolean {
-    return this.toNumber() === 1;
-  }
-
-  /**
-   * @description The value as a mapped value
-   */
-  get asDoubleMap (): DoubleMapType {
-    return this.value as DoubleMapType;
-  }
-
-  /**
-   * @description The value as a mapped value
-   */
-  get asMap (): MapType {
-    return this.value as MapType;
-  }
-
-  /**
-   * @description The value as a [[Type]] value
-   */
-  get asType (): PlainType {
-    return this.value as PlainType;
-  }
-
-  /**
-   * @description Returns the string representation of the value
-   */
-  toString (): string {
-    if (this.isDoubleMap) {
-      return this.asDoubleMap.value.toString();
-    }
-
-    if (this.isMap) {
-      if (this.asMap.isLinked) {
-        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
-      }
-      return this.asMap.value.toString();
-    }
-    return this.asType.toString();
-  }
-}
-
-type StorageFunctionMetadataValue = {
-  name: string | Text,
-  modifier: StorageFunctionModifier | AnyNumber,
-  type: StorageFunctionType,
-  default: Bytes,
-  documentation: Vector<Text> | Array<string>
-};
-
-export class StorageFunctionMetadata extends Struct {
-  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
-    super({
-      name: Text,
-      modifier: StorageFunctionModifier,
-      type: StorageFunctionType,
-      default: Bytes,
-      documentation: Vector.with(Text)
-    }, value);
-  }
-
-  /**
-   * @description The default value of the storage function
-   */
-  get default (): Bytes {
-    return this.get('default') as Bytes;
-  }
-
-  /**
-   * @description The [[Text]] documentation
-   */
-  get documentation (): Vector<Text> {
-    return this.get('documentation') as Vector<Text>;
-  }
-
-  /**
-   * @description The key name
-   */
-  get name (): Text {
-    return this.get('name') as Text;
-  }
-
-  /**
-   * @description The modifier
-   */
-  get modifier (): StorageFunctionModifier {
-    return this.get('modifier') as StorageFunctionModifier;
-  }
-
-  /**
-   * @description The [[StorageFunctionType]]
-   */
-  get type (): StorageFunctionType {
-    return this.get('type') as StorageFunctionType;
-  }
-}
-
-export class StorageMetadata extends Struct {
-  constructor (value?: any) {
-    super({
-      prefix: Text,
-      functions: Vector.with(StorageFunctionMetadata)
-    }, value);
-  }
-
-  /**
-   * @description The [[StorageFunctionMetadata]] for the section
-   */
-  get functions (): Vector<StorageFunctionMetadata> {
-    return this.get('functions') as Vector<StorageFunctionMetadata>;
-  }
-
-  /**
-   * @description The section prefix
-   */
-  get prefix (): Text {
-    return this.get('prefix') as Text;
   }
 }
 

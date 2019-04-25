@@ -192,7 +192,7 @@ export default class Rpc implements RpcInterface {
       const key = params[0] as StorageKey;
       const type = key.outputType || 'Data';
       const Clazz = createClass(type);
-      const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+      const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
 
       if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
         // linked map
@@ -218,11 +218,11 @@ export default class Rpc implements RpcInterface {
         const { value } = (base as StorageChangeSet).changes.find((item) =>
           item.key.toHex() === hexKey
         ) || { value: null };
-        const meta = key.meta || { default: undefined, modifier: { isOptional: true } };
+        const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
 
         if (!value) {
           // if we don't have a value, do not fill in the entry, it will be up to the
-        // caller to sort this out, either ignoring or having a cache for older values
+          // caller to sort this out, either ignoring or having a cache for older values
           result.push(undefined);
         } else {
           if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
@@ -236,7 +236,7 @@ export default class Rpc implements RpcInterface {
             } else {
               // for `null` we fallback to the default value, or create an empty type,
               // otherwise we return the actual value as retrieved
-              result.push(new Clazz(value.unwrapOr(meta.default)));
+              result.push(new Clazz(value.unwrapOr(meta.fallback)));
             }
           }
         }

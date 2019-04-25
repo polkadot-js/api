@@ -4,15 +4,11 @@
 
 import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
 
-import * as substrate from './substrate';
-
-type Substrate = keyof typeof substrate;
-
 export interface ModuleStorage {
   [key: string]: StorageFunction;
 }
 
 export interface Storage {
   [key: string]: ModuleStorage; // Will hold modules returned by state_getMetadata
-  substrate: { [key in Substrate]: StorageFunction };
+  substrate: { [key: string]: StorageFunction };
 }

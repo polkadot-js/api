@@ -33,7 +33,7 @@ describe('Metadata', () => {
       mod.storage.unwrap().functions.forEach((fn) => {
         it(`creates default types for ${mod.prefix}.${fn.name}, type ${fn.type}`, () => {
           expect(
-            () => createType(fn.type.toString(), fn.default)
+            () => createType(fn.type.toString(), fn.fallback)
           ).not.toThrow();
         });
       });

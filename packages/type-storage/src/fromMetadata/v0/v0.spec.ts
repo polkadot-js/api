@@ -6,13 +6,13 @@ import { u8aToHex } from '@plugnet/util';
 import { Metadata } from '@plugnet/types';
 import json from '@plugnet/types/Metadata/v0/static';
 
-import fromMetadata from './fromMetadata';
+import fromv0 from '.';
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json).asV0;
-const newStorage = fromMetadata(metadata);
+const newStorage = fromv0(metadata);
 
-describe('fromMetadata', () => {
+describe('fromv0', () => {
   it('should throw if the storage function expects an argument', () => {
     expect(() => newStorage.balances.freeBalance()).toThrowError(/expects one argument/);
   });

@@ -1,3 +1,7 @@
+# 0.78.1
+
+- Support Metadata v4, which introduces the use of a custom hasher to hash storage map keys.
+
 # 0.77.1
 
 - Add TresuryProposal (not the same as democracy, type aliassed)

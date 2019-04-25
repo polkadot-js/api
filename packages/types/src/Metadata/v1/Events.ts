@@ -17,7 +17,7 @@ export class MetadataEvent extends Struct {
     super({
       name: Text,
       args: Vector.with(Type),
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -31,8 +31,16 @@ export class MetadataEvent extends Struct {
   /**
    * @description The [[Text]] documentation
    */
+  get documentation (): Vector<Text> {
+    return this.get('documentation') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
   get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+    return this.documentation;
   }
 
   /**

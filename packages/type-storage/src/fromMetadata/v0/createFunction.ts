@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@plugnet/types/Metadata/v0/Modules';
+import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@plugnet/types/Metadata/v0/Storage';
 import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
 import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@plugnet/types';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@plugnet/util';
 import { xxhashAsU8a } from '@plugnet/util-crypto';
-import { PlainType } from '@plugnet/types/Metadata/v2/Storage';
 
 export interface CreateItemOptions {
   isUnhashed?: boolean;
@@ -60,7 +59,7 @@ export default function createFunction (section: Text | string, method: Text | s
       name: meta.name,
       modifier: new StorageFunctionModifier('Required'),
       type: new StorageFunctionType(new PlainType(meta.type.asMap.key), 0),
-      default: new Bytes(),
+      fallback: new Bytes(),
       documentation: meta.documentation
     });
     storageFn.headKey = new StorageKey(keyFn);
