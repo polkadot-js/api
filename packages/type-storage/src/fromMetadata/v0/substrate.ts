@@ -46,7 +46,7 @@ export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len
 });
 
 export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
-  documentation: 'Prefix under which authorities are storied.',
+  documentation: 'Prefix under which authorities are stored.',
   type: 'u32'
 });
 
