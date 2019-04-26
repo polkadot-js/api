@@ -11,6 +11,7 @@ describe('TypeRegistry', () => {
 
   beforeEach(() => {
     registry = new TypeRegistry();
+    registry.loadDefault();
   });
 
   it('handles non exist type', () => {

@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import TypeRegistry, { wrapWithTypeRegistry } from '../codec/TypeRegistry';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 import BlockNumber from '../type/BlockNumber';
@@ -10,10 +11,13 @@ import Option from './Option';
 import Struct from './Struct';
 import Vector from './Vector';
 
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
 describe('Struct', () => {
   describe('decoding', () => {
     const testDecode = (type: string, input: any) =>
-      it(`can decode from ${type}`, () => {
+      it(`can decode from ${type}`, wrapWithTypeRegistry(typeRegistry, () => {
         const s = new Struct({
           foo: Text,
           bar: U32
@@ -24,7 +28,7 @@ describe('Struct', () => {
             v.toString()
           )
         ).toEqual(['bazzing', '69']);
-      });
+      }));
 
     testDecode('array', ['bazzing', 69]);
     testDecode('hex', '0x1c62617a7a696e6745000000');
@@ -34,13 +38,13 @@ describe('Struct', () => {
 
   describe('encoding', () => {
     const testEncode = (to: CodecTo, expected: any) =>
-      it(`can encode ${to}`, () => {
+      it(`can encode ${to}`, wrapWithTypeRegistry(typeRegistry, () => {
         const s = new Struct({
           foo: Text,
           bar: U32
         }, { foo: 'bazzing', bar: 69 });
         expect(s[to]()).toEqual(expected);
-      });
+      }));
 
     testEncode('toHex', '0x1c62617a7a696e6745000000');
     testEncode('toJSON', { foo: 'bazzing', bar: 69 });
@@ -48,7 +52,7 @@ describe('Struct', () => {
     testEncode('toString', '{"foo":"bazzing","bar":69}');
   });
 
-  it('decodes null', () => {
+  it('decodes null', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       new (
         Struct.with({
@@ -57,18 +61,18 @@ describe('Struct', () => {
         })
       )(null).toString()
     ).toEqual('{}');
-  });
+  }));
 
-  it('decodes a more complicated type', () => {
+  it('decodes a more complicated type', wrapWithTypeRegistry(typeRegistry, () => {
     const s = new Struct({
       foo: Vector.with(Struct.with({
         bar: Text
       }))
     }, { foo: [{ bar: 1 }, { bar: 2 }] });
     expect(s.toString()).toBe('{"foo":[{"bar":"1"},{"bar":"2"}]}');
-  });
+  }));
 
-  it('decodes from a Map input', () => {
+  it('decodes from a Map input', wrapWithTypeRegistry(typeRegistry, () => {
     const input = new Struct({
       a: U32,
       txt: Text
@@ -79,9 +83,9 @@ describe('Struct', () => {
       bar: U32
     }, input);
     expect(s.toString()).toEqual('{"txt":"fubar","foo":0,"bar":0}');
-  });
+  }));
 
-  it('throws when it cannot decode', () => {
+  it('throws when it cannot decode', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       () => new (
         Struct.with({
@@ -90,9 +94,9 @@ describe('Struct', () => {
         })
       )('ABC')
     ).toThrowError(/Struct: cannot decode type/);
-  });
+  }));
 
-  it('provides a clean toString()', () => {
+  it('provides a clean toString()', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       new (
         Struct.with({
@@ -101,9 +105,9 @@ describe('Struct', () => {
         })
       )({ txt: 'foo', u32: 0x123456 }).toString()
     ).toEqual('{"txt":"foo","u32":1193046}');
-  });
+  }));
 
-  it('exposes the properties on the object', () => {
+  it('exposes the properties on the object', wrapWithTypeRegistry(typeRegistry, () => {
     const struct = new (
       Struct.with({
         txt: Text,
@@ -113,9 +117,9 @@ describe('Struct', () => {
 
     expect((struct as any).txt.toString()).toEqual('foo');
     expect((struct as any).u32.toNumber()).toEqual(0x123456);
-  });
+  }));
 
-  it('correctly encodes length', () => {
+  it('correctly encodes length', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       new (
         Struct.with({
@@ -124,9 +128,9 @@ describe('Struct', () => {
         })
       )({ foo: 'bazzing', bar: 69 }).encodedLength
     ).toEqual(5);
-  });
+  }));
 
-  it('exposes the types', () => {
+  it('exposes the types', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       new Struct({
         foo: Text,
@@ -142,9 +146,9 @@ describe('Struct', () => {
       bar: 'Text',
       baz: 'U32'
     });
-  });
+  }));
 
-  it('gets the value at a particular index', () => {
+  it('gets the value at a particular index', wrapWithTypeRegistry(typeRegistry, () => {
     expect(
       new (
         Struct.with({
@@ -155,10 +159,10 @@ describe('Struct', () => {
         .getAtIndex(1)
         .toString()
     ).toEqual('1234');
-  });
+  }));
 
   describe('utils', () => {
-    it('compares against other objects', () => {
+    it('compares against other objects', wrapWithTypeRegistry(typeRegistry, () => {
       const test = {
         foo: 'foo',
         bar: 'bar',
@@ -172,15 +176,15 @@ describe('Struct', () => {
           baz: U32
         }, test).eq(test)
       ).toBe(true);
-    });
+    }));
   });
 
-  it('allows toString with large numbers', () => {
+  it('allows toString with large numbers', wrapWithTypeRegistry(typeRegistry, () => {
     // replicate https://github.com/polkadot-js/api/issues/640
     expect(
       new Struct({
         blockNumber: Option.with(BlockNumber)
       }, { blockNumber: '0x1234567890abcdef' }).toString()
     ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
-  });
+  }));
 });
