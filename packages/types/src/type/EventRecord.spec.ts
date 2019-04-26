@@ -2,28 +2,31 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType from '../codec/createType';
+import TypeRegistry from '../codec/TypeRegistry';
 import Vector from '../codec/Vector';
 import json1 from '../json/EventRecord.001.json';
 import json2 from '../json/EventRecord.002.json';
 import json3 from '../json/EventRecord.003.json';
 import AccountId from './AccountId';
-import Event from './Event';
 import EventRecord from './EventRecord';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
 import metadataV1 from '../Metadata/static';
 
+let typeRegistry: TypeRegistry;
+
 describe('EventRecord', () => {
   describe('v0', () => {
     beforeEach(() => {
-      Event.injectMetadata(
-        new Metadata(metadataV0).asV0
+      typeRegistry = new TypeRegistry();
+      typeRegistry.loadDefault();
+      typeRegistry.injectEvents(
+        TypeRegistry.withRegistry(typeRegistry, () => new Metadata(metadataV0).asV0.toIModuleEvents())
       );
     });
 
     it('decodes correctly', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
+      const records: Vector<EventRecord> = typeRegistry.createType('Vec<EventRecord>', json1.params.result.changes[0][1]) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
@@ -31,7 +34,7 @@ describe('EventRecord', () => {
 
     // FIXME skipping this one, need an actual updated sample for the actual new types
     it.skip('decodes more complex events', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json2.params.result.changes[0][1]) as any;
+      const records: Vector<EventRecord> = typeRegistry.createType('Vec<EventRecord>', json2.params.result.changes[0][1]) as any;
 
       expect(records).toHaveLength(4);
 
@@ -52,13 +55,15 @@ describe('EventRecord', () => {
 
   describe.skip('v1', () => {
     beforeEach(() => {
-      Event.injectMetadata(
-        new Metadata(metadataV1).asV0
+      typeRegistry = new TypeRegistry();
+      typeRegistry.loadDefault();
+      typeRegistry.injectEvents(
+        TypeRegistry.withRegistry(typeRegistry, () => new Metadata(metadataV1).asV0.toIModuleEvents())
       );
     });
 
     it('decodes correctly', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json3.params.result.changes[0][1]) as any;
+      const records: Vector<EventRecord> = typeRegistry.createType('Vec<EventRecord>', json3.params.result.changes[0][1]) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');

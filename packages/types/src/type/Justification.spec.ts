@@ -3,9 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import rpc from '../json/SignedBlock.001.json';
+import TypeRegistry, { wrapWithTypeRegistry } from '../codec/TypeRegistry';
 import { RhdJustification } from './Justification';
 
-describe('RhdJustification', () => {
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
+describe('RhdJustification', wrapWithTypeRegistry(typeRegistry, () => {
   const just = new RhdJustification({
     roundNumber: 32,
     hash: '0xabcd',
@@ -29,11 +33,11 @@ describe('RhdJustification', () => {
     expect(sig.authorityId.toHex()).toEqual('0x9876000000000000000000000000000000000000000000000000000000000000');
   });
 
-  it('creates from a JSON strusture', () => {
+  it('creates from a JSON strusture', wrapWithTypeRegistry(typeRegistry, () => {
     const viaRpc = new RhdJustification(rpc.result.justification);
 
     expect(
       viaRpc.hash.toHex()
     ).toEqual('0xfab4bb3a8b0a072d3d09858dc865ad2750b2e708536b6dacc89fad369eba781a');
-  });
-});
+  }));
+}));

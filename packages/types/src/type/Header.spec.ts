@@ -4,12 +4,16 @@
 
 import BN from 'bn.js';
 
+import TypeRegistry, { wrapWithTypeRegistry } from '../codec/TypeRegistry';
 import Header from './Header';
 import json1 from '../json/Header.001.json';
 import json2 from '../json/Header.002.json';
 
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
 describe('Header', () => {
-  it('decodes an actual JSON response', () => {
+  it('decodes an actual JSON response', wrapWithTypeRegistry(typeRegistry,() => {
     const header = new Header(json1.result);
 
     expect(
@@ -27,9 +31,9 @@ describe('Header', () => {
     expect(
       header.digest.logs.toString()
     ).toEqual('[]');
-  });
+  }));
 
-  it('creates a valid hash (incl. digest & compact)', () => {
+  it('creates a valid hash (incl. digest & compact)', wrapWithTypeRegistry(typeRegistry,() => {
     const header = new Header(json2.result);
 
     expect(
@@ -38,5 +42,5 @@ describe('Header', () => {
     expect(
       header.blockNumber.eq(new BN(2918))
     ).toBe(true);
-  });
+  }));
 });

@@ -8,12 +8,15 @@ import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types
 
 import interfaces from '@polkadot/jsonrpc';
 import { WsProvider } from '@polkadot/rpc-provider';
+import { createWithTypeRegistryDecorator } from '@polkadot/types/codec/TypeRegistry';
 import { Codec, StorageModifier } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageKey, TypeRegistry, Vector } from '@polkadot/types';
 import { assert, ExtError, isFunction, isNull, logger } from '@polkadot/util';
 import { IStorageFunctionMetadata } from '@polkadot/types/primitive/StorageKey';
 
 const l = logger('rpc-core');
+
+const withRegistry = createWithTypeRegistryDecorator<Rpc>(target => target._typeRegistry);
 
 /**
  * @name Rpc
@@ -118,7 +121,7 @@ export default class Rpc implements RpcInterface {
         const paramsJson = params.map((param) => param.toJSON());
         const result = await this._provider.send(rpcName, paramsJson);
 
-        return TypeRegistry.withRegistry(this._typeRegistry, () => this.formatOutput(method, params, result));
+        return this.formatOutput(method, params, result);
       } catch (error) {
         const message = `${Rpc.signature(method)}:: ${error.message}`;
 
@@ -173,6 +176,7 @@ export default class Rpc implements RpcInterface {
     return call;
   }
 
+  @withRegistry
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
     const reqArgCount = method.params.filter(({ isOptional }) => !isOptional).length;
     const optText = reqArgCount === method.params.length
@@ -186,6 +190,7 @@ export default class Rpc implements RpcInterface {
     );
   }
 
+  @withRegistry
   private formatOutput (method: RpcMethod, params: Array<Codec>, result?: any): Codec | Array<Codec | null | undefined> {
     const base = this._typeRegistry.createType(method.type as string, result);
 

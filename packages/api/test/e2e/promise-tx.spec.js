@@ -10,7 +10,7 @@ import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 import SingleAccountSigner from "../util/SingleAccountSigner";
 
-describe.skip('e2e transactions', () => {
+describe('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api;
 

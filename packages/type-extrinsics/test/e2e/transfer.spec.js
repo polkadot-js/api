@@ -4,17 +4,22 @@
 
 import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
+import { TypeRegistry } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import extrinsics from '../../src/static';
+import extrinsicsFn from '../../src/static';
 
 const keyring = testingPairs({ type: 'ed25519' });
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
+const extrinsics = extrinsicsFn(typeRegistry);
 
 describe.skip('e2e transfer', () => {
   let api;
 
   beforeAll(() => {
-    api = new Rpc(new Ws('ws://127.0.0.1:9944'));
+    api = new Rpc(new Ws('ws://127.0.0.1:9944'), typeRegistry);
   });
 
   // Error: [1002]: Inherent transactions cannot be queued.

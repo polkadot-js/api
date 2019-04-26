@@ -16,9 +16,9 @@ describe('e2e queries', () => {
       api = await Api.create();
     }
 
-    // jest.setTimeout(30000);
+    jest.setTimeout(30000);
     done();
-  }, 3000000);
+  });
 
   it('makes the runtime, rpc, state & extrinsics available', () => {
     expect(api.genesisHash).toBeDefined();
@@ -30,7 +30,7 @@ describe('e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it.only('queries state for a balance', async () => {
+  it('queries state for a balance', async () => {
     const balance = await api.query.balances.freeBalance(keyring.alice.address());
 
     expect(

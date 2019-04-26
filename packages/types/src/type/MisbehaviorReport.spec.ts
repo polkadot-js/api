@@ -2,9 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import TypeRegistry, { wrapWithTypeRegistry } from '../codec/TypeRegistry';
 import MisbehaviorReport, { BftAtReport } from './MisbehaviorReport';
 
-describe('BftAtReport', () => {
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
+describe('BftAtReport', wrapWithTypeRegistry(typeRegistry, () => {
   const report = new BftAtReport({
     round: 16,
     a: ['0x1234', '0x5678'],
@@ -22,9 +26,9 @@ describe('BftAtReport', () => {
   it('has the correct signature (b)', () => {
     expect(report.b.signature.toHex()).toEqual('0x43210000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000');
   });
-});
+}));
 
-describe('MisbehaviorReport', () => {
+describe('MisbehaviorReport', wrapWithTypeRegistry(typeRegistry, () => {
   const report = new MisbehaviorReport({
     parentHash: '0x01020304',
     parentNumber: 78,
@@ -44,4 +48,4 @@ describe('MisbehaviorReport', () => {
   it('identifies the misbehaving authority', () => {
     expect(report.target.toHex()).toEqual('0x1111222200000000000000000000000000000000000000000000000000000000');
   });
-});
+}));

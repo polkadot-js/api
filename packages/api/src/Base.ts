@@ -27,6 +27,7 @@ import { Hash, Metadata, RuntimeVersion, TypeRegistry, Null } from '@polkadot/ty
 import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { wrapWithTypeRegistry } from '@polkadot/types/codec/TypeRegistry';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -359,7 +360,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       try {
         const [hasMeta, cryptoReady] = await Promise.all([
-          TypeRegistry.withRegistry(this.typeRegistry, () => this.loadMeta()),
+          this.loadMeta(),
           cryptoWaitReady()
         ]);
 
@@ -396,8 +397,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
-    const storage = storageFromMeta(this.runtimeMetadata);
+    const extrinsics = wrapWithTypeRegistry(this.typeRegistry, extrinsicsFromMeta)(this.runtimeMetadata);
+    const storage = wrapWithTypeRegistry(this.typeRegistry, storageFromMeta)(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
     this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1

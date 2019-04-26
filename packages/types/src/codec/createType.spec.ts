@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType, { TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
+import { getTypeDef, typeSplit } from './createType';
+import { TypeDefInfo } from './TypeRegistry';
 
 describe('typeSplit', () => {
   it('splits simple types into an array', () => {
@@ -65,8 +66,10 @@ describe('getTypeValue', () => {
     expect(
       getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
-      info: TypeDefInfo.Tuple,
       type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))',
+      meta: {
+        info: TypeDefInfo.Tuple
+      },
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -189,39 +192,5 @@ describe('getTypeValue', () => {
         }
       ]
     });
-  });
-});
-
-describe('getTypeClass', () => {
-  it('does not allow invalid types', () => {
-    expect(
-      () => getTypeClass('SomethingInvalid' as any)
-    ).toThrow(/determine type/);
-  });
-});
-
-describe('createType', () => {
-  it('allows creation of a Struct', () => {
-    expect(
-      createType('{"balance":"Balance","index":"u32"}', {
-        balance: 1234,
-        index: '0x10'
-      }).toJSON()
-    ).toEqual({
-      balance: 1234,
-      index: 16
-    });
-  });
-
-  it('allows creation of a Enum (simple)', () => {
-    expect(
-      createType('{"_enum": ["A", "B", "C"]}', 1).toJSON()
-    ).toEqual({ B: null });
-  });
-
-  it('allows creation of a Enum (parametrised)', () => {
-    expect(
-      createType('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
-    ).toEqual({ B: 0 });
   });
 });

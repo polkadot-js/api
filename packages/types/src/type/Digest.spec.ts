@@ -3,10 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import json from '../json/Header.002.json';
+import TypeRegistry, { wrapWithTypeRegistry } from '../codec/TypeRegistry';
 import Digest from './Digest';
 
+const typeRegistry = new TypeRegistry();
+typeRegistry.loadDefault();
+
 describe('Digest', () => {
-  it('decodes logs with seals', () => {
+  it('decodes logs with seals', wrapWithTypeRegistry(typeRegistry, () => {
     const digest = new Digest(json.result.digest);
 
     expect(digest.logs.length).toEqual(1);
@@ -18,5 +22,5 @@ describe('Digest', () => {
       256804359,
       '0x2c0e0ee8a5d1a073da3f8db002b8eaebcd7b1a7eb25662e09f9ef0ac58d96bf17896256cd5f0bc672f96aab49fe5163ca5cb4c1a0f047dc39e89cd4a9eb2ea05'
     ]);
-  });
+  }));
 });

@@ -4,6 +4,7 @@
 
 import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
+import { createWithTypeRegistryDecorator } from '../codec/TypeRegistry';
 import { Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
 
@@ -30,6 +31,8 @@ export default class Struct<
   protected _jsonMap: Map<keyof S, string>;
   protected _Types: E;
   protected _typeRegistry: any;
+
+  static withRegistry = createWithTypeRegistryDecorator<Struct>(target => target._typeRegistry);
 
   constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { TypeRegistry } from './typeRegistry';
+import TypeRegistry from './TypeRegistry';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
 
@@ -62,5 +62,44 @@ describe('TypeRegistry', () => {
       expect(struct.get('foo').toNumber()).toEqual(42);
       expect(struct.get('bar').toString()).toEqual('testing');
     });
+  });
+});
+
+describe('getTypeClass', () => {
+  const registry = new TypeRegistry();
+  registry.loadDefault();
+  it('does not allow invalid types', () => {
+    expect(
+      () => registry.getTypeClass('SomethingInvalid' as any)
+    ).toThrow(/determine type/);
+  });
+});
+
+describe('createType', () => {
+  const registry = new TypeRegistry();
+  registry.loadDefault();
+
+  it('allows creation of a Struct', () => {
+    expect(
+      registry.createType('{"balance":"Balance","index":"u32"}', {
+        balance: 1234,
+        index: '0x10'
+      }).toJSON()
+    ).toEqual({
+      balance: 1234,
+      index: 16
+    });
+  });
+
+  it('allows creation of a Enum (simple)', () => {
+    expect(
+      registry.createType('{"_enum": ["A", "B", "C"]}', 1).toJSON()
+    ).toEqual({ B: null });
+  });
+
+  it('allows creation of a Enum (parametrised)', () => {
+    expect(
+      registry.createType('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
+    ).toEqual({ B: 0 });
   });
 });

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
+import { TypeRegistry } from '@polkadot/types/codec';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section } from './types';
 
@@ -12,7 +13,6 @@ import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
 import Rpc from '@polkadot/rpc-core';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
-import { TypeRegistry } from "@polkadot/types/codec";
 
 /**
  * @name RpcRx

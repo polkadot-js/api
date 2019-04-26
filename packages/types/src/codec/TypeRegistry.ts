@@ -52,6 +52,25 @@ function toTypeDefKey (typeDef: ITypeDef) {
   return `${typeDef.module}:${typeDef.type}`;
 }
 
+type SyncFunction = (...args: any[]) => Exclude<any, Promise<any>>;
+export function createWithTypeRegistryDecorator<T> (getter: (target: T) => TypeRegistry) {
+  return (target: T, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<SyncFunction>) => {
+    const origin = descriptor.value as SyncFunction;
+    descriptor.value = function (...args: any[]): Exclude<any, Promise<any>> {
+      const typeRegistry = getter(this as T);
+      return TypeRegistry.withRegistry(typeRegistry, () => origin.apply(this, args));
+    };
+  };
+}
+
+export function wrapWithTypeRegistry (typeRegistry: TypeRegistry, func: SyncFunction): SyncFunction {
+  return (...args: any[]) => {
+    return TypeRegistry.withRegistry(typeRegistry, () => func(...args));
+  };
+}
+
+const withRegistry = createWithTypeRegistryDecorator<TypeRegistry>(target => target);
+
 export default class TypeRegistry {
 
   protected static _TYPE_REGISTRY?: TypeRegistry;
@@ -62,18 +81,12 @@ export default class TypeRegistry {
     return TypeRegistry._TYPE_REGISTRY as TypeRegistry;
   }
 
-  static withRegistry (typeRegistry: TypeRegistry, wrapFn: (...args: any[]) => any) {
+  static withRegistry (typeRegistry: TypeRegistry, wrapFn: SyncFunction) {
     TypeRegistry.TY_STACK.push(TypeRegistry._TYPE_REGISTRY);
     TypeRegistry._TYPE_REGISTRY = typeRegistry;
     const ret = wrapFn();
     if (isPromise(ret)) {
-      return ret.then((res: any) => {
-        TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
-        return res;
-      }, (err: any) => {
-        TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
-        throw err;
-      });
+      throw new Error('don\'t use withRegistry around Promises');
     } else {
       TypeRegistry._TYPE_REGISTRY = TypeRegistry.TY_STACK.pop();
     }
@@ -132,7 +145,7 @@ export default class TypeRegistry {
   }
 
   registerType (type: ITypeDef, constructor: Constructor) {
-    throw new Error('todo');
+    this._registry.set(toTypeDefKey(type), constructor);
   }
 
   get (type: string | ITypeDef): Constructor | undefined {
@@ -198,12 +211,13 @@ export default class TypeRegistry {
     );
   }
 
+  @withRegistry
   createType (type: Text | string | ITypeDef, value?: any): Codec {
     // l.debug(() => ['createType', { type, value }]);
 
     const Type = this.createClass(type);
 
-    return TypeRegistry.withRegistry(this, () => new Type(value));
+    return new Type(value);
   }
 
   getTypeClass (value: ITypeDef): Constructor {
@@ -307,13 +321,4 @@ export default class TypeRegistry {
       }
     }
   }
-
-  // private filterOrigin (meta?: IFunctionMetadata): IFunctionArgumentMetadata[] {
-  //   // FIXME should be `arg.type !== Origin`, but doesn't work...
-  //   return meta
-  //     ? meta.arguments.filter(({ type }) =>
-  //       type.toString() !== 'Origin'
-  //     )
-  //     : [];
-  // }
 }
