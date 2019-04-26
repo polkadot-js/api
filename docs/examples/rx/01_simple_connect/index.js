@@ -1,7 +1,7 @@
 // Required imports
 const { zip } = require('rxjs');
-const { ApiRx } = require('@polkadot/api');
-const { WsProvider } = require('@polkadot/rpc-provider');
+const { ApiRx } = require('@plugnet/api');
+const { WsProvider } = require('@plugnet/rpc-provider');
 
 function main () {
   // Initialise the provider to connect to the local node

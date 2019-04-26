@@ -1,5 +1,5 @@
 // Import the API and operators from RxJs
-const { ApiRx } = require('@polkadot/api');
+const { ApiRx } = require('@plugnet/api');
 const { pairwise, startWith } = require('rxjs/operators');
 
 // Known account we want to use (available on dev chain, with funds)

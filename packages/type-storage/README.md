@@ -1,4 +1,4 @@
-# @polkadot/storage
+# @plugnet/storage
 
 An base interface to the storage layer
 

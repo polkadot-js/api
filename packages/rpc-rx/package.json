@@ -1,15 +1,15 @@
 {
   "name": "@plugnet/rpc-rx",
   "version": "0.76.102",
-  "description": "An RxJs wrapper around the Polkadot JS API",
+  "description": "An RxJs wrapper around the Plugnet JS API",
   "main": "index.js",
   "keywords": [
-    "Polkadot",
+    "Plugnet",
     "RxJs"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
+    "Ian He <ian.he@centrality.ai>"
   ],
   "contributors": [],
   "license": "Apache-2.0",
@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
+    "url": "git+https://github.com/plugblockchain/api.js.git"
   },
   "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
+    "url": "https://github.com/plugblockchain/api.js/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/rpc-rx#readme",
+  "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/rpc-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "@plugnet/rpc-core": "^0.76.102",

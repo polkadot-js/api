@@ -17,7 +17,7 @@ const l = logger('rpc-core');
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
- * @description It allows for querying a Polkadot Client Node.
+ * @description It allows for querying a Plugnet Client Node.
  * WebSockets provider is recommended since HTTP provider only supports basic querying.
  *
  * ```mermaid

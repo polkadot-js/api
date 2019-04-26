@@ -1,6 +1,6 @@
 # @plugnet/api
 
-The Polkadot-JS API provides easy-to-use wrappers around JSONRPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
+The Plugnet-JS API provides easy-to-use wrappers around JSONRPC calls that flow from an application to a node. It handles all the encoding and decoding or parameters, provides access to RPC functions and allows for the query of chain state and the submission of transactions.
 
 The API wrappers provide a standard interface for use -
 
@@ -22,7 +22,7 @@ There are two flavours of the API provided, one allowing a standard interface vi
 
 ## Dynamic by default
 
-Substrate (upon which Polkadot is built) uses on-chain WASM runtimes, allowing for upgradability. Each runtime defining the actual chain extrinsics (submitted transactions and block intrinsics) as well as available entries in the chain state. Due to this, the API endpoints for queries and transactions are dynamically populated from the running chain.
+Substrate (upon which Plugnet is built) uses on-chain WASM runtimes, allowing for upgradability. Each runtime defining the actual chain extrinsics (submitted transactions and block intrinsics) as well as available entries in the chain state. Due to this, the API endpoints for queries and transactions are dynamically populated from the running chain.
 
 Due to this dynamic nature, this API departs from traditional APIs which only has fixed endpoints, driving use by what is available by the runtime. As a start, this generic nature has a learning curve, although the provided documentation, examples and linked documentation tries to make that experience as seamless as possible.
 
@@ -31,13 +31,13 @@ Due to this dynamic nature, this API departs from traditional APIs which only ha
 Installation -
 
 ```
-npm install --save @polkadot/api
+npm install --save @plugnet/api
 ```
 
 Subscribing to blocks via Promise-based API -
 
 ```javascript
-import { ApiPromise } from '@polkadot/api';
+import { ApiPromise } from '@plugnet/api';
 
 // initialise via static create
 const api = await ApiPromise.create();
@@ -51,7 +51,7 @@ api.rpc.chain.subscribeNewHead((header) => {
 Subscribing to blocks via RxJS-based API -
 
 ```javascript
-import { ApiRx } from '@polkadot/api';
+import { ApiRx } from '@plugnet/api';
 
 // initialise via static create
 const api = await ApiRx.create().toPromise();
@@ -67,7 +67,7 @@ api.rpc.chain.subscribeNewHead().subscribe((header) => {
 Additional types used by runtime modules can be added when a new instance of the API is created. This is necessary if the runtime modules use types which are not available in the base Substrate runtime.
 
 ```javascript
-import { ApiPromise } from '@polkadot/api';
+import { ApiPromise } from '@plugnet/api';
 
 // initialise via static create and register custom types
 const api = await ApiPromise.create({
@@ -84,14 +84,6 @@ const api = await ApiPromise.create({
   }
 });
 ```
-
-## Users
-
-Some of the users of the API (let us know if you are missing from the list), include -
-
-- [Polkadot-JS UI](https://github.com/polkadot-js/apps) A user-interface that allows you to make transactions, query the network or participate in actions on the network such as referendums and staking
-- [Polkabot](https://gitlab.com/Polkabot) Polkabot is a Matrix chatbot that keeps an eye on the Polkadot network. You can see Polkabot in action in https://matrix.to/#/#polkadot-network-status:matrix.org
-- [Polkawallet.io](https://polkawallet.io) and [Polkawallet (Github)](https://github.com/polkawallet-io/polkawallet-RN/) A mobile wallet for the Polkadot network to manage funds and make transactions, available on both Androind and iOS
 
 ## Classes
 

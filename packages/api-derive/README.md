@@ -1,6 +1,6 @@
-# @polkadot/api-derive
+# @plugnet/api-derive
 
-Common functions used across Polkadot, derived from RPC calls and storage queries.
+Common functions used across Plugnet, derived from RPC calls and storage queries.
 
 ## Classes
 

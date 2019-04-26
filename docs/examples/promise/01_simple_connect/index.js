@@ -1,6 +1,6 @@
 // @ts-check
 // Required imports
-const { ApiPromise, WsProvider } = require('@polkadot/api');
+const { ApiPromise, WsProvider } = require('@plugnet/api');
 
 async function main () {
   // Initialise the provider to connect to the local node

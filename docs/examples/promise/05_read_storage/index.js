@@ -1,6 +1,6 @@
 // @ts-check
 // Import the API
-const { ApiPromise } = require('@polkadot/api');
+const { ApiPromise } = require('@plugnet/api');
 
 // Our address for Alice on the dev chain
 const Alice = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';

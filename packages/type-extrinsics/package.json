@@ -2,10 +2,10 @@
   "name": "@plugnet/extrinsics",
   "version": "0.76.102",
   "main": "index.js",
-  "repository": "https://github.com/polkadot-js/api.git",
+  "repository": "https://github.com/plugblockchain/api.js.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
+    "Ian He <ian.he@centrality.ai>"
   ],
   "contributors": [],
   "license": "Apache-2.0",

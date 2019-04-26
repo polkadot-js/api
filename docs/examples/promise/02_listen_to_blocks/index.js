@@ -1,6 +1,6 @@
 // @ts-check
 // Import the API
-const { ApiPromise } = require('@polkadot/api');
+const { ApiPromise } = require('@plugnet/api');
 
 async function main () {
   // Here we don't pass the (optional) provider, connecting directly to the default

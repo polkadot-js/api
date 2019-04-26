@@ -1,7 +1,7 @@
 // @ts-check
 // Import the API, Keyring and some utility functions
-const { ApiPromise } = require('@polkadot/api');
-const { Keyring } = require('@polkadot/keyring');
+const { ApiPromise } = require('@plugnet/api');
+const { Keyring } = require('@plugnet/keyring');
 
 const BOB = '5FHneW46xGXgs5mUiveU4sbTyGBzmstUspZC92UhjJM694ty';
 

@@ -176,7 +176,7 @@ describe('Struct', () => {
   });
 
   it('allows toString with large numbers', () => {
-    // replicate https://github.com/polkadot-js/api/issues/640
+    // replicate https://github.com/plugblockchain/api.js/issues/640
     expect(
       new Struct({
         blockNumber: Option.with(BlockNumber)

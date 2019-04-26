@@ -1,6 +1,6 @@
-# @polkadot/jsonrpc
+# @plugnet/jsonrpc
 
-A definition of all the methods exposed in a general Polkadot client application. These are used not only to provide a comprehensive code-generated document of the available methods, but are also used in the API to auto-generate endpoints with the required type-checking.
+A definition of all the methods exposed in a general Plugnet client application. These are used not only to provide a comprehensive code-generated document of the available methods, but are also used in the API to auto-generate endpoints with the required type-checking.
 
 For a list of currently exposed methods, see the [method documentation](docs/METHODS_RPC.md).
 
@@ -9,7 +9,7 @@ For a list of currently exposed methods, see the [method documentation](docs/MET
 Installation -
 
 ```
-yarn add @polkadot/jsonrpc
+yarn add @plugnet/jsonrpc
 ```
 
 ## Adding methods

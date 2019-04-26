@@ -1,11 +1,11 @@
 // Import the API and some utility functions
-const { ApiRx } = require('@polkadot/api');
+const { ApiRx } = require('@plugnet/api');
 
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
-const testKeyring = require('@polkadot/keyring/testing');
+const testKeyring = require('@plugnet/keyring/testing');
 
 // utility function for random values
-const { randomAsU8a } = require('@polkadot/util-crypto');
+const { randomAsU8a } = require('@plugnet/util-crypto');
 
 // some constants we are using in this sample
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';

@@ -22,7 +22,7 @@ describe.skip('derive e2e', () => {
   });
 
   it('returns correct results', async () => {
-    // https://github.com/polkadot-js/api/issues/777
+    // https://github.com/plugblockchain/api.js/issues/777
     const block1 = await api.derive.chain.bestNumber();
     await new Promise((resolve) => setTimeout(resolve, 15000));
     const block2 = await api.derive.chain.bestNumber();

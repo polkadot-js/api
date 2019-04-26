@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'Polkadot JS API',
+  name: 'Plugnet JS API',
   exclude: '**/*+(index|e2e|spec).ts',
   excludeExternals: true,
   excludeNotExported: true,

@@ -1,6 +1,6 @@
 // Import the API and selected RxJs operators
 const { switchMap } = require('rxjs/operators');
-const { ApiRx } = require('@polkadot/api');
+const { ApiRx } = require('@plugnet/api');
 
 async function main () {
   // Create our API with a default connection to the local node

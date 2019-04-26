@@ -1,5 +1,5 @@
 // Import the API
-const { ApiRx } = require('@polkadot/api');
+const { ApiRx } = require('@plugnet/api');
 // Import dependencies from RxJs
 const { combineLatest, of } = require('rxjs');
 const { first, switchMap } = require('rxjs/operators');

@@ -1,7 +1,7 @@
 // Import the API & Provider and some utility functions
-const { ApiRx, WsPovider } = require('@polkadot/api');
+const { ApiRx, WsPovider } = require('@plugnet/api');
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
-const testKeyring = require('@polkadot/keyring/testing');
+const testKeyring = require('@plugnet/keyring/testing');
 const fs = require('fs');
 
 async function main () {

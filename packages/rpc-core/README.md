@@ -1,20 +1,20 @@
 # @plugnet/rpc-core
 
-This library provides a clean wrapper around all the methods exposed by a Polkadot network client.
+This library provides a clean wrapper around all the methods exposed by a Plugnet network client.
 
 ## Usage
 
 Installation -
 
 ```
-yarn add @polkadot/rpc-core
+yarn add @plugnet/rpc-core
 ```
 
 Initialisation -
 
 ```js
-import Rpc from '@polkadot/rpc-core';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import Rpc from '@plugnet/rpc-core';
+import WsProvider from '@plugnet/rpc-provider/ws';
 
 const provider = new WsProvider('http://127.0.0.1:9944');
 const api = new Rpc(provider);

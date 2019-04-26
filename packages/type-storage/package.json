@@ -12,22 +12,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
+    "url": "git+https://github.com/plugblockchain/api.js.git"
   },
   "keywords": [
-    "Polkadot",
+    "Plugnet",
     "Merkel Patricia Tree"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
+    "Ian He <ian.he@centrality.ai>"
   ],
   "contributors": [],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
+    "url": "https://github.com/plugblockchain/api.js/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-storage#readme",
+  "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/type-storage#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.3",
     "@plugnet/keyring": "^0.76.2-beta.0",

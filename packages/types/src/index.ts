@@ -7,7 +7,7 @@
 
 import { assertSingletonPackage } from '@plugnet/util';
 
-assertSingletonPackage('@polkadot/types');
+assertSingletonPackage('@plugnet/types');
 
 export { default as ContractAbi } from './ContractAbi';
 export * from './codec';

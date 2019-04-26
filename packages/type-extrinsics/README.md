@@ -1,4 +1,4 @@
-# @polkadot/extrinsics
+# @plugnet/extrinsics
 
 Base extrinsic definitions & codecs
 

@@ -1,7 +1,7 @@
 {
   "name": "@plugnet/jsonrpc",
   "version": "0.76.102",
-  "description": "Method definitions for the Polkadot RPC layer",
+  "description": "Method definitions for the Plugnet RPC layer",
   "main": "index.js",
   "engines": {
     "node": ">=6.4"
@@ -12,22 +12,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/polkadot-js/api.git"
+    "url": "git+https://github.com/plugblockchain/api.js.git"
   },
   "keywords": [
-    "Polkadot",
+    "Plugnet",
     "JsonRPC"
   ],
   "author": "Jaco Greeff <jacogr@gmail.com>",
   "maintainers": [
-    "Jaco Greeff <jacogr@gmail.com>"
+    "Ian He <ian.he@centrality.ai>"
   ],
   "contributors": [],
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/polkadot-js/api/issues"
+    "url": "https://github.com/plugblockchain/api.js/issues"
   },
-  "homepage": "https://github.com/polkadot-js/api/tree/master/packages/type-jsonrpc#readme",
+  "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/type-jsonrpc#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.3"
   }

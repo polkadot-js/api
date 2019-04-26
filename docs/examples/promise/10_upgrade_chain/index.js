@@ -1,9 +1,9 @@
 // @ts-check
 // Import the API & Provider and some utility functions
-const { ApiPromise, WsProvider } = require('@polkadot/api');
+const { ApiPromise, WsProvider } = require('@plugnet/api');
 
 // import the test keyring (already has dev keys for Alice, Bob, Charlie, Eve & Ferdie)
-const testKeyring = require('@polkadot/keyring/testing');
+const testKeyring = require('@plugnet/keyring/testing');
 
 const fs = require('fs');
 

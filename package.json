@@ -15,7 +15,7 @@
     "vuepress": "1.0.0-alpha.44"
   },
   "scripts": {
-    "build": "plugnet-dev-build-ts && yarn run build:methodsdoc && plugnet-dev-build-docs",
+    "build": "plugnet-dev-build-ts && yarn run build:methodsdoc",
     "build:htmldoc": "yarn clean && typedoc --theme default --out docs/html",
     "build:methodsdoc": "node packages/types/src/scripts/MetadataMdWrapper.js",
     "check": "yarn lint",

@@ -1,6 +1,6 @@
-# @polkadot/rpc-provider
+# @plugnet/rpc-provider
 
-Generic transport providers to handle the transport of method calls to and from Polkadot clients from applications interacting with it. It provides an interface to making RPC calls and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
+Generic transport providers to handle the transport of method calls to and from Plugnet clients from applications interacting with it. It provides an interface to making RPC calls and is generally, unless you are operating at a low-level and taking care of encoding and decoding of parameters/results, it won't be directly used, rather only passed to a higher-level interface.
 
 ## Provider Selection
 
@@ -13,13 +13,13 @@ Both providers are usable (as is the API), in both browser-based and Node.js env
 Installation -
 
 ```
-yarn add @polkadot/rpc-provider
+yarn add @plugnet/rpc-provider
 ```
 
 WebSocket Initialisation -
 
 ```javascript
-import WsProvider from '@polkadot/rpc-provider/ws';
+import WsProvider from '@plugnet/rpc-provider/ws';
 
 // this is the actual default endpoint
 const provider = new WsProvider('ws://127.0.0.1:9944');
@@ -31,7 +31,7 @@ console.log('client version', version);
 HTTP Initialisation -
 
 ```javascript
-import { HttpProvider } from '@polkadot/rpc-provider';
+import { HttpProvider } from '@plugnet/rpc-provider';
 
 // this is the actual default endpoint
 const provider = new HttpProvider('http://127.0.0.1:9933');

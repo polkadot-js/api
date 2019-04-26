@@ -1,6 +1,6 @@
 // @ts-check
 // Import the API
-const { ApiPromise } = require('@polkadot/api');
+const { ApiPromise } = require('@plugnet/api');
 
 async function main () {
   // Create our API with a default connection to the local node

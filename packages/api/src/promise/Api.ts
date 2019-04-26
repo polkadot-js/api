@@ -23,9 +23,9 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * @name ApiPromise
  *
  * @description
- * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Polkadot network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise `(value) => {}` callbacks to pass through the latest values.
+ * ApiPromise is a standard JavaScript wrapper around the RPC and interfaces on the Plugnet network. As a full Promise-based, all interface calls return Promises, including the static `.create(...)`. Subscription calls utilise `(value) => {}` callbacks to pass through the latest values.
  *
- * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Polkadot (and Substrate) clients.
+ * The API is well suited to real-time applications where either the single-shot state is needed or use is to be made of the subscription-based features of Plugnet (and Substrate) clients.
  *
  * @see [[ApiRx]]
  *
