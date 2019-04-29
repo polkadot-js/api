@@ -90,10 +90,10 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
 
     const blockHash = status.asFinalized;
 
-    return combineLatest(
+    return combineLatest([
       api.rpc.chain.getBlock(blockHash) as Observable<SignedBlock>,
       api.query.system.events.at(blockHash) as Observable<Vector<EventRecord>>
-    ).pipe(
+    ]).pipe(
       map(([signedBlock, allEvents]) => {
         const result = new SubmittableResult({
           events: filterEvents(_extrinsic.hash, signedBlock, allEvents),
