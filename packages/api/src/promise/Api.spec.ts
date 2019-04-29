@@ -22,7 +22,7 @@ describe('Metadata queries', () => {
     const prebundles: any = {};
     const key = `${genesisHash}-${specVersion}`;
     prebundles[key] = rpcData;
-    const api = await ApiPromise.create({provider: mock, prebundles} as ApiOptions);
+    const api = await ApiPromise.create({ provider: mock, prebundles } as ApiOptions);
     expect(api.genesisHash).toBeDefined();
     const metadata: Metadata = new Metadata(rpcData);
     expect(api.runtimeMetadata.toString()).toEqual(metadata.toString());
