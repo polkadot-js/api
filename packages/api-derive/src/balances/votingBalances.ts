@@ -14,6 +14,6 @@ export function votingBalances (api: ApiInterface$Rx) {
   return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<Array<DerivedBalances>> => {
     return !addresses || !addresses.length
       ? of([]).pipe(drr())
-      : combineLatest(...addresses.map(votingBalance(api))).pipe(drr());
+      : combineLatest(addresses.map(votingBalance(api))).pipe(drr());
   };
 }

@@ -18,11 +18,11 @@ export function votingBalance (api: ApiInterface$Rx) {
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
         (accountId
-          ? combineLatest(
+          ? combineLatest([
             of(accountId),
             api.query.balances.freeBalance(accountId),
             api.query.balances.reservedBalance(accountId)
-          )
+          ])
           : of([undefined, undefined, undefined])
         ) as Observable<[AccountId?, Balance?, Balance?]>
       ),

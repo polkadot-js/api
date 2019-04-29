@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/api-derive#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.3",
+    "@babel/runtime": "^7.4.4",
     "@plugnet/api": "^0.77.102",
     "@plugnet/types": "^0.77.102",
     "@types/memoizee": "^0.4.2",

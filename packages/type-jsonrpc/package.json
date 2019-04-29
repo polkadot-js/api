@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/type-jsonrpc#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.3"
+    "@babel/runtime": "^7.4.4"
   }
 }

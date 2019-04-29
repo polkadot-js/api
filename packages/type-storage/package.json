@@ -29,10 +29,10 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/type-storage#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.3",
-    "@plugnet/keyring": "^0.76.2-beta.0",
+    "@babel/runtime": "^7.4.4",
+    "@plugnet/keyring": "^0.90.100",
     "@plugnet/types": "^0.77.102",
-    "@plugnet/util": "^0.76.2-beta.0",
-    "@plugnet/util-crypto": "^0.76.2-beta.0"
+    "@plugnet/util": "^0.90.100",
+    "@plugnet/util-crypto": "^0.90.100"
   }
 }

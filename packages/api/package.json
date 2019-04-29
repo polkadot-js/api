@@ -29,13 +29,13 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.3",
+    "@babel/runtime": "^7.4.4",
     "@plugnet/api-derive": "^0.77.102",
     "@plugnet/extrinsics": "^0.77.102",
     "@plugnet/rpc-provider": "^0.77.102",
     "@plugnet/rpc-rx": "^0.77.102",
     "@plugnet/storage": "^0.77.102",
     "@plugnet/types": "^0.77.102",
-    "@plugnet/util-crypto": "^0.76.2-beta.0"
+    "@plugnet/util-crypto": "^0.90.100"
   }
 }

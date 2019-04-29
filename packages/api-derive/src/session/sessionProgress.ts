@@ -13,11 +13,11 @@ import { drr } from '../util/drr';
 
 export function sessionProgress (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
-    combineLatest(
+    combineLatest([
       bestNumber(api)(),
       api.query.session.sessionLength(),
       api.query.session.lastLengthChange()
-    ).pipe(
+    ]).pipe(
       map(
         ([bestNumber, sessionLength, lastLengthChange]) =>
           (bestNumber || new BN(0))

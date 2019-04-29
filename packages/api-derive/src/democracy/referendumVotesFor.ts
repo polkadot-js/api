@@ -17,11 +17,11 @@ export function referendumVotesFor (api: ApiInterface$Rx) {
   return (referendumId: BN | number): Observable<Array<DerivedReferendumVote>> =>
     (api.query.democracy.votersFor(referendumId) as Observable<Vector<AccountId>>).pipe(
       switchMap((votersFor) =>
-        combineLatest(
+        combineLatest([
           of(votersFor),
           votes(api)(referendumId as BN, votersFor),
           votingBalances(api)(votersFor)
-        )
+        ])
       ),
       map(([votersFor, votes, balances]) =>
         votersFor.map((accountId, index): DerivedReferendumVote => ({
