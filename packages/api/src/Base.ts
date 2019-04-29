@@ -388,7 +388,6 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
           const rpcData = prebundles[prebundlesKey];
           const metadata = new Metadata(rpcData);
           this._runtimeMetadata = metadata;
-          this.runtimeMetadata.getUniqTypes(false);
         } catch (e) {
           this._runtimeMetadata = await this._rpcBase.state.getMetadata();
         }
