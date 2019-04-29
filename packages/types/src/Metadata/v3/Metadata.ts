@@ -12,7 +12,7 @@ import { flattenUniq, validateTypes } from '../util';
 
 import { MetadataCall } from '../v1/Calls';
 import { MetadataEvent } from '../v1/Events';
-import { MetadataStorage } from './Storage';
+import { StorageFunctionMetadata } from './Storage';
 
 /**
  * @name MetadataModule
@@ -24,7 +24,7 @@ export class MetadataModule extends Struct {
     super({
       name: Text,
       prefix: Text,
-      storage: Option.with(Vector.with(MetadataStorage)),
+      storage: Option.with(Vector.with(StorageFunctionMetadata)),
       calls: Option.with(Vector.with(MetadataCall)),
       events: Option.with(Vector.with(MetadataEvent))
     }, value);
@@ -61,8 +61,8 @@ export class MetadataModule extends Struct {
   /**
    * @description the associated module storage
    */
-  get storage (): Option<Vector<MetadataStorage>> {
-    return this.get('storage') as Option<Vector<MetadataStorage>>;
+  get storage (): Option<Vector<StorageFunctionMetadata>> {
+    return this.get('storage') as Option<Vector<StorageFunctionMetadata>>;
   }
 }
 

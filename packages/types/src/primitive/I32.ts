@@ -9,7 +9,7 @@ import Int from '../codec/Int';
 /**
  * @name I32
  * @description
- * An 32-bit signed integer
+ * A 32-bit signed integer
  */
 export default class I32 extends Int {
   constructor (value?: AnyNumber) {

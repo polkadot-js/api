@@ -2,13 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber } from '../../types';
+
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
-import { MetadataStorageModifier } from '../v1/Storage';
-import { MapType, PlainType } from '../v2/Storage';
+import {
+  MapType,
+  PlainType,
+  StorageFunctionModifier
+} from '../v2/Storage';
+
+// Re-export classes that haven't changed between V2 and V3
+export {
+  MapType,
+  PlainType,
+  StorageFunctionModifier
+};
 
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
@@ -16,7 +28,7 @@ export class DoubleMapType extends Struct {
       key1: Text,
       key2: Text,
       value: Text,
-      keyHasher: Text
+      key2Hasher: Text
     }, value);
   }
 
@@ -35,10 +47,10 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The hashing algorithm used to hash key2, as [[Text]]
    */
-  get keyHasher (): Text {
-    return this.get('keyHasher') as Text;
+  get key2Hasher (): Text {
+    return this.get('key2Hasher') as Text;
   }
 
   /**
@@ -49,7 +61,7 @@ export class DoubleMapType extends Struct {
   }
 }
 
-export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -107,27 +119,51 @@ export class MetadataStorageType extends EnumType<PlainType | MapType | DoubleMa
   }
 }
 
+export type StorageFunctionMetadataValue = {
+  name: string | Text,
+  modifier: StorageFunctionModifier | AnyNumber,
+  type: StorageFunctionType,
+  fallback: Bytes,
+  documentation: Vector<Text> | Array<string>
+};
+
 /**
- * @name MetadataModule
+ * @name StorageFunctionMetadata
  * @description
  * The definition of a storage function
  */
-export class MetadataStorage extends Struct {
-  constructor (value?: any) {
+export class StorageFunctionMetadata extends Struct {
+  constructor (value?: StorageFunctionMetadataValue | Uint8Array) {
     super({
       name: Text,
-      modifier: MetadataStorageModifier,
-      type: MetadataStorageType,
+      modifier: StorageFunctionModifier,
+      type: StorageFunctionType,
       fallback: Bytes,
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
+  }
+
+  /**
+   * @description The default value of the storage function
+   * @deprecated Use `.fallback` instead.
+   */
+  get default (): Bytes {
+    return this.fallback;
   }
 
   /**
    * @description The [[Text]] documentation
    */
+  get documentation (): Vector<Text> {
+    return this.get('documentation') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
   get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+    return this.documentation;
   }
 
   /**
@@ -140,8 +176,8 @@ export class MetadataStorage extends Struct {
   /**
    * @description The [[MetadataArgument]] for arguments
    */
-  get modifier (): MetadataStorageModifier {
-    return this.get('modifier') as MetadataStorageModifier;
+  get modifier (): StorageFunctionModifier {
+    return this.get('modifier') as StorageFunctionModifier;
   }
 
   /**
@@ -152,9 +188,9 @@ export class MetadataStorage extends Struct {
   }
 
   /**
-   * @description The [[MetadataStorageType]]
+   * @description The [[StorageFunctionType]]
    */
-  get type (): MetadataStorageType {
-    return this.get('type') as MetadataStorageType;
+  get type (): StorageFunctionType {
+    return this.get('type') as StorageFunctionType;
   }
 }

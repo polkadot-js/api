@@ -9,7 +9,7 @@ import UInt from '../codec/UInt';
 /**
  * @name U16
  * @description
- * An 16-bit unsigned integer
+ * A 16-bit unsigned integer
  */
 export default class U16 extends UInt {
   constructor (value?: AnyNumber) {
