@@ -13,10 +13,10 @@ import { referendumInfos } from './referendumInfos';
 
 export function referendums (api: ApiInterface$Rx) {
   return (): Observable<Array<Option<ReferendumInfoExtended>>> =>
-    (combineLatest(
+    (combineLatest([
       api.query.democracy.nextTally(),
       api.query.democracy.referendumCount()
-    ) as Observable<[ReferendumIndex?, ReferendumIndex?]>).pipe(
+    ]) as Observable<[ReferendumIndex?, ReferendumIndex?]>).pipe(
       switchMap(([nextTally, referendumCount]) =>
         referendumCount && nextTally && referendumCount.gt(nextTally) && referendumCount.gtn(0)
           ? referendumInfos(api)(
