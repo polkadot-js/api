@@ -167,3 +167,4 @@ These types are are specific for the Polkadot-JS API, so you won't find a repres
 | **Types** | |
 | --- | --- |
 | [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
+| [[ReferendumInfoExtended]] | A [[ReferendumInfo]] with an additional `index` field |
