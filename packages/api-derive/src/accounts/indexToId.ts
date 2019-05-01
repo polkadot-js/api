@@ -10,6 +10,13 @@ import { AccountId, AccountIndex, Vector } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
+/**
+ * @name indexToId
+ * @description
+ * A helper function that takes the [[AccountIndex]] as an argument and
+ * returns the corresponding [[AccountId]]
+ */
+
 export function indexToId (api: ApiInterface$Rx) {
   return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
     const querySection = api.query.indices || api.query.balances;

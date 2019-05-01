@@ -15,6 +15,8 @@ export type AccountIndexes = { [index: string]: AccountIndex };
 const enumsetSize = ENUMSET_SIZE.toNumber();
 
 /**
+ * @name indexes
+ * @description
  * Returns all the indexes on the system - this is an unwieldly query since it loops through
  * all of the enumsets and returns all of the values found. This could be up to 32k depending
  * on the number of active accounts in the system

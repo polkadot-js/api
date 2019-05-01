@@ -10,6 +10,13 @@ import { AccountId, AccountIndex } from '@polkadot/types';
 import { indexes, AccountIndexes } from './indexes';
 import { drr } from '../util/drr';
 
+/**
+ * @name idToIndex
+ * @description
+ * A helper function that takes the [[AccountId]] as an argument and
+ * returns the corresponding [[AccountIndex]]
+ */
+
 export function idToIndex (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexes(api)()
