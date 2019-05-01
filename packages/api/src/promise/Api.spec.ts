@@ -4,6 +4,7 @@
 
 import ApiPromise from '../promise';
 import { ApiOptions } from '../types';
+import Hash from '../../../types/src/type/Hash';
 import Mock from '@polkadot/rpc-provider/mock/index';
 import Metadata from '../../../types/src/Metadata';
 
@@ -17,7 +18,7 @@ describe.skip('Metadata queries', () => {
 
   it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async () => {
     const rpcData = await mock.send('state_getMetadata',[]);
-    const genesisHash = await mock.send('chain_getBlockHash',[]);
+    const genesisHash = new Hash(await mock.send('chain_getBlockHash',[])).toHex();
     const specVersion = 0;
     const metadata: any = {};
     const key = `${genesisHash}-${specVersion}`;
@@ -46,21 +47,6 @@ describe.skip('Metadata queries', () => {
     expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
-  });
-
-  it('Throws error with incorect metadata map', async () => {
-    const rpcData = 'invalid data';
-    const genesisHash = await mock.send('chain_getBlockHash',[]);
-    const specVersion = 0;
-    const metadata: any = {};
-    const key = `${genesisHash}-${specVersion}`;
-    metadata[key] = rpcData;
-
-    ApiPromise.create({
-      provider: mock, metadata
-    }).catch((error) => {
-      expect(error).toEqual(new Error('Struct: cannot decode type MagicNumber with value "invalid data'));
-    });
   });
 
 });
