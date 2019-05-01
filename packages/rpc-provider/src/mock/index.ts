@@ -42,7 +42,7 @@ export default class Mock implements ProviderInterface {
   private emitter = new EventEmitter();
   public isUpdating: boolean = true;
   private requests: { [index: string]: (...params: any[]) => string } = {
-    'chain_getBlockHash': (blockNumber: number): string => '0x1234',
+    'chain_getBlockHash': (blockNumber: number): string => '0x1234000000000000000000000000000000000000000000000000000000000000',
     'chain_getRuntimeVersion': (): string => '0x1234',
     'state_getStorage': (storage: MockState$Db, params: Array<any>): string => {
       return u8aToHex(

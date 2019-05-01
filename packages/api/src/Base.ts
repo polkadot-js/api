@@ -374,7 +374,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private async loadMeta (): Promise<boolean> {
-    const { prebundles = {} } = this._options;
+    const { metadata = {} } = this._options;
+
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
@@ -382,16 +383,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         this._rpcBase.chain.getBlockHash(0),
         this._rpcBase.chain.getRuntimeVersion()
       ]);
-      const prebundlesKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
-      if (prebundlesKey in prebundles) {
-        try {
-          const rpcData = prebundles[prebundlesKey];
-          const metadata = new Metadata(rpcData);
-          this._runtimeMetadata = metadata;
-          l.warn('Experimental feature. Developers to be carefully while adding prebundled metadata');
-        } catch (e) {
-          this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-        }
+      const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+      if (metadataKey in metadata) {
+        this._runtimeMetadata = new Metadata(metadata[metadataKey]);
       } else {
         this._runtimeMetadata = await this._rpcBase.state.getMetadata();
       }

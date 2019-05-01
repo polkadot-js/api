@@ -115,6 +115,13 @@ export interface ApiOptions {
    */
   derives?: DeriveCustom;
   /**
+   * @description prebundles is a map of 'genesis hash and runtime spec version' as key to metadata's hex string
+   * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
+   */
+  metadata?: {
+    [key: string]: string
+  };
+  /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`
    */
@@ -132,13 +139,6 @@ export interface ApiOptions {
    * uses types not available in the base Substrate runtime.
    */
   types?: RegistryTypes;
-  /**
-   * @description prebundles is a map of 'genesis hash and runtime spec version' as key to metadata's hex string
-   * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
-   */
-  prebundles?: {
-    [key: string]: string
-  };
 }
 
 export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {

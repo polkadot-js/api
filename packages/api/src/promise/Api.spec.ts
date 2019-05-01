@@ -18,14 +18,14 @@ describe.skip('Metadata queries', () => {
   it('Create API instance with metadata map and makes the runtime, rpc, state & extrinsics available', async () => {
     const rpcData = await mock.send('state_getMetadata',[]);
     const genesisHash = await mock.send('chain_getBlockHash',[]);
-    const specVersion = await mock.send('chain_getRuntimeVersion', []);
-    const prebundles: any = {};
+    const specVersion = 0;
+    const metadata: any = {};
     const key = `${genesisHash}-${specVersion}`;
-    prebundles[key] = rpcData;
-    const api = await ApiPromise.create({ provider: mock, prebundles } as ApiOptions);
+    metadata[key] = rpcData;
+    const api = await ApiPromise.create({ provider: mock, metadata } as ApiOptions);
+
     expect(api.genesisHash).toBeDefined();
-    const metadata: Metadata = new Metadata(rpcData);
-    expect(api.runtimeMetadata.toJSON()).toEqual(metadata.toJSON());
+    expect(api.runtimeMetadata.toJSON()).toEqual(new Metadata(rpcData).toJSON());
     expect(api.runtimeVersion).toBeDefined();
     expect(api.rpc).toBeDefined();
     expect(api.query).toBeDefined();
@@ -34,9 +34,9 @@ describe.skip('Metadata queries', () => {
   });
 
   it('Create API instance without metadata and makes the runtime, rpc, state & extrinsics available', async () => {
-    const prebundles = {};
+    const metadata = {};
     const api = await ApiPromise.create({
-      prebundles
+      provider: mock, metadata
     });
 
     expect(api.genesisHash).toBeDefined();
@@ -48,24 +48,19 @@ describe.skip('Metadata queries', () => {
     expect(api.derive).toBeDefined();
   });
 
-  it('Create API instance with incorect metadata map and makes the runtime, rpc, state & extrinsics available', async () => {
+  it('Throws error with incorect metadata map', async () => {
     const rpcData = 'invalid data';
     const genesisHash = await mock.send('chain_getBlockHash',[]);
-    const specVersion = await mock.send('chain_getRuntimeVersion', []);
-    const prebundles: any = {};
+    const specVersion = 0;
+    const metadata: any = {};
     const key = `${genesisHash}-${specVersion}`;
-    prebundles[key] = rpcData;
-    const api = await ApiPromise.create({
-      prebundles
-    });
+    metadata[key] = rpcData;
 
-    expect(api.genesisHash).toBeDefined();
-    expect(api.runtimeMetadata).toBeDefined();
-    expect(api.runtimeVersion).toBeDefined();
-    expect(api.rpc).toBeDefined();
-    expect(api.query).toBeDefined();
-    expect(api.tx).toBeDefined();
-    expect(api.derive).toBeDefined();
+    ApiPromise.create({
+      provider: mock, metadata
+    }).catch((error) => {
+      expect(error).toEqual(new Error('Struct: cannot decode type MagicNumber with value "invalid data'));
+    });
   });
 
 });
