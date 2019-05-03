@@ -26,7 +26,9 @@ export function indexToId (api: ApiInterface$Rx) {
     return (querySection.enumSet(accountIndex.div(ENUMSET_SIZE)) as Observable<Vector<AccountId>>)
       .pipe(
         startWith([]),
-        map((accounts) => (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]),
+        map((accounts) =>
+          (accounts || [])[accountIndex.mod(ENUMSET_SIZE).toNumber()]
+        ),
         drr()
       );
   };
