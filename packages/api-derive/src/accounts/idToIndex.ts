@@ -12,9 +12,8 @@ import { drr } from '../util/drr';
 
 /**
  * @name idToIndex
- * @description
- * A helper function that takes the [[AccountId]] as an argument and
- * returns the corresponding [[AccountIndex]]
+ * @param {( AccountId | string )} accountId - An accounts address in various formats.
+ * @returns {Observable<AccountIndex | undefined>} Returns the corresponding AccountIndex.
  */
 
 export function idToIndex (api: ApiInterface$Rx) {

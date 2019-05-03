@@ -17,9 +17,8 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 
 /**
  * @name idAndIndex
- * @description
- * Takes the [[Address]], [[AccountId]] or [[AccountIndex]] as an argument.
- * Returns an array containing the [[AccountId]] and the [[AccountINdex]].
+ * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
+ * @returns {Observable<AccountIdAndIndex>} An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
  */
 
 export function idAndIndex (api: ApiInterface$Rx) {
