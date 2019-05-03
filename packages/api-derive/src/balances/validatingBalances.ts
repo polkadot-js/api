@@ -11,6 +11,11 @@ import { DerivedBalancesMap } from '../types';
 import { drr } from '../util/drr';
 import { validatingBalance } from './validatingBalance';
 
+/**
+ * @name validatingBalances
+ * @returns An array containing the validated balances of the accounts passed as parameters.
+ */
+
 export function validatingBalances (api: ApiInterface$Rx) {
   return (accountIds: Array<AccountId | Address | string>): Observable<DerivedBalancesMap> => {
     return !accountIds || !accountIds.length

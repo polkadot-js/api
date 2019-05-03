@@ -13,6 +13,12 @@ import { drr } from '../util/drr';
 import { votingBalance } from './votingBalance';
 import { votingBalancesNominatorsFor } from './votingBalancesNominatorsFor';
 
+/**
+ * @name validatingBalance
+ * @returns 
+ */
+
+
 export function validatingBalance (api: ApiInterface$Rx) {
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances> => {
     return combineLatest([

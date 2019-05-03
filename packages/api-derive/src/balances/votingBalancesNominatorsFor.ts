@@ -12,6 +12,11 @@ import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
+/**
+ * @name votingBalancesNominatorsFor
+ * @returns Returns balance information of type [[DerivedBalances]] for each stash account.
+ */
+
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
   return (address: AccountId | AccountIndex | Address | string): Observable<Array<DerivedBalances>> => {
     return idAndIndex(api)(address).pipe(

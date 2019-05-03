@@ -10,6 +10,11 @@ import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { votingBalance } from './votingBalance';
 
+/**
+ * @name votingBalances
+ * @returns Returns an array of [[DerivedBalances]]'s.
+ */
+
 export function votingBalances (api: ApiInterface$Rx) {
   return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<Array<DerivedBalances>> => {
     return !addresses || !addresses.length
