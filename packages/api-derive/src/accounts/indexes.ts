@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { ENUMSET_SIZE } from '@polkadot/types/type/AccountIndex';
@@ -28,11 +28,11 @@ export function indexes (api: ApiInterface$Rx) {
         map((next: AccountIndex) =>
           [...Array(next.toNumber() + 1).keys()]
         ),
-        switchMap((enumRange) => combineLatest(
+        switchMap((enumRange) =>
           // retrieve the full enum set for the specific index - each query can return
           // up to ENUMSET_SIZE (64) records, each containing an AccountId
-          enumRange.map((index) => (api.query.indices.enumSet(index) as Observable<any>))
-        )),
+          api.query.indices.enumSet.multi(enumRange) as Observable<any>
+        ),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
             (list || []).forEach((accountId, innerIndex) => {

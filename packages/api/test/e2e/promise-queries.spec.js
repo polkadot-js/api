@@ -78,6 +78,21 @@ describe.skip('e2e queries', () => {
     });
   });
 
+  it('subscribes to multiple results (freeBalance.multi)', (done) => {
+    api.query.balances.freeBalance.multi([
+      keyring.alice.address(),
+      keyring.bob.address(),
+      keyring.ferdie.address(),
+      '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE'
+    ], (balances) => {
+      expect(balances).toHaveLength(4);
+
+       console.error(balances);
+
+       done();
+    });
+  });
+
   it('makes a query at a specific block', async () => {
     const header = await api.rpc.chain.getHeader();
     const events = await api.query.system.events.at(header.hash);

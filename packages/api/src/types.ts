@@ -52,6 +52,7 @@ export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> e
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
+  multi: (args: Array<CodecArg>, callback?: CodecCallback) => SubscriptionResult;
   size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
 }
 
