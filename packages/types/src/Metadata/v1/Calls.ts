@@ -43,7 +43,7 @@ export class MetadataCall extends Struct {
       // id: u16,
       name: Text,
       args: Vector.with(MetadataCallArg),
-      docs: Vector.with(Text)
+      documentation: Vector.with(Text)
     }, value);
   }
 
@@ -57,8 +57,16 @@ export class MetadataCall extends Struct {
   /**
    * @description The [[Text]] documentation
    */
+  get documentation (): Vector<Text> {
+    return this.get('documentation') as Vector<Text>;
+  }
+
+  /**
+   * @description The [[Text]] documentation
+   * @deprecated Use `.documentation` instead.
+   */
   get docs (): Vector<Text> {
-    return this.get('docs') as Vector<Text>;
+    return this.documentation;
   }
 
   // /**

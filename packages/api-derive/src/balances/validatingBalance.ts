@@ -15,10 +15,10 @@ import { votingBalancesNominatorsFor } from './votingBalancesNominatorsFor';
 
 export function validatingBalance (api: ApiInterface$Rx) {
   return (address: AccountId | AccountIndex | Address | string): Observable<DerivedBalances> => {
-    return combineLatest(
+    return combineLatest([
       votingBalance(api)(address),
       votingBalancesNominatorsFor(api)(address)
-    ).pipe(
+    ]).pipe(
       map(([balance, nominators]) => {
         const nominatedBalance = nominators.reduce(
           (total: BN, nominatorBalance: DerivedBalances) =>

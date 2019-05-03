@@ -25,12 +25,12 @@ import { HeaderAndValidators } from './subscribeNewHead';
 export function getHeader (api: ApiInterface$Rx) {
   return (hash: Uint8Array | string): Observable<HeaderExtended | undefined> =>
     // tslint:disable-next-line
-    (combineLatest(
+    (combineLatest([
       api.rpc.chain.getHeader(hash) as Observable<Header>,
       api.query.session
         ? api.query.session.validators.at(hash)
         : of([])
-    ) as Observable<HeaderAndValidators>).pipe(
+    ]) as Observable<HeaderAndValidators>).pipe(
       map(([header, validators]) =>
         new HeaderExtended(header, validators)
       ),

@@ -25,10 +25,10 @@ export function controllers (api: ApiInterface$Rx) {
     (api.query.staking.validators() as any as Observable<[Array<AccountId>, any]>)
       .pipe(
         switchMap(([stashIds]) =>
-          combineLatest(
+          combineLatest([
             of(stashIds),
             allBonds(api, stashIds)
-          )
+          ])
         ),
         drr()
       );

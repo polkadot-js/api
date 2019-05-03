@@ -24,10 +24,10 @@ import { bestNumberFinalized } from './bestNumberFinalized';
  */
 export function bestNumberLag (api: ApiInterface$Rx) {
   return (): Observable<BlockNumber> =>
-    combineLatest(
+    combineLatest([
       bestNumber(api)(),
       bestNumberFinalized(api)()
-    ).pipe(
+    ]).pipe(
       map(([bestNumber, bestNumberFinalized]) =>
         new BlockNumber(bestNumber.sub(bestNumberFinalized))
       ),

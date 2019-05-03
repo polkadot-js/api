@@ -1,5 +1,5 @@
 {
-  "version": "0.77.0-beta.7",
+  "version": "0.78.0-beta.4",
   "private": true,
   "engines": {
     "node": ">=10.13.0",
@@ -10,7 +10,7 @@
   ],
   "resolutions": {
     "babel-core": "^7.0.0-bridge.0",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.5"
   },
   "scripts": {
     "build": "polkadot-dev-build-ts && yarn run build:methodsdoc && polkadot-dev-build-docs",
@@ -23,10 +23,10 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/register": "^7.4.0",
-    "@babel/runtime": "^7.4.3",
-    "@polkadot/dev": "^0.30.0-beta.1",
+    "@babel/core": "^7.4.4",
+    "@babel/register": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
+    "@polkadot/dev": "^0.30.0-beta.3",
     "@polkadot/ts": "^0.1.56",
     "gh-pages": "^2.0.1"
   }
