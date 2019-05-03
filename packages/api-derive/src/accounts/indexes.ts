@@ -24,14 +24,11 @@ export function indexes (api: ApiInterface$Rx) {
     return (api.query.indices.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
         // use the nextEnumSet (which is a counter of the number of sets) to construct
-        // a range of values to query [0, 1, 2, ...]
-        map((next: AccountIndex) =>
-          [...Array(next.toNumber() + 1).keys()]
-        ),
-        switchMap((enumRange) =>
-          // retrieve the full enum set for the specific index - each query can return
-          // up to ENUMSET_SIZE (64) records, each containing an AccountId
-          api.query.indices.enumSet.multi(enumRange) as Observable<any>
+        // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
+        // specific index - each query can return up to ENUMSET_SIZE (64) records, each
+        // containing an AccountId
+        switchMap((next: AccountIndex) =>
+          api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
         ),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
