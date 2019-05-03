@@ -89,8 +89,8 @@ export default class AttestedCandidate extends Struct {
   constructor (value?: any) {
     super({
       candidate: CandidateReceipt,
-	    validityVotes: Vector.with(ValidityVote),
-	    availabilityVotes: Vector.with(AvailabilityVote)
+      validityVotes: Vector.with(ValidityVote),
+      availabilityVotes: Vector.with(AvailabilityVote)
     }, value);
   }
 }
