@@ -652,7 +652,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private decorateDerive<C, S> (apiRx: ApiInterface$Rx, onCall: OnCallDefinition<C, S>): Derive<C, S> {
-    const derive = decorateDerive(apiRx, this._options.derives);
+    const derive = decorateDerive(apiRx, this._options.derives, this.runtimeMetadata.version);
 
     return Object.keys(derive).reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DeriveInterface;

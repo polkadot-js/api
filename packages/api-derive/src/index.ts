@@ -12,6 +12,8 @@ import * as democracy from './democracy';
 import * as session from './session';
 import * as staking from './staking';
 
+import v3 from './v3';
+
 // Put all derived functions in an object, for easier Object.keys()-ing.
 const functions = { accounts, balances, chain, democracy, session, staking };
 
@@ -56,10 +58,14 @@ function injectFunctions (api: ApiInterface$Rx, derive: Derive, functions: Deriv
   return derive;
 }
 
-export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}): Derive {
+export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}, metadataVersion: number): Derive {
   const derive = {} as Derive;
 
   injectFunctions(api, derive, functions);
+  if ([1,2,3].includes(metadataVersion)) {
+    console.log('Overwrites for v3 and earlier');
+    injectFunctions(api, derive, v3);
+  }
   injectFunctions(api, derive, custom);
 
   return derive;
