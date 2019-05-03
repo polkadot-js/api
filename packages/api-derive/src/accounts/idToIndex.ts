@@ -12,7 +12,7 @@ import { drr } from '../util/drr';
 
 /**
  * @name idToIndex
- * @param {( AccountId | string )} accountId - An accounts address in various formats.
+ * @param {( AccountId | string )} accountId - An accounts Id in different formats.
  * @returns {Observable<AccountIndex | undefined>} Returns the corresponding AccountIndex.
  */
 
