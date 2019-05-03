@@ -40,7 +40,7 @@ export default class WithdrawReasons extends Set {
     return this.values.includes('Transfer');
   }
 
-    /**
+  /**
    * @description /// In order to pay some other (higher-level) fees.
    */
   get isFee (): boolean {
