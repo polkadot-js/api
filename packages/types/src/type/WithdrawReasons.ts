@@ -10,11 +10,12 @@ import Set from '../codec/Set';
  * The Substrate WithdrawReasons for staking
  */
 export default class WithdrawReasons extends Set {
-  constructor (value: any = ['header', 'body', 'justification']) {
+  constructor (value: any = []) {
     super({
       TransactionPayment: 0b00000001,
       Transfer: 0b00000010,
-      Reserve: 0b00000100
+      Reserve: 0b00000100,
+      Fee: 0b00001000
     }, value);
   }
 
@@ -37,5 +38,12 @@ export default class WithdrawReasons extends Set {
    */
   get isTransfer (): boolean {
     return this.values.includes('Transfer');
+  }
+
+    /**
+   * @description /// In order to pay some other (higher-level) fees.
+   */
+  get isFee (): boolean {
+    return this.values.includes('Fee');
   }
 }
