@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
 import { ENUMSET_SIZE } from '@plugnet/types/type/AccountIndex';
@@ -24,15 +24,12 @@ export function indexes (api: ApiInterface$Rx) {
     return (api.query.indices.nextEnumSet() as Observable<AccountIndex>)
       .pipe(
         // use the nextEnumSet (which is a counter of the number of sets) to construct
-        // a range of values to query [0, 1, 2, ...]
-        map((next: AccountIndex) =>
-          [...Array(next.toNumber() + 1).keys()]
+        // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the
+        // specific index - each query can return up to ENUMSET_SIZE (64) records, each
+        // containing an AccountId
+        switchMap((next: AccountIndex) =>
+          api.query.indices.enumSet.multi([...Array(next.toNumber() + 1).keys()]) as Observable<any>
         ),
-        switchMap((enumRange) => combineLatest(
-          // retrieve the full enum set for the specific index - each query can return
-          // up to ENUMSET_SIZE (64) records, each containing an AccountId
-          enumRange.map((index) => (api.query.indices.enumSet(index) as Observable<any>))
-        )),
         map((all: Array<Array<AccountId> | undefined>) =>
           (all || []).reduce((result, list, outerIndex) => {
             (list || []).forEach((accountId, innerIndex) => {
