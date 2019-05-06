@@ -55,17 +55,19 @@ describe.skip('alex queries', () => {
     });
   });
 
-  describe('Local archive queries (for debug)', () => {
+  describe.skip('Local archive queries (for debug)', () => {
     beforeAll(async () => {
-      api = await Api.create({
-        provider: new WsProvider('wss://poc3-rpc.polkadot.io/')
-      });
+      api = await Api.create();
 
       return api;
     });
 
     // https://github.com/polkadot-js/api/issues/845
-    it.skip('retrieves block with no issues', async () => {
+    it('retrieves block with no issues', async () => {
+      const metadata = await api.rpc.state.getMetadata('0x6f6f9bba0eed8e3ae9446c37eee763f93118b52a315a7b46090453ba6288da1f');
+
+      console.error(JSON.stringify(metadata, null, 2));
+
       const block = await api.rpc.chain.getBlock('0x6f6f9bba0eed8e3ae9446c37eee763f93118b52a315a7b46090453ba6288da1f')
 
       console.error(block);

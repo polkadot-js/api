@@ -79,6 +79,7 @@ export default class Struct<
       return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         (raw as any)[key] = values[index];
+
         return raw;
       }, {} as T);
     } else if (!value) {
@@ -99,23 +100,29 @@ export default class Struct<
       // Types, result or any other maps, it's camelCase
       const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-      if (Array.isArray(value)) {
-        raw[key] = value[index] instanceof Types[key]
-          ? value[index]
-          : new Types[key](value[index]);
-      } else if (value instanceof Map) {
-        const mapped = value.get(jsonKey);
+      try {
+        if (Array.isArray(value)) {
+          raw[key] = value[index] instanceof Types[key]
+            ? value[index]
+            : new Types[key](value[index]);
+        } else if (value instanceof Map) {
+          const mapped = value.get(jsonKey);
 
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        (raw as any)[key] = mapped instanceof Types[key]
-          ? mapped
-          : new Types[key](mapped);
-      } else if (isObject(value)) {
-        raw[key] = value[jsonKey as string] instanceof Types[key]
-          ? value[jsonKey as string]
-          : new Types[key](value[jsonKey as string]);
-      } else {
-        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+          (raw as any)[key] = mapped instanceof Types[key]
+            ? mapped
+            : new Types[key](mapped);
+        } else if (isObject(value)) {
+          raw[key] = value[jsonKey as string] instanceof Types[key]
+            ? value[jsonKey as string]
+            : new Types[key](value[jsonKey as string]);
+        } else {
+          throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+        }
+      } catch (error) {
+        console.error(`Unable to decode Struct on key '${jsonKey}': ${error.message}`);
+
+        throw error;
       }
 
       return raw;
