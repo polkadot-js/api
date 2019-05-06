@@ -374,12 +374,21 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private async loadMeta (): Promise<boolean> {
+    const { metadata = {} } = this._options;
+
     // only load from on-chain if we are not a clone (default path), alternatively
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
-      this._runtimeMetadata = await this._rpcBase.state.getMetadata();
-      this._runtimeVersion = await this._rpcBase.chain.getRuntimeVersion();
-      this._genesisHash = await this._rpcBase.chain.getBlockHash(0);
+      [this._genesisHash, this._runtimeVersion] = await Promise.all([
+        this._rpcBase.chain.getBlockHash(0),
+        this._rpcBase.chain.getRuntimeVersion()
+      ]);
+      const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
+      if (metadataKey in metadata) {
+        this._runtimeMetadata = new Metadata(metadata[metadataKey]);
+      } else {
+        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+      }
 
       // get unique types & validate
       this.runtimeMetadata.getUniqTypes(false);
