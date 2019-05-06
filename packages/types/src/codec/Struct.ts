@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
@@ -130,6 +130,11 @@ export default class Struct<
         super(Types, value, jsonMap);
 
         (Object.keys(Types) as Array<keyof S>).forEach((key) => {
+          // do not clobber existing properties on the object
+          if (!isUndefined((this as any)[key])) {
+            return;
+          }
+
           Object.defineProperty(this, key, {
             enumerable: true,
             get: () => this.get(key)
@@ -212,8 +217,8 @@ export default class Struct<
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
-
       const value = this.get(key);
+
       json[jsonKey] = value && value.toJSON();
 
       return json;

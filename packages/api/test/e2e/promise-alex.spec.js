@@ -65,7 +65,7 @@ describe.skip('alex queries', () => {
     });
 
     // https://github.com/polkadot-js/api/issues/845
-    it('retrieves block with no issues', async () => {
+    it.skip('retrieves block with no issues', async () => {
       const block = await api.rpc.chain.getBlock('0x6f6f9bba0eed8e3ae9446c37eee763f93118b52a315a7b46090453ba6288da1f')
 
       console.error(block);
@@ -76,21 +76,27 @@ describe.skip('alex queries', () => {
     });
 
     // https://github.com/polkadot-js/api/issues/846
-    it('handles toJSON with no issues', async () => {
+    it('handles toJSON with no issues', async (done) => {
       const signedBlock = await api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc');
-
-      signedBlock.block.extrinsics.forEach(extrinsic => {
+      const failed = signedBlock.block.extrinsics.filter((extrinsic) => {
         try {
-          extrinsic.method.toJSON();
+          const json = extrinsic.method.toJSON();
+
+          console.error(json);
+
+          return false;
         } catch (error) {
-          console.log(extrinsic);
+          console.log(extrinsic.method);
+          console.log(extrinsic.method.keys());
           console.error(error);
 
-          expect(true).toBeFalsy();
+          return true;
         }
       });
 
-      return true;
+      expect(failed).toHaveLength(0);
+
+      done();
     });
   });
 });
