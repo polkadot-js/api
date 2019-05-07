@@ -77,7 +77,7 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
    * @description Returns the item as a [[ImplicitCandidateSignature]]
    */
   get asImplicitCandidateSignature (): ImplicitCandidateSignature {
-    assert(this.toNumber() === 2, `Cannot convert '${this.type}' via asImplicitCandidateSignature`);
+    assert(this.toNumber() === 1, `Cannot convert '${this.type}' via asImplicitCandidateSignature`);
 
     return this.value as ImplicitCandidateSignature;
   }
