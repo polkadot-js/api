@@ -20,16 +20,16 @@ import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
 import v4ToV3 from './v4/toV3';
 
-class MetadataDeprectated extends Null {
+class MetadataDeprecated extends Null {
 }
 
-class MetadataEnum extends EnumType<MetadataDeprectated | MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
+class MetadataEnum extends EnumType<MetadataDeprecated | MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
   constructor (value?: any) {
     super({
-      MetadataV0, // once rolled-out, can replace this with Null
-      MetadataV1, // once rolled-out, can replace this with Null
-      MetadataV2, // once rolled-out, can replace this with Null
-      MetadataV3, // once rolled-out, can replace this with Null
+      MetadataV0, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV4
     }, value);
   }
