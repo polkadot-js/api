@@ -45,7 +45,7 @@ export default function createFunction (section: Text | string, method: Text | s
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-      const param = createType(type, arg).toU8a(false);
+      const param = createType(type, arg).toU8a();
 
       key = u8aConcat(key, param);
     }
