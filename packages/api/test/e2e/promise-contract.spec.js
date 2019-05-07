@@ -89,6 +89,21 @@ describe('e2e contracts', () => {
           }
         });
     });
+
+    it('decodes tuple return types', (done) => {
+      expct(address).toBeDefined();
+
+      api.tx.contract
+        .call(address, 12345, 500000, abi.messages.compare_and_get(1, 2))
+        .signAndSend(keyring.alice, (result) => {
+          console.error('call', JSON.stringify(result));
+
+          if (result.status.isFinalized) {
+            console.log(result);
+            done();
+          }
+        })
+    })
   });
 
   describe('erc20', () => {
