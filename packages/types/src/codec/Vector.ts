@@ -29,11 +29,17 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
 
   static decodeVector<T extends Codec> (Type: Constructor<T>, value: Vector<any> | Uint8Array | string | Array<any>): Array<T> {
     if (Array.isArray(value)) {
-      return value.map((entry) =>
-        entry instanceof Type
-          ? entry
-          : new Type(entry)
-      );
+      return value.map((entry, index) => {
+        try {
+          return entry instanceof Type
+            ? entry
+            : new Type(entry);
+        } catch (error) {
+          console.error(`Unable to decode Vector on index ${index}`, error.message);
+
+          throw error;
+        }
+      });
     }
 
     const u8a = u8aToU8a(value);
