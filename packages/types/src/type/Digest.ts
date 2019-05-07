@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { assert } from '@polkadot/util';
+
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
@@ -103,6 +105,8 @@ export class Consensus extends Tuple {
    * @description The slot and signature extracted from the raw data (assuming Aura)
    */
   get asAura (): [U64, Signature] {
+    assert(this.isAura, 'Invalid engine for asAura conversion');
+
     const raw = this.data.toU8a(true);
 
     return [
@@ -133,6 +137,8 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    * @description Returns the item as a [[AuthoritiesChange]]
    */
   get asAuthoritiesChange (): AuthoritiesChange {
+    assert(this.isAuthoritiesChange, `Cannot convert '${this.type}' via asAuthoritiesChange`);
+
     return this.value as AuthoritiesChange;
   }
 
@@ -140,6 +146,8 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    * @description Returns the item as a [[ChangesTrieRoot]]
    */
   get asChangesTrieRoot (): ChangesTrieRoot {
+    assert(this.isChangesTrieRoot, `Cannot convert '${this.type}' via asChangesTrieRoot`);
+
     return this.value as ChangesTrieRoot;
   }
 
@@ -147,6 +155,8 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    * @desciption Retuns the item as a [[Consensus]]
    */
   get asConsensus (): Consensus {
+    assert(this.isConsensus, `Cannot convert '${this.type}' via asConsensus`);
+
     return this.value as Consensus;
   }
 
@@ -154,6 +164,8 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    * @description Returns the item as a [[Other]]
    */
   get asOther (): Other {
+    assert(this.isOther, `Cannot convert '${this.type}' via asOther`);
+
     return this.value as Other;
   }
 
@@ -161,7 +173,23 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    * @description Returns the item as a [[Seal]]
    */
   get asSeal (): Seal {
+    assert(this.isSeal, `Cannot convert '${this.type}' via asSeal`);
+
     return this.value as Seal;
+  }
+
+  /**
+   * @description Returns true on [[AuthoritiesChange]]
+   */
+  get isAuthoritiesChange (): boolean {
+    return this.type === 'AuthoritiesChange';
+  }
+
+  /**
+   * @description Returns true on [[ChangesTrieRoot]]
+   */
+  get isChangesTrieRoot (): boolean {
+    return this.type === 'ChangesTrieRoot';
   }
 
   /**
@@ -169,6 +197,13 @@ export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | O
    */
   get isConsensus (): boolean {
     return this.type === 'Consensus';
+  }
+
+  /**
+   * @description Returns true on [[Other]]
+   */
+  get isOther (): boolean {
+    return this.type === 'Other';
   }
 
   /**

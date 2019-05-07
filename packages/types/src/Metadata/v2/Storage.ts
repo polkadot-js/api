@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DoubleMapType } from './../v4/Storage';
-
 import { AnyNumber } from '../../types';
+
+import { assert } from '@plugnet/util';
 
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
@@ -14,6 +14,7 @@ import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import { PlainType, StorageFunctionModifier } from '../v1/Storage';
+import { DoubleMapType } from './../v4/Storage';
 
 // Re-export classes that haven't changed between V1 and V2
 export {
@@ -86,6 +87,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a mapped value
    */
   get asMap (): MapType {
+    assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
+
     return this.value as MapType;
   }
 
@@ -93,7 +96,23 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a [[Type]] value
    */
   get asType (): PlainType {
+    assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
+
     return this.value as PlainType;
+  }
+
+  /**
+   * @description `true` if the storage entry is a map
+   */
+  get isMap (): boolean {
+    return this.toNumber() === 1;
+  }
+
+  /**
+   * @description `true` if the storage entry is a plain type
+   */
+  get isPlainType (): boolean {
+    return this.toNumber() === 0;
   }
 
   /**

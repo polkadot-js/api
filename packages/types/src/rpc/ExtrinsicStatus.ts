@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { assert } from '@polkadot/util';
+
 import EnumType from '../codec/EnumType';
 import Vector from '../codec/Vector';
 import Null from '../primitive/Null';
@@ -88,6 +90,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Broadcast]]
    */
   get asBroadcast (): Broadcast {
+    assert(this.isBroadcast, `Cannot convert '${this.type}' via asBroadcast`);
+
     return this.value as Broadcast;
   }
 
@@ -95,6 +99,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Dropped]]
    */
   get asDropped (): Dropped {
+    assert(this.isDropped, `Cannot convert '${this.type}' via asDropped`);
+
     return this.value as Dropped;
   }
 
@@ -102,6 +108,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Finalized]]
    */
   get asFinalized (): Finalized {
+    assert(this.isFinalized, `Cannot convert '${this.type}' via asFinalized`);
+
     return this.value as Finalized;
   }
 
@@ -109,6 +117,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Future]]
    */
   get asFuture (): Future {
+    assert(this.isFuture, `Cannot convert '${this.type}' via asFuture`);
+
     return this.value as Future;
   }
 
@@ -116,6 +126,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Invalid]]
    */
   get asInvalid (): Invalid {
+    assert(this.isInvalid, `Cannot convert '${this.type}' via asInvalid`);
+
     return this.value as Invalid;
   }
 
@@ -123,6 +135,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Ready]]
    */
   get asReady (): Ready {
+    assert(this.isReady, `Cannot convert '${this.type}' via asReady`);
+
     return this.value as Ready;
   }
 
@@ -130,6 +144,8 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
    * @description Returns the item as a [[Usurped]]
    */
   get asUsurped (): Usurped {
+    assert(this.isUsurped, `Cannot convert '${this.type}' via asUsurped`);
+
     return this.value as Usurped;
   }
 
