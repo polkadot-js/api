@@ -12,6 +12,8 @@ import Vector from './codec/Vector';
 import { createClass } from './codec/createType';
 import { Bool, I8, I16, I32, I64, I128, U8, U16, U32, U64, U128 } from './primitive';
 
+export type ContractABIReturnType = string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null;
+
 export type ContractABIArgs = Array<{
   name: string,
   type: string
@@ -25,7 +27,7 @@ export type ContractABIMethod = ContractABIMethodBase & {
   mutates?: boolean,
   name: string,
   selector: number,
-  return_type: string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null
+  return_type: ContractABIReturnType
 };
 
 export type ContractABI = {
@@ -38,7 +40,7 @@ export interface ContractABIFn {
   (...args: Array<CodecArg>): Uint8Array;
   args: ContractABIArgs;
   isConstant: boolean;
-  type: string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null;
+  type: ContractABIReturnType;
 }
 
 export interface Contract {

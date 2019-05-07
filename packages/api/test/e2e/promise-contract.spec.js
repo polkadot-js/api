@@ -12,7 +12,7 @@ import incrementer from '../data/incrementer.json';
 import erc20 from '../data/erc20.json';
 import Api from '../../src/promise';
 
-describe.skip('e2e contracts', () => {
+describe('e2e contracts', () => {
   let address;
   let codeHash;
   let keyring;
