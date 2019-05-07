@@ -74,7 +74,7 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " Extrinsics data for the current block (maps extrinsic's index to its data)."
+                " Extrinsics data for the current block (maps an extrinsic's index to its data)."
               ]
             },
             {
@@ -692,8 +692,9 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " New session is being forced if this entry exists; in which case, the boolean value is whether",
-                " the new session should be considered a normal rotation (rewardable) or exceptional (slashable)."
+                " New session is being forced if this entry exists; in which case, the boolean value is true if",
+                " the new session should be considered a normal rotation (rewardable) and false if the new session",
+                " should be considered exceptional (slashable)."
               ]
             },
             {
@@ -745,8 +746,8 @@
                 }
               ],
               "documentation": [
-                " Sets the session key of `_validator` to `_key`. This doesn't take effect until the next",
-                " session."
+                " Sets the session key of a validator (function caller) to `key`.",
+                " This doesn't take effect until the next session."
               ]
             },
             {
@@ -863,9 +864,9 @@
               "type": {
                 "PlainType": "BlockNumber"
               },
-              "fallback": "0xe803000000000000",
+              "fallback": "0x0c00000000000000",
               "documentation": [
-                " The length of the bonding duration in blocks."
+                " The length of the bonding duration in eras."
               ]
             },
             {
@@ -974,7 +975,7 @@
               "fallback": "0x000000",
               "documentation": [
                 " Nominators for a particular account that is in action right now. You can't iterate through validators here,",
-                " but you can find them in the `sessions` module.",
+                " but you can find them in the Session module.",
                 "",
                 " This is keyed by the stash account."
               ]
@@ -1094,7 +1095,7 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for)."
+                " Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how many instances they were offline for)."
               ]
             }
           ],
@@ -1340,8 +1341,8 @@
                 "u32"
               ],
               "documentation": [
-                " One validator (and their nominators) has been given a offline-warning (they're still",
-                " within their grace). The accrued number of slashes is recorded, too."
+                " One validator (and its nominators) has been given an offline-warning (it is still",
+                " within its grace). The accrued number of slashes is recorded, too."
               ]
             },
             {
@@ -1351,7 +1352,7 @@
                 "Balance"
               ],
               "documentation": [
-                " One validator (and their nominators) has been slashed by the given amount."
+                " One validator (and its nominators) has been slashed by the given amount."
               ]
             }
           ]
@@ -2052,7 +2053,7 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " Get the leaderboard if we're in the presentation phase."
+                " Get the leaderboard if we;re in the presentation phase."
               ]
             }
           ],
@@ -2902,6 +2903,83 @@
           "prefix": "Contract",
           "storage": [
             {
+              "name": "SignedClaimHandicap",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BlockNumber"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " Number of block delay an extrinsic claim surcharge has.",
+                "",
+                " When claim surchage is called by an extrinsic the rent is checked",
+                " for current_block - delay"
+              ]
+            },
+            {
+              "name": "TombstoneDeposit",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " The minimum amount required to generate a tombstone."
+              ]
+            },
+            {
+              "name": "StorageSizeOffset",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "u64"
+              },
+              "fallback": "0x0000000000000000",
+              "documentation": [
+                " Size of a contract at the time of creation. This is a simple way to ensure",
+                " that empty contracts eventually gets deleted."
+              ]
+            },
+            {
+              "name": "RentByteFee",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " Price of a byte of storage per one block interval. Should be greater than 0."
+              ]
+            },
+            {
+              "name": "RentDepositOffset",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " The amount of funds a contract should deposit in order to offset",
+                " the cost of one byte.",
+                "",
+                " Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,",
+                " then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.",
+                " But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,",
+                " then it would pay 500 BU/day."
+              ]
+            },
+            {
+              "name": "SurchargeReward",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "BalanceOf"
+              },
+              "fallback": "0x00000000000000000000000000000000",
+              "documentation": [
+                " Reward that is received by the party whose touch has led",
+                " to removal of a contract."
+              ]
+            },
+            {
               "name": "TransferFee",
               "modifier": "Default",
               "type": {
@@ -3034,22 +3112,6 @@
               ]
             },
             {
-              "name": "CodeHashOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "AccountId",
-                  "value": "CodeHash",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The code associated with a given account."
-              ]
-            },
-            {
               "name": "PristineCode",
               "modifier": "Optional",
               "type": {
@@ -3078,7 +3140,7 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " A mapping between an original code hash and instrumented wasm code, ready for the execution."
+                " A mapping between an original code hash and instrumented wasm code, ready for execution."
               ]
             },
             {
@@ -3089,17 +3151,17 @@
               },
               "fallback": "0x0000000000000000",
               "documentation": [
-                " The subtrie counter"
+                " The subtrie counter."
               ]
             },
             {
-              "name": "AccountInfoOf",
+              "name": "ContractInfoOf",
               "modifier": "Optional",
               "type": {
                 "MapType": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "AccountInfo",
+                  "value": "ContractInfo",
                   "isLinked": false
                 }
               },
@@ -3137,7 +3199,7 @@
                 }
               ],
               "documentation": [
-                " Stores the given binary Wasm code into the chains storage and returns its `codehash`.",
+                " Stores the given binary Wasm code into the chain's storage and returns its `codehash`.",
                 " You can instantiate contracts only with stored code."
               ]
             },
@@ -3196,12 +3258,32 @@
                 "",
                 " Creation is executed as follows:",
                 "",
-                " - the destination address is computed based on the sender and hash of the code.",
-                " - the smart-contract account is created at the computed address.",
-                " - the `ctor_code` is executed in the context of the newly created account. Buffer returned",
+                " - The destination address is computed based on the sender and hash of the code.",
+                " - The smart-contract account is created at the computed address.",
+                " - The `ctor_code` is executed in the context of the newly-created account. Buffer returned",
                 "   after the execution is saved as the `code` of the account. That code will be invoked",
                 "   upon any call received by this account.",
                 " - The contract is initialized."
+              ]
+            },
+            {
+              "name": "claim_surcharge",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "aux_sender",
+                  "type": "Option<AccountId>"
+                }
+              ],
+              "documentation": [
+                " Allows block producers to claim a small reward for evicting a contract. If a block producer",
+                " fails to do so, a regular users will be allowed to claim the reward.",
+                "",
+                " If contract is not evicted as a result of this call, no actions are taken and",
+                " the sender is not eligible for the reward."
               ]
             }
           ],
