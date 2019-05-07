@@ -225,13 +225,13 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
       return this.metadata.asV3;
     }
 
-    assert([4].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v2`);
+    assert([4].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v3`);
 
     if (isUndefined(this._convertedV3)) {
       this._convertedV3 = v4ToV3(this.asV4);
     }
 
-    return this.metadata.asV3;
+    return this._convertedV3;
   }
 
   getUniqTypes (throwError: boolean): Array<string> {
