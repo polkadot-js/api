@@ -7,7 +7,10 @@ import { CodecArg, Constructor } from './types';
 import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Compact from './codec/Compact';
+import Tuple from './codec/Tuple';
+import Vector from './codec/Vector';
 import { createClass } from './codec/createType';
+import { Bool, I8, I16, I32, I64, I128, U8, U16, U32, U64, U128 } from './primitive';
 
 export type ContractABIArgs = Array<{
   name: string,
@@ -22,7 +25,7 @@ export type ContractABIMethod = ContractABIMethodBase & {
   mutates?: boolean,
   name: string,
   selector: number,
-  return_type: string | null
+  return_type: string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null
 };
 
 export type ContractABI = {
@@ -35,7 +38,7 @@ export interface ContractABIFn {
   (...args: Array<CodecArg>): Uint8Array;
   args: ContractABIArgs;
   isConstant: boolean;
-  type: string | null;
+  type: string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null;
 }
 
 export interface Contract {
@@ -70,7 +73,7 @@ export function validateMethods ({ messages }: ContractABI): void {
     const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${name}`);
-    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
+    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type) || Array.isArray(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
 
     validateArgs(`messages.${method.name}`, method.args);
   });
