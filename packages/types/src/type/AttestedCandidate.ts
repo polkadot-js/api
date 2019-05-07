@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { assert } from '@polkadot/util';
+
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
@@ -66,6 +68,8 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
    * @description Returns the item as a [[ExplicitCandidateSignature]]
    */
   get asExplicitCandidateSignature (): ExplicitCandidateSignature {
+    assert(this.toNumber() === 2, `Cannot convert '${this.type}' via asExplicitCandidateSignature`);
+
     return this.value as ExplicitCandidateSignature;
   }
 
@@ -73,6 +77,8 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
    * @description Returns the item as a [[ImplicitCandidateSignature]]
    */
   get asImplicitCandidateSignature (): ImplicitCandidateSignature {
+    assert(this.toNumber() === 1, `Cannot convert '${this.type}' via asImplicitCandidateSignature`);
+
     return this.value as ImplicitCandidateSignature;
   }
 }

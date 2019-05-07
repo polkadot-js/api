@@ -74,7 +74,7 @@ export default class ContractInfo extends EnumType<Alive | Tombstone> {
    * @description Returns the item as an [[Alive]]
    */
   get asAlive (): Alive {
-    assert(this.isAlive, `Cannot convert index ${this.toNumber()} to 'Alive'`);
+    assert(this.isAlive, `Cannot convert '${this.type}' via asAlive`);
 
     return this.value as Alive;
   }
@@ -83,7 +83,7 @@ export default class ContractInfo extends EnumType<Alive | Tombstone> {
    * @description Returns the item as an [[Tombstone]]
    */
   get asTombstone (): Tombstone {
-    assert(this.isTombstone, `Cannot convert index ${this.toNumber()} to 'Tombstone'`);
+    assert(this.isTombstone, `Cannot convert '${this.type}' via asTombstone`);
 
     return this.value as Tombstone;
   }

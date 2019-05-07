@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { assert } from '@polkadot/util';
+
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Null from '../primitive/Null';
@@ -41,6 +43,8 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
    * @description Returns the item as a [[ApplyExtrinsic]]
    */
   get asApplyExtrinsic (): ApplyExtrinsic {
+    assert(this.isApplyExtrinsic, `Cannot convert '${this.type}' via asApplyExtrinsic`);
+
     return this.value as ApplyExtrinsic;
   }
 
@@ -48,6 +52,8 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
    * @description Returns the item as a [[Finalization]]
    */
   get asFinalization (): Finalization {
+    assert(this.isFinalization, `Cannot convert '${this.type}' via asFinalization`);
+
     return this.value as Finalization;
   }
 
