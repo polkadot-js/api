@@ -87,8 +87,10 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }
+
       return this.asMap.value.toString();
     }
+
     return this.asType.toString();
   }
 }
