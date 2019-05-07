@@ -20,7 +20,10 @@ import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
 import v4ToV3 from './v4/toV3';
 
-class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
+class MetadataDeprectated extends Null {
+}
+
+class MetadataEnum extends EnumType<MetadataDeprectated | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with Null
@@ -35,6 +38,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 
    * @description Returns the wrapped values as a V0 object
    */
   get asV0 (): MetadataV0 {
+    assert(this.isV0, `Cannot convert '${this.type}' via asV0`);
+
     return this.value as MetadataV0;
   }
 
@@ -42,6 +47,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 
    * @description Returns the wrapped values as a V1 object
    */
   get asV1 (): MetadataV1 {
+    assert(this.isV1, `Cannot convert '${this.type}' via asV1`);
+
     return this.value as MetadataV1;
   }
 
@@ -49,6 +56,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 
    * @description Returns the wrapped values as a V2 object
    */
   get asV2 (): MetadataV2 {
+    assert(this.isV2, `Cannot convert '${this.type}' via asV2`);
+
     return this.value as MetadataV2;
   }
 
@@ -56,6 +65,8 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 
    * @description Returns the wrapped values as a V3 object
    */
   get asV3 (): MetadataV3 {
+    assert(this.isV3, `Cannot convert '${this.type}' via asV3`);
+
     return this.value as MetadataV3;
   }
 
@@ -63,7 +74,51 @@ class MetadataEnum extends EnumType<Null | MetadataV1 | MetadataV2 | MetadataV3 
    * @description Returns the wrapped values as a V4 object
    */
   get asV4 (): MetadataV4 {
+    assert(this.isV4, `Cannot convert '${this.type}' via asV4`);
+
     return this.value as MetadataV4;
+  }
+
+  /**
+   * @description `true` if Deprecated
+   */
+  get isDeprecated (): boolean {
+    return this.type === 'MetadataDeprectated';
+  }
+
+  /**
+   * @description `true` if V0
+   */
+  get isV0 (): boolean {
+    return this.type === 'MetadataV0';
+  }
+
+  /**
+   * @description `true` if V1
+   */
+  get isV1 (): boolean {
+    return this.type === 'MetadataV1';
+  }
+
+  /**
+   * @description `true` if V2
+   */
+  get isV2 (): boolean {
+    return this.type === 'MetadataV2';
+  }
+
+  /**
+   * @description `true` if V3
+   */
+  get isV3 (): boolean {
+    return this.type === 'MetadataV3';
+  }
+
+  /**
+   * @description `true` if V4
+   */
+  get isV4 (): boolean {
+    return this.type === 'MetadataV4';
   }
 
   /**

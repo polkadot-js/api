@@ -4,6 +4,8 @@
 
 import { AnyNumber } from '../../types';
 
+import { assert } from '@polkadot/util';
+
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
@@ -74,6 +76,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a mapped value
    */
   get asDoubleMap (): DoubleMapType {
+    assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
+
     return this.value as DoubleMapType;
   }
 
@@ -81,6 +85,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a mapped value
    */
   get asMap (): MapType {
+    assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
+
     return this.value as MapType;
   }
 
@@ -88,6 +94,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a [[Type]] value
    */
   get asType (): PlainType {
+    assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
+
     return this.value as PlainType;
   }
 
@@ -103,6 +111,13 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    */
   get isMap (): boolean {
     return this.toNumber() === 1;
+  }
+
+  /**
+   * @description `true` if the storage entry is a plain type
+   */
+  get isPlainType (): boolean {
+    return this.toNumber() === 0;
   }
 
   /**
