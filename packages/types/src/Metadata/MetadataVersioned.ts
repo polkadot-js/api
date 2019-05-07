@@ -23,7 +23,7 @@ import v4ToV3 from './v4/toV3';
 class MetadataDeprectated extends Null {
 }
 
-class MetadataEnum extends EnumType<MetadataDeprectated | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
+class MetadataEnum extends EnumType<MetadataDeprectated | MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with Null
