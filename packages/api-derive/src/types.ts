@@ -32,3 +32,16 @@ export type DerivedReferendumVote = {
   balance: Balance,
   vote: Vote
 };
+
+export type DerivedContractFees = {
+  callBaseFee: BN,
+  contractFee: BN,
+  createBaseFee: BN,
+  creationFee: BN,
+  rentByteFee: BN,
+  rentDepositOffset: BN,
+  transactionBaseFee: BN,
+  transactionByteFee: BN,
+  transferFee: BN,
+  tombstoneDeposit: BN
+};
