@@ -40,7 +40,6 @@ describe('derive', () => {
     testFunction(api)('accounts', 'indexToId', []);
 
     testFunction(api)('balances', 'all', []);
-    testFunction(api)('balances', 'allMulti', []);
     testFunction(api)('balances', 'fees', []);
     testFunction(api)('balances', 'validatingBalance', []);
     testFunction(api)('balances', 'validatingBalances', []);
