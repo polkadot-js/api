@@ -20,5 +20,3 @@ export function votes (api: ApiInterface$Rx) {
       );
   };
 }
-
-
