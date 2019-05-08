@@ -206,7 +206,11 @@ export default class Type extends Text {
         // replace `<...>::Type`
         .replace(/::Type/g, '')
         // replace `wasm::*` eg. `wasm::PrefabWasmModule`
-        .replace(/wasm::/g, '');
+        .replace(/wasm::/g, '')
+        // anything `::<type>` to end up as `<type>`
+        .replace(/^::([a-zA-Z]+)/g, '$1')
+        // anything `<type>::` to end up as `<type>`
+        .replace(/([a-zA-Z]+)::$/g, '$1');
     };
   }
 
