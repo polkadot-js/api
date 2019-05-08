@@ -30,7 +30,7 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
           header && !!header.blockNumber
         ),
         switchMap((header: Header): Observable<HeaderAndValidators> =>
-          (combineLatest(
+          (combineLatest([
             of(header),
             // theoretically we could combine at the first call with session.validators(), however
             // we make 100% sure we actually get the validators at a specific block so when these
@@ -38,7 +38,7 @@ export function subscribeNewHead (api: ApiInterface$Rx) {
             api.query.session
               ? api.query.session.validators.at(header.hash)
               : of([])
-          ) as Observable<HeaderAndValidators>)
+          ]) as Observable<HeaderAndValidators>)
         ),
         map(([header, validators]) =>
           new HeaderExtended(header, validators)

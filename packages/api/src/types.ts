@@ -52,6 +52,7 @@ export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> e
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
+  multi: (args: Array<CodecArg>, callback?: CodecCallback) => SubscriptionResult;
   size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
 }
 
@@ -114,6 +115,13 @@ export interface ApiOptions {
    * @description Add custom derives to be injected
    */
   derives?: DeriveCustom;
+  /**
+   * @description prebundles is a map of 'genesis hash and runtime spec version' as key to metadata's hex string
+   * if genesis hash and runtime spec version matches, then use metadata, else fetch it from chain
+   */
+  metadata?: {
+    [key: string]: string
+  };
   /**
    * @description Transport Provider from rpc-provider. If not specified, it will default to
    * connecting to a WsProvider connecting localhost with the default port, i.e. `ws://127.0.0.1:9944`

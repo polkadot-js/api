@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { hexToU8a, isHex, isObject, isU8a, u8aConcat, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
@@ -10,7 +10,7 @@ import { compareMap, decodeU8a } from './utils';
 /**
  * @name Struct
  * @description
- * A Struct defines an Object with key/values - where the values are Codec values. It removes
+ * A Struct defines an Object with key-value pairs - where the values are Codec values. It removes
  * a lot of repetition from the actual coding, define a structure type, pass it the key/Codec
  * values in the constructor and it manages the decoding. It is important that the constructor
  * values matches 100% to the order in th Rust code, i.e. don't go crazy and make it alphabetical,
@@ -79,6 +79,7 @@ export default class Struct<
       return Object.keys(Types).reduce((raw: T, key: keyof S, index) => {
         // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
         (raw as any)[key] = values[index];
+
         return raw;
       }, {} as T);
     } else if (!value) {
@@ -99,23 +100,29 @@ export default class Struct<
       // Types, result or any other maps, it's camelCase
       const jsonKey = (jsonMap.get(key as any) && !value[key]) ? jsonMap.get(key as any) : key;
 
-      if (Array.isArray(value)) {
-        raw[key] = value[index] instanceof Types[key]
-          ? value[index]
-          : new Types[key](value[index]);
-      } else if (value instanceof Map) {
-        const mapped = value.get(jsonKey);
+      try {
+        if (Array.isArray(value)) {
+          raw[key] = value[index] instanceof Types[key]
+            ? value[index]
+            : new Types[key](value[index]);
+        } else if (value instanceof Map) {
+          const mapped = value.get(jsonKey);
 
-        // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
-        (raw as any)[key] = mapped instanceof Types[key]
-          ? mapped
-          : new Types[key](mapped);
-      } else if (isObject(value)) {
-        raw[key] = value[jsonKey as string] instanceof Types[key]
-          ? value[jsonKey as string]
-          : new Types[key](value[jsonKey as string]);
-      } else {
-        throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+          // TS2322: Type 'Codec' is not assignable to type 'T[keyof S]'.
+          (raw as any)[key] = mapped instanceof Types[key]
+            ? mapped
+            : new Types[key](mapped);
+        } else if (isObject(value)) {
+          raw[key] = value[jsonKey as string] instanceof Types[key]
+            ? value[jsonKey as string]
+            : new Types[key](value[jsonKey as string]);
+        } else {
+          throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
+        }
+      } catch (error) {
+        console.error(`Unable to decode Struct on key '${jsonKey}': ${error.message}`);
+
+        throw error;
       }
 
       return raw;
@@ -130,6 +137,11 @@ export default class Struct<
         super(Types, value, jsonMap);
 
         (Object.keys(Types) as Array<keyof S>).forEach((key) => {
+          // do not clobber existing properties on the object
+          if (!isUndefined((this as any)[key])) {
+            return;
+          }
+
           Object.defineProperty(this, key, {
             enumerable: true,
             get: () => this.get(key)
@@ -212,8 +224,8 @@ export default class Struct<
   toJSON (): any {
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
-
       const value = this.get(key);
+
       json[jsonKey] = value && value.toJSON();
 
       return json;

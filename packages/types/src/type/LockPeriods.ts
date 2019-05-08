@@ -5,9 +5,9 @@
 import I8 from '../primitive/I8';
 
 /**
- * @name LocKPeriods
+ * @name LockPeriods
  * @description
  * A number of lock periods.
  */
-export default class LocKPeriods extends I8 {
+export default class LockPeriods extends I8 {
 }

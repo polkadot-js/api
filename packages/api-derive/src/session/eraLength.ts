@@ -12,10 +12,10 @@ import { drr } from '../util/drr';
 
 export function eraLength (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
-    (combineLatest(
+    (combineLatest([
       api.query.session.sessionLength(),
       api.query.staking.sessionsPerEra()
-    ) as Observable<[BlockNumber?, BlockNumber?]>).pipe(
+    ]) as Observable<[BlockNumber?, BlockNumber?]>).pipe(
       map(
         ([sessionLength, sessionsPerEra]) =>
           (sessionLength || new BN(1)).mul(sessionsPerEra || new BN(1))

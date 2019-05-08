@@ -7,11 +7,12 @@ import { AnyU8a } from '../types';
 import { isFunction } from '@polkadot/util';
 
 import Bytes from './Bytes';
-import { StorageFunctionMetadata } from '../Metadata/v0/Modules';
+import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
+import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
-  meta: StorageFunctionMetadata;
+  meta: MetaV0 | MetaV4;
   method: string;
   section: string;
   toJSON: () => any;
@@ -25,7 +26,7 @@ export interface StorageFunction {
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta: StorageFunctionMetadata | null;
+  private _meta: MetaV0 | MetaV4 | null;
   private _outputType: string | null;
 
   constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
@@ -49,7 +50,7 @@ export default class StorageKey extends Bytes {
     return value as Uint8Array;
   }
 
-  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): StorageFunctionMetadata | null {
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -80,7 +81,7 @@ export default class StorageKey extends Bytes {
   /**
    * @description The metadata or `null` when not available
    */
-  get meta (): StorageFunctionMetadata | null {
+  get meta (): MetaV0 | MetaV4 | null {
     return this._meta;
   }
 

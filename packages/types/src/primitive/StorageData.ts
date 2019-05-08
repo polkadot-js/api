@@ -7,7 +7,7 @@ import Bytes from './Bytes';
 /**
  * @name StorageData
  * @description
- * Data retrieved via Storage queries and data for KeyValue pairs
+ * Data retrieved via Storage queries and data for key-value pairs
  */
 export default class StorageData extends Bytes {
 }

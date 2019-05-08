@@ -240,7 +240,7 @@ ___
 
 ### democracy
 
-▸ **delegations**(`AccountId`): `((AccountId,LockPeriods), Linkage<AccountId>)`
+▸ **delegations**(`AccountId`): `(AccountId,LockPeriods)`
 - **summary**:   Get the account (and lock periods) to which another account is delegating vote.
 
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
@@ -375,7 +375,7 @@ ___
 ▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
 - **summary**:   The next value of sessions per era.
 
-▸ **nominators**(`AccountId`): `(Vec<AccountId>, Linkage<AccountId>)`
+▸ **nominators**(`AccountId`): `Vec<AccountId>`
 - **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
 
 ▸ **offlineSlash**(): `Perbill`
@@ -408,7 +408,7 @@ ___
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
 
-▸ **validators**(`AccountId`): `(ValidatorPrefs, Linkage<AccountId>)`
+▸ **validators**(`AccountId`): `ValidatorPrefs`
 - **summary**:   The map from (wannabe) validator stash key to the preferences of that validator.
 
 ___
@@ -512,7 +512,7 @@ _These are keys that are always available to the runtime implementation_
 - **summary**: Number of authorities.
 
 ▸ **authorityPrefix**(): `u32`
-- **summary**: Prefix under which authorities are storied.
+- **summary**: Prefix under which authorities are stored.
 
 ▸ **changesTrieConfig**(): `u32`
 - **summary**: Changes trie configuration is stored under this key.

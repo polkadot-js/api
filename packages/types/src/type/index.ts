@@ -23,6 +23,7 @@ export { default as BalanceLock } from './BalanceLock';
 export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
 export { default as CodeHash } from './CodeHash';
+export { default as ContractInfo } from './ContractInfo';
 export { default as Digest, DigestItem } from './Digest';
 export { default as Event } from './Event';
 export { default as EventRecord } from './EventRecord';

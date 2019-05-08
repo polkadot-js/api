@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { LinkageResult } from '@polkadot/types/codec/Linkage';
 
 import Api from '../../src/promise';
 
@@ -73,6 +74,29 @@ describe.skip('e2e queries', () => {
   it.skip('subscribes to queries (default)', (done) => {
     api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
+
+      done();
+    });
+  });
+
+  it('subscribes to a linked map (staking.validators)', (done) => {
+    api.query.staking.validators((prefs) => {
+      expect(prefs instanceof LinkageResult).toBe(true);
+
+      done();
+    });
+  });
+
+  it('subscribes to multiple results (freeBalance.multi)', (done) => {
+    api.query.balances.freeBalance.multi([
+      keyring.alice.address(),
+      keyring.bob.address(),
+      keyring.ferdie.address(),
+      '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE'
+    ], (balances) => {
+      expect(balances).toHaveLength(4);
+
+      console.error(balances);
 
       done();
     });

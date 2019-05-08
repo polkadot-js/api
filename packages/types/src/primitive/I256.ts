@@ -9,7 +9,7 @@ import Int from '../codec/Int';
 /**
  * @name I256
  * @description
- * An 256-bit signed integer
+ * A 256-bit signed integer
  */
 export default class I256 extends Int {
   constructor (value?: AnyNumber) {

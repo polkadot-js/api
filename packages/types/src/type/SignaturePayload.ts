@@ -25,7 +25,7 @@ type SignaturePayloadValue = {
  * @name SignaturePayload
  * @description
  * A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based
- * on the conetnts included
+ * on the contents included
  *
  *   8 bytes: The Transaction Index/Nonce as provided in the transaction itself.
  *   2+ bytes: The Function Descriptor as provided in the transaction itself.

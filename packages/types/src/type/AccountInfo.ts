@@ -15,7 +15,7 @@ export default class AccountInfo extends Struct {
   constructor (value: any) {
     super({
       trieId: Bytes,
-	    currentMemStored: U64
+      currentMemStored: U64
     }, value);
   }
 
