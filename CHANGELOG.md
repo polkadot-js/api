@@ -1,3 +1,13 @@
+# 0.78.1
+
+- Fix linked-maps (not working since 0.77.1)
+- Convert Usize to U32 (as found in WASM environments)
+- Allow pre-bundled metadata in API create & constructor
+- Don't clobber existing keys in structs when auto-adding fields
+- Additional logging when constructing Structs as to where failures occur
+- Do type assertion on all exposed asXXX getters
+- Metadata updates for substrate (WithdrawReasons, ContractInfo)
+
 # 0.77.1
 
 - Support Metadata v4, which introduces the use of a custom hasher to hash storage map keys.
