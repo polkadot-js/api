@@ -240,7 +240,7 @@ ___
 
 ### democracy
 
-▸ **delegations**(`AccountId`): `(AccountId,LockPeriods)`
+▸ **delegations**(`AccountId`): `((AccountId,LockPeriods), Linkage<AccountId>)`
 - **summary**:   Get the account (and lock periods) to which another account is delegating vote.
 
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
@@ -375,7 +375,7 @@ ___
 ▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
 - **summary**:   The next value of sessions per era.
 
-▸ **nominators**(`AccountId`): `Vec<AccountId>`
+▸ **nominators**(`AccountId`): `(Vec<AccountId>, Linkage<AccountId>)`
 - **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
 
 ▸ **offlineSlash**(): `Perbill`
@@ -408,7 +408,7 @@ ___
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
 
-▸ **validators**(`AccountId`): `ValidatorPrefs`
+▸ **validators**(`AccountId`): `(ValidatorPrefs, Linkage<AccountId>)`
 - **summary**:   The map from (wannabe) validator stash key to the preferences of that validator.
 
 ___
