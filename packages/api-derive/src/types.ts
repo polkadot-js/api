@@ -8,11 +8,11 @@ import { AccountId, Balance, Vote } from '@plugnet/types';
 export type DerivedBalances = {
   accountId: AccountId,
   freeBalance: Balance,
-  nominatedBalance: Balance,
+  lockedBalance: Balance,
+  availableBalance: Balance,
   reservedBalance: Balance,
   votingBalance: Balance,
-  stakingBalance: Balance,
-  nominators?: Array<DerivedBalances>
+  vestedBalance: Balance
 };
 
 export type DerivedFees = {

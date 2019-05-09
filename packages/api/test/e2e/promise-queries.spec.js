@@ -102,6 +102,24 @@ describe.skip('e2e queries', () => {
     });
   });
 
+  it('subscribes to derived balances (balances.all)', (done) => {
+    api.derive.balances.all(
+      keyring.alice.address(),
+      (all) => {
+        expect(all.accountId).toEqual(keyring.alice.address());
+        expect(all.freeBalance).toBeDefined();
+        expect(all.reservedBalance).toBeDefined();
+        expect(all.availableBalance).toBeDefined();
+        expect(all.lockedBalance).toBeDefined();
+        expect(all.vestedBalance).toBeDefined();
+
+        console.error(all);
+
+        done();
+      }
+    );
+  });
+
   it('makes a query at a specific block', async () => {
     const header = await api.rpc.chain.getHeader();
     const events = await api.query.system.events.at(header.hash);

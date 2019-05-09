@@ -39,6 +39,7 @@ describe('derive', () => {
     testFunction(api)('accounts', 'indexes', []);
     testFunction(api)('accounts', 'indexToId', []);
 
+    testFunction(api)('balances', 'all', []);
     testFunction(api)('balances', 'fees', []);
     testFunction(api)('balances', 'validatingBalance', []);
     testFunction(api)('balances', 'validatingBalances', []);
