@@ -21,7 +21,7 @@ export function all (api: ApiInterface$Rx) {
         (accountId
           ? combineLatest([
             of(accountId),
-            api.query.chain.bestNumber(),
+            api.derive.chain.bestNumber(),
             api.query.balances.freeBalance(accountId),
             api.query.balances.reservedBalance(accountId),
             api.query.balances.locks(accountId),
