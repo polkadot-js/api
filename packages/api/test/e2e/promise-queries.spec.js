@@ -107,9 +107,14 @@ describe.skip('e2e queries', () => {
       keyring.alice.address(),
       (all) => {
         expect(all.accountId).toEqual(keyring.alice.address());
+
         expect(all.freeBalance).toBeDefined();
-        expect(all.reservedBalance).toBeDefined();
+        expect(all.freeBalance.gt(ZERO)).toBe(true);
+
         expect(all.availableBalance).toBeDefined();
+        expect(all.availableBalance.gt(ZERO)).toBe(true);
+
+        expect(all.reservedBalance).toBeDefined();
         expect(all.lockedBalance).toBeDefined();
         expect(all.vestedBalance).toBeDefined();
 
