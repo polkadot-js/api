@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert } from '@polkadot/util';
+import { assert } from '@plugnet/util';
 
 import EnumType from '../codec/EnumType';
 import Vector from '../codec/Vector';

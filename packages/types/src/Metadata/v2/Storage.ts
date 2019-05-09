@@ -70,13 +70,6 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
   }
 
   /**
-   * @description `true` if the storage entry is a map
-   */
-  get isMap (): boolean {
-    return this.toNumber() === 1;
-  }
-
-  /**
    * @description The value as a double mapped value
    */
   get asDoubleMap (): DoubleMapType {

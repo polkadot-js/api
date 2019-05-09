@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiInterface$Rx, QueryableStorageFunctionBase } from '@polkadot/api/types';
-import { Codec } from '@polkadot/types/types';
+import { ApiInterface$Rx, QueryableStorageFunctionBase } from '@plugnet/api/types';
+import { Codec } from '@plugnet/types/types';
 import { DerivedContractFees } from '../types';
 
 import BN from 'bn.js';

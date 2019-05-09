@@ -496,7 +496,7 @@ ___
 ▸ **proposalCount**(): `ProposalIndex`
 - **summary**:   Number of proposals that have been made.
 
-▸ **proposals**(`ProposalIndex`): `Option<Proposal>`
+▸ **proposals**(`ProposalIndex`): `Option<TreasuryProposal>`
 - **summary**:   Proposals that have been made.
 
 ▸ **spendPeriod**(): `BlockNumber`

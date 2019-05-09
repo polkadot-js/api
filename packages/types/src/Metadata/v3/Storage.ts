@@ -4,7 +4,7 @@
 
 import { AnyNumber } from '../../types';
 
-import { assert } from '@polkadot/util';
+import { assert } from '@plugnet/util';
 
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
