@@ -14,10 +14,7 @@ export function votes (api: ApiInterface$Rx) {
     return !accountIds || !accountIds.length
       ? of([]).pipe(drr())
       : combineLatest(
-        // FIXME Convert to multi
-        accountIds.map(
-          (accountId) => api.query.democracy.voteOf([referendumId, accountId]) as Observable<Vote>
-        )
+        api.query.democracy.voteOf.multi(accountIds.map(accountId => [referendumId, accountId])) as Observable<Vote>
       ).pipe(
         drr()
       );

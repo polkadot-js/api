@@ -12,7 +12,6 @@ import { drr } from '../util/drr';
 
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
-    // FIXME Remove fees checks, only use balances (fees is a removed module now)
     return (combineLatest([
       api.query.balances.creationFee(),
       api.query.balances.existentialDeposit(),
