@@ -111,10 +111,10 @@ describe.skip('e2e queries', () => {
         expect(all.accountId).toEqual(keyring.alice.address());
 
         expect(all.freeBalance).toBeDefined();
-        expect((all.freeBalance as BN).gt(ZERO)).toBe(true);
+        expect(all.freeBalance.gt(ZERO)).toBe(true);
 
         expect(all.availableBalance).toBeDefined();
-        expect((all.availableBalance as BN).gt(ZERO)).toBe(true);
+        expect(all.availableBalance.gt(ZERO)).toBe(true);
 
         expect(all.reservedBalance).toBeDefined();
         expect(all.lockedBalance).toBeDefined();
