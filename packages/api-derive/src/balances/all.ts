@@ -37,7 +37,7 @@ export function all (api: ApiInterface$Rx) {
           // only get the locks that are valid until passed the current block
           const totals = locks.filter((value) => bestNumber && value.until.gt(bestNumber));
           // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
-          lockedBalance = bnMax(...totals.map(({ amount }) => amount)) as Balance;
+          lockedBalance = totals[0] ? bnMax(...totals.map(({ amount }) => amount)) as Balance : new Balance(0);
         }
 
         const { offset, perBlock } = vesting.unwrapOr({
