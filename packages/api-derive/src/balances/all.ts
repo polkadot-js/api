@@ -59,7 +59,7 @@ export function all (api: ApiInterface$Rx) {
           ),
           availableBalance,
           lockedBalance,
-          vestedBalance
+          vestedBalance: vestedBalance.lt(new Balance(0)) ? new Balance(0) : vestedBalance
         };
       }),
       drr()
