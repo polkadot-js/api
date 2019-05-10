@@ -12,7 +12,7 @@ describe.skip('alex queries', () => {
     jest.setTimeout(3000000);
   });
 
-  describe.skip('Remote RPC queries', () => {
+  describe('Remote RPC queries', () => {
     beforeAll(async () => {
       api = await Api.create({
         provider: new WsProvider('wss://poc3-rpc.polkadot.io/')
@@ -24,6 +24,18 @@ describe.skip('alex queries', () => {
     it('retrieves the list of validators', (done) => {
       api.query.staking.validators((res) => {
         console.log('api.query.staking.validators():', res.toJSON());
+
+        done();
+      });
+    });
+
+    it('retrieves the list of the controllers', (done) => {
+      api.derive.staking.constrollers((res) => {
+        console.log('api.query.staking.controllers():', res.toJSON());
+
+        expect(res.length).toHaveLength(2);
+        expect(res[0].length).not.toHaveLength(0);
+        expect(res[0].length).toEqual(res[1].length);
 
         done();
       });
