@@ -413,7 +413,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata.asV0);
+      Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
     }
 
