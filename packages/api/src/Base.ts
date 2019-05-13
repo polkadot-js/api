@@ -398,7 +398,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
@@ -413,7 +413,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata.asV0);
+      Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
     }
 

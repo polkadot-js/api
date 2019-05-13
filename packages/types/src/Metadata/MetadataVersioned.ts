@@ -239,7 +239,7 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
   }
 
   /**
-   * @description Returns the wrapped values as a V3 object
+   * @description Returns the wrapped values as a V4 object
    */
   get asV4 (): MetadataV4 {
     assert(this.metadata.version === 4, `Cannot convert metadata from v${this.metadata.version} to v4`);

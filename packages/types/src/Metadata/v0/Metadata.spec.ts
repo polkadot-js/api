@@ -7,13 +7,14 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import createType from '../../codec/createType';
 import Method from '../../primitive/Method';
 
-import Metadata from './Metadata';
+import Metadata from '../Metadata';
+import MetadataV0 from './Metadata';
 import latestParsed from './latest.substrate.json';
 import rpcData from './static';
 
 describe('Metadata', () => {
   it('decodes latest properly', () => {
-    const metadata = new Metadata(rpcData);
+    const metadata = new MetadataV0(rpcData);
     const str = JSON.stringify(metadata.toJSON());
 
     expect(metadata.events.length).not.toBe(0);
@@ -25,7 +26,7 @@ describe('Metadata', () => {
 
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.modules.forEach((mod) => {
+    metadata.asV0.modules.forEach((mod) => {
       if (mod.storage.isNone) {
         return;
       }
