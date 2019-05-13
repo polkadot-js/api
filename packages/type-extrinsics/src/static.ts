@@ -9,6 +9,6 @@ import { ModulesWithMethods } from '@plugnet/types/primitive/Method';
 import fromMetadata from './fromMetadata';
 
 const staticMetadata: ModulesWithMethods = fromMetadata(
-  new Metadata(metadataRpc).asV0
+  new Metadata(metadataRpc)
 );
 export default staticMetadata;
