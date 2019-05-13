@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, BlockNumber } from '@polkadot/types';
+import { AccountId, AccountIndex, Balance, BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
@@ -103,6 +103,21 @@ describe('derive e2e', () => {
     // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
   describe('balances', () => {
+    it('It returns an object with all relevant balance information of an account', async (done) => {
+      api.derive.balances.all(ID).subscribe((balances) => {
+        expect(balances).toEqual(expect.objectContaining({
+          accountId: expect.any(AccountId),
+          availableBalance: expect.any(Balance),
+          freeBalance: expect.any(Balance),
+          lockedBalance: expect.any(Balance),
+          reservedBalance: expect.any(Balance),
+          vestedBalance: expect.any(Balance),
+          votingBalance: expect.any(Balance)
+        }));
+        done();
+      });
+    });
+
     it('It returns an object with all relevant fees of type BN', async (done) => {
       api.derive.balances.fees().subscribe((fees) => {
         expect(fees).toEqual(expect.objectContaining({
@@ -115,15 +130,17 @@ describe('derive e2e', () => {
         done();
       });
     });
-    
-    it('It returns an object with all relevant fees of type BN', async (done) => {
-      api.derive.balances.fees().subscribe((fees) => {
-        expect(fees).toEqual(expect.objectContaining({
-          creationFee: expect.any(BN),
-          existentialDeposit: expect.any(BN),
-          transactionBaseFee: expect.any(BN),
-          transactionByteFee: expect.any(BN),
-          transferFee: expect.any(BN)
+
+    it('It vaidates balance information of an account', async (done) => {
+      api.derive.balances.all(ID).subscribe((balances) => {
+        expect(balances).toEqual(expect.objectContaining({
+          accountId: expect.any(AccountId),
+          availableBalance: expect.any(Balance),
+          freeBalance: expect.any(Balance),
+          lockedBalance: expect.any(Balance),
+          reservedBalance: expect.any(Balance),
+          vestedBalance: expect.any(Balance),
+          votingBalance: expect.any(Balance)
         }));
         done();
       });
