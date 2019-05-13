@@ -6,10 +6,10 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-// const WS = 'ws://127.0.0.1:9944/';
-const WS = 'wss://poc3-rpc.polkadot.io/';
+const WS = 'ws://127.0.0.1:9944/';
+// const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('derive e2e', () => {
+describe('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -32,7 +32,7 @@ describe.skip('derive e2e', () => {
 
   it('subscribes to newHead, retrieving the actual validator', (done) => {
     return api.derive.chain.subscribeNewHead(({ author }) => {
-      console.error('author', author.toString());
+      console.log('author', author.toString());
 
       if (author) {
         done();
