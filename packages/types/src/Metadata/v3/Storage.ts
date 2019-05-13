@@ -11,6 +11,7 @@ import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
 import Text from '../../primitive/Text';
+import Type from '../../primitive/Type';
 import {
   MapType,
   PlainType,
@@ -27,25 +28,25 @@ export {
 export class DoubleMapType extends Struct {
   constructor (value?: any) {
     super({
-      key1: Text,
-      key2: Text,
-      value: Text,
+      key1: Type,
+      key2: Type,
+      value: Type,
       key2Hasher: Text
     }, value);
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get key1 (): Text {
-    return this.get('key1') as Text;
+  get key1 (): Type {
+    return this.get('key1') as Type;
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get key2 (): Text {
-    return this.get('key2') as Text;
+  get key2 (): Type {
+    return this.get('key2') as Type;
   }
 
   /**
@@ -56,10 +57,10 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get value (): Text {
-    return this.get('value') as Text;
+  get value (): Type {
+    return this.get('value') as Type;
   }
 }
 
@@ -125,7 +126,7 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    */
   toString (): string {
     if (this.isDoubleMap) {
-      return this.asDoubleMap.toString();
+      return this.asDoubleMap.value.toString();
     }
 
     if (this.isMap) {
