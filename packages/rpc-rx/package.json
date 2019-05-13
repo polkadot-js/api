@@ -35,6 +35,6 @@
     "@types/memoizee": "^0.4.2",
     "@types/rx": "^4.1.1",
     "memoizee": "^0.4.14",
-    "rxjs": "6.4.0"
+    "rxjs": "^6.5.2"
   }
 }
