@@ -29,7 +29,6 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  * });
  * ```
  */
-
 export function indexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> => {
     return (api.query.indices.nextEnumSet() as Observable<AccountIndex>)

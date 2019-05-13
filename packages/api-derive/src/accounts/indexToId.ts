@@ -23,7 +23,6 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-
 export function indexToId (api: ApiInterface$Rx) {
   return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
     const querySection = api.query.indices || api.query.balances;

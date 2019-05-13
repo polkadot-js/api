@@ -23,7 +23,6 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
     return (combineLatest([

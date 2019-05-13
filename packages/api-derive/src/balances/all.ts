@@ -30,7 +30,6 @@ const EMPTY_ACCOUNT = new AccountId();
  * });
  * ```
  */
-
 export function all (api: ApiInterface$Rx) {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return idAndIndex(api)(address).pipe(

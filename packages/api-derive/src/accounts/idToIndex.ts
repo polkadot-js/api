@@ -24,7 +24,6 @@ import { drr } from '../util/drr';
  * });
  * ```
  */
-
 export function idToIndex (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexes(api)()

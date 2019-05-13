@@ -28,7 +28,6 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
  * });
  * ```
  */
-
 export function idAndIndex (api: ApiInterface$Rx) {
   return (address?: Address | AccountId | AccountIndex | string | null): Observable<AccountIdAndIndex> => {
     try {
