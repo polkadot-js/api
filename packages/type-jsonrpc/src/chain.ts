@@ -94,11 +94,11 @@ export default {
     getBlock: createMethod(section, 'getBlock', getBlock),
     getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
     // TODO US spelling
-    getFinalizedHead: createMethod(section, 'getFinalisedHead', getFinalizedHead),
+    getFinalizedHead: createMethod(section, 'getFinalizedHead', getFinalizedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     // TODO US spelling
-    subscribeFinalizedHeads: createMethod(section, 'subscribeFinalisedHeads', subscribeFinalizedHeads),
+    subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
     subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
   }
