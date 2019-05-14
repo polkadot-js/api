@@ -10,9 +10,11 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
+import Null from '../primitive/Null';
 import U32 from '../primitive/U32';
-import MetadataV0 from '../Metadata/v0';
-import { EventMetadata } from '../Metadata/v0/Events';
+import Metadata from '../Metadata';
+import { EventMetadata as EventMetadataV0 } from '../Metadata/v0/Events';
+import { MetadataEvent as EventMetadataV4 } from '../Metadata/v1/Events';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
@@ -30,12 +32,12 @@ export class EventIndex extends U32 {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadata;
+  private _meta: EventMetadataV0 | EventMetadataV4;
   private _method: string;
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadata, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV0 | EventMetadataV4, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -47,7 +49,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  get meta (): EventMetadata {
+  get meta (): EventMetadataV0 | EventMetadataV4 {
     return this._meta;
   }
 
@@ -104,10 +106,14 @@ export default class Event extends Struct {
   }
 
   static decodeEvent (value: Uint8Array = new Uint8Array()) {
+    if (!value.length) {
+      return {
+        DataType: Null
+      };
+    }
+
     const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
-
-    console.error(Object.keys(EventTypes));
 
     assert(!isUndefined(DataType), `Unable to decode event for index ${u8aToHex(index)}`);
 
@@ -122,23 +128,48 @@ export default class Event extends Struct {
 
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
-  static injectMetadata (metadata: MetadataV0): void {
-    metadata.events.forEach((section, sectionIndex) => {
-      const sectionName = stringCamelCase(section.name.toString());
+  static injectMetadata (metadata: Metadata): void {
+    if (metadata.version === 4) {
+      let sectionIndex = 0;
 
-      section.events.forEach((meta, methodIndex) => {
-        const methodName = meta.name.toString();
-        const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-        const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
-        const Types = typeDef.map(getTypeClass);
+      metadata.asV4.modules.forEach((section) => {
+        const sectionName = stringCamelCase(section.name.toString());
 
-        EventTypes[eventIndex.toString()] = class extends EventData {
-          constructor (value: Uint8Array) {
-            super(Types, value, typeDef, meta, sectionName, methodName);
-          }
-        };
+        if (!section.events.isNone && !section.events.isEmpty) {
+          section.events.unwrap().forEach((meta, methodIndex) => {
+            const methodName = meta.name.toString();
+            const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+            const typeDef = meta.args.map((arg) => getTypeDef(arg));
+            const Types = typeDef.map(getTypeClass);
+
+            EventTypes[eventIndex.toString()] = class extends EventData {
+              constructor (value: Uint8Array) {
+                super(Types, value, typeDef, meta, sectionName, methodName);
+              }
+            };
+          });
+
+          sectionIndex += 1;
+        }
       });
-    });
+    } else {
+      metadata.asV0.events.forEach((section, sectionIndex) => {
+        const sectionName = stringCamelCase(section.name.toString());
+
+        section.events.forEach((meta, methodIndex) => {
+          const methodName = meta.name.toString();
+          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+          const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
+          const Types = typeDef.map(getTypeClass);
+
+          EventTypes[eventIndex.toString()] = class extends EventData {
+            constructor (value: Uint8Array) {
+              super(Types, value, typeDef, meta, sectionName, methodName);
+            }
+          };
+        });
+      });
+    }
   }
 
   /**
@@ -158,7 +189,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  get meta (): EventMetadata {
+  get meta (): EventMetadataV0 | EventMetadataV4 {
     return this.data.meta;
   }
 
