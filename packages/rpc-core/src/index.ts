@@ -8,7 +8,7 @@ import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types
 
 import interfaces from '@polkadot/jsonrpc';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Codec, Constructor } from '@polkadot/types/types';
+import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
@@ -213,18 +213,6 @@ export default class Rpc implements RpcInterface {
     return base;
   }
 
-  private newWithFallback (Clazz: Constructor, value: any): Codec {
-    try {
-      return new Clazz(value);
-    } catch (error) {
-      if (Clazz.Fallback) {
-        return new Clazz.Fallback(value);
-      }
-
-      throw error;
-    }
-  }
-
   private formatStorageData (key: StorageKey, base: Codec, isNull: boolean): Codec {
     // single return value (via state.getStorage), decode the value based on the
     // outputType that we have specified. Fallback to Data on nothing
@@ -235,12 +223,14 @@ export default class Rpc implements RpcInterface {
 
     if (meta.type.isMap && meta.type.asMap.isLinked) {
       // linked map
-      created = this.newWithFallback(Clazz, base);
+      created = new Clazz(base);
     } else {
       created = meta.modifier.isOptional
-        ? new Option(Clazz, isNull ? null : this.newWithFallback(Clazz, base))
-        : this.newWithFallback(Clazz, base);
+        ? new Option(Clazz, isNull ? null : new Clazz(base))
+        : new Clazz(base);
     }
+
+    // TODO Check that the encoded created value matches that what was supplied
 
     return created;
   }
@@ -264,16 +254,18 @@ export default class Rpc implements RpcInterface {
     if (value) {
       if (meta.type.isMap && meta.type.asMap.isLinked) {
         // linked map
-        created = this.newWithFallback(Clazz, value.unwrapOr(null));
+        created = new Clazz(value.unwrapOr(null));
       } else if (meta.modifier.isOptional) {
         // create option either with the existing value, or empty when
         // there is no value returned
-        created = new Option(Clazz, value.isNone ? null : this.newWithFallback(Clazz, value.unwrap()));
+        created = new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap()));
       } else {
         // for `null` we fallback to the default value, or create an empty type,
         // otherwise we return the actual value as retrieved
-        created = this.newWithFallback(Clazz, value.unwrapOr(meta.fallback));
+        created = new Clazz(value.unwrapOr(meta.fallback));
       }
+
+      // TODO Check that the encoded created value matches that what was supplied
     }
 
     return created;

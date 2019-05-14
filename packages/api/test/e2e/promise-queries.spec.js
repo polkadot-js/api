@@ -10,8 +10,8 @@ import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
 const ZERO = new BN(0);
-const WS_URL = 'ws://127.0.0.1:9944';
-// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
+// const WS_URL = 'ws://127.0.0.1:9944';
+const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
@@ -144,7 +144,7 @@ describe.skip('e2e queries', () => {
       expect(events.length).not.toEqual(0);
     });
 
-    it.skip('subscribes to events', (done) => {
+    it('subscribes to events', (done) => {
       api.query.system.events((events) => {
         events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
           console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());

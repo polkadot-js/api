@@ -74,8 +74,6 @@ export interface Codec {
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
-  Fallback?: Constructor<T>;
-
   new(...value: Array<any>): T;
 }
 

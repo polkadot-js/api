@@ -57,10 +57,6 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
       constructor (value?: Array<any>) {
         super(Type, value);
       }
-
-      static Fallback = Type.Fallback
-        ? Vector.with(Type.Fallback)
-        : undefined;
     };
   }
 
