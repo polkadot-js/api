@@ -80,7 +80,7 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
  * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
  * application.
  */
-export class EventRecordV0 extends Struct {
+export class EventRecord77 extends Struct {
   constructor (value: any) {
     super({
       phase: Phase,
@@ -117,6 +117,8 @@ export default class EventRecord extends Struct {
       topics: Vector.with(Hash)
     }, value);
   }
+
+  static Fallback = EventRecord77;
 
   /**
    * @description The [[Event]] this record refers to
