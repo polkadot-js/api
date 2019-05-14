@@ -7,7 +7,7 @@ import { Constructor, Codec } from '../types';
 
 type TypeWithValues = [Constructor, Array<any>];
 
-export class Linkage<T extends Codec> extends Struct {
+export default class Linkage<T extends Codec> extends Struct {
   constructor (Type: Constructor, value?: any) {
     super({
       previous: Option.with(Type),
