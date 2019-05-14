@@ -26,6 +26,7 @@ export { default as CodeHash } from './CodeHash';
 export { default as ContractInfo } from './ContractInfo';
 export { default as Digest, DigestItem } from './Digest';
 export { default as Event } from './Event';
+export { default as EventIndex } from './EventIndex';
 export { default as EventRecord } from './EventRecord';
 export { default as Exposure } from './Exposure';
 export { default as Extrinsic } from './Extrinsic';
