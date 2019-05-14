@@ -17,7 +17,7 @@ describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
-  beforeAll(async (done) => {
+  beforeEach(async (done) => {
     if (!api) {
       api = await Api.create({
         provider: new WsProvider(WS_URL)

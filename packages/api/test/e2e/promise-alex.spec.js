@@ -15,7 +15,7 @@ describe.skip('alex queries', () => {
     jest.setTimeout(30000);
   });
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     api = await Api.create({
       provider: new WsProvider(WS_URL)
     });

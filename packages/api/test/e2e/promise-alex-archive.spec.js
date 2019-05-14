@@ -11,7 +11,7 @@ describe.skip('alex archive queries (local)', () => {
     jest.setTimeout(30000);
   });
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     api = await Api.create();
 
     return api;
