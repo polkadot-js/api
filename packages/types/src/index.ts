@@ -12,4 +12,3 @@ assertSingletonPackage('@polkadot/types');
 export { default as ContractAbi } from './ContractAbi';
 export * from './codec';
 export * from './index.types';
-export { IExtrinsic } from './types';
