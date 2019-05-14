@@ -4,35 +4,40 @@
 
 import { Constructor } from '@polkadot/types/types';
 
-import { EventRecord77 } from '@polkadot/types';
+import { EventRecord77, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
 
-type NodeOverrides = {
-  // type name
-  [index: string]: {
-    // any version name
-    [version: string]: {
-      // array of spec name & version
-      nodes: Array<{
-        specName: string,
-        specVersion: number,
-        implVersion: number
-      }>,
-      override: Constructor
-    }
-  }
+type Type = {
+  nodes: Array<{
+    specName: string,
+    specVersion: number,
+    implVersion: number
+  }>,
+  override: Constructor,
+  type: string
 };
 
-const overrides: NodeOverrides = {
-  'EventRecord': {
-    '77': {
-      nodes: [{
-        specName: 'node',
-        specVersion: 77,
-        implVersion: 77
-      }],
-      override: EventRecord77
-    }
+const types: Array<Type> = [
+  {
+    nodes: [{
+      specName: 'node',
+      specVersion: 77,
+      implVersion: 77
+    }],
+    override: EventRecord77,
+    type: 'EventRecord'
   }
-};
+];
 
-export default overrides;
+export default function injectNodeTypes ({ specName, specVersion, implVersion }: RuntimeVersion): void {
+  types
+    .filter(({ nodes }) =>
+      nodes.filter((node) =>
+        specName.eq(node.specName) &&
+        specVersion.gten(node.specVersion) &&
+        implVersion.gten(node.implVersion)
+      ).length !== 0
+    )
+    .forEach(({ override, type }) => {
+      getTypeRegistry().register(type, override);
+    });
+}
