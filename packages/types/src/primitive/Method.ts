@@ -9,8 +9,7 @@ import { assert, isHex, isObject, isU8a, hexToU8a } from '@plugnet/util';
 import { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
 import U8aFixed from '../codec/U8aFixed';
-import { FunctionMetadata as MetaV0, FunctionArgumentMetadata } from '../Metadata/v0/Modules';
-import { MetadataCall as MetaV4 } from '../Metadata/v1/Calls';
+import { FunctionMetadata, FunctionArgumentMetadata } from '../Metadata/v0/Modules';
 
 interface DecodeMethodInput {
   args: any;
@@ -19,13 +18,13 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
-  meta: MetaV0 | MetaV4;
+  meta: FunctionMetadata;
 }
 
 export interface MethodFunction {
   (...args: any[]): Method;
   callIndex: Uint8Array;
-  meta: MetaV0 | MetaV4;
+  meta: FunctionMetadata;
   method: string;
   section: string;
   toJSON: () => any;
@@ -64,9 +63,9 @@ export class MethodIndex extends U8aFixed {
  * {@link https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node}.
  */
 export default class Method extends Struct implements IMethod {
-  protected _meta: MetaV0 | MetaV4;
+  protected _meta: FunctionMetadata;
 
-  constructor (value: any, meta?: MetaV0 | MetaV4) {
+  constructor (value: any, meta?: FunctionMetadata) {
     const decoded = Method.decodeMethod(value, meta);
 
     super({
@@ -87,7 +86,7 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: MetaV0 | MetaV4): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
@@ -128,21 +127,14 @@ export default class Method extends Struct implements IMethod {
     return {
       args: new Uint8Array(),
       argsDef: {},
-      meta: new MetaV0(),
+      meta: new FunctionMetadata(),
       callIndex: new Uint8Array([255, 255])
     };
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
-  static filterOrigin (meta?: MetaV0 | MetaV4): Array<FunctionArgumentMetadata> {
+  static filterOrigin (meta?: FunctionMetadata): Array<FunctionArgumentMetadata> {
     // FIXME should be `arg.type !== Origin`, but doesn't work...
-    if (meta instanceof MetaV4) {
-      return meta
-      ? meta.args.filter(({ type }) =>
-        type.toString() !== 'Origin'
-      )
-      : [];
-    }
     return meta
       ? meta.arguments.filter(({ type }) =>
         type.toString() !== 'Origin'
@@ -169,7 +161,7 @@ export default class Method extends Struct implements IMethod {
    *
    * @param meta - The function metadata used to get the definition.
    */
-  private static getArgsDef (meta: MetaV0 | MetaV4): ArgsDef {
+  private static getArgsDef (meta: FunctionMetadata): ArgsDef {
     return Method.filterOrigin(meta).reduce((result, { name, type }) => {
       const Type = getTypeClass(
         getTypeDef(type)
@@ -223,15 +215,15 @@ export default class Method extends Struct implements IMethod {
    * @description `true` if the `Origin` type is on the method (extrinsic method)
    */
   get hasOrigin (): boolean {
-    const firstArg = this.meta instanceof MetaV4 ? this.meta.args[0] : this.meta.arguments[0];
+    const firstArg = this.meta.arguments[0];
 
     return !!firstArg && firstArg.type.toString() === 'Origin';
   }
 
   /**
-   * @description The [[MetaV0]]
+   * @description The [[FunctionMetadata]]
    */
-  get meta (): MetaV0 | MetaV4 {
+  get meta (): FunctionMetadata {
     return this._meta;
   }
 }

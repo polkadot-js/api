@@ -7,14 +7,13 @@ import extrinsicsFromMeta from '@plugnet/extrinsics/fromMetadata';
 import createType from '../../codec/createType';
 import Method from '../../primitive/Method';
 
-import Metadata from '../Metadata';
-import MetadataV0 from './Metadata';
+import Metadata from './Metadata';
 import latestParsed from './latest.substrate.json';
 import rpcData from './static';
 
 describe('Metadata', () => {
   it('decodes latest properly', () => {
-    const metadata = new MetadataV0(rpcData);
+    const metadata = new Metadata(rpcData);
     const str = JSON.stringify(metadata.toJSON());
 
     expect(metadata.events.length).not.toBe(0);
@@ -26,7 +25,7 @@ describe('Metadata', () => {
 
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV0.modules.forEach((mod) => {
+    metadata.modules.forEach((mod) => {
       if (mod.storage.isNone) {
         return;
       }

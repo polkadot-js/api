@@ -5,11 +5,11 @@
 import { Extrinsic, Metadata } from '@plugnet/types';
 import json from '@plugnet/types/Metadata/v0/static';
 
-import fromV0 from '.';
+import fromMetadata from './fromMetadata';
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json).asV0;
-const newExtrinsics = fromV0(metadata);
+const newExtrinsics = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
   it('should throw if an incorrect number of args is supplied', () => {
