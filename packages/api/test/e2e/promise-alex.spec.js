@@ -5,17 +5,20 @@
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
+// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
+const WS_URL = 'wss://substrate-rpc.parity.io/';
+
 describe.skip('alex queries', () => {
   let api;
 
   beforeEach(() => {
-    jest.setTimeout(3000000);
+    jest.setTimeout(30000);
   });
 
   describe('Remote RPC queries', () => {
     beforeAll(async () => {
       api = await Api.create({
-        provider: new WsProvider('wss://poc3-rpc.polkadot.io/')
+        provider: new WsProvider(WS_URL)
       });
 
       return api;
@@ -57,12 +60,28 @@ describe.skip('alex queries', () => {
       });
     });
 
-    it.skip('retrieves the list of nominators', (done) => {
-      let count = 0;
-      api.query.staking.nominators((res) => {
-        console.log(`[${++count}]:: nominators(${res[0].length}):`, res.toJSON());
 
-        // done();
+    it.only('makes a query at a latest block (specified)', async () => {
+      const header = await api.rpc.chain.getHeader();
+      const events = await api.query.system.events.at(header.hash);
+
+      events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+        console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+      });
+
+      expect(events.length).not.toEqual(0);
+    });
+
+    it('subscribes to events', (done) => {
+      api.query.system.events((events) => {
+        console.error(JSON.stringify(events));
+
+        events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+          console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+        });
+
+        expect(events).not.toHaveLength(0);
+        done();
       });
     });
   });

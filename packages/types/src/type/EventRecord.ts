@@ -101,6 +101,13 @@ export class EventRecord77 extends Struct {
   get phase (): Phase {
     return this.get('phase') as Phase;
   }
+
+  /**
+   * @description The [[Hash]] topics for this event (empty, compat)
+   */
+  get topics (): Vector<Hash> {
+    return new (Vector.with(Hash))();
+  }
 }
 
 /**

@@ -10,8 +10,8 @@ import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
 const ZERO = new BN(0);
-// const WS_URL = 'ws://127.0.0.1:9944';
-const WS_URL = 'wss://poc3-rpc.polkadot.io/';
+const WS_URL = 'ws://127.0.0.1:9944';
+// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
@@ -109,11 +109,11 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it('subscribes to derived balances (balances.all)', (done) => {
+  it.only('subscribes to derived balances (balances.all)', (done) => {
     api.derive.balances.all(
       keyring.alice.address(),
       (all) => {
-        expect(all.accountId).toEqual(keyring.alice.address());
+        expect(all.accountId.toString()).toEqual(keyring.alice.address());
 
         expect(all.freeBalance).toBeDefined();
         expect(all.freeBalance.gt(ZERO)).toBe(true);
@@ -132,27 +132,25 @@ describe.skip('e2e queries', () => {
     );
   });
 
-  describe('system events', () => {
-    it('makes a query at a latest block (specified)', async () => {
-      const header = await api.rpc.chain.getHeader();
-      const events = await api.query.system.events.at(header.hash);
+  it('makes a query at a latest block (specified)', async () => {
+    const header = await api.rpc.chain.getHeader();
+    const events = await api.query.system.events.at(header.hash);
 
+    events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+      console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+    });
+
+    expect(events.length).not.toEqual(0);
+  });
+
+  it('subscribes to events', (done) => {
+    api.query.system.events((events) => {
       events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
         console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
       });
 
-      expect(events.length).not.toEqual(0);
-    });
-
-    it('subscribes to events', (done) => {
-      api.query.system.events((events) => {
-        events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
-          console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
-        });
-
-        expect(events).not.toHaveLength(0);
-        done();
-      });
+      expect(events).not.toHaveLength(0);
+      done();
     });
   });
 });
