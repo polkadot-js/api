@@ -47,7 +47,7 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     const u8a = u8aToU8a(value);
     const [offset, length] = Compact.decodeU8a(u8a);
 
-    assert(length.lten(MAX_LENGTH), `Vector length larger than ${MAX_LENGTH}, found ${length.toString()}`);
+    assert(length.lten(MAX_LENGTH), `Vector length ${length.toString()} exceeds ${MAX_LENGTH}`);
 
     return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }

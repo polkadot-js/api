@@ -4,12 +4,11 @@
 
 import { Constructor } from '../types';
 
-import { isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
+import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
-import Null from '../primitive/Null';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Metadata from '../Metadata';
 import { EventMetadata as MetaV0 } from '../Metadata/v0/Events';
@@ -100,14 +99,7 @@ export default class Event extends Struct {
     const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
 
-    if (isUndefined(DataType)) {
-      console.error(`Unable to decode event for index ${u8aToHex(index)}`);
-
-      return {
-        DataType: Null,
-        value: undefined
-      };
-    }
+    assert(!isUndefined(DataType), `Unable to decode event for index ${u8aToHex(index)}`);
 
     return {
       DataType,

@@ -10,7 +10,7 @@ import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
 const ZERO = new BN(0);
-// const WS_URL = 'wss://127.0.0.1:9944';
+// const WS_URL = 'ws://127.0.0.1:9944';
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('e2e queries', () => {
@@ -132,10 +132,10 @@ describe.skip('e2e queries', () => {
     );
   });
 
-  describe.only('system events', () => {
-    it('makes a query at a specific block', async () => {
+  describe('system events', () => {
+    it('makes a query at a latest block (specified)', async () => {
       const header = await api.rpc.chain.getHeader();
-      const events = await api.query.system.events.at('0x8ac245e18aa008e0e21b4f7bd5427c16e5c3d7918024475a27da3162e9036922'); //header.hash);
+      const events = await api.query.system.events.at(header.hash);
 
       events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
         console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
