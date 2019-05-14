@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic, Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/v4/static';
+import { Extrinsic, Metadata } from '@plugnet/types';
+import json from '@plugnet/types/Metadata/v4/static';
 
 import fromV4 from '.';
 

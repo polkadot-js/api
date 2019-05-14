@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { StorageHasher } from '@plugnet/types/Metadata/v4/Storage';
+import { StorageHasher } from '@plugnet/types/primitive';
 import { blake2AsU8a, xxhashAsU8a } from '@plugnet/util-crypto';
 
 type HasherInput = string | Buffer | Uint8Array;

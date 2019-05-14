@@ -6,70 +6,21 @@ import { AnyNumber } from '../../types';
 
 import { assert } from '@plugnet/util';
 
-import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
+import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import {
-  PlainType,
-  StorageFunctionModifier
-} from '../v3/Storage';
+import { PlainType, StorageFunctionModifier } from '../v3/Storage';
 
 // Re-export classes that haven't changed between V3 and V4
 export {
   PlainType,
   StorageFunctionModifier
 };
-
-export class StorageHasher extends Enum {
-  constructor (value?: any) {
-    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
-  }
-
-  /**
-   * @description Is the enum Blake2_128?
-   */
-  get isBlake2128 (): boolean {
-    return this.toNumber() === 0;
-  }
-
-  /**
-   * @description Is the enum Blake2_256?
-   */
-  get isBlake2256 (): boolean {
-    return this.toNumber() === 1;
-  }
-
-  /**
-   * @description Is the enum Twox128?
-   */
-  get isTwox128 (): boolean {
-    return this.toNumber() === 2;
-  }
-
-  /**
-   * @description Is the enum Twox256?
-   */
-  get isTwox256 (): boolean {
-    return this.toNumber() === 3;
-  }
-
-  /**
-   * @description Is the enum isTwox128Concat?
-   */
-  get isTwox128Concat (): boolean {
-    return this.toNumber() === 4;
-  }
-
-  toJSON (): any {
-    // This looks prettier in the generated JSON
-    return this.toString();
-  }
-}
 
 export class MapType extends Struct {
   constructor (value?: any) {
@@ -219,7 +170,7 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    */
   toString (): string {
     if (this.isDoubleMap) {
-      return this.asDoubleMap.toString();
+      return `DoubleMap<${this.asDoubleMap.toString()}>`;
     }
 
     if (this.isMap) {

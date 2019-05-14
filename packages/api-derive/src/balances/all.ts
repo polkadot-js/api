@@ -4,9 +4,9 @@
 
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Option, VestingSchedule } from '@polkadot/types';
-import { bnMax } from '@polkadot/util';
+import { ApiInterface$Rx } from '@plugnet/api/types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Option, VestingSchedule } from '@plugnet/types';
+import { bnMax } from '@plugnet/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';

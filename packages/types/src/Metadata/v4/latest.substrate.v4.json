@@ -78,14 +78,15 @@
               ]
             },
             {
-              "name": "RandomSeed",
+              "name": "RandomMaterial",
               "modifier": "Default",
               "type": {
-                "PlainType": "Hash"
+                "PlainType": "(i8,Vec<Hash>)"
               },
-              "fallback": "0x0000000000000000000000000000000000000000000000000000000000000000",
+              "fallback": "0x0000",
               "documentation": [
-                " Random seed of the current block."
+                " Series of block headers from the last 81 blocks that acts as random seed material. This is arranged as a",
+                " ring buffer with the `i8` prefix being the index into the `Vec` of the oldest hash."
               ]
             },
             {
@@ -141,6 +142,46 @@
               "fallback": "0x00",
               "documentation": [
                 " Events deposited for the current block."
+              ]
+            },
+            {
+              "name": "EventCount",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "EventIndex"
+              },
+              "fallback": "0x00000000",
+              "documentation": [
+                " The number of events in the `Events<T>` list."
+              ]
+            },
+            {
+              "name": "EventTopics",
+              "modifier": "Default",
+              "type": {
+                "DoubleMapType": {
+                  "hasher": "Blake2_256",
+                  "key1": "Null",
+                  "key2": "Hash",
+                  "value": "Vec<(BlockNumber,EventIndex)>",
+                  "key2Hasher": "blake2_256"
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Mapping between a topic (represented by T::Hash) and a vector of indexes",
+                " of events in the `<Events<T>>` list.",
+                "",
+                " The first key serves no purpose. This field is declared as double_map just",
+                " for convenience of using `remove_prefix`.",
+                "",
+                " All topic vectors have deterministic storage locations depending on the topic. This",
+                " allows light-clients to leverage the changes trie storage tracking mechanism and",
+                " in case of changes fetch the list of events of interest.",
+                "",
+                " The value has the type `(T::BlockNumber, EventIndex)` because if we used only just",
+                " the `EventIndex` then in case if the topic has the same contents on the next block",
+                " no notification will be triggered thus the event might be lost."
               ]
             }
           ],
@@ -1462,7 +1503,7 @@
               },
               "fallback": "0x00000000",
               "documentation": [
-                " The next free referendum index, aka the number of referendums started so far."
+                " The next free referendum index, aka the number of referenda started so far."
               ]
             },
             {

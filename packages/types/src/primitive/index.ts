@@ -26,6 +26,7 @@ export { default as Method } from './Method';
 export { default as Moment, MomentOf } from './Moment';
 export { default as Null } from './Null';
 export { default as StorageData } from './StorageData';
+export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';
 export { default as Text } from './Text';
 export { default as Type } from './Type';

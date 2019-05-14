@@ -24,7 +24,7 @@ import RpcBase from '@plugnet/rpc-core';
 import RpcRx from '@plugnet/rpc-rx';
 import storageFromMeta from '@plugnet/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@plugnet/types';
-import { Linkage, LinkageResult } from '@plugnet/types/codec/Linkage';
+import Linkage, { LinkageResult } from '@plugnet/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@plugnet/types/primitive/Method';
 import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@plugnet/util';

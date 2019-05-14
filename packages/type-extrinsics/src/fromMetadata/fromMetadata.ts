@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ModulesWithMethods } from '@polkadot/types/primitive/Method';
-import Metadata from '@polkadot/types/Metadata';
+import { ModulesWithMethods } from '@plugnet/types/primitive/Method';
+import Metadata from '@plugnet/types/Metadata';
 
 import fromV0 from './v0';
 import fromV4 from './v4';
