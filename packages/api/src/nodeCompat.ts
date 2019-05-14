@@ -37,10 +37,10 @@ const types: Array<Compat> = [
 export default function injectNodeCompat ({ specName, specVersion }: RuntimeVersion): void {
   types
     .filter(({ nodeSpecs }) =>
-      nodeSpecs.filter((spec) =>
+      nodeSpecs.some((spec) =>
         specName.eq(spec.name) &&
         specVersion.ltn(spec.version)
-      ).length !== 0
+      )
     )
     .forEach(({ types }) => {
       getTypeRegistry().register(types);
