@@ -75,7 +75,7 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
 }
 
 /**
- * @name EventRecordV0
+ * @name EventRecord77
  * @description
  * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
  * application.
