@@ -199,6 +199,8 @@ export default class Type extends Text {
         .replace(/system::/g, '')
         // replace `<T as Trait>::` (whitespaces were removed above)
         .replace(/<TasTrait>::/g, '')
+        // replace `<T as something::Trait>::` (whitespaces were removed above)
+        .replace(/<Tas[a-z]+::Trait>::/g, '')
         // replace `<Self as Trait>::` (whitespaces were removed above)
         .replace(/<SelfasTrait>::/g, '')
         // replace <Lookup as StaticLookup>
@@ -206,11 +208,7 @@ export default class Type extends Text {
         // replace `<...>::Type`
         .replace(/::Type/g, '')
         // replace `wasm::*` eg. `wasm::PrefabWasmModule`
-        .replace(/wasm::/g, '')
-        // anything `::<type>` to end up as `<type>`
-        .replace(/^::([a-zA-Z]+)/g, '$1')
-        // anything `<type>::` to end up as `<type>`
-        .replace(/([a-zA-Z]+)::$/g, '$1');
+        .replace(/wasm::/g, '');
     };
   }
 
