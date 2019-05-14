@@ -109,7 +109,7 @@ describe.skip('e2e queries', () => {
     });
   });
 
-  it.only('subscribes to derived balances (balances.all)', (done) => {
+  it('subscribes to derived balances (balances.all)', (done) => {
     api.derive.balances.all(
       keyring.alice.address(),
       (all) => {
