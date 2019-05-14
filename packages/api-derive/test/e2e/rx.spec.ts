@@ -179,6 +179,7 @@ describe('derive e2e', () => {
     describe('getHeader', () => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
         api.derive.chain.getHeader().subscribe((headerExtended) => {
+          // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));
           done();
         });
@@ -186,8 +187,9 @@ describe('derive e2e', () => {
     });
 
     describe('subscribeNewHead', () => {
-      it('gets an observalbe of the current block header and it\'s author', async (done) => {
+      it('gets an observable of the current block header and it\'s author', async (done) => {
         api.derive.chain.subscribeNewHead().subscribe((headerExtended) => {
+          // WIP
           done();
         });
       });

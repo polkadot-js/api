@@ -14,7 +14,7 @@ export type HeaderAndValidators = [Header, Array<AccountId>];
 /**
  * @name subscribeNewHead
  * @returns An array containing the block header and the block author
- * @description An observalbe of the current block header and it's author
+ * @description An observable of the current block header and it's author
  * @example
  * <BR>
  *
