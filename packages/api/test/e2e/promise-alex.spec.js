@@ -5,6 +5,8 @@
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
+import { Hash, Header } from '@polkadot/types';
+
 describe.skip('alex queries', () => {
   let api;
 
@@ -63,6 +65,20 @@ describe.skip('alex queries', () => {
         console.log(`[${++count}]:: nominators(${res[0].length}):`, res.toJSON());
 
         // done();
+      });
+    });
+
+    it('Gets the hash of the last finalized header', async (done) => {
+      api.rpc.chain.getFinalizedHead((head) => {
+        expect(head instanceof Hash).toBe(true);
+        done();
+      });
+    });
+
+    it('Subscribes to the best finalized header on ALEX', async (done) => {
+      api.rpc.chain.subscribeFinalizedHeads((heads) => {
+        expect(heads instanceof Header).toBe(true);
+        done();
       });
     });
   });

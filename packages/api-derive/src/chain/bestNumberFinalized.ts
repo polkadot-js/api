@@ -10,13 +10,13 @@ import { BlockNumber, Header } from '@plugnet/types';
 import { drr } from '../util/drr';
 
 /**
- * @description Get the latest finalised block number.
+ * @description Get the latest finalized block number.
  * example
  * <BR>
  *
  * ```javascript
  * api.derive.chain.bestNumberFinalized((blockNumber) => {
- *   console.log(`the current finalised block is #${blockNumber}`);
+ *   console.log(`the current finalized block is #${blockNumber}`);
  * });
  * ```
  */
