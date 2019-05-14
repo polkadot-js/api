@@ -121,27 +121,10 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   static injectMetadata (metadata: Metadata): void {
-    if (metadata.version === 0) {
-      const metadataV0 = metadata.asV0;
-      metadataV0.events.forEach((section, sectionIndex) => {
-        const sectionName = stringCamelCase(section.name.toString());
-
-        section.events.forEach((meta, methodIndex) => {
-          const methodName = meta.name.toString();
-          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
-          const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
-          const Types = typeDef.map(getTypeClass);
-
-          EventTypes[eventIndex.toString()] = class extends EventData {
-            constructor (value: Uint8Array) {
-              super(Types, value, typeDef, meta, sectionName, methodName);
-            }
-          };
-        });
-      });
-    } else {
+    if (metadata.version === 4) {
       const metadataV4 = metadata.asV4;
       let sectionIndex = 0;
+
       metadataV4.modules.forEach((section) => {
         const sectionName = stringCamelCase(section.name.toString());
 
@@ -160,6 +143,25 @@ export default class Event extends Struct {
           });
           sectionIndex += 1;
         }
+      });
+    } else {
+      const metadataV0 = metadata.asV0;
+
+      metadataV0.events.forEach((section, sectionIndex) => {
+        const sectionName = stringCamelCase(section.name.toString());
+
+        section.events.forEach((meta, methodIndex) => {
+          const methodName = meta.name.toString();
+          const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
+          const typeDef = meta.arguments.map((arg) => getTypeDef(arg));
+          const Types = typeDef.map(getTypeClass);
+
+          EventTypes[eventIndex.toString()] = class extends EventData {
+            constructor (value: Uint8Array) {
+              super(Types, value, typeDef, meta, sectionName, methodName);
+            }
+          };
+        });
       });
     }
   }
