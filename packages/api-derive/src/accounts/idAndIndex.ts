@@ -18,7 +18,7 @@ export type AccountIdAndIndex = [AccountId?, AccountIndex?];
 /**
  * @name idAndIndex
  * @param {(Address | AccountId | AccountIndex | string | null)} address - An accounts address in various formats.
- * @returns  An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
+ * @description  An array containing the [[AccountId]] and [[AccountIndex]] as optional values.
  * @example
  * <BR>
  *
