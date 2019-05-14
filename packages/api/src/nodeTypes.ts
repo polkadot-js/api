@@ -13,8 +13,9 @@ type NodeOverrides = {
     [version: string]: {
       // array of spec name & version
       nodes: Array<{
-        name: string,
-        spec: number
+        specName: string,
+        specVersion: number,
+        implVersion: number
       }>,
       override: Constructor
     }
@@ -25,8 +26,9 @@ const overrides: NodeOverrides = {
   'EventRecord': {
     '77': {
       nodes: [{
-        name: 'node',
-        spec: 77
+        specName: 'node',
+        specVersion: 77,
+        implVersion: 77
       }],
       override: EventRecord77
     }
