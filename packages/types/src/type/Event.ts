@@ -10,11 +10,20 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
+import U32 from '../primitive/U32';
 import Metadata from '../Metadata';
 import { EventMetadata as MetaV0 } from '../Metadata/v0/Events';
 import { MetadataEvent as MetaV1 } from '../Metadata/v1/Events';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
+
+/**
+ * @name EventIndex
+ * @description
+ * The Substrate EventIndex representation as a [[U32]].
+ */
+export class EventIndex extends U32 {
+}
 
 /**
  * @name EventData
@@ -66,12 +75,12 @@ export class EventData extends Tuple {
 }
 
 /**
- * @name EventIndex
+ * @name EventId
  * @description
  * This follows the same approach as in [[Method]], we have the `[sectionIndex, methodIndex]` pairing
  * that indicates the actual event fired
  */
-export class EventIndex extends U8aFixed {
+export class EventId extends U8aFixed {
   constructor (value?: any) {
     super(value, 16);
   }
@@ -90,7 +99,7 @@ export default class Event extends Struct {
     const { DataType, value } = Event.decodeEvent(_value);
 
     super({
-      index: EventIndex,
+      index: EventId,
       data: DataType
     }, value);
   }
@@ -98,6 +107,8 @@ export default class Event extends Struct {
   static decodeEvent (value: Uint8Array = new Uint8Array()) {
     const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
+
+    console.error(Object.keys(EventTypes));
 
     assert(!isUndefined(DataType), `Unable to decode event for index ${u8aToHex(index)}`);
 
@@ -139,6 +150,8 @@ export default class Event extends Struct {
     } else {
       const metadataV0 = metadata.asV0;
 
+      console.error(metadataV0.events.length);
+
       metadataV0.events.forEach((section, sectionIndex) => {
         const sectionName = stringCamelCase(section.name.toString());
 
@@ -166,10 +179,10 @@ export default class Event extends Struct {
   }
 
   /**
-   * @description The [[EventIndex]], identifying the raw event
+   * @description The [[EventId]], identifying the raw event
    */
-  get index (): EventIndex {
-    return this.get('index') as EventIndex;
+  get index (): EventId {
+    return this.get('index') as EventId;
   }
 
   /**
