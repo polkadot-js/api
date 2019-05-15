@@ -13,13 +13,19 @@ import { BlockNumber, Option } from '@polkadot/types';
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
 
+type Result = [BN, [BlockNumber?, Option<BlockNumber>?, BlockNumber?, BlockNumber?, BlockNumber?]];
+
 const ZERO = new BN(0);
 const ONE = new BN(1);
 
-function createDerived ([bestNumber, [currentIndex, lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: [BN, [BlockNumber?, Option<BlockNumber>?, BlockNumber?, BlockNumber?, BlockNumber?]]): DerivedSessionInfo {
+// internal helper to just split the logic - take all inputs, do the calculations and combine
+function createDerived ([bestNumber, [currentIndex, _lastLengthChange, sessionLength, lastEraLengthChange, sessionsPerEra]]: Result): DerivedSessionInfo {
   const eraLength = (sessionLength || ONE).mul(sessionsPerEra || ONE);
+  const lastLengthChange = _lastLengthChange
+    ? _lastLengthChange.unwrapOr(ZERO)
+    : ZERO;
   const sessionProgress = (bestNumber || ZERO)
-    .sub(lastLengthChange ? (lastLengthChange).unwrapOr(ZERO) : ZERO)
+    .sub(lastLengthChange)
     .add(sessionLength || ONE)
     .mod(sessionLength || ONE);
   const eraProgress = (currentIndex || ZERO)
@@ -33,9 +39,7 @@ function createDerived ([bestNumber, [currentIndex, lastLengthChange, sessionLen
     eraLength,
     eraProgress,
     lastEraLengthChange,
-    lastLengthChange: lastLengthChange
-      ? lastLengthChange.unwrapOr(null)
-      : undefined,
+    lastLengthChange,
     sessionLength,
     sessionsPerEra,
     sessionProgress
@@ -43,12 +47,12 @@ function createDerived ([bestNumber, [currentIndex, lastLengthChange, sessionLen
 }
 
 /**
- * @description Retrieves all the serrion and era info and calculates specific valus on it sunh as the length of the session and eras
+ * @description Retrieves all the session and era info and calculates specific valus on it sunh as the length of the session and eras
  */
 export function info (api: ApiInterface$Rx) {
   return (): Observable<DerivedSessionInfo> =>
     // This is a much more optimal way to calculate since we only make a single call to the RPC backend
-    // instead of making a subscription for each of the params
+    // instead of making a subscription for each of the params (this means all others in session use)
     (combineLatest([
       bestNumber(api)(),
       api.queryMulti([
@@ -58,7 +62,7 @@ export function info (api: ApiInterface$Rx) {
         api.query.staking.lastEraLengthChange,
         api.query.staking.sessionsPerEra
       ])
-    ]) as any as Observable<[BN, [BlockNumber?, Option<BlockNumber>?, BlockNumber?, BlockNumber?, BlockNumber?]]>).pipe(
+    ]) as any as Observable<Result>).pipe(
       map(createDerived),
       drr()
     );

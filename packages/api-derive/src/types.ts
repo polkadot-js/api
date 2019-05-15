@@ -51,7 +51,7 @@ export type DerivedSessionInfo = {
   eraLength: BN,
   eraProgress: BN,
   lastEraLengthChange?: BlockNumber,
-  lastLengthChange?: BlockNumber | null,
+  lastLengthChange: BN,
   sessionLength?: BlockNumber,
   sessionsPerEra?: BlockNumber,
   sessionProgress: BN
