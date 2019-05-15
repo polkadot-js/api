@@ -424,7 +424,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     injectNodeCompat(this._runtimeVersion as RuntimeVersion);
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
