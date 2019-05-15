@@ -24,8 +24,12 @@ const types: Array<Compat> = [
         version: 77
       },
       {
+        name: 'node-template',
+        version: 0xffff // don't have an updated spec version as of yet
+      },
+      {
         name: 'polkadot',
-        version: 0xffff // don't have a spec version as of yet
+        version: 0xffff // don't have an updated spec version as of yet
       }
     ],
     types: {
