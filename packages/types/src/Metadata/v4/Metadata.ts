@@ -14,6 +14,10 @@ import { MetadataCall } from '../v1/Calls';
 import { MetadataEvent } from '../v1/Events';
 import { StorageFunctionMetadata } from './Storage';
 
+export {
+  MetadataEvent
+};
+
 /**
  * @name MetadataModule
  * @description

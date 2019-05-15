@@ -18,7 +18,7 @@ describe('EventRecord', () => {
   describe('v0', () => {
     beforeEach(() => {
       Event.injectMetadata(
-        new Metadata(metadataV0).asV0
+        new Metadata(metadataV0)
       );
     });
 
@@ -53,7 +53,7 @@ describe('EventRecord', () => {
   describe.skip('v1', () => {
     beforeEach(() => {
       Event.injectMetadata(
-        new Metadata(metadataV1).asV0
+        new Metadata(metadataV1)
       );
     });
 
