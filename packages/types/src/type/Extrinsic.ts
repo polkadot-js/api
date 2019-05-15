@@ -5,12 +5,12 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, SignatureOptions } from '../types';
 
-import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v0/Modules';
+import { FunctionMetadata as MetaV4 } from '../Metadata/v4/Calls';
 import Method from '../primitive/Method';
 import Address from './Address';
 import ExtrinsicSignature from './ExtrinsicSignature';
@@ -58,16 +58,9 @@ export default class Extrinsic extends Struct implements IExtrinsic {
           : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
-      if (!value.length) {
-        return new Uint8Array();
-      }
-
       const [offset, length] = Compact.decodeU8a(value);
-      const total = offset + length.toNumber();
 
-      assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
-
-      return value.subarray(offset, total);
+      return value.subarray(offset, offset + length.toNumber());
     } else if (value instanceof Method) {
       return {
         method: value
@@ -147,7 +140,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description The [[FunctionMetadata]] that describes the extrinsic
    */
-  get meta (): FunctionMetadata {
+  get meta (): MetaV4 {
     return this.method.meta;
   }
 
