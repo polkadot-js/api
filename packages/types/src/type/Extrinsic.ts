@@ -10,6 +10,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
+import U8a from '../codec/U8a';
 import { FunctionMetadata } from '../Metadata/v0/Modules';
 import Method from '../primitive/Method';
 import Address from './Address';
@@ -38,8 +39,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, Extrinsic.decodeExtrinsic(value || new Unit8Array()));
-  ));
+    }, Extrinsic.decodeExtrinsic(value || new U8a()));
   }
 
   static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method): ExtrinsicValue | Array<number> | Uint8Array {
@@ -59,6 +59,9 @@ export default class Extrinsic extends Struct implements IExtrinsic {
           : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
+      if (!value.length) {
+        return new Uint8Array();
+      }
       const [offset, length] = Compact.decodeU8a(value);
       const total = offset + length.toNumber();
 
