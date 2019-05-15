@@ -15,9 +15,19 @@ export type AccountIndexes = { [index: string]: AccountIndex };
 const enumsetSize = ENUMSET_SIZE.toNumber();
 
 /**
- * Returns all the indexes on the system - this is an unwieldly query since it loops through
+ * @name indexes
+ * @returns Returns all the indexes on the system.
+ * @description This is an unwieldly query since it loops through
  * all of the enumsets and returns all of the values found. This could be up to 32k depending
  * on the number of active accounts in the system
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.accounts.indexes((indexes) => {
+ *   console.log('All existing AccountIndexes', indexes);
+ * });
+ * ```
  */
 export function indexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> => {

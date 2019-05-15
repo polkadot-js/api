@@ -12,7 +12,9 @@ import { drr } from '../util/drr';
 export type HeaderAndValidators = [Header, Array<AccountId>];
 
 /**
- * @description Subscribe to block headers and extend it with the author
+ * @name subscribeNewHead
+ * @returns An array containing the block header and the block author
+ * @description An observable of the current block header and it's author
  * @example
  * <BR>
  *

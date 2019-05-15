@@ -32,7 +32,7 @@ describe.skip('derive e2e', () => {
 
   it('subscribes to newHead, retrieving the actual validator', (done) => {
     return api.derive.chain.subscribeNewHead(({ author }) => {
-      console.error('author', author.toString());
+      console.log('author', author.toString());
 
       if (author) {
         done();
