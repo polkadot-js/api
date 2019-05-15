@@ -4,7 +4,7 @@
 
 import { Codec, Constructor, ConstructorDef } from '../types';
 
-import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, u8aConcat, u8aToHex } from '@plugnet/util';
+import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@plugnet/util';
 
 import Null from '../primitive/Null';
 import Base from './Base';
@@ -98,15 +98,19 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     const aliasKey = aliasses[keyLower] || keyLower;
     const index = keys.indexOf(aliasKey);
 
-    assert(index !== -1, `Cannot map input on JSON, unable to find '${key}' in ${keys.join(', ')}`);
+    assert(index !== -1, `Cannot map EnumType JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
     return EnumType.createValue(def, index, value);
   }
 
   private static createValue (def: TypesDef, index: number = 0, value?: any): Decoded {
+    const Clazz = Object.values(def)[index];
+
+    assert(!isUndefined(Clazz), `Unable to create EnumType via index ${index}, in ${Object.keys(def).join(', ')}`);
+
     return {
       index,
-      value: new (Object.values(def)[index])(value)
+      value: new Clazz(value)
     };
   }
 

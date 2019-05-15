@@ -32,7 +32,7 @@ describe.skip('e2e contracts', () => {
   describe('incrementer', () => {
     let abi;
 
-    beforeAll(() => {
+    beforeEach(() => {
       abi = new ContractAbi(incrementer);
     });
 
@@ -94,7 +94,7 @@ describe.skip('e2e contracts', () => {
   describe('erc20', () => {
     let abi;
 
-    beforeAll(() => {
+    beforeEach(() => {
       abi = abi = new ContractAbi(erc20);
     });
 

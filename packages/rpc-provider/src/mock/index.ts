@@ -12,7 +12,7 @@ import testKeyring from '@plugnet/keyring/testing';
 import storage from '@plugnet/storage/static';
 import { Codec } from '@plugnet/types/types';
 import metadata from '@plugnet/types/Metadata/v0/static';
-import { Header } from '@plugnet/types';
+import { Header, RuntimeVersion } from '@plugnet/types';
 import { bnToU8a, logger, u8aToHex } from '@plugnet/util';
 import { randomAsU8a } from '@plugnet/util-crypto';
 
@@ -43,7 +43,7 @@ export default class Mock implements ProviderInterface {
   public isUpdating: boolean = true;
   private requests: { [index: string]: (...params: any[]) => string } = {
     'chain_getBlockHash': (blockNumber: number): string => '0x1234',
-    'chain_getRuntimeVersion': (): string => '0x1234',
+    'chain_getRuntimeVersion': (): string => new RuntimeVersion().toHex(),
     'state_getStorage': (storage: MockState$Db, params: Array<any>): string => {
       return u8aToHex(
         storage[(params[0] as string)]

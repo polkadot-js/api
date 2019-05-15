@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isString, stringToU8a, u8aToString, u8aToHex } from '@plugnet/util';
+import { assert, isString, stringToU8a, u8aToString, u8aToHex } from '@plugnet/util';
 
 import { AnyU8a, Codec } from '../types';
 import Compact from '../codec/Compact';
@@ -31,9 +31,16 @@ export default class Text extends String implements Codec {
     if (isString(value)) {
       return value.toString();
     } else if (value instanceof Uint8Array) {
-      const [offset, length] = Compact.decodeU8a(value);
+      if (!value.length) {
+        return '';
+      }
 
-      return u8aToString(value.subarray(offset, offset + length.toNumber()));
+      const [offset, length] = Compact.decodeU8a(value);
+      const total = offset + length.toNumber();
+
+      assert(total <= value.length, `Text: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+      return u8aToString(value.subarray(offset, total));
     }
 
     return `${value}`;

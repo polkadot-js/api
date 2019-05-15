@@ -6,8 +6,10 @@ import { assert } from '@plugnet/util';
 
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
+import Vector from '../codec/Vector';
 import Null from '../primitive/Null';
 import U32 from '../primitive/U32';
+import Hash from './Hash';
 import Event from './Event';
 
 /**
@@ -73,12 +75,12 @@ export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
 }
 
 /**
- * @name EventRecord
+ * @name EventRecord77
  * @description
  * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
  * application.
  */
-export default class EventRecord extends Struct {
+export class EventRecord77 extends Struct {
   constructor (value: any) {
     super({
       phase: Phase,
@@ -98,5 +100,49 @@ export default class EventRecord extends Struct {
    */
   get phase (): Phase {
     return this.get('phase') as Phase;
+  }
+
+  /**
+   * @description The [[Hash]] topics for this event (empty, compat)
+   */
+  get topics (): Vector<Hash> {
+    return new (Vector.with(Hash))();
+  }
+}
+
+/**
+ * @name EventRecord
+ * @description
+ * A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of
+ * application.
+ */
+export default class EventRecord extends Struct {
+  constructor (value: any) {
+    super({
+      phase: Phase,
+      event: Event,
+      topics: Vector.with(Hash)
+    }, value);
+  }
+
+  /**
+   * @description The [[Event]] this record refers to
+   */
+  get event (): Event {
+    return this.get('event') as Event;
+  }
+
+  /**
+   * @description The [[Phase]] where the event was generated
+   */
+  get phase (): Phase {
+    return this.get('phase') as Phase;
+  }
+
+  /**
+   * @description The [[Hash]] topics for this event
+   */
+  get topics (): Vector<Hash> {
+    return this.get('topics') as Vector<Hash>;
   }
 }

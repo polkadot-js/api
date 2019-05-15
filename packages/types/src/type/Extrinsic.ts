@@ -5,7 +5,7 @@
 import { KeyringPair } from '@plugnet/keyring/types';
 import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, SignatureOptions } from '../types';
 
-import { isHex, isU8a, u8aToHex, u8aToU8a } from '@plugnet/util';
+import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@plugnet/util';
 import { blake2AsU8a } from '@plugnet/util-crypto';
 
 import Compact from '../codec/Compact';
@@ -58,9 +58,16 @@ export default class Extrinsic extends Struct implements IExtrinsic {
           : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
-      const [offset, length] = Compact.decodeU8a(value);
+      if (!value.length) {
+        return new Uint8Array();
+      }
 
-      return value.subarray(offset, offset + length.toNumber());
+      const [offset, length] = Compact.decodeU8a(value);
+      const total = offset + length.toNumber();
+
+      assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+      return value.subarray(offset, total);
     } else if (value instanceof Method) {
       return {
         method: value

@@ -30,6 +30,7 @@ import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@plugnet/util';
 import { cryptoWaitReady } from '@plugnet/util-crypto';
 
+import injectNodeCompat from './nodeCompat';
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
@@ -398,6 +399,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = this._options.source.genesisHash;
     }
 
+    injectNodeCompat(this._runtimeVersion as RuntimeVersion);
+
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
     const storage = storageFromMeta(this.runtimeMetadata);
 
@@ -413,7 +416,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
-      Event.injectMetadata(this.runtimeMetadata.asV0);
+      Event.injectMetadata(this.runtimeMetadata);
       Method.injectMethods(extrinsics);
     }
 

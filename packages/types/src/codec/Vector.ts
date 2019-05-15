@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { u8aToU8a } from '@plugnet/util';
+import { u8aToU8a, assert } from '@plugnet/util';
 
 import Compact from './Compact';
 import { Codec, Constructor } from '../types';
 import { decodeU8a } from './utils';
 import AbstractArray from './AbstractArray';
+
+const MAX_LENGTH = 32768;
 
 /**
  * @name Vector
@@ -43,10 +45,11 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
     }
 
     const u8a = u8aToU8a(value);
-    const [offset, _length] = Compact.decodeU8a(u8a);
-    const length = _length.toNumber();
+    const [offset, length] = Compact.decodeU8a(u8a);
 
-    return decodeU8a(u8a.subarray(offset), new Array(length).fill(Type)) as T[];
+    assert(length.lten(MAX_LENGTH), `Vector length ${length.toString()} exceeds ${MAX_LENGTH}`);
+
+    return decodeU8a(u8a.subarray(offset), new Array(length.toNumber()).fill(Type)) as T[];
   }
 
   static with<O extends Codec> (Type: Constructor<O>): Constructor<Vector<O>> {
