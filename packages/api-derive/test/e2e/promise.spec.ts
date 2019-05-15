@@ -6,8 +6,8 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-const WS = 'ws://127.0.0.1:9944/';
-// const WS = 'wss://poc3-rpc.polkadot.io/';
+// const WS = 'ws://127.0.0.1:9944/';
+const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiPromise;
@@ -45,6 +45,19 @@ describe.skip('derive e2e', () => {
       console.error('fees', JSON.stringify(fees));
 
       done();
+    });
+  });
+
+  it('retrieves all session info', (done) => {
+    let count = 0;
+
+    return api.derive.session.info((info) => {
+      console.error(JSON.stringify(info));
+
+      // 5 blocks only, then go our merry way
+      if (++count === 5) {
+        done();
+      }
     });
   });
 });
