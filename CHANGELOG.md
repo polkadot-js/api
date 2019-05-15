@@ -1,3 +1,11 @@
+# 0.79.1
+
+- Support latest EventRecord metadata (substrate master)
+- Introduce RuntimeVeriosion type overrides in api/nodeCompat.ts
+- Add `api.queryMulti` and `api.query.<module>.<method>.multi`
+- Convert `api.derive.*` to use multi queries
+- `types/codec/Set` now extends the base JS `Set` (breaking: `set.values` -> `set.strings`)
+
 # 0.78.1
 
 - Fix linked-maps (not working since 0.77.1)
