@@ -6,20 +6,14 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber } from '@polkadot/types';
 
 import { drr } from '../util/drr';
+import { info } from './info';
 
 export function eraLength (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
-    (api.queryMulti([
-      api.query.session.sessionLength,
-      api.query.staking.sessionsPerEra
-    ]) as any as Observable<[BlockNumber?, BlockNumber?]>).pipe(
-      map(
-        ([sessionLength, sessionsPerEra]) =>
-          (sessionLength || new BN(1)).mul(sessionsPerEra || new BN(1))
-      ),
+    info(api)().pipe(
+      map(({ eraLength }) => eraLength),
       drr()
     );
 }

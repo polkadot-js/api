@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Vote } from '@polkadot/types';
 
 export type DerivedBalances = {
   accountId: AccountId,
@@ -44,4 +44,15 @@ export type DerivedContractFees = {
   transactionByteFee: BN,
   transferFee: BN,
   tombstoneDeposit: BN
+};
+
+export type DerivedSessionInfo = {
+  currentIndex?: BlockNumber,
+  eraLength: BN,
+  eraProgress: BN,
+  lastEraLengthChange?: BlockNumber,
+  lastLengthChange?: BlockNumber | null,
+  sessionLength?: BlockNumber,
+  sessionsPerEra?: BlockNumber,
+  sessionProgress: BN
 };
