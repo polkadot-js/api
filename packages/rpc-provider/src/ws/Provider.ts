@@ -36,7 +36,9 @@ interface WSProviderInterface extends ProviderInterface {
 }
 
 const ALIASSES: { [index: string]: string } = {
-  'chain_finalisedHead': 'chain_finalizedHead'
+  'chain_finalisedHead': 'chain_finalizedHead',
+  'chain_subscribeFinalisedHeads': 'chain_subscribeFinalizedHeads',
+  'chain_unsubscribeFinalisedHeads': 'chain_unsubscribeFinalizedHeads'
 };
 
 const l = logger('api-ws');

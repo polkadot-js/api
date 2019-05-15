@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Hash, Header } from '@polkadot/types';
+
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
 
@@ -40,6 +42,20 @@ describe.skip('alex queries', () => {
       console.log('api.query.staking.validators(id):', res.toJSON());
 
       done();
+    });
+
+    it('Gets the hash of the last finalized header', async (done) => {
+      api.rpc.chain.getFinalizedHead((head) => {
+        expect(head instanceof Hash).toBe(true);
+        done();
+      });
+    });
+
+    it('Subscribes to the best finalized header on ALEX', async (done) => {
+      api.rpc.chain.subscribeFinalizedHeads((heads) => {
+        expect(heads instanceof Header).toBe(true);
+        done();
+      });
     });
   });
 
