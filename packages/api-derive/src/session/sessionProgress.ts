@@ -13,17 +13,19 @@ import { drr } from '../util/drr';
 
 export function sessionProgress (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
-    combineLatest([
+    (combineLatest([
       bestNumber(api)(),
-      api.query.session.sessionLength(),
-      api.query.session.lastLengthChange()
-    ]).pipe(
+      api.queryMulti([
+        api.query.session.sessionLength,
+        api.query.session.lastLengthChange
+      ])
+    ]) as any as Observable<[BlockNumber, [BlockNumber, Option<BlockNumber>]]>).pipe(
       map(
-        ([bestNumber, sessionLength, lastLengthChange]) =>
+        ([bestNumber, [sessionLength, lastLengthChange]]) =>
           (bestNumber || new BN(0))
-            .sub((lastLengthChange as Option<BlockNumber>).unwrapOr(new BN(0)))
-            .add(sessionLength as BlockNumber || new BN(1))
-            .mod(sessionLength as BlockNumber || new BN(1))
+            .sub((lastLengthChange).unwrapOr(new BN(0)))
+            .add(sessionLength || new BN(1))
+            .mod(sessionLength || new BN(1))
       ),
       drr()
     );

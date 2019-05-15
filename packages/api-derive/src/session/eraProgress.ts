@@ -15,20 +15,20 @@ export function eraProgress (api: ApiInterface$Rx) {
   return (): Observable<BN> =>
     (combineLatest([
       sessionProgress(api)(),
-      api.query.session.currentIndex(),
-      api.query.session.sessionLength(),
-      api.query.staking.lastEraLengthChange(),
-      api.query.staking.sessionsPerEra()
-    ]) as Observable<[BN, BlockNumber?, BlockNumber?, BlockNumber?, BlockNumber?]>).pipe(
+      api.queryMulti([
+        api.query.session.currentIndex,
+        api.query.session.sessionLength,
+        api.query.staking.lastEraLengthChange,
+        api.query.staking.sessionsPerEra
+      ])
+    ]) as any as Observable<[BN, [BlockNumber?, BlockNumber?, BlockNumber?, BlockNumber?]]>).pipe(
       map(
-        ([sessionProgress, currentIndex, sessionLength, lastEraLengthChange, sessionsPerEra]) =>
+        ([sessionProgress, [currentIndex, sessionLength, lastEraLengthChange, sessionsPerEra]]) =>
           (currentIndex || new BN(0))
             .sub(lastEraLengthChange || new BN(0))
             .mod(sessionsPerEra || new BN(1))
             .mul(sessionLength || new BN(1))
-            .add(sessionProgress || new BN(0)
-            )
-
+            .add(sessionProgress || new BN(0))
       ),
       drr()
     );
