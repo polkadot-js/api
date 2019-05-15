@@ -26,7 +26,7 @@ describe('createFunction', () => {
         'authorityCount',
         { type: {} } as any,
         {
-          isUnhashed: true,
+          skipHashing: true,
           key: ':auth:len'
         }
       ).method
@@ -42,7 +42,7 @@ describe('createFunction', () => {
         'authorityCount',
         { type: {} } as any,
         {
-          isUnhashed: true,
+          skipHashing: true,
           key
         }
       )()

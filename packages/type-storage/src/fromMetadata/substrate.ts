@@ -25,7 +25,7 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
       toJSON: (): any => key
     } as StorageFunctionMetadata,
     {
-      isUnhashed: true,
+      skipHashing: true,
       key
     }
   );
