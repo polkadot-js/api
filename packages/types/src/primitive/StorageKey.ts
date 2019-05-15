@@ -4,7 +4,7 @@
 
 import { AnyU8a } from '../types';
 
-import { isFunction } from '@polkadot/util';
+import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import Bytes from './Bytes';
 import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
@@ -36,18 +36,20 @@ export default class StorageKey extends Bytes {
     this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
-    if (isFunction(value)) {
+  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array | string {
+    if (isU8a(value) || isString(value)) {
+      return value;
+    } else if (isFunction(value)) {
       return value();
     } else if (Array.isArray(value)) {
       const [fn, ...arg] = value;
 
-      if (isFunction(fn)) {
-        return fn(...arg);
-      }
+      assert(isFunction(fn), 'Expected function input for key construction');
+
+      return (fn as Function)(...arg);
     }
 
-    return value as Uint8Array;
+    throw new Error(`Unable to concert input ${value} to StorageKey`);
   }
 
   static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {

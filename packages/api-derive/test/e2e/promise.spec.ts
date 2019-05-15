@@ -6,8 +6,8 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-// const WS = 'ws://127.0.0.1:9944/';
-const WS = 'wss://poc3-rpc.polkadot.io/';
+const WS = 'ws://127.0.0.1:9944/';
+// const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiPromise;
@@ -56,6 +56,16 @@ describe.skip('derive e2e', () => {
 
       // 5 blocks only, then go our merry way
       if (++count === 5) {
+        done();
+      }
+    });
+  });
+
+  it('retrieves the balances', (done) => {
+    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance) => {
+      console.error(JSON.stringify(balance));
+
+      if (balance.freeBalance.gtn(1)) {
         done();
       }
     });
