@@ -36,9 +36,7 @@ export class RhdJustification extends Struct {
       roundNumber: U32,
       hash: Hash,
       signatures: Vector.with(BftAuthoritySignature)
-    }, value, new Map([
-      ['roundNumber', 'round_number']
-    ]));
+    }, value);
   }
 
   /**
