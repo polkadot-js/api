@@ -8,7 +8,7 @@ On the Rust side, the codec types and primitive types are implemented via the [p
 
 These are the base types of the codec. They are typically not used directly, but rather inherited from to create specific types. They are the building blocks for declaring custom types: 
 
-| Type | Description |
+| **Types** | |
 | --- | --- |
 | [[AbstractArray]] | Manages codec arrays. It is an extension to Array |
 | [[Base]] | A type extends the Base class, when it holds a value |
@@ -31,7 +31,7 @@ These are the base types of the codec. They are typically not used directly, but
 
 These primitive types are available:
 
-| Type | Description |
+| **Types** | |
 | --- | --- |
 | [[Bool]] | Representation for a boolean value in the system |
 | [[Bytes]] | A Bytes wrapper for `Vec<u8>` |
@@ -65,7 +65,7 @@ These primitive types are available:
 
 These custom types implement specific types that are found as part of the Substrate core. They're all extensions of one of the codec types: 
 
-| Type | Description |
+| **Types** | |
 | --- | --- |
 | [[AccountId]] | A wrapper around an AccountId/PublicKey representation |
 | [[AccountIndex]] | A wrapper around an AccountIndex, which is a shortened, variable-length encoding for an Account |
@@ -147,7 +147,7 @@ These custom types implement specific types that are found as part of the Substr
 
 These types are not used in the runtime, but are rather used in RPC results: 
 
-| Type | Description |
+| **Types** | |
 | --- | --- |
 | [[ChainProperties]] | Wraps the properties retrieved from the chain via the `system.properties` RPC call |
 | [[ExtrinsicStatus]] | An EnumType that indicates the status of the Extrinsic as been submitted |
@@ -160,3 +160,12 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[RuntimeVersion]] | A [[Tuple]] that conatins the [[ApiId]] and [[U32]] version |
 | [[SignedBlock]] | A [[Block]] that has been signed and contains a [[Justification]] |
 | [[StorageChangeSet]] | A set of storage changes. It contains the [[Block]] hash and a list of the actual changes |
+
+
+## Derive types
+
+These types are are specific for the Polkadot-JS API, so you won't find a representation of them in the SCALE codec or the Substrate core. They are used in the [api-derive](https://www.npmjs.com/package/@polkadot/api-derive) methods.
+
+| **Types** | |
+| --- | --- |
+| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |

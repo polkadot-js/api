@@ -10,8 +10,10 @@ import { BlockNumber, Header } from '@plugnet/types';
 import { drr } from '../util/drr';
 
 /**
+ * @name bestNumberFinalized
+ * @returns A BlockNumber
  * @description Get the latest finalized block number.
- * example
+ * @example
  * <BR>
  *
  * ```javascript

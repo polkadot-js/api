@@ -10,7 +10,8 @@ import { BlockNumber, Header } from '@plugnet/types';
 import { drr } from '../util/drr';
 
 /**
- * @description Get the latest block number.
+ * @name bestNumber
+ * @returns The latest block number.
  * @example
  * <BR>
  *

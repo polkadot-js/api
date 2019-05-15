@@ -10,6 +10,20 @@ import { AccountId, AccountIndex } from '@plugnet/types';
 import { indexes, AccountIndexes } from './indexes';
 import { drr } from '../util/drr';
 
+/**
+ * @name idToIndex
+ * @param {( AccountId | string )} accountId - An accounts Id in different formats.
+ * @returns Returns the corresponding AccountIndex.
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+ * api.derive.accounts.idToIndex(ALICE, (accountIndex) => {
+ *   console.log(`The AccountIndex of ${ALICE} is ${accountIndex}`);
+ * });
+ * ```
+ */
 export function idToIndex (api: ApiInterface$Rx) {
   return (accountId: AccountId | string): Observable<AccountIndex | undefined> =>
     indexes(api)()

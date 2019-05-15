@@ -14,6 +14,22 @@ import { drr } from '../util/drr';
 
 const EMPTY_ACCOUNT = new AccountId();
 
+/**
+ * @name all
+ * @param {( ccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
+ * @returns An object containing the combined results of the storage queries for
+ * all relevant fees as declared in the substrate chain spec.
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * const ALICE = 'F7Hs';
+ *
+ * api.derive.balances.all(ALICE, ([accountId, lockedBalance]) => {
+ *   console.log(`The account ${accountId} has a locked balance ${lockedBalance} units.`);
+ * });
+ * ```
+ */
 export function all (api: ApiInterface$Rx) {
   return (address: AccountIndex | AccountId | Address | string): Observable<DerivedBalances> => {
     return idAndIndex(api)(address).pipe(

@@ -12,6 +12,8 @@ import { bestNumber } from './bestNumber';
 import { bestNumberFinalized } from './bestNumberFinalized';
 
 /**
+ * @name bestNumberLag
+ * @returns A number of blocks
  * @description Calculates the lag between finalized head and best head
  * @example
  * <BR>
