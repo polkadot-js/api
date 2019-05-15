@@ -62,6 +62,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
       if (!value.length) {
         return new Uint8Array();
       }
+
       const [offset, length] = Compact.decodeU8a(value);
       const total = offset + length.toNumber();
 
