@@ -83,7 +83,7 @@ function addEvents (metadata: MetadataV0) {
 
     return orderedMethods.reduce((md, func) => {
       const methodName = func.name.toString();
-      const args = func.arguments.map((type) => '`' + type + '`').join(', ');
+      const args = func.args.map((type) => '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
       const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
