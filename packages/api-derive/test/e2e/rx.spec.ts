@@ -16,7 +16,7 @@ const WS_LOCAL = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe('derive e2e', () => {
+describe.skip('derive e2e', () => {
   let api: ApiInterface$Rx;
 
   beforeAll(() => {
