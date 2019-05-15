@@ -38,7 +38,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, Extrinsic.decodeExtrinsic(value || {}));
+    }, Extrinsic.decodeExtrinsic(value));
   }
 
   static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | Array<number> | Uint8Array {
