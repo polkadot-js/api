@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { default as MetadataV1, MetadataModule as MetadataModuleV1 } from './Metadata';
+import { default as MetadataV1, ModuleMetadata as ModuleMetadataV1 } from './Metadata';
 
 export default MetadataV1;
 
 export {
-  MetadataModuleV1
+  ModuleMetadataV1
 };

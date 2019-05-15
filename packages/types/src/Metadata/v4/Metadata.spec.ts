@@ -2,21 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Metadata from '../Metadata';
-import latestParsed from './latest.substrate.v4.json';
+import latestSubstrate from './latest.substrate.v4.json';
 import rpcData from './static';
+import { decodeLatestSubstrate, defaultValues, toV4 } from '../util/testUtil';
 
 describe('MetadataV4', () => {
-  const metadata = new Metadata(rpcData);
+  decodeLatestSubstrate(4, rpcData, latestSubstrate);
 
-  it('decodes latest properly', () => {
-    const str = JSON.stringify(metadata.toJSON());
+  toV4(4, rpcData);
 
-    console.error(str);
-    console.error(metadata.getUniqTypes(true));
-
-    expect(metadata.version).toBe(4);
-    expect(metadata.asV4.modules.length).not.toBe(0);
-    expect(str).toEqual(JSON.stringify(latestParsed));
-  });
+  defaultValues(rpcData);
 });
