@@ -86,7 +86,7 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadata): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadata): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
