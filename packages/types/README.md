@@ -6,7 +6,7 @@ On the Rust side, the codec types and primitive types are implemented via the [p
 
 ## Codec types
 
-These are the base types of the codec. They are typically not used directly, but rather inherited from to create specific types. They are the building blocks for declaring custom types: 
+These are the base types of the codec. They are typically not used directly, but rather inherited from to create specific types. They are the building blocks for declaring custom types:
 
 | **Types** | |
 | --- | --- |
@@ -33,12 +33,19 @@ These primitive types are available:
 
 | **Types** | |
 | --- | --- |
+| [[AccountId]] | A wrapper around an AccountId/PublicKey representation |
+| [[AccountIndex]] | A wrapper around an AccountIndex, which is a shortened, variable-length encoding for an Account |
+| [[AccountInfo]] | An Account information structure for contracts |
+| [[Address]] | A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix |
 | [[Bool]] | Representation for a boolean value in the system |
 | [[Bytes]] | A Bytes wrapper for `Vec<u8>` |
 | [[Data]] | A raw data structure. It is an encoding of a U8a without any length encoding |
+| [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
+| [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
 | [[H160]] | Hash containing 160 bits (20 bytes), typically used in blocks, extrinsics and as a sane default |
 | [[H256]] | Hash containing 256 bits (32 bytes), typically used in blocks, extrinsics and as a sane default |
 | [[H512]] | Hash containing 512 bits (64 bytes), typically used for signatures |
+| [[Hash]] | The default hash that is used accross the system. It is just a thin wrapper around [[H256]]
 | [[I8]] | An 8-bit signed integer |
 | [[I16]] | A 16-bit signed integer |
 | [[I32]] | A 32-bit signed integer |
@@ -48,6 +55,7 @@ These primitive types are available:
 | [[Method]] | Extrinsic function descriptor, as defined in [the extrinsic format for a node](https://github.com/paritytech/wiki/blob/master/Extrinsic.md#the-extrinsic-format-for-node) |
 | [[Moment]] | A wrapper around seconds/timestamps. Internally the representation only has second precicion (aligning with Rust) |
 | [[Null]] | Implements a type that does not contain anything (apart from `null`) |
+| [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
 | [[StorageData]] | Data retrieved via Storage queries and data for key-value pairs |
 | [[StorageKey]] |  A representation of a storage key (typically hashed) in the system |
 | [[Text]] | This is a string wrapper, along with the length. |
@@ -63,14 +71,10 @@ These primitive types are available:
 
 ## Substrate types
 
-These custom types implement specific types that are found as part of the Substrate core. They're all extensions of one of the codec types: 
+These custom types implement specific types that are found as part of the Substrate core. They're all extensions of one of the codec types:
 
 | **Types** | |
 | --- | --- |
-| [[AccountId]] | A wrapper around an AccountId/PublicKey representation |
-| [[AccountIndex]] | A wrapper around an AccountIndex, which is a shortened, variable-length encoding for an Account |
-| [[AccountInfo]] | An Account information structure for contracts |
-| [[Address]] | A wrapper around an AccountId and/or AccountIndex that is encoded with a prefix |
 | [[Amount]] | The Substrate Amount representation as a [[Balance]] |
 | [[AssetOf]] | The Substrate AssetOf representation as a [[Balance]] |
 | [[AttestedCandidate]] | An attested candidate |
@@ -83,23 +87,15 @@ These custom types implement specific types that are found as part of the Substr
 | [[BftAuthoritySignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
 | [[BftHashSignature]] | Represents a Bft Hash and Signature pairing, typically used in reporting network behaviour |
 | [[BftProposeOutOfTurn]] | A report for out-of-turn proposals |
-| [[Block]] | A block encoded with header and extrinsics |
 | [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
 | [[CodeHash]] | The default contract code hash that is used accross the system |
 | [[Consensus]] | Log item indicating consensus |
-| [[Digest]] | A [[Header]] Digest |
-| [[DigestItem]] | A [[EnumType]] the specifies the specific item in the logs of a [[Digest]] |
-| [[Event]] | Wrapper for the actual data that forms part of an [[Event]] |
-| [[EventRecord]] | A record for an [[Event]] (as specified by [[Metadata]]) with the specific [[Phase]] of application |
 | [[Exposure]] | A snapshot of the stake backing a single validator in the system |
 | [[Extrinsic]] | Representation of an Extrinsic in the system |
 | [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
 | [[Extrinsics]] | A [[Vector]] of [[Extrinsic]] |
 | [[ExtrinsicSignature]] | A container for the [[Signature]] associated with a specific [[Extrinsic]] |
 | [[Gas]] | A gas number type for Substrate, extending [[U64]] |
-| [[Hash]] | The default hash that is used accross the system. It is just a thin wrapper around [[H256]] |
-| [[Header]] | A [[Block]] header |
-| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
 | [[IndividualExposure]] | The Substrate IndividualExposure for staking |
 | [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
 | [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
@@ -114,7 +110,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[NextAuthority]] | The next authority available as [[SessionKey]] |
 | [[Nonce]] | The Nonce or number of transactions sent by a specific account |
 | [[NonceCompact]] | The Compact<Nonce> or number of transactions sent by a specific account |
-| [[Origin]] | Where Origin occurs, it should be ignored as an internal-only value |
 | [[ParaId]] | Identifier for a deployed parachain implemented as a [[U32]] |
 | [[Perbill]] | Parts per billion (see also [[Permill]]) |
 | [[Permill]] | Parts per million (See also [[Perbill]]) |
@@ -145,12 +140,17 @@ These custom types implement specific types that are found as part of the Substr
 
 ## RPC types
 
-These types are not used in the runtime, but are rather used in RPC results: 
+These types are not used in the runtime, but are rather used in RPC results:
 
 | **Types** | |
 | --- | --- |
+| [[Block]] | A block encoded with header and extrinsics |
 | [[ChainProperties]] | Wraps the properties retrieved from the chain via the `system.properties` RPC call |
+| [[Digest]] | A [[Header]] Digest |
+| [[DigestItem]] | A [[EnumType]] the specifies the specific item in the logs of a [[Digest]] |
 | [[ExtrinsicStatus]] | An EnumType that indicates the status of the Extrinsic as been submitted |
+| [[Header]] | A [[Block]] header |
+| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
 | [[Health]] | A system health indicator, reported back over RPC |
 | [[Json]] | Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map |
 | [[NetworkState]] | Wraps the properties retrieved from the chain via the `system.network_state` RPC call |

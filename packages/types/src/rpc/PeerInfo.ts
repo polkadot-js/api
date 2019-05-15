@@ -5,8 +5,8 @@
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import Hash from '../primitive/Hash';
 import BlockNumber from '../type/BlockNumber';
-import Hash from '../type/Hash';
 
 const JSON_MAP = new Map([
   ['bestHash', 'best_hash'],
