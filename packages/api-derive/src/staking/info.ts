@@ -57,7 +57,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 }
 
 /**
- * @description From the list of stash accounts, retrieve the list of controllers
+ * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
 export function info (api: ApiInterface$Rx) {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
