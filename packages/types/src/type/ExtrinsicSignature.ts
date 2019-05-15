@@ -30,8 +30,8 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   // Signature Information.
   //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format
-  //   64 bytes: The Ed25519 signature of the Signing Payload
-  //   8 bytes: The Transaction Index of the signing account
+  //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
+  //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
   constructor (value?: Uint8Array) {
     super({
