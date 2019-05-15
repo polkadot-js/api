@@ -29,15 +29,16 @@ export default class StorageKey extends Bytes {
   private _meta: MetaV0 | MetaV4 | null;
   private _outputType: string | null;
 
-  constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
+  constructor (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.decodeStorageKey(value));
 
     this._meta = StorageKey.getMeta(value as StorageKey);
     this._outputType = StorageKey.getType(value as StorageKey);
   }
 
-  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array | string {
-    if (isU8a(value) || isString(value)) {
+  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array | string | undefined {
+    if (!value || isU8a(value) || isString(value)) {
+      // let Bytes handle these inputs
       return value;
     } else if (isFunction(value)) {
       return value();
@@ -49,7 +50,7 @@ export default class StorageKey extends Bytes {
       return (fn as Function)(...arg);
     }
 
-    throw new Error(`Unable to concert input ${value} to StorageKey`);
+    throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
   static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {
