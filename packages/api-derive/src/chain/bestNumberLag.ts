@@ -14,13 +14,13 @@ import { bestNumberFinalized } from './bestNumberFinalized';
 /**
  * @name bestNumberLag
  * @returns A number of blocks
- * @description Calculates the lag between finalised head and best head
+ * @description Calculates the lag between finalized head and best head
  * @example
  * <BR>
  *
  * ```javascript
  * api.derive.chain.bestNumberLag((lag) => {
- *   console.log(`finalised is ${lag} blocks behind head`);
+ *   console.log(`finalized is ${lag} blocks behind head`);
  * });
  * ```
  */

@@ -12,13 +12,13 @@ import { drr } from '../util/drr';
 /**
  * @name bestNumberFinalized
  * @returns A BlockNumber
- * @description Get the latest finalised block number.
- * example
+ * @description Get the latest finalized block number.
+ * @example
  * <BR>
  *
  * ```javascript
  * api.derive.chain.bestNumberFinalized((blockNumber) => {
- *   console.log(`the current finalised block is #${blockNumber}`);
+ *   console.log(`the current finalized block is #${blockNumber}`);
  * });
  * ```
  */

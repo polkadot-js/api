@@ -11,7 +11,7 @@ import {
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
   Derive, DeriveSection, HashResult, U64Result,
   OnCallDefinition, OnCallFunction,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
@@ -24,12 +24,13 @@ import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
-import { Linkage, LinkageResult } from '@polkadot/types/codec/Linkage';
+import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
+import injectNodeCompat from './nodeCompat';
 import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
@@ -58,11 +59,7 @@ try {
  * Put the `this.onCall` function of ApiRx here, because it is needed by
  * `api._rx`.
  */
-function rxOnCall (
-  method: OnCallFunction<RxResult, RxResult>,
-  params: Array<CodecArg> = [],
-  _callback?: CodecCallback
-): RxResult {
+function rxOnCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], _callback?: CodecCallback): RxResult {
   return method(...params);
 }
 
@@ -74,6 +71,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   private _isReady: boolean = false;
   protected readonly _options: ApiOptions;
   private _query?: QueryableStorage<CodecResult, SubscriptionResult>;
+  private _queryMulti: QueryableStorageMulti<CodecResult, SubscriptionResult>;
   private _rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged
   protected _rpcRx: RpcRx; // FIXME These two could be merged
@@ -118,6 +116,8 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     this._rpcRx = new RpcRx(thisProvider);
     this._rpc = this.decorateRpc(this._rpcRx, this.onCall) as any; // FIXME 3.4.1
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxOnCall);
+    this._queryMulti = this.decorateMulti(this.onCall) as any; // as above :(
+    this._rx.queryMulti = this.decorateMulti(rxOnCall);
     this._rx.signer = options.signer;
 
     // we only re-register the types (global) if this is not a cloned instance
@@ -219,6 +219,30 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     assert(!isUndefined(this._query), INIT_ERROR);
 
     return this._query as QueryableStorage<CodecResult, SubscriptionResult>;
+  }
+
+  /**
+   * @description Allows for the querying of multiple storage entries and the combination thereof into a single result. This is a very optimal way to make multiple queries since it only makes a single connection to the node and retrieves the data over one subscription.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * api.queryMulti(
+   *   [
+   *     // you can include the storage without any parameters
+   *     api.query.balances.existentialDeposit,
+   *     // or you can pass parameters to the storage query
+   *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
+   *   ],
+   *   ([existential, balance]) => {
+   *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *   }
+   * );
+   * ```
+   */
+  get queryMulti (): QueryableStorageMulti<CodecResult, SubscriptionResult> {
+    return this._queryMulti;
   }
 
   /**
@@ -398,7 +422,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       this._genesisHash = this._options.source.genesisHash;
     }
 
-    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
+    injectNodeCompat(this._runtimeVersion as RuntimeVersion);
+
+    const extrinsics = extrinsicsFromMeta(this.runtimeMetadata.asV0);
     const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
@@ -464,6 +490,22 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
       return result;
     }, {} as DecoratedRpc<C, S>);
+  }
+
+  private decorateMulti<C, S> (onCall: OnCallDefinition<C, S>): QueryableStorageMulti<C, S> {
+    return ((calls: QueryableStorageMultiArgs<C, S>, callback?: CodecCallback): S => {
+      const mapped = calls.map((arg: QueryableStorageMultiArg<C, S>): [QueryableStorageFunction<CodecResult, SubscriptionResult>, ...Array<CodecArg>] =>
+        Array.isArray(arg)
+          ? arg
+          : [arg] as any
+      );
+
+      return onCall(
+        () => this._rpcRx.state.subscribeStorage(mapped),
+        [],
+        callback
+      ) as S;
+    }) as QueryableStorageMulti<C, S>;
   }
 
   private decorateExtrinsics<C, S> (extrinsics: ModulesWithMethods, onCall: OnCallDefinition<C, S>): SubmittableExtrinsics<C, S> {

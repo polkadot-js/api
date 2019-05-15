@@ -39,4 +39,12 @@ describe('derive e2e', () => {
       }
     });
   });
+
+  it('retrieves the fees (api.queryMulti)', (done) => {
+    return api.derive.balances.fees((fees) => {
+      console.error('fees', JSON.stringify(fees));
+
+      done();
+    });
+  });
 });

@@ -40,7 +40,7 @@ _Retrieval of chain data_
 - **summary**: Get the block hash for a specific block
 
 ▸ **getFinalizedHead**(): `Hash`
-- **summary**: Get hash of the last finalised block in the canon chain
+- **summary**: Get hash of the last finalized block in the canon chain
 
 ▸ **getHeader**(hash?: `Hash`): `Header`
 - **summary**: Retrieves the header for a specific block

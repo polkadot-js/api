@@ -13,7 +13,6 @@ import EventRecord from './EventRecord';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
 import metadataV1 from '../Metadata/static';
-import metadataV4 from '../Metadata/v4/static';
 
 describe('EventRecord', () => {
   describe('v0', () => {
@@ -55,21 +54,6 @@ describe('EventRecord', () => {
     beforeEach(() => {
       Event.injectMetadata(
         new Metadata(metadataV1)
-      );
-    });
-
-    it('decodes correctly', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json3.params.result.changes[0][1]) as any;
-      const er = records[0];
-
-      expect(er.phase.type).toEqual('ApplyExtrinsic');
-    });
-  });
-
-  describe.skip('v4', () => {
-    beforeEach(() => {
-      Event.injectMetadata(
-        new Metadata(metadataV4)
       );
     });
 

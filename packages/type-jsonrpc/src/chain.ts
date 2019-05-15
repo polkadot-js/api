@@ -34,7 +34,7 @@ const getBlockHash: RpcMethodOpt = {
 };
 
 const getFinalizedHead: RpcMethodOpt = {
-  description: 'Get hash of the last finalised block in the canon chain',
+  description: 'Get hash of the last finalized block in the canon chain',
   params: [],
   type: 'Hash'
 };
@@ -63,9 +63,8 @@ const subscribeFinalizedHeads: RpcMethodOpt = {
   params: [],
   pubsub: [
     'finalizedHead',
-    // TODO US spelling
-    'subscribeFinalisedHeads',
-    'unsubscribeFinalisedHeads'
+    'subscribeFinalizedHeads',
+    'unsubscribeFinalizedHeads'
   ],
   type: 'Header'
 };
@@ -95,11 +94,11 @@ export default {
     getBlock: createMethod(section, 'getBlock', getBlock),
     getBlockHash: createMethod(section, 'getBlockHash', getBlockHash),
     // TODO US spelling
-    getFinalizedHead: createMethod(section, 'getFinalisedHead', getFinalizedHead),
+    getFinalizedHead: createMethod(section, 'getFinalizedHead', getFinalizedHead),
     getHeader: createMethod(section, 'getHeader', getHeader),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     // TODO US spelling
-    subscribeFinalizedHeads: createMethod(section, 'subscribeFinalisedHeads', subscribeFinalizedHeads),
+    subscribeFinalizedHeads: createMethod(section, 'subscribeFinalizedHeads', subscribeFinalizedHeads),
     subscribeRuntimeVersion: createMethod(section, 'subscribeRuntimeVersion', subscribeRuntimeVersion),
     subscribeNewHead: createMethod(section, 'subscribeNewHead', subscribeNewHead)
   }

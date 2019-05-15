@@ -70,6 +70,25 @@ export interface QueryableModuleStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableStorageFunction<CodecResult, SubscriptionResult>;
 }
 
+export type QueryableStorageMultiArg<CodecResult, SubscriptionResult> =
+  QueryableStorageFunction<CodecResult, SubscriptionResult> |
+  [QueryableStorageFunction<CodecResult, SubscriptionResult>, ...Array<CodecArg>];
+
+export type QueryableStorageMultiArgs<CodecResult, SubscriptionResult> = Array<QueryableStorageMultiArg<CodecResult, SubscriptionResult>>;
+
+export interface QueryableStorageMultiBase<CodecResult, SubscriptionResult> {
+  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>): SubscriptionResult;
+}
+
+export interface QueryableStorageMultiPromise<CodecResult, SubscriptionResult> {
+  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>, callback: CodecCallback): SubscriptionResult;
+}
+
+export type QueryableStorageMulti<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? QueryableStorageMultiBase<CodecResult, SubscriptionResult>
+    : QueryableStorageMultiPromise<CodecResult, SubscriptionResult>;
+
 export interface QueryableStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableModuleStorage<CodecResult, SubscriptionResult>;
 }
@@ -149,6 +168,7 @@ export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   runtimeVersion: RuntimeVersion;
   derive: Derive<CodecResult, SubscriptionResult>;
   query: QueryableStorage<CodecResult, SubscriptionResult>;
+  queryMulti: QueryableStorageMulti<CodecResult, SubscriptionResult>;
   rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   tx: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   signer?: Signer;

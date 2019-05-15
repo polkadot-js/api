@@ -29,7 +29,7 @@ describe('MetadataV1', () => {
   });
 
   describe('storage with default values', () => {
-    Method.injectMethods(extrinsicsFromMeta(metadata));
+    Method.injectMethods(extrinsicsFromMeta(metadata.asV0));
 
     metadata.asV1.modules
       .filter(({ storage }) => storage.isSome)
