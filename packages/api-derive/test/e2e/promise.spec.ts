@@ -6,8 +6,8 @@ import ApiPromise from '@plugnet/api/promise/Api';
 import { BlockNumber } from '@plugnet/types';
 import { WsProvider } from '@plugnet/rpc-provider';
 
-// const WS = 'ws://127.0.0.1:9944/';
-const WS = 'wss://poc3-rpc.polkadot.io/';
+const WS = 'ws://127.0.0.1:9944/';
+// const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiPromise;
@@ -37,6 +37,14 @@ describe.skip('derive e2e', () => {
       if (author) {
         done();
       }
+    });
+  });
+
+  it('retrieves the fees (api.queryMulti)', (done) => {
+    return api.derive.balances.fees((fees) => {
+      console.error('fees', JSON.stringify(fees));
+
+      done();
     });
   });
 });

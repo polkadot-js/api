@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
 
@@ -12,12 +12,12 @@ import { drr } from '../util/drr';
 
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
-    return (combineLatest([
-      api.query.balances.creationFee(),
-      api.query.balances.existentialDeposit(),
-      api.query.balances.transactionBaseFee(),
-      api.query.balances.transactionByteFee(),
-      api.query.balances.transferFee()
+    return (api.queryMulti([
+      api.query.balances.creationFee,
+      api.query.balances.existentialDeposit,
+      api.query.balances.transactionBaseFee,
+      api.query.balances.transactionByteFee,
+      api.query.balances.transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
         creationFee,
