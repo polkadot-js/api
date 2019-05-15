@@ -4,21 +4,23 @@
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Option } from '@polkadot/types';
+import { Option, ReferendumInfo } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { constructInfo, ReferendumInfoExtended } from './referendumInfo';
 
 export function referendumInfos (api: ApiInterface$Rx) {
   return (ids: Array<BN | number> = []): Observable<Array<Option<ReferendumInfoExtended>>> => {
-    return ((!ids || !ids.length
-      ? of([])
-      : api.query.democracy.referendumInfoOf.multi(ids)
-    ) as Observable<any>).pipe(
-        map((infos): Array<Option<ReferendumInfo>> =>
+    return (
+      !ids || !ids.length
+        ? of([])
+        : api.query.democracy.referendumInfoOf.multi(ids) as any as Observable<Array<Option<ReferendumInfo>>>
+    ).pipe(
+        map((infos) =>
           ids.map((id, index) =>
-            constructInfo(id, info[index])
+            constructInfo(id, infos[index])
           )
         ),
         drr()
