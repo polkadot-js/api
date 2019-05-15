@@ -11,8 +11,10 @@ import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
 
 /**
- * @description Get the a specific block header and extend it with the author
- * @param hash: Uint8Array | string
+ * @name bestNumberFinalized
+ * @param {( Uint8Array | string )} hash - A block hash as U8 array or string.
+ * @returns An array containing the block header and the block author
+ * @description Get a specific block header and extend it with the author
  * @example
  * <BR>
  *
