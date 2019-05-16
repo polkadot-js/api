@@ -103,6 +103,7 @@ export interface SubmittableModuleExtrinsics<CodecResult, SubscriptionResult> {
 }
 
 export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
+  (extrinsic: Uint8Array | string): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
 }
 

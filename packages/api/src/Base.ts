@@ -510,6 +510,9 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   private decorateExtrinsics<C, S> (extrinsics: ModulesWithMethods, onCall: OnCallDefinition<C, S>): SubmittableExtrinsics<C, S> {
+    const creator = (value: Uint8Array | string): SubmittableExtrinsic<C, S> =>
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, value);
+
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
@@ -520,14 +523,14 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       }, {} as SubmittableModuleExtrinsics<C, S>);
 
       return result;
-    }, {} as SubmittableExtrinsics<C, S>);
+    }, creator as SubmittableExtrinsics<C, S>);
   }
 
   private decorateExtrinsicEntry<C, S> (method: MethodFunction, onCall: OnCallDefinition<C, S>): SubmittableExtrinsicFunction<C, S> {
-    const decorated: any = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
+    const decorated = (...params: Array<CodecArg>): SubmittableExtrinsic<C, S> =>
       createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
-    return this.decorateFunctionMeta(method, decorated) as SubmittableExtrinsicFunction<C, S>;
+    return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<C, S>;
   }
 
   private decorateStorage<C, S> (storage: Storage, onCall: OnCallDefinition<C, S>): QueryableStorage<C, S> {
