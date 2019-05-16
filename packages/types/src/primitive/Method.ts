@@ -122,7 +122,7 @@ export default class Method extends Struct implements IMethod {
       };
     }
 
-    throw new Error(`Method: cannot decode value '${value}' of type ${typeof value}`);
+    throw new Error(`Method: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
