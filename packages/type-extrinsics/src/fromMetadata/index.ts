@@ -20,10 +20,10 @@ import createUnchecked from './createUnchecked';
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   return metadata.asV4.modules
     .filter((modul) => modul.calls.isSome)
-    .reduce((result, module: ModuleMetadata, sectionIndex) => {
-      const prefix = stringCamelCase(module.prefix.toString());
+    .reduce((result, modul: ModuleMetadata, sectionIndex) => {
+      const prefix = stringCamelCase(modul.prefix.toString());
 
-      result[prefix] = module.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
+      result[prefix] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
         const funcName = stringCamelCase(callMetadata.name.toString());
 
         newModule[funcName] = createUnchecked(prefix, sectionIndex, methodIndex, callMetadata);

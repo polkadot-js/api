@@ -74,25 +74,25 @@ export default class MetadataV0 extends Struct implements MetadataInterface<Runt
   }
 
   private get argNames () {
-    return this.modules.map((module) =>
-      module.module.call.functions.map((fn) =>
+    return this.modules.map((modul) =>
+      modul.module.call.functions.map((fn) =>
         fn.args.map((argument) => argument.type.toString())
       )
     );
   }
 
   private get eventNames () {
-    return this.events.map((module) =>
-      module.events.map((event) =>
+    return this.events.map((modul) =>
+      modul.events.map((event) =>
         event.args.map((argument) => argument.toString())
       )
     );
   }
 
   private get storageNames () {
-    return this.modules.map((module) =>
-      module.storage.isSome
-        ? module.storage.unwrap().functions.map((fn) =>
+    return this.modules.map((modul) =>
+      modul.storage.isSome
+        ? modul.storage.unwrap().functions.map((fn) =>
           fn.type.isMap
             ? [fn.type.asMap.key.toString(), fn.type.asMap.value.toString()]
             : [fn.type.asType.toString()]
