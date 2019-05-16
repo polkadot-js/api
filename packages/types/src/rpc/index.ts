@@ -12,7 +12,7 @@ export { default as Block } from './Block';
 export { default as ChainProperties } from './ChainProperties';
 export { default as Digest, DigestItem } from './Digest';
 export { default as ExtrinsicStatus } from './ExtrinsicStatus';
-export { default as Header, HeaderExtended } from './Header';
+export { default as Header } from './Header';
 export { default as Health } from './Health';
 export { default as Json } from './Json';
 export { default as NetworkState } from './NetworkState';
