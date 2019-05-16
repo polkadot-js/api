@@ -6,7 +6,7 @@ On the Rust side, the codec types and primitive types are implemented via the [p
 
 ## Codec types
 
-These are the base types of the codec. They are typically not used directly, but rather inherited from to create specific types. They are the building blocks for declaring custom types: 
+These are the base types of the codec. They are typically not used directly, but rather inherited from to create specific types. They are the building blocks for declaring custom types:
 
 | **Types** | |
 | --- | --- |
@@ -14,7 +14,6 @@ These are the base types of the codec. They are typically not used directly, but
 | [[Base]] | A type extends the Base class, when it holds a value |
 | [[Compact]] | A compact length-encoding codec wrapper. Mostly used by other types to add length-prefixed encoding |
 | [[Enum]] | A codec wrapper for an enum. Enums are encoded as a single byte, where the byte is a zero-indexed value |
-| [[EnumType]] | Implements an enum, which wraps a different type based on the value|
 | [[Int]] | A generic signed integer codec |
 | [[Option]] | An Option is an optional field. The first byte indicates that there is is value to follow |
 | [[Set]] | An Set is an array of string values, represented an an encoded type by a bitwise representation of the values |
@@ -63,7 +62,7 @@ These primitive types are available:
 
 ## Substrate types
 
-These custom types implement specific types that are found as part of the Substrate core. They're all extensions of one of the codec types: 
+These custom types implement specific types that are found as part of the Substrate core. They're all extensions of one of the codec types:
 
 | **Types** | |
 | --- | --- |
@@ -145,7 +144,7 @@ These custom types implement specific types that are found as part of the Substr
 
 ## RPC types
 
-These types are not used in the runtime, but are rather used in RPC results: 
+These types are not used in the runtime, but are rather used in RPC results:
 
 | **Types** | |
 | --- | --- |

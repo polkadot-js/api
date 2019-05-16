@@ -6,7 +6,7 @@ import { AnyNumber } from '../types';
 
 import { assert } from '@polkadot/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import U32 from '../primitive/U32';
 import AuthorityId from './AuthorityId';
@@ -118,9 +118,9 @@ export class BftDoubleCommit extends BftAtReport {
 /**
  * @name MisbehaviorKind
  * @description
- * An [[EnumType]] containing a Bft misbehaviour
+ * An [[Enum]] containing a Bft misbehaviour
  */
-export class MisbehaviorKind extends EnumType {
+export class MisbehaviorKind extends Enum {
   constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
     super({
       BftProposeOutOfTurn,

@@ -4,7 +4,7 @@
 
 import { assert } from '@polkadot/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
@@ -53,7 +53,7 @@ export class ExplicitCandidateSignature extends CandidateSignature {
 export class ImplicitCandidateSignature extends CandidateSignature {
 }
 
-export class ValidityAttestation extends EnumType {
+export class ValidityAttestation extends Enum {
   constructor (value?: any) {
     super({
       // This Null is not in the original, however indexes start at 1, so add a

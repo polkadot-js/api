@@ -4,7 +4,7 @@
 
 import { assert } from '@polkadot/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
 import Null from '../primitive/Null';
@@ -31,9 +31,9 @@ export class Finalization extends Null {
 /**
  * @name Phase
  * @description
- * An [[EnumType]] that indicates the specific phase where the [[EventRecord]] was generated
+ * An [[Enum]] that indicates the specific phase where the [[EventRecord]] was generated
  */
-export class Phase extends EnumType {
+export class Phase extends Enum {
   constructor (value: any, index?: number) {
     super({
       ApplyExtrinsic,

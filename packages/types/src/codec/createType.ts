@@ -8,7 +8,7 @@ import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
 import Compact from './Compact';
-import EnumType from './EnumType';
+import Enum from './Enum';
 import Linkage from './Linkage';
 import Option from './Option';
 import Struct from './Struct';
@@ -172,7 +172,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     case TypeDefInfo.Enum:
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
-      return EnumType.with(
+      return Enum.with(
         (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
           result[sub.name as string] = getTypeClass(sub);
 

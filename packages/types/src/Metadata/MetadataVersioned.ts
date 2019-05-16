@@ -6,7 +6,7 @@ import { MetadataInterface } from './types';
 
 import { assert, isUndefined } from '@polkadot/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import MagicNumber from './MagicNumber';
 import MetadataV0 from './v0';
@@ -19,7 +19,7 @@ import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
 import v4ToV3 from './v4/toV3';
 
-class MetadataEnum extends EnumType {
+class MetadataEnum extends Enum {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated

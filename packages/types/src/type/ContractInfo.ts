@@ -5,7 +5,7 @@
 import { assert } from '@polkadot/util';
 
 import Bytes from '../primitive/Bytes';
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import U64 from '../primitive/U64';
 import Balance from './Balance';
@@ -62,7 +62,7 @@ export class Tombstone extends TombstoneContractInfo {
  * @description
  * The contract information for a given contract
  */
-export default class ContractInfo extends EnumType {
+export default class ContractInfo extends Enum {
   constructor (value?: any) {
     super({
       Alive,
