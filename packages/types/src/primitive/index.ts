@@ -10,12 +10,19 @@
  */
 // NOTE We are exporting Bool as bool to match with Rust (however also using Bool internally),
 // so with the renamed versions, epose both cases, allowing createType to work
+export { default as AccountId, AccountIdOf } from './AccountId';
+export { default as AccountIndex } from './AccountIndex';
+export { default as AccountInfo } from './AccountInfo';
+export { default as Address } from './Address';
+export { default as Event, EventIndex } from './Event';
+export { default as EventRecord, EventRecord77 } from './EventRecord';
 export { default as Bool, default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
 export { default as H160 } from './H160';
 export { default as H256 } from './H256';
 export { default as H512 } from './H512';
+export { default as Hash } from './Hash';
 export { default as I8, default as i8 } from './I8';
 export { default as I16, default as i16 } from './I16';
 export { default as I32, default as i32 } from './I32';
@@ -25,6 +32,7 @@ export { default as I256, default as i256 } from './I256';
 export { default as Method } from './Method';
 export { default as Moment, MomentOf } from './Moment';
 export { default as Null } from './Null';
+export { default as Origin } from './Origin';
 export { default as StorageData } from './StorageData';
 export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';
