@@ -8,13 +8,6 @@ import U32 from '../primitive/U32';
 import Hash from '../primitive/Hash';
 import BlockNumber from '../type/BlockNumber';
 
-const JSON_MAP = new Map([
-  ['bestHash', 'best_hash'],
-  ['bestNumber', 'best_number'],
-  ['protocolVersion', 'protocol_version'],
-  ['peerId', 'peer_id']
-]);
-
 /**
  * @name PeerInfo
  * @description
@@ -28,7 +21,7 @@ export default class PeerInfo extends Struct {
       protocolVersion: U32,
       bestHash: Hash,
       bestNumber: BlockNumber
-    }, value, JSON_MAP);
+    }, value);
   }
 
   /**
