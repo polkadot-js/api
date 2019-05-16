@@ -42,7 +42,7 @@ export default class Int extends AbstractInt {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
@@ -51,5 +51,12 @@ export default class Int extends AbstractInt {
       isLe: true,
       isNegative: true
     });
+  }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return `i${this._bitLength}`;
   }
 }

@@ -15,4 +15,11 @@ export default class U64 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 64);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return 'u64';
+  }
 }

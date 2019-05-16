@@ -69,6 +69,13 @@ export default class Json extends Map<string, any> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return 'Json';
+  }
+
+  /**
    * @description Unimplemented, will throw
    */
   toU8a (isBare?: boolean): Uint8Array {

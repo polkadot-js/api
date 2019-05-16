@@ -219,7 +219,18 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    const kv = Object.entries(this._def).map(([key, Type]) =>
+      `"${key}":"${new Type().toType()}"`
+    );
+
+    return `{"_enum":{${kv.join(',')}}}`;
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

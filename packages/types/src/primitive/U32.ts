@@ -15,4 +15,11 @@ export default class U32 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 32);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return 'u32';
+  }
 }

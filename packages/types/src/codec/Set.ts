@@ -133,7 +133,19 @@ export default class Set extends Base<Array<string>> implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    const kv = Object.entries(this._setValues).map(([key, value]) =>
+      `"${key}":${value}` // JSON format
+    );
+
+    // FIXME We don't cater for this in createType as of yet
+    return `{"_set":{${kv.join(',')}}}`;
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

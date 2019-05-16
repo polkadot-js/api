@@ -76,7 +76,14 @@ export default class Bool extends Boolean implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return 'bool';
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
