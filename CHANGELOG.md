@@ -5,6 +5,7 @@
 - Add `api.queryMulti` and `api.query.<module>.<method>.multi`
 - Convert `api.derive.*` to use multi queries
 - `types/codec/Set` now extends the base JS `Set` (breaking: `set.values` -> `set.strings`)
+- Breaking: rename `meta.arguments` to `meta.args` in function metadata (`arguments` is a JS reserved word)
 
 # 0.78.1
 
