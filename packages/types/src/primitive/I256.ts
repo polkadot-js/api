@@ -15,11 +15,4 @@ export default class I256 extends Int {
   constructor (value?: AnyNumber) {
     super(value, 256);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'i256';
-  }
 }

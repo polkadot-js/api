@@ -15,11 +15,4 @@ export default class U16 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 16);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'u16';
-  }
 }

@@ -15,11 +15,4 @@ export default class I32 extends Int {
   constructor (value?: AnyNumber) {
     super(value, 32);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'i32';
-  }
 }

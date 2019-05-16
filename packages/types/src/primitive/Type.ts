@@ -233,4 +233,11 @@ export default class Type extends Text {
       return value;
     };
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toType (): string {
+    return 'Type';
+  }
 }

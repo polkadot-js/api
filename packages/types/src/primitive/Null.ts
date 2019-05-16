@@ -57,7 +57,7 @@ export default class Null implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   toType (): string {
-    return 'null';
+    return 'Null';
   }
 
   /**

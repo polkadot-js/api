@@ -15,11 +15,4 @@ export default class I16 extends Int {
   constructor (value?: AnyNumber) {
     super(value, 16);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'i16';
-  }
 }

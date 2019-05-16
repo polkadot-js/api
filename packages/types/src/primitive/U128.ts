@@ -15,11 +15,4 @@ export default class U128 extends UInt {
   constructor (value?: AnyNumber) {
     super(value, 128);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'u128';
-  }
 }
