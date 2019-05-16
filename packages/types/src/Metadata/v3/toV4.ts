@@ -55,9 +55,10 @@ export default function toV4 (metadataV3: MetadataV3): MetadataV4 {
         name: modul.name,
         prefix: modul.prefix,
         storage: modul.storage.isSome
-          ? new Option(Vector.with(StorageFunctionMetadata), modul.storage
-            .unwrap()
-            .map(toV4StorageFunction))
+          ? new Option(
+            Vector.with(StorageFunctionMetadata),
+            modul.storage.unwrap().map(toV4StorageFunction)
+          )
           : undefined,
         calls: modul.calls,
         events: modul.events

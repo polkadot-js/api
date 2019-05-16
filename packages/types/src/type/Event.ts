@@ -128,12 +128,11 @@ export default class Event extends Struct {
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
   static injectMetadata (metadata: Metadata): void {
-    let sectionIndex = 0;
+    metadata.asV4.modules
+      .filter((section) => section.events.isSome)
+      .forEach((section, sectionIndex) => {
+        const sectionName = stringCamelCase(section.name.toString());
 
-    metadata.asV4.modules.forEach((section) => {
-      const sectionName = stringCamelCase(section.name.toString());
-
-      if (!section.events.isNone && !section.events.isEmpty) {
         section.events.unwrap().forEach((meta, methodIndex) => {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
@@ -146,10 +145,7 @@ export default class Event extends Struct {
             }
           };
         });
-
-        sectionIndex += 1;
-      }
-    });
+      });
   }
 
   /**

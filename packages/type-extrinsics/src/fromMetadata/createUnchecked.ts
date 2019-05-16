@@ -5,40 +5,44 @@
 import { FunctionMetadata } from '@polkadot/types/Metadata/v4/Calls';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { Method } from '@polkadot/types';
-import { assert } from '@polkadot/util';
+import { assert, stringCamelCase } from '@polkadot/util';
 
 /**
  * From the metadata of a function in the module's storage, generate the function
- * that will return the an UncheckExtrinsic.
+ * that will return the an [[MethodFunction]].
  *
- * @param index - Index of the module section in the modules array.
+ * @param section - Name of the module section.
+ * @param sectionIndex - Index of the module section in the modules array.
+ * @param methodIndex - Index of the method inside the section.
+ * @param callMetadata - Metadata of the call function.
  */
 export default function createDescriptor (
   section: string,
-  method: string,
-  indexCount: number,
-  meta: FunctionMetadata,
-  index: number
+  sectionIndex: number,
+  methodIndex: number,
+  callMetadata: FunctionMetadata
 ): MethodFunction {
-  const callIndex = new Uint8Array([indexCount, index]);
-
-  const expectedArgs = meta.args;
-
+  const callIndex = new Uint8Array([sectionIndex, methodIndex]);
+  const expectedArgs = callMetadata.args;
+  const funcName = stringCamelCase(callMetadata.name.toString());
   const extrinsicFn = (...args: any[]): Method => {
-    assert(expectedArgs.length.valueOf() === args.length, `Extrinsic ${section}.${method} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`);
+    assert(
+      expectedArgs.length.valueOf() === args.length,
+      `Extrinsic ${section}.${funcName} expects ${expectedArgs.length.valueOf()} arguments, got ${args.length}.`
+    );
 
     return new Method({
       args,
       callIndex
-    }, meta);
+    }, callMetadata);
   };
 
   extrinsicFn.callIndex = callIndex;
-  extrinsicFn.meta = meta;
-  extrinsicFn.method = method;
+  extrinsicFn.meta = callMetadata;
+  extrinsicFn.method = funcName;
   extrinsicFn.section = section;
   extrinsicFn.toJSON = (): any =>
-    meta.toJSON();
+    callMetadata.toJSON();
 
   return extrinsicFn as MethodFunction;
 }

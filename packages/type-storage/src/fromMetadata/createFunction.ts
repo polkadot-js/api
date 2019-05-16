@@ -10,11 +10,8 @@ import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat }
 import getHasher from './getHasher';
 
 export interface CreateItemOptions {
-  /**
-   * We don't hash the keys defined in ./substrate.ts
-   */
-  skipHashing?: boolean;
   key?: string;
+  skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 
 /**

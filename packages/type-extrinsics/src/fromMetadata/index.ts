@@ -18,23 +18,19 @@ import createUnchecked from './createUnchecked';
  * @param metadata - The metadata to extend the storage object against.
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
-  let indexCount = -1;
+  return metadata.asV4.modules
+    .filter((modul) => modul.calls.isSome)
+    .reduce((result, module: ModuleMetadata, sectionIndex) => {
+      const prefix = stringCamelCase(module.prefix.toString());
 
-  return metadata.asV4.modules.reduce((result, module: ModuleMetadata) => {
-    if (module.calls.isNone || module.calls.isEmpty) {
+      result[prefix] = module.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
+        const funcName = stringCamelCase(callMetadata.name.toString());
+
+        newModule[funcName] = createUnchecked(prefix, sectionIndex, methodIndex, callMetadata);
+
+        return newModule;
+      }, {} as Methods);
+
       return result;
-    }
-    indexCount++;
-    const prefix = stringCamelCase(module.prefix.toString());
-
-    result[prefix] = module.calls.unwrap().reduce((newModule, call, index) => {
-      const funcName = stringCamelCase(call.name.toString());
-
-      newModule[funcName] = createUnchecked(prefix, funcName, indexCount, call, index);
-
-      return newModule;
-    }, {} as Methods);
-
-    return result;
-  }, { ...extrinsics });
+    }, { ...extrinsics });
 }
