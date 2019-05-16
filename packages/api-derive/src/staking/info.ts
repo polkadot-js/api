@@ -12,10 +12,12 @@ import { AccountId, Option, StakingLedger, ValidatorPrefs } from '@polkadot/type
 import { drr } from '../util/drr';
 
 function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+  const stashId = accountId;
+
   return (
     api.queryMulti([
       [api.query.staking.ledger, controllerId],
-      [api.query.staking.validators, accountId],
+      [api.query.staking.validators, stashId],
       [api.query.session.nextKeyFor, controllerId]
     ]) as any as Observable<[Option<StakingLedger>, [ValidatorPrefs], Option<AccountId>]>
   ).pipe(
@@ -28,7 +30,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       stakingLedger: stakingLedger.isSome
         ? stakingLedger.unwrap()
         : undefined,
-      stashId: accountId,
+      stashId,
       validatorPrefs
     })),
     drr()
@@ -36,20 +38,23 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
 }
 
 function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
+  const controllerId = accountId;
+  const stashId = stakingLedger.stash;
+  
   return (
     api.queryMulti([
-      [api.query.staking.validators, stakingLedger.stash],
-      [api.query.session.nextKeyFor, accountId]
+      [api.query.staking.validators, stashId],
+      [api.query.session.nextKeyFor, controllerId]
     ]) as any as Observable<[[ValidatorPrefs], Option<AccountId>]>
   ).pipe(
     map(([[validatorPrefs], nextKeyFor]) => ({
       accountId,
-      controllerId: accountId,
+      controllerId,
       nextSessionId: nextKeyFor.isSome
         ? nextKeyFor.unwrap()
         : undefined,
       stakingLedger,
-      stashId: stakingLedger.stash,
+      stashId,
       validatorPrefs
     })),
     drr()
