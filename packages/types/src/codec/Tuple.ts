@@ -78,24 +78,24 @@ export default class Tuple extends AbstractArray<Codec> {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    const types = (
+      Array.isArray(this._Types)
+        ? this._Types.map((Type) => new Type().toRawType())
+        : Object.keys(this._Types)
+    );
+
+    return `(${types.join(',')})`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString () {
     // Overwrite the default toString representation of Array.
     return JSON.stringify(this.toJSON());
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    const types = (
-      Array.isArray(this._Types)
-        ? this._Types.map((Type) => new Type().toType())
-        : Object.keys(this._Types)
-    );
-
-    return `(${types.join(',')})`;
   }
 
   /**

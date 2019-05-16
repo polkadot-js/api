@@ -114,16 +114,9 @@ export default class Enum extends Base<number> implements Codec {
   }
 
   /**
-   * @description Returns the string representation of the value
-   */
-  toString (): string {
-    return this._enum[this.raw] || `${this.raw}`;
-  }
-
-  /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     const values = (
       Array.isArray(this._enum)
         ? this._enum
@@ -131,6 +124,13 @@ export default class Enum extends Base<number> implements Codec {
     ).map((value) => `"${value}"`); // JSON format
 
     return `{"_enum":[${values.join(',')}]}`;
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return this._enum[this.raw] || `${this.raw}`;
   }
 
   /**

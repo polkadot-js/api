@@ -92,18 +92,18 @@ export default class Text extends String implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Text';
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     // only included here since we do not inherit docs
     return super.toString();
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'Text';
   }
 
   /**

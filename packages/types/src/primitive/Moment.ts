@@ -104,7 +104,7 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'Moment';
   }
 

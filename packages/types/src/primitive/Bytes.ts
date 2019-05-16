@@ -72,7 +72,7 @@ export default class Bytes extends U8a {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'Bytes';
   }
 

@@ -89,17 +89,17 @@ export default class U8a extends Uint8Array implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `Vec<u8>`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     return this.toHex();
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return `Vec<u8>`;
   }
 
   /**

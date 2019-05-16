@@ -61,14 +61,14 @@ export interface Codec {
   toJSON (): any;
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string;
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string;
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string;
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications

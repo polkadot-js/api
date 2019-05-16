@@ -115,6 +115,11 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  abstract toRawType (): string;
+
+  /**
    * @description Returns the string representation of the value
    * @param base The base to use for the conversion
    */
@@ -122,11 +127,6 @@ export default abstract class AbstractInt extends BN implements Codec {
     // only included here since we do not inherit docs
     return super.toString(base);
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  abstract toType (): string;
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications

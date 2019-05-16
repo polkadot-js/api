@@ -69,17 +69,17 @@ export default class Bool extends Boolean implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'bool';
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     return `${this.toJSON()}`;
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'bool';
   }
 
   /**

@@ -233,21 +233,21 @@ export default class Struct<
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    const kv = [...this.entries()].map(([key, value]) =>
+      `"${key}":"${value.toRawType()}"` // double-quotes, JSON
+    );
+
+    return `{${kv.join(',')}}`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString () {
     return JSON.stringify(this.toJSON());
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    const kv = [...this.entries()].map(([key, value]) =>
-      `"${key}":"${value.toType()}"` // double-quotes, JSON
-    );
-
-    return `{${kv.join(',')}}`;
   }
 
   /**

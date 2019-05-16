@@ -16,7 +16,7 @@ export default class VectorAny<T extends Codec> extends AbstractArray<T> {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     // FIXME This is basically an any type, cannot instantiate via createType
     return 'Vec<Codec>';
   }

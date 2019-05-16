@@ -56,7 +56,7 @@ export default class U8aFixed extends U8a {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     // FIEXME We don't cater for this in createType
     return `[u8;${this.length}]`;
   }

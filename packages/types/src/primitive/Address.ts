@@ -123,7 +123,7 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'Address';
   }
 

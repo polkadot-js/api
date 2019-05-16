@@ -127,17 +127,17 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `Compact<${this.raw.toRawType()}>`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     return this.raw.toString();
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return `Compact<${this.raw.toType()}>`;
   }
 
   /**

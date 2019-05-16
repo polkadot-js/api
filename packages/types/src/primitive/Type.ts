@@ -237,7 +237,7 @@ export default class Type extends Text {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'Type';
   }
 }

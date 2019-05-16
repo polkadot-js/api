@@ -47,17 +47,17 @@ export default class Null implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Null';
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     return '';
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return 'Null';
   }
 
   /**

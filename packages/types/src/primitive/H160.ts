@@ -20,7 +20,7 @@ export default class H160 extends U8aFixed {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'H160';
   }
 }

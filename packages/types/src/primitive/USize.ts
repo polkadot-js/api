@@ -14,7 +14,7 @@ export default class USize extends U32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'usize';
   }
 }

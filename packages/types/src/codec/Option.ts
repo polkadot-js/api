@@ -112,17 +112,17 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `Option<${this.raw.toRawType()}>`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     return this.raw.toString();
-  }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  toType (): string {
-    return `Option<${this.raw.toType()}>`;
   }
 
   /**

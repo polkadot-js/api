@@ -71,6 +71,11 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  abstract toRawType (): string;
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
@@ -81,11 +86,6 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
 
     return `[${data.join(', ')}]`;
   }
-
-  /**
-   * @description Returns the base runtime type name for this instance
-   */
-  abstract toType (): string;
 
   /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications

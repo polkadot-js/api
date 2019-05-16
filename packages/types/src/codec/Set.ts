@@ -139,22 +139,22 @@ export default class CodecSet extends Set<string> implements Codec {
   }
 
   /**
-   * @description Returns the string representation of the value
-   */
-  toString (): string {
-    return `[${this.strings.join(', ')}]`;
-  }
-
-  /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     const kv = Object.entries(this._setValues).map(([key, value]) =>
       `"${key}":${value}` // JSON format
     );
 
     // FIXME We don't cater for this in createType as of yet
     return `{"_set":{${kv.join(',')}}}`;
+  }
+
+  /**
+   * @description Returns the string representation of the value
+   */
+  toString (): string {
+    return `[${this.strings.join(', ')}]`;
   }
 
   /**

@@ -114,7 +114,7 @@ export default class AccountIndex extends U32 {
   /**
    * @description Returns the base runtime type name for this instance
    */
-  toType (): string {
+  toRawType (): string {
     return 'AccountIndex';
   }
 }
