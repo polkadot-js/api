@@ -63,5 +63,5 @@ export type DerivedStaking = {
   nextSessionId?: AccountId,
   stakingLedger?: StakingLedger,
   stashId?: AccountId,
-  validatorPrefs?: ValidatorPrefs,
+  validatorPrefs?: ValidatorPrefs
 };

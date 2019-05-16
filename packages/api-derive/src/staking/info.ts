@@ -40,7 +40,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
 function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
-  
+
   return (
     api.queryMulti([
       [api.query.staking.validators, stashId],
@@ -87,4 +87,5 @@ export function info (api: ApiInterface$Rx) {
       ),
       drr()
     );
+  };
 }
