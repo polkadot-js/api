@@ -122,14 +122,7 @@ export default class Method extends Struct implements IMethod {
       };
     }
 
-    console.error(`Method: cannot decode value '${value}' of type ${typeof value}`);
-
-    return {
-      args: new Uint8Array(),
-      argsDef: {},
-      callIndex: new Uint8Array(),
-      meta: new FunctionMetadataV4()
-    };
+    throw new Error(`Method: cannot decode value '${value}' of type ${typeof value}`);
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
