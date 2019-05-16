@@ -47,4 +47,27 @@ describe.skip('derive e2e', () => {
       done();
     });
   });
+
+  it('retrieves all session info', (done) => {
+    let count = 0;
+
+    return api.derive.session.info((info) => {
+      console.error(JSON.stringify(info));
+
+      // 5 blocks only, then go our merry way
+      if (++count === 5) {
+        done();
+      }
+    });
+  });
+
+  it('retrieves the balances', (done) => {
+    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance) => {
+      console.error(JSON.stringify(balance));
+
+      if (balance.freeBalance.gtn(1)) {
+        done();
+      }
+    });
+  });
 });
