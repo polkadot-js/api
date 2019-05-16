@@ -3,11 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
+
 import BN from 'bn.js';
+
 import U8a from './codec/U8a';
-import Method from './primitive/Method';
-import Address from './type/Address';
 import { FunctionMetadata } from './Metadata/v4/Calls';
+import Method from './primitive/Method';
+import Address from './primitive/Address';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
