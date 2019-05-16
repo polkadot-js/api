@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isU8a, isNumber, isUndefined, u8aToHex } from '@plugnet/util';
+import { assert, isU8a, isNumber, isUndefined, u8aToHex } from '@plugnet/util';
 
-import Base from './Base';
 import { Codec } from '../types';
 import { compareArray } from './utils';
 
@@ -19,27 +18,29 @@ type SetValues = {
  * a bitwise representation of the values.
  */
 // FIXME This is a prime candidate to extend the JavaScript built-in Set
-export default class Set extends Base<Array<string>> implements Codec {
+export default class CodecSet extends Set<string> implements Codec {
   private _setValues: SetValues;
 
-  constructor (setValues: SetValues, value?: Array<string> | Uint8Array | number) {
+  constructor (setValues: SetValues, value?: Array<string> | Set<string> | Uint8Array | number) {
     super(
-      Set.decodeSet(setValues, value)
+      CodecSet.decodeSet(setValues, value)
     );
 
     this._setValues = setValues;
   }
 
-  static decodeSet (setValues: SetValues, value: Array<string> | Uint8Array | number = 0): Array<string> {
+  static decodeSet (setValues: SetValues, value: Array<string> | Set<string> | Uint8Array | number = 0): Array<string> {
     if (isU8a(value)) {
-      return Set.decodeSet(setValues, value[0]);
+      return value.length === 0
+        ? []
+        : CodecSet.decodeSet(setValues, value[0]);
+    } else if (value instanceof Set) {
+      return CodecSet.decodeSet(setValues, [...value.values()]);
     } else if (Array.isArray(value)) {
-      return value.reduce((result, value) => {
-        if (isUndefined(setValues[value])) {
-          console.error(`Ignoring invalid '${value}' passed to Set`);
-        } else {
-          result.push(value);
-        }
+      return value.reduce((result, key) => {
+        assert(!isUndefined(setValues[key]), `Set: Invalid key '${key}' passed to Set, allowed ${Object.keys(setValues).join(', ')}`);
+
+        result.push(key);
 
         return result;
       }, [] as Array<string>);
@@ -52,11 +53,10 @@ export default class Set extends Base<Array<string>> implements Codec {
 
       return result;
     }, [] as Array<string>);
-    const computed = Set.encodeSet(setValues, result);
 
-    if (value !== computed) {
-      console.error(`Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
-    }
+    const computed = CodecSet.encodeSet(setValues, result);
+
+    assert(value !== computed, `Set: Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
 
     return result;
   }
@@ -78,21 +78,34 @@ export default class Set extends Base<Array<string>> implements Codec {
    * @description true is the Set contains no values
    */
   get isEmpty (): boolean {
-    return this.values.length === 0;
+    return this.size === 0;
   }
 
   /**
    * @description The actual set values as a Array<string>
    */
-  get values (): Array<string> {
-    return this.raw;
+  get strings (): Array<string> {
+    return [...super.values()];
   }
 
   /**
    * @description The encoded value for the set members
    */
   get valueEncoded (): number {
-    return Set.encodeSet(this._setValues, this.raw);
+    return CodecSet.encodeSet(this._setValues, this.strings);
+  }
+
+  /**
+   * @description adds a value to the Set (extended to allow for validity checking)
+   */
+  add (key: string): this {
+    // we have the isUndefined(this._setValues) in here as well, add is used internally
+    // in the Set constructor (so it is undefined at this point, and should allow)
+    assert(isUndefined(this._setValues) || !isUndefined(this._setValues[key]), `Set: Invalid key '${key}' on add`);
+
+    super.add(key);
+
+    return this;
   }
 
   /**
@@ -101,9 +114,9 @@ export default class Set extends Base<Array<string>> implements Codec {
   eq (other?: any): boolean {
     if (Array.isArray(other)) {
       // we don't actually care about the order, sort the values
-      return compareArray(this.values.sort(), other.sort());
+      return compareArray(this.strings.sort(), other.sort());
     } else if (other instanceof Set) {
-      return this.eq(other.values);
+      return this.eq([...other.values()]);
     } else if (isNumber(other)) {
       return this.valueEncoded === other;
     }
@@ -122,14 +135,14 @@ export default class Set extends Base<Array<string>> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
-    return this.values;
+    return this.strings;
   }
 
   /**
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return `[${this.values.join(', ')}]`;
+    return `[${this.strings.join(', ')}]`;
   }
 
   /**
