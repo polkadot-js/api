@@ -16,4 +16,11 @@ export default class Origin extends Null {
 
     throw new Error('Origin should not be constructed, it is only a placeholder for compatibility');
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Origin'; // yes, we cannot instantiate, but for consistency
+  }
 }

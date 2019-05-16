@@ -110,4 +110,11 @@ export default class AccountIndex extends U32 {
 
     return encodeAddress(this.toU8a().subarray(0, length));
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'AccountIndex';
+  }
 }

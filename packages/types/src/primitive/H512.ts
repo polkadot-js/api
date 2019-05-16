@@ -15,4 +15,11 @@ export default class H512 extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 512);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'H512';
+  }
 }

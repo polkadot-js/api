@@ -84,4 +84,11 @@ export default class Vector<T extends Codec> extends AbstractArray<T> {
 
     return -1;
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `Vec<${new this._Type().toRawType()}>`;
+  }
 }
