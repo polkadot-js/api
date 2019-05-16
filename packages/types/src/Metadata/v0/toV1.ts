@@ -32,7 +32,9 @@ function toV1Storage (modul: RuntimeModuleMetadata) {
   return modul.storage.isNone
     ? new Option(Vector.with(StorageFunctionMetadata))
     : new Option(
-      Vector.with(StorageFunctionMetadata), modul.storage.unwrap().functions);
+      Vector.with(StorageFunctionMetadata),
+      modul.storage.unwrap().functions
+    );
 }
 
 /**
