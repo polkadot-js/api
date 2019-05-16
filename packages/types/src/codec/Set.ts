@@ -56,7 +56,7 @@ export default class CodecSet extends Set<string> implements Codec {
 
     const computed = CodecSet.encodeSet(setValues, result);
 
-    assert(value !== computed, `Set: Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
+    assert(value === computed, `Set: Mismatch decoding '${value}', computed as '${computed}' with ${result}`);
 
     return result;
   }
@@ -136,6 +136,13 @@ export default class CodecSet extends Set<string> implements Codec {
    */
   toJSON (): any {
     return this.strings;
+  }
+
+  /**
+   * @description The encoded value for the set members
+   */
+  toNumber (): number {
+    return this.valueEncoded;
   }
 
   /**
