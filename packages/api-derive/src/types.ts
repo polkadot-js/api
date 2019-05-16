@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
 
 export type DerivedBalances = {
   accountId: AccountId,
@@ -15,31 +15,8 @@ export type DerivedBalances = {
   vestedBalance: Balance
 };
 
-export type DerivedFees = {
-  creationFee: BN,
-  existentialDeposit: BN,
-  transactionBaseFee: BN,
-  transactionByteFee: BN,
-  transferFee: BN
-};
-
 export type DerivedBalancesMap = {
   [index: string]: DerivedBalances
-};
-
-export type DerivedReferendumVote = {
-  accountId: AccountId,
-  balance: Balance,
-  vote: Vote
-};
-
-export type DerivedStaking = {
-  accountId: AccountId,
-  controllerId?: AccountId,
-  nextSessionId?: AccountId,
-  stakingLedger?: StakingLedger,
-  stashId?: AccountId,
-  validatorPrefs?: ValidatorPrefs,
 };
 
 export type DerivedContractFees = {
@@ -53,4 +30,38 @@ export type DerivedContractFees = {
   transactionByteFee: BN,
   transferFee: BN,
   tombstoneDeposit: BN
+};
+
+export type DerivedFees = {
+  creationFee: BN,
+  existentialDeposit: BN,
+  transactionBaseFee: BN,
+  transactionByteFee: BN,
+  transferFee: BN
+};
+
+export type DerivedReferendumVote = {
+  accountId: AccountId,
+  balance: Balance,
+  vote: Vote
+};
+
+export type DerivedSessionInfo = {
+  currentIndex: BlockNumber,
+  eraLength: BN,
+  eraProgress: BN,
+  lastEraLengthChange: BlockNumber,
+  lastLengthChange: BN,
+  sessionLength: BlockNumber,
+  sessionsPerEra: BlockNumber,
+  sessionProgress: BN
+};
+
+export type DerivedStaking = {
+  accountId: AccountId,
+  controllerId?: AccountId,
+  nextSessionId?: AccountId,
+  stakingLedger?: StakingLedger,
+  stashId?: AccountId,
+  validatorPrefs?: ValidatorPrefs,
 };

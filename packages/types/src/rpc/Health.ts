@@ -6,11 +6,6 @@ import Struct from '../codec/Struct';
 import Bool from '../primitive/Bool';
 import USize from '../primitive/USize';
 
-const JSON_MAP = new Map([
-  ['isSyncing', 'is_syncing'],
-  ['shouldHavePeers', 'should_have_peers']
-]);
-
 /**
  * @name Health
  * @description
@@ -22,7 +17,7 @@ export default class Health extends Struct {
       peers: USize,
       isSyncing: Bool,
       shouldHavePeers: Bool
-    }, value, JSON_MAP);
+    }, value);
   }
 
   /**

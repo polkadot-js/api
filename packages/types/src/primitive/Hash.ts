@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { IHash } from '../types';
-import H256 from '../primitive/H256';
+
+import H256 from './H256';
 
 /**
  * @name Hash
