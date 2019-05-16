@@ -60,6 +60,13 @@ export default class AccountId extends U8aFixed {
   toString (): string {
     return AccountId.encode(this);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'AccountId';
+  }
 }
 
 /**

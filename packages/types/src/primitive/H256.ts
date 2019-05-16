@@ -16,4 +16,11 @@ export default class H256 extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 256);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'H256';
+  }
 }

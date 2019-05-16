@@ -219,6 +219,24 @@ export default class Enum extends Base<Codec> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    const kv = this._isBasic
+      ? Object.keys(this._def).map((key) =>
+        `"${key}"`
+      )
+      : Object.entries(this._def).map(([key, Type]) =>
+        `"${key}":"${new Type().toRawType()}"`
+      );
+    const braces = this._isBasic
+      ? '[]'
+      : '{}';
+
+    return `{"_enum":${braces[0]}${kv.join(',')}${braces[1]}}`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
@@ -228,7 +246,7 @@ export default class Enum extends Base<Codec> implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

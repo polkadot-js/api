@@ -226,4 +226,11 @@ export default class Method extends Struct implements IMethod {
   get meta (): FunctionMetadataV4 {
     return this._meta;
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Call';
+  }
 }

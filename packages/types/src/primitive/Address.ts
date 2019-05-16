@@ -121,7 +121,14 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Address';
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
