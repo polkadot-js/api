@@ -30,6 +30,10 @@ const types: Array<Compat> = [
       {
         name: 'polkadot',
         version: 0xffff // don't have an updated spec version as of yet
+      },
+      {
+        name: 'edgeware',
+        version: 0xffff // don't have an updated spec version as of yet
       }
     ],
     types: {
