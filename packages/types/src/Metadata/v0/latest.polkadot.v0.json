@@ -7,14 +7,14 @@
         [
           {
             "name": "ExtrinsicSuccess",
-            "arguments": [],
+            "args": [],
             "documentation": [
               " An extrinsic completed successfully."
             ]
           },
           {
             "name": "ExtrinsicFailed",
-            "arguments": [],
+            "args": [],
             "documentation": [
               " An extrinsic failed."
             ]
@@ -26,7 +26,7 @@
         [
           {
             "name": "NewAccount",
-            "arguments": [
+            "args": [
               "AccountId",
               "AccountIndex",
               "NewAccountOutcome"
@@ -37,7 +37,7 @@
           },
           {
             "name": "ReapedAccount",
-            "arguments": [
+            "args": [
               "AccountId"
             ],
             "documentation": [
@@ -46,7 +46,7 @@
           },
           {
             "name": "Transfer",
-            "arguments": [
+            "args": [
               "AccountId",
               "AccountId",
               "Balance",
@@ -63,7 +63,7 @@
         [
           {
             "name": "NewSession",
-            "arguments": [
+            "args": [
               "BlockNumber"
             ],
             "documentation": [
@@ -78,7 +78,7 @@
         [
           {
             "name": "Reward",
-            "arguments": [
+            "args": [
               "Balance"
             ],
             "documentation": [
@@ -87,7 +87,7 @@
           },
           {
             "name": "OfflineWarning",
-            "arguments": [
+            "args": [
               "AccountId",
               "u32"
             ],
@@ -98,7 +98,7 @@
           },
           {
             "name": "OfflineSlash",
-            "arguments": [
+            "args": [
               "AccountId",
               "Balance"
             ],
@@ -113,7 +113,7 @@
         [
           {
             "name": "Tabled",
-            "arguments": [
+            "args": [
               "PropIndex",
               "Balance",
               "Vec<AccountId>"
@@ -122,7 +122,7 @@
           },
           {
             "name": "Started",
-            "arguments": [
+            "args": [
               "ReferendumIndex",
               "VoteThreshold"
             ],
@@ -130,28 +130,28 @@
           },
           {
             "name": "Passed",
-            "arguments": [
+            "args": [
               "ReferendumIndex"
             ],
             "documentation": []
           },
           {
             "name": "NotPassed",
-            "arguments": [
+            "args": [
               "ReferendumIndex"
             ],
             "documentation": []
           },
           {
             "name": "Cancelled",
-            "arguments": [
+            "args": [
               "ReferendumIndex"
             ],
             "documentation": []
           },
           {
             "name": "Executed",
-            "arguments": [
+            "args": [
               "ReferendumIndex",
               "bool"
             ],
@@ -164,7 +164,7 @@
         [
           {
             "name": "NewAuthorities",
-            "arguments": [
+            "args": [
               "Vec<(SessionKey,u64)>"
             ],
             "documentation": [
@@ -178,7 +178,7 @@
         [
           {
             "name": "VoterReaped",
-            "arguments": [
+            "args": [
               "AccountId",
               "AccountId"
             ],
@@ -188,7 +188,7 @@
           },
           {
             "name": "BadReaperSlashed",
-            "arguments": [
+            "args": [
               "AccountId"
             ],
             "documentation": [
@@ -197,7 +197,7 @@
           },
           {
             "name": "TallyStarted",
-            "arguments": [
+            "args": [
               "u32"
             ],
             "documentation": [
@@ -206,7 +206,7 @@
           },
           {
             "name": "TallyFinalised",
-            "arguments": [
+            "args": [
               "Vec<AccountId>",
               "Vec<AccountId>"
             ],
@@ -221,7 +221,7 @@
         [
           {
             "name": "TallyCancelation",
-            "arguments": [
+            "args": [
               "Hash",
               "u32",
               "u32",
@@ -234,7 +234,7 @@
           },
           {
             "name": "TallyReferendum",
-            "arguments": [
+            "args": [
               "Hash",
               "u32",
               "u32",
@@ -252,7 +252,7 @@
         [
           {
             "name": "Proposed",
-            "arguments": [
+            "args": [
               "AccountId",
               "ProposalIndex",
               "Hash",
@@ -264,7 +264,7 @@
           },
           {
             "name": "Voted",
-            "arguments": [
+            "args": [
               "AccountId",
               "Hash",
               "bool",
@@ -278,7 +278,7 @@
           },
           {
             "name": "Approved",
-            "arguments": [
+            "args": [
               "Hash"
             ],
             "documentation": [
@@ -287,7 +287,7 @@
           },
           {
             "name": "Disapproved",
-            "arguments": [
+            "args": [
               "Hash"
             ],
             "documentation": [
@@ -296,7 +296,7 @@
           },
           {
             "name": "Executed",
-            "arguments": [
+            "args": [
               "Hash",
               "bool"
             ],
@@ -311,7 +311,7 @@
         [
           {
             "name": "Proposed",
-            "arguments": [
+            "args": [
               "ProposalIndex"
             ],
             "documentation": [
@@ -320,7 +320,7 @@
           },
           {
             "name": "Spending",
-            "arguments": [
+            "args": [
               "Balance"
             ],
             "documentation": [
@@ -329,7 +329,7 @@
           },
           {
             "name": "Awarded",
-            "arguments": [
+            "args": [
               "ProposalIndex",
               "Balance",
               "AccountId"
@@ -340,7 +340,7 @@
           },
           {
             "name": "Burnt",
-            "arguments": [
+            "args": [
               "Balance"
             ],
             "documentation": [
@@ -349,7 +349,7 @@
           },
           {
             "name": "Rollover",
-            "arguments": [
+            "args": [
               "Balance"
             ],
             "documentation": [
@@ -468,7 +468,7 @@
             {
               "id": 0,
               "name": "set",
-              "arguments": [
+              "args": [
                 {
                   "name": "now",
                   "type": "Compact<Moment>"
@@ -528,7 +528,7 @@
             {
               "id": 0,
               "name": "report_misbehavior",
-              "arguments": [
+              "args": [
                 {
                   "name": "_report",
                   "type": "Bytes"
@@ -541,7 +541,7 @@
             {
               "id": 1,
               "name": "note_offline",
-              "arguments": [
+              "args": [
                 {
                   "name": "offline",
                   "type": "InherentOfflineReport"
@@ -554,7 +554,7 @@
             {
               "id": 2,
               "name": "remark",
-              "arguments": [
+              "args": [
                 {
                   "name": "_remark",
                   "type": "Bytes"
@@ -567,7 +567,7 @@
             {
               "id": 3,
               "name": "set_heap_pages",
-              "arguments": [
+              "args": [
                 {
                   "name": "pages",
                   "type": "u64"
@@ -580,7 +580,7 @@
             {
               "id": 4,
               "name": "set_code",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Bytes"
@@ -593,7 +593,7 @@
             {
               "id": 5,
               "name": "set_storage",
-              "arguments": [
+              "args": [
                 {
                   "name": "items",
                   "type": "Vec<KeyValue>"
@@ -628,7 +628,7 @@
             {
               "id": 0,
               "name": "transfer",
-              "arguments": [
+              "args": [
                 {
                   "name": "dest",
                   "type": "Address"
@@ -645,7 +645,7 @@
             {
               "id": 1,
               "name": "set_balance",
-              "arguments": [
+              "args": [
                 {
                   "name": "who",
                   "type": "Address"
@@ -800,7 +800,7 @@
             {
               "id": 0,
               "name": "set_key",
-              "arguments": [
+              "args": [
                 {
                   "name": "key",
                   "type": "SessionKey"
@@ -814,7 +814,7 @@
             {
               "id": 1,
               "name": "set_length",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Compact<BlockNumber>"
@@ -827,7 +827,7 @@
             {
               "id": 2,
               "name": "force_new_session",
-              "arguments": [
+              "args": [
                 {
                   "name": "apply_rewards",
                   "type": "bool"
@@ -924,7 +924,7 @@
             {
               "id": 0,
               "name": "stake",
-              "arguments": [],
+              "args": [],
               "documentation": [
                 " Declare the desire to stake for the transactor.",
                 "",
@@ -934,7 +934,7 @@
             {
               "id": 1,
               "name": "unstake",
-              "arguments": [
+              "args": [
                 {
                   "name": "intentions_index",
                   "type": "Compact<u32>"
@@ -949,7 +949,7 @@
             {
               "id": 2,
               "name": "nominate",
-              "arguments": [
+              "args": [
                 {
                   "name": "target",
                   "type": "Address"
@@ -960,7 +960,7 @@
             {
               "id": 3,
               "name": "unnominate",
-              "arguments": [
+              "args": [
                 {
                   "name": "target_index",
                   "type": "Compact<u32>"
@@ -974,7 +974,7 @@
             {
               "id": 4,
               "name": "register_preferences",
-              "arguments": [
+              "args": [
                 {
                   "name": "intentions_index",
                   "type": "Compact<u32>"
@@ -993,7 +993,7 @@
             {
               "id": 5,
               "name": "set_sessions_per_era",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Compact<BlockNumber>"
@@ -1006,7 +1006,7 @@
             {
               "id": 6,
               "name": "set_bonding_duration",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Compact<BlockNumber>"
@@ -1019,7 +1019,7 @@
             {
               "id": 7,
               "name": "set_validator_count",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Compact<u32>"
@@ -1032,7 +1032,7 @@
             {
               "id": 8,
               "name": "force_new_era",
-              "arguments": [
+              "args": [
                 {
                   "name": "apply_rewards",
                   "type": "bool"
@@ -1046,7 +1046,7 @@
             {
               "id": 9,
               "name": "set_offline_slash_grace",
-              "arguments": [
+              "args": [
                 {
                   "name": "new",
                   "type": "Compact<u32>"
@@ -1261,7 +1261,7 @@
             {
               "id": 0,
               "name": "propose",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Proposal"
@@ -1278,7 +1278,7 @@
             {
               "id": 1,
               "name": "second",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Compact<PropIndex>"
@@ -1291,7 +1291,7 @@
             {
               "id": 2,
               "name": "vote",
-              "arguments": [
+              "args": [
                 {
                   "name": "ref_index",
                   "type": "Compact<ReferendumIndex>"
@@ -1309,7 +1309,7 @@
             {
               "id": 3,
               "name": "start_referendum",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Proposal"
@@ -1330,7 +1330,7 @@
             {
               "id": 4,
               "name": "cancel_referendum",
-              "arguments": [
+              "args": [
                 {
                   "name": "ref_index",
                   "type": "Compact<ReferendumIndex>"
@@ -1343,7 +1343,7 @@
             {
               "id": 5,
               "name": "cancel_queued",
-              "arguments": [
+              "args": [
                 {
                   "name": "when",
                   "type": "BlockNumber"
@@ -1506,7 +1506,7 @@
             {
               "id": 0,
               "name": "report_misbehavior",
-              "arguments": [
+              "args": [
                 {
                   "name": "_report",
                   "type": "Bytes"
@@ -1541,7 +1541,7 @@
             {
               "id": 0,
               "name": "set_approvals",
-              "arguments": [
+              "args": [
                 {
                   "name": "votes",
                   "type": "Vec<bool>"
@@ -1559,7 +1559,7 @@
             {
               "id": 1,
               "name": "reap_inactive_voter",
-              "arguments": [
+              "args": [
                 {
                   "name": "reporter_index",
                   "type": "Compact<u32>"
@@ -1588,7 +1588,7 @@
             {
               "id": 2,
               "name": "retract_voter",
-              "arguments": [
+              "args": [
                 {
                   "name": "index",
                   "type": "Compact<u32>"
@@ -1601,7 +1601,7 @@
             {
               "id": 3,
               "name": "submit_candidacy",
-              "arguments": [
+              "args": [
                 {
                   "name": "slot",
                   "type": "Compact<u32>"
@@ -1616,7 +1616,7 @@
             {
               "id": 4,
               "name": "present_winner",
-              "arguments": [
+              "args": [
                 {
                   "name": "candidate",
                   "type": "Address"
@@ -1639,7 +1639,7 @@
             {
               "id": 5,
               "name": "set_desired_seats",
-              "arguments": [
+              "args": [
                 {
                   "name": "count",
                   "type": "Compact<u32>"
@@ -1654,7 +1654,7 @@
             {
               "id": 6,
               "name": "remove_member",
-              "arguments": [
+              "args": [
                 {
                   "name": "who",
                   "type": "Address"
@@ -1669,7 +1669,7 @@
             {
               "id": 7,
               "name": "set_presentation_duration",
-              "arguments": [
+              "args": [
                 {
                   "name": "count",
                   "type": "Compact<BlockNumber>"
@@ -1683,7 +1683,7 @@
             {
               "id": 8,
               "name": "set_term_duration",
-              "arguments": [
+              "args": [
                 {
                   "name": "count",
                   "type": "Compact<BlockNumber>"
@@ -1883,7 +1883,7 @@
             {
               "id": 0,
               "name": "propose",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Proposal"
@@ -1894,7 +1894,7 @@
             {
               "id": 1,
               "name": "vote",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Hash"
@@ -1909,7 +1909,7 @@
             {
               "id": 2,
               "name": "veto",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal_hash",
                   "type": "Hash"
@@ -1920,7 +1920,7 @@
             {
               "id": 3,
               "name": "set_cooloff_period",
-              "arguments": [
+              "args": [
                 {
                   "name": "blocks",
                   "type": "Compact<BlockNumber>"
@@ -1931,7 +1931,7 @@
             {
               "id": 4,
               "name": "set_voting_period",
-              "arguments": [
+              "args": [
                 {
                   "name": "blocks",
                   "type": "Compact<BlockNumber>"
@@ -2020,7 +2020,7 @@
             {
               "id": 0,
               "name": "propose",
-              "arguments": [
+              "args": [
                 {
                   "name": "threshold",
                   "type": "Compact<u32>"
@@ -2035,7 +2035,7 @@
             {
               "id": 1,
               "name": "vote",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal",
                   "type": "Hash"
@@ -2108,7 +2108,7 @@
             {
               "id": 0,
               "name": "propose_spend",
-              "arguments": [
+              "args": [
                 {
                   "name": "value",
                   "type": "Compact<Balance>"
@@ -2127,7 +2127,7 @@
             {
               "id": 1,
               "name": "set_pot",
-              "arguments": [
+              "args": [
                 {
                   "name": "new_pot",
                   "type": "Compact<Balance>"
@@ -2140,7 +2140,7 @@
             {
               "id": 2,
               "name": "configure",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal_bond",
                   "type": "Permill"
@@ -2165,7 +2165,7 @@
             {
               "id": 3,
               "name": "reject_proposal",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal_id",
                   "type": "Compact<ProposalIndex>"
@@ -2178,7 +2178,7 @@
             {
               "id": 4,
               "name": "approve_proposal",
-              "arguments": [
+              "args": [
                 {
                   "name": "proposal_id",
                   "type": "Compact<ProposalIndex>"
@@ -2276,7 +2276,7 @@
             {
               "id": 0,
               "name": "set_heads",
-              "arguments": [
+              "args": [
                 {
                   "name": "heads",
                   "type": "Vec<AttestedCandidate>"
@@ -2289,7 +2289,7 @@
             {
               "id": 1,
               "name": "register_parachain",
-              "arguments": [
+              "args": [
                 {
                   "name": "id",
                   "type": "Id"
@@ -2311,7 +2311,7 @@
             {
               "id": 2,
               "name": "deregister_parachain",
-              "arguments": [
+              "args": [
                 {
                   "name": "id",
                   "type": "Id"
