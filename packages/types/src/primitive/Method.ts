@@ -86,7 +86,7 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string, _meta?: FunctionMetadataV4): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV4): DecodedMethod {
     if (isHex(value)) {
       return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
@@ -122,14 +122,7 @@ export default class Method extends Struct implements IMethod {
       };
     }
 
-    console.error(`Method: cannot decode value '${value}' of type ${typeof value}`);
-
-    return {
-      args: new Uint8Array(),
-      argsDef: {},
-      meta: new FunctionMetadataV4(),
-      callIndex: new Uint8Array([255, 255])
-    };
+    throw new Error(`Method: Cannot decode value '${value}' of type ${typeof value}`);
   }
 
   // If the extrinsic function has an argument of type `Origin`, we ignore it
