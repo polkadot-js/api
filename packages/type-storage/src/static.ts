@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Metadata } from '@plugnet/types';
-import metadataRpc from '@plugnet/types/Metadata/v0/static';
+import metadataRpc from '@plugnet/types/Metadata/v4/static';
 
 import fromMetadata from './fromMetadata';
 

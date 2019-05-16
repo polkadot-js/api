@@ -34,19 +34,19 @@ describe('Method', () => {
 
     it('is false with no arguments', () => {
       expect(
-        new Method(test, { arguments: [] } as any).hasOrigin
+        new Method(test, { args: [] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { arguments: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
+        new Method(test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { arguments: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
+        new Method(test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
       ).toEqual(true);
     });
   });

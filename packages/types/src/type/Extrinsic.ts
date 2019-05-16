@@ -10,7 +10,7 @@ import { blake2AsU8a } from '@plugnet/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v0/Modules';
+import { FunctionMetadata } from '../Metadata/v4/Calls';
 import Method from '../primitive/Method';
 import Address from '../primitive/Address';
 import Hash from '../primitive/Hash';

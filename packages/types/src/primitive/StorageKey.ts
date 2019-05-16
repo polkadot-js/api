@@ -7,12 +7,11 @@ import { AnyU8a } from '../types';
 import { assert, isFunction, isString, isU8a } from '@plugnet/util';
 
 import Bytes from './Bytes';
-import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
 import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
-  meta: MetaV0 | MetaV4;
+  meta: MetaV4;
   method: string;
   section: string;
   toJSON: () => any;
@@ -26,8 +25,8 @@ export interface StorageFunction {
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta: MetaV0 | MetaV4 | null;
-  private _outputType: string | null;
+  private _meta?: MetaV4;
+  private _outputType?: string;
 
   constructor (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
     super(StorageKey.decodeStorageKey(value));
@@ -53,7 +52,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV4 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -64,10 +63,10 @@ export default class StorageKey extends Bytes {
       return fn.meta;
     }
 
-    return null;
+    return undefined;
   }
 
-  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
+  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | undefined {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -78,20 +77,20 @@ export default class StorageKey extends Bytes {
       return fn.meta.type.toString();
     }
 
-    return null;
+    return undefined;
   }
 
   /**
    * @description The metadata or `null` when not available
    */
-  get meta (): MetaV0 | MetaV4 | null {
+  get meta (): MetaV4 | undefined {
     return this._meta;
   }
 
   /**
    * @description The output type, `null` when not available
    */
-  get outputType (): string | null {
+  get outputType (): string | undefined {
     return this._outputType;
   }
 }

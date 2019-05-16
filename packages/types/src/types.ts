@@ -7,13 +7,13 @@ import { KeyringPair } from '@plugnet/keyring/types';
 import BN from 'bn.js';
 
 import U8a from './codec/U8a';
+import { FunctionMetadata } from './Metadata/v4/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
-import { FunctionMetadata } from './Metadata/v0/Modules';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
-export type CodecCallback <T extends Codec = any> = (result: T) => any;
+export type CodecCallback<T extends Codec = any> = (result: T) => any;
 
 interface CodecArgObject {
   [index: string]: CodecArg;
@@ -106,7 +106,7 @@ export interface ArgsDef {
   [index: string]: Constructor;
 }
 
-export interface IHash extends U8a {}
+export interface IHash extends U8a { }
 
 export interface IMethod extends Codec {
   readonly args: Array<Codec>;

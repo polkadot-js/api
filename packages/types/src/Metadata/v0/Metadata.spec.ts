@@ -2,41 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsicsFromMeta from '@plugnet/extrinsics/fromMetadata';
-
-import createType from '../../codec/createType';
-import Method from '../../primitive/Method';
-
-import Metadata from './Metadata';
-import latestParsed from './latest.substrate.json';
+import MetadataV0 from './';
+import Metadata from '../';
+import latestSubstrateV0 from './latest.substrate.v0.json';
 import rpcData from './static';
+import { defaultValues, toV4 } from '../util/testUtil';
 
 describe('Metadata', () => {
-  it('decodes latest properly', () => {
+  it('works with fallback', () => {
     const metadata = new Metadata(rpcData);
-    const str = JSON.stringify(metadata.toJSON());
+    const metadataV0 = new MetadataV0(rpcData);
 
-    expect(metadata.events.length).not.toBe(0);
-    expect(str).toEqual(JSON.stringify(latestParsed));
+    expect(metadata.asV0.toString()).toEqual(metadataV0.toString());
   });
 
-  describe('storage with default values', () => {
+  it('decodes latest substrate properly', () => {
     const metadata = new Metadata(rpcData);
+    const json = metadata.asV0.toJSON();
 
-    Method.injectMethods(extrinsicsFromMeta(metadata));
+    console.error(JSON.stringify(json));
 
-    metadata.modules.forEach((mod) => {
-      if (mod.storage.isNone) {
-        return;
-      }
-
-      mod.storage.unwrap().functions.forEach((fn) => {
-        it(`creates default types for ${mod.prefix}.${fn.name}, type ${fn.type}`, () => {
-          expect(
-            () => createType(fn.type.toString(), fn.fallback)
-          ).not.toThrow();
-        });
-      });
-    });
+    expect(metadata.version).toBe(0);
+    expect(metadata.asV0.modules.length).not.toBe(0);
+    expect(json).toEqual(latestSubstrateV0);
   });
+
+  toV4(0, rpcData);
+
+  defaultValues(rpcData);
 });

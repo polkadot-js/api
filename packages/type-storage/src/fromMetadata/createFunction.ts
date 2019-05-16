@@ -10,8 +10,8 @@ import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat }
 import getHasher from './getHasher';
 
 export interface CreateItemOptions {
-  isUnhashed?: boolean;
   key?: string;
+  skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 
 /**
@@ -52,14 +52,13 @@ export default function createFunction (section: Text | string, method: Text | s
 
     // StorageKey is a Bytes, so is length-prefixed
     return Compact.addLengthPrefix(
-      options.isUnhashed
+      options.skipHashing
         ? key
         : hasher(key)
     );
   };
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
-    // TODO: there needs some better way to do this
     const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = () => keyHash;
     keyFn.meta = new StorageFunctionMetadata({

@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataInterface } from './types';
-
 import { assert, isUndefined } from '@plugnet/util';
 
 import EnumType from '../codec/EnumType';
@@ -15,10 +13,10 @@ import MetadataV1 from './v1';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';
 import MetadataV4 from './v4';
-import v1ToV0 from './v1/toV0';
-import v2ToV1 from './v2/toV1';
-import v3ToV2 from './v3/toV2';
-import v4ToV3 from './v4/toV3';
+import v0ToV1 from './v0/toV1';
+import v1ToV2 from './v1/toV2';
+import v2ToV3 from './v2/toV3';
+import v3ToV4 from './v3/toV4';
 
 class MetadataDeprecated extends Null {
 }
@@ -134,11 +132,11 @@ class MetadataEnum extends EnumType<MetadataDeprecated | MetadataV0 | MetadataV1
  * @description
  * The versioned runtime metadata as a decoded structure
  */
-export default class MetadataVersioned extends Struct implements MetadataInterface {
-  private _convertedV0?: MetadataV0;
+export default class MetadataVersioned extends Struct {
   private _convertedV1?: MetadataV1;
   private _convertedV2?: MetadataV2;
   private _convertedV3?: MetadataV3;
+  private _convertedV4?: MetadataV4;
 
   constructor (value?: any) {
     super({
@@ -172,29 +170,23 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
    * @description Returns the wrapped metadata as a V0 object
    */
   get asV0 (): MetadataV0 {
-    if (this.metadata.version === 0) {
-      return this.metadata.asV0;
-    }
+    assert(this.metadata.version === 0, `Cannot convert metadata from v${this.metadata.version} to v0`);
 
-    if (isUndefined(this._convertedV0)) {
-      this._convertedV0 = v1ToV0(this.asV1);
-    }
-
-    return this._convertedV0;
+    return this.metadata.asV0;
   }
 
   /**
    * @description Returns the wrapped values as a V1 object
    */
   get asV1 (): MetadataV1 {
+    assert(this.metadata.version <= 1, `Cannot convert metadata from v${this.metadata.version} to v1`);
+
     if (this.metadata.version === 1) {
       return this.metadata.asV1;
     }
 
-    assert([2, 3, 4].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v1`);
-
     if (isUndefined(this._convertedV1)) {
-      this._convertedV1 = v2ToV1(this.asV2);
+      this._convertedV1 = v0ToV1(this.asV0);
     }
 
     return this._convertedV1;
@@ -204,14 +196,14 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
    * @description Returns the wrapped values as a V2 object
    */
   get asV2 (): MetadataV2 {
+    assert(this.metadata.version <= 2, `Cannot convert metadata from v${this.metadata.version} to v2`);
+
     if (this.metadata.version === 2) {
       return this.metadata.asV2;
     }
 
-    assert([3, 4].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v2`);
-
     if (isUndefined(this._convertedV2)) {
-      this._convertedV2 = v3ToV2(this.asV3);
+      this._convertedV2 = v1ToV2(this.asV1);
     }
 
     return this._convertedV2;
@@ -221,29 +213,37 @@ export default class MetadataVersioned extends Struct implements MetadataInterfa
    * @description Returns the wrapped values as a V3 object
    */
   get asV3 (): MetadataV3 {
+    assert(this.metadata.version <= 3, `Cannot convert metadata from v${this.metadata.version} to v3`);
+
     if (this.metadata.version === 3) {
       return this.metadata.asV3;
     }
 
-    assert([4].includes(this.metadata.version), `Cannot convert metadata from v${this.metadata.version} to v3`);
-
     if (isUndefined(this._convertedV3)) {
-      this._convertedV3 = v4ToV3(this.asV4);
+      this._convertedV3 = v2ToV3(this.asV2);
     }
 
     return this._convertedV3;
   }
 
   getUniqTypes (throwError: boolean): Array<string> {
-    return (this.metadata.value as any as MetadataInterface).getUniqTypes(throwError);
+    return this.asV4.getUniqTypes(throwError);
   }
 
   /**
-   * @description Returns the wrapped values as a V3 object
+   * @description Returns the wrapped values as a V4 object
    */
   get asV4 (): MetadataV4 {
-    assert(this.metadata.version === 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
+    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v3`);
 
-    return this.metadata.asV4;
+    if (this.metadata.version === 4) {
+      return this.metadata.asV4;
+    }
+
+    if (isUndefined(this._convertedV4)) {
+      this._convertedV4 = v3ToV4(this.asV3);
+    }
+
+    return this._convertedV4;
   }
 }

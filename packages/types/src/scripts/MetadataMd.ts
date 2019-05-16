@@ -9,7 +9,7 @@ import interfaces from '../../../type-jsonrpc/src';
 import Method from '../primitive/Method';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
-import MetadataV0 from '../Metadata/v0';
+import MetadataV4 from '../Metadata/v4';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -56,7 +56,10 @@ function addRpc () {
   }, renderHeading + renderAnchors);
 }
 
-function sortExtrinsicsSectionMethods (a: any, b: any) {
+/**
+ * Sort object by their `.name`
+ */
+function sortByName<T extends { name: any }> (a: T, b: T): number {
   // ignore upper and lowercase
   const nameA = a.name.toString().toUpperCase();
   const nameB = b.name.toString().toUpperCase();
@@ -64,14 +67,16 @@ function sortExtrinsicsSectionMethods (a: any, b: any) {
   return nameA.localeCompare(nameB);
 }
 
-function addEvents (metadata: MetadataV0) {
+function addEvents (metadata: MetadataV4) {
   const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
-  const orderedSections = metadata.events.map((i) => i).sort();
+  const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, meta) => {
-    if (!meta.events || !meta.events.length) {
+    if (meta.events.isNone || !meta.events.unwrap().length) {
       return md;
     }
+
+    const events = meta.events.unwrap();
 
     const sectionName = stringCamelCase(meta.name.toString());
 
@@ -79,11 +84,11 @@ function addEvents (metadata: MetadataV0) {
 
     const renderSection = generateSectionHeader(md, sectionName);
 
-    const orderedMethods = meta.events.sort(sortExtrinsicsSectionMethods);
+    const orderedMethods = events.sort(sortByName);
 
     return orderedMethods.reduce((md, func) => {
       const methodName = func.name.toString();
-      const args = func.arguments.map((type) => '`' + type + '`').join(', ');
+      const args = func.args.map((type) => '`' + type + '`').join(', ');
       const doc = func.documentation.reduce((md, doc) => `${md} ${doc}`, '');
       const renderSignature = `${md}\n▸ **${methodName}**(${args})`;
       const renderSummary = `${doc ? `\n- **summary**: ${doc}\n` : '\n'}`;
@@ -95,21 +100,23 @@ function addEvents (metadata: MetadataV0) {
   return renderHeading + renderAnchors + sections;
 }
 
-function addExtrinsics (metadata: MetadataV0) {
+function addExtrinsics (metadata: MetadataV4) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
-  const orderedSections = metadata.modules.map((i) => i).sort();
+  const orderedSections = metadata.modules.map((i) => i).sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, meta) => {
-    if (!meta.module.call || !meta.module.call.functions.length) {
+    if (meta.calls.isNone || !meta.calls.unwrap().length) {
       return md;
     }
+
+    const calls = meta.calls.unwrap();
 
     const sectionName = stringCamelCase(meta.prefix.toString());
 
     renderAnchors += sectionLink(sectionName);
 
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = meta.module.call.functions.sort(sortExtrinsicsSectionMethods);
+    const orderedMethods = calls.sort(sortByName);
 
     return orderedMethods.reduce((md, func) => {
       const methodName = stringCamelCase(func.name.toString());
@@ -125,21 +132,21 @@ function addExtrinsics (metadata: MetadataV0) {
   return renderHeading + renderAnchors + sections;
 }
 
-function addStorage (metadata: MetadataV0) {
+function addStorage (metadata: MetadataV4) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
-  const orderedSections = metadata.modules.sort();
+  const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
   const sections = orderedSections.reduce((md, moduleMetadata) => {
     if (moduleMetadata.storage.isNone) {
       return md;
     }
 
-    const sectionName = stringLowerFirst(moduleMetadata.storage.unwrap().prefix.toString());
+    const sectionName = stringLowerFirst(moduleMetadata.prefix.toString());
 
     renderAnchors += sectionLink(sectionName);
 
     const renderSection = generateSectionHeader(md, sectionName);
-    const orderedMethods = moduleMetadata.storage.unwrap().functions.sort();
+    const orderedMethods = moduleMetadata.storage.unwrap().sort(sortByName);
 
     return orderedMethods.reduce((md, func) => {
       const methodName = stringLowerFirst(func.name.toString());
@@ -177,22 +184,22 @@ function writeToRpcMd () {
   writeFile('docs/METHODS_RPC.md', addRpc());
 }
 
-function writeToStorageMd (metadata: MetadataV0) {
+function writeToStorageMd (metadata: MetadataV4) {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', options);
 
   writeFile('docs/METHODS_STORAGE.md', addStorage(metadata), data);
 }
 
-function writeToExtrinsicsMd (metadata: MetadataV0) {
+function writeToExtrinsicsMd (metadata: MetadataV4) {
   writeFile('docs/METHODS_EXTRINSICS.md', addExtrinsics(metadata));
 }
 
-function writeToEventsMd (metadata: MetadataV0) {
+function writeToEventsMd (metadata: MetadataV4) {
   writeFile('docs/METHODS_EVENTS.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asV0;
+const metadata = new Metadata(rpcdata).asV4;
 
 writeToRpcMd();
 writeToStorageMd(metadata);
