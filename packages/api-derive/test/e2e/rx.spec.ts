@@ -31,7 +31,6 @@ describe.skip('derive e2e', () => {
   // These derive.accounts tests only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
   describe('derive.accounts', () => {
-
     describe('idAndIndex', () => {
       it('looks up AccountId & AccountIndex from AccountId', async (done) => {
         // @ts-ignore silence warning until we have static types here

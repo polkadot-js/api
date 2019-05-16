@@ -3,22 +3,26 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { Option } from '@plugnet/types';
+import { Option, ReferendumInfo } from '@plugnet/types';
 
 import { drr } from '../util/drr';
-import { referendumInfo, ReferendumInfoExtended } from './referendumInfo';
+import { constructInfo, ReferendumInfoExtended } from './referendumInfo';
 
 export function referendumInfos (api: ApiInterface$Rx) {
-  const referendumInfoOf = referendumInfo(api);
-
   return (ids: Array<BN | number> = []): Observable<Array<Option<ReferendumInfoExtended>>> => {
-    return !ids || !ids.length
-      ? of([]).pipe(drr())
-      : combineLatest(
-        ids.map((id) => referendumInfoOf(id))
-      ).pipe(
+    return (
+      !ids || !ids.length
+        ? of([])
+        : api.query.democracy.referendumInfoOf.multi(ids) as any as Observable<Array<Option<ReferendumInfo>>>
+    ).pipe(
+        map((infos) =>
+          ids.map((id, index) =>
+            constructInfo(id, infos[index])
+          )
+        ),
         drr()
       );
   };

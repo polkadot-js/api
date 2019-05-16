@@ -45,20 +45,26 @@ export class ReferendumInfoExtended extends ReferendumInfo {
   }
 }
 
+export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
+  const info = optionInfo
+    ? optionInfo.unwrapOr(null)
+    : null;
+
+  return new Option<ReferendumInfoExtended>(
+    ReferendumInfoExtended,
+    isNull(info)
+      ? null
+      : new ReferendumInfoExtended(info, index)
+  );
+}
+
 export function referendumInfo (api: ApiInterface$Rx) {
   return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
     return (api.query.democracy.referendumInfoOf(index) as Observable<Option<ReferendumInfo>>)
       .pipe(
-        map((optionInfo) => {
-          const info = optionInfo.unwrapOr(null);
-
-          return new Option<ReferendumInfoExtended>(
-            ReferendumInfoExtended,
-            isNull(info)
-              ? null
-              : new ReferendumInfoExtended(info, index)
-          );
-        }),
+        map((optionInfo) =>
+          constructInfo(index, optionInfo)
+        ),
         drr()
       );
   };
