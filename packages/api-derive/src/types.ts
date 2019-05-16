@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Vote } from '@plugnet/types';
+import { AccountId, Balance, BlockNumber, StakingLedger, ValidatorPrefs, Vote } from '@plugnet/types';
 
 export type DerivedBalances = {
   accountId: AccountId,
@@ -15,22 +15,8 @@ export type DerivedBalances = {
   vestedBalance: Balance
 };
 
-export type DerivedFees = {
-  creationFee: BN,
-  existentialDeposit: BN,
-  transactionBaseFee: BN,
-  transactionByteFee: BN,
-  transferFee: BN
-};
-
 export type DerivedBalancesMap = {
   [index: string]: DerivedBalances
-};
-
-export type DerivedReferendumVote = {
-  accountId: AccountId,
-  balance: Balance,
-  vote: Vote
 };
 
 export type DerivedContractFees = {
@@ -46,6 +32,20 @@ export type DerivedContractFees = {
   tombstoneDeposit: BN
 };
 
+export type DerivedFees = {
+  creationFee: BN,
+  existentialDeposit: BN,
+  transactionBaseFee: BN,
+  transactionByteFee: BN,
+  transferFee: BN
+};
+
+export type DerivedReferendumVote = {
+  accountId: AccountId,
+  balance: Balance,
+  vote: Vote
+};
+
 export type DerivedSessionInfo = {
   currentIndex: BlockNumber,
   eraLength: BN,
@@ -55,4 +55,13 @@ export type DerivedSessionInfo = {
   sessionLength: BlockNumber,
   sessionsPerEra: BlockNumber,
   sessionProgress: BN
+};
+
+export type DerivedStaking = {
+  accountId: AccountId,
+  controllerId?: AccountId,
+  nextSessionId?: AccountId,
+  stakingLedger?: StakingLedger,
+  stashId?: AccountId,
+  validatorPrefs?: ValidatorPrefs
 };
