@@ -141,7 +141,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description The encoded value for the set members
    */
-  get toNumber (): number {
+  toNumber (): number {
     return this.valueEncoded;
   }
 
