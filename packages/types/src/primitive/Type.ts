@@ -83,7 +83,7 @@ export default class Type extends Text {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {
@@ -232,5 +232,12 @@ export default class Type extends Text {
 
       return value;
     };
+  }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Type';
   }
 }

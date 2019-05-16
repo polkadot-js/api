@@ -48,6 +48,16 @@ describe.skip('derive e2e', () => {
     });
   });
 
+  it('retrieves the balances', (done) => {
+    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance) => {
+      console.error(JSON.stringify(balance));
+
+      if (balance.freeBalance.gtn(1)) {
+        done();
+      }
+    });
+  });
+
   it('retrieves all session info', (done) => {
     let count = 0;
 
@@ -61,13 +71,33 @@ describe.skip('derive e2e', () => {
     });
   });
 
-  it('retrieves the balances', (done) => {
-    return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance) => {
-      console.error(JSON.stringify(balance));
+  it('retrieves all staking info (for controller)', (done) => {
+    const accountId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
-      if (balance.freeBalance.gtn(1)) {
-        done();
-      }
+    return api.derive.staking.info(accountId, (info) => {
+      console.error(JSON.stringify(info));
+
+      expect(info.accountId.eq(accountId)).toBe(true);
+      expect(info.controllerId.eq(accountId)).toBe(true);
+      expect(info.stashId.eq('5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY')).toBe(true);
+      expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
+
+      done();
+    });
+  });
+
+  it('retrieves all staking info (for stash)', (done) => {
+    const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+
+    return api.derive.staking.info(accountId, (info) => {
+      console.error(JSON.stringify(info));
+
+      expect(info.accountId.eq(accountId)).toBe(true);
+      expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
+      expect(info.stashId.eq(accountId)).toBe(true);
+      expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
+
+      done();
     });
   });
 });

@@ -62,6 +62,13 @@ export default class Json extends Map<string, any> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Json';
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString () {
