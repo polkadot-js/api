@@ -73,7 +73,7 @@ describe.skip('e2e transactions', () => {
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, nonce)
-      .send(loEvents(done));
+      .send(logEvents(done));
   });
 
   it('makes a transfer (signAndSend)', async (done) => {
