@@ -7,11 +7,9 @@ import { AnyNumber } from '../../types';
 import { assert } from '@polkadot/util';
 
 import Enum from '../../codec/Enum';
-import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
-import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
@@ -32,8 +30,6 @@ export class StorageFunctionModifier extends Enum {
     return this.toString();
   }
 }
-
-export class DoubleMapType extends Null {}
 
 export class MapType extends Struct {
   private _isLinked = false;
@@ -74,22 +70,12 @@ export class MapType extends Struct {
 export class PlainType extends Type {
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType> {
+export class StorageFunctionType extends Enum {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
-      MapType,
-      DoubleMapType
+      MapType
     }, value, index);
-  }
-
-  /**
-   * @description The value as a mapped value
-   */
-  get asDoubleMap (): DoubleMapType {
-    assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
-
-    return this.value as DoubleMapType;
   }
 
   /**
@@ -111,13 +97,6 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
   }
 
   /**
-   * @description `true` if the storage entry is a double map
-   */
-  get isDoubleMap (): boolean {
-    return this.toNumber() === 2;
-  }
-
-  /**
    * @description `true` if the storage entry is a map
    */
   get isMap (): boolean {
@@ -135,9 +114,7 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
    * @description Returns the string representation of the value
    */
   toString (): string {
-    if (this.isDoubleMap) {
-      return `DoubleMap<${this.asDoubleMap.toString()}>`;
-    } else if (this.isMap) {
+    if (this.isMap) {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }

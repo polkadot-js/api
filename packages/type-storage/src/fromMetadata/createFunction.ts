@@ -2,15 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v0/Storage';
+import { createType, Bytes, Compact, StorageKey, Text, U8a } from '@polkadot/types';
+import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
-import { Compact, Text, createType, StorageKey, Bytes, U8a } from '@polkadot/types';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
-import { xxhashAsU8a } from '@polkadot/util-crypto';
+
+import getHasher from './getHasher';
 
 export interface CreateItemOptions {
-  isUnhashed?: boolean;
   key?: string;
+  skipHashing?: boolean; // We don't hash the keys defined in ./substrate.ts
 }
 
 /**
@@ -29,6 +30,12 @@ export default function createFunction (section: Text | string, method: Text | s
     : `${section.toString()} ${method.toString()}`;
   const rawKey = stringToU8a(stringKey);
 
+  // Get the hashing function
+  // FIXME Hash correctly for double map too
+  const hasher = meta.type.isMap
+    ? getHasher(meta.type.asMap.hasher)
+    : getHasher();
+
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
   // - storage.timestamp.blockPeriod()
@@ -38,22 +45,21 @@ export default function createFunction (section: Text | string, method: Text | s
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 
       const type = meta.type.asMap.key.toString();
-      const param = createType(type, arg).toU8a(false);
+      const param = createType(type, arg).toU8a();
 
       key = u8aConcat(key, param);
     }
 
     // StorageKey is a Bytes, so is length-prefixed
     return Compact.addLengthPrefix(
-      options.isUnhashed
+      options.skipHashing
         ? key
-        : xxhashAsU8a(key, 128)
+        : hasher(key)
     );
   };
 
   if (meta.type.isMap && meta.type.asMap.isLinked) {
-    // TODO: there needs some better way to do this
-    const keyHash = new U8a(xxhashAsU8a(`head of ${stringKey}`, 128));
+    const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = () => keyHash;
     keyFn.meta = new StorageFunctionMetadata({
       name: meta.name,

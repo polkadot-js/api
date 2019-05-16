@@ -6,7 +6,7 @@ import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
 
-import EnumType from '../../codec/EnumType';
+import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
@@ -64,7 +64,7 @@ export class DoubleMapType extends Struct {
   }
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionType extends Enum {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -127,7 +127,9 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
   toString (): string {
     if (this.isDoubleMap) {
       return `DoubleMap<${this.asDoubleMap.toString()}>`;
-    } else if (this.isMap) {
+    }
+
+    if (this.isMap) {
       if (this.asMap.isLinked) {
         return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
       }

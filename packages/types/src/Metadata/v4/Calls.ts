@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import MetadataV2 from '../v2/Metadata';
-import MetadataV3 from '.';
-
-export default function toV2 (v2: MetadataV3): MetadataV2 {
-  return new MetadataV2(v2);
-}
+// Re-export classes that haven't changed between V3 and V4
+export {
+  FunctionArgumentMetadata,
+  FunctionMetadata
+} from '../v3/Calls';
