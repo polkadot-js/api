@@ -81,9 +81,7 @@ export default class ExtrinsicStatus extends Enum {
       Broadcast,
       Dropped,
       Invalid
-    }, value, index, {
-      'Finalised': 'Finalized' // old UK spelling to US spelling
-    });
+    }, value, index);
   }
 
   /**

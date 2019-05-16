@@ -20,10 +20,6 @@ type Decoded = {
   value: Codec
 };
 
-type Aliasses = {
-  [index: string]: string
-};
-
 /**
  * @name Enum
  * @description
@@ -39,9 +35,9 @@ export default class Enum extends Base<Codec> implements Codec {
   private _indexes: Array<number>;
   private _isBasic: boolean;
 
-  constructor (def: TypesDef | Array<string>, value?: any, index?: number | Enum, aliasses?: Aliasses) {
+  constructor (def: TypesDef | Array<string>, value?: any, index?: number | Enum) {
     const defInfo = Enum.extractDef(def);
-    const decoded = Enum.decodeEnum(defInfo.def, aliasses || {}, value, index);
+    const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
     super(decoded.value);
 
@@ -69,7 +65,7 @@ export default class Enum extends Base<Codec> implements Codec {
     };
   }
 
-  private static decodeEnum (def: TypesDef, aliasses: Aliasses, value?: any, index?: number | Enum): Decoded {
+  private static decodeEnum (def: TypesDef, value?: any, index?: number | Enum): Decoded {
     // If `index` is set, we parse it.
     if (index instanceof Enum) {
       return Enum.createValue(def, index._index, index.raw);
@@ -78,10 +74,10 @@ export default class Enum extends Base<Codec> implements Codec {
     }
 
     // Or else, we just look at `value`
-    return Enum.decodeViaValue(def, aliasses, value);
+    return Enum.decodeViaValue(def, value);
   }
 
-  private static decodeViaValue (def: TypesDef, aliasses: Aliasses, value?: any): Decoded {
+  private static decodeViaValue (def: TypesDef, value?: any): Decoded {
     if (value instanceof Enum) {
       return Enum.createValue(def, value._index, value.raw);
     } else if (isU8a(value)) {
@@ -92,32 +88,24 @@ export default class Enum extends Base<Codec> implements Codec {
       const _str = value.toString();
 
       return isHex(_str)
-        ? Enum.decodeViaValue(def, aliasses, hexToU8a(_str))
-        : Enum.createViaJSON(def, aliasses, _str);
+        ? Enum.decodeViaValue(def, hexToU8a(_str))
+        : Enum.createViaJSON(def, _str);
     } else if (isObject(value)) {
       const key = Object.keys(value)[0];
 
-      return Enum.createViaJSON(def, aliasses, key, value[key]);
+      return Enum.createViaJSON(def, key, value[key]);
     }
 
     // Worst-case scenario, return the first with default
     return Enum.createValue(def, 0);
   }
 
-  private static createViaJSON (def: TypesDef, _aliasses: Aliasses, key: string, value?: any) {
+  private static createViaJSON (def: TypesDef, key: string, value?: any) {
     // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
     // additionally force to lower to ensure forward compat
     const keys = Object.keys(def).map((k) => k.toLowerCase());
-
-    // FIXME This whole lookup process is not vey efficient
     const keyLower = key.toLowerCase();
-    const aliasses = Object.keys(_aliasses).reduce((aliasses, a) => {
-      aliasses[a.toLowerCase()] = _aliasses[a].toLowerCase();
-
-      return aliasses;
-    }, {} as Aliasses);
-    const aliasKey = aliasses[keyLower] || keyLower;
-    const index = keys.indexOf(aliasKey);
+    const index = keys.indexOf(keyLower);
 
     assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
