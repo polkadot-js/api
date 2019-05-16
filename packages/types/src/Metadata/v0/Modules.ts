@@ -39,13 +39,21 @@ export class FunctionMetadata extends Struct {
     super({
       id: U16,
       name: Text,
-      arguments: Vector.with(FunctionArgumentMetadata),
+      args: Vector.with(FunctionArgumentMetadata),
       documentation: Vector.with(Text)
     }, value);
   }
 
   /**
+   * @description The arguments of [[Type]]
+   */
+  get args (): Vector<FunctionArgumentMetadata> {
+    return this.get('args') as Vector<FunctionArgumentMetadata>;
+  }
+
+  /**
    * @description The [[FunctionArgumentMetadata]] for arguments
+   * @deprecated Use `.args` instead
    */
   get arguments (): Vector<FunctionArgumentMetadata> {
     return this.get('arguments') as Vector<FunctionArgumentMetadata>;
@@ -103,7 +111,6 @@ export class CallMetadata extends Struct {
     return this.get('name') as Text;
   }
 }
-
 export class ModuleMetadata extends Struct {
   constructor (value?: any) {
     super({
@@ -113,7 +120,7 @@ export class ModuleMetadata extends Struct {
   }
 
   /**
-   * @description The calls as [[CallMetadata]]
+   * @description The calls as [[FunctionMetadata]]
    */
   get call (): CallMetadata {
     return this.get('call') as CallMetadata;

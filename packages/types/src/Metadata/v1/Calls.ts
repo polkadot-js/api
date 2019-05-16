@@ -7,7 +7,7 @@ import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
-export class MetadataCallArg extends Struct {
+export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
@@ -31,27 +31,24 @@ export class MetadataCallArg extends Struct {
 }
 
 /**
- * @name MetadataCall
+ * @name FunctionMetadata
  * @description
  * The definition of a call
  */
-export class MetadataCall extends Struct {
+export class FunctionMetadata extends Struct {
   constructor (value?: any) {
     super({
-      // NOTE Just commented out, it is not available in current, but an open question
-      // around the usefulness of supplying this remains (could be re-added)
-      // id: u16,
       name: Text,
-      args: Vector.with(MetadataCallArg),
+      args: Vector.with(FunctionArgumentMetadata),
       documentation: Vector.with(Text)
     }, value);
   }
 
   /**
-   * @description The [[MetadataCallArg]] for arguments
+   * @description The [[FunctionArgumentMetadata]] for arguments
    */
-  get args (): Vector<MetadataCallArg> {
-    return this.get('args') as Vector<MetadataCallArg>;
+  get args (): Vector<FunctionArgumentMetadata> {
+    return this.get('args') as Vector<FunctionArgumentMetadata>;
   }
 
   /**
@@ -68,13 +65,6 @@ export class MetadataCall extends Struct {
   get docs (): Vector<Text> {
     return this.documentation;
   }
-
-  // /**
-  //  * @description The call function id
-  //  */
-  // get id (): u16 {
-  //   return this.get('id') as u16;
-  // }
 
   /**
    * @description The call name

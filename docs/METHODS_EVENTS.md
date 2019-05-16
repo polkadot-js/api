@@ -50,6 +50,9 @@ ___
 ▸ **CodeStored**(`Hash`)
 - **summary**:   Code with the specified hash has been stored.
 
+▸ **Contract**(`AccountId`, `Bytes`)
+- **summary**:   An event from contract of account.
+
 ▸ **Dispatched**(`AccountId`, `bool`)
 - **summary**:   A call was dispatched from the given account. The bool signals whether it was  successful execution or not.
 
@@ -163,10 +166,10 @@ ___
 ### staking
 
 ▸ **OfflineSlash**(`AccountId`, `Balance`)
-- **summary**:   One validator (and their nominators) has been slashed by the given amount.
+- **summary**:   One validator (and its nominators) has been slashed by the given amount.
 
 ▸ **OfflineWarning**(`AccountId`, `u32`)
-- **summary**:   One validator (and their nominators) has been given a offline-warning (they're still  within their grace). The accrued number of slashes is recorded, too.
+- **summary**:   One validator (and its nominators) has been given an offline-warning (it is still  within its grace). The accrued number of slashes is recorded, too.
 
 ▸ **Reward**(`Balance`)
 - **summary**:   All validators have been rewarded by the given balance.

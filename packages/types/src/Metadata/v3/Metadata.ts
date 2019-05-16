@@ -10,38 +10,38 @@ import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
 import { flattenUniq, validateTypes } from '../util';
 
-import { MetadataCall } from '../v1/Calls';
-import { MetadataEvent } from '../v1/Events';
+import { FunctionMetadata } from './Calls';
+import { EventMetadata } from './Events';
 import { StorageFunctionMetadata } from './Storage';
 
 /**
- * @name MetadataModule
+ * @name ModuleMetadata
  * @description
  * The definition of a module in the system
  */
-export class MetadataModule extends Struct {
+export class ModuleMetadata extends Struct {
   constructor (value?: any) {
     super({
       name: Text,
       prefix: Text,
       storage: Option.with(Vector.with(StorageFunctionMetadata)),
-      calls: Option.with(Vector.with(MetadataCall)),
-      events: Option.with(Vector.with(MetadataEvent))
+      calls: Option.with(Vector.with(FunctionMetadata)),
+      events: Option.with(Vector.with(EventMetadata))
     }, value);
   }
 
   /**
    * @description the module calls
    */
-  get calls (): Option<Vector<MetadataCall>> {
-    return this.get('calls') as Option<Vector<MetadataCall>>;
+  get calls (): Option<Vector<FunctionMetadata>> {
+    return this.get('calls') as Option<Vector<FunctionMetadata>>;
   }
 
   /**
    * @description the module events
    */
-  get events (): Option<Vector<MetadataEvent>> {
-    return this.get('events') as Option<Vector<MetadataEvent>>;
+  get events (): Option<Vector<EventMetadata>> {
+    return this.get('events') as Option<Vector<EventMetadata>>;
   }
 
   /**
@@ -71,18 +71,18 @@ export class MetadataModule extends Struct {
  * @description
  * The runtime metadata as a decoded structure
  */
-export default class MetadataV3 extends Struct implements MetadataInterface {
+export default class MetadataV3 extends Struct implements MetadataInterface<ModuleMetadata> {
   constructor (value?: any) {
     super({
-      modules: Vector.with(MetadataModule)
+      modules: Vector.with(ModuleMetadata)
     }, value);
   }
 
   /**
    * @description The associated modules for this structure
    */
-  get modules (): Vector<MetadataModule> {
-    return this.get('modules') as Vector<MetadataModule>;
+  get modules (): Vector<ModuleMetadata> {
+    return this.get('modules') as Vector<ModuleMetadata>;
   }
 
   private get callNames () {

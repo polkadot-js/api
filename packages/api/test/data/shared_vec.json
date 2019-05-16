@@ -1,0 +1,102 @@
+{
+  "name": "SharedVec",
+  "deploy": {
+      "args": []
+  },
+  "messages": [
+      {
+          "name": "push",
+          "selector": 865577567,
+          "mutates": true,
+          "args": [
+              {
+                  "name": "value",
+                  "type": "i32"
+              }
+          ],
+          "return_type": {
+              "Result<T,E>": {
+                  "T": [],
+                  "E": "u32"
+              }
+          }
+      },
+      {
+          "name": "register",
+          "selector": 572030971,
+          "mutates": true,
+          "args": [
+              {
+                  "name": "mutator",
+                  "type": "AccountId"
+              },
+              {
+                  "name": "begin",
+                  "type": {
+                      "Option<T>": {
+                          "T": "u32"
+                      }
+                  }
+              },
+              {
+                  "name": "end",
+                  "type": {
+                      "Option<T>": {
+                          "T": "u32"
+                      }
+                  }
+              }
+          ],
+          "return_type": {
+              "Result<T,E>": {
+                  "T": [],
+                  "E": "u32"
+              }
+          }
+      },
+      {
+          "name": "set",
+          "selector": 2028185770,
+          "mutates": true,
+          "args": [
+              {
+                  "name": "at",
+                  "type": "u32"
+              },
+              {
+                  "name": "to",
+                  "type": "i32"
+              }
+          ],
+          "return_type": {
+              "Result<T,E>": {
+                  "T": "i32",
+                  "E": "u32"
+              }
+          }
+      },
+      {
+          "name": "get",
+          "selector": 4266279973,
+          "mutates": false,
+          "args": [
+              {
+                  "name": "at",
+                  "type": "u32"
+              }
+          ],
+          "return_type": {
+              "Option<T>": {
+                  "T": "i32"
+              }
+          }
+      },
+      {
+          "name": "len",
+          "selector": 1403873684,
+          "mutates": false,
+          "args": [],
+          "return_type": "u32"
+      }
+  ]
+}
