@@ -20,12 +20,24 @@ const SET_ROLES = {
 
 describe('Set', () => {
   it('constructs via an Array<string>', () => {
-    const set = new Set(SET_ROLES, ['full', 'authority', 'invalid']);
+    const set = new Set(SET_ROLES, ['full', 'authority']);
 
     expect(set.isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
       '[full, authority]'
     );
+  });
+
+  it('throws with invalid values', () => {
+    expect(
+      () => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
+    ).toThrow(/Invalid key 'invalid'/);
+  });
+
+  it('throws with add on invalid', () => {
+    expect(
+      () => (new Set(SET_ROLES, [])).add('invalid')
+    ).toThrow(/Invalid key 'invalid'/);
   });
 
   it('constructs via Uint8Array', () => {

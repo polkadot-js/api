@@ -55,10 +55,7 @@ export default class StoredPendingChange extends Struct {
       scheduledAt: BlockNumber,
       delay: BlockNumber,
       nextAuthorities: Vector.with(NextAuthority)
-    }, value, new Map([
-      ['scheduledAt', 'scheduled_at'],
-      ['nextAuthorities', 'next_authorities']
-    ]));
+    }, value);
   }
 
   get delay (): BlockNumber {

@@ -4,7 +4,7 @@
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import AccountId from './AccountId';
+import AccountId from '../primitive/AccountId';
 import Balance from './Balance';
 
 /**
