@@ -32,8 +32,6 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = new BlockNumber(
   } as VestingSchedule);
 
   const vestedBalance = new Balance(perBlock.mul(bestNumber).add(freeBalance.sub(offset)));
-
-  // const availableBalance = lockedBalance.eq(new BlockNumber('0xffffffffffffffffffffffffffffffff')) ? new Balance(0) : freeBalance && new Balance(freeBalance.sub(lockedBalance));
   const availableBalance = new Balance(vestedBalance.sub(lockedBalance));
 
   return {
