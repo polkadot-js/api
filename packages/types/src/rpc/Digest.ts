@@ -9,11 +9,11 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
+import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
-import AuthorityId from './AuthorityId';
-import Hash from './Hash';
-import Signature from './Signature';
+import AuthorityId from '../type/AuthorityId';
+import Signature from '../type/Signature';
 
 /**
  * @name AuthoritiesChange

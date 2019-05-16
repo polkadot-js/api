@@ -8,10 +8,6 @@
 /**
  * @summary Type definitions that are used in the system
  */
-export { default as AccountId, AccountIdOf } from './AccountId';
-export { default as AccountIndex } from './AccountIndex';
-export { default as AccountInfo } from './AccountInfo';
-export { default as Address } from './Address';
 export { default as Amount } from './Amount';
 export { default as AssetOf } from './AssetOf';
 export { default as AttestedCandidate } from './AttestedCandidate';
@@ -20,13 +16,9 @@ export { default as Balance, BalanceOf } from './Balance';
 export { default as BalanceLock } from './BalanceLock';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;
-export { default as Block } from './Block';
 export { default as BlockNumber } from './BlockNumber';
 export { default as CodeHash } from './CodeHash';
 export { default as ContractInfo } from './ContractInfo';
-export { default as Digest, DigestItem } from './Digest';
-export { default as Event, EventIndex } from './Event';
-export { default as EventRecord, EventRecord77 } from './EventRecord';
 export { default as Exposure } from './Exposure';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
@@ -34,8 +26,6 @@ export { default as ExtrinsicSignature } from './ExtrinsicSignature';
 // NOTE Only used internally, exported as PendingExtrinsics
 // export { default as Extrinsics } from './Extrinsics';
 export { default as Gas } from './Gas';
-export { default as Hash } from './Hash';
-export { default as Header, HeaderExtended } from './Header';
 export { default as IndividualExposure } from './IndividualExposure';
 export { default as InherentOfflineReport } from './InherentOfflineReport';
 export { default as Key } from './Key';
@@ -48,7 +38,6 @@ export { default as NewAccountOutcome } from './NewAccountOutcome';
 export { default as Index } from './Nonce';
 export { default as IndexCompact } from './NonceCompact';
 export { default as Justification } from './Justification';
-export { default as Origin } from './Origin';
 export { default as ParaId } from './ParaId';
 export { default as Permill } from './Permill';
 export { default as Perbill } from './Perbill';
