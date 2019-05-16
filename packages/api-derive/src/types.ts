@@ -47,12 +47,12 @@ export type DerivedContractFees = {
 };
 
 export type DerivedSessionInfo = {
-  currentIndex?: BlockNumber,
+  currentIndex: BlockNumber,
   eraLength: BN,
   eraProgress: BN,
-  lastEraLengthChange?: BlockNumber,
+  lastEraLengthChange: BlockNumber,
   lastLengthChange: BN,
-  sessionLength?: BlockNumber,
-  sessionsPerEra?: BlockNumber,
+  sessionLength: BlockNumber,
+  sessionsPerEra: BlockNumber,
   sessionProgress: BN
 };
