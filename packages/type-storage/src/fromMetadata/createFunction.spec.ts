@@ -26,8 +26,8 @@ describe('createFunction', () => {
         'authorityCount',
         { type: {} } as any,
         {
-          skipHashing: true,
-          key: ':auth:len'
+          key: ':auth:len',
+          skipHashing: true
         }
       ).method
     ).toEqual('authorityCount');
@@ -42,8 +42,8 @@ describe('createFunction', () => {
         'authorityCount',
         { type: {} } as any,
         {
-          skipHashing: true,
-          key
+          key,
+          skipHashing: true
         }
       )()
     ).toEqual(
