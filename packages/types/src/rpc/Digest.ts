@@ -4,7 +4,7 @@
 
 import { assert } from '@plugnet/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
@@ -119,10 +119,9 @@ export class Consensus extends Tuple {
 /**
  * @name DigestItem
  * @description
- * A [[EnumType]] the specifies the specific item in the logs of a [[Digest]]
+ * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
-export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
-  | Seal> {
+export class DigestItem extends Enum {
   constructor (value: any) {
     super({
       Other, // Position 0, as per Rust (encoding control)

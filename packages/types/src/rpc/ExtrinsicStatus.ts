@@ -4,7 +4,7 @@
 
 import { assert } from '@plugnet/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
@@ -69,9 +69,9 @@ export class Usurped extends Hash {
 /**
  * @name ExtrinsicStatus
  * @description
- * An [[EnumType]] that indicates the status of the [[Extrinsic]] as been submitted
+ * An [[Enum]] that indicates the status of the [[Extrinsic]] as been submitted
  */
-export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized | Usurped | Broadcast | Dropped | Invalid> {
+export default class ExtrinsicStatus extends Enum {
   constructor (value: any, index?: number) {
     super({
       Future,
@@ -81,9 +81,7 @@ export default class ExtrinsicStatus extends EnumType<Future | Ready | Finalized
       Broadcast,
       Dropped,
       Invalid
-    }, value, index, {
-      'Finalised': 'Finalized' // old UK spelling to US spelling
-    });
+    }, value, index);
   }
 
   /**

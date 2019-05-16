@@ -4,9 +4,8 @@
 
 import { assert, isUndefined } from '@plugnet/util';
 
-import EnumType from '../codec/EnumType';
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
-import Null from '../primitive/Null';
 import MagicNumber from './MagicNumber';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
@@ -18,10 +17,7 @@ import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
 import v3ToV4 from './v3/toV4';
 
-class MetadataDeprecated extends Null {
-}
-
-class MetadataEnum extends EnumType<MetadataDeprecated | MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
+class MetadataEnum extends Enum {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated

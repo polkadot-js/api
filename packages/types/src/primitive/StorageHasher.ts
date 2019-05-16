@@ -6,7 +6,13 @@ import Enum from '../codec/Enum';
 
 export default class StorageHasher extends Enum {
   constructor (value?: any) {
-    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
+    super([
+      'Blake2_128',
+      'Blake2_256',
+      'Twox128',
+      'Twox256',
+      'Twox128Concat'
+    ], value);
   }
 
   /**

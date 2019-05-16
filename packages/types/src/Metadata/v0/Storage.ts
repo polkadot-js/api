@@ -7,7 +7,6 @@ import { AnyNumber } from '../../types';
 import { assert } from '@plugnet/util';
 
 import Enum from '../../codec/Enum';
-import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
@@ -71,7 +70,7 @@ export class MapType extends Struct {
 export class PlainType extends Type {
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType> {
+export class StorageFunctionType extends Enum {
   constructor (value?: any, index?: number) {
     super({
       PlainType,

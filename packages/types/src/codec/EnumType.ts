@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, ConstructorDef } from '../types';
+import { Codec, Constructor } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@plugnet/util';
 
@@ -20,12 +20,8 @@ type Decoded = {
   value: Codec
 };
 
-type Aliasses = {
-  [index: string]: string
-};
-
 /**
- * @name EnumType
+ * @name Enum
  * @description
  * This implements an enum, that based on the value wraps a different type. It is effectively
  * an extension to enum where the value type is determined by the actual index.
@@ -33,80 +29,93 @@ type Aliasses = {
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-export default class EnumType<T> extends Base<Codec> implements Codec {
+export default class Enum extends Base<Codec> implements Codec {
   private _def: TypesDef;
   private _index: number;
   private _indexes: Array<number>;
+  private _isBasic: boolean;
 
-  constructor (def: TypesDef, value?: any, index?: number | EnumType<T>, aliasses?: Aliasses) {
-    const decoded = EnumType.decodeEnumType(def, aliasses || {}, value, index);
+  constructor (def: TypesDef | Array<string>, value?: any, index?: number | Enum) {
+    const defInfo = Enum.extractDef(def);
+    const decoded = Enum.decodeEnum(defInfo.def, value, index);
 
     super(decoded.value);
 
-    this._def = def;
-    this._indexes = Object.keys(def).map((_, index) => index);
+    this._def = defInfo.def;
+    this._isBasic = defInfo.isBasic;
+    this._indexes = Object.keys(defInfo.def).map((_, index) => index);
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static decodeEnumType<T> (def: TypesDef, aliasses: Aliasses, value?: any, index?: number | EnumType<T>): Decoded {
+  private static extractDef (def: TypesDef | Array<string>): { def: TypesDef, isBasic: boolean } {
+    if (!Array.isArray(def)) {
+      return {
+        def,
+        isBasic: false
+      };
+    }
+
+    return {
+      def: def.reduce((def, key) => {
+        def[key] = Null;
+
+        return def;
+      }, {} as TypesDef),
+      isBasic: true
+    };
+  }
+
+  private static decodeEnum (def: TypesDef, value?: any, index?: number | Enum): Decoded {
     // If `index` is set, we parse it.
-    if (index instanceof EnumType) {
-      return EnumType.createValue(def, index._index, index.raw);
+    if (index instanceof Enum) {
+      return Enum.createValue(def, index._index, index.raw);
     } else if (isNumber(index)) {
-      return EnumType.createValue(def, index, value);
+      return Enum.createValue(def, index, value);
     }
 
     // Or else, we just look at `value`
-    return EnumType.decodeViaValue(def, aliasses, value);
+    return Enum.decodeViaValue(def, value);
   }
 
-  private static decodeViaValue (def: TypesDef, aliasses: Aliasses, value?: any): Decoded {
-    if (value instanceof EnumType) {
-      return EnumType.createValue(def, value._index, value.raw);
+  private static decodeViaValue (def: TypesDef, value?: any): Decoded {
+    if (value instanceof Enum) {
+      return Enum.createValue(def, value._index, value.raw);
     } else if (isU8a(value)) {
-      return EnumType.createValue(def, value[0], value.subarray(1));
+      return Enum.createValue(def, value[0], value.subarray(1));
     } else if (isNumber(value)) {
-      return EnumType.createValue(def, value);
+      return Enum.createValue(def, value);
     } else if (isString(value)) {
       const _str = value.toString();
 
       return isHex(_str)
-        ? EnumType.decodeViaValue(def, aliasses, hexToU8a(_str))
-        : EnumType.createViaJSON(def, aliasses, _str);
+        ? Enum.decodeViaValue(def, hexToU8a(_str))
+        : Enum.createViaJSON(def, _str);
     } else if (isObject(value)) {
       const key = Object.keys(value)[0];
 
-      return EnumType.createViaJSON(def, aliasses, key, value[key]);
+      return Enum.createViaJSON(def, key, value[key]);
     }
 
     // Worst-case scenario, return the first with default
-    return EnumType.createValue(def, 0);
+    return Enum.createValue(def, 0);
   }
 
-  private static createViaJSON (def: TypesDef, _aliasses: Aliasses, key: string, value?: any) {
+  private static createViaJSON (def: TypesDef, key: string, value?: any) {
     // JSON comes in the form of { "<type (lowercased)>": "<value for type>" }, here we
     // additionally force to lower to ensure forward compat
     const keys = Object.keys(def).map((k) => k.toLowerCase());
-
-    // FIXME This whole lookup process is not vey efficient
     const keyLower = key.toLowerCase();
-    const aliasses = Object.keys(_aliasses).reduce((aliasses, a) => {
-      aliasses[a.toLowerCase()] = _aliasses[a].toLowerCase();
+    const index = keys.indexOf(keyLower);
 
-      return aliasses;
-    }, {} as Aliasses);
-    const aliasKey = aliasses[keyLower] || keyLower;
-    const index = keys.indexOf(aliasKey);
+    assert(index !== -1, `Cannot map Enum JSON, unable to find '${key}' in ${keys.join(', ')}`);
 
-    assert(index !== -1, `Cannot map EnumType JSON, unable to find '${key}' in ${keys.join(', ')}`);
-
-    return EnumType.createValue(def, index, value);
+    return Enum.createValue(def, index, value);
   }
 
   private static createValue (def: TypesDef, index: number = 0, value?: any): Decoded {
     const Clazz = Object.values(def)[index];
 
-    assert(!isUndefined(Clazz), `Unable to create EnumType via index ${index}, in ${Object.keys(def).join(', ')}`);
+    assert(!isUndefined(Clazz), `Unable to create Enum via index ${index}, in ${Object.keys(def).join(', ')}`);
 
     return {
       index,
@@ -114,10 +123,8 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     };
   }
 
-  static with<
-    S extends ConstructorDef
-  > (Types: S): EnumConstructor<EnumType<S>> {
-    return class extends EnumType<S> {
+  static with (Types: TypesDef | Array<string>): EnumConstructor<Enum> {
+    return class extends Enum {
       constructor (value?: any, index?: number) {
         super(Types, value, index);
       }
@@ -180,6 +187,8 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     // cater for the case where we only pass the enum index
     if (isNumber(other)) {
       return this.toNumber() === other;
+    } else if (this._isBasic && isString(other)) {
+      return this.type === other;
     }
 
     // compare the actual wrapper value
@@ -197,9 +206,9 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
-    return {
-      [this.type]: this.raw.toJSON()
-    };
+    return this._isBasic
+      ? this._index
+      : { [this.type]: this.raw.toJSON() };
   }
 
   /**

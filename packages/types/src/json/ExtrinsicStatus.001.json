@@ -3,7 +3,7 @@
   "method": "author_extrinsicUpdate",
   "params": {
     "result": {
-      "finalised": "0xc465b92a72b1d20918d64cd4effa70c2bb58b53a3f8c24c3ac8fd8f465f059b4"
+      "finalized": "0xc465b92a72b1d20918d64cd4effa70c2bb58b53a3f8c24c3ac8fd8f465f059b4"
     },
     "subscription": 9
   }
