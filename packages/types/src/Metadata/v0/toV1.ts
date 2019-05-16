@@ -46,7 +46,7 @@ export default function toV1 (metadataV0: MetadataV0): MetadataV1 {
       // The prefix of this module (capitalized)
       const prefix = modul.storage.isSome
         ? modul.storage.unwrap().prefix.toString()
-        : stringUpperFirst(modul.prefix.toString());
+        : stringUpperFirst(modul.prefix.toString()); // If this module doesn't have storage, we just assume the prefix is the name capitalized
 
       return new ModuleMetadata({
         name: modul.prefix, // Not capitalized
