@@ -120,7 +120,7 @@ export class BftDoubleCommit extends BftAtReport {
  * @description
  * An [[EnumType]] containing a Bft misbehaviour
  */
-export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePropose | BftDoublePrepare | BftDoubleCommit> {
+export class MisbehaviorKind extends EnumType {
   constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
     super({
       BftProposeOutOfTurn,

@@ -8,7 +8,6 @@ import { assert, isUndefined } from '@polkadot/util';
 
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
-import Null from '../primitive/Null';
 import MagicNumber from './MagicNumber';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
@@ -20,10 +19,7 @@ import v2ToV1 from './v2/toV1';
 import v3ToV2 from './v3/toV2';
 import v4ToV3 from './v4/toV3';
 
-class MetadataDeprecated extends Null {
-}
-
-class MetadataEnum extends EnumType<MetadataDeprecated | MetadataV0 | MetadataV1 | MetadataV2 | MetadataV3 | MetadataV4> {
+class MetadataEnum extends EnumType {
   constructor (value?: any) {
     super({
       MetadataV0, // once rolled-out, can replace this with MetadataDeprecated

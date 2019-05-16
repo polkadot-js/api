@@ -2,11 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Enum from '../codec/Enum';
+import EnumType from '../codec/EnumType';
 
-export default class StorageHasher extends Enum {
+export default class StorageHasher extends EnumType {
   constructor (value?: any) {
-    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
+    super([
+      'Blake2_128',
+      'Blake2_256',
+      'Twox128',
+      'Twox256',
+      'Twox128Concat'
+    ], value);
   }
 
   /**

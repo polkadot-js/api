@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Enum from '../codec/Enum';
+import EnumType from '../codec/EnumType';
 
 /**
  * @name VoteThreshold
  * @description
  * Voting threshold, used inside proposals to set change the voting tally
  */
-export default class VoteThreshold extends Enum {
+export default class VoteThreshold extends EnumType {
   constructor (index?: number | Uint8Array) {
     super([
       'Super majority approval',

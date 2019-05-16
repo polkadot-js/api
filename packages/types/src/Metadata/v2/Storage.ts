@@ -55,7 +55,7 @@ export class MapType extends Struct {
   }
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType> {
+export class StorageFunctionType extends EnumType {
   constructor (value?: any, index?: number) {
     super({
       PlainType,

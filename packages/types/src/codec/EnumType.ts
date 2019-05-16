@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor, ConstructorDef } from '../types';
+import { Codec, Constructor } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -33,22 +33,35 @@ type Aliasses = {
 // TODO:
 //   - As per Enum, actually use TS enum
 //   - It should rather probably extend Enum instead of copying code
-export default class EnumType<T> extends Base<Codec> implements Codec {
+export default class EnumType extends Base<Codec> implements Codec {
   private _def: TypesDef;
   private _index: number;
   private _indexes: Array<number>;
 
-  constructor (def: TypesDef, value?: any, index?: number | EnumType<T>, aliasses?: Aliasses) {
-    const decoded = EnumType.decodeEnumType(def, aliasses || {}, value, index);
+  constructor (def: TypesDef | Array<string>, value?: any, index?: number | EnumType, aliasses?: Aliasses) {
+    const _def = EnumType.convertDef(def);
+    const decoded = EnumType.decodeEnumType(_def, aliasses || {}, value, index);
 
     super(decoded.value);
 
-    this._def = def;
-    this._indexes = Object.keys(def).map((_, index) => index);
+    this._def = _def;
+    this._indexes = Object.keys(_def).map((_, index) => index);
     this._index = this._indexes.indexOf(decoded.index) || 0;
   }
 
-  private static decodeEnumType<T> (def: TypesDef, aliasses: Aliasses, value?: any, index?: number | EnumType<T>): Decoded {
+  private static convertDef (def: TypesDef | Array<string>): TypesDef {
+    if (!Array.isArray(def)) {
+      return def;
+    }
+
+    return def.reduce((def, key) => {
+      def[key] = Null;
+
+      return def;
+    }, {} as TypesDef);
+  }
+
+  private static decodeEnumType (def: TypesDef, aliasses: Aliasses, value?: any, index?: number | EnumType): Decoded {
     // If `index` is set, we parse it.
     if (index instanceof EnumType) {
       return EnumType.createValue(def, index._index, index.raw);
@@ -114,10 +127,8 @@ export default class EnumType<T> extends Base<Codec> implements Codec {
     };
   }
 
-  static with<
-    S extends ConstructorDef
-  > (Types: S): EnumConstructor<EnumType<S>> {
-    return class extends EnumType<S> {
+  static with (Types: TypesDef | Array<string>): EnumConstructor<EnumType> {
+    return class extends EnumType {
       constructor (value?: any, index?: number) {
         super(Types, value, index);
       }

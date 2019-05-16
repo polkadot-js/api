@@ -121,8 +121,7 @@ export class Consensus extends Tuple {
  * @description
  * A [[EnumType]] the specifies the specific item in the logs of a [[Digest]]
  */
-export class DigestItem extends EnumType<AuthoritiesChange | ChangesTrieRoot | Other
-  | Seal> {
+export class DigestItem extends EnumType {
   constructor (value: any) {
     super({
       Other, // Position 0, as per Rust (encoding control)

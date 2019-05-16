@@ -62,7 +62,7 @@ export class Tombstone extends TombstoneContractInfo {
  * @description
  * The contract information for a given contract
  */
-export default class ContractInfo extends EnumType<Alive | Tombstone> {
+export default class ContractInfo extends EnumType {
   constructor (value?: any) {
     super({
       Alive,

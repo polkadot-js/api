@@ -66,7 +66,7 @@ describe('Struct', () => {
     class A extends Null { }
     class B extends Null { }
     class C extends Null { }
-    class Test extends EnumType<A | B | C> {
+    class Test extends EnumType {
       constructor (value?: string, index?: number) {
         super({
           a: A,

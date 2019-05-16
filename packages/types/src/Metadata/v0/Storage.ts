@@ -6,7 +6,6 @@ import { AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
 
-import Enum from '../../codec/Enum';
 import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
@@ -15,7 +14,7 @@ import Null from '../../primitive/Null';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 
-export class StorageFunctionModifier extends Enum {
+export class StorageFunctionModifier extends EnumType {
   constructor (value?: any) {
     super(['Optional', 'Default', 'Required'], value);
   }
@@ -74,7 +73,7 @@ export class MapType extends Struct {
 export class PlainType extends Type {
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType> {
+export class StorageFunctionType extends EnumType {
   constructor (value?: any, index?: number) {
     super({
       PlainType,

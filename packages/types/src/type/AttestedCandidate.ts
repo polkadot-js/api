@@ -53,7 +53,7 @@ export class ExplicitCandidateSignature extends CandidateSignature {
 export class ImplicitCandidateSignature extends CandidateSignature {
 }
 
-export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignature | ExplicitCandidateSignature> {
+export class ValidityAttestation extends EnumType {
   constructor (value?: any) {
     super({
       // This Null is not in the original, however indexes start at 1, so add a

@@ -33,7 +33,7 @@ export class Finalization extends Null {
  * @description
  * An [[EnumType]] that indicates the specific phase where the [[EventRecord]] was generated
  */
-export class Phase extends EnumType<ApplyExtrinsic | Finalization> {
+export class Phase extends EnumType {
   constructor (value: any, index?: number) {
     super({
       ApplyExtrinsic,

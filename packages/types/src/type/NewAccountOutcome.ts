@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Enum from '../codec/Enum';
+import EnumType from '../codec/EnumType';
 import U8a from '../codec/U8a';
 
 /**
@@ -10,7 +10,7 @@ import U8a from '../codec/U8a';
  * @description
  * Enum to track the outcome for creation of an [[AccountId]]
  */
-export default class NewAccountOutcome extends Enum {
+export default class NewAccountOutcome extends EnumType {
   constructor (index?: U8a | Uint8Array | number) {
     super([
       'NoHint',
