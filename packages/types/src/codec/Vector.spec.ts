@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, CodecTo } from '../types';
+
 import extrinsics from '@plugnet/extrinsics/static';
 
+import AccountId from '../primitive/AccountId';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import PropIndex from '../type/PropIndex';
 import Proposal from '../type/Proposal';
-import AccountId from '../type/AccountId';
-import { Codec, CodecTo } from '../types';
 import createType from './createType';
 import Vector from './Vector';
 import Tuple from './Tuple';

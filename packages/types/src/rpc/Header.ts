@@ -9,11 +9,10 @@ import { blake2AsU8a } from '@plugnet/util-crypto';
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import U64 from '../primitive/U64';
-
-import AccountId from './AccountId';
-import BlockNumber from './BlockNumber';
+import AccountId from '../primitive/AccountId';
+import Hash from '../primitive/Hash';
+import BlockNumber from '../type/BlockNumber';
 import Digest, { DigestItem } from './Digest';
-import Hash from './Hash';
 
 export type HeaderValue = {
   digest?: Digest | { logs: DigestItem[] },

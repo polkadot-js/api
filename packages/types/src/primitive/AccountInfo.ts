@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../codec/Struct';
-import Bytes from '../primitive/Bytes';
-import U64 from '../primitive/U64';
+import Bytes from './Bytes';
+import U64 from './U64';
 
 /**
  * @name AccountInfo

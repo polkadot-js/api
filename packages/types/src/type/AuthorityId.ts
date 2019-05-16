@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import AccountId from './AccountId';
+import AccountId from '../primitive/AccountId';
 
 // Wrapper for a AuthorityId. Same as an normal AccountId, i.e. a wrapper
 // around publicKey, however specialized since it specifically points to

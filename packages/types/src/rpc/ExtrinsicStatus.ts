@@ -6,9 +6,9 @@ import { assert } from '@plugnet/util';
 
 import EnumType from '../codec/EnumType';
 import Vector from '../codec/Vector';
+import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
-import Hash from '../type/Hash';
 
 /**
  * @name Broadcast

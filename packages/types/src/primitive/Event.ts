@@ -10,11 +10,11 @@ import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
-import Null from '../primitive/Null';
-import U32 from '../primitive/U32';
 import Metadata from '../Metadata';
 import { EventMetadata as EventMetadataV0 } from '../Metadata/v0/Events';
 import { MetadataEvent as EventMetadataV4 } from '../Metadata/v1/Events';
+import Null from './Null';
+import U32 from './U32';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 

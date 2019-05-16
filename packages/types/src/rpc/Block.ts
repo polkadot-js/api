@@ -7,8 +7,8 @@ import { AnyU8a } from '../types';
 import { blake2AsU8a } from '@plugnet/util-crypto';
 
 import Struct from '../codec/Struct';
-import Extrinsics from './Extrinsics';
-import Hash from './Hash';
+import Hash from '../primitive/Hash';
+import Extrinsics from '../type/Extrinsics';
 import Header, { HeaderValue } from './Header';
 
 export type BlockValue = {

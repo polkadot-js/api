@@ -5,7 +5,7 @@
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { ENUMSET_SIZE } from '@plugnet/types/type/AccountIndex';
+import { ENUMSET_SIZE } from '@plugnet/types/primitive/AccountIndex';
 import { AccountId, AccountIndex } from '@plugnet/types';
 
 import { drr } from '../util/drr';

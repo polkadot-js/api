@@ -8,11 +8,11 @@ import { AnyNumber, AnyU8a } from '../types';
 import { blake2AsU8a } from '@plugnet/util-crypto';
 
 import Struct from '../codec/Struct';
-import ExtrinsicEra from './ExtrinsicEra';
-import Hash from './Hash';
+import Hash from '../primitive/Hash';
 import Method from '../primitive/Method';
-import Nonce from './NonceCompact';
 import RuntimeVersion from '../rpc/RuntimeVersion';
+import ExtrinsicEra from './ExtrinsicEra';
+import Nonce from './NonceCompact';
 
 type SignaturePayloadValue = {
   nonce?: AnyNumber,

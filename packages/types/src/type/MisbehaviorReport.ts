@@ -8,11 +8,11 @@ import { assert } from '@plugnet/util';
 
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
+import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
-import Hash from './Hash';
 
 type BftAtReportValueSingle = {
   round?: AnyNumber,

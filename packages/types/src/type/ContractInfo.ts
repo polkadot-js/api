@@ -7,11 +7,11 @@ import { assert } from '@plugnet/util';
 import Bytes from '../primitive/Bytes';
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
+import Hash from '../primitive/Hash';
 import U64 from '../primitive/U64';
 import Balance from './Balance';
 import BlockNumber from './BlockNumber';
 import CodeHash from './CodeHash';
-import Hash from './Hash';
 
 export class TrieId extends Bytes {
 }

@@ -6,12 +6,12 @@ import { KeyringPair } from '@plugnet/keyring/types';
 import { AnyNumber, IExtrinsicSignature, SignatureOptions } from '../types';
 
 import Struct from '../codec/Struct';
-import Address from './Address';
+import Address from '../primitive/Address';
 import Method from '../primitive/Method';
 import U8 from '../primitive/U8';
+import RuntimeVersion from '../rpc/RuntimeVersion';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
-import RuntimeVersion from '../rpc/RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 

@@ -3,10 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@plugnet/keyring/types';
+
 import BN from 'bn.js';
+
 import U8a from './codec/U8a';
 import Method from './primitive/Method';
-import Address from './type/Address';
+import Address from './primitive/Address';
 import { FunctionMetadata } from './Metadata/v0/Modules';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;

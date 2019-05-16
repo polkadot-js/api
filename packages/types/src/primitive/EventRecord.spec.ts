@@ -7,12 +7,12 @@ import Vector from '../codec/Vector';
 import json1 from '../json/EventRecord.001.json';
 import json2 from '../json/EventRecord.002.json';
 import json3 from '../json/EventRecord.003.json';
-import AccountId from './AccountId';
-import Event from './Event';
-import EventRecord from './EventRecord';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
 import metadataV1 from '../Metadata/static';
+import AccountId from './AccountId';
+import Event from './Event';
+import EventRecord from './EventRecord';
 
 describe('EventRecord', () => {
   describe('v0', () => {

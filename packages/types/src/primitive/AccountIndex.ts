@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber } from '../types';
+
 import BN from 'bn.js';
 import { decodeAddress, encodeAddress } from '@plugnet/keyring';
 import { bnToBn, isBn, isNumber, isU8a, isHex } from '@plugnet/util';
 
-import U32 from '../primitive/U32';
-import { AnyNumber } from '../types';
+import U32 from './U32';
 
 export const ENUMSET_SIZE = new BN(64);
 

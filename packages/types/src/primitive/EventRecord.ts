@@ -7,10 +7,10 @@ import { assert } from '@plugnet/util';
 import EnumType from '../codec/EnumType';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Null from '../primitive/Null';
-import U32 from '../primitive/U32';
 import Hash from './Hash';
 import Event from './Event';
+import Null from './Null';
+import U32 from './U32';
 
 /**
  * @name ApplyExtrinsic
