@@ -61,6 +61,7 @@ export type DerivedStaking = {
   accountId: AccountId,
   controllerId?: AccountId,
   nextSessionId?: AccountId,
+  nominators: Array<AccountId>,
   stakers?: Exposure,
   stakingLedger?: StakingLedger,
   stashId?: AccountId,
