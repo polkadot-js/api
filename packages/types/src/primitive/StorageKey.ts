@@ -117,7 +117,7 @@ export default class StorageKey extends Bytes {
   }
 
   /**
-   * @description The key mehod or `undefined` when not specified
+   * @description The key method or `undefined` when not specified
    */
   get method (): string | undefined {
     return this._method;
