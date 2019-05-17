@@ -7,7 +7,7 @@ import { DerivedStaking } from '../types';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -17,16 +17,18 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
   return (
     api.queryMulti([
       [api.query.staking.ledger, controllerId],
+      [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId],
       [api.query.session.nextKeyFor, controllerId]
-    ]) as any as Observable<[Option<StakingLedger>, [ValidatorPrefs], Option<AccountId>]>
+    ]) as any as Observable<[Option<StakingLedger>, Exposure, [ValidatorPrefs], Option<AccountId>]>
   ).pipe(
-    map(([stakingLedger, [validatorPrefs], nextKeyFor]) => ({
+    map(([stakingLedger, stakers, [validatorPrefs], nextKeyFor]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
         ? nextKeyFor.unwrap()
         : undefined,
+      stakers,
       stakingLedger: stakingLedger.isSome
         ? stakingLedger.unwrap()
         : undefined,
@@ -43,16 +45,18 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 
   return (
     api.queryMulti([
+      [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId],
       [api.query.session.nextKeyFor, controllerId]
-    ]) as any as Observable<[[ValidatorPrefs], Option<AccountId>]>
+    ]) as any as Observable<[Exposure, [ValidatorPrefs], Option<AccountId>]>
   ).pipe(
-    map(([[validatorPrefs], nextKeyFor]) => ({
+    map(([stakers, [validatorPrefs], nextKeyFor]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
         ? nextKeyFor.unwrap()
         : undefined,
+      stakers,
       stakingLedger,
       stashId,
       validatorPrefs

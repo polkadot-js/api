@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Exposure, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
 
 export type DerivedBalances = {
   accountId: AccountId,
@@ -61,6 +61,7 @@ export type DerivedStaking = {
   accountId: AccountId,
   controllerId?: AccountId,
   nextSessionId?: AccountId,
+  stakers?: Exposure,
   stakingLedger?: StakingLedger,
   stashId?: AccountId,
   validatorPrefs?: ValidatorPrefs
