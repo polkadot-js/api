@@ -41,6 +41,18 @@ describe('Moment', () => {
           .startsWith('Thu Jan 01 1970') // The time depends on the timezone this test is run in
       ).toBe(true);
     });
+
+    it('encodes default BE hex', () => {
+      expect(
+        new Moment(3).toHex()
+      ).toEqual('0x0000000000000003');
+    });
+
+    it('encodes options LE hex', () => {
+      expect(
+        new Moment(3).toHex(true)
+      ).toEqual('0x0300000000000000');
+    });
   });
 
   describe('utils', () => {
