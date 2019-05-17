@@ -15,7 +15,7 @@ export { default as AccountIndex } from './AccountIndex';
 export { default as AccountInfo } from './AccountInfo';
 export { default as Address } from './Address';
 export { default as Event, EventIndex } from './Event';
-export { default as EventRecord, EventRecord77 } from './EventRecord';
+export { default as EventRecord, EventRecord_0_76 } from './EventRecord';
 export { default as Bool, default as bool } from './Bool';
 export { default as Bytes } from './Bytes';
 export { default as Data } from './Data';
