@@ -11,12 +11,18 @@ import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
+  headKey?: Uint8Array;
   meta: MetaV4;
   method: string;
   section: string;
   toJSON: () => any;
-  headKey?: Uint8Array;
 }
+
+type Decoded = {
+  key?: Uint8Array | string;
+  method?: string;
+  section?: string;
+};
 
 /**
  * @name StorageKey
@@ -26,27 +32,50 @@ export interface StorageFunction {
  */
 export default class StorageKey extends Bytes {
   private _meta?: MetaV4;
+  private _method?: string;
   private _outputType?: string;
+  private _section?: string;
 
   constructor (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
-    super(StorageKey.decodeStorageKey(value));
+    const { key, method, section } = StorageKey.decodeStorageKey(value);
+
+    super(key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
+    this._method = method;
     this._outputType = StorageKey.getType(value as StorageKey);
+    this._section = section;
   }
 
-  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array | string | undefined {
-    if (!value || isU8a(value) || isString(value)) {
+  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Decoded {
+    if (!value || isString(value)) {
       // let Bytes handle these inputs
-      return value;
+      return {
+        key: value
+      };
+    } else if (isU8a(value)) {
+      // let Bytes handle these inputs
+      return {
+        key: value,
+        method: (value as StorageKey).method,
+        section: (value as StorageKey).section
+      };
     } else if (isFunction(value)) {
-      return value();
+      return {
+        key: value(),
+        method: value.method,
+        section: value.section
+      };
     } else if (Array.isArray(value)) {
-      const [fn, ...arg] = value;
+      const [fn, ...arg]: [StorageFunction, ...Array<any>] = value as any;
 
       assert(isFunction(fn), 'Expected function input for key construction');
 
-      return (fn as Function)(...arg);
+      return {
+        key: fn(...arg),
+        method: fn.method,
+        section: fn.section
+      };
     }
 
     throw new Error(`Unable to convert input ${value} to StorageKey`);
@@ -81,10 +110,17 @@ export default class StorageKey extends Bytes {
   }
 
   /**
-   * @description The metadata or `null` when not available
+   * @description The metadata or `undefined` when not available
    */
   get meta (): MetaV4 | undefined {
     return this._meta;
+  }
+
+  /**
+   * @description The key mehod or `undefined` when not specified
+   */
+  get method (): string | undefined {
+    return this._method;
   }
 
   /**
@@ -92,5 +128,12 @@ export default class StorageKey extends Bytes {
    */
   get outputType (): string | undefined {
     return this._outputType;
+  }
+
+  /**
+   * @description The key section or `undefined` when not specified
+   */
+  get section (): string | undefined {
+    return this._section;
   }
 }
