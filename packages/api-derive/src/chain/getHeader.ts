@@ -5,8 +5,9 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Header, HeaderExtended } from '@polkadot/types';
+import { Header } from '@polkadot/types';
 
+import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
 
