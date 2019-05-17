@@ -220,6 +220,7 @@ export default class Rpc implements RpcInterface {
     const meta = key.meta || EMPTY_META;
 
     if (meta.type.isMap && meta.type.asMap.isLinked) {
+      // FIXME When confident, also add the pedantic version to linked
       return createType(type, base);
     } else if (meta.modifier.isOptional) {
       return new Option(
@@ -245,7 +246,8 @@ export default class Rpc implements RpcInterface {
     if (!value) {
       return;
     } else if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, value.unwrapOr(null));
+      // FIXME When confident, also add the pedantic version to linked
+      return createType(type, value.unwrapOr(null), true);
     } else if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),

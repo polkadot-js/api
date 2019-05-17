@@ -233,8 +233,8 @@ function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec 
     // in pedantic mode, actually check that the encoding matches that supplied - this
     // is much slower, but ensures that we have a 100% grasp on the actual provided value
     if (isPedantic && value && value.toHex) {
-      const inHex = value.toHex();
-      const crHex = created.toHex();
+      const inHex = value.toHex(true);
+      const crHex = created.toHex(true);
 
       assert(crHex === inHex, `Encoding for input doesn't match output, created ${crHex} from ${inHex}`);
     }
