@@ -108,8 +108,8 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): any {
-    return this.raw.toHex();
+  toHex (isLe?: boolean): any {
+    return this.raw.toHex(isLe);
   }
 
   /**

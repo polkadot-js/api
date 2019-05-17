@@ -226,10 +226,31 @@ export function createClass (type: Text | string): Constructor {
   );
 }
 
-export default function createType (type: Text | string, value?: any): Codec {
+function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec {
+  try {
+    const created = new Type(value);
+
+    // in pedantic mode, actually check that the encoding matches that supplied - this
+    // is much slower, but ensures that we have a 100% grasp on the actual provided value
+    if (isPedantic && value && value.toHex) {
+      const inHex = value.toHex(true);
+      const crHex = created.toHex(true);
+
+      assert(crHex === inHex, `Encoding for input doesn't match output, created ${crHex} from ${inHex}`);
+    }
+
+    return created;
+  } catch (error) {
+    if (Type.Fallback) {
+      return initType(Type.Fallback, value, isPedantic);
+    }
+
+    throw error;
+  }
+}
+
+export default function createType (type: Text | string, value?: any, isPedantic?: boolean): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
-  const Type = createClass(type);
-
-  return new Type(value);
+  return initType(createClass(type), value, isPedantic);
 }

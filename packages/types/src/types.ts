@@ -51,9 +51,9 @@ export interface Codec {
   eq (other?: any): boolean;
 
   /**
-   * @description Returns a hex string representation of the value
+   * @description Returns a hex string representation of the value. isLe returns a LE (number-only) repersentation
    */
-  toHex (): string;
+  toHex (isLe?: boolean): string;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
@@ -80,6 +80,8 @@ export interface Codec {
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
+  Fallback?: Constructor<T>;
+
   new(...value: Array<any>): T;
 }
 

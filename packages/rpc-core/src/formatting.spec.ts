@@ -24,14 +24,14 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
     beforeEach(() => {
       provider = {
         send: jest.fn((method, params) =>
-          Promise.resolve('0x0102')
+          Promise.resolve('0x01020000000000000000000000000000')
         ),
         subscribe: jest.fn((type, method, params, subscription) =>
           subscription(null, {
             block: '0x1234',
             changes: [
-              [ENC_ONE, '0x0102'],
-              [ENC_TWO, '0x0201']
+              [ENC_ONE, '0x01020000000000000000000000000000'],
+              [ENC_TWO, '0x02010000000000000000000000000000']
             ]
           })
         )
@@ -41,9 +41,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
 
     it('encodes key (with params), decoding response', () => {
       return api.state
-        .getStorage(
-          [storage.balances.freeBalance, ADDR_ONE]
-        )
+        .getStorage([storage.balances.freeBalance, ADDR_ONE])
         .then((value) => {
           expect(
             provider.send
