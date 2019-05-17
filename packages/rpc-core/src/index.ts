@@ -196,7 +196,15 @@ export default class Rpc implements RpcInterface {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
-      return this.formatStorageData(params[0] as StorageKey, base, isNull(result));
+      const key = params[0] as StorageKey;
+
+      try {
+        return this.formatStorageData(key, base, isNull(result));
+      } catch (error) {
+        console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+
+        throw error;
+      }
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
       // one at a time, all based on the query types. Three values can be returned -
@@ -204,7 +212,13 @@ export default class Rpc implements RpcInterface {
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
       return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey) => {
-        results.push(this.formatStorageSet(key, base as StorageChangeSet));
+        try {
+          results.push(this.formatStorageSet(key, base as StorageChangeSet));
+        } catch (error) {
+          console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+
+          throw error;
+        }
 
         return results;
       }, [] as Array<Codec | undefined>);
