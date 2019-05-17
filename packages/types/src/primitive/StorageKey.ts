@@ -48,17 +48,16 @@ export default class StorageKey extends Bytes {
   }
 
   static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Decoded {
-    if (!value || isString(value)) {
+    if (value instanceof StorageKey) {
+      return {
+        key: value,
+        method: value.method,
+        section: value.section
+      };
+    } else if (!value || isString(value) || isU8a(value)) {
       // let Bytes handle these inputs
       return {
         key: value
-      };
-    } else if (isU8a(value)) {
-      // let Bytes handle these inputs
-      return {
-        key: value,
-        method: (value as StorageKey).method,
-        section: (value as StorageKey).section
       };
     } else if (isFunction(value)) {
       return {
