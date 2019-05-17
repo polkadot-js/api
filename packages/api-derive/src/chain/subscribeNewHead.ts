@@ -5,8 +5,9 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { AccountId, Header, HeaderExtended } from '@plugnet/types';
+import { AccountId, Header } from '@plugnet/types';
 
+import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 
 export type HeaderAndValidators = [Header, Array<AccountId>];

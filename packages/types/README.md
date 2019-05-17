@@ -149,7 +149,6 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[DigestItem]] | A [[EnumType]] the specifies the specific item in the logs of a [[Digest]] |
 | [[ExtrinsicStatus]] | An EnumType that indicates the status of the Extrinsic as been submitted |
 | [[Header]] | A [[Block]] header |
-| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
 | [[Health]] | A system health indicator, reported back over RPC |
 | [[Json]] | Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map |
 | [[NetworkState]] | Wraps the properties retrieved from the chain via the `system.network_state` RPC call |
@@ -163,8 +162,8 @@ These types are not used in the runtime, but are rather used in RPC results:
 
 ## Derive types
 
-These types are are specific for the Polkadot-JS API, so you won't find a representation of them in the SCALE codec or the Substrate core. They are used in the [api-derive](https://www.npmjs.com/package/@polkadot/api-derive) methods.
+These types are are specific for the Polkadot-JS derive API, so you won't find a representation of them in the SCALE codec or the Substrate core. They are used in the [api-derive](https://www.npmjs.com/package/@polkadot/api-derive) methods.
 
 | **Types** | |
 | --- | --- |
-| [[HeaderExtended]] | A [[Block]] header with an additional `author` field that indicates the block author] |
+| [[HeaderExtended]] | A [[Header]] header with an additional `author` field that indicates the block author] |

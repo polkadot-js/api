@@ -5,9 +5,10 @@
 // Simple non-runnable checks to test type definitions in the editor itself
 
 import { ApiPromise } from '@plugnet/api';
+import { HeaderExtended } from '@plugnet/api-derive';
 import testKeyring from '@plugnet/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@plugnet/types/types';
-import { Header, HeaderExtended } from '@plugnet/types';
+import { Header } from '@plugnet/types';
 
 export default async function test () {
   const api = await ApiPromise.create();

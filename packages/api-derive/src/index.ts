@@ -13,6 +13,8 @@ import * as democracy from './democracy';
 import * as session from './session';
 import * as staking from './staking';
 
+export * from './type';
+
 // Put all derived functions in an object, for easier Object.keys()-ing.
 const functions = { accounts, balances, chain, democracy, session, staking };
 

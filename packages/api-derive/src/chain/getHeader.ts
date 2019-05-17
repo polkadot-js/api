@@ -5,8 +5,9 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { Header, HeaderExtended } from '@plugnet/types';
+import { Header } from '@plugnet/types';
 
+import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
 
