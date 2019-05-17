@@ -33,10 +33,10 @@ export default class Int extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  toHex (isLe: boolean = false): string {
     return bnToHex(this, {
       bitLength: this._bitLength,
-      isLe: false,
+      isLe,
       isNegative: true
     });
   }

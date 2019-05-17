@@ -33,10 +33,11 @@ export default class UInt extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  toHex (isLe: boolean = false): string {
+    // For display/JSON, this is BE, for compare, use isLe
     return bnToHex(this, {
       bitLength: this._bitLength,
-      isLe: false,
+      isLe,
       isNegative: false
     });
   }

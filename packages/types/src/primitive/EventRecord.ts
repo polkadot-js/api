@@ -125,6 +125,8 @@ export default class EventRecord extends Struct {
     }, value);
   }
 
+  static Fallback = EventRecord77;
+
   /**
    * @description The [[Event]] this record refers to
    */
