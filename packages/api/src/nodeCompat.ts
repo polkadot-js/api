@@ -7,34 +7,21 @@ import { Constructor } from '@polkadot/types/types';
 import { EventRecord77, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
 
 type Compat = {
-  nodeSpecs: Array<{
-    name: string,
-    version: number
-  }>,
+  nodeSpecs: Array<[string, number]>,
   types: {
     [index: string]: Constructor
   }
 };
 
+const ANY_VERSION = 0xffffff;
+
 const types: Array<Compat> = [
   {
     nodeSpecs: [
-      {
-        name: 'node',
-        version: 77
-      },
-      {
-        name: 'node-template',
-        version: 0xffff // don't have an updated spec version as of yet
-      },
-      {
-        name: 'polkadot',
-        version: 0xffff // don't have an updated spec version as of yet
-      },
-      {
-        name: 'edgeware',
-        version: 0xffff // don't have an updated spec version as of yet
-      }
+      ['node', 77],
+      ['node-template', ANY_VERSION],
+      ['polkadot', ANY_VERSION],
+      ['edgeware', ANY_VERSION]
     ],
     types: {
       'EventRecord': EventRecord77
@@ -45,9 +32,9 @@ const types: Array<Compat> = [
 export default function injectNodeCompat ({ specName, specVersion }: RuntimeVersion): void {
   types
     .filter(({ nodeSpecs }) =>
-      nodeSpecs.some((spec) =>
-        specName.eq(spec.name) &&
-        specVersion.ltn(spec.version)
+      nodeSpecs.some(([name, version]) =>
+        specName.eq(name) &&
+        specVersion.ltn(version)
       )
     )
     .forEach(({ types }) => {

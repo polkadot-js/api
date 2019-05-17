@@ -23,12 +23,12 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     );
   }
 
-  static decodeOption<O> (Type: Constructor, value?: any): Codec {
+  static decodeOption (Type: Constructor, value?: any): Codec {
     if (isNull(value) || isUndefined(value) || value instanceof Null) {
       return new Null();
     } else if (value instanceof Option) {
       return Option.decodeOption(Type, value.value);
-    } else if (value instanceof Type) {
+    } else if (value instanceof Type || (Type.Fallback && value instanceof Type.Fallback)) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
     } else if (isU8a(value)) {
