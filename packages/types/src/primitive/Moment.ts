@@ -83,8 +83,12 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
-    return bnToHex(this.toBn(), BITLENGTH);
+  toHex (isLe: boolean = false): string {
+    return bnToHex(this.toBn(), {
+      bitLength: BITLENGTH,
+      isLe,
+      isNegative: false
+    });
   }
 
   /**
