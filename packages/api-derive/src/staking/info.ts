@@ -16,13 +16,13 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
 
   return (
     api.queryMulti([
+      [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.ledger, controllerId],
       [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId],
-      [api.query.session.nextKeyFor, controllerId]
-    ]) as any as Observable<[Option<StakingLedger>, Exposure, [ValidatorPrefs], Option<AccountId>]>
+      [api.query.staking.validators, stashId]
+    ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>, Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([stakingLedger, stakers, [validatorPrefs], nextKeyFor]) => ({
+    map(([nextKeyFor, stakingLedger, stakers, [validatorPrefs]]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
@@ -45,12 +45,12 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 
   return (
     api.queryMulti([
+      [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId],
-      [api.query.session.nextKeyFor, controllerId]
-    ]) as any as Observable<[Exposure, [ValidatorPrefs], Option<AccountId>]>
+      [api.query.staking.validators, stashId]
+    ]) as any as Observable<[Option<AccountId>, Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([stakers, [validatorPrefs], nextKeyFor]) => ({
+    map(([nextKeyFor, stakers, [validatorPrefs]]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
