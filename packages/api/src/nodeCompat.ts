@@ -4,9 +4,12 @@
 
 import { Constructor } from '@polkadot/types/types';
 
-import { EventRecord77, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
+import { EventRecord_0_76, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
 
 type Compat = {
+  // an array of the spec-name and spec_version that denotes the first version that
+  // does not support this feature. i.e. for EventRecord between 0-76, the new version
+  // went live at 77 - hence the version here denotes 77
   nodeSpecs: Array<[string, number]>,
   types: {
     [index: string]: Constructor
@@ -19,12 +22,12 @@ const types: Array<Compat> = [
   {
     nodeSpecs: [
       ['node', 77],
+      ['polkadot', 1000],
       ['node-template', ANY_VERSION],
-      ['polkadot', ANY_VERSION],
       ['edgeware', ANY_VERSION]
     ],
     types: {
-      'EventRecord': EventRecord77
+      'EventRecord': EventRecord_0_76
     }
   }
 ];
