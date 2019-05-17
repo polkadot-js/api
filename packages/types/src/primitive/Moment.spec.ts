@@ -48,7 +48,7 @@ describe('Moment', () => {
       ).toEqual('0x0000000000000003');
     });
 
-    it('encodes default LE hex (optional)', () => {
+    it('encodes options LE hex', () => {
       expect(
         new Moment(3).toHex(true)
       ).toEqual('0x0300000000000000');
