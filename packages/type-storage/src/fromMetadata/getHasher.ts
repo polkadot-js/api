@@ -20,8 +20,10 @@ function toStorageHasher (text: Text): StorageHasher {
       return new StorageHasher('Twox128');
     case 'twox_256':
       return new StorageHasher('Twox256');
+    case 'twox_64_concat':
+      return new StorageHasher('Twox128Concat');
     default:
-      return new StorageHasher(text.toString());
+      throw new Error(`Invalid Storage hasher: ${text.toString()}`);
   }
 }
 

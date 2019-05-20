@@ -148,7 +148,6 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     value.info = TypeDefInfo.Linkage;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'DoubleMap<', '>')) {
-    // FIXME As a first step, only allow parsing of DoubleMap, don't actually init
     value.info = TypeDefInfo.DoubleMap;
     value.sub = getTypeDef(subType);
   }

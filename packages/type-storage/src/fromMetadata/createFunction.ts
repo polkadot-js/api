@@ -31,7 +31,6 @@ export default function createFunction (section: Text | string, method: Text | s
   const rawKey = stringToU8a(stringKey);
 
   // Get the hashing function
-  // FIXME Hash correctly for double map too
   let hasher: HasherFunction;
   let key2Hasher: HasherFunction;
 
