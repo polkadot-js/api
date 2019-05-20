@@ -170,7 +170,7 @@ export class StorageFunctionType extends Enum {
    */
   toString (): string {
     if (this.isDoubleMap) {
-      return `DoubleMap<${this.asDoubleMap.toString()}>`;
+      return `DoubleMap<${this.asDoubleMap.value.toString()}>`;
     }
 
     if (this.isMap) {

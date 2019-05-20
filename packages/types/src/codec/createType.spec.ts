@@ -63,10 +63,10 @@ describe('getTypeValue', () => {
 
   it('returns a type structure', () => {
     expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))')
+      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))')
     ).toEqual({
       info: TypeDefInfo.Tuple,
-      type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, (Text, Vec<(Bool, u128)>))',
+      type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))',
       sub: [
         {
           info: TypeDefInfo.Plain,
@@ -91,6 +91,14 @@ describe('getTypeValue', () => {
         {
           info: TypeDefInfo.Option,
           type: 'Option<u128>',
+          sub: {
+            info: TypeDefInfo.Plain,
+            type: 'u128'
+          }
+        },
+        {
+          info: TypeDefInfo.DoubleMap,
+          type: 'DoubleMap<u128>',
           sub: {
             info: TypeDefInfo.Plain,
             type: 'u128'
