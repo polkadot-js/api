@@ -2,23 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Ws from '.';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 describe('onMessageResult', () => {
-  let ws;
+  let provider: ProviderInterface;
 
   beforeEach(() => {
-    ws = new Ws('ws://127.0.0.1:1234', false);
+    provider = new WsProvider('ws://127.0.0.1:1234', false);
   });
 
   it('calls the handler when found', (done) => {
-    ws.handlers[5] = {
-      callback: (_, result) => {
+    provider.handlers[5] = {
+      callback: (_, result: any) => {
         expect(result).toEqual('test');
         done();
       }
     };
 
-    ws.onSocketMessage({ data: '{"jsonrpc":"2.0","id":5,"result":"test"}' });
+    provider.onSocketMessage({ data: '{"jsonrpc":"2.0","id":5,"result":"test"}' });
   });
 });

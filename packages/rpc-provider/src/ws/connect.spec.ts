@@ -4,10 +4,12 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from '.';
+import { Mock } from '@polkadot/rpc-provider/mock/types';
+
+import Ws from '@polkadot/rpc-provider/ws';
 
 describe('onConnect', () => {
-  let mock;
+  let mock: Mock;
 
   beforeEach(() => {
     mock = mockWs([]);
@@ -16,7 +18,6 @@ describe('onConnect', () => {
   afterEach(() => {
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 
