@@ -4,7 +4,7 @@
 
 import Api from '../../src/promise';
 
-describe.skip('alex archive queries (local)', () => {
+describe('alex archive queries (local)', () => {
   let api;
 
   beforeEach(() => {
