@@ -26,6 +26,7 @@ export enum TypeDefInfo {
   Tuple,
   Vector,
   Linkage,
+  DoubleMap,
   // anything not full supported (keep this as the last entry)
   Null
 }
@@ -147,8 +148,8 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     value.info = TypeDefInfo.Linkage;
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'DoubleMap<', '>')) {
-    // FIXME As a first step, only allow parsing of DoubleMap, don't actually init
-    value.info = TypeDefInfo.Null;
+    value.info = TypeDefInfo.DoubleMap;
+    value.sub = getTypeDef(subType);
   }
 
   return value;
@@ -213,6 +214,10 @@ export function getTypeClass (value: TypeDef): Constructor {
       return Linkage.withKey(
         getTypeClass(value.sub as TypeDef)
       );
+    case TypeDefInfo.DoubleMap:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
+
+      return getTypeClass(value.sub as TypeDef);
     case TypeDefInfo.Null:
       return Null;
   }
