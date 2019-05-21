@@ -70,7 +70,7 @@ export default class StorageKey extends Bytes {
 
       assert(isFunction(fn), 'Expected function input for key construction');
 
-      if (fn.meta.type.isDoubleMap) {
+      if (fn.meta && fn.meta.type.isDoubleMap) {
         return {
           key: new U8a(fn(...arg)), // skip compact length check in decodeBytes
           method: fn.method,
