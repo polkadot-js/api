@@ -5,18 +5,23 @@
 import fs from 'fs';
 import path from 'path';
 
-import { ContractAbi } from '@polkadot/types';
+import { Address, ContractAbi, Hash } from '@polkadot/types';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { ApiPromiseInterface } from '@polkadot/api/promise/types';
+import { SubmittableResult } from '@polkadot/api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import incrementer from '../data/incrementer.json';
 import erc20 from '../data/erc20.json';
-import Api from '../../src/promise';
+import Api from '@polkadot/api/promise';
 
 describe.skip('e2e contracts', () => {
-  let address;
-  let codeHash;
-  let keyring;
-  let api;
+  let address: Address;
+  let codeHash: Hash;
+  let keyring: {
+    [index: string]: KeyringPair
+  };
+  let api: ApiPromiseInterface;
 
   beforeEach(async (done) => {
     if (!api) {
@@ -30,7 +35,7 @@ describe.skip('e2e contracts', () => {
   });
 
   describe('incrementer', () => {
-    let abi;
+    let abi: ContractAbi;
 
     beforeEach(() => {
       abi = new ContractAbi(incrementer);
@@ -41,7 +46,7 @@ describe.skip('e2e contracts', () => {
 
       api.tx.contract
         .putCode(200000, `0x${code}`)
-        .signAndSend(keyring.eve, (result) => {
+        .signAndSend(keyring.eve, (result: SubmittableResult) => {
           console.error('putCode', JSON.stringify(result));
 
           if (result.status.isFinalized) {
@@ -61,7 +66,7 @@ describe.skip('e2e contracts', () => {
 
       api.tx.contract
         .create(12345, 500000, codeHash, abi.deploy(12345))
-        .signAndSend(keyring.bob, (result) => {
+        .signAndSend(keyring.bob, (result: SubmittableResult) => {
           console.error('create', JSON.stringify(result));
 
           if (result.status.isFinalized) {
@@ -81,7 +86,7 @@ describe.skip('e2e contracts', () => {
 
       api.tx.contract
         .call(address, 12345, 500000, abi.messages.inc(123))
-        .signAndSend(keyring.bob, (result) => {
+        .signAndSend(keyring.bob, (result: SubmittableResult) => {
           console.error('call', JSON.stringify(result));
 
           if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
@@ -92,7 +97,7 @@ describe.skip('e2e contracts', () => {
   });
 
   describe('erc20', () => {
-    let abi;
+    let abi: ContractAbi;
 
     beforeEach(() => {
       abi = abi = new ContractAbi(erc20);

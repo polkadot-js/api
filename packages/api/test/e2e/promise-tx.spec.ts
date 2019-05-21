@@ -6,13 +6,15 @@ import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 
-import Api from '../../src/promise';
-import WsProvider from '../../../rpc-provider/src/ws';
+import { ApiPromiseInterface } from '@polkadot/api/promise/types';
+
+import Api from '@polkadot/api/promise';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import SingleAccountSigner from '../util/SingleAccountSigner';
 
-describe.skip('e2e transactions', () => {
+describe('e2e transactions', () => {
   // log all events for the transfare, calling done() when finalized
-  const logEvents = (done) =>
+  const logEvents = (done: () => {}) =>
     ({ events, status }) => {
       console.log('Transaction status:', status.type);
 
@@ -31,7 +33,7 @@ describe.skip('e2e transactions', () => {
     };
 
   const keyring = testingPairs({ type: 'ed25519' });
-  let api;
+  let api: ApiPromiseInterface;
 
   beforeEach(async (done) => {
     if (!api) {

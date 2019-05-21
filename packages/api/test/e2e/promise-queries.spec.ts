@@ -4,10 +4,12 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { EventRecord, Header } from '@polkadot/types';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
+import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 
-import Api from '../../src/promise';
-import WsProvider from '../../../rpc-provider/src/ws';
+import Api from '@polkadot/api/promise';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
@@ -15,7 +17,7 @@ const WS_URL = 'ws://127.0.0.1:9944';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api;
+  let api: ApiPromiseInterface;
 
   beforeEach(async (done) => {
     if (!api) {
@@ -101,8 +103,6 @@ describe.skip('e2e queries', () => {
       '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
       keyring.ferdie.address()
     ], (balances) => {
-      console.error(balances);
-
       expect(balances).toHaveLength(4);
 
       done();
@@ -115,9 +115,7 @@ describe.skip('e2e queries', () => {
       [api.query.balances.freeBalance, keyring.bob.address()],
       [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
       [api.query.balances.freeBalance, keyring.ferdie.address()]
-    ], (balances) => {
-      console.error(balances);
-
+    ], (balances: Array<BN>) => {
       expect(balances).toHaveLength(4);
 
       done();
@@ -139,31 +137,20 @@ describe.skip('e2e queries', () => {
         expect(all.reservedBalance).toBeDefined();
         expect(all.lockedBalance).toBeDefined();
         expect(all.vestedBalance).toBeDefined();
-
-        console.error(all);
-
         done();
       }
     );
   });
 
   it('makes a query at a latest block (specified)', async () => {
-    const header = await api.rpc.chain.getHeader();
-    const events = await api.query.system.events.at(header.hash);
-
-    events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
-      console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
-    });
+    const header: Header = await api.rpc.chain.getHeader();
+    const events: Array<EventRecord> = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
   });
 
   it('subscribes to events', (done) => {
     api.query.system.events((events) => {
-      events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
-        console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
-      });
-
       expect(events).not.toHaveLength(0);
       done();
     });
