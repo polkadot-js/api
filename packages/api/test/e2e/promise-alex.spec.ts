@@ -2,16 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Header } from '@polkadot/types';
+import { EventRecord, Hash, Header } from '@polkadot/types';
 
-import Api from '../../src/promise';
-import WsProvider from '../../../rpc-provider/src/ws';
+import Api from '@polkadot/api/promise';
+import WsProvider from '@polkadot/rpc-provider/ws';
+
+import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
 describe.skip('alex queries', () => {
-  let api;
+  let api: ApiPromiseInterface;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -35,13 +37,14 @@ describe.skip('alex queries', () => {
     });
   });
 
-  it('retrieves a single value', (done) => {
-    api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
-      console.error(res);
+  describe('retrieves a single value', () => {
+    it('retrieves the list of stash validators', (done) => {
+      api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
+        console.error(res);
+        console.log('api.query.staking.validators(id):', res.toJSON());
 
-      console.log('api.query.staking.validators(id):', res.toJSON());
-
-      done();
+        done();
+      });
     });
 
     it('Gets the hash of the last finalized header', async (done) => {
@@ -67,10 +70,9 @@ describe.skip('alex queries', () => {
     });
   });
 
-
   it('makes a query at a latest block (specified)', async () => {
-    const header = await api.rpc.chain.getHeader();
-    const events = await api.query.system.events.at(header.hash);
+    const header: Header = await api.rpc.chain.getHeader();
+    const events: Array<EventRecord> = await api.query.system.events.at(header.hash);
 
     events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
       console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
@@ -80,7 +82,7 @@ describe.skip('alex queries', () => {
   });
 
   it('subscribes to events', (done) => {
-    api.query.system.events((events) => {
+    api.query.system.events((events: Array<EventRecord>) => {
       console.error(JSON.stringify(events));
 
       events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
