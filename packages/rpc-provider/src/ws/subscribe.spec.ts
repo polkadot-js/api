@@ -13,7 +13,7 @@ function createMock (requests) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
+function createWs (autoConnect: boolean = true) {
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -44,8 +44,8 @@ describe('subscribe', () => {
       }
     }]);
 
-    return createWs()
-      .subscribe('test_sub', [], () => {})
+    return createWs(true)
+      .subscribe('type', 'test_sub', [], (cb) => { expect(cb).toEqual(expect.anything()); })
       .then((id) => {
         expect(id).toEqual(1);
       });

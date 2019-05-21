@@ -13,7 +13,7 @@ function createMock (requests) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
+function createWs (autoConnect: boolean = true) {
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -50,7 +50,7 @@ describe('send', () => {
       }
     };
 
-    ws = createWs();
+    ws = createWs(true);
     websocket.onopen();
 
     return ws
@@ -69,7 +69,7 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_body', ['param'])
       .then((result) => {
         expect(
@@ -87,7 +87,7 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_error', [])
       .catch((error) => {
         expect(error.message).toMatch(/666: error/);
@@ -103,8 +103,8 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
-      .send('test_sub', [], () => {})
+    return createWs(true)
+      .send('test_sub', [])
       .then((id) => {
         expect(id).toEqual(1);
       });

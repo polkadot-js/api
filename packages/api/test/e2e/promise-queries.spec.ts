@@ -53,7 +53,7 @@ describe.skip('e2e queries', () => {
       expect(header.blockNumber.isZero()).toBe(false);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to finalized', (done) => {
@@ -61,7 +61,7 @@ describe.skip('e2e queries', () => {
       expect(header.blockNumber.isZero()).toBe(false);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to derive', (done) => {
@@ -69,7 +69,7 @@ describe.skip('e2e queries', () => {
       expect(header.blockNumber.isZero()).toBe(false);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to queries', (done) => {
@@ -77,7 +77,7 @@ describe.skip('e2e queries', () => {
       expect(nonce instanceof BN).toBe(true);
 
       done();
-    });
+    }).then().catch();
   });
 
   it.skip('subscribes to queries (default)', (done) => {
@@ -85,7 +85,7 @@ describe.skip('e2e queries', () => {
       expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to a linked map (staking.validators)', (done) => {
@@ -93,7 +93,7 @@ describe.skip('e2e queries', () => {
       expect(prefs instanceof LinkageResult).toBe(true);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to multiple results (freeBalance.multi)', (done) => {
@@ -106,7 +106,7 @@ describe.skip('e2e queries', () => {
       expect(balances).toHaveLength(4);
 
       done();
-    });
+    }).then().catch();
   });
 
   it('subscribes to multiple results (api.queryMulti)', (done) => {
@@ -139,7 +139,7 @@ describe.skip('e2e queries', () => {
         expect(all.vestedBalance).toBeDefined();
         done();
       }
-    );
+    ).then().catch();
   });
 
   it('makes a query at a latest block (specified)', async () => {
@@ -153,7 +153,7 @@ describe.skip('e2e queries', () => {
     api.query.system.events((events) => {
       expect(events).not.toHaveLength(0);
       done();
-    });
+    }).then().catch();
   });
 
   it('queries state using double map key', async () => {
@@ -168,6 +168,6 @@ describe.skip('e2e queries', () => {
     api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
       expect(eventTopics.toString()).toEqual('[]');
       done();
-    });
+    }).then().catch();
   });
 });

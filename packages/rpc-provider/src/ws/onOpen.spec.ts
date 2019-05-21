@@ -5,7 +5,7 @@
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import Mock from './../mock';
+import { Mock } from '@polkadot/rpc-provider/mock/types';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -14,7 +14,7 @@ let mock: Mock;
 
 function createWs (requests: Array<any>, autoConnect: Boolean) {
   mock = mockWs(requests);
-  ws = new Ws(TEST_WS_URL, autoConnect);
+  ws = new WsProvider(TEST_WS_URL, true);
 
   return ws;
 }
@@ -23,7 +23,6 @@ describe('onOpen', () => {
   afterEach(() => {
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 

@@ -14,10 +14,10 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {},
+      callback: (_, id: number) => { expect(typeof id).toBe('number'); },
       method: 'test',
       subscription: {
-        callback: (_, result) => {
+        callback: (_: any, result: String) => {
           expect(result).toEqual('test');
           done();
         },
@@ -31,7 +31,7 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
-      callback: (_, id) => {},
+      callback: (_, id: number) => { expect(typeof id).toBe('number'); },
       method: 'test',
       subscription: {
         callback: (error) => {

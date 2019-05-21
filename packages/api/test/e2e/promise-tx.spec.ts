@@ -94,14 +94,17 @@ describe.skip('e2e transactions', () => {
       .signAndSend(keyring.dave.address(), logEvents(done));
   });
 
-  it('makes a transfer (signAndSend via Signer) - sad path', async () => {
+  it('makes a transfer (signAndSend via Signer) with undefined Signer', async () => {
+    const signer: any = undefined;
     // no signer
-    api.setSigner();
+    api.setSigner(signer);
 
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('no signer exists');
+  });
 
+  it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async () => {
     const signer = new SingleAccountSigner(keyring.dave);
 
     api.setSigner(signer);
@@ -110,11 +113,15 @@ describe.skip('e2e transactions', () => {
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('does not have the keyringPair');
+  });
 
+  it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async () => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address(), ({ events, status }) => {})).rejects.toThrow('does not have the keyringPair');
+      .signAndSend(keyring.alice.address(), (cb: any) => {
+        expect(cb).toBeInstanceOf(Object);
+      })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
@@ -138,13 +145,13 @@ describe.skip('e2e transactions', () => {
   it('makes a transfer, and uses new balance to transfers to new', async (done) => {
     const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
-    function doOne (cb) {
+    function doOne (cb: any) {
       return api.tx.balances
         .transfer(pair.address(), 123456)
         .signAndSend(keyring.dave, logEvents(cb));
     }
 
-    function doTwo (cb) {
+    function doTwo (cb: any) {
       return api.tx.balances
         .transfer(keyring.alice.address(), 12345)
         .signAndSend(pair, logEvents(cb));
@@ -152,7 +159,7 @@ describe.skip('e2e transactions', () => {
 
     // return doTwo(done);
     return doOne(() => {
-      doTwo(done);
+      doTwo(done).then().catch();
     });
   });
 });

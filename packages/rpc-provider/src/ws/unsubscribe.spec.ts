@@ -9,11 +9,11 @@ import Ws from '@polkadot/rpc-provider/ws';
 let ws;
 let mock;
 
-function createMock (requests) {
+function createMock (requests: any) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
+function createWs (autoConnect: boolean = true) {
   ws = new Ws(TEST_WS_URL, autoConnect);
 
   return ws;
@@ -53,10 +53,10 @@ describe('subscribe', () => {
       }
     ]);
 
-    const ws = createWs();
+    const ws = createWs(true);
 
     return ws
-      .subscribe('test', 'subscribe_test', [], () => {})
+      .subscribe('test', 'subscribe_test', [], (cb) => { expect(cb).toEqual(expect.anything()); })
       .then((id) => {
         return ws.unsubscribe('test', 'subscribe_test', id);
       });
@@ -71,10 +71,10 @@ describe('subscribe', () => {
       }
     }]);
 
-    const ws = createWs();
+    const ws = createWs(true);
 
     return ws
-      .subscribe('test', 'subscribe_test', [], () => {})
+      .subscribe('test', 'subscribe_test', [], (cb) => { expect(cb).toEqual(expect.anything()); })
       .then((id) => {
         return ws.unsubscribe('test', 'subscribe_test', 111);
       })
