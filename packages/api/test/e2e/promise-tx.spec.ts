@@ -12,7 +12,7 @@ import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import SingleAccountSigner from '../util/SingleAccountSigner';
 
-describe('e2e transactions', () => {
+describe.skip('e2e transactions', () => {
   // log all events for the transfare, calling done() when finalized
   const logEvents = (done: () => {}) =>
     ({ events, status }) => {

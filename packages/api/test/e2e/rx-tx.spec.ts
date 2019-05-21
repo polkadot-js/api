@@ -3,13 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { first, switchMap } from 'rxjs/operators';
-import testingPairs from '@polkadot/keyring/testingPairs';
 
-import Api from '../../src/rx';
+import { ApiRxInterface } from '@polkadot/api/rx/types';
+
+import testingPairs from '@polkadot/keyring/testingPairs';
+import Api from '@polkadot/api/rx';
 
 describe.skip('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api;
+  let api: ApiRxInterface;
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
