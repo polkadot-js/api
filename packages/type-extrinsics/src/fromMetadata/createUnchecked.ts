@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadata } from '@polkadot/types/Metadata/v4/Calls';
-import { MethodFunction } from '@polkadot/types/primitive/Method';
-import { Method } from '@polkadot/types';
-import { assert, stringCamelCase } from '@polkadot/util';
+import { FunctionMetadata } from '@plugnet/types/Metadata/v4/Calls';
+import { MethodFunction } from '@plugnet/types/primitive/Method';
+import { Method } from '@plugnet/types';
+import { assert, stringCamelCase } from '@plugnet/util';
 
 /**
  * From the metadata of a function in the module's storage, generate the function

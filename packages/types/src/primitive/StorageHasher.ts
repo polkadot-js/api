@@ -11,7 +11,7 @@ export default class StorageHasher extends Enum {
       'Blake2_256',
       'Twox128',
       'Twox256',
-      'Twox128Concat'
+      'Twox64Concat'
     ], value);
   }
 
@@ -44,9 +44,9 @@ export default class StorageHasher extends Enum {
   }
 
   /**
-   * @description Is the enum isTwox128Concat?
+   * @description Is the enum isTwox64Concat?
    */
-  get isTwox128Concat (): boolean {
+  get isTwox64Concat (): boolean {
     return this.toNumber() === 4;
   }
 

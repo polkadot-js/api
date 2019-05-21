@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Hash, Header } from '@polkadot/types';
+import { Hash, Header } from '@plugnet/types';
 
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';

@@ -7,8 +7,8 @@ import { DerivedSessionInfo } from '../types';
 import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber, Option } from '@polkadot/types';
+import { ApiInterface$Rx } from '@plugnet/api/types';
+import { BlockNumber, Option } from '@plugnet/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';

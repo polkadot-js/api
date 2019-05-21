@@ -4,8 +4,8 @@
 
 import { ModuleStorage, Storage } from '../types';
 
-import Metadata from '@polkadot/types/Metadata';
-import { stringLowerFirst } from '@polkadot/util';
+import Metadata from '@plugnet/types/Metadata';
+import { stringLowerFirst } from '@plugnet/util';
 
 import createFunction from './createFunction';
 import { storage } from './storage';

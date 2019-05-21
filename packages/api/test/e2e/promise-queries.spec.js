@@ -168,4 +168,19 @@ describe.skip('e2e queries', () => {
       done();
     });
   });
+
+  it('queries state using double map key', async () => {
+    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
+    const eventTopics = await api.query.system.eventTopics(['any', '0x1234']);
+
+    expect(eventTopics.toString()).toEqual('[]');
+  });
+
+  it('subscribes to queries using double map key', async (done) => {
+    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
+    api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
+      expect(eventTopics.toString()).toEqual('[]');
+      done();
+    });
+  });
 });

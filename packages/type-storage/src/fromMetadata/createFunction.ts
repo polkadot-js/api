@@ -7,7 +7,7 @@ import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFun
 import { StorageFunction } from '@plugnet/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@plugnet/util';
 
-import getHasher from './getHasher';
+import getHasher, { HasherFunction } from './getHasher';
 
 export interface CreateItemOptions {
   key?: string;
@@ -31,16 +31,36 @@ export default function createFunction (section: Text | string, method: Text | s
   const rawKey = stringToU8a(stringKey);
 
   // Get the hashing function
-  // FIXME Hash correctly for double map too
-  const hasher = meta.type.isMap
-    ? getHasher(meta.type.asMap.hasher)
-    : getHasher();
+  let hasher: HasherFunction;
+  let key2Hasher: HasherFunction;
+
+  if (meta.type.isDoubleMap) {
+    hasher = getHasher(meta.type.asDoubleMap.hasher);
+    key2Hasher = getHasher(meta.type.asDoubleMap.key2Hasher);
+  } else if (meta.type.isMap) {
+    hasher = getHasher(meta.type.asMap.hasher);
+  } else {
+    hasher = getHasher();
+  }
 
   // Can only have zero or one argument:
   // - storage.balances.freeBalance(address)
   // - storage.timestamp.blockPeriod()
   const storageFn = (arg?: any): Uint8Array => {
     let key = rawKey;
+
+    if (meta.type.isDoubleMap) {
+      assert(!isUndefined(arg) && !isNull(arg) && !isUndefined(arg[0]) && !isNull(arg[0]) && !isUndefined(arg[1]) && !isNull(arg[1]), `${meta.name} expects two arguments`);
+      const type1 = meta.type.asDoubleMap.key1.toString();
+      const type2 = meta.type.asDoubleMap.key2.toString();
+
+      const param1Encoded = u8aConcat(key, createType(type1, arg[0]).toU8a(true));
+      const param1Hashed = hasher(param1Encoded);
+      const param2Hashed = key2Hasher(createType(type2, arg[1]).toU8a(true));
+
+      return u8aConcat(param1Hashed, param2Hashed);
+    }
+
     if (meta.type.isMap) {
       assert(!isUndefined(arg) && !isNull(arg), `${meta.name} expects one argument`);
 

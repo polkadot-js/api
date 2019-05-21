@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
 import { assert, isFunction, isString, isU8a } from '@plugnet/util';
 
-import Bytes from './Bytes';
+import U8a from '../codec/U8a';
 import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
+import { AnyU8a } from '../types';
+import Bytes from './Bytes';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
@@ -69,6 +69,14 @@ export default class StorageKey extends Bytes {
       const [fn, ...arg]: [StorageFunction, ...Array<any>] = value as any;
 
       assert(isFunction(fn), 'Expected function input for key construction');
+
+      if (fn.meta && fn.meta.type.isDoubleMap) {
+        return {
+          key: new U8a(fn(...arg)), // skip compact length check in decodeBytes
+          method: fn.method,
+          section: fn.section
+        };
+      }
 
       return {
         key: fn(...arg),

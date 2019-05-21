@@ -6,8 +6,8 @@ import { DerivedStaking } from '../types';
 
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { ApiInterface$Rx } from '@plugnet/api/types';
+import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@plugnet/types';
 
 import { drr } from '../util/drr';
 
