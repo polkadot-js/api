@@ -39,7 +39,7 @@ describe.skip('e2e transfer', () => {
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
         return api.author.submitExtrinsic(extrinsic.toU8a());
-      })
+      });
   });
 
   it('makes a transfer via watch', (done) => {
@@ -55,6 +55,6 @@ describe.skip('e2e transfer', () => {
             done();
           }
         });
-      })
+      });
   });
 });

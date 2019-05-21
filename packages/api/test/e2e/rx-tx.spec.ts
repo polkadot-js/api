@@ -16,7 +16,7 @@ describe.skip('e2e transactions', () => {
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
     jest.setTimeout(30000);
-    done()
+    done();
   });
 
   afterEach(() => {

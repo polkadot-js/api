@@ -95,7 +95,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (signAndSend via Signer) - sad path', async () => {
-    //no signer
+    // no signer
     api.setSigner();
 
     await expect(api.tx.balances
@@ -106,16 +106,15 @@ describe.skip('e2e transactions', () => {
 
     api.setSigner(signer);
 
-    //no callback
+    // no callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .signAndSend(keyring.alice.address())).rejects.toThrow('does not have the keyringPair');
 
-    //with callback
+    // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address(), ({ events, status }) => {
-      })).rejects.toThrow('does not have the keyringPair');
+      .signAndSend(keyring.alice.address(), ({ events, status }) => {})).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
@@ -143,7 +142,7 @@ describe.skip('e2e transactions', () => {
       return api.tx.balances
         .transfer(pair.address(), 123456)
         .signAndSend(keyring.dave, logEvents(cb));
-    };
+    }
 
     function doTwo (cb) {
       return api.tx.balances
@@ -153,7 +152,7 @@ describe.skip('e2e transactions', () => {
 
     // return doTwo(done);
     return doOne(() => {
-      doTwo(done)
+      doTwo(done);
     });
   });
 });
