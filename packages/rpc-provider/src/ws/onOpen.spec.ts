@@ -4,12 +4,15 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from '.';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import Mock from './../mock';
 
-let ws;
-let mock;
+import WsProvider from '@polkadot/rpc-provider/ws';
 
-function createWs (requests, autoConnect) {
+let ws: ProviderInterface;
+let mock: Mock;
+
+function createWs (requests: Array<any>, autoConnect: Boolean) {
   mock = mockWs(requests);
   ws = new Ws(TEST_WS_URL, autoConnect);
 

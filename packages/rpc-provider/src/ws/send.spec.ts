@@ -4,7 +4,7 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from '.';
+import Ws from '@polkadot/rpc-provider/ws';
 
 let ws;
 let mock;
