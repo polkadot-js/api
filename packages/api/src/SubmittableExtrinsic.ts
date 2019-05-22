@@ -199,8 +199,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
 
                   updateId = await (api.signer as Signer).sign(_extrinsic, address, {
                     ...expandOptions({ ...options, nonce }),
-                    genesisHash: api.genesisHash,
-                    version: api.runtimeVersion
+                    genesisHash: api.genesisHash
                   });
                 }
               }),

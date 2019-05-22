@@ -7,7 +7,7 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
-import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, RuntimeVersionInterface, SignatureOptions } from '@polkadot/types/types';
+import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
@@ -190,8 +190,7 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
 }
 
 export type SignerOptions = SignatureOptions & {
-  genesisHash: Hash,
-  version: RuntimeVersionInterface
+  genesisHash: Hash
 };
 
 export interface Signer {
