@@ -189,11 +189,15 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
 
+export type SignerOptions = SignatureOptions & {
+  genesisHash: Hash
+};
+
 export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: IExtrinsic, address: string, options: SignatureOptions): Promise<number>;
+  sign (extrinsic: IExtrinsic, address: string, options: SignerOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
