@@ -3,18 +3,18 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 
-import Ws from '@polkadot/rpc-provider/ws';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 describe('onMessageSubscribe', () => {
   let ws: ProviderInterface;
 
   beforeEach(() => {
-    ws = new Ws('ws://127.0.0.1:1234', false);
+    ws = new WsProvider('ws://127.0.0.1:1234', false);
   });
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
-      callback: (_, id: number) => { expect(typeof id).toBe('number'); },
+      callback: (_: any, id: number) => { expect(typeof id).toBe('number'); },
       method: 'test',
       subscription: {
         callback: (_: any, result: String) => {
@@ -31,7 +31,7 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
-      callback: (_, id: number) => { expect(typeof id).toBe('number'); },
+      callback: (_: any, id: number) => { expect(typeof id).toBe('number'); },
       method: 'test',
       subscription: {
         callback: (error) => {

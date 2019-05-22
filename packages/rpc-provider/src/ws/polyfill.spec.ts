@@ -2,12 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Global } from '@polkadot/rpc-provider/mock/types';
+
+declare const global: Global;
+
 describe('ws/polyfill', () => {
-  let origWs;
+  let origWs: WebSocket;
 
   beforeEach(() => {
     origWs = global.WebSocket;
-    global.WebSocket = null;
   });
 
   afterEach(() => {

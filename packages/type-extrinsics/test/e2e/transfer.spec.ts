@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { RpcInterface } from '@polkadot/rpc-core/types';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 import Rpc from '@polkadot/rpc-core';
 import Ws from '@polkadot/rpc-provider/ws';
@@ -50,7 +51,7 @@ describe.skip('e2e transfer', () => {
 
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
-        return api.author.submitAndWatchExtrinsic(extrinsic, (result) => {
+        return api.author.submitAndWatchExtrinsic(extrinsic, (result: SubmittableResult) => {
           if (result.status.isFinalized) {
             done();
           }

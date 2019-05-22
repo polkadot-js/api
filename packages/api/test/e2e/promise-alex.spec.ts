@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, Header } from '@polkadot/types';
+import { EventRecord, Hash, Header, KeyedEvent } from '@polkadot/types';
 
 import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -55,8 +55,8 @@ describe.skip('alex queries', () => {
     });
 
     it('Subscribes to the best finalized header on ALEX', async (done) => {
-      api.rpc.chain.subscribeFinalizedHeads((heads) => {
-        expect(heads instanceof Header).toBe(true);
+      api.rpc.chain.subscribeFinalizedHeads((head) => {
+        expect(head instanceof Header).toBe(true);
         done();
       }).then().catch();
     });
@@ -72,9 +72,9 @@ describe.skip('alex queries', () => {
 
   it('makes a query at a latest block (specified)', async () => {
     const header: Header = await api.rpc.chain.getHeader();
-    const events: Array<EventRecord> = await api.query.system.events.at(header.hash);
+    const events: any = await api.query.system.events.at(header.hash);
 
-    events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+    events.forEach(({ event: { data, method, section }, phase: object, topics }, index) => {
       console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
     });
 
@@ -85,7 +85,7 @@ describe.skip('alex queries', () => {
     api.query.system.events((events: Array<EventRecord>) => {
       console.error(JSON.stringify(events));
 
-      events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+      events.forEach(({ event: { data, method, section }, phase: object, topics }, index) => {
         console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
       });
 

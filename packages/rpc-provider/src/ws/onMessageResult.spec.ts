@@ -15,7 +15,7 @@ describe('onMessageResult', () => {
 
   it('calls the handler when found', (done) => {
     provider.handlers[5] = {
-      callback: (_, result: any) => {
+      callback: (_: any, result: any) => {
         expect(result).toEqual('test');
         done();
       }

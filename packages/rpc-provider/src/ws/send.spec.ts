@@ -4,12 +4,16 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { Global, Mock } from '@polkadot/rpc-provider/mock/types';
+
 import Ws from '@polkadot/rpc-provider/ws';
 
-let ws;
-let mock;
+declare var global: Global;
+let ws: ProviderInterface;
+let mock: Mock;
 
-function createMock (requests) {
+function createMock (requests: Array<any>) {
   mock = mockWs(requests);
 }
 
@@ -20,7 +24,7 @@ function createWs (autoConnect: boolean = true) {
 }
 
 describe('send', () => {
-  let globalWs;
+  let globalWs: WebSocket;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -31,7 +35,6 @@ describe('send', () => {
 
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 

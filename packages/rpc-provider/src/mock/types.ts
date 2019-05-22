@@ -4,6 +4,11 @@
 
 import { Server } from 'mock-socket';
 
+export interface Global extends NodeJS.Global {
+  WebSocket: WebSocket;
+  fetch: GlobalFetch;
+}
+
 export type Mock = {
   body: Object,
   requests: Number,

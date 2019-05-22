@@ -6,7 +6,7 @@ import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import { Mock } from '@polkadot/rpc-provider/mock/types';
 
-import Ws from '@polkadot/rpc-provider/ws';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 describe('onConnect', () => {
   let mock: Mock;
@@ -22,7 +22,7 @@ describe('onConnect', () => {
   });
 
   it('sets up the on* handlers', () => {
-    const ws = new Ws(TEST_WS_URL, false);
+    const ws = new WsProvider(TEST_WS_URL);
 
     ws.connect();
 

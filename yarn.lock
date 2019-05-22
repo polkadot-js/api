@@ -1721,13 +1721,13 @@
     vuepress "^1.0.0-alpha.47"
 
 "@polkadot/keyring@^0.91.0-beta.2":
-  version "0.91.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.91.0-beta.2.tgz#d25b6cd32581ef1206b567f82ea5158a4745dfe4"
-  integrity sha512-89bhf7L827fAarZ5mXwQmCJz2/tjHlo9SHyLqO5JA6rl1UnGlzXJ+2FKbjyLceGVsQLRXJ3k+HsbJRdRCKGqTA==
+  version "0.91.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.91.1.tgz#9d0d06ffb7c1ebc575304cab0e3699c76637a694"
+  integrity sha512-XYWbqWK8CAeuPFg1llS65r2sO7k2qTalJMHPQiaIVETPXQGx4SCzzMzBkD9eVvHTs9KfamynOQrspflhjHtgbg==
   dependencies:
     "@babel/runtime" "^7.4.5"
-    "@polkadot/util" "^0.91.0-beta.2"
-    "@polkadot/util-crypto" "^0.91.0-beta.2"
+    "@polkadot/util" "^0.91.1"
+    "@polkadot/util-crypto" "^0.91.1"
     "@types/bs58" "^4.0.0"
     bs58 "^4.0.1"
 
@@ -1736,13 +1736,13 @@
   resolved "https://registry.yarnpkg.com/@polkadot/ts/-/ts-0.1.56.tgz#ffd6e9c95704a7fb90b918193b9dc5c440114b27"
   integrity sha512-wnt4zXxZXyz6WaubTO/I+nUElwV2DogFzdl6CrKfVn2PTWp8uHN06W9s40FH57ORtmQfDr9rLRP8Nq+oIyElbg==
 
-"@polkadot/util-crypto@^0.91.0-beta.2":
-  version "0.91.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.91.0-beta.2.tgz#f404d784256704ec1c04e22be2fba33a745d9eed"
-  integrity sha512-FyIN9TveMjXclqkjeMrfpaH5ze6ic3tSr/iOlIR+aPDS61Z8meXLXdFWuAhSCFShjqdZxKHzaywEEvBXPJ+Y2g==
+"@polkadot/util-crypto@^0.91.0-beta.2", "@polkadot/util-crypto@^0.91.1":
+  version "0.91.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.91.1.tgz#c9e48df45588af7fa7822652d9938764274e548f"
+  integrity sha512-o1CU1fwf0zxTJfuXgWs+IBJ8qIsZK9Pk7dSKR+YcDP3RYYCF8kRp+PDw/BHtvOhSerLKn9rxECjmtk+5sVVzkQ==
   dependencies:
     "@babel/runtime" "^7.4.5"
-    "@polkadot/util" "^0.91.0-beta.2"
+    "@polkadot/util" "^0.91.1"
     "@polkadot/wasm-crypto" "^0.10.1"
     "@types/bip39" "^2.4.2"
     "@types/pbkdf2" "^3.0.0"
@@ -1756,10 +1756,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.91.0-beta.2":
-  version "0.91.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.91.0-beta.2.tgz#e612c0b570338623f74cce84d8726ca4e97d4160"
-  integrity sha512-bhgGZirQVXUVrR8GdgehD8YjWKKbEIWW/YxkrqXSFuO+y+IXgv6Y+AUO/fwdbh5ZVndiEL3wUpTunJFb6lxF+A==
+"@polkadot/util@^0.91.0-beta.2", "@polkadot/util@^0.91.1":
+  version "0.91.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.91.1.tgz#f5f2323e1bad387ab136d198f7293331b060b348"
+  integrity sha512-NqW3FlKQl0wh4mt/QpmGduE0VLBSsb6S45pyjgM3P7Fz37EyrOOZa8s7IBdIck2dtY3MwAy8JWGJjpTnMHXh8Q==
   dependencies:
     "@babel/runtime" "^7.4.5"
     "@types/bn.js" "^4.11.5"
