@@ -4,13 +4,12 @@
 
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Global, Mock } from '@polkadot/rpc-provider/mock/types';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 declare var global: Global;
-let ws: ProviderInterface;
+let ws: WsProvider;
 let mock: Mock;
 
 function createMock (requests: Array<any>) {

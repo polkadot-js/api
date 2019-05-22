@@ -2,18 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Ws from '@polkadot/rpc-provider/ws';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 describe('state', () => {
   it('requires an ws:// prefixed endpoint', () => {
     expect(
-      () => new Ws('http://', false)
+      () => new WsProvider('http://', false)
     ).toThrow(/with 'ws/);
   });
 
   it('allows wss:// endpoints', () => {
     expect(
-      () => new Ws('wss://', false)
+      () => new WsProvider('wss://', false)
     ).not.toThrow();
   });
 });

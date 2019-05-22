@@ -22,13 +22,13 @@ describe('onConnect', () => {
   });
 
   it('sets up the on* handlers', () => {
-    const ws = new WsProvider(TEST_WS_URL);
+    const ws: Mock = new WsProvider(TEST_WS_URL);
 
     ws.connect();
 
-    expect(ws.websocket.onclose[0]).toBeDefined();
-    expect(ws.websocket.onerror[0]).toBeDefined();
-    expect(ws.websocket.onmessage[0]).toBeDefined();
+    expect(ws!.websocket.onclose[0]).toBeDefined();
+    expect(ws.websocket!.onerror[0]).toBeDefined();
+    expect(ws.websocket!.onmessage![0]).toBeDefined();
     expect(ws.websocket.onopen[0]).toBeDefined();
   });
 });

@@ -12,7 +12,7 @@ export interface Global extends NodeJS.Global {
 export type Mock = {
   body: Object,
   requests: Number,
-  server: Server,
+  server: Server
   done: () => {}
 };
 

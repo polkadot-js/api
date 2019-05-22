@@ -2,12 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-describe('onMessageResult', () => {
-  let provider: ProviderInterface;
+describe('WsProvider', () => {
+  let provider: WsProvider;
 
   beforeEach(() => {
     provider = new WsProvider('ws://127.0.0.1:1234', false);

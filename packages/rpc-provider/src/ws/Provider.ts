@@ -283,7 +283,7 @@ export default class WsProvider implements WSProviderInterface {
     this.emit('error', error);
   }
 
-  private onSocketMessage = (message: MessageEvent): void => {
+  onSocketMessage = (message: MessageEvent): void => {
     l.debug(() => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);

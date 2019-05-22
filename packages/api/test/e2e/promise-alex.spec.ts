@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { EventRecord, Hash, Header, KeyedEvent } from '@polkadot/types';
+import { EventRecord, Hash, Header } from '@polkadot/types';
 
 import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -12,7 +12,7 @@ import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
-describe.skip('alex queries', () => {
+describe('alex queries', () => {
   let api: ApiPromiseInterface;
 
   beforeEach(() => {
@@ -71,24 +71,14 @@ describe.skip('alex queries', () => {
   });
 
   it('makes a query at a latest block (specified)', async () => {
-    const header: Header = await api.rpc.chain.getHeader();
+    const header: any = await api.rpc.chain.getHeader();
     const events: any = await api.query.system.events.at(header.hash);
-
-    events.forEach(({ event: { data, method, section }, phase: object, topics }, index) => {
-      console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
-    });
 
     expect(events.length).not.toEqual(0);
   });
 
   it('subscribes to events', (done) => {
     api.query.system.events((events: Array<EventRecord>) => {
-      console.error(JSON.stringify(events));
-
-      events.forEach(({ event: { data, method, section }, phase: object, topics }, index) => {
-        console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
-      });
-
       expect(events).not.toHaveLength(0);
       done();
     });

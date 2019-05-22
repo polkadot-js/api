@@ -6,18 +6,19 @@ import { RpcInterface } from '@polkadot/rpc-core/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 
 import Rpc from '@polkadot/rpc-core';
-import Ws from '@polkadot/rpc-provider/ws';
+import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import extrinsics from '@polkadot/extrinsics/static';
 
 const keyring = testingPairs({ type: 'ed25519' });
 
+// @TODO All three tests below are broken, find better way to test transfers.
 describe.skip('e2e transfer', () => {
   let api: RpcInterface;
 
   beforeAll(() => {
-    api = new Rpc(new Ws('ws://127.0.0.1:9944'));
+    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   beforeEach(() => {
