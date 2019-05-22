@@ -10,6 +10,7 @@ import testingPairs from '@polkadot/keyring/testingPairs';
 
 import incrementer from '../data/incrementer.json';
 import erc20 from '../data/erc20.json';
+import Dummy from '../data/Dummy.json';
 import Api from '../../src/promise';
 
 describe('e2e contracts', () => {
@@ -95,13 +96,106 @@ describe('e2e contracts', () => {
     let abi;
 
     beforeAll(() => {
-      abi = abi = new ContractAbi(erc20);
+      abi = new ContractAbi(erc20);
     });
 
     it('has the attached methods', () => {
       expect(Object.keys(abi.messages)).toEqual(
         ['totalSupply', 'balanceOf', 'allowance', 'transfer', 'approve', 'transferFrom']
       );
+    });
+  });
+
+  describe.only('generic vec and tuple return types', () => {
+    let address;
+    let codeHash;
+    let keyring;
+    let api;
+    let abi;
+
+    beforeAll(() => {
+      abi = new ContractAbi(Dummy);
+    });
+
+    it.only('allows putCode', (done) => {
+      const code = fs.readFileSync(path.join(__dirname, '../data/dummy-opt.wasm')).toString('hex');
+
+      api.tx.contract
+        .putCode(200000, `0x${code}`)
+        .signAndSend(keyring.alice, (result) => {
+          console.error('putCode', JSON.stringify(result));
+
+          if (result.status.isFinalized) {
+            const record = result.findRecord('contract', 'CodeStored');
+
+            if (record) {
+              codeHash = record.event.data[0];
+
+              done();
+            }
+          }
+        });
+    });
+
+    it('allows contract create', (done) => {
+      expect(codeHash).toBeDefined();
+
+      api.tx.contract
+        // create(endowment: Compact<BalanceOf>, gas_limit: Compact<Gas>, code_hash: CodeHash, data: Bytes)
+        .create(12345, 500000, codeHash, abi.deploy())
+        .signAndSend(keyring.bob, (result) => {
+          console.error('create', JSON.stringify(result));
+
+          if (result.status.isFinalized) {
+            const record = result.findRecord('contract', 'Instantiated');
+
+            if (record) {
+              address = record.event.data[1];
+
+              done();
+            }
+          }
+        });
+    });
+
+    it('should decode tuple return type', () => {
+      expect(address).toBeDefined();
+
+      // expected return type: "Vec<T>": {
+      //  "T": "u32"
+      // }
+
+      api.tx.contract
+        .call(address, 12345, 500000, abi.messages.vector_basic())
+        .signAndSend(keyring.bob, (result) => {
+          console.error('call to vector_basic()', JSON.stringify(result));
+
+          if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
+            console.log('here is the result then... ---> ',result);
+            done();
+          }
+        });
+    });
+
+    it('should decode nested tuple return type', () => {
+
+    });
+
+    it('should decode tuple of arrays return type', () => {
+
+    });
+
+    it('should decode array return type', () => {
+
+    });
+
+    
+    it('should decode nested array return type', () => {
+
+    });
+
+    it('should decode array of tuples return type', () => {
+
     });
   });
 });
