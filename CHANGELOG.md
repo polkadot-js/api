@@ -1,7 +1,6 @@
 # 0.79.1
 
 - DoubleMap query support
-- Support for mortal transactions via Era
 - Support latest EventRecord metadata (substrate master)
 - Introduce RuntimeVersion type overrides in api/nodeCompat.ts
 - Add `api.queryMulti` and `api.query.<module>.<method>.multi`
