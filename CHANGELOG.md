@@ -1,11 +1,14 @@
 # 0.79.1
 
+- DoubleMap query support
+- Support for mortal transactions via Era
 - Support latest EventRecord metadata (substrate master)
-- Introduce RuntimeVeriosion type overrides in api/nodeCompat.ts
+- Introduce RuntimeVersion type overrides in api/nodeCompat.ts
 - Add `api.queryMulti` and `api.query.<module>.<method>.multi`
 - Convert `api.derive.*` to use multi queries
 - `types/codec/Set` now extends the base JS `Set` (breaking: `set.values` -> `set.strings`)
 - Breaking: rename `meta.arguments` to `meta.args` in function metadata (`arguments` is a JS reserved word)
+- Add `toRawType` on all type classes (breakdown into primitive types)
 
 # 0.78.1
 

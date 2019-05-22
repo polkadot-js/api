@@ -3,9 +3,6 @@
   "version": "0.78.103",
   "description": "Method definitions for the Plugnet RPC layer",
   "main": "index.js",
-  "engines": {
-    "node": ">=6.4"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -29,6 +26,6 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/type-jsonrpc#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4"
+    "@babel/runtime": "^7.4.5"
   }
 }
