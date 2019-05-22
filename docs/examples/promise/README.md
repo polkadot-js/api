@@ -12,7 +12,14 @@ substrate --dev
 
 ## Running the examples
 
-From each folder, run `yarn` to install the required dependencies and then run `yarn start` to execute the example against the running node.
+From each folder, identify all outdated packages, and then update them:
+```bash
+yarn outdated;
+npm install -g yarn-upgrade-all;
+yarn-upgrade-all
+```
+
+Then run `yarn` to install the required dependencies and then run `yarn start` to execute the example against the running node.
 
 ## Development accounts
 
