@@ -197,10 +197,11 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
                 } else {
                   assert(api.signer, 'no signer exists');
 
-                  updateId = await (api.signer as Signer).sign(_extrinsic, address, expandOptions({
-                    ...options,
-                    nonce
-                  }));
+                  updateId = await (api.signer as Signer).sign(_extrinsic, address, {
+                    ...expandOptions({ ...options, nonce }),
+                    genesisHash: api.genesisHash,
+                    version: api.runtimeVersion
+                  });
                 }
               }),
               switchMap(() => {

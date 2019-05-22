@@ -7,7 +7,7 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
-import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, RuntimeVersionInterface, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
@@ -189,11 +189,16 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
 
+export type SignerOptions = SignatureOptions & {
+  genesisHash: Hash,
+  version: RuntimeVersionInterface
+};
+
 export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: IExtrinsic, address: string, options: SignatureOptions): Promise<number>;
+  sign (extrinsic: IExtrinsic, address: string, options: SignerOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
