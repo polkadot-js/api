@@ -391,8 +391,12 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
             // ignore
           });
         }, KEEPALIVE_INTERVAL);
-      } catch (error) {
-        l.error('FATAL: Unable to initialize the API: ', error.message);
+      } catch (_error) {
+        const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
+
+        l.error(error);
+
+        this.emit('error', error);
       }
     });
   }
