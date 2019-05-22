@@ -11,9 +11,9 @@
   },
 
   "dependencies": {
-    "@polkadot/api": "^0.53.1"
+    "@polkadot/api": "^0.78.1"
   },
   "devDependencies": {
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.3"
   }
 }
