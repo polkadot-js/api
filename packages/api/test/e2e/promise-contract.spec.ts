@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Address, ContractAbi, Hash } from '@polkadot/types';
+import { ContractAbi } from '@polkadot/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 import { SubmittableResult } from '@polkadot/api';
@@ -16,8 +16,8 @@ import erc20 from '../data/erc20.json';
 import Api from '@polkadot/api/promise';
 
 describe.skip('e2e contracts', () => {
-  let address: Address;
-  let codeHash: Hash;
+  let address: any;
+  let codeHash: any;
   let keyring: {
     [index: string]: KeyringPair
   };
@@ -63,9 +63,8 @@ describe.skip('e2e contracts', () => {
     it('allows contract create', (done) => {
       expect(codeHash).toBeDefined();
 
-      api.tx.contract
-        .create(12345, 500000, codeHash, abi.deploy(12345))
-        .signAndSend(keyring.bob, (result: SubmittableResult) => {
+      api.tx.contract.create(12345, 500000, codeHash, abi.deploy(12345), (contract: any) => {
+        contract.signAndSend(keyring.bob, (result: SubmittableResult) => {
           console.error('create', JSON.stringify(result));
 
           if (result.status.isFinalized) {
@@ -78,20 +77,21 @@ describe.skip('e2e contracts', () => {
             }
           }
         }).then().catch();
+      });
     });
 
     it('allows contract call', (done) => {
       expect(address).toBeDefined();
 
-      api.tx.contract
-        .call(address, 12345, 500000, abi.messages.inc(123))
-        .signAndSend(keyring.bob, (result: SubmittableResult) => {
+      api.tx.contract.call(address, 12345, 500000, abi.messages.inc(123), (contract: any) => {
+        contract.signAndSend(keyring.bob, (result: SubmittableResult) => {
           console.error('call', JSON.stringify(result));
 
           if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
             done();
           }
         }).then().catch();
+      });
     });
   });
 

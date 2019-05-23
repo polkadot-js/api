@@ -51,11 +51,7 @@ function mockWs (requests: Array<{ method: string }>) {
     requests: number,
     server: Server,
     done: any
-  } = {
-    body: {},
-    requests: 0,
-    server,
-    done: () =>
+  } = { body: {}, requests: 0, server, done: () =>
       server.stop(() => {
         // ignore
       })

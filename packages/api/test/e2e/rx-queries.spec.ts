@@ -42,11 +42,11 @@ describe.skip('e2e queries', () => {
     api.rpc.chain
       .getHeader()
       .pipe(
-        switchMap((header) =>
-          api.query.system.events.at(header.hash)
+        switchMap(({ hash }: any) =>
+          api.query.system.events.at(hash)
         )
       )
-      .subscribe((events) => {
+      .subscribe((events: any) => {
         expect(events.length).not.toEqual(0);
         done();
       });
