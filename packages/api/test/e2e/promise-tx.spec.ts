@@ -193,6 +193,7 @@ describe.skip('e2e transactions', () => {
     console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+
     const unsubscribe = await api.rpc.chain.subscribeNewHead(async (header) => {
       console.log(`Chain is at block: #${header.blockNumber}`);
       if (header.blockNumber.toNumber() === eraDeath - 1) {

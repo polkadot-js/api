@@ -5,7 +5,6 @@
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import { Mock } from '@polkadot/rpc-provider/mock/types';
-// import WsProvider from '@polkadot/rpc-provider/mock';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -49,11 +48,13 @@ describe('onConnect', () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL);
 
     expect(provider.websocket).not.toBeNull();
-    // expect(provider.websocket).toEqual(expect.objectContaining({
-    //   close: expect.any(Function),
-    //   error: expect.any(Function),
-    //   message: expect.any(Function),
-    //   open: expect.any(Function)
-    // }));
+    expect(provider.websocket).toEqual(expect.objectContaining({
+      listeners: expect.objectContaining({
+        close: [expect.any(Function)],
+        error: [expect.any(Function)],
+        message: [expect.any(Function)],
+        open: [expect.any(Function)]
+      })
+    }));
   });
 });
