@@ -173,11 +173,11 @@ describe.skip('e2e transactions', () => {
     // eraDeath - end of ERA validity (EXPIRY)
     const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
     const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-    console.log('STARTED AT :'+eraBirth+' EXPIRED AT :'+eraDeath);
+    console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances
       .transfer(keyring.eve.address(), 12345);
-    const hash = await ex.signAndSend(keyring.dave, {blockHash: eraHash, era:exERA, nonce});
+    const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce });
 
     expect(hash.toHex()).toHaveLength(66);
     done();
@@ -190,13 +190,13 @@ describe.skip('e2e transactions', () => {
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
     const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
     const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-    console.log('STARTED AT :'+eraBirth+' EXPIRED AT :'+eraDeath);
+    console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
-    const unsubscribe = await api.rpc.chain.subscribeNewHead(async(header) => {
+    const unsubscribe = await api.rpc.chain.subscribeNewHead(async (header) => {
       console.log(`Chain is at block: #${header.blockNumber}`);
-      if (header.blockNumber.toNumber() === eraDeath-1) {
-        const hash = await ex.signAndSend(keyring.alice, {blockHash: eraHash, era:exERA, nonce});
+      if (header.blockNumber.toNumber() === eraDeath - 1) {
+        const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce });
 
         expect(hash).toBeUndefined();
         done();

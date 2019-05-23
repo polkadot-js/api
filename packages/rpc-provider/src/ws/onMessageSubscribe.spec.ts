@@ -13,25 +13,35 @@ describe('onMessageSubscribe', () => {
 
   it('calls the subscriber with data', (done) => {
     ws.handlers[11] = {
-      callback: (_: any, id: number) => { expect(typeof id).toBe('number'); },
+      callback: (_: any, id: number) => {
+        expect(typeof id).toBe('number');
+      },
       method: 'test',
+      params: [],
       subscription: {
-        callback: (_: any, result: String) => {
-          expect(result).toEqual('test');
-          done();
+        callback: (_: any, id: number) => {
+          expect(typeof id).toBe('number');
         },
         type: 'test'
       }
     };
 
-    ws.onSocketMessage({ data: '{"jsonrpc":"2.0","id":11,"result":22}' });
-    ws.onSocketMessage({ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' });
+    ws.onSocketMessage({
+      data: '{"jsonrpc":"2.0","id":11,"result":22}'
+    });
+
+    ws.onSocketMessage({
+      data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}'
+    });
   });
 
   it('calls the subscriber with error', (done) => {
     ws.handlers[11] = {
-      callback: (_: any, id: number) => { expect(typeof id).toBe('number'); },
+      callback: (_: any, id: number) => {
+        expect(typeof id).toBe('number');
+      },
       method: 'test',
+      params: [],
       subscription: {
         callback: (error) => {
           expect(error.message).toMatch(/test/);
