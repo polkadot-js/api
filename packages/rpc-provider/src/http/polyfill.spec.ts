@@ -22,7 +22,7 @@ describe('http/polyfill', () => {
   });
 
   it('polyfills with no exceptions (with fetch)', () => {
-    global.fetch = () => true;
+    expect(global.fetch).toBeTruthy();
 
     expect(require('./polyfill')).toBeDefined();
   });

@@ -4,26 +4,16 @@
 
 import { Global } from '@polkadot/rpc-provider/mock/types';
 
-declare const global: Global;
+declare let global: Global;
 
 describe('ws/polyfill', () => {
-  let origWs: WebSocket;
-
-  beforeEach(() => {
-    origWs = global.WebSocket;
-  });
-
-  afterEach(() => {
-    global.WebSocket = origWs;
-  });
-
-  it('polyfills with no exceptions (without WebSocket)', () => {
+  it('polyfills with no exceptions (with WebSocket)', () => {
+    expect(global.WebSocket).toBeTruthy();
     expect(require('./polyfill')).toBeDefined();
   });
 
-  it('polyfills with no exceptions (with WebSocket)', () => {
-    global.WebSocket = () => true;
-
+  it('polyfills with no exceptions (without WebSocket)', () => {
+    global = null;
     expect(require('./polyfill')).toBeDefined();
   });
 });

@@ -59,7 +59,7 @@ function mockWs (requests: Array<{ method: string }>) {
 
   server.on('connection', (socket) => {
     // @ts-ignore definitions are wrong, this is 'on', not 'onmessage'
-    socket.on('message', (body: {}) => {
+    socket.on('message', (body: { [index: string]: {} }) => {
       const request = requests[requestCount];
       // @ts-ignore Yes, SHOULD be fixed, this is a mess
       const response = request.error
