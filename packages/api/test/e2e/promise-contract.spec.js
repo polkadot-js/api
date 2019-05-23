@@ -30,7 +30,7 @@ describe('e2e contracts', () => {
     done();
   });
 
-  describe('incrementer', () => {
+  describe.skip('incrementer', () => {
     let abi;
 
     beforeAll(() => {
@@ -92,7 +92,7 @@ describe('e2e contracts', () => {
     });
   });
 
-  describe('erc20', () => {
+  describe.skip('erc20', () => {
     let abi;
 
     beforeAll(() => {
@@ -106,6 +106,23 @@ describe('e2e contracts', () => {
     });
   });
 
+  // A Tuple ret_type from the contract is represented as a JS array of types
+    // e.g. Basic Tuple
+    // "return_type": [
+    //   "u32",
+    //   "u32"
+    // ]
+  // A Vector ret_type from the contract is represented as as JS array of objects of paramName and the generic types
+    // e.g. Nested Vector
+    // "return_type": {
+    //   "Vec<T>": {
+    //     "T": {
+    //       "Vec<T>": {
+    //         "T": "i32"
+    //       }
+    //     }
+    //   }
+    // }
   describe.only('generic vec and tuple return types', () => {
     let address;
     let codeHash;
@@ -161,17 +178,17 @@ describe('e2e contracts', () => {
     it('should decode tuple return type', () => {
       expect(address).toBeDefined();
 
-      // expected return type: "Vec<T>": {
+      // expected return type: 
+      // "Vec<T>": {
       //  "T": "u32"
       // }
-
       api.tx.contract
         .call(address, 12345, 500000, abi.messages.vector_basic())
         .signAndSend(keyring.bob, (result) => {
           console.error('call to vector_basic()', JSON.stringify(result));
 
           if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
-            console.log('here is the result then... ---> ',result);
+            console.log('here is the result then... ---> ', result);
             done();
           }
         });

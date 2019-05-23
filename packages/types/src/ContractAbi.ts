@@ -7,12 +7,10 @@ import { CodecArg, Constructor } from './types';
 import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 import Compact from './codec/Compact';
-import Tuple from './codec/Tuple';
 import Vector from './codec/Vector';
 import { createClass } from './codec/createType';
-import { Bool, I8, I16, I32, I64, I128, U8, U16, U32, U64, U128 } from './primitive';
 
-export type ContractABIReturnType = string | Vector<Bool | I8 | I16 | I32 | I64 | I128 | U8 | U16 | U32 | U64 | U128> | Tuple | null;
+export type ContractABIReturnType = string | Vector<any> | null;
 
 export type ContractABIArgs = Array<{
   name: string,
@@ -75,7 +73,7 @@ export function validateMethods ({ messages }: ContractABI): void {
     const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${name}`);
-    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type) || Array.isArray(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
+    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type) || Array.isArray(method.return_type) || method.return_type === Object(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
 
     validateArgs(`messages.${method.name}`, method.args);
   });
@@ -126,8 +124,10 @@ export default class ContractAbi implements Contract {
       name: stringCamelCase(name),
       type
     }));
+
     const Clazz = this._createClazz(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
     const baseStruct: { [index: string]: any } = { __selector: method.selector };
+
     const encoder = (...params: Array<CodecArg>): Uint8Array => {
       assert(params.length === args.length, `Expected ${args.length} arguments to contract ${name}, found ${params.length}`);
 
