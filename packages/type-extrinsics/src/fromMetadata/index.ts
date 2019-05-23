@@ -21,12 +21,12 @@ export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   return metadata.asV4.modules
     .filter((modul) => modul.calls.isSome)
     .reduce((result, modul: ModuleMetadata, sectionIndex) => {
-      const prefix = stringCamelCase(modul.prefix.toString());
+      const section = stringCamelCase(modul.name.toString());
 
-      result[prefix] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
-        const funcName = stringCamelCase(callMetadata.name.toString());
+      result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
+        const method = stringCamelCase(callMetadata.name.toString());
 
-        newModule[funcName] = createUnchecked(prefix, sectionIndex, methodIndex, callMetadata);
+        newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
       }, {} as Methods);
