@@ -16,9 +16,11 @@ describe('WsProvider', () => {
       callback: (_: any, result: any) => {
         expect(result).toEqual('test');
         done();
-      }
+      },
+      method: '',
+      params: []
     };
 
-    provider.onSocketMessage({ data: '{"jsonrpc":"2.0","id":5,"result":"test"}' });
+    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":5,"result":"test"}' }));
   });
 });

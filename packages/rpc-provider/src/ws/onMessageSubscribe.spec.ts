@@ -5,45 +5,38 @@
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 describe('onMessageSubscribe', () => {
-  let ws: WsProvider;
+  let provider: WsProvider;
 
   beforeEach(() => {
-    ws = new WsProvider('ws://127.0.0.1:1234', false);
+    provider = new WsProvider('ws://127.0.0.1:1234', false);
   });
 
   it('calls the subscriber with data', (done) => {
-    ws.handlers[11] = {
+    provider.handlers[3] = {
       callback: (_: any, id: number) => {
         expect(typeof id).toBe('number');
       },
       method: 'test',
       params: [],
       subscription: {
-        callback: (_: any, id: number) => {
-          expect(typeof id).toBe('number');
-        },
+        callback: (_: any) => { return; },
         type: 'test'
       }
     };
 
-    ws.onSocketMessage({
-      data: '{"jsonrpc":"2.0","id":11,"result":22}'
-    });
-
-    ws.onSocketMessage({
-      data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}'
-    });
+    provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' }));
   });
 
   it('calls the subscriber with error', (done) => {
-    ws.handlers[11] = {
+    provider.handlers[11] = {
       callback: (_: any, id: number) => {
         expect(typeof id).toBe('number');
       },
       method: 'test',
       params: [],
       subscription: {
-        callback: (error) => {
+        callback: (error: any) => {
           expect(error.message).toMatch(/test/);
           done();
         },
@@ -51,7 +44,7 @@ describe('onMessageSubscribe', () => {
       }
     };
 
-    ws.onSocketMessage({ data: '{"jsonrpc":"2.0","id":11,"result":22}' });
-    ws.onSocketMessage({ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' });
+    provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' }));
   });
 });

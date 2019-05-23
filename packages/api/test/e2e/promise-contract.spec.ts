@@ -54,9 +54,8 @@ describe.skip('e2e contracts', () => {
 
             if (record) {
               codeHash = record.event.data[0];
-
-              done();
             }
+            done();
           }
         }).then().catch();
     });

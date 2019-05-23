@@ -15,7 +15,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('e2e queries', () => {
+describe('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromiseInterface;
 
@@ -43,9 +43,7 @@ describe.skip('e2e queries', () => {
   it('queries state for a balance', async () => {
     const balance = await api.query.balances.freeBalance(keyring.alice.address());
 
-    expect(
-      balance.isZero()
-    ).toBe(false);
+    expect(balance).toBeInstanceOf(BN);
   });
 
   it('subscribes to rpc', (done) => {
@@ -143,8 +141,8 @@ describe.skip('e2e queries', () => {
   });
 
   it('makes a query at a latest block (specified)', async () => {
-    const header: Header = await api.rpc.chain.getHeader();
-    const events: Array<EventRecord> = await api.query.system.events.at(header.hash);
+    const header: any = await api.rpc.chain.getHeader();
+    const events: any = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
   });
