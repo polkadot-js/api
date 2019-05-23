@@ -9,7 +9,7 @@ import { Global, Mock } from '@polkadot/rpc-provider/mock/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 declare var global: Global;
-let ws: WsProvider;
+let provider: WsProvider;
 let mock: Mock;
 
 function createMock (requests: Array<any>) {
@@ -17,9 +17,9 @@ function createMock (requests: Array<any>) {
 }
 
 function createWs (autoConnect: boolean = true) {
-  ws = new WsProvider(TEST_WS_URL, autoConnect);
+  provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return provider;
 }
 
 describe('send', () => {
@@ -52,10 +52,10 @@ describe('send', () => {
       }
     };
 
-    ws = createWs(true);
+    provider = createWs(true);
     websocket.onopen();
 
-    return ws
+    return provider
       .send('test_encoding', ['param'])
       .catch((error) => {
         expect(error.message).toEqual('send error');

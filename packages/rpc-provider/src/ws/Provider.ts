@@ -69,7 +69,7 @@ export default class WsProvider implements WSProviderInterface {
   private autoConnect: boolean;
   private coder: Coder;
   private endpoint: string;
-  private handlers: {
+  public handlers: {
     [index: string]: WsState$Awaiting
   };
   private queued: {
@@ -81,7 +81,7 @@ export default class WsProvider implements WSProviderInterface {
   private waitingForId: {
     [index: string]: JsonRpcResponse
   };
-  private websocket: WebSocket | null;
+  public websocket: WebSocket | null;
 
   /**
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
