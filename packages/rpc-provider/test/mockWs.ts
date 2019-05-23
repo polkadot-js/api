@@ -46,7 +46,12 @@ function mockWs (requests: Array<{ method: string }>) {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;
-  const scope: { body: { [index: string]: {} }, requests: number, server: Server, done: any } = {
+  const scope: { 
+    body: { [index: string]: {} },
+    requests: number,
+    server: Server,
+    done: any
+  } = {
     body: {},
     requests: 0,
     server,
