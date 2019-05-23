@@ -24,9 +24,9 @@ export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
       const section = stringCamelCase(modul.name.toString());
 
       result[section] = modul.calls.unwrap().reduce((newModule, callMetadata, methodIndex) => {
-        const funcName = stringCamelCase(callMetadata.name.toString());
+        const method = stringCamelCase(callMetadata.name.toString());
 
-        newModule[funcName] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
+        newModule[method] = createUnchecked(section, sectionIndex, methodIndex, callMetadata);
 
         return newModule;
       }, {} as Methods);
