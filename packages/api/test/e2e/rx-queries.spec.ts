@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
 
 import { ApiRxInterface } from '@polkadot/api/rx/types';
@@ -31,10 +32,8 @@ describe.skip('e2e queries', () => {
 
   it('queries state for a balance', (done) => {
     api.query.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
-      expect(
-        balance.isZero()
-      ).toBe(false);
 
+      expect(balance).toBeInstanceOf(BN);
       done();
     });
   });

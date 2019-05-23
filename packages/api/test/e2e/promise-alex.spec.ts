@@ -12,7 +12,7 @@ import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';
 
-describe('alex queries', () => {
+describe.skip('alex queries', () => {
   let api: ApiPromiseInterface;
 
   beforeEach(() => {

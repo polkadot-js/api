@@ -4,7 +4,6 @@
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { ExtrinsicEra } from '@polkadot/types/type';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import { ApiPromiseInterface } from '@polkadot/api/promise/types';

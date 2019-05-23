@@ -4,7 +4,6 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { EventRecord, Header } from '@polkadot/types';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 
@@ -15,7 +14,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe('e2e queries', () => {
+describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: ApiPromiseInterface;
 
@@ -145,6 +144,10 @@ describe('e2e queries', () => {
     const events: any = await api.query.system.events.at(header.hash);
 
     expect(events.length).not.toEqual(0);
+
+    events.forEach(({ event: { data, method, section }, phase, topics }: any) => {
+      console.error(phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+    });
   });
 
   it('subscribes to events', (done) => {
