@@ -5,6 +5,7 @@
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
 import { Mock } from '@polkadot/rpc-provider/mock/types';
+// import WsProvider from '@polkadot/rpc-provider/mock';
 
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -21,14 +22,38 @@ describe('onConnect', () => {
     }
   });
 
-  it('sets up the on* handlers', () => {
-    const ws: Mock = new WsProvider(TEST_WS_URL);
+  it('Does not connect when autoConnect is false', () => {
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
 
-    ws.connect();
+    expect(provider.websocket).toBeNull();
+  });
 
-    expect(ws!.websocket.onclose[0]).toBeDefined();
-    expect(ws.websocket!.onerror[0]).toBeDefined();
-    expect(ws.websocket!.onmessage![0]).toBeDefined();
-    expect(ws.websocket.onopen[0]).toBeDefined();
+  it('Does not connect when autoConnect is false', () => {
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, true);
+
+    expect(provider.websocket).not.toBeNull();
+  });
+
+  it('Creates a new WebSocket instance by calling the connect() method', () => {
+    const provider: WsProvider = new WsProvider(TEST_WS_URL, false);
+
+    expect(provider.websocket).toBeNull();
+
+    provider.connect();
+
+    expect(provider.websocket).not.toBeNull();
+    expect(provider.websocket instanceof WebSocket).toBe(true);
+  });
+
+  it('Creates the on handlers', () => {
+    const provider: WsProvider = new WsProvider(TEST_WS_URL);
+
+    expect(provider.websocket).not.toBeNull();
+    // expect(provider.websocket).toEqual(expect.objectContaining({
+    //   close: expect.any(Function),
+    //   error: expect.any(Function),
+    //   message: expect.any(Function),
+    //   open: expect.any(Function)
+    // }));
   });
 });
