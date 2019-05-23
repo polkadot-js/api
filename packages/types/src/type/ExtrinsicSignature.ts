@@ -115,6 +115,13 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
     return (this.get('version') as U8).toNumber();
   }
 
+  /**
+   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
+   */
+  set era (era: ExtrinsicEra) {
+    this.set('era', era);
+  }
+
   private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): ExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
@@ -128,7 +135,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   /**
    * @description Adds a raw signature
    */
-  addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | string, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+  addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | string, _nonce: AnyNumber, _era: Uint8Array | ExtrinsicEra = IMMORTAL_ERA): ExtrinsicSignature {
     const signer = new Address(_signer);
     const nonce = new Nonce(_nonce);
     const era = new ExtrinsicEra(_era);
@@ -145,7 +152,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
     const signingPayload = new SignaturePayload({
       nonce,
       method,
-      era: era || IMMORTAL_ERA,
+      era: era || this.era || IMMORTAL_ERA,
       blockHash
     });
     const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
