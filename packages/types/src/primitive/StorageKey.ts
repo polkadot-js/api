@@ -2,22 +2,27 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
+import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { isFunction } from '@polkadot/util';
-
-import Bytes from './Bytes';
-import { StorageFunctionMetadata as MetaV0 } from '../Metadata/v0/Storage';
+import U8a from '../codec/U8a';
 import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
+import { AnyU8a } from '../types';
+import Bytes from './Bytes';
 
 export interface StorageFunction {
   (arg?: any): Uint8Array;
-  meta: MetaV0 | MetaV4;
+  headKey?: Uint8Array;
+  meta: MetaV4;
   method: string;
   section: string;
   toJSON: () => any;
-  headKey?: Uint8Array;
 }
+
+type Decoded = {
+  key?: Uint8Array | string;
+  method?: string;
+  section?: string;
+};
 
 /**
  * @name StorageKey
@@ -26,31 +31,64 @@ export interface StorageFunction {
  * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
-  private _meta: MetaV0 | MetaV4 | null;
-  private _outputType: string | null;
+  private _meta?: MetaV4;
+  private _method?: string;
+  private _outputType?: string;
+  private _section?: string;
 
-  constructor (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
-    super(StorageKey.decodeStorageKey(value));
+  constructor (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
+    const { key, method, section } = StorageKey.decodeStorageKey(value);
+
+    super(key);
 
     this._meta = StorageKey.getMeta(value as StorageKey);
+    this._method = method;
     this._outputType = StorageKey.getType(value as StorageKey);
+    this._section = section;
   }
 
-  static decodeStorageKey (value: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Uint8Array {
-    if (isFunction(value)) {
-      return value();
+  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Decoded {
+    if (value instanceof StorageKey) {
+      return {
+        key: value,
+        method: value.method,
+        section: value.section
+      };
+    } else if (!value || isString(value) || isU8a(value)) {
+      // let Bytes handle these inputs
+      return {
+        key: value
+      };
+    } else if (isFunction(value)) {
+      return {
+        key: value(),
+        method: value.method,
+        section: value.section
+      };
     } else if (Array.isArray(value)) {
-      const [fn, ...arg] = value;
+      const [fn, ...arg]: [StorageFunction, ...Array<any>] = value as any;
 
-      if (isFunction(fn)) {
-        return fn(...arg);
+      assert(isFunction(fn), 'Expected function input for key construction');
+
+      if (fn.meta && fn.meta.type.isDoubleMap) {
+        return {
+          key: new U8a(fn(...arg)), // skip compact length check in decodeBytes
+          method: fn.method,
+          section: fn.section
+        };
       }
+
+      return {
+        key: fn(...arg),
+        method: fn.method,
+        section: fn.section
+      };
     }
 
-    return value as Uint8Array;
+    throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV0 | MetaV4 | null {
+  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV4 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -61,10 +99,10 @@ export default class StorageKey extends Bytes {
       return fn.meta;
     }
 
-    return null;
+    return undefined;
   }
 
-  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | null {
+  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | undefined {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {
@@ -75,20 +113,34 @@ export default class StorageKey extends Bytes {
       return fn.meta.type.toString();
     }
 
-    return null;
+    return undefined;
   }
 
   /**
-   * @description The metadata or `null` when not available
+   * @description The metadata or `undefined` when not available
    */
-  get meta (): MetaV0 | MetaV4 | null {
+  get meta (): MetaV4 | undefined {
     return this._meta;
+  }
+
+  /**
+   * @description The key method or `undefined` when not specified
+   */
+  get method (): string | undefined {
+    return this._method;
   }
 
   /**
    * @description The output type, `null` when not available
    */
-  get outputType (): string | null {
+  get outputType (): string | undefined {
     return this._outputType;
+  }
+
+  /**
+   * @description The key section or `undefined` when not specified
+   */
+  get section (): string | undefined {
+    return this._section;
   }
 }

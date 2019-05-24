@@ -5,14 +5,17 @@
 import { Observable, combineLatest, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Header, HeaderExtended } from '@polkadot/types';
+import { Header } from '@polkadot/types';
 
+import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
 
 /**
- * @description Get the a specific block header and extend it with the author
- * @param hash: Uint8Array | string
+ * @name bestNumberFinalized
+ * @param {( Uint8Array | string )} hash - A block hash as U8 array or string.
+ * @returns An array containing the block header and the block author
+ * @description Get a specific block header and extend it with the author
  * @example
  * <BR>
  *

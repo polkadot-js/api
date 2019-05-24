@@ -4,13 +4,15 @@
 
 import { AnyNumber } from '../types';
 
-import EnumType from '../codec/EnumType';
+import { assert } from '@polkadot/util';
+
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
+import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
-import Hash from './Hash';
 
 type BftAtReportValueSingle = {
   round?: AnyNumber,
@@ -116,9 +118,9 @@ export class BftDoubleCommit extends BftAtReport {
 /**
  * @name MisbehaviorKind
  * @description
- * An [[EnumType]] containing a Bft misbehaviour
+ * An [[Enum]] containing a Bft misbehaviour
  */
-export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePropose | BftDoublePrepare | BftDoubleCommit> {
+export class MisbehaviorKind extends Enum {
   constructor (value?: BftAtReportValue | Uint8Array, index?: number) {
     super({
       BftProposeOutOfTurn,
@@ -132,6 +134,8 @@ export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePro
    * @description Returns the item as a [[BftDoubleCommit]]
    */
   get asBftDoubleCommit (): BftDoubleCommit {
+    assert(this.isBftDoubleCommit, `Cannot convert '${this.type}' via asBftDoubleCommit`);
+
     return this.value as BftDoubleCommit;
   }
 
@@ -139,6 +143,8 @@ export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePro
    * @description Returns the item as a [[BftDoublePrepare]]
    */
   get asBftDoublePrepare (): BftDoublePrepare {
+    assert(this.isBftDoublePrepare, `Cannot convert '${this.type}' via asBftDoublePrepare`);
+
     return this.value as BftDoublePrepare;
   }
 
@@ -146,6 +152,8 @@ export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePro
    * @description Returns the item as a [[BftDoublePropose]]
    */
   get asBftDoublePropose (): BftDoublePropose {
+    assert(this.isBftDoublePropose, `Cannot convert '${this.type}' via asBftDoublePropose`);
+
     return this.value as BftDoublePropose;
   }
 
@@ -153,7 +161,37 @@ export class MisbehaviorKind extends EnumType<BftProposeOutOfTurn | BftDoublePro
    * @description Returns the item as a [[BftProposeOutOfTurn]]
    */
   get asBftProposeOutOfTurn (): BftProposeOutOfTurn {
+    assert(this.isBftProposeOutOfTurn, `Cannot convert '${this.type}' via asBftProposeOutOfTurn`);
+
     return this.value as BftProposeOutOfTurn;
+  }
+
+  /**
+   * @description true when this is a BftDoubleCommit
+   */
+  get isBftDoubleCommit (): boolean {
+    return this.type === 'BftDoubleCommit';
+  }
+
+  /**
+   * @description true when this is a BftDoublePrepare
+   */
+  get isBftDoublePrepare (): boolean {
+    return this.type === 'BftDoublePrepare';
+  }
+
+  /**
+   * @description true when this is a BftDoublePropose
+   */
+  get isBftDoublePropose (): boolean {
+    return this.type === 'BftDoublePropose';
+  }
+
+  /**
+   * @description true when this is a BftProposeOutOfTurn
+   */
+  get isBftProposeOutOfTurn (): boolean {
+    return this.type === 'BftProposeOutOfTurn';
   }
 }
 

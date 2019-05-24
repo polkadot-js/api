@@ -23,27 +23,27 @@ export default class WithdrawReasons extends Set {
    * @description In order to reserve some funds for a later return or repatriation
    */
   get isReserve (): boolean {
-    return this.values.includes('Reserve');
+    return this.strings.includes('Reserve');
   }
 
   /**
    * @description In order to pay for (system) transaction costs
    */
   get isTransactionPayment (): boolean {
-    return this.values.includes('TransactionPayment');
+    return this.strings.includes('TransactionPayment');
   }
 
   /**
    * @description In order to transfer ownership
    */
   get isTransfer (): boolean {
-    return this.values.includes('Transfer');
+    return this.strings.includes('Transfer');
   }
 
   /**
    * @description /// In order to pay some other (higher-level) fees.
    */
   get isFee (): boolean {
-    return this.values.includes('Fee');
+    return this.strings.includes('Fee');
   }
 }

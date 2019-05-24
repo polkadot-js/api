@@ -4,70 +4,23 @@
 
 import { AnyNumber } from '../../types';
 
+import { assert } from '@polkadot/util';
+
 import Enum from '../../codec/Enum';
-import EnumType from '../../codec/EnumType';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
+import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import {
-  PlainType,
-  StorageFunctionModifier
-} from '../v3/Storage';
+import { PlainType, StorageFunctionModifier } from '../v3/Storage';
 
 // Re-export classes that haven't changed between V3 and V4
 export {
   PlainType,
   StorageFunctionModifier
 };
-
-export class StorageHasher extends Enum {
-  constructor (value?: any) {
-    super(['Blake2_128', 'Blake2_256', 'Twox128', 'Twox256', 'Twox128Concat'], value);
-  }
-
-  /**
-   * @description Is the enum Blake2_128?
-   */
-  get isBlake2128 (): boolean {
-    return this.toNumber() === 0;
-  }
-
-  /**
-   * @description Is the enum Blake2_256?
-   */
-  get isBlake2256 (): boolean {
-    return this.toNumber() === 1;
-  }
-
-  /**
-   * @description Is the enum Twox128?
-   */
-  get isTwox128 (): boolean {
-    return this.toNumber() === 2;
-  }
-
-  /**
-   * @description Is the enum Twox256?
-   */
-  get isTwox256 (): boolean {
-    return this.toNumber() === 3;
-  }
-
-  /**
-   * @description Is the enum isTwox128Concat?
-   */
-  get isTwox128Concat (): boolean {
-    return this.toNumber() === 4;
-  }
-
-  toJSON (): any {
-    // This looks prettier in the generated JSON
-    return this.toString();
-  }
-}
 
 export class MapType extends Struct {
   constructor (value?: any) {
@@ -112,32 +65,32 @@ export class DoubleMapType extends Struct {
   constructor (value?: any) {
     super({
       hasher: StorageHasher,
-      key1: Text,
-      key2: Text,
-      value: Text,
+      key1: Type,
+      key2: Type,
+      value: Type,
       key2Hasher: Text
     }, value);
   }
 
   /**
-   * @description The hashing algorithm used to hash keys, as [[Text]]
+   * @description The hashing algorithm used to hash keys, as [[StorageHasher]]
    */
-  get hasher (): Text {
-    return this.get('hasher') as Text;
+  get hasher (): StorageHasher {
+    return this.get('hasher') as StorageHasher;
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get key1 (): Text {
-    return this.get('key1') as Text;
+  get key1 (): Type {
+    return this.get('key1') as Type;
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get key2 (): Text {
-    return this.get('key2') as Text;
+  get key2 (): Type {
+    return this.get('key2') as Type;
   }
 
   /**
@@ -148,14 +101,14 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The mapped key as [[Text]]
+   * @description The mapped key as [[Type]]
    */
-  get value (): Text {
-    return this.get('value') as Text;
+  get value (): Type {
+    return this.get('value') as Type;
   }
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMapType> {
+export class StorageFunctionType extends Enum {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
@@ -168,6 +121,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a mapped value
    */
   get asDoubleMap (): DoubleMapType {
+    assert(this.isDoubleMap, `Cannot convert '${this.type}' via asDoubleMap`);
+
     return this.value as DoubleMapType;
   }
 
@@ -175,6 +130,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a mapped value
    */
   get asMap (): MapType {
+    assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
+
     return this.value as MapType;
   }
 
@@ -182,6 +139,8 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
    * @description The value as a [[Type]] value
    */
   get asType (): PlainType {
+    assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
+
     return this.value as PlainType;
   }
 
@@ -200,16 +159,29 @@ export class StorageFunctionType extends EnumType<PlainType | MapType | DoubleMa
   }
 
   /**
+   * @description `true` if the storage entry is a plain type
+   */
+  get isPlainType (): boolean {
+    return this.toNumber() === 0;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
     if (this.isDoubleMap) {
-      return this.asDoubleMap.toString();
+      return `DoubleMap<${this.asDoubleMap.value.toString()}>`;
     }
 
-    return this.isMap
-      ? this.asMap.value.toString()
-      : this.asType.toString();
+    if (this.isMap) {
+      if (this.asMap.isLinked) {
+        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
+      }
+
+      return this.asMap.value.toString();
+    }
+
+    return this.asType.toString();
   }
 }
 

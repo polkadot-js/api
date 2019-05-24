@@ -8,7 +8,7 @@ import path from 'path';
 import { ContractAbi } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import incrementer from '../data/incrementer.json';
+import Flipper from '../data/Flipper.json';
 import erc20 from '../data/erc20.json';
 import Dummy from '../data/Dummy.json';
 import Api from '../../src/promise';
@@ -22,7 +22,7 @@ describe('e2e contracts', () => {
   beforeEach(async (done) => {
     if (!api) {
       api = await Api.create();
-      
+
       keyring = testingPairs({ type: 'sr25519' });
     }
 
@@ -30,121 +30,16 @@ describe('e2e contracts', () => {
     done();
   });
 
-  // A Tuple ret_type from the contract is represented as a JS array of types
-  // e.g. Basic Tuple
-  // "return_type": [
-  //   "u32",
-  //   "u32"
-  // ]
-  // A Vector ret_type from the contract is represented as as JS array of objects of paramName and the generic types
-  // e.g. Nested Vector
-  // "return_type": {
-  //   "Vec<T>": {
-  //     "T": {
-  //       "Vec<T>": {
-  //         "T": "i32"
-  //       }
-  //     }
-  //   }
-  // }
-  describe('generic vec and tuple return types', () => {
+
+  describe('flipper', () => {
     let abi;
 
-    beforeAll(() => {
-      abi = new ContractAbi(Dummy);
-    });
-
-    it.only('allows putCode', (done) => {
-      const code = fs.readFileSync(path.join(__dirname, '../data/dummy-opt.wasm')).toString('hex');
-
-      api.tx.contract
-        .putCode(200000, `0x${code}`)
-        .signAndSend(keyring.alice, (result) => {
-          console.error('putCode', JSON.stringify(result));
-
-          if (result.status.isFinalized) {
-            const record = result.findRecord('contract', 'CodeStored');
-
-            if (record) {
-              codeHash = record.event.data[0];
-
-              done();
-            }
-          }
-        });
-    });
-
-    it('allows contract create', (done) => {
-      expect(codeHash).toBeDefined();
-
-      api.tx.contract
-        // create(endowment: Compact<BalanceOf>, gas_limit: Compact<Gas>, code_hash: CodeHash, data: Bytes)
-        .create(12345, 500000, codeHash, abi.deploy())
-        .signAndSend(keyring.bob, (result) => {
-          console.error('create', JSON.stringify(result));
-
-          if (result.status.isFinalized) {
-            const record = result.findRecord('contract', 'Instantiated');
-
-            if (record) {
-              address = record.event.data[1];
-
-              done();
-            }
-          }
-        });
-    });
-
-    it('should decode tuple return type', () => {
-      expect(address).toBeDefined();
-
-      // expected return type: 
-      // "Vec<T>": {
-      //  "T": "u32"
-      // }
-      api.tx.contract
-        .call(address, 12345, 500000, abi.messages.vector_basic())
-        .signAndSend(keyring.bob, (result) => {
-          console.error('call to vector_basic()', JSON.stringify(result));
-
-          if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
-            console.log('here is the result then... ---> ', result);
-            done();
-          }
-        });
-    });
-
-    it('should decode nested tuple return type', () => {
-
-    });
-
-    it('should decode tuple of arrays return type', () => {
-
-    });
-
-    it('should decode array return type', () => {
-
-    });
-
-
-    it('should decode nested array return type', () => {
-
-    });
-
-    it('should decode array of tuples return type', () => {
-
-    });
-  });
-
-  describe.skip('incrementer', () => {
-    let abi;
-
-    beforeAll(() => {
-      abi = new ContractAbi(incrementer);
+    beforeEach(() => {
+      abi = new ContractAbi(Flipper);
     });
 
     it('allows putCode', (done) => {
-      const code = fs.readFileSync(path.join(__dirname, '../data/incrementer-opt.wasm')).toString('hex');
+      const code = fs.readFileSync(path.join(__dirname, '../data/flipper-opt.wasm')).toString('hex');
 
       api.tx.contract
         .putCode(200000, `0x${code}`)
@@ -167,7 +62,7 @@ describe('e2e contracts', () => {
       expect(codeHash).toBeDefined();
 
       api.tx.contract
-        .create(12345, 500000, codeHash, abi.deploy(12345))
+        .create(12345, 500000, codeHash, abi.deploy())
         .signAndSend(keyring.bob, (result) => {
           console.error('create', JSON.stringify(result));
 
@@ -187,7 +82,7 @@ describe('e2e contracts', () => {
       expect(address).toBeDefined();
 
       api.tx.contract
-        .call(address, 12345, 500000, abi.messages.inc(123))
+        .call(address, 12345, 500000, abi.messages.flip())
         .signAndSend(keyring.bob, (result) => {
           console.error('call', JSON.stringify(result));
 
@@ -198,11 +93,117 @@ describe('e2e contracts', () => {
     });
   });
 
-  describe.skip('erc20', () => {
+  // A Tuple ret_type from the contract is represented as a JS array of types
+  // e.g. Basic Tuple
+  // "return_type": [
+  //   "u32",
+  //   "u32"
+  // ]
+  // A Vector ret_type from the contract is represented as as JS array of objects of paramName and the generic types
+  // e.g. Nested Vector
+  // "return_type": {
+  //   "Vec<T>": {
+  //     "T": {
+  //       "Vec<T>": {
+  //         "T": "i32"
+  //       }
+  //     }
+  //   }
+  // }
+  // describe('generic vec and tuple return types', () => {
+  //   let abi;
+
+  //   beforeAll(() => {
+  //     abi = new ContractAbi(Dummy);
+  //   });
+
+  //   it('allows putCode', (done) => {
+  //     const code = fs.readFileSync(path.join(__dirname, '../data/dummy-opt.wasm')).toString('hex');
+
+  //     api.tx.contract
+  //       .putCode(200000, `0x${code}`)
+  //       .signAndSend(keyring.alice, (result) => {
+  //         console.error('putCode', JSON.stringify(result));
+
+  //         if (result.status.isFinalized) {
+  //           const record = result.findRecord('contract', 'CodeStored');
+
+  //           if (record) {
+  //             codeHash = record.event.data[0];
+
+  //             done();
+  //           }
+  //         }
+  //       });
+  //   });
+
+  //   it('allows contract create', (done) => {
+  //     expect(codeHash).toBeDefined();
+
+  //     api.tx.contract
+  //       // create(endowment: Compact<BalanceOf>, gas_limit: Compact<Gas>, code_hash: CodeHash, data: Bytes)
+  //       .create(12345, 500000, codeHash, abi.deploy())
+  //       .signAndSend(keyring.bob, (result) => {
+  //         console.error('create', JSON.stringify(result));
+
+  //         if (result.status.isFinalized) {
+  //           const record = result.findRecord('contract', 'Instantiated');
+
+  //           if (record) {
+  //             address = record.event.data[1];
+
+  //             done();
+  //           }
+  //         }
+  //       });
+  //   });
+
+  //   it('should decode tuple return type', () => {
+  //     expect(address).toBeDefined();
+
+  //     // expected return type: 
+  //     // "Vec<T>": {
+  //     //  "T": "u32"
+  //     // }
+  //     api.tx.contract
+  //       .call(address, 12345, 500000, abi.messages.vector_basic())
+  //       .signAndSend(keyring.bob, (result) => {
+  //         console.error('call to vector_basic()', JSON.stringify(result));
+
+  //         if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
+  //           console.log('here is the result then... ---> ', result);
+  //           done();
+  //         }
+  //       });
+  //   });
+
+  //   it('should decode nested tuple return type', () => {
+
+  //   });
+
+  //   it('should decode tuple of arrays return type', () => {
+
+  //   });
+
+  //   it('should decode array return type', () => {
+
+  //   });
+
+
+  //   it('should decode nested array return type', () => {
+
+  //   });
+
+  //   it('should decode array of tuples return type', () => {
+
+  //   });
+  // });
+
+  describe('erc20', () => {
     let abi;
 
-    beforeAll(() => {
-      abi = new ContractAbi(erc20);
+    beforeEach(() => {
+      abi = abi = new ContractAbi(erc20);
     });
 
     it('has the attached methods', () => {

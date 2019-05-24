@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isString, isU8a, u8aToU8a } from '@polkadot/util';
+import { assert, isString, isU8a, u8aToU8a } from '@polkadot/util';
 
 import { AnyU8a } from '../types';
 import Compact from '../codec/Compact';
@@ -46,10 +46,17 @@ export default class Bytes extends U8a {
       // i.e. new Bytes(new Bytes(...)) will work as expected
       return value;
     } else if (isU8a(value)) {
+      if (!value.length) {
+        return new Uint8Array();
+      }
+
       // handle all other Uint8Array inputs, these do have a length prefix
       const [offset, length] = Compact.decodeU8a(value);
+      const total = offset + length.toNumber();
 
-      return value.subarray(offset, offset + length.toNumber());
+      assert(total <= value.length, `Bytes: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+      return value.subarray(offset, total);
     }
 
     return value;
@@ -63,7 +70,14 @@ export default class Bytes extends U8a {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'Bytes';
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

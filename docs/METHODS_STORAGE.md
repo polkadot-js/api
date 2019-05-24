@@ -82,10 +82,7 @@ ___
 ### contract
 
 ▸ **accountCounter**(): `u64`
-- **summary**:   The subtrie counter
-
-▸ **accountInfoOf**(`AccountId`): `Option<AccountInfo>`
-- **summary**:   The code associated with a given account.
+- **summary**:   The subtrie counter.
 
 ▸ **blockGasLimit**(): `Gas`
 - **summary**:   The maximum amount of gas that could be expended per block.
@@ -93,14 +90,14 @@ ___
 ▸ **callBaseFee**(): `Gas`
 - **summary**:   The base fee charged for calling into a contract.
 
-▸ **codeHashOf**(`AccountId`): `Option<CodeHash>`
-- **summary**:   The code associated with a given account.
-
 ▸ **codeStorage**(`CodeHash`): `Option<PrefabWasmModule>`
-- **summary**:   A mapping between an original code hash and instrumented wasm code, ready for the execution.
+- **summary**:   A mapping between an original code hash and instrumented wasm code, ready for execution.
 
 ▸ **contractFee**(): `BalanceOf`
 - **summary**:   The fee required to create a contract instance.
+
+▸ **contractInfoOf**(`AccountId`): `Option<ContractInfo>`
+- **summary**:   The code associated with a given account.
 
 ▸ **createBaseFee**(): `Gas`
 - **summary**:   The base fee charged for creating a contract.
@@ -122,6 +119,24 @@ ___
 
 ▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
+
+▸ **rentByteFee**(): `BalanceOf`
+- **summary**:   Price of a byte of storage per one block interval. Should be greater than 0.
+
+▸ **rentDepositOffset**(): `BalanceOf`
+- **summary**:   The amount of funds a contract should deposit in order to offset  the cost of one byte.   Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,  then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.  But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,  then it would pay 500 BU/day.
+
+▸ **signedClaimHandicap**(): `BlockNumber`
+- **summary**:   Number of block delay an extrinsic claim surcharge has.   When claim surchage is called by an extrinsic the rent is checked  for current_block - delay
+
+▸ **storageSizeOffset**(): `u64`
+- **summary**:   Size of a contract at the time of creation. This is a simple way to ensure  that empty contracts eventually gets deleted.
+
+▸ **surchargeReward**(): `BalanceOf`
+- **summary**:   Reward that is received by the party whose touch has led  to removal of a contract.
+
+▸ **tombstoneDeposit**(): `BalanceOf`
+- **summary**:   The minimum amount required to generate a tombstone.
 
 ▸ **transactionBaseFee**(): `BalanceOf`
 - **summary**:   The fee to be paid for making a transaction; the base.
@@ -169,11 +184,11 @@ ___
 ▸ **nextFinalize**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
 
-▸ **presentSlashPerVoter**(): `BalanceOf`
-- **summary**:   The punishment, per voter, if you provide an invalid presentation.
-
 ▸ **presentationDuration**(): `BlockNumber`
 - **summary**:   How long to give each top candidate to present themselves after the vote ends.
+
+▸ **presentSlashPerVoter**(): `BalanceOf`
+- **summary**:   The punishment, per voter, if you provide an invalid presentation.
 
 ▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
@@ -227,9 +242,9 @@ ___
 
 ▸ **proposalOf**(`Hash`): `Option<Proposal>`
 
-▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
-
 ▸ **proposals**(): `Vec<(BlockNumber,Hash)>`
+
+▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
 
 ▸ **vetoedProposal**(`Hash`): `Option<(BlockNumber,Vec<AccountId>)>`
 
@@ -261,6 +276,9 @@ ___
 ▸ **nextTally**(): `ReferendumIndex`
 - **summary**:   The next referendum index that should be tallied.
 
+▸ **proxy**(`AccountId`): `Option<AccountId>`
+- **summary**:   Who is able to vote for whom. Value is the fund-holding account, key is the vote-transaction-sending account.
+
 ▸ **publicDelay**(): `BlockNumber`
 - **summary**:   The delay before enactment for all public referenda.
 
@@ -271,7 +289,7 @@ ___
 - **summary**:   The public proposals. Unsorted.
 
 ▸ **referendumCount**(): `ReferendumIndex`
-- **summary**:   The next free referendum index, aka the number of referendums started so far.
+- **summary**:   The next free referendum index, aka the number of referenda started so far.
 
 ▸ **referendumInfoOf**(`ReferendumIndex`): `Option<ReferendumInfo>`
 - **summary**:   Information concerning any given referendum.
@@ -317,7 +335,7 @@ ___
 - **summary**:   Timestamp when current session started.
 
 ▸ **forcingNewSession**(): `Option<bool>`
-- **summary**:   New session is being forced is this entry exists; in which case, the boolean value is whether  the new session should be considered a normal rotation (rewardable) or exceptional (slashable).
+- **summary**:   New session is being forced if this entry exists; in which case, the boolean value is true if  the new session should be considered a normal rotation (rewardable) and false if the new session  should be considered exceptional (slashable).
 
 ▸ **lastLengthChange**(): `Option<BlockNumber>`
 - **summary**:   Block at which the session length last changed.
@@ -343,7 +361,7 @@ ___
 - **summary**:   Map from all locked "stash" accounts to the controller account.
 
 ▸ **bondingDuration**(): `BlockNumber`
-- **summary**:   The length of the bonding duration in blocks.
+- **summary**:   The length of the bonding duration in eras.
 
 ▸ **currentElected**(): `Vec<AccountId>`
 - **summary**:   The currently elected validator set keyed by stash account ID.
@@ -388,7 +406,7 @@ ___
 - **summary**:   Where the reward payment should be made. Keyed by stash.
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
-- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (who it was, when it was reported, how many instances they were offline for).
+- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how many instances they were offline for).
 
 ▸ **sessionReward**(): `Perbill`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
@@ -403,7 +421,7 @@ ___
 - **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.
 
 ▸ **stakers**(`AccountId`): `Exposure`
-- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the `sessions` module.   This is keyed by the stash account.
+- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the Session module.   This is keyed by the stash account.
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
@@ -417,6 +435,7 @@ ___
 ### sudo
 
 ▸ **key**(): `AccountId`
+- **summary**:   The `AccountId` of the sudo key.
 
 ___
 
@@ -435,14 +454,20 @@ ___
 ▸ **digest**(): `Digest`
 - **summary**:   Digest of the current block, also part of the block header.
 
+▸ **eventCount**(): `EventIndex`
+- **summary**:   The number of events in the `Events<T>` list.
+
 ▸ **events**(): `Vec<EventRecord>`
 - **summary**:   Events deposited for the current block.
+
+▸ **eventTopics**(): `DoubleMap<Vec<(BlockNumber,EventIndex)>>`
+- **summary**:   Mapping between a topic (represented by T::Hash) and a vector of indexes  of events in the `<Events<T>>` list.   The first key serves no purpose. This field is declared as double_map just  for convenience of using `remove_prefix`.   All topic vectors have deterministic storage locations depending on the topic. This  allows light-clients to leverage the changes trie storage tracking mechanism and  in case of changes fetch the list of events of interest.   The value has the type `(T::BlockNumber, EventIndex)` because if we used only just  the `EventIndex` then in case if the topic has the same contents on the next block  no notification will be triggered thus the event might be lost.
 
 ▸ **extrinsicCount**(): `Option<u32>`
 - **summary**:   Total extrinsics count for the current block.
 
 ▸ **extrinsicData**(`u32`): `Bytes`
-- **summary**:   Extrinsics data for the current block (maps extrinsic's index to its data).
+- **summary**:   Extrinsics data for the current block (maps an extrinsic's index to its data).
 
 ▸ **extrinsicsRoot**(): `Hash`
 - **summary**:   Extrinsics root of the current block, also part of the block header.
@@ -453,8 +478,8 @@ ___
 ▸ **parentHash**(): `Hash`
 - **summary**:   Hash of the previous block.
 
-▸ **randomSeed**(): `Hash`
-- **summary**:   Random seed of the current block.
+▸ **randomMaterial**(): `(i8,Vec<Hash>)`
+- **summary**:   Series of block headers from the last 81 blocks that acts as random seed material. This is arranged as a  ring buffer with the `i8` prefix being the index into the `Vec` of the oldest hash.
 
 ___
 

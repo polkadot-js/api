@@ -2,15 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import EnumType from '../codec/EnumType';
+import { assert } from '@polkadot/util';
+
+import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import Vector from '../codec/Vector';
+import AccountId from '../primitive/AccountId';
 import Bytes from '../primitive/Bytes';
+import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
 import U64 from '../primitive/U64';
-import AccountId from './AccountId';
-import Hash from './Hash';
 import ParaId from './ParaId';
 import Signature from './Signature';
 import SessionKey from './SessionKey';
@@ -51,7 +53,7 @@ export class ExplicitCandidateSignature extends CandidateSignature {
 export class ImplicitCandidateSignature extends CandidateSignature {
 }
 
-export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignature | ExplicitCandidateSignature> {
+export class ValidityAttestation extends Enum {
   constructor (value?: any) {
     super({
       // This Null is not in the original, however indexes start at 1, so add a
@@ -66,6 +68,8 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
    * @description Returns the item as a [[ExplicitCandidateSignature]]
    */
   get asExplicitCandidateSignature (): ExplicitCandidateSignature {
+    assert(this.toNumber() === 2, `Cannot convert '${this.type}' via asExplicitCandidateSignature`);
+
     return this.value as ExplicitCandidateSignature;
   }
 
@@ -73,6 +77,8 @@ export class ValidityAttestation extends EnumType<Null | ImplicitCandidateSignat
    * @description Returns the item as a [[ImplicitCandidateSignature]]
    */
   get asImplicitCandidateSignature (): ImplicitCandidateSignature {
+    assert(this.toNumber() === 1, `Cannot convert '${this.type}' via asImplicitCandidateSignature`);
+
     return this.value as ImplicitCandidateSignature;
   }
 }

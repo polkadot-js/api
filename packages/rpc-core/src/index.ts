@@ -14,6 +14,15 @@ import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 
+const EMPTY_META = {
+  fallback: undefined,
+  modifier: { isOptional: true },
+  type: {
+    asMap: { isLinked: false },
+    isMap: false
+  }
+};
+
 /**
  * @name Rpc
  * @summary The API may use a HTTP or WebSockets provider.
@@ -187,20 +196,14 @@ export default class Rpc implements RpcInterface {
     const base = createType(method.type as string, result);
 
     if (method.type === 'StorageData') {
-      // single return value (via state.getStorage), decode the value based on the
-      // outputType that we have specified. Fallback to Data on nothing
       const key = params[0] as StorageKey;
-      const type = key.outputType || 'Data';
-      const Clazz = createClass(type);
-      const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
 
-      if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
-        // linked map
-        return new Clazz(base);
-      } else {
-        return meta.modifier.isOptional
-          ? new Option(Clazz, isNull(result) ? null : new Clazz(base))
-          : new Clazz(base);
+      try {
+        return this.formatStorageData(key, base, isNull(result));
+      } catch (error) {
+        console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
+
+        throw error;
       }
     } else if (method.type === 'StorageChangeSet') {
       // multiple return values (via state.storage subscription), decode the values
@@ -208,43 +211,62 @@ export default class Rpc implements RpcInterface {
       //   - Base - There is a valid value, non-empty
       //   - null - The storage key is empty (but in the resultset)
       //   - undefined - The storage value is not in the resultset
-      return (params[0] as Vector<StorageKey>).reduce((result, key: StorageKey) => {
-        // Fallback to Data (i.e. just the encoding) if we don't have a specific type
-        const type = key.outputType || 'Data';
-        const Clazz = createClass(type);
+      return (params[0] as Vector<StorageKey>).reduce((results, key: StorageKey) => {
+        try {
+          results.push(this.formatStorageSet(key, base as StorageChangeSet));
+        } catch (error) {
+          console.error(`Unable to decode storage ${key.section}.${key.method}:`, error.message);
 
-        // see if we have a result value for this specific key
-        const hexKey = key.toHex();
-        const { value } = (base as StorageChangeSet).changes.find((item) =>
-          item.key.toHex() === hexKey
-        ) || { value: null };
-        const meta = key.meta || { fallback: undefined, modifier: { isOptional: true } };
-
-        if (!value) {
-          // if we don't have a value, do not fill in the entry, it will be up to the
-          // caller to sort this out, either ignoring or having a cache for older values
-          result.push(undefined);
-        } else {
-          if (key.meta && key.meta.type.isMap && key.meta.type.asMap.isLinked) {
-            // linked map
-            result.push(new Clazz(value.unwrapOr(null)));
-          } else {
-            if (meta.modifier.isOptional) {
-              // create option either with the existing value, or empty when
-              // there is no value returned
-              result.push(new Option(Clazz, value.isNone ? null : new Clazz(value.unwrap())));
-            } else {
-              // for `null` we fallback to the default value, or create an empty type,
-              // otherwise we return the actual value as retrieved
-              result.push(new Clazz(value.unwrapOr(meta.fallback)));
-            }
-          }
+          throw error;
         }
 
-        return result;
-      }, [] as Array<Codec | null | undefined>);
+        return results;
+      }, [] as Array<Codec | undefined>);
     }
 
     return base;
+  }
+
+  private formatStorageData (key: StorageKey, base: Codec, isNull: boolean): Codec {
+    // single return value (via state.getStorage), decode the value based on the
+    // outputType that we have specified. Fallback to Data on nothing
+    const type = key.outputType || 'Data';
+    const meta = key.meta || EMPTY_META;
+
+    if (meta.type.isMap && meta.type.asMap.isLinked) {
+      return createType(type, base, true);
+    } else if (meta.modifier.isOptional) {
+      return new Option(
+        createClass(type),
+        isNull ? null : createType(type, base, true)
+      );
+    }
+
+    return createType(type, base, true);
+  }
+
+  private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec | undefined {
+    // Fallback to Data (i.e. just the encoding) if we don't have a specific type
+    const type = key.outputType || 'Data';
+
+    // see if we have a result value for this specific key
+    const hexKey = key.toHex();
+    const { value } = base.changes.find((item) =>
+      item.key.toHex() === hexKey
+    ) || { value: null };
+    const meta = key.meta || EMPTY_META;
+
+    if (!value) {
+      return;
+    } else if (meta.type.isMap && meta.type.asMap.isLinked) {
+      return createType(type, value.unwrapOr(null), true);
+    } else if (meta.modifier.isOptional) {
+      return new Option(
+        createClass(type),
+        value.isNone ? null : createType(type, value.unwrap(), true)
+      );
+    }
+
+    return createType(type, value.unwrapOr(meta.fallback), true);
   }
 }

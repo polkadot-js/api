@@ -50,6 +50,7 @@ export type U64Result<CodecResult, SubscriptionResult> =
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
   (arg?: CodecArg): CodecResult;
   at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
+  creator: StorageFunction;
   hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
   key: (arg?: CodecArg) => string;
   multi: (args: Array<CodecArg>, callback?: CodecCallback) => SubscriptionResult;
@@ -70,6 +71,25 @@ export interface QueryableModuleStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableStorageFunction<CodecResult, SubscriptionResult>;
 }
 
+export type QueryableStorageMultiArg<CodecResult, SubscriptionResult> =
+  QueryableStorageFunction<CodecResult, SubscriptionResult> |
+  [QueryableStorageFunction<CodecResult, SubscriptionResult>, ...Array<CodecArg>];
+
+export type QueryableStorageMultiArgs<CodecResult, SubscriptionResult> = Array<QueryableStorageMultiArg<CodecResult, SubscriptionResult>>;
+
+export interface QueryableStorageMultiBase<CodecResult, SubscriptionResult> {
+  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>): SubscriptionResult;
+}
+
+export interface QueryableStorageMultiPromise<CodecResult, SubscriptionResult> {
+  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>, callback: CodecCallback): SubscriptionResult;
+}
+
+export type QueryableStorageMulti<CodecResult, SubscriptionResult> =
+  CodecResult extends Observable<any>
+    ? QueryableStorageMultiBase<CodecResult, SubscriptionResult>
+    : QueryableStorageMultiPromise<CodecResult, SubscriptionResult>;
+
 export interface QueryableStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableModuleStorage<CodecResult, SubscriptionResult>;
 }
@@ -83,6 +103,7 @@ export interface SubmittableModuleExtrinsics<CodecResult, SubscriptionResult> {
 }
 
 export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
+  (extrinsic: Uint8Array | string): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
   [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
 }
 
@@ -149,6 +170,7 @@ export interface ApiInterface$Decorated<CodecResult, SubscriptionResult> {
   runtimeVersion: RuntimeVersion;
   derive: Derive<CodecResult, SubscriptionResult>;
   query: QueryableStorage<CodecResult, SubscriptionResult>;
+  queryMulti: QueryableStorageMulti<CodecResult, SubscriptionResult>;
   rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
   tx: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
   signer?: Signer;
@@ -167,11 +189,15 @@ export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Reado
   once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
 }
 
+export type SignerOptions = SignatureOptions & {
+  genesisHash: Hash
+};
+
 export interface Signer {
   /**
    * @description Signs an extrinsic, returning an id (>0) that can be used to retrieve updates
    */
-  sign (extrinsic: IExtrinsic, address: string, options: SignatureOptions): Promise<number>;
+  sign (extrinsic: IExtrinsic, address: string, options: SignerOptions): Promise<number>;
 
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`

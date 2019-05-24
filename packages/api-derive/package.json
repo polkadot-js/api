@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api-derive",
-  "version": "0.78.0-beta.6",
+  "version": "0.80.0-beta.2",
   "description": "Common functions used across Polkadot, derived from RPC calls and storage queries.",
   "main": "index.js",
   "keywords": [
@@ -14,9 +14,6 @@
   ],
   "contributors": [],
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=8.0"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -30,9 +27,9 @@
   },
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api-derive#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@polkadot/api": "^0.78.0-beta.6",
-    "@polkadot/types": "^0.78.0-beta.6",
+    "@babel/runtime": "^7.4.5",
+    "@polkadot/api": "^0.80.0-beta.2",
+    "@polkadot/types": "^0.80.0-beta.2",
     "@types/memoizee": "^0.4.2",
     "memoizee": "^0.4.14"
   }

@@ -4,13 +4,33 @@
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { ExtrinsicEra } from '@polkadot/types/type';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from '../../src/promise';
 import WsProvider from '../../../rpc-provider/src/ws';
-import SingleAccountSigner from "../util/SingleAccountSigner";
+import SingleAccountSigner from '../util/SingleAccountSigner';
 
 describe.skip('e2e transactions', () => {
+  // log all events for the transfare, calling done() when finalized
+  const logEvents = (done) =>
+    ({ events, status }) => {
+      console.log('Transaction status:', status.type);
+
+      if (status.isFinalized) {
+        console.log('Completed at block hash', status.value.toHex());
+        console.log('Events:');
+
+        events.forEach(({ phase, event: { data, method, section } }) => {
+          console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+        });
+
+        if (events.length) {
+          done();
+        }
+      }
+    };
+
   const keyring = testingPairs({ type: 'ed25519' });
   let api;
 
@@ -29,28 +49,23 @@ describe.skip('e2e transactions', () => {
     jest.setTimeout(5000);
   });
 
+  it('can submit an extrinsic from hex', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+    const hex = api.tx.balances
+      .transfer(keyring.eve.address(), 12345)
+      .sign(keyring.dave, { nonce })
+      .toHex();
+
+    return api.tx(hex).send(logEvents(done));
+  });
+
   it('makes a transfer (sign, then send)', async (done) => {
     const nonce = await api.query.system.accountNonce(keyring.dave.address());
 
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, { nonce })
-      .send(({ events, status }) => {
-        console.log('Transaction status:', status.type);
-
-        if (status.isFinalized) {
-          console.log('Completed at block hash', status.value.toHex());
-          console.log('Events:');
-
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-          });
-
-          if (events.length) {
-            done();
-          }
-        }
-      });
+      .send(logEvents(done));
   });
 
   it('makes a transfer (sign, then send - compat version)', async (done) => {
@@ -59,43 +74,13 @@ describe.skip('e2e transactions', () => {
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, nonce)
-      .send(({ events, status }) => {
-        console.log('Transaction status:', status.type);
-
-        if (status.isFinalized) {
-          console.log('Completed at block hash', status.value.toHex());
-          console.log('Events:');
-
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-          });
-
-          if (events.length) {
-            done();
-          }
-        }
-      });
+      .send(logEvents(done));
   });
 
   it('makes a transfer (signAndSend)', async (done) => {
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.dave, ({ events, status }) => {
-        console.log('Transaction status:', status.type);
-
-        if (status.isFinalized) {
-          console.log('Completed at block hash', status.value.toHex());
-          console.log('Events:');
-
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-          });
-
-          if (events.length) {
-            done();
-          }
-        }
-      });
+      .signAndSend(keyring.dave, logEvents(done));
   });
 
   it('makes a transfer (signAndSend via Signer)', async (done) => {
@@ -105,22 +90,7 @@ describe.skip('e2e transactions', () => {
 
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.dave.address(), ({ events, status }) => {
-        console.log('Transaction status:', status.type);
-
-        if (status.isFinalized) {
-          console.log('Completed at block hash', status.value.toHex());
-          console.log('Events:');
-
-          events.forEach(({ phase, event: { data, method, section } }) => {
-            console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-          });
-
-          if (events.length) {
-            done();
-          }
-        }
-      });
+      .signAndSend(keyring.dave.address(), logEvents(done));
   });
 
   it('makes a transfer (signAndSend via Signer) - sad path', async () => {
@@ -171,44 +141,58 @@ describe.skip('e2e transactions', () => {
     function doOne (cb) {
       return api.tx.balances
         .transfer(pair.address(), 123456)
-        .signAndSend(keyring.dave, ({ events, status }) => {
-          console.log('One: Transaction status:', status.type);
-
-          if (status.isFinalized) {
-            console.log('Completed at block hash', status.value.toHex());
-            console.log('Events:');
-
-            events.forEach(({ phase, event: { data, method, section } }) => {
-              console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-            });
-
-            cb()
-          }
-        });
+        .signAndSend(keyring.dave, logEvents(cb));
     };
 
     function doTwo (cb) {
       return api.tx.balances
         .transfer(keyring.alice.address(), 12345)
-        .signAndSend(pair, ({ events, status }) => {
-          console.log('One: Transaction status:', status.type);
-
-          if (status.isFinalized) {
-            console.log('Completed at block hash', status.value.toHex());
-            console.log('Events:');
-
-            events.forEach(({ phase, event: { data, method, section } }) => {
-              console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
-            });
-
-            cb()
-          }
-        });
+        .signAndSend(pair, logEvents(cb));
     }
 
     // return doTwo(done);
     return doOne(() => {
       doTwo(done)
+    });
+  });
+
+  it('makes a transfer with ERA (signAndSend)', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+    const signedBlock = await api.rpc.chain.getBlock();
+    const currentHeight = signedBlock.block.header.number;
+    const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+    // eraBirth - start of ERA which is always less than current block height
+    // eraDeath - end of ERA validity (EXPIRY)
+    const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
+    const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
+    console.log('STARTED AT :'+eraBirth+' EXPIRED AT :'+eraDeath);
+    const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
+    const ex = api.tx.balances
+      .transfer(keyring.eve.address(), 12345);
+    const hash = await ex.signAndSend(keyring.dave, {blockHash: eraHash, era:exERA, nonce});
+
+    expect(hash.toHex()).toHaveLength(66);
+    done();
+  });
+
+  it('makes a transfer with ERA (signAndSend) with invalid time', async (done) => {
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+    const signedBlock = await api.rpc.chain.getBlock();
+    const currentHeight = signedBlock.block.header.number;
+    const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
+    const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
+    const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
+    console.log('STARTED AT :'+eraBirth+' EXPIRED AT :'+eraDeath);
+    const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
+    const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+    const unsubscribe = await api.rpc.chain.subscribeNewHead(async(header) => {
+      console.log(`Chain is at block: #${header.blockNumber}`);
+      if (header.blockNumber.toNumber() === eraDeath-1) {
+        const hash = await ex.signAndSend(keyring.alice, {blockHash: eraHash, era:exERA, nonce});
+
+        expect(hash).toBeUndefined();
+        done();
+      }
     });
   });
 });

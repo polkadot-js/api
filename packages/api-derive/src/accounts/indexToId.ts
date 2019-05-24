@@ -5,11 +5,24 @@
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/type/AccountIndex';
+import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
 import { AccountId, AccountIndex, Vector } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
+/**
+ * @name indexToId
+ * @param {( AccountIndex | string )} accountIndex - An accounts index in different formats.
+ * @returns Returns the corresponding AccountId.
+ * @example
+ * <BR>
+ *
+ * ```javascript
+ * api.derive.accounts.indexToId('F7Hs', (accountId) => {
+ *   console.log(`The AccountId of F7Hs is ${accountId}`);
+ * });
+ * ```
+ */
 export function indexToId (api: ApiInterface$Rx) {
   return (_accountIndex: AccountIndex | string): Observable<AccountId> => {
     const querySection = api.query.indices || api.query.balances;

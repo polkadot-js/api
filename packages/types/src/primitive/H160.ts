@@ -16,4 +16,11 @@ export default class H160 extends U8aFixed {
   constructor (value?: AnyU8a) {
     super(value, 160);
   }
+
+  /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return 'H160';
+  }
 }

@@ -78,6 +78,19 @@ export default class Tuple extends AbstractArray<Codec> {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    const types = (
+      Array.isArray(this._Types)
+        ? this._Types.map((Type) => new Type().toRawType())
+        : Object.keys(this._Types)
+    );
+
+    return `(${types.join(',')})`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString () {
@@ -86,7 +99,7 @@ export default class Tuple extends AbstractArray<Codec> {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

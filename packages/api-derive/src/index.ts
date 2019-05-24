@@ -8,9 +8,12 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as chain from './chain';
+import * as contract from './contract';
 import * as democracy from './democracy';
 import * as session from './session';
 import * as staking from './staking';
+
+export * from './type';
 
 // Put all derived functions in an object, for easier Object.keys()-ing.
 const functions = { accounts, balances, chain, democracy, session, staking };
@@ -37,6 +40,7 @@ export interface Derive {
   accounts: ReturnTypes<typeof accounts>;
   balances: ReturnTypes<typeof balances>;
   chain: ReturnTypes<typeof chain>;
+  contract: ReturnTypes<typeof contract>;
   democracy: ReturnTypes<typeof democracy>;
   session: ReturnTypes<typeof session>;
   staking: ReturnTypes<typeof staking>;

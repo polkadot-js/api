@@ -23,12 +23,12 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     );
   }
 
-  static decodeOption<O> (Type: Constructor, value?: any): Codec {
+  static decodeOption (Type: Constructor, value?: any): Codec {
     if (isNull(value) || isUndefined(value) || value instanceof Null) {
       return new Null();
     } else if (value instanceof Option) {
       return Option.decodeOption(Type, value.value);
-    } else if (value instanceof Type) {
+    } else if (value instanceof Type || (Type.Fallback && value instanceof Type.Fallback)) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
     } else if (isU8a(value)) {
@@ -112,6 +112,13 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `Option<${this.raw.toRawType()}>`;
+  }
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string {
@@ -119,7 +126,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

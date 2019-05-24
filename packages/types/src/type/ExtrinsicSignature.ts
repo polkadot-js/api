@@ -6,12 +6,12 @@ import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, IExtrinsicSignature, SignatureOptions } from '../types';
 
 import Struct from '../codec/Struct';
-import Address from './Address';
+import Address from '../primitive/Address';
 import Method from '../primitive/Method';
 import U8 from '../primitive/U8';
+import RuntimeVersion from '../rpc/RuntimeVersion';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
-import RuntimeVersion from '../rpc/RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 
@@ -30,8 +30,8 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   // Signature Information.
   //   1 byte version: BIT_VERSION | (isSigned ? BIT_SIGNED : BIT_UNSIGNED)
   //   1/3/5/9/33 bytes: The signing account identity, in Address format
-  //   64 bytes: The Ed25519 signature of the Signing Payload
-  //   8 bytes: The Transaction Index of the signing account
+  //   64 bytes: The sr25519/ed25519 signature of the Signing Payload
+  //   1-8 bytes: The Compact<Nonce> of the signing account
   //   1/2 bytes: The Transaction Era
   constructor (value?: Uint8Array) {
     super({
@@ -115,6 +115,13 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
     return (this.get('version') as U8).toNumber();
   }
 
+  /**
+   * @description The [[ExtrinsicEra]] (mortal or immortal) this signature applies to
+   */
+  set era (era: ExtrinsicEra) {
+    this.set('era', era);
+  }
+
   private injectSignature (signature: Signature, signer: Address, nonce: Nonce, era: ExtrinsicEra): ExtrinsicSignature {
     this.set('era', era);
     this.set('nonce', nonce);
@@ -128,7 +135,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   /**
    * @description Adds a raw signature
    */
-  addSignature (_signer: Address | Uint8Array, _signature: Uint8Array, _nonce: AnyNumber, _era: Uint8Array = IMMORTAL_ERA): ExtrinsicSignature {
+  addSignature (_signer: Address | Uint8Array | string, _signature: Uint8Array | string, _nonce: AnyNumber, _era: Uint8Array | ExtrinsicEra = IMMORTAL_ERA): ExtrinsicSignature {
     const signer = new Address(_signer);
     const nonce = new Nonce(_nonce);
     const era = new ExtrinsicEra(_era);
@@ -145,7 +152,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
     const signingPayload = new SignaturePayload({
       nonce,
       method,
-      era: era || IMMORTAL_ERA,
+      era: era || this.era || IMMORTAL_ERA,
       blockHash
     });
     const signature = new Signature(signingPayload.sign(account, version as RuntimeVersion));
@@ -154,7 +161,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

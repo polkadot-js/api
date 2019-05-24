@@ -5,16 +5,16 @@
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, SignatureOptions } from '../types';
 
-import { isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
+import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v0/Modules';
+import { FunctionMetadata } from '../Metadata/v4/Calls';
 import Method from '../primitive/Method';
-import Address from './Address';
+import Address from '../primitive/Address';
+import Hash from '../primitive/Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
-import Hash from './Hash';
 
 type ExtrinsicValue = {
   method?: Method
@@ -38,10 +38,10 @@ export default class Extrinsic extends Struct implements IExtrinsic {
     super({
       signature: ExtrinsicSignature,
       method: Method
-    }, Extrinsic.decodeExtrinsic(value || {}));
+    }, Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method): ExtrinsicValue | Array<number> | Uint8Array {
+  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | Array<number> | Uint8Array {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -58,9 +58,16 @@ export default class Extrinsic extends Struct implements IExtrinsic {
           : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
-      const [offset, length] = Compact.decodeU8a(value);
+      if (!value.length) {
+        return new Uint8Array();
+      }
 
-      return value.subarray(offset, offset + length.toNumber());
+      const [offset, length] = Compact.decodeU8a(value);
+      const total = offset + length.toNumber();
+
+      assert(total <= value.length, `Extrinsic: required length less than remainder, expected at least ${total}, found ${value.length}`);
+
+      return value.subarray(offset, total);
     } else if (value instanceof Method) {
       return {
         method: value
@@ -161,7 +168,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description Add an [[ExtrinsicSignature]] to the extrinsic (already generated)
    */
-  addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): Extrinsic {
     this.signature.addSignature(signer, signature, nonce, era);
 
     return this;
@@ -191,7 +198,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

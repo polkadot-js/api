@@ -4,8 +4,14 @@
 
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
+import { LinkageResult } from '@polkadot/types/codec/Linkage';
 
 import Api from '../../src/promise';
+import WsProvider from '../../../rpc-provider/src/ws';
+
+const ZERO = new BN(0);
+const WS_URL = 'ws://127.0.0.1:9944';
+// const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
@@ -13,7 +19,9 @@ describe.skip('e2e queries', () => {
 
   beforeEach(async (done) => {
     if (!api) {
-      api = await Api.create();
+      api = await Api.create({
+        provider: new WsProvider(WS_URL)
+      });
     }
 
     jest.setTimeout(30000);
@@ -78,25 +86,101 @@ describe.skip('e2e queries', () => {
     });
   });
 
+  it('subscribes to a linked map (staking.validators)', (done) => {
+    api.query.staking.validators((prefs) => {
+      expect(prefs instanceof LinkageResult).toBe(true);
+
+      done();
+    });
+  });
+
   it('subscribes to multiple results (freeBalance.multi)', (done) => {
     api.query.balances.freeBalance.multi([
       keyring.alice.address(),
       keyring.bob.address(),
-      keyring.ferdie.address(),
-      '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFabHE'
+      '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
+      keyring.ferdie.address()
     ], (balances) => {
+      console.error(balances);
+
       expect(balances).toHaveLength(4);
 
-       console.error(balances);
-
-       done();
+      done();
     });
   });
 
-  it('makes a query at a specific block', async () => {
+  it('subscribes to multiple results (api.queryMulti)', (done) => {
+    return api.queryMulti([
+      [api.query.balances.freeBalance, keyring.alice.address()],
+      [api.query.balances.freeBalance, keyring.bob.address()],
+      [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
+      [api.query.balances.freeBalance, keyring.ferdie.address()]
+    ], (balances) => {
+      console.error(balances);
+
+      expect(balances).toHaveLength(4);
+
+      done();
+    });
+  });
+
+  it('subscribes to derived balances (balances.all)', (done) => {
+    api.derive.balances.all(
+      keyring.alice.address(),
+      (all) => {
+        expect(all.accountId.toString()).toEqual(keyring.alice.address());
+
+        expect(all.freeBalance).toBeDefined();
+        expect(all.freeBalance.gt(ZERO)).toBe(true);
+
+        expect(all.availableBalance).toBeDefined();
+        expect(all.availableBalance.gt(ZERO)).toBe(true);
+
+        expect(all.reservedBalance).toBeDefined();
+        expect(all.lockedBalance).toBeDefined();
+        expect(all.vestedBalance).toBeDefined();
+
+        console.error(all);
+
+        done();
+      }
+    );
+  });
+
+  it('makes a query at a latest block (specified)', async () => {
     const header = await api.rpc.chain.getHeader();
     const events = await api.query.system.events.at(header.hash);
 
+    events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+      console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+    });
+
     expect(events.length).not.toEqual(0);
+  });
+
+  it('subscribes to events', (done) => {
+    api.query.system.events((events) => {
+      events.forEach(({ event: { data, method, section }, phase, topics }, index) => {
+        console.error(index, phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
+      });
+
+      expect(events).not.toHaveLength(0);
+      done();
+    });
+  });
+
+  it('queries state using double map key', async () => {
+    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
+    const eventTopics = await api.query.system.eventTopics(['any', '0x1234']);
+
+    expect(eventTopics.toString()).toEqual('[]');
+  });
+
+  it('subscribes to queries using double map key', async (done) => {
+    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
+    api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
+      expect(eventTopics.toString()).toEqual('[]');
+      done();
+    });
   });
 });

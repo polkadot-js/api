@@ -3,15 +3,17 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
+
 import BN from 'bn.js';
+
 import U8a from './codec/U8a';
+import { FunctionMetadata } from './Metadata/v4/Calls';
 import Method from './primitive/Method';
-import Address from './type/Address';
-import { FunctionMetadata } from './Metadata/v0/Modules';
+import Address from './primitive/Address';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
-export type CodecCallback <T extends Codec = any> = (result: T) => any;
+export type CodecCallback<T extends Codec = any> = (result: T) => any;
 
 interface CodecArgObject {
   [index: string]: CodecArg;
@@ -49,9 +51,9 @@ export interface Codec {
   eq (other?: any): boolean;
 
   /**
-   * @description Returns a hex string representation of the value
+   * @description Returns a hex string representation of the value. isLe returns a LE (number-only) repersentation
    */
-  toHex (): string;
+  toHex (isLe?: boolean): string;
 
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
@@ -59,12 +61,17 @@ export interface Codec {
   toJSON (): any;
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string;
+
+  /**
    * @description Returns the string representation of the value
    */
   toString (): string;
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array;
@@ -73,6 +80,8 @@ export interface Codec {
 export type CodecTo = 'toHex' | 'toJSON' | 'toString' | 'toU8a';
 
 export interface Constructor<T = Codec> {
+  Fallback?: Constructor<T>;
+
   new(...value: Array<any>): T;
 }
 
@@ -104,7 +113,7 @@ export interface ArgsDef {
   [index: string]: Constructor;
 }
 
-export interface IHash extends U8a {}
+export interface IHash extends U8a { }
 
 export interface IMethod extends Codec {
   readonly args: Array<Codec>;
@@ -117,6 +126,12 @@ export interface IMethod extends Codec {
 
 export interface IExtrinsicSignature extends Codec {
   readonly isSigned: boolean;
+  era: IExtrinsicEra;
+}
+
+export interface IExtrinsicEra {
+  asImmortalEra: Codec;
+  asMortalEra: Codec;
 }
 
 export interface IExtrinsic extends IMethod {
@@ -124,6 +139,6 @@ export interface IExtrinsic extends IMethod {
   isSigned: boolean;
   method: Method;
   signature: IExtrinsicSignature;
-  addSignature (signer: Address | Uint8Array, signature: Uint8Array, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
+  addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
   sign (account: KeyringPair, options: SignatureOptions): IExtrinsic;
 }

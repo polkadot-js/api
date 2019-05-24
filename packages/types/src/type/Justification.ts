@@ -7,8 +7,8 @@ import { AnyNumber, AnyU8a } from '../types';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
 import Bytes from '../primitive/Bytes';
+import Hash from '../primitive/Hash';
 import U32 from '../primitive/U32';
-import Hash from './Hash';
 import { BftAuthoritySignature, BftAuthoritySignatureValue } from './Bft';
 
 export type RhdJustificationValue = {
@@ -36,9 +36,7 @@ export class RhdJustification extends Struct {
       roundNumber: U32,
       hash: Hash,
       signatures: Vector.with(BftAuthoritySignature)
-    }, value, new Map([
-      ['roundNumber', 'round_number']
-    ]));
+    }, value);
   }
 
   /**

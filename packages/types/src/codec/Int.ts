@@ -33,16 +33,23 @@ export default class Int extends AbstractInt {
   /**
    * @description Returns a hex string representation of the value
    */
-  toHex (): string {
+  toHex (isLe: boolean = false): string {
     return bnToHex(this, {
       bitLength: this._bitLength,
-      isLe: false,
+      isLe,
       isNegative: true
     });
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    return `i${this._bitLength}`;
+  }
+
+  /**
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   toU8a (isBare?: boolean): Uint8Array {

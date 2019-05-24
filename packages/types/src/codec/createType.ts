@@ -5,16 +5,17 @@
 import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
+import Null from '../primitive/Null';
 import Text from '../primitive/Text';
-import EnumType from './EnumType';
 import Compact from './Compact';
+import Enum from './Enum';
+import Linkage from './Linkage';
 import Option from './Option';
 import Struct from './Struct';
 import Tuple from './Tuple';
 import UInt from './UInt';
 import Vector from './Vector';
 import getRegistry from './typeRegistry';
-import { Linkage } from './Linkage';
 
 export enum TypeDefInfo {
   Compact,
@@ -24,7 +25,10 @@ export enum TypeDefInfo {
   Struct,
   Tuple,
   Vector,
-  Linkage
+  Linkage,
+  DoubleMap,
+  // anything not full supported (keep this as the last entry)
+  Null
 }
 
 export type TypeDef = {
@@ -116,8 +120,16 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 
       // not as pretty, but remain compatible with oo7 for both struct and Array types
       value.sub = Array.isArray(details)
-        ? details.map((name) => ({ info: TypeDefInfo.Plain, name, type: 'Null' }))
-        : Object.keys(details).map((name) => ({ info: TypeDefInfo.Plain, name, type: details[name] || 'Null' }));
+        ? details.map((name) => ({
+          info: TypeDefInfo.Plain,
+          name,
+          type: 'Null'
+        }))
+        : Object.keys(details).map((name) => ({
+          info: TypeDefInfo.Plain,
+          name,
+          type: details[name] || 'Null'
+        }));
       value.info = TypeDefInfo.Enum;
     } else {
       value.info = TypeDefInfo.Struct;
@@ -134,6 +146,9 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     value.sub = getTypeDef(subType);
   } else if (startingWith(type, 'Linkage<', '>')) {
     value.info = TypeDefInfo.Linkage;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'DoubleMap<', '>')) {
+    value.info = TypeDefInfo.DoubleMap;
     value.sub = getTypeDef(subType);
   }
 
@@ -158,7 +173,7 @@ export function getTypeClass (value: TypeDef): Constructor {
     case TypeDefInfo.Enum:
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
-      return EnumType.with(
+      return Enum.with(
         (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
           result[sub.name as string] = getTypeClass(sub);
 
@@ -195,9 +210,16 @@ export function getTypeClass (value: TypeDef): Constructor {
       );
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
+
       return Linkage.withKey(
         getTypeClass(value.sub as TypeDef)
       );
+    case TypeDefInfo.DoubleMap:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
+
+      return getTypeClass(value.sub as TypeDef);
+    case TypeDefInfo.Null:
+      return Null;
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);
@@ -209,10 +231,31 @@ export function createClass (type: Text | string): Constructor {
   );
 }
 
-export default function createType (type: Text | string, value?: any): Codec {
+function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec {
+  try {
+    const created = new Type(value);
+
+    // in pedantic mode, actually check that the encoding matches that supplied - this
+    // is much slower, but ensures that we have a 100% grasp on the actual provided value
+    if (isPedantic && value && value.toHex) {
+      const inHex = value.toHex(true);
+      const crHex = created.toHex(true);
+
+      assert(crHex === inHex, `Encoding for input doesn't match output, created ${crHex} from ${inHex}`);
+    }
+
+    return created;
+  } catch (error) {
+    if (Type.Fallback) {
+      return initType(Type.Fallback, value, isPedantic);
+    }
+
+    throw error;
+  }
+}
+
+export default function createType (type: Text | string, value?: any, isPedantic?: boolean): Codec {
   // l.debug(() => ['createType', { type, value }]);
 
-  const Type = createClass(type);
-
-  return new Type(value);
+  return initType(createClass(type), value, isPedantic);
 }

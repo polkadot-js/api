@@ -9,15 +9,6 @@ import { AccountId, Option } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
-function allBonds (api: ApiInterface$Rx, stashIds: Array<AccountId>) {
-  return combineLatest(
-    // FIXME Convert to multi
-    stashIds.map((id) =>
-      (api.query.staking.bonded(id) as Observable<Option<AccountId>>)
-    )
-  );
-}
-
 /**
  * @description From the list of stash accounts, retrieve the list of controllers
  */
@@ -28,7 +19,7 @@ export function controllers (api: ApiInterface$Rx) {
         switchMap(([stashIds]) =>
           combineLatest([
             of(stashIds),
-            allBonds(api, stashIds)
+            api.query.staking.bonded.multi(stashIds) as any as Observable<Array<Option<AccountId>>>
           ])
         ),
         drr()

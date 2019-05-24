@@ -6,7 +6,7 @@ import { AnyU8a } from '../types';
 
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Hash from '../type/Hash';
+import Hash from '../primitive/Hash';
 import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
 
 type StorageChangeSetValue = {

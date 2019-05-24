@@ -115,6 +115,11 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  abstract toRawType (): string;
+
+  /**
    * @description Returns the string representation of the value
    * @param base The base to use for the conversion
    */
@@ -124,7 +129,7 @@ export default abstract class AbstractInt extends BN implements Codec {
   }
 
   /**
-   * @description Encodes the value as a Uint8Array as per the parity-codec specifications
+   * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */
   abstract toU8a (isBare?: boolean): Uint8Array;

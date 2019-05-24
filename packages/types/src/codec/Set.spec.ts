@@ -17,10 +17,16 @@ const SET_ROLES = {
   light:     0b00000010,
   authority: 0b00000100
 };
+const SET_WITHDRAW = {
+  TransactionPayment: 0b00000001,
+  Transfer: 0b00000010,
+  Reserve: 0b00000100,
+  Fee: 0b00001000
+};
 
 describe('Set', () => {
   it('constructs via an Array<string>', () => {
-    const set = new Set(SET_ROLES, ['full', 'authority', 'invalid']);
+    const set = new Set(SET_ROLES, ['full', 'authority']);
 
     expect(set.isEmpty).toEqual(false);
     expect(set.toString()).toEqual(
@@ -28,13 +34,28 @@ describe('Set', () => {
     );
   });
 
-  it('constructs via Uint8Array', () => {
-    const set = new Set(SET_FIELDS, new Uint8Array([0b00000001 | 0b00000010 | 0b00010000 | 0b10000000]));
+  it('throws with invalid values', () => {
+    expect(
+      () => new Set(SET_ROLES, ['full', 'authority', 'invalid'])
+    ).toThrow(/Invalid key 'invalid'/);
+  });
 
-    expect(set.encodedLength).toEqual(1);
-    expect(set.toJSON()).toEqual([
-      'header', 'body', 'justification'
-    ]);
+  it('throws with add on invalid', () => {
+    expect(
+      () => (new Set(SET_ROLES, [])).add('invalid')
+    ).toThrow(/Invalid key 'invalid'/);
+  });
+
+  it('allows construction via number', () => {
+    expect(
+      (new Set(SET_WITHDRAW, 15)).eq(['TransactionPayment', 'Transfer', 'Reserve', 'Fee'])
+    ).toBe(true);
+  });
+
+  it('does not allow invalid number', () => {
+    expect(
+      () => new Set(SET_WITHDRAW, 31)
+    ).toThrow(/Mismatch decoding '31', computed as '15'/);
   });
 
   it('hash a valid encoding', () => {

@@ -4,7 +4,9 @@
 
 import { AnyNumber } from '../../types';
 
-import EnumType from '../../codec/EnumType';
+import { assert } from '@polkadot/util';
+
+import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 import Bool from '../../primitive/Bool';
@@ -50,12 +52,30 @@ export class MapType extends Struct {
   }
 }
 
-export class StorageFunctionType extends EnumType<PlainType | MapType> {
+export class StorageFunctionType extends Enum {
   constructor (value?: any, index?: number) {
     super({
       PlainType,
       MapType
     }, value, index);
+  }
+
+  /**
+   * @description The value as a mapped value
+   */
+  get asMap (): MapType {
+    assert(this.isMap, `Cannot convert '${this.type}' via asMap`);
+
+    return this.value as MapType;
+  }
+
+  /**
+   * @description The value as a [[Type]] value
+   */
+  get asType (): PlainType {
+    assert(this.isPlainType, `Cannot convert '${this.type}' via asType`);
+
+    return this.value as PlainType;
   }
 
   /**
@@ -66,26 +86,25 @@ export class StorageFunctionType extends EnumType<PlainType | MapType> {
   }
 
   /**
-   * @description The value as a mapped value
+   * @description `true` if the storage entry is a plain type
    */
-  get asMap (): MapType {
-    return this.value as MapType;
-  }
-
-  /**
-   * @description The value as a [[Type]] value
-   */
-  get asType (): PlainType {
-    return this.value as PlainType;
+  get isPlainType (): boolean {
+    return this.toNumber() === 0;
   }
 
   /**
    * @description Returns the string representation of the value
    */
   toString (): string {
-    return this.isMap
-      ? this.asMap.value.toString()
-      : this.asType.toString();
+    if (this.isMap) {
+      if (this.asMap.isLinked) {
+        return `(${this.asMap.value.toString()}, Linkage<${this.asMap.key.toString()}>)`;
+      }
+
+      return this.asMap.value.toString();
+    }
+
+    return this.asType.toString();
   }
 }
 
@@ -98,7 +117,7 @@ export type StorageFunctionMetadataValue = {
 };
 
 /**
- * @name MetadataModule
+ * @name ModuleMetadata
  * @description
  * The definition of a storage function
  */
