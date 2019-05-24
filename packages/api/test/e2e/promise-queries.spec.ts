@@ -42,7 +42,7 @@ describe.skip('e2e queries', () => {
     api.query.balances.freeBalance(keyring.alice.address(), balance => {
       expect(balance).toBeInstanceOf(BN);
       expect(balance.isZero()).toBe(false);
-    });
+    }).catch();
   });
 
   it('subscribes to rpc', (done) => {

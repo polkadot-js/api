@@ -38,7 +38,6 @@ const l = logger('api-mock');
  * @return {ProviderInterface} The mock provider
  */
 export default class Mock implements ProviderInterface {
-  public body: any;
   private db: MockState$Db = {};
   private emitter = new EventEmitter();
   public isUpdating: boolean = true;
