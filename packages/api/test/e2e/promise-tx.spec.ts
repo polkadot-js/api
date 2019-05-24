@@ -30,7 +30,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('e2e transactions', () => {
+describe('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -174,7 +174,7 @@ describe.skip('e2e transactions', () => {
     console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
-    const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce });
+    const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce } as any);
 
     expect(hash.toHex()).toHaveLength(66);
     done();
@@ -191,14 +191,13 @@ describe.skip('e2e transactions', () => {
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
 
-    const unsubscribe = await api.rpc.chain.subscribeNewHead(async (header) => {
+    api.rpc.chain.subscribeNewHead(async (header) => {
       if (header.blockNumber.toNumber() === eraDeath - 1) {
-        const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce });
+        const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
 
         expect(hash).toBeUndefined();
         done();
       }
-      unsubscribe();
-    });
+    }).catch();
   });
 });
