@@ -53,6 +53,6 @@ describe('alex archive queries (local)', () => {
       });
       expect(failed).toBeTruthy();
       done();
-    }).then().catch();
+    }).catch();
   });
 });

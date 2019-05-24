@@ -56,7 +56,7 @@ describe.skip('e2e contracts', () => {
             }
             done();
           }
-        }).then().catch();
+        }).catch();
     });
 
     it('allows contract create', (done) => {
@@ -75,7 +75,7 @@ describe.skip('e2e contracts', () => {
               done();
             }
           }
-        }).then().catch();
+        }).catch();
       });
     });
 
@@ -89,7 +89,7 @@ describe.skip('e2e contracts', () => {
           if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
             done();
           }
-        }).then().catch();
+        }).catch();
       });
     });
   });

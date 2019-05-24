@@ -32,7 +32,7 @@ describe.skip('alex queries', () => {
       console.log('api.query.staking.validators():', res.toJSON());
 
       done();
-    }).then().catch();
+    }).catch();
   });
 
   describe('retrieves a single value', () => {
@@ -42,21 +42,21 @@ describe.skip('alex queries', () => {
         console.log('api.query.staking.validators(id):', res.toJSON());
 
         done();
-      }).then().catch();
+      }).catch();
     });
 
     it('Gets the hash of the last finalized header', async (done) => {
       api.rpc.chain.getFinalizedHead((head) => {
         expect(head instanceof Hash).toBe(true);
         done();
-      }).then().catch();
+      }).catch();
     });
 
     it('Subscribes to the best finalized header on ALEX', async (done) => {
       api.rpc.chain.subscribeFinalizedHeads((head) => {
         expect(head instanceof Header).toBe(true);
         done();
-      }).then().catch();
+      }).catch();
     });
   });
 
@@ -65,7 +65,7 @@ describe.skip('alex queries', () => {
       console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
       done();
-    }).then().catch();
+    }).catch();
   });
 
   it('makes a query at a latest block (specified)', async () => {

@@ -157,7 +157,7 @@ describe.skip('e2e transactions', () => {
 
     // return doTwo(done);
     return doOne(() => {
-      doTwo(done).then().catch();
+      doTwo(done).catch();
     });
   });
 
