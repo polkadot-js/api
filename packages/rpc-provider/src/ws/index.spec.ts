@@ -11,9 +11,9 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 let ws: WsProvider;
 let mock: Mock;
 
-function createWs (requests: Array<any>, autoConnect: Boolean) {
+function createWs (requests: Array<any>, autoConnect: boolean | undefined) {
   mock = mockWs(requests);
-  ws = new WsProvider(TEST_WS_URL, autoConnect = true);
+  ws = new WsProvider(TEST_WS_URL, autoConnect);
   return ws;
 }
 
