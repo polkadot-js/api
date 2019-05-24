@@ -9,6 +9,7 @@ import { randomAsHex } from '@polkadot/util-crypto';
 import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import SingleAccountSigner from '../util/SingleAccountSigner';
+import { ExtrinsicEra, SignedBlock } from '@polkadot/types';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>
@@ -162,43 +163,41 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer with ERA (signAndSend)', async (done) => {
-    // const nonce = await api.query.system.accountNonce(keyring.dave.address());
-    // const signedBlock = await api.rpc.chain.getBlock();
-    // const currentHeight = signedBlock.block.header.number;
-    // const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
-    // // eraBirth - start of ERA which is always less than current block height
-    // // eraDeath - end of ERA validity (EXPIRY)
-    // const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
-    // const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-    // console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
-    // const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
-    // const ex = api.tx.balances
-    //   .transfer(keyring.eve.address(), 12345);
-    // const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce });
+    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+    const signedBlock = await api.rpc.chain.getBlock();
+    const currentHeight = (signedBlock as SignedBlock).block.header.number;
+    const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
+    // eraBirth - start of ERA which is always less than current block height
+    // eraDeath - end of ERA validity (EXPIRY)
+    const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
+    const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
+    console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
+    const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
+    const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+    const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce });
 
-    // expect(hash.toHex()).toHaveLength(66);
-    // done();
+    expect(hash.toHex()).toHaveLength(66);
+    done();
   });
 
   it('makes a transfer with ERA (signAndSend) with invalid time', async (done) => {
-    // const nonce = await api.query.system.accountNonce(keyring.alice.address());
-    // const signedBlock = await api.rpc.chain.getBlock();
-    // const currentHeight = signedBlock.block.header.number;
-    // const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
-    // const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
-    // const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-    // console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
-    // const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
-    // const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+    const signedBlock = await api.rpc.chain.getBlock();
+    const currentHeight = (signedBlock as SignedBlock).block.header.number;
+    const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
+    const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
+    const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
+    console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
+    const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
+    const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
 
-    // const unsubscribe = await api.rpc.chain.subscribeNewHead(async (header) => {
-    //   console.log(`Chain is at block: #${header.blockNumber}`);
-    //   if (header.blockNumber.toNumber() === eraDeath - 1) {
-    //     const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce });
+    const unsubscribe = await api.rpc.chain.subscribeNewHead(async (header) => {
+      if (header.blockNumber.toNumber() === eraDeath - 1) {
+        const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce });
 
-    //     expect(hash).toBeUndefined();
-    //     done();
-    //   }
-    // });
+        expect(hash).toBeUndefined();
+        done();
+      }
+    });
   });
 });
