@@ -6,6 +6,7 @@ import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
 
 import { ApiRxInterface } from '@polkadot/api/rx/types';
+import { Balance } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
@@ -32,8 +33,8 @@ describe.skip('e2e queries', () => {
 
   it('queries state for a balance', (done) => {
     api.query.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
-
       expect(balance).toBeInstanceOf(BN);
+      expect((balance as Balance).isZero()).toBe(false);
       done();
     });
   });

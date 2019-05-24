@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Extrinsic } from '@polkadot/types';
+import { Extrinsic, SignedBlock } from '@polkadot/types';
 
 import Api from '@polkadot/api/promise';
 
@@ -36,8 +36,8 @@ describe('alex archive queries (local)', () => {
 
   // https://github.com/polkadot-js/api/issues/846
   it('handles toJSON with no issues', async (done) => {
-    api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', result => {
-      const failed: boolean = result.block.extrinsics.filter((extrinsic: Extrinsic) => {
+    api.rpc.chain.getBlock('0x85c62b581f38cb81c3e443d34392672beb1fb877017fd7237cc87704113259dc', (result: SignedBlock) => {
+      const failed: Extrinsic[] = result.block.extrinsics.filter((extrinsic: Extrinsic) => {
         try {
           const json = extrinsic.method.toJSON();
 

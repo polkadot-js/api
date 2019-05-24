@@ -33,7 +33,7 @@ describe('send', () => {
     return http
       .send('test_body', ['param'])
       .then((result) => {
-        expect(Object.values(mock.body)[0]).toEqual({
+        expect((mock.body as any)['test_body']).toEqual({
           id: 1,
           jsonrpc: '2.0',
           method: 'test_body',
