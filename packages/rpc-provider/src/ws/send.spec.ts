@@ -2,11 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor } from '@polkadot/types/types';
+
 import WsProvider from './';
 import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-declare var global: Global;
+declare const global: Global;
 let provider: WsProvider;
 let mock: Mock;
 
@@ -21,7 +23,7 @@ function createWs (autoConnect: boolean = true) {
 }
 
 describe('send', () => {
-  let globalWs: WebSocket;
+  let globalWs: Constructor<WebSocket>;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -38,20 +40,15 @@ describe('send', () => {
   it('handles internal errors', () => {
     createMock([]);
 
-    let websocket: any;
-
-    global.WebSocket = class {
-      constructor () {
-        websocket = this;
-      }
-
+    (global as any).WebSocket = class {
       send () {
         throw new Error('send error');
       }
     };
 
     provider = createWs(true);
-    websocket.onopen();
+    // @ts-ignore Accessing private method
+    provider.websocket.onopen();
 
     return provider
       .send('test_encoding', ['param'])
