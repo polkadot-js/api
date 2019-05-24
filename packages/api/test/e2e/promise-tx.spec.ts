@@ -30,7 +30,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe('e2e transactions', () => {
+describe.skip('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
