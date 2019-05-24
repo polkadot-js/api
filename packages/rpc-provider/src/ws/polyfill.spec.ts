@@ -20,7 +20,7 @@ describe('ws/polyfill', () => {
   it('polyfills with no exceptions (with WebSocket)', () => {
     (global as any).fetch = undefined;
     require('./polyfill');
-    
+
     expect(global.WebSocket).toBeDefined();
   });
 
