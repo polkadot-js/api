@@ -39,9 +39,10 @@ describe.skip('e2e queries', () => {
   });
 
   it('queries state for a balance', async () => {
-    const balance = await api.query.balances.freeBalance(keyring.alice.address());
-
-    expect(balance).toBeInstanceOf(BN);
+    api.query.balances.freeBalance(keyring.alice.address(), balance => {
+      expect(balance).toBeInstanceOf(BN);
+      expect(balance.isZero()).toBe(false);
+    });
   });
 
   it('subscribes to rpc', (done) => {
