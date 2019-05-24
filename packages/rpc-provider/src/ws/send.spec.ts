@@ -40,7 +40,7 @@ describe('send', () => {
   it('handles internal errors', () => {
     createMock([]);
 
-    let websocket;
+    let websocket: any;
 
     global.WebSocket = class {
       constructor () {
