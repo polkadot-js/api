@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor } from '@polkadot/types/types';
+
 import { Global } from './../mock/types';
 
 declare let global: Global;
 
 describe('ws/polyfill', () => {
-  let origWs: WebSocket;
+  let origWs: Constructor<WebSocket>;
 
   beforeEach(() => {
     origWs = global.WebSocket;
