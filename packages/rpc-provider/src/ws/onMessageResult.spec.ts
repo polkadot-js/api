@@ -12,6 +12,8 @@ describe('WsProvider', () => {
   });
 
   it('calls the handler when found', (done) => {
+    // We need to access the private WsProvider property 'handlers' here which otherwise trigger a tslint error..
+    // @ts-ignore
     provider.handlers[5] = {
       callback: (_: any, result: any) => {
         expect(result).toEqual('test');
@@ -21,6 +23,8 @@ describe('WsProvider', () => {
       params: []
     };
 
+    // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
+    // @ts-ignore
     provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":5,"result":"test"}' }));
   });
 });

@@ -69,7 +69,7 @@ export default class WsProvider implements WSProviderInterface {
   private autoConnect: boolean;
   private coder: Coder;
   private endpoint: string;
-  public handlers: {
+  private handlers: {
     [index: string]: WsState$Awaiting
   };
   private queued: {
@@ -81,7 +81,7 @@ export default class WsProvider implements WSProviderInterface {
   private waitingForId: {
     [index: string]: JsonRpcResponse
   };
-  public websocket: WebSocket | null;
+  private websocket: WebSocket | null;
 
   /**
    * @param {string}  endpoint    The endpoint url. Usually `ws://ip:9944` or `wss://ip:9944`
@@ -283,7 +283,7 @@ export default class WsProvider implements WSProviderInterface {
     this.emit('error', error);
   }
 
-  onSocketMessage = (message: MessageEvent): void => {
+  private onSocketMessage = (message: MessageEvent): void => {
     l.debug(() => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);

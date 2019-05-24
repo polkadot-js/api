@@ -12,6 +12,8 @@ describe('onMessageSubscribe', () => {
   });
 
   it('calls the subscriber with data', (done) => {
+    // We need to access the private WsProvider property 'handlers' here which otherwise triggers a tslint error..
+    // @ts-ignore
     provider.handlers[3] = {
       callback: (_: any, id: number) => {
         expect(typeof id).toBe('number');
@@ -24,11 +26,16 @@ describe('onMessageSubscribe', () => {
       }
     };
 
+    // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
+    // @ts-ignore
     provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    // @ts-ignore
     provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"result":"test"}}' }));
   });
 
   it('calls the subscriber with error', (done) => {
+    // We need to access the private WsProvider property 'handlers' here which otherwise trigger a tslint error..
+    // @ts-ignore
     provider.handlers[11] = {
       callback: (_: any, id: number) => {
         expect(typeof id).toBe('number');
@@ -44,7 +51,10 @@ describe('onMessageSubscribe', () => {
       }
     };
 
+    // We need to access the private WsProvider property 'onSocketMessage' here which would otherwise trigger a tslint error.
+    // @ts-ignore
     provider.onSocketMessage(new MessageEvent('test', { data: '{"jsonrpc":"2.0","id":11,"result":22}' }));
+    // @ts-ignore
     provider.onSocketMessage(new MessageEvent('test',{ data: '{"jsonrpc":"2.0","method":"test","params":{"subscription":22,"error":{"message":"test"}}}' }));
   });
 });
