@@ -7,7 +7,6 @@ import path from 'path';
 
 import { ContractAbi } from '@polkadot/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 import { SubmittableResult } from '@polkadot/api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
@@ -21,7 +20,7 @@ describe.skip('e2e contracts', () => {
   let keyring: {
     [index: string]: KeyringPair
   };
-  let api: ApiPromiseInterface;
+  let api: Api;
 
   beforeEach(async (done) => {
     if (!api) {

@@ -5,7 +5,6 @@
 import BN from 'bn.js';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 
 import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -16,7 +15,7 @@ const WS_URL = 'ws://127.0.0.1:9944';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: ApiPromiseInterface;
+  let api: Api;
 
   beforeEach(async (done) => {
     if (!api) {

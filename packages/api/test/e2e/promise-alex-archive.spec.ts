@@ -2,13 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiPromiseInterface } from '@polkadot/api/promise/types';
 import { Extrinsic } from '@polkadot/types';
 
 import Api from '@polkadot/api/promise';
 
-describe.skip('alex archive queries (local)', () => {
-  let api: ApiPromiseInterface;
+describe('alex archive queries (local)', () => {
+  let api: Api;
 
   beforeEach(() => {
     jest.setTimeout(30000);
