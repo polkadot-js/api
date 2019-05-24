@@ -18,12 +18,16 @@ describe('http/polyfill', () => {
   });
 
   it('polyfills with no exceptions (without fetch)', () => {
-    expect(require('./polyfill')).toBeDefined();
+    (global as any).fetch = undefined;
+    require('./polyfill');
+
+    expect(global.fetch).toBeDefined();
   });
 
   it('polyfills with no exceptions (with fetch)', () => {
-    expect(global.fetch).toBeTruthy();
+    (global as any).fetch = () => true;
+    require('./polyfill');
 
-    expect(require('./polyfill')).toBeDefined();
+    expect(global.fetch).toBeDefined();
   });
 });

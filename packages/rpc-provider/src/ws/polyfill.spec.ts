@@ -18,11 +18,16 @@ describe('ws/polyfill', () => {
   });
 
   it('polyfills with no exceptions (with WebSocket)', () => {
-    expect(require('./polyfill')).toBeDefined();
+    (global as any).fetch = undefined;
+    require('./polyfill');
+    
+    expect(global.WebSocket).toBeDefined();
   });
 
   it('polyfills with no exceptions (without WebSocket)', () => {
-    expect(global.WebSocket).toBeTruthy();
-    expect(require('./polyfill')).toBeDefined();
+    (global as any).WebSocket = () => true;
+    require('./polyfill');
+
+    expect(global.WebSocket).toBeDefined();
   });
 });
