@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Global } from '@polkadot/rpc-provider/mock/types';
+import { Global } from './../mock/types';
 
 declare const global: Global;
 

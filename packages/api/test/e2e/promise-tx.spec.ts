@@ -9,7 +9,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ExtrinsicEra, SignedBlock } from '@polkadot/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
-import Api from './../../src/rx';
+import Api from './../../src/promise';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>

@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
-
-import Http from '@polkadot/rpc-provider/http';
+import Http from './';
 
 describe('Http', () => {
   let http: Http;
