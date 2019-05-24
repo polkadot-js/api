@@ -69,7 +69,7 @@ export function validateMethods ({ messages }: ContractABI): void {
   messages.forEach((method) => {
     const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
-    assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${name}`);
+    assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
     assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
 
     validateArgs(`messages.${method.name}`, method.args);
