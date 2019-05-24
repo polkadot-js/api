@@ -176,7 +176,7 @@ export default class WsProvider implements WSProviderInterface {
    * @param params Encoded paramaters as appliucable for the method
    * @param subscription Subscription details (internally used)
    */
-  async send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
+  send (method: string, params: Array<any>, subscription?: SubscriptionHandler): Promise<any> {
     return new Promise((resolve, reject): void => {
       try {
         const json = this.coder.encodeJson(method, params);
