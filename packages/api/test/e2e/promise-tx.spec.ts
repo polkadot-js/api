@@ -198,6 +198,7 @@ describe.skip('e2e transactions', () => {
         expect(hash).toBeUndefined();
         done();
       }
+      unsubscribe();
     });
   });
 });
