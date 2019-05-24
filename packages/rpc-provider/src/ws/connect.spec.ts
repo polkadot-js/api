@@ -27,7 +27,7 @@ describe('onConnect', () => {
     expect(provider.websocket).toBeNull();
   });
 
-  it('Does not connect when autoConnect is false', () => {
+  it('Does connect when autoConnect is true', () => {
     const provider: WsProvider = new WsProvider(TEST_WS_URL, true);
 
     expect(provider.websocket).not.toBeNull();
