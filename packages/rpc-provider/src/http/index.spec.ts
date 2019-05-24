@@ -4,12 +4,10 @@
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
 
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-
 import Http from '@polkadot/rpc-provider/http';
 
 describe('Http', () => {
-  let http: ProviderInterface;
+  let http: Http;
 
   beforeEach(() => {
     http = new Http(TEST_HTTP_URL);
