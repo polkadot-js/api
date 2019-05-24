@@ -118,9 +118,7 @@ describe('e2e transactions', () => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address(), (cb: any) => {
-        expect(cb).toBeInstanceOf(Object);
-      })).rejects.toThrow('does not have the keyringPair');
+      .signAndSend(keyring.alice.address(), (cb: any) => {})).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
@@ -167,8 +165,6 @@ describe('e2e transactions', () => {
     const signedBlock = await api.rpc.chain.getBlock();
     const currentHeight = (signedBlock as SignedBlock).block.header.number;
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
-    // eraBirth - start of ERA which is always less than current block height
-    // eraDeath - end of ERA validity (EXPIRY)
     const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
     const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
     console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
