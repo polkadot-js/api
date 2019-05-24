@@ -7,12 +7,12 @@ import path from 'path';
 
 import { ContractAbi } from '@polkadot/types';
 import { KeyringPair } from '@polkadot/keyring/types';
-import { SubmittableResult } from '@polkadot/api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
+import Api from './../../src/promise';
 import incrementer from '../data/incrementer.json';
 import erc20 from '../data/erc20.json';
-import Api from '@polkadot/api/promise';
+import { SubmittableResult } from './../../src';
 
 describe.skip('e2e contracts', () => {
   let address: any;

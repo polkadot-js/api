@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import WsProvider from '@polkadot/rpc-provider/ws';
 import { EventRecord, Hash, Header } from '@polkadot/types';
 
-import Api from '@polkadot/api/promise';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import Api from './../../src/promise';
 
 const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 // const WS_URL = 'wss://substrate-rpc.parity.io/';

@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+
+import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
 
-import Api from '@polkadot/api/promise';
-import WsProvider from '@polkadot/rpc-provider/ws';
+import Api from './../../src/promise';
 
 const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';

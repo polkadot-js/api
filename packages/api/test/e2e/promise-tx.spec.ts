@@ -5,11 +5,11 @@
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
-
-import Api from '@polkadot/api/promise';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import SingleAccountSigner from '../util/SingleAccountSigner';
 import { ExtrinsicEra, SignedBlock } from '@polkadot/types';
+
+import SingleAccountSigner from '../util/SingleAccountSigner';
+import Api from './../../src/rx';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>
@@ -118,7 +118,7 @@ describe('e2e transactions', () => {
     // with callback
     await expect(api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address(), (cb: any) => {})).rejects.toThrow('does not have the keyringPair');
+      .signAndSend(keyring.alice.address(), (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {

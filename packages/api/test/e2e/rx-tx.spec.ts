@@ -4,10 +4,10 @@
 
 import { first, switchMap } from 'rxjs/operators';
 
-import { ApiRxInterface } from '@polkadot/api/rx/types';
-
 import testingPairs from '@polkadot/keyring/testingPairs';
-import Api from '@polkadot/api/rx';
+
+import Api from './../../src/rx';
+import { ApiRxInterface } from './../../src/rx/types';
 
 describe.skip('e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });

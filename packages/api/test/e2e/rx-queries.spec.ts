@@ -5,11 +5,11 @@
 import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
 
-import { ApiRxInterface } from '@polkadot/api/rx/types';
 import { Balance } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
+import { ApiRxInterface } from './../../src/rx/types';
 
 describe.skip('e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });

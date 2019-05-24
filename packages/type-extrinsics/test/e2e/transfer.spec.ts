@@ -4,12 +4,11 @@
 
 import { RpcInterface } from '@polkadot/rpc-core/types';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
-
 import Rpc from '@polkadot/rpc-core';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
-import extrinsics from '@polkadot/extrinsics/static';
+import extrinsics from './../../src/static';
 
 const keyring = testingPairs({ type: 'ed25519' });
 
