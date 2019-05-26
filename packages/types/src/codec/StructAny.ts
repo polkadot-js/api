@@ -6,7 +6,7 @@ import { Codec } from '../types';
 
 import { isUndefined } from '@polkadot/util';
 
-import { compareMap } from '../codec/utils';
+import { compareMap } from './utils';
 
 /**
  * @name Json
@@ -16,9 +16,9 @@ import { compareMap } from '../codec/utils';
  * i.e. no hex decoding. Unlike a struct, this waps a JSON object with unknown keys
  * @noInheritDoc
  */
-export default class Json extends Map<string, any> implements Codec {
+export default class StructAny extends Map<string, any> implements Codec {
   constructor (value?: { [index: string]: any } | null) {
-    const decoded = Json.decodeJson(value);
+    const decoded = StructAny.decodeJson(value);
 
     super(decoded);
 

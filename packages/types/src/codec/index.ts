@@ -14,6 +14,7 @@ export { default as EnumType } from './EnumType';
 export { default as Option } from './Option';
 export { default as Set } from './Set';
 export { default as Struct } from './Struct';
+export { default as StructAny } from './StructAny';
 export { default as Tuple } from './Tuple';
 export { default as Vector } from './Vector';
 export { default as VectorAny } from './VectorAny';

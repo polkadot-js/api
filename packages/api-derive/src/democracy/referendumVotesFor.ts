@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Balance, Json, Vector, VectorAny, Vote } from '@polkadot/types';
+import { AccountId, Balance, StructAny, Vector, VectorAny, Vote } from '@polkadot/types';
 
 import { DerivedReferendumVote } from '../types';
 import { drr } from '../util/drr';
@@ -26,7 +26,7 @@ export function referendumVotesFor (api: ApiInterface$Rx) {
       map(([votersFor, votes, balances]) =>
         new VectorAny(
           ...votersFor.map((accountId, index): DerivedReferendumVote =>
-            new Json({
+            new StructAny({
               accountId,
               balance: balances[index].votingBalance || new Balance(0),
               vote: votes[index] || new Vote(0)

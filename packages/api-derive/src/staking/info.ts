@@ -7,7 +7,7 @@ import { DerivedStaking } from '../types';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Exposure, Json, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
+import { AccountId, Exposure, Option, StakingLedger, StructAny, ValidatorPrefs } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -24,7 +24,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
     ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
   ).pipe(
     map(([nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) =>
-      new Json({
+      new StructAny({
         accountId,
         controllerId,
         nextSessionId: nextKeyFor.isSome
@@ -55,7 +55,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
     ]) as any as Observable<[Option<AccountId>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
   ).pipe(
     map(([nextKeyFor, [nominators], stakers, [validatorPrefs]]) =>
-      new Json({
+      new StructAny({
         accountId,
         controllerId,
         nextSessionId: nextKeyFor.isSome
@@ -92,7 +92,7 @@ export function info (api: ApiInterface$Rx) {
             stakingLedger.isSome
               ? withControllerLedger(api, accountId, stakingLedger.unwrap())
               // dangit, this is something else, ok, we are done
-              : of(new Json({ accountId }) as DerivedStaking)
+              : of(new StructAny({ accountId }) as DerivedStaking)
           )
       ),
       drr()

@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Exposure, Index, Json, StakingLedger, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Exposure, Index, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@polkadot/types';
 
-export interface DerivedBalances extends Json {
+export interface DerivedBalances extends StructAny {
   accountId: AccountId;
   accountNonce: Index;
   freeBalance: Balance;
@@ -20,7 +20,7 @@ export type DerivedBalancesMap = {
   [index: string]: DerivedBalances
 };
 
-export interface DerivedContractFees extends Json {
+export interface DerivedContractFees extends StructAny {
   callBaseFee: BN;
   contractFee: BN;
   createBaseFee: BN;
@@ -33,7 +33,7 @@ export interface DerivedContractFees extends Json {
   tombstoneDeposit: BN;
 }
 
-export interface DerivedFees extends Json {
+export interface DerivedFees extends StructAny {
   creationFee: BN;
   existentialDeposit: BN;
   transactionBaseFee: BN;
@@ -41,13 +41,13 @@ export interface DerivedFees extends Json {
   transferFee: BN;
 }
 
-export interface DerivedReferendumVote extends Json {
+export interface DerivedReferendumVote extends StructAny {
   accountId: AccountId;
   balance: Balance;
   vote: Vote;
 }
 
-export interface DerivedSessionInfo extends Json {
+export interface DerivedSessionInfo extends StructAny {
   currentIndex: BlockNumber;
   eraLength: BN;
   eraProgress: BN;
@@ -58,7 +58,7 @@ export interface DerivedSessionInfo extends Json {
   sessionProgress: BN;
 }
 
-export interface DerivedStaking extends Json {
+export interface DerivedStaking extends StructAny {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;

@@ -8,7 +8,7 @@ import { DerivedFees } from '../types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Json } from '@polkadot/types';
+import { StructAny } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -35,7 +35,7 @@ export function fees (api: ApiInterface$Rx) {
       api.query.balances.transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) =>
-        new Json({
+        new StructAny({
           creationFee,
           existentialDeposit,
           transactionBaseFee,

@@ -5,7 +5,7 @@
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, Json, Option, VestingSchedule } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, StructAny, Option, VestingSchedule } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -32,7 +32,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = new BlockNumber(
   const vestedBalance = new Balance(perBlock.mul(bestNumber).add(freeBalance.sub(offset)));
   const availableBalance = new Balance(vestedBalance.sub(lockedBalance));
 
-  return new Json({
+  return new StructAny({
     accountId,
     accountNonce,
     availableBalance,
