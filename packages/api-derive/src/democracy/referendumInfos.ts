@@ -16,8 +16,8 @@ export function referendumInfos (api: ApiInterface$Rx) {
   return (ids: Array<BN | number> = []): Observable<VectorAny<Option<ReferendumInfoExtended>>> => {
     return (
       !ids || !ids.length
-        ? of([])
-        : api.query.democracy.referendumInfoOf.multi(ids) as any as Observable<Array<Option<ReferendumInfo>>>
+        ? of([] as Array<Option<ReferendumInfo>>)
+        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<VectorAny<Option<ReferendumInfo>>>
     ).pipe(
         map((infos) =>
           new VectorAny(
