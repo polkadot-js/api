@@ -4,13 +4,14 @@
 
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Vote } from '@polkadot/types';
+import { AccountId, VectorAny, Vote } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
 export function votes (api: ApiInterface$Rx) {
-  return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<Array<Vote>> => {
+  return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<VectorAny<Vote>> => {
     return (
       !accountIds || !accountIds.length
         ? of([])
@@ -20,6 +21,9 @@ export function votes (api: ApiInterface$Rx) {
             )
           ) as any as Observable<Array<Vote>>
     ).pipe(
+      map((votes) =>
+        new VectorAny(...votes)
+      ),
       drr()
     );
   };

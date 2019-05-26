@@ -3,3 +3,4 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 export { default as HeaderExtended } from './HeaderExtended';
+export { default as ReferendumInfoExtended } from './ReferendumInfoExtended';
