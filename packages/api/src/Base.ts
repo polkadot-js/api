@@ -23,7 +23,7 @@ import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
 import RpcBase from '@polkadot/rpc-core';
 import RpcRx from '@polkadot/rpc-rx';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
@@ -506,7 +506,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       );
 
       return onCall(
-        () => this._rpcRx.state.subscribeStorage(mapped),
+        () =>
+          this._rpcRx.state
+            .subscribeStorage(mapped)
+            .pipe(map((results) => new VectorAny(...results))),
         [],
         callback
       ) as S;
@@ -605,7 +608,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     decorated.multi = (args: Array<CodecArg>, callback?: CodecCallback): S =>
       onCall(
-        () => this._rpcRx.state.subscribeStorage(args.map((arg) => [creator, arg])),
+        () =>
+          this._rpcRx.state
+            .subscribeStorage(args.map((arg) => [creator, arg]))
+            .pipe(map((results) => new VectorAny(...results))),
         [],
         callback
       ) as unknown as S;
