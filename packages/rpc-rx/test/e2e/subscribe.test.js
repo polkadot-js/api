@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Ws from '@plugnet/rpc-provider/ws';
+import WsProvider from '@plugnet/rpc-provider/ws';
 import storage from '@plugnet/storage/static';
 
 import RpcRx from '../../src';
@@ -13,7 +13,7 @@ describe.skip('e2e subscriptions', () => {
   beforeEach(() => {
     jest.setTimeout(30000);
 
-    api = new RpcRx(new Ws('ws://127.0.0.1:9944'));
+    api = new RpcRx(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   it('retrieves current timestamp', (done) => {

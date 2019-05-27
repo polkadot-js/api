@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
+
 import testingPairs from '@plugnet/keyring/testingPairs';
 import { RpcInterface$Section } from '@plugnet/rpc-core/types';
 import { AccountId } from '@plugnet/types';

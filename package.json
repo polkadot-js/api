@@ -20,7 +20,8 @@
     "lint": "tslint --project . && tsc --noEmit --pretty",
     "clean": "plugnet-dev-clean-build",
     "postinstall": "plugnet-dev-yarn-only",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

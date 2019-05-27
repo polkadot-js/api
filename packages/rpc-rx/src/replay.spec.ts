@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
+
 import { RpcInterface$Section } from '@plugnet/rpc-core/types';
 
 jest.mock('@plugnet/rpc-provider/ws', () => class {

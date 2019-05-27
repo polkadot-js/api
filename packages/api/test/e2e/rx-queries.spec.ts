@@ -2,14 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
+
+import { Balance } from '@plugnet/types';
 import testingPairs from '@plugnet/keyring/testingPairs';
 
 import Api from '../../src/rx';
 
-describe.skip('e2e queries', () => {
+describe.skip('Rx e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api;
+  let api: Api;
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();
@@ -29,10 +32,8 @@ describe.skip('e2e queries', () => {
 
   it('queries state for a balance', (done) => {
     api.query.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
-      expect(
-        balance.isZero()
-      ).toBe(false);
-
+      expect(balance).toBeInstanceOf(BN);
+      expect((balance as Balance).isZero()).toBe(false);
       done();
     });
   });
@@ -41,11 +42,11 @@ describe.skip('e2e queries', () => {
     api.rpc.chain
       .getHeader()
       .pipe(
-        switchMap((header) =>
-          api.query.system.events.at(header.hash)
+        switchMap(({ hash }: any) =>
+          api.query.system.events.at(hash)
         )
       )
-      .subscribe((events) => {
+      .subscribe((events: any) => {
         expect(events.length).not.toEqual(0);
         done();
       });

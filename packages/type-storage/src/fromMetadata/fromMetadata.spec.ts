@@ -7,7 +7,7 @@ import { Metadata } from '@plugnet/types';
 import json from '@plugnet/types/Metadata/v4/static';
 import { u8aToHex } from '@plugnet/util';
 
-import fromMetadata from '.';
+import fromMetadata from './';
 
 const keyring = testingPairs({ type: 'ed25519' });
 // Use the pre-generated metadata

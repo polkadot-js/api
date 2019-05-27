@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+
 import fromMetadata from '@plugnet/storage/fromMetadata';
 import { Storage } from '@plugnet/storage/types';
 import Metadata from '@plugnet/types/Metadata';

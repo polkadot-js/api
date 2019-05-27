@@ -5,18 +5,22 @@
 import fs from 'fs';
 import path from 'path';
 
-import { ContractAbi } from '@plugnet/types';
+import { ContractAbi, Address, Hash } from '@plugnet/types';
+import { KeyringPair } from '@plugnet/keyring/types';
 import testingPairs from '@plugnet/keyring/testingPairs';
 
+import Api from './../../src/promise';
 import incrementer from '../data/incrementer.json';
 import erc20 from '../data/erc20.json';
-import Api from '../../src/promise';
+import { SubmittableResult } from './../../src';
 
-describe.skip('e2e contracts', () => {
-  let address;
-  let codeHash;
-  let keyring;
-  let api;
+describe.skip('Promise e2e contracts', () => {
+  let address: Address;
+  let codeHash: Hash;
+  let keyring: {
+    [index: string]: KeyringPair
+  };
+  let api: Api;
 
   beforeEach(async (done) => {
     if (!api) {
@@ -30,7 +34,7 @@ describe.skip('e2e contracts', () => {
   });
 
   describe('incrementer', () => {
-    let abi;
+    let abi: ContractAbi;
 
     beforeEach(() => {
       abi = new ContractAbi(incrementer);
@@ -39,60 +43,63 @@ describe.skip('e2e contracts', () => {
     it('allows putCode', (done) => {
       const code = fs.readFileSync(path.join(__dirname, '../data/incrementer-opt.wasm')).toString('hex');
 
-      api.tx.contract
+      return(
+        api.tx.contract
         .putCode(200000, `0x${code}`)
-        .signAndSend(keyring.eve, (result) => {
+        .signAndSend(keyring.eve, (result: SubmittableResult) => {
           console.error('putCode', JSON.stringify(result));
-
           if (result.status.isFinalized) {
             const record = result.findRecord('contract', 'CodeStored');
 
             if (record) {
-              codeHash = record.event.data[0];
-
-              done();
+              codeHash = record.event.data[0] as Hash;
             }
+            done();
           }
-        });
+        })
+      );
     });
 
     it('allows contract create', (done) => {
       expect(codeHash).toBeDefined();
 
-      api.tx.contract
-        .create(12345, 500000, codeHash, abi.deploy(12345))
-        .signAndSend(keyring.bob, (result) => {
-          console.error('create', JSON.stringify(result));
+      return (
+        api.tx.contract
+          .create(12345, 500000, codeHash, abi.deploy(12345))
+          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+            console.error('create', JSON.stringify(result));
+            if (result.status.isFinalized) {
+              const record = result.findRecord('contract', 'Instantiated');
 
-          if (result.status.isFinalized) {
-            const record = result.findRecord('contract', 'Instantiated');
+              if (record) {
+                address = record.event.data[1] as Address;
 
-            if (record) {
-              address = record.event.data[1];
-
-              done();
+                done();
+              }
             }
-          }
-        });
+          })
+      );
     });
 
     it('allows contract call', (done) => {
       expect(address).toBeDefined();
 
-      api.tx.contract
-        .call(address, 12345, 500000, abi.messages.inc(123))
-        .signAndSend(keyring.bob, (result) => {
-          console.error('call', JSON.stringify(result));
+      return (
+        api.tx.contract
+          .call(address, 12345, 500000, abi.messages.inc(123))
+          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+            console.error('call', JSON.stringify(result));
 
-          if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
-            done();
-          }
-        });
+            if (result.status.isFinalized && result.findRecord('system', 'ExtrinsicSuccess')) {
+              done();
+            }
+          })
+      );
     });
   });
 
   describe('erc20', () => {
-    let abi;
+    let abi: ContractAbi;
 
     beforeEach(() => {
       abi = abi = new ContractAbi(erc20);

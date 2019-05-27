@@ -3,11 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Hash, Metadata } from '@plugnet/types';
-
 import Mock from '@plugnet/rpc-provider/mock/index';
 
-import ApiPromise from './Api';
-import { ApiOptions } from '../types';
+import { ApiPromise } from './..';
+import { ApiOptions } from './../types';
 
 describe.skip('Metadata queries', () => {
   let mock: Mock;

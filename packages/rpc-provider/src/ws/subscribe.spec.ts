@@ -2,25 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor } from '@polkadot/types/types';
+
+import WsProvider from './';
+import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from '.';
+declare var global: Global;
+let ws: WsProvider;
+let mock: Mock;
 
-let ws;
-let mock;
-
-function createMock (requests) {
+function createMock (requests: Array<any>) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
-  ws = new Ws(TEST_WS_URL, autoConnect);
+function createWs (autoConnect: boolean = true) {
+  ws = new WsProvider(TEST_WS_URL, autoConnect);
 
   return ws;
 }
 
 describe('subscribe', () => {
-  let globalWs;
+  let globalWs: Constructor<WebSocket>;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -31,7 +34,6 @@ describe('subscribe', () => {
 
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 
@@ -44,8 +46,8 @@ describe('subscribe', () => {
       }
     }]);
 
-    return createWs()
-      .subscribe('test_sub', [], () => {})
+    return createWs(true)
+      .subscribe('type', 'test_sub', [], (cb) => { expect(cb).toEqual(expect.anything()); })
       .then((id) => {
         expect(id).toEqual(1);
       });

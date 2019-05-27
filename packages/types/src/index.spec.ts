@@ -2,10 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Constructor } from './types';
-
 import extrinsics from '@plugnet/extrinsics/static';
 
+import { Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as { [index: string]: Constructor };

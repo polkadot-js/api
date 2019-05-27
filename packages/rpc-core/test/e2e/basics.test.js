@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Ws from '@plugnet/rpc-provider/ws';
+import WsProvider from '@plugnet/rpc-provider/ws';
 
 import Rpc from '../../src';
 
@@ -11,7 +11,7 @@ describe.skip('e2e basics', () => {
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new Ws('ws://127.0.0.1:9944'));
+    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   it('retrieves the pending extrinsics', () => {
