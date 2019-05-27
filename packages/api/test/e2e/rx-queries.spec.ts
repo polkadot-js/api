@@ -3,9 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Balance } from '@plugnet/types';
+import { Balance, Header } from '@plugnet/types';
 import testingPairs from '@plugnet/keyring/testingPairs';
 
 import Api from '../../src/rx';
@@ -39,10 +40,9 @@ describe.skip('Rx e2e queries', () => {
   });
 
   it('makes a query at a specific block', (done) => {
-    api.rpc.chain
-      .getHeader()
+    (api.rpc.chain.getHeader() as Observable<Header>)
       .pipe(
-        switchMap(({ hash }: any) =>
+        switchMap(({ hash }: Header) =>
           api.query.system.events.at(hash)
         )
       )

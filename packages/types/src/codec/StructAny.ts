@@ -4,7 +4,7 @@
 
 import { Codec } from '../types';
 
-import { isUndefined } from '@polkadot/util';
+import { isUndefined } from '@plugnet/util';
 
 import { compareMap } from './utils';
 

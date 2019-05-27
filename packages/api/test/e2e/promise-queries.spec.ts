@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import WsProvider from '@polkadot/rpc-provider/ws';
-import testingPairs from '@polkadot/keyring/testingPairs';
-import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { EventRecord, Header, Vector } from '@polkadot/types';
+import WsProvider from '@plugnet/rpc-provider/ws';
+import testingPairs from '@plugnet/keyring/testingPairs';
+import { LinkageResult } from '@plugnet/types/codec/Linkage';
+import { EventRecord, Header, Vector } from '@plugnet/types';
 
 import Api from './../../src/promise';
 
@@ -41,8 +41,8 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('queries state for a balance', async () => {
-    return(
-      api.query.balances.freeBalance(keyring.alice.address(), balance => {
+    return (
+      api.query.balances.freeBalance(keyring.alice.address(), (balance) => {
         expect(balance).toBeInstanceOf(BN);
         expect(balance.isZero()).toBe(false);
       })
@@ -50,7 +50,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to rpc', (done) => {
-    return(
+    return (
       api.rpc.chain.subscribeNewHead((header) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
@@ -60,7 +60,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to finalized', (done) => {
-    return(
+    return (
       api.rpc.chain.subscribeFinalizedHeads((header) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
@@ -70,7 +70,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to derive', (done) => {
-    return(
+    return (
       api.derive.chain.subscribeNewHead((header) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
@@ -80,7 +80,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to queries', (done) => {
-    return(
+    return (
       api.query.system.accountNonce(keyring.ferdie.address(), (nonce) => {
         expect(nonce instanceof BN).toBe(true);
 
@@ -90,7 +90,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it.skip('subscribes to queries (default)', (done) => {
-    return(
+    return (
       api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
         expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
@@ -100,7 +100,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to a linked map (staking.validators)', (done) => {
-    return(
+    return (
       api.query.staking.validators((prefs) => {
         expect(prefs instanceof LinkageResult).toBe(true);
 
@@ -110,7 +110,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to multiple results (freeBalance.multi)', (done) => {
-    return(
+    return (
       api.query.balances.freeBalance.multi([
         keyring.alice.address(),
         keyring.bob.address(),
@@ -138,7 +138,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to derived balances (balances.all)', (done) => {
-    return(
+    return (
       api.derive.balances.all(
         keyring.alice.address(),
         (all) => {
@@ -169,7 +169,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to events', (done) => {
-    return(
+    return (
       api.query.system.events((events) => {
         expect(events).not.toHaveLength(0);
         done();
@@ -185,7 +185,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to queries using double map key', async (done) => {
-    return(
+    return (
       // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
       api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
         expect(eventTopics.toString()).toEqual('[]');

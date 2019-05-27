@@ -8,7 +8,7 @@ import { DerivedFees } from '../types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StructAny } from '@polkadot/types';
+import { StructAny } from '@plugnet/types';
 
 import { drr } from '../util/drr';
 

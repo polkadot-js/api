@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Server } from 'mock-socket';
-import { Constructor } from '@polkadot/types/types';
+import { Constructor } from '@plugnet/types/types';
 
 export interface Global extends NodeJS.Global {
   WebSocket: Constructor<WebSocket>;

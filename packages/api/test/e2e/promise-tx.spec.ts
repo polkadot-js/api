@@ -6,7 +6,7 @@ import Keyring from '@plugnet/keyring';
 import testingPairs from '@plugnet/keyring/testingPairs';
 import { randomAsHex } from '@plugnet/util-crypto';
 import WsProvider from '@plugnet/rpc-provider/ws';
-import { ExtrinsicEra, Hash, Index, SignedBlock } from '@plugnet/types';
+import { EventRecord, ExtrinsicEra, Hash, Index, SignedBlock } from '@plugnet/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
@@ -22,7 +22,7 @@ const logEvents = (done: () => {}) =>
       console.log('Completed at block hash', status.value.toHex());
       console.log('Events:');
 
-      events.forEach(({ phase, event: { data, method, section } }: any) => {
+      events.forEach(({ phase, event: { data, method, section } }: EventRecord) => {
         console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
       });
 
@@ -189,7 +189,7 @@ describe.skip('Promise e2e transactions', () => {
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
 
-    return(
+    return (
       api.rpc.chain.subscribeNewHead(async (header) => {
         if (header.blockNumber.toNumber() === eraDeath - 1) {
           const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);

@@ -43,7 +43,7 @@ describe.skip('Promise e2e contracts', () => {
     it('allows putCode', (done) => {
       const code = fs.readFileSync(path.join(__dirname, '../data/incrementer-opt.wasm')).toString('hex');
 
-      return(
+      return (
         api.tx.contract
         .putCode(200000, `0x${code}`)
         .signAndSend(keyring.eve, (result: SubmittableResult) => {

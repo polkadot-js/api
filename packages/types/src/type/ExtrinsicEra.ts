@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@plugnet/util';
 
 import Enum from '../codec/Enum';
 import Tuple from '../codec/Tuple';
