@@ -4,6 +4,7 @@
 
 import { first, switchMap } from 'rxjs/operators';
 
+import { Index } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from './../../src/rx';
@@ -28,7 +29,7 @@ describe.skip('Rx e2e transactions', () => {
       .accountNonce(keyring.alice.address())
       .pipe(
         first(),
-        switchMap((nonce: any) =>
+        switchMap((nonce: Index) =>
           api.tx.balances
             .transfer(keyring.bob.address(), 12345)
             .sign(keyring.alice, { nonce })
@@ -47,7 +48,7 @@ describe.skip('Rx e2e transactions', () => {
       .accountNonce(keyring.alice.address())
       .pipe(
         first(),
-        switchMap((nonce: any) =>
+        switchMap((nonce: Index) =>
           api.tx.democracy
             .propose(api.tx.consensus.setCode('0xdeadbeef'), 10000)
             .sign(keyring.alice, { nonce })

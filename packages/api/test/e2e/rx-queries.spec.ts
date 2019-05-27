@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
 
-import { Balance, EventRecord, Vector } from '@polkadot/types';
+import { Balance, EventRecord, Header, Vector } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
@@ -42,7 +42,7 @@ describe.skip('Rx e2e queries', () => {
     api.rpc.chain
       .getHeader()
       .pipe(
-        switchMap(({ hash }: any) =>
+        switchMap(({ hash }: Header) =>
           api.query.system.events.at(hash)
         )
       )
