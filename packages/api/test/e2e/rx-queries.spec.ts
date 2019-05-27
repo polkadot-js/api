@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 import { switchMap } from 'rxjs/operators';
 
-import { Balance } from '@polkadot/types';
+import { Balance, EventRecord, Vector } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
@@ -46,7 +46,7 @@ describe.skip('Rx e2e queries', () => {
           api.query.system.events.at(hash)
         )
       )
-      .subscribe((events: any) => {
+      .subscribe((events: Vector<EventRecord>) => {
         expect(events.length).not.toEqual(0);
         done();
       });
