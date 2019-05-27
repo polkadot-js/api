@@ -18,19 +18,18 @@ describe('e2e krumme lanke', () => {
 
   it('subscribes to storage', (done) => {
     api.state
-      .subscribeStorage(
-        [
-          [storage.system.accountNonce, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
-          [storage.balances.freeBalance, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
-        ], (data: StorageChangeSet) => {
-          expect(data).toHaveLength(2);
-          expect(data[0].toNumber()).toEqual(0);
-          expect(data[1].toNumber()).not.toEqual(0);
+      .subscribeStorage([
+        [storage.system.accountNonce, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
+        [storage.balances.freeBalance, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
+      ], (data: StorageChangeSet) => {
+        console.log('onetwoonetwo');
+        console.log(data);
+        expect(data).toHaveLength(2);
+        expect(data[0].toNumber()).toEqual(0);
+        expect(data[1].toNumber()).not.toEqual(0);
 
-          done();
-        }
-      )
-      .then((subscriptionId: number) => {
+        done();
+      }).then((subscriptionId: number) => {
         console.log('stoarge subscriptionId =', subscriptionId);
       });
   });
