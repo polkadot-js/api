@@ -9,14 +9,14 @@ import { AccountId, AccountIndex, Address, VectorAny } from '@plugnet/types';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
-import { votingBalance } from './votingBalance';
+import { all } from './all';
 
 export function votingBalances (api: ApiInterface$Rx) {
   return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<VectorAny<DerivedBalances>> => {
     return (
       !addresses || !addresses.length
         ? of([] as Array<DerivedBalances>)
-        : combineLatest(addresses.map(votingBalance(api)))
+        : combineLatest(addresses.map(all(api)))
     ).pipe(
       map((balances) =>
         new VectorAny(...balances)
