@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, StorageChangeSet, Bytes } from '@polkadot/types';
-import storage from '@polkadot/storage';
+import { Balance, SignedBlock, StorageChangeSet } from '@polkadot/types';
+import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';
 
-describe('e2e krumme lanke', () => {
+const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+
+describe.skip('e2e krumme lanke', () => {
   let api: Rpc;
 
   beforeEach(() => {
@@ -21,14 +23,14 @@ describe('e2e krumme lanke', () => {
       api.state
       .subscribeStorage(
         [
-            [storage.substrate.authorityCount],
-            [storage.substrate.code]
+          [storage.system.accountNonce, '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ'],
+          [storage.balances.freeBalance, ALICE]
         ],
         (data: StorageChangeSet) => {
           expect(data).toHaveLength(2);
-          expect(data[0].toNumber()).toEqual(1);
-          expect(data[1].toNumber()).not.toEqual(1);
-          expect(data[1]).toBeInstanceOf(Bytes);
+          expect(data[0].toNumber()).toEqual(0);
+          expect(data[1]).toBeInstanceOf(Balance);
+          expect(data[1].toNumber()).not.toEqual(0);
 
           done();
         }).then((subscriptionId: number) => {
