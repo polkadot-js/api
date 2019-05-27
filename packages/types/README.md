@@ -18,6 +18,7 @@ These are the base types of the codec. They are typically not used directly, but
 | [[Option]] | An Option is an optional field. The first byte indicates that there is is value to follow |
 | [[Set]] | An Set is an array of string values, represented an an encoded type by a bitwise representation of the values |
 | [[Struct]] | A Struct defines an Object with key-value pairs - where the values are Codec values. |
+| [[StructAny]] | Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map |
 | [[Tuple]] | A Tuple defines an anonymous fixed-length array, where each element has its own type |
 | [[U8a]] |  A basic wrapper around Uint8Array. It will consume the full Uint8Array as passed to it |
 | [[U8aFixed]] | A U8a that manages a a sequence of bytes up to the specified bitLength |
@@ -150,7 +151,6 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[ExtrinsicStatus]] | An EnumType that indicates the status of the Extrinsic as been submitted |
 | [[Header]] | A [[Block]] header |
 | [[Health]] | A system health indicator, reported back over RPC |
-| [[Json]] | Wraps the a JSON structure retrieve via RPC. It extends the standard JS Map |
 | [[NetworkState]] | Wraps the properties retrieved from the chain via the `system.network_state` RPC call |
 | [[Metadata]] | The versioned runtime metadata as a decoded structure |
 | [[PeerInfo]] | A system peer info indicator, reported back over RPC |

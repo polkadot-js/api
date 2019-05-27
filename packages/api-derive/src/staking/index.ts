@@ -4,4 +4,3 @@
 
 export * from './controllers';
 export * from './info';
-export * from './intentionsBalances';
