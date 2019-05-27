@@ -14,7 +14,6 @@ export { default as Digest, DigestItem } from './Digest';
 export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 export { default as Header } from './Header';
 export { default as Health } from './Health';
-export { default as Json } from './Json';
 export { default as NetworkState } from './NetworkState';
 export { default as PeerInfo } from './PeerInfo';
 export { default as PendingExtrinsics } from './PendingExtrinsics';

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Json from './Json';
+import StructAny from '../codec/StructAny';
 
 /**
  * @name ChainProperties
  * @description
  * Wraps the properties retrieved from the chain via the `system.properties` RPC call.
  */
-export default class ChainProperties extends Json {
+export default class ChainProperties extends StructAny {
   /**
    * @description The token decimals, if defined (de-facto standard only)
    */
