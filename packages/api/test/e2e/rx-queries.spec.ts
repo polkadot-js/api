@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { Balance, EventRecord, Header, Vector } from '@polkadot/types';
+import { Balance, Header } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
