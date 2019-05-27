@@ -7,6 +7,7 @@ import { first, switchMap } from 'rxjs/operators';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from './../../src/rx';
+import { SubmittableResult } from './../../src';
 
 describe.skip('Rx e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
@@ -34,7 +35,7 @@ describe.skip('Rx e2e transactions', () => {
             .send()
         )
       )
-      .subscribe(({ status }: any) => {
+      .subscribe(({ status }: SubmittableResult) => {
         if (status.isFinalized) {
           done();
         }
@@ -53,7 +54,7 @@ describe.skip('Rx e2e transactions', () => {
             .send()
         )
       )
-      .subscribe(({ status }: any) => {
+      .subscribe(({ status }: SubmittableResult) => {
         if (status.isFinalized) {
           done();
         }

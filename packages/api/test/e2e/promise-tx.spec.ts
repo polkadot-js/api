@@ -9,12 +9,13 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ExtrinsicEra, Hash, Index, SignedBlock } from '@polkadot/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
+import { SubmittableResult } from './../../src';
 import { Signer } from './../../src/types';
 import Api from './../../src/promise';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>
-  ({ events, status }: any) => {
+  ({ events, status }: SubmittableResult) => {
     console.log('Transaction status:', status.type);
 
     if (status.isFinalized) {
