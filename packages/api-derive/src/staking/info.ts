@@ -34,6 +34,9 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       stakingLedger: stakingLedger.isSome
         ? stakingLedger.unwrap()
         : undefined,
+      redeemable: stakingLedger.unwrap().unlocking.length
+        ? 'there is something there'
+        : 'nope',
       stashId,
       validatorPrefs
     })),
