@@ -9,11 +9,10 @@ import { Balance } from '@polkadot/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from '../../src/rx';
-import { ApiRxInterface } from './../../src/rx/types';
 
-describe.skip('e2e queries', () => {
+describe('Rx e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: ApiRxInterface;
+  let api: Api;
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();

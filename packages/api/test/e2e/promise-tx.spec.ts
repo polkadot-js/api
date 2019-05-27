@@ -6,9 +6,10 @@ import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { ExtrinsicEra, SignedBlock } from '@polkadot/types';
+import { ExtrinsicEra, Hash, Index, SignedBlock } from '@polkadot/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
+import { Signer } from './../../src/types';
 import Api from './../../src/promise';
 
 // log all events for the transfare, calling done() when finalized
@@ -30,7 +31,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('e2e transactions', () => {
+describe.skip('Promise e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -50,7 +51,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('can submit an extrinsic from hex', async (done) => {
-    const nonce: any = await api.query.system.accountNonce(keyring.dave.address());
+    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
     const hex = api.tx.balances
       .transfer(keyring.eve.address(), 12345)
       .sign(keyring.dave, { nonce })
@@ -60,7 +61,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (sign, then send)', async (done) => {
-    const nonce: any = await api.query.system.accountNonce(keyring.dave.address());
+    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
 
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
@@ -69,11 +70,11 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (sign, then send - compat version)', async (done) => {
-    const nonce: any = await api.query.system.accountNonce(keyring.dave.address());
+    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
 
     return api.tx.balances
       .transfer(keyring.eve.address(), 12345)
-      .sign(keyring.dave, nonce)
+      .sign(keyring.dave, { nonce })
       .send(logEvents(done));
   });
 
@@ -84,7 +85,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (signAndSend via Signer)', async (done) => {
-    const signer = new SingleAccountSigner(keyring.dave);
+    const signer = new SingleAccountSigner(keyring.dave) as Signer;
 
     api.setSigner(signer);
 
@@ -104,7 +105,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async () => {
-    const signer = new SingleAccountSigner(keyring.dave);
+    const signer: Signer = new SingleAccountSigner(keyring.dave);
 
     api.setSigner(signer);
 
@@ -132,7 +133,7 @@ describe.skip('e2e transactions', () => {
   it('makes a proposal', async () => {
     // don't wait for status, just get hash. Here we generate a large-ish payload
     // to ensure that we can sign with the hashed version as well (and have it accepted)
-    const hash = await api.tx.democracy
+    const hash: Hash = await api.tx.democracy
       .propose(api.tx.consensus.setCode(randomAsHex(4096)), 10000)
       .signAndSend(keyring.bob);
 
@@ -161,7 +162,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer with ERA (signAndSend)', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address());
+    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
     const signedBlock = await api.rpc.chain.getBlock();
     const currentHeight = (signedBlock as SignedBlock).block.header.number;
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
@@ -177,7 +178,7 @@ describe.skip('e2e transactions', () => {
   });
 
   it('makes a transfer with ERA (signAndSend) with invalid time', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address());
+    const nonce = await api.query.system.accountNonce(keyring.alice.address()) as Index;
     const signedBlock = await api.rpc.chain.getBlock();
     const currentHeight = (signedBlock as SignedBlock).block.header.number;
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });

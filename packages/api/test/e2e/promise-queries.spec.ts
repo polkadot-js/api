@@ -7,6 +7,7 @@ import BN from 'bn.js';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
+import { EventRecord, Header, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -14,7 +15,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('e2e queries', () => {
+describe.skip('Promise e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -141,12 +142,12 @@ describe.skip('e2e queries', () => {
   });
 
   it('makes a query at a latest block (specified)', async () => {
-    const header: any = await api.rpc.chain.getHeader();
-    const events: any = await api.query.system.events.at(header.hash);
+    const header = await api.rpc.chain.getHeader() as Header;
+    const events: any = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 
     expect(events.length).not.toEqual(0);
 
-    events.forEach(({ event: { data, method, section }, phase, topics }: any) => {
+    events.forEach(({ event: { data, method, section }, phase, topics }: EventRecord) => {
       console.error(phase.toString(), `: ${section}.${method}`, data.toString(), topics.toString());
     });
   });

@@ -7,11 +7,10 @@ import { first, switchMap } from 'rxjs/operators';
 import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from './../../src/rx';
-import { ApiRxInterface } from './../../src/rx/types';
 
-describe.skip('e2e transactions', () => {
+describe('Rx e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
-  let api: ApiRxInterface;
+  let api: Api;
 
   beforeEach(async (done) => {
     api = await Api.create().toPromise();

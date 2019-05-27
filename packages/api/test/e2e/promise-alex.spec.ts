@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, Hash, Header } from '@polkadot/types';
+import { EventRecord, Hash, Header, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -69,8 +69,8 @@ describe.skip('alex queries', () => {
   });
 
   it('makes a query at a latest block (specified)', async () => {
-    const header: any = await api.rpc.chain.getHeader();
-    const events: any = await api.query.system.events.at(header.hash);
+    const header = await api.rpc.chain.getHeader() as Header;
+    const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 
     expect(events.length).not.toEqual(0);
   });
