@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SignedBlock, StorageChangeSet } from '@polkadot/types';
+import { SignedBlock, StorageChangeSet, Bytes } from '@polkadot/types';
 import storage from '@polkadot/storage';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -17,21 +17,24 @@ describe('e2e krumme lanke', () => {
   });
 
   it('subscribes to storage', (done) => {
-    api.state
-      .subscribeStorage([
-        [storage.system.accountNonce, '5Ejbye9R8ygByQPrDSasaUid1munedPZUmg4f118HGmtodGp'],
-        [storage.balances.freeBalance, '5DTestUPts3kjeXSTMyerHihn1uwMfLj8vU8sqF7qYrFacT7']
-      ], (data: StorageChangeSet) => {
-        console.log('onetwoonetwo');
-        console.log(data);
-        expect(data).toHaveLength(2);
-        expect(data[0].toNumber()).toEqual(0);
-        expect(data[1].toNumber()).not.toEqual(0);
+    return (
+      api.state
+      .subscribeStorage(
+        [
+            [storage.substrate.authorityCount],
+            [storage.substrate.code]
+        ],
+        (data: StorageChangeSet) => {
+          expect(data).toHaveLength(2);
+          expect(data[0].toNumber()).toEqual(1);
+          expect(data[1].toNumber()).not.toEqual(1);
+          expect(data[1]).toBeInstanceOf(Bytes);
 
-        done();
-      }).then((subscriptionId: number) => {
-        console.log('stoarge subscriptionId =', subscriptionId);
-      });
+          done();
+        }).then((subscriptionId: number) => {
+          console.log('stoarge subscriptionId =', subscriptionId);
+        })
+    );
   });
 
   it('retrieves a block by hash (krumme lanke #1)', () => {

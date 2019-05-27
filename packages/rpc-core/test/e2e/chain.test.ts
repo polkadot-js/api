@@ -6,7 +6,6 @@ import { Header, RuntimeVersion } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';
-import { NumberTypeAnnotation } from '@babel/types';
 
 describe.skip('e2e chain', () => {
   let api: Rpc;
