@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
+import { DerivedFees } from '../types';
 
 import BN from 'bn.js';
-import { DerivedFees } from '../types';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { StructAny } from '@polkadot/types';
+
 import { drr } from '../util/drr';
 
 /**
@@ -32,13 +34,14 @@ export function fees (api: ApiInterface$Rx) {
       api.query.balances.transactionByteFee,
       api.query.balances.transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
-      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
-        creationFee,
-        existentialDeposit,
-        transactionBaseFee,
-        transactionByteFee,
-        transferFee
-      })),
+      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) =>
+        new StructAny({
+          creationFee,
+          existentialDeposit,
+          transactionBaseFee,
+          transactionByteFee,
+          transferFee
+        }) as DerivedFees),
       drr()
     );
   };

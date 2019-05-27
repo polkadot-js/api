@@ -3,67 +3,68 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Exposure, StakingLedger, ValidatorPrefs, Vote } from '@plugnet/types';
+import { AccountId, Balance, BlockNumber, Exposure, Index, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@plugnet/types';
 
-export type DerivedBalances = {
-  accountId: AccountId,
-  freeBalance: Balance,
-  lockedBalance: Balance,
-  availableBalance: Balance,
-  reservedBalance: Balance,
-  votingBalance: Balance,
-  vestedBalance: Balance
-};
+export interface DerivedBalances extends StructAny {
+  accountId: AccountId;
+  accountNonce: Index;
+  freeBalance: Balance;
+  lockedBalance: Balance;
+  availableBalance: Balance;
+  reservedBalance: Balance;
+  votingBalance: Balance;
+  vestedBalance: Balance;
+}
 
 export type DerivedBalancesMap = {
   [index: string]: DerivedBalances
 };
 
-export type DerivedContractFees = {
-  callBaseFee: BN,
-  contractFee: BN,
-  createBaseFee: BN,
-  creationFee: BN,
-  rentByteFee: BN,
-  rentDepositOffset: BN,
-  transactionBaseFee: BN,
-  transactionByteFee: BN,
-  transferFee: BN,
-  tombstoneDeposit: BN
-};
+export interface DerivedContractFees extends StructAny {
+  callBaseFee: BN;
+  contractFee: BN;
+  createBaseFee: BN;
+  creationFee: BN;
+  rentByteFee: BN;
+  rentDepositOffset: BN;
+  transactionBaseFee: BN;
+  transactionByteFee: BN;
+  transferFee: BN;
+  tombstoneDeposit: BN;
+}
 
-export type DerivedFees = {
-  creationFee: BN,
-  existentialDeposit: BN,
-  transactionBaseFee: BN,
-  transactionByteFee: BN,
-  transferFee: BN
-};
+export interface DerivedFees extends StructAny {
+  creationFee: BN;
+  existentialDeposit: BN;
+  transactionBaseFee: BN;
+  transactionByteFee: BN;
+  transferFee: BN;
+}
 
-export type DerivedReferendumVote = {
-  accountId: AccountId,
-  balance: Balance,
-  vote: Vote
-};
+export interface DerivedReferendumVote extends StructAny {
+  accountId: AccountId;
+  balance: Balance;
+  vote: Vote;
+}
 
-export type DerivedSessionInfo = {
-  currentIndex: BlockNumber,
-  eraLength: BN,
-  eraProgress: BN,
-  lastEraLengthChange: BlockNumber,
-  lastLengthChange: BN,
-  sessionLength: BlockNumber,
-  sessionsPerEra: BlockNumber,
-  sessionProgress: BN
-};
+export interface DerivedSessionInfo extends StructAny {
+  currentIndex: BlockNumber;
+  eraLength: BN;
+  eraProgress: BN;
+  lastEraLengthChange: BlockNumber;
+  lastLengthChange: BN;
+  sessionLength: BlockNumber;
+  sessionsPerEra: BlockNumber;
+  sessionProgress: BN;
+}
 
-export type DerivedStaking = {
-  accountId: AccountId,
-  controllerId?: AccountId,
-  nextSessionId?: AccountId,
-  nominators?: Array<AccountId>,
-  stakers?: Exposure,
-  stakingLedger?: StakingLedger,
-  stashId?: AccountId,
-  validatorPrefs?: ValidatorPrefs
-};
+export interface DerivedStaking extends StructAny {
+  accountId: AccountId;
+  controllerId?: AccountId;
+  nextSessionId?: AccountId;
+  nominators?: Array<AccountId>;
+  stakers?: Exposure;
+  stakingLedger?: StakingLedger;
+  stashId?: AccountId;
+  validatorPrefs?: ValidatorPrefs;
+}

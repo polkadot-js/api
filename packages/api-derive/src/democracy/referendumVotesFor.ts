@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { AccountId, Balance, Vector, Vote } from '@plugnet/types';
+import { AccountId, Balance, StructAny, Vector, VectorAny, Vote } from '@plugnet/types';
 
 import { DerivedReferendumVote } from '../types';
 import { drr } from '../util/drr';
@@ -14,7 +14,7 @@ import { votes } from './votes';
 import { votingBalances } from '../balances/votingBalances';
 
 export function referendumVotesFor (api: ApiInterface$Rx) {
-  return (referendumId: BN | number): Observable<Array<DerivedReferendumVote>> =>
+  return (referendumId: BN | number): Observable<VectorAny<DerivedReferendumVote>> =>
     (api.query.democracy.votersFor(referendumId) as Observable<Vector<AccountId>>).pipe(
       switchMap((votersFor) =>
         combineLatest([
@@ -24,11 +24,15 @@ export function referendumVotesFor (api: ApiInterface$Rx) {
         ])
       ),
       map(([votersFor, votes, balances]) =>
-        votersFor.map((accountId, index): DerivedReferendumVote => ({
-          accountId,
-          balance: balances[index].votingBalance || new Balance(0),
-          vote: votes[index] || new Vote(0)
-        }))
+        new VectorAny(
+          ...votersFor.map((accountId, index): DerivedReferendumVote =>
+            new StructAny({
+              accountId,
+              balance: balances[index].votingBalance || new Balance(0),
+              vote: votes[index] || new Vote(0)
+            }) as DerivedReferendumVote
+          )
+        )
       ),
       drr()
     );

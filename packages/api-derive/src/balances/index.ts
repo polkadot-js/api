@@ -4,8 +4,6 @@
 
 export * from './all';
 export * from './fees';
-export * from './validatingBalance';
-export * from './validatingBalances';
 export * from './votingBalance';
 export * from './votingBalances';
 export * from './votingBalancesNominatorsFor';

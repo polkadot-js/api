@@ -7,7 +7,7 @@ import { DerivedStaking } from '../types';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@plugnet/types';
+import { AccountId, Exposure, Option, StakingLedger, StructAny, ValidatorPrefs } from '@plugnet/types';
 
 import { drr } from '../util/drr';
 
@@ -23,20 +23,21 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) => ({
-      accountId,
-      controllerId,
-      nextSessionId: nextKeyFor.isSome
-        ? nextKeyFor.unwrap()
-        : undefined,
-      nominators,
-      stakers,
-      stakingLedger: stakingLedger.isSome
-        ? stakingLedger.unwrap()
-        : undefined,
-      stashId,
-      validatorPrefs
-    })),
+    map(([nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) =>
+      new StructAny({
+        accountId,
+        controllerId,
+        nextSessionId: nextKeyFor.isSome
+          ? nextKeyFor.unwrap()
+          : undefined,
+        nominators,
+        stakers,
+        stakingLedger: stakingLedger.isSome
+          ? stakingLedger.unwrap()
+          : undefined,
+        stashId,
+        validatorPrefs
+      }) as DerivedStaking),
     drr()
   );
 }
@@ -53,18 +54,19 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<AccountId>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([nextKeyFor, [nominators], stakers, [validatorPrefs]]) => ({
-      accountId,
-      controllerId,
-      nextSessionId: nextKeyFor.isSome
-        ? nextKeyFor.unwrap()
-        : undefined,
-      nominators,
-      stakers,
-      stakingLedger,
-      stashId,
-      validatorPrefs
-    })),
+    map(([nextKeyFor, [nominators], stakers, [validatorPrefs]]) =>
+      new StructAny({
+        accountId,
+        controllerId,
+        nextSessionId: nextKeyFor.isSome
+          ? nextKeyFor.unwrap()
+          : undefined,
+        nominators,
+        stakers,
+        stakingLedger,
+        stashId,
+        validatorPrefs
+      }) as DerivedStaking),
     drr()
   );
 }
@@ -90,7 +92,7 @@ export function info (api: ApiInterface$Rx) {
             stakingLedger.isSome
               ? withControllerLedger(api, accountId, stakingLedger.unwrap())
               // dangit, this is something else, ok, we are done
-              : of({ accountId })
+              : of(new StructAny({ accountId }) as DerivedStaking)
           )
       ),
       drr()

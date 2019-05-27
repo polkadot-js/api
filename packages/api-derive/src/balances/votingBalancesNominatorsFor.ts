@@ -5,7 +5,7 @@
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { AccountId, AccountIndex, Address, Vector } from '@plugnet/types';
+import { AccountId, AccountIndex, Address, Vector, VectorAny } from '@plugnet/types';
 
 import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';
@@ -13,7 +13,7 @@ import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
-  return (address: AccountId | AccountIndex | Address | string): Observable<Array<DerivedBalances>> => {
+  return (address: AccountId | AccountIndex | Address | string): Observable<VectorAny<DerivedBalances>> => {
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
         accountId

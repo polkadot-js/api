@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { BlockNumber, Option } from '@plugnet/types';
+import { BlockNumber, Option, StructAny } from '@plugnet/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
@@ -33,7 +33,7 @@ function createDerived ([bestNumber, [currentIndex, _lastLengthChange, sessionLe
     .mul(sessionLength)
     .add(sessionProgress);
 
-  return {
+  return new StructAny({
     currentIndex,
     eraLength,
     eraProgress,
@@ -42,7 +42,7 @@ function createDerived ([bestNumber, [currentIndex, _lastLengthChange, sessionLe
     sessionLength,
     sessionsPerEra,
     sessionProgress
-  };
+  }) as DerivedSessionInfo;
 }
 
 /**

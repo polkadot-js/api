@@ -6,21 +6,24 @@ import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { Option, ReferendumInfo } from '@plugnet/types';
+import { Option, ReferendumInfo, VectorAny } from '@plugnet/types';
 
+import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
-import { constructInfo, ReferendumInfoExtended } from './referendumInfo';
+import { constructInfo } from './referendumInfo';
 
 export function referendumInfos (api: ApiInterface$Rx) {
-  return (ids: Array<BN | number> = []): Observable<Array<Option<ReferendumInfoExtended>>> => {
+  return (ids: Array<BN | number> = []): Observable<VectorAny<Option<ReferendumInfoExtended>>> => {
     return (
       !ids || !ids.length
-        ? of([])
-        : api.query.democracy.referendumInfoOf.multi(ids) as any as Observable<Array<Option<ReferendumInfo>>>
+        ? of([] as Array<Option<ReferendumInfo>>)
+        : api.query.democracy.referendumInfoOf.multi(ids) as Observable<VectorAny<Option<ReferendumInfo>>>
     ).pipe(
         map((infos) =>
-          ids.map((id, index) =>
-            constructInfo(id, infos[index])
+          new VectorAny(
+            ...ids.map((id, index) =>
+              constructInfo(id, infos[index])
+            )
           )
         ),
         drr()
