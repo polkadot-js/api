@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Http from './';
+import { Mock } from './../mock/types';
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
 
-import Http from '.';
-
 describe('send', () => {
-  let http;
-  let mock;
+  let http: Http;
+  let mock: Mock;
 
   beforeEach(() => {
     http = new Http(TEST_HTTP_URL);
@@ -17,7 +17,6 @@ describe('send', () => {
   afterEach(() => {
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 
@@ -32,7 +31,7 @@ describe('send', () => {
     return http
       .send('test_body', ['param'])
       .then((result) => {
-        expect(mock.body['test_body']).toEqual({
+        expect((mock.body as any)['test_body']).toEqual({
           id: 1,
           jsonrpc: '2.0',
           method: 'test_body',

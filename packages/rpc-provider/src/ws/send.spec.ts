@@ -2,25 +2,28 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor } from '@polkadot/types/types';
+
+import WsProvider from './';
+import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
 
-import Ws from '.';
+declare const global: Global;
+let provider: WsProvider;
+let mock: Mock;
 
-let ws;
-let mock;
-
-function createMock (requests) {
+function createMock (requests: Array<any>) {
   mock = mockWs(requests);
 }
 
-function createWs (autoConnect) {
-  ws = new Ws(TEST_WS_URL, autoConnect);
+function createWs (autoConnect: boolean = true) {
+  provider = new WsProvider(TEST_WS_URL, autoConnect);
 
-  return ws;
+  return provider;
 }
 
 describe('send', () => {
-  let globalWs;
+  let globalWs: Constructor<WebSocket>;
 
   beforeEach(() => {
     globalWs = global.WebSocket;
@@ -31,29 +34,23 @@ describe('send', () => {
 
     if (mock) {
       mock.done();
-      mock = null;
     }
   });
 
   it('handles internal errors', () => {
     createMock([]);
 
-    let websocket;
-
-    global.WebSocket = class {
-      constructor () {
-        websocket = this;
-      }
-
+    (global as any).WebSocket = class {
       send () {
         throw new Error('send error');
       }
     };
 
-    ws = createWs();
-    websocket.onopen();
+    provider = createWs(true);
+    // @ts-ignore Accessing private method
+    provider.websocket.onopen();
 
-    return ws
+    return provider
       .send('test_encoding', ['param'])
       .catch((error) => {
         expect(error.message).toEqual('send error');
@@ -69,11 +66,11 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_body', ['param'])
       .then((result) => {
         expect(
-          mock.body['test_body']
+          (mock.body as any)['test_body']
         ).toEqual('{"id":1,"jsonrpc":"2.0","method":"test_body","params":["param"]}');
       });
   });
@@ -87,7 +84,7 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
+    return createWs(true)
       .send('test_error', [])
       .catch((error) => {
         expect(error.message).toMatch(/666: error/);
@@ -103,8 +100,8 @@ describe('send', () => {
       }
     }]);
 
-    return createWs()
-      .send('test_sub', [], () => {})
+    return createWs(true)
+      .send('test_sub', [])
       .then((id) => {
         expect(id).toEqual(1);
       });

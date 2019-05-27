@@ -10,6 +10,8 @@ import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { Header } from '@polkadot/types';
 
+import { SubmittableResult } from './';
+
 export default async function test () {
   const api = await ApiPromise.create();
   const keyring = testKeyring();
@@ -39,7 +41,7 @@ export default async function test () {
 
   const unsub = await api.tx.balances
     .transfer(keyring.bob.address(), 12345)
-    .signAndSend(keyring.alice, ({ status }) => {
+    .signAndSend(keyring.alice, ({ status }: SubmittableResult) => {
       console.log('transfer status:', status.type);
 
       unsub();

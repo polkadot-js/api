@@ -7,7 +7,7 @@ import { Metadata } from '@polkadot/types';
 import json from '@polkadot/types/Metadata/v4/static';
 import { u8aToHex } from '@polkadot/util';
 
-import fromMetadata from '.';
+import fromMetadata from './';
 
 const keyring = testingPairs({ type: 'ed25519' });
 // Use the pre-generated metadata
