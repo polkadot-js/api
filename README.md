@@ -1,5 +1,7 @@
 # @plugnet/api
 
+_This repo is a fork of [@polkadot/api](https://github.com/polkadot-js/api), up to the version which works with current plug-node_
+
 This library provides a clean wrapper around all the methods exposed by a Plugnet/Subtrate network client and defines all the types exposed by a node. For complete documentation around the classes, interfaces and their use, visit the [documentation portal](https://www.poweredbyplug.com/).
 
 ## tutorials
