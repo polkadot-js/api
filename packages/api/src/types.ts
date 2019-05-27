@@ -48,18 +48,19 @@ export type U64Result<CodecResult, SubscriptionResult> =
     : Promise<U64>;
 
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
-  (arg?: CodecArg): CodecResult;
-  at: (hash: Hash | Uint8Array | string, arg?: CodecArg) => CodecResult;
+  (arg1?: CodecArg, arg2?: CodecArg): CodecResult;
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => CodecResult;
   creator: StorageFunction;
-  hash: (arg?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
-  key: (arg?: CodecArg) => string;
-  multi: (args: Array<CodecArg>, callback?: CodecCallback) => SubscriptionResult;
-  size: (arg?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
+  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+  multi: (args: Array<CodecArg[] | CodecArg>, callback?: CodecCallback) => SubscriptionResult;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
 }
 
 interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
   (callback: CodecCallback): SubscriptionResult;
   (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
+  (arg1: CodecArg, arg2: CodecArg, callback: CodecCallback): SubscriptionResult;
 }
 
 export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
