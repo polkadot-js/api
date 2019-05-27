@@ -158,7 +158,7 @@ describe.skip('Promise e2e transactions', () => {
 
     // return doTwo(done);
     return doOne(() => {
-      doTwo(done).catch();
+      return doTwo(done);
     });
   });
 
@@ -189,13 +189,15 @@ describe.skip('Promise e2e transactions', () => {
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
     const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
 
-    api.rpc.chain.subscribeNewHead(async (header) => {
-      if (header.blockNumber.toNumber() === eraDeath - 1) {
-        const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
+    return(
+      api.rpc.chain.subscribeNewHead(async (header) => {
+        if (header.blockNumber.toNumber() === eraDeath - 1) {
+          const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
 
-        expect(hash).toBeUndefined();
-        done();
-      }
-    }).catch();
+          expect(hash).toBeUndefined();
+          done();
+        }
+      })
+    );
   });
 });

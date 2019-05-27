@@ -26,46 +26,54 @@ describe.skip('alex queries', () => {
   });
 
   it('retrieves the list of validators', (done) => {
-    api.query.staking.validators((res) => {
-      console.error(res);
+    return (
+      api.query.staking.validators((res) => {
+        console.error(res);
+        console.log('api.query.staking.validators():', res.toJSON());
 
-      console.log('api.query.staking.validators():', res.toJSON());
-
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   describe('retrieves a single value', () => {
     it('retrieves the list of stash validators', (done) => {
-      api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
-        console.error(res);
-        console.log('api.query.staking.validators(id):', res.toJSON());
-
-        done();
-      }).catch();
+      return (
+        api.query.staking.validators('5DuiZFa184E9iCwbh4WjXYvJ88NHvWJbS8SARY8Ev1YEqrri', (res) => {
+          console.error(res);
+          console.log('api.query.staking.validators(id):', res.toJSON());
+          done();
+        })
+      );
     });
 
     it('Gets the hash of the last finalized header', async (done) => {
-      api.rpc.chain.getFinalizedHead((head) => {
-        expect(head instanceof Hash).toBe(true);
-        done();
-      }).catch();
+      return (
+        api.rpc.chain.getFinalizedHead((head) => {
+          expect(head instanceof Hash).toBe(true);
+          done();
+        })
+      );
     });
 
     it('Subscribes to the best finalized header on ALEX', async (done) => {
-      api.rpc.chain.subscribeFinalizedHeads((head) => {
-        expect(head instanceof Header).toBe(true);
-        done();
-      }).catch();
+      return(
+        api.rpc.chain.subscribeFinalizedHeads((head) => {
+          expect(head instanceof Header).toBe(true);
+          done();
+        })
+      );
     });
   });
 
   it('derives a list of the controllers', (done) => {
-    api.derive.staking.controllers((res) => {
-      console.log('api.derive.staking.controllers:', JSON.stringify(res));
+    return (
+      api.derive.staking.controllers((res) => {
+        console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('makes a query at a latest block (specified)', async () => {

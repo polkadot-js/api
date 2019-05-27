@@ -41,71 +41,87 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('queries state for a balance', async () => {
-    api.query.balances.freeBalance(keyring.alice.address(), balance => {
-      expect(balance).toBeInstanceOf(BN);
-      expect(balance.isZero()).toBe(false);
-    }).catch();
+    return(
+      api.query.balances.freeBalance(keyring.alice.address(), balance => {
+        expect(balance).toBeInstanceOf(BN);
+        expect(balance.isZero()).toBe(false);
+      })
+    );
   });
 
   it('subscribes to rpc', (done) => {
-    api.rpc.chain.subscribeNewHead((header) => {
-      expect(header.blockNumber.isZero()).toBe(false);
+    return(
+      api.rpc.chain.subscribeNewHead((header) => {
+        expect(header.blockNumber.isZero()).toBe(false);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to finalized', (done) => {
-    api.rpc.chain.subscribeFinalizedHeads((header) => {
-      expect(header.blockNumber.isZero()).toBe(false);
+    return(
+      api.rpc.chain.subscribeFinalizedHeads((header) => {
+        expect(header.blockNumber.isZero()).toBe(false);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to derive', (done) => {
-    api.derive.chain.subscribeNewHead((header) => {
-      expect(header.blockNumber.isZero()).toBe(false);
+    return(
+      api.derive.chain.subscribeNewHead((header) => {
+        expect(header.blockNumber.isZero()).toBe(false);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to queries', (done) => {
-    api.query.system.accountNonce(keyring.ferdie.address(), (nonce) => {
-      expect(nonce instanceof BN).toBe(true);
+    return(
+      api.query.system.accountNonce(keyring.ferdie.address(), (nonce) => {
+        expect(nonce instanceof BN).toBe(true);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it.skip('subscribes to queries (default)', (done) => {
-    api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
-      expect(prefs.unstakeThreshold.toNumber()).toBe(3);
+    return(
+      api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
+        expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to a linked map (staking.validators)', (done) => {
-    api.query.staking.validators((prefs) => {
-      expect(prefs instanceof LinkageResult).toBe(true);
+    return(
+      api.query.staking.validators((prefs) => {
+        expect(prefs instanceof LinkageResult).toBe(true);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to multiple results (freeBalance.multi)', (done) => {
-    api.query.balances.freeBalance.multi([
-      keyring.alice.address(),
-      keyring.bob.address(),
-      '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
-      keyring.ferdie.address()
-    ], (balances) => {
-      expect(balances).toHaveLength(4);
+    return(
+      api.query.balances.freeBalance.multi([
+        keyring.alice.address(),
+        keyring.bob.address(),
+        '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
+        keyring.ferdie.address()
+      ], (balances) => {
+        expect(balances).toHaveLength(4);
 
-      done();
-    }).catch();
+        done();
+      })
+    );
   });
 
   it('subscribes to multiple results (api.queryMulti)', (done) => {
@@ -122,28 +138,28 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to derived balances (balances.all)', (done) => {
-    api.derive.balances.all(
-      keyring.alice.address(),
-      (all) => {
-        expect(all.accountId.toString()).toEqual(keyring.alice.address());
+    return(
+      api.derive.balances.all(
+        keyring.alice.address(),
+        (all) => {
+          expect(all.accountId.toString()).toEqual(keyring.alice.address());
 
-        expect(all.freeBalance).toBeDefined();
-        expect(all.freeBalance.gt(ZERO)).toBe(true);
-
-        expect(all.availableBalance).toBeDefined();
-        expect(all.availableBalance.gt(ZERO)).toBe(true);
-
-        expect(all.reservedBalance).toBeDefined();
-        expect(all.lockedBalance).toBeDefined();
-        expect(all.vestedBalance).toBeDefined();
-        done();
-      }
-    ).catch();
+          expect(all.freeBalance).toBeDefined();
+          expect(all.freeBalance.gt(ZERO)).toBe(true);
+          expect(all.availableBalance).toBeDefined();
+          expect(all.availableBalance.gt(ZERO)).toBe(true);
+          expect(all.reservedBalance).toBeDefined();
+          expect(all.lockedBalance).toBeDefined();
+          expect(all.vestedBalance).toBeDefined();
+          done();
+        }
+      )
+    );
   });
 
   it('makes a query at a latest block (specified)', async () => {
     const header = await api.rpc.chain.getHeader() as Header;
-    const events: any = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
+    const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;
 
     expect(events.length).not.toEqual(0);
 
@@ -153,10 +169,12 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to events', (done) => {
-    api.query.system.events((events) => {
-      expect(events).not.toHaveLength(0);
-      done();
-    }).catch();
+    return(
+      api.query.system.events((events) => {
+        expect(events).not.toHaveLength(0);
+        done();
+      })
+    );
   });
 
   it('queries state using double map key', async () => {
@@ -167,10 +185,12 @@ describe.skip('Promise e2e queries', () => {
   });
 
   it('subscribes to queries using double map key', async (done) => {
-    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
-    api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
-      expect(eventTopics.toString()).toEqual('[]');
-      done();
-    }).catch();
+    return(
+      // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
+      api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
+        expect(eventTopics.toString()).toEqual('[]');
+        done();
+      })
+    );
   });
 });
