@@ -57,7 +57,7 @@ describe.skip('alex queries', () => {
     });
 
     it('Subscribes to the best finalized header on ALEX', async (done) => {
-      return(
+      return (
         api.rpc.chain.subscribeFinalizedHeads((head) => {
           expect(head instanceof Header).toBe(true);
           done();
