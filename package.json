@@ -1,5 +1,5 @@
 {
-  "version": "0.80.0-beta.2",
+  "version": "0.80.0-beta.6",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -19,7 +19,8 @@
     "lint": "tslint --project . && tsc --noEmit --pretty",
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

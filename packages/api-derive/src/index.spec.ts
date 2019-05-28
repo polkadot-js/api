@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable, from } from 'rxjs';
+
 import ApiRx from '@polkadot/api/rx/Api';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import MockProvider from '@polkadot/rpc-provider/mock';
@@ -41,8 +42,6 @@ describe('derive', () => {
 
     testFunction(api)('balances', 'all', []);
     testFunction(api)('balances', 'fees', []);
-    testFunction(api)('balances', 'validatingBalance', []);
-    testFunction(api)('balances', 'validatingBalances', []);
     testFunction(api)('balances', 'votingBalance', []);
     testFunction(api)('balances', 'votingBalances', []);
     testFunction(api)('balances', 'votingBalancesNominatorsFor', []);

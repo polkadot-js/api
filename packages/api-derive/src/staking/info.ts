@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, BlockNumber, Exposure, Option, StakingLedger, ValidatorPrefs, UnlockChunk, Vector } from '@polkadot/types';
-import { DerivedStaking } from '../types';
+import { AccountId, BlockNumber, Exposure, Option, StakingLedger,StructAny, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
+import { DerivedStaking, DerivedUnlockingMap } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -13,52 +13,18 @@ import { map, switchMap } from 'rxjs/operators';
 import { bestNumber } from '../chain/bestNumber';
 import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
+import { isUndefined } from '@polkadot/util';
 
-function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
-  const stashId = accountId;
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+  if (isUndefined(stakingLedger)) return undefined;
 
-  return (
-    combineLatest([
-      eraLength(api)(),
-      bestNumber(api)(),
-      api.queryMulti([
-        [api.query.session.nextKeyFor, controllerId],
-        [api.query.staking.ledger, controllerId],
-        [api.query.staking.nominators, stashId],
-        [api.query.staking.stakers, stashId],
-        [api.query.staking.validators, stashId]
-      ])
-    ]) as any as Observable<[BN, BlockNumber, [Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]]>
-  )
-  .pipe(
-    map(([eraLength, bestNumber, [nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]]) => ({
-      accountId,
-      controllerId,
-      unlocking: calculateUnlocking(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
-      nextSessionId: nextKeyFor.isSome
-        ? nextKeyFor.unwrap()
-        : undefined,
-      nominators,
-      stakers,
-      stakingLedger: stakingLedger.isSome
-        ? stakingLedger.unwrap()
-        : undefined,
-      redeemable: redeemableSum(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
-      stashId,
-      validatorPrefs
-    })),
-    drr()
-  );
-}
-
-function calculateUnlocking (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
   // select the Unlockchunks that can't be redeemed yet.
-  const unlockingChunks = unlockings.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
+  const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
 
   if (unlockingChunks.length) {
     // group the Unlockchunks that have the same era and sum their values
     const groupedResult = groupByEra(unlockingChunks);
-    const results: {value: BN, remainingBlocks: BN}[] = [];
+    const results: DerivedUnlockingMap = [];
 
     Object.keys(groupedResult).map((eraString) => (
       results.push({ value: groupedResult[eraString], remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber) })
@@ -84,16 +50,17 @@ function groupByEra (list: UnlockChunk[]) {
   }, {} as { [index: string]: BN });
 }
 
-function redeemableSum (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
-  return unlockings
-  .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
-  .reduce((curr, prev) => {
-    return curr.add(prev.value);
-  }, new BN(0));
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+  if (isUndefined(stakingLedger)) return new BN(0);
+
+  return stakingLedger.unlocking
+    .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev) => {
+      return curr.add(prev.value);
+    }, new BN(0));
 }
 
 function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
-
   if (!bestNumber || !eraLength || era.lten(0)) {
     return new BN(0);
   } else {
@@ -101,6 +68,46 @@ function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
 
     return remaining.lten(0) ? new BN(0) : remaining;
   }
+}
+
+function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+  const stashId = accountId;
+
+  return (
+  combineLatest([
+    eraLength(api)(),
+    bestNumber(api)(),
+    api.queryMulti([
+      [api.query.session.nextKeyFor, controllerId],
+      [api.query.staking.ledger, controllerId],
+      [api.query.staking.nominators, stashId],
+      [api.query.staking.stakers, stashId],
+      [api.query.staking.validators, stashId]
+    ])
+  ]) as any as Observable<[BN, BlockNumber, [Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]]>
+  ).pipe(
+    map(([eraLength, bestNumber,[nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]]) => {
+      const _stakingLedger = stakingLedger.isSome ? stakingLedger.unwrap() : undefined;
+
+      return new StructAny({
+        accountId,
+        controllerId,
+        nextSessionId: nextKeyFor.isSome
+          ? nextKeyFor.unwrap()
+          : undefined,
+        nominators,
+        redeemable: redeemableSum(_stakingLedger, eraLength, bestNumber),
+        stakers,
+        stakingLedger: stakingLedger.isSome
+          ? stakingLedger.unwrap()
+          : undefined,
+        stashId,
+        unlocking: calculateUnlocking(_stakingLedger, eraLength, bestNumber),
+        validatorPrefs
+      }) as DerivedStaking;
+    }),
+    drr()
+  );
 }
 
 function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
@@ -115,18 +122,19 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<AccountId>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([nextKeyFor, [nominators], stakers, [validatorPrefs]]) => ({
-      accountId,
-      controllerId,
-      nextSessionId: nextKeyFor.isSome
-        ? nextKeyFor.unwrap()
-        : undefined,
-      nominators,
-      stakers,
-      stakingLedger,
-      stashId,
-      validatorPrefs
-    })),
+    map(([nextKeyFor, [nominators], stakers, [validatorPrefs]]) =>
+      new StructAny({
+        accountId,
+        controllerId,
+        nextSessionId: nextKeyFor.isSome
+          ? nextKeyFor.unwrap()
+          : undefined,
+        nominators,
+        stakers,
+        stakingLedger,
+        stashId,
+        validatorPrefs
+      }) as DerivedStaking),
     drr()
   );
 }
@@ -152,7 +160,7 @@ export function info (api: ApiInterface$Rx) {
             stakingLedger.isSome
               ? withControllerLedger(api, accountId, stakingLedger.unwrap())
               // dangit, this is something else, ok, we are done
-              : of({ accountId })
+              : of(new StructAny({ accountId }) as DerivedStaking)
           )
       ),
       drr()

@@ -3,7 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Codec } from '../types';
-import { compareMap } from '../codec/utils';
+
+import { isUndefined } from '@polkadot/util';
+
+import { compareMap } from './utils';
 
 /**
  * @name Json
@@ -13,9 +16,24 @@ import { compareMap } from '../codec/utils';
  * i.e. no hex decoding. Unlike a struct, this waps a JSON object with unknown keys
  * @noInheritDoc
  */
-export default class Json extends Map<string, any> implements Codec {
+export default class StructAny extends Map<string, any> implements Codec {
   constructor (value?: { [index: string]: any } | null) {
-    super(Json.decodeJson(value));
+    const decoded = StructAny.decodeJson(value);
+
+    super(decoded);
+
+    // like we are doing with structs, add the keys as getters
+    decoded.forEach(([key]) => {
+      // do not clobber existing properties on the object
+      if (!isUndefined((this as any)[key])) {
+        return;
+      }
+
+      Object.defineProperty(this, key, {
+        enumerable: true,
+        get: () => this.get(key)
+      });
+    });
   }
 
   private static decodeJson (value?: { [index: string]: any } | null): Array<[string, any]> {

@@ -3,11 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { TEST_HTTP_URL } from '../../test/mockHttp';
-
-import Http from '.';
+import Http from './';
 
 describe('Http', () => {
-  let http;
+  let http: Http;
 
   beforeEach(() => {
     http = new Http(TEST_HTTP_URL);
@@ -30,13 +29,13 @@ describe('Http', () => {
   });
 
   it('does not (yet) support subscribe', () => {
-    return http.subscribe().catch((error) => {
+    return http.subscribe('', '', [], (cb) => { expect(cb).toEqual(expect.anything()); }).catch((error) => {
       expect(error.message).toMatch(/does not have subscriptions/);
     });
   });
 
   it('does not (yet) support unsubscribe', () => {
-    return http.unsubscribe().catch((error) => {
+    return http.unsubscribe('', '', 0).catch((error) => {
       expect(error.message).toMatch(/does not have subscriptions/);
     });
   });

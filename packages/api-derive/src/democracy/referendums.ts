@@ -7,8 +7,8 @@ import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumIndex } from '@polkadot/types';
 
+import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
-import { ReferendumInfoExtended } from './referendumInfo';
 import { referendumInfos } from './referendumInfos';
 
 export function referendums (api: ApiInterface$Rx) {

@@ -46,11 +46,12 @@ function mockWs (requests: Array<{ method: string }>) {
   server = new Server(TEST_WS_URL);
 
   let requestCount = 0;
-  const scope: { body: { [index: string]: {} }, requests: number, server: Server, done: any } = {
-    body: {},
-    requests: 0,
-    server,
-    done: () =>
+  const scope: {
+    body: { [index: string]: {} },
+    requests: number,
+    server: Server,
+    done: any
+  } = { body: {}, requests: 0, server, done: () =>
       server.stop(() => {
         // ignore
       })
@@ -58,7 +59,7 @@ function mockWs (requests: Array<{ method: string }>) {
 
   server.on('connection', (socket) => {
     // @ts-ignore definitions are wrong, this is 'on', not 'onmessage'
-    socket.on('message', (body: {}) => {
+    socket.on('message', (body: { [index: string]: {} }) => {
       const request = requests[requestCount];
       // @ts-ignore Yes, SHOULD be fixed, this is a mess
       const response = request.error
