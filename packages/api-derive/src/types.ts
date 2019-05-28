@@ -60,6 +60,7 @@ export type DerivedSessionInfo = {
 export type DerivedStaking = {
   accountId: AccountId,
   controllerId?: AccountId,
+  unlocking?: {value: BN, remainingBlocks: BN}[],
   nextSessionId?: AccountId,
   nominators?: Array<AccountId>,
   redeemable?: BN,

@@ -34,6 +34,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
     map(([eraLength, bestNumber, [nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]]) => ({
       accountId,
       controllerId,
+      unlocking: calculateUnlocking(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
       nextSessionId: nextKeyFor.isSome
         ? nextKeyFor.unwrap()
         : undefined,
@@ -42,7 +43,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       stakingLedger: stakingLedger.isSome
         ? stakingLedger.unwrap()
         : undefined,
-      redeemable: unlockableSum(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
+      redeemable: redeemableSum(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
       stashId,
       validatorPrefs
     })),
@@ -50,7 +51,40 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
   );
 }
 
-function unlockableSum (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
+function calculateUnlocking (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
+  // select the Unlockchunks that can't be redeemed yet.
+  const unlockingChunks = unlockings.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
+
+  if (unlockingChunks.length) {
+    // group the Unlockchunks that have the same era and sum their values
+    const groupedResult = groupByEra(unlockingChunks);
+    const results: {value: BN, remainingBlocks: BN}[] = [];
+
+    Object.keys(groupedResult).map((eraString) => (
+      results.push({ value: groupedResult[eraString], remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber) })
+    ));
+
+    return results.length ? results : undefined;
+  }
+
+  return undefined;
+}
+
+function groupByEra (list: UnlockChunk[]) {
+  return list.reduce((map, { era, value }) => {
+    const key = era.toString();
+
+    if (!map[key]) {
+      map[key] = value;
+    } else {
+      map[key] = map[key].add(value);
+    }
+
+    return map;
+  }, {} as { [index: string]: BN });
+}
+
+function redeemableSum (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
   return unlockings
   .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
   .reduce((curr, prev) => {
