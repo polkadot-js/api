@@ -2,14 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
+import { Balance, BlockNumber, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
-const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 describe.skip('e2e Alexander - Polkadot', () => {
   let api: Rpc;
@@ -25,13 +24,13 @@ describe.skip('e2e Alexander - Polkadot', () => {
       .subscribeStorage(
         [
           [storage.system.accountNonce, randomAccount],
-          [storage.balances.freeBalance, ALICE]
+          [storage.session.currentIndex]
         ],
         (data: StorageChangeSet) => {
           expect(data).toHaveLength(2);
           expect(data).toEqual(
             expect.arrayContaining([
-              expect.any(Balance),
+              expect.any(BlockNumber),
               expect.any(Index)
             ])
           );
