@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Balance, SignedBlock, StorageChangeSet } from '@polkadot/types';
+import { Balance, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -11,12 +11,12 @@ import Rpc from '../../src';
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
-describe.skip('e2e krumme lanke', () => {
+describe.skip('e2e Alexander - Polkadot', () => {
   let api: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    api = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
   });
 
   it('subscribes to storage', (done) => {
@@ -29,9 +29,12 @@ describe.skip('e2e krumme lanke', () => {
         ],
         (data: StorageChangeSet) => {
           expect(data).toHaveLength(2);
-          expect([data as any][0].toNumber()).toEqual(0);
-          expect([data as any][1]).toBeInstanceOf(Balance);
-          expect([data as any][1].toNumber()).not.toEqual(0);
+          expect(data).toEqual(
+            expect.arrayContaining([
+              expect.any(Balance),
+              expect.any(Index)
+            ])
+          );
 
           done();
         }).then((subscriptionId: number) => {
