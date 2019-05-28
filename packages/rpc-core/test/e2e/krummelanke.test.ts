@@ -28,9 +28,9 @@ describe.skip('e2e krumme lanke', () => {
         ],
         (data: StorageChangeSet) => {
           expect(data).toHaveLength(2);
-          expect(data[0].toNumber()).toEqual(0);
-          expect(data[1]).toBeInstanceOf(Balance);
-          expect(data[1].toNumber()).not.toEqual(0);
+          expect([data as any][0].toNumber()).toEqual(0);
+          expect([data as any][1]).toBeInstanceOf(Balance);
+          expect([data as any][1].toNumber()).not.toEqual(0);
 
           done();
         }).then((subscriptionId: number) => {
