@@ -4,7 +4,7 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, BlockNumber, Exposure, Option, StakingLedger,StructAny, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
-import { DerivedStaking, DerivedUnlockingMap } from '../types';
+import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
 import { isUndefined } from '@polkadot/util';
 
-function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlockingMap | undefined {
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
@@ -23,22 +23,22 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   // select the Unlockchunks that can't be redeemed yet.
   const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
 
-  if (unlockingChunks.length) {
-    // group the Unlockchunks that have the same era and sum their values
-    const groupedResult = groupByEra(unlockingChunks);
-    const results: DerivedUnlockingMap = [];
-
-    Object.keys(groupedResult).map((eraString) => (
-      results.push({
-        value: groupedResult[eraString],
-        remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
-      })
-    ));
-
-    return results.length ? results : undefined;
+  if (!unlockingChunks.length) {
+    return undefined;
   }
 
-  return undefined;
+  // group the Unlockchunks that have the same era and sum their values
+  const groupedResult = groupByEra(unlockingChunks);
+  const results: DerivedUnlocking = [];
+
+  Object.keys(groupedResult).map((eraString) => (
+    results.push({
+      value: groupedResult[eraString],
+      remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+    })
+  ));
+
+  return results.length ? results : undefined;
 }
 
 function groupByEra (list: UnlockChunk[]) {

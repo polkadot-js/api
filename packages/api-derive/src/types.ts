@@ -67,8 +67,8 @@ export interface DerivedStaking extends StructAny {
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
-  unlocking?: DerivedUnlockingMap;
+  unlocking?: DerivedUnlocking;
   validatorPrefs?: ValidatorPrefs;
 }
 
-export type DerivedUnlockingMap = Array<{remainingBlocks: BN, value: BN}>;
+export type DerivedUnlocking = Array<{remainingBlocks: BN, value: BN}>;
