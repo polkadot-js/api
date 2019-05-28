@@ -23,7 +23,7 @@ describe.skip('e2e krumme lanke', () => {
       api.state
       .subscribeStorage(
         [
-          [storage.system.accountNonce, '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ'],
+          [storage.system.accountNonce, randomAccount],
           [storage.balances.freeBalance, ALICE]
         ],
         (data: StorageChangeSet) => {
