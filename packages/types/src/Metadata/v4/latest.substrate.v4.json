@@ -3344,7 +3344,7 @@
                 },
                 {
                   "name": "delta",
-                  "type": "Vec<exec::StorageKey>"
+                  "type": "Vec<ContractStorageKey>"
                 }
               ],
               "documentation": [

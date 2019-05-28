@@ -19,6 +19,7 @@ export { default as BalanceLock } from './BalanceLock';
 export { default as BlockNumber } from './BlockNumber';
 export { default as CodeHash } from './CodeHash';
 export { default as ContractInfo } from './ContractInfo';
+export { default as ContractStorageKey } from './ContractStorageKey';
 export { default as Exposure } from './Exposure';
 export { default as Extrinsic } from './Extrinsic';
 export { default as ExtrinsicEra } from './ExtrinsicEra';
