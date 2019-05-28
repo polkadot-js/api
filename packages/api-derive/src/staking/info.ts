@@ -28,10 +28,10 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
         [api.query.staking.stakers, stashId],
         [api.query.staking.validators, stashId]
       ])
-    ]) as any as Observable<[BN, BlockNumber, Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
+    ]) as any as Observable<[BN, BlockNumber, [Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]]>
   )
   .pipe(
-    map(([eraLength, bestNumber, nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) => ({
+    map(([eraLength, bestNumber, [nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
@@ -50,7 +50,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
   );
 }
 
-function unlockableSum (unlockings: Vector<UnlockChunk>, eraLength: BN, bestNumber: BlockNumber) {
+function unlockableSum (unlockings: Vector<UnlockChunk>, eraLength = new BN(0), bestNumber= new BlockNumber(0)) {
   return unlockings
   .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
   .reduce((curr, prev) => {
@@ -68,19 +68,6 @@ function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
     return remaining.lten(0) ? new BN(0) : remaining;
   }
 }
-  /*
-  );
-  const { chain_bestNumber } = this.props;
-  //const eraLengthN = eraLength(api)
-
-  if (!chain_bestNumber || !eraLengthN || era.lten(0)) {
-    return new BN(0);
-  } else {
-    const remaining = eraLengthN.mul(era).sub(chain_bestNumber);
-
-    return remaining.lten(0) ? new BN(0) : remaining;
-  }
-  */
 
 function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
