@@ -15,8 +15,10 @@ import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
 import { isUndefined } from '@polkadot/util';
 
-function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
-  if (isUndefined(stakingLedger)) return undefined;
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlockingMap | undefined {
+  if (isUndefined(stakingLedger)) {
+    return undefined;
+  }
 
   // select the Unlockchunks that can't be redeemed yet.
   const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
@@ -27,7 +29,10 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
     const results: DerivedUnlockingMap = [];
 
     Object.keys(groupedResult).map((eraString) => (
-      results.push({ value: groupedResult[eraString], remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber) })
+      results.push({
+        value: groupedResult[eraString],
+        remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+      })
     ));
 
     return results.length ? results : undefined;
@@ -51,7 +56,9 @@ function groupByEra (list: UnlockChunk[]) {
 }
 
 function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
-  if (isUndefined(stakingLedger)) return new BN(0);
+  if (isUndefined(stakingLedger)) {
+    return new BN(0);
+  }
 
   return stakingLedger.unlocking
     .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
@@ -61,13 +68,9 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
 }
 
 function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
-  if (!bestNumber || !eraLength || era.lten(0)) {
-    return new BN(0);
-  } else {
-    const remaining = eraLength.mul(era).sub(bestNumber);
+  const remaining = eraLength.mul(era).sub(bestNumber);
 
-    return remaining.lten(0) ? new BN(0) : remaining;
-  }
+  return remaining.lten(0) ? new BN(0) : remaining;
 }
 
 function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
@@ -98,9 +101,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
         nominators,
         redeemable: redeemableSum(_stakingLedger, eraLength, bestNumber),
         stakers,
-        stakingLedger: stakingLedger.isSome
-          ? stakingLedger.unwrap()
-          : undefined,
+        stakingLedger: _stakingLedger,
         stashId,
         unlocking: calculateUnlocking(_stakingLedger, eraLength, bestNumber),
         validatorPrefs
