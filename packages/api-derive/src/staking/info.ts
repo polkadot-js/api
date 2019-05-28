@@ -2,28 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiInterface$Rx } from '@polkadot/api/types';
+import { AccountId, BlockNumber, Exposure, Option, StakingLedger, ValidatorPrefs, UnlockChunk, Vector } from '@polkadot/types';
 import { DerivedStaking } from '../types';
 
-import { Observable, of } from 'rxjs';
+import BN from 'bn.js';
+import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, Exposure, Option, StakingLedger, ValidatorPrefs } from '@polkadot/types';
 
+import { bestNumber } from '../chain/bestNumber';
 import { drr } from '../util/drr';
+import { eraLength } from '../session/eraLength';
 
 function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
-    api.queryMulti([
-      [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.ledger, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
-  ).pipe(
-    map(([nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) => ({
+    combineLatest([
+      eraLength(api)(),
+      bestNumber(api)(),
+      api.queryMulti([
+        [api.query.session.nextKeyFor, controllerId],
+        [api.query.staking.ledger, controllerId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId]
+      ])
+    ]) as any as Observable<[BN, BlockNumber, Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
+  )
+  .pipe(
+    map(([eraLength, bestNumber, nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) => ({
       accountId,
       controllerId,
       nextSessionId: nextKeyFor.isSome
@@ -34,15 +42,45 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       stakingLedger: stakingLedger.isSome
         ? stakingLedger.unwrap()
         : undefined,
-      redeemable: stakingLedger.unwrap().unlocking.length
-        ? 'there is something there'
-        : 'nope',
+      redeemable: unlockableSum(stakingLedger.unwrap().unlocking, eraLength, bestNumber),
       stashId,
       validatorPrefs
     })),
     drr()
   );
 }
+
+function unlockableSum (unlockings: Vector<UnlockChunk>, eraLength: BN, bestNumber: BlockNumber) {
+  return unlockings
+  .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
+  .reduce((curr, prev) => {
+    return curr.add(prev.value);
+  }, new BN(0));
+}
+
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
+
+  if (!bestNumber || !eraLength || era.lten(0)) {
+    return new BN(0);
+  } else {
+    const remaining = eraLength.mul(era).sub(bestNumber);
+
+    return remaining.lten(0) ? new BN(0) : remaining;
+  }
+}
+  /*
+  );
+  const { chain_bestNumber } = this.props;
+  //const eraLengthN = eraLength(api)
+
+  if (!chain_bestNumber || !eraLengthN || era.lten(0)) {
+    return new BN(0);
+  } else {
+    const remaining = eraLengthN.mul(era).sub(chain_bestNumber);
+
+    return remaining.lten(0) ? new BN(0) : remaining;
+  }
+  */
 
 function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
