@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ChainProperties, PendingExtrinsics } from '@plugnet/types';
 import WsProvider from '@plugnet/rpc-provider/ws';
 
 import Rpc from '../../src';
 
 describe.skip('e2e basics', () => {
-  let api;
+  let api: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -17,8 +18,8 @@ describe.skip('e2e basics', () => {
   it('retrieves the pending extrinsics', () => {
     return api.author
       .pendingExtrinsics()
-      .then((extrinsics) => {
-        console.error('extrinsics', extrinsics);
+      .then((extrinsics: PendingExtrinsics) => {
+        console.log('extrinsics', extrinsics);
       })
       .catch((error) => {
         console.error(error);
@@ -30,8 +31,8 @@ describe.skip('e2e basics', () => {
   it('retrieves the system properties', () => {
     return api.system
       .properties()
-      .then((properties) => {
-        console.error('properties', properties);
+      .then((properties: ChainProperties) => {
+        console.log('properties', properties);
       })
       .catch((error) => {
         console.error(error);

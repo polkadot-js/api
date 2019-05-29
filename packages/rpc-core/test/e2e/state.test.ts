@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Balance, Bytes, Metadata, Moment } from '@plugnet/types';
 import storage from '@plugnet/storage/static';
+import WsProvider from '@plugnet/rpc-provider/ws';
 
 import Rpc from '../../src';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 describe.skip('e2e state', () => {
-  let api;
+  let api: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
@@ -21,7 +23,7 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.substrate.code
       ])
-      .then((code) => {
+      .then((code: Bytes) => {
         console.error(code.toHex().substr(0, 256), '...');
       })
       .catch((error) => {
@@ -34,7 +36,7 @@ describe.skip('e2e state', () => {
   it('retrieves the wasm metadata', () => {
     return api.state
       .getMetadata()
-      .then((meta) => {
+      .then((meta: Metadata) => {
         console.error(JSON.stringify(meta.toJSON()));
       })
       .catch((error) => {
@@ -49,7 +51,7 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.balances.freeBalance, ALICE
       ])
-      .then((balance) => {
+      .then((balance: Balance) => {
         console.error(balance);
 
         expect(balance.isZero()).not.toEqual(true);
@@ -66,7 +68,7 @@ describe.skip('e2e state', () => {
       .getStorage([
         storage.timestamp.now
       ])
-      .then((moment) => {
+      .then((moment: Moment) => {
         console.error(moment);
 
         expect(moment.toNumber()).not.toEqual(0);
