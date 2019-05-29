@@ -84,6 +84,9 @@ ___
 ▸ **putCode**(gas_limit: `Compact<Gas>`, code: `Bytes`)
 - **summary**:   Stores the given binary Wasm code into the chain's storage and returns its `codehash`.  You can instantiate contracts only with stored code.
 
+▸ **restoreTo**(dest: `AccountId`, code_hash: `CodeHash`, rent_allowance: `BalanceOf`, delta: `Vec<ContractStorageKey>`)
+- **summary**:   Allows a contract to restore a tombstone by giving its storage.   The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a  tombstone with its storage and the given code_hash. If the computed tombstone  match the destination one, the destination contract is restored with the rent_allowance` specified,  while the origin sends all its funds to the destination and is removed.
+
 ▸ **updateSchedule**(schedule: `Schedule`)
 - **summary**:   Updates the schedule for metering contracts.   The schedule must have a greater version than the stored schedule.
 
