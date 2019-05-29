@@ -11,9 +11,9 @@ import { CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } 
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
-import { RxResult } from './rx/types';
-import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
-import ApiBase from './Base';
+import { RxResult } from '../rx/types';
+import { SubmittableResult, SubmittableExtrinsic } from '../SubmittableExtrinsic';
+import ApiBase from '../Base';
 
 export type OnCallDefinition<CodecResult, SubscriptionResult> = (method: OnCallFunction<RxResult, RxResult>, params?: Array<CodecArg>, callback?: CodecCallback, needsCallback?: boolean) => CodecResult | SubscriptionResult;
 
@@ -39,13 +39,13 @@ export interface DecoratedRpc<CodecResult, SubscriptionResult> {
 
 export type HashResult<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? Observable<Hash>
-    : Promise<Hash>;
+  ? Observable<Hash>
+  : Promise<Hash>;
 
 export type U64Result<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? Observable<U64>
-    : Promise<U64>;
+  ? Observable<U64>
+  : Promise<U64>;
 
 export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
   (arg1?: CodecArg, arg2?: CodecArg): CodecResult;
@@ -65,8 +65,8 @@ interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> exten
 
 export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? QueryableStorageFunctionBase<CodecResult, SubscriptionResult>
-    : QueryableStorageFunctionPromise<CodecResult, SubscriptionResult>;
+  ? QueryableStorageFunctionBase<CodecResult, SubscriptionResult>
+  : QueryableStorageFunctionPromise<CodecResult, SubscriptionResult>;
 
 export interface QueryableModuleStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableStorageFunction<CodecResult, SubscriptionResult>;
@@ -88,8 +88,8 @@ export interface QueryableStorageMultiPromise<CodecResult, SubscriptionResult> {
 
 export type QueryableStorageMulti<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? QueryableStorageMultiBase<CodecResult, SubscriptionResult>
-    : QueryableStorageMultiPromise<CodecResult, SubscriptionResult>;
+  ? QueryableStorageMultiBase<CodecResult, SubscriptionResult>
+  : QueryableStorageMultiPromise<CodecResult, SubscriptionResult>;
 
 export interface QueryableStorage<CodecResult, SubscriptionResult> {
   [index: string]: QueryableModuleStorage<CodecResult, SubscriptionResult>;
@@ -121,8 +121,8 @@ interface DeriveMethodPromise<CodecResult, SubscriptionResult> extends DeriveMet
 
 export type DeriveMethod<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? DeriveMethodBase<CodecResult, SubscriptionResult>
-    : DeriveMethodPromise<CodecResult, SubscriptionResult>;
+  ? DeriveMethodBase<CodecResult, SubscriptionResult>
+  : DeriveMethodPromise<CodecResult, SubscriptionResult>;
 
 export interface DeriveSection<CodecResult, SubscriptionResult> {
   [index: string]: DeriveMethod<CodecResult, SubscriptionResult>;
