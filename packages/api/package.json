@@ -33,6 +33,6 @@
     "@polkadot/rpc-rx": "^0.80.0-beta.12",
     "@polkadot/storage": "^0.80.0-beta.12",
     "@polkadot/types": "^0.80.0-beta.12",
-    "@polkadot/util-crypto": "^0.92.0-beta.1"
+    "@polkadot/util-crypto": "^0.92.0-beta.2"
   }
 }
