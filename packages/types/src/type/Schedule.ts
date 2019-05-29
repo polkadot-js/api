@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../codec/Struct';
+import Bool from '../primitive/Bool';
 import U32 from '../primitive/U32';
 import Gas from './Gas';
 
@@ -19,11 +20,45 @@ export default class Schedule extends Struct {
       growMemCost: Gas,
       regularOpCost: Gas,
       returnDataPerByteCost: Gas,
+      eventDataPerByteCost: Gas,
+      eventPerTopicCost: Gas,
+      eventBaseCost: Gas,
       sandboxDataReadCost: Gas,
       sandboxDataWriteCost: Gas,
+      maxEventTopics: U32,
       maxStackHeight: U32,
-      maxMemoryPages: U32
+      maxMemoryPages: U32,
+      enablePrintln: Bool,
+      maxSubjectLen: U32
     }, value);
+  }
+
+  /**
+   * @description Whether the `ext_println` function is allowed to be used contracts. MUST only be enabled for `dev` chains, NOT for production chains
+   */
+  get enablePrintln (): Bool {
+    return this.get('enablePrintln') as Bool;
+  }
+
+  /**
+   * @description Gas cost to deposit an event; the base.
+   */
+  get eventBaseCost (): Gas {
+    return this.get('eventBaseCost') as Gas;
+  }
+
+  /**
+   * @description Gas cost to deposit an event; the per-byte portion.
+   */
+  get eventDataPerByteCost (): Gas {
+    return this.get('eventDataPerByteCost') as Gas;
+  }
+
+  /**
+   * @description Gas cost to deposit an event; the cost per topic.
+   */
+  get eventPerTopicCost (): Gas {
+    return this.get('eventPerTopicCost') as Gas;
   }
 
   /**
@@ -31,6 +66,13 @@ export default class Schedule extends Struct {
    */
   get growMemCost (): Gas {
     return this.get('growMemCost') as Gas;
+  }
+
+  /**
+   * @description The maximum number of topics supported by an event.
+   */
+  get maxEventTopics (): U32 {
+    return this.get('maxEventTopics') as U32;
   }
 
   /**
@@ -45,6 +87,13 @@ export default class Schedule extends Struct {
    */
   get maxStackHeight (): U32 {
     return this.get('maxStackHeight') as U32;
+  }
+
+  /**
+   * @description The maximum length of a subject used for PRNG generation.
+   */
+  get maxSubjectLen (): U32 {
+    return this.get('maxSubjectLen') as U32;
   }
 
   /**

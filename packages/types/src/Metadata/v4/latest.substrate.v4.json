@@ -2972,9 +2972,9 @@
               "name": "StorageSizeOffset",
               "modifier": "Default",
               "type": {
-                "PlainType": "u64"
+                "PlainType": "u32"
               },
-              "fallback": "0x0000000000000000",
+              "fallback": "0x00000000",
               "documentation": [
                 " Size of a contract at the time of creation. This is a simple way to ensure",
                 " that empty contracts eventually gets deleted."
@@ -3125,7 +3125,7 @@
               "type": {
                 "PlainType": "Gas"
               },
-              "fallback": "0x40420f0000000000",
+              "fallback": "0x8096980000000000",
               "documentation": [
                 " The maximum amount of gas that could be expended per block."
               ]
@@ -3147,7 +3147,7 @@
               "type": {
                 "PlainType": "Schedule"
               },
-              "fallback": "0x0000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000000001001000000000",
+              "fallback": "0x000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000100000000000000010000000000000001000000000000000400000000000100100000000020000000",
               "documentation": [
                 " Current cost schedule for contracts."
               ]
@@ -3325,6 +3325,35 @@
                 "",
                 " If contract is not evicted as a result of this call, no actions are taken and",
                 " the sender is not eligible for the reward."
+              ]
+            },
+            {
+              "name": "restore_to",
+              "args": [
+                {
+                  "name": "dest",
+                  "type": "AccountId"
+                },
+                {
+                  "name": "code_hash",
+                  "type": "CodeHash"
+                },
+                {
+                  "name": "rent_allowance",
+                  "type": "BalanceOf"
+                },
+                {
+                  "name": "delta",
+                  "type": "Vec<ContractStorageKey>"
+                }
+              ],
+              "documentation": [
+                " Allows a contract to restore a tombstone by giving its storage.",
+                "",
+                " The contract that wants to restore (i.e. origin of the call, or `msg.sender` in Solidity terms) will compute a",
+                " tombstone with its storage and the given code_hash. If the computed tombstone",
+                " match the destination one, the destination contract is restored with the rent_allowance` specified,",
+                " while the origin sends all its funds to the destination and is removed."
               ]
             }
           ],

@@ -90,6 +90,8 @@ These custom types implement specific types that are found as part of the Substr
 | [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
 | [[CodeHash]] | The default contract code hash that is used accross the system |
 | [[Consensus]] | Log item indicating consensus |
+| [[ContractInfo]] | The contract information for a given contract |
+| [[ContractStorageKey]] | A representation of a storage key for contracts |
 | [[Exposure]] | A snapshot of the stake backing a single validator in the system |
 | [[Extrinsic]] | Representation of an Extrinsic in the system |
 | [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
