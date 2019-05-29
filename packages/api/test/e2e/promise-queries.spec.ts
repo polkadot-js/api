@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import WsProvider from '@plugnet/rpc-provider/ws';
 import testingPairs from '@plugnet/keyring/testingPairs';
 import { LinkageResult } from '@plugnet/types/codec/Linkage';
-import { EventRecord, Header, Vector } from '@plugnet/types';
+import { Balance, EventRecord, Header, Option, Vector } from '@plugnet/types';
 
 import Api from './../../src/promise';
 
@@ -177,20 +177,197 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
-  it('queries state using double map key', async () => {
-    // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
-    const eventTopics = await api.query.system.eventTopics(['any', '0x1234']);
+  describe('with plain type', () => {
+    const EXISTENTIAL_DEPOSIT = 500;
+    it('queries correct value', async () => {
+      const existentialDeposit = await api.query.balances.existentialDeposit() as Balance;
 
-    expect(eventTopics.toString()).toEqual('[]');
+      expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+    });
+
+    it('queries correct value at a specified block', async () => {
+      const header = await api.rpc.chain.getHeader() as Header;
+      const existentialDepositAt = await api.query.balances.existentialDeposit.at(header.hash) as Balance;
+
+      expect(existentialDepositAt.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+    });
+
+    it('subscribes to query and get correct result', (done) => {
+      return api.query.balances.existentialDeposit((existentialDeposit) => {
+        expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+        done();
+      });
+    });
+
+    it('queries correct hash', async () => {
+      const hash = await api.query.balances.existentialDeposit.hash();
+
+      expect(hash).toBeDefined();
+    });
+
+    it('gets correct key', async () => {
+      const key = api.query.balances.existentialDeposit.key();
+      const existentialDepositData = await api.rpc.state.getStorage(key) as Option<any>;
+      const existentialDepositRPC = new Balance(existentialDepositData.unwrapOr(undefined));
+
+      expect(existentialDepositRPC.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+    });
+
+    it('queries correct size', async () => {
+      const size = await api.query.balances.existentialDeposit.size();
+
+      expect(size.toNumber()).not.toEqual(0);
+    });
   });
 
-  it('subscribes to queries using double map key', async (done) => {
-    return (
-      // TODO Update ['any', '0x1234'] to the key of a known event topic and update '[]' to the expected value
-      api.query.system.eventTopics(['any', '0x1234'], (eventTopics) => {
-        expect(eventTopics.toString()).toEqual('[]');
+  describe('with map type', () => {
+    it('queries correct value', async () => {
+      const balance = await api.query.balances.freeBalance(keyring.alice.address()) as Balance;
+
+      expect(balance.isZero()).toBe(false);
+    });
+
+    it('queries correct value at a specified block', async () => {
+      // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
+      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+      const header = await api.rpc.chain.getHeader() as Header;
+      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice.address()) as Balance;
+
+      expect(balanceAt.isZero()).toBe(false);
+      expect(balanceAt.toString()).toEqual(balance.toString());
+    });
+
+    it('subscribes to query and get correct result', async (done) => {
+      // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
+      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+
+      return api.query.balances.freeBalance(keyring.alice.address(), (balanceSubscribed) => {
+        expect(balanceSubscribed.isZero()).toBe(false);
+        expect(balanceSubscribed.toString()).toEqual(balance.toString());
         done();
-      })
-    );
+      });
+    });
+
+    it('queries correct hash', async () => {
+      const hash = await api.query.balances.freeBalance.hash(keyring.alice.address());
+
+      expect(hash).toBeDefined();
+    });
+
+    it('gets correct key', async () => {
+      // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
+      const key = api.query.balances.freeBalance.key(keyring.alice.address());
+      const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
+      const balanceRPC = new Balance(balanceData.unwrapOr(undefined));
+
+      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+
+      expect(balanceRPC.isZero()).toBe(false);
+      expect(balanceRPC.toString()).toEqual(balance.toString());
+    });
+
+    it('queries multiple results', async () => {
+      // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
+      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address());
+      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address());
+
+      const balances = await api.query.balances.freeBalance.multi([
+        keyring.alice.address(),
+        keyring.bob.address()
+      ]);
+
+      expect(balances).toHaveLength(2);
+      expect((balances as any)[0].toString()).toEqual(balanceAlice.toString());
+      expect((balances as any)[1].toString()).toEqual(balanceBob.toString());
+    });
+
+    it('subscribes to multiple queries and get correct results', async (done) => {
+      // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
+      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address());
+      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address());
+
+      return api.query.balances.freeBalance.multi([
+        keyring.alice.address(),
+        keyring.bob.address()
+      ], (balances) => {
+        expect(balances).toHaveLength(2);
+        expect(balances[0].toString()).toEqual(balanceAlice.toString());
+        expect(balances[1].toString()).toEqual(balanceBob.toString());
+        done();
+      });
+    });
+
+    it('queries correct size', async () => {
+      const size = await api.query.balances.freeBalance.size(keyring.alice.address());
+
+      expect(size.toNumber()).not.toEqual(0);
+    });
+  });
+
+  // TODO Update ['any', '0x1234'] to the key of a known event topic and update EXPECTED_VALUE to the expected value
+  describe('with double map type', () => {
+    const KEY1 = 'any';
+    const KEY2 = '0x1234';
+    it('queries correct value', async () => {
+      const eventTopics = await api.query.system.eventTopics(KEY1, KEY2);
+
+      expect(eventTopics.toJSON()).toEqual([]);
+    });
+
+    it('queries correct value at a specified block', async () => {
+      const header = await api.rpc.chain.getHeader() as Header;
+
+      // TODO check: this will throw the error: Encoding for input doesn't match output, created 0x00 from 0x
+      const eventTopicsAt = await api.query.system.eventTopics.at(header.hash, KEY1, KEY2);
+      expect(eventTopicsAt).toEqual(undefined);
+
+      // const eventTopicsAt = await api.query.system.eventTopics.at(header.hash, KEY1, KEY2);
+      // expect(eventTopicsAt.toJSON()).toEqual([]);
+    });
+
+    it('subscribes to query and get correct result', async (done) => {
+      return api.query.system.eventTopics(KEY1, KEY2, (eventTopicsAt) => {
+        expect(eventTopicsAt.toJSON()).toEqual([]);
+        done();
+      });
+    });
+
+    it('queries correct hash', async () => {
+      const hash = await api.query.system.eventTopics(KEY1, KEY2);
+
+      expect(hash).toBeDefined();
+    });
+
+    it('gets correct key', async () => {
+      const key = api.query.system.eventTopics.key(KEY1, KEY2);
+      const eventTopicsData = await api.rpc.state.getStorage(key) as Option<any>;
+
+      expect(eventTopicsData.unwrapOr(undefined)).toEqual(undefined);
+    });
+
+    it('queries multiple results', async () => {
+      const eventTopicsList = await api.query.system.eventTopics.multi([
+        [KEY1, KEY2]
+      ]);
+
+      expect(eventTopicsList).toHaveLength(1);
+      expect((eventTopicsList as any)[0].toJSON()).toEqual([]);
+    });
+
+    it('subscribes to multiple queries and get correct results', async (done) => {
+      return api.query.system.eventTopics.multi([
+        [KEY1, KEY2]
+      ], (eventTopicsList) => {
+        expect(eventTopicsList).toHaveLength(1);
+        expect(eventTopicsList[0].toJSON()).toEqual([]);
+        done();
+      });
+    });
+
+    it('queries correct size', async () => {
+      const size = await api.query.system.eventTopics.size(KEY1, KEY2);
+
+      expect(size.toNumber()).toEqual(0);
+    });
   });
 });

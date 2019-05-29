@@ -4,7 +4,6 @@
 
 import { assert, isFunction, isString, isU8a } from '@plugnet/util';
 
-import U8a from '../codec/U8a';
 import { StorageFunctionMetadata as MetaV4 } from '../Metadata/v4/Storage';
 import { AnyU8a } from '../types';
 import Bytes from './Bytes';
@@ -69,14 +68,6 @@ export default class StorageKey extends Bytes {
       const [fn, ...arg]: [StorageFunction, ...Array<any>] = value as any;
 
       assert(isFunction(fn), 'Expected function input for key construction');
-
-      if (fn.meta && fn.meta.type.isDoubleMap) {
-        return {
-          key: new U8a(fn(...arg)), // skip compact length check in decodeBytes
-          method: fn.method,
-          section: fn.section
-        };
-      }
 
       return {
         key: fn(...arg),
