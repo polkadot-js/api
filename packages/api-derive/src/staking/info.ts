@@ -85,8 +85,8 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
     ])
   ]) as any as Observable<[BN, BlockNumber, [Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([eraLength, bestNumber,[nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]]) => {
-      const _stakingLedger = stakingLedger.isSome ? stakingLedger.unwrap() : undefined;
+    map(([eraLength, bestNumber,[nextKeyFor, _stakingLedger, [nominators], stakers, [validatorPrefs]]]) => {
+      const stakingLedger = _stakingLedger.isSome ? _stakingLedger.unwrap() : undefined;
 
       return new StructAny({
         accountId,
@@ -95,11 +95,11 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
           ? nextKeyFor.unwrap()
           : undefined,
         nominators,
-        redeemable: redeemableSum(_stakingLedger, eraLength, bestNumber),
+        redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         stakers,
-        stakingLedger: _stakingLedger,
+        stakingLedger,
         stashId,
-        unlocking: calculateUnlocking(_stakingLedger, eraLength, bestNumber),
+        unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs
       }) as DerivedStaking;
     }),
