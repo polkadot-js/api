@@ -614,9 +614,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       ) as unknown as HashResult<C, S>;
 
     decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
-      creator.meta.type.isDoubleMap
-      ? u8aToHex(creator([arg1, arg2]))
-      : u8aToHex(compactStripLength(creator(arg1))[1]);
+      u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
     // When using double map storage function, user need to path double map key as an array
     decorated.multi = (args: Array<CodecArg[] | CodecArg>, callback?: CodecCallback): S =>
