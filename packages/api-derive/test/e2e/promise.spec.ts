@@ -4,6 +4,7 @@
 
 import { BlockNumber } from '@polkadot/types';
 import { DerivedStaking } from '../../src/types';
+import { SubmittableResult } from '../../../api/src';
 
 import ApiPromise from '@polkadot/api/promise/Api';
 import testKeyring from '@polkadot/keyring/testing';
@@ -96,7 +97,7 @@ describe.skip('derive e2e', () => {
       console.error(JSON.stringify(info));
 
       if (!info.stashId || !info.controllerId || !info.stakingLedger) {
-        return;
+        return done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
       }
 
       expect(info.accountId.eq(accountId)).toBe(true);
@@ -117,17 +118,23 @@ describe.skip('derive e2e', () => {
     const aliceStashPair = keyring.getPair(ALICE_STASH);
     const alicePair = keyring.getPair(ALICE);
 
-    it('bondsExtra funds for Alice Stash', () => {
+    it('bondsExtra funds for Alice Stash', (done) => {
       return api.tx.staking.bondExtra(BOND_VALUE)
-        .signAndSend(aliceStashPair, ({ events = [], status }) => {
-          expect(status.type).toMatch(/Flinalized/i);
+        .signAndSend(aliceStashPair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
         });
     });
 
-    it('unbonds dots for Alice (from Alice Stash)', () => {
+    it('unbonds dots for Alice (from Alice Stash)', (done) => {
       return api.tx.staking.unbond(UNBOND_VALUE)
-        .signAndSend(alicePair, ({ events = [], status }) => {
-          expect(status.type).toMatch(/Flinalized/i);
+        .signAndSend(alicePair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
         });
     });
 
