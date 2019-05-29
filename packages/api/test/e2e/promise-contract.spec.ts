@@ -10,8 +10,8 @@ import { KeyringPair } from '@plugnet/keyring/types';
 import testingPairs from '@plugnet/keyring/testingPairs';
 
 import Api from './../../src/promise';
-import incrementer from '../data/incrementer.json';
-import erc20 from '../data/erc20.json';
+import flipperAbi from '../data/flipper.json';
+import erc20Abi from '../data/erc20.json';
 import { SubmittableResult } from './../../src';
 
 describe.skip('Promise e2e contracts', () => {
@@ -33,28 +33,31 @@ describe.skip('Promise e2e contracts', () => {
     done();
   });
 
-  describe('incrementer', () => {
+  describe('flipper', () => {
+    const MAX_GAS = 500000;
     let abi: ContractAbi;
 
     beforeEach(() => {
-      abi = new ContractAbi(incrementer);
+      abi = new ContractAbi(flipperAbi);
     });
 
     it('allows putCode', (done) => {
-      const code = fs.readFileSync(path.join(__dirname, '../data/incrementer-opt.wasm')).toString('hex');
+      const code = fs.readFileSync(path.join(__dirname, '../data/flipper-pruned.wasm')).toString('hex');
 
       return (
         api.tx.contract
-        .putCode(200000, `0x${code}`)
+        .putCode(MAX_GAS, `0x${code}`)
         .signAndSend(keyring.eve, (result: SubmittableResult) => {
           console.error('putCode', JSON.stringify(result));
+
           if (result.status.isFinalized) {
             const record = result.findRecord('contract', 'CodeStored');
 
             if (record) {
               codeHash = record.event.data[0] as Hash;
+
+              done();
             }
-            done();
           }
         })
       );
@@ -65,9 +68,10 @@ describe.skip('Promise e2e contracts', () => {
 
       return (
         api.tx.contract
-          .create(12345, 500000, codeHash, abi.deploy(12345))
+          .create(12345, MAX_GAS, codeHash, abi.deploy())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('create', JSON.stringify(result));
+
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'Instantiated');
 
@@ -86,7 +90,7 @@ describe.skip('Promise e2e contracts', () => {
 
       return (
         api.tx.contract
-          .call(address, 12345, 500000, abi.messages.inc(123))
+          .call(address, 12345, MAX_GAS, abi.messages.flip())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('call', JSON.stringify(result));
 
@@ -102,7 +106,7 @@ describe.skip('Promise e2e contracts', () => {
     let abi: ContractAbi;
 
     beforeEach(() => {
-      abi = abi = new ContractAbi(erc20);
+      abi = new ContractAbi(erc20Abi);
     });
 
     it('has the attached methods', () => {
