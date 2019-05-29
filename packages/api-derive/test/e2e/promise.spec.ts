@@ -95,6 +95,10 @@ describe.skip('derive e2e', () => {
     return api.derive.staking.info(accountId, (info: DerivedStaking) => {
       console.error(JSON.stringify(info));
 
+      if (!info.stashId || !info.controllerId || !info.stakingLedger) {
+        return;
+      }
+
       expect(info.accountId.eq(accountId)).toBe(true);
       expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
       expect(info.stashId.eq(accountId)).toBe(true);
@@ -104,7 +108,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-  describe.only('verifies derive.staking.unlocking',() => {
+  describe('verifies derive.staking.unlocking',() => {
     const BOND_VALUE = 10;
     const UNBOND_VALUE = 1;
     const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
@@ -116,20 +120,20 @@ describe.skip('derive e2e', () => {
     it('bondsExtra funds for Alice Stash', () => {
       return api.tx.staking.bondExtra(BOND_VALUE)
         .signAndSend(aliceStashPair, ({ events = [], status }) => {
-          expect(status.type).toMatch(/Ready/i);
+          expect(status.type).toMatch(/Flinalized/i);
         });
     });
 
     it('unbonds dots for Alice (from Alice Stash)', () => {
       return api.tx.staking.unbond(UNBOND_VALUE)
-      .signAndSend(alicePair, ({ events = [], status }) => {
-        expect(status.type).toMatch(/Ready/i);
-      });
+        .signAndSend(alicePair, ({ events = [], status }) => {
+          expect(status.type).toMatch(/Flinalized/i);
+        });
     });
 
     it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
       return api.derive.session.info(ALICE_STASH, (info: DerivedStaking) => {
-        expect(info.unlocking).toBeDefined();
+        expect(info.unlocking).toBeGreaterThan(0);
       });
     });
   });
