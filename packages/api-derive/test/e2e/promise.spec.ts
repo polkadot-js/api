@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
+import { DerivedStaking } from '../../src/types';
+import { SubmittableResult } from '../../../api/src';
+
+import ApiPromise from '@polkadot/api/promise/Api';
+import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -89,8 +93,12 @@ describe.skip('derive e2e', () => {
   it('retrieves all staking info (for stash)', (done) => {
     const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
-    return api.derive.staking.info(accountId, (info) => {
+    return api.derive.staking.info(accountId, (info: DerivedStaking) => {
       console.error(JSON.stringify(info));
+
+      if (!info.stashId || !info.controllerId || !info.stakingLedger) {
+        return done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
+      }
 
       expect(info.accountId.eq(accountId)).toBe(true);
       expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
@@ -100,4 +108,41 @@ describe.skip('derive e2e', () => {
       done();
     });
   });
+
+  describe('verifies derive.staking.unlocking',() => {
+    const BOND_VALUE = 10;
+    const UNBOND_VALUE = 1;
+    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+    const keyring = testKeyring();
+    const aliceStashPair = keyring.getPair(ALICE_STASH);
+    const alicePair = keyring.getPair(ALICE);
+
+    it('bondsExtra funds for Alice Stash', (done) => {
+      return api.tx.staking.bondExtra(BOND_VALUE)
+        .signAndSend(aliceStashPair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
+        });
+    });
+
+    it('unbonds dots for Alice (from Alice Stash)', (done) => {
+      return api.tx.staking.unbond(UNBOND_VALUE)
+        .signAndSend(alicePair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
+        });
+    });
+
+    it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
+      return api.derive.session.info(ALICE_STASH, (info: DerivedStaking) => {
+        expect(info.unlocking).toBeGreaterThan(0);
+      });
+    });
+  });
+
 });
