@@ -178,43 +178,43 @@ describe.skip('Promise e2e queries', () => {
   });
 
   describe('with plain type', () => {
-    const TOTAL_ISSUANCE = 12582912;
+    const EXISTENTIAL_DEPOSIT = 500;
     it('queries correct value', async () => {
-      const totalIssuance = await api.query.balances.totalIssuance() as Balance;
+      const existentialDeposit = await api.query.balances.existentialDeposit() as Balance;
 
-      expect(totalIssuance.toNumber()).toEqual(TOTAL_ISSUANCE);
+      expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
     });
 
     it('queries correct value at a specified block', async () => {
       const header = await api.rpc.chain.getHeader() as Header;
-      const totalIssuanceAt = await api.query.balances.totalIssuance.at(header.hash) as Balance;
+      const existentialDepositAt = await api.query.balances.existentialDeposit.at(header.hash) as Balance;
 
-      expect(totalIssuanceAt.toNumber()).toEqual(TOTAL_ISSUANCE);
+      expect(existentialDepositAt.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
     });
 
     it('subscribes to query and get correct result', (done) => {
-      return api.query.balances.totalIssuance((totalIssuance) => {
-        expect(totalIssuance.toNumber()).toEqual(TOTAL_ISSUANCE);
+      return api.query.balances.existentialDeposit((existentialDeposit) => {
+        expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
         done();
       });
     });
 
     it('queries correct hash', async () => {
-      const hash = await api.query.balances.totalIssuance.hash();
+      const hash = await api.query.balances.existentialDeposit.hash();
 
       expect(hash).toBeDefined();
     });
 
     it('gets correct key', async () => {
-      const key = api.query.balances.totalIssuance.key();
-      const totalIssuanceData = await api.rpc.state.getStorage(key) as Option<any>;
-      const totalIssuanceRPC = new Balance(totalIssuanceData.unwrapOr(undefined));
+      const key = api.query.balances.existentialDeposit.key();
+      const existentialDepositData = await api.rpc.state.getStorage(key) as Option<any>;
+      const existentialDepositRPC = new Balance(existentialDepositData.unwrapOr(undefined));
 
-      expect(totalIssuanceRPC.toNumber()).toEqual(TOTAL_ISSUANCE);
+      expect(existentialDepositRPC.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
     });
 
     it('queries correct size', async () => {
-      const size = await api.query.balances.totalIssuance.size();
+      const size = await api.query.balances.existentialDeposit.size();
 
       expect(size.toNumber()).not.toEqual(0);
     });
