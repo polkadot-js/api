@@ -594,10 +594,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     decorated.at = (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg): C =>
       onCall(
-        (...args: CodecArg[]) => this._rpcRx.state.getStorage(
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorage(
           creator.meta.type.isDoubleMap
-            ? [creator, args]
-            : [creator, ...args],
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1],
           hash),
         [arg1, arg2]
       ) as C;
@@ -606,10 +606,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
     // be converted from C to the actual result required
     decorated.hash = (arg1?: CodecArg, arg2?: CodecArg): HashResult<C, S> =>
       onCall(
-        (...args: CodecArg[]) => this._rpcRx.state.getStorageHash(
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageHash(
           creator.meta.type.isDoubleMap
-            ? [creator, args]
-            : [creator, ...args]),
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1]),
         [arg1, arg2]
       ) as unknown as HashResult<C, S>;
 
@@ -629,10 +629,10 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     decorated.size = (arg1?: CodecArg, arg2?: CodecArg): U64Result<C, S> =>
       onCall(
-        (...args: CodecArg[]) => this._rpcRx.state.getStorageSize(
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageSize(
           creator.meta.type.isDoubleMap
-            ? [creator, args]
-            : [creator, ...args]),
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1]),
         [arg1, arg2]
       ) as unknown as U64Result<C, S>;
 
