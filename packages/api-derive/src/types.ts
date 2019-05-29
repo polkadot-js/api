@@ -63,8 +63,12 @@ export interface DerivedStaking extends StructAny {
   controllerId?: AccountId;
   nextSessionId?: AccountId;
   nominators?: Array<AccountId>;
+  redeemable?: BN;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
+  unlocking?: DerivedUnlocking;
   validatorPrefs?: ValidatorPrefs;
 }
+
+export type DerivedUnlocking = Array<{remainingBlocks: BN, value: BN}>;

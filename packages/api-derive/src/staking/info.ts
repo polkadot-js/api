@@ -2,42 +2,107 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedStaking } from '../types';
-
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@plugnet/api/types';
-import { AccountId, Exposure, Option, StakingLedger, StructAny, ValidatorPrefs } from '@plugnet/types';
+import { AccountId, BlockNumber, Exposure, Option, StakingLedger,StructAny, ValidatorPrefs, UnlockChunk } from '@plugnet/types';
+import { DerivedStaking, DerivedUnlocking } from '../types';
 
+import BN from 'bn.js';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import { bestNumber } from '../chain/bestNumber';
 import { drr } from '../util/drr';
+import { eraLength } from '../session/eraLength';
+import { isUndefined } from '@plugnet/util';
+
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
+  if (isUndefined(stakingLedger)) {
+    return undefined;
+  }
+
+  // select the Unlockchunks that can't be redeemed yet.
+  const unlockingChunks = stakingLedger.unlocking.filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).gtn(0));
+
+  if (!unlockingChunks.length) {
+    return undefined;
+  }
+
+  // group the Unlockchunks that have the same era and sum their values
+  const groupedResult = groupByEra(unlockingChunks);
+  const results = Object.entries(groupedResult).map(([eraString, value]) => ({
+    value,
+    remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+  }));
+
+  return results.length ? results : undefined;
+}
+
+function groupByEra (list: UnlockChunk[]) {
+  return list.reduce((map, { era, value }) => {
+    const key = era.toString();
+
+    if (!map[key]) {
+      map[key] = value;
+    } else {
+      map[key] = map[key].add(value);
+    }
+
+    return map;
+  }, {} as { [index: string]: BN });
+}
+
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+  if (isUndefined(stakingLedger)) {
+    return new BN(0);
+  }
+
+  return stakingLedger.unlocking
+    .filter((chunk) => remainingBlocks(chunk.era, eraLength, bestNumber).eqn(0))
+    .reduce((curr, prev) => {
+      return curr.add(prev.value);
+    }, new BN(0));
+}
+
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
+  const remaining = eraLength.mul(era).sub(bestNumber);
+
+  return remaining.lten(0) ? new BN(0) : remaining;
+}
 
 function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
+  combineLatest([
+    eraLength(api)(),
+    bestNumber(api)(),
     api.queryMulti([
       [api.query.session.nextKeyFor, controllerId],
       [api.query.staking.ledger, controllerId],
       [api.query.staking.nominators, stashId],
       [api.query.staking.stakers, stashId],
       [api.query.staking.validators, stashId]
-    ]) as any as Observable<[Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]>
+    ])
+  ]) as any as Observable<[BN, BlockNumber, [Option<AccountId>, Option<StakingLedger>, [Array<AccountId>], Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([nextKeyFor, stakingLedger, [nominators], stakers, [validatorPrefs]]) =>
-      new StructAny({
+    map(([eraLength, bestNumber,[nextKeyFor, _stakingLedger, [nominators], stakers, [validatorPrefs]]]) => {
+      const stakingLedger = _stakingLedger.isSome ? _stakingLedger.unwrap() : undefined;
+
+      return new StructAny({
         accountId,
         controllerId,
         nextSessionId: nextKeyFor.isSome
           ? nextKeyFor.unwrap()
           : undefined,
         nominators,
+        redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         stakers,
-        stakingLedger: stakingLedger.isSome
-          ? stakingLedger.unwrap()
-          : undefined,
+        stakingLedger,
         stashId,
+        unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs
-      }) as DerivedStaking),
+      }) as DerivedStaking;
+    }),
     drr()
   );
 }
