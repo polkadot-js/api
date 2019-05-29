@@ -58,7 +58,7 @@ export default function createFunction (section: Text | string, method: Text | s
       const param1Hashed = hasher(param1Encoded);
       const param2Hashed = key2Hasher(createType(type2, arg[1]).toU8a(true));
 
-      return u8aConcat(param1Hashed, param2Hashed);
+      return Compact.addLengthPrefix(u8aConcat(param1Hashed, param2Hashed));
     }
 
     if (meta.type.isMap) {

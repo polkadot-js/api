@@ -573,8 +573,11 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
       }
 
       return onCall(
-        (arg: CodecArg) => this._rpcRx.state
-          .subscribeStorage([[creator, arg]])
+        (...args: CodecArg[]) => this._rpcRx.state
+          .subscribeStorage([
+            creator.meta.type.isDoubleMap
+              ? [creator, args]
+              : [creator, ...args]])
           .pipe(
             // state_storage returns an array of values, since we have just subscribed to
             // a single entry, we pull that from the array and return it as-is
@@ -589,37 +592,48 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
 
     decorated.creator = creator;
 
-    decorated.at = (hash: Hash | Uint8Array | string, arg?: CodecArg): C =>
+    decorated.at = (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg): C =>
       onCall(
-        (arg: CodecArg) => this._rpcRx.state.getStorage([creator, arg], hash),
-        [arg]
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorage(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1],
+          hash),
+        [arg1, arg2]
       ) as C;
 
     // FIXME The unknown cast is needed since the onCall result, `C | S` cannot
     // be converted from C to the actual result required
-    decorated.hash = (arg?: CodecArg): HashResult<C, S> =>
+    decorated.hash = (arg1?: CodecArg, arg2?: CodecArg): HashResult<C, S> =>
       onCall(
-        (arg: CodecArg) => this._rpcRx.state.getStorageHash([creator, arg]),
-        [arg]
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageHash(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1]),
+        [arg1, arg2]
       ) as unknown as HashResult<C, S>;
 
-    decorated.key = (arg?: CodecArg): string =>
-      u8aToHex(compactStripLength(creator(arg))[1]);
+    decorated.key = (arg1?: CodecArg, arg2?: CodecArg): string =>
+      u8aToHex(compactStripLength(creator(creator.meta.type.isDoubleMap ? [arg1, arg2] : arg1))[1]);
 
-    decorated.multi = (args: Array<CodecArg>, callback?: CodecCallback): S =>
+    // When using double map storage function, user need to path double map key as an array
+    decorated.multi = (args: Array<CodecArg[] | CodecArg>, callback?: CodecCallback): S =>
       onCall(
         () =>
           this._rpcRx.state
-            .subscribeStorage(args.map((arg) => [creator, arg]))
+            .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
             .pipe(map((results) => new VectorAny(...results))),
         [],
         callback
       ) as unknown as S;
 
-    decorated.size = (arg?: CodecArg): U64Result<C, S> =>
+    decorated.size = (arg1?: CodecArg, arg2?: CodecArg): U64Result<C, S> =>
       onCall(
-        (arg: CodecArg) => this._rpcRx.state.getStorageSize([creator, arg]),
-        [arg]
+        (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageSize(
+          creator.meta.type.isDoubleMap
+            ? [creator, [arg1, arg2]]
+            : [creator, arg1]),
+        [arg1, arg2]
       ) as unknown as U64Result<C, S>;
 
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<C, S>;
