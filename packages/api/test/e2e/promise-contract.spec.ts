@@ -33,7 +33,8 @@ describe.skip('Promise e2e contracts', () => {
     done();
   });
 
-  describe('incrementer', () => {
+  describe('flipper', () => {
+    const MAX_GAS = 500000;
     let abi: ContractAbi;
 
     beforeEach(() => {
@@ -45,16 +46,18 @@ describe.skip('Promise e2e contracts', () => {
 
       return (
         api.tx.contract
-        .putCode(200000, `0x${code}`)
+        .putCode(MAX_GAS, `0x${code}`)
         .signAndSend(keyring.eve, (result: SubmittableResult) => {
           console.error('putCode', JSON.stringify(result));
+
           if (result.status.isFinalized) {
             const record = result.findRecord('contract', 'CodeStored');
 
             if (record) {
               codeHash = record.event.data[0] as Hash;
+
+              done();
             }
-            done();
           }
         })
       );
@@ -65,9 +68,10 @@ describe.skip('Promise e2e contracts', () => {
 
       return (
         api.tx.contract
-          .create(12345, 500000, codeHash, abi.deploy())
+          .create(12345, MAX_GAS, codeHash, abi.deploy())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('create', JSON.stringify(result));
+
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'Instantiated');
 
@@ -86,7 +90,7 @@ describe.skip('Promise e2e contracts', () => {
 
       return (
         api.tx.contract
-          .call(address, 12345, 500000, abi.messages.flip())
+          .call(address, 12345, MAX_GAS, abi.messages.flip())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('call', JSON.stringify(result));
 
