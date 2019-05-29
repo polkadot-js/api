@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber } from '@polkadot/types';
-import { DerivedStaking } from '../../types';
+import { DerivedStaking } from '../../src/types';
 
 import ApiPromise from '@polkadot/api/promise/Api';
 import testKeyring from '@polkadot/keyring/testing';
