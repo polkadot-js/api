@@ -47,15 +47,24 @@ export interface Derive {
 }
 
 function injectFunctions (api: ApiInterface$Rx, derive: Derive, functions: DeriveCustom): Derive {
-  Object.keys(functions).forEach((sectionName: string) => {
-    const section = functions[sectionName as keyof Derive];
-    const result = derive[sectionName as keyof Derive] = derive[sectionName as keyof Derive] || {};
+  Object
+    .entries(functions)
+    .forEach(([sectionName, section]) => {
+      const sectionKey = sectionName as keyof Derive;
 
-    Object.keys(section).forEach((methodName) => {
-      // @ts-ignore No idea how to make this work...
-      result[methodName as keyof section] = section[methodName as keyof section](api);
+      if (!derive[sectionKey]) {
+        derive[sectionKey] = {} as any;
+      }
+
+      const result = derive[sectionKey];
+
+      Object
+        .entries(section)
+        .forEach(([methodName, method]) => {
+          // @ts-ignore No idea how to make this work...
+          result[methodName as keyof section] = method(api);
+        });
     });
-  });
 
   return derive;
 }
