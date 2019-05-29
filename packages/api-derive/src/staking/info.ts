@@ -29,14 +29,10 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
 
   // group the Unlockchunks that have the same era and sum their values
   const groupedResult = groupByEra(unlockingChunks);
-  const results: DerivedUnlocking = [];
-
-  Object.keys(groupedResult).map((eraString) => (
-    results.push({
-      value: groupedResult[eraString],
-      remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
-    })
-  ));
+  const results = Object.entries(groupedResult).map(([eraString, value]) => ({
+    value,
+    remainingBlocks: remainingBlocks(new BlockNumber(eraString), eraLength, bestNumber)
+  }));
 
   return results.length ? results : undefined;
 }

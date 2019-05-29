@@ -2,8 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
+import { DerivedStaking } from '../../types';
+
+import ApiPromise from '@polkadot/api/promise/Api';
+import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -89,7 +92,7 @@ describe.skip('derive e2e', () => {
   it('retrieves all staking info (for stash)', (done) => {
     const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
-    return api.derive.staking.info(accountId, (info) => {
+    return api.derive.staking.info(accountId, (info: DerivedStaking) => {
       console.error(JSON.stringify(info));
 
       expect(info.accountId.eq(accountId)).toBe(true);
@@ -100,4 +103,35 @@ describe.skip('derive e2e', () => {
       done();
     });
   });
+
+  describe.only('verifies derive.staking.unlocking',() => {
+    const BOND_VALUE = 10;
+    const UNBOND_VALUE = 1;
+    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+    const keyring = testKeyring();
+    const aliceStashPair = keyring.getPair(ALICE_STASH);
+    const alicePair = keyring.getPair(ALICE);
+
+    it('bondsExtra funds for Alice Stash', () => {
+      return api.tx.staking.bondExtra(BOND_VALUE)
+        .signAndSend(aliceStashPair, ({ events = [], status }) => {
+          expect(status.type).toMatch(/Ready/i);
+        });
+    });
+
+    it('unbonds dots for Alice (from Alice Stash)', () => {
+      return api.tx.staking.unbond(UNBOND_VALUE)
+      .signAndSend(alicePair, ({ events = [], status }) => {
+        expect(status.type).toMatch(/Ready/i);
+      });
+    });
+
+    it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
+      return api.derive.session.info(ALICE_STASH, (info: DerivedStaking) => {
+        expect(info.unlocking).toBeDefined();
+      });
+    });
+  });
+
 });
