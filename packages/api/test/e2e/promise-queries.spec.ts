@@ -177,7 +177,7 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
-  describe('with plain type', async () => {
+  describe('with plain type', () => {
     const TOTAL_ISSUANCE = 12582912;
     it('queries correct value', async () => {
       const totalIssuance = await api.query.balances.totalIssuance() as Balance;
@@ -220,7 +220,7 @@ describe.skip('Promise e2e queries', () => {
     });
   });
 
-  describe('with map type', async () => {
+  describe('with map type', () => {
     it('queries correct value', async () => {
       const balance = await api.query.balances.freeBalance(keyring.alice.address()) as Balance;
 
@@ -305,7 +305,7 @@ describe.skip('Promise e2e queries', () => {
   });
 
   // TODO Update ['any', '0x1234'] to the key of a known event topic and update EXPECTED_VALUE to the expected value
-  describe('with double map type', async () => {
+  describe('with double map type', () => {
     const KEY1 = 'any';
     const KEY2 = '0x1234';
     it('queries correct value', async () => {
