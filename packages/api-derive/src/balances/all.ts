@@ -40,7 +40,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
   //   5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N
   // The locked is > the vested and ended up with the locked > free,
   // i.e. related to https://github.com/paritytech/polkadot/issues/225
-  // (most probably due to movements from statsh -> controller -> free)
+  // (most probably due to movements from stash -> controller -> free)
   const availableBalance = bnMax(ZERO, vestedBalance.sub(lockedBalance));
 
   return new StructAny({
@@ -50,9 +50,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
     freeBalance,
     lockedBalance,
     reservedBalance,
-    vestedBalance: vestedBalance.ltn(0)
-      ? ZERO
-      : vestedBalance,
+    vestedBalance,
     votingBalance: freeBalance.add(reservedBalance)
   }) as DerivedBalances;
 }
