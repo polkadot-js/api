@@ -10,8 +10,8 @@ import ApiPromise from '@plugnet/api/promise/Api';
 import testKeyring from '@plugnet/keyring/testing';
 import { WsProvider } from '@plugnet/rpc-provider';
 
-const WS = 'ws://127.0.0.1:9944/';
-// const WS = 'wss://poc3-rpc.polkadot.io/';
+// const WS = 'ws://127.0.0.1:9944/';
+const WS = 'wss://poc3-rpc.polkadot.io/';
 
 describe.skip('derive e2e', () => {
   let api: ApiPromise;
@@ -57,6 +57,16 @@ describe.skip('derive e2e', () => {
       console.error(JSON.stringify(balance));
 
       if (balance.freeBalance.gtn(1)) {
+        done();
+      }
+    });
+  });
+
+  it('retrieves balances for a problematic account', (done) => {
+    return api.derive.balances.all('5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N', (balance) => {
+      console.error(JSON.stringify(balance));
+
+      if (balance.availableBalance.eqn(0)) {
         done();
       }
     });
@@ -144,5 +154,4 @@ describe.skip('derive e2e', () => {
       });
     });
   });
-
 });
