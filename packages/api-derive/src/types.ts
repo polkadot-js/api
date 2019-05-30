@@ -8,12 +8,12 @@ import { AccountId, Balance, BlockNumber, Exposure, Index, StakingLedger, Struct
 export interface DerivedBalances extends StructAny {
   accountId: AccountId;
   accountNonce: Index;
-  freeBalance: Balance;
-  lockedBalance: Balance;
-  availableBalance: Balance;
-  reservedBalance: Balance;
-  votingBalance: Balance;
-  vestedBalance: Balance;
+  freeBalance: BN;
+  lockedBalance: BN;
+  availableBalance: BN;
+  reservedBalance: BN;
+  votingBalance: BN;
+  vestedBalance: BN;
 }
 
 export type DerivedBalancesMap = {

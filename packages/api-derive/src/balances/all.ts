@@ -15,9 +15,10 @@ import { drr } from '../util/drr';
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, Array<BalanceLock>?, Option<VestingSchedule>?, Index?]];
 
 const EMPTY_ACCOUNT = new AccountId();
+const ZERO = new Balance(0);
 
-function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = new BlockNumber(0), [freeBalance = new Balance(0), reservedBalance = new Balance(0), locks = [], vesting = new Option<VestingSchedule>(VestingSchedule, null), accountNonce = new Index(0)]]: Result): DerivedBalances {
-  let lockedBalance = new Balance(0);
+function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalance = ZERO, reservedBalance = ZERO, locks = [], vesting = new Option<VestingSchedule>(VestingSchedule, null), accountNonce = ZERO]]: Result): DerivedBalances {
+  let lockedBalance = ZERO;
 
   if (Array.isArray(locks)) {
     // only get the locks that are valid until passed the current block
@@ -25,12 +26,22 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = new BlockNumber(
     // get the maximum of the locks according to https://github.com/paritytech/substrate/blob/master/srml/balances/src/lib.rs#L699
     lockedBalance = totals[0]
       ? bnMax(...totals.map(({ amount }) => amount)) as Balance
-      : new Balance(0);
+      : ZERO;
   }
 
+  // offset = balance locked at genesis, perBlock is the unlock amount
   const { offset, perBlock } = vesting.unwrapOr(new VestingSchedule());
-  const vestedBalance = new Balance(perBlock.mul(bestNumber).add(freeBalance.sub(offset)));
-  const availableBalance = new Balance(vestedBalance.sub(lockedBalance));
+  const vestedNow = perBlock.mul(bestNumber);
+  const vestedBalance = vestedNow.gt(offset)
+    ? freeBalance
+    : freeBalance.sub(offset).add(vestedNow);
+
+  // NOTE Workaround for this account on Alex (one of a couple reported) -
+  //   5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N
+  // The locked is > the vested and ended up with the locked > free,
+  // i.e. related to https://github.com/paritytech/polkadot/issues/225
+  // (most probably due to movements from stash -> controller -> free)
+  const availableBalance = bnMax(ZERO, vestedBalance.sub(lockedBalance));
 
   return new StructAny({
     accountId,
@@ -39,10 +50,8 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = new BlockNumber(
     freeBalance,
     lockedBalance,
     reservedBalance,
-    vestedBalance: vestedBalance.lt(new Balance(0))
-      ? new Balance(0)
-      : vestedBalance,
-    votingBalance: new Balance(freeBalance.add(reservedBalance))
+    vestedBalance,
+    votingBalance: freeBalance.add(reservedBalance)
   }) as DerivedBalances;
 }
 
