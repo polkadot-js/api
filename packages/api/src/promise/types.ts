@@ -12,7 +12,7 @@ export type SubscriptionResult = Promise<() => any>;
 
 export type CodecResult = Promise<Codec>;
 
-export interface ApiPromiseInterface extends ApiBase<CodecResult, SubscriptionResult> {
+export interface ApiPromiseInterface extends ApiBase<'Promise'> {
   readonly isReady: Promise<ApiPromiseInterface>;
 }
 

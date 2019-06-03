@@ -21,6 +21,8 @@ interface CodecArgObject {
 
 interface CodecArgArray extends Array<CodecArg> { }
 
+export type AnyFunction = (...args: any[]) => any;
+
 export type AnyNumber = BN | Uint8Array | number | string;
 
 export type AnyString = string | String;

@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
+import { AnyFunction } from '@polkadot/types/types';
 
 import { Observable } from 'rxjs';
 
@@ -16,13 +17,13 @@ import * as staking from './staking';
 
 export * from './type';
 
-type ReturnTypes<Section> = {
-  [Method in keyof Section]: Section[Method] extends (...args: any) => any
-  ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) arg
+export type ReturnTypes<Section> = {
+  [Method in keyof Section]: Section[Method] extends AnyFunction
+  ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
   : never;
 };
 
-type DeriveSections<AllSections> = {
+export type DeriveSections<AllSections> = {
   [Section in keyof AllSections]: ReturnTypes<AllSections[Section]>
 };
 
@@ -44,11 +45,12 @@ function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSec
 
       const a = Object
         .keys(section)
-        .reduce((sectionAcc, methodName) => {
+        .reduce((sectionAcc, _methodName) => {
+          const methodName = _methodName as keyof typeof section;
           // Not sure what to do here, casting as any. Though the final types are good
-          const method = (section[methodName as keyof typeof section] as any)(api);
+          const method = (section[methodName] as any)(api);
           // idem
-          (sectionAcc as any)[methodName as keyof typeof section] = method;
+          (sectionAcc as any)[methodName] = method;
 
           return sectionAcc;
         }, {} as ReturnTypes<typeof section>);
@@ -59,7 +61,7 @@ function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSec
     }, {} as DeriveSections<AllSections>);
 }
 
-export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom) {
+export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}) {
   return {
     ...injectFunctions(api, { accounts, balances, chain, contract, democracy, session, staking }),
     ...injectFunctions(api, custom)

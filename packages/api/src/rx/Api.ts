@@ -163,7 +163,7 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
    * ```
    */
   constructor (provider?: ApiOptions | ProviderInterface) {
-    super(provider, 'rxjs');
+    super(provider, 'Observable');
 
     this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better
