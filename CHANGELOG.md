@@ -1,3 +1,12 @@
+# 0.80.1
+
+- Support for mortal transactions
+- Better DoubleMap storage support
+- api-derive cleanups, including additional info for balances.all and taking.info returning redeemable and locked balances
+- Added SignaturePayloadRaw for better offline signing support
+- Updated metadata for current substrate master
+- Misc. cleanups and fixes
+
 # 0.79.1
 
 - DoubleMap query support
