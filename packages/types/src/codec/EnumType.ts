@@ -222,18 +222,15 @@ export default class Enum extends Base<Codec> implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {
-    const kv = this._isBasic
-      ? Object.keys(this._def).map((key) =>
-        `"${key}"`
-      )
-      : Object.entries(this._def).map(([key, Type]) =>
-        `"${key}":"${new Type().toRawType()}"`
-      );
-    const braces = this._isBasic
-      ? '[]'
-      : '{}';
+    const _enum = this._isBasic
+      ? Object.keys(this._def)
+      : Object.entries(this._def).reduce((result, [key, Type]) => {
+        result[key] = new Type().toRawType();
 
-    return `{"_enum":${braces[0]}${kv.join(',')}${braces[1]}}`;
+        return result;
+      }, {} as { [index: string]: string });
+
+    return JSON.stringify({ _enum });
   }
 
   /**
