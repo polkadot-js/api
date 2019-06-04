@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/storage",
-  "version": "0.78.100",
+  "version": "0.78.101",
   "description": "Generic wrapper wrapper around state storage",
   "main": "index.js",
   "engines": {
@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@plugnet/keyring": "^0.90.100",
-    "@plugnet/types": "^0.78.100",
+    "@plugnet/types": "^0.78.101",
     "@plugnet/util": "^0.90.100",
     "@plugnet/util-crypto": "^0.90.100"
   }

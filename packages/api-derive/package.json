@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/api-derive",
-  "version": "0.78.100",
+  "version": "0.78.101",
   "description": "Common functions used across Plugnet, derived from RPC calls and storage queries.",
   "main": "index.js",
   "keywords": [
@@ -31,8 +31,8 @@
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/api-derive#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@plugnet/api": "^0.78.100",
-    "@plugnet/types": "^0.78.100",
+    "@plugnet/api": "^0.78.101",
+    "@plugnet/types": "^0.78.101",
     "@types/memoizee": "^0.4.2",
     "memoizee": "^0.4.14"
   }

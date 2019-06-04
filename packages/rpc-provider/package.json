@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/rpc-provider",
-  "version": "0.78.100",
+  "version": "0.78.101",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -31,7 +31,7 @@
   "dependencies": {
     "@babel/runtime": "^7.4.4",
     "@plugnet/keyring": "^0.90.100",
-    "@plugnet/storage": "^0.78.100",
+    "@plugnet/storage": "^0.78.101",
     "@plugnet/util": "^0.90.100",
     "@plugnet/util-crypto": "^0.90.100",
     "@types/nock": "^9.3.1",

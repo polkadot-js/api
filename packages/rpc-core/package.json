@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/rpc-core",
-  "version": "0.78.100",
+  "version": "0.78.101",
   "description": "A JavaScript wrapper for the Plugnet JsonRPC interface",
   "main": "index.js",
   "keywords": [
@@ -30,9 +30,9 @@
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/rpc-core#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.4",
-    "@plugnet/jsonrpc": "^0.78.100",
-    "@plugnet/rpc-provider": "^0.78.100",
-    "@plugnet/types": "^0.78.100",
+    "@plugnet/jsonrpc": "^0.78.101",
+    "@plugnet/rpc-provider": "^0.78.101",
+    "@plugnet/types": "^0.78.101",
     "@plugnet/util": "^0.90.100"
   }
 }
