@@ -94,4 +94,18 @@ describe('Tuple', () => {
       expect(tuple.eq(['bazzing', 72])).toBe(false);
     });
   });
+
+  describe('toRawType', () => {
+    it('generates sane value with array types', () => {
+      expect(
+        new Tuple([U32, BlockNumber]).toRawType()
+      ).toEqual('(u32,u64)');
+    });
+
+    it('generates sane value with object types', () => {
+      expect(
+        new Tuple({ number: U32, blockNumber: BlockNumber }).toRawType()
+      ).toEqual('(u32,u64)');
+    });
+  });
 });
