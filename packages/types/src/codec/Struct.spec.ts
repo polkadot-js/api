@@ -208,4 +208,18 @@ describe('Struct', () => {
       vector: 'Vec<AccountId>'
     }));
   });
+
+  it('generates sane toRawType (via with)', () => {
+    const Type = Struct.with({
+      accountId: AccountId,
+      balance: Balance
+    });
+
+    expect(
+      new Type().toRawType()
+    ).toEqual(JSON.stringify({
+      accountId: 'AccountId',
+      balance: 'Balance'
+    }));
+  });
 });
