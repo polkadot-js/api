@@ -17,10 +17,14 @@ import Null from '../primitive/Null';
  * with a value if/as required/found.
  */
 export default class Option<T extends Codec> extends Base<T> implements Codec {
+  private _Type: Constructor;
+
   constructor (Type: Constructor, value?: any) {
     super(
       Option.decodeOption(Type, value)
     );
+
+    this._Type = Type;
   }
 
   static decodeOption (Type: Constructor, value?: any): Codec {
@@ -115,7 +119,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {
-    return `Option<${this.raw.toRawType()}>`;
+    return `Option<${new this._Type().toRawType()}>`;
   }
 
   /**

@@ -198,6 +198,14 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   }
 
   /**
+   * @description Returns the base runtime type name for this instance
+   */
+  toRawType (): string {
+    // We are treating this in the same way we do a primitive, this is known
+    return 'Extrinsic';
+  }
+
+  /**
    * @description Encodes the value as a Uint8Array as per the SCALE specifications
    * @param isBare true when the value has none of the type-specific prefixes (internal)
    */

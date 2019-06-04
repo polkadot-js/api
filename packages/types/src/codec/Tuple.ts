@@ -21,7 +21,7 @@ type TupleConstructors = Array<Constructor> | {
 export default class Tuple extends AbstractArray<Codec> {
   private _Types: TupleConstructors;
 
-  constructor (Types: TupleConstructors, value: any) {
+  constructor (Types: TupleConstructors, value?: any) {
     super(
       ...Tuple.decodeTuple(Types, value)
     );
@@ -83,9 +83,9 @@ export default class Tuple extends AbstractArray<Codec> {
   toRawType (): string {
     const types = (
       Array.isArray(this._Types)
-        ? this._Types.map((Type) => new Type().toRawType())
-        : Object.keys(this._Types)
-    );
+        ? this._Types
+        : Object.values(this._Types)
+    ).map((Type) => new Type().toRawType());
 
     return `(${types.join(',')})`;
   }
