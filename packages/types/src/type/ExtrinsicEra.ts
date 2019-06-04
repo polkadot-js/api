@@ -111,9 +111,9 @@ export default class ExtrinsicEra extends Enum implements IExtrinsicEra {
  */
 export class ImmortalEra extends U8a {
   constructor (value?: AnyU8a) {
-    super(value);
-
-    assert(this.eq(VALID_IMMORTAL), `IMMORTAL: expected ${VALID_IMMORTAL.toHex()}, found ${this.toHex()}`);
+    // For immortals, we always provide the known value (i.e. treated as a
+    // constant no matter how it is constructed - it is a fixed structure)
+    super(VALID_IMMORTAL);
   }
 }
 
@@ -155,6 +155,8 @@ export class MortalEra extends Tuple {
       const quantizedPhase = phase / quantizeFactor * quantizeFactor;
 
       return [new U64(calPeriod), new U64(quantizedPhase)];
+    } else if (!value) {
+      return [new U64(), new U64()];
     }
 
     throw new Error('Invalid data passed to Mortal era');
