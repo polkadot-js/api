@@ -29,10 +29,8 @@ export default class Tuple extends AbstractArray<Codec> {
     this._Types = Types;
   }
 
-  private static decodeTuple (_Types: TupleConstructors, value?: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
-    if (!value) {
-      return [];
-    } else if (isU8a(value)) {
+  private static decodeTuple (_Types: TupleConstructors, value: AnyU8a | string | Array<AnyU8a | AnyNumber | AnyString | undefined | null>): Array<Codec> {
+    if (isU8a(value)) {
       return decodeU8a(value, _Types);
     } else if (isHex(value)) {
       return Tuple.decodeTuple(_Types, hexToU8a(value));
