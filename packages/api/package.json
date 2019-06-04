@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/api",
-  "version": "0.78.103",
+  "version": "0.80.0",
   "description": "Promise and RxJS wrappers around the Plugnet JS RPC",
   "main": "index.js",
   "keywords": [
@@ -13,9 +13,6 @@
   ],
   "contributors": [],
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=8.0"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -29,13 +26,16 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/api#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@plugnet/api-derive": "^0.78.103",
-    "@plugnet/extrinsics": "^0.78.103",
-    "@plugnet/rpc-provider": "^0.78.103",
-    "@plugnet/rpc-rx": "^0.78.103",
-    "@plugnet/storage": "^0.78.103",
-    "@plugnet/types": "^0.78.103",
-    "@plugnet/util-crypto": "^0.90.100"
+    "@babel/runtime": "^7.4.5",
+    "@plugnet/api-derive": "^0.80.0",
+    "@plugnet/extrinsics": "^0.80.0",
+    "@plugnet/rpc-provider": "^0.80.0",
+    "@plugnet/rpc-rx": "^0.80.0",
+    "@plugnet/storage": "^0.80.0",
+    "@plugnet/types": "^0.80.0",
+    "@plugnet/util-crypto": "^0.92.100"
+  },
+  "devDependencies": {
+    "@plugnet/keyring": "^0.92.100"
   }
 }

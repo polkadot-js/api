@@ -129,7 +129,7 @@ ___
 ▸ **signedClaimHandicap**(): `BlockNumber`
 - **summary**:   Number of block delay an extrinsic claim surcharge has.   When claim surchage is called by an extrinsic the rent is checked  for current_block - delay
 
-▸ **storageSizeOffset**(): `u64`
+▸ **storageSizeOffset**(): `u32`
 - **summary**:   Size of a contract at the time of creation. This is a simple way to ensure  that empty contracts eventually gets deleted.
 
 ▸ **surchargeReward**(): `BalanceOf`

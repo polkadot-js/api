@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/types",
-  "version": "0.78.103",
+  "version": "0.80.0",
   "description": "Implementation of the Parity codec",
   "main": "index.js",
   "keywords": [
@@ -13,9 +13,6 @@
   ],
   "contributors": [],
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=6.4"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -29,8 +26,8 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/types#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@plugnet/keyring": "^0.90.100",
-    "@plugnet/util": "^0.90.100"
+    "@babel/runtime": "^7.4.5",
+    "@plugnet/keyring": "^0.92.100",
+    "@plugnet/util": "^0.92.100"
   }
 }

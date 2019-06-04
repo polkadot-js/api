@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/rpc-provider",
-  "version": "0.78.103",
+  "version": "0.80.0",
   "description": "Transport providers for the API",
   "main": "index.js",
   "keywords": [
@@ -13,9 +13,6 @@
   ],
   "contributors": [],
   "license": "Apache-2.0",
-  "engines": {
-    "node": ">=6.4"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
@@ -29,17 +26,17 @@
   },
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/rpc-provider#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@plugnet/keyring": "^0.90.100",
-    "@plugnet/storage": "^0.78.103",
-    "@plugnet/util": "^0.90.100",
-    "@plugnet/util-crypto": "^0.90.100",
-    "@types/nock": "^9.3.1",
+    "@babel/runtime": "^7.4.5",
+    "@plugnet/storage": "^0.80.0",
+    "@plugnet/util": "^0.92.100",
+    "@plugnet/util-crypto": "^0.92.100",
+    "@types/nock": "^10.0.3",
     "eventemitter3": "^3.1.0",
     "isomorphic-fetch": "^2.2.1",
     "websocket": "^1.0.28"
   },
   "devDependencies": {
+    "@plugnet/keyring": "^0.92.100",
     "mock-socket": "^8.0.5",
     "nock": "^10.0.4"
   }

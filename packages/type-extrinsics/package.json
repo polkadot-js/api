@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/extrinsics",
-  "version": "0.78.103",
+  "version": "0.80.0",
   "main": "index.js",
   "repository": "https://github.com/plugblockchain/api.js.git",
   "author": "Jaco Greeff <jacogr@gmail.com>",
@@ -10,8 +10,8 @@
   "contributors": [],
   "license": "Apache-2.0",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
-    "@plugnet/types": "^0.78.103",
-    "@plugnet/util": "^0.90.100"
+    "@babel/runtime": "^7.4.5",
+    "@plugnet/types": "^0.80.0",
+    "@plugnet/util": "^0.92.100"
   }
 }
