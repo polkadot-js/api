@@ -47,7 +47,7 @@ export interface Derive {
 function injectFunctions (api: ApiInterface$Rx, derive: Derive, functions: DeriveCustom): Derive {
   Object.keys(functions).forEach((sectionName: string) => {
     const section = functions[sectionName as keyof Derive];
-    const result = derive[sectionName as keyof Derive] = derive[sectionName as keyof Derive] || {};
+    const result = derive[sectionName as keyof Derive] || {};
 
     Object.keys(section).forEach((methodName) => {
       // @ts-ignore No idea how to make this work...
