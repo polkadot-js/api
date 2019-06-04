@@ -187,7 +187,7 @@ describe('Struct', () => {
     ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
   });
 
-  it('generaes sane toRawType', () => {
+  it('generates sane toRawType', () => {
     expect(
       new Struct({
         accountId: AccountId,
