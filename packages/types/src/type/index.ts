@@ -53,6 +53,7 @@ export { default as Schedule } from './Schedule';
 export { default as SeedOf } from './SeedOf';
 export { default as SessionKey } from './SessionKey';
 export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
+export { default as SignaturePayload, SignaturePayloadRaw } from './SignaturePayload';
 export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as TreasuryProposal } from './TreasuryProposal';
