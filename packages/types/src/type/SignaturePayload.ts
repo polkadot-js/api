@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@plugnet/keyring/types';
-import { AnyNumber, AnyU8a } from '../types';
+import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
 
 import { blake2AsU8a } from '@plugnet/util-crypto';
 
@@ -23,7 +22,7 @@ type SignaturePayloadValue = {
 };
 
 // a helper function for both types of payloads, Raw and metadata-known
-function sign (signerPair: KeyringPair, u8a: Uint8Array): Uint8Array {
+function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
   const encoded = u8a.length > 256
     ? blake2AsU8a(u8a)
     : u8a;
@@ -103,7 +102,7 @@ export default class SignaturePayload extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  sign (signerPair: KeyringPair, version?: RuntimeVersion): Uint8Array {
+  sign (signerPair: IKeyringPair, version?: RuntimeVersion): Uint8Array {
     this._signature = sign(signerPair, this.toU8a());
 
     return this._signature;
@@ -128,7 +127,7 @@ export class SignaturePayloadRaw extends Struct {
   /**
    * @description Sign the payload with the keypair
    */
-  sign (signerPair: KeyringPair): Uint8Array {
+  sign (signerPair: IKeyringPair): Uint8Array {
     return sign(signerPair, this.toU8a());
   }
 }

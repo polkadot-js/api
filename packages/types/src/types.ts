@@ -2,14 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@plugnet/keyring/types';
-
 import BN from 'bn.js';
 
 import U8a from './codec/U8a';
 import { FunctionMetadata } from './Metadata/v4/Calls';
 import Method from './primitive/Method';
 import Address from './primitive/Address';
+
+export type IKeyringPair = {
+  address: () => string,
+  publicKey: () => Uint8Array,
+  sign: (data: Uint8Array) => Uint8Array;
+};
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
@@ -140,5 +144,5 @@ export interface IExtrinsic extends IMethod {
   method: Method;
   signature: IExtrinsicSignature;
   addSignature (signer: Address | Uint8Array | string, signature: Uint8Array | string, nonce: AnyNumber, era?: Uint8Array): IExtrinsic;
-  sign (account: KeyringPair, options: SignatureOptions): IExtrinsic;
+  sign (account: IKeyringPair, options: SignatureOptions): IExtrinsic;
 }

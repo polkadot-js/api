@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@plugnet/keyring/types';
-import { AnyNumber, IExtrinsicSignature, SignatureOptions } from '../types';
+import { AnyNumber, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../types';
 
 import Struct from '../codec/Struct';
 import Address from '../primitive/Address';
@@ -147,7 +146,7 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
   /**
    * @description Generate a payload and pplies the signature from a keypair
    */
-  sign (method: Method, account: KeyringPair, { blockHash, era, nonce, version }: SignatureOptions): ExtrinsicSignature {
+  sign (method: Method, account: IKeyringPair, { blockHash, era, nonce, version }: SignatureOptions): ExtrinsicSignature {
     const signer = new Address(account.publicKey());
     const signingPayload = new SignaturePayload({
       nonce,

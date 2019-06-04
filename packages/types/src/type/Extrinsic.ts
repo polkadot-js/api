@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@plugnet/keyring/types';
-import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, SignatureOptions } from '../types';
+import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
 
 import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@plugnet/util';
 import { blake2AsU8a } from '@plugnet/util-crypto';
@@ -177,7 +176,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description Sign the extrinsic with a specific keypair
    */
-  sign (account: KeyringPair, options: SignatureOptions): Extrinsic {
+  sign (account: IKeyringPair, options: SignatureOptions): Extrinsic {
     this.signature.sign(this.method, account, options);
 
     return this;

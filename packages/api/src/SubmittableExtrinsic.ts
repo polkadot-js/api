@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@plugnet/keyring/types';
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@plugnet/types';
-import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@plugnet/types/types';
+import { Codec, CodecCallback, IExtrinsic, IKeyringPair, SignatureOptions } from '@plugnet/types/types';
 import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
@@ -62,11 +61,11 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
 
   send (statusCb: (result: SubmittableResult) => any): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
 
-  sign (account: KeyringPair, _options: Partial<SignatureOptions>): this;
+  sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAndSend (account: KeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<CodecResult, SubscriptionResult>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<CodecResult, SubscriptionResult>;
 
-  signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
 }
 
 export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method | Uint8Array | string, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
@@ -157,7 +156,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
         }
       },
       sign: {
-        value: function (account: KeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+        value: function (account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
           // HACK here we actually override nonce if it was specified (backwards compat for
           // the previous signature - don't let userspace break, but allow then time to upgrade)
           const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
@@ -170,7 +169,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
         }
       },
       signAndSend: {
-        value: function (account: KeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
+        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<CodecResult, SubscriptionResult> | SumbitableResultSubscription<CodecResult, SubscriptionResult> {
           let options: Partial<Partial<SignatureOptions>> = {};
 
           if (isFunction(_options)) {
@@ -180,8 +179,8 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
           }
 
           const isSubscription = _noStatusCb || !!statusCb;
-          const isKeyringPair = isFunction((account as KeyringPair).address) && isFunction((account as KeyringPair).sign);
-          const address = isKeyringPair ? (account as KeyringPair).address() : account.toString();
+          const isKeyringPair = isFunction((account as IKeyringPair).address) && isFunction((account as IKeyringPair).sign);
+          const address = isKeyringPair ? (account as IKeyringPair).address() : account.toString();
           let updateId: number | undefined;
 
           return onCall(
@@ -193,7 +192,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
               first(),
               mergeMap(async (nonce) => {
                 if (isKeyringPair) {
-                  this.sign(account as KeyringPair, { ...options, nonce });
+                  this.sign(account as IKeyringPair, { ...options, nonce });
                 } else {
                   assert(api.signer, 'no signer exists');
 
