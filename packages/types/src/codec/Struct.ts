@@ -235,11 +235,13 @@ export default class Struct<
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {
-    const kv = Object.entries(this._Types).map(([key, Type]) =>
-      `"${key}":"${new Type().toRawType()}"` // double-quotes, JSON
-    );
+    return JSON.stringify(
+      Object.entries(this._Types).reduce((result, [key, Type]) => {
+        result[key] = new Type().toRawType();
 
-    return `{${kv.join(',')}}`;
+        return result;
+      }, {} as { [index: string]: string })
+    );
   }
 
   /**
