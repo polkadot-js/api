@@ -15,19 +15,19 @@ interface SubstrateMetadata {
 
 // Small helper function to factorize code on this page.
 const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
-  createFunction(
-    new Text('Substrate'),
-    new Text(method),
-    {
-      documentation: new Vector(Text, [documentation]),
-      modifier: new StorageFunctionModifier(1), // default
-      type: new StorageFunctionType(type, 0),
-      toJSON: (): any => key
-    } as StorageFunctionMetadata,
-    {
-      key,
-      skipHashing: true
-    }
+    createFunction(
+      new Text('Substrate'),
+      new Text(method),
+      {
+        documentation: new Vector(Text, [documentation]),
+        modifier: new StorageFunctionModifier(1), // default
+        type: new StorageFunctionType(type, 0),
+        toJSON: (): any => key
+      } as StorageFunctionMetadata,
+      {
+        key,
+        skipHashing: true
+      }
   );
 
 export const code = createRuntimeFunction('code', ':code', {
@@ -57,5 +57,10 @@ export const extrinsicIndex = createRuntimeFunction('extrinsicIndex', ':extrinsi
 
 export const changesTrieConfig = createRuntimeFunction('changesTrieConfig', ':changes_trie', {
   documentation: 'Changes trie configuration is stored under this key.',
+  type: 'u32'
+});
+
+export const childStorageKeyPrefix = createRuntimeFunction('childStorageKeyPrefix', ':child_storage:', {
+  documentation: 'Prefix of child storage keys.',
   type: 'u32'
 });
