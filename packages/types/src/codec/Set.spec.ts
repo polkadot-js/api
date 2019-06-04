@@ -91,4 +91,12 @@ describe('Set', () => {
       ).toBe(false);
     });
   });
+
+  it('has a sane toRawType representation', () => {
+    expect(
+      new Set({ a: 1, b: 2, c: 345 }).toRawType()
+    ).toEqual(JSON.stringify({
+      _set: { a: 1, b: 2, c: 345 }
+    }));
+  });
 });

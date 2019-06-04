@@ -28,7 +28,7 @@ export default class Struct<
   E extends { [K in keyof S]: string } = { [K in keyof S]: string }
   > extends Map<keyof S, Codec> implements Codec {
   protected _jsonMap: Map<keyof S, string>;
-  protected _Types: E;
+  protected _Types: S;
 
   constructor (Types: S, value: V | Map<any, any> | Array<any> = {} as V, jsonMap: Map<keyof S, string> = new Map()) {
     const decoded = Struct.decodeStruct<S, V, T>(Types, value, jsonMap);
@@ -38,14 +38,7 @@ export default class Struct<
     );
 
     this._jsonMap = jsonMap;
-    this._Types = (Object
-      .keys(Types) as Array<keyof S>)
-      .reduce((result: E, key) => {
-        // TS2322: Type 'string' is not assignable to type 'E[keyof S]'.
-        (result as any)[key] = Types[key].name;
-
-        return result;
-      }, {} as E);
+    this._Types = Types;
   }
 
   /**
@@ -170,7 +163,13 @@ export default class Struct<
    * @description Returns the Type description to sthe structure
    */
   get Type (): E {
-    return this._Types;
+    return (Object
+      .entries(this._Types) as Array<[keyof S, Constructor]>)
+      .reduce((result: E, [key, Type]) => {
+        (result as any)[key] = Type.name;
+
+        return result;
+      }, {} as E);
   }
 
   /**
@@ -236,11 +235,13 @@ export default class Struct<
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {
-    const kv = [...this.entries()].map(([key, value]) =>
-      `"${key}":"${value.toRawType()}"` // double-quotes, JSON
-    );
+    return JSON.stringify(
+      Object.entries(this._Types).reduce((result, [key, Type]) => {
+        result[key] = new Type().toRawType();
 
-    return `{${kv.join(',')}}`;
+        return result;
+      }, {} as { [index: string]: string })
+    );
   }
 
   /**

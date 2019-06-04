@@ -2,10 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import AccountId from '../primitive/AccountId';
 import Text from '../primitive/Text';
 import U32 from '../primitive/U32';
+import Balance from '../type/Balance';
 import BlockNumber from '../type/BlockNumber';
 import { CodecTo } from '../types';
+import Compact from './Compact';
 import Option from './Option';
 import Struct from './Struct';
 import Vector from './Vector';
@@ -182,5 +185,41 @@ describe('Struct', () => {
         blockNumber: Option.with(BlockNumber)
       }, { blockNumber: '0x1234567890abcdef' }).toString()
     ).toEqual('{"blockNumber":"0x1234567890abcdef"}');
+  });
+
+  it('generates sane toRawType', () => {
+    expect(
+      new Struct({
+        accountId: AccountId,
+        balance: Balance,
+        blockNumber: BlockNumber,
+        compactNumber: Compact.with(BlockNumber),
+        optionNumber: Option.with(BlockNumber),
+        counter: U32,
+        vector: Vector.with(AccountId)
+      }).toRawType()
+    ).toEqual(JSON.stringify({
+      accountId: 'AccountId',
+      balance: 'Balance',
+      blockNumber: 'u64',
+      compactNumber: 'Compact<u64>',
+      optionNumber: 'Option<u64>',
+      counter: 'u32',
+      vector: 'Vec<AccountId>'
+    }));
+  });
+
+  it('generates sane toRawType (via with)', () => {
+    const Type = Struct.with({
+      accountId: AccountId,
+      balance: Balance
+    });
+
+    expect(
+      new Type().toRawType()
+    ).toEqual(JSON.stringify({
+      accountId: 'AccountId',
+      balance: 'Balance'
+    }));
   });
 });
