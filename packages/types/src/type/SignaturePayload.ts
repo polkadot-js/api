@@ -8,6 +8,7 @@ import { AnyNumber, AnyU8a } from '../types';
 import { blake2AsU8a } from '@plugnet/util-crypto';
 
 import Struct from '../codec/Struct';
+import U8a from '../codec/U8a';
 import Hash from '../primitive/Hash';
 import Method from '../primitive/Method';
 import RuntimeVersion from '../rpc/RuntimeVersion';
@@ -20,6 +21,15 @@ type SignaturePayloadValue = {
   era?: AnyU8a | ExtrinsicEra
   blockHash?: AnyU8a
 };
+
+// a helper function for both types of payloads, Raw and metadata-known
+function sign (signerPair: KeyringPair, u8a: Uint8Array): Uint8Array {
+  const encoded = u8a.length > 256
+    ? blake2AsU8a(u8a)
+    : u8a;
+
+  return signerPair.sign(encoded);
+}
 
 /**
  * @name SignaturePayload
@@ -94,13 +104,31 @@ export default class SignaturePayload extends Struct {
    * @description Sign the payload with the keypair
    */
   sign (signerPair: KeyringPair, version?: RuntimeVersion): Uint8Array {
-    const u8a = this.toU8a();
-    const encoded = u8a.length > 256
-      ? blake2AsU8a(u8a)
-      : u8a;
-
-    this._signature = signerPair.sign(encoded);
+    this._signature = sign(signerPair, this.toU8a());
 
     return this._signature;
+  }
+}
+
+/**
+ * @name SignaturePayloadRaw
+ * @description
+ * A version of [[SignaturePayload]] where it does not rely on [[Method]] being initalized with metadata. When constructing, it treats the [[Method]] as a raw stream of bytes, so will always apply the signature over this without any additional checking. Unlike the [[SignaturePayload]], it assumed that you will only construct and sign, thereby providing no insigt into constructed values
+ */
+export class SignaturePayloadRaw extends Struct {
+  constructor (value?: any) {
+    super({
+      nonce: Nonce,
+      method: U8a,
+      era: ExtrinsicEra,
+      blockHash: Hash
+    }, value);
+  }
+
+  /**
+   * @description Sign the payload with the keypair
+   */
+  sign (signerPair: KeyringPair): Uint8Array {
+    return sign(signerPair, this.toU8a());
   }
 }
