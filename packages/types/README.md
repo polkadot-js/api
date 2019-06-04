@@ -128,6 +128,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
 | [[Signature]] | The default signature that is used accross the system |
 | [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
+| [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |
 | [[TreasuryProposal]] | A Proposal made for Treasury |
