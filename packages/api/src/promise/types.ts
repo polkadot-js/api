@@ -5,17 +5,10 @@
 import { Codec } from '@polkadot/types/types';
 import { QueryableStorageFunction as QueryableStorageFunctionBase, SubmittableExtrinsicFunction as SubmittableExtrinsicFunctionBase } from '../types';
 
-import ApiBase from '../Base';
 import { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../SubmittableExtrinsic';
 
-export type SubscriptionResult = Promise<() => any>;
+export type UnsubscribePromise = Promise<() => any>;
 
-export type CodecResult = Promise<Codec>;
-
-export interface ApiPromiseInterface extends ApiBase<'Promise'> {
-  readonly isReady: Promise<ApiPromiseInterface>;
-}
-
-export type QueryableStorageFunction = QueryableStorageFunctionBase<CodecResult, SubscriptionResult>;
-export type SubmittableExtrinsic = SubmittableExtrinsicBase<CodecResult, SubscriptionResult>;
-export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<CodecResult, SubscriptionResult>;
+export type QueryableStorageFunction = QueryableStorageFunctionBase<'Promise'>;
+export type SubmittableExtrinsic = SubmittableExtrinsicBase<'Promise'>;
+export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<'Promise'>;

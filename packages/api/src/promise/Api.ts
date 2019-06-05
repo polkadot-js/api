@@ -3,10 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { CodecArg, CodecCallback } from '@polkadot/types/types';
-import { RxResult } from '../rx/types';
-import { ApiOptions, OnCallFunction } from '../types';
-import { ApiPromiseInterface, CodecResult, SubscriptionResult } from './types';
+import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
+import { ApiOptions } from '../types';
+import { UnsubscribePromise } from './types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -100,7 +99,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult> implements ApiPromiseInterface {
+export default class ApiPromise extends ApiBase<'Promise'> {
   private _isReadyPromise: Promise<ApiPromise>;
 
   /**
@@ -192,7 +191,7 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
    * });
    * ```
    */
-  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): SubscriptionResult {
+  async combineLatest (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback): UnsubscribePromise {
     const combinator = new Combinator(fns, callback);
 
     return (): void => {
@@ -200,12 +199,12 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
     };
   }
 
-  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = [], callback?: CodecCallback, needsCallback?: boolean): CodecResult | SubscriptionResult {
+  protected onCall (method: AnyFunction, params: Array<CodecArg> = [], callback?: Callback<Codec>, needsCallback?: boolean): Promise<Codec> | UnsubscribePromise {
     // When we need a subscription, ensure that a valid callback is actually passed
     assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
     if (!callback) {
-      return method(...params).pipe(first()).toPromise();
+      return method(...params).pipe(first()).toPromise() as Promise<Codec>;
     }
 
     // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
@@ -236,6 +235,6 @@ export default class ApiPromise extends ApiBase<CodecResult, SubscriptionResult>
           })
         )
         .subscribe(callback);
-    }) as SubscriptionResult;
+    }) as UnsubscribePromise;
   }
 }

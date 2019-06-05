@@ -4,8 +4,8 @@
 
 import { KeyringPair } from '@polkadot/keyring/types';
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
-import { Codec, CodecCallback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiType, OnCallDefinition, Signer } from './types';
+import { Codec, Callback, IExtrinsic, SignatureOptions } from '@polkadot/types/types';
+import { ApiInterface$Rx, URIS, OnCallDefinition, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
@@ -17,13 +17,13 @@ type StatusCb = (result: SubmittableResult) => any;
 
 type SumbitableResultResult<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? Observable<SubmittableResult>
-    : Promise<Hash>;
+  ? Observable<SubmittableResult>
+  : Promise<Hash>;
 
 type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
   SubscriptionResult extends Observable<any>
-    ? Observable<SubmittableResult>
-    : Promise<() => void>;
+  ? Observable<SubmittableResult>
+  : Promise<() => void>;
 
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
@@ -69,9 +69,9 @@ export interface SubmittableExtrinsic<CodecResult, SubscriptionResult> extends I
   signAndSend (account: KeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<CodecResult, SubscriptionResult>;
 }
 
-export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: ApiType, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method | Uint8Array | string, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
+export default function createSubmittableExtrinsic<CodecResult, SubscriptionResult> (type: URIS, api: ApiInterface$Rx, onCall: OnCallDefinition<CodecResult, SubscriptionResult>, extrinsic: Method | Uint8Array | string, trackingCb?: (result: SubmittableResult) => any): SubmittableExtrinsic<CodecResult, SubscriptionResult> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<CodecResult, SubscriptionResult>;
-  const _noStatusCb = type === 'rxjs';
+  const _noStatusCb = type === 'Observable';
 
   function updateSigner (updateId: number, status: Hash | SubmittableResult): void {
     if ((updateId !== -1) && api.signer && api.signer.update) {
@@ -151,7 +151,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
               ? subscribeObservable()
               : sendObservable(),
             [],
-            statusCb as CodecCallback,
+            statusCb as Callback<Codec>,
             isSubscription
           ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
         }
@@ -210,7 +210,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
               })
             ) as Observable<Codec>),
             [],
-            statusCb as CodecCallback,
+            statusCb as Callback<Codec>,
             isSubscription
           ) as unknown as SumbitableResultSubscription<CodecResult, SubscriptionResult>;
         }

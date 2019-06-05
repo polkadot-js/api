@@ -6,128 +6,116 @@ import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, Metadata, RuntimeVersion, u64 as U64 } from '@polkadot/types';
-import { AnyFunction, CodecArg, CodecCallback, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { Hash, u64 as U64 } from '@polkadot/types';
+import { Callback, AnyFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from '../Base';
 import { RxResult } from '../rx/types';
 import { SubmittableResult, SubmittableExtrinsic } from '../SubmittableExtrinsic';
-import { ApiType, HKT } from './hkt';
+import { HktType, URIS } from './hkt';
 
 // If a function returns `Observable<U>`, this type returns `U`.
 export type ObsInnerType<F extends AnyFunction> = ReturnType<F> extends Observable<infer U> ? U : never;
 
-export type Callback<T> = (arg: T) => any; // Could be void, but for async callbacks we put any
-
-export type OnCallDefinition<URI> = (
-  method: (...args: any) => Observable<any>,
+export type OnCallDefinition<URI extends URIS> = (
+  method: <Args extends Array<any>, Ret extends Observable<any>>(...args: Args) => Ret,
   params?: Array<CodecArg>,
   callback?: Callback<ObsInnerType<typeof method>>,
   needsCallback?: boolean
-) => HKT<URI, ObsInnerType<typeof method>>;
+) => HktType<URI, ObsInnerType<typeof method>>;
+
+export type SubscriptionResult<URI extends URIS> = URI extends 'Observable' ? Observable<Codec> : Callback<Codec>;
 
 // checked against max. params in jsonrpc, 1 for subs, 3 without
-export interface DecoratedRpc$Method<CodecResult, SubscriptionResult> {
-  (callback: CodecCallback): SubscriptionResult;
-  (arg1: CodecArg, callback: CodecCallback): SubscriptionResult;
-  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): CodecResult;
+export interface DecoratedRpc$Method<URI extends URIS> {
+  (callback: Callback<Codec>): SubscriptionResult<URI>;
+  (arg1: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
+  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): HktType<URI, Codec>;
 }
 
-export interface DecoratedRpc$Section<CodecResult, SubscriptionResult> {
-  [index: string]: DecoratedRpc$Method<CodecResult, SubscriptionResult>;
+export interface DecoratedRpc$Section<URI extends URIS> {
+  [index: string]: DecoratedRpc$Method<URI>;
 }
 
-export interface DecoratedRpc<CodecResult, SubscriptionResult> {
-  author: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
-  chain: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
-  state: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
-  system: DecoratedRpc$Section<CodecResult, SubscriptionResult>;
+export interface DecoratedRpc<URI extends URIS> {
+  author: DecoratedRpc$Section<URI>;
+  chain: DecoratedRpc$Section<URI>;
+  state: DecoratedRpc$Section<URI>;
+  system: DecoratedRpc$Section<URI>;
 }
 
-export type HashResult<CodecResult, SubscriptionResult> =
-  CodecResult extends Observable<any>
+export type HashResult<URI> =
+  URI extends 'Observable'
   ? Observable<Hash>
   : Promise<Hash>;
 
-export type U64Result<CodecResult, SubscriptionResult> =
-  CodecResult extends Observable<any>
+export type U64Result<URI> =
+  URI extends 'Observable'
   ? Observable<U64>
   : Promise<U64>;
 
-export interface QueryableStorageFunctionBase<CodecResult, SubscriptionResult> extends StorageFunction {
-  (arg1?: CodecArg, arg2?: CodecArg): CodecResult;
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => CodecResult;
+export interface QueryableStorageFunctionBase<URI extends URIS> extends StorageFunction {
+  (arg1?: CodecArg, arg2?: CodecArg): HktType<URI, Codec>;
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => HktType<URI, Codec>;
   creator: StorageFunction;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => HashResult<CodecResult, SubscriptionResult>;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => HashResult<URI>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>, callback?: CodecCallback) => SubscriptionResult;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => U64Result<CodecResult, SubscriptionResult>;
+  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => SubscriptionResult<URI>;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => U64Result<URI>;
 }
 
-interface QueryableStorageFunctionPromise<CodecResult, SubscriptionResult> extends QueryableStorageFunctionBase<CodecResult, SubscriptionResult> {
-  (callback: CodecCallback): SubscriptionResult;
-  (arg: CodecArg, callback: CodecCallback): SubscriptionResult;
-  (arg1: CodecArg, arg2: CodecArg, callback: CodecCallback): SubscriptionResult;
+interface QueryableStorageFunctionPromise<URI extends URIS> extends QueryableStorageFunctionBase<URI> {
+  (callback: Callback<Codec>): SubscriptionResult<URI>;
+  (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
+  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
 }
 
-export type QueryableStorageFunction<CodecResult, SubscriptionResult> =
-  CodecResult extends Observable<any>
-  ? QueryableStorageFunctionBase<CodecResult, SubscriptionResult>
-  : QueryableStorageFunctionPromise<CodecResult, SubscriptionResult>;
+export type QueryableStorageFunction<URI extends URIS> =
+  URI extends 'Observable'
+  ? QueryableStorageFunctionBase<URI>
+  : QueryableStorageFunctionPromise<URI>;
 
-export interface QueryableModuleStorage<CodecResult, SubscriptionResult> {
-  [index: string]: QueryableStorageFunction<CodecResult, SubscriptionResult>;
+export interface QueryableModuleStorage<URI extends URIS> {
+  [index: string]: QueryableStorageFunction<URI>;
 }
 
-export type QueryableStorageMultiArg<CodecResult, SubscriptionResult> =
-  QueryableStorageFunction<CodecResult, SubscriptionResult> |
-  [QueryableStorageFunction<CodecResult, SubscriptionResult>, ...Array<CodecArg>];
+export type QueryableStorageMultiArg<URI extends URIS> =
+  QueryableStorageFunction<URI> |
+  [QueryableStorageFunction<URI>, ...Array<CodecArg>];
 
-export type QueryableStorageMultiArgs<CodecResult, SubscriptionResult> = Array<QueryableStorageMultiArg<CodecResult, SubscriptionResult>>;
+export type QueryableStorageMultiArgs<URI extends URIS> = Array<QueryableStorageMultiArg<URI>>;
 
-export interface QueryableStorageMultiBase<CodecResult, SubscriptionResult> {
-  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>): SubscriptionResult;
+export interface QueryableStorageMultiBase<URI extends URIS> {
+  (calls: QueryableStorageMultiArgs<URI>): SubscriptionResult<URI>;
 }
 
-export interface QueryableStorageMultiPromise<CodecResult, SubscriptionResult> {
-  (calls: QueryableStorageMultiArgs<CodecResult, SubscriptionResult>, callback: CodecCallback): SubscriptionResult;
+export interface QueryableStorageMultiPromise<URI extends URIS> {
+  (calls: QueryableStorageMultiArgs<URI>, callback: Callback<Codec>): SubscriptionResult<URI>;
 }
 
-export type QueryableStorageMulti<CodecResult, SubscriptionResult> =
-  CodecResult extends Observable<any>
-  ? QueryableStorageMultiBase<CodecResult, SubscriptionResult>
-  : QueryableStorageMultiPromise<CodecResult, SubscriptionResult>;
+export type QueryableStorageMulti<URI extends URIS> =
+  URI extends 'Observable'
+  ? QueryableStorageMultiBase<URI>
+  : QueryableStorageMultiPromise<URI>;
 
-export interface QueryableStorage<CodecResult, SubscriptionResult> {
-  [index: string]: QueryableModuleStorage<CodecResult, SubscriptionResult>;
+export interface QueryableStorage<URI extends URIS> {
+  [index: string]: QueryableModuleStorage<URI>;
 }
 
-export interface SubmittableExtrinsicFunction<CodecResult, SubscriptionResult> extends MethodFunction {
-  (...params: Array<CodecArg>): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
+export interface SubmittableExtrinsicFunction<URI extends URIS> extends MethodFunction {
+  (...params: Array<CodecArg>): SubmittableExtrinsic<URI>;
 }
 
-export interface SubmittableModuleExtrinsics<CodecResult, SubscriptionResult> {
-  [index: string]: SubmittableExtrinsicFunction<CodecResult, SubscriptionResult>;
+export interface SubmittableModuleExtrinsics<URI extends URIS> {
+  [index: string]: SubmittableExtrinsicFunction<URI>;
 }
 
-export interface SubmittableExtrinsics<CodecResult, SubscriptionResult> {
-  (extrinsic: Uint8Array | string): SubmittableExtrinsic<CodecResult, SubscriptionResult>;
-  [index: string]: SubmittableModuleExtrinsics<CodecResult, SubscriptionResult>;
+export interface SubmittableExtrinsics<URI extends URIS> {
+  (extrinsic: Uint8Array | string): SubmittableExtrinsic<URI>;
+  [index: string]: SubmittableModuleExtrinsics<URI>;
 }
-
-export interface DeriveMethodBase<CodecResult, SubscriptionResult> {
-  (...params: Array<CodecArg>): CodecResult;
-}
-
-export type DeriveSection<URI, Section> = {
-  [K in keyof Section]: OnCallFunction<URI, any, any>;
-};
-
-export type Derive<URI, AllSections> = {
-  [K in keyof AllSections]: DeriveSection<URI, AllSections[K]>;
-};
 
 export interface ApiOptions {
   /**
@@ -161,29 +149,9 @@ export interface ApiOptions {
   types?: RegistryTypes;
 }
 
-export interface ApiInterface$Decorated<URI, CodecResult, SubscriptionResult> {
-  genesisHash: Hash;
-  hasSubscriptions: boolean;
-  runtimeMetadata: Metadata;
-  runtimeVersion: RuntimeVersion;
-  derive: Derive<URI>;
-  query: QueryableStorage<CodecResult, SubscriptionResult>;
-  queryMulti: QueryableStorageMulti<CodecResult, SubscriptionResult>;
-  rpc: DecoratedRpc<CodecResult, SubscriptionResult>;
-  tx: SubmittableExtrinsics<CodecResult, SubscriptionResult>;
-  signer?: Signer;
-}
-
 export type ApiInterface$Rx = ApiInterface$Decorated<'Observable', RxResult, RxResult>;
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
-
-export interface ApiBaseInterface<CodecResult, SubscriptionResult> extends Readonly<ApiInterface$Decorated<URI>> {
-  readonly type: ApiType;
-
-  on: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
-  once: (type: ApiInterface$Events, handler: (...args: Array<any>) => any) => this;
-}
 
 export type SignerOptions = SignatureOptions & {
   genesisHash: Hash
@@ -201,4 +169,4 @@ export interface Signer {
   update?: (id: number, status: Hash | SubmittableResult) => void;
 }
 
-export { ApiType, HKT } from './hkt';
+export * from './hkt';

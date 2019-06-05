@@ -13,7 +13,12 @@ import Address from './primitive/Address';
 
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
-export type CodecCallback<T extends Codec = any> = (result: T) => any;
+export interface Callback<T> {
+  (result: T): void | Promise<void>; // Cater for async callbacks too
+  // FIXME This should go in HKT in api
+  _URI: 'Callback';
+  _: T;
+}
 
 interface CodecArgObject {
   [index: string]: CodecArg;
