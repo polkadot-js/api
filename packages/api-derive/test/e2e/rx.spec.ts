@@ -5,7 +5,6 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Balance, BlockNumber } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
@@ -17,7 +16,7 @@ const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
 describe.skip('derive e2e', () => {
-  let api: ApiInterface$Rx;
+  let api: ApiRx;
 
   beforeAll(() => {
     jest.setTimeout(10000);
@@ -108,7 +107,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-    // these only work on localhost, not the poc-3 URL
+  // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
   describe('derive.balances', () => {
     describe('all', () => {
