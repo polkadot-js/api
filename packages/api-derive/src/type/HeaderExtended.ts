@@ -19,22 +19,34 @@ export default class HeaderExtended extends Header {
       return;
     }
 
-    let item = header.digest.logs.find((log) => log.isConsensus);
     let slot: u64 | undefined;
+    const [pitem] = header.digest.logsWith('PreRuntime');
 
-    // extract author from the consensus (substrate 1.0, digest)
-    if (item) {
-      const consensus = item.asConsensus;
+    if (pitem) {
+      const preRuntime = pitem.asPreRuntime;
 
-      if (consensus.isAura) {
-        slot = consensus.asAura[0];
+      console.log('consensus engine', preRuntime.engine.toString());
+
+      if (preRuntime.engine.isAura) {
+        slot = preRuntime.slot;
       }
     } else {
-      item = header.digest.logs.find((log) => log.isSealV0);
+      const [citem] = header.digest.logsWith('Consensus');
 
-      // extract author from the seal (pre substrate 1.0, backwards compat)
-      if (item) {
-        slot = item.asSealV0.slot;
+      // extract author from the consensus (substrate 1.0, digest)
+      if (citem) {
+        const consensus = citem.asConsensus;
+
+        if (consensus.engine.isAura) {
+          slot = consensus.slot;
+        }
+      } else {
+        const [sitem] = header.digest.logsWith('SealV0');
+
+        // extract author from the seal (pre substrate 1.0, backwards compat)
+        if (sitem) {
+          slot = sitem.asSealV0.slot;
+        }
       }
     }
 

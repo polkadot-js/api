@@ -10,10 +10,10 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
-// const WS = 'ws://127.0.0.1:9944/';
-const WS = 'wss://poc3-rpc.polkadot.io/';
+const WS = 'ws://127.0.0.1:9944/';
+// const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('derive e2e', () => {
+describe('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -34,7 +34,7 @@ describe.skip('derive e2e', () => {
     expect((block1 as BlockNumber).eq(block2)).toBe(false);
   });
 
-  it('subscribes to newHead, retrieving the actual validator', (done) => {
+  it.only('subscribes to newHead, retrieving the actual validator', (done) => {
     return api.derive.chain.subscribeNewHead(({ author }) => {
       console.log('author', author.toString());
 

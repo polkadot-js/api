@@ -4,7 +4,7 @@
 
 import json3 from '../json/Header.003.json';
 import json4 from '../json/Header.004.0x2e2.json';
-import Digest from './Digest';
+import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
 
 describe('Digest', () => {
   it('decodes logs with consensus', () => {
@@ -33,5 +33,16 @@ describe('Digest', () => {
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('Seal');
+  });
+
+  describe('ConsensusId', () => {
+    it('creates a valid id for aura', () => {
+      expect(ConsensusEngineId.stringToId('afg1')).toEqual(CID_GRPA);
+      expect(ConsensusEngineId.stringToId('aura')).toEqual(CID_AURA);
+    });
+
+    it('reverses an id to string for babe', () => {
+      expect(ConsensusEngineId.idToString(CID_BABE)).toEqual('babe');
+    });
   });
 });
