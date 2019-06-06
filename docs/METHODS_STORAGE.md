@@ -11,8 +11,6 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[councilMotions](#councilMotions)**
 
-- **[councilVoting](#councilVoting)**
-
 - **[democracy](#democracy)**
 
 - **[grandpaFinality](#grandpaFinality)**
@@ -223,39 +221,23 @@ ___
 - **summary**:   Actual proposal for a given hash, if it's current.
 
 ▸ **proposals**(): `Vec<Hash>`
-- **summary**:   The (hashes of) the active proposals.
+- **summary**:   The hashes of the active proposals.
 
-▸ **voting**(`Hash`): `Option<(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)>`
-- **summary**:   Votes for a given proposal: (required_yes_votes, yes_voters, no_voters).
-
-___
-
-
-### councilVoting
-
-▸ **cooloffPeriod**(): `BlockNumber`
-
-▸ **councilVoteOf**(`(Hash,AccountId)`): `Option<bool>`
-
-▸ **enactDelayPeriod**(): `BlockNumber`
-- **summary**:   Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals.
-
-▸ **proposalOf**(`Hash`): `Option<Proposal>`
-
-▸ **proposals**(): `Vec<(BlockNumber,Hash)>`
-
-▸ **proposalVoters**(`Hash`): `Vec<AccountId>`
-
-▸ **vetoedProposal**(`Hash`): `Option<(BlockNumber,Vec<AccountId>)>`
-
-▸ **votingPeriod**(): `BlockNumber`
+▸ **voting**(`Hash`): `Option<Votes>`
+- **summary**:   Votes on a given proposal, if it is ongoing.
 
 ___
 
 
 ### democracy
 
-▸ **delegations**(`AccountId`): `((AccountId,LockPeriods), Linkage<AccountId>)`
+▸ **blacklist**(`Hash`): `Option<(BlockNumber,Vec<AccountId>)>`
+- **summary**:   A record of who vetoed what. Maps proposal hash to a possible existent block number  (until when it may not be resubmitted) and who vetoed it.
+
+▸ **cancellations**(`Hash`): `bool`
+- **summary**:   Record of all proposals that have been subject to emergency cancellation.
+
+▸ **delegations**(`AccountId`): `((AccountId,Conviction), Linkage<AccountId>)`
 - **summary**:   Get the account (and lock periods) to which another account is delegating vote.
 
 ▸ **depositOf**(`PropIndex`): `Option<(BalanceOf,Vec<AccountId>)>`
@@ -264,23 +246,17 @@ ___
 ▸ **dispatchQueue**(`BlockNumber`): `Vec<Option<(Proposal,ReferendumIndex)>>`
 - **summary**:   Queue of successful referenda to be dispatched.
 
-▸ **launchPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) new public referenda are launched.
+▸ **lastTabledWasExternal**(): `bool`
+- **summary**:   True if the last referendum tabled was submitted externally. False if it was a public  proposal.
 
-▸ **maxLockPeriods**(): `LockPeriods`
-- **summary**:   The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`.
-
-▸ **minimumDeposit**(): `BalanceOf`
-- **summary**:   The minimum amount to be used as a deposit for a public referendum proposal.
+▸ **nextExternal**(): `Option<(Proposal,VoteThreshold)>`
+- **summary**:   The referendum to be tabled whenever it would be valid to table an external proposal.  This happens when a referendum needs to be tabled and one of two conditions are met:  - `LastTabledWasExternal` is `false`; or  - `PublicProps` is empty.
 
 ▸ **nextTally**(): `ReferendumIndex`
 - **summary**:   The next referendum index that should be tallied.
 
 ▸ **proxy**(`AccountId`): `Option<AccountId>`
-- **summary**:   Who is able to vote for whom. Value is the fund-holding account, key is the vote-transaction-sending account.
-
-▸ **publicDelay**(): `BlockNumber`
-- **summary**:   The delay before enactment for all public referenda.
+- **summary**:   Who is able to vote for whom. Value is the fund-holding account, key is the  vote-transaction-sending account.
 
 ▸ **publicPropCount**(): `PropIndex`
 - **summary**:   The number of (public) proposals that have been made so far.
@@ -295,13 +271,10 @@ ___
 - **summary**:   Information concerning any given referendum.
 
 ▸ **voteOf**(`(ReferendumIndex,AccountId)`): `Vote`
-- **summary**:   Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the  voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check  `voters_for`, then you can also check for simple existence with `VoteOf::exists` first.
+- **summary**:   Get the vote in a given referendum of a particular voter. The result is meaningful only  if `voters_for` includes the voter when called with the referendum (you'll get the  default `Vote` value otherwise). If you don't want to check `voters_for`, then you can  also check for simple existence with `VoteOf::exists` first.
 
 ▸ **votersFor**(`ReferendumIndex`): `Vec<AccountId>`
 - **summary**:   Get the voters for the current proposal.
-
-▸ **votingPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) to check for new votes.
 
 ___
 
@@ -513,7 +486,7 @@ ___
 - **summary**:   Total funds available to this module for spending.
 
 ▸ **proposalBond**(): `Permill`
-- **summary**:   Proportion of funds that should be bonded in order to place a proposal. An accepted  proposal gets these back. A rejected proposal doesn't.
+- **summary**:   Fraction of a proposal's value that should be bonded in order to place the proposal.  An accepted proposal gets these back. A rejected proposal does not.
 
 ▸ **proposalBondMinimum**(): `BalanceOf`
 - **summary**:   Minimum amount of funds that should be placed in a deposit for making a proposal.

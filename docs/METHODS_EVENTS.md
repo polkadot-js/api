@@ -9,8 +9,6 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[councilMotions](#councilMotions)**
 
-- **[councilVoting](#councilVoting)**
-
 - **[democracy](#democracy)**
 
 - **[grandpa](#grandpa)**
@@ -96,22 +94,14 @@ ___
 ▸ **Executed**(`Hash`, `bool`)
 - **summary**:   A motion was executed; `bool` is true if returned without error.
 
-▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `u32`)
-- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given u32).
+▸ **MemberExecuted**(`Hash`, `bool`)
+- **summary**:   A single councillor did some action; `bool` is true if returned without error.
 
-▸ **Voted**(`AccountId`, `Hash`, `bool`, `u32`, `u32`)
-- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given as u32s respectively).
+▸ **Proposed**(`AccountId`, `ProposalIndex`, `Hash`, `MemberCount`)
+- **summary**:   A motion (given hash) has been proposed (by given account) with a threshold (given  `MemberCount`).
 
-___
-
-
-### councilVoting
-
-▸ **TallyCancelation**(`Hash`, `u32`, `u32`, `u32`)
-- **summary**:   A voting tally has happened for a referendum cancellation vote.  Last three are yes, no, abstain counts.
-
-▸ **TallyReferendum**(`Hash`, `u32`, `u32`, `u32`)
-- **summary**:   A voting tally has happened for a referendum vote.  Last three are yes, no, abstain counts.
+▸ **Voted**(`AccountId`, `Hash`, `bool`, `MemberCount`, `MemberCount`)
+- **summary**:   A motion (given hash) has been voted on by given account, leaving  a tally (yes votes and no votes given respectively as `MemberCount`).
 
 ___
 
@@ -124,6 +114,8 @@ ___
 
 ▸ **Executed**(`ReferendumIndex`, `bool`)
 
+▸ **ExternalTabled**()
+
 ▸ **NotPassed**(`ReferendumIndex`)
 
 ▸ **Passed**(`ReferendumIndex`)
@@ -135,6 +127,8 @@ ___
 ▸ **Tabled**(`PropIndex`, `Balance`, `Vec<AccountId>`)
 
 ▸ **Undelegated**(`AccountId`)
+
+▸ **Vetoed**(`AccountId`, `Hash`, `BlockNumber`)
 
 ___
 
