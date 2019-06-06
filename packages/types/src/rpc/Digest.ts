@@ -330,8 +330,6 @@ export default class Digest extends Struct {
     super({
       logs: Vector.with(DigestItem)
     }, value);
-
-    console.log(value);
   }
 
   /**
