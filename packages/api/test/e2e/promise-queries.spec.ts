@@ -157,6 +157,13 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
+  it('can retrive header by hash', async () => {
+    const latest = await api.rpc.chain.getHeader() as Header;
+    const specific = await api.rpc.chain.getHeader(latest.hash) as Header;
+
+    expect(latest.hash).toEqual(specific.hash);
+  });
+
   it('makes a query at a latest block (specified)', async () => {
     const header = await api.rpc.chain.getHeader() as Header;
     const events = await api.query.system.events.at(header.hash) as Vector<EventRecord>;

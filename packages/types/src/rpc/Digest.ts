@@ -311,6 +311,13 @@ export class DigestItem extends Enum {
   get isSealV0 (): boolean {
     return this.type === 'SealV0';
   }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers. For logs, we overrides to produce the hex version (sligning with substrate gives in actual JSON responses)
+   */
+  toJSON (): any {
+    return this.toHex();
+  }
 }
 
 /**
