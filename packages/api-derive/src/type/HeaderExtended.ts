@@ -30,11 +30,11 @@ export default class HeaderExtended extends Header {
         slot = consensus.asAura[0];
       }
     } else {
-      item = header.digest.logs.find((log) => log.isSeal);
+      item = header.digest.logs.find((log) => log.isSealV0);
 
       // extract author from the seal (pre substrate 1.0, backwards compat)
       if (item) {
-        slot = item.asSeal.slot;
+        slot = item.asSealV0.slot;
       }
     }
 
