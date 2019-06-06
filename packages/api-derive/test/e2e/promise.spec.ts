@@ -13,7 +13,7 @@ import { WsProvider } from '@polkadot/rpc-provider';
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe('derive e2e', () => {
+describe.skip('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -34,7 +34,7 @@ describe('derive e2e', () => {
     expect((block1 as BlockNumber).eq(block2)).toBe(false);
   });
 
-  it.only('subscribes to newHead, retrieving the actual validator', (done) => {
+  it('subscribes to newHead, retrieving the actual validator', (done) => {
     return api.derive.chain.subscribeNewHead(({ author }) => {
       console.log('author', author.toString());
 
