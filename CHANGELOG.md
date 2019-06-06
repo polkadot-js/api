@@ -1,7 +1,7 @@
 # 0.81.1
 
 - Add support for new inherent digests from substrate.
-- **Breaking change** Because of the new `Seal`, the old/new Seals are not compatible. If you were using the old `Seal` from the `Digest`s, you would not use `isSealV0` for the pre-substrate 1.0 version and the new `isSeal` for the current version
+- **Breaking change** Because of the new `Seal`, the old/new Seals are not compatible. If you were using the old `Seal` from the `Digest`s, you would now use `isSealV0` for the pre-substrate 1.0 version and the new `isSeal` for the current version
 
 # 0.80.1
 
