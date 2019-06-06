@@ -89,6 +89,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[BftProposeOutOfTurn]] | A report for out-of-turn proposals |
 | [[BlockNumber]] | A representation of a Substrate BlockNumber, implemented as a [[U64]] |
 | [[CodeHash]] | The default contract code hash that is used accross the system |
+| [[Conviction]] | A value denoting the strength of conviction of a vote. |
 | [[Consensus]] | Log item indicating consensus |
 | [[ContractInfo]] | The contract information for a given contract |
 | [[ContractStorageKey]] | A representation of a storage key for contracts |
@@ -106,6 +107,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
 | [[LockIdentifier]] | The Substrate LockIdentifier for staking |
 | [[LockPeriods]] | A number of lock periods |
+| [[MemberCount]] | A number of council members |
 | [[MisbehaviorKind]] | An [[EnumType]] containing a Bft misbehaviour |
 | [[MisbehaviorReport]] | A Misbehaviour report of [[MisbehavioirKind]] against a specific [[AuthorityId]] |
 | [[NewAccountOutcome]] | Enum to track the outcome for creation of an [[AccountId]] |
@@ -136,6 +138,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[ValidatorPrefs]] | Validator preferences |
 | [[VestingSchedule]] | Struct to encode the vesting schedule of an individual account |
 | [[Vote]] | A number of lock periods, plus a vote, one way or the other |
+| [[Votes]] | Info for keeping track of a council motion being voted on. |
 | [[VoteIndex]] | Voting index, implemented as a [[U32]] |
 | [[VoteThreshold]] | Voting threshold, used inside proposals to set change the voting tally |
 | [[WithdrawReasons]] | The Substrate WithdrawReasons for staking |
