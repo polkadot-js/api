@@ -80,12 +80,12 @@ export class ConsensusEngineId extends U32 {
   /**
    * @description From the input bytes, decode into an aura-tuple
    */
-  extractSlot (bytes: Bytes, isConsensus: boolean = false): U64 {
+  extractSlot (bytes: Bytes): U64 {
     assert(this.isAura, 'Invalid engine for asAura conversion');
 
     return new U64(
       // no compact prefix, only use the correct number of supplied bytes
-      bytes.toU8a(true).subarray(0, isConsensus ? 4 : 8)
+      bytes.toU8a(true).subarray(0, 8)
     );
   }
 
@@ -125,7 +125,7 @@ export class Consensus extends Tuple {
   }
 
   /**
-   * @description The slot and signature extracted from the raw data (assuming Aura)
+   * @description The slot extracted from the raw data (fails on non-Aura)
    */
   get slot (): U64 {
     return this.engine.extractSlot(this.data);
@@ -224,7 +224,7 @@ export class PreRuntime extends Tuple {
   }
 
   /**
-   * @description The slot and signature extracted from the raw data (assuming Aura)
+   * @description The slot extracted from the raw data (fails on non-Aura)
    */
   get slot (): U64 {
     return this.engine.extractSlot(this.data);
@@ -232,7 +232,7 @@ export class PreRuntime extends Tuple {
 }
 
 // Note the ordering, it aligns with numbers to the Rust implementation
-// (current and previous versions)
+// (current and previous versions are included hjere, e.g. SealV0)
 const DigestItemEnumMap = {
   Other, // 0
   AuthoritiesChange, // 1

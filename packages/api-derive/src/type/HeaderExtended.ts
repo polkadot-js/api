@@ -22,10 +22,9 @@ export default class HeaderExtended extends Header {
     let slot: u64 | undefined;
     const [pitem] = header.digest.logsWith('PreRuntime');
 
+    // extract from the substrate 2.0 PreRuntime digest
     if (pitem) {
       const preRuntime = pitem.asPreRuntime;
-
-      console.log('consensus engine', preRuntime.engine.toString());
 
       if (preRuntime.engine.isAura) {
         slot = preRuntime.slot;
@@ -52,7 +51,7 @@ export default class HeaderExtended extends Header {
 
     // found a slot? Great, extract the validator
     if (slot) {
-      this._author = sessionValidators[slot.toNumber() % sessionValidators.length];
+      this._author = sessionValidators[slot.modn(sessionValidators.length)];
     }
   }
 
