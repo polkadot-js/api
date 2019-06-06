@@ -1,3 +1,8 @@
+# 0.81.1
+
+- Add support for new inherent digests from substrate.
+- **Breaking change** Because of the new `Seal`, the old/new Seals are not compatible. If you were using the old `Seal` from the `Digest`s, you would now use `isSealV0` for the pre-substrate 1.0 version and the new `isSeal` for the current version
+
 # 0.80.1
 
 - Support for mortal transactions
@@ -14,7 +19,7 @@
 - Introduce RuntimeVersion type overrides in api/nodeCompat.ts
 - Add `api.queryMulti` and `api.query.<module>.<method>.multi`
 - Convert `api.derive.*` to use multi queries
-- `types/codec/Set` now extends the base JS `Set` (breaking: `set.values` -> `set.strings`)
+- `types/codec/Set` now extends the base JS `Set` (**breaking change**: `set.values` -> `set.strings`)
 - Breaking: rename `meta.arguments` to `meta.args` in function metadata (`arguments` is a JS reserved word)
 - Add `toRawType` on all type classes (breakdown into primitive types)
 
@@ -125,7 +130,7 @@ import { Method, Signature } from '@polkadot/types';
 
 # 0.43.1
 
-- Intrduces support for the new keyring with sr25519 support in addition to ed25519. While this does not change the exposed API, it is considerred breaking since @polkadot/keuyring has interface changes. (Unless needed, don't rush the upgrade)
+- Intrduces support for the new keyring with sr25519 support in addition to ed25519. While this does not change the exposed API, it is considerred breaking since @polkadot/keyring has interface changes. (Unless needed, don't rush the upgrade)
 
 # 0.42.1
 

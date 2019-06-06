@@ -32,39 +32,11 @@ export class ChangesTrieRoot extends Hash {
 }
 
 /**
- * @name Other
+ * @name ConsensusEngineId
  * @description
- * Log item that is just a stream of [[Bytes]]
+ * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
-export class Other extends Bytes {
-}
-
-/**
- * @name Seal
- * @description
- * Log item indicating a sealing event
- */
-export class Seal extends Tuple {
-  constructor (value: any) {
-    super({
-      U64,
-      Signature
-    }, value);
-  }
-
-  /**
-   * @description The wrapped [[Signature]]
-   */
-  get signature (): Signature {
-    return this[1] as Signature;
-  }
-
-  /**
-   * @description The wrapped [[U64]] slot
-   */
-  get slot (): U64 {
-    return this[0] as U64;
-  }
+export class ConsensusEngineId extends U32 {
 }
 
 /**
@@ -75,7 +47,7 @@ export class Seal extends Tuple {
 export class Consensus extends Tuple {
   constructor (value: any) {
     super({
-      U32, // actually a [u8; 4]
+      ConsensusEngineId,
       Bytes
     }, value);
   }
@@ -88,10 +60,10 @@ export class Consensus extends Tuple {
   }
 
   /**
-   * @description The wrapped engine [[U32]]
+   * @description The wrapped engine [[ConsensusEngineId]]
    */
-  get engine (): U32 {
-    return this[0] as U32;
+  get engine (): ConsensusEngineId {
+    return this[0] as ConsensusEngineId;
   }
 
   /**
@@ -117,18 +89,114 @@ export class Consensus extends Tuple {
 }
 
 /**
+ * @name SealV0
+ * @description
+ * Log item indicating a sealing event. This has been replaced in later versions with a renamed [[Seal]], we however have kept compatibility with the old version
+ */
+export class SealV0 extends Tuple {
+  constructor (value: any) {
+    super({
+      U64,
+      Signature
+    }, value);
+  }
+
+  /**
+   * @description The wrapped [[Signature]]
+   */
+  get signature (): Signature {
+    return this[1] as Signature;
+  }
+
+  /**
+   * @description The wrapped [[U64]] slot
+   */
+  get slot (): U64 {
+    return this[0] as U64;
+  }
+}
+
+/**
+ * @name Seal
+ * @description
+ * Log item indicating a sealing event.
+ */
+export class Seal extends Tuple {
+  constructor (value: any) {
+    super({
+      ConsensusEngineId,
+      Signature
+    }, value);
+  }
+
+  /**
+   * @description The wrapped [[Signature]]
+   */
+  get signature (): Signature {
+    return this[1] as Signature;
+  }
+
+  /**
+   * @description The wrapped [[U64]] slot
+   */
+  get slot (): U64 {
+    return this[0] as U64;
+  }
+}
+
+/**
+ * @name Other
+ * @description
+ * Log item that is just a stream of [[Bytes]]
+ */
+export class Other extends Bytes {
+}
+
+/**
+ * @name PreRuntime
+ * @description
+ * These are messages from the consensus engine to the runtime, although the consensus engine the consensus engine can (and should) read them itself to avoid ode and state duplication.
+ */
+export class PreRuntime extends Tuple {
+  constructor (value: any) {
+    super({
+      ConsensusEngineId,
+      Bytes
+    }, value);
+  }
+
+  /**
+   * @description The wrapped [[ConsensusEngineId]]
+   */
+  get engine (): ConsensusEngineId {
+    return this[0] as ConsensusEngineId;
+  }
+
+  /**
+   * @description The wrapped [[Bytes]]
+   */
+  get data (): Bytes {
+    return this[1] as Bytes;
+  }
+}
+
+/**
  * @name DigestItem
  * @description
  * A [[Enum]] the specifies the specific item in the logs of a [[Digest]]
  */
 export class DigestItem extends Enum {
   constructor (value: any) {
+    // Note the ordering, it aligns with numbers to the Rust implementation
+    // (current and previous versions)
     super({
-      Other, // Position 0, as per Rust (encoding control)
-      AuthoritiesChange,
-      ChangesTrieRoot,
-      Seal,
-      Consensus
+      Other, // 0
+      AuthoritiesChange, // 1
+      ChangesTrieRoot, // 2
+      SealV0, // 3
+      Consensus, // 4
+      Seal, // 5
+      PreRuntime // 6
     }, value);
   }
 
@@ -169,12 +237,30 @@ export class DigestItem extends Enum {
   }
 
   /**
+   * @description Returns the item as a [[PreRuntime]]
+   */
+  get asPreRuntime (): PreRuntime {
+    assert(this.isPreRuntime, `Cannot convert '${this.type}' via asPreRuntime`);
+
+    return this.value as PreRuntime;
+  }
+
+  /**
    * @description Returns the item as a [[Seal]]
    */
   get asSeal (): Seal {
     assert(this.isSeal, `Cannot convert '${this.type}' via asSeal`);
 
     return this.value as Seal;
+  }
+
+  /**
+   * @description Returns the item as a [[SealV0]]
+   */
+  get asSealV0 (): SealV0 {
+    assert(this.isSealV0, `Cannot convert '${this.type}' via asSealV0`);
+
+    return this.value as SealV0;
   }
 
   /**
@@ -206,10 +292,31 @@ export class DigestItem extends Enum {
   }
 
   /**
+   * @description Returns true on [[PreRuntime]]
+   */
+  get isPreRuntime (): boolean {
+    return this.type === 'PreRuntime';
+  }
+
+  /**
    * @description Returns true on [[Seal]]
    */
   get isSeal (): boolean {
     return this.type === 'Seal';
+  }
+
+  /**
+   * @description Returns true on [[SealV0]]
+   */
+  get isSealV0 (): boolean {
+    return this.type === 'SealV0';
+  }
+
+  /**
+   * @description Converts the Object to JSON, typically used for RPC transfers. For logs, we overrides to produce the hex version (sligning with substrate gives in actual JSON responses)
+   */
+  toJSON (): any {
+    return this.toHex();
   }
 }
 
@@ -230,5 +337,19 @@ export default class Digest extends Struct {
    */
   get logs (): Vector<DigestItem> {
     return this.get('logs') as Vector<DigestItem>;
+  }
+
+  /**
+   * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
+   */
+  logsWith (...include: Array<string>): Vector<DigestItem> {
+    return this.logs.filter(({ type }) => include.includes(type)) as Vector<DigestItem>;
+  }
+
+  /**
+   * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
+   */
+  logsWithout (...exclude: Array<string>): Vector<DigestItem> {
+    return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }

@@ -2,21 +2,36 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import json from '../json/Header.002.json';
+import json3 from '../json/Header.003.json';
+import json4 from '../json/Header.004.0x2e2.json';
 import Digest from './Digest';
 
 describe('Digest', () => {
-  it('decodes logs with seals', () => {
-    const digest = new Digest(json.result.digest);
+  it('decodes logs with consensus', () => {
+    const digest = new Digest(json3.result.digest);
 
     expect(digest.logs.length).toEqual(1);
 
     const log = digest.logs[0];
 
-    expect(log.type).toBe('Seal');
+    expect(log.type).toBe('Consensus');
     expect(log.value.toJSON()).toEqual([
-      256804359,
-      '0x2c0e0ee8a5d1a073da3f8db002b8eaebcd7b1a7eb25662e09f9ef0ac58d96bf17896256cd5f0bc672f96aab49fe5163ca5cb4c1a0f047dc39e89cd4a9eb2ea05'
+      1634891105,
+      '0x69c97e0f00000000479c09f7ace12ed3e1af2dba6cca6831e257e80feef56c7474d6c69bae6f4e8a6e0045a87afe14296992c38b7d55abcbe617c441cd35e8667abbcb1678f31802'
     ]);
+  });
+
+  it('filters logs, excluding items', () => {
+    const logs = new Digest(json4.params.result.digest).logsWith('PreRuntime');
+
+    expect(logs.length).toEqual(1);
+    expect(logs[0].type).toEqual('PreRuntime');
+  });
+
+  it('filters logs, including items', () => {
+    const logs = new Digest(json4.params.result.digest).logsWithout('PreRuntime');
+
+    expect(logs.length).toEqual(1);
+    expect(logs[0].type).toEqual('Seal');
   });
 });

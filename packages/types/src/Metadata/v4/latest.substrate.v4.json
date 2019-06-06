@@ -1197,6 +1197,10 @@
                 " Once the unlock period is done, you can call `withdraw_unbonded` to actually move",
                 " the funds out of management ready for transfer.",
                 "",
+                " No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)",
+                " can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need",
+                " to be called first to remove some of the chunks (if possible).",
+                "",
                 " The dispatch origin for this call must be _Signed_ by the controller, not the stash.",
                 "",
                 " See also [`Call::withdraw_unbonded`]."
@@ -1441,61 +1445,6 @@
               ]
             },
             {
-              "name": "LaunchPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " How often (in blocks) new public referenda are launched."
-              ]
-            },
-            {
-              "name": "MinimumDeposit",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BalanceOf"
-              },
-              "fallback": "0x00000000000000000000000000000000",
-              "documentation": [
-                " The minimum amount to be used as a deposit for a public referendum proposal."
-              ]
-            },
-            {
-              "name": "PublicDelay",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " The delay before enactment for all public referenda."
-              ]
-            },
-            {
-              "name": "MaxLockPeriods",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "LockPeriods"
-              },
-              "fallback": "0x00",
-              "documentation": [
-                " The maximum number of additional lock periods a voter may offer to strengthen their vote. Multiples of `PublicDelay`."
-              ]
-            },
-            {
-              "name": "VotingPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": [
-                " How often (in blocks) to check for new votes."
-              ]
-            },
-            {
               "name": "ReferendumCount",
               "modifier": "Default",
               "type": {
@@ -1578,9 +1527,10 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " Get the vote in a given referendum of a particular voter. The result is meaningful only if `voters_for` includes the",
-                " voter when called with the referendum (you'll get the default `Vote` value otherwise). If you don't want to check",
-                " `voters_for`, then you can also check for simple existence with `VoteOf::exists` first."
+                " Get the vote in a given referendum of a particular voter. The result is meaningful only",
+                " if `voters_for` includes the voter when called with the referendum (you'll get the",
+                " default `Vote` value otherwise). If you don't want to check `voters_for`, then you can",
+                " also check for simple existence with `VoteOf::exists` first."
               ]
             },
             {
@@ -1596,7 +1546,8 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " Who is able to vote for whom. Value is the fund-holding account, key is the vote-transaction-sending account."
+                " Who is able to vote for whom. Value is the fund-holding account, key is the",
+                " vote-transaction-sending account."
               ]
             },
             {
@@ -1606,13 +1557,72 @@
                 "MapType": {
                   "hasher": "Blake2_256",
                   "key": "AccountId",
-                  "value": "(AccountId,LockPeriods)",
+                  "value": "(AccountId,Conviction)",
                   "isLinked": true
                 }
               },
               "fallback": "0x000000000000000000000000000000000000000000000000000000000000000000",
               "documentation": [
                 " Get the account (and lock periods) to which another account is delegating vote."
+              ]
+            },
+            {
+              "name": "LastTabledWasExternal",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " True if the last referendum tabled was submitted externally. False if it was a public",
+                " proposal."
+              ]
+            },
+            {
+              "name": "NextExternal",
+              "modifier": "Optional",
+              "type": {
+                "PlainType": "(Proposal,VoteThreshold)"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The referendum to be tabled whenever it would be valid to table an external proposal.",
+                " This happens when a referendum needs to be tabled and one of two conditions are met:",
+                " - `LastTabledWasExternal` is `false`; or",
+                " - `PublicProps` is empty."
+              ]
+            },
+            {
+              "name": "Blacklist",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "(BlockNumber,Vec<AccountId>)",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " A record of who vetoed what. Maps proposal hash to a possible existent block number",
+                " (until when it may not be resubmitted) and who vetoed it."
+              ]
+            },
+            {
+              "name": "Cancellations",
+              "modifier": "Default",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "bool",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Record of all proposals that have been subject to emergency cancellation."
               ]
             }
           ],
@@ -1675,12 +1685,12 @@
                 }
               ],
               "documentation": [
-                " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact the proposal;",
-                " otherwise it is a vote to keep the status quo."
+                " Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact",
+                " the proposal;  otherwise it is a vote to keep the status quo."
               ]
             },
             {
-              "name": "start_referendum",
+              "name": "emergency_propose",
               "args": [
                 {
                   "name": "proposal",
@@ -1691,12 +1701,72 @@
                   "type": "VoteThreshold"
                 },
                 {
+                  "name": "voting_period",
+                  "type": "BlockNumber"
+                },
+                {
                   "name": "delay",
                   "type": "BlockNumber"
                 }
               ],
               "documentation": [
-                " Start a referendum."
+                " Schedule an emergency referendum.",
+                "",
+                " This will create a new referendum for the `proposal`, approved as long as counted votes",
+                " exceed `threshold` and, if approved, enacted after the given `delay`.",
+                "",
+                " It may be called from either the Root or the Emergency origin."
+              ]
+            },
+            {
+              "name": "emergency_cancel",
+              "args": [
+                {
+                  "name": "ref_index",
+                  "type": "ReferendumIndex"
+                }
+              ],
+              "documentation": [
+                " Schedule an emergency cancellation of a referendum. Cannot happen twice to the same",
+                " referendum."
+              ]
+            },
+            {
+              "name": "external_propose",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a referendum to be tabled once it is legal to schedule an external",
+                " referendum."
+              ]
+            },
+            {
+              "name": "external_propose_majority",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Schedule a majority-carries referendum to be tabled next once it is legal to schedule",
+                " an external referendum."
+              ]
+            },
+            {
+              "name": "veto_external",
+              "args": [
+                {
+                  "name": "proposal_hash",
+                  "type": "Hash"
+                }
+              ],
+              "documentation": [
+                " Veto and blacklist the external proposal hash."
               ]
             },
             {
@@ -1721,6 +1791,10 @@
                 {
                   "name": "which",
                   "type": "Compact<u32>"
+                },
+                {
+                  "name": "what",
+                  "type": "Compact<ReferendumIndex>"
                 }
               ],
               "documentation": [
@@ -1766,8 +1840,8 @@
                   "type": "AccountId"
                 },
                 {
-                  "name": "lock_periods",
-                  "type": "LockPeriods"
+                  "name": "conviction",
+                  "type": "Conviction"
                 }
               ],
               "documentation": [
@@ -1798,6 +1872,11 @@
                 "Balance",
                 "Vec<AccountId>"
               ],
+              "documentation": []
+            },
+            {
+              "name": "ExternalTabled",
+              "args": [],
               "documentation": []
             },
             {
@@ -1849,6 +1928,15 @@
               "name": "Undelegated",
               "args": [
                 "AccountId"
+              ],
+              "documentation": []
+            },
+            {
+              "name": "Vetoed",
+              "args": [
+                "AccountId",
+                "Hash",
+                "BlockNumber"
               ],
               "documentation": []
             }
@@ -2219,8 +2307,8 @@
               ],
               "documentation": [
                 " Set the desired member count; if lower than the current count, then seats will not be up",
-                " election when they expire. If more, then a new vote will be started if one is not already",
-                " in progress."
+                " election when they expire. If more, then a new vote will be started if one is not",
+                " already in progress."
               ]
             },
             {
@@ -2232,9 +2320,10 @@
                 }
               ],
               "documentation": [
-                " Remove a particular member. A tally will happen instantly (if not already in a presentation",
-                " period) to fill the seat if removal means that the desired members are not met.",
-                " This is effective immediately."
+                " Remove a particular member from the council. This is effective immediately.",
+                "",
+                " Note: A tally should happen instantly (if not already in a presentation",
+                " period) to fill the seat if removal means that the desired members are not met."
               ]
             },
             {
@@ -2306,190 +2395,6 @@
           ]
         },
         {
-          "name": "council_voting",
-          "prefix": "CouncilVoting",
-          "storage": [
-            {
-              "name": "CooloffPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0xe803000000000000",
-              "documentation": []
-            },
-            {
-              "name": "VotingPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0300000000000000",
-              "documentation": []
-            },
-            {
-              "name": "EnactDelayPeriod",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "BlockNumber"
-              },
-              "fallback": "0x0000000000000000",
-              "documentation": [
-                " Number of blocks by which to delay enactment of successful, non-unanimous-council-instigated referendum proposals."
-              ]
-            },
-            {
-              "name": "Proposals",
-              "modifier": "Default",
-              "type": {
-                "PlainType": "Vec<(BlockNumber,Hash)>"
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "ProposalOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "Hash",
-                  "value": "Proposal",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "ProposalVoters",
-              "modifier": "Default",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "Hash",
-                  "value": "Vec<AccountId>",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "CouncilVoteOf",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "(Hash,AccountId)",
-                  "value": "bool",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            },
-            {
-              "name": "VetoedProposal",
-              "modifier": "Optional",
-              "type": {
-                "MapType": {
-                  "hasher": "Blake2_256",
-                  "key": "Hash",
-                  "value": "(BlockNumber,Vec<AccountId>)",
-                  "isLinked": false
-                }
-              },
-              "fallback": "0x00",
-              "documentation": []
-            }
-          ],
-          "calls": [
-            {
-              "name": "propose",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Proposal"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "vote",
-              "args": [
-                {
-                  "name": "proposal",
-                  "type": "Hash"
-                },
-                {
-                  "name": "approve",
-                  "type": "bool"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "veto",
-              "args": [
-                {
-                  "name": "proposal_hash",
-                  "type": "Hash"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "set_cooloff_period",
-              "args": [
-                {
-                  "name": "blocks",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": []
-            },
-            {
-              "name": "set_voting_period",
-              "args": [
-                {
-                  "name": "blocks",
-                  "type": "Compact<BlockNumber>"
-                }
-              ],
-              "documentation": []
-            }
-          ],
-          "events": [
-            {
-              "name": "TallyCancelation",
-              "args": [
-                "Hash",
-                "u32",
-                "u32",
-                "u32"
-              ],
-              "documentation": [
-                " A voting tally has happened for a referendum cancellation vote.",
-                " Last three are yes, no, abstain counts."
-              ]
-            },
-            {
-              "name": "TallyReferendum",
-              "args": [
-                "Hash",
-                "u32",
-                "u32",
-                "u32"
-              ],
-              "documentation": [
-                " A voting tally has happened for a referendum vote.",
-                " Last three are yes, no, abstain counts."
-              ]
-            }
-          ]
-        },
-        {
           "name": "council_motions",
           "prefix": "CouncilMotions",
           "storage": [
@@ -2501,7 +2406,7 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " The (hashes of) the active proposals."
+                " The hashes of the active proposals."
               ]
             },
             {
@@ -2527,13 +2432,13 @@
                 "MapType": {
                   "hasher": "Blake2_256",
                   "key": "Hash",
-                  "value": "(ProposalIndex,u32,Vec<AccountId>,Vec<AccountId>)",
+                  "value": "Votes",
                   "isLinked": false
                 }
               },
               "fallback": "0x00",
               "documentation": [
-                " Votes for a given proposal: (required_yes_votes, yes_voters, no_voters)."
+                " Votes on a given proposal, if it is ongoing."
               ]
             },
             {
@@ -2550,11 +2455,25 @@
           ],
           "calls": [
             {
+              "name": "execute",
+              "args": [
+                {
+                  "name": "proposal",
+                  "type": "Proposal"
+                }
+              ],
+              "documentation": [
+                " Dispatch a proposal from a councilor using the `Member` origin.",
+                "",
+                " Origin must be a council member."
+              ]
+            },
+            {
               "name": "propose",
               "args": [
                 {
                   "name": "threshold",
-                  "type": "Compact<u32>"
+                  "type": "Compact<MemberCount>"
                 },
                 {
                   "name": "proposal",
@@ -2589,10 +2508,11 @@
                 "AccountId",
                 "ProposalIndex",
                 "Hash",
-                "u32"
+                "MemberCount"
               ],
               "documentation": [
-                " A motion (given hash) has been proposed (by given account) with a threshold (given u32)."
+                " A motion (given hash) has been proposed (by given account) with a threshold (given",
+                " `MemberCount`)."
               ]
             },
             {
@@ -2601,12 +2521,12 @@
                 "AccountId",
                 "Hash",
                 "bool",
-                "u32",
-                "u32"
+                "MemberCount",
+                "MemberCount"
               ],
               "documentation": [
                 " A motion (given hash) has been voted on by given account, leaving",
-                " a tally (yes votes and no votes given as u32s respectively)."
+                " a tally (yes votes and no votes given respectively as `MemberCount`)."
               ]
             },
             {
@@ -2635,6 +2555,16 @@
               ],
               "documentation": [
                 " A motion was executed; `bool` is true if returned without error."
+              ]
+            },
+            {
+              "name": "MemberExecuted",
+              "args": [
+                "Hash",
+                "bool"
+              ],
+              "documentation": [
+                " A single councillor did some action; `bool` is true if returned without error."
               ]
             }
           ]
@@ -2721,8 +2651,8 @@
               },
               "fallback": "0x00000000",
               "documentation": [
-                " Proportion of funds that should be bonded in order to place a proposal. An accepted",
-                " proposal gets these back. A rejected proposal doesn't."
+                " Fraction of a proposal's value that should be bonded in order to place the proposal.",
+                " An accepted proposal gets these back. A rejected proposal does not."
               ]
             },
             {
