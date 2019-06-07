@@ -1683,10 +1683,10 @@
     universal-user-agent "^2.0.0"
     url-template "^2.0.8"
 
-"@polkadot/dev@^0.30.0-beta.10":
-  version "0.30.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.30.0-beta.10.tgz#90346cf06a4fcdcac985d4bf7ecf707dbbd84f1d"
-  integrity sha512-ynX4DyFZME2BiDcYltewPIUpegHhhgHxC+qJSAXTkappB+3/ItFBH2T9hFWTHo3/d+DenSRBfXf0HjEdEWYQgQ==
+"@polkadot/dev@^0.30.0-beta.11":
+  version "0.30.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@polkadot/dev/-/dev-0.30.0-beta.11.tgz#00480f7ac363ec54f798d053e0443f077cc9ea47"
+  integrity sha512-tyla1b4Halx+HVvM8AjREsBDr7pZ9xWjNWGSJGQGz+1MZ9wVud2ZqZoUmapoJwZr0lo5YtaQnkcOY/zpOsFZMg==
   dependencies:
     "@babel/cli" "^7.4.4"
     "@babel/core" "^7.4.5"
@@ -1699,7 +1699,7 @@
     "@babel/register" "^7.4.4"
     "@babel/runtime" "^7.4.5"
     "@types/jest" "^24.0.13"
-    "@types/node" "^12.0.4"
+    "@types/node" "^12.0.7"
     babel-core "^7.0.0-bridge.0"
     babel-jest "^24.8.0"
     babel-plugin-module-resolver "^3.2.0"
@@ -1720,14 +1720,14 @@
     typescript "^3.5.1"
     vuepress "^1.0.0-beta.2"
 
-"@polkadot/keyring@^0.92.1":
-  version "0.92.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.92.1.tgz#6841fcf5371ff148ddaf4e14891ab2a5ece8f6f1"
-  integrity sha512-20nvbhozxxxc8/vf90Ot9SJybbeZFtSw6ULp9vh+1315NJdtFyP7etXRYlJNW1Qyo97cImWnnlvjkNX0bRzyvQ==
+"@polkadot/keyring@^0.93.0-beta.0":
+  version "0.93.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-0.93.0-beta.0.tgz#4c0491141814c70643cf7e7bdc307f91372dc11f"
+  integrity sha512-GUvIsyo4b4ZfPjb5XnshjUZ9GmDJRYE6uSs7Ytg0tlPsl/AL4awYGmbVGiWqJL27gMwxOTUXIQ/dVpUXVFk5qg==
   dependencies:
     "@babel/runtime" "^7.4.5"
-    "@polkadot/util" "^0.92.1"
-    "@polkadot/util-crypto" "^0.92.1"
+    "@polkadot/util" "^0.93.0-beta.0"
+    "@polkadot/util-crypto" "^0.93.0-beta.0"
     "@types/bs58" "^4.0.0"
     bs58 "^4.0.1"
 
@@ -1738,13 +1738,13 @@
   dependencies:
     "@types/chrome" "^0.0.86"
 
-"@polkadot/util-crypto@^0.92.1":
-  version "0.92.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.92.1.tgz#7aef6661804ea9602703a01b5c98da37a2b1753f"
-  integrity sha512-sacWyQREP0lmPEhRySLeB8OUmbJBVd8YPubkovDsFpEYe0SWwbefwdyeESqTqwlTAgQciBS1XhpULkJBMIWVYw==
+"@polkadot/util-crypto@^0.93.0-beta.0":
+  version "0.93.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-0.93.0-beta.0.tgz#dac65de4385fd5f66e399c51a715da9cdd4f6271"
+  integrity sha512-CL0LYzWHVWU9jGNIjSYoMHYPX5qrSMwt2WAotks6KnAtq2wg5eIJPDpGpgmDYjDRFlnWUgTsH5cvtRH18+71HA==
   dependencies:
     "@babel/runtime" "^7.4.5"
-    "@polkadot/util" "^0.92.1"
+    "@polkadot/util" "^0.93.0-beta.0"
     "@polkadot/wasm-crypto" "^0.11.1"
     "@types/bip39" "^2.4.2"
     "@types/pbkdf2" "^3.0.0"
@@ -1757,10 +1757,10 @@
     tweetnacl "^1.0.1"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@^0.92.1":
-  version "0.92.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.92.1.tgz#0665a9b6f0ce1d2f8f1da2a1d45ff69ae39ead53"
-  integrity sha512-UB1KSotfcv78LJoKmjjvwZeX0r1b50XDuzvOKFlqvfSoxbpXgwDaNENAKRLIm+Q7ODgv/F1+9YBW8zwWg6gInQ==
+"@polkadot/util@^0.93.0-beta.0":
+  version "0.93.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-0.93.0-beta.0.tgz#78702aff2bebdc3ce3ecb04c42f764086b9c3ac1"
+  integrity sha512-tqha4P5kbBzwCE0C0Zyp/QBB5Ym9lnlMa8OQxvWLfrS9ijfvHZbiGZqNHYKTXXClWKM2eBaIuNgEZolBAWC2/g==
   dependencies:
     "@babel/runtime" "^7.4.5"
     "@types/bn.js" "^4.11.5"
@@ -1953,10 +1953,15 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^12.0.4":
+"@types/node@*":
   version "12.0.4"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.4.tgz#46832183115c904410c275e34cf9403992999c32"
   integrity sha512-j8YL2C0fXq7IONwl/Ud5Kt0PeXw22zGERt+HSSnwbKOJVsAGkEz3sFCYwaF9IOuoG1HOtE0vKCj6sXF7Q0+Vaw==
+
+"@types/node@^12.0.7":
+  version "12.0.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.7.tgz#4f2563bad652b2acb1722d7e7aae2b0ff62d192c"
+  integrity sha512-1YKeT4JitGgE4SOzyB9eMwO0nGVNkNEsm9qlIt1Lqm/tG2QEiSMTD4kS3aO6L+w5SClLVxALmIBESK6Mk5wX0A==
 
 "@types/pbkdf2@^3.0.0":
   version "3.0.0"
