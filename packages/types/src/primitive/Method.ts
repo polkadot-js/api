@@ -230,7 +230,7 @@ export default class Method extends Struct implements IMethod {
   /**
    * @description Returns the module containing the method
    */
-  get moduleName (): string {
+  get sectionName (): string {
     return Method.findFunction(this.callIndex).section;
   }
 
