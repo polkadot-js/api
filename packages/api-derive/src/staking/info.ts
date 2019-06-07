@@ -92,9 +92,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       return new StructAny({
         accountId,
         controllerId,
-        nextSessionId: nextKeyFor.isSome
-          ? nextKeyFor.unwrap()
-          : undefined,
+        nextSessionId: nextKeyFor.unwrapOr(null) || undefined,
         nominators,
         redeemable: redeemableSum(stakingLedger, eraLength, bestNumber),
         rewardDestination,
@@ -126,9 +124,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       new StructAny({
         accountId,
         controllerId,
-        nextSessionId: nextKeyFor.isSome
-          ? nextKeyFor.unwrap()
-          : undefined,
+        nextSessionId: nextKeyFor.unwrapOr(null) || undefined,
         nominators,
         rewardDestination,
         stakers,
