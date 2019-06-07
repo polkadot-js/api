@@ -110,7 +110,7 @@ import ApiBase from '../Base';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<'Observable'> {
+export default class ApiRx extends ApiBase<'rxjs'> {
   private _isReadyRx: Observable<ApiRx>;
 
   get derive (): ReturnType<ApiRx['decorateDerive']> {
@@ -166,7 +166,7 @@ export default class ApiRx extends ApiBase<'Observable'> {
    * ```
    */
   constructor (provider?: ApiOptions | ProviderInterface) {
-    super(provider, 'Observable');
+    super(provider, 'rxjs');
 
     this._isReadyRx = from(
       // convinced you can observable from an event, however my mind groks this form better

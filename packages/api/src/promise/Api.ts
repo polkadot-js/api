@@ -98,7 +98,7 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * });
  * ```
  */
-export default class ApiPromise extends ApiBase<'Promise'> {
+export default class ApiPromise extends ApiBase<'promise'> {
   private _isReadyPromise: Promise<ApiPromise>;
 
   /**
@@ -144,7 +144,7 @@ export default class ApiPromise extends ApiBase<'Promise'> {
    * ```
    */
   constructor (options?: ApiOptions | ProviderInterface) {
-    super(options, 'Promise');
+    super(options, 'promise');
 
     this._isReadyPromise = new Promise((resolveReady) =>
       super.once('ready', () =>

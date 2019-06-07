@@ -14,8 +14,6 @@ import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import ApiBase from './Base';
 import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
-export type ApiType = 'Observable' | 'Promise'; // Same as URI below
-
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
 type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((
@@ -58,11 +56,11 @@ export type PromiseResult<F extends AnyFunction> = {
 };
 
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type MethodResult<URI, F extends AnyFunction> = URI extends 'Observable'
+export type MethodResult<URI, F extends AnyFunction> = URI extends 'rxjs'
   ? RxResult<F>
   : PromiseResult<F>;
 
-type DecoratedRpc$Method<URI> = URI extends 'Observable'
+type DecoratedRpc$Method<URI> = URI extends 'rxjs'
   ? (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
   : {
     // These signatures are allowed and exposed here (bit or a stoopid way, but checked
@@ -119,7 +117,7 @@ interface StorageFunctionPromise extends StorageFunction {
 }
 
 export type QueryableStorageFunction<URI> =
-  URI extends 'Observable'
+  URI extends 'rxjs'
   ? StorageFunctionObservable
   : StorageFunctionPromise;
 
@@ -142,7 +140,7 @@ export interface QueryableStorageMultiPromise<URI> {
 }
 
 export type QueryableStorageMulti<URI> =
-  URI extends 'Observable'
+  URI extends 'rxjs'
   ? QueryableStorageMultiBase<URI>
   : QueryableStorageMultiPromise<URI>;
 
@@ -197,13 +195,15 @@ export interface ApiOptions {
 
 // A smaller interface of ApiRx.
 export interface ApiInterface$Rx {
-  query: QueryableStorage<'Observable'>;
-  queryMulti: QueryableStorageMulti<'Observable'>;
-  rpc: DecoratedRpc<'Observable'>;
+  query: QueryableStorage<'rxjs'>;
+  queryMulti: QueryableStorageMulti<'rxjs'>;
+  rpc: DecoratedRpc<'rxjs'>;
   signer?: Signer;
 }
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
+
+export type ApiType = 'promise' | 'rxjs';
 
 export type SignerOptions = SignatureOptions & {
   genesisHash: Hash
