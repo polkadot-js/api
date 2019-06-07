@@ -7,6 +7,10 @@ import BN from 'bn.js';
 import Header from './Header';
 import json1 from '../json/Header.001.json';
 import json2 from '../json/Header.002.json';
+import json3 from '../json/Header.003.json';
+import json4x2e2 from '../json/Header.004.0x2e2.json';
+import json4x2e3 from '../json/Header.004.0x2e3.json';
+import json4x2e4 from '../json/Header.004.0x2e4.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
@@ -29,14 +33,31 @@ describe('Header', () => {
     ).toEqual('[]');
   });
 
-  it('creates a valid hash (incl. digest & compact)', () => {
+  it('parses old-style JSON headers (deprecated)', () => {
     const header = new Header(json2.result);
 
     expect(
-      header.hash.toHex()
-    ).toEqual('0x63ccfdc044d3ff4c915ad01c0d57d2ff807f4eb7d60cd41584917363bc83a99f');
+      header.digest.logs
+    ).toHaveLength(1);
+  });
+
+  it('creates a valid hash (incl. digest & compact)', () => {
+    const header = new Header(json3.result);
+
     expect(
-      header.blockNumber.eq(new BN(2918))
+      header.hash.toHex()
+    ).toEqual('0x464692ad0e225a74274a7ef411e045f1fc7c2639b5f780c7c18f91f4100f5e54');
+    expect(
+      header.blockNumber.eq(new BN(1650758))
     ).toBe(true);
+  });
+
+  it('correctly hashes headers with PreRuntime, aligning with substrate', () => {
+    const x2e2 = new Header(json4x2e2.params.result);
+    const x2e3 = new Header(json4x2e3.params.result);
+    const x2e4 = new Header(json4x2e4.params.result);
+
+    expect(x2e3.parentHash).toEqual(x2e2.hash);
+    expect(x2e4.parentHash).toEqual(x2e3.hash);
   });
 });

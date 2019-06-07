@@ -2,8 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import ApiPromise from '@polkadot/api/promise/Api';
 import { BlockNumber } from '@polkadot/types';
+import { DerivedStaking } from '../../src/types';
+import { SubmittableResult } from '../../../api/src';
+
+import ApiPromise from '@polkadot/api/promise/Api';
+import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS = 'ws://127.0.0.1:9944/';
@@ -58,6 +62,16 @@ describe.skip('derive e2e', () => {
     });
   });
 
+  it('retrieves balances for a problematic account', (done) => {
+    return api.derive.balances.all('5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N', (balance) => {
+      console.error(JSON.stringify(balance));
+
+      if (balance.availableBalance.eqn(0)) {
+        done();
+      }
+    });
+  });
+
   it('retrieves all session info', (done) => {
     let count = 0;
 
@@ -89,8 +103,12 @@ describe.skip('derive e2e', () => {
   it('retrieves all staking info (for stash)', (done) => {
     const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
-    return api.derive.staking.info(accountId, (info) => {
+    return api.derive.staking.info(accountId, (info: DerivedStaking) => {
       console.error(JSON.stringify(info));
+
+      if (!info.stashId || !info.controllerId || !info.stakingLedger) {
+        return done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
+      }
 
       expect(info.accountId.eq(accountId)).toBe(true);
       expect(info.controllerId.eq('5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY')).toBe(true);
@@ -98,6 +116,60 @@ describe.skip('derive e2e', () => {
       expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
 
       done();
+    });
+  });
+
+  describe('verifies derive.staking.unlocking',() => {
+    const UNBOND_VALUE = 1;
+    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+    const keyring = testKeyring();
+    const alicePair = keyring.getPair(ALICE);
+
+    it('unbonds dots for Alice (from Alice Stash)', (done) => {
+      return api.tx.staking.unbond(UNBOND_VALUE)
+        .signAndSend(alicePair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
+        });
+    });
+
+    it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+        expect(info.unlocking).toBeDefined();
+      });
+    });
+  });
+
+  describe('verifies derive.staking.rewardDestination',() => {
+    const PAYEE = 2;
+    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+    const keyring = testKeyring();
+    const alicePair = keyring.getPair(ALICE);
+
+    it('Set payee for ALICE to 2', (done) => {
+      return api.tx.staking.setPayee(PAYEE)
+        .signAndSend(alicePair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
+        });
+    });
+
+    it('verifies payee for ALICE_STASH', (done) => {
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+        if (!info.rewardDestination) {
+          return done.fail(new Error('rewardDestination is undefined.'));
+        } else {
+          expect(info.rewardDestination.toString()).toBe('Controller');
+        }
+
+        done();
+      });
     });
   });
 });

@@ -92,7 +92,7 @@ interface StorageFunctionObservable extends StorageFunction {
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => Observable<Codec>;
+  multi: (args: Array<CodecArg[] | CodecArg>) => Observable<Codec>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 

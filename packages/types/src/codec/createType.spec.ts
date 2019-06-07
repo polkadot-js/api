@@ -2,248 +2,281 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType, { TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
+import { assert } from '@polkadot/util';
 
-describe('typeSplit', () => {
-  it('splits simple types into an array', () => {
-    expect(
-      typeSplit('Text, u32, u64')
-    ).toEqual(['Text', 'u32', 'u64']);
-  });
+import { Codec, Constructor } from '../types';
+import Null from '../primitive/Null';
+import Text from '../primitive/Text';
+import Compact from './Compact';
+import Enum from './Enum';
+import Linkage from './Linkage';
+import Option from './Option';
+import Struct from './Struct';
+import Tuple from './Tuple';
+import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
+import UInt from './UInt';
+import Vector from './Vector';
+import getRegistry from './typeRegistry';
 
-  it('splits nested combinations', () => {
-    expect(
-      typeSplit('Text, (u32), Vec<u64>')
-    ).toEqual(['Text', '(u32)', 'Vec<u64>']);
-  });
+export enum TypeDefInfo {
+  Compact,
+  DoubleMap,
+  Enum,
+  Linkage,
+  Option,
+  Plain,
+  Struct,
+  Tuple,
+  Vector,
+  VectorFixed,
+  // anything not full supported (keep this as the last entry)
+  Null
+}
 
-  it('keeps nested tuples together', () => {
-    expect(
-      typeSplit('Text, (u32, u128), Vec<u64>')
-    ).toEqual(['Text', '(u32, u128)', 'Vec<u64>']);
-  });
+export type TypeDefExtVecFixed = {
+  length: number,
+  type: string
+};
 
-  it('keeps nested vector tuples together', () => {
-    expect(
-      typeSplit('Text, (u32, u128), Vec<(u64, u32)>')
-    ).toEqual(['Text', '(u32, u128)', 'Vec<(u64, u32)>']);
-  });
+export type TypeDef = {
+  info: TypeDefInfo,
+  ext?: TypeDefExtVecFixed, // add additional here as required
+  name?: string,
+  type: string,
+  sub?: TypeDef | Array<TypeDef>
+};
 
-  it('allows for deep nesting', () => {
-    expect(
-      typeSplit('Text, (u32, (u128, u8)), Vec<(u64, (u32, u32))>')
-    ).toEqual(['Text', '(u32, (u128, u8))', 'Vec<(u64, (u32, u32))>']);
-  });
+// safely split a string on ', ' while taking care of any nested occurences
+export function typeSplit (type: string): Array<string> {
+  let cDepth = 0; // compact/doublemap/linkedmap/option/vector depth
+  let fDepth = 0; // vector (fixed) depth
+  let sDepth = 0; // struct depth
+  let tDepth = 0; // tuple depth
+  let start = 0;
+  const result = [];
 
-  it('checks for unclosed vec', () => {
-    expect(
-      () => typeSplit('Text, Vec<u64')
-    ).toThrow(/Invalid defintion/);
-  });
-
-  it('checks for unclosed tuple', () => {
-    expect(
-      () => typeSplit('Text, (u64, u32')
-    ).toThrow(/Invalid defintion/);
-  });
-});
-
-describe('getTypeValue', () => {
-  it('does not allow invalid tuples, end )', () => {
-    expect(
-      () => getTypeDef('(u64, u32')
-    ).toThrow(/Expected '\(' closing with '\)'/);
-  });
-
-  it('does not allow invalid vectors, end >', () => {
-    expect(
-      () => getTypeDef('Vec<u64')
-    ).toThrow(/Expected 'Vec<' closing with '>'/);
-  });
-
-  it('returns a type structure', () => {
-    expect(
-      getTypeDef('(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))')
-    ).toEqual({
-      info: TypeDefInfo.Tuple,
-      type: '(u32, Compact<u32>, Vec<u64>, Option<u128>, DoubleMap<u128>, (Text, Vec<(Bool, u128)>))',
-      sub: [
-        {
-          info: TypeDefInfo.Plain,
-          type: 'u32'
-        },
-        {
-          info: TypeDefInfo.Compact,
-          type: 'Compact<u32>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u32'
-          }
-        },
-        {
-          info: TypeDefInfo.Vector,
-          type: 'Vec<u64>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u64'
-          }
-        },
-        {
-          info: TypeDefInfo.Option,
-          type: 'Option<u128>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u128'
-          }
-        },
-        {
-          info: TypeDefInfo.DoubleMap,
-          type: 'DoubleMap<u128>',
-          sub: {
-            info: TypeDefInfo.Plain,
-            type: 'u128'
-          }
-        },
-        {
-          info: TypeDefInfo.Tuple,
-          type: '(Text, Vec<(Bool, u128)>)',
-          sub: [
-            {
-              info: TypeDefInfo.Plain,
-              type: 'Text'
-            },
-            {
-              info: TypeDefInfo.Vector,
-              type: 'Vec<(Bool, u128)>',
-              sub: {
-                info: TypeDefInfo.Tuple,
-                type: '(Bool, u128)',
-                sub: [
-                  {
-                    info: TypeDefInfo.Plain,
-                    type: 'Bool'
-                  },
-                  {
-                    info: TypeDefInfo.Plain,
-                    type: 'u128'
-                  }
-                ]
-              }
-            }
-          ]
+  for (let index = 0; index < type.length; index++) {
+    switch (type[index]) {
+      case ',':
+        // we are not nested, add the type
+        if (cDepth === 0 && fDepth === 0 && sDepth === 0 && tDepth === 0) {
+          result.push(type.substr(start, index - start).trim());
+          start = index + 1;
         }
-      ]
-    });
-  });
+        break;
 
-  it('returns a type structure (actual)', () => {
-    expect(
-      getTypeDef('Vec<(PropIndex, Proposal, AccountId)>')
-    ).toEqual({
-      info: TypeDefInfo.Vector,
-      type: 'Vec<(PropIndex, Proposal, AccountId)>',
-      sub: {
-        info: TypeDefInfo.Tuple,
-        type: '(PropIndex, Proposal, AccountId)',
-        sub: [
-          {
-            info: TypeDefInfo.Plain,
-            type: 'PropIndex'
-          },
-          {
-            info: TypeDefInfo.Plain,
-            type: 'Proposal'
-          },
-          {
-            info: TypeDefInfo.Plain,
-            type: 'AccountId'
-          }
-        ]
-      }
-    });
-  });
+      // adjust compact/vec (and friends) depth
+      case '<': cDepth++; break;
+      case '>': cDepth--; break;
 
-  it('returns an actual Struct', () => {
-    expect(
-      getTypeDef('{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}')
-    ).toEqual({
-      info: TypeDefInfo.Struct,
-      type: '{"balance":"Balance","account_id":"AccountId","log":"(u64, Signature)"}',
-      sub: [
-        {
+      // adjust fixed vec depths
+      case '[': fDepth++; break;
+      case ']': fDepth--; break;
+
+      // adjust struct depth
+      case '{': sDepth++; break;
+      case '}': sDepth--; break;
+
+      // adjusttuple depth
+      case '(': tDepth++; break;
+      case ')': tDepth--; break;
+
+      // normal character
+      default: break;
+    }
+  }
+
+  assert(!cDepth && !fDepth && !sDepth && !tDepth, `Invalid defintion (missing terminators) found in ${type}`);
+
+  // the final leg of the journey
+  result.push(type.substr(start, type.length - start).trim());
+
+  return result;
+}
+
+export function getTypeDef (_type: Text | string, name?: string): TypeDef {
+  const type = _type.toString().trim();
+  const value: TypeDef = {
+    info: TypeDefInfo.Plain,
+    name,
+    type
+  };
+  let subType = '';
+
+  const startingWith = (type: string, start: string, end: string): boolean => {
+    if (type.substr(0, start.length) !== start) {
+      return false;
+    }
+
+    assert(type[type.length - 1] === end, `Expected '${start}' closing with '${end}'`);
+
+    subType = type.substr(start.length, type.length - start.length - 1);
+
+    return true;
+  };
+
+  if (startingWith(type, '(', ')')) {
+    value.info = TypeDefInfo.Tuple;
+    value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
+  } else if (startingWith(type, '[', ']')) {
+    // this handles e.g. [u8;32]
+    const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
+    const vecLen = parseInt(_vecLen.trim(), 10);
+
+    // as a first round, only u8 via u8aFixed, we can add more support
+    assert(vecLen <= 256 && ['u8'].includes(vecType), `Only support for [u8; <length>], where length <= 256`);
+
+    value.info = TypeDefInfo.VectorFixed;
+    value.ext = { length: vecLen, type: 'u8a' } as TypeDefExtVecFixed;
+  } else if (startingWith(type, '{', '}')) {
+    const parsed = JSON.parse(type);
+    const keys = Object.keys(parsed);
+
+    if (keys.length === 1 && keys[0] === '_enum') {
+      const details = parsed[keys[0]];
+
+      // not as pretty, but remain compatible with oo7 for both struct and Array types
+      value.sub = Array.isArray(details)
+        ? details.map((name) => ({
           info: TypeDefInfo.Plain,
-          name: 'balance',
-          type: 'Balance'
-        },
-        {
+          name,
+          type: 'Null'
+        }))
+        : Object.keys(details).map((name) => ({
           info: TypeDefInfo.Plain,
-          name: 'account_id',
-          type: 'AccountId'
-        },
-        {
-          info: TypeDefInfo.Tuple,
-          name: 'log',
-          type: '(u64, Signature)',
-          sub: [
-            {
-              info: TypeDefInfo.Plain,
-              type: 'u64'
-            },
-            {
-              info: TypeDefInfo.Plain,
-              type: 'Signature'
-            }
-          ]
-        }
-      ]
-    });
-  });
-});
+          name,
+          type: details[name] || 'Null'
+        }));
+      value.info = TypeDefInfo.Enum;
+    } else {
+      value.info = TypeDefInfo.Struct;
+      value.sub = keys.map((name) => getTypeDef(parsed[name], name));
+    }
+  } else if (startingWith(type, 'Compact<', '>')) {
+    value.info = TypeDefInfo.Compact;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Option<', '>')) {
+    value.info = TypeDefInfo.Option;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Vec<', '>')) {
+    value.info = TypeDefInfo.Vector;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'Linkage<', '>')) {
+    value.info = TypeDefInfo.Linkage;
+    value.sub = getTypeDef(subType);
+  } else if (startingWith(type, 'DoubleMap<', '>')) {
+    value.info = TypeDefInfo.DoubleMap;
+    value.sub = getTypeDef(subType);
+  }
 
-describe('getTypeClass', () => {
-  it('does not allow invalid types', () => {
-    expect(
-      () => getTypeClass('SomethingInvalid' as any)
-    ).toThrow(/determine type/);
-  });
-});
+  return value;
+}
 
-describe('createType', () => {
-  it('allows creation of a Struct', () => {
-    expect(
-      createType('{"balance":"Balance","index":"u32"}', {
-        balance: 1234,
-        index: '0x10'
-      }).toJSON()
-    ).toEqual({
-      balance: 1234,
-      index: 16
-    });
-  });
+// Returns the type Class for construction
+export function getTypeClass (value: TypeDef): Constructor {
+  const Type = getRegistry().get(value.type);
 
-  it('allows creation of a Enum (simple)', () => {
-    expect(
-      createType('{"_enum": ["A", "B", "C"]}', 1).toJSON()
-    ).toEqual({ B: null });
-  });
+  if (Type) {
+    return Type;
+  }
 
-  it('allows creation of a Enum (parametrised)', () => {
-    expect(
-      createType('{"_enum": {"A": null, "B": "u32", "C": null} }', 1).toJSON()
-    ).toEqual({ B: 0 });
-  });
+  switch (value.info) {
+    case TypeDefInfo.Compact:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Compact');
 
-  it('throw error when create base is a StorageData with null value and isPedantic is true' , () => {
-    const base = createType('StorageData', null);
-    expect(
-      () => createType('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
-  });
+      return Compact.with(
+        getTypeClass(value.sub as TypeDef) as Constructor<UInt>
+      );
+    case TypeDefInfo.Enum:
+      assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
-  it('throw error when create base is a StorageData with null value and isPedantic is true' , () => {
-    const base = createType('StorageData', null);
-    expect(
-      () => createType('Vec<(BlockNumber,EventIndex)>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
-  });
-});
+      return Enum.with(
+        (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
+          result[sub.name as string] = getTypeClass(sub);
+
+          return result;
+        }, {} as { [index: string]: Constructor })
+      );
+    case TypeDefInfo.Option:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Option');
+
+      return Option.with(
+        getTypeClass(value.sub as TypeDef)
+      );
+    case TypeDefInfo.Struct:
+      assert(Array.isArray(value.sub), 'Expected nested subtypes for Struct');
+
+      return Struct.with(
+        (value.sub as Array<TypeDef>).reduce((result, sub) => {
+          result[sub.name as string] = getTypeClass(sub);
+
+          return result;
+        }, {} as { [index: string]: Constructor })
+      );
+    case TypeDefInfo.Tuple:
+      assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
+
+      return Tuple.with(
+        (value.sub as Array<TypeDef>).map(getTypeClass)
+      );
+    case TypeDefInfo.Vector:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
+
+      return Vector.with(
+        getTypeClass(value.sub as TypeDef)
+      );
+    case TypeDefInfo.VectorFixed:
+      assert(value.ext, 'Expected length & type information for fixed vector');
+
+      return U8aFixed.with(((value.ext as TypeDefExtVecFixed).length * 8) as U8aFixedBitLength);
+    case TypeDefInfo.Linkage:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
+
+      return Linkage.withKey(
+        getTypeClass(value.sub as TypeDef)
+      );
+    case TypeDefInfo.DoubleMap:
+      assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for DoubleMap');
+
+      return getTypeClass(value.sub as TypeDef);
+    case TypeDefInfo.Null:
+      return Null;
+  }
+
+  throw new Error(`Unable to determine type from '${value.type}'`);
+}
+
+export function createClass (type: Text | string): Constructor {
+  return getTypeClass(
+    getTypeDef(type)
+  );
+}
+
+function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec {
+  try {
+    const created = new Type(value);
+
+    // in pedantic mode, actually check that the encoding matches that supplied - this
+    // is much slower, but ensures that we have a 100% grasp on the actual provided value
+    if (isPedantic && value && value.toHex) {
+      const inHex = value.toHex(true);
+      const crHex = created.toHex(true);
+
+      assert(crHex === inHex, `Encoding for input doesn't match output, created ${crHex} from ${inHex}`);
+    }
+
+    return created;
+  } catch (error) {
+    if (Type.Fallback) {
+      return initType(Type.Fallback, value, isPedantic);
+    }
+
+    throw error;
+  }
+}
+
+export default function createType (type: Text | string, value?: any, isPedantic?: boolean): Codec {
+  // l.debug(() => ['createType', { type, value }]);
+
+  return initType(createClass(type), value, isPedantic);
+}
