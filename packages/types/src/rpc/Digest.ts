@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert } from '@polkadot/util';
+import BN from 'bn.js';
+import { assert, bnToBn } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
@@ -14,6 +15,12 @@ import U32 from '../primitive/U32';
 import U64 from '../primitive/U64';
 import AuthorityId from '../type/AuthorityId';
 import Signature from '../type/Signature';
+
+const CID_AURA = 0x61727561; // 'aura'
+const CID_BABE = 0x65626162; // 'babe'
+const CID_GRPA = 0x31676661; // 'afg1'
+
+export { CID_AURA, CID_BABE, CID_GRPA };
 
 /**
  * @name AuthoritiesChange
@@ -37,6 +44,59 @@ export class ChangesTrieRoot extends Hash {
  * A 4-byte identifier (actually a [u8; 4]) identifying the engine, e.g. for Aura it would be [b'a', b'u', b'r', b'a']
  */
 export class ConsensusEngineId extends U32 {
+  static idToString (input: number | BN): string {
+    return bnToBn(input)
+      .toArray('le')
+      .map((code) => String.fromCharCode(code))
+      .join('');
+  }
+
+  static stringToId (input: string): number {
+    return input
+      .split('')
+      .reverse()
+      .reduce((result, char) => (result * 256) + char.charCodeAt(0), 0);
+  }
+
+  /**
+   * @description `true` if the engine matches aura
+   */
+  get isAura (): boolean {
+    return this.eq(CID_AURA);
+  }
+
+  /**
+   * @description `true` is the engine matches babe
+   */
+  get isBabe (): boolean {
+    return this.eq(CID_BABE);
+  }
+
+  /**
+   * @description `true` is the engine matches grandpa
+   */
+  get isGrandpa (): boolean {
+    return this.eq(CID_GRPA);
+  }
+
+  /**
+   * @description From the input bytes, decode into an aura-tuple
+   */
+  extractSlot (bytes: Bytes): U64 {
+    assert(this.isAura, 'Invalid engine for asAura conversion');
+
+    return new U64(
+      // no compact prefix, only use the correct number of supplied bytes
+      bytes.toU8a(true).subarray(0, 8)
+    );
+  }
+
+  /**
+   * @description Override the default toString to return a 4-byte string
+   */
+  toString (): string {
+    return ConsensusEngineId.idToString(this);
+  }
 }
 
 /**
@@ -50,13 +110,6 @@ export class Consensus extends Tuple {
       ConsensusEngineId,
       Bytes
     }, value);
-  }
-
-  /**
-   * @description `true` if the engine matches aura
-   */
-  get isAura (): boolean {
-    return this.engine.eq(0x61727561); // ['a', 'u', 'r', 'a']
   }
 
   /**
@@ -74,17 +127,10 @@ export class Consensus extends Tuple {
   }
 
   /**
-   * @description The slot and signature extracted from the raw data (assuming Aura)
+   * @description The slot extracted from the raw data (fails on non-Aura)
    */
-  get asAura (): [U64, Signature] {
-    assert(this.isAura, 'Invalid engine for asAura conversion');
-
-    const raw = this.data.toU8a(true);
-
-    return [
-      new U64(raw.subarray(0, 4)),
-      new Signature(raw.subarray(64))
-    ];
+  get slot (): U64 {
+    return this.engine.extractSlot(this.data);
   }
 }
 
@@ -178,7 +224,28 @@ export class PreRuntime extends Tuple {
   get data (): Bytes {
     return this[1] as Bytes;
   }
+
+  /**
+   * @description The slot extracted from the raw data (fails on non-Aura)
+   */
+  get slot (): U64 {
+    return this.engine.extractSlot(this.data);
+  }
 }
+
+// Note the ordering, it aligns with numbers to the Rust implementation
+// (current and previous versions are included hjere, e.g. SealV0)
+const DigestItemEnumMap = {
+  Other, // 0
+  AuthoritiesChange, // 1
+  ChangesTrieRoot, // 2
+  SealV0, // 3
+  Consensus, // 4
+  Seal, // 5
+  PreRuntime // 6
+};
+
+type DigestItemTypes = keyof typeof DigestItemEnumMap;
 
 /**
  * @name DigestItem
@@ -187,17 +254,7 @@ export class PreRuntime extends Tuple {
  */
 export class DigestItem extends Enum {
   constructor (value: any) {
-    // Note the ordering, it aligns with numbers to the Rust implementation
-    // (current and previous versions)
-    super({
-      Other, // 0
-      AuthoritiesChange, // 1
-      ChangesTrieRoot, // 2
-      SealV0, // 3
-      Consensus, // 4
-      Seal, // 5
-      PreRuntime // 6
-    }, value);
+    super(DigestItemEnumMap, value);
   }
 
   /**
@@ -318,6 +375,13 @@ export class DigestItem extends Enum {
   toJSON (): any {
     return this.toHex();
   }
+
+  /**
+   * @description Returns the type of engine, we just override here to get the typings correct
+   */
+  get type (): DigestItemTypes {
+    return super.type as DigestItemTypes;
+  }
 }
 
 /**
@@ -342,14 +406,14 @@ export default class Digest extends Struct {
   /**
    * @description The [[DigestItem]] logs, filtered, filter items included. This is useful for derive functionality where only a certain type of log is to be returned.
    */
-  logsWith (...include: Array<string>): Vector<DigestItem> {
+  logsWith (...include: Array<DigestItemTypes>): Vector<DigestItem> {
     return this.logs.filter(({ type }) => include.includes(type)) as Vector<DigestItem>;
   }
 
   /**
    * @description The [[DigestItem]] logs, filtered, filter items exluded. This is useful for stripping headers for eg. WASM runtime execution.
    */
-  logsWithout (...exclude: Array<string>): Vector<DigestItem> {
+  logsWithout (...exclude: Array<DigestItemTypes>): Vector<DigestItem> {
     return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }
