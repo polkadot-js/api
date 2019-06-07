@@ -29,6 +29,8 @@ describe.skip('Rx e2e queries', () => {
     expect(api.query).toBeDefined();
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
+
+    api.derive.balances.votingBalance()
   });
 
   it('queries state for a balance', (done) => {

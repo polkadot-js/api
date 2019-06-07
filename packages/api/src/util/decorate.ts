@@ -2,15 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Callback, CodecArg } from '@polkadot/types/types';
-import { ObsInnerType, OnCallDefinition, HktType, URIS } from '../types';
-
-import { Observable } from 'rxjs';
-import { isFunction } from '@polkadot/util';
-
-// An API Method type. For example:
-// `typeof api.query.balances.freeBalance === Method; // true`
-type Method<URI extends URIS, Args extends Array<CodecArg>, Ret> = (...params: Args) => HktType<URI, Ret>;
+import { AnyFunction, Callback, CodecArg } from '@polkadot/types/types';
+import { DecorateMethod, ObsInnerType, HktType, URIS } from '../types';
 
 // A technically unsafe version of Object.keys(obj) that assumes that
 // obj only has known properties of T
@@ -18,56 +11,40 @@ function keys<T extends object> (obj: T) {
   return Object.keys(obj) as Array<keyof T>;
 }
 
-function decorateMethods<URI extends URIS, Section extends Record<keyof Section, (...args: Array<any>) => any>> (
+function decorateMethods<Section extends Record<keyof Section, (...args: Array<any>) => any>> (
   section: Section,
-  onCall: OnCallDefinition<URI>
+  decorateMethod: <Method extends AnyFunction>(method: Method) => <Result>(...args: Parameters<Method>) => Result
 ) {
   return keys(section).reduce(
     <MethodName extends keyof Section>(
-      acc: { [MethodName in keyof Section]: Method<URI, Parameters<Section[MethodName]>, ObsInnerType<Section[MethodName]>> },
+      acc: { [MethodName in keyof Section]: ReturnType<DecorateMethod<Section[MethodName]>> },
       methodName: MethodName
     ) => {
       const method = section[methodName];
 
-      function decorated (...args: Parameters<typeof method>) {
-        let callback: Callback<ObsInnerType<typeof method>> | undefined;
-        let actualArgs: Array<CodecArg> = args; // args, but without the optional `callback` last arg, if present
-
-        if (args.length && isFunction(args[args.length - 1])) {
-          callback = args[args.length - 1];
-          actualArgs = args.slice(0, args.length - 1);
-        }
-
-        return onCall(
-          method,
-          actualArgs,
-          callback
-        );
-      }
-
-      // Casting as any here does not affect the final user-facing type
-      acc[methodName] = decorated as Method<URI, Parameters<Section[MethodName]>, ObsInnerType<Section[MethodName]>>;
+      acc[methodName] = decorateMethod(method) as any;
 
       return acc;
     },
-    {} as { [MethodName in keyof Section]: Method<URI, Parameters<Section[MethodName]>, ObsInnerType<Section[MethodName]>> }
+    {} as { [MethodName in keyof Section]: ReturnType<DecorateMethod<Section[MethodName]>> }
   );
 }
 
-export function decorateSections<URI extends URIS, AllSections extends {
+export function decorateSections<AllSections extends {
   [SectionName in keyof AllSections]: Record<keyof AllSections[SectionName], (...args: any[]) => any>
 }> (
   allSections: AllSections,
-  onCall: OnCallDefinition<URI>
+  decorateMethod: <Method extends AnyFunction>(method: Method) => <Result>(...args: Parameters<Method>) => Result
 ) {
   return keys(allSections).reduce(
     <MethodName extends keyof AllSections>(
-      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: Method<URI, Parameters<AllSections[SectionName][MethodName]>, ObsInnerType<AllSections[SectionName][MethodName]>> } },
+      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: ReturnType<DecorateMethod<AllSections[SectionName][MethodName]>> } },
       sectionName: MethodName
     ) => {
-      acc[sectionName] = decorateMethods(allSections[sectionName], onCall);
+      acc[sectionName] = decorateMethods(allSections[sectionName], decorateMethod);
+
       return acc;
     },
-    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: Method<URI, Parameters<AllSections[SectionName][MethodName]>, ObsInnerType<AllSections[SectionName][MethodName]>> } }
+    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: ReturnType<DecorateMethod<AllSections[SectionName][MethodName]>> } }
   );
 }

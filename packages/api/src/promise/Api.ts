@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
-import { ApiOptions } from '../types';
+import { ApiOptions, ObsInnerType } from '../types';
 import { UnsubscribePromise } from './types';
 
 import { EMPTY } from 'rxjs';
@@ -199,12 +199,12 @@ export default class ApiPromise extends ApiBase<'Promise'> {
     };
   }
 
-  protected onCall (method: AnyFunction, params: Array<CodecArg> = [], callback?: Callback<Codec>, needsCallback?: boolean): Promise<Codec> | UnsubscribePromise {
+  protected onCall<Method extends AnyFunction> (method: Method, params: Array<CodecArg> = [], callback?: Callback<ObsInnerType<ReturnType<Method>>>, needsCallback?: boolean): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
     // When we need a subscription, ensure that a valid callback is actually passed
     assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
     if (!callback) {
-      return method(...params).pipe(first()).toPromise() as Promise<Codec>;
+      return method(...params).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
     }
 
     // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts

@@ -7,39 +7,43 @@ import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
 import { Hash, u64 as U64 } from '@polkadot/types';
-import { Callback, AnyFunction, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
+import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from '../Base';
 import { RxResult } from '../rx/types';
 import { SubmittableResult, SubmittableExtrinsic } from '../SubmittableExtrinsic';
-import { HktType, URIS } from './hkt';
+import { HKT, HktType, URIS } from './hkt';
 
-// If a function returns `Observable<U>`, this type returns `U`.
-export type ObsInnerType<F extends AnyFunction> = ReturnType<F> extends Observable<infer U> ? U : never;
+// Returns the inner type of an Observable
+export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
-export type OnCallDefinition<URI extends URIS> = (
-  method: <Args extends Array<any>, Ret extends Observable<any>>(...args: Args) => Ret,
-  params?: Array<CodecArg>,
-  callback?: Callback<ObsInnerType<typeof method>>,
-  needsCallback?: boolean
-) => HktType<URI, ObsInnerType<typeof method>>;
+// FIXME DecorateMethod's Result should be generic, for now we're hardcoding
+// export type DecorateMethod<Method extends AnyFunction> = (method: Method) => <Result>(...args: Parameters<Method>) => Result;
+export type DecorateMethod<Method extends AnyFunction> = (method: Method) => <Result>(...args: Parameters<Method>) => Result;
 
-export type SubscriptionResult<URI extends URIS> = URI extends 'Observable' ? Observable<Codec> : Callback<Codec>;
+// export type OnCallDefinition<URI, Result> = (
+//   method: AnyFunction,
+//   params?: Array<CodecArg>,
+//   callback?: Callback<ObsInnerType<ReturnType<typeof method>>>,
+//   needsCallback?: boolean
+// ) => Result;
+
+export type SubscriptionResult<URI> = URI extends 'Observable' ? Observable<Codec> : Callback<Codec>;
 
 // checked against max. params in jsonrpc, 1 for subs, 3 without
-export interface DecoratedRpc$Method<URI extends URIS> {
+export interface DecoratedRpc$Method<URI> {
   (callback: Callback<Codec>): SubscriptionResult<URI>;
   (arg1: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
   (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): HktType<URI, Codec>;
 }
 
-export interface DecoratedRpc$Section<URI extends URIS> {
+export interface DecoratedRpc$Section<URI> {
   [index: string]: DecoratedRpc$Method<URI>;
 }
 
-export interface DecoratedRpc<URI extends URIS> {
+export interface DecoratedRpc<URI> {
   author: DecoratedRpc$Section<URI>;
   chain: DecoratedRpc$Section<URI>;
   state: DecoratedRpc$Section<URI>;
@@ -56,7 +60,7 @@ export type U64Result<URI> =
   ? Observable<U64>
   : Promise<U64>;
 
-export interface QueryableStorageFunctionBase<URI extends URIS> extends StorageFunction {
+export interface QueryableStorageFunctionBase<URI> extends StorageFunction {
   (arg1?: CodecArg, arg2?: CodecArg): HktType<URI, Codec>;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => HktType<URI, Codec>;
   creator: StorageFunction;
@@ -66,53 +70,53 @@ export interface QueryableStorageFunctionBase<URI extends URIS> extends StorageF
   size: (arg1?: CodecArg, arg2?: CodecArg) => U64Result<URI>;
 }
 
-interface QueryableStorageFunctionPromise<URI extends URIS> extends QueryableStorageFunctionBase<URI> {
+interface QueryableStorageFunctionPromise<URI> extends QueryableStorageFunctionBase<URI> {
   (callback: Callback<Codec>): SubscriptionResult<URI>;
   (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
   (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
 }
 
-export type QueryableStorageFunction<URI extends URIS> =
+export type QueryableStorageFunction<URI> =
   URI extends 'Observable'
   ? QueryableStorageFunctionBase<URI>
   : QueryableStorageFunctionPromise<URI>;
 
-export interface QueryableModuleStorage<URI extends URIS> {
+export interface QueryableModuleStorage<URI> {
   [index: string]: QueryableStorageFunction<URI>;
 }
 
-export type QueryableStorageMultiArg<URI extends URIS> =
+export type QueryableStorageMultiArg<URI> =
   QueryableStorageFunction<URI> |
   [QueryableStorageFunction<URI>, ...Array<CodecArg>];
 
-export type QueryableStorageMultiArgs<URI extends URIS> = Array<QueryableStorageMultiArg<URI>>;
+export type QueryableStorageMultiArgs<URI> = Array<QueryableStorageMultiArg<URI>>;
 
-export interface QueryableStorageMultiBase<URI extends URIS> {
+export interface QueryableStorageMultiBase<URI> {
   (calls: QueryableStorageMultiArgs<URI>): SubscriptionResult<URI>;
 }
 
-export interface QueryableStorageMultiPromise<URI extends URIS> {
+export interface QueryableStorageMultiPromise<URI> {
   (calls: QueryableStorageMultiArgs<URI>, callback: Callback<Codec>): SubscriptionResult<URI>;
 }
 
-export type QueryableStorageMulti<URI extends URIS> =
+export type QueryableStorageMulti<URI> =
   URI extends 'Observable'
   ? QueryableStorageMultiBase<URI>
   : QueryableStorageMultiPromise<URI>;
 
-export interface QueryableStorage<URI extends URIS> {
+export interface QueryableStorage<URI> {
   [index: string]: QueryableModuleStorage<URI>;
 }
 
-export interface SubmittableExtrinsicFunction<URI extends URIS> extends MethodFunction {
+export interface SubmittableExtrinsicFunction<URI> extends MethodFunction {
   (...params: Array<CodecArg>): SubmittableExtrinsic<URI>;
 }
 
-export interface SubmittableModuleExtrinsics<URI extends URIS> {
+export interface SubmittableModuleExtrinsics<URI> {
   [index: string]: SubmittableExtrinsicFunction<URI>;
 }
 
-export interface SubmittableExtrinsics<URI extends URIS> {
+export interface SubmittableExtrinsics<URI> {
   (extrinsic: Uint8Array | string): SubmittableExtrinsic<URI>;
   [index: string]: SubmittableModuleExtrinsics<URI>;
 }

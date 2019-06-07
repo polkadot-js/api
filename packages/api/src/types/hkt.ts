@@ -22,4 +22,4 @@ interface URI2HKT<A> {
 
 export type URIS = keyof URI2HKT<any>;
 
-export type HktType<URI extends URIS, A> = URI extends URIS ? URI2HKT<A>[URI] : any;
+export type HktType<URI, A> = URI extends URIS ? URI2HKT<A>[URI] : any;

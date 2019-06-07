@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Codec, CodecArg } from '@polkadot/types/types';
-import { ApiOptions, ObsInnerType } from '../types';
+import { ApiOptions, ApiInterface$Rx, ObsInnerType } from '../types';
 
 import { from, Observable } from 'rxjs';
 
@@ -113,6 +113,10 @@ import ApiBase from '../Base';
 export default class ApiRx extends ApiBase<'Observable'> {
   private _isReadyRx: Observable<ApiRx>;
 
+  get derive (): ReturnType<ApiRx['decorateDerive']> {
+    return super.derive;
+  }
+
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    *
@@ -198,7 +202,7 @@ export default class ApiRx extends ApiBase<'Observable'> {
     });
   }
 
-  protected onCall<Method extends AnyFunction> (method: Method, params: Array<CodecArg> = []): Observable<ObsInnerType<ReturnType<Method>>> {
-    return method(...params);
+  protected decorateMethod<Method extends (...args: any[]) => Observable<any>> (method: Method): Method {
+    return method;
   }
 }

@@ -11,9 +11,8 @@ import {
   DecoratedRpc, DecoratedRpc$Method, DecoratedRpc$Section,
   /*Derive, DeriveSection,*/ HashResult, U64Result,
   HKT, URIS,
-  OnCallDefinition,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
-  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer, ObsInnerType
+  SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer, ObsInnerType, HktType
 } from './types';
 
 import EventEmitter from 'eventemitter3';
@@ -61,12 +60,12 @@ try {
  * Put the `this.onCall` function of ApiRx here, because it is needed by
  * `api._rx`.
  */
-function rxOnCall (method: AnyFunction, params: Array<CodecArg> = []): Observable<Codec> {
-  return method(...params);
+function rxDecorateMethod<Method extends AnyFunction>(method: Method): Method {
+  return method;
 }
 
-export default abstract class ApiBase<URI extends URIS> {
-  private _derive?: ReturnType<ApiBase<URI>['decorateDerive']>;
+export default abstract class ApiBase<URI, Something extends HKT<any, any>> {
+  private _derive?: ReturnType<ApiBase<URI, Something>['decorateDerive']>;
   private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<URI>;
   private _genesisHash?: Hash;
@@ -100,7 +99,7 @@ export default abstract class ApiBase<URI extends URIS> {
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}, type: URIS) {
+  constructor(provider: ApiOptions | ProviderInterface = {}, type: URIS) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
@@ -133,7 +132,7 @@ export default abstract class ApiBase<URI extends URIS> {
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
-  get genesisHash (): Hash {
+  get genesisHash(): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
@@ -142,21 +141,21 @@ export default abstract class ApiBase<URI extends URIS> {
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions (): boolean {
+  get hasSubscriptions(): boolean {
     return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
    * @description The library information name & version (from package.json)
    */
-  get libraryInfo (): string {
+  get libraryInfo(): string {
     return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata (): Metadata {
+  get runtimeMetadata(): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
     return this._runtimeMetadata as Metadata;
@@ -165,7 +164,7 @@ export default abstract class ApiBase<URI extends URIS> {
   /**
    * @description Contains the version information for the current runtime.
    */
-  get runtimeVersion (): RuntimeVersion {
+  get runtimeVersion(): RuntimeVersion {
     assert(!isUndefined(this._runtimeVersion), INIT_ERROR);
 
     return this._runtimeVersion as RuntimeVersion;
@@ -197,10 +196,10 @@ export default abstract class ApiBase<URI extends URIS> {
    * });
    * ```
    */
-  get derive (): ReturnType<ApiBase<URI>['decorateDerive']> {
+  get derive (): ReturnType<ApiBase<URI, Something>['decorateDerive']> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
-    return this._derive as ReturnType<ApiBase<URI>['decorateDerive']>;
+    return this._derive as ReturnType<ApiBase<URI, Something>['decorateDerive']>;
   }
 
   /**
@@ -351,13 +350,10 @@ export default abstract class ApiBase<URI extends URIS> {
     }
   }
 
-  // It's exactly `OnCallDefinition<URI>`.
-  protected abstract onCall (
-    method: (...args: any) => Observable<any>,
-    params?: Array<CodecArg>,
-    callback?: Callback<ObsInnerType<typeof method>>,
-    needsCallback?: boolean
-  ): HKT<URI, ObsInnerType<typeof method>>;
+  // protected abstract decorateMethod<Method extends (...args: any[]) => Observable<any>, Result extends (...args: any[]) => HktType<URI, any>> (
+  //   method: Method
+  // ): Result;
+  protected abstract decorateMethod: Something<T>;
 
   private emit (type: ApiInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
@@ -441,13 +437,13 @@ export default abstract class ApiBase<URI extends URIS> {
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
     this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
-    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.onCall);
+    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
     this._rx.query = this.decorateStorage(storage, rxOnCall);
-    this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxOnCall);
+    this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxDecorateMethod);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
@@ -471,7 +467,7 @@ export default abstract class ApiBase<URI extends URIS> {
     return output;
   }
 
-  private decorateRpc (rpc: RpcRx, onCall: OnCallDefinition<URI>): DecoratedRpc<URI> {
+  private decorateRpc (rpc: RpcRx, onCall: ApiBase<URI>['onCall']): DecoratedRpc<URI> {
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DecoratedRpc<URI>;
 
@@ -504,7 +500,7 @@ export default abstract class ApiBase<URI extends URIS> {
     }, {} as DecoratedRpc<URI>);
   }
 
-  private decorateMulti (onCall: OnCallDefinition<URI>): QueryableStorageMulti<URI> {
+  private decorateMulti (onCall: ApiBase<URI>['onCall']): QueryableStorageMulti<URI> {
     return ((calls: QueryableStorageMultiArgs<URI>, callback?: Callback<Codec>) => {
       const mapped = calls.map((arg: QueryableStorageMultiArg<URI>): [QueryableStorageFunction<URI>, ...Array<CodecArg>] =>
         // the input is a QueryableStorageFunction, convert to StorageFunction
@@ -524,7 +520,7 @@ export default abstract class ApiBase<URI extends URIS> {
     }) as QueryableStorageMulti<URI>;
   }
 
-  private decorateExtrinsics (extrinsics: ModulesWithMethods, onCall: OnCallDefinition<URI>): SubmittableExtrinsics<URI> {
+  private decorateExtrinsics (extrinsics: ModulesWithMethods, onCall: ApiBase<URI>['onCall']): SubmittableExtrinsics<URI> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
       createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, value);
 
@@ -541,14 +537,14 @@ export default abstract class ApiBase<URI extends URIS> {
     }, creator as SubmittableExtrinsics<URI>);
   }
 
-  private decorateExtrinsicEntry (method: MethodFunction, onCall: OnCallDefinition<URI>): SubmittableExtrinsicFunction<URI> {
+  private decorateExtrinsicEntry (method: MethodFunction, onCall: ApiBase<URI>['onCall']): SubmittableExtrinsicFunction<URI> {
     const decorated = (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
       createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<URI>;
   }
 
-  private decorateStorage (storage: Storage, onCall: OnCallDefinition<URI>) {
+  private decorateStorage (storage: Storage, onCall: ApiBase<URI>['onCall']) {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -562,7 +558,7 @@ export default abstract class ApiBase<URI extends URIS> {
     }, {} as QueryableStorage<URI>);
   }
 
-  private decorateStorageEntry (creator: StorageFunction, onCall: OnCallDefinition<URI>): QueryableStorageFunction<URI> {
+  private decorateStorageEntry (creator: StorageFunction, onCall: ApiBase<URI>['onCall']): QueryableStorageFunction<URI> {
     // These signatures are allowed and exposed here -
     //   (arg?: CodecArg): CodecResult;
     //   (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult;
@@ -647,7 +643,7 @@ export default abstract class ApiBase<URI extends URIS> {
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<URI>;
   }
 
-  private decorateStorageEntryLinked<URI> (method: StorageFunction, onCall: OnCallDefinition<URI>, callback: Callback<Codec> | undefined): C | S {
+  private decorateStorageEntryLinked (method: StorageFunction, onCall: ApiBase<URI>['onCall'], callback: Callback<Codec> | undefined): C | S {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -731,10 +727,10 @@ export default abstract class ApiBase<URI extends URIS> {
     );
   }
 
-  private decorateDerive (apiRx: ApiInterface$Rx, onCall: OnCallDefinition<URI>) {
+  public decorateDerive (apiRx: ApiInterface$Rx, decorateMethod: ApiBase<URI, Something>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 
-    return decorateSections(derive, onCall);
+    return decorateSections(derive, decorateMethod);
   }
 }
