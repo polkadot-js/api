@@ -19,6 +19,51 @@ const call: RpcMethodOpt = {
   type: 'Bytes'
 };
 
+const getChildKeys: RpcMethodOpt = {
+  description: 'Retrieves the keys with prefix from a specific child storage',
+  params: [
+    createParam('prefix', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'StorageKey'
+};
+
+const getChildStorage: RpcMethodOpt = {
+  description: 'Retrieves the child storage for a key',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'StorageData'
+};
+
+const getChildStorageHash: RpcMethodOpt = {
+  description: 'Retrieves the child storage hash',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'Hash'
+};
+
+const getChildStorageSize: RpcMethodOpt = {
+  description: 'Retrieves the child storage size',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'u64'
+};
+
+const getKeys: RpcMethodOpt = {
+  description: 'Retrieves the keys with a certain prefix',
+  params: [
+    createParam('prefix', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'StorageKey'
+};
+
 const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
   params: [
@@ -100,11 +145,16 @@ export default {
   section,
   methods: {
     call: createMethod(section, 'call', call),
+    getKeys: createMethod(section, 'getKeys', getKeys),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     getStorage: createMethod(section, 'getStorage', getStorage),
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
+    getChildKeys: createMethod(section, 'getChildKeys', getChildKeys),
+    getChildStorage: createMethod(section, 'getChildStorage', getChildStorage),
+    getChildStorageHash: createMethod(section, 'getChildStorageHash', getChildStorageHash),
+    getChildStorageSize: createMethod(section, 'getChildStorageSize', getChildStorageSize),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }

@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { ContractAbi, Address, Hash } from '@polkadot/types';
+import { Address, ContractAbi, Hash } from '@polkadot/types';
 import { KeyringPair } from '@polkadot/keyring/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
 

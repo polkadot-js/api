@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v4/Storage';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageFunction, StorageKey } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
 import createFunction from './createFunction';
@@ -64,3 +64,10 @@ export const childStorageKeyPrefix = createRuntimeFunction('childStorageKeyPrefi
   documentation: 'Prefix of child storage keys.',
   type: 'u32'
 });
+
+// export default function isChildStorageKey (storageKey?: StorageKey): boolean {
+//   if (!storageKey) {
+//     return false;
+//   }
+//   return (storageKey === ':child_storage:');
+// }

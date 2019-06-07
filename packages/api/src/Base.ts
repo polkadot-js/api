@@ -636,6 +636,15 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
         [arg1, arg2]
       ) as unknown as U64Result<C, S>;
 
+    // decorated.size = (arg1?: CodecArg, arg2?: CodecArg): U64Result<C, S> =>
+    //   onCall(
+    //     (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageSize(
+    //       creator.meta.type.isDoubleMap
+    //         ? [creator, [arg1, arg2]]
+    //         : [creator, arg1]),
+    //     [arg1, arg2]
+    //   ) as unknown as U64Result<C, S>;
+
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<C, S>;
   }
 
