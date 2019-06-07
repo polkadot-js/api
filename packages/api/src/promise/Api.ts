@@ -3,9 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { AnyFunction, Callback, Codec, CodecArg } from '@polkadot/types/types';
-import { ApiOptions, ObsInnerType } from '../types';
-import { UnsubscribePromise } from './types';
+import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
+import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageFunctionPromiseOverloads, UnsubscribePromise } from '../types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -199,42 +198,56 @@ export default class ApiPromise extends ApiBase<'Promise'> {
     };
   }
 
-  protected onCall<Method extends AnyFunction> (method: Method, params: Array<CodecArg> = [], callback?: Callback<ObsInnerType<ReturnType<Method>>>, needsCallback?: boolean): Promise<ObsInnerType<ReturnType<Method>>> | UnsubscribePromise {
-    // When we need a subscription, ensure that a valid callback is actually passed
-    assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
+  protected decorateMethod<Method extends AnyFunction> (method: Method, options: DecorateMethodOptions): StorageFunctionPromiseOverloads {
+    const needsCallback = options.methodName && options.methodName.includes('subscribe');
 
-    if (!callback) {
-      return method(...params).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
-    }
+    return function (...args: any[]) {
+      let callback: Callback<Codec> | undefined;
+      let actualArgs = args.slice();
 
-    // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
-    // when I remove it...
-    // tslint:disable-next-line
-    return new Promise((resolve, reject) => {
-      let isCompleted = false;
-      const subscription = method(...params)
-        .pipe(
-          // if we find an error (invalid params, etc), reject the promise
-          catchError((error) => {
-            if (!isCompleted) {
-              isCompleted = true;
+      // If the last arg is a function, we pop it, put it into callback.
+      // actualArgs will then hold the actual arguments to be passed to `method`
+      if (args.length && isFunction(args[args.length - 1])) {
+        callback = actualArgs.pop();
+      }
 
-              reject(error);
-            }
+      // When we need a subscription, ensure that a valid callback is actually passed
+      assert(!needsCallback || isFunction(callback), 'Expected a callback to be passed with subscriptions');
 
-            // we don't want to continue, so empty observable it is
-            return EMPTY;
-          }),
-          // upon the first result, resolve the with the unsub function
-          tap(() => {
-            if (!isCompleted) {
-              isCompleted = true;
+      if (!callback) {
+        return method(...actualArgs).pipe(first()).toPromise() as Promise<ObsInnerType<ReturnType<Method>>>;
+      }
 
-              resolve(() => subscription.unsubscribe());
-            }
-          })
-        )
-        .subscribe(callback);
-    }) as UnsubscribePromise;
+      // FIXME TSLint shouts that type assertion is unnecessary, but tsc shouts
+      // when I remove it...
+      // tslint:disable-next-line
+      return new Promise((resolve, reject) => {
+        let isCompleted = false;
+        const subscription = method(...actualArgs)
+          .pipe(
+            // if we find an error (invalid params, etc), reject the promise
+            catchError((error) => {
+              if (!isCompleted) {
+                isCompleted = true;
+
+                reject(error);
+              }
+
+              // we don't want to continue, so empty observable it is
+              return EMPTY;
+            }),
+            // upon the first result, resolve the with the unsub function
+            tap(() => {
+              if (!isCompleted) {
+                isCompleted = true;
+
+                resolve(() => subscription.unsubscribe());
+              }
+            })
+          )
+          .subscribe(callback);
+      }) as UnsubscribePromise;
+    } as StorageFunctionPromiseOverloads;
   }
+
 }

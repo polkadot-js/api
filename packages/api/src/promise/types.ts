@@ -7,8 +7,6 @@ import { QueryableStorageFunction as QueryableStorageFunctionBase, SubmittableEx
 
 import { SubmittableExtrinsic as SubmittableExtrinsicBase } from '../SubmittableExtrinsic';
 
-export type UnsubscribePromise = Promise<() => any>;
-
 export type QueryableStorageFunction = QueryableStorageFunctionBase<'Promise'>;
 export type SubmittableExtrinsic = SubmittableExtrinsicBase<'Promise'>;
 export type SubmittableExtrinsicFunction = SubmittableExtrinsicFunctionBase<'Promise'>;

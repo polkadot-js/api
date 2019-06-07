@@ -30,7 +30,8 @@ describe.skip('Rx e2e queries', () => {
     expect(api.tx).toBeDefined();
     expect(api.derive).toBeDefined();
 
-    api.derive.balances.votingBalance()
+    api.rpc.chain.asd();
+
   });
 
   it('queries state for a balance', (done) => {

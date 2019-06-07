@@ -12,37 +12,75 @@ import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from '../Base';
-import { RxResult } from '../rx/types';
 import { SubmittableResult, SubmittableExtrinsic } from '../SubmittableExtrinsic';
-import { HKT, HktType, URIS } from './hkt';
+
+export type ApiType = 'Observable' | 'Promise'; // Same as URI below
+
+// Prepend an element V onto the beginning of a tuple T.
+// Cons<1, [2,3,4]> is [1,2,3,4]
+type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((
+  ...r: infer R
+) => void)
+  ? R
+  : never;
+// Append an element V onto the end of a tuple T
+// Push<[1,2,3],4> is [1,2,3,4]
+// note that this DOES NOT PRESERVE optionality/readonly in tuples.
+// So unfortunately Push<[1, 2?, 3?], 4> is [1,2|undefined,3|undefined,4]
+
+type Push<T extends any[], V> = (Cons<any, Required<T>> extends infer R
+  ? { [K in keyof R]: K extends keyof T ? T[K] : V }
+  : never) extends infer P
+  ? P extends any[] ? P : never
+  : never;
 
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
 
-// FIXME DecorateMethod's Result should be generic, for now we're hardcoding
-// export type DecorateMethod<Method extends AnyFunction> = (method: Method) => <Result>(...args: Parameters<Method>) => Result;
-export type DecorateMethod<Method extends AnyFunction> = (method: Method) => <Result>(...args: Parameters<Method>) => Result;
+export type UnsubscribePromise = Promise<() => void>;
 
-// export type OnCallDefinition<URI, Result> = (
-//   method: AnyFunction,
-//   params?: Array<CodecArg>,
-//   callback?: Callback<ObsInnerType<ReturnType<typeof method>>>,
-//   needsCallback?: boolean
-// ) => Result;
+// In the abstract `decorateMethod` in Base.ts, we can also pass in some meta-
+// information. This describes it.
+export type DecorateMethodOptions = {
+  methodName?: string
+};
 
-export type SubscriptionResult<URI> = URI extends 'Observable' ? Observable<Codec> : Callback<Codec>;
+// Here are the return types of these parts of the api:
+// - api.query.*.*: UntypedMethodResult<URI>
+// - api.tx.*.*: SubmittableExtrinsic<URI>
+// - api.derive.*.*: MethodResult<URI, F>
+// - api.rpc.*.*: UntypedMethodResult<URI> (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
 
-// checked against max. params in jsonrpc, 1 for subs, 3 without
-export interface DecoratedRpc$Method<URI> {
-  (callback: Callback<Codec>): SubscriptionResult<URI>;
-  (arg1: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
-  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): HktType<URI, Codec>;
-}
+export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
+export type PromiseResult<F extends AnyFunction> = {
+  (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>,
+  (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise
+};
 
+// FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
+export type MethodResult<URI, F extends AnyFunction> = URI extends 'Observable'
+  ? RxResult<F>
+  : PromiseResult<F>;
+
+type DecoratedRpc$Method<URI> = URI extends 'Observable'
+  ? (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
+  : {
+    // These signatures are allowed and exposed here (bit or a stoopid way, but checked
+    // RPCs and we have 3 max args, with subs max one arg... YMMV) -
+    //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
+    //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+    //  (callback: Callback<Codec>): UnsubscribePromise;
+    (arg1?: CodecArg, arg2?: CodecArg, arg3?: Codec): Promise<Codec>;
+    (callback: Callback<Codec>): UnsubscribePromise;
+    (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+  };
+
+// FIXME https://github.com/polkadot-js/api/issues/971
 export interface DecoratedRpc$Section<URI> {
   [index: string]: DecoratedRpc$Method<URI>;
 }
 
+// FIXME https://github.com/polkadot-js/api/issues/971
 export interface DecoratedRpc<URI> {
   author: DecoratedRpc$Section<URI>;
   chain: DecoratedRpc$Section<URI>;
@@ -50,36 +88,36 @@ export interface DecoratedRpc<URI> {
   system: DecoratedRpc$Section<URI>;
 }
 
-export type HashResult<URI> =
-  URI extends 'Observable'
-  ? Observable<Hash>
-  : Promise<Hash>;
-
-export type U64Result<URI> =
-  URI extends 'Observable'
-  ? Observable<U64>
-  : Promise<U64>;
-
-export interface QueryableStorageFunctionBase<URI> extends StorageFunction {
-  (arg1?: CodecArg, arg2?: CodecArg): HktType<URI, Codec>;
-  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => HktType<URI, Codec>;
+interface StorageFunctionObservable extends StorageFunction {
+  (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
   creator: StorageFunction;
-  hash: (arg1?: CodecArg, arg2?: CodecArg) => HashResult<URI>;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => SubscriptionResult<URI>;
-  size: (arg1?: CodecArg, arg2?: CodecArg) => U64Result<URI>;
+  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => Observable<Codec>;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => Observable<U64>;
 }
 
-interface QueryableStorageFunctionPromise<URI> extends QueryableStorageFunctionBase<URI> {
-  (callback: Callback<Codec>): SubscriptionResult<URI>;
-  (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
-  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): SubscriptionResult<URI>;
+export interface StorageFunctionPromiseOverloads {
+  (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
+  (callback: Callback<Codec>): UnsubscribePromise;
+  (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+}
+
+interface StorageFunctionPromise extends StorageFunction, StorageFunctionPromiseOverloads {
+  at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
+  creator: StorageFunction;
+  hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
+  key: (arg1?: CodecArg, arg2?: CodecArg) => string;
+  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => Promise<Codec>;
+  size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
 export type QueryableStorageFunction<URI> =
   URI extends 'Observable'
-  ? QueryableStorageFunctionBase<URI>
-  : QueryableStorageFunctionPromise<URI>;
+  ? StorageFunctionObservable
+  : StorageFunctionPromise;
 
 export interface QueryableModuleStorage<URI> {
   [index: string]: QueryableStorageFunction<URI>;
@@ -92,11 +130,11 @@ export type QueryableStorageMultiArg<URI> =
 export type QueryableStorageMultiArgs<URI> = Array<QueryableStorageMultiArg<URI>>;
 
 export interface QueryableStorageMultiBase<URI> {
-  (calls: QueryableStorageMultiArgs<URI>): SubscriptionResult<URI>;
+  (calls: QueryableStorageMultiArgs<URI>): UnsubscribePromise;
 }
 
 export interface QueryableStorageMultiPromise<URI> {
-  (calls: QueryableStorageMultiArgs<URI>, callback: Callback<Codec>): SubscriptionResult<URI>;
+  (calls: QueryableStorageMultiArgs<URI>, callback: Callback<Codec>): UnsubscribePromise;
 }
 
 export type QueryableStorageMulti<URI> =
@@ -172,5 +210,3 @@ export interface Signer {
    */
   update?: (id: number, status: Hash | SubmittableResult) => void;
 }
-
-export * from './hkt';

@@ -202,7 +202,7 @@ export default class ApiRx extends ApiBase<'Observable'> {
     });
   }
 
-  protected decorateMethod<Method extends (...args: any[]) => Observable<any>> (method: Method): Method {
+  protected decorateMethod<Method extends AnyFunction> (method: Method): Method {
     return method;
   }
 }

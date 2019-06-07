@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyFunction, Callback, CodecArg } from '@polkadot/types/types';
-import { DecorateMethod, ObsInnerType, HktType, URIS } from '../types';
+import { AnyFunction } from '@polkadot/types/types';
+import { MethodResult } from '../types';
 
 // A technically unsafe version of Object.keys(obj) that assumes that
 // obj only has known properties of T
@@ -11,13 +11,13 @@ function keys<T extends object> (obj: T) {
   return Object.keys(obj) as Array<keyof T>;
 }
 
-function decorateMethods<Section extends Record<keyof Section, (...args: Array<any>) => any>> (
+function decorateMethods<URI, Section extends Record<keyof Section, (...args: Array<any>) => any>> (
   section: Section,
-  decorateMethod: <Method extends AnyFunction>(method: Method) => <Result>(...args: Parameters<Method>) => Result
+  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<URI, Method>
 ) {
   return keys(section).reduce(
     <MethodName extends keyof Section>(
-      acc: { [MethodName in keyof Section]: ReturnType<DecorateMethod<Section[MethodName]>> },
+      acc: { [MethodName in keyof Section]: MethodResult<URI, Section[MethodName]> },
       methodName: MethodName
     ) => {
       const method = section[methodName];
@@ -26,25 +26,25 @@ function decorateMethods<Section extends Record<keyof Section, (...args: Array<a
 
       return acc;
     },
-    {} as { [MethodName in keyof Section]: ReturnType<DecorateMethod<Section[MethodName]>> }
+    {} as { [MethodName in keyof Section]: MethodResult<URI, Section[MethodName]> }
   );
 }
 
-export function decorateSections<AllSections extends {
+export function decorateSections<URI, AllSections extends {
   [SectionName in keyof AllSections]: Record<keyof AllSections[SectionName], (...args: any[]) => any>
 }> (
   allSections: AllSections,
-  decorateMethod: <Method extends AnyFunction>(method: Method) => <Result>(...args: Parameters<Method>) => Result
+  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<URI, Method>
 ) {
   return keys(allSections).reduce(
     <MethodName extends keyof AllSections>(
-      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: ReturnType<DecorateMethod<AllSections[SectionName][MethodName]>> } },
+      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<URI, AllSections[SectionName][MethodName]> } },
       sectionName: MethodName
     ) => {
       acc[sectionName] = decorateMethods(allSections[sectionName], decorateMethod);
 
       return acc;
     },
-    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: ReturnType<DecorateMethod<AllSections[SectionName][MethodName]>> } }
+    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<URI, AllSections[SectionName][MethodName]> } }
   );
 }
