@@ -45,15 +45,17 @@ export class ChangesTrieRoot extends Hash {
  */
 export class ConsensusEngineId extends U32 {
   static idToString (input: number | BN): string {
-    return bnToBn(input).toArray('le').reduce((result, value) =>
-      `${result}${String.fromCharCode(value)}`
-    , '');
+    return bnToBn(input)
+      .toArray('le')
+      .map((code) => String.fromCharCode(code))
+      .join('');
   }
 
   static stringToId (input: string): number {
-    return input.split('').reverse().reduce((result, char) =>
-      (result * 256) + char.charCodeAt(0)
-    , 0);
+    return input
+      .split('')
+      .reverse()
+      .reduce((result, char) => (result * 256) + char.charCodeAt(0), 0);
   }
 
   /**
