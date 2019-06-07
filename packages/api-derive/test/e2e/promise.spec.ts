@@ -120,23 +120,11 @@ describe.skip('derive e2e', () => {
   });
 
   describe('verifies derive.staking.unlocking',() => {
-    const BOND_VALUE = 10;
     const UNBOND_VALUE = 1;
     const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
     const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
     const keyring = testKeyring();
-    const aliceStashPair = keyring.getPair(ALICE_STASH);
     const alicePair = keyring.getPair(ALICE);
-
-    it('bondsExtra funds for Alice Stash', (done) => {
-      return api.tx.staking.bondExtra(BOND_VALUE)
-        .signAndSend(aliceStashPair, (result: SubmittableResult) => {
-          if (result.status.isFinalized) {
-
-            done();
-          }
-        });
-    });
 
     it('unbonds dots for Alice (from Alice Stash)', (done) => {
       return api.tx.staking.unbond(UNBOND_VALUE)
@@ -149,8 +137,38 @@ describe.skip('derive e2e', () => {
     });
 
     it('verifies that derive.staking.unlocking isn\'t empty/undefined', () => {
-      return api.derive.session.info(ALICE_STASH, (info: DerivedStaking) => {
-        expect(info.unlocking).toBeGreaterThan(0);
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+        expect(info.unlocking).toBeDefined();
+      });
+    });
+  });
+
+  describe('verifies derive.staking.rewardDestination',() => {
+    const PAYEE = 2;
+    const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
+    const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+    const keyring = testKeyring();
+    const alicePair = keyring.getPair(ALICE);
+
+    it('Set payee for ALICE to 2', (done) => {
+      return api.tx.staking.setPayee(PAYEE)
+        .signAndSend(alicePair, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+
+            done();
+          }
+        });
+    });
+
+    it('verifies payee for ALICE_STASH', (done) => {
+      return api.derive.staking.info(ALICE_STASH, (info: DerivedStaking) => {
+        if (!info.rewardDestination) {
+          return done.fail(new Error('rewardDestination is undefined.'));
+        } else {
+          expect(info.rewardDestination.toString()).toBe('Controller');
+        }
+
+        done();
       });
     });
   });

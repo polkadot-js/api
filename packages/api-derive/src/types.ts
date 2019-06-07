@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Exposure, Index, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@polkadot/types';
 
 export interface DerivedBalances extends StructAny {
   accountId: AccountId;
@@ -64,6 +64,7 @@ export interface DerivedStaking extends StructAny {
   nextSessionId?: AccountId;
   nominators?: Array<AccountId>;
   redeemable?: BN;
+  rewardDestination?: RewardDestination;
   stakers?: Exposure;
   stakingLedger?: StakingLedger;
   stashId?: AccountId;
