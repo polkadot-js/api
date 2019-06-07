@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import { AnyFunction, Codec, CodecArg, Callback, RegistryTypes } from '@polkadot/types/types';
+import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
@@ -116,7 +116,6 @@ export default abstract class ApiBase<URI> {
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxDecorateMethod);
     this._queryMulti = this.decorateMulti(this.decorateMethod) as any; // as above :(
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
-    this._rx.signer = options.signer;
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
@@ -445,15 +444,11 @@ export default abstract class ApiBase<URI> {
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
 
-    this._extrinsics = this.decorateExtrinsics(extrinsics, this.onCall);
-    this._query = this.decorateStorage(storage, this.onCall) as any; // FIXME 3.4.1
-    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
+    this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
+    this._query = this.decorateStorage(storage, this.decorateMethod) as any; // FIXME 3.4.1
 
-    this._rx.genesisHash = this._genesisHash;
-    this._rx.runtimeVersion = this._runtimeVersion;
-    this._rx.tx = this.decorateExtrinsics(extrinsics, rxOnCall);
-    this._rx.query = this.decorateStorage(storage, rxOnCall);
-    this._rx.derive = this.decorateDerive(this._rx as ApiInterface$Rx, rxDecorateMethod);
+    this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
+    this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
@@ -477,12 +472,12 @@ export default abstract class ApiBase<URI> {
     return output;
   }
 
-  private decorateRpc (rpc: RpcRx, decorateMethod: ApiBase<URI>['decorateMethod']): DecoratedRpc<URI> {
+  private decorateRpc<URI> (rpc: RpcRx, decorateMethod: ApiBase<URI>['decorateMethod']): DecoratedRpc<URI> {
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DecoratedRpc<URI>;
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
-        const method = rpc[sectionName];
+        const method = rpc[sectionName][methodName];
         section[methodName] = decorateMethod(method, {
           methodName
         });
@@ -494,8 +489,8 @@ export default abstract class ApiBase<URI> {
     }, {} as DecoratedRpc<URI>);
   }
 
-  private decorateMulti (decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageMulti<URI> {
-    return ((calls: QueryableStorageMultiArgs<URI>, callback?: Callback<Codec>) => {
+  private decorateMulti<URI> (decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageMulti<URI> {
+    return decorateMethod((calls: QueryableStorageMultiArgs<URI>) => {
       const mapped = calls.map((arg: QueryableStorageMultiArg<URI>): [QueryableStorageFunction<URI>, ...Array<CodecArg>] =>
         // the input is a QueryableStorageFunction, convert to StorageFunction
         Array.isArray(arg)
@@ -503,26 +498,21 @@ export default abstract class ApiBase<URI> {
           : [arg.creator] as any
       );
 
-      return onCall(
-        () =>
-          this._rpcRx.state
-            .subscribeStorage(mapped)
-            .pipe(map((results) => new VectorAny(...results))),
-        [],
-        callback
-      );
-    }) as QueryableStorageMulti<URI>;
+      return this._rpcRx.state
+        .subscribeStorage(mapped)
+        .pipe(map((results) => new VectorAny(...results)));
+    });
   }
 
-  private decorateExtrinsics (extrinsics: ModulesWithMethods, onCall: ApiBase<URI>['onCall']): SubmittableExtrinsics<URI> {
+  private decorateExtrinsics (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, value);
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName], onCall);
+        result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
 
         return result;
       }, {} as SubmittableModuleExtrinsics<URI>);
@@ -531,19 +521,19 @@ export default abstract class ApiBase<URI> {
     }, creator as SubmittableExtrinsics<URI>);
   }
 
-  private decorateExtrinsicEntry (method: MethodFunction, onCall: ApiBase<URI>['onCall']): SubmittableExtrinsicFunction<URI> {
+  private decorateExtrinsicEntry (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
     const decorated = (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, onCall, method(...params));
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<URI>;
   }
 
-  private decorateStorage (storage: Storage, decorateMethod: ApiBase<URI>['decorateMethod']) {
+  private decorateStorage<URI> (storage: Storage, decorateMethod: ApiBase<URI>['decorateMethod']) {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
+        result[methodName] = this.decorateStorageEntry<URI>(section[methodName], decorateMethod);
 
         return result;
       }, {} as QueryableModuleStorage<URI>);
@@ -552,40 +542,32 @@ export default abstract class ApiBase<URI> {
     }, {} as QueryableStorage<URI>);
   }
 
-  private decorateStorageEntry (creator: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageFunction<URI> {
+  private decorateStorageEntry<URI> (creator: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageFunction<URI> {
+
     // These signatures are allowed and exposed here -
     //   (arg?: CodecArg): CodecResult;
     //   (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult;
     //   (callback: Callback<Codec>): SubscriptionResult;
-    const decorated = decorateMethod(creator, {
+    const decorated = decorateMethod((...args: Array<any>) => {
+      if (creator.headKey && args.length === 0) {
+        return this.decorateStorageEntryLinked(creator, decorateMethod);
+      }
+
+      return this._rpcRx.state
+        .subscribeStorage([
+          creator.meta.type.isDoubleMap
+            ? [creator, args]
+            : [creator, ...args]])
+        .pipe(
+          // state_storage returns an array of values, since we have just subscribed to
+          // a single entry, we pull that from the array and return it as-is
+          map((result: Array<Codec>): Codec =>
+            result[0]
+          )
+        );
+    }, {
       methodName: creator.method
     });
-
-    // const decorated = ((...args: Array<any>) => {
-    //   let callback: Callback<Codec> | undefined;
-    //   let params = args;
-
-    //   if (creator.headKey && params.length === 0) {
-    //     return this.decorateStorageEntryLinked(creator, onCall, callback);
-    //   }
-
-    //   return onCall(
-    //     (...args: CodecArg[]) => this._rpcRx.state
-    //       .subscribeStorage([
-    //         creator.meta.type.isDoubleMap
-    //           ? [creator, args]
-    //           : [creator, ...args]])
-    //       .pipe(
-    //         // state_storage returns an array of values, since we have just subscribed to
-    //         // a single entry, we pull that from the array and return it as-is
-    //         map((result: Array<Codec>): Codec =>
-    //           result[0]
-    //         )
-    //       ),
-    //     params,
-    //     callback
-    //   );
-    // }) as QueryableStorageFunction<URI>;
 
     decorated.creator = creator;
 
@@ -625,7 +607,7 @@ export default abstract class ApiBase<URI> {
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<URI>;
   }
 
-  private decorateStorageEntryLinked (method: StorageFunction, onCall: ApiBase<URI>['onCall'], callback: Callback<Codec> | undefined): C | S {
+  private decorateStorageEntryLinked (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): C | S {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;

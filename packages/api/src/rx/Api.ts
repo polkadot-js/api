@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { AnyFunction, Codec, CodecArg } from '@polkadot/types/types';
-import { ApiOptions, ApiInterface$Rx, ObsInnerType } from '../types';
+import { AnyFunction } from '@polkadot/types/types';
+import { ApiOptions } from '../types';
 
 import { from, Observable } from 'rxjs';
 

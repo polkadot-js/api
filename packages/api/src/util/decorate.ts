@@ -30,6 +30,9 @@ function decorateMethods<URI, Section extends Record<keyof Section, (...args: Ar
   );
 }
 
+/**
+ * This is a section decorator which keeps all type information.
+ */
 export function decorateSections<URI, AllSections extends {
   [SectionName in keyof AllSections]: Record<keyof AllSections[SectionName], (...args: any[]) => any>
 }> (

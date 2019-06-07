@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
-import { Hash, u64 as U64 } from '@polkadot/types';
+import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
-import ApiBase from '../Base';
-import { SubmittableResult, SubmittableExtrinsic } from '../SubmittableExtrinsic';
+import ApiBase from './Base';
+import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 export type ApiType = 'Observable' | 'Promise'; // Same as URI below
 
@@ -105,7 +105,11 @@ export interface StorageFunctionPromiseOverloads {
   (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
 }
 
-interface StorageFunctionPromise extends StorageFunction, StorageFunctionPromiseOverloads {
+interface StorageFunctionPromise extends StorageFunction {
+  (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
+  (callback: Callback<Codec>): UnsubscribePromise;
+  (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
@@ -191,14 +195,13 @@ export interface ApiOptions {
   types?: RegistryTypes;
 }
 
-// Simple interface with only:
-// - api.query.*.*
-// - api.queryMulti
-// Used by api-derive.
-export type ApiInterface$Rx = {
-  query: QueryableStorage<'Observable'>,
-  queryMulti: QueryableStorageMulti<'Observable'>
-};
+// A smaller interface of ApiRx.
+export interface ApiInterface$Rx {
+  query: QueryableStorage<'Observable'>;
+  queryMulti: QueryableStorageMulti<'Observable'>;
+  rpc: DecoratedRpc<'Observable'>;
+  signer?: Signer;
+}
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
