@@ -43,7 +43,7 @@ function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSec
     .reduce((deriveAcc, sectionName) => {
       const section = allSections[sectionName as keyof AllSections];
 
-      const a = Object
+      deriveAcc[sectionName as keyof AllSections] = Object
         .keys(section)
         .reduce((sectionAcc, _methodName) => {
           const methodName = _methodName as keyof typeof section;
@@ -55,15 +55,16 @@ function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSec
           return sectionAcc;
         }, {} as ReturnTypes<typeof section>);
 
-      deriveAcc[sectionName as keyof AllSections] = a;
-
       return deriveAcc;
     }, {} as DeriveSections<AllSections>);
 }
 
+export const derive = { accounts, balances, chain, contract, democracy, session, staking };
+export type Derive = typeof derive;
+
 export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}) {
   return {
-    ...injectFunctions(api, { accounts, balances, chain, contract, democracy, session, staking }),
+    ...injectFunctions(api, derive),
     ...injectFunctions(api, custom)
   };
 }

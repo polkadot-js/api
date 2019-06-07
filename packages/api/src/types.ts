@@ -191,7 +191,14 @@ export interface ApiOptions {
   types?: RegistryTypes;
 }
 
-export type ApiInterface$Rx = ApiInterface$Decorated<'Observable', RxResult, RxResult>;
+// Simple interface with only:
+// - api.query.*.*
+// - api.queryMulti
+// Used by api-derive.
+export type ApiInterface$Rx = {
+  query: QueryableStorage<'Observable'>,
+  queryMulti: QueryableStorageMulti<'Observable'>
+};
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
