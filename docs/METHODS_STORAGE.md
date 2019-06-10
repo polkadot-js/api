@@ -46,6 +46,9 @@ ___
 ▸ **freeBalance**(`AccountId`): `Balance`
 - **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It  alone is used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to clean up data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
 
+▸ **freeBalance.multi**(`[AccountId1, ...AccountIdn]`): `[Balance1, ...Balancen]`
+- **summary**:   You may subscribe to balance changes for multiple adddresses. This is done using the `api.query.balances.freeBalance.multi([addresses...], (balances) => {...}`
+
 ▸ **locks**(`AccountId`): `Vec<BalanceLock>`
 - **summary**:   Any liquidity locks on some account balances.
 
