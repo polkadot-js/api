@@ -64,6 +64,13 @@ export default class RpcRx implements RpcRxInterface {
     this._eventemitter.on(type, handler);
   }
 
+  /**
+   * @description Manually disconnect from the attached provider of api
+   */
+  disconnect (): void {
+    this._api.disconnect();
+  }
+
   protected emit (type: RpcRxInterface$Events, ...args: Array<any>): void {
     this._eventemitter.emit(type, ...args);
   }

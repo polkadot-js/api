@@ -287,6 +287,7 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
    * @description Disconnect from the underlying provider, halting all comms
    */
   disconnect (): void {
+    this._rpcRx.disconnect();
     this._rpcBase.disconnect();
   }
 
