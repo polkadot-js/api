@@ -61,16 +61,16 @@ export type MethodResult<URI, F extends AnyFunction> = URI extends 'rxjs'
   : PromiseResult<F>;
 
 type DecoratedRpc$Method<URI> = URI extends 'rxjs'
-  ? <T = Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<T>
+  ? (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
   : {
     // These signatures are allowed and exposed here (bit or a stoopid way, but checked
     // RPCs and we have 3 max args, with subs max one arg... YMMV) -
     //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
     //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
     //  (callback: Callback<Codec>): UnsubscribePromise;
-    <T = Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
-    <T = Codec>(callback: Callback<T>): UnsubscribePromise;
-    <T = Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
+    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
+    (callback: Callback<Codec>): UnsubscribePromise;
+    (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
   };
 
 // FIXME https://github.com/polkadot-js/api/issues/971

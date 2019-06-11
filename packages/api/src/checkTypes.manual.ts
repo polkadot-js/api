@@ -23,10 +23,6 @@ export default async function test () {
     console.log('intentions:', intentions);
   });
 
-  await api.rpc.chain.subscribeNewHead<Header>((header) => {
-    console.log('current blockNumber:', header.blockNumber);
-  });
-
   await api.rpc.chain.subscribeNewHead((header: Header) => {
     console.log('current blockNumber:', header.blockNumber);
   });

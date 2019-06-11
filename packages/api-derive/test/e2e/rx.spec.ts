@@ -34,7 +34,7 @@ describe.skip('derive e2e', () => {
       it('looks up AccountId & AccountIndex from AccountId', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]) => {
-          expect(accountId.toString()).toEqual(ID);
+          expect(accountId!.toString()).toEqual(ID);
           // The first emitted value for ix is undefined when passing the ID
           if (accountIndex) {
             expect(accountIndex.toString()).toEqual(IX);
@@ -54,7 +54,7 @@ describe.skip('derive e2e', () => {
           } else {
             expect(accountId).toEqual(undefined);
           }
-          expect(accountIndex.toString()).toEqual(IX);
+          expect(accountIndex!.toString()).toEqual(IX);
           done();
         });
       });
@@ -148,7 +148,7 @@ describe.skip('derive e2e', () => {
       it('Get the latest block number', async (done) => {
         api.derive.chain.bestNumber().subscribe((blockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
-          expect((blockNumber as BlockNumber).gten(0)).toBe(true);
+          expect(blockNumber.gten(0)).toBe(true);
           done();
         });
       });
@@ -158,7 +158,7 @@ describe.skip('derive e2e', () => {
       it('Get the latest finalised block number', async (done) => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
-          expect((blockNumber as BlockNumber).gten(0)).toBe(true);
+          expect(blockNumber.gten(0)).toBe(true);
           done();
         });
       });
@@ -168,21 +168,21 @@ describe.skip('derive e2e', () => {
       it('lag between finalised head and best head', async (done) => {
         api.derive.chain.bestNumberLag().subscribe((numberLag) => {
           expect(numberLag instanceof BlockNumber).toBe(true);
-          expect((numberLag as BlockNumber).gten(0)).toBe(true);
+          expect(numberLag.gten(0)).toBe(true);
           done();
         });
       });
     });
 
-    describe('getHeader', () => {
-      it('gets a specific block header and extended with it\`s author', async (done) => {
-        api.derive.chain.getHeader().subscribe((headerExtended) => {
-          // WIP
-          expect(headerExtended).toEqual(expect.arrayContaining([]));
-          done();
-        });
-      });
-    });
+    // describe('getHeader', () => {
+    //   it('gets a specific block header and extended with it\`s author', async (done) => {
+    //     api.derive.chain.getHeader().subscribe((headerExtended) => {
+    //       // WIP
+    //       expect(headerExtended).toEqual(expect.arrayContaining([]));
+    //       done();
+    //     });
+    //   });
+    // });
 
     describe('subscribeNewHead', () => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
@@ -199,17 +199,6 @@ describe.skip('derive e2e', () => {
       it('derive.session.sessionProgress', async (done) => {
         api.derive.session.sessionProgress().subscribe((progress) => {
           expect(progress instanceof BN).toBe(true);
-          done();
-        });
-      });
-    });
-  });
-
-  describe('derive.staking', () => {
-    describe('intentionsBalances', () => {
-      it('returns the intentions with balances', async (done) => {
-        api.derive.staking.intentionsBalances().subscribe((balances) => {
-          expect(Object.keys(balances as object)).not.toHaveLength(0);
           done();
         });
       });

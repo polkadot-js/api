@@ -31,12 +31,12 @@ describe.skip('derive e2e', () => {
     await new Promise((resolve) => setTimeout(resolve, 15000));
     const block2 = await api.derive.chain.bestNumber();
 
-    expect((block1 as BlockNumber).eq(block2)).toBe(false);
+    expect(block1.eq(block2)).toBe(false);
   });
 
   it('subscribes to newHead, retrieving the actual validator', (done) => {
     return api.derive.chain.subscribeNewHead(({ author }) => {
-      console.log('author', author.toString());
+      console.log('author', author && author.toString());
 
       if (author) {
         done();
@@ -92,9 +92,9 @@ describe.skip('derive e2e', () => {
       console.error(JSON.stringify(info));
 
       expect(info.accountId.eq(accountId)).toBe(true);
-      expect(info.controllerId.eq(accountId)).toBe(true);
-      expect(info.stashId.eq('5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY')).toBe(true);
-      expect(info.stashId.eq(info.stakingLedger.stash)).toBe(true);
+      expect(info.controllerId!.eq(accountId)).toBe(true);
+      expect(info.stashId!.eq('5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY')).toBe(true);
+      expect(info.stashId!.eq(info.stakingLedger!.stash)).toBe(true);
 
       done();
     });
@@ -119,7 +119,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-  describe('verifies derive.staking.unlocking',() => {
+  describe('verifies derive.staking.unlocking', () => {
     const UNBOND_VALUE = 1;
     const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
     const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -143,7 +143,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-  describe('verifies derive.staking.rewardDestination',() => {
+  describe('verifies derive.staking.rewardDestination', () => {
     const PAYEE = 2;
     const ALICE_STASH = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
     const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
