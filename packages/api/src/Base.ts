@@ -111,7 +111,7 @@ export default abstract class ApiBase<URI> {
 
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
-    this._rpcRx = new RpcRx(thisProvider);
+    this._rpcRx = new RpcRx(this._rpcBase._provider);
     this._rpc = this.decorateRpc(this._rpcRx, this.decorateMethod) as any; // FIXME 3.4.1
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxDecorateMethod);
     this._queryMulti = this.decorateMulti(this.decorateMethod) as any; // as above :(
