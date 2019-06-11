@@ -4,6 +4,7 @@
 
 import { assert } from '@polkadot/util';
 
+import Option from '../codec/Option';
 import Bytes from '../primitive/Bytes';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
@@ -23,7 +24,8 @@ export class AliveContractInfo extends Struct {
       storageSize: U64,
       codeHash: CodeHash,
       rentAllowance: Balance,
-      deductBlock: BlockNumber
+      deductBlock: BlockNumber,
+      lastWrite: Option.with(BlockNumber)
     }, value);
   }
 
@@ -33,6 +35,10 @@ export class AliveContractInfo extends Struct {
 
   get deductBlock (): BlockNumber {
     return this.get('deductBlock') as BlockNumber;
+  }
+
+  get lastWrite (): Option<BlockNumber> {
+    return this.get('lastWrite') as Option<BlockNumber>;
   }
 
   get rentAllowance (): Balance {
