@@ -68,9 +68,9 @@ type DecoratedRpc$Method<URI> = URI extends 'rxjs'
     //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
     //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
     //  (callback: Callback<Codec>): UnsubscribePromise;
-    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
-    (callback: Callback<Codec>): UnsubscribePromise;
-    (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
+    <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
+    <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
   };
 
 // FIXME https://github.com/polkadot-js/api/issues/971
@@ -87,7 +87,7 @@ export interface DecoratedRpc<URI> {
 }
 
 interface StorageFunctionObservable extends StorageFunction {
-  (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
+  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Observable<Hash>;
@@ -104,15 +104,15 @@ export interface StorageFunctionPromiseOverloads {
 }
 
 interface StorageFunctionPromise extends StorageFunction {
-  (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
-  (callback: Callback<Codec>): UnsubscribePromise;
-  (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
-  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+  <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Promise<T>;
+  <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
+  <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;
   key: (arg1?: CodecArg, arg2?: CodecArg) => string;
-  multi: (args: Array<CodecArg[] | CodecArg>, callback?: Callback<Codec>) => Promise<Codec>;
+  multi: <T extends Codec>(args: Array<CodecArg[] | CodecArg>, callback?: Callback<Array<T>>) => Promise<Array<T>>;
   size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
@@ -136,7 +136,7 @@ export interface QueryableStorageMultiBase<URI> {
 }
 
 export interface QueryableStorageMultiPromise<URI> {
-  (calls: QueryableStorageMultiArgs<URI>, callback: Callback<Codec>): UnsubscribePromise;
+  <T extends Codec>(calls: QueryableStorageMultiArgs<URI>, callback: Callback<Array<T>>): UnsubscribePromise;
 }
 
 export type QueryableStorageMulti<URI> =

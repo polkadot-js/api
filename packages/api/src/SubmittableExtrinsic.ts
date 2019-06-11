@@ -58,7 +58,7 @@ export class SubmittableResult extends Struct {
 export interface SubmittableExtrinsic<URI> extends IExtrinsic {
   send (): SumbitableResultResult<URI>;
 
-  send (statusCb: (result: SubmittableResult) => any): SumbitableResultSubscription<URI>;
+  send (statusCb: Callback<SubmittableResult>): SumbitableResultSubscription<URI>;
 
   sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
@@ -72,7 +72,7 @@ export default function createSubmittableExtrinsic<URI> (
   api: ApiInterface$Rx,
   decorateMethod: ApiBase<URI>['decorateMethod'],
   extrinsic: Method | Uint8Array | string,
-  trackingCb?: (result: SubmittableResult) => any
+  trackingCb?: Callback<SubmittableResult>
 ): SubmittableExtrinsic<URI> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<URI>;
   const _noStatusCb = type === 'rxjs';
@@ -147,14 +147,14 @@ export default function createSubmittableExtrinsic<URI> (
     _extrinsic,
     {
       send: {
-        value: function (statusCb?: (result: SubmittableResult) => any): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
+        value: function (statusCb?: Callback<SubmittableResult>): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           const isSubscription = _noStatusCb || !!statusCb;
 
           return decorateMethod(
-            () => isSubscription
-              ? subscribeObservable()
-              : sendObservable()
-          ) as SumbitableResultSubscription<URI>;
+            isSubscription
+              ? subscribeObservable
+              : sendObservable
+          )(statusCb) as SumbitableResultSubscription<URI>;
         }
       },
       sign: {
@@ -171,7 +171,11 @@ export default function createSubmittableExtrinsic<URI> (
         }
       },
       signAndSend: {
-        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | Callback<SubmittableResult>, statusCb?: Callback<SubmittableResult>): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
+        value: function (
+          account: IKeyringPair | string | AccountId | Address,
+          _options?: Partial<Partial<SignatureOptions>> | Callback<SubmittableResult>,
+          statusCb?: Callback<SubmittableResult>
+        ): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           let options: Partial<Partial<SignatureOptions>> = {};
 
           if (isFunction(_options)) {
@@ -210,7 +214,7 @@ export default function createSubmittableExtrinsic<URI> (
                   : sendObservable(updateId) as any; // ???
               })
             ) as Observable<Codec>)
-          ) as SumbitableResultSubscription<URI>;
+          )(statusCb) as SumbitableResultSubscription<URI>;
         }
       }
     }

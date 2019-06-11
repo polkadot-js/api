@@ -9,6 +9,7 @@ import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, In
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
+import { bestNumber } from '../chain/bestNumber';
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 
@@ -78,7 +79,7 @@ export function all (api: ApiInterface$Rx) {
         (accountId
           ? combineLatest([
             of(accountId),
-            api.derive.chain.bestNumber(),
+            bestNumber(api)(),
             api.queryMulti([
               [api.query.balances.freeBalance, accountId],
               [api.query.balances.reservedBalance, accountId],

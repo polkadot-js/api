@@ -198,8 +198,8 @@ export default class ApiPromise extends ApiBase<'promise'> {
     };
   }
 
-  protected decorateMethod<Method extends AnyFunction> (method: Method, options: DecorateMethodOptions): StorageFunctionPromiseOverloads {
-    const needsCallback = options.methodName && options.methodName.includes('subscribe');
+  protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageFunctionPromiseOverloads {
+    const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
     return function (...args: any[]) {
       let callback: Callback<Codec> | undefined;
@@ -249,5 +249,4 @@ export default class ApiPromise extends ApiBase<'promise'> {
       }) as UnsubscribePromise;
     } as StorageFunctionPromiseOverloads;
   }
-
 }
