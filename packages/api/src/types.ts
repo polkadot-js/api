@@ -61,16 +61,16 @@ export type MethodResult<URI, F extends AnyFunction> = URI extends 'rxjs'
   : PromiseResult<F>;
 
 type DecoratedRpc$Method<URI> = URI extends 'rxjs'
-  ? (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
+  ? <T = Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<T>
   : {
     // These signatures are allowed and exposed here (bit or a stoopid way, but checked
     // RPCs and we have 3 max args, with subs max one arg... YMMV) -
     //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
     //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
     //  (callback: Callback<Codec>): UnsubscribePromise;
-    (arg1?: CodecArg, arg2?: CodecArg, arg3?: Codec): Promise<Codec>;
-    (callback: Callback<Codec>): UnsubscribePromise;
-    (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
+    <T = Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
+    <T = Codec>(callback: Callback<T>): UnsubscribePromise;
+    <T = Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
   };
 
 // FIXME https://github.com/polkadot-js/api/issues/971
@@ -193,11 +193,16 @@ export interface ApiOptions {
   types?: RegistryTypes;
 }
 
-// A smaller interface of ApiRx.
+// A smaller interface of ApiRx, used in derive and in SubmittableExtrinsic
 export interface ApiInterface$Rx {
+  genesisHash: Hash;
+  hasSubscriptions: boolean;
+  runtimeMetadata: Metadata;
+  runtimeVersion: RuntimeVersion;
   query: QueryableStorage<'rxjs'>;
   queryMulti: QueryableStorageMulti<'rxjs'>;
   rpc: DecoratedRpc<'rxjs'>;
+  tx: SubmittableExtrinsics<'rxjs'>;
   signer?: Signer;
 }
 

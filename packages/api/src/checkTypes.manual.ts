@@ -23,8 +23,16 @@ export default async function test () {
     console.log('intentions:', intentions);
   });
 
+  await api.rpc.chain.subscribeNewHead<Header>((header) => {
+    console.log('current blockNumber:', header.blockNumber);
+  });
+
   await api.rpc.chain.subscribeNewHead((header: Header) => {
     console.log('current blockNumber:', header.blockNumber);
+  });
+
+  await api.derive.chain.subscribeNewHead((header) => {
+    console.log('current author:', header.author);
   });
 
   await api.derive.chain.subscribeNewHead((header: HeaderExtended) => {

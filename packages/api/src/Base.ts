@@ -548,26 +548,27 @@ export default abstract class ApiBase<URI> {
     //   (arg?: CodecArg): CodecResult;
     //   (arg: CodecArg, callback: Callback<Codec>): SubscriptionResult;
     //   (callback: Callback<Codec>): SubscriptionResult;
-    const decorated = decorateMethod((...args: Array<any>) => {
-      if (creator.headKey && args.length === 0) {
-        return this.decorateStorageEntryLinked(creator, decorateMethod);
-      }
+    const decorated = decorateMethod(
+      (...args: Array<any>) => {
+        if (creator.headKey && args.length === 0) {
+          return this.decorateStorageEntryLinked(creator, decorateMethod);
+        }
 
-      return this._rpcRx.state
-        .subscribeStorage([
-          creator.meta.type.isDoubleMap
-            ? [creator, args]
-            : [creator, ...args]])
-        .pipe(
-          // state_storage returns an array of values, since we have just subscribed to
-          // a single entry, we pull that from the array and return it as-is
-          map((result: Array<Codec>): Codec =>
-            result[0]
-          )
-        );
-    }, {
-      methodName: creator.method
-    });
+        return this._rpcRx.state
+          .subscribeStorage([
+            creator.meta.type.isDoubleMap
+              ? [creator, args]
+              : [creator, ...args]])
+          .pipe(
+            // state_storage returns an array of values, since we have just subscribed to
+            // a single entry, we pull that from the array and return it as-is
+            map((result: Array<Codec>): Codec =>
+              result[0]
+            )
+          );
+      }, {
+        methodName: creator.method
+      });
 
     decorated.creator = creator;
 
@@ -607,7 +608,7 @@ export default abstract class ApiBase<URI> {
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<URI>;
   }
 
-  private decorateStorageEntryLinked (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): C | S {
+  private decorateStorageEntryLinked (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): ReturnType<ApiBase<URI>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -676,18 +677,16 @@ export default abstract class ApiBase<URI> {
 
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
-    return onCall(
-      (arg: CodecArg) => this._rpcRx.state
-        .subscribeStorage([arg])
+    return decorateMethod(
+      () => this._rpcRx.state
+        .subscribeStorage([method.headKey])
         .pipe(
           switchMap(([key]: Array<Codec>) => {
             head = key;
 
             return getNext(key);
           })
-        ),
-      [method.headKey],
-      callback
+        )
     );
   }
 
