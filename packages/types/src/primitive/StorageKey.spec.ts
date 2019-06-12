@@ -97,6 +97,7 @@ describe('StorageKey', () => {
   });
 
   describe('with MetadataV5 (uses xxHash by default)', () => {
+    // @TODO write tests from Metadata v5
     // const storage = fromMetadata(new Metadata(rpcDataV5));
 
   });

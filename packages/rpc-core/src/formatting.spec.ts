@@ -9,6 +9,7 @@ import { Storage } from '@polkadot/storage/types';
 import Metadata from '@polkadot/types/Metadata';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
+import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
 
 import Api from '.';
 
@@ -88,8 +89,16 @@ formattingTests(
   fromMetadata(new Metadata(rpcMetadataV3)),
   ['0x4af2c53fce3ec33c6ccccf22e926f1a7', '0x3e62f7ed6e788e1337bce2a97b68a12a']
 );
+
 formattingTests(
   'v4',
   fromMetadata(new Metadata(rpcMetadataV4)),
+  ['0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad', '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab']
+);
+
+// @TODO Write correct test, this is just a copy
+formattingTests(
+  'v5',
+  fromMetadata(new Metadata(rpcMetadataV5)),
   ['0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad', '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab']
 );
