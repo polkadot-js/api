@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/rpc-rx",
-  "version": "0.81.0",
+  "version": "0.82.0",
   "description": "An RxJs wrapper around the Polkadot JS API",
   "main": "index.js",
   "keywords": [
