@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { decodeAddress } from '@polkadot/keyring';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import { Codec } from '../types';
 import Base from '../codec/Base';

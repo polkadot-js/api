@@ -4,7 +4,7 @@
 
 import { isHex, hexToU8a, u8aConcat } from '@polkadot/util';
 
-import { MAGIC_ERROR, MAGIC_NUMBER } from './MagicNumber';
+import { MAGIC_NUMBER } from './MagicNumber';
 import MetadataVersioned from './MetadataVersioned';
 
 /**
@@ -28,7 +28,7 @@ export default class Metadata extends MetadataVersioned {
     try {
       return new MetadataVersioned(value);
     } catch (error) {
-      if (error.code !== MAGIC_ERROR) {
+      if (error.message.indexOf('MagicNumber mismatch') === -1) {
         throw error;
       }
     }

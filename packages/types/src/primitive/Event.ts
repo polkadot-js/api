@@ -114,7 +114,7 @@ export default class Event extends Struct {
     const index = value.subarray(0, 2);
     const DataType = EventTypes[index.toString()];
 
-    assert(!isUndefined(DataType), `Unable to decode event for index ${u8aToHex(index)}`);
+    assert(!isUndefined(DataType), `Unable to decode ${u8aToHex(index)}`);
 
     return {
       DataType,
