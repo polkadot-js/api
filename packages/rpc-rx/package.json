@@ -35,6 +35,6 @@
     "rxjs": "^6.5.2"
   },
   "devDependencies": {
-    "@polkadot/keyring": "^0.93.0-beta.1"
+    "@polkadot/keyring": "^0.93.0-beta.2"
   }
 }
