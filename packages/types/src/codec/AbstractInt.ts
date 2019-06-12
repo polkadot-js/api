@@ -43,6 +43,10 @@ export default abstract class AbstractInt extends BN implements Codec {
     if (isHex(value)) {
       return hexToBn(value, { isLe: false, isNegative }).toString();
     } else if (isU8a(value)) {
+      if (!value.length) {
+        return '0';
+      }
+
       try {
         // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
         return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
