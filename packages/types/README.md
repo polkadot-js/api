@@ -142,7 +142,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[Vote]] | A number of lock periods, plus a vote, one way or the other |
 | [[Votes]] | Info for keeping track of a council motion being voted on. |
 | [[VoteIndex]] | Voting index, implemented as a [[U32]] |
-| [[VoterInfo]] | Voter info, implemented as a [[U32]] |
 | [[VoteThreshold]] | Voting threshold, used inside proposals to set change the voting tally |
 | [[WithdrawReasons]] | The Substrate WithdrawReasons for staking |
 
