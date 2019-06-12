@@ -30,4 +30,10 @@ describe('U8aFixed', () => {
       new U8aFixed().toHex()
     ).toEqual('0x0000000000000000000000000000000000000000000000000000000000000000');
   });
+
+  it('allows construction via with', () => {
+    expect(
+      new (U8aFixed.with(64))().bitLength()
+    ).toEqual(64);
+  });
 });

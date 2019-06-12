@@ -211,4 +211,18 @@ describe('Enum', () => {
       });
     });
   });
+
+  describe('toRawType', () => {
+    it('has a sane output for basic enums', () => {
+      expect(
+        new Enum(['foo', 'bar']).toRawType()
+      ).toEqual(JSON.stringify({ _enum: ['foo', 'bar'] }));
+    });
+
+    it('has a sane output for types enums', () => {
+      expect(
+        new Enum({ foo: Text, bar: U32 }).toRawType()
+      ).toEqual(JSON.stringify({ _enum: { foo: 'Text', bar: 'u32' } }));
+    });
+  });
 });

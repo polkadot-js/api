@@ -4,11 +4,11 @@
 
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a } from '../types';
+import { AnyU8a, Constructor } from '../types';
 
 import U8a from './U8a';
 
-type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512;
+export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 1024 | 2048;
 
 /**
  * @name U8aFixed
@@ -44,6 +44,14 @@ export default class U8aFixed extends U8a {
     }
 
     return value;
+  }
+
+  static with (bitLength: BitLength): Constructor<U8aFixed> {
+    return class extends U8aFixed {
+      constructor (value?: any) {
+        super(value, bitLength);
+      }
+    };
   }
 
   /**

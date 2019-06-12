@@ -11,8 +11,6 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[councilMotions](#councilMotions)**
 
-- **[councilVoting](#councilVoting)**
-
 - **[democracy](#democracy)**
 
 - **[](#)**
@@ -105,7 +103,7 @@ ___
 - **summary**:   Remove a voter. For it not to be a bond-consuming no-op, all approved candidate indices  must now be either unregistered or registered to a candidate that registered the slot after  the voter gave their last approval set.   May be called by anyone. Returns the voter deposit to `signed`.
 
 ▸ **removeMember**(who: `Address`)
-- **summary**:   Remove a particular member. A tally will happen instantly (if not already in a presentation  period) to fill the seat if removal means that the desired members are not met.  This is effective immediately.
+- **summary**:   Remove a particular member from the council. This is effective immediately.   Note: A tally should happen instantly (if not already in a presentation  period) to fill the seat if removal means that the desired members are not met.
 
 ▸ **retractVoter**(index: `Compact<u32>`)
 - **summary**:   Remove a voter. All votes are cancelled and the voter deposit is returned.
@@ -114,7 +112,7 @@ ___
 - **summary**:   Set candidate approvals. Approval slots stay valid as long as candidates in those slots  are registered.
 
 ▸ **setDesiredSeats**(count: `Compact<u32>`)
-- **summary**:   Set the desired member count; if lower than the current count, then seats will not be up  election when they expire. If more, then a new vote will be started if one is not already  in progress.
+- **summary**:   Set the desired member count; if lower than the current count, then seats will not be up  election when they expire. If more, then a new vote will be started if one is not  already in progress.
 
 ▸ **setPresentationDuration**(count: `Compact<BlockNumber>`)
 - **summary**:   Set the presentation duration. If there is currently a vote being presented for, will  invoke `finalize_vote`.
@@ -130,44 +128,44 @@ ___
 
 ### councilMotions
 
-▸ **propose**(threshold: `Compact<u32>`, proposal: `Proposal`)
+▸ **execute**(proposal: `Proposal`)
+- **summary**:   Dispatch a proposal from a councilor using the `Member` origin.   Origin must be a council member.
+
+▸ **propose**(threshold: `Compact<MemberCount>`, proposal: `Proposal`)
 
 ▸ **vote**(proposal: `Hash`, index: `Compact<ProposalIndex>`, approve: `bool`)
 
 ___
 
 
-### councilVoting
-
-▸ **propose**(proposal: `Proposal`)
-
-▸ **setCooloffPeriod**(blocks: `Compact<BlockNumber>`)
-
-▸ **setVotingPeriod**(blocks: `Compact<BlockNumber>`)
-
-▸ **veto**(proposal_hash: `Hash`)
-
-▸ **vote**(proposal: `Hash`, approve: `bool`)
-
-___
-
-
 ### democracy
 
-▸ **cancelQueued**(when: `Compact<BlockNumber>`, which: `Compact<u32>`)
+▸ **cancelQueued**(when: `Compact<BlockNumber>`, which: `Compact<u32>`, what: `Compact<ReferendumIndex>`)
 - **summary**:   Cancel a proposal queued for enactment.
 
 ▸ **cancelReferendum**(ref_index: `Compact<ReferendumIndex>`)
 - **summary**:   Remove a referendum.
 
-▸ **delegate**(to: `AccountId`, lock_periods: `LockPeriods`)
+▸ **delegate**(to: `AccountId`, conviction: `Conviction`)
 - **summary**:   Delegate vote.
+
+▸ **emergencyCancel**(ref_index: `ReferendumIndex`)
+- **summary**:   Schedule an emergency cancellation of a referendum. Cannot happen twice to the same  referendum.
+
+▸ **emergencyPropose**(proposal: `Proposal`, threshold: `VoteThreshold`, voting_period: `BlockNumber`, delay: `BlockNumber`)
+- **summary**:   Schedule an emergency referendum.   This will create a new referendum for the `proposal`, approved as long as counted votes  exceed `threshold` and, if approved, enacted after the given `delay`.   It may be called from either the Root or the Emergency origin.
+
+▸ **externalPropose**(proposal: `Proposal`)
+- **summary**:   Schedule a referendum to be tabled once it is legal to schedule an external  referendum.
+
+▸ **externalProposeMajority**(proposal: `Proposal`)
+- **summary**:   Schedule a majority-carries referendum to be tabled next once it is legal to schedule  an external referendum.
 
 ▸ **propose**(proposal: `Proposal`, value: `Compact<BalanceOf>`)
 - **summary**:   Propose a sensitive action to be taken.
 
 ▸ **proxyVote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
-- **summary**:   Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.
+- **summary**:   Vote in a referendum on behalf of a stash. If `vote.is_aye()`, the vote is to enact  the proposal;  otherwise it is a vote to keep the status quo.
 
 ▸ **removeProxy**(proxy: `AccountId`)
 - **summary**:   Clear the proxy. Called by the stash.
@@ -181,11 +179,11 @@ ___
 ▸ **setProxy**(proxy: `AccountId`)
 - **summary**:   Specify a proxy. Called by the stash.
 
-▸ **startReferendum**(proposal: `Proposal`, threshold: `VoteThreshold`, delay: `BlockNumber`)
-- **summary**:   Start a referendum.
-
 ▸ **undelegate**()
 - **summary**:   Undelegate vote.
+
+▸ **vetoExternal**(proposal_hash: `Hash`)
+- **summary**:   Veto and blacklist the external proposal hash.
 
 ▸ **vote**(ref_index: `Compact<ReferendumIndex>`, vote: `Vote`)
 - **summary**:   Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;  otherwise it is a vote to keep the status quo.
@@ -262,7 +260,7 @@ ___
 - **summary**:   The ideal number of validators.
 
 ▸ **unbond**(value: `Compact<BalanceOf>`)
-- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than  T::Currency::existential_deposit(), then it is increased to the full amount.   Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::withdraw_unbonded`].
+- **summary**:   Schedule a portion of the stash to be unlocked ready for transfer out after the bond  period ends. If this leaves an amount actively bonded less than  T::Currency::existential_deposit(), then it is increased to the full amount.   Once the unlock period is done, you can call `withdraw_unbonded` to actually move  the funds out of management ready for transfer.   No more than a limited number of unlocking chunks (see `MAX_UNLOCKING_CHUNKS`)  can co-exists at the same time. In that case, [`Call::withdraw_unbonded`] need  to be called first to remove some of the chunks (if possible).   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   See also [`Call::withdraw_unbonded`].
 
 ▸ **validate**(prefs: `ValidatorPrefs`)
 - **summary**:   Declare the desire to validate for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.

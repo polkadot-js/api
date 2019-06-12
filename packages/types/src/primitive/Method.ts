@@ -221,6 +221,20 @@ export default class Method extends Struct implements IMethod {
   }
 
   /**
+   * @description Returns the name of the method
+   */
+  get methodName (): string {
+    return Method.findFunction(this.callIndex).method;
+  }
+
+  /**
+   * @description Returns the module containing the method
+   */
+  get sectionName (): string {
+    return Method.findFunction(this.callIndex).section;
+  }
+
+  /**
    * @description Returns the base runtime type name for this instance
    */
   toRawType (): string {

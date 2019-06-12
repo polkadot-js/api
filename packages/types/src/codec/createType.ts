@@ -13,26 +13,34 @@ import Linkage from './Linkage';
 import Option from './Option';
 import Struct from './Struct';
 import Tuple from './Tuple';
+import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
 import Vector from './Vector';
 import getRegistry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,
+  DoubleMap,
   Enum,
+  Linkage,
   Option,
   Plain,
   Struct,
   Tuple,
   Vector,
-  Linkage,
-  DoubleMap,
+  VectorFixed,
   // anything not full supported (keep this as the last entry)
   Null
 }
 
+export type TypeDefExtVecFixed = {
+  length: number,
+  type: string
+};
+
 export type TypeDef = {
   info: TypeDefInfo,
+  ext?: TypeDefExtVecFixed, // add additional here as required
   name?: string,
   type: string,
   sub?: TypeDef | Array<TypeDef>
@@ -40,9 +48,10 @@ export type TypeDef = {
 
 // safely split a string on ', ' while taking care of any nested occurences
 export function typeSplit (type: string): Array<string> {
-  let sDepth = 0;
-  let tDepth = 0;
-  let vDepth = 0;
+  let cDepth = 0; // compact/doublemap/linkedmap/option/vector depth
+  let fDepth = 0; // vector (fixed) depth
+  let sDepth = 0; // struct depth
+  let tDepth = 0; // tuple depth
   let start = 0;
   const result = [];
 
@@ -50,36 +59,34 @@ export function typeSplit (type: string): Array<string> {
     switch (type[index]) {
       case ',':
         // we are not nested, add the type
-        if (sDepth === 0 && tDepth === 0 && vDepth === 0) {
+        if (cDepth === 0 && fDepth === 0 && sDepth === 0 && tDepth === 0) {
           result.push(type.substr(start, index - start).trim());
           start = index + 1;
         }
         break;
 
-      // inc struct depth, start found
-      case '{': sDepth++; break;
+      // adjust compact/vec (and friends) depth
+      case '<': cDepth++; break;
+      case '>': cDepth--; break;
 
-      // dec struct depth, end found
+      // adjust fixed vec depths
+      case '[': fDepth++; break;
+      case ']': fDepth--; break;
+
+      // adjust struct depth
+      case '{': sDepth++; break;
       case '}': sDepth--; break;
 
-      // inc tuple depth, start found
+      // adjusttuple depth
       case '(': tDepth++; break;
-
-      // dec tuple depth, end found
       case ')': tDepth--; break;
-
-      // inc compact/vec depth, start found
-      case '<': vDepth++; break;
-
-      // dec compact/vec depth, end found
-      case '>': vDepth--; break;
 
       // normal character
       default: break;
     }
   }
 
-  assert(!sDepth && !tDepth && !vDepth, `Invalid defintion (missing terminators) found in ${type}`);
+  assert(!cDepth && !fDepth && !sDepth && !tDepth, `Invalid defintion (missing terminators) found in ${type}`);
 
   // the final leg of the journey
   result.push(type.substr(start, type.length - start).trim());
@@ -111,6 +118,16 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
   if (startingWith(type, '(', ')')) {
     value.info = TypeDefInfo.Tuple;
     value.sub = typeSplit(subType).map((inner) => getTypeDef(inner));
+  } else if (startingWith(type, '[', ']')) {
+    // this handles e.g. [u8;32]
+    const [vecType, _vecLen] = type.substr(1, type.length - 2).split(';');
+    const vecLen = parseInt(_vecLen.trim(), 10);
+
+    // as a first round, only u8 via u8aFixed, we can add more support
+    assert(vecLen <= 256 && ['u8'].includes(vecType), `Only support for [u8; <length>], where length <= 256`);
+
+    value.info = TypeDefInfo.VectorFixed;
+    value.ext = { length: vecLen, type: 'u8a' } as TypeDefExtVecFixed;
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
     const keys = Object.keys(parsed);
@@ -208,6 +225,10 @@ export function getTypeClass (value: TypeDef): Constructor {
       return Vector.with(
         getTypeClass(value.sub as TypeDef)
       );
+    case TypeDefInfo.VectorFixed:
+      assert(value.ext, 'Expected length & type information for fixed vector');
+
+      return U8aFixed.with(((value.ext as TypeDefExtVecFixed).length * 8) as U8aFixedBitLength);
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
 
