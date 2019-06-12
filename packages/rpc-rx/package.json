@@ -1,6 +1,6 @@
 {
   "name": "@plugnet/rpc-rx",
-  "version": "0.80.0",
+  "version": "0.80.100",
   "description": "An RxJs wrapper around the Plugnet JS API",
   "main": "index.js",
   "keywords": [
@@ -27,8 +27,8 @@
   "homepage": "https://github.com/plugblockchain/api.js/tree/master/packages/rpc-rx#readme",
   "dependencies": {
     "@babel/runtime": "^7.4.5",
-    "@plugnet/rpc-core": "^0.80.0",
-    "@plugnet/rpc-provider": "^0.80.0",
+    "@plugnet/rpc-core": "^0.80.100",
+    "@plugnet/rpc-provider": "^0.80.100",
     "@types/memoizee": "^0.4.2",
     "@types/rx": "^4.1.1",
     "memoizee": "^0.4.14",
