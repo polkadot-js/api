@@ -6,6 +6,7 @@ import { hexToU8a } from '@polkadot/util';
 import fromMetadata from '@polkadot/storage/fromMetadata';
 import rpcDataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/types/Metadata/v4/static';
+import rpcDataV5 from '@polkadot/types/Metadata/v5/static';
 
 import Metadata from '../Metadata';
 import StorageKey from './StorageKey';
@@ -93,5 +94,10 @@ describe('StorageKey', () => {
           .toU8a()
       ).toEqual(Uint8Array.from([1, 1, 48, 7, 201, 255, 112, 39, 246, 89, 0, 171, 205, 252, 164, 253, 177, 7, 234, 212, 126, 42, 158, 53, 88, 224, 27, 105, 27, 15, 74, 95, 133, 24, 212, 135, 50, 102, 20, 240, 102, 65, 99, 8, 191, 106, 164, 229, 4, 29, 25, 73, 146, 142, 75, 38, 237, 233, 142, 60, 235, 179, 106, 59, 23, 38]));
     });
+  });
+
+  describe('with MetadataV5 (uses xxHash by default)', () => {
+    // const storage = fromMetadata(new Metadata(rpcDataV5));
+
   });
 });

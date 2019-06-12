@@ -31,7 +31,7 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV4 and MetadataV{version} should output the same
+ * Given a `version`, MetadataV5 and MetadataV{version} should output the same
  * unique types.
  */
 export function toV5<Modules extends Codec> (version: number, rpcData: string) {
@@ -53,7 +53,7 @@ export function defaultValues (rpcData: string) {
     const metadata = new Metadata(rpcData);
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV4.modules
+    metadata.asV5.modules
       .filter(({ storage }) => storage.isSome)
       .map((mod) =>
         mod.storage.unwrap().forEach(({ fallback, name, type }) => {
