@@ -76,7 +76,7 @@ These custom types implement specific types that are found as part of the Substr
 | **Types** | |
 | --- | --- |
 | [[Amount]] | The Substrate Amount representation as a [[Balance]] |
-| [[ApprovalIndex]] | Approval index, implemented as a [[U32]] |
+| [[ApprovalFlag]] | Approval flag, implemented as a [[U32]] |
 | [[AssetOf]] | The Substrate AssetOf representation as a [[Balance]] |
 | [[AttestedCandidate]] | An attested candidate |
 | [[AuthorityId]] | Wrapper for a AuthorityId. Same as an normal AccountId |
