@@ -47,9 +47,7 @@ export default abstract class AbstractInt extends BN implements Codec {
         // NOTE When passing u8a in (typically from decoded data), it is always Little Endian
         return u8aToBn(value.subarray(0, bitLength / 8), { isLe: true, isNegative }).toString();
       } catch (error) {
-        console.error(`AbstractInt value decoding failed ${error.message}`, value);
-
-        return '0';
+        throw new Error(`AbstractInt: failed on ${JSON.stringify(value)}:: ${error.message}`);
       }
     } else if (isString(value)) {
       return new BN(value, 10).toString();

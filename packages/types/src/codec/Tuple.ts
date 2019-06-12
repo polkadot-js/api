@@ -44,9 +44,7 @@ export default class Tuple extends AbstractArray<Codec> {
       try {
         return new Type(value && value[index]);
       } catch (error) {
-        console.error(`Unable to decode Tuple on index ${index}`, error.message);
-
-        throw error;
+        throw new Error(`Tuple: failed on ${index}:: ${error.message}`);
       }
     });
   }
