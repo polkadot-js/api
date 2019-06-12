@@ -6,6 +6,7 @@
 - Fix for disconnection when default providers (non-specified) are used
 - Update `ContractInfo` to match substrate master
 - Additional examples for subscriptions using multi
+- Support Metadata v5, key2Hasher of a DoubleMap is the StorageHasher enum and no longer a String.
 
 # 0.81.1
 
