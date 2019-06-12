@@ -10,7 +10,7 @@ import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from '../v3/Stor
 import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
 
 /**
- * Convert V3 StorageFunction to V4 StorageFunction
+ * Convert V4 StorageFunction to V5 StorageFunction
  */
 function toV5StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunctionMetadata {
   const { documentation, fallback, modifier, name, type } = storageFn;
@@ -45,8 +45,8 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV3): StorageFunc
 }
 
 /**
- * Convert from MetadataV3 to MetadataV4
- * See https://github.com/paritytech/substrate/pull/2268 for details
+ * Convert from MetadataV4 to MetadataV5
+ * See https://github.com/paritytech/substrate/pull/2836/files for details
  */
 export default function toV5 (metadataV4: MetadataV4): MetadataV5 {
   return new MetadataV5({
