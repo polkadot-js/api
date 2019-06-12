@@ -6,6 +6,7 @@
 - Fix for disconnection when default providers (non-specified) are used
 - Update `ContractInfo` to match substrate master
 - Additional examples for subscriptions using multi
+- Don't console.log type decoding errors and then throw, only re-throw with additional info
 
 # 0.81.1
 

@@ -27,8 +27,6 @@ export default function decodeU8a (u8a: Uint8Array, _types: Constructor[] | { [i
 
     return [value].concat(decodeU8a(u8a.subarray(value.encodedLength), types.slice(1)));
   } catch (error) {
-    console.error(`Unable to decode Uint8Array for type '${Type.name}': ${error.message}`);
-
-    throw error;
+    throw new Error(`U8a: failed on '${Type.name}':: ${error.message}`);
   }
 }
