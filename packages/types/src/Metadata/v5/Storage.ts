@@ -16,7 +16,7 @@ import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import { PlainType, StorageFunctionModifier } from '../v3/Storage';
 
-// Re-export classes that haven't changed between V3 and V4
+// Re-export classes that haven't changed between V3 and V5
 export {
   PlainType,
   StorageFunctionModifier
@@ -68,7 +68,7 @@ export class DoubleMapType extends Struct {
       key1: Type,
       key2: Type,
       value: Type,
-      key2Hasher: Text
+      key2Hasher: StorageHasher
     }, value);
   }
 
@@ -94,10 +94,10 @@ export class DoubleMapType extends Struct {
   }
 
   /**
-   * @description The hashing algorithm used to hash key2, as [[Text]]
+   * @description The hashing algorithm used to hash key2, as [[StorageHasher]]
    */
-  get key2Hasher (): Text {
-    return this.get('key2Hasher') as Text;
+  get key2Hasher (): StorageHasher {
+    return this.get('key2Hasher') as StorageHasher;
   }
 
   /**
