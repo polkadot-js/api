@@ -30,7 +30,7 @@ export default class VoterInfo extends Struct {
   }
 
   /**
-   * @description  Last VoteIndex in which one of this voter's approvals won. 
+   * @description  Last VoteIndex in which one of this voter's approvals won.
    * Note that `last_win = N` indicates a last win at index `N-1`, hence `last_win = 0` means no win ever.
    */
   get lastWin (): VoteIndex {
