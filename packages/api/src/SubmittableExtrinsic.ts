@@ -180,7 +180,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
 
           const isSubscription = _noStatusCb || !!statusCb;
           const isKeyringPair = isFunction((account as IKeyringPair).address) && isFunction((account as IKeyringPair).sign);
-          const address = isKeyringPair ? (account as IKeyringPair).address() : account.toString();
+          const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
           let updateId: number | undefined;
 
           return onCall(

@@ -29,7 +29,7 @@ describe('extrinsics', () => {
   it('encodes an actual transfer (actual data)', () => {
     expect(
       new Extrinsic(
-        extrinsics.balances.transfer(keyring.bob.publicKey(), 6969)
+        extrinsics.balances.transfer(keyring.bob.publicKey, 6969)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         nonce: 0

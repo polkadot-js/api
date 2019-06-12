@@ -42,7 +42,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('queries state for a balance', async () => {
     return (
-      api.query.balances.freeBalance(keyring.alice.address(), (balance) => {
+      api.query.balances.freeBalance(keyring.alice.address, (balance) => {
         expect(balance).toBeInstanceOf(BN);
         expect(balance.isZero()).toBe(false);
       })
@@ -81,7 +81,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to queries', (done) => {
     return (
-      api.query.system.accountNonce(keyring.ferdie.address(), (nonce) => {
+      api.query.system.accountNonce(keyring.ferdie.address, (nonce) => {
         expect(nonce instanceof BN).toBe(true);
 
         done();
@@ -91,7 +91,7 @@ describe.skip('Promise e2e queries', () => {
 
   it.skip('subscribes to queries (default)', (done) => {
     return (
-      api.query.staking.validators(keyring.ferdie.address(), (prefs) => {
+      api.query.staking.validators(keyring.ferdie.address, (prefs) => {
         expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
         done();
@@ -112,10 +112,10 @@ describe.skip('Promise e2e queries', () => {
   it('subscribes to multiple results (freeBalance.multi)', (done) => {
     return (
       api.query.balances.freeBalance.multi([
-        keyring.alice.address(),
-        keyring.bob.address(),
+        keyring.alice.address,
+        keyring.bob.address,
         '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y',
-        keyring.ferdie.address()
+        keyring.ferdie.address
       ], (balances) => {
         expect(balances).toHaveLength(4);
 
@@ -126,10 +126,10 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to multiple results (api.queryMulti)', (done) => {
     return api.queryMulti([
-      [api.query.balances.freeBalance, keyring.alice.address()],
-      [api.query.balances.freeBalance, keyring.bob.address()],
+      [api.query.balances.freeBalance, keyring.alice.address],
+      [api.query.balances.freeBalance, keyring.bob.address],
       [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
-      [api.query.balances.freeBalance, keyring.ferdie.address()]
+      [api.query.balances.freeBalance, keyring.ferdie.address]
     ], (balances: Array<BN>) => {
       expect(balances).toHaveLength(4);
 
@@ -140,9 +140,9 @@ describe.skip('Promise e2e queries', () => {
   it('subscribes to derived balances (balances.all)', (done) => {
     return (
       api.derive.balances.all(
-        keyring.alice.address(),
+        keyring.alice.address,
         (all) => {
-          expect(all.accountId.toString()).toEqual(keyring.alice.address());
+          expect(all.accountId.toString()).toEqual(keyring.alice.address);
 
           expect(all.freeBalance).toBeDefined();
           expect(all.freeBalance.gt(ZERO)).toBe(true);
@@ -229,16 +229,16 @@ describe.skip('Promise e2e queries', () => {
 
   describe('with map type', () => {
     it('queries correct value', async () => {
-      const balance = await api.query.balances.freeBalance(keyring.alice.address()) as Balance;
+      const balance = await api.query.balances.freeBalance(keyring.alice.address) as Balance;
 
       expect(balance.isZero()).toBe(false);
     });
 
     it('queries correct value at a specified block', async () => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+      const balance = await api.query.balances.freeBalance(keyring.alice.address);
       const header = await api.rpc.chain.getHeader() as Header;
-      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice.address()) as Balance;
+      const balanceAt = await api.query.balances.freeBalance.at(header.hash, keyring.alice.address) as Balance;
 
       expect(balanceAt.isZero()).toBe(false);
       expect(balanceAt.toString()).toEqual(balance.toString());
@@ -246,9 +246,9 @@ describe.skip('Promise e2e queries', () => {
 
     it('subscribes to query and get correct result', async (done) => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+      const balance = await api.query.balances.freeBalance(keyring.alice.address);
 
-      return api.query.balances.freeBalance(keyring.alice.address(), (balanceSubscribed) => {
+      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed) => {
         expect(balanceSubscribed.isZero()).toBe(false);
         expect(balanceSubscribed.toString()).toEqual(balance.toString());
         done();
@@ -256,18 +256,18 @@ describe.skip('Promise e2e queries', () => {
     });
 
     it('queries correct hash', async () => {
-      const hash = await api.query.balances.freeBalance.hash(keyring.alice.address());
+      const hash = await api.query.balances.freeBalance.hash(keyring.alice.address);
 
       expect(hash).toBeDefined();
     });
 
     it('gets correct key', async () => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
-      const key = api.query.balances.freeBalance.key(keyring.alice.address());
+      const key = api.query.balances.freeBalance.key(keyring.alice.address);
       const balanceData = await api.rpc.state.getStorage(key) as Option<any>;
       const balanceRPC = new Balance(balanceData.unwrapOr(undefined));
 
-      const balance = await api.query.balances.freeBalance(keyring.alice.address());
+      const balance = await api.query.balances.freeBalance(keyring.alice.address);
 
       expect(balanceRPC.isZero()).toBe(false);
       expect(balanceRPC.toString()).toEqual(balance.toString());
@@ -275,12 +275,12 @@ describe.skip('Promise e2e queries', () => {
 
     it('queries multiple results', async () => {
       // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
-      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address());
-      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address());
+      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address);
+      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address);
 
       const balances = await api.query.balances.freeBalance.multi([
-        keyring.alice.address(),
-        keyring.bob.address()
+        keyring.alice.address,
+        keyring.bob.address
       ]);
 
       expect(balances).toHaveLength(2);
@@ -290,12 +290,12 @@ describe.skip('Promise e2e queries', () => {
 
     it('subscribes to multiple queries and get correct results', async (done) => {
       // assume the account Alice and Bob are only used in test(the balance of them do not change in this test case)
-      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address());
-      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address());
+      const balanceAlice = await api.query.balances.freeBalance(keyring.alice.address);
+      const balanceBob = await api.query.balances.freeBalance(keyring.bob.address);
 
       return api.query.balances.freeBalance.multi([
-        keyring.alice.address(),
-        keyring.bob.address()
+        keyring.alice.address,
+        keyring.bob.address
       ], (balances) => {
         expect(balances).toHaveLength(2);
         expect(balances[0].toString()).toEqual(balanceAlice.toString());
@@ -305,7 +305,7 @@ describe.skip('Promise e2e queries', () => {
     });
 
     it('queries correct size', async () => {
-      const size = await api.query.balances.freeBalance.size(keyring.alice.address());
+      const size = await api.query.balances.freeBalance.size(keyring.alice.address);
 
       expect(size.toNumber()).not.toEqual(0);
     });

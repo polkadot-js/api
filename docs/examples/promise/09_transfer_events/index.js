@@ -28,9 +28,9 @@ async function main () {
   const alicePair = keyring.getPair(ALICE);
 
   // create a new random recipient
-  const recipient = keyring.addFromSeed(randomAsU8a(32)).address();
+  const recipient = keyring.addFromSeed(randomAsU8a(32)).address;
 
-  console.log('Sending', AMOUNT, 'from', alicePair.address(), 'to', recipient, 'with nonce', nonce.toString());
+  console.log('Sending', AMOUNT, 'from', alicePair.address, 'to', recipient, 'with nonce', nonce.toString());
 
   // Do the transfer and track the actual status
   api.tx.balances
