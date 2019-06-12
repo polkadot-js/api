@@ -1,3 +1,12 @@
+# 0.82.1
+
+- Update `HeaderExtended` to retrieve author information from substrate 2.x (new `PreRuntime` digests)
+- `createType` allows for the creation of `[u8; <length>]` types (opening the door for contract support)
+- `api.derive.staking.info` now returns the `rewardDestination`
+- Fix for disconnection when default providers (non-specified) are used
+- Update `ContractInfo` to match substrate master
+- Additional examples for subscriptions using multi
+
 # 0.81.1
 
 - Add support for new inherent digests from substrate.

@@ -5,8 +5,8 @@
 import { AnyNumber } from '../types';
 
 import BN from 'bn.js';
-import { decodeAddress, encodeAddress } from '@polkadot/keyring';
 import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
+import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
 
 import U32 from './U32';
 
