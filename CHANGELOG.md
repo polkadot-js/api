@@ -1,7 +1,3 @@
-# 0.82.1
-
-- Support Metadata v5, second hasher of a doublemap is the StorageHasher enum and no longer a String..
-
 # 0.81.1
 
 - Add support for new inherent digests from substrate.
