@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Extrinsic, Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/v4/static';
+import json from '@polkadot/types/Metadata/v5/static';
 
-import fromV4 from '.';
+import fromV5 from '.';
 
 // Use the pre-generated metadata
 const metadata = new Metadata(json);
-const newExtrinsics = fromV4(metadata);
+const newExtrinsics = fromV5(metadata);
 
 describe('fromMetadata', () => {
   it('should throw if an incorrect number of args is supplied', () => {

@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Metadata } from '@polkadot/types';
-import metadataRpc from '@polkadot/types/Metadata/v4/static';
+import metadataRpc from '@polkadot/types/Metadata/v5/static';
 import { ModulesWithMethods } from '@polkadot/types/primitive/Method';
 
 import fromMetadata from './fromMetadata';

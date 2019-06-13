@@ -12,10 +12,12 @@ import MetadataV1 from './v1';
 import MetadataV2 from './v2';
 import MetadataV3 from './v3';
 import MetadataV4 from './v4';
+import MetadataV5 from './v5';
 import v0ToV1 from './v0/toV1';
 import v1ToV2 from './v1/toV2';
 import v2ToV3 from './v2/toV3';
 import v3ToV4 from './v3/toV4';
+import v4ToV5 from './v4/toV5';
 
 class MetadataEnum extends Enum {
   constructor (value?: any) {
@@ -24,7 +26,8 @@ class MetadataEnum extends Enum {
       MetadataV1, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV2, // once rolled-out, can replace this with MetadataDeprecated
       MetadataV3, // once rolled-out, can replace this with MetadataDeprecated
-      MetadataV4
+      MetadataV4, // once rolled-out, can replace this with MetadataDeprecated
+      MetadataV5
     }, value);
   }
 
@@ -74,6 +77,15 @@ class MetadataEnum extends Enum {
   }
 
   /**
+   * @description Returns the wrapped values as a V5 object
+   */
+  get asV5 (): MetadataV5 {
+    assert(this.isV5, `Cannot convert '${this.type}' via asV5`);
+
+    return this.value as MetadataV5;
+  }
+
+  /**
    * @description `true` if Deprecated
    */
   get isDeprecated (): boolean {
@@ -116,6 +128,13 @@ class MetadataEnum extends Enum {
   }
 
   /**
+   * @description `true` if V5
+   */
+  get isV5 (): boolean {
+    return this.type === 'MetadataV5';
+  }
+
+  /**
    * @description The version this metadata represents
    */
   get version (): number {
@@ -133,6 +152,7 @@ export default class MetadataVersioned extends Struct {
   private _convertedV2?: MetadataV2;
   private _convertedV3?: MetadataV3;
   private _convertedV4?: MetadataV4;
+  private _convertedV5?: MetadataV5;
 
   constructor (value?: any) {
     super({
@@ -223,14 +243,14 @@ export default class MetadataVersioned extends Struct {
   }
 
   getUniqTypes (throwError: boolean): Array<string> {
-    return this.asV4.getUniqTypes(throwError);
+    return this.asV5.getUniqTypes(throwError);
   }
 
   /**
    * @description Returns the wrapped values as a V4 object
    */
   get asV4 (): MetadataV4 {
-    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v3`);
+    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
 
     if (this.metadata.version === 4) {
       return this.metadata.asV4;
@@ -241,5 +261,22 @@ export default class MetadataVersioned extends Struct {
     }
 
     return this._convertedV4;
+  }
+
+  /**
+   * @description Returns the wrapped values as a V5 object
+   */
+  get asV5 (): MetadataV5 {
+    assert(this.metadata.version <= 5, `Cannot convert metadata from v${this.metadata.version} to v5`);
+
+    if (this.metadata.version === 5) {
+      return this.metadata.asV5;
+    }
+
+    if (isUndefined(this._convertedV5)) {
+      this._convertedV5 = v4ToV5(this.asV4);
+    }
+
+    return this._convertedV5;
   }
 }

@@ -6,7 +6,7 @@ import MetadataV0 from './';
 import Metadata from '../';
 import latestSubstrateV0 from './latest.substrate.v0.json';
 import rpcData from './static';
-import { defaultValues, toV4 } from '../util/testUtil';
+import { defaultValues, toV5 } from '../util/testUtil';
 
 describe('Metadata', () => {
   it('works with fallback', () => {
@@ -27,7 +27,7 @@ describe('Metadata', () => {
     expect(json).toEqual(latestSubstrateV0);
   });
 
-  toV4(0, rpcData);
+  toV5(0, rpcData);
 
   defaultValues(rpcData);
 });
