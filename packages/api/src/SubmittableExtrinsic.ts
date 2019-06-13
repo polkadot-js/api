@@ -16,13 +16,13 @@ type StatusCb = (result: SubmittableResult) => any;
 
 type SumbitableResultResult<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-  ? Observable<SubmittableResult>
-  : Promise<Hash>;
+    ? Observable<SubmittableResult>
+    : Promise<Hash>;
 
 type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
   SubscriptionResult extends Observable<any>
-  ? Observable<SubmittableResult>
-  : Promise<() => void>;
+    ? Observable<SubmittableResult>
+    : Promise<() => void>;
 
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
