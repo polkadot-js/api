@@ -4,11 +4,12 @@
 
 import { assert } from '@polkadot/util';
 
+import Option from '../codec/Option';
 import Bytes from '../primitive/Bytes';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Hash from '../primitive/Hash';
-import U64 from '../primitive/U64';
+import U32 from '../primitive/U32';
 import Balance from './Balance';
 import BlockNumber from './BlockNumber';
 import CodeHash from './CodeHash';
@@ -20,10 +21,11 @@ export class AliveContractInfo extends Struct {
   constructor (value?: any) {
     super({
       trieId: TrieId,
-      storageSize: U64,
+      storageSize: U32,
       codeHash: CodeHash,
       rentAllowance: Balance,
-      deductBlock: BlockNumber
+      deductBlock: BlockNumber,
+      lastWrite: Option.with(BlockNumber)
     }, value);
   }
 
@@ -35,12 +37,16 @@ export class AliveContractInfo extends Struct {
     return this.get('deductBlock') as BlockNumber;
   }
 
+  get lastWrite (): Option<BlockNumber> {
+    return this.get('lastWrite') as Option<BlockNumber>;
+  }
+
   get rentAllowance (): Balance {
     return this.get('rentAllowance') as Balance;
   }
 
-  get storageSize (): U64 {
-    return this.get('storageSize') as U64;
+  get storageSize (): U32 {
+    return this.get('storageSize') as U32;
   }
 
   get trieId (): TrieId {
