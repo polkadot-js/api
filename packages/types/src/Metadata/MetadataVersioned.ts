@@ -250,7 +250,7 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V4 object
    */
   get asV4 (): MetadataV4 {
-    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v3`);
+    assert(this.metadata.version <= 4, `Cannot convert metadata from v${this.metadata.version} to v4`);
 
     if (this.metadata.version === 4) {
       return this.metadata.asV4;
@@ -267,7 +267,7 @@ export default class MetadataVersioned extends Struct {
    * @description Returns the wrapped values as a V5 object
    */
   get asV5 (): MetadataV5 {
-    assert(this.metadata.version <= 5, `Cannot convert metadata from v${this.metadata.version} to v4`);
+    assert(this.metadata.version <= 5, `Cannot convert metadata from v${this.metadata.version} to v5`);
 
     if (this.metadata.version === 5) {
       return this.metadata.asV5;
