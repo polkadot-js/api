@@ -73,6 +73,7 @@ export default function createSubmittableExtrinsic<URI> (
   extrinsic: Method | Uint8Array | string,
   trackingCb?: Callback<SubmittableResult>
 ): SubmittableExtrinsic<URI> {
+  console.log('extrinsic=', extrinsic);
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<URI>;
   const _noStatusCb = type === 'rxjs';
 
