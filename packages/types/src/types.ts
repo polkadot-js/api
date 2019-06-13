@@ -10,8 +10,8 @@ import Method from './primitive/Method';
 import Address from './primitive/Address';
 
 export type IKeyringPair = {
-  address: () => string,
-  publicKey: () => Uint8Array,
+  address: string,
+  publicKey: Uint8Array,
   sign: (data: Uint8Array) => Uint8Array;
 };
 
