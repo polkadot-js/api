@@ -42,7 +42,7 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
         value: type.asDoubleMap.value,
-        key2Hasher: type.asDoubleMap.key2Hasher
+        key2Hasher: toStorageHasher(type.asDoubleMap.key2Hasher)
       }), 2];
 
   return new StorageFunctionMetadata({
