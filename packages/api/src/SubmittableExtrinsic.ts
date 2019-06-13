@@ -4,14 +4,15 @@
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
 import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import ApiBase from './Base';
-import { ApiInterface$Rx, ApiType, Signer, UnsubscribePromise } from './types';
+import { ApiInterface$Rx, ApiType, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
+
+type StatusCb = (result: SubmittableResult) => any;
 
 type SumbitableResultResult<URI> =
   URI extends 'rxjs'
@@ -21,7 +22,7 @@ type SumbitableResultResult<URI> =
 type SumbitableResultSubscription<URI> =
   URI extends 'rxjs'
   ? Observable<SubmittableResult>
-  : UnsubscribePromise;
+  : Promise<() => void>;
 
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
@@ -58,21 +59,21 @@ export class SubmittableResult extends Struct {
 export interface SubmittableExtrinsic<URI> extends IExtrinsic {
   send (): SumbitableResultResult<URI>;
 
-  send (statusCb: Callback<SubmittableResult>): SumbitableResultSubscription<URI>;
+  send (statusCb: (result: SubmittableResult) => any): SumbitableResultSubscription<URI>;
 
   sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<URI>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResult>): SumbitableResultSubscription<URI>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: StatusCb): SumbitableResultSubscription<URI>;
 }
 
 export default function createSubmittableExtrinsic<URI> (
   type: ApiType,
   api: ApiInterface$Rx,
-  decorateMethod: ApiBase<URI>['decorateMethod'],
+  onCall: any, // TODO
   extrinsic: Method | Uint8Array | string,
-  trackingCb?: Callback<SubmittableResult>
+  trackingCb?: (result: SubmittableResult) => any
 ): SubmittableExtrinsic<URI> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<URI>;
   const _noStatusCb = type === 'rxjs';
@@ -147,14 +148,17 @@ export default function createSubmittableExtrinsic<URI> (
     _extrinsic,
     {
       send: {
-        value: function (statusCb?: Callback<SubmittableResult>): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
+        value: function (statusCb?: (result: SubmittableResult) => any): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           const isSubscription = _noStatusCb || !!statusCb;
 
-          return decorateMethod(
+          return onCall(
+            () => isSubscription
+              ? subscribeObservable()
+              : sendObservable(),
+            [],
+            statusCb as Callback<Codec>,
             isSubscription
-              ? subscribeObservable
-              : sendObservable
-          )(statusCb) as SumbitableResultSubscription<URI>;
+          ) as unknown as SumbitableResultSubscription<URI>;
         }
       },
       sign: {
@@ -171,11 +175,7 @@ export default function createSubmittableExtrinsic<URI> (
         }
       },
       signAndSend: {
-        value: function (
-          account: IKeyringPair | string | AccountId | Address,
-          _options?: Partial<Partial<SignatureOptions>> | Callback<SubmittableResult>,
-          statusCb?: Callback<SubmittableResult>
-        ): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
+        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | StatusCb, statusCb?: StatusCb): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           let options: Partial<Partial<SignatureOptions>> = {};
 
           if (isFunction(_options)) {
@@ -186,10 +186,10 @@ export default function createSubmittableExtrinsic<URI> (
 
           const isSubscription = _noStatusCb || !!statusCb;
           const isKeyringPair = isFunction((account as IKeyringPair).address) && isFunction((account as IKeyringPair).sign);
-          const address = isKeyringPair ? (account as IKeyringPair).address() : account.toString();
+          const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
           let updateId: number | undefined;
 
-          return decorateMethod(
+          return onCall(
             () => ((
               isUndefined(options.nonce)
                 ? api.query.system.accountNonce(address) as Observable<Index>
@@ -213,8 +213,11 @@ export default function createSubmittableExtrinsic<URI> (
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???
               })
-            ) as Observable<Codec>)
-          )(statusCb) as SumbitableResultSubscription<URI>;
+            ) as Observable<Codec>),
+            [],
+            statusCb as Callback<Codec>,
+            isSubscription
+          ) as unknown as SumbitableResultSubscription<URI>;
         }
       }
     }
