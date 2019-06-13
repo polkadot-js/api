@@ -32,7 +32,7 @@ describe.skip('Rx e2e queries', () => {
   });
 
   it('queries state for a balance', (done) => {
-    api.query.balances.freeBalance(keyring.alice.address()).subscribe((balance) => {
+    api.query.balances.freeBalance(keyring.alice.address).subscribe((balance) => {
       expect(balance).toBeInstanceOf(BN);
       expect((balance as Balance).isZero()).toBe(false);
       done();

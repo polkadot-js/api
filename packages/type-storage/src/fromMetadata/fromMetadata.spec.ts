@@ -26,7 +26,7 @@ describe('fromMetadata', () => {
   it('should return the correct length-prefixed storage key', () => {
     expect(
       u8aToHex(
-        storage.balances.freeBalance(keyring.alice.address())
+        storage.balances.freeBalance(keyring.alice.address)
       )
     ).toEqual(
       '0x807f864e18e3dd8b58386310d2fe0919eef27c6e558564b7f67f22d99d20f587bb'

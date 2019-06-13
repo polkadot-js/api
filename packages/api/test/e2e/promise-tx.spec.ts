@@ -52,9 +52,9 @@ describe.skip('Promise e2e transactions', () => {
   });
 
   it('can submit an extrinsic from hex', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
     const hex = api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
+      .transfer(keyring.eve.address, 12345)
       .sign(keyring.dave, { nonce })
       .toHex();
 
@@ -62,26 +62,26 @@ describe.skip('Promise e2e transactions', () => {
   });
 
   it('makes a transfer (sign, then send)', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
+      .transfer(keyring.eve.address, 12345)
       .sign(keyring.dave, { nonce })
       .send(logEvents(done));
   });
 
   it('makes a transfer (sign, then send - compat version)', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
 
     return api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
+      .transfer(keyring.eve.address, 12345)
       .sign(keyring.dave, { nonce })
       .send(logEvents(done));
   });
 
   it('makes a transfer (signAndSend)', async (done) => {
     return api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
+      .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.dave, logEvents(done));
   });
 
@@ -91,8 +91,8 @@ describe.skip('Promise e2e transactions', () => {
     api.setSigner(signer);
 
     return api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.dave.address(), logEvents(done));
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.dave.address, logEvents(done));
   });
 
   it('makes a transfer (signAndSend via Signer) with undefined Signer', async () => {
@@ -101,8 +101,8 @@ describe.skip('Promise e2e transactions', () => {
     api.setSigner(signer);
 
     await expect(api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address())).rejects.toThrow('no signer exists');
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.alice.address)).rejects.toThrow('no signer exists');
   });
 
   it('makes a transfer (signAndSend via Signer) with the wrong keyring pair', async () => {
@@ -112,20 +112,20 @@ describe.skip('Promise e2e transactions', () => {
 
     // no callback
     await expect(api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address())).rejects.toThrow('does not have the keyringPair');
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.alice.address)).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (signAndSend via Signer)  with the wrong keyring pair with a callback', async () => {
     // with callback
     await expect(api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
-      .signAndSend(keyring.alice.address(), (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
+      .transfer(keyring.eve.address, 12345)
+      .signAndSend(keyring.alice.address, (cb: any) => { /*do nothing */ })).rejects.toThrow('does not have the keyringPair');
   });
 
   it('makes a transfer (no callback)', async () => {
     const hash = await api.tx.balances
-      .transfer(keyring.eve.address(), 12345)
+      .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.dave);
 
     expect(hash.toHex()).toHaveLength(66);
@@ -146,13 +146,13 @@ describe.skip('Promise e2e transactions', () => {
 
     function doOne (cb: any) {
       return api.tx.balances
-        .transfer(pair.address(), 123456)
+        .transfer(pair.address, 123456)
         .signAndSend(keyring.dave, logEvents(cb));
     }
 
     function doTwo (cb: any) {
       return api.tx.balances
-        .transfer(keyring.alice.address(), 12345)
+        .transfer(keyring.alice.address, 12345)
         .signAndSend(pair, logEvents(cb));
     }
 
@@ -163,7 +163,7 @@ describe.skip('Promise e2e transactions', () => {
   });
 
   it('makes a transfer with ERA (signAndSend)', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.dave.address()) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
     const signedBlock = await api.rpc.chain.getBlock();
     const currentHeight = (signedBlock as SignedBlock).block.header.number;
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
@@ -171,7 +171,7 @@ describe.skip('Promise e2e transactions', () => {
     const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
     console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
-    const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+    const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
     const hash = await ex.signAndSend(keyring.dave, { blockHash: eraHash, era: exERA, nonce } as any);
 
     expect(hash.toHex()).toHaveLength(66);
@@ -179,7 +179,7 @@ describe.skip('Promise e2e transactions', () => {
   });
 
   it('makes a transfer with ERA (signAndSend) with invalid time', async (done) => {
-    const nonce = await api.query.system.accountNonce(keyring.alice.address()) as Index;
+    const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
     const signedBlock = await api.rpc.chain.getBlock();
     const currentHeight = (signedBlock as SignedBlock).block.header.number;
     const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
@@ -187,7 +187,7 @@ describe.skip('Promise e2e transactions', () => {
     const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
     console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
     const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
-    const ex = api.tx.balances.transfer(keyring.eve.address(), 12345);
+    const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
     return (
       api.rpc.chain.subscribeNewHead(async (header) => {

@@ -151,8 +151,8 @@ export default class Mock implements ProviderInterface {
 
       // increment the balances and nonce for each account
       keyring.getPairs().forEach(({ publicKey }, index) => {
-        this.setStateBn(storage.balances.freeBalance(publicKey()), newHead.blockNumber.muln(3).iaddn(index));
-        this.setStateBn(storage.system.accountNonce(publicKey()), newHead.blockNumber.addn(index));
+        this.setStateBn(storage.balances.freeBalance(publicKey), newHead.blockNumber.muln(3).iaddn(index));
+        this.setStateBn(storage.system.accountNonce(publicKey), newHead.blockNumber.addn(index));
       });
 
       // set the timestamp for the current block

@@ -36,7 +36,7 @@ describe.skip('e2e transfer', () => {
     return api.chain
       .getBlockHash(0)
       .then((genesisHash) => {
-        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969) as any;
+        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
         return api.author.submitExtrinsic(extrinsic.toU8a());
@@ -47,7 +47,7 @@ describe.skip('e2e transfer', () => {
     return api.chain
       .getBlockHash(0)
       .then((genesisHash) => {
-        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey(), 6969) as any;
+        const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
         return api.author.submitAndWatchExtrinsic(extrinsic, (result: SubmittableResult) => {

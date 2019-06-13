@@ -26,12 +26,12 @@ describe.skip('Rx e2e transactions', () => {
   });
 
   it('makes a transfer', (done) => {
-    (api.query.system.accountNonce(keyring.alice.address()) as Observable<Index>)
+    (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
         switchMap((nonce: Index) =>
           api.tx.balances
-            .transfer(keyring.bob.address(), 12345)
+            .transfer(keyring.bob.address, 12345)
             .sign(keyring.alice, { nonce })
             .send()
         )
@@ -44,7 +44,7 @@ describe.skip('Rx e2e transactions', () => {
   });
 
   it('makes a proposal', (done) => {
-    (api.query.system.accountNonce(keyring.alice.address()) as Observable<Index>)
+    (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
         switchMap((nonce: Index) =>
