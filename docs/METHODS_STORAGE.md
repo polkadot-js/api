@@ -153,13 +153,14 @@ ___
 ▸ **activeCouncil**(): `Vec<(AccountId,BlockNumber)>`
 - **summary**:   The current council. When there's a vote going on, this should still be used for executive  matters. The block number (second element in the tuple) is the block that their position is  active until (calculated by the sum of the block number when the council member was elected  and their term duration).
 
-▸ **approvalsOf**(`AccountId`): `Vec<bool>`
-- **summary**:   A list of votes for each voter, respecting the last cleared vote index that this voter was  last active at.
+▸ **approvalsOf**(`(AccountId,SetIndex)`): `Vec<ApprovalFlag>`
+- **summary**:   A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.   In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].   Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`.
 
 ▸ **candidacyBond**(): `BalanceOf`
 - **summary**:   How much should be locked up in order to submit one's candidacy.
 
 ▸ **candidateCount**(): `u32`
+- **summary**:   Current number of active candidates
 
 ▸ **candidates**(): `Vec<AccountId>`
 - **summary**:   The present candidate list.
@@ -167,20 +168,23 @@ ___
 ▸ **carryCount**(): `u32`
 - **summary**:   How many runners-up should have their approvals persist until the next vote.
 
+▸ **decayRatio**(): `u32`
+- **summary**:   Decay factor of weight when being accumulated. It should typically be set to  __at least__ `council_size -1` to keep the council secure.  When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight increment step `t`.  0 will result in no weight being added at all (normal approval voting).
+
 ▸ **desiredSeats**(): `u32`
 - **summary**:   Number of accounts that should be sitting on the council.
 
 ▸ **inactiveGracePeriod**(): `VoteIndex`
-- **summary**:   How many vote indexes need to go by after a target voter's last vote before they can be reaped if their  approvals are moot.
-
-▸ **lastActiveOf**(`AccountId`): `Option<VoteIndex>`
-- **summary**:   The last cleared vote index that this voter was last active at.
+- **summary**:   How many vote indices need to go by after a target voter's last vote before they can be reaped if their  approvals are moot.
 
 ▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
-- **summary**:   Get the leaderboard if we;re in the presentation phase.
+- **summary**:   Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;  It may be the direct summed approval stakes, or a weighted version of it.
 
 ▸ **nextFinalize**(): `Option<(BlockNumber,u32,Vec<AccountId>)>`
 - **summary**:   The accounts holding the seats that will become free on the next tally.
+
+▸ **nextVoterSet**(): `SetIndex`
+- **summary**:   the next free set to store a voter in. This will keep growing.
 
 ▸ **presentationDuration**(): `BlockNumber`
 - **summary**:   How long to give each top candidate to present themselves after the vote ends.
@@ -191,20 +195,26 @@ ___
 ▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
 
-▸ **snapshotedStakes**(): `Vec<BalanceOf>`
-- **summary**:   The stakes as they were at the point that the vote ended.
-
 ▸ **termDuration**(): `BlockNumber`
 - **summary**:   How long each position is active for.
 
 ▸ **voteCount**(): `VoteIndex`
-- **summary**:   The total number of votes that have happened or are in progress.
+- **summary**:   The total number of vote rounds that have happened or are in progress.
 
-▸ **voters**(): `Vec<AccountId>`
-- **summary**:   The present voter list.
+▸ **voterCount**(): `SetIndex`
+- **summary**:   Current number of Voters.
+
+▸ **voterInfoOf**(`AccountId`): `Option<VoterInfo>`
+- **summary**:   Basic information about a voter.
+
+▸ **voters**(`SetIndex`): `Vec<Option<AccountId>>`
+- **summary**:   The present voter list (chunked and capped at [`VOTER_SET_SIZE`]).
 
 ▸ **votingBond**(): `BalanceOf`
 - **summary**:   How much should be locked up in order to be able to submit votes.
+
+▸ **votingFee**(): `BalanceOf`
+- **summary**:   The amount of fee paid upon each vote submission, unless if they submit a _hole_ index and replace it.
 
 ▸ **votingPeriod**(): `BlockNumber`
 - **summary**:   How often (in blocks) to check for new votes.
