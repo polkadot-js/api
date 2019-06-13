@@ -69,11 +69,10 @@ export interface SubmittableExtrinsic<URI> extends IExtrinsic {
 export default function createSubmittableExtrinsic<URI> (
   type: ApiType,
   api: ApiInterface$Rx,
-  onCall: any, // TODO
   extrinsic: Method | Uint8Array | string,
+  decorateMethod: any, // TODO
   trackingCb?: Callback<SubmittableResult>
 ): SubmittableExtrinsic<URI> {
-  console.log('extrinsic=', extrinsic);
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<URI>;
   const _noStatusCb = type === 'rxjs';
 
@@ -150,11 +149,11 @@ export default function createSubmittableExtrinsic<URI> (
         value: function (statusCb?: Callback<SubmittableResult>): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           const isSubscription = _noStatusCb || !!statusCb;
 
-          return onCall(
+          return (
             () => isSubscription
               ? subscribeObservable()
               : sendObservable()
-          )(statusCb) as unknown as SumbitableResultSubscription<URI>;
+          ) as unknown as SumbitableResultSubscription<URI>;
         }
       },
       sign: {
@@ -190,7 +189,7 @@ export default function createSubmittableExtrinsic<URI> (
           const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
           let updateId: number | undefined;
 
-          return onCall(
+          return (
             () => ((
               isUndefined(options.nonce)
                 ? api.query.system.accountNonce(address) as Observable<Index>
@@ -214,10 +213,7 @@ export default function createSubmittableExtrinsic<URI> (
                   ? subscribeObservable(updateId)
                   : sendObservable(updateId) as any; // ???
               })
-            ) as Observable<Codec>),
-            [],
-            statusCb as Callback<Codec>,
-            isSubscription
+            ) as Observable<Codec>)
           ) as unknown as SumbitableResultSubscription<URI>;
         }
       }

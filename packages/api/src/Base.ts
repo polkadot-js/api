@@ -57,7 +57,7 @@ try {
  * Put the `this.onCall` function of ApiRx here, because it is needed by
  * `api._rx`.
  */
-function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
+function rxDecorateMethod<Method extends AnyFunction>(method: Method): Method {
   return method;
 }
 
@@ -96,7 +96,7 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
+  constructor(provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
@@ -128,7 +128,7 @@ export default abstract class ApiBase<URI> {
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
-  get genesisHash (): Hash {
+  get genesisHash(): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
@@ -137,21 +137,21 @@ export default abstract class ApiBase<URI> {
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions (): boolean {
+  get hasSubscriptions(): boolean {
     return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
    * @description The library information name & version (from package.json)
    */
-  get libraryInfo (): string {
+  get libraryInfo(): string {
     return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata (): Metadata {
+  get runtimeMetadata(): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
     return this._runtimeMetadata as Metadata;
@@ -507,7 +507,7 @@ export default abstract class ApiBase<URI> {
 
   private decorateExtrinsics (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, rxDecorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -523,8 +523,10 @@ export default abstract class ApiBase<URI> {
   }
 
   private decorateExtrinsicEntry (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
-    const decorated = (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
+    const decorated =
+      (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
+        createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params))
+    ;
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<URI>;
   }
