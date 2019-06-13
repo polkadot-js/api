@@ -5,10 +5,11 @@
 - `createType` allows for the creation of `[u8; <length>]` types (opening the door for contract support)
 - `api.derive.staking.info` now returns the `rewardDestination`
 - Fix for disconnection when default providers (non-specified) are used
-- Update `ContractInfo` to match substrate master
-- Additional examples for subscriptions using multi
 - Don't console.log type decoding errors and then throw, only re-throw with additional info
+- Add `ApprovalFlag`, `SetIndex`, `VoterInfo` types for council as per substrate
+- Update `ContractInfo` to match substrate master
 - Cater for `Vec`, `Option`, `Result`, tuples and fixed vectors for contracts ABIs
+- Additional examples for subscriptions using multi
 
 # 0.81.1
 
