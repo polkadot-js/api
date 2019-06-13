@@ -49,8 +49,30 @@
       }
     },
     {
-      "name": "option",
+      "name": "vector_fixed",
       "selector": 3333,
+      "mutates": false,
+      "args": [
+        {
+          "name": "vec_u8_length_32",
+          "type": {
+            "[T;n]": {
+              "T": "u8",
+              "n": 32
+            }
+          }
+        }
+      ],
+      "return_type": {
+        "[T;n]": {
+          "T": "u32",
+          "n": 8
+        }
+      }
+    },
+    {
+      "name": "option",
+      "selector": 4444,
       "mutates": false,
       "args": [
         {
@@ -65,6 +87,42 @@
       "return_type": {
         "Option<T>": {
           "T": "bool"
+        }
+      }
+    },
+    {
+      "name": "tuple",
+      "selector": 5555,
+      "mutates": false,
+      "args": [
+        {
+          "name": "Tuple_u32_u64",
+          "type": ["u32", "u64"]
+        }
+      ],
+      "return_type": ["bool"]
+    },
+    {
+      "name": "nested",
+      "selector": 987654321,
+      "mutates": false,
+      "args": [
+        {
+          "name": "option_vec",
+          "type": {
+            "Option<T>": {
+              "T": {
+                "Vec<T>": {
+                  "T": "u32"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "return_type": {
+        "Vec<T>": {
+          "T": ["u32", "u64"]
         }
       }
     }

@@ -11,22 +11,26 @@ import { createClass } from './codec/createType';
 
 export type ContractABITypes$Struct = {
   'Option<T>'?: {
-    T: string
+    T: string | ContractABITypes$Struct
   },
   'Vec<T>'?: {
-    T: string
+    T: string | ContractABITypes$Struct
+  },
+  '[T;n]'?: {
+    T: string | ContractABITypes$Struct,
+    n: number
   }
 };
 
-export type ContractABITypes = string | ContractABITypes$Struct;
+export type ContractABITypes = string | ContractABITypes$Struct | Array<string | ContractABITypes$Struct>;
 
-export type ContractABIArgs = Array<{
+export type ContractABIArg = {
   name: string,
   type: ContractABITypes
-}>;
+};
 
 export type ContractABIMethodBase = {
-  args: ContractABIArgs
+  args: Array<ContractABIArg>
 };
 
 export type ContractABIMethod = ContractABIMethodBase & {
@@ -42,7 +46,7 @@ export type ContractABI = {
   name: string
 };
 
-interface ContractABIFn$Arg {
+export interface ContractABIFn$Arg {
   name: string;
   type: string;
 }
@@ -62,7 +66,7 @@ export interface Contract {
   };
 }
 
-export function validateArgs (name: string, args: ContractABIArgs): void {
+export function validateArgs (name: string, args: Array<ContractABIArg>): void {
   assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);
 
   args.forEach((arg) => {
@@ -124,12 +128,16 @@ export default class ContractAbi implements Contract {
   }
 
   private _convertType (type: ContractABITypes): string {
-    if (isString(type) || isNull(type)) {
+    if (isString(type)) {
       return type;
-    } if (type['Option<T>']) {
-      return `Option<${type['Option<T>'].T}>`;
+    } else if (Array.isArray(type)) {
+      return `(${type.map((type) => this._convertType(type)).join(',')})`;
+    } else if (type['Option<T>']) {
+      return `Option<${this._convertType(type['Option<T>'].T)}>`;
     } else if (type['Vec<T>']) {
-      return `Vec<${type['Vec<T>'].T}>`;
+      return `Vec<${this._convertType(type['Vec<T>'].T)}>`;
+    } else if (type['[T;n]']) {
+      return `[${this._convertType(type['[T;n]'].T)};${type['[T;n]'].n}]`;
     }
 
     throw new Error(`Unknown type specified ${JSON.stringify(type)}`);

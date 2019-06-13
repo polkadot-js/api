@@ -4,7 +4,7 @@
 
 import TypesAbi from '../test/abi/types.json';
 
-import ContractAbi from './ContractAbi';
+import ContractAbi, { ContractABIFn$Arg } from './ContractAbi';
 
 describe('ContractAbi', () => {
   let abi: ContractAbi;
@@ -13,32 +13,72 @@ describe('ContractAbi', () => {
     abi = new ContractAbi(TypesAbi);
   });
 
-  it('has the primitive method with args & return', () => {
-    const method = abi.messages['primitive'];
+  function check (method: string, args: Array<ContractABIFn$Arg>, type: string | null): void {
+    const fn = abi.messages[method];
 
-    expect(method.args).toEqual([
-      { name: 'bool', type: 'bool' },
-      { name: 'u32', type: 'u32' }
-    ]);
-    expect(method.type).toEqual('bool');
+    expect(fn.args).toEqual(args);
+    expect(fn.type).toEqual(type);
+  }
+
+  it('has the primitive method with args & return', () => {
+    check(
+      'primitive',
+      [
+        { name: 'bool', type: 'bool' },
+        { name: 'u32', type: 'u32' }
+      ],
+      'bool'
+    );
   });
 
   it('has the vector method with args & return', () => {
-    const method = abi.messages['vector'];
+    check(
+      'vector',
+      [
+        { name: 'vecU8', type: 'Vec<u8>' },
+        { name: 'vecU32', type: 'Vec<u32>' }
+      ],
+      'Vec<bool>'
+    );
+  });
 
-    expect(method.args).toEqual([
-      { name: 'vecU8', type: 'Vec<u8>' },
-      { name: 'vecU32', type: 'Vec<u32>' }
-    ]);
-    expect(method.type).toEqual('Vec<bool>');
+  it('has the vector_fixed method with args & return', () => {
+    check(
+      'vectorFixed',
+      [
+        { name: 'vecU8Length32', type: '[u8;32]' }
+      ],
+      '[u32;8]'
+    );
   });
 
   it('has the option method with args & return', () => {
-    const method = abi.messages['option'];
+    check(
+      'option',
+      [
+        { name: 'optionU32', type: 'Option<u32>' }
+      ],
+      'Option<bool>'
+    );
+  });
 
-    expect(method.args).toEqual([
-      { name: 'optionU32', type: 'Option<u32>' }
-    ]);
-    expect(method.type).toEqual('Option<bool>');
+  it('has the tuple method with args & return', () => {
+    check(
+      'tuple',
+      [
+        { name: 'tupleU32U64', type: '(u32,u64)' }
+      ],
+      '(bool)'
+    );
+  });
+
+  it('allows for nested args', () => {
+    check(
+      'nested',
+      [
+        { name: 'optionVec', type: 'Option<Vec<u32>>' }
+      ],
+      'Vec<(u32,u64)>'
+    );
   });
 });
