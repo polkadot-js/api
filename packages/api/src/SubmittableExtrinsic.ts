@@ -8,7 +8,7 @@ import { ApiInterface$Rx, ApiType, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
 
 import filterEvents from './util/filterEvents';
 
@@ -160,11 +160,16 @@ export default function createSubmittableExtrinsic<URI> (
         value: function (account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<URI> {
           // HACK here we actually override nonce if it was specified (backwards compat for
           // the previous signature - don't let userspace break, but allow then time to upgrade)
+          console.error('account', account, account.address);
           const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
             ? { nonce: _options as any as number }
             : _options;
+          console.error('options', options);
 
+          console.error('BEFORE', _extrinsic.toHex());
+          console.error('MANUAL SIGN', u8aToHex(account.sign(_extrinsic.toU8a())));
           signOrigin.apply(_extrinsic, [account, expandOptions(options)]);
+          console.error('AFTER', _extrinsic.toHex());
 
           return this;
         }
