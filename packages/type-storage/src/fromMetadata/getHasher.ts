@@ -5,7 +5,7 @@
 import { StorageHasher } from '@polkadot/types/primitive';
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
 
-type HasherInput = Buffer | Uint8Array;
+type HasherInput = string | Buffer | Uint8Array;
 
 export type HasherFunction = (data: HasherInput) => Uint8Array;
 
