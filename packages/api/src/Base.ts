@@ -450,6 +450,7 @@ export default abstract class ApiBase<URI> {
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
+    this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
     this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
@@ -506,7 +507,7 @@ export default abstract class ApiBase<URI> {
       });
   }
 
-  private decorateExtrinsics (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
+  private decorateExtrinsics<URI> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
       createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
 
@@ -523,7 +524,7 @@ export default abstract class ApiBase<URI> {
     }, creator as SubmittableExtrinsics<URI>);
   }
 
-  private decorateExtrinsicEntry (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
+  private decorateExtrinsicEntry<URI> (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
     const decorated =
       (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
         createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
@@ -605,7 +606,7 @@ export default abstract class ApiBase<URI> {
     return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<URI>;
   }
 
-  private decorateStorageEntryLinked (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): ReturnType<ApiBase<URI>['decorateMethod']> {
+  private decorateStorageEntryLinked<URI> (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): ReturnType<ApiBase<URI>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;

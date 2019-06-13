@@ -44,10 +44,10 @@ export type DecorateMethodOptions = {
 };
 
 // Here are the return types of these parts of the api:
-// - api.query.*.*: UntypedMethodResult<URI>
+// - api.query.*.*: no exact typings
 // - api.tx.*.*: SubmittableExtrinsic<URI>
 // - api.derive.*.*: MethodResult<URI, F>
-// - api.rpc.*.*: UntypedMethodResult<URI> (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
+// - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
 
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
 export type PromiseResult<F extends AnyFunction> = {
