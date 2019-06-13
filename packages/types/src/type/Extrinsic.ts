@@ -9,7 +9,7 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
-import { FunctionMetadata } from '../Metadata/v4/Calls';
+import { FunctionMetadata } from '../Metadata/v5/Calls';
 import Method from '../primitive/Method';
 import Address from '../primitive/Address';
 import Hash from '../primitive/Hash';

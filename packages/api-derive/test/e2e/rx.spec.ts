@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { AccountId, AccountIndex, Balance, BlockNumber } from '@polkadot/types';
+import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
@@ -115,6 +115,7 @@ describe.skip('derive e2e', () => {
         api.derive.balances.all(ID).subscribe((balances) => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
+            accountNonce: expect.any(Index),
             availableBalance: expect.any(Balance),
             freeBalance: expect.any(Balance),
             lockedBalance: expect.any(Balance),
@@ -202,6 +203,12 @@ describe.skip('derive e2e', () => {
           done();
         });
       });
+    });
+  });
+
+  describe('derive.staking', () => {
+    describe('controllers', () => {
+      // @TODO
     });
   });
 

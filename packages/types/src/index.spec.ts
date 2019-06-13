@@ -25,7 +25,7 @@ describe('types', () => {
     });
   });
 
-  describe('default creation (empty Bytes)', () => {
+  describe('default creation (empty bytes)', () => {
     (Types.Method as any).injectMethods(extrinsics);
 
     Object.keys(Types).forEach((name) => {

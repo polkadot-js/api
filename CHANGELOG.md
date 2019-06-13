@@ -1,12 +1,16 @@
 # 0.82.1
 
+- The dependency on `@polkadot/keyring` has been removed - if you relied on the API to provide this, you would now need to manually add it
 - Update `HeaderExtended` to retrieve author information from substrate 2.x (new `PreRuntime` digests)
 - `createType` allows for the creation of `[u8; <length>]` types (opening the door for contract support)
 - `api.derive.staking.info` now returns the `rewardDestination`
 - Fix for disconnection when default providers (non-specified) are used
-- Update `ContractInfo` to match substrate master
-- Additional examples for subscriptions using multi
 - Don't console.log type decoding errors and then throw, only re-throw with additional info
+- Support latest substrate 2.x v5 metadata
+- Add `ApprovalFlag`, `SetIndex`, `VoterInfo` types for council as per substrate
+- Update `ContractInfo` to match substrate master
+- Cater for `Vec`, `Option`, `Result`, tuples and fixed vectors for contracts ABIs
+- Additional examples for subscriptions using multi
 
 # 0.81.1
 
