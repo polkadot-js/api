@@ -24,9 +24,9 @@ async function main () {
   const alicePair = keyring.getPair(ALICE);
 
   // create a new random recipient
-  const recipient = keyring.addFromSeed(randomAsU8a(32)).address();
+  const recipient = keyring.addFromSeed(randomAsU8a(32)).address;
 
-  console.log('Sending', AMOUNT, 'from', alicePair.address(), 'to', recipient);
+  console.log('Sending', AMOUNT, 'from', alicePair.address, 'to', recipient);
 
   // get the nonce for the admin key
   //  Create a extrinsic, transferring 12345 units to Bob.

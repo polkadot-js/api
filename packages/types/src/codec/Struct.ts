@@ -113,9 +113,7 @@ export default class Struct<
           throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
         }
       } catch (error) {
-        console.error(`Unable to decode Struct on key '${jsonKey}': ${error.message}`);
-
-        throw error;
+        throw new Error(`Struct: failed on '${jsonKey}':: ${error.message}`);
       }
 
       return raw;

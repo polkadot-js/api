@@ -17,7 +17,7 @@ export default class SingleAccountSigner {
   }
 
   async sign (extrinsic: Extrinsic, address: string, options: SignatureOptions) {
-    if (!this.keyringPair || String(address) !== this.keyringPair.address()) {
+    if (!this.keyringPair || String(address) !== this.keyringPair.address) {
       throw new Error('does not have the keyringPair');
     }
 

@@ -80,11 +80,11 @@ import Combinator, { CombinatorCallback, CombinatorFunction } from './Combinator
  * import ApiPromise from '@polkadot/api/promise';
  *
  * ApiPromise.create().then((api) => {
- *   const nonce = await api.query.system.accountNonce(keyring.alice.address());
+ *   const nonce = await api.query.system.accountNonce(keyring.alice.address);
  *
  *   api.tx.balances
  *     // create transfer
- *     transfer(keyring.bob.address(), 12345)
+ *     transfer(keyring.bob.address, 12345)
  *     // sign the transcation
  *     .sign(keyring.alice, { nonce })
  *     // send the transaction (optional status callback)
