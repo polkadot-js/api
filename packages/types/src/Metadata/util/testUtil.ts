@@ -31,17 +31,17 @@ export function decodeLatestSubstrate<Modules extends Codec> (
 }
 
 /**
- * Given a `version`, MetadataV4 and MetadataV{version} should output the same
+ * Given a `version`, MetadataV5 and MetadataV{version} should output the same
  * unique types.
  */
-export function toV4<Modules extends Codec> (version: number, rpcData: string) {
-  it('converts to V4', () => {
+export function toV5<Modules extends Codec> (version: number, rpcData: string) {
+  it('converts to V5', () => {
     const metadata = new Metadata(rpcData)[`asV${version}` as keyof Metadata];
-    const metadataV4 = new Metadata(rpcData).asV4;
+    const metadataV5 = new Metadata(rpcData).asV5;
 
     expect(
       (metadata as unknown as MetadataInterface<Modules>).getUniqTypes(true)
-    ).toEqual(metadataV4.getUniqTypes(true));
+    ).toEqual(metadataV5.getUniqTypes(true));
   });
 }
 
@@ -53,7 +53,7 @@ export function defaultValues (rpcData: string) {
     const metadata = new Metadata(rpcData);
     Method.injectMethods(extrinsicsFromMeta(metadata));
 
-    metadata.asV4.modules
+    metadata.asV5.modules
       .filter(({ storage }) => storage.isSome)
       .map((mod) =>
         mod.storage.unwrap().forEach(({ fallback, name, type }) => {

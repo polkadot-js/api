@@ -9,7 +9,7 @@ import interfaces from '../../../type-jsonrpc/src';
 import Method from '../primitive/Method';
 import Metadata from '../Metadata';
 import rpcdata from '../Metadata/static';
-import MetadataV4 from '../Metadata/v4';
+import MetadataV5 from '../Metadata/v5';
 
 const ANCHOR_TOP = '';
 const LINK_BACK_TO_TOP = '';
@@ -67,7 +67,7 @@ function sortByName<T extends { name: any }> (a: T, b: T): number {
   return nameA.localeCompare(nameB);
 }
 
-function addEvents (metadata: MetadataV4) {
+function addEvents (metadata: MetadataV5) {
   const renderHeading = `## ${ANCHOR_TOP}Events${DESC_EVENTS}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -100,7 +100,7 @@ function addEvents (metadata: MetadataV4) {
   return renderHeading + renderAnchors + sections;
 }
 
-function addExtrinsics (metadata: MetadataV4) {
+function addExtrinsics (metadata: MetadataV5) {
   const renderHeading = `## ${ANCHOR_TOP}Extrinsics${DESC_EXTRINSICS}`;
   const orderedSections = metadata.modules.map((i) => i).sort(sortByName);
   let renderAnchors = '';
@@ -132,7 +132,7 @@ function addExtrinsics (metadata: MetadataV4) {
   return renderHeading + renderAnchors + sections;
 }
 
-function addStorage (metadata: MetadataV4) {
+function addStorage (metadata: MetadataV5) {
   const renderHeading = `## ${ANCHOR_TOP}Storage${DESC_STORAGE}`;
   const orderedSections = metadata.modules.sort(sortByName);
   let renderAnchors = '';
@@ -184,22 +184,22 @@ function writeToRpcMd () {
   writeFile('docs/METHODS_RPC.md', addRpc());
 }
 
-function writeToStorageMd (metadata: MetadataV4) {
+function writeToStorageMd (metadata: MetadataV5) {
   const options = { flags: 'r', encoding: 'utf8' };
   const data = fs.readFileSync('packages/types/src/scripts/METHODS_STORAGE_SUBSTRATE.md', options);
 
   writeFile('docs/METHODS_STORAGE.md', addStorage(metadata), data);
 }
 
-function writeToExtrinsicsMd (metadata: MetadataV4) {
+function writeToExtrinsicsMd (metadata: MetadataV5) {
   writeFile('docs/METHODS_EXTRINSICS.md', addExtrinsics(metadata));
 }
 
-function writeToEventsMd (metadata: MetadataV4) {
+function writeToEventsMd (metadata: MetadataV5) {
   writeFile('docs/METHODS_EVENTS.md', addEvents(metadata));
 }
 
-const metadata = new Metadata(rpcdata).asV4;
+const metadata = new Metadata(rpcdata).asV5;
 
 writeToRpcMd();
 writeToStorageMd(metadata);
