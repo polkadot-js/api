@@ -9,6 +9,7 @@
  * @summary Type definitions that are used in the system
  */
 export { default as Amount } from './Amount';
+export { default as ApprovalFlag } from './ApprovalFlag';
 export { default as AssetOf } from './AssetOf';
 export { default as AttestedCandidate } from './AttestedCandidate';
 export { default as AuthorityId } from './AuthorityId';
@@ -54,6 +55,7 @@ export { default as RewardDestination } from './RewardDestination';
 export { default as Schedule } from './Schedule';
 export { default as SeedOf } from './SeedOf';
 export { default as SessionKey } from './SessionKey';
+export { default as SetIndex } from './SetIndex';
 export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as SignaturePayload, SignaturePayloadRaw } from './SignaturePayload';
 export { default as StakingLedger } from './StakingLedger';
@@ -66,4 +68,5 @@ export { default as Vote } from './Vote';
 export { default as Votes } from './Votes';
 export { default as VoteThreshold } from './VoteThreshold';
 export { default as VoteIndex } from './VoteIndex';
+export { default as VoterInfo } from './VoterInfo';
 export { default as WithdrawReasons } from './WithdrawReasons';
