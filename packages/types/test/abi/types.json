@@ -1,0 +1,72 @@
+{
+  "name": "Types",
+  "deploy": {
+    "args": []
+  },
+  "messages": [
+    {
+      "name": "primitive",
+      "selector": 1111,
+      "mutates": true,
+      "args": [
+        {
+          "name": "bool",
+          "type": "bool"
+        },
+        {
+          "name": "u32",
+          "type": "u32"
+        }
+      ],
+      "return_type": "bool"
+    },
+    {
+      "name": "vector",
+      "selector": 2222,
+      "mutates": false,
+      "args": [
+        {
+          "name": "Vec_u8",
+          "type": {
+            "Vec<T>": {
+              "T": "u8"
+            }
+          }
+        },
+        {
+          "name": "Vec_u32",
+          "type": {
+            "Vec<T>": {
+              "T": "u32"
+            }
+          }
+        }
+      ],
+      "return_type": {
+        "Vec<T>": {
+          "T": "bool"
+        }
+      }
+    },
+    {
+      "name": "option",
+      "selector": 3333,
+      "mutates": false,
+      "args": [
+        {
+          "name": "Option_u32",
+          "type": {
+            "Option<T>": {
+              "T": "u32"
+            }
+          }
+        }
+      ],
+      "return_type": {
+        "Option<T>": {
+          "T": "bool"
+        }
+      }
+    }
+  ]
+}

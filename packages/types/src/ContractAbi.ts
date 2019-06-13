@@ -4,14 +4,25 @@
 
 import { CodecArg, Constructor } from './types';
 
-import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase } from '@polkadot/util';
+import { assert, isNumber, isNull, isString, isUndefined, stringCamelCase, isObject } from '@polkadot/util';
 
 import Compact from './codec/Compact';
 import { createClass } from './codec/createType';
 
+export type ContractABITypes$Struct = {
+  'Option<T>'?: {
+    T: string
+  },
+  'Vec<T>'?: {
+    T: string
+  }
+};
+
+export type ContractABITypes = string | ContractABITypes$Struct;
+
 export type ContractABIArgs = Array<{
   name: string,
-  type: string
+  type: ContractABITypes
 }>;
 
 export type ContractABIMethodBase = {
@@ -22,7 +33,7 @@ export type ContractABIMethod = ContractABIMethodBase & {
   mutates?: boolean,
   name: string,
   selector: number,
-  return_type: string | null
+  return_type: ContractABITypes | null
 };
 
 export type ContractABI = {
@@ -31,9 +42,14 @@ export type ContractABI = {
   name: string
 };
 
+interface ContractABIFn$Arg {
+  name: string;
+  type: string;
+}
+
 export interface ContractABIFn {
   (...args: Array<CodecArg>): Uint8Array;
-  args: ContractABIArgs;
+  args: Array<ContractABIFn$Arg>;
   isConstant: boolean;
   type: string | null;
 }
@@ -53,7 +69,8 @@ export function validateArgs (name: string, args: ContractABIArgs): void {
     const unknownKeys = Object.keys(arg).filter((key) => !['name', 'type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for ${name}`);
-    assert(isString(arg.name) && isString(arg.type), `${name} args should have valid name & type values`);
+    assert(isString(arg.name), `${name} args should have valid name `);
+    assert(isString(arg.type) || isObject(arg.type), `${name} args should have valid type`);
   });
 }
 
@@ -70,7 +87,9 @@ export function validateMethods ({ messages }: ContractABI): void {
     const unknownKeys = Object.keys(method).filter((key) => !['args', 'mutates', 'name', 'selector', 'return_type'].includes(key));
 
     assert(unknownKeys.length === 0, `Unknown keys ${unknownKeys.join(', ')} found in ABI args for messages.${method.name}`);
-    assert(isString(method.name) && isNumber(method.selector) && (isNull(method.return_type) || isString(method.return_type)), `Expected name, selector & return_type specified for messages.${method.name}`);
+    assert(isString(method.name), `Expected name for messages.${method.name}`);
+    assert(isNumber(method.selector), `Expected selector for messages.${method.name}`);
+    assert(isNull(method.return_type) || isString(method.return_type) || isObject(method.return_type), `Expected return_type for messages.${method.name}`);
 
     validateArgs(`messages.${method.name}`, method.args);
   });
@@ -104,7 +123,19 @@ export default class ContractAbi implements Contract {
     });
   }
 
-  private _createClazz (args: ContractABIArgs, baseDef: { [index: string]: string }): Constructor {
+  private _convertType (type: ContractABITypes): string {
+    if (isString(type) || isNull(type)) {
+      return type;
+    } if (type['Option<T>']) {
+      return `Option<${type['Option<T>'].T}>`;
+    } else if (type['Vec<T>']) {
+      return `Vec<${type['Vec<T>'].T}>`;
+    }
+
+    throw new Error(`Unknown type specified ${JSON.stringify(type)}`);
+  }
+
+  private _createClazz (args: Array<ContractABIFn$Arg>, baseDef: { [index: string]: string }): Constructor {
     return createClass(
       JSON.stringify(
         args.reduce((base: { [index: string]: string }, { name, type }) => {
@@ -117,9 +148,9 @@ export default class ContractAbi implements Contract {
   }
 
   private _createEncoded (name: string, method: Partial<ContractABIMethod> & ContractABIMethodBase): ContractABIFn {
-    const args = method.args.map(({ name, type }) => ({
+    const args: Array<ContractABIFn$Arg> = method.args.map(({ name, type }) => ({
       name: stringCamelCase(name),
-      type
+      type: this._convertType(type)
     }));
     const Clazz = this._createClazz(args, isUndefined(method.selector) ? {} : { __selector: 'u32' });
     const baseStruct: { [index: string]: any } = { __selector: method.selector };
@@ -141,7 +172,7 @@ export default class ContractAbi implements Contract {
 
     fn.args = args;
     fn.isConstant = !(method.mutates || false);
-    fn.type = method.return_type || null;
+    fn.type = method.return_type ? this._convertType(method.return_type) : null;
 
     return fn;
   }
