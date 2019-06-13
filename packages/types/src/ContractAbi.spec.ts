@@ -62,13 +62,11 @@ describe('ContractAbi', () => {
     );
   });
 
-  it('has the tuple method with args & return', () => {
+  it('has the result method with return (empty)', () => {
     check(
-      'tuple',
-      [
-        { name: 'tupleU32U64', type: '(u32,u64)' }
-      ],
-      '(bool)'
+      'result',
+      [],
+      '()'
     );
   });
 

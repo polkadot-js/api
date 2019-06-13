@@ -11,13 +11,17 @@ import { createClass } from './codec/createType';
 
 export type ContractABITypes$Struct = {
   'Option<T>'?: {
-    T: string | ContractABITypes$Struct
+    T: ContractABITypes
+  },
+  'Result<T,E>'?: {
+    T: ContractABITypes,
+    E: ContractABITypes
   },
   'Vec<T>'?: {
-    T: string | ContractABITypes$Struct
+    T: ContractABITypes
   },
   '[T;n]'?: {
-    T: string | ContractABITypes$Struct,
+    T: ContractABITypes,
     n: number
   }
 };
@@ -134,6 +138,8 @@ export default class ContractAbi implements Contract {
       return `(${type.map((type) => this._convertType(type)).join(',')})`;
     } else if (type['Option<T>']) {
       return `Option<${this._convertType(type['Option<T>'].T)}>`;
+    } else if (type['Result<T,E>']) {
+      return `()`; // Result is not supported, but only applicable for returns
     } else if (type['Vec<T>']) {
       return `Vec<${this._convertType(type['Vec<T>'].T)}>`;
     } else if (type['[T;n]']) {

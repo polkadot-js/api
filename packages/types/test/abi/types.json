@@ -103,6 +103,18 @@
       "return_type": ["bool"]
     },
     {
+      "name": "result",
+      "selector": 666,
+      "mutates": false,
+      "args": [],
+      "return_type": {
+        "Result<T,E>": {
+          "T": "u32",
+          "E": "u32"
+        }
+      }
+    },
+    {
       "name": "nested",
       "selector": 987654321,
       "mutates": false,
