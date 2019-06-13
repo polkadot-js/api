@@ -14,52 +14,14 @@ import Bytes from '../../primitive/Bytes';
 import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { PlainType, StorageFunctionModifier } from '../v3/Storage';
+import { MapType, PlainType, StorageFunctionModifier } from '../v4/Storage';
 
-// Re-export classes that haven't changed between V3 and V5
+// Re-export classes that haven't changed between V4 and V5
 export {
+  MapType,
   PlainType,
   StorageFunctionModifier
 };
-
-export class MapType extends Struct {
-  constructor (value?: any) {
-    super({
-      hasher: StorageHasher,
-      key: Type,
-      value: Type,
-      isLinked: Bool
-    }, value);
-  }
-
-  /**
-   * @description The hash algorithm used to hash keys, as [[StorageHasher]]
-   */
-  get hasher (): StorageHasher {
-    return this.get('hasher') as StorageHasher;
-  }
-
-  /**
-   * @description Is this an enumerable linked map
-   */
-  get isLinked (): boolean {
-    return (this.get('isLinked') as Bool).valueOf();
-  }
-
-  /**
-   * @description The mapped key as [[Type]]
-   */
-  get key (): Type {
-    return this.get('key') as Type;
-  }
-
-  /**
-   * @description The mapped value as [[Type]]
-   */
-  get value (): Type {
-    return this.get('value') as Type;
-  }
-}
 
 export class DoubleMapType extends Struct {
   constructor (value?: any) {

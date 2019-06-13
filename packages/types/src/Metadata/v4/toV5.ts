@@ -36,18 +36,13 @@ function toV5StorageFunction (storageFn: StorageFunctionMetadataV4): StorageFunc
   const [newType, index] = type.isPlainType
     ? [type, 0]
     : type.isMap
-      ? [new MapType({
-        hasher: new StorageHasher('Twox128'),
-        key: type.asMap.key,
-        value: type.asMap.value,
-        isLinked: type.asMap.isLinked
-      }), 1]
+      ? [type.asMap, 1]
       : [new DoubleMapType({
-        hasher: new StorageHasher('Twox128'),
+        hasher: type.asDoubleMap.hasher,
         key1: type.asDoubleMap.key1,
         key2: type.asDoubleMap.key2,
         value: type.asDoubleMap.value,
-        key2Hasher: toStorageHasher(type.asDoubleMap.key2Hasher)
+        key2Hasher: type.asDoubleMap.key2Hasher
       }), 2];
 
   return new StorageFunctionMetadata({
