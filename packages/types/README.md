@@ -76,6 +76,7 @@ These custom types implement specific types that are found as part of the Substr
 | **Types** | |
 | --- | --- |
 | [[Amount]] | The Substrate Amount representation as a [[Balance]] |
+| [[ApprovalFlag]] | Approval flag, implemented as a [[U32]] |
 | [[AssetOf]] | The Substrate AssetOf representation as a [[Balance]] |
 | [[AttestedCandidate]] | An attested candidate |
 | [[AuthorityId]] | Wrapper for a AuthorityId. Same as an normal AccountId |
@@ -128,6 +129,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Seal]] | Log item indicating a sealing event |
 | [[SeedOf]] | The Substrate SeedOf representation as a [[Hash]] |
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
+| [[SetIndex]] | Set index, implemented as a [[U32]] |
 | [[Signature]] | The default signature that is used accross the system |
 | [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
 | [[SignaturePayloadRaw]] | A version of the [[SignaturePayload]] where it doesn't rely on [[Method]] with metadata, rather it treats the values as a raw byte stream |
@@ -140,6 +142,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Vote]] | A number of lock periods, plus a vote, one way or the other |
 | [[Votes]] | Info for keeping track of a council motion being voted on. |
 | [[VoteIndex]] | Voting index, implemented as a [[U32]] |
+| [[VoterInfo]] | The activity status of a voter. |
 | [[VoteThreshold]] | Voting threshold, used inside proposals to set change the voting tally |
 | [[WithdrawReasons]] | The Substrate WithdrawReasons for staking |
 

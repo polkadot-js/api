@@ -89,14 +89,14 @@ import ApiBase from '../Base';
  *
  * // retrieve nonce for the account
  * api.query.system
- *   .accountNonce(keyring.alice.address())
+ *   .accountNonce(keyring.alice.address)
  *   .pipe(
  *      first(),
  *      // pipe nonce into transfer
  *      switchMap((nonce) =>
  *        api.tx.balances
  *          // create transfer
- *          .transfer(keyring.bob.address(), 12345)
+ *          .transfer(keyring.bob.address, 12345)
  *          // sign the transcation
  *          .sign(keyring.alice, { nonce })
  *          // send the transaction

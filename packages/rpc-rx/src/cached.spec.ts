@@ -60,8 +60,8 @@ describe('createCachedObservable', () => {
   });
 
   it('creates a single observable (multiple calls, different arguments that should be cached together)', () => {
-    const observable1 = creator(keyring.alice.address());
-    const observable2 = creator(new AccountId(keyring.alice.address()));
+    const observable1 = creator(keyring.alice.address);
+    const observable2 = creator(new AccountId(keyring.alice.address));
 
     expect(
       observable2

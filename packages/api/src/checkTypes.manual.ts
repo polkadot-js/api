@@ -31,7 +31,7 @@ export default async function test () {
     console.log('current author:', header.author);
   });
 
-  const transfer = api.tx.balances.transfer(keyring.bob.address(), 12345);
+  const transfer = api.tx.balances.transfer(keyring.bob.address, 12345);
 
   console.log('transfer as Method', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
@@ -40,7 +40,7 @@ export default async function test () {
   console.log('hash:', hash.toHex());
 
   const unsub = await api.tx.balances
-    .transfer(keyring.bob.address(), 12345)
+    .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, ({ status }: SubmittableResult) => {
       console.log('transfer status:', status.type);
 
