@@ -5,7 +5,8 @@
 // import fs from 'fs';
 // import path from 'path';
 
-import { Address, Balance, Bytes, ContractAbi, Hash, Metadata, Moment } from '@polkadot/types';
+// Address, ContractAbi, Hash
+import { Balance, Bytes, Metadata, Moment } from '@polkadot/types';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -42,7 +43,7 @@ describe('e2e state', () => {
   });
 
   it('getKeys(): retrieves all child storage keys', () => {
-    console.log('1212test'):
+    console.log('1212test');
     // @TODO
     return api.state
       .getKeys('0x3a6368696c645f73746f726167653a')

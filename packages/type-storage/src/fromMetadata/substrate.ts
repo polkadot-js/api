@@ -4,7 +4,8 @@
 
 
 import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v5/Storage';
-import { StorageFunction, StorageKey } from '@polkadot/types/primitive/StorageKey';
+// StorageKey
+import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
 import createFunction from './createFunction';
