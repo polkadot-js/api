@@ -15,18 +15,12 @@ describe('KeyValue', () => {
           0x99, 0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
         ])
       ).toJSON()
-    ).toEqual({
-      key: '0x11223344',
-      value: '0x998877665544332211'
-    });
+    ).toEqual(['0x11223344', '0x998877665544332211']);
   });
 
   it('encodes KeyValue from JSON', () => {
     expect(
-      new KeyValue({
-        key: '0x11223344',
-        value: '0x998877665544332211'
-      }).toU8a()
+      new KeyValue(['0x11223344', '0x998877665544332211']).toU8a()
     ).toEqual(
       new Uint8Array([
         4 << 2,
@@ -38,10 +32,7 @@ describe('KeyValue', () => {
   });
 
   it('exposes the properties for key/value', () => {
-    const kv = new KeyValue({
-      key: '0x11223344',
-      value: '0x998877665544332211'
-    });
+    const kv = new KeyValue(['0x11223344', '0x998877665544332211']);
 
     expect(kv.key.toHex()).toEqual('0x11223344');
     expect(kv.value.toHex()).toEqual('0x998877665544332211');
