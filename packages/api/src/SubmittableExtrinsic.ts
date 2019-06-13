@@ -16,13 +16,13 @@ type StatusCb = (result: SubmittableResult) => any;
 
 type SumbitableResultResult<CodecResult, SubscriptionResult> =
   CodecResult extends Observable<any>
-    ? Observable<SubmittableResult>
-    : Promise<Hash>;
+  ? Observable<SubmittableResult>
+  : Promise<Hash>;
 
 type SumbitableResultSubscription<CodecResult, SubscriptionResult> =
   SubscriptionResult extends Observable<any>
-    ? Observable<SubmittableResult>
-    : Promise<() => void>;
+  ? Observable<SubmittableResult>
+  : Promise<() => void>;
 
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
@@ -179,7 +179,7 @@ export default function createSubmittableExtrinsic<CodecResult, SubscriptionResu
           }
 
           const isSubscription = _noStatusCb || !!statusCb;
-          const isKeyringPair = isFunction((account as IKeyringPair).address) && isFunction((account as IKeyringPair).sign);
+          const isKeyringPair = isFunction((account as IKeyringPair).sign);
           const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
           let updateId: number | undefined;
 
