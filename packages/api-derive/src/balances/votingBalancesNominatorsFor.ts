@@ -17,7 +17,7 @@ export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {
     return idAndIndex(api)(address).pipe(
       switchMap(([accountId]) =>
         accountId
-          ? (api.query.staking.nominatorsFor(accountId) as Observable<Vector<AccountId>>)
+          ? (api.query.staking.nominatorsFor<Vector<AccountId>>(accountId))
           : of([] as Array<AccountId>)
       ),
       switchMap(votingBalances(api)),

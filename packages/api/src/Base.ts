@@ -603,7 +603,7 @@ export default abstract class ApiBase<URI> {
           : [creator, arg1])
     );
 
-    return this.decorateFunctionMeta(creator, decorated) as QueryableStorageFunction<URI>;
+    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageFunction<URI>;
   }
 
   private decorateStorageEntryLinked<URI> (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): ReturnType<ApiBase<URI>['decorateMethod']> {

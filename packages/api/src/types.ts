@@ -49,25 +49,30 @@ export type DecorateMethodOptions = {
 // - api.derive.*.*: MethodResult<URI, F>
 // - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
 
+// These are the types that don't lose type information (used for api.derive.*)
+// Also use these for api.rpc.*
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
 export type PromiseResult<F extends AnyFunction> = {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>,
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise
 };
-
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
 export type MethodResult<URI, F extends AnyFunction> = URI extends 'rxjs'
   ? RxResult<F>
   : PromiseResult<F>;
 
 type DecoratedRpc$Method<URI> = URI extends 'rxjs'
-  ? (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg) => Observable<Codec>
+  ? {
+    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>
+    <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>
+  }
   : {
     // These signatures are allowed and exposed here (bit or a stoopid way, but checked
     // RPCs and we have 3 max args, with subs max one arg... YMMV) -
     //  (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
     //  (arg1: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
     //  (callback: Callback<Codec>): UnsubscribePromise;
+    (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<Codec>;
     <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Promise<T>;
     <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
     <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
@@ -86,7 +91,8 @@ export interface DecoratedRpc<URI> {
   system: DecoratedRpc$Section<URI>;
 }
 
-interface StorageFunctionObservable extends StorageFunction {
+interface StorageFunctionObservable {
+  (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
   creator: StorageFunction;
@@ -98,16 +104,13 @@ interface StorageFunctionObservable extends StorageFunction {
 
 export interface StorageFunctionPromiseOverloads {
   (arg1?: CodecArg, arg2?: CodecArg): Promise<Codec>;
-  (callback: Callback<Codec>): UnsubscribePromise;
-  (arg: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
-  (arg1: CodecArg, arg2: CodecArg, callback: Callback<Codec>): UnsubscribePromise;
-}
-
-interface StorageFunctionPromise extends StorageFunction {
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Promise<T>;
   <T extends Codec>(callback: Callback<T>): UnsubscribePromise;
   <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
+}
+
+interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;

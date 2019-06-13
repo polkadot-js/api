@@ -184,7 +184,7 @@ export default function createSubmittableExtrinsic<URI> (
           return decorateMethod(
             () => ((
               isUndefined(options.nonce)
-                ? api.query.system.accountNonce(address) as Observable<Index>
+                ? api.query.system.accountNonce<Index>(address)
                 : of(new Index(options.nonce))
             ).pipe(
               first(),
