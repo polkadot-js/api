@@ -6,6 +6,7 @@
 - `api.derive.staking.info` now returns the `rewardDestination`
 - Fix for disconnection when default providers (non-specified) are used
 - Don't console.log type decoding errors and then throw, only re-throw with additional info
+- Support latest substrate 2.x v5 metadata
 - Add `ApprovalFlag`, `SetIndex`, `VoterInfo` types for council as per substrate
 - Update `ContractInfo` to match substrate master
 - Cater for `Vec`, `Option`, `Result`, tuples and fixed vectors for contracts ABIs
