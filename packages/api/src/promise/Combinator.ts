@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Callback } from '@polkadot/types/types';
 import { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback = (value: Array<any>) => any;
+export type CombinatorCallback = Callback<Array<any>>;
 export type CombinatorFunction = {
-  (cb: (value: any) => any): UnsubscribePromise
+  (cb: Callback<any>): UnsubscribePromise
 };
 
 export default class Combinator {

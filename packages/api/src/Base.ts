@@ -57,7 +57,7 @@ try {
  * Put the `this.onCall` function of ApiRx here, because it is needed by
  * `api._rx`.
  */
-function rxDecorateMethod<Method extends AnyFunction>(method: Method): Method {
+function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
@@ -96,7 +96,7 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  constructor(provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
+  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
@@ -112,10 +112,11 @@ export default abstract class ApiBase<URI> {
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
     this._rpcRx = new RpcRx(this._rpcBase._provider);
-    this._rpc = this.decorateRpc(this._rpcRx, this.decorateMethod) as any; // FIXME 3.4.1
+    this._rpc = this.decorateRpc(this._rpcRx, this.decorateMethod);
     this._rx.rpc = this.decorateRpc(this._rpcRx, rxDecorateMethod);
-    this._queryMulti = this.decorateMulti(this.decorateMethod) as any; // as above :(
+    this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
+    this._rx.signer = options.signer;
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
@@ -128,7 +129,7 @@ export default abstract class ApiBase<URI> {
   /**
    * @description Contains the genesis Hash of the attached chain. Apart from being useful to determine the actual chain, it can also be used to sign immortal transactions.
    */
-  get genesisHash(): Hash {
+  get genesisHash (): Hash {
     assert(!isUndefined(this._genesisHash), INIT_ERROR);
 
     return this._genesisHash as Hash;
@@ -137,21 +138,21 @@ export default abstract class ApiBase<URI> {
   /**
    * @description `true` when subscriptions are supported
    */
-  get hasSubscriptions(): boolean {
+  get hasSubscriptions (): boolean {
     return this._rpcBase._provider.hasSubscriptions;
   }
 
   /**
    * @description The library information name & version (from package.json)
    */
-  get libraryInfo(): string {
+  get libraryInfo (): string {
     return `${pkgJson.name} v${pkgJson.version}`;
   }
 
   /**
    * @description Yields the current attached runtime metadata. Generally this is only used to construct extrinsics & storage, but is useful for current runtime inspection.
    */
-  get runtimeMetadata(): Metadata {
+  get runtimeMetadata (): Metadata {
     assert(!isUndefined(this._runtimeMetadata), INIT_ERROR);
 
     return this._runtimeMetadata as Metadata;
@@ -445,8 +446,10 @@ export default abstract class ApiBase<URI> {
     const storage = storageFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
-    this._query = this.decorateStorage(storage, this.decorateMethod) as any; // FIXME 3.4.1
+    this._query = this.decorateStorage(storage, this.decorateMethod);
 
+    this._rx.genesisHash = this._genesisHash;
+    this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
     this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
@@ -478,9 +481,7 @@ export default abstract class ApiBase<URI> {
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
         const method = rpc[sectionName][methodName];
-        section[methodName] = decorateMethod(method, {
-          methodName
-        });
+        section[methodName] = decorateMethod(method, { methodName });
 
         return section;
       }, {} as DecoratedRpc$Section<URI>);
@@ -507,7 +508,7 @@ export default abstract class ApiBase<URI> {
 
   private decorateExtrinsics (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, rxDecorateMethod, value);
+      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -525,18 +526,17 @@ export default abstract class ApiBase<URI> {
   private decorateExtrinsicEntry (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
     const decorated =
       (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
-        createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params))
-    ;
+        createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<URI>;
   }
 
-  private decorateStorage<URI> (storage: Storage, decorateMethod: ApiBase<URI>['decorateMethod']) {
+  private decorateStorage<URI> (storage: Storage, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorage<URI> {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateStorageEntry<URI>(section[methodName], decorateMethod);
+        result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
 
         return result;
       }, {} as QueryableModuleStorage<URI>);
@@ -546,11 +546,6 @@ export default abstract class ApiBase<URI> {
   }
 
   private decorateStorageEntry<URI> (creator: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageFunction<URI> {
-
-    if (creator.method === 'eventTopics') {
-      console.log('AA');
-    }
-
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(

@@ -8,8 +8,9 @@ import { ApiInterface$Rx, ApiType, Signer } from './types';
 
 import { Observable, of, combineLatest } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { assert, isBn, isFunction, isNumber, isUndefined, u8aToHex } from '@polkadot/util';
+import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
+import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
 type SumbitableResultResult<URI> =
@@ -69,8 +70,8 @@ export interface SubmittableExtrinsic<URI> extends IExtrinsic {
 export default function createSubmittableExtrinsic<URI> (
   type: ApiType,
   api: ApiInterface$Rx,
+  decorateMethod: ApiBase<URI>['decorateMethod'],
   extrinsic: Method | Uint8Array | string,
-  decorateMethod: any, // TODO
   trackingCb?: Callback<SubmittableResult>
 ): SubmittableExtrinsic<URI> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<URI>;
@@ -149,27 +150,18 @@ export default function createSubmittableExtrinsic<URI> (
         value: function (statusCb?: Callback<SubmittableResult>): SumbitableResultResult<URI> | SumbitableResultSubscription<URI> {
           const isSubscription = _noStatusCb || !!statusCb;
 
-          return (
-            () => isSubscription
-              ? subscribeObservable()
-              : sendObservable()
-          ) as unknown as SumbitableResultSubscription<URI>;
+          return decorateMethod(isSubscription ? subscribeObservable : sendObservable)(statusCb);
         }
       },
       sign: {
         value: function (account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<URI> {
           // HACK here we actually override nonce if it was specified (backwards compat for
           // the previous signature - don't let userspace break, but allow then time to upgrade)
-          console.error('account', account, account.address);
           const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
             ? { nonce: _options as any as number }
             : _options;
-          console.error('options', options);
 
-          console.error('BEFORE', _extrinsic.toHex());
-          console.error('MANUAL SIGN', u8aToHex(account.sign(_extrinsic.toU8a())));
           signOrigin.apply(_extrinsic, [account, expandOptions(options)]);
-          console.error('AFTER', _extrinsic.toHex());
 
           return this;
         }
@@ -189,7 +181,7 @@ export default function createSubmittableExtrinsic<URI> (
           const address = isKeyringPair ? (account as IKeyringPair).address : account.toString();
           let updateId: number | undefined;
 
-          return (
+          return decorateMethod(
             () => ((
               isUndefined(options.nonce)
                 ? api.query.system.accountNonce(address) as Observable<Index>
@@ -214,7 +206,7 @@ export default function createSubmittableExtrinsic<URI> (
                   : sendObservable(updateId) as any; // ???
               })
             ) as Observable<Codec>)
-          ) as unknown as SumbitableResultSubscription<URI>;
+          )(statusCb);
         }
       }
     }
