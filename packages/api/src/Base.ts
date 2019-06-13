@@ -316,6 +316,33 @@ export default abstract class ApiBase<CodecResult, SubscriptionResult> implement
   }
 
   /**
+   * @description Remove the given eventemitter handler
+   *
+   * @param type The type of event the callback was attached to. Available events are `connected`, `disconnected`, `ready` and `error`
+   * @param handler The callback to unregister.
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * const handler = () => {
+   *  console.log('Connected !);
+   * };
+   *
+   * // Start listening
+   * api.on('connected', handler);
+   *
+   * // Stop listening
+   * api.off('connected', handler);
+   * ```
+   */
+  off (type: ApiInterface$Events, handler: (...args: Array<any>) => any): this {
+    this._eventemitter.removeListener(type, handler);
+
+    return this;
+  }
+
+  /**
    * @description Attach an one-time eventemitter handler to listen to a specific event
    *
    * @param type The type of event to listen to. Available events are `connected`, `disconnected`, `ready` and `error`
