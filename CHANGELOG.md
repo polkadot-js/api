@@ -11,6 +11,7 @@
 - Update `ContractInfo` to match substrate master
 - Cater for `Vec`, `Option`, `Result`, tuples and fixed vectors for contracts ABIs
 - Additional examples for subscriptions using multi
+- Add `off` method to `ApiBase` to remove an event listener
 
 # 0.81.1
 
