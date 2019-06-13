@@ -96,7 +96,6 @@ formattingTests(
   ['0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad', '0x1dbb0224910f42a14e7f1406b24c6fe8157296691b02a78756e01946038fffab']
 );
 
-// @TODO Write correct test, this is just a copy
 formattingTests(
   'v5',
   fromMetadata(new Metadata(rpcMetadataV5)),
