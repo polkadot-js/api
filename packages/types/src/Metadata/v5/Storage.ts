@@ -9,7 +9,6 @@ import { assert } from '@polkadot/util';
 import Enum from '../../codec/Enum';
 import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
-import Bool from '../../primitive/Bool';
 import Bytes from '../../primitive/Bytes';
 import StorageHasher from '../../primitive/StorageHasher';
 import Text from '../../primitive/Text';

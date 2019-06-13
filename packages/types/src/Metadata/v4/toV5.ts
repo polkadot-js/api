@@ -8,7 +8,7 @@ import MetadataV4 from './Metadata';
 import StorageHasher from '../../primitive/StorageHasher';
 import MetadataV5 from '../v5';
 import { StorageFunctionMetadata as StorageFunctionMetadataV4 } from '../v4/Storage';
-import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
+import { DoubleMapType, StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
 
 /**
  * Convert V4 StorageFunction to V5 StorageFunction
