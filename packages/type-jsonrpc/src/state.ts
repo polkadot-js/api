@@ -33,6 +33,7 @@ const getChildKeys: RpcMethodOpt = {
 const getChildStorage: RpcMethodOpt = {
   description: 'Retrieves the child storage for a key',
   params: [
+    createParam('childStorageKey', 'StorageKey'),
     createParam('key', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
@@ -42,6 +43,7 @@ const getChildStorage: RpcMethodOpt = {
 const getChildStorageHash: RpcMethodOpt = {
   description: 'Retrieves the child storage hash',
   params: [
+    createParam('childStorageKey', 'StorageKey'),
     createParam('key', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
@@ -51,6 +53,7 @@ const getChildStorageHash: RpcMethodOpt = {
 const getChildStorageSize: RpcMethodOpt = {
   description: 'Retrieves the child storage size',
   params: [
+    createParam('childStorageKey', 'StorageKey'),
     createParam('key', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
