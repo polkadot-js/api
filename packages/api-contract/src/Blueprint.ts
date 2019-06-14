@@ -5,18 +5,18 @@
 import { ContractABI } from './types';
 
 import { ApiRx } from '@polkadot/api';
-import { AccountId } from '@polkadot/types';
+import { Hash } from '@polkadot/types';
 
 import Abi from './Abi';
 import Base from './Base';
 
 // NOTE Experimental, POC, bound to change
-export default class Contract extends Base {
-  readonly address: AccountId;
+export default class Blueprint extends Base {
+  readonly codeHash: Hash;
 
-  constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId) {
+  constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
     super(api, abi);
 
-    this.address = new AccountId(address);
+    this.codeHash = new Hash(codeHash);
   }
 }
