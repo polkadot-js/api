@@ -232,17 +232,18 @@ export default class Rpc implements RpcInterface {
     // outputType that we have specified. Fallback to Data on nothing
     const type = key.outputType || 'Data';
     const meta = key.meta || EMPTY_META;
+    const isPedantic = meta.fallback ? false : true;
 
     if (meta.type.isMap && meta.type.asMap.isLinked) {
-      return createType(type, base, true);
+      return createType(type, base, isPedantic);
     } else if (meta.modifier.isOptional) {
       return new Option(
         createClass(type),
-        isNull ? null : createType(type, base, true)
+        isNull ? null : createType(type, base, isPedantic)
       );
     }
 
-    return createType(type, base, true);
+    return createType(type, base, isPedantic);
   }
 
   private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec | undefined {
