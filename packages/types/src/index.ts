@@ -9,6 +9,5 @@ import { assertSingletonPackage } from '@polkadot/util';
 
 assertSingletonPackage('@polkadot/types');
 
-export { default as ContractAbi } from './ContractAbi';
 export * from './codec';
 export * from './index.types';

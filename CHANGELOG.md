@@ -1,3 +1,7 @@
+# 0.82.0-beta.x
+
+- **Breaking change** The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
+
 # 0.81.1
 
 - The dependency on `@polkadot/keyring` has been removed - if you relied on the API to provide this, you would now need to manually add it
