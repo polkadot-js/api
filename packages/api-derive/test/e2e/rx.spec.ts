@@ -175,20 +175,21 @@ describe.skip('derive e2e', () => {
       });
     });
 
-    // describe('getHeader', () => {
-    //   it('gets a specific block header and extended with it\`s author', async (done) => {
-    //     api.derive.chain.getHeader().subscribe((headerExtended) => {
-    //       // WIP
-    //       expect(headerExtended).toEqual(expect.arrayContaining([]));
-    //       done();
-    //     });
-    //   });
-    // });
+    // FIXME https://github.com/polkadot-js/api/issues/868
+    describe.skip('getHeader', () => {
+      it('gets a specific block header and extended with it\`s author', async (done) => {
+        api.derive.chain.getHeader('TODO').subscribe((headerExtended) => {
+          // WIP
+          expect(headerExtended).toEqual(expect.arrayContaining([]));
+          done();
+        });
+      });
+    });
 
     describe('subscribeNewHead', () => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
         api.derive.chain.subscribeNewHead().subscribe((headerExtended) => {
-          // WIP
+          // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });
       });
@@ -208,7 +209,7 @@ describe.skip('derive e2e', () => {
 
   describe('derive.staking', () => {
     describe('controllers', () => {
-      // @TODO
+      // @TODO https://github.com/polkadot-js/api/issues/868
     });
   });
 

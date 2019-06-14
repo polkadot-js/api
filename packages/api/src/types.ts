@@ -50,7 +50,7 @@ export type DecorateMethodOptions = {
 // - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
 
 // These are the types that don't lose type information (used for api.derive.*)
-// Also use these for api.rpc.*
+// Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
 export type RxResult<F extends AnyFunction> = (...args: Parameters<F>) => Observable<ObsInnerType<ReturnType<F>>>;
 export type PromiseResult<F extends AnyFunction> = {
   (...args: Parameters<F>): Promise<ObsInnerType<ReturnType<F>>>,
@@ -78,12 +78,12 @@ type DecoratedRpc$Method<URI> = URI extends 'rxjs'
     <T extends Codec>(arg: CodecArg, callback: Callback<T>): UnsubscribePromise;
   };
 
-// FIXME https://github.com/polkadot-js/api/issues/971
+// FIXME https://github.com/polkadot-js/api/issues/1009
 export interface DecoratedRpc$Section<URI> {
   [index: string]: DecoratedRpc$Method<URI>;
 }
 
-// FIXME https://github.com/polkadot-js/api/issues/971
+// FIXME https://github.com/polkadot-js/api/issues/1009
 export interface DecoratedRpc<URI> {
   author: DecoratedRpc$Section<URI>;
   chain: DecoratedRpc$Section<URI>;
