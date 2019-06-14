@@ -113,10 +113,6 @@ import ApiBase from '../Base';
 export default class ApiRx extends ApiBase<'rxjs'> {
   private _isReadyRx: Observable<ApiRx>;
 
-  get derive (): ReturnType<ApiRx['decorateDerive']> {
-    return super.derive;
-  }
-
   /**
    * @description Creates an ApiRx instance using the supplied provider. Returns an Observable containing the actual Api instance.
    *
