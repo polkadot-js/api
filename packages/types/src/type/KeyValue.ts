@@ -5,15 +5,11 @@
 import { AnyU8a } from '../types';
 
 import Option from '../codec/Option';
-import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import StorageData from '../primitive/StorageData';
 import StorageKey from '../primitive/StorageKey';
 
-type KeyValueValue = {
-  key?: AnyU8a,
-  value?: AnyU8a
-};
+type KeyValueValue = [AnyU8a, AnyU8a];
 
 /**
  * @name KeyValue
@@ -21,9 +17,9 @@ type KeyValueValue = {
  * KeyValue structure. Since most of the keys and resultant values in Subtrate are
  * hashed and/or encoded, this does not wrap [[Text]], but rather a [[Bytes]]
  * for the keys and values. (Not to be confused with the KeyValue in [[Metadata]], that
- * is actually for Maps, whereas this is a representation of actaul storage values)
+ * is actually for Maps, whereas this is a representation of actual storage values)
  */
-export default class KeyValue extends Struct {
+export default class KeyValue extends Tuple {
   constructor (value?: KeyValueValue | Uint8Array) {
     super({
       key: StorageKey,
@@ -35,14 +31,14 @@ export default class KeyValue extends Struct {
    * @description The [[StorageKey]]
    */
   get key (): StorageKey {
-    return this.get('key') as StorageKey;
+    return this[0] as StorageKey;
   }
 
   /**
    * @description The [[StorageData]]
    */
   get value (): StorageData {
-    return this.get('value') as StorageData;
+    return this[1] as StorageData;
   }
 }
 
