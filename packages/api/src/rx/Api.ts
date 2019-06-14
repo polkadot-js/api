@@ -3,11 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { CodecArg } from '@polkadot/types/types';
-import { ApiRxInterface, RxResult } from './types';
-import { ApiOptions, OnCallFunction } from '../types';
+import { AnyFunction } from '@polkadot/types/types';
+import { ApiOptions } from '../types';
 
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 import ApiBase from '../Base';
 
@@ -111,7 +110,7 @@ import ApiBase from '../Base';
  *   });
  * ```
  */
-export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxInterface {
+export default class ApiRx extends ApiBase<'rxjs'> {
   private _isReadyRx: Observable<ApiRx>;
 
   /**
@@ -199,7 +198,7 @@ export default class ApiRx extends ApiBase<RxResult, RxResult> implements ApiRxI
     });
   }
 
-  protected onCall (method: OnCallFunction<RxResult, RxResult>, params: Array<CodecArg> = []): RxResult {
-    return method(...params);
+  protected decorateMethod<Method extends AnyFunction> (method: Method): Method {
+    return method;
   }
 }

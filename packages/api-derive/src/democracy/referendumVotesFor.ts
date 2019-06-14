@@ -15,7 +15,7 @@ import { votingBalances } from '../balances/votingBalances';
 
 export function referendumVotesFor (api: ApiInterface$Rx) {
   return (referendumId: BN | number): Observable<VectorAny<DerivedReferendumVote>> =>
-    (api.query.democracy.votersFor(referendumId) as Observable<Vector<AccountId>>).pipe(
+    (api.query.democracy.votersFor<Vector<AccountId>>(referendumId)).pipe(
       switchMap((votersFor) =>
         combineLatest([
           of(votersFor),

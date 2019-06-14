@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { SubscriptionResult } from './types';
+import { Callback } from '@polkadot/types/types';
+import { UnsubscribePromise } from '../types';
 
 import { isFunction } from '@polkadot/util';
 
-export type CombinatorCallback = (value: Array<any>) => any;
+export type CombinatorCallback = Callback<Array<any>>;
 export type CombinatorFunction = {
-  (cb: (value: any) => any): SubscriptionResult
+  (cb: Callback<any>): UnsubscribePromise
 };
 
 export default class Combinator {
@@ -18,7 +19,7 @@ export default class Combinator {
   protected _fns: Array<CombinatorFunction> = [];
   protected _isActive: boolean = true;
   protected _results: Array<any> = [];
-  protected _subscriptions: Array<SubscriptionResult> = [];
+  protected _subscriptions: Array<UnsubscribePromise> = [];
 
   constructor (fns: Array<CombinatorFunction | [CombinatorFunction, ...Array<any>]>, callback: CombinatorCallback) {
     this._callback = callback;
