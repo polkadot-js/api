@@ -2,20 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { KeyringPair } from '@polkadot/keyring/types';
-
 import fs from 'fs';
 import path from 'path';
 
-import { Abi } from '@polkadot/api-contract';
+import { ContractAbi, Address, Hash } from '@polkadot/types';
+import { KeyringPair } from '@polkadot/keyring/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { Address, Hash } from '@polkadot/types';
 
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
-
-import { ApiPromise, SubmittableResult } from '../../src';
-
-const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
+import Api from './../../src/promise';
+import flipperAbi from '../data/flipper.json';
+import erc20Abi from '../data/erc20.json';
+import { SubmittableResult } from './../../src';
 
 describe.skip('Promise e2e contracts', () => {
   let address: Address;
@@ -23,11 +20,11 @@ describe.skip('Promise e2e contracts', () => {
   let keyring: {
     [index: string]: KeyringPair
   };
-  let api: ApiPromise;
+  let api: Api;
 
   beforeEach(async (done) => {
     if (!api) {
-      api = await ApiPromise.create();
+      api = await Api.create();
 
       keyring = testingPairs({ type: 'sr25519' });
     }
@@ -38,29 +35,31 @@ describe.skip('Promise e2e contracts', () => {
 
   describe('flipper', () => {
     const MAX_GAS = 500000;
-    let abi: Abi;
+    let abi: ContractAbi;
 
     beforeEach(() => {
-      abi = new Abi(flipperAbi);
+      abi = new ContractAbi(flipperAbi);
     });
 
     it('allows putCode', (done) => {
+      const code = fs.readFileSync(path.join(__dirname, '../data/flipper-pruned.wasm')).toString('hex');
+
       return (
         api.tx.contract
-          .putCode(MAX_GAS, `0x${flipperCode}`)
-          .signAndSend(keyring.eve, (result: SubmittableResult) => {
-            console.error('putCode', JSON.stringify(result));
+        .putCode(MAX_GAS, `0x${code}`)
+        .signAndSend(keyring.eve, (result: SubmittableResult) => {
+          console.error('putCode', JSON.stringify(result));
 
-            if (result.status.isFinalized) {
-              const record = result.findRecord('contract', 'CodeStored');
+          if (result.status.isFinalized) {
+            const record = result.findRecord('contract', 'CodeStored');
 
-              if (record) {
-                codeHash = record.event.data[0] as Hash;
+            if (record) {
+              codeHash = record.event.data[0] as Hash;
 
-                done();
-              }
+              done();
             }
-          })
+          }
+        })
       );
     });
 
@@ -99,6 +98,20 @@ describe.skip('Promise e2e contracts', () => {
               done();
             }
           })
+      );
+    });
+  });
+
+  describe('erc20', () => {
+    let abi: ContractAbi;
+
+    beforeEach(() => {
+      abi = new ContractAbi(erc20Abi);
+    });
+
+    it('has the attached methods', () => {
+      expect(Object.keys(abi.messages)).toEqual(
+        ['totalSupply', 'balanceOf', 'allowance', 'transfer', 'approve', 'transferFrom']
       );
     });
   });
