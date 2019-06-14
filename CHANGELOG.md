@@ -1,4 +1,4 @@
-# 0.82.1
+# 0.81.1
 
 - The dependency on `@polkadot/keyring` has been removed - if you relied on the API to provide this, you would now need to manually add it
 - Update `HeaderExtended` to retrieve author information from substrate 2.x (new `PreRuntime` digests)
@@ -7,16 +7,13 @@
 - Fix for disconnection when default providers (non-specified) are used
 - Don't console.log type decoding errors and then throw, only re-throw with additional info
 - Support latest substrate 2.x v5 metadata
+- Add support for new inherent digests from substrate.
+- **Breaking change** Because of the new `Seal`, the old/new Seals are not compatible. If you were using the old `Seal` from the `Digest`s, you would now use `isSealV0` for the pre-substrate 1.0 version and the new `isSeal` for the current version
 - Add `ApprovalFlag`, `SetIndex`, `VoterInfo` types for council as per substrate
 - Update `ContractInfo` to match substrate master
 - Cater for `Vec`, `Option`, `Result`, tuples and fixed vectors for contracts ABIs
 - Additional examples for subscriptions using multi
-- Add `off` method to `ApiBase` to remove an event listener
-
-# 0.81.1
-
-- Add support for new inherent digests from substrate.
-- **Breaking change** Because of the new `Seal`, the old/new Seals are not compatible. If you were using the old `Seal` from the `Digest`s, you would now use `isSealV0` for the pre-substrate 1.0 version and the new `isSeal` for the current version
+- Add `off` method to `Api` (Base, for both `ApiPromise` & `ApiRx`) to remove an event listener
 
 # 0.80.1
 
