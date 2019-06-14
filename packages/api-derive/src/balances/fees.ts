@@ -21,7 +21,7 @@ import { drr } from '../util/drr';
  *
  * ```javascript
  * api.derive.balances.fees(([creationFee, transferFee]) => {
- *   console.log(`The fee for creating a new account on this chain is ${transferFee} units. The fee required for making a transfer is ${transferFee} units.`);
+ *   console.log(`The fee for creating a new account on this chain is ${creationFee} units. The fee required for making a transfer is ${transferFee} units.`);
  * });
  * ```
  */
