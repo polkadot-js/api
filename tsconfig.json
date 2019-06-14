@@ -7,6 +7,8 @@
     {
       "@polkadot/api": ["packages/api/src"],
       "@polkadot/api/*": ["packages/api/src/*"],
+      "@polkadot/api-contract": ["packages/api-contract/src"],
+      "@polkadot/api-contract/*": ["packages/api-contract/src/*"],
       "@polkadot/api-derive": ["packages/api-derive/src"],
       "@polkadot/api-derive/*": ["packages/api-derive/src/*"],
       "@polkadot/rpc-core": ["packages/rpc-core/src"],
