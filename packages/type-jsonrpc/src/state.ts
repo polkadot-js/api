@@ -20,8 +20,9 @@ const call: RpcMethodOpt = {
 };
 
 const getChildKeys: RpcMethodOpt = {
-  description: 'Retrieves the keys with prefix from a specific child storage',
+  description: 'Retrieves the keys with prefix of a specific child storage',
   params: [
+    createParam('childStorageKey', 'StorageKey'),
     createParam('prefix', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
