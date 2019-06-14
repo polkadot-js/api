@@ -25,7 +25,8 @@ const getChildKeys: RpcMethodOpt = {
     createParam('prefix', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
-  type: 'StorageKey'
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageKey>'
 };
 
 const getChildStorage: RpcMethodOpt = {
@@ -61,7 +62,8 @@ const getKeys: RpcMethodOpt = {
     createParam('prefix', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
-  type: 'StorageKey'
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageKey>'
 };
 
 const getStorage: RpcMethodOpt = {

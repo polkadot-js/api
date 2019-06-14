@@ -4,7 +4,6 @@
 
 
 import { StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v5/Storage';
-// StorageKey
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { Text, Vector } from '@polkadot/types';
 
@@ -17,19 +16,19 @@ interface SubstrateMetadata {
 
 // Small helper function to factorize code on this page.
 const createRuntimeFunction = (method: string, key: string, { documentation, type }: SubstrateMetadata): StorageFunction =>
-    createFunction(
-      new Text('Substrate'),
-      new Text(method),
-      {
-        documentation: new Vector(Text, [documentation]),
-        modifier: new StorageFunctionModifier(1), // default
-        type: new StorageFunctionType(type, 0),
-        toJSON: (): any => key
-      } as StorageFunctionMetadata,
-      {
-        key,
-        skipHashing: true
-      }
+  createFunction(
+    new Text('Substrate'),
+    new Text(method),
+    {
+      documentation: new Vector(Text, [documentation]),
+      modifier: new StorageFunctionModifier(1), // default
+      type: new StorageFunctionType(type, 0),
+      toJSON: (): any => key
+    } as StorageFunctionMetadata,
+    {
+      key,
+      skipHashing: true
+    }
   );
 
 export const code = createRuntimeFunction('code', ':code', {
@@ -66,10 +65,3 @@ export const childStorageKeyPrefix = createRuntimeFunction('childStorageKeyPrefi
   documentation: 'Prefix of child storage keys.',
   type: 'u32'
 });
-
-// export default function isChildStorageKey (storageKey?: StorageKey): boolean {
-//   if (!storageKey) {
-//     return false;
-//   }
-//   return (storageKey === ':child_storage:');
-// }
