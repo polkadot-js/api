@@ -15,13 +15,13 @@ import filterEvents from './util/filterEvents';
 
 type SumbitableResultResult<ApiType> =
   ApiType extends 'rxjs'
-  ? Observable<SubmittableResult>
-  : Promise<Hash>;
+    ? Observable<SubmittableResult>
+    : Promise<Hash>;
 
 type SumbitableResultSubscription<ApiType> =
   ApiType extends 'rxjs'
-  ? Observable<SubmittableResult>
-  : Promise<() => void>;
+    ? Observable<SubmittableResult>
+    : Promise<() => void>;
 
 export class SubmittableResult extends Struct {
   constructor (value?: any) {
