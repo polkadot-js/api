@@ -27,7 +27,7 @@ export function constructInfo (index: BN | number, optionInfo?: Option<Referendu
 
 export function referendumInfo (api: ApiInterface$Rx) {
   return (index: BN | number): Observable<Option<ReferendumInfoExtended>> => {
-    return (api.query.democracy.referendumInfoOf(index) as Observable<Option<ReferendumInfo>>)
+    return (api.query.democracy.referendumInfoOf<Option<ReferendumInfo>>(index))
       .pipe(
         map((optionInfo) =>
           constructInfo(index, optionInfo)

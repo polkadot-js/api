@@ -239,7 +239,7 @@ describe('createType', () => {
     ).toEqual('0x1200230045006700');
   });
 
-  it('throw error when create base is a StorageData with null value and isPedantic is true' , () => {
+  it('throw error when create base is a StorageData with null value and isPedantic is true', () => {
     const base = createType('StorageData', null);
 
     expect(
@@ -247,7 +247,7 @@ describe('createType', () => {
     ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
   });
 
-  it('throw error when create base is a StorageData with null value and isPedantic is true' , () => {
+  it('throw error when create base is a StorageData with null value and isPedantic is true', () => {
     const base = createType('StorageData', null);
 
     expect(

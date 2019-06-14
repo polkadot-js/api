@@ -7,7 +7,7 @@ import BN from 'bn.js';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Balance, EventRecord, Header, Option, Vector } from '@polkadot/types';
+import { Balance, EventRecord, Header, Option, ValidatorPrefs, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -40,9 +40,22 @@ describe.skip('Promise e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
+  it('allows retrieval of an fallback entry (once-off query)', async () => {
+    const nonce = await api.query.system.accountNonce('5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
+  it('allows retrieval of fallback when at query is made', async () => {
+    const header = await api.rpc.chain.getHeader() as Header;
+    const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
   it('queries state for a balance', async () => {
     return (
-      api.query.balances.freeBalance(keyring.alice.address, (balance) => {
+      api.query.balances.freeBalance(keyring.alice.address, (balance: Balance) => {
         expect(balance).toBeInstanceOf(BN);
         expect(balance.isZero()).toBe(false);
       })
@@ -51,7 +64,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to rpc', (done) => {
     return (
-      api.rpc.chain.subscribeNewHead((header) => {
+      api.rpc.chain.subscribeNewHead((header: Header) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -61,7 +74,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to finalized', (done) => {
     return (
-      api.rpc.chain.subscribeFinalizedHeads((header) => {
+      api.rpc.chain.subscribeFinalizedHeads((header: Header) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -91,7 +104,7 @@ describe.skip('Promise e2e queries', () => {
 
   it.skip('subscribes to queries (default)', (done) => {
     return (
-      api.query.staking.validators(keyring.ferdie.address, (prefs) => {
+      api.query.staking.validators(keyring.ferdie.address, (prefs: ValidatorPrefs) => {
         expect(prefs.unstakeThreshold.toNumber()).toBe(3);
 
         done();
@@ -101,7 +114,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to a linked map (staking.validators)', (done) => {
     return (
-      api.query.staking.validators((prefs) => {
+      api.query.staking.validators((prefs: LinkageResult) => {
         expect(prefs instanceof LinkageResult).toBe(true);
 
         done();
@@ -130,7 +143,7 @@ describe.skip('Promise e2e queries', () => {
       [api.query.balances.freeBalance, keyring.bob.address],
       [api.query.balances.freeBalance, '5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y'],
       [api.query.balances.freeBalance, keyring.ferdie.address]
-    ], (balances: Array<BN>) => {
+    ], (balances: Array<Balance>) => {
       expect(balances).toHaveLength(4);
 
       done();
@@ -200,7 +213,7 @@ describe.skip('Promise e2e queries', () => {
     });
 
     it('subscribes to query and get correct result', (done) => {
-      return api.query.balances.existentialDeposit((existentialDeposit) => {
+      return api.query.balances.existentialDeposit((existentialDeposit: Balance) => {
         expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
         done();
       });
@@ -248,7 +261,7 @@ describe.skip('Promise e2e queries', () => {
       // assume the account Alice is only used in test(the balance of Alice does not change in this test case)
       const balance = await api.query.balances.freeBalance(keyring.alice.address);
 
-      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed) => {
+      return api.query.balances.freeBalance(keyring.alice.address, (balanceSubscribed: Balance) => {
         expect(balanceSubscribed.isZero()).toBe(false);
         expect(balanceSubscribed.toString()).toEqual(balance.toString());
         done();

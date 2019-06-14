@@ -2,8 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
 import { ApiInterface$Rx } from '@polkadot/api/types';
+import { AnyFunction } from '@polkadot/types/types';
+
+import { Observable } from 'rxjs';
 
 import * as accounts from './accounts';
 import * as balances from './balances';
@@ -15,65 +17,54 @@ import * as staking from './staking';
 
 export * from './type';
 
-// Put all derived functions in an object, for easier Object.keys()-ing.
-const functions = { accounts, balances, chain, democracy, session, staking };
-
-/**
- * T represents the section here (chain, balances...), and P represents
- * the function name (bestNumber, sessionProgress...).
- */
-type ReturnTypes<T extends Record<keyof T, (...args: any[]) => any>> = {
-  [P in keyof T]: ReturnType<T[P]>
+export type ReturnTypes<Section> = {
+  [Method in keyof Section]: Section[Method] extends AnyFunction
+  ? ReturnType<Section[Method]> // ReturnType<Section[Method]> will be the inner function, i.e. without (api) argument
+  : never;
 };
 
-export interface DeriveCustomMethod {
-  (api: ApiInterface$Rx): (...args: Array<any>) => Observable<any>;
-}
+export type DeriveSections<AllSections> = {
+  [Section in keyof AllSections]: ReturnTypes<AllSections[Section]>
+};
 
 export interface DeriveCustom {
   [index: string]: {
-    [index: string]: DeriveCustomMethod
+    [index: string]: (api: ApiInterface$Rx) => (...args: Array<any>) => Observable<any>
   };
 }
 
-export interface Derive {
-  accounts: ReturnTypes<typeof accounts>;
-  balances: ReturnTypes<typeof balances>;
-  chain: ReturnTypes<typeof chain>;
-  contract: ReturnTypes<typeof contract>;
-  democracy: ReturnTypes<typeof democracy>;
-  session: ReturnTypes<typeof session>;
-  staking: ReturnTypes<typeof staking>;
+/**
+ * Returns an object that will inject `api` into all the functions inside
+ * `allSections`, and keep the object architecture of `allSections`.
+ */
+function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSections) {
+  return Object
+    .keys(allSections)
+    .reduce((deriveAcc, sectionName) => {
+      const section = allSections[sectionName as keyof AllSections];
+
+      deriveAcc[sectionName as keyof AllSections] = Object
+        .keys(section)
+        .reduce((sectionAcc, _methodName) => {
+          const methodName = _methodName as keyof typeof section;
+          // Not sure what to do here, casting as any. Though the final types are good
+          const method = (section[methodName] as any)(api);
+          // idem
+          (sectionAcc as any)[methodName] = method;
+
+          return sectionAcc;
+        }, {} as ReturnTypes<typeof section>);
+
+      return deriveAcc;
+    }, {} as DeriveSections<AllSections>);
 }
 
-function injectFunctions (api: ApiInterface$Rx, derive: Derive, functions: DeriveCustom): Derive {
-  Object
-    .entries(functions)
-    .forEach(([sectionName, section]) => {
-      const sectionKey = sectionName as keyof Derive;
+export const derive = { accounts, balances, chain, contract, democracy, session, staking };
+export type Derive = typeof derive;
 
-      if (!derive[sectionKey]) {
-        derive[sectionKey] = {} as any;
-      }
-
-      const result = derive[sectionKey];
-
-      Object
-        .entries(section)
-        .forEach(([methodName, method]) => {
-          // @ts-ignore No idea how to make this work...
-          result[methodName as keyof section] = method(api);
-        });
-    });
-
-  return derive;
-}
-
-export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}): Derive {
-  const derive = {} as Derive;
-
-  injectFunctions(api, derive, functions);
-  injectFunctions(api, derive, custom);
-
-  return derive;
+export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}) {
+  return {
+    ...injectFunctions(api, derive),
+    ...injectFunctions(api, custom)
+  };
 }

@@ -15,6 +15,10 @@ import Api from '.';
 
 const ADDR_ONE = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 const ADDR_TWO = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF';
+const BALANCE_KEYS = [
+  /* v3- */ '0x4af2c53fce3ec33c6ccccf22e926f1a7',
+  /* v4+ */ '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad'
+];
 
 function formattingTests (version: string, storage: Storage, encodedValues: [String, String]) {
   const [ENC_ONE, ENC_TWO] = encodedValues;
@@ -25,8 +29,12 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
 
     beforeEach(() => {
       provider = {
-        send: jest.fn((method, params) =>
-          Promise.resolve('0x01020000000000000000000000000000')
+        send: jest.fn((method, [key]) =>
+          Promise.resolve(
+            BALANCE_KEYS.includes(key)
+              ? '0x01020000000000000000000000000000'
+              : null
+          )
         ),
         subscribe: jest.fn((type, method, params, subscription) =>
           subscription(null, {
@@ -52,6 +60,14 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
             [ENC_ONE]
           );
           expect(value.toNumber()).toEqual(513);
+        });
+    });
+
+    it('returns the fallback result on not-found values', () => {
+      return api.state
+        .getStorage([storage.system.accountNonce, ADDR_ONE])
+        .then((value) => {
+          expect(value.toHex()).toEqual('0x0000000000000000');
         });
     });
 

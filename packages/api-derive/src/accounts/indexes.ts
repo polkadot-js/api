@@ -31,7 +31,7 @@ const enumsetSize = ENUMSET_SIZE.toNumber();
  */
 export function indexes (api: ApiInterface$Rx) {
   return (): Observable<AccountIndexes> => {
-    return (api.query.indices.nextEnumSet() as Observable<AccountIndex>)
+    return (api.query.indices.nextEnumSet<AccountIndex>())
       .pipe(
         // use the nextEnumSet (which is a counter of the number of sets) to construct
         // a range of values to query [0, 1, 2, ...]. Retrieve the full enum set for the

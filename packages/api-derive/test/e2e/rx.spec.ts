@@ -5,7 +5,6 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
@@ -17,7 +16,7 @@ const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
 describe.skip('derive e2e', () => {
-  let api: ApiInterface$Rx;
+  let api: ApiRx;
 
   beforeAll(() => {
     jest.setTimeout(10000);
@@ -35,7 +34,7 @@ describe.skip('derive e2e', () => {
       it('looks up AccountId & AccountIndex from AccountId', async (done) => {
         // @ts-ignore silence warning until we have static types here
         api.derive.accounts.idAndIndex(ID).subscribe(([accountId, accountIndex]) => {
-          expect(accountId.toString()).toEqual(ID);
+          expect(accountId!.toString()).toEqual(ID);
           // The first emitted value for ix is undefined when passing the ID
           if (accountIndex) {
             expect(accountIndex.toString()).toEqual(IX);
@@ -55,7 +54,7 @@ describe.skip('derive e2e', () => {
           } else {
             expect(accountId).toEqual(undefined);
           }
-          expect(accountIndex.toString()).toEqual(IX);
+          expect(accountIndex!.toString()).toEqual(IX);
           done();
         });
       });
@@ -108,7 +107,7 @@ describe.skip('derive e2e', () => {
     });
   });
 
-    // these only work on localhost, not the poc-3 URL
+  // these only work on localhost, not the poc-3 URL
   // (and it is assuming it sent at least 1 tx)
   describe('derive.balances', () => {
     describe('all', () => {
@@ -150,7 +149,7 @@ describe.skip('derive e2e', () => {
       it('Get the latest block number', async (done) => {
         api.derive.chain.bestNumber().subscribe((blockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
-          expect((blockNumber as BlockNumber).gten(0)).toBe(true);
+          expect(blockNumber.gten(0)).toBe(true);
           done();
         });
       });
@@ -160,7 +159,7 @@ describe.skip('derive e2e', () => {
       it('Get the latest finalised block number', async (done) => {
         api.derive.chain.bestNumberFinalized().subscribe((blockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
-          expect((blockNumber as BlockNumber).gten(0)).toBe(true);
+          expect(blockNumber.gten(0)).toBe(true);
           done();
         });
       });
@@ -170,15 +169,16 @@ describe.skip('derive e2e', () => {
       it('lag between finalised head and best head', async (done) => {
         api.derive.chain.bestNumberLag().subscribe((numberLag) => {
           expect(numberLag instanceof BlockNumber).toBe(true);
-          expect((numberLag as BlockNumber).gten(0)).toBe(true);
+          expect(numberLag.gten(0)).toBe(true);
           done();
         });
       });
     });
 
-    describe('getHeader', () => {
+    // FIXME https://github.com/polkadot-js/api/issues/868
+    describe.skip('getHeader', () => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
-        api.derive.chain.getHeader().subscribe((headerExtended) => {
+        api.derive.chain.getHeader('TODO').subscribe((headerExtended) => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));
           done();
@@ -189,7 +189,7 @@ describe.skip('derive e2e', () => {
     describe('subscribeNewHead', () => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
         api.derive.chain.subscribeNewHead().subscribe((headerExtended) => {
-          // WIP
+          // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });
       });
@@ -209,7 +209,7 @@ describe.skip('derive e2e', () => {
 
   describe('derive.staking', () => {
     describe('controllers', () => {
-      // @TODO
+      // @TODO https://github.com/polkadot-js/api/issues/868
     });
   });
 

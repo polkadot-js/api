@@ -84,7 +84,7 @@ describe.skip('alex queries', () => {
   });
 
   it('subscribes to events', (done) => {
-    api.query.system.events((events: Array<EventRecord>) => {
+    return api.query.system.events((events: Vector<EventRecord>) => {
       expect(events).not.toHaveLength(0);
       done();
     });

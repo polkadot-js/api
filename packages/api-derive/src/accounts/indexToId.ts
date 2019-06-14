@@ -30,7 +30,7 @@ export function indexToId (api: ApiInterface$Rx) {
       ? _accountIndex
       : new AccountIndex(_accountIndex);
 
-    return (querySection.enumSet(accountIndex.div(ENUMSET_SIZE)) as Observable<Vector<AccountId>>)
+    return (querySection.enumSet<Vector<AccountId>>(accountIndex.div(ENUMSET_SIZE)))
       .pipe(
         startWith([]),
         map((accounts) =>
