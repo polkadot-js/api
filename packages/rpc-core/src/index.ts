@@ -242,7 +242,7 @@ export default class Rpc implements RpcInterface {
       );
     }
 
-    return createType(type, base, true);
+    return createType(type, isNull ? meta.fallback : base, true);
   }
 
   private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec | undefined {
