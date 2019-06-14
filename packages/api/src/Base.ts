@@ -6,7 +6,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
-  ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiType, DecorateMethodOptions,
+  ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
   QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
@@ -61,22 +61,22 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
   return method;
 }
 
-export default abstract class ApiBase<URI> {
-  private _derive?: ReturnType<ApiBase<URI>['decorateDerive']>;
+export default abstract class ApiBase<ApiType> {
+  private _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
   private _eventemitter: EventEmitter;
-  private _extrinsics?: SubmittableExtrinsics<URI>;
+  private _extrinsics?: SubmittableExtrinsics<ApiType>;
   private _genesisHash?: Hash;
   private _isReady: boolean = false;
   protected readonly _options: ApiOptions;
-  private _query?: QueryableStorage<URI>;
-  private _queryMulti: QueryableStorageMulti<URI>;
-  private _rpc: DecoratedRpc<URI>;
+  private _query?: QueryableStorage<ApiType>;
+  private _queryMulti: QueryableStorageMulti<ApiType>;
+  private _rpc: DecoratedRpc<ApiType>;
   protected _rpcBase: RpcBase; // FIXME These two could be merged https://github.com/polkadot-js/api/issues/642
   protected _rpcRx: RpcRx; // FIXME These two could be merged https://github.com/polkadot-js/api/issues/642
   private _runtimeMetadata?: Metadata;
   private _runtimeVersion?: RuntimeVersion;
   private _rx: Partial<ApiInterface$Rx> = {};
-  private _type: ApiType;
+  private _type: ApiTypes;
 
   /**
    * @description Create an instance of the class
@@ -96,7 +96,7 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiType) {
+  constructor (provider: ApiOptions | ProviderInterface = {}, type: ApiTypes) {
     const options = isObject(provider) && isFunction((provider as ProviderInterface).send)
       ? { provider } as ApiOptions
       : provider as ApiOptions;
@@ -170,7 +170,7 @@ export default abstract class ApiBase<URI> {
   /**
    * @description The type of this API instance, either 'rxjs' or 'promise'
    */
-  get type (): ApiType {
+  get type (): ApiTypes {
     return this._type;
   }
 
@@ -193,10 +193,10 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  get derive (): ReturnType<ApiBase<URI>['decorateDerive']> {
+  get derive (): ReturnType<ApiBase<ApiType>['decorateDerive']> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
-    return this._derive as ReturnType<ApiBase<URI>['decorateDerive']>;
+    return this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>;
   }
 
   /**
@@ -213,10 +213,10 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  get query (): QueryableStorage<URI> {
+  get query (): QueryableStorage<ApiType> {
     assert(!isUndefined(this._query), INIT_ERROR);
 
-    return this._query as QueryableStorage<URI>;
+    return this._query as QueryableStorage<ApiType>;
   }
 
   /**
@@ -239,7 +239,7 @@ export default abstract class ApiBase<URI> {
    * );
    * ```
    */
-  get queryMulti (): QueryableStorageMulti<URI> {
+  get queryMulti (): QueryableStorageMulti<ApiType> {
     return this._queryMulti;
   }
 
@@ -257,7 +257,7 @@ export default abstract class ApiBase<URI> {
    * });
    * ```
    */
-  get rpc (): DecoratedRpc<URI> {
+  get rpc (): DecoratedRpc<ApiType> {
     return this._rpc;
   }
 
@@ -275,10 +275,10 @@ export default abstract class ApiBase<URI> {
    *   });
    * ```
    */
-  get tx (): SubmittableExtrinsics<URI> {
+  get tx (): SubmittableExtrinsics<ApiType> {
     assert(!isUndefined(this._extrinsics), INIT_ERROR);
 
-    return this._extrinsics as SubmittableExtrinsics<URI>;
+    return this._extrinsics as SubmittableExtrinsics<ApiType>;
   }
 
   /**
@@ -503,25 +503,25 @@ export default abstract class ApiBase<URI> {
     return output;
   }
 
-  private decorateRpc<URI> (rpc: RpcRx, decorateMethod: ApiBase<URI>['decorateMethod']): DecoratedRpc<URI> {
+  private decorateRpc<ApiType> (rpc: RpcRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType> {
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
-      const sectionName = _sectionName as keyof DecoratedRpc<URI>;
+      const sectionName = _sectionName as keyof DecoratedRpc<ApiType>;
 
       result[sectionName] = Object.keys(rpc[sectionName]).reduce((section, methodName) => {
         const method = rpc[sectionName][methodName];
         section[methodName] = decorateMethod(method, { methodName });
 
         return section;
-      }, {} as DecoratedRpc$Section<URI>);
+      }, {} as DecoratedRpc$Section<ApiType>);
 
       return result;
-    }, {} as DecoratedRpc<URI>);
+    }, {} as DecoratedRpc<ApiType>);
   }
 
-  private decorateMulti<URI> (decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageMulti<URI> {
+  private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod(
-      (calls: QueryableStorageMultiArgs<URI>) => {
-        const mapped = calls.map((arg: QueryableStorageMultiArg<URI>): [QueryableStorageFunction<URI>, ...Array<CodecArg>] =>
+      (calls: QueryableStorageMultiArgs<ApiType>) => {
+        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageFunction<ApiType>, ...Array<CodecArg>] =>
           // the input is a QueryableStorageFunction, convert to StorageFunction
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
@@ -534,8 +534,8 @@ export default abstract class ApiBase<URI> {
       });
   }
 
-  private decorateExtrinsics<URI> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsics<URI> {
-    const creator = (value: Uint8Array | string): SubmittableExtrinsic<URI> =>
+  private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+    const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
       createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
@@ -545,21 +545,21 @@ export default abstract class ApiBase<URI> {
         result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
 
         return result;
-      }, {} as SubmittableModuleExtrinsics<URI>);
+      }, {} as SubmittableModuleExtrinsics<ApiType>);
 
       return result;
-    }, creator as SubmittableExtrinsics<URI>);
+    }, creator as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<URI> (method: MethodFunction, decorateMethod: ApiBase<URI>['decorateMethod']): SubmittableExtrinsicFunction<URI> {
+  private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
-      (...params: Array<CodecArg>): SubmittableExtrinsic<URI> =>
+      (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType> =>
         createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
 
-    return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<URI>;
+    return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
 
-  private decorateStorage<URI> (storage: Storage, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorage<URI> {
+  private decorateStorage<ApiType> (storage: Storage, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorage<ApiType> {
     return Object.keys(storage).reduce((result, sectionName) => {
       const section = storage[sectionName];
 
@@ -567,13 +567,13 @@ export default abstract class ApiBase<URI> {
         result[methodName] = this.decorateStorageEntry(section[methodName], decorateMethod);
 
         return result;
-      }, {} as QueryableModuleStorage<URI>);
+      }, {} as QueryableModuleStorage<ApiType>);
 
       return result;
-    }, {} as QueryableStorage<URI>);
+    }, {} as QueryableStorage<ApiType>);
   }
 
-  private decorateStorageEntry<URI> (creator: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): QueryableStorageFunction<URI> {
+  private decorateStorageEntry<ApiType> (creator: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageFunction<ApiType> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
@@ -630,10 +630,10 @@ export default abstract class ApiBase<URI> {
           : [creator, arg1])
     );
 
-    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageFunction<URI>;
+    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageFunction<ApiType>;
   }
 
-  private decorateStorageEntryLinked<URI> (method: StorageFunction, decorateMethod: ApiBase<URI>['decorateMethod']): ReturnType<ApiBase<URI>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (method: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;
@@ -715,10 +715,10 @@ export default abstract class ApiBase<URI> {
     );
   }
 
-  private decorateDerive (apiRx: ApiInterface$Rx, decorateMethod: ApiBase<URI>['decorateMethod']) {
+  private decorateDerive (apiRx: ApiInterface$Rx, decorateMethod: ApiBase<ApiType>['decorateMethod']) {
     // Pull in derive from api-derive
     const derive = decorateDerive(apiRx, this._options.derives);
 
-    return decorateSections<URI, typeof derive>(derive, decorateMethod);
+    return decorateSections<ApiType, typeof derive>(derive, decorateMethod);
   }
 }

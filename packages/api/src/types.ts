@@ -42,9 +42,9 @@ export type DecorateMethodOptions = {
 
 // Here are the return types of these parts of the api:
 // - api.query.*.*: no exact typings
-// - api.tx.*.*: SubmittableExtrinsic<URI>
-// - api.derive.*.*: MethodResult<URI, F>
-// - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<URI, F>, like in derive)
+// - api.tx.*.*: SubmittableExtrinsic<ApiType>
+// - api.derive.*.*: MethodResult<ApiType, F>
+// - api.rpc.*.*: no exact typings (for now, FIXME: should be  MethodResult<ApiType, F>, like in derive)
 
 // These are the types that don't lose type information (used for api.derive.*)
 // Also use these for api.rpc.* https://github.com/polkadot-js/api/issues/1009
@@ -54,11 +54,11 @@ export type PromiseResult<F extends AnyFunction> = {
   (...args: Push<Parameters<F>, Callback<ObsInnerType<ReturnType<F>>>>): UnsubscribePromise
 };
 // FIXME The day TS has higher-kinded types, we can remove this hardcoded stuff
-export type MethodResult<URI, F extends AnyFunction> = URI extends 'rxjs'
+export type MethodResult<ApiType, F extends AnyFunction> = ApiType extends 'rxjs'
   ? RxResult<F>
   : PromiseResult<F>;
 
-type DecoratedRpc$Method<URI> = URI extends 'rxjs'
+type DecoratedRpc$Method<ApiType> = ApiType extends 'rxjs'
   ? {
     (arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<Codec>
     <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg, arg3?: CodecArg): Observable<T>
@@ -76,16 +76,16 @@ type DecoratedRpc$Method<URI> = URI extends 'rxjs'
   };
 
 // FIXME https://github.com/polkadot-js/api/issues/1009
-export interface DecoratedRpc$Section<URI> {
-  [index: string]: DecoratedRpc$Method<URI>;
+export interface DecoratedRpc$Section<ApiType> {
+  [index: string]: DecoratedRpc$Method<ApiType>;
 }
 
 // FIXME https://github.com/polkadot-js/api/issues/1009
-export interface DecoratedRpc<URI> {
-  author: DecoratedRpc$Section<URI>;
-  chain: DecoratedRpc$Section<URI>;
-  state: DecoratedRpc$Section<URI>;
-  system: DecoratedRpc$Section<URI>;
+export interface DecoratedRpc<ApiType> {
+  author: DecoratedRpc$Section<ApiType>;
+  chain: DecoratedRpc$Section<ApiType>;
+  state: DecoratedRpc$Section<ApiType>;
+  system: DecoratedRpc$Section<ApiType>;
 }
 
 interface StorageFunctionObservable {
@@ -116,49 +116,49 @@ interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
   size: (arg1?: CodecArg, arg2?: CodecArg) => Promise<U64>;
 }
 
-export type QueryableStorageFunction<URI> =
-  URI extends 'rxjs'
+export type QueryableStorageFunction<ApiType> =
+  ApiType extends 'rxjs'
   ? StorageFunctionObservable
   : StorageFunctionPromise;
 
-export interface QueryableModuleStorage<URI> {
-  [index: string]: QueryableStorageFunction<URI>;
+export interface QueryableModuleStorage<ApiType> {
+  [index: string]: QueryableStorageFunction<ApiType>;
 }
 
-export type QueryableStorageMultiArg<URI> =
-  QueryableStorageFunction<URI> |
-  [QueryableStorageFunction<URI>, ...Array<CodecArg>];
+export type QueryableStorageMultiArg<ApiType> =
+  QueryableStorageFunction<ApiType> |
+  [QueryableStorageFunction<ApiType>, ...Array<CodecArg>];
 
-export type QueryableStorageMultiArgs<URI> = Array<QueryableStorageMultiArg<URI>>;
+export type QueryableStorageMultiArgs<ApiType> = Array<QueryableStorageMultiArg<ApiType>>;
 
-export interface QueryableStorageMultiBase<URI> {
-  (calls: QueryableStorageMultiArgs<URI>): UnsubscribePromise;
+export interface QueryableStorageMultiBase<ApiType> {
+  (calls: QueryableStorageMultiArgs<ApiType>): UnsubscribePromise;
 }
 
-export interface QueryableStorageMultiPromise<URI> {
-  <T extends Codec>(calls: QueryableStorageMultiArgs<URI>, callback: Callback<Array<T>>): UnsubscribePromise;
+export interface QueryableStorageMultiPromise<ApiType> {
+  <T extends Codec>(calls: QueryableStorageMultiArgs<ApiType>, callback: Callback<Array<T>>): UnsubscribePromise;
 }
 
-export type QueryableStorageMulti<URI> =
-  URI extends 'rxjs'
-  ? QueryableStorageMultiBase<URI>
-  : QueryableStorageMultiPromise<URI>;
+export type QueryableStorageMulti<ApiType> =
+  ApiType extends 'rxjs'
+  ? QueryableStorageMultiBase<ApiType>
+  : QueryableStorageMultiPromise<ApiType>;
 
-export interface QueryableStorage<URI> {
-  [index: string]: QueryableModuleStorage<URI>;
+export interface QueryableStorage<ApiType> {
+  [index: string]: QueryableModuleStorage<ApiType>;
 }
 
-export interface SubmittableExtrinsicFunction<URI> extends MethodFunction {
-  (...params: Array<CodecArg>): SubmittableExtrinsic<URI>;
+export interface SubmittableExtrinsicFunction<ApiType> extends MethodFunction {
+  (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType>;
 }
 
-export interface SubmittableModuleExtrinsics<URI> {
-  [index: string]: SubmittableExtrinsicFunction<URI>;
+export interface SubmittableModuleExtrinsics<ApiType> {
+  [index: string]: SubmittableExtrinsicFunction<ApiType>;
 }
 
-export interface SubmittableExtrinsics<URI> {
-  (extrinsic: Uint8Array | string): SubmittableExtrinsic<URI>;
-  [index: string]: SubmittableModuleExtrinsics<URI>;
+export interface SubmittableExtrinsics<ApiType> {
+  (extrinsic: Uint8Array | string): SubmittableExtrinsic<ApiType>;
+  [index: string]: SubmittableModuleExtrinsics<ApiType>;
 }
 
 export interface ApiOptions {
@@ -208,7 +208,7 @@ export interface ApiInterface$Rx {
 
 export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
 
-export type ApiType = 'promise' | 'rxjs';
+export type ApiTypes = 'promise' | 'rxjs';
 
 export type SignerOptions = SignatureOptions & {
   genesisHash: Hash

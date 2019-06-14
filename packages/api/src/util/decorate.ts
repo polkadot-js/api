@@ -11,13 +11,13 @@ function keys<T extends object> (obj: T) {
   return Object.keys(obj) as Array<keyof T>;
 }
 
-function decorateMethods<URI, Section extends Record<keyof Section, (...args: Array<any>) => any>> (
+function decorateMethods<ApiType, Section extends Record<keyof Section, (...args: Array<any>) => any>> (
   section: Section,
-  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<URI, Method>
+  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<ApiType, Method>
 ) {
   return keys(section).reduce(
     <MethodName extends keyof Section>(
-      acc: { [MethodName in keyof Section]: MethodResult<URI, Section[MethodName]> },
+      acc: { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> },
       methodName: MethodName
     ) => {
       const method = section[methodName];
@@ -26,28 +26,28 @@ function decorateMethods<URI, Section extends Record<keyof Section, (...args: Ar
 
       return acc;
     },
-    {} as { [MethodName in keyof Section]: MethodResult<URI, Section[MethodName]> }
+    {} as { [MethodName in keyof Section]: MethodResult<ApiType, Section[MethodName]> }
   );
 }
 
 /**
  * This is a section decorator which keeps all type information.
  */
-export function decorateSections<URI, AllSections extends {
+export function decorateSections<ApiType, AllSections extends {
   [SectionName in keyof AllSections]: Record<keyof AllSections[SectionName], (...args: any[]) => any>
 }> (
   allSections: AllSections,
-  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<URI, Method>
+  decorateMethod: <Method extends AnyFunction>(method: Method) => MethodResult<ApiType, Method>
 ) {
   return keys(allSections).reduce(
     <MethodName extends keyof AllSections>(
-      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<URI, AllSections[SectionName][MethodName]> } },
+      acc: { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } },
       sectionName: MethodName
     ) => {
       acc[sectionName] = decorateMethods(allSections[sectionName], decorateMethod);
 
       return acc;
     },
-    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<URI, AllSections[SectionName][MethodName]> } }
+    {} as { [SectionName in keyof AllSections]: { [MethodName in keyof AllSections[SectionName]]: MethodResult<ApiType, AllSections[SectionName][MethodName]> } }
   );
 }
