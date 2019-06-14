@@ -40,6 +40,19 @@ describe.skip('Promise e2e queries', () => {
     expect(api.derive).toBeDefined();
   });
 
+  it('allows retrieval of an fallback entry (once-off query)', async () => {
+    const nonce = await api.query.system.accountNonce('5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
+  it('allows retrieval of fallback when at query is made', async () => {
+    const header = await api.rpc.chain.getHeader() as Header;
+    const nonce = await api.query.system.accountNonce.at(header.hash, '5DSo5RVtfrtgHoz2c7jK7Tca7FgJgpCzFnxoRVDeYUQcKPng');
+
+    expect(nonce.toHex()).toEqual('0x0000000000000000');
+  });
+
   it('queries state for a balance', async () => {
     return (
       api.query.balances.freeBalance(keyring.alice.address, (balance) => {
