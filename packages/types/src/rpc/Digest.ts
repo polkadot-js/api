@@ -18,7 +18,7 @@ import Signature from '../type/Signature';
 
 const CID_AURA = 0x61727561; // 'aura'
 const CID_BABE = 0x65626162; // 'babe'
-const CID_GRPA = 0x31676661; // 'afg1'
+const CID_GRPA = 0x4b4e5246; // 'FRNK' (don't ask, used to be afg1)
 
 export { CID_AURA, CID_BABE, CID_GRPA };
 
@@ -171,14 +171,14 @@ export class Seal extends Tuple {
   constructor (value: any) {
     super({
       ConsensusEngineId,
-      Signature
+      Bytes
     }, value);
   }
 
   /**
-   * @description The wrapped [[Signature]]
+   * @description The wrapped [[Bytes]]
    */
-  get signature (): Signature {
+  get data (): Bytes {
     return this[1] as Signature;
   }
 
