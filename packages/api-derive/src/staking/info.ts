@@ -9,11 +9,11 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { isUndefined } from '@polkadot/util';
 
 import { bestNumber } from '../chain/bestNumber';
-import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
-import { isUndefined } from '@polkadot/util';
+import { drr } from '../util/drr';
 
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
