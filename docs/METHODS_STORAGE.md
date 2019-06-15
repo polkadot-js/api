@@ -3,8 +3,6 @@
 _The following sections contain Storage methods are part of the default Substrate runtime._
 - **[balances](#balances)**
 
-- **[consensus](#consensus)**
-
 - **[contract](#contract)**
 
 - **[council](#council)**
@@ -66,13 +64,6 @@ ___
 
 ▸ **vesting**(`AccountId`): `Option<VestingSchedule>`
 - **summary**:   Information regarding the vesting of a given account.
-
-___
-
-
-### consensus
-
-▸ **originalAuthorities**(): `Option<Vec<SessionKey>>`
 
 ___
 
@@ -291,9 +282,17 @@ ___
 
 ### grandpaFinality
 
+▸ **authorities**(): `Vec<(AuthorityId,AuthorityWeight)>`
+- **summary**:   The current authority set.
+
 ▸ **nextForced**(): `Option<BlockNumber>`
+- **summary**:   next block number where we can force a change.
 
 ▸ **pendingChange**(): `Option<StoredPendingChange>`
+- **summary**:   Pending change: (signaled at, scheduled change).
+
+▸ **stalled**(): `Option<(BlockNumber,BlockNumber)>`
+- **summary**:   `true` if we are currently stalled.
 
 ___
 
@@ -311,26 +310,17 @@ ___
 
 ### session
 
-▸ **currentIndex**(): `BlockNumber`
+▸ **active**(`u32`): `Vec<OpaqueKey>`
+- **summary**:   The keys that are currently active.
+
+▸ **changed**(): `bool`
+- **summary**:   True if anything has changed in this session.
+
+▸ **currentIndex**(): `SessionIndex`
 - **summary**:   Current index of the session.
 
-▸ **currentStart**(): `Moment`
-- **summary**:   Timestamp when current session started.
-
-▸ **forcingNewSession**(): `Option<bool>`
-- **summary**:   New session is being forced if this entry exists; in which case, the boolean value is true if  the new session should be considered a normal rotation (rewardable) and false if the new session  should be considered exceptional (slashable).
-
-▸ **lastLengthChange**(): `Option<BlockNumber>`
-- **summary**:   Block at which the session length last changed.
-
-▸ **nextKeyFor**(`AccountId`): `Option<SessionKey>`
+▸ **nextKeyFor**(`AccountId`): `Option<Keys>`
 - **summary**:   The next key for a given validator.
-
-▸ **nextSessionLength**(): `Option<BlockNumber>`
-- **summary**:   The next session length.
-
-▸ **sessionLength**(): `BlockNumber`
-- **summary**:   Current length of the session.
 
 ▸ **validators**(): `Vec<AccountId>`
 - **summary**:   The current set of validators.
@@ -343,38 +333,29 @@ ___
 ▸ **bonded**(`AccountId`): `Option<AccountId>`
 - **summary**:   Map from all locked "stash" accounts to the controller account.
 
-▸ **bondingDuration**(): `BlockNumber`
-- **summary**:   The length of the bonding duration in eras.
-
 ▸ **currentElected**(): `Vec<AccountId>`
 - **summary**:   The currently elected validator set keyed by stash account ID.
 
-▸ **currentEra**(): `BlockNumber`
+▸ **currentEra**(): `EraIndex`
 - **summary**:   The current era index.
 
 ▸ **currentEraReward**(): `BalanceOf`
-- **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era and  increased for every successfully finished session.
+- **summary**:   The accumulated reward for the current era. Reset to zero at the beginning of the era  and increased for every successfully finished session.
 
 ▸ **currentSessionReward**(): `BalanceOf`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
-▸ **forcingNewEra**(): `Option<Null>`
-- **summary**:   We are forcing a new era.
+▸ **forceNewEra**(): `bool`
+- **summary**:   True if the next session change will be a new era regardless of index.
 
 ▸ **invulnerables**(): `Vec<AccountId>`
-- **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're easy to initialize  and the performance hit is minimal (we expect no more than four invulnerables) and restricted to testnets.
-
-▸ **lastEraLengthChange**(): `BlockNumber`
-- **summary**:   The session index at which the era length last changed.
+- **summary**:   Any validators that may never be slashed or forcibly kicked. It's a Vec since they're  easy to initialize and the performance hit is minimal (we expect no more than four  invulnerables) and restricted to testnets.
 
 ▸ **ledger**(`AccountId`): `Option<StakingLedger>`
 - **summary**:   Map from all (unlocked) "controller" accounts to the info regarding the staking.
 
 ▸ **minimumValidatorCount**(): `u32`
 - **summary**:   Minimum number of staking participants before emergency conditions are imposed.
-
-▸ **nextSessionsPerEra**(): `Option<BlockNumber>`
-- **summary**:   The next value of sessions per era.
 
 ▸ **nominators**(`AccountId`): `(Vec<AccountId>, Linkage<AccountId>)`
 - **summary**:   The map from nominator stash key to the set of stash keys of all validators to nominate.
@@ -389,22 +370,19 @@ ___
 - **summary**:   Where the reward payment should be made. Keyed by stash.
 
 ▸ **recentlyOffline**(): `Vec<(AccountId,BlockNumber,u32)>`
-- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how many instances they were offline for).
+- **summary**:   Most recent `RECENT_OFFLINE_COUNT` instances. (Who it was, when it was reported, how  many instances they were offline for).
 
 ▸ **sessionReward**(): `Perbill`
 - **summary**:   Maximum reward, per validator, that is provided per acceptable session.
 
-▸ **sessionsPerEra**(): `BlockNumber`
-- **summary**:   The length of a staking era in sessions.
-
 ▸ **slashCount**(`AccountId`): `u32`
-- **summary**:   The number of times a given validator has been reported offline. This gets decremented by one each era that passes.
+- **summary**:   The number of times a given validator has been reported offline. This gets decremented  by one each era that passes.
 
 ▸ **slotStake**(): `BalanceOf`
 - **summary**:   The amount of balance actively at stake for each validator slot, currently.   This is used to derive rewards and punishments.
 
 ▸ **stakers**(`AccountId`): `Exposure`
-- **summary**:   Nominators for a particular account that is in action right now. You can't iterate through validators here,  but you can find them in the Session module.   This is keyed by the stash account.
+- **summary**:   Nominators for a particular account that is in action right now. You can't iterate  through validators here, but you can find them in the Session module.   This is keyed by the stash account.
 
 ▸ **validatorCount**(): `u32`
 - **summary**:   The ideal number of staking participants.
@@ -428,13 +406,13 @@ ___
 ▸ **accountNonce**(`AccountId`): `Index`
 - **summary**:   Extrinsics nonce for accounts.
 
-▸ **allExtrinsicsLen**(): `Option<u32>`
-- **summary**:   Total length in bytes for all extrinsics put together, for the current block.
+▸ **allExtrinsicsWeight**(): `Option<u32>`
+- **summary**:   Total weight for all extrinsics put together, for the current block.
 
 ▸ **blockHash**(`BlockNumber`): `Hash`
 - **summary**:   Map of block numbers to block hashes.
 
-▸ **digest**(): `Digest`
+▸ **digest**(): `DigestOf`
 - **summary**:   Digest of the current block, also part of the block header.
 
 ▸ **eventCount**(): `EventIndex`

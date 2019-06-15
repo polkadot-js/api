@@ -81,6 +81,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[AttestedCandidate]] | An attested candidate |
 | [[AuthorityId]] | Wrapper for a AuthorityId. Same as an normal AccountId |
 | [[AuthoritiesChange]] | Log for Authories changed |
+| [[AuthorityWeight]] | The weight of an authority |
 | [[Balance]] | The Substrate Balance representation as a [[U128]] |
 | [[BalanceLock]] | The Substrate BalanceLock for staking |
 | [[BalanceOf]] | The Substrate BalanceOf representation as a [[Balance]] |
@@ -94,6 +95,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Consensus]] | Log item indicating consensus |
 | [[ContractInfo]] | The contract information for a given contract |
 | [[ContractStorageKey]] | A representation of a storage key for contracts |
+| [[EraIndex]] | A representation for the era count |
 | [[Exposure]] | A snapshot of the stake backing a single validator in the system |
 | [[Extrinsic]] | Representation of an Extrinsic in the system |
 | [[ExtrinsicEra]] | The era for an extrinsic, indicating either a mortal or immortal extrinsic |
@@ -104,6 +106,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[InherentOfflineReport]] | Describes the offline-reporting extrinsic |
 | [[Justification]] | A generic justification as a stream of [[Bytes]], this is specific per consensus implementation |
 | [[Key]] | The Substrate Key representation as a [[Bytes]] (`vec<u8>`) |
+| [[Keys]] | The session keys |
 | [[KeyValue]] |  KeyValue structure. Since most of the keys and resultant values in Subtrate are hashed and/or encoded, keys and values are reprsented as [[Bytes]] |
 | [[KeyValueOption]] | A key/value change. Similar to the [[KeyValue]] structure, but the value can be optional |
 | [[LockIdentifier]] | The Substrate LockIdentifier for staking |
@@ -116,6 +119,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[Nonce]] | The Nonce or number of transactions sent by a specific account |
 | [[NonceCompact]] | The Compact<Nonce> or number of transactions sent by a specific account |
 | [[ParaId]] | Identifier for a deployed parachain implemented as a [[U32]] |
+| [[OpaqueKey]] | A key represented as a [[Bytes]] |
 | [[Perbill]] | Parts per billion (see also [[Permill]]) |
 | [[Permill]] | Parts per million (See also [[Perbill]]) |
 | [[PrefabWasmModule]] | Struct to encode the vesting schedule of an individual account |
@@ -128,7 +132,9 @@ These custom types implement specific types that are found as part of the Substr
 | [[Schedule]] | Definition of the cost schedule and other parameterizations for wasm vm |
 | [[Seal]] | Log item indicating a sealing event |
 | [[SeedOf]] | The Substrate SeedOf representation as a [[Hash]] |
+| [[SessionIndex]] | Simple index type with which we can count sessions as [[U32]] |
 | [[SessionKey]] | Wrapper for a SessionKey. Same as an normal [[AuthorityId]], i.e. a wrapper around publicKey |
+| [[SessionKeys]] | Wrapper for the session and authority ids |
 | [[SetIndex]] | Set index, implemented as a [[U32]] |
 | [[Signature]] | The default signature that is used accross the system |
 | [[SignaturePayload]] | A signing payload for an [[Extrinsic]]. For the final encoding, it is variable length based on the contents included |
@@ -156,6 +162,7 @@ These types are not used in the runtime, but are rather used in RPC results:
 | [[Block]] | A block encoded with header and extrinsics |
 | [[ChainProperties]] | Wraps the properties retrieved from the chain via the `system.properties` RPC call |
 | [[Digest]] | A [[Header]] Digest |
+| [[DigestOf]] | A [[Header]] Digest |
 | [[DigestItem]] | A [[EnumType]] the specifies the specific item in the logs of a [[Digest]] |
 | [[ExtrinsicStatus]] | An EnumType that indicates the status of the Extrinsic as been submitted |
 | [[Header]] | A [[Block]] header |

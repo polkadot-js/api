@@ -417,3 +417,10 @@ export default class Digest extends Struct {
     return this.logs.filter(({ type }) => !exclude.includes(type)) as Vector<DigestItem>;
   }
 }
+
+/**
+ * @name DigestOf
+ * @description
+ * A [[Header]] Digest
+ */
+export class DigestOf extends Digest {}
