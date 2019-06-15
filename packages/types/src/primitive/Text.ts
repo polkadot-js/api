@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
+import { assert, hexToU8a, isHex, isString, stringToU8a, u8aToString, u8aToHex } from '@polkadot/util';
 
 import { AnyU8a, Codec } from '../types';
 import Compact from '../codec/Compact';
@@ -29,7 +29,9 @@ export default class Text extends String implements Codec {
 
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
     if (isString(value)) {
-      return value.toString();
+      return isHex(value)
+        ? u8aToString(hexToU8a(value.toString()))
+        : (value as string).toString();
     } else if (value instanceof Uint8Array) {
       if (!value.length) {
         return '';
@@ -81,7 +83,9 @@ export default class Text extends String implements Codec {
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
-    return u8aToHex(this.toU8a());
+    // like  with Vec<u8>, when we are encoding to hex, we don't actually add
+    // the length prefix (it is already implied by the actual string length)
+    return u8aToHex(this.toU8a(true));
   }
 
   /**
