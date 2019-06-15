@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BN from 'bn.js';
-import { AccountId, Balance, BlockNumber, Exposure, Index, RewardDestination, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@polkadot/types';
+import { AccountId, Balance, Exposure, Index, RewardDestination, StakingLedger, StructAny, ValidatorPrefs, Vote } from '@polkadot/types';
 
 export interface DerivedBalances extends StructAny {
   accountId: AccountId;
@@ -48,13 +48,14 @@ export interface DerivedReferendumVote extends StructAny {
 }
 
 export interface DerivedSessionInfo extends StructAny {
-  currentIndex: BlockNumber;
+  currentEra: BN;
+  currentIndex: BN;
   eraLength: BN;
   eraProgress: BN;
-  lastEraLengthChange: BlockNumber;
+  lastEraLengthChange: BN;
   lastLengthChange: BN;
-  sessionLength: BlockNumber;
-  sessionsPerEra: BlockNumber;
+  sessionLength: BN;
+  sessionsPerEra: BN;
   sessionProgress: BN;
 }
 
