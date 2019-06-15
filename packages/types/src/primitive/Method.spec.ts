@@ -11,19 +11,21 @@ describe('Method', () => {
     Method.injectMethods(extrinsics);
   });
 
+  // FIXME susbtrate master does not currently expose the new system module calls in meta,
+  // once it does the index here will change, so a different method would be refrerred to
   it('handles decoding correctly (bare)', () => {
     expect(
       new Method({
         args: [],
-        callIndex: [1, 2]
+        callIndex: [2, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([1, 2, 0])); // array of 0
+    ).toEqual(new Uint8Array([2, 1, 0, 0, 0]));
   });
 
   it('handles creation from a hex value properly', () => {
     expect(
-      new Method('0x0102').toU8a()
-    ).toEqual(new Uint8Array([1, 2, 0])); // array of 0 for consensus.noteOffline
+      new Method('0x0201').toU8a()
+    ).toEqual(new Uint8Array([2, 1, 0, 0, 0])); // balances.setBalance
   });
 
   describe('hasOrigin', () => {
