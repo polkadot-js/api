@@ -17,21 +17,21 @@ describe('Method', () => {
     expect(
       new Method({
         args: [],
-        callIndex: [2, 1] // balances.setBalance
+        callIndex: [3, 1] // balances.setBalance
       }).toU8a()
-    ).toEqual(new Uint8Array([2, 1, 0, 0, 0]));
+    ).toEqual(new Uint8Array([3, 1, 0, 0, 0]));
   });
 
   it('handles creation from a hex value properly', () => {
     expect(
-      new Method('0x0201').toU8a()
-    ).toEqual(new Uint8Array([2, 1, 0, 0, 0])); // balances.setBalance
+      new Method('0x0301').toU8a()
+    ).toEqual(new Uint8Array([3, 1, 0, 0, 0])); // balances.setBalance
   });
 
   describe('hasOrigin', () => {
     const test = {
       args: [],
-      callIndex: [1, 2]
+      callIndex: [2, 2] // timestamp
     };
 
     it('is false with no arguments', () => {
