@@ -28,10 +28,8 @@ export default class Text extends String implements Codec {
   }
 
   private static decodeText (value: Text | string | AnyU8a | { toString: () => string }): string {
-    if (isString(value)) {
-      return isHex(value)
-        ? u8aToString(hexToU8a(value.toString()))
-        : (value as string).toString();
+    if (isHex(value)) {
+      return u8aToString(hexToU8a(value.toString()));
     } else if (value instanceof Uint8Array) {
       if (!value.length) {
         return '';
