@@ -37,7 +37,7 @@ describe('Digest', () => {
 
   describe('ConsensusId', () => {
     it('creates a valid id for aura', () => {
-      expect(ConsensusEngineId.stringToId('afg1')).toEqual(CID_GRPA);
+      expect(ConsensusEngineId.stringToId('FRNK')).toEqual(CID_GRPA);
       expect(ConsensusEngineId.stringToId('aura')).toEqual(CID_AURA);
     });
 
