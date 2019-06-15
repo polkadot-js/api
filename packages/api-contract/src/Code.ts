@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ISubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { IKeyringPair } from '@polkadot/types/types';
 import { ContractABI } from './types';
 
@@ -10,7 +10,7 @@ import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiRx } from '@polkadot/api';
-import { AccountId, Address, EventRecord, ExtrinsicStatus, Hash } from '@polkadot/types';
+import { AccountId, Address, Hash } from '@polkadot/types';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from './Abi';
@@ -41,21 +41,13 @@ export interface IContractDeployer<ApiType> {
 // This most probably should be a Coded-like result as per SubmittableResult
 // however, once again, doing the stuff below is slightly more clear than
 // re-implementing SubmittableResult just to add the new additional field
-class ContractDeployResult implements IContractDeployResult {
+class ContractDeployResult extends SubmittableResult implements IContractDeployResult {
   readonly blueprint?: Blueprint;
-  readonly events: Array<EventRecord>;
-  readonly status: ExtrinsicStatus;
 
-  constructor ({ events, status }: ISubmittableResult, blueprint?: Blueprint) {
+  constructor (result: ISubmittableResult, blueprint?: Blueprint) {
+    super(result);
+
     this.blueprint = blueprint;
-    this.events = events;
-    this.status = status;
-  }
-
-  findRecord (section: string, method: string): EventRecord | undefined {
-    return this.events.find(({ event }) =>
-      event.section === section && event.method === method
-    );
   }
 }
 
