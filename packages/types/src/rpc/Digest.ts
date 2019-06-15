@@ -171,14 +171,14 @@ export class Seal extends Tuple {
   constructor (value: any) {
     super({
       ConsensusEngineId,
-      Signature
+      Bytes
     }, value);
   }
 
   /**
-   * @description The wrapped [[Signature]]
+   * @description The wrapped [[Bytes]]
    */
-  get signature (): Signature {
+  get data (): Bytes {
     return this[1] as Signature;
   }
 

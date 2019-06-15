@@ -4,6 +4,7 @@
 
 import extrinsics from '@polkadot/extrinsics/static';
 
+import block00300 from '../json/SignedBlock.003.00.json';
 import Method from '../primitive/Method';
 import Block from './Block';
 
@@ -24,11 +25,18 @@ describe('Block', () => {
           stateRoot: 'H256',
           extrinsicsRoot: 'H256',
           digest: JSON.stringify({
-            logs: 'Vec<{"_enum":{"Other":"Bytes","AuthoritiesChange":"Vec<AccountId>","ChangesTrieRoot":"H256","SealV0":"(u64,H512)","Consensus":"(u32,Bytes)","Seal":"(u32,H512)","PreRuntime":"(u32,Bytes)"}}>'
+            logs: 'Vec<{"_enum":{"Other":"Bytes","AuthoritiesChange":"Vec<AccountId>","ChangesTrieRoot":"H256","SealV0":"(u64,H512)","Consensus":"(u32,Bytes)","Seal":"(u32,Bytes)","PreRuntime":"(u32,Bytes)"}}>'
           })
         }),
         extrinsics: 'Vec<Extrinsic>'
       })
     );
+  });
+
+  it('re-encodes digest items correctly', () => {
+    const digest = new Block(block00300.result.block).header.digest;
+
+    expect(digest.logs[0].toHex()).toEqual(block00300.result.block.header.digest.logs[0]);
+    expect(digest.logs[1].toHex()).toEqual(block00300.result.block.header.digest.logs[1]);
   });
 });
