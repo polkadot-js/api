@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, BlockNumber, Exposure, Option, RewardDestination, StakingLedger, StructAny, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
+import { AccountId, BlockNumber, Exposure, Option, RewardDestination, StakingLedger, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
 import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
@@ -89,7 +89,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
     map(([eraLength, bestNumber,[nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
       const stakingLedger = _stakingLedger.isSome ? _stakingLedger.unwrap() : undefined;
 
-      return new StructAny({
+      return {
         accountId,
         controllerId,
         nextSessionId: nextKeyFor.unwrapOr(null) || undefined,
@@ -101,7 +101,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
         stashId,
         unlocking: calculateUnlocking(stakingLedger, eraLength, bestNumber),
         validatorPrefs
-      }) as DerivedStaking;
+      } as DerivedStaking;
     }),
     drr()
   );
@@ -120,18 +120,17 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<AccountId>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]>
   ).pipe(
-    map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) =>
-      new StructAny({
-        accountId,
-        controllerId,
-        nextSessionId: nextKeyFor.unwrapOr(null) || undefined,
-        nominators,
-        rewardDestination,
-        stakers,
-        stakingLedger,
-        stashId,
-        validatorPrefs
-      }) as DerivedStaking),
+    map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
+      accountId,
+      controllerId,
+      nextSessionId: nextKeyFor.unwrapOr(null) || undefined,
+      nominators,
+      rewardDestination,
+      stakers,
+      stakingLedger,
+      stashId,
+      validatorPrefs
+    } as DerivedStaking)),
     drr()
   );
 }
@@ -157,7 +156,7 @@ export function info (api: ApiInterface$Rx) {
             stakingLedger.isSome
               ? withControllerLedger(api, accountId, stakingLedger.unwrap())
               // dangit, this is something else, ok, we are done
-              : of(new StructAny({ accountId }) as DerivedStaking)
+              : of({ accountId } as DerivedStaking)
           )
       ),
       drr()
