@@ -21,8 +21,6 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[sudo](#sudo)**
 
-- **[system](#system)**
-
 - **[treasury](#treasury)**
 
 
@@ -135,7 +133,7 @@ ___
 
 ### grandpa
 
-▸ **NewAuthorities**(`Vec<(SessionKey,u64)>`)
+▸ **NewAuthorities**(`Vec<(AuthorityId,u64)>`)
 - **summary**:   New authority set has been applied.
 
 ___
@@ -151,7 +149,7 @@ ___
 
 ### session
 
-▸ **NewSession**(`BlockNumber`)
+▸ **NewSession**(`SessionIndex`)
 - **summary**:   New session has happened. Note that the argument is the session index, not the block  number as the type might suggest.
 
 ___
@@ -178,17 +176,6 @@ ___
 
 ▸ **Sudid**(`bool`)
 - **summary**:   A sudo just took place.
-
-___
-
-
-### system
-
-▸ **ExtrinsicFailed**()
-- **summary**:   An extrinsic failed.
-
-▸ **ExtrinsicSuccess**()
-- **summary**:   An extrinsic completed successfully.
 
 ___
 

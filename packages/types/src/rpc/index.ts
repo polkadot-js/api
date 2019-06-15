@@ -10,7 +10,7 @@
  */
 export { default as Block } from './Block';
 export { default as ChainProperties } from './ChainProperties';
-export { default as Digest, DigestItem } from './Digest';
+export { default as Digest, DigestItem, DigestOf } from './Digest';
 export { default as ExtrinsicStatus } from './ExtrinsicStatus';
 export { default as Header } from './Header';
 export { default as Health } from './Health';
