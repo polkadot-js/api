@@ -59,7 +59,7 @@ export interface DerivedSessionInfo extends StructAny {
   sessionProgress: BN;
 }
 
-export interface DerivedStaking extends StructAny {
+export interface DerivedStaking {
   accountId: AccountId;
   controllerId?: AccountId;
   nextSessionId?: AccountId;
