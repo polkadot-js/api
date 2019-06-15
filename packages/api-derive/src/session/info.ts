@@ -69,7 +69,8 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
  */
 export function info (api: ApiInterface$Rx) {
   return (): Observable<DerivedSessionInfo> => {
-    // with 94, the era and session has been explicitly exposed
+    // with 94, the era and session has been explicitly exposed, pre-94
+    // we had more info and needed to calculate (handle old/Alex first)
     return api.query.session.lastLengthChange
       ? (combineLatest([
         bestNumber(api)(),
