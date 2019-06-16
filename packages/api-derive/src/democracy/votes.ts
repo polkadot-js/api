@@ -11,12 +11,12 @@ import { drr } from '../util/drr';
 
 export function votes (api: ApiInterface$Rx) {
   return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<Array<Vote>> => {
-    return (
+    return ((
       !accountIds || !accountIds.length
         ? of([])
         : api.query.democracy.voteOf.multi(
-            accountIds.map(accountId => [referendumId, accountId])
-          ) as Observable<Vector<Vote>>
-    ).pipe(drr());
+            accountIds.map((accountId) => [referendumId, accountId])
+          )
+     ) as Observable<Vector<Vote>>).pipe(drr());
   };
 }
