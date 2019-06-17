@@ -247,7 +247,22 @@
               ]
             }
           ],
-          "events": null
+          "events": [
+            {
+              "name": "ExtrinsicSuccess",
+              "args": [],
+              "documentation": [
+                " An extrinsic completed successfully."
+              ]
+            },
+            {
+              "name": "ExtrinsicFailed",
+              "args": [],
+              "documentation": [
+                " An extrinsic failed."
+              ]
+            }
+          ]
         },
         {
           "name": "aura",
