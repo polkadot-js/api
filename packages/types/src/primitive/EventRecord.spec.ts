@@ -5,7 +5,6 @@
 import createType from '../codec/createType';
 import Vector from '../codec/Vector';
 import json1 from '../json/EventRecord.001.json';
-import json2 from '../json/EventRecord.002.json';
 import json3 from '../json/EventRecord.003.json';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
@@ -37,7 +36,7 @@ describe('EventRecord', () => {
     });
 
     it('decodes older eventrecord correctly', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json2.params.result.changes[0][1], true) as any;
+      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
