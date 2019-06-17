@@ -21,6 +21,8 @@ Events are emitted for certain operations on the runtime. The following sections
 
 - **[sudo](#sudo)**
 
+- **[system](#system)**
+
 - **[treasury](#treasury)**
 
 
@@ -176,6 +178,17 @@ ___
 
 ▸ **Sudid**(`bool`)
 - **summary**:   A sudo just took place.
+
+___
+
+
+### system
+
+▸ **ExtrinsicFailed**()
+- **summary**:   An extrinsic failed.
+
+▸ **ExtrinsicSuccess**()
+- **summary**:   An extrinsic completed successfully.
 
 ___
 
