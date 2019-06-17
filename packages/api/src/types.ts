@@ -4,8 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
+import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
@@ -26,8 +25,8 @@ type Cons<V, T extends any[]> = ((v: V, ...t: T) => void) extends ((...r: infer 
 type Push<T extends any[], V> = (Cons<any, Required<T>> extends infer R
   ? { [K in keyof R]: K extends keyof T ? T[K] : V }
   : never) extends infer P
-    ? P extends any[] ? P : never
-    : never;
+  ? P extends any[] ? P : never
+  : never;
 
 // Returns the inner type of an Observable
 export type ObsInnerType<O extends Observable<any>> = O extends Observable<infer U> ? U : never;
@@ -118,8 +117,8 @@ interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
 
 export type QueryableStorageFunction<ApiType> =
   ApiType extends 'rxjs'
-    ? StorageFunctionObservable
-    : StorageFunctionPromise;
+  ? StorageFunctionObservable
+  : StorageFunctionPromise;
 
 export interface QueryableModuleStorage<ApiType> {
   [index: string]: QueryableStorageFunction<ApiType>;
@@ -141,8 +140,8 @@ export interface QueryableStorageMultiPromise<ApiType> {
 
 export type QueryableStorageMulti<ApiType> =
   ApiType extends 'rxjs'
-    ? QueryableStorageMultiBase<ApiType>
-    : QueryableStorageMultiPromise<ApiType>;
+  ? QueryableStorageMultiBase<ApiType>
+  : QueryableStorageMultiPromise<ApiType>;
 
 export interface QueryableStorage<ApiType> {
   [index: string]: QueryableModuleStorage<ApiType>;
@@ -206,7 +205,7 @@ export interface ApiInterface$Rx {
   signer?: Signer;
 }
 
-export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
+export type ApiInterface$Events = ProviderInterface$Emitted | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 

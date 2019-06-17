@@ -23,7 +23,6 @@ The API is split up into a number of internal packages -
 - [@polkadot/api-derive](packages/api-derive/) Derived results that are injected into the API, allowing for combinations of various query results (only used internally and exposed on the Api instances via `api.derive.*`)
 - [@polkadot/rpc-core](packages/rpc-core/) Wrapper around all [JSON-RPC methods](https://polkadot.js.org/api/METHODS_RPC.html) exposed by a Polkadot network client
 - [@polkadot/rpc-provider](packages/rpc-provider/) Providers for connecting to nodes, including WebSockets and Http
-- [@polkadot/rpc-rx](packages/rpc-rx/) A RxJs Observable wrapper around [@polkadot/rpc-provider](packages/rpc-provider)
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 
