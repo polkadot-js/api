@@ -5,18 +5,18 @@
 import { ContractABI } from './types';
 
 import { ApiRx } from '@polkadot/api';
-import { AccountId } from '@polkadot/types';
+import { AccountId, Address } from '@polkadot/types';
 
 import Abi from './Abi';
 import Base from './Base';
 
 // NOTE Experimental, POC, bound to change
 export default class Contract extends Base {
-  readonly address: AccountId;
+  readonly address: Address;
 
-  constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId) {
+  constructor (api: ApiRx, abi: ContractABI | Abi, address: string | AccountId | Address) {
     super(api, abi);
 
-    this.address = new AccountId(address);
+    this.address = new Address(address);
   }
 }

@@ -16,6 +16,9 @@ import filterEvents from './util/filterEvents';
 export interface ISubmittableResult {
   readonly events: Array<EventRecord>;
   readonly status: ExtrinsicStatus;
+  readonly isCompleted: boolean;
+  readonly isError: boolean;
+  readonly isFinalized: boolean;
 
   findRecord (section: string, method: string): EventRecord | undefined;
 }

@@ -20,15 +20,11 @@ import Blueprint from './Blueprint';
 // Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
 // start, so take a big fat shortcut with this version, real intended version
 // follows this and is commented out
-type ICodePutCodeResultSubscription<ApiType> = Observable<ICodePutCodeResult>;
+type ICodePutCodeResultSubscription<ApiType> = Observable<CodePutCodeResult>;
 // type ICodePutCodeResultSubscription<ApiType> =
 //   ApiType extends 'rxjs'
-//     ? Observable<ICodePutCodeResult>
+//     ? Observable<CodePutCodeResult>
 //     : Promise<() => void>;
-
-export interface ICodePutCodeResult extends ISubmittableResult {
-  readonly blueprint?: Blueprint;
-}
 
 // unlike the ISubmittableExtrinsic, it doesn't extend IExtrinsic and only
 // implements one var iant of signAndSend - this is purely done to see what
@@ -39,7 +35,7 @@ export interface ICodePutCode<ApiType> {
   signAndSend (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType>;
 }
 
-class CodePutCodeResult extends SubmittableResult implements ICodePutCodeResult {
+class CodePutCodeResult extends SubmittableResult {
   readonly blueprint?: Blueprint;
 
   constructor (result: ISubmittableResult, blueprint?: Blueprint) {
@@ -50,7 +46,7 @@ class CodePutCodeResult extends SubmittableResult implements ICodePutCodeResult 
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Contract<ApiType = 'rxjs'> extends Base {
+export default class Code<ApiType = 'rxjs'> extends Base {
   readonly code: Uint8Array;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
@@ -59,7 +55,7 @@ export default class Contract<ApiType = 'rxjs'> extends Base {
     this.code = u8aToU8a(wasm);
   }
 
-  public putCode (maxGas: number | string | BN): ICodePutCode<ApiType> {
+  public createBlueprint (maxGas: number | BN): ICodePutCode<ApiType> {
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType> => {
       return this.api.tx.contract
         .putCode(maxGas, compactAddLength(this.code))
@@ -68,7 +64,7 @@ export default class Contract<ApiType = 'rxjs'> extends Base {
           map((result: ISubmittableResult) => {
             let blueprint: Blueprint | undefined;
 
-            if (result.status.isFinalized) {
+            if (result.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
 
               if (record) {

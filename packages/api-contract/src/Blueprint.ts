@@ -2,21 +2,68 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { IKeyringPair } from '@polkadot/types/types';
 import { ContractABI } from './types';
 
+import BN from 'bn.js';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiRx } from '@polkadot/api';
-import { Hash } from '@polkadot/types';
+import { AccountId, Address, Hash } from '@polkadot/types';
 
 import Abi from './Abi';
 import Base from './Base';
+import Contract from './Contract';
+
+type IBlueprintCreateResultSubscription<ApiType> = Observable<BlueprintCreateResult>;
+
+export interface IBlueprintCreate<ApiType> {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription<ApiType>;
+}
+
+class BlueprintCreateResult extends SubmittableResult {
+  readonly contract?: Contract;
+
+  constructor (result: ISubmittableResult, contract?: Contract) {
+    super(result);
+
+    this.contract = contract;
+  }
+}
 
 // NOTE Experimental, POC, bound to change
-export default class Blueprint extends Base {
+export default class Blueprint<ApiType = 'rxjs'> extends Base {
   readonly codeHash: Hash;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
     super(api, abi);
 
     this.codeHash = new Hash(codeHash);
+  }
+
+  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: Array<any>): IBlueprintCreate<ApiType> {
+    const signAndSend = (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription<ApiType> => {
+      return this.api.tx.contract
+        .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
+        .signAndSend(account)
+        .pipe(
+          map((result: SubmittableResult) => {
+            let contract: Contract | undefined;
+
+            if (result.isFinalized) {
+              const record = result.findRecord('contract', 'Instantiated');
+
+              if (record) {
+                contract = new Contract(this.api, this.abi, record.event.data[1] as Address);
+              }
+            }
+
+            return new BlueprintCreateResult(result, contract);
+          })
+        );
+    };
+
+    return { signAndSend };
   }
 }
