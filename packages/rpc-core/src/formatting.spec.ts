@@ -20,7 +20,7 @@ const BALANCE_KEYS = [
   /* v4+, using blake2_256 */ '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad'
 ];
 
-function formattingTests (version: string, storage: Storage, encodedValues: [String, String]) {
+function formattingTests (version: string, storage: Storage, encodedValues: [string, string]) {
   const [ENC_ONE, ENC_TWO] = encodedValues;
 
   describe(`formatting with Metadata ${version}`, () => {
@@ -78,26 +78,26 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
         [
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
-        ],
-        (value: any) => {
-          console.error(value);
+        ]
+      ).subscribe((value: any) => {
+        console.error(value);
 
-          expect(
-            provider.subscribe
-          ).toHaveBeenCalledWith(
-            'state_storage',
-            'state_subscribeStorage',
-            [[ENC_ONE, ENC_TWO]],
-            expect.anything()
-          );
-          expect(
-            value.map((balance: BN) =>
-              balance.toNumber()
-            )
-          ).toEqual([513, 258]);
+        expect(
+          provider.subscribe
+        ).toHaveBeenCalledWith(
+          'state_storage',
+          'state_subscribeStorage',
+          [[ENC_ONE, ENC_TWO]],
+          expect.anything()
+        );
+        expect(
+          value.map((balance: BN) =>
+            balance.toNumber()
+          )
+        ).toEqual([513, 258]);
 
-          done();
-        });
+        done();
+      });
     });
   });
 }
