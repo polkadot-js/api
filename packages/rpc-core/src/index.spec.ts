@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { isFunction } from '@polkadot/util';
+
 import Api from '.';
 
 describe('Api', () => {
@@ -35,5 +37,17 @@ describe('Api', () => {
 
   it('sets up the state interface', () => {
     expect(api.state).toBeDefined();
+  });
+
+  it('creates an instance with all sections', () => {
+    expect(
+      Object
+        .keys(api)
+        .filter((key) =>
+          !key.startsWith('_')
+        )
+    ).toEqual([
+      'author', 'chain', 'state', 'system'
+    ]);
   });
 });

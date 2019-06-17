@@ -5,8 +5,8 @@
 import { Observable } from 'rxjs';
 
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { AccountId } from '@polkadot/types';
+import { RpcInterface$Section } from './types';
 
 jest.mock('@polkadot/rpc-provider/ws', () => class {
   isConnected = () => true;
@@ -14,16 +14,16 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
   send = () => true;
 });
 
-import RpcRx from '.';
+import Rpc from '.';
 
 describe('createCachedObservable', () => {
-  let api: RpcRx;
+  let rpc: Rpc;
   let creator: (...params: Array<any>) => Observable<any>;
   const keyring = testingPairs();
   let section: RpcInterface$Section;
 
   beforeEach(() => {
-    api = new RpcRx();
+    rpc = new Rpc();
   });
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('createCachedObservable', () => {
     };
 
     // @ts-ignore Private method
-    creator = api.createObservable('subMethod', section);
+    creator = rpc.createObservable('subMethod', section);
   });
 
   it('creates a single observable', () => {
@@ -80,7 +80,7 @@ describe('createCachedObservable', () => {
   it('creates different observables for different methods but same arguments', () => {
     const observable1 = creator(123);
     // @ts-ignore Private method
-    const observable2 = api.createObservable('subMethod2', section)(123);
+    const observable2 = rpc.createObservable('subMethod2', section)(123);
 
     expect(
       observable2

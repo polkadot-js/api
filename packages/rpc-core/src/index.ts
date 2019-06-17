@@ -6,13 +6,12 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
+import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
+import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
-import { WsProvider } from '@polkadot/rpc-provider';
 import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
-import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
 
 const l = logger('rpc-core');
 
@@ -41,15 +40,15 @@ const EMPTY_META = {
  * <BR>
  *
  * ```javascript
- * import Api from '@polkadot/rpc-core';
+ * import Rpc from '@polkadot/rpc-core';
  * import WsProvider from '@polkadot/rpc-provider/ws';
  *
  * const provider = new WsProvider('ws://127.0.0.1:9944');
- * const api = new Api(provider);
+ * const rpc = new Rpc(provider);
  * ```
  */
 export default class Rpc implements RpcInterface {
-  readonly _provider: ProviderInterface;
+  private _provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
@@ -60,7 +59,7 @@ export default class Rpc implements RpcInterface {
    * Default constructor for the Api Object
    * @param  {ProviderInterface} provider An API provider using HTTP or WebSocket
    */
-  constructor (provider: ProviderInterface = new WsProvider()) {
+  constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
     this._provider = provider;
@@ -92,6 +91,13 @@ export default class Rpc implements RpcInterface {
     ).join(', ');
 
     return `${method} (${inputs}): ${type}`;
+  }
+
+  /**
+   * The underlying RPC provider.
+   */
+  get provider (): ProviderInterface {
+    return this._provider;
   }
 
   /**
@@ -142,8 +148,9 @@ export default class Rpc implements RpcInterface {
             l.error(message);
 
             return throwError(new ExtError(message, (error as ExtError).code, undefined));
-          }
-          )
+          }),
+          publishReplay(1), // create a Replay(1)
+          refCount() // Unsubcribe WS when there are no more subscribers
         );
     };
 
@@ -191,7 +198,10 @@ export default class Rpc implements RpcInterface {
               l.error(message);
             });
         };
-      });
+      }).pipe(
+        publishReplay(1), // create a Replay(1)
+        refCount() // Unsubcribe WS when there are no more subscribers
+      );
     };
 
     return call;
