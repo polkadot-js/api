@@ -8,7 +8,6 @@ import { DerivedContractFees } from '../types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StructAny } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -29,20 +28,18 @@ export function fees (api: ApiInterface$Rx) {
       api.query.contract.transferFee,
       api.query.contract.tombstoneDeposit
     ]) as any as Observable<Array<BN>>).pipe(
-      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, transactionBaseFee, transactionByteFee, transferFee, tombstoneDeposit]) =>
-        new StructAny({
-          callBaseFee,
-          contractFee,
-          createBaseFee,
-          creationFee,
-          rentByteFee,
-          rentDepositOffset,
-          transactionBaseFee,
-          transactionByteFee,
-          transferFee,
-          tombstoneDeposit
-        }) as DerivedContractFees
-      ),
+      map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, transactionBaseFee, transactionByteFee, transferFee, tombstoneDeposit]) => ({
+        callBaseFee,
+        contractFee,
+        createBaseFee,
+        creationFee,
+        rentByteFee,
+        rentDepositOffset,
+        transactionBaseFee,
+        transactionByteFee,
+        transferFee,
+        tombstoneDeposit
+      } as DerivedContractFees)),
       drr()
     );
   };

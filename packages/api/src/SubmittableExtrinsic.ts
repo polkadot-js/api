@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Struct, Vector } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector } from '@polkadot/types';
 import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
@@ -30,26 +30,30 @@ export type SumbitableResultSubscription<ApiType> =
     ? Observable<ISubmittableResult>
     : Promise<() => void>;
 
-export class SubmittableResult extends Struct implements ISubmittableResult {
-  constructor (value?: any) {
-    super({
-      events: Vector.with(EventRecord),
-      status: ExtrinsicStatus
-    }, value);
+type SubmittableResultValue = {
+  events?: Array<EventRecord>;
+  status: ExtrinsicStatus;
+};
+
+export class SubmittableResult implements ISubmittableResult {
+  readonly events: Array<EventRecord>;
+  readonly status: ExtrinsicStatus;
+
+  constructor ({ events, status }: SubmittableResultValue) {
+    this.events = events || [];
+    this.status = status;
   }
 
-  /**
-   * @description the contained events
-   */
-  get events (): Array<EventRecord> {
-    return this.get('events') as Vector<EventRecord>;
+  get isCompleted (): boolean {
+    return this.isError || this.isFinalized;
   }
 
-  /**
-   * @description the status
-   */
-  get status (): ExtrinsicStatus {
-    return this.get('status') as ExtrinsicStatus;
+  get isError (): boolean {
+    return this.status.isDropped || this.status.isInvalid || this.status.isUsurped;
+  }
+
+  get isFinalized (): boolean {
+    return this.status.isFinalized;
   }
 
   /**

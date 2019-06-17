@@ -5,7 +5,7 @@
 import { combineLatest, of, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, StructAny, Option, VestingSchedule } from '@polkadot/types';
+import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, Option, VestingSchedule } from '@polkadot/types';
 import { bnMax } from '@polkadot/util';
 
 import { idAndIndex } from '../accounts/idAndIndex';
@@ -44,7 +44,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
   // (most probably due to movements from stash -> controller -> free)
   const availableBalance = bnMax(ZERO, vestedBalance.sub(lockedBalance));
 
-  return new StructAny({
+  return {
     accountId,
     accountNonce,
     availableBalance,
@@ -53,7 +53,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
     reservedBalance,
     vestedBalance,
     votingBalance: freeBalance.add(reservedBalance)
-  }) as DerivedBalances;
+  } as DerivedBalances;
 }
 
 /**

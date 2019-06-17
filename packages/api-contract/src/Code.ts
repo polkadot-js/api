@@ -17,15 +17,16 @@ import Abi from './Abi';
 import Base from './Base';
 import Blueprint from './Blueprint';
 
-// Ok, tried, failed, eventutall ... well, we are only trying with RxJs as a
-// start, so take a big fat shortcut with this version, real commented after
-type IContractDeployResultSubscription<ApiType> = Observable<IContractDeployResult>;
-// type IContractDeployResultSubscription<ApiType> =
+// Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
+// start, so take a big fat shortcut with this version, real intended version
+// follows this and is commented out
+type ICodePutCodeResultSubscription<ApiType> = Observable<ICodePutCodeResult>;
+// type ICodePutCodeResultSubscription<ApiType> =
 //   ApiType extends 'rxjs'
-//     ? Observable<IContractDeployResult>
+//     ? Observable<ICodePutCodeResult>
 //     : Promise<() => void>;
 
-export interface IContractDeployResult extends ISubmittableResult {
+export interface ICodePutCodeResult extends ISubmittableResult {
   readonly blueprint?: Blueprint;
 }
 
@@ -34,14 +35,11 @@ export interface IContractDeployResult extends ISubmittableResult {
 // is hanging where, with the bare-mainimum from a simplicity perspective
 // Very obvious is that it supports only 1 version of signAndSend
 // (we need to revisit this, but probably ok for initial?)
-export interface IContractDeployer<ApiType> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): IContractDeployResultSubscription<ApiType>;
+export interface ICodePutCode<ApiType> {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType>;
 }
 
-// This most probably should be a Coded-like result as per SubmittableResult
-// however, once again, doing the stuff below is slightly more clear than
-// re-implementing SubmittableResult just to add the new additional field
-class ContractDeployResult extends SubmittableResult implements IContractDeployResult {
+class CodePutCodeResult extends SubmittableResult implements ICodePutCodeResult {
   readonly blueprint?: Blueprint;
 
   constructor (result: ISubmittableResult, blueprint?: Blueprint) {
@@ -61,8 +59,8 @@ export default class Contract<ApiType = 'rxjs'> extends Base {
     this.code = u8aToU8a(wasm);
   }
 
-  public putCode (maxGas: number | string | BN): IContractDeployer<ApiType> {
-    const signAndSend = (account: IKeyringPair | string | AccountId | Address): IContractDeployResultSubscription<ApiType> => {
+  public putCode (maxGas: number | string | BN): ICodePutCode<ApiType> {
+    const signAndSend = (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType> => {
       return this.api.tx.contract
         .putCode(maxGas, compactAddLength(this.code))
         .signAndSend(account)
@@ -78,7 +76,7 @@ export default class Contract<ApiType = 'rxjs'> extends Base {
               }
             }
 
-            return new ContractDeployResult(result, blueprint);
+            return new CodePutCodeResult(result, blueprint);
           })
         );
     };
