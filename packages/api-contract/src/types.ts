@@ -53,11 +53,14 @@ export interface ContractABIFn$Arg {
   type: string;
 }
 
-export interface ContractABIFn {
-  (...args: Array<CodecArg>): Uint8Array;
+export interface ContractABIFn$Meta {
   args: Array<ContractABIFn$Arg>;
   isConstant: boolean;
   type: string | null;
+}
+
+export interface ContractABIFn extends ContractABIFn$Meta {
+  (...args: Array<CodecArg>): Uint8Array;
 }
 
 export interface IAbi$Messages {

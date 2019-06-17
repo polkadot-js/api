@@ -3,21 +3,25 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ContractABI, ContractABIFn, IContract, IContract$Calls } from './types';
+import { IKeyringPair } from '@polkadot/types/types';
 
+import BN from 'bn.js';
+import { Observable } from 'rxjs';
 import { ApiRx } from '@polkadot/api';
+import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { AccountId, Address } from '@polkadot/types';
 
 import Abi from './Abi';
 import Base from './Base';
 
-function decorateCall (api: ApiRx, fn: ContractABIFn) {
-  return (...params: Array<any>) => {
-    throw new Error('TODO');
-  };
+export type IContractCallResultSubscription<ApiType> = Observable<SubmittableResult>;
+
+export interface IContractCall<ApiType> {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): IContractCallResultSubscription<ApiType>;
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Contract extends Base implements IContract {
+export default class Contract<ApiType = 'rxjs'> extends Base implements IContract {
   readonly address: Address;
   readonly calls: IContract$Calls = {};
 
@@ -27,7 +31,9 @@ export default class Contract extends Base implements IContract {
     this.address = new Address(address);
 
     Object.entries(abi.messages).forEach(([name, fn]) => {
-      this.calls[name] = decorateCall(this.api, fn);
+      this.calls[name] = (fn: ContractABIFn) =>
+        (value: BN | number, maxGas: BN | number, ...params: Array<any>): IContractCall<ApiType> =>
+          api.tx.contract.call(this.address, value, maxGas, fn(...params));
     });
   }
 }
