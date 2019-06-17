@@ -8,18 +8,18 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '../../src';
 
 describe.skip('e2e chain', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   it('subscribes via subscribeNewHead', (done) => {
     let count: number = 0;
 
     // tslint:disable-next-line
-    api.chain
+    rpc.chain
       .subscribeNewHead((header: Header) => {
         expect(header).toBeDefined();
 
@@ -27,21 +27,16 @@ describe.skip('e2e chain', () => {
           done();
         }
       })
-      .then((subscriptionId: number) => {
+      .subscribe((subscriptionId: number) => {
         console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
 
   it('retrieves the runtime version', () => {
-    return api.chain
+    return rpc.chain
       .getRuntimeVersion()
-      .then((version: RuntimeVersion) => {
+      .subscribe((version: RuntimeVersion) => {
         console.error('version', version);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 });

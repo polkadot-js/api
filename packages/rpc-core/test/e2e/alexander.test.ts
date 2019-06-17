@@ -11,60 +11,50 @@ import Rpc from '../../src';
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
 describe.skip('e2e Alexander - Polkadot', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
+    rpc = new Rpc(new WsProvider('wss://poc3-rpc.polkadot.io/'));
   });
 
   it('subscribes to storage', (done) => {
     return (
-      api.state
-      .subscribeStorage(
+      rpc.state
+        .subscribeStorage(
         [
-          [storage.system.accountNonce, randomAccount],
-          [storage.session.currentIndex]
+            [storage.system.accountNonce, randomAccount],
+            [storage.session.currentIndex]
         ],
-        (data: StorageChangeSet) => {
-          expect(data).toHaveLength(2);
-          expect(data).toEqual(
-            expect.arrayContaining([
-              expect.any(BlockNumber),
-              expect.any(Index)
-            ])
-          );
+          (data: StorageChangeSet) => {
+            expect(data).toHaveLength(2);
+            expect(data).toEqual(
+              expect.arrayContaining([
+                expect.any(BlockNumber),
+                expect.any(Index)
+              ])
+            );
 
-          done();
-        }).then((subscriptionId: number) => {
-          console.log('stoarge subscriptionId =', subscriptionId);
-        })
+            done();
+          }).subscribe((subscriptionId: number) => {
+            console.log('stoarge subscriptionId =', subscriptionId);
+          })
     );
   });
 
   it('retrieves a block by hash (krumme lanke #1)', () => {
-    return api.chain
+    return rpc.chain
       .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
-      .then((block: SignedBlock) => {
+      .subscribe((block: SignedBlock) => {
         expect(block).toBeDefined();
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 
   it('retrieves a block by hash (krumme lanke #2)', () => {
-    return api.chain
+    return rpc.chain
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
-      .then((block: SignedBlock) => {
+      .subscribe((block: SignedBlock) => {
         expect(block).toBeDefined();
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 });

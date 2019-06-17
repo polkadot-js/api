@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcInterface$Method, RpcInterface$Section } from '@polkadot/rpc-core/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
+import { RpcInterface$Method, RpcInterface$Section } from '../types';
 import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
 import { BehaviorSubject, Observable, from, Observer } from 'rxjs';
-import Rpc from '@polkadot/rpc-core';
 import { map, publishReplay, refCount } from 'rxjs/operators';
 import { isFunction, isUndefined } from '@polkadot/util';
+
+import Rpc from '..';
 
 /**
  * @name RpcRx

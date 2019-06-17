@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-export interface RpcInterface$Method {
-  (...params: Array<any>): Promise<any>;
+import { Observable } from 'rxjs';
 
-  subscription: string;
-  unsubscribe: (id: number) => Promise<any>;
+export interface RpcInterface$Method {
+  (...params: Array<any>): Observable<any>;
 }
 
 export type RpcInterface$Section = {

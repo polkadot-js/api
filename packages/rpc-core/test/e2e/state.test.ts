@@ -11,72 +11,52 @@ import Rpc from '../../src';
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
 describe.skip('e2e state', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   it('retrieves code', () => {
-    return api.state
+    return rpc.state
       .getStorage([
         storage.substrate.code
       ])
-      .then((code: Bytes) => {
+      .subscribe((code: Bytes) => {
         console.error(code.toHex().substr(0, 256), '...');
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 
   it('retrieves the wasm metadata', () => {
-    return api.state
+    return rpc.state
       .getMetadata()
-      .then((meta: Metadata) => {
+      .subscribe((meta: Metadata) => {
         console.error(JSON.stringify(meta.toJSON()));
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 
   it('retrieves balances', () => {
-    return api.state
+    return rpc.state
       .getStorage([
         storage.balances.freeBalance, ALICE
       ])
-      .then((balance: Balance) => {
+      .subscribe((balance: Balance) => {
         console.error(balance);
 
         expect(balance.isZero()).not.toEqual(true);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 
   it('retrieves timestamp', () => {
-    return api.state
+    return rpc.state
       .getStorage([
         storage.timestamp.now
       ])
-      .then((moment: Moment) => {
+      .subscribe((moment: Moment) => {
         console.error(moment);
 
         expect(moment.toNumber()).not.toEqual(0);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
       });
   });
 });

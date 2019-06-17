@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ProviderInterface, ProviderInterface$Callback } from '@polkadot/rpc-provider/types';
+import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
@@ -11,6 +11,8 @@ import { WsProvider } from '@polkadot/rpc-provider';
 import { Codec } from '@polkadot/types/types';
 import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
+import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 const l = logger('rpc-core');
 
@@ -99,14 +101,18 @@ export default class Rpc implements RpcInterface {
     this._provider.disconnect();
   }
 
+  private createErrorMessage (method: RpcMethod, error: Error) {
+    return `${Rpc.signature(method)}:: ${error.message}`;
+  }
+
   private createInterface ({ methods }: RpcSection): RpcInterface$Section {
     return Object
       .keys(methods)
-      .reduce((exposed, method) => {
+      .reduce((exposed, methodName) => {
 
-        const def = methods[method];
+        const def = methods[methodName];
 
-        exposed[method] = def.isSubscription
+        exposed[methodName] = def.isSubscription
           ? this.createMethodSubscribe(def)
           : this.createMethodSend(def);
 
@@ -117,21 +123,28 @@ export default class Rpc implements RpcInterface {
   private createMethodSend (method: RpcMethod): RpcInterface$Method {
     const rpcName = `${method.section}_${method.method}`;
 
-    const call = async (...values: Array<any>): Promise<any> => {
+    const call = (...values: Array<any>): Observable<any> => {
       // TODO Warn on deprecated methods
-      try {
-        const params = this.formatInputs(method, values);
-        const paramsJson = params.map((param) => param.toJSON());
-        const result = await this._provider.send(rpcName, paramsJson);
 
-        return this.formatOutput(method, params, result);
-      } catch (error) {
-        const message = `${Rpc.signature(method)}:: ${error.message}`;
+      return of(1)
+        .pipe(
+          map(() => this.formatInputs(method, values)),
+          switchMap((params) =>
+            combineLatest([
+              of(params),
+              from(this._provider.send(rpcName, params.map((param) => param.toJSON())))
+            ])
+          ),
+          map(([params, result]) => this.formatOutput(method, params, result)),
+          catchError((error) => {
+            const message = this.createErrorMessage(method, error);
 
-        l.error(message);
+            l.error(message);
 
-        throw new ExtError(message, (error as ExtError).code, undefined);
-      }
+            return throwError(new ExtError(message, (error as ExtError).code, undefined));
+          }
+          )
+        );
     };
 
     return call as RpcInterface$Method;
@@ -143,38 +156,43 @@ export default class Rpc implements RpcInterface {
     const unsubName = `${method.section}_${unsubMethod}`;
     const subType = `${method.section}_${updateType}`;
 
-    const unsubscribe = (subscriptionId: any): Promise<any> =>
-      this._provider.unsubscribe(subType, unsubName, subscriptionId);
-    const _call = async (...values: Array<any>): Promise<any> => {
-      try {
-        const cb: ProviderInterface$Callback = values.pop();
+    const call = (...values: Array<any>): Observable<any> => {
+      return Observable.create(async (observer: Observer<any>) => {
+        let subscriptionPromise: Promise<number>;
 
-        assert(isFunction(cb), `Expected callback in last position of params`);
+        try {
+          const params = this.formatInputs(method, values);
+          const paramsJson = params.map((param) => param.toJSON());
+          const update = (error?: Error, result?: any) => {
+            if (error) {
+              l.error(this.createErrorMessage(method, error));
+              return;
+            }
 
-        const params = this.formatInputs(method, values);
-        const paramsJson = params.map((param) => param.toJSON());
-        const update = (error: Error | null, result?: any) => {
-          if (error) {
-            l.error(`${Rpc.signature(method)}:: ${error.message}`);
-            return;
-          }
+            observer.next(this.formatOutput(method, params, result));
+          };
 
-          cb(this.formatOutput(method, params, result));
+          subscriptionPromise = this._provider.subscribe(subType, subName, paramsJson, update);
+        } catch (error) {
+          const message = this.createErrorMessage(method, error);
+
+          l.error(message);
+
+          observer.error(new ExtError(message, (error as ExtError).code, undefined));
+        }
+
+        // Return the unsubscribe function
+        return () => {
+          subscriptionPromise
+            .then((subscriptionId) => this._provider.unsubscribe(subType, unsubName, subscriptionId))
+            .catch((error: Error) => {
+              const message = this.createErrorMessage(method, error);
+
+              l.error(message);
+            });
         };
-
-        return this._provider.subscribe(subType, subName, paramsJson, update);
-      } catch (error) {
-        const message = `${Rpc.signature(method)}:: ${error.message}`;
-
-        l.error(message);
-
-        throw new ExtError(message, (error as ExtError).code, undefined);
-      }
+      });
     };
-
-    const call = _call as RpcInterface$Method;
-
-    call.unsubscribe = unsubscribe;
 
     return call;
   }

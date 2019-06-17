@@ -9,17 +9,17 @@ import storage from '@polkadot/storage/static';
 import Rpc from '../../src';
 
 describe.skip('e2e subscriptions', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
   it('retrieves current timestamp', (done) => {
     let count: number = 0;
 
-    return api.state
+    return rpc.state
       .subscribeStorage([[storage.timestamp.now]], (data: StorageChangeSet) => {
         expect(data).toBeDefined();
 
@@ -27,7 +27,7 @@ describe.skip('e2e subscriptions', () => {
           done();
         }
       })
-      .then((subscriptionId: number) => {
+      .subscribe((subscriptionId: number) => {
         console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
