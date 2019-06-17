@@ -2,50 +2,24 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction } from '@polkadot/util';
+import MockProvider from '@polkadot/rpc-provider/mock';
 
-import Api from '.';
+import Rpc from '.';
 
 describe('Api', () => {
-  let api: Api;
-  let provider: any;
-  let sendSpy: any;
-
-  beforeEach(() => {
-    provider = {
-      send: (method: any, params: Array<any>) => {
-        return Promise.resolve(params[0]);
-      }
-    };
-    sendSpy = jest.spyOn(provider, 'send');
-    api = new Api(provider);
-  });
-
-  afterEach(() => {
-    sendSpy.mockRestore();
-  });
-
   it('requires a provider with a send method', () => {
     expect(
-      () => new Api({} as any)
+      () => new Rpc({} as any)
     ).toThrow(/Expected Provider/);
   });
 
-  it('sets up the chain interface', () => {
-    expect(api.chain).toBeDefined();
-  });
-
-  it('sets up the state interface', () => {
-    expect(api.state).toBeDefined();
-  });
-
   it('creates an instance with all sections', () => {
+    const rpc = new Rpc(new MockProvider());
+
     expect(
       Object
-        .keys(api)
-        .filter((key) =>
-          !key.startsWith('_')
-        )
+        .keys(rpc)
+        .filter((key) => !key.startsWith('_'))
     ).toEqual([
       'author', 'chain', 'state', 'system'
     ]);

@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcInterface$Method, RpcInterface$Section } from '../types';
-import { RpcRxInterface, RpcRxInterface$Events, RpcRxInterface$Method, RpcRxInterface$Section } from './types';
+import { RpcRxInterface, RpcRxInterface$Events, RpcInterface$Method, RpcRxInterface$Section } from './types';
 
 import EventEmitter from 'eventemitter3';
 import memoize, { Memoized } from 'memoizee';
@@ -94,9 +94,9 @@ export default class RpcRx implements RpcRxInterface {
       }, ({} as RpcRxInterface$Section));
   }
 
-  private createObservable (name: string, section: RpcInterface$Section): RpcRxInterface$Method {
+  private createObservable (name: string, section: RpcInterface$Section): RpcInterface$Method {
     if (isFunction(section[name].unsubscribe)) {
-      const memoized: Memoized<RpcRxInterface$Method> = memoize(
+      const memoized: Memoized<RpcInterface$Method> = memoize(
         (...params: Array<any>) => this.createReplay(name, params, section, memoized),
         {
           length: false,
@@ -110,7 +110,7 @@ export default class RpcRx implements RpcRxInterface {
         }
       );
 
-      return memoized as unknown as RpcRxInterface$Method;
+      return memoized as unknown as RpcInterface$Method;
     }
 
     // We voluntarily don't cache the "one-shot" RPC calls. For example,
@@ -126,7 +126,7 @@ export default class RpcRx implements RpcRxInterface {
       );
   }
 
-  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RpcRxInterface$Method>): Observable<any> {
+  private createReplay (name: string, params: Array<any>, section: RpcInterface$Section, memoized: Memoized<RpcInterface$Method>): Observable<any> {
     return new Observable((observer: Observer<any>): Function => {
       const fn = section[name];
       const callback = this.createReplayCallback(observer);
@@ -168,7 +168,7 @@ export default class RpcRx implements RpcRxInterface {
     };
   }
 
-  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, params: Array<any>, memoized: Memoized<RpcRxInterface$Method>): () => void {
+  private createReplayUnsub (fn: RpcInterface$Method, subscribe: Promise<number>, params: Array<any>, memoized: Memoized<RpcInterface$Method>): () => void {
     return (): void => {
       subscribe
         .then((subscriptionId: number) =>

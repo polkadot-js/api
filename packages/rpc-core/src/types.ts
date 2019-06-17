@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Observable } from 'rxjs';
+import { ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 
 export interface RpcInterface$Method {
   (...params: Array<any>): Observable<any>;
@@ -18,3 +19,5 @@ export interface RpcInterface {
   readonly state: RpcInterface$Section;
   readonly system: RpcInterface$Section;
 }
+
+export type RpcInterface$Events = ProviderInterface$Emitted;

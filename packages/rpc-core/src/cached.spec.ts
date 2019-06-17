@@ -16,7 +16,7 @@ jest.mock('@polkadot/rpc-provider/ws', () => class {
 
 import Rpc from '.';
 
-describe('createCachedObservable', () => {
+describe('Cached Observables', () => {
   let rpc: Rpc;
   let creator: (...params: Array<any>) => Observable<any>;
   const keyring = testingPairs();

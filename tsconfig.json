@@ -15,8 +15,6 @@
       "@polkadot/rpc-core/*": ["packages/rpc-core/src/*"],
       "@polkadot/rpc-provider": ["packages/rpc-provider/src"],
       "@polkadot/rpc-provider/*": ["packages/rpc-provider/src/*"],
-      "@polkadot/rpc-rx": ["packages/rpc-rx/src"],
-      "@polkadot/rpc-rx/*": ["packages/rpc-rx/src/*"],
       "@polkadot/extrinsics": ["packages/type-extrinsics/src"],
       "@polkadot/extrinsics/*": ["packages/type-extrinsics/src/*"],
       "@polkadot/jsonrpc": ["packages/type-jsonrpc/src"],
