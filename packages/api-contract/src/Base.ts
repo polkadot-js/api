@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI } from './types';
+import { ContractABI, IContractBase } from './types';
 
 import { ApiRx } from '@polkadot/api';
 import { assert } from '@polkadot/util';
@@ -10,7 +10,7 @@ import { assert } from '@polkadot/util';
 import Abi from './Abi';
 
 // NOTE Experimental, POC, bound to change
-export default abstract class Base {
+export default abstract class Base implements IContractBase {
   readonly abi: Abi;
   readonly api: ApiRx;
 

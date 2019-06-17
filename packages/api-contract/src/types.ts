@@ -4,6 +4,9 @@
 
 import { CodecArg } from '@polkadot/types/types';
 
+import { ApiRx } from '@polkadot/api';
+import { Address } from '@polkadot/types';
+
 export type ContractABITypes$Struct = {
   'Option<T>'?: {
     T: ContractABITypes
@@ -55,4 +58,28 @@ export interface ContractABIFn {
   args: Array<ContractABIFn$Arg>;
   isConstant: boolean;
   type: string | null;
+}
+
+export interface IAbi$Messages {
+  [index: string]: ContractABIFn;
+}
+
+export interface IAbi {
+  readonly abi: ContractABI;
+  readonly deploy: ContractABIFn;
+  readonly messages: IAbi$Messages;
+}
+
+export interface IContractBase {
+  readonly abi: IAbi;
+  readonly api: ApiRx;
+}
+
+export interface IContract$Calls {
+  [index: string]: Function;
+}
+
+export interface IContract {
+  readonly address: Address;
+  readonly calls: IContract$Calls;
 }
