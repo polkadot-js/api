@@ -13,8 +13,8 @@ import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, Sess
 import { isUndefined } from '@polkadot/util';
 
 import { bestNumber } from '../chain/bestNumber';
-import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
+import { drr } from '../util/drr';
 
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {

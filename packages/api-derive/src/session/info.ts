@@ -8,7 +8,7 @@ import BN from 'bn.js';
 import { Observable, combineLatest, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { BlockNumber, Option, StructAny } from '@polkadot/types';
+import { BlockNumber, Option } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
@@ -35,7 +35,7 @@ function createDerived0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessi
     .mul(sessionLength)
     .add(sessionProgress);
 
-  return new StructAny({
+  return {
     currentEra,
     currentIndex,
     eraLength,
@@ -45,13 +45,13 @@ function createDerived0_94 ([bestNumber, [currentIndex, _lastLengthChange, sessi
     sessionLength,
     sessionsPerEra,
     sessionProgress
-  }) as DerivedSessionInfo;
+  } as DerivedSessionInfo;
 }
 
 function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): DerivedSessionInfo {
   const eraProgress = (currentIndex).mod(sessionsPerEra);
 
-  return new StructAny({
+  return {
     currentEra,
     currentIndex,
     eraLength: ZERO,
@@ -61,7 +61,7 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
     sessionLength: ZERO,
     sessionsPerEra,
     sessionProgress: ZERO
-  }) as DerivedSessionInfo;
+  } as DerivedSessionInfo;
 }
 
 /**
