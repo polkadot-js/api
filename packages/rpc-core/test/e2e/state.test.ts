@@ -5,7 +5,8 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Address, Balance, Bytes, ContractAbi, Hash, Metadata, Moment, StorageKey } from '@polkadot/types';
+import { Address, Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
+import { Abi } from '@polkadot/api-contract';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
@@ -13,7 +14,7 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import { SubmittableResult } from '@polkadot/api';
 import { KeyringPair } from '@polkadot/keyring/types';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import flipperAbi from '../../../api/test/data/flipper.json';
+import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 
 import Rpc from '../../src';
 
@@ -104,10 +105,12 @@ describe('e2e state', () => {
     // add a Smart Contract that is using `child_storage` before being able to test it.
     let codeHash: Hash;
     let address: Address;
+    let storageKeys: Array<StorageKey>;
+    let childStorageKeys: Array<StorageKey>;
 
     beforeAll(async (done) => {
-      const code: string = fs.readFileSync(path.join(__dirname, '../../../api/test/data/flipper-pruned.wasm')).toString('hex');
-      const abi = new ContractAbi(flipperAbi);
+      const code: string = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
+      const abi = new Abi(flipperAbi);
       const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
       const keyring: {
         [index: string]: KeyringPair
@@ -117,15 +120,10 @@ describe('e2e state', () => {
         .putCode(50000, `0x${code}`)
         .signAndSend(keyring.eve, (result: SubmittableResult) => {
           if (result.status.isFinalized) {
-            console.log('putCode finalized1')
             const record = result.findRecord('contract', 'CodeStored');
-            console.log('fffinalized record');
-            console.log(record)
 
             if (record) {
-              console.log('has record3');
               codeHash = record.event.data[0] as Hash;
-              console.log(codeHash);
             }
           }
           done();
@@ -135,15 +133,11 @@ describe('e2e state', () => {
         apiPromise.tx.contract
           .create(12345, 50000, codeHash, abi.deploy())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
-            console.log('is signed and sent');
             if (result.status.isFinalized) {
-              console.log('YOYOcatchisFinalized');
-              console.log(result);
               const record = result.findRecord('contract', 'Instantiated');
               if (record) {
                 console.log('Instanciated and has record');
                 address = record.event.data[1] as Address;
-                return address;
               }
             }
             done();
@@ -170,8 +164,32 @@ describe('e2e state', () => {
 
       return api.state
         .getChildStorage(storageKeys[0], childStorageKeys[0])
-        .then((storage: String) => {
-          expect(storage).toBe('0x00');
+        .then((storage: StorageData) => {
+          expect(storage.toString()).toBe('0x00');
+        });
+
+    });
+
+    it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async () => {
+      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
+
+      return api.state
+        .getChildStorageHash(storageKeys[0], childStorageKeys[0])
+        .then((storage: StorageData) => {
+          expect(storage.toString()).toBe('0x03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314');
+        });
+
+    });
+
+    it('getChildStorageSize(): retrieves the size of the flipper smart contract', async () => {
+      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
+
+      return api.state
+        .getChildStorageSize(storageKeys[0], childStorageKeys[0])
+        .then((storage: StorageData) => {
+          expect(storage.toString()).toBe('1');
         });
 
     });
