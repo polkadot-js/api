@@ -14,10 +14,12 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import storage from '@polkadot/storage/static';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 import Rpc from '../../src';
+import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
+const CODE = '0x3a636f6465'; // :code
+const CHILD_STORAGE = '0x3a636f6465'; // :child_storage:
 
 describe.skip('e2e state', () => {
   let api: Rpc;
@@ -42,7 +44,7 @@ describe.skip('e2e state', () => {
 
   it('getKeys(): retrieves storage keys for ":code"', () => {
     return api.state
-      .getKeys('0x3a636f6465')
+      .getKeys(CODE)
       .then((keys: Array<StorageKey>) => {
         expect(keys.length).toEqual(1);
       });
@@ -136,7 +138,7 @@ describe.skip('e2e state', () => {
     });
 
     it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async () => {
-      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
 
       return api.state
         .getChildKeys(storageKeys[0], '0x')
@@ -146,7 +148,7 @@ describe.skip('e2e state', () => {
     });
 
     it('getChildStorage(): retrieves the default value of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
       const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
 
       return api.state
@@ -158,7 +160,7 @@ describe.skip('e2e state', () => {
     });
 
     it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
       const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
 
       return api.state
@@ -170,7 +172,7 @@ describe.skip('e2e state', () => {
     });
 
     it('getChildStorageSize(): retrieves the size of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
       const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
 
       return api.state
