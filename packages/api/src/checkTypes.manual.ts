@@ -31,7 +31,7 @@ export default async function test () {
     console.log('current blockNumber:', header.blockNumber);
   });
 
-  await api.derive.chain.subscribeNewHead((header) => {
+  await api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
     console.log('current author:', header.author);
   });
 
