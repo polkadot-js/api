@@ -30,11 +30,8 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     }
   );
 
-/**
- * @deprecated The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
- * have been removed in https://github.com/paritytech/substrate/pull/2802
- */
-
+// @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
+// have been removed in https://github.com/paritytech/substrate/pull/2802
 export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
   documentation: 'Number of authorities.',
   type: 'u32'
