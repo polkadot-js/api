@@ -30,6 +30,21 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     }
   );
 
+/**
+ * @deprecated The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
+ * have been removed in https://github.com/paritytech/substrate/pull/2802
+ */
+
+export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
+  documentation: 'Number of authorities.',
+  type: 'u32'
+});
+
+export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
+  documentation: 'Prefix under which authorities are stored.',
+  type: 'u32'
+});
+
 export const code = createRuntimeFunction('code', ':code', {
   documentation: 'Wasm code of the runtime.',
   type: 'Bytes'
