@@ -19,7 +19,7 @@ import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
-const CHILD_STORAGE = '0x3a636f6465'; // :child_storage:
+const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
 describe.skip('e2e state', () => {
   let api: Rpc;
