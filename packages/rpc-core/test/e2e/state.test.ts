@@ -2,22 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// import fs from 'fs';
-// import path from 'path';
+import fs from 'fs';
+import path from 'path';
 
-// Address, ContractAbi, Hash
-import { Balance, Bytes, Metadata, Moment } from '@polkadot/types';
+import { Address, Balance, Bytes, ContractAbi, Hash, Metadata, Moment, StorageKey } from '@polkadot/types';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
-// import ApiRx from '@polkadot/api/rx/Api';
-// import { ApiInterface$Rx } from '@polkadot/api/types';
-// import { SubmittableResult } from '@polkadot/api';
-// import { KeyringPair } from '@polkadot/keyring/types';
-// import testingPairs from '@polkadot/keyring/testingPairs';
+import ApiPromise from '@polkadot/api/promise/Api';
+import { SubmittableResult } from '@polkadot/api';
+import { KeyringPair } from '@polkadot/keyring/types';
+import testingPairs from '@polkadot/keyring/testingPairs';
+import flipperAbi from '../../../api/test/data/flipper.json';
 
 import Rpc from '../../src';
-// import flipperAbi from '../../../api/test/data/flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
@@ -42,20 +40,11 @@ describe('e2e state', () => {
       });
   });
 
-  it('getKeys(): retrieves all child storage keys', () => {
-    console.log('1212test');
-    // @TODO
+  it('getKeys(): retrieves storage keys for ":auth:"', () => {
     return api.state
-      .getKeys('0x3a6368696c645f73746f726167653a')
-      .then((keys: []) => {
-        console.log('1212testkeys')
-        console.log(keys)
-        // expect(keys).toBeInstanceOf(Array);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
+      .getKeys('0x3a617574683a')
+      .then((keys: Array<StorageKey>) => {
+        expect(keys.length).toBeGreaterThanOrEqual(2);
       });
   });
 
@@ -110,55 +99,81 @@ describe('e2e state', () => {
     });
   });
 
-  it('getChildStorage(): retrieves the flipper smart contract value', () => {
+  describe('e2e state child methods', () => {
+    // `child_storage` is currently not used anywhere in substrate, that's why we need to
+    // add a Smart Contract that is using `child_storage` before being able to test it.
+    let codeHash: Hash;
+    let address: Address;
 
-    beforeEach(async (done) => {
-      // `child_storage` is currently not used anywhere in substrate, that's why we need to
-      // add a Smart Contract that is using `child_storage` before being able to test it.
-      // const code: string = fs.readFileSync(path.join(__dirname, '../../../api/test/data/flipper-pruned.wasm')).toString('hex');
-      // const apiRx: ApiInterface$Rx = await ApiRx.create(new WsProvider('ws://127.0.0.1:9944')).toPromise();
-      // const keyring: {
-      //   [index: string]: KeyringPair
-      // } = testingPairs({ type: 'sr25519' });
+    beforeAll(async (done) => {
+      const code: string = fs.readFileSync(path.join(__dirname, '../../../api/test/data/flipper-pruned.wasm')).toString('hex');
+      const abi = new ContractAbi(flipperAbi);
+      const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
+      const keyring: {
+        [index: string]: KeyringPair
+      } = testingPairs({ type: 'sr25519' });
 
-      // apiRx.tx.contract
-      //   .putCode(500000, `0x${code}`)
-      //   .signAndSend(keyring.eve, (result: SubmittableResult) => {});
+      const putCode = apiPromise.tx.contract
+        .putCode(50000, `0x${code}`)
+        .signAndSend(keyring.eve, (result: SubmittableResult) => {
+          if (result.status.isFinalized) {
+            console.log('putCode finalized1')
+            const record = result.findRecord('contract', 'CodeStored');
+            console.log('fffinalized record');
+            console.log(record)
 
-      // apiRx.query.balances.freeBalance(Alice).pipe(
-      //   // since pairwise only starts emitting values on the second emission, we prepend an
-      //   // initial value with the startWith() operator to be able to also receive the first value
-      //   startWith('first'),
-      //   pairwise()
-      // )
-      // .subscribe((balance) => {
-      //   if (balance[0] === 'first') {
-      //     // Now we know that if the previous value emitted as balance[0] is `first`,
-      //     // then balance[1] is the initial value of Alice account.
-      //     console.log(`Alice ${Alice} has a balance of ${balance[1]}`);
-      //     console.log('You may leave this example running and start the "Make a transfer" example or transfer any value to Alice address');
-      //     return;
-      //   }
+            if (record) {
+              console.log('has record3');
+              codeHash = record.event.data[0] as Hash;
+              console.log(codeHash);
+            }
+          }
+          done();
+        });
 
-      //   const change = balance[1].sub(balance[0]);
-      //   // Only display value changes
-      //   if (!change.isZero()) {
-      //     console.log(`New balance change of: ${change}`);
-      //   }
-      // });
+      return putCode.then(() => {
+        apiPromise.tx.contract
+          .create(12345, 50000, codeHash, abi.deploy())
+          .signAndSend(keyring.bob, (result: SubmittableResult) => {
+            console.log('is signed and sent');
+            if (result.status.isFinalized) {
+              console.log('YOYOcatchisFinalized');
+              console.log(result);
+              const record = result.findRecord('contract', 'Instantiated');
+              if (record) {
+                console.log('Instanciated and has record');
+                address = record.event.data[1] as Address;
+                return address;
+              }
+            }
+            done();
+          });
+      }).catch(e => {
+        console.log(e);
+        throw e;
+      });
+    });
 
-      // const abi: ContractAbi = new ContractAbi(flipperAbi);
-      //
+    it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async () => {
+      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
 
-      // apiRx.tx.contract.putCode(500000, `0x${code}`).signAndSend(keyring.eve, (result: SubmittableResult) => {
-      //   if (result.status.isFinalized && result.findRecord('contract', 'CodeStored')) {
-      //     apiRx.tx.contract.create(12345, 500000, result, abi.deploy()).signAndSend(keyring.bob);
-      //   }
-      // });
+      return api.state
+        .getChildKeys(storageKeys[0], '0x')
+        .then((keys: Array<StorageKey>) => {
+          expect(keys.length).toBeGreaterThanOrEqual(1);
+        });
+    });
 
-      // apiRx.tx.contract.call(address, 12345, MAX_GAS, abi.messages.flip()).signAndSend(keyring.bob);
+    it('getChildStorage(): retrieves the default value of the flipper smart contract', async () => {
+      const storageKeys = await api.state.getKeys('0x3a6368696c645f73746f726167653a');
+      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
 
-      done();
+      return api.state
+        .getChildStorage(storageKeys[0], childStorageKeys[0])
+        .then((storage: String) => {
+          expect(storage).toBe('0x00');
+        });
+
     });
 
   });
