@@ -30,16 +30,8 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     }
   );
 
-export const code = createRuntimeFunction('code', ':code', {
-  documentation: 'Wasm code of the runtime.',
-  type: 'Bytes'
-});
-
-export const heapPages = createRuntimeFunction('heapPages', ':heappages', {
-  documentation: 'Number of wasm linear memory pages required for execution of the runtime.',
-  type: 'u64'
-});
-
+// @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
+// have been removed in https://github.com/paritytech/substrate/pull/2802
 export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
   documentation: 'Number of authorities.',
   type: 'u32'
@@ -48,6 +40,16 @@ export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len
 export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
   documentation: 'Prefix under which authorities are stored.',
   type: 'u32'
+});
+
+export const code = createRuntimeFunction('code', ':code', {
+  documentation: 'Wasm code of the runtime.',
+  type: 'Bytes'
+});
+
+export const heapPages = createRuntimeFunction('heapPages', ':heappages', {
+  documentation: 'Number of wasm linear memory pages required for execution of the runtime.',
+  type: 'u64'
 });
 
 export const extrinsicIndex = createRuntimeFunction('extrinsicIndex', ':extrinsic_index', {
