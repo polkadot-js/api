@@ -61,3 +61,8 @@ export const changesTrieConfig = createRuntimeFunction('changesTrieConfig', ':ch
   documentation: 'Changes trie configuration is stored under this key.',
   type: 'u32'
 });
+
+export const childStorageKeyPrefix = createRuntimeFunction('childStorageKeyPrefix', ':child_storage:', {
+  documentation: 'Prefix of child storage keys.',
+  type: 'u32'
+});

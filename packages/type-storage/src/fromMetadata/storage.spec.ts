@@ -13,6 +13,7 @@ describe('storage', () => {
     expect(storage.substrate.authorityCount).toBeTruthy();
     expect(storage.substrate.authorityPrefix).toBeTruthy();
     expect(storage.substrate.changesTrieConfig).toBeTruthy();
+    expect(storage.substrate.childStorageKeyPrefix).toBeTruthy();
     expect(storage.substrate.code).toBeTruthy();
     expect(storage.substrate.extrinsicIndex).toBeTruthy();
     expect(storage.substrate.heapPages).toBeTruthy();

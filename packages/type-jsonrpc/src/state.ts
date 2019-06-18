@@ -19,6 +19,16 @@ const call: RpcMethodOpt = {
   type: 'Bytes'
 };
 
+const getKeys: RpcMethodOpt = {
+  description: 'Retrieves the keys with a certain prefix',
+  params: [
+    createParam('prefix', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageKey>'
+};
+
 const getStorage: RpcMethodOpt = {
   description: 'Retrieves the storage for a key',
   params: [
@@ -40,6 +50,47 @@ const getStorageHash: RpcMethodOpt = {
 const getStorageSize: RpcMethodOpt = {
   description: 'Retrieves the storage size',
   params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'u64'
+};
+
+const getChildKeys: RpcMethodOpt = {
+  description: 'Retrieves the keys with prefix of a specific child storage',
+  params: [
+    createParam('childStorageKey', 'StorageKey'),
+    createParam('prefix', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageKey>'
+};
+
+const getChildStorage: RpcMethodOpt = {
+  description: 'Retrieves the child storage for a key',
+  params: [
+    createParam('childStorageKey', 'StorageKey'),
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'StorageData'
+};
+
+const getChildStorageHash: RpcMethodOpt = {
+  description: 'Retrieves the child storage hash',
+  params: [
+    createParam('childStorageKey', 'StorageKey'),
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'Hash'
+};
+
+const getChildStorageSize: RpcMethodOpt = {
+  description: 'Retrieves the child storage size',
+  params: [
+    createParam('childStorageKey', 'StorageKey'),
     createParam('key', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
@@ -100,6 +151,11 @@ export default {
   section,
   methods: {
     call: createMethod(section, 'call', call),
+    getChildKeys: createMethod(section, 'getChildKeys', getChildKeys),
+    getChildStorage: createMethod(section, 'getChildStorage', getChildStorage),
+    getChildStorageHash: createMethod(section, 'getChildStorageHash', getChildStorageHash),
+    getChildStorageSize: createMethod(section, 'getChildStorageSize', getChildStorageSize),
+    getKeys: createMethod(section, 'getKeys', getKeys),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     getStorage: createMethod(section, 'getStorage', getStorage),
