@@ -41,11 +41,11 @@ describe.skip('e2e state', () => {
       });
   });
 
-  it('getKeys(): retrieves storage keys for ":auth:"', () => {
+  it('getKeys(): retrieves storage keys for ":code"', () => {
     return api.state
-      .getKeys('0x3a617574683a')
+      .getKeys('0x3a636f6465')
       .then((keys: Array<StorageKey>) => {
-        expect(keys.length).toBeGreaterThanOrEqual(2);
+        expect(keys.length).toEqual(1);
       });
   });
 
