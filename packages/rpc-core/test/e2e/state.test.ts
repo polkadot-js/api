@@ -5,17 +5,16 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
-import { Abi } from '@polkadot/api-contract';
-import storage from '@polkadot/storage/static';
-import WsProvider from '@polkadot/rpc-provider/ws';
-
-import ApiPromise from '@polkadot/api/promise/Api';
 import { SubmittableResult } from '@polkadot/api';
-import { KeyringPair } from '@polkadot/keyring/types';
+import ApiPromise from '@polkadot/api/promise/Api';
+import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
+import { KeyringPair } from '@polkadot/keyring/types';
+import WsProvider from '@polkadot/rpc-provider/ws';
+import storage from '@polkadot/storage/static';
+import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
+import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 import Rpc from '../../src';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
