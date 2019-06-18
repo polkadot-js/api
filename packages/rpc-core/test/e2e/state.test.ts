@@ -131,9 +131,6 @@ describe.skip('e2e state', () => {
         return apiPromise.tx.contract
           .create(12345, 50000, codeHash, abi.deploy())
           .signAndSend(keyring.bob);
-      }).catch(e => {
-        console.log(e);
-        throw e;
       });
     });
 
@@ -156,7 +153,6 @@ describe.skip('e2e state', () => {
         .then((storage: StorageData) => {
           expect(storage.toString()).toBe('0x00');
         });
-
     });
 
     it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async () => {
@@ -168,7 +164,6 @@ describe.skip('e2e state', () => {
         .then((storage: StorageData) => {
           expect(storage.toString()).toBe('0x03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314');
         });
-
     });
 
     it('getChildStorageSize(): retrieves the size of the flipper smart contract', async () => {
@@ -180,8 +175,6 @@ describe.skip('e2e state', () => {
         .then((storage: StorageData) => {
           expect(storage.toString()).toBe('1');
         });
-
     });
-
   });
 });

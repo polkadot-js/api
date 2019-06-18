@@ -19,6 +19,43 @@ const call: RpcMethodOpt = {
   type: 'Bytes'
 };
 
+const getKeys: RpcMethodOpt = {
+  description: 'Retrieves the keys with a certain prefix',
+  params: [
+    createParam('prefix', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  // @ts-ignore The Vec<> wrap is fine
+  type: 'Vec<StorageKey>'
+};
+
+const getStorage: RpcMethodOpt = {
+  description: 'Retrieves the storage for a key',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'StorageData'
+};
+
+const getStorageHash: RpcMethodOpt = {
+  description: 'Retrieves the storage hash',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'Hash'
+};
+
+const getStorageSize: RpcMethodOpt = {
+  description: 'Retrieves the storage size',
+  params: [
+    createParam('key', 'StorageKey'),
+    createParam('block', 'Hash', { isOptional: true })
+  ],
+  type: 'u64'
+};
+
 const getChildKeys: RpcMethodOpt = {
   description: 'Retrieves the keys with prefix of a specific child storage',
   params: [
@@ -54,43 +91,6 @@ const getChildStorageSize: RpcMethodOpt = {
   description: 'Retrieves the child storage size',
   params: [
     createParam('childStorageKey', 'StorageKey'),
-    createParam('key', 'StorageKey'),
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  type: 'u64'
-};
-
-const getKeys: RpcMethodOpt = {
-  description: 'Retrieves the keys with a certain prefix',
-  params: [
-    createParam('prefix', 'StorageKey'),
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  // @ts-ignore The Vec<> wrap is fine
-  type: 'Vec<StorageKey>'
-};
-
-const getStorage: RpcMethodOpt = {
-  description: 'Retrieves the storage for a key',
-  params: [
-    createParam('key', 'StorageKey'),
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  type: 'StorageData'
-};
-
-const getStorageHash: RpcMethodOpt = {
-  description: 'Retrieves the storage hash',
-  params: [
-    createParam('key', 'StorageKey'),
-    createParam('block', 'Hash', { isOptional: true })
-  ],
-  type: 'Hash'
-};
-
-const getStorageSize: RpcMethodOpt = {
-  description: 'Retrieves the storage size',
-  params: [
     createParam('key', 'StorageKey'),
     createParam('block', 'Hash', { isOptional: true })
   ],
