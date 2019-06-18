@@ -6,10 +6,10 @@ import { authorityCount, authorityPrefix, changesTrieConfig, code, extrinsicInde
 
 describe('substrate', () => {
 
-  /**
-   * @deprecated The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
-   * have been removed in https://github.com/paritytech/substrate/pull/2802
-   */
+  /*
+    @deprecated The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
+    have been removed in https://github.com/paritytech/substrate/pull/2802
+  */
 
   it('authorityCount should return the correct storage key', () => {
     expect(authorityCount()).toEqual(Uint8Array.from([36, 58, 97, 117, 116, 104, 58, 108, 101, 110])); // Length-prefixed
