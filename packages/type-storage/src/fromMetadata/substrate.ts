@@ -40,16 +40,6 @@ export const heapPages = createRuntimeFunction('heapPages', ':heappages', {
   type: 'u64'
 });
 
-export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
-  documentation: 'Number of authorities.',
-  type: 'u32'
-});
-
-export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:', {
-  documentation: 'Prefix under which authorities are stored.',
-  type: 'u32'
-});
-
 export const extrinsicIndex = createRuntimeFunction('extrinsicIndex', ':extrinsic_index', {
   documentation: 'Current extrinsic index (u32) is stored under this key.',
   type: 'u32'

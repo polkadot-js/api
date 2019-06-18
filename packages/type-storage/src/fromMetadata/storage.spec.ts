@@ -7,8 +7,6 @@ import { storage } from './storage';
 describe('storage', () => {
   it('should return well known keys', () => {
     expect(typeof storage.substrate).toBe('object');
-    expect(storage.substrate.authorityCount).toBeTruthy();
-    expect(storage.substrate.authorityPrefix).toBeTruthy();
     expect(storage.substrate.changesTrieConfig).toBeTruthy();
     expect(storage.substrate.code).toBeTruthy();
     expect(storage.substrate.extrinsicIndex).toBeTruthy();
