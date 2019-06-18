@@ -151,16 +151,16 @@ export default {
   section,
   methods: {
     call: createMethod(section, 'call', call),
+    getChildKeys: createMethod(section, 'getChildKeys', getChildKeys),
+    getChildStorage: createMethod(section, 'getChildStorage', getChildStorage),
+    getChildStorageHash: createMethod(section, 'getChildStorageHash', getChildStorageHash),
+    getChildStorageSize: createMethod(section, 'getChildStorageSize', getChildStorageSize),
     getKeys: createMethod(section, 'getKeys', getKeys),
     getMetadata: createMethod(section, 'getMetadata', getMetadata),
     getRuntimeVersion: createMethod(section, 'getRuntimeVersion', getRuntimeVersion),
     getStorage: createMethod(section, 'getStorage', getStorage),
     getStorageHash: createMethod(section, 'getStorageHash', getStorageHash),
     getStorageSize: createMethod(section, 'getStorageSize', getStorageSize),
-    getChildKeys: createMethod(section, 'getChildKeys', getChildKeys),
-    getChildStorage: createMethod(section, 'getChildStorage', getChildStorage),
-    getChildStorageHash: createMethod(section, 'getChildStorageHash', getChildStorageHash),
-    getChildStorageSize: createMethod(section, 'getChildStorageSize', getChildStorageSize),
     queryStorage: createMethod(section, 'queryStorage', queryStorage),
     subscribeStorage: createMethod(section, 'subscribeStorage', subscribeStorage)
   }
