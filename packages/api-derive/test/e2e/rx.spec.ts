@@ -8,6 +8,9 @@ import ApiRx from '@polkadot/api/rx/Api';
 import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
+import { HeaderExtended } from '../../src/type';
+import { DerivedBalances, DerivedFees } from '../../src/types';
+
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
 // const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
 
@@ -112,7 +115,7 @@ describe.skip('derive e2e', () => {
   describe('derive.balances', () => {
     describe('all', () => {
       it('It returns an object with all relevant balance information of an account', async (done) => {
-        api.derive.balances.all(ID).subscribe((balances) => {
+        api.derive.balances.all(ID).subscribe((balances: DerivedBalances) => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
             accountNonce: expect.any(Index),
@@ -130,7 +133,7 @@ describe.skip('derive e2e', () => {
 
     describe('fees', () => {
       it('fees: It returns an object with all relevant fees of type BN', async (done) => {
-        api.derive.balances.fees().subscribe((fees) => {
+        api.derive.balances.fees().subscribe((fees: DerivedFees) => {
           expect(fees).toEqual(expect.objectContaining({
             creationFee: expect.any(BN),
             existentialDeposit: expect.any(BN),
@@ -147,7 +150,7 @@ describe.skip('derive e2e', () => {
   describe('derive.chain', () => {
     describe('bestNumber', () => {
       it('Get the latest block number', async (done) => {
-        api.derive.chain.bestNumber().subscribe((blockNumber) => {
+        api.derive.chain.bestNumber().subscribe((blockNumber: BlockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
@@ -157,7 +160,7 @@ describe.skip('derive e2e', () => {
 
     describe('bestNumberFinalized', () => {
       it('Get the latest finalised block number', async (done) => {
-        api.derive.chain.bestNumberFinalized().subscribe((blockNumber) => {
+        api.derive.chain.bestNumberFinalized().subscribe((blockNumber: BlockNumber) => {
           expect(blockNumber instanceof BlockNumber).toBe(true);
           expect(blockNumber.gten(0)).toBe(true);
           done();
@@ -167,7 +170,7 @@ describe.skip('derive e2e', () => {
 
     describe('bestNumberLag', () => {
       it('lag between finalised head and best head', async (done) => {
-        api.derive.chain.bestNumberLag().subscribe((numberLag) => {
+        api.derive.chain.bestNumberLag().subscribe((numberLag: BlockNumber) => {
           expect(numberLag instanceof BlockNumber).toBe(true);
           expect(numberLag.gten(0)).toBe(true);
           done();
@@ -178,7 +181,7 @@ describe.skip('derive e2e', () => {
     // FIXME https://github.com/polkadot-js/api/issues/868
     describe.skip('getHeader', () => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
-        api.derive.chain.getHeader('TODO').subscribe((headerExtended) => {
+        api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended) => {
           // WIP
           expect(headerExtended).toEqual(expect.arrayContaining([]));
           done();
@@ -188,7 +191,7 @@ describe.skip('derive e2e', () => {
 
     describe('subscribeNewHead', () => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
-        api.derive.chain.subscribeNewHead().subscribe((headerExtended) => {
+        api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended) => {
           // WIP https://github.com/polkadot-js/api/issues/868
           done();
         });
@@ -199,7 +202,7 @@ describe.skip('derive e2e', () => {
   describe('derive.session', () => {
     describe('sessionProgress', () => {
       it('derive.session.sessionProgress', async (done) => {
-        api.derive.session.sessionProgress().subscribe((progress) => {
+        api.derive.session.sessionProgress().subscribe((progress: BN) => {
           expect(progress instanceof BN).toBe(true);
           done();
         });

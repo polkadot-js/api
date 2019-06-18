@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, Hash, Header, Vector } from '@polkadot/types';
+import { AccountId, EventRecord, Hash, Header, Option, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -68,7 +68,7 @@ describe.skip('alex queries', () => {
 
   it('derives a list of the controllers', (done) => {
     return (
-      api.derive.staking.controllers((res) => {
+      api.derive.staking.controllers((res: [Array<AccountId>, Array<Option<AccountId>>]) => {
         console.log('api.derive.staking.controllers:', JSON.stringify(res));
 
         done();
