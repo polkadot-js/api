@@ -4,10 +4,12 @@
 
 import BN from 'bn.js';
 
+import { HeaderExtended } from '@polkadot/api-derive';
+import { DerivedBalances } from '@polkadot/api-derive/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Balance, EventRecord, Header, Option, ValidatorPrefs, Vector } from '@polkadot/types';
+import { Balance, EventRecord, Header, Index, Option, ValidatorPrefs, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -84,7 +86,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to derive', (done) => {
     return (
-      api.derive.chain.subscribeNewHead((header) => {
+      api.derive.chain.subscribeNewHead((header: HeaderExtended) => {
         expect(header.blockNumber.isZero()).toBe(false);
 
         done();
@@ -94,7 +96,7 @@ describe.skip('Promise e2e queries', () => {
 
   it('subscribes to queries', (done) => {
     return (
-      api.query.system.accountNonce(keyring.ferdie.address, (nonce) => {
+      api.query.system.accountNonce(keyring.ferdie.address, (nonce: Index) => {
         expect(nonce instanceof BN).toBe(true);
 
         done();
@@ -154,7 +156,7 @@ describe.skip('Promise e2e queries', () => {
     return (
       api.derive.balances.all(
         keyring.alice.address,
-        (all) => {
+        (all: DerivedBalances) => {
           expect(all.accountId.toString()).toEqual(keyring.alice.address);
 
           expect(all.freeBalance).toBeDefined();
