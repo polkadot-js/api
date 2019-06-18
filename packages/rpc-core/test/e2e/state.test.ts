@@ -5,7 +5,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { Address, Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
+import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 import { Abi } from '@polkadot/api-contract';
 import storage from '@polkadot/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
@@ -20,7 +20,7 @@ import Rpc from '../../src';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
-describe('e2e state', () => {
+describe.skip('e2e state', () => {
   let api: Rpc;
 
   beforeEach(() => {
@@ -104,9 +104,6 @@ describe('e2e state', () => {
     // `child_storage` is currently not used anywhere in substrate, that's why we need to
     // add a Smart Contract that is using `child_storage` before being able to test it.
     let codeHash: Hash;
-    let address: Address;
-    let storageKeys: Array<StorageKey>;
-    let childStorageKeys: Array<StorageKey>;
 
     beforeAll(async (done) => {
       const code: string = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
@@ -130,18 +127,9 @@ describe('e2e state', () => {
         });
 
       return putCode.then(() => {
-        apiPromise.tx.contract
+        return apiPromise.tx.contract
           .create(12345, 50000, codeHash, abi.deploy())
-          .signAndSend(keyring.bob, (result: SubmittableResult) => {
-            if (result.status.isFinalized) {
-              const record = result.findRecord('contract', 'Instantiated');
-              if (record) {
-                console.log('Instanciated and has record');
-                address = record.event.data[1] as Address;
-              }
-            }
-            done();
-          });
+          .signAndSend(keyring.bob);
       }).catch(e => {
         console.log(e);
         throw e;
