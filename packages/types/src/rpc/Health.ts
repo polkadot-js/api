@@ -4,7 +4,7 @@
 
 import Struct from '../codec/Struct';
 import Bool from '../primitive/Bool';
-import USize from '../primitive/USize';
+import U64 from '../primitive/U64';
 
 /**
  * @name Health
@@ -14,7 +14,7 @@ import USize from '../primitive/USize';
 export default class Health extends Struct {
   constructor (value?: any) {
     super({
-      peers: USize,
+      peers: U64,
       isSyncing: Bool,
       shouldHavePeers: Bool
     }, value);
@@ -28,10 +28,10 @@ export default class Health extends Struct {
   }
 
   /**
-   * @description The numbers of peers as [[U32]]
+   * @description The numbers of peers as [[U64]]
    */
-  get peers (): USize {
-    return this.get('peers') as USize;
+  get peers (): U64 {
+    return this.get('peers') as U64;
   }
 
   /**

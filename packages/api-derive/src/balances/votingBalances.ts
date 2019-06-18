@@ -3,24 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { combineLatest, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, AccountIndex, Address, VectorAny } from '@polkadot/types';
+import { AccountId, AccountIndex, Address } from '@polkadot/types';
 
 import { DerivedBalances } from '../types';
 import { drr } from '../util/drr';
 import { all } from './all';
 
 export function votingBalances (api: ApiInterface$Rx) {
-  return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<VectorAny<DerivedBalances>> => {
+  return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<Array<DerivedBalances>> => {
     return (
       !addresses || !addresses.length
         ? of([] as Array<DerivedBalances>)
         : combineLatest(addresses.map(all(api)))
     ).pipe(
-      map((balances) =>
-        new VectorAny(...balances)
-      ),
       drr()
     );
   };

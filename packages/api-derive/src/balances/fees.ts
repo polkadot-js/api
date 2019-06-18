@@ -8,7 +8,6 @@ import { DerivedFees } from '../types';
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StructAny } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
@@ -21,7 +20,7 @@ import { drr } from '../util/drr';
  *
  * ```javascript
  * api.derive.balances.fees(([creationFee, transferFee]) => {
- *   console.log(`The fee for creating a new account on this chain is ${transferFee} units. The fee required for making a transfer is ${transferFee} units.`);
+ *   console.log(`The fee for creating a new account on this chain is ${creationFee} units. The fee required for making a transfer is ${transferFee} units.`);
  * });
  * ```
  */
@@ -34,14 +33,13 @@ export function fees (api: ApiInterface$Rx) {
       api.query.balances.transactionByteFee,
       api.query.balances.transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
-      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) =>
-        new StructAny({
-          creationFee,
-          existentialDeposit,
-          transactionBaseFee,
-          transactionByteFee,
-          transferFee
-        }) as DerivedFees),
+      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+        creationFee,
+        existentialDeposit,
+        transactionBaseFee,
+        transactionByteFee,
+        transferFee
+      } as DerivedFees)),
       drr()
     );
   };

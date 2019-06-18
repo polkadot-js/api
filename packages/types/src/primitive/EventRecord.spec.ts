@@ -5,17 +5,15 @@
 import createType from '../codec/createType';
 import Vector from '../codec/Vector';
 import json1 from '../json/EventRecord.001.json';
-import json2 from '../json/EventRecord.002.json';
 import json3 from '../json/EventRecord.003.json';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
-import metadataV1 from '../Metadata/static';
-import AccountId from './AccountId';
+import metadata from '../Metadata/static';
 import Event from './Event';
 import EventRecord from './EventRecord';
 
 describe('EventRecord', () => {
-  describe('v0', () => {
+  describe('EventRecord_0_76', () => {
     beforeEach(() => {
       Event.injectMetadata(
         new Metadata(metadataV0)
@@ -28,40 +26,29 @@ describe('EventRecord', () => {
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
     });
-
-    // FIXME skipping this one, need an actual updated sample for the actual new types
-    it.skip('decodes more complex events', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json2.params.result.changes[0][1]) as any;
-
-      expect(records).toHaveLength(4);
-
-      const er = records[2];
-
-      expect(
-        er.event.data.toArray().map((v) => v.toString())
-      ).toEqual(
-        [
-          new AccountId('0xd2de7394ae047a5502ad9adb9cc69ff6fe484033bfce874d775da947487cd832').toString(),
-          new AccountId('0x37e027d776cd005c12bcf6722421374a9037167a0ceaf918f341c4ad68d54e59').toString(),
-          '1000',
-          '0'
-        ]
-      );
-    });
   });
 
-  describe.skip('v1', () => {
+  describe('EventRecord (current)', () => {
     beforeEach(() => {
       Event.injectMetadata(
-        new Metadata(metadataV1)
+        new Metadata(metadata)
       );
     });
 
-    it('decodes correctly', () => {
-      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json3.params.result.changes[0][1]) as any;
+    it('decodes older eventrecord correctly', () => {
+      const records: Vector<EventRecord> = createType('Vec<EventRecord>', json1.params.result.changes[0][1], true) as any;
       const er = records[0];
 
       expect(er.phase.type).toEqual('ApplyExtrinsic');
+    });
+
+    it('decodes eventrecord with topics correctly', () => {
+      const hex = json3.params.result.changes[0][1];
+      const records: Vector<EventRecord> = createType('Vec<EventRecord>', hex, true) as any;
+      const er = records[0];
+
+      expect(er.phase.type).toEqual('ApplyExtrinsic');
+      expect(records.toHex()).toEqual(hex);
     });
   });
 });

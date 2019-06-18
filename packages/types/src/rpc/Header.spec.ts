@@ -8,9 +8,8 @@ import Header from './Header';
 import json1 from '../json/Header.001.json';
 import json2 from '../json/Header.002.json';
 import json3 from '../json/Header.003.json';
-import json4x2e2 from '../json/Header.004.0x2e2.json';
-import json4x2e3 from '../json/Header.004.0x2e3.json';
-import json4x2e4 from '../json/Header.004.0x2e4.json';
+import block00300 from '../json/SignedBlock.003.00.json';
+import block00301 from '../json/SignedBlock.003.01.json';
 
 describe('Header', () => {
   it('decodes an actual JSON response', () => {
@@ -52,12 +51,9 @@ describe('Header', () => {
     ).toBe(true);
   });
 
-  it('correctly hashes headers with PreRuntime, aligning with substrate', () => {
-    const x2e2 = new Header(json4x2e2.params.result);
-    const x2e3 = new Header(json4x2e3.params.result);
-    const x2e4 = new Header(json4x2e4.params.result);
+  it('calculates correct hash, matching with parentHash', () => {
+    const blockHash = new Header(block00300.result.block.header).hash.toHex();
 
-    expect(x2e3.parentHash).toEqual(x2e2.hash);
-    expect(x2e4.parentHash).toEqual(x2e3.hash);
+    expect(blockHash).toEqual(block00301.result.block.header.parentHash);
   });
 });

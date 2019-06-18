@@ -8,6 +8,7 @@ import { Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as { [index: string]: Constructor };
+const UNCONSTRUCTABLE = ['origin', 'usize'];
 
 describe('types', () => {
   describe('default creation', () => {
@@ -16,7 +17,7 @@ describe('types', () => {
         const constructFn = () =>
           new Types[name]();
 
-        if (name === 'Origin') {
+        if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
           expect(constructFn).toThrow();
         } else {
           expect(constructFn).not.toThrow();
@@ -33,7 +34,7 @@ describe('types', () => {
         const constructFn = () =>
           new Types[name](new Types.Bytes());
 
-        if (name === 'Origin') {
+        if (UNCONSTRUCTABLE.includes(name.toLowerCase())) {
           expect(constructFn).toThrow();
         } else {
           expect(constructFn).not.toThrow();
