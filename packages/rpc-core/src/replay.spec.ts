@@ -17,14 +17,12 @@ describe('replay', () => {
   it('subscribes via the rpc section', (done) => {
     rpc.chain.getBlockHash = jest.fn(() => of(1));
 
-    rpc.chain.getBlockHash(123, false).subscribe((value) => {
-      if (value) {
-        expect(
-          rpc.chain.getBlockHash
-        ).toHaveBeenCalledWith(123, false);
+    rpc.chain.getBlockHash(123, false).subscribe(() => {
+      expect(
+        rpc.chain.getBlockHash
+      ).toHaveBeenCalledWith(123, false);
 
-        done();
-      }
+      done();
     });
   });
 

@@ -6,6 +6,7 @@ import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { RpcSection, RpcMethod } from '@polkadot/jsonrpc/types';
 import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
 
+import memoize from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
@@ -197,7 +198,18 @@ export default class Rpc implements RpcInterface {
       );
     };
 
-    return call;
+    return memoize(call, {
+      // Dynamic length for argument
+      length: false,
+      // Normalize args so that different args that should be cached
+      // together are cached together.
+      // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
+      normalizer: (args) => {
+        // `args` is arguments object as accessible in memoized function
+        return JSON.stringify(args);
+      }
+    }
+    );
   }
 
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
