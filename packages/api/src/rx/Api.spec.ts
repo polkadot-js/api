@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isFunction } from '@polkadot/util';
+import { isObservable } from '@polkadot/util';
 
 import ApiRx from './Api';
 
@@ -11,7 +11,7 @@ describe('ApiRx', () => {
     const api = new ApiRx();
 
     expect(
-      isFunction(api.isConnected)
+      isObservable(api.isConnected)
     ).toBe(true);
   });
 });

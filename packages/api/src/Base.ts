@@ -451,14 +451,14 @@ export default abstract class ApiBase<ApiType> {
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
       [this._genesisHash, this._runtimeVersion] = await Promise.all([
-        this._rpcCore.chain.getBlockHash(0),
-        this._rpcCore.chain.getRuntimeVersion()
+        this._rpcCore.chain.getBlockHash(0).toPromise(),
+        this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
       if (metadataKey in metadata) {
         this._runtimeMetadata = new Metadata(metadata[metadataKey]);
       } else {
-        this._runtimeMetadata = await this._rpcCore.state.getMetadata();
+        this._runtimeMetadata = await this._rpcCore.state.getMetadata().toPromise();
       }
 
       // get unique types & validate
