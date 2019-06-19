@@ -44,6 +44,24 @@ describe('Cached Observables', () => {
     expect(observable2).not.toBe(observable1);
   });
 
+  it('clears cache if there are no more subscribers', () => {
+    const observable1 = rpc.chain.subscribeNewHead();
+    const observable2 = rpc.chain.subscribeNewHead();
+
+    expect(observable1).toBe(observable2);
+
+    const sub1 = observable1.subscribe();
+    const sub2 = observable2.subscribe();
+
+    sub1.unsubscribe();
+    sub2.unsubscribe();
+
+    // No more subscribers, now create a new observable
+    const observable3 = rpc.chain.subscribeNewHead();
+
+    expect(observable3).not.toBe(observable1);
+  });
+
   it('creates different observables for different methods but same arguments', () => {
     const observable1 = rpc.chain.subscribeNewHead(123);
     const observable2 = rpc.state.subscribeStorage(123);
