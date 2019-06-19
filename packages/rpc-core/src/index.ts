@@ -126,6 +126,9 @@ export default class Rpc implements RpcInterface {
     const call = (...values: Array<any>): Observable<any> => {
       // TODO Warn on deprecated methods
 
+      // We voluntarily don't cache the "one-shot" RPC calls. For example,
+      // `getStorage('123')` returns the current value, but this value can change
+      // over time, so we wouldn't want to cache the Observable.
       return of(1)
         .pipe(
           map(() => this.formatInputs(method, values)),
