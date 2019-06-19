@@ -134,7 +134,7 @@ export default class CodecSet extends Set<string> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string[] {
     return this.strings;
   }
 

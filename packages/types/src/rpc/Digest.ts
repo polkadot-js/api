@@ -95,7 +95,7 @@ export class ConsensusEngineId extends U32 {
    * @description Override the default toString to return a 4-byte string
    */
   toString (): string {
-    return ConsensusEngineId.idToString(this);
+    return ConsensusEngineId.idToString(this as BN);
   }
 }
 
@@ -372,7 +372,7 @@ export class DigestItem extends Enum {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers. For logs, we overrides to produce the hex version (sligning with substrate gives in actual JSON responses)
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toHex();
   }
 
@@ -423,4 +423,4 @@ export default class Digest extends Struct {
  * @description
  * A [[Header]] Digest
  */
-export class DigestOf extends Digest {}
+export class DigestOf extends Digest { }

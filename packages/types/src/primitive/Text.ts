@@ -17,9 +17,6 @@ import Compact from '../codec/Compact';
  */
 // TODO
 //   - Strings should probably be trimmed (docs do come through with extra padding)
-//   - Potentially we want a "TypeString" extension to this. Basically something that
-//     wraps the `Balance`, `T::AccountId`, etc. The reasoning - with a "TypeString"
-//     we can nicely strip types down like "T::AcountId" -> "AccountId"
 export default class Text extends String implements Codec {
   constructor (value: Text | string | AnyU8a | { toString: () => string } = '') {
     super(
@@ -89,7 +86,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toString();
   }
 

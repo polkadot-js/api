@@ -6,7 +6,7 @@
  * @name Base
  * @description A type extends the Base class, when it holds a value
  */
-export default class Base<T = any> {
+export default class Base<T> {
   protected raw: T;
 
   constructor (value?: any) {

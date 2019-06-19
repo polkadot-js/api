@@ -42,7 +42,7 @@ export default class Null implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): null {
     return null;
   }
 

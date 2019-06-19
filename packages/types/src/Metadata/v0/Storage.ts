@@ -25,7 +25,7 @@ export class StorageFunctionModifier extends Enum {
     return this.toNumber() === 0;
   }
 
-  toJSON (): any {
+  toJSON (): string {
     // This looks prettier in the generated JSON
     return this.toString();
   }

@@ -109,7 +109,7 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.raw.toJSON();
   }
 

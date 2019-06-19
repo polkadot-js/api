@@ -115,7 +115,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string | number {
     return this.raw.toJSON();
   }
 
