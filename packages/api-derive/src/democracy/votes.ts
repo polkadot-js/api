@@ -5,18 +5,18 @@
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { AccountId, VectorAny, Vote } from '@polkadot/types';
+import { AccountId, Vector, Vote } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 
 export function votes (api: ApiInterface$Rx) {
-  return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<VectorAny<Vote>> => {
-    return (
+  return (referendumId: BN, accountIds: Array<AccountId> = []): Observable<Array<Vote>> => {
+    return ((
       !accountIds || !accountIds.length
-        ? of(new VectorAny<Vote>())
+        ? of([])
         : api.query.democracy.voteOf.multi(
-            accountIds.map(accountId => [referendumId, accountId])
-          ) as Observable<VectorAny<Vote>>
-    ).pipe(drr());
+            accountIds.map((accountId) => [referendumId, accountId])
+          )
+     ) as Observable<Vector<Vote>>).pipe(drr());
   };
 }

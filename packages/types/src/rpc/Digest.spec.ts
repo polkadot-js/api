@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import json3 from '../json/Header.003.json';
-import json4 from '../json/Header.004.0x2e2.json';
+import block1 from '../json/SignedBlock.003.00.json';
 import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
 
 describe('Digest', () => {
@@ -22,14 +22,14 @@ describe('Digest', () => {
   });
 
   it('filters logs, excluding items', () => {
-    const logs = new Digest(json4.params.result.digest).logsWith('PreRuntime');
+    const logs = new Digest(block1.result.block.header.digest).logsWith('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('PreRuntime');
   });
 
   it('filters logs, including items', () => {
-    const logs = new Digest(json4.params.result.digest).logsWithout('PreRuntime');
+    const logs = new Digest(block1.result.block.header.digest).logsWithout('PreRuntime');
 
     expect(logs.length).toEqual(1);
     expect(logs[0].type).toEqual('Seal');
@@ -37,7 +37,7 @@ describe('Digest', () => {
 
   describe('ConsensusId', () => {
     it('creates a valid id for aura', () => {
-      expect(ConsensusEngineId.stringToId('afg1')).toEqual(CID_GRPA);
+      expect(ConsensusEngineId.stringToId('FRNK')).toEqual(CID_GRPA);
       expect(ConsensusEngineId.stringToId('aura')).toEqual(CID_AURA);
     });
 

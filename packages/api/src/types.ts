@@ -87,7 +87,7 @@ export interface DecoratedRpc<ApiType> {
   system: DecoratedRpc$Section<ApiType>;
 }
 
-interface StorageFunctionObservable {
+export interface StorageFunctionObservable {
   (arg1?: CodecArg, arg2?: CodecArg): Observable<Codec>;
   <T extends Codec>(arg1?: CodecArg, arg2?: CodecArg): Observable<T>;
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Observable<Codec>;
@@ -106,7 +106,7 @@ export interface StorageFunctionPromiseOverloads {
   <T extends Codec>(arg1: CodecArg, arg2: CodecArg, callback: Callback<T>): UnsubscribePromise;
 }
 
-interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
+export interface StorageFunctionPromise extends StorageFunctionPromiseOverloads {
   at: (hash: Hash | Uint8Array | string, arg1?: CodecArg, arg2?: CodecArg) => Promise<Codec>;
   creator: StorageFunction;
   hash: (arg1?: CodecArg, arg2?: CodecArg) => Promise<Hash>;

@@ -30,16 +30,8 @@ const createRuntimeFunction = (method: string, key: string, { documentation, typ
     }
   );
 
-export const code = createRuntimeFunction('code', ':code', {
-  documentation: 'Wasm code of the runtime.',
-  type: 'Bytes'
-});
-
-export const heapPages = createRuntimeFunction('heapPages', ':heappages', {
-  documentation: 'Number of wasm linear memory pages required for execution of the runtime.',
-  type: 'u64'
-});
-
+// @deprecated: The ':auth:' (authorityPrefix) and ':auth:len' (authorityCount) storage keys
+// have been removed in https://github.com/paritytech/substrate/pull/2802
 export const authorityCount = createRuntimeFunction('authorityCount', ':auth:len', {
   documentation: 'Number of authorities.',
   type: 'u32'
@@ -50,6 +42,16 @@ export const authorityPrefix = createRuntimeFunction('authorityPrefix', ':auth:'
   type: 'u32'
 });
 
+export const code = createRuntimeFunction('code', ':code', {
+  documentation: 'Wasm code of the runtime.',
+  type: 'Bytes'
+});
+
+export const heapPages = createRuntimeFunction('heapPages', ':heappages', {
+  documentation: 'Number of wasm linear memory pages required for execution of the runtime.',
+  type: 'u64'
+});
+
 export const extrinsicIndex = createRuntimeFunction('extrinsicIndex', ':extrinsic_index', {
   documentation: 'Current extrinsic index (u32) is stored under this key.',
   type: 'u32'
@@ -57,5 +59,10 @@ export const extrinsicIndex = createRuntimeFunction('extrinsicIndex', ':extrinsi
 
 export const changesTrieConfig = createRuntimeFunction('changesTrieConfig', ':changes_trie', {
   documentation: 'Changes trie configuration is stored under this key.',
+  type: 'u32'
+});
+
+export const childStorageKeyPrefix = createRuntimeFunction('childStorageKeyPrefix', ':child_storage:', {
+  documentation: 'Prefix of child storage keys.',
   type: 'u32'
 });

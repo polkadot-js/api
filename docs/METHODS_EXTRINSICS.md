@@ -3,8 +3,6 @@
 _The following sections contain Extrinsics methods are part of the default Substrate runtime._
 - **[balances](#balances)**
 
-- **[consensus](#consensus)**
-
 - **[contract](#contract)**
 
 - **[council](#council)**
@@ -23,6 +21,8 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[sudo](#sudo)**
 
+- **[system](#system)**
+
 - **[timestamp](#timestamp)**
 
 - **[treasury](#treasury)**
@@ -33,37 +33,11 @@ ___
 
 ### balances
 
-▸ **setBalance**(who: `Address`, free: `Compact<Balance>`, reserved: `Compact<Balance>`)
-- **summary**:   Set the balances of a given account.   This will alter `FreeBalance` and `ReservedBalance` in storage.  If the new free or reserved balance is below the existential deposit,  it will also decrease the total issuance of the system (`TotalIssuance`)  and reset the account nonce (`system::AccountNonce`).   The dispatch origin for this call is `root`.   # <weight>  - Independent of the arguments.  - Contains a limited number of reads and writes.  # </weight>
+▸ **setBalance**(who: `Address`, new_free: `Compact<Balance>`, new_reserved: `Compact<Balance>`)
+- **summary**:   Set the balances of a given account.   This will alter `FreeBalance` and `ReservedBalance` in storage. it will  also decrease the total issuance of the system (`TotalIssuance`).  If the new free or reserved balance is below the existential deposit,  it will reset the account nonce (`system::AccountNonce`).   The dispatch origin for this call is `root`.   # <weight>  - Independent of the arguments.  - Contains a limited number of reads and writes.  # </weight>
 
 ▸ **transfer**(dest: `Address`, value: `Compact<Balance>`)
 - **summary**:   Transfer some liquid free balance to another account.   `transfer` will set the `FreeBalance` of the sender and receiver.  It will decrease the total issuance of the system by the `TransferFee`.  If the sender's account is below the existential deposit as a result  of the transfer, the account will be reaped.   The dispatch origin for this call must be `Signed` by the transactor.   # <weight>  - Dependent on arguments but not critical, given proper implementations for    input config types. See related functions below.  - It contains a limited number of reads and writes internally and no complex computation.   Related functions:     - `ensure_can_withdraw` is always called internally but has a bounded complexity.    - Transferring balances to accounts that did not exist before will cause       `T::OnNewAccount::on_new_account` to be called.    - Removing enough funds from an account will trigger      `T::DustRemoval::on_unbalanced` and `T::OnFreeBalanceZero::on_free_balance_zero`.   # </weight>
-
-___
-
-
-### consensus
-
-▸ **killStorage**(keys: `Vec<Key>`)
-- **summary**:   Kill some items from storage.
-
-▸ **noteOffline**(offline: `InherentOfflineReport`)
-- **summary**:   Note that the previous block's validator missed its opportunity to propose a block.
-
-▸ **remark**(_remark: `Bytes`)
-- **summary**:   Make some on-chain remark.
-
-▸ **reportMisbehavior**(_report: `Bytes`)
-- **summary**:   Report some misbehavior.
-
-▸ **setCode**(new: `Bytes`)
-- **summary**:   Set the new code.
-
-▸ **setHeapPages**(pages: `u64`)
-- **summary**:   Set the number of pages in the WebAssembly environment's heap.
-
-▸ **setStorage**(items: `Vec<KeyValue>`)
-- **summary**:   Set some items of storage.
 
 ___
 
@@ -211,14 +185,8 @@ ___
 
 ### session
 
-▸ **forceNewSession**(apply_rewards: `bool`)
-- **summary**:   Forces a new session.   Dispatch origin of this call must be _root_.
-
-▸ **setKey**(key: `SessionKey`)
-- **summary**:   Sets the session key of the function caller to `key`.  Allows an account to set its session key prior to becoming a validator.  This doesn't take effect until the next session.   The dispatch origin of this function must be signed.   # <weight>  - O(1).  - One extra DB entry.  # </weight>
-
-▸ **setLength**(new: `Compact<BlockNumber>`)
-- **summary**:   Set a new session length. Won't kick in until the next session change (at current length).   Dispatch origin of this call must be _root_.
+▸ **setKeys**(keys: `Keys`, proof: `Bytes`)
+- **summary**:   Sets the session key(s) of the function caller to `key`.  Allows an account to set its session key prior to becoming a validator.  This doesn't take effect until the next session.   The dispatch origin of this function must be signed.   # <weight>  - O(1).  - One extra DB entry.  # </weight>
 
 ___
 
@@ -226,22 +194,19 @@ ___
 ### staking
 
 ▸ **bond**(controller: `Address`, value: `Compact<BalanceOf>`, payee: `RewardDestination`)
-- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will be the  account that controls it.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.   NOTE: At the moment, there are no financial restrictions to bond  (which creates a bunch of storage items for an account). In essence, nothing prevents many accounts from  spamming `Staking` storage by bonding 1 UNIT. See test case: `bond_with_no_staked_value`.  # </weight>
+- **summary**:   Take the origin account as a stash and lock up `value` of its balance. `controller` will  be the  account that controls it.   The dispatch origin for this call must be _Signed_ by the stash account.   # <weight>  - Independent of the arguments. Moderate complexity.  - O(1).  - Three extra DB entries.   NOTE: Two of the storage writes (`Self::bonded`, `Self::payee`) are _never_ cleaned unless  the `origin` falls below _existential deposit_ and gets removed as dust.   NOTE: At the moment, there are no financial restrictions to bond  (which creates a bunch of storage items for an account). In essence, nothing prevents many accounts from  spamming `Staking` storage by bonding 1 UNIT. See test case: `bond_with_no_staked_value`.  # </weight>
 
 ▸ **bondExtra**(max_additional: `Compact<BalanceOf>`)
-- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up for  staking.   Use this if there are additional funds in your stash account that you wish to bond.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - O(1).  - One DB entry.  # </weight>
+- **summary**:   Add some extra amount that have appeared in the stash `free_balance` into the balance up  for  staking.   Use this if there are additional funds in your stash account that you wish to bond.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - O(1).  - One DB entry.  # </weight>
 
 ▸ **chill**()
 - **summary**:   Declare no desire to either validate or nominate.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains one read.  - Writes are limited to the `origin` account key.  # </weight>
 
-▸ **forceNewEra**(apply_rewards: `bool`)
+▸ **forceNewEra**()
 - **summary**:   Force there to be a new era. This also forces a new session immediately after.  `apply_rewards` should be true for validators to get the session reward.   # <weight>  - Independent of the arguments.  - Triggers the Phragmen election. Expensive but not user-controlled.  - Depends on state: `O(|edges| * |validators|)`.  # </weight>
 
 ▸ **nominate**(targets: `Vec<Address>`)
 - **summary**:   Declare the desire to nominate `targets` for the origin controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - The transaction's complexity is proportional to the size of `targets`,  which is capped at `MAX_NOMINATIONS`.  - Both the reads and writes follow a similar pattern.  # </weight>
-
-▸ **setBondingDuration**(new: `Compact<BlockNumber>`)
-- **summary**:   The length of the bonding duration in eras.
 
 ▸ **setController**(controller: `Address`)
 - **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the stash, not the controller.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
@@ -254,9 +219,6 @@ ___
 
 ▸ **setPayee**(payee: `RewardDestination`)
 - **summary**:   (Re-)set the payment target for a controller.   Effects will be felt at the beginning of the next era.   The dispatch origin for this call must be _Signed_ by the controller, not the stash.   # <weight>  - Independent of the arguments. Insignificant complexity.  - Contains a limited number of reads.  - Writes are limited to the `origin` account key.  # </weight>
-
-▸ **setSessionsPerEra**(new: `Compact<BlockNumber>`)
-- **summary**:   Set the number of sessions in an era.
 
 ▸ **setValidatorCount**(new: `Compact<u32>`)
 - **summary**:   The ideal number of validators.
@@ -280,6 +242,26 @@ ___
 
 ▸ **sudo**(proposal: `Proposal`)
 - **summary**:   Authenticates the sudo key and dispatches a function call with `Root` origin.   The dispatch origin for this call must be _Signed_.   # <weight>  - O(1).  - Limited storage reads.  - No DB writes.  # </weight>
+
+___
+
+
+### system
+
+▸ **killStorage**(keys: `Vec<Key>`)
+- **summary**:   Kill some items from storage.
+
+▸ **remark**(_remark: `Bytes`)
+- **summary**:   Make some on-chain remark.
+
+▸ **setCode**(new: `Bytes`)
+- **summary**:   Set the new code.
+
+▸ **setHeapPages**(pages: `u64`)
+- **summary**:   Set the number of pages in the WebAssembly environment's heap.
+
+▸ **setStorage**(items: `Vec<KeyValue>`)
+- **summary**:   Set some items of storage.
 
 ___
 

@@ -135,7 +135,7 @@ ___
 
 ### grandpa
 
-▸ **NewAuthorities**(`Vec<(SessionKey,u64)>`)
+▸ **NewAuthorities**(`Vec<(AuthorityId,u64)>`)
 - **summary**:   New authority set has been applied.
 
 ___
@@ -151,7 +151,7 @@ ___
 
 ### session
 
-▸ **NewSession**(`BlockNumber`)
+▸ **NewSession**(`SessionIndex`)
 - **summary**:   New session has happened. Note that the argument is the session index, not the block  number as the type might suggest.
 
 ___
