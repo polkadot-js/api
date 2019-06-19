@@ -19,42 +19,41 @@ describe.skip('e2e Alexander - Polkadot', () => {
   });
 
   it('subscribes to storage', (done) => {
-    return (
-      rpc.state
-        .subscribeStorage(
-        [
-            [storage.system.accountNonce, randomAccount],
-            [storage.session.currentIndex]
-        ],
-          (data: StorageChangeSet) => {
-            expect(data).toHaveLength(2);
-            expect(data).toEqual(
-              expect.arrayContaining([
-                expect.any(BlockNumber),
-                expect.any(Index)
-              ])
-            );
+    rpc.state
+      .subscribeStorage([
+        [storage.system.accountNonce, randomAccount],
+        [storage.session.currentIndex]
+      ])
+      .subscribe((data: StorageChangeSet) => {
+        expect(data).toHaveLength(2);
+        expect(data).toEqual(
+          expect.arrayContaining([
+            expect.any(BlockNumber),
+            expect.any(Index)
+          ])
+        );
 
-            done();
-          }).subscribe((subscriptionId: number) => {
-            console.log('stoarge subscriptionId =', subscriptionId);
-          })
-    );
-  });
-
-  it('retrieves a block by hash (krumme lanke #1)', () => {
-    return rpc.chain
-      .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
-      .subscribe((block: SignedBlock) => {
-        expect(block).toBeDefined();
+        done();
       });
   });
 
-  it('retrieves a block by hash (krumme lanke #2)', () => {
-    return rpc.chain
+  it('retrieves a block by hash (krumme lanke #1)', (done) => {
+    rpc.chain
+      .getBlock('0x627847bffdf5f3e01ac440d057dec6a37a12a6f329db7ef8367665574b76b5df')
+      .subscribe((block: SignedBlock) => {
+        expect(block).toBeDefined();
+        expect(block).toBeInstanceOf(SignedBlock);
+        done();
+      });
+  });
+
+  it('retrieves a block by hash (krumme lanke #2)', (done) => {
+    rpc.chain
       .getBlock('0x53416d53a4b1dfcae9165a89d193608e4aa770414f02267f5b2c4015a2e66091')
       .subscribe((block: SignedBlock) => {
         expect(block).toBeDefined();
+        expect(block).toBeInstanceOf(SignedBlock);
+        done();
       });
   });
 });

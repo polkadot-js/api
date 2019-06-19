@@ -15,19 +15,22 @@ describe.skip('e2e basics', () => {
     rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('retrieves the pending extrinsics', () => {
-    return rpc.author
+  it('retrieves the pending extrinsics', (done) => {
+    rpc.author
       .pendingExtrinsics()
       .subscribe((extrinsics: PendingExtrinsics) => {
-        console.log('extrinsics', extrinsics);
+        expect(extrinsics).toBeInstanceOf(PendingExtrinsics);
+        done();
       });
   });
 
-  it('retrieves the system properties', () => {
-    return rpc.system
+  it('retrieves the system properties', (done) => {
+    rpc.system
       .properties()
       .subscribe((properties: ChainProperties) => {
+        expect(properties).toBeInstanceOf(ChainProperties);
         console.log('properties', properties);
+        done();
       });
   });
 });

@@ -19,16 +19,14 @@ describe.skip('e2e subscriptions', () => {
   it('retrieves current timestamp', (done) => {
     let count: number = 0;
 
-    return rpc.state
-      .subscribeStorage([[storage.timestamp.now]], (data: StorageChangeSet) => {
+    rpc.state
+      .subscribeStorage([[storage.timestamp.now]])
+      .subscribe((data: StorageChangeSet) => {
         expect(data).toBeDefined();
 
         if (++count === 3) {
           done();
         }
-      })
-      .subscribe((subscriptionId: number) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
 });

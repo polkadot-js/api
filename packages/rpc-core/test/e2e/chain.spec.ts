@@ -18,25 +18,23 @@ describe.skip('e2e chain', () => {
   it('subscribes via subscribeNewHead', (done) => {
     let count: number = 0;
 
-    // tslint:disable-next-line
     rpc.chain
-      .subscribeNewHead((header: Header) => {
-        expect(header).toBeDefined();
+      .subscribeNewHead()
+      .subscribe((header: Header) => {
+        expect(header).toBeInstanceOf(Header);
 
         if (++count === 3) {
           done();
         }
-      })
-      .subscribe((subscriptionId: number) => {
-        console.log('newHead: subscriptionId =', subscriptionId);
       });
   });
 
-  it('retrieves the runtime version', () => {
-    return rpc.chain
+  it('retrieves the runtime version', (done) => {
+    rpc.chain
       .getRuntimeVersion()
       .subscribe((version: RuntimeVersion) => {
-        console.error('version', version);
+        expect(version).toBeInstanceOf(RuntimeVersion);
+        done();
       });
   });
 });
