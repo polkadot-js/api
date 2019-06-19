@@ -192,7 +192,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toHex();
   }
 

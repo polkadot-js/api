@@ -15,6 +15,7 @@ export type IKeyringPair = {
   sign: (data: Uint8Array) => Uint8Array;
 };
 
+interface CodecArgArray extends Array<CodecArg> { }
 export type CodecArg = Codec | BN | Boolean | String | Uint8Array | boolean | number | string | undefined | CodecArgArray | CodecArgObject;
 
 export type Callback<T> = (result: T) => void | Promise<void>;
@@ -23,8 +24,6 @@ interface CodecArgObject {
   [index: string]: CodecArg;
 }
 
-interface CodecArgArray extends Array<CodecArg> { }
-
 export type AnyFunction = (...args: any[]) => any;
 
 export type AnyNumber = BN | Uint8Array | number | string;
@@ -32,6 +31,10 @@ export type AnyNumber = BN | Uint8Array | number | string;
 export type AnyString = string | String;
 
 export type AnyU8a = Uint8Array | Array<number> | string;
+
+export type AnyJsonObject = { [key: string]: AnyJson };
+export interface AnyJsonArray extends Array<AnyJson> { }
+export type AnyJson = string | number | boolean | null | undefined | AnyJsonObject | AnyJsonArray;
 
 /**
  * @name Codec
@@ -64,7 +67,7 @@ export interface Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any;
+  toJSON (): AnyJson;
 
   /**
    * @description Returns the base runtime type name for this instance

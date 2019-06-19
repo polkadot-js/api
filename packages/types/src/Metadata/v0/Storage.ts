@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../../types';
+import { AnyJson, AnyNumber } from '../../types';
 
 import { assert } from '@polkadot/util';
 
@@ -25,7 +25,7 @@ export class StorageFunctionModifier extends Enum {
     return this.toNumber() === 0;
   }
 
-  toJSON (): any {
+  toJSON (): string {
     // This looks prettier in the generated JSON
     return this.toString();
   }

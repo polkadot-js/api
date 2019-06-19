@@ -50,7 +50,7 @@ export default class AccountId extends U8aFixed {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toString();
   }
 

@@ -5,7 +5,7 @@
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
-import { Codec } from '../types';
+import { AnyJsonArray, Codec } from '../types';
 import { compareArray } from './utils';
 
 /**
@@ -64,7 +64,7 @@ export default abstract class AbstractArray<T extends Codec> extends Array<T> im
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): AnyJsonArray {
     return this.map((entry) =>
       entry.toJSON()
     );

@@ -64,7 +64,7 @@ export default class Bool extends Boolean implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): boolean {
     return this.valueOf();
   }
 

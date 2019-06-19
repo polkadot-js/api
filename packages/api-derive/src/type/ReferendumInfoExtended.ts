@@ -4,6 +4,7 @@
 
 import BN from 'bn.js';
 import { ReferendumInfo, ReferendumIndex } from '@polkadot/types';
+import { AnyJsonObject } from '@polkadot/types/types';
 
 /**
  * @name ReferendumInfoExtended
@@ -31,7 +32,7 @@ export default class ReferendumInfoExtended extends ReferendumInfo {
   /**
    * @description Creates the JSON representation
    */
-  toJSON (): any {
+  toJSON (): AnyJsonObject {
     return {
       ...super.toJSON(),
       index: this.index.toJSON()

@@ -7,7 +7,7 @@ import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactTo
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import Moment from '../primitive/Moment';
-import { AnyNumber, Codec, Constructor } from '../types';
+import { AnyJson, AnyNumber, Codec, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 import UInt from './UInt';
@@ -115,7 +115,7 @@ export default class Compact extends Base<UInt | Moment> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string | number {
     return this.raw.toJSON();
   }
 

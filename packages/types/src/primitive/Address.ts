@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToHex, u8aToU8a, u8aToBn } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
 
-import { Codec } from '../types';
+import { AnyJson, Codec } from '../types';
 import Base from '../codec/Base';
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
@@ -109,7 +109,7 @@ export default class Address extends Base<AccountId | AccountIndex> implements C
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.raw.toJSON();
   }
 

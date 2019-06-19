@@ -89,7 +89,7 @@ export default class Text extends String implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toString();
   }
 

@@ -4,7 +4,7 @@
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a, Codec } from '../types';
+import { AnyJson, AnyU8a, Codec } from '../types';
 
 /**
  * @name U8a
@@ -84,7 +84,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toHex();
   }
 
