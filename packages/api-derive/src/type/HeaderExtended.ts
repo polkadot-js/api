@@ -68,7 +68,7 @@ export default class HeaderExtended extends Header {
    */
   toJSON (): AnyJsonObject {
     return {
-      ...super.toJSON(),
+      ...super.toJSON() as AnyJsonObject,
       author: this.author
         ? this.author.toJSON()
         : undefined

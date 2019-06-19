@@ -218,7 +218,9 @@ export default class Struct<
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): AnyJsonObject {
+  toJSON (): AnyJsonObject | string {
+    // FIXME the return type string is only used by Extrinsic (extends Struct),
+    // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
       const value = this.get(key);

@@ -4,7 +4,7 @@
 
 import { isU8a, isUndefined, u8aToHex, u8aToU8a } from '@polkadot/util';
 
-import { AnyJson, AnyU8a, Codec } from '../types';
+import { AnyU8a, Codec } from '../types';
 
 /**
  * @name U8a

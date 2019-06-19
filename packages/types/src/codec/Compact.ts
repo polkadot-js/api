@@ -7,7 +7,7 @@ import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactTo
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
 
 import Moment from '../primitive/Moment';
-import { AnyJson, AnyNumber, Codec, Constructor } from '../types';
+import { AnyNumber, Codec, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
 import UInt from './UInt';

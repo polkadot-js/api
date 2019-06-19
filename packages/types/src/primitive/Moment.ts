@@ -6,7 +6,7 @@ import BN from 'bn.js';
 import { bnToBn, bnToHex, bnToU8a, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 import { UIntBitLength } from '../codec/AbstractInt';
-import { AnyJson, AnyNumber, Codec } from '../types';
+import { AnyNumber, Codec } from '../types';
 
 const BITLENGTH: UIntBitLength = 64;
 
@@ -94,7 +94,9 @@ export default class Moment extends Date implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): number {
+  toJSON (): any {
+    // FIXME Return type should be number, but conflicts with Date.toJSON()
+    // which returns string
     return this.toNumber();
   }
 

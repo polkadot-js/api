@@ -34,7 +34,7 @@ export default class ReferendumInfoExtended extends ReferendumInfo {
    */
   toJSON (): AnyJsonObject {
     return {
-      ...super.toJSON(),
+      ...super.toJSON() as AnyJsonObject,
       index: this.index.toJSON()
     };
   }
