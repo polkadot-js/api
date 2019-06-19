@@ -16,17 +16,20 @@ import { drr } from '../util/drr';
  */
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedContractFees> => {
+    const queryBase = api.query.contracts || api.query.contract;
+
+    // FIXME A numnber of these are being moved https://github.com/paritytech/substrate/pull/2883
     return (api.queryMulti([
-      api.query.contract.callBaseFee,
-      api.query.contract.contractFee,
-      api.query.contract.createBaseFee,
-      api.query.contract.creationFee,
-      api.query.contract.rentByteFee,
-      api.query.contract.rentDepositOffset,
-      api.query.contract.transactionBaseFee,
-      api.query.contract.transactionByteFee,
-      api.query.contract.transferFee,
-      api.query.contract.tombstoneDeposit
+      queryBase.callBaseFee,
+      queryBase.contractFee,
+      queryBase.createBaseFee,
+      queryBase.creationFee,
+      queryBase.rentByteFee,
+      queryBase.rentDepositOffset,
+      queryBase.transactionBaseFee,
+      queryBase.transactionByteFee,
+      queryBase.transferFee,
+      queryBase.tombstoneDeposit
     ]) as any as Observable<Array<BN>>).pipe(
       map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, transactionBaseFee, transactionByteFee, transferFee, tombstoneDeposit]) => ({
         callBaseFee,

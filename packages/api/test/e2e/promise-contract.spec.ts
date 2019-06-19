@@ -46,7 +46,7 @@ describe.skip('Promise e2e contracts', () => {
 
     it('allows putCode', (done) => {
       return (
-        api.tx.contract
+        api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
           .signAndSend(keyring.eve, (result: SubmittableResult) => {
             console.error('putCode', JSON.stringify(result));
@@ -68,7 +68,7 @@ describe.skip('Promise e2e contracts', () => {
       expect(codeHash).toBeDefined();
 
       return (
-        api.tx.contract
+        api.tx.contracts
           .create(12345, MAX_GAS, codeHash, abi.deploy())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('create', JSON.stringify(result));
@@ -90,7 +90,7 @@ describe.skip('Promise e2e contracts', () => {
       expect(address).toBeDefined();
 
       return (
-        api.tx.contract
+        api.tx.contracts
           .call(address, 12345, MAX_GAS, abi.messages.flip())
           .signAndSend(keyring.bob, (result: SubmittableResult) => {
             console.error('call', JSON.stringify(result));

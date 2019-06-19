@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import * as accounts from './accounts';
 import * as balances from './balances';
 import * as chain from './chain';
-import * as contract from './contract';
+import * as contracts from './contracts';
 import * as democracy from './democracy';
 import * as session from './session';
 import * as staking from './staking';
@@ -59,7 +59,7 @@ function injectFunctions<AllSections> (api: ApiInterface$Rx, allSections: AllSec
     }, {} as DeriveSections<AllSections>);
 }
 
-export const derive = { accounts, balances, chain, contract, democracy, session, staking };
+export const derive = { accounts, balances, chain, contracts, democracy, session, staking };
 export type Derive = typeof derive;
 
 export default function decorateDerive (api: ApiInterface$Rx, custom: DeriveCustom = {}) {
