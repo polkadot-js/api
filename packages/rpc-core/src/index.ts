@@ -126,9 +126,12 @@ export default class Rpc implements RpcInterface {
     const call = (...values: Array<any>): Observable<any> => {
       // TODO Warn on deprecated methods
 
-      // We voluntarily don't cache the "one-shot" RPC calls. For example,
-      // `getStorage('123')` returns the current value, but this value can change
-      // over time, so we wouldn't want to cache the Observable.
+      // Here, logically, it should be `of(this.formatInputs(method, values))`.
+      // However, formatInputs can throw, and when it does, the above way
+      // doesn't throw in the "Observable loop" (which is internally wrapped in
+      // a try/catch block). So we:
+      // - first do `of(1)` - won't throw
+      // - then do `map(()=>this.formatInputs)` - might throw, but inside Observable.
       return of(1)
         .pipe(
           map(() => this.formatInputs(method, values)),
@@ -151,6 +154,9 @@ export default class Rpc implements RpcInterface {
         );
     };
 
+    // We voluntarily don't cache the "one-shot" RPC calls. For example,
+    // `getStorage('123')` returns the current value, but this value can change
+    // over time, so we wouldn't want to cache the Observable.
     return call as RpcInterface$Method;
   }
 
