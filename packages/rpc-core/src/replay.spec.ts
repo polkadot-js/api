@@ -2,84 +2,65 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import MockProvider from '@polkadot/rpc-provider/mock';
 
-import { RpcInterface$Section } from '@polkadot/rpc-core/types';
-
-jest.mock('@polkadot/rpc-provider/ws', () => class {
-  isConnected = () => true;
-  on = () => true;
-  send = () => true;
-});
-
-import RpcRx from '.';
+import Rpc from '.';
 
 describe('replay', () => {
-  const params = [123, false];
-  let api: RpcRx;
-  let section: RpcInterface$Section;
-  let observable: Observable<any>;
-  let update: any;
+  let rpc: Rpc;
 
   beforeEach(() => {
-    api = new RpcRx();
+    rpc = new Rpc(new MockProvider());
   });
 
-  beforeEach(() => {
-    const subMethod: any = jest.fn((name, ...params) => {
-      update = params.pop();
+  it('subscribes via the rpc section', (done) => {
+    rpc.chain.getBlockHash = jest.fn(() => of(1));
 
-      return Promise.resolve(12345);
-    });
-
-    subMethod.unsubscribe = jest.fn(() => {
-      return Promise.resolve(true);
-    });
-
-    section = {
-      subMethod
-    };
-
-    // @ts-ignore
-    observable = api.createObservable('subMethod', section)(...params);
-  });
-
-  it('subscribes via the api section', (done) => {
-    observable.subscribe((value) => {
+    rpc.chain.getBlockHash(123, false).subscribe((value) => {
       if (value) {
         expect(
-          section.subMethod
-        ).toHaveBeenCalledWith(123, false, expect.anything());
+          rpc.chain.getBlockHash
+        ).toHaveBeenCalledWith(123, false);
 
         done();
       }
     });
-
-    update('test');
   });
 
   it('returns the observable value', (done) => {
-    observable.subscribe((value) => {
+    rpc.system.chain().subscribe((value) => {
       if (value) {
-        expect(value).toEqual('test');
+        expect(value).toEqual('mockChain'); // Defined in MockProvider
         done();
       }
     });
+  });
 
-    update('test');
+  it('replay(1) works as expected', (done) => {
+    const observable = rpc.system.chain();
+    let a: string | undefined;
+    observable.subscribe((value) => { a = value; });
+
+    setTimeout(() => {
+      // Subscribe again to the same observable, it should fire value immediately
+      observable.subscribe((value) => {
+        expect(value).toEqual(a);
+        done();
+      });
+    }, 1000);
   });
 
   it('unsubscribes as required', (done) => {
-    section.subMethod.unsubscribe = async () => {
-      done();
-    };
+    rpc.provider.unsubscribe = jest.fn();
 
-    let subscription = observable.subscribe((value) => {
-      if (value) {
-        subscription.unsubscribe();
-      }
+    const subscription = rpc.chain.subscribeNewHead().subscribe(() => {
+      subscription.unsubscribe();
+      // There's a promise inside .unsubscribe(), wait a bit
+      setTimeout(() => {
+        expect(rpc.provider.unsubscribe).toHaveBeenCalled();
+        done();
+      }, 200);
     });
-
-    update('test');
   });
 });

@@ -48,7 +48,7 @@ const EMPTY_META = {
  * ```
  */
 export default class Rpc implements RpcInterface {
-  private _provider: ProviderInterface;
+  readonly provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
   readonly state: RpcInterface$Section;
@@ -62,7 +62,7 @@ export default class Rpc implements RpcInterface {
   constructor (provider: ProviderInterface) {
     assert(provider && isFunction(provider.send), 'Expected Provider to API create');
 
-    this._provider = provider;
+    this.provider = provider;
 
     this.author = this.createInterface(interfaces.author);
     this.chain = this.createInterface(interfaces.chain);
@@ -94,17 +94,10 @@ export default class Rpc implements RpcInterface {
   }
 
   /**
-   * The underlying RPC provider.
-   */
-  get provider (): ProviderInterface {
-    return this._provider;
-  }
-
-  /**
    * @description Manually disconnect from the attached provider
    */
   disconnect (): void {
-    this._provider.disconnect();
+    this.provider.disconnect();
   }
 
   private createErrorMessage (method: RpcMethod, error: Error) {
@@ -138,7 +131,7 @@ export default class Rpc implements RpcInterface {
           switchMap((params) =>
             combineLatest([
               of(params),
-              from(this._provider.send(rpcName, params.map((param) => param.toJSON())))
+              from(this.provider.send(rpcName, params.map((param) => param.toJSON())))
             ])
           ),
           map(([params, result]) => this.formatOutput(method, params, result)),
@@ -164,7 +157,7 @@ export default class Rpc implements RpcInterface {
     const subType = `${method.section}_${updateType}`;
 
     const call = (...values: Array<any>): Observable<any> => {
-      return Observable.create(async (observer: Observer<any>) => {
+      return new Observable((observer: Observer<any>) => {
         let subscriptionPromise: Promise<number>;
 
         try {
@@ -179,7 +172,7 @@ export default class Rpc implements RpcInterface {
             observer.next(this.formatOutput(method, params, result));
           };
 
-          subscriptionPromise = this._provider.subscribe(subType, subName, paramsJson, update);
+          subscriptionPromise = this.provider.subscribe(subType, subName, paramsJson, update);
         } catch (error) {
           const message = this.createErrorMessage(method, error);
 
@@ -188,10 +181,10 @@ export default class Rpc implements RpcInterface {
           observer.error(new ExtError(message, (error as ExtError).code, undefined));
         }
 
-        // Return the unsubscribe function
+        // Teardown logic
         return () => {
           subscriptionPromise
-            .then((subscriptionId) => this._provider.unsubscribe(subType, unsubName, subscriptionId))
+            .then((subscriptionId) => this.provider.unsubscribe(subType, unsubName, subscriptionId))
             .catch((error: Error) => {
               const message = this.createErrorMessage(method, error);
 
@@ -199,8 +192,8 @@ export default class Rpc implements RpcInterface {
             });
         };
       }).pipe(
-        publishReplay(1), // create a Replay(1)
-        refCount() // Unsubcribe WS when there are no more subscribers
+        publishReplay(1),
+        refCount()
       );
     };
 
