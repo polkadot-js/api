@@ -582,6 +582,7 @@ export default abstract class ApiBase<ApiType> {
         (...args: Array<any>) => {
 
           return this._rpcCore.state
+            // Unfortunately for one-shot calls we also use .subscribeStorage here
             .subscribeStorage([
               creator.meta.type.isDoubleMap
                 ? [creator, args]

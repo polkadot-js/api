@@ -184,6 +184,17 @@ export default class Rpc implements RpcInterface {
 
         // Teardown logic
         return () => {
+          // Delete from cache
+          // Reason:
+          // ```
+          //    const s = api.query.system.accountNonce(addr1).subscribe(); // let's say it's 6
+          //    s.unsubscribe();
+          //    // wait a bit, for the nonce to increase to 7
+          //    api.query.system.accountNonce(addr1).subscribe(); // will output 6 instead of 7 if we don't clear cache
+          //    // that's because all our observables are replay(1)
+          // ```
+          memoized.delete(...values);
+          // Unsubscribe from provider
           subscriptionPromise
             .then((subscriptionId) => this.provider.unsubscribe(subType, unsubName, subscriptionId))
             .catch((error: Error) => {
@@ -198,18 +209,16 @@ export default class Rpc implements RpcInterface {
       );
     };
 
-    return memoize(call, {
+    const memoized = memoize(call, {
       // Dynamic length for argument
       length: false,
       // Normalize args so that different args that should be cached
       // together are cached together.
       // E.g.: `query.my.method('abc') === query.my.method(new AccountId('abc'));`
-      normalizer: (args) => {
-        // `args` is arguments object as accessible in memoized function
-        return JSON.stringify(args);
-      }
-    }
-    );
+      normalizer: JSON.stringify
+    });
+
+    return memoized;
   }
 
   private formatInputs (method: RpcMethod, inputs: Array<any>): Array<Codec> {
