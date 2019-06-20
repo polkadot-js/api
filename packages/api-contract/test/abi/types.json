@@ -6,7 +6,7 @@
   "messages": [
     {
       "name": "primitive",
-      "selector": 1111,
+      "selector": 11111,
       "mutates": true,
       "args": [
         {
