@@ -5,7 +5,7 @@
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { Codec, Constructor } from '../types';
+import { AnyJson, Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
 
 /**
@@ -111,7 +111,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): AnyJson {
     return this.raw.toJSON();
   }
 
@@ -163,7 +163,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns the value that the Option represents (if available) or defaultValue if none
    * @param defaultValue The value to return if the option isNone
    */
-  unwrapOr <O> (defaultValue: O): T | O {
+  unwrapOr<O> (defaultValue: O): T | O {
     return this.isSome
       ? this.unwrap()
       : defaultValue;

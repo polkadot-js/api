@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Header, u64 } from '@polkadot/types';
+import { AnyJsonObject } from '@polkadot/types/types';
 
 /**
  * @name HeaderExtended
@@ -65,9 +66,9 @@ export default class HeaderExtended extends Header {
   /**
    * @description Creates the JSON representation
    */
-  toJSON (): any {
+  toJSON (): AnyJsonObject {
     return {
-      ...super.toJSON(),
+      ...super.toJSON() as AnyJsonObject,
       author: this.author
         ? this.author.toJSON()
         : undefined

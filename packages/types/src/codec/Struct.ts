@@ -4,7 +4,7 @@
 
 import { hexToU8a, isHex, isObject, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
-import { Codec, Constructor, ConstructorDef } from '../types';
+import { AnyJsonObject, Codec, Constructor, ConstructorDef } from '../types';
 import { compareMap, decodeU8a } from './utils';
 
 /**
@@ -218,7 +218,9 @@ export default class Struct<
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): AnyJsonObject | string {
+    // FIXME the return type string is only used by Extrinsic (extends Struct),
+    // but its toJSON is the hex value
     return [...this.keys()].reduce((json, key) => {
       const jsonKey = this._jsonMap.get(key) || key;
       const value = this.get(key);

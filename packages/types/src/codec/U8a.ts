@@ -84,7 +84,7 @@ export default class U8a extends Uint8Array implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): string {
     return this.toHex();
   }
 

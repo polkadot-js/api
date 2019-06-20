@@ -95,6 +95,8 @@ export default class Moment extends Date implements Codec {
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
   toJSON (): any {
+    // FIXME Return type should be number, but conflicts with Date.toJSON()
+    // which returns string
     return this.toNumber();
   }
 

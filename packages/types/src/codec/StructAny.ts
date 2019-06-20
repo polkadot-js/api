@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec } from '../types';
+import { AnyJsonObject, Codec } from '../types';
 
 import { isUndefined } from '@polkadot/util';
 
@@ -71,7 +71,7 @@ export default class StructAny extends Map<string, any> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): AnyJsonObject {
     return [...this.entries()].reduce((json, [key, value]) => {
       json[key] = value;
 

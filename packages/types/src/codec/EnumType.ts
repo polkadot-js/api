@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Codec, Constructor } from '../types';
+import { AnyJson, Codec, Constructor } from '../types';
 
 import { assert, hexToU8a, isHex, isNumber, isObject, isString, isU8a, isUndefined, u8aConcat, u8aToHex } from '@polkadot/util';
 
@@ -205,7 +205,7 @@ export default class Enum extends Base<Codec> implements Codec {
   /**
    * @description Converts the Object to JSON, typically used for RPC transfers
    */
-  toJSON (): any {
+  toJSON (): AnyJson {
     return this._isBasic
       ? this._index
       : { [this.type]: this.raw.toJSON() };
