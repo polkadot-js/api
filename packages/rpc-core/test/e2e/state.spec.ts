@@ -22,81 +22,66 @@ const CODE = '0x3a636f6465'; // :code
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
 describe.skip('e2e state', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('getMetadata(): retrieves the wasm metadata', () => {
-    return api.state
+  it('getMetadata(): retrieves the wasm metadata', (done) => {
+    rpc.state
       .getMetadata()
-      .then((meta: Metadata) => {
+      .subscribe((meta: Metadata) => {
         console.error(JSON.stringify(meta.toJSON()));
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
+        done();
       });
   });
 
-  it('getKeys(): retrieves storage keys for ":code"', () => {
-    return api.state
+  it('getKeys(): retrieves storage keys for ":code"', (done) => {
+    rpc.state
       .getKeys(CODE)
-      .then((keys: Array<StorageKey>) => {
+      .subscribe((keys: Array<StorageKey>) => {
         expect(keys.length).toEqual(1);
+        done();
       });
   });
 
   describe('test-suite getStorage()', () => {
-    it('retrieves code', () => {
-      return api.state
+    it('retrieves code', (done) => {
+      rpc.state
         .getStorage([
           storage.substrate.code
         ])
-        .then((code: Bytes) => {
+        .subscribe((code: Bytes) => {
           console.error(code.toHex().substr(0, 256), '...');
-        })
-        .catch((error) => {
-          console.error(error);
-
-          throw error;
+          done();
         });
     });
 
-    it('retrieves balances', () => {
-      return api.state
+    it('retrieves balances', (done) => {
+      rpc.state
         .getStorage([
           storage.balances.freeBalance, ALICE
         ])
-        .then((balance: Balance) => {
+        .subscribe((balance: Balance) => {
           console.error(balance);
 
           expect(balance.isZero()).not.toEqual(true);
-        })
-        .catch((error) => {
-          console.error(error);
-
-          throw error;
+          done();
         });
     });
 
-    it('retrieves timestamp', () => {
-      return api.state
+    it('retrieves timestamp', (done) => {
+      rpc.state
         .getStorage([
           storage.timestamp.now
         ])
-        .then((moment: Moment) => {
+        .subscribe((moment: Moment) => {
           console.error(moment);
 
           expect(moment.toNumber()).not.toEqual(0);
-        })
-        .catch((error) => {
-          console.error(error);
-
-          throw error;
+          done();
         });
     });
   });
@@ -134,46 +119,50 @@ describe.skip('e2e state', () => {
       });
     });
 
-    it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async () => {
-      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
+    it('getChildKeys(): retrieves :child_storage: keys for one deployed flipper contract', async (done) => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
 
-      return api.state
+      rpc.state
         .getChildKeys(storageKeys[0], '0x')
-        .then((keys: Array<StorageKey>) => {
+        .subscribe((keys: Array<StorageKey>) => {
           expect(keys.length).toBeGreaterThanOrEqual(1);
+          done();
         });
     });
 
-    it('getChildStorage(): retrieves the default value of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
-      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
+    it('getChildStorage(): retrieves the default value of the flipper smart contract', async (done) => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
-      return api.state
+      rpc.state
         .getChildStorage(storageKeys[0], childStorageKeys[0])
-        .then((storage: StorageData) => {
+        .subscribe((storage: StorageData) => {
           expect(storage.toString()).toBe('0x00');
+          done();
         });
     });
 
-    it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
-      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
+    it('getChildStorageHash(): retrieves the Hash of the flipper smart contract', async (done) => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
-      return api.state
+      rpc.state
         .getChildStorageHash(storageKeys[0], childStorageKeys[0])
-        .then((storage: StorageData) => {
+        .subscribe((storage: StorageData) => {
           expect(storage.toString()).toBe('0x03170a2e7597b7b7e3d84c05391d139a62b157e78786d8c082f29dcf4c111314');
+          done();
         });
     });
 
-    it('getChildStorageSize(): retrieves the size of the flipper smart contract', async () => {
-      const storageKeys = await api.state.getKeys(CHILD_STORAGE);
-      const childStorageKeys = await api.state.getChildKeys(storageKeys[0], '0x');
+    it('getChildStorageSize(): retrieves the size of the flipper smart contract', async (done) => {
+      const storageKeys = await rpc.state.getKeys(CHILD_STORAGE).toPromise();
+      const childStorageKeys = await rpc.state.getChildKeys(storageKeys[0], '0x').toPromise();
 
-      return api.state
+      rpc.state
         .getChildStorageSize(storageKeys[0], childStorageKeys[0])
-        .then((storage: StorageData) => {
+        .subscribe((storage: StorageData) => {
           expect(storage.toString()).toBe('1');
+          done();
         });
     });
   });

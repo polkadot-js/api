@@ -4,8 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
-import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { RpcRxInterface$Events } from '@polkadot/rpc-rx/types';
+import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
@@ -206,7 +205,7 @@ export interface ApiInterface$Rx {
   signer?: Signer;
 }
 
-export type ApiInterface$Events = RpcRxInterface$Events | 'ready';
+export type ApiInterface$Events = ProviderInterface$Emitted | 'ready';
 
 export type ApiTypes = 'promise' | 'rxjs';
 

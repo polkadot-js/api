@@ -8,36 +8,29 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import Rpc from '../../src';
 
 describe.skip('e2e basics', () => {
-  let api: Rpc;
+  let rpc: Rpc;
 
   beforeEach(() => {
     jest.setTimeout(30000);
-    api = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
+    rpc = new Rpc(new WsProvider('ws://127.0.0.1:9944'));
   });
 
-  it('retrieves the pending extrinsics', () => {
-    return api.author
+  it('retrieves the pending extrinsics', (done) => {
+    rpc.author
       .pendingExtrinsics()
-      .then((extrinsics: PendingExtrinsics) => {
-        console.log('extrinsics', extrinsics);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
+      .subscribe((extrinsics: PendingExtrinsics) => {
+        expect(extrinsics).toBeInstanceOf(PendingExtrinsics);
+        done();
       });
   });
 
-  it('retrieves the system properties', () => {
-    return api.system
+  it('retrieves the system properties', (done) => {
+    rpc.system
       .properties()
-      .then((properties: ChainProperties) => {
+      .subscribe((properties: ChainProperties) => {
+        expect(properties).toBeInstanceOf(ChainProperties);
         console.log('properties', properties);
-      })
-      .catch((error) => {
-        console.error(error);
-
-        throw error;
+        done();
       });
   });
 });

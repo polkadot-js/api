@@ -16,11 +16,11 @@ import Api from '.';
 const ADDR_ONE = '5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo';
 const ADDR_TWO = '5C62W7ELLAAfix9LYrcx5smtcffbhvThkM5x7xfMeYXCtGwF';
 const BALANCE_KEYS = [
-  /* v3- */ '0x4af2c53fce3ec33c6ccccf22e926f1a7',
-  /* v4+ */ '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad'
+  /* v3-, using xxHash */ '0x4af2c53fce3ec33c6ccccf22e926f1a7',
+  /* v4+, using blake2_256 */ '0xec8f96437274a883afcac82d01a9defeb68209cd4f2c084632813692aa5e65ad'
 ];
 
-function formattingTests (version: string, storage: Storage, encodedValues: [String, String]) {
+function formattingTests (version: string, storage: Storage, encodedValues: [string, string]) {
   const [ENC_ONE, ENC_TWO] = encodedValues;
 
   describe(`formatting with Metadata ${version}`, () => {
@@ -36,8 +36,8 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
               : null
           )
         ),
-        subscribe: jest.fn((type, method, params, subscription) =>
-          subscription(null, {
+        subscribe: jest.fn((type, method, params, cb) =>
+          cb(null, {
             block: '0x1234',
             changes: [
               [ENC_ONE, '0x01020000000000000000000000000000'],
@@ -49,10 +49,10 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
       api = new Api(provider);
     });
 
-    it('encodes key (with params), decoding response', () => {
-      return api.state
+    it('encodes key (with params), decoding response', (done) => {
+      api.state
         .getStorage([storage.balances.freeBalance, ADDR_ONE])
-        .then((value) => {
+        .subscribe((value) => {
           expect(
             provider.send
           ).toHaveBeenCalledWith(
@@ -60,42 +60,44 @@ function formattingTests (version: string, storage: Storage, encodedValues: [Str
             [ENC_ONE]
           );
           expect(value.toNumber()).toEqual(513);
+          done();
         });
     });
 
-    it('returns the fallback result on not-found values', () => {
-      return api.state
+    it('returns the fallback result on not-found values', (done) => {
+      api.state
         .getStorage([storage.system.accountNonce, ADDR_ONE])
-        .then((value) => {
+        .subscribe((value) => {
           expect(value.toHex()).toEqual('0x0000000000000000');
+          done();
         });
     });
 
     it('encodes multiple keys, decoding multiple results', (done) => {
-      return api.state.subscribeStorage(
+      api.state.subscribeStorage(
         [
           [storage.balances.freeBalance, ADDR_ONE],
           [storage.balances.freeBalance, ADDR_TWO]
-        ],
-        (value: any) => {
-          console.error(value);
+        ]
+      ).subscribe((value: any) => {
+        console.error(value);
 
-          expect(
-            provider.subscribe
-          ).toHaveBeenCalledWith(
-            'state_storage',
-            'state_subscribeStorage',
-            [[ENC_ONE, ENC_TWO]],
-            expect.anything()
-          );
-          expect(
-            value.map((balance: BN) =>
-              balance.toNumber()
-            )
-          ).toEqual([513, 258]);
+        expect(
+          provider.subscribe
+        ).toHaveBeenCalledWith(
+          'state_storage',
+          'state_subscribeStorage',
+          [[ENC_ONE, ENC_TWO]],
+          expect.anything()
+        );
+        expect(
+          value.map((balance: BN) =>
+            balance.toNumber()
+          )
+        ).toEqual([513, 258]);
 
-          done();
-        });
+        done();
+      });
     });
   });
 }

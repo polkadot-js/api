@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Api from '.';
+import Rpc from '.';
 
 describe('methodSend', () => {
-  let api: Api;
+  let rpc: Rpc;
   let methods: any;
   let provider: any;
 
@@ -33,34 +33,42 @@ describe('methodSend', () => {
       })
     };
 
-    api = new Api(provider);
+    rpc = new Rpc(provider);
   });
 
-  it('wraps errors with the call signature', () => {
+  it('wraps errors with the call signature', (done) => {
     // @ts-ignore private method
-    const method = api.createMethodSend(methods.blah);
+    const method = rpc.createMethodSend(methods.blah);
 
-    return method().catch((error) => {
-      expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
-    });
+    method().subscribe(
+      () => { /* noop */ },
+      (error) => {
+        expect(error.message).toMatch(/blah \(foo: Bytes\): Bytes/);
+        done();
+      }
+    );
   });
 
-  it('checks for mismatched parameters', () => {
+  it('checks for mismatched parameters', (done) => {
     // @ts-ignore private method
-    const method = api.createMethodSend(methods.bleh);
+    const method = rpc.createMethodSend(methods.bleh);
 
-    return method(1).catch((error) => {
-      expect(error.message).toMatch(/parameters, 1 found instead/);
-    });
+    method(1).subscribe(
+      () => { /* noop */ },
+      (error) => {
+        expect(error.message).toMatch(/parameters, 1 found instead/);
+        done();
+      });
   });
 
-  it('calls the provider with the correct parameters', () => {
+  it('calls the provider with the correct parameters', (done) => {
     // @ts-ignore private method
-    const method = api.createMethodSend(methods.blah);
+    const method = rpc.createMethodSend(methods.blah);
 
     // Args are length-prefixed, because it's a Bytes
-    return method(new Uint8Array([2 << 2, 0x12, 0x34])).then(() => {
+    method(new Uint8Array([2 << 2, 0x12, 0x34])).subscribe(() => {
       expect(provider.send).toHaveBeenCalledWith('test_blah', ['0x1234']);
+      done();
     });
   });
 });

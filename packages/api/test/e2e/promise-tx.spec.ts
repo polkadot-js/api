@@ -192,10 +192,12 @@ describe.skip('Promise e2e transactions', () => {
     return (
       api.rpc.chain.subscribeNewHead(async (header: Header) => {
         if (header.blockNumber.toNumber() === eraDeath - 1) {
-          const hash = await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
-
-          expect(hash).toBeUndefined();
-          done();
+          try {
+            await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
+          } catch (error) {
+            expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
+            done();
+          }
         }
       })
     );

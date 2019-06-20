@@ -26,31 +26,31 @@ describe.skip('e2e transfer', () => {
   });
 
   // Error: [1002]: Inherent transactions cannot be queued.
-  it('inherent test', () => {
+  it('inherent test', (done) => {
     const inherent = extrinsics.timestamp.set(Math.round(Date.now() / 1000));
 
-    return api.author.submitExtrinsic(inherent.toU8a()).then(console.log);
+    api.author.submitExtrinsic(inherent.toU8a()).subscribe(done);
   });
 
-  it('makes a transfer for a transaction', () => {
-    return api.chain
+  it('makes a transfer for a transaction', (done) => {
+    api.chain
       .getBlockHash(0)
-      .then((genesisHash) => {
+      .subscribe((genesisHash) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
-        return api.author.submitExtrinsic(extrinsic.toU8a());
+        api.author.submitExtrinsic(extrinsic.toU8a()).subscribe(done);
       });
   });
 
   it('makes a transfer via watch', (done) => {
-    return api.chain
+    api.chain
       .getBlockHash(0)
-      .then((genesisHash) => {
+      .subscribe((genesisHash) => {
         const extrinsic = extrinsics.balances.transfer(keyring.bob.publicKey, 6969) as any;
         extrinsic.sign(keyring.alice, { blockHash: genesisHash, nonce: 0 });
 
-        return api.author.submitAndWatchExtrinsic(extrinsic, (result: SubmittableResult) => {
+        api.author.submitAndWatchExtrinsic(extrinsic).subscribe((result: SubmittableResult) => {
           if (result.status.isFinalized) {
             done();
           }

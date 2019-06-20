@@ -17,8 +17,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
-import RpcBase from '@polkadot/rpc-core';
-import RpcRx from '@polkadot/rpc-rx';
+import RpcCore from '@polkadot/rpc-core';
+import { WsProvider } from '@polkadot/rpc-provider';
 import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
@@ -66,13 +66,13 @@ export default abstract class ApiBase<ApiType> {
   private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
   private _genesisHash?: Hash;
+  protected _isConnected: BehaviorSubject<boolean>;
   private _isReady: boolean = false;
   protected readonly _options: ApiOptions;
   private _query?: QueryableStorage<ApiType>;
   private _queryMulti: QueryableStorageMulti<ApiType>;
   private _rpc: DecoratedRpc<ApiType>;
-  protected _rpcBase: RpcBase; // FIXME These two could be merged https://github.com/polkadot-js/api/issues/642
-  protected _rpcRx: RpcRx; // FIXME These two could be merged https://github.com/polkadot-js/api/issues/642
+  protected _rpcCore: RpcCore;
   private _runtimeMetadata?: Metadata;
   private _runtimeVersion?: RuntimeVersion;
   private _rx: Partial<ApiInterface$Rx> = {};
@@ -101,19 +101,19 @@ export default abstract class ApiBase<ApiType> {
       ? { provider } as ApiOptions
       : provider as ApiOptions;
     const thisProvider = options.source
-      ? options.source._rpcBase._provider.clone()
-      : options.provider;
+      ? options.source._rpcCore.provider.clone()
+      : (options.provider || new WsProvider());
 
     this._options = options;
     this._type = type;
     this._eventemitter = new EventEmitter();
-    this._rpcBase = new RpcBase(thisProvider);
+    this._rpcCore = new RpcCore(thisProvider);
+    this._isConnected = new BehaviorSubject(this._rpcCore.provider.isConnected());
 
     assert(this.hasSubscriptions, 'Api can only be used with a provider supporting subscriptions');
 
-    this._rpcRx = new RpcRx(this._rpcBase._provider);
-    this._rpc = this.decorateRpc(this._rpcRx, this.decorateMethod);
-    this._rx.rpc = this.decorateRpc(this._rpcRx, rxDecorateMethod);
+    this._rpc = this.decorateRpc(this._rpcCore, this.decorateMethod);
+    this._rx.rpc = this.decorateRpc(this._rpcCore, rxDecorateMethod);
     this._queryMulti = this.decorateMulti(this.decorateMethod);
     this._rx.queryMulti = this.decorateMulti(rxDecorateMethod);
     this._rx.signer = options.signer;
@@ -139,7 +139,7 @@ export default abstract class ApiBase<ApiType> {
    * @description `true` when subscriptions are supported
    */
   get hasSubscriptions (): boolean {
-    return this._rpcBase._provider.hasSubscriptions;
+    return this._rpcCore.provider.hasSubscriptions;
   }
 
   /**
@@ -285,7 +285,7 @@ export default abstract class ApiBase<ApiType> {
    * @description Disconnect from the underlying provider, halting all comms
    */
   disconnect (): void {
-    this._rpcBase.disconnect();
+    this._rpcCore.disconnect();
   }
 
   /**
@@ -399,8 +399,9 @@ export default abstract class ApiBase<ApiType> {
   private init (): void {
     let healthTimer: NodeJS.Timeout | null = null;
 
-    this._rpcBase._provider.on('disconnected', () => {
+    this._rpcCore.provider.on('disconnected', () => {
       this.emit('disconnected');
+      this._isConnected.next(false);
 
       if (healthTimer) {
         clearInterval(healthTimer);
@@ -408,12 +409,13 @@ export default abstract class ApiBase<ApiType> {
       }
     });
 
-    this._rpcBase._provider.on('error', (error) => {
+    this._rpcCore.provider.on('error', (error) => {
       this.emit('error', error);
     });
 
-    this._rpcBase._provider.on('connected', async () => {
+    this._rpcCore.provider.on('connected', async () => {
       this.emit('connected');
+      this._isConnected.next(true);
 
       try {
         const [hasMeta, cryptoReady] = await Promise.all([
@@ -428,7 +430,7 @@ export default abstract class ApiBase<ApiType> {
         }
 
         healthTimer = setInterval(() => {
-          this._rpcRx.system.health().toPromise().catch(() => {
+          this._rpcCore.system.health().toPromise().catch(() => {
             // ignore
           });
         }, KEEPALIVE_INTERVAL);
@@ -449,14 +451,14 @@ export default abstract class ApiBase<ApiType> {
     // just use the values from the source instance provided
     if (!this._options.source || !this._options.source._isReady) {
       [this._genesisHash, this._runtimeVersion] = await Promise.all([
-        this._rpcBase.chain.getBlockHash(0),
-        this._rpcBase.chain.getRuntimeVersion()
+        this._rpcCore.chain.getBlockHash(0).toPromise(),
+        this._rpcCore.chain.getRuntimeVersion().toPromise()
       ]);
       const metadataKey = `${this._genesisHash}-${(this._runtimeVersion as RuntimeVersion).specVersion}`;
       if (metadataKey in metadata) {
         this._runtimeMetadata = new Metadata(metadata[metadataKey]);
       } else {
-        this._runtimeMetadata = await this._rpcBase.state.getMetadata();
+        this._runtimeMetadata = await this._rpcCore.state.getMetadata().toPromise();
       }
 
       // get unique types & validate
@@ -503,7 +505,7 @@ export default abstract class ApiBase<ApiType> {
     return output;
   }
 
-  private decorateRpc<ApiType> (rpc: RpcRx, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType> {
+  private decorateRpc<ApiType> (rpc: RpcCore, decorateMethod: ApiBase<ApiType>['decorateMethod']): DecoratedRpc<ApiType> {
     return ['author', 'chain', 'state', 'system'].reduce((result, _sectionName) => {
       const sectionName = _sectionName as keyof DecoratedRpc<ApiType>;
 
@@ -528,7 +530,7 @@ export default abstract class ApiBase<ApiType> {
             : [arg.creator] as any
         );
 
-        return this._rpcRx.state
+        return this._rpcCore.state
           .subscribeStorage(mapped)
           .pipe(map((results) => new VectorAny(...results)));
       });
@@ -579,7 +581,8 @@ export default abstract class ApiBase<ApiType> {
       : decorateMethod(
         (...args: Array<any>) => {
 
-          return this._rpcRx.state
+          return this._rpcCore.state
+            // Unfortunately for one-shot calls we also use .subscribeStorage here
             .subscribeStorage([
               creator.meta.type.isDoubleMap
                 ? [creator, args]
@@ -598,7 +601,7 @@ export default abstract class ApiBase<ApiType> {
     decorated.creator = creator;
 
     decorated.at = decorateMethod(
-      (hash: Hash, arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorage(
+      (hash: Hash, arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorage(
         creator.meta.type.isDoubleMap
           ? [creator, [arg1, arg2]]
           : [creator, arg1],
@@ -606,7 +609,7 @@ export default abstract class ApiBase<ApiType> {
     );
 
     decorated.hash = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageHash(
+      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageHash(
         creator.meta.type.isDoubleMap
           ? [creator, [arg1, arg2]]
           : [creator, arg1])
@@ -618,13 +621,13 @@ export default abstract class ApiBase<ApiType> {
     // When using double map storage function, user need to path double map key as an array
     decorated.multi = decorateMethod(
       (args: Array<CodecArg[] | CodecArg>) =>
-        this._rpcRx.state
+        this._rpcCore.state
           .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
           .pipe(map((results) => new VectorAny(...results)))
     );
 
     decorated.size = decorateMethod(
-      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcRx.state.getStorageSize(
+      (arg1?: CodecArg, arg2?: CodecArg) => this._rpcCore.state.getStorageSize(
         creator.meta.type.isDoubleMap
           ? [creator, [arg1, arg2]]
           : [creator, arg1])
@@ -642,7 +645,7 @@ export default abstract class ApiBase<ApiType> {
     // entries can be re-linked in the middle of a list, we subscribe here to make
     // sure we catch any updates, no matter the list position
     const getNext = (key: Codec): Observable<LinkageResult> => {
-      return this._rpcRx.state.subscribeStorage([[method, key]])
+      return this._rpcCore.state.subscribeStorage([[method, key]])
         .pipe(
           switchMap(([data]: [[Codec, Linkage<Codec>]]) => {
             const linkage = data[1];
@@ -703,7 +706,7 @@ export default abstract class ApiBase<ApiType> {
     // this handles the case where the head changes effectively, i.e. a new entry
     // appears at the top of the list, the new getNext gets kicked off
     return decorateMethod(
-      () => this._rpcRx.state
+      () => this._rpcCore.state
         .subscribeStorage([method.headKey])
         .pipe(
           switchMap(([key]: Array<Codec>) => {
