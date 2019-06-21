@@ -14,7 +14,7 @@ import { AccountId, Address, Hash } from '@polkadot/types';
 
 import Abi from './Abi';
 import Base from './Base';
-import Contract from './Contract';
+import RxContract from './RxContract';
 
 type IBlueprintCreateResultSubscription<ApiType> = Observable<BlueprintCreateResult>;
 
@@ -23,9 +23,9 @@ export interface IBlueprintCreate<ApiType> {
 }
 
 class BlueprintCreateResult extends SubmittableResult {
-  readonly contract?: Contract;
+  readonly contract?: RxContract;
 
-  constructor (result: ISubmittableResult, contract?: Contract) {
+  constructor (result: ISubmittableResult, contract?: RxContract) {
     super(result);
 
     this.contract = contract;
@@ -49,13 +49,13 @@ export default class Blueprint<ApiType = 'rxjs'> extends Base {
         .signAndSend(account)
         .pipe(
           map((result: SubmittableResult) => {
-            let contract: Contract | undefined;
+            let contract: RxContract | undefined;
 
             if (result.isFinalized) {
               const record = result.findRecord('contract', 'Instantiated');
 
               if (record) {
-                contract = new Contract(this.api, this.abi, record.event.data[1] as Address);
+                contract = new RxContract(this.api, this.abi, record.event.data[1] as Address);
               }
             }
 

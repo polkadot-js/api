@@ -21,7 +21,7 @@ export interface IContractCall<ApiType> {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Contract<ApiType = 'rxjs'> extends Base implements IContract {
+export default class RxContract<ApiType = 'rxjs'> extends Base implements IContract {
   readonly address: Address;
   readonly calls: IContract$Calls = {};
 

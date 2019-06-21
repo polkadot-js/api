@@ -15,7 +15,7 @@ import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from './Abi';
 import Base from './Base';
-import Blueprint from './Blueprint';
+import RxBlueprint from './RxBlueprint';
 
 // Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
 // start, so take a big fat shortcut with this version, real intended version
@@ -36,9 +36,9 @@ export interface ICodePutCode<ApiType> {
 }
 
 class CodePutCodeResult extends SubmittableResult {
-  readonly blueprint?: Blueprint;
+  readonly blueprint?: RxBlueprint;
 
-  constructor (result: ISubmittableResult, blueprint?: Blueprint) {
+  constructor (result: ISubmittableResult, blueprint?: RxBlueprint) {
     super(result);
 
     this.blueprint = blueprint;
@@ -46,7 +46,7 @@ class CodePutCodeResult extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Code<ApiType = 'rxjs'> extends Base {
+export default class RxCode<ApiType = 'rxjs'> extends Base {
   readonly code: Uint8Array;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
@@ -62,13 +62,13 @@ export default class Code<ApiType = 'rxjs'> extends Base {
         .signAndSend(account)
         .pipe(
           map((result: ISubmittableResult) => {
-            let blueprint: Blueprint | undefined;
+            let blueprint: RxBlueprint | undefined;
 
             if (result.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
 
               if (record) {
-                blueprint = new Blueprint(this.api, this.abi, record.event.data[0] as Hash);
+                blueprint = new RxBlueprint(this.api, this.abi, record.event.data[0] as Hash);
               }
             }
 
