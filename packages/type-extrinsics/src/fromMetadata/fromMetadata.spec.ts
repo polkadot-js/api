@@ -25,7 +25,7 @@ describe('fromMetadata', () => {
     expect(
       new Extrinsic(
         newExtrinsics.timestamp.set([10101]),
-        Method.getMeta(new Uint8Array([1, 0]), extrinsics)
+        Method.findMeta(new Uint8Array([1, 0]), extrinsics)
       ).toU8a()
     ).toEqual(
       new Uint8Array([

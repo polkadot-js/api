@@ -136,20 +136,15 @@ export default class Method extends Struct implements IMethod {
   //
   // moduleMethods is extracted from the runtime metadata by the API.
   static findFunction (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): MethodFunction {
-    // @TODO Refactor
-    // @TODO Write tests
-    const injected: {[index: string]: MethodFunction} = {};
-
-    Object.values(moduleMethods).forEach((methods) =>
-      Object.values(methods).forEach((method) =>
-        injected[method.callIndex.toString()] = method
-      )
+    const methods = ([] as MethodFunction[]).concat(
+        ...Object.values(moduleMethods).map(methods => Object.values(methods))
     );
 
-    return injected[callIndex.toString()] || FN_UNKNOWN;
+    return methods.find((method: MethodFunction) =>
+      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN;
   }
 
-  static getMeta (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): FunctionMetadataV5 {
+  static findMeta (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): FunctionMetadataV5 {
     return Method.findFunction(callIndex, moduleMethods).meta;
   }
 

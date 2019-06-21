@@ -14,7 +14,7 @@ describe('extrinsics', () => {
     expect(
       new Extrinsic(
         extrinsics.timestamp.set(10101),
-        Method.getMeta(new Uint8Array([1, 0]), extrinsics)
+        Method.findMeta(new Uint8Array([1, 0]), extrinsics)
       ).sign(
         keyring.nobody,
         {
@@ -31,7 +31,7 @@ describe('extrinsics', () => {
     expect(
       new Extrinsic(
         extrinsics.balances.transfer(keyring.bob.publicKey, 6969),
-        Method.getMeta(new Uint8Array([3, 0]), extrinsics)
+        Method.findMeta(new Uint8Array([3, 0]), extrinsics)
       ).sign(keyring.alice, {
         blockHash: '0xec7afaf1cca720ce88c1d1b689d81f0583cc15a97d621cf046dd9abf605ef22f',
         nonce: 0
