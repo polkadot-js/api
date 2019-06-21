@@ -16,10 +16,10 @@ import Abi from './Abi';
 import RxBase from './RxBase';
 import RxContract from './RxContract';
 
-type IBlueprintCreateResultSubscription<ApiType> = Observable<BlueprintCreateResult>;
+type IBlueprintCreateResultSubscription = Observable<BlueprintCreateResult>;
 
-export interface IBlueprintCreate<ApiType> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription<ApiType>;
+export interface IBlueprintCreate {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription;
 }
 
 class BlueprintCreateResult extends SubmittableResult {
@@ -33,7 +33,7 @@ class BlueprintCreateResult extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class Blueprint<ApiType = 'rxjs'> extends RxBase {
+export default class Blueprint extends RxBase {
   readonly codeHash: Hash;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, codeHash: string | Hash) {
@@ -42,8 +42,8 @@ export default class Blueprint<ApiType = 'rxjs'> extends RxBase {
     this.codeHash = new Hash(codeHash);
   }
 
-  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: Array<any>): IBlueprintCreate<ApiType> {
-    const signAndSend = (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription<ApiType> => {
+  public deployContract (endowment: number | BN, maxGas: number | BN, ...params: Array<any>): IBlueprintCreate {
+    const signAndSend = (account: IKeyringPair | string | AccountId | Address): IBlueprintCreateResultSubscription => {
       return this.apiContracts
         .create(endowment, maxGas, this.codeHash, this.abi.deploy(...params))
         .signAndSend(account)

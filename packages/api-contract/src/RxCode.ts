@@ -20,7 +20,7 @@ import RxBlueprint from './RxBlueprint';
 // Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
 // start, so take a big fat shortcut with this version, real intended version
 // follows this and is commented out
-type ICodePutCodeResultSubscription<ApiType> = Observable<CodePutCodeResult>;
+type ICodePutCodeResultSubscription = Observable<CodePutCodeResult>;
 // type ICodePutCodeResultSubscription<ApiType> =
 //   ApiType extends 'rxjs'
 //     ? Observable<CodePutCodeResult>
@@ -31,8 +31,8 @@ type ICodePutCodeResultSubscription<ApiType> = Observable<CodePutCodeResult>;
 // is hanging where, with the bare-mainimum from a simplicity perspective
 // Very obvious is that it supports only 1 version of signAndSend
 // (we need to revisit this, but probably ok for initial?)
-export interface ICodePutCode<ApiType> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType>;
+export interface ICodePutCode {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription;
 }
 
 class CodePutCodeResult extends SubmittableResult {
@@ -46,7 +46,7 @@ class CodePutCodeResult extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class RxCode<ApiType = 'rxjs'> extends RxBase {
+export default class RxCode extends RxBase {
   readonly code: Uint8Array;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
@@ -55,8 +55,8 @@ export default class RxCode<ApiType = 'rxjs'> extends RxBase {
     this.code = u8aToU8a(wasm);
   }
 
-  public createBlueprint (maxGas: number | BN): ICodePutCode<ApiType> {
-    const signAndSend = (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType> => {
+  public createBlueprint (maxGas: number | BN): ICodePutCode {
+    const signAndSend = (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription => {
       return this.apiContracts
         .putCode(maxGas, compactAddLength(this.code))
         .signAndSend(account)

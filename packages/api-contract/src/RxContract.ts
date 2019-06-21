@@ -14,14 +14,14 @@ import { AccountId, Address } from '@polkadot/types';
 import Abi from './Abi';
 import RxBase from './RxBase';
 
-export type IContractCallResultSubscription<ApiType> = Observable<SubmittableResult>;
+export type IContractCallResultSubscription = Observable<SubmittableResult>;
 
-export interface IContractCall<ApiType> {
-  signAndSend (account: IKeyringPair | string | AccountId | Address): IContractCallResultSubscription<ApiType>;
+export interface IContractCall {
+  signAndSend (account: IKeyringPair | string | AccountId | Address): IContractCallResultSubscription;
 }
 
 // NOTE Experimental, POC, bound to change
-export default class RxContract<ApiType = 'rxjs'> extends RxBase implements IContract {
+export default class RxContract extends RxBase implements IContract {
   readonly address: Address;
   readonly calls: IContract$Calls = {};
 
@@ -32,7 +32,7 @@ export default class RxContract<ApiType = 'rxjs'> extends RxBase implements ICon
 
     Object.entries(abi.messages).forEach(([name, fn]) => {
       this.calls[name] = (fn: ContractABIFn) =>
-        (value: BN | number, maxGas: BN | number, ...params: Array<any>): IContractCall<ApiType> =>
+        (value: BN | number, maxGas: BN | number, ...params: Array<any>): IContractCall =>
           this.apiContracts.call(this.address, value, maxGas, fn(...params));
     });
   }

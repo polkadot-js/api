@@ -2,10 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { SubmittableModuleExtrinsics } from '@polkadot/api/types';
 import { CodecArg } from '@polkadot/types/types';
 
-import { ApiRx } from '@polkadot/api';
+import { ApiPromise, ApiRx } from '@polkadot/api';
 import { Address } from '@polkadot/types';
+
+export type ApiObject<ApiType> = ApiType extends 'rxjs'
+  ? ApiRx
+  : ApiPromise;
 
 export type ContractABITypes$Struct = {
   'Option<T>'?: {
@@ -73,9 +78,10 @@ export interface IAbi {
   readonly messages: IAbi$Messages;
 }
 
-export interface IContractBase {
+export interface IContractBase<ApiType> {
   readonly abi: IAbi;
-  readonly api: ApiRx;
+  readonly api: ApiObject<ApiType>;
+  readonly apiContracts: SubmittableModuleExtrinsics<ApiType>;
 }
 
 export interface IContract$Calls {
