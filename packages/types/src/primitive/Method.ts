@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, ArgsDef, Codec, IMethod, Constructor } from '../types';
+import { AnyU8a, ArgsDef, Codec, Constructor, IMethod } from '../types';
 
 import { isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
@@ -88,8 +88,7 @@ export default class Method extends Struct implements IMethod {
    * - hex
    * - Uint8Array
    * - {@see DecodeMethodInput}
-   * @param meta - Metadata to use, so that `injectMethods` lookup is not
-   * necessary.
+   * @param meta - Metadata of the function
    */
   private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), meta: FunctionMetadataV5): DecodedMethod {
     if (isHex(value)) {

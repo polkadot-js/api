@@ -37,10 +37,10 @@ export default class Extrinsic extends Struct implements IExtrinsic {
     super({
       signature: ExtrinsicSignature,
       method: Method.withMeta(meta)
-    }, Extrinsic.decodeExtrinsic(value, meta));
+    }, Extrinsic.decodeExtrinsic(value));
   }
 
-  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array(), meta: FunctionMetadata): ExtrinsicValue | Array<number> | Uint8Array {
+  static decodeExtrinsic (value: ExtrinsicValue | AnyU8a | Method = new Uint8Array()): ExtrinsicValue | Array<number> | Uint8Array {
     if (Array.isArray(value) || isHex(value)) {
       // Instead of the block below, it should simply be:
       // return Extrinsic.decodeExtrinsic(hexToU8a(value as string));
@@ -54,8 +54,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
       return Extrinsic.decodeExtrinsic(
         withPrefix
           ? u8a
-          : Compact.addLengthPrefix(u8a),
-        meta
+          : Compact.addLengthPrefix(u8a)
       );
     } else if (isU8a(value)) {
       if (!value.length) {
