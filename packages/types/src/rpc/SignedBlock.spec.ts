@@ -14,8 +14,6 @@ describe.skip('SignedBlock', () => {
   let block: SignedBlock;
 
   beforeEach(() => {
-    Method.injectMethods(extrinsics);
-
     block = new SignedBlock(rpc.result);
   });
 

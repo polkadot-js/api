@@ -53,8 +53,6 @@ describe('Tuple', () => {
   });
 
   it.skip('creates properly via actual hex string', () => {
-    Method.injectMethods(extrinsics);
-
     const test = new (Tuple.with([
       BlockNumber, Proposal, VoteThreshold
     ]

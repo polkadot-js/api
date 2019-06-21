@@ -51,7 +51,6 @@ export function toV5<Modules extends Codec> (version: number, rpcData: string) {
 export function defaultValues (rpcData: string) {
   describe('storage with default values', () => {
     const metadata = new Metadata(rpcData);
-    Method.injectMethods(extrinsicsFromMeta(metadata));
 
     metadata.asV5.modules
       .filter(({ storage }) => storage.isSome)

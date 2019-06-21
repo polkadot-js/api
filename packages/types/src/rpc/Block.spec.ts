@@ -9,10 +9,6 @@ import Method from '../primitive/Method';
 import Block from './Block';
 
 describe('Block', () => {
-  beforeEach(() => {
-    Method.injectMethods(extrinsics);
-  });
-
   it('has a valid toRawType', () => {
     expect(
       new Block().toRawType()

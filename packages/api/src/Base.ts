@@ -486,7 +486,6 @@ export default abstract class ApiBase<ApiType> {
     // only inject if we are not a clone (global init)
     if (!this._options.source) {
       Event.injectMetadata(this.runtimeMetadata);
-      Method.injectMethods(extrinsics);
     }
 
     return true;
