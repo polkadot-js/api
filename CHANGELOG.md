@@ -3,7 +3,7 @@
 - **Breaking change** The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
 - **Breaking change** `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
 - **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
-- **Breaking change** The second argument to the `Method` constructor (function metadata) is now required. There is no global injection of the metadata anymore. The getters `methodName` and `sectionName` have been removed.
+- **Breaking change** The second argument to the `Method` constructor (function metadata) is now required. There is no global injection of the metadata anymore. The getters `methodName` and `sectionName` have been removed. `Extrinsic` now takes a second required argument, the method's metadata.
 - Update with latest substrate 2.x types
 
 # 0.81.1
