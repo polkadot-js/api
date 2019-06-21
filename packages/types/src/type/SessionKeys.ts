@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../codec/Struct';
-import AuthorityId from './AuthorityId';
 import SessionKey from './SessionKey';
 
 /**
@@ -14,22 +13,22 @@ import SessionKey from './SessionKey';
 export default class SessionKeys extends Struct {
   constructor (value?: any) {
     super({
-      grandpaSessionKey: AuthorityId,
-      auraSessionKey: SessionKey
+      grandpaKey: SessionKey,
+      auraKey: SessionKey
     }, value);
   }
 
   /**
    * @description The Aura session
    */
-  get auraSessionKey (): SessionKey {
-    return this.get('auraSessionKey') as SessionKey;
+  get auraKey (): SessionKey {
+    return this.get('auraKey') as SessionKey;
   }
 
   /**
    * @description The Grandpa Authority
    */
-  get grandpaSessionKey (): AuthorityId {
-    return this.get('grandpaSessionId') as AuthorityId;
+  get grandpaKey (): SessionKey {
+    return this.get('grandpaKey') as SessionKey;
   }
 }
