@@ -14,7 +14,7 @@ import { AccountId, Address, Hash } from '@polkadot/types';
 import { compactAddLength, u8aToU8a } from '@polkadot/util';
 
 import Abi from './Abi';
-import Base from './Base';
+import RxBase from './RxBase';
 import RxBlueprint from './RxBlueprint';
 
 // Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
@@ -46,7 +46,7 @@ class CodePutCodeResult extends SubmittableResult {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class RxCode<ApiType = 'rxjs'> extends Base {
+export default class RxCode<ApiType = 'rxjs'> extends RxBase {
   readonly code: Uint8Array;
 
   constructor (api: ApiRx, abi: ContractABI | Abi, wasm: string | Uint8Array) {
@@ -57,7 +57,7 @@ export default class RxCode<ApiType = 'rxjs'> extends Base {
 
   public createBlueprint (maxGas: number | BN): ICodePutCode<ApiType> {
     const signAndSend = (account: IKeyringPair | string | AccountId | Address): ICodePutCodeResultSubscription<ApiType> => {
-      return this.api.tx.contract
+      return this.apiContracts
         .putCode(maxGas, compactAddLength(this.code))
         .signAndSend(account)
         .pipe(

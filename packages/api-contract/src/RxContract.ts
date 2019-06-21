@@ -12,7 +12,7 @@ import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { AccountId, Address } from '@polkadot/types';
 
 import Abi from './Abi';
-import Base from './Base';
+import RxBase from './RxBase';
 
 export type IContractCallResultSubscription<ApiType> = Observable<SubmittableResult>;
 
@@ -21,7 +21,7 @@ export interface IContractCall<ApiType> {
 }
 
 // NOTE Experimental, POC, bound to change
-export default class RxContract<ApiType = 'rxjs'> extends Base implements IContract {
+export default class RxContract<ApiType = 'rxjs'> extends RxBase implements IContract {
   readonly address: Address;
   readonly calls: IContract$Calls = {};
 
@@ -33,7 +33,7 @@ export default class RxContract<ApiType = 'rxjs'> extends Base implements IContr
     Object.entries(abi.messages).forEach(([name, fn]) => {
       this.calls[name] = (fn: ContractABIFn) =>
         (value: BN | number, maxGas: BN | number, ...params: Array<any>): IContractCall<ApiType> =>
-          api.tx.contract.call(this.address, value, maxGas, fn(...params));
+          this.apiContracts.call(this.address, value, maxGas, fn(...params));
     });
   }
 }
