@@ -2,11 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
 import Extrinsic from './Extrinsic';
+import { Method } from '../primitive';
 
 describe('Extrinsic', () => {
   it.skip('decodes a non-signed properly via JSON', () => {
-    const extrinsic = new Extrinsic('0x010200ea51b75b00000000');
+    const extrinsic = new Extrinsic('0x010200ea51b75b00000000', Method.getMeta(new Uint8Array([2, 0]), extrinsics));
 
     expect(extrinsic.isSigned).toEqual(false);
     expect(extrinsic.callIndex).toEqual(new Uint8Array([2, 0]));
@@ -14,9 +17,12 @@ describe('Extrinsic', () => {
   });
 
   it('decodes an actual transaction (new format)', () => {
-    const extrinsic = new Extrinsic('0x250281ffbfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e0c00' +
-    '0300' + // balances.transfer
-    'ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0');
+    const extrinsic = new Extrinsic(
+      '0x250281ffbfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e0c00' +
+      '0300' + // balances.transfer
+      'ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0',
+      Method.getMeta(new Uint8Array([3, 0]), extrinsics)
+    );
 
     expect(extrinsic.isSigned).toEqual(true);
     expect(extrinsic.signature.signer.toU8a()).toEqual(new Uint8Array([255, 191, 200, 35, 170, 117, 195, 0, 88, 238, 236, 33, 171, 226, 194, 214, 183, 36, 116, 24, 164, 175, 137, 214, 122, 32, 132, 194, 172, 134, 77, 160, 128]));
@@ -31,7 +37,8 @@ describe('Extrinsic', () => {
     const extrinsic = new Extrinsic(
       '0x81ffbfc823aa75c30058eeec21abe2c2d6b7247418a4af89d67a2084c2ac864da080c0aa4df3b4926c3cd78bbdced31d8bdccb8604b779b71b90e58b2848df4a9ad6b0aa1aae6be7a05c9413a172b0325e4d214e5ff2b25098028b30f1a50be9c90e0c00' +
       '0300' + // balances.transfer
-      'ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0'
+      'ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0',
+      Method.getMeta(new Uint8Array([3, 0]), extrinsics)
     );
 
     expect(extrinsic.isSigned).toEqual(true);

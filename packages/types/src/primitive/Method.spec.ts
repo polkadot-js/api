@@ -12,7 +12,7 @@ describe('Method', () => {
       new Method({
         args: [],
         callIndex: [3, 1] // balances.setBalance
-      }, { args: [] } as any).toU8a()
+      }, { args: [{ name: 'a', type: 'Address' }, { name: 'b', type: 'Compact<Balance>' }, { name: 'c', type: 'Compact<Balance>' }] } as any).toU8a()
     ).toEqual(new Uint8Array([3, 1, 0, 0, 0]));
   });
 

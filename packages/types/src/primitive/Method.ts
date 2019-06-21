@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
+import { AnyU8a, ArgsDef, Codec, IMethod, Constructor } from '../types';
 
 import { isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
@@ -73,6 +73,14 @@ export default class Method extends Struct implements IMethod {
     this._meta = meta;
   }
 
+  static withMeta (meta: FunctionMetadataV5): Constructor<Method> {
+    return class extends Method {
+      constructor (value?: any) {
+        super(value, meta);
+      }
+    };
+  }
+
   /**
    * Decode input to pass into constructor.
    *
@@ -139,6 +147,10 @@ export default class Method extends Struct implements IMethod {
     );
 
     return injected[callIndex.toString()] || FN_UNKNOWN;
+  }
+
+  static getMeta (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): FunctionMetadataV5 {
+    return Method.findFunction(callIndex, moduleMethods).meta;
   }
 
   /**
