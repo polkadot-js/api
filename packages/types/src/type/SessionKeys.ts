@@ -14,22 +14,22 @@ import SessionKey from './SessionKey';
 export default class SessionKeys extends Struct {
   constructor (value?: any) {
     super({
-      authorityId: AuthorityId,
-      sessionKey: SessionKey
+      grandpaSessionKey: AuthorityId,
+      auraSessionKey: SessionKey
     }, value);
-  }
-
-  /**
-   * @description The Grandpa Authority
-   */
-  get authorityId (): AuthorityId {
-    return this.get('authorityId') as AuthorityId;
   }
 
   /**
    * @description The Aura session
    */
-  get sessionKey (): SessionKey {
-    return this.get('sessionKey') as SessionKey;
+  get auraSessionKey (): SessionKey {
+    return this.get('auraSessionKey') as SessionKey;
+  }
+
+  /**
+   * @description The Grandpa Authority
+   */
+  get grandpaSessionKey (): AuthorityId {
+    return this.get('grandpaSessionId') as AuthorityId;
   }
 }
