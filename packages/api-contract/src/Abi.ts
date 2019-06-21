@@ -2,17 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIFn } from './types';
+import { ContractABI, ContractABIFn, IAbi, IAbi$Messages } from './types';
 
 import { stringCamelCase } from '@polkadot/util';
 
 import { createMethod } from './method';
 import { validateAbi } from './validation';
 
-export default class ContractAbi {
+export default class ContractAbi implements IAbi {
   readonly abi: ContractABI;
   readonly deploy: ContractABIFn;
-  readonly messages: { [index: string]: ContractABIFn } = {};
+  readonly messages: IAbi$Messages = {};
 
   constructor (abi: ContractABI) {
     validateAbi(abi);

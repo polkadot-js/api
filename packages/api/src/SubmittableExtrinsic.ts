@@ -13,14 +13,24 @@ import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util'
 import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
 
-type SumbitableResultResult<ApiType> =
+export interface ISubmittableResult {
+  readonly events: Array<EventRecord>;
+  readonly status: ExtrinsicStatus;
+  readonly isCompleted: boolean;
+  readonly isError: boolean;
+  readonly isFinalized: boolean;
+
+  findRecord (section: string, method: string): EventRecord | undefined;
+}
+
+export type SumbitableResultResult<ApiType> =
   ApiType extends 'rxjs'
-    ? Observable<SubmittableResult>
+    ? Observable<ISubmittableResult>
     : Promise<Hash>;
 
-type SumbitableResultSubscription<ApiType> =
+export type SumbitableResultSubscription<ApiType> =
   ApiType extends 'rxjs'
-    ? Observable<SubmittableResult>
+    ? Observable<ISubmittableResult>
     : Promise<() => void>;
 
 type SubmittableResultValue = {
@@ -28,7 +38,7 @@ type SubmittableResultValue = {
   status: ExtrinsicStatus;
 };
 
-export class SubmittableResult {
+export class SubmittableResult implements ISubmittableResult {
   readonly events: Array<EventRecord>;
   readonly status: ExtrinsicStatus;
 
@@ -62,13 +72,13 @@ export class SubmittableResult {
 export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
   send (): SumbitableResultResult<ApiType>;
 
-  send (statusCb: Callback<SubmittableResult>): SumbitableResultSubscription<ApiType>;
+  send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
   sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<SubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -76,18 +86,18 @@ export default function createSubmittableExtrinsic<ApiType> (
   api: ApiInterface$Rx,
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
   extrinsic: Method | Uint8Array | string,
-  trackingCb?: Callback<SubmittableResult>
+  trackingCb?: Callback<ISubmittableResult>
 ): SubmittableExtrinsic<ApiType> {
   const _extrinsic = new (getTypeRegistry().getOrThrow('Extrinsic'))(extrinsic) as SubmittableExtrinsic<ApiType>;
   const _noStatusCb = type === 'rxjs';
 
-  function updateSigner (updateId: number, status: Hash | SubmittableResult): void {
+  function updateSigner (updateId: number, status: Hash | ISubmittableResult): void {
     if ((updateId !== -1) && api.signer && api.signer.update) {
       api.signer.update(updateId, status);
     }
   }
 
-  function statusObservable (status: ExtrinsicStatus): Observable<SubmittableResult> {
+  function statusObservable (status: ExtrinsicStatus): Observable<ISubmittableResult> {
     if (!status.isFinalized) {
       const result = new SubmittableResult({ status });
 
@@ -125,7 +135,7 @@ export default function createSubmittableExtrinsic<ApiType> (
       );
   }
 
-  function subscribeObservable (updateId: number = -1): Observable<SubmittableResult> {
+  function subscribeObservable (updateId: number = -1): Observable<ISubmittableResult> {
     return (api.rpc.author
       .submitAndWatchExtrinsic(_extrinsic) as Observable<ExtrinsicStatus>)
       .pipe(
@@ -151,7 +161,7 @@ export default function createSubmittableExtrinsic<ApiType> (
     _extrinsic,
     {
       send: {
-        value: function (statusCb?: Callback<SubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
+        value: function (statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
           const isSubscription = _noStatusCb || !!statusCb;
 
           return decorateMethod(isSubscription ? subscribeObservable : sendObservable)(statusCb);
@@ -171,7 +181,7 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       signAndSend: {
-        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | Callback<SubmittableResult>, statusCb?: Callback<SubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
+        value: function (account: IKeyringPair | string | AccountId | Address, _options?: Partial<Partial<SignatureOptions>> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
           let options: Partial<Partial<SignatureOptions>> = {};
 
           if (isFunction(_options)) {

@@ -11,7 +11,7 @@ import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 
 import ApiBase from './Base';
-import { SubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
+import { ISubmittableResult, SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 // Prepend an element V onto the beginning of a tuple T.
 // Cons<1, [2,3,4]> is [1,2,3,4]
@@ -222,5 +222,5 @@ export interface Signer {
   /**
    * @description Receives an update for the extrinsic signed by a `signer.sign`
    */
-  update?: (id: number, status: Hash | SubmittableResult) => void;
+  update?: (id: number, status: Hash | ISubmittableResult) => void;
 }
