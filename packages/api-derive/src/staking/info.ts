@@ -75,7 +75,7 @@ function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | und
 
   // For substrate 2.x, nextKeyFor is SessionKeys/Keys, for 1.x it is SessionKey
   return nextKeyFor
-    ? (nextKeyFor as SessionKeys).sessionKey || nextKeyFor
+    ? (nextKeyFor as SessionKeys).auraKey || nextKeyFor
     : undefined;
 }
 
