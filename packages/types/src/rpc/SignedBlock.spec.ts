@@ -2,10 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/extrinsics/static';
-
 import Extrinsics from '../type/Extrinsics';
-import Method from '../primitive/Method';
 import rpc from '../json/SignedBlock.001.json';
 import events from '../json/SignedBlock.002.json';
 import SignedBlock from './SignedBlock';

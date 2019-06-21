@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsics from '@polkadot/extrinsics/static';
-
 import { CodecTo } from '../types';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';

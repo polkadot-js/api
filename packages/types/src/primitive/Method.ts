@@ -93,7 +93,7 @@ export default class Method extends Struct implements IMethod {
       return {
         args: value.subarray(2),
         argsDef: Method.getArgsDef(meta),
-        callIndex,
+        callIndex
       };
     } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
@@ -127,10 +127,10 @@ export default class Method extends Struct implements IMethod {
   // which includes the meta, name, section & actual interface for calling
   //
   // moduleMethods is extracted from the runtime metadata by the API.
-  static findFunction(callIndex: Uint8Array, moduleMethods: ModulesWithMethods): MethodFunction {
+  static findFunction (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): MethodFunction {
     // @TODO Refactor
     // @TODO Write tests
-    const injected : { [index: string]: MethodFunction } = {};
+    const injected: {[index: string]: MethodFunction} = {};
 
     Object.values(moduleMethods).forEach((methods) =>
       Object.values(methods).forEach((method) =>
