@@ -16,6 +16,7 @@ import Tuple from './Tuple';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
 import Vector from './Vector';
+import VectorFixed from './VectorFixed';
 import getRegistry from './typeRegistry';
 
 export enum TypeDefInfo {
@@ -124,10 +125,10 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
     const vecLen = parseInt(_vecLen.trim(), 10);
 
     // as a first round, only u8 via u8aFixed, we can add more support
-    assert(vecLen <= 256 && ['u8'].includes(vecType), `Only support for [u8; <length>], where length <= 256`);
+    assert(vecLen <= 256, `Only support for [Type; <length>], where length <= 256`);
 
     value.info = TypeDefInfo.VectorFixed;
-    value.ext = { length: vecLen, type: 'u8a' } as TypeDefExtVecFixed;
+    value.ext = { length: vecLen, type: vecType } as TypeDefExtVecFixed;
   } else if (startingWith(type, '{', '}')) {
     const parsed = JSON.parse(type);
     const keys = Object.keys(parsed);
@@ -173,7 +174,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 }
 
 // Returns the type Class for construction
-export function getTypeClass (value: TypeDef): Constructor {
+export function getTypeClass (value: TypeDef, Fallback?: Constructor): Constructor {
   const Type = getRegistry().get(value.type);
 
   if (Type) {
@@ -217,7 +218,7 @@ export function getTypeClass (value: TypeDef): Constructor {
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
       return Tuple.with(
-        (value.sub as Array<TypeDef>).map(getTypeClass)
+        (value.sub as Array<TypeDef>).map((Type) => getTypeClass(Type))
       );
     case TypeDefInfo.Vector:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
@@ -228,7 +229,11 @@ export function getTypeClass (value: TypeDef): Constructor {
     case TypeDefInfo.VectorFixed:
       assert(value.ext, 'Expected length & type information for fixed vector');
 
-      return U8aFixed.with(((value.ext as TypeDefExtVecFixed).length * 8) as U8aFixedBitLength);
+      const ext = value.ext as TypeDefExtVecFixed;
+
+      return ext.type === 'u8'
+        ? U8aFixed.with((ext.length * 8) as U8aFixedBitLength)
+        : VectorFixed.with(createClass(ext.type), ext.length);
     case TypeDefInfo.Linkage:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Linkage');
 
@@ -241,6 +246,10 @@ export function getTypeClass (value: TypeDef): Constructor {
       return getTypeClass(value.sub as TypeDef);
     case TypeDefInfo.Null:
       return Null;
+  }
+
+  if (Fallback) {
+    return Fallback;
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);

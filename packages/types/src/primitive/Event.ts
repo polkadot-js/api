@@ -14,6 +14,7 @@ import Metadata from '../Metadata';
 import { EventMetadata as EventMetadataV5 } from '../Metadata/v5/Events';
 import Null from './Null';
 import U32 from './U32';
+import Unconstructable from './Unconstructable';
 
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
@@ -137,7 +138,7 @@ export default class Event extends Struct {
           const methodName = meta.name.toString();
           const eventIndex = new Uint8Array([sectionIndex, methodIndex]);
           const typeDef = meta.args.map((arg) => getTypeDef(arg));
-          const Types = typeDef.map(getTypeClass);
+          const Types = typeDef.map((typeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
 
           EventTypes[eventIndex.toString()] = class extends EventData {
             constructor (value: Uint8Array) {

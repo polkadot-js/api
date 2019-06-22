@@ -118,7 +118,6 @@ These custom types implement specific types that are found as part of the Substr
 | [[NextAuthority]] | The next authority available as [[SessionKey]] |
 | [[Nonce]] | The Nonce or number of transactions sent by a specific account |
 | [[NonceCompact]] | The Compact<Nonce> or number of transactions sent by a specific account |
-| [[ParaId]] | Identifier for a deployed parachain implemented as a [[U32]] |
 | [[OpaqueKey]] | A key represented as a [[Bytes]] |
 | [[Perbill]] | Parts per billion (see also [[Permill]]) |
 | [[Permill]] | Parts per million (See also [[Perbill]]) |
@@ -151,6 +150,28 @@ These custom types implement specific types that are found as part of the Substr
 | [[VoterInfo]] | The activity status of a voter. |
 | [[VoteThreshold]] | Voting threshold, used inside proposals to set change the voting tally |
 | [[WithdrawReasons]] | The Substrate WithdrawReasons for staking |
+
+
+## Polkadot types
+
+These types are only available in Polkadot chains -
+
+| **Types** | |
+| --- | --- |
+| [[AuctionIndex]] | A parachain auction index as a [[U32]] |
+| [[Bidder]] | The desired target of a bidder in an auction. |
+| [[LeasePeriod]] | The length of the lease for a parachain |
+| [[LeasePeriodOf]] | The length of the lease for a parachain |
+| [[IncomingParachain]] | Information regarding a parachain that will be deployed. |
+| [[NewBidder]] | A bidder identifier, which is just the combination of an account ID and a sub-bidder ID. This is called `NewBidder` in order to distinguish between bidders that would deploy a *new* parachain and pre-existing parachains bidding to renew themselves. |
+| [[ParachainDispatchOrigin]] | Which origin a parachain's message to the relay chain should be dispatched from. |
+| [[ParaId]] | Identifier for a deployed parachain implemented as a [[U32]] |
+| [[ParaIdOf]] | Identifier for a deployed parachain implemented as a [[U32]] |
+| [[SlotRange]] | A compactly represented sub-range from the series (0, 1, 2, 3) |
+| [[SubId]] | A sub-bidder identifier. Used to distinguish between different logical bidders coming from the same account ID. |
+| [[UpwardMessage]] | A message from a parachain to its Relay Chain |
+| [[WinningData]] | Winning data type. This encodes the top bidders of each range together with their bid. |
+| [[WinningDataentry]] | And entry in the [[WinningData]] fixed vector |
 
 
 ## RPC types
