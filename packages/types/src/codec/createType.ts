@@ -6,6 +6,7 @@ import { assert } from '@polkadot/util';
 
 import { Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
+import StorageData from '../primitive/StorageData';
 import Text from '../primitive/Text';
 import Compact from './Compact';
 import Enum from './Enum';
@@ -267,11 +268,19 @@ function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec 
 
     // in pedantic mode, actually check that the encoding matches that supplied - this
     // is much slower, but ensures that we have a 100% grasp on the actual provided value
-    if (isPedantic && value && value.toHex) {
+    if (isPedantic && value && value.toHex && value.toU8a) {
       const inHex = value.toHex(true);
       const crHex = created.toHex(true);
 
-      assert(inHex === crHex, `Input doesn't match output, received ${inHex}, created ${crHex}`);
+      assert(
+        inHex === crHex || // check that the hex matches, if matching, all-ok
+        (
+          (value instanceof StorageData) && // input is from storage
+          (created instanceof Uint8Array) && // we are a variable-lneght structure
+          (value.toU8a(true).toString() === created.toU8a().toString()) // strip the input length
+        ),
+        `Input doesn't match output, received ${inHex}, created ${crHex}`
+      );
     }
 
     return created;
