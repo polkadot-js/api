@@ -1959,7 +1959,7 @@
               "args": [
                 {
                   "name": "voters",
-                  "type": "Vec<(grandpa::AuthorityId,u64)>"
+                  "type": "Vec<(AuthorityId,u64)>"
                 }
               ],
               "documentation": [

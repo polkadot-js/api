@@ -173,7 +173,7 @@ export function getTypeDef (_type: Text | string, name?: string): TypeDef {
 }
 
 // Returns the type Class for construction
-export function getTypeClass (value: TypeDef): Constructor {
+export function getTypeClass (value: TypeDef, Fallback?: Constructor): Constructor {
   const Type = getRegistry().get(value.type);
 
   if (Type) {
@@ -217,7 +217,7 @@ export function getTypeClass (value: TypeDef): Constructor {
       assert(Array.isArray(value.sub), 'Expected nested subtypes for Tuple');
 
       return Tuple.with(
-        (value.sub as Array<TypeDef>).map(getTypeClass)
+        (value.sub as Array<TypeDef>).map((Type) => getTypeClass(Type))
       );
     case TypeDefInfo.Vector:
       assert(value.sub && !Array.isArray(value.sub), 'Expected subtype for Vector');
@@ -241,6 +241,10 @@ export function getTypeClass (value: TypeDef): Constructor {
       return getTypeClass(value.sub as TypeDef);
     case TypeDefInfo.Null:
       return Null;
+  }
+
+  if (Fallback) {
+    return Fallback;
   }
 
   throw new Error(`Unable to determine type from '${value.type}'`);
