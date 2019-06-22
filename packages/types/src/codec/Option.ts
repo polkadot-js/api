@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
+import { hexToU8a, isHex, isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
 import { AnyJson, Codec, Constructor } from '../types';
@@ -35,10 +35,12 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     } else if (value instanceof Type || (Type.Fallback && value instanceof Type.Fallback)) {
       // don't re-create, use as it (which also caters for derived types)
       return value;
+    } else if (isHex(value)) {
+      return new Type(hexToU8a(value.toString()));
     } else if (isU8a(value)) {
       // the isU8a check happens last in the if-tree - since the wrapped value
       // may be an instance of it, so Type and Option checks go in first
-      return value[0] === 0
+      return !value.length || value[0] === 0
         ? new Null()
         : new Type(value.subarray(1));
     }
@@ -105,7 +107,11 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
-    return u8aToHex(this.toU8a());
+    // This attempts to align with the JSON encoding - actually in this case
+    // the isSome value is correct, however the `isNone` may be problematic
+    return this.isNone
+      ? '0x'
+      : u8aToHex(this.toU8a().subarray(1));
   }
 
   /**

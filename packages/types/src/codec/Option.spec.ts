@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Option from './Option';
+import Bytes from '../primitive/Bytes';
 import Text from '../primitive/Text';
 
 const testDecode = (type: string, input: any, expected: any) =>
@@ -33,12 +34,20 @@ describe('Option', () => {
     ).toEqual('hello');
   });
 
+  it('properly converts Option<Bytes> toHex', () => {
+    // Option<Bytes> for a parachain head
+    const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
+    expect(
+      new Option(Bytes, HEX).toHex()
+    ).toEqual(HEX);
+  });
+
   testDecode('string (with)', 'foo', 'foo');
   testDecode('string (without)', undefined, '');
   testDecode('Uint8Array (with)', Uint8Array.from([1, 12, 102, 111, 111]), 'foo');
   testDecode('Uint8Array (without)', Uint8Array.from([0]), '');
 
-  testEncode('toHex', '0x010c666f6f');
+  testEncode('toHex', '0x0c666f6f');
   testEncode('toString', 'foo');
   testEncode('toU8a', Uint8Array.from([1, 12, 102, 111, 111]));
 
