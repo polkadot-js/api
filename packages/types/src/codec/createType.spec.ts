@@ -250,7 +250,7 @@ describe('createType', () => {
 
     expect(
       () => createType('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
+    ).toThrow(/ Input doesn't match output, received 0x, created 0x00/);
   });
 
   it('throw error when create base is a StorageData with null value and isPedantic is true', () => {
@@ -258,6 +258,6 @@ describe('createType', () => {
 
     expect(
       () => createType('Vec<(BlockNumber,EventIndex)>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
+    ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
   });
 });

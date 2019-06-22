@@ -60,7 +60,7 @@ export interface Codec {
   eq (other?: any): boolean;
 
   /**
-   * @description Returns a hex string representation of the value. isLe returns a LE (number-only) repersentation
+   * @description Returns a hex string representation of the value. isLe returns a LE (number-only) representation
    */
   toHex (isLe?: boolean): string;
 
