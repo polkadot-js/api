@@ -94,7 +94,7 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
           value.map((balance: BN) =>
             balance.toNumber()
           )
-        ).toEqual([513, 258]);
+        ).toEqual([0x0201, 0x0102]);
 
         done();
       });

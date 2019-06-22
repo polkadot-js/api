@@ -4,6 +4,7 @@
 
 import Option from './Option';
 import Bytes from '../primitive/Bytes';
+import U32 from '../primitive/U32';
 import Text from '../primitive/Text';
 
 const testDecode = (type: string, input: any, expected: any) =>
@@ -34,12 +35,19 @@ describe('Option', () => {
     ).toEqual('hello');
   });
 
-  it('properly converts Option<Bytes> toHex', () => {
-    // Option<Bytes> for a parachain head
+  it.skip('properly converts correctly toHex (Bytes)', () => {
+    // Option<Bytes> for a parachain head - however, this is effectively an Option<Option<Bytes>>
     const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
     expect(
       new Option(Bytes, HEX).toHex()
     ).toEqual(HEX);
+  });
+
+  it.only('properly converts correctly toHex (U64)', () => {
+    const HEX = '0x12345678';
+    expect(
+      (new Option(U32, HEX).unwrap() as U32).toNumber()
+    ).toEqual(0x12345678);
   });
 
   testDecode('string (with)', 'foo', 'foo');
