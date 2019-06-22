@@ -82,4 +82,5 @@ export { default as Votes } from './Votes';
 export { default as VoteThreshold } from './VoteThreshold';
 export { default as VoteIndex } from './VoteIndex';
 export { default as VoterInfo } from './VoterInfo';
+export { default as WinningData, WinningDataEntry } from './WinningData';
 export { default as WithdrawReasons } from './WithdrawReasons';

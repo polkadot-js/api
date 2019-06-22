@@ -33,7 +33,7 @@ export default class VectorFixed<T extends Codec> extends AbstractArray<T> {
         : value
     );
 
-    while (value.length < allocLength) {
+    while (values.length < allocLength) {
       values.push(new Type());
     }
 
