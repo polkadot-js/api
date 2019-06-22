@@ -35,12 +35,13 @@ describe('Option', () => {
     ).toEqual('hello');
   });
 
-  it.skip('properly converts correctly toHex (Bytes)', () => {
-    // Option<Bytes> for a parachain head - however, this is effectively an Option<Option<Bytes>>
+  it('properly converts correctly toHex (Bytes)', () => {
+    // Option<Bytes> for a parachain head, however, this is effectively an
+    // Option<Option<Bytes>> (hence the length, since it is from storage)
     const HEX = '0x210100000000000000000000000000000000000000000000000000000000000000000000000000000000011b4d03dd8c01f1049143cf9c4c817e4b167f1d1b83e5c6f0f10d89ba1e7bce';
     expect(
-      new Option(Bytes, HEX).toHex()
-    ).toEqual(HEX);
+      new Option(Bytes, HEX).toHex().substr(2)
+    ).toEqual(HEX.substr(6));
   });
 
   it.only('properly converts correctly toHex (U64)', () => {

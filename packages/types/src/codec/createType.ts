@@ -271,7 +271,7 @@ function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec 
       const inHex = value.toHex(true);
       const crHex = created.toHex(true);
 
-      assert(crHex === inHex, `Encoding for input doesn't match output, created ${crHex} from ${inHex}`);
+      assert(inHex === crHex, `Input doesn't match output, received ${inHex}, created ${crHex}`);
     }
 
     return created;
