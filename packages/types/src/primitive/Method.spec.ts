@@ -34,6 +34,10 @@ describe('Method', () => {
     expect(
       Method.findMetaByName('balances', 'setBalance', runtimeMetadata).name
     ).toEqual('set_balance');
+
+    expect(
+      Method.findMetaByValue('0x0300ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0', runtimeMetadata).name
+    ).toEqual('transfer');
   });
 
   it('handles creation from a hex value properly', () => {

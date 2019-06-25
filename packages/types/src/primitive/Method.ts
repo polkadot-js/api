@@ -191,6 +191,22 @@ export default class Method extends Struct implements IMethod {
 
   /**
    * Retrieves the function metadata
+   * @param value A hex string or a Uint8Array encoding the function call
+   * @param metadata Runtime metadata, e.g. api.runtimeMetadata
+   */
+  static findMetaByValue (value: string | Uint8Array, metadata: Metadata): FunctionMetadataV5 {
+    if (isHex(value)) {
+      return Method.findMetaByValue(hexToU8a(value), metadata);
+    }
+
+    // The first 2 bytes are the callIndex
+    const callIndex = value.subarray(0, 2);
+
+    return this.findMetaByCallIndex(callIndex, metadata);
+  }
+
+  /**
+   * Retrieves the function metadata
    * @param section Name of the module, e.g. 'balances'
    * @param method Name of the function, e.g. 'setBalance'
    * @param metadata Runtime metadata, e.g. api.runtimeMetadata
