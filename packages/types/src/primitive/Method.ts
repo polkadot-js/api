@@ -74,7 +74,18 @@ export default class Method extends Struct implements IMethod {
    * @param meta - Metadata to use, so that the `injectMethods` lookup is not
    * necessary. This argument will soon be required so as to get rid of globals.
    */
-  constructor (value: any, meta?: FunctionMetadataV5) {
+  constructor (value: any, metaOrMethod?: FunctionMetadataV5 | MethodFunction) {
+    // To make it more practical, we also accept a FunctionMetadata wrapped in a
+    // MethodFunction. We extract it here.
+    const meta: FunctionMetadataV5 | undefined = ((metaOrMethod) => {
+      const isMethodFunction = (x: any): x is MethodFunction =>
+        !!(x && 'meta' in x);
+
+      return isMethodFunction(metaOrMethod)
+        ? metaOrMethod.meta
+        : metaOrMethod;
+    })(metaOrMethod);
+
     const decoded = Method.decodeMethod(value, meta);
 
     super({
@@ -178,44 +189,44 @@ export default class Method extends Struct implements IMethod {
   }
 
   /**
-   * Retrieves the function metadata
+   * Retrieves a function from the runtime metadata
    * @param callIndex Call index of the function, e.g. new Uint8Array([3, 0])
    * @param metadata Runtime metadata, e.g. api.runtimeMetadata
    */
-  static findMetaByCallIndex (callIndex: Uint8Array, metadata: Metadata): FunctionMetadataV5 {
+  static findByCallIndex (callIndex: Uint8Array, metadata: Metadata): MethodFunction {
     const methods = Method.getMethodsFromMetadata(metadata);
 
-    return (methods.find((method: MethodFunction) =>
-      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN).meta;
+    return methods.find((method: MethodFunction) =>
+      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN;
   }
 
   /**
-   * Retrieves the function metadata
+   * Retrieves a function from the runtime metadata
    * @param value A hex string or a Uint8Array encoding the function call
    * @param metadata Runtime metadata, e.g. api.runtimeMetadata
    */
-  static findMetaByValue (value: string | Uint8Array, metadata: Metadata): FunctionMetadataV5 {
+  static findByValue (value: string | Uint8Array, metadata: Metadata): MethodFunction {
     if (isHex(value)) {
-      return Method.findMetaByValue(hexToU8a(value), metadata);
+      return Method.findByValue(hexToU8a(value), metadata);
     }
 
     // The first 2 bytes are the callIndex
     const callIndex = value.subarray(0, 2);
 
-    return this.findMetaByCallIndex(callIndex, metadata);
+    return this.findByCallIndex(callIndex, metadata);
   }
 
   /**
-   * Retrieves the function metadata
+   * Retrieves a function from the runtime metadata
    * @param section Name of the module, e.g. 'balances'
    * @param method Name of the function, e.g. 'setBalance'
    * @param metadata Runtime metadata, e.g. api.runtimeMetadata
    */
-  static findMetaByName (section: string, method: string, metadata: Metadata): FunctionMetadataV5 {
+  static findByName (section: string, method: string, metadata: Metadata): MethodFunction {
     const methods = Method.getMethodsFromMetadata(metadata);
 
-    return (methods.find((_method: MethodFunction) =>
-      _method.section === section && _method.method === method) || FN_UNKNOWN).meta;
+    return methods.find((_method: MethodFunction) =>
+      _method.section === section && _method.method === method) || FN_UNKNOWN;
   }
 
   /**

@@ -28,15 +28,15 @@ describe('Method', () => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
     expect(
-      Method.findMetaByCallIndex(new Uint8Array([3,1]), runtimeMetadata).name
-    ).toEqual('set_balance');
+      Method.findByCallIndex(new Uint8Array([3,1]), runtimeMetadata).method
+    ).toEqual('setBalance');
 
     expect(
-      Method.findMetaByName('balances', 'setBalance', runtimeMetadata).name
-    ).toEqual('set_balance');
+      Method.findByName('balances', 'setBalance', runtimeMetadata).method
+    ).toEqual('setBalance');
 
     expect(
-      Method.findMetaByValue('0x0300ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0', runtimeMetadata).name
+      Method.findByValue('0x0300ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0', runtimeMetadata).method
     ).toEqual('transfer');
   });
 
