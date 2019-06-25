@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
 import { Constructor } from './types';
 import * as Classes from './index.types';
 
@@ -25,6 +27,8 @@ describe('types', () => {
   });
 
   describe('default creation (empty bytes)', () => {
+    (Types.Method as any).injectMethods(extrinsics);
+
     Object.keys(Types).forEach((name) => {
       it(`creates an empty ${name} (from empty bytes)`, () => {
         const constructFn = () =>

@@ -4,7 +4,10 @@
 
 import { Codec, CodecTo } from '../types';
 
+import extrinsics from '@polkadot/extrinsics/static';
+
 import AccountId from '../primitive/AccountId';
+import Method from '../primitive/Method';
 import Text from '../primitive/Text';
 import PropIndex from '../type/PropIndex';
 import Proposal from '../type/Proposal';
@@ -17,6 +20,8 @@ describe('Vector', () => {
 
   beforeEach(() => {
     vector = new Vector(Text, ['1', '23', '345', '4567', new Text('56789')]);
+
+    Method.injectMethods(extrinsics);
   });
 
   it('wraps a sequence of values', () => {

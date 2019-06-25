@@ -33,10 +33,10 @@ type ExtrinsicValue = {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Struct implements IExtrinsic {
-  constructor (value: ExtrinsicValue | AnyU8a | Method, meta: FunctionMetadata) {
+  constructor (value?: ExtrinsicValue | AnyU8a | Method, meta?: FunctionMetadata) {
     super({
       signature: ExtrinsicSignature,
-      method: Method.withMeta(meta)
+      method: meta ? Method.withMeta(meta) : Method
     }, Extrinsic.decodeExtrinsic(value));
   }
 

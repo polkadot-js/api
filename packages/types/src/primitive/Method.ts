@@ -4,7 +4,9 @@
 
 import { AnyU8a, ArgsDef, Codec, Constructor, IMethod } from '../types';
 
-import { isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
+import extrinsicsFromMetadata from '@polkadot/extrinsics/fromMetadata';
+import Metadata from '@polkadot/types/Metadata';
+import { assert, isHex, isObject, isU8a, hexToU8a } from '@polkadot/util';
 
 import { getTypeDef, getTypeClass } from '../codec/createType';
 import Struct from '../codec/Struct';
@@ -18,6 +20,7 @@ interface DecodeMethodInput {
 
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
+  meta: FunctionMetadataV5;
 }
 
 export interface MethodFunction {
@@ -42,6 +45,8 @@ const FN_UNKNOWN = {
   section: 'unknown'
 } as MethodFunction;
 
+const injected: { [index: string]: MethodFunction } = {};
+
 /**
  * @name MethodIndex
  * @description
@@ -62,7 +67,14 @@ export class MethodIndex extends U8aFixed {
 export default class Method extends Struct implements IMethod {
   protected _meta: FunctionMetadataV5;
 
-  constructor (value: any, meta: FunctionMetadataV5) {
+  /**
+   * Method constructor
+   *
+   * @param value
+   * @param meta - Metadata to use, so that the `injectMethods` lookup is not
+   * necessary. This argument will soon be required so as to get rid of globals.
+   */
+  constructor (value: any, meta?: FunctionMetadataV5) {
     const decoded = Method.decodeMethod(value, meta);
 
     super({
@@ -70,7 +82,7 @@ export default class Method extends Struct implements IMethod {
       args: Struct.with(decoded.argsDef)
     }, decoded);
 
-    this._meta = meta;
+    this._meta = decoded.meta;
   }
 
   static withMeta (meta: FunctionMetadataV5): Constructor<Method> {
@@ -88,27 +100,41 @@ export default class Method extends Struct implements IMethod {
    * - hex
    * - Uint8Array
    * - {@see DecodeMethodInput}
-   * @param meta - Metadata of the function
+   * @param _meta - Metadata to use, so that `injectMethods` lookup is not
+   * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), meta: FunctionMetadataV5): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV5): DecodedMethod {
     if (isHex(value)) {
-      return Method.decodeMethod(hexToU8a(value), meta);
+      return Method.decodeMethod(hexToU8a(value), _meta);
     } else if (isU8a(value)) {
       // The first 2 bytes are the callIndex
       const callIndex = value.subarray(0, 2);
 
+      // Find metadata with callIndex
+      const meta = _meta || Method.findFunction(callIndex).meta;
+
       return {
         args: value.subarray(2),
         argsDef: Method.getArgsDef(meta),
-        callIndex
+        callIndex,
+        meta
       };
     } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
       const { args, callIndex } = value;
 
+      // Get the correct lookupIndex
+      const lookupIndex = callIndex instanceof MethodIndex
+        ? callIndex.toU8a()
+        : callIndex;
+
+      // Find metadata with callIndex
+      const meta = _meta || Method.findFunction(lookupIndex).meta;
+
       return {
         args,
         argsDef: Method.getArgsDef(meta),
+        meta,
         callIndex
       };
     }
@@ -126,25 +152,54 @@ export default class Method extends Struct implements IMethod {
       : [];
   }
 
-  // We could simply do a meta-only lookup via
+  // We could only inject the meta (see injectMethods below) and then do a
+  // meta-only lookup via
   //
   //   metadata.modules[callIndex[0]].module.call.functions[callIndex[1]]
   //
   // As a convenience helper though, we return the full constructor function,
   // which includes the meta, name, section & actual interface for calling
   //
-  // moduleMethods is extracted from the runtime metadata by the API.
-  static findFunction (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): MethodFunction {
-    const methods = ([] as MethodFunction[]).concat(
-        ...Object.values(moduleMethods).map(methods => Object.values(methods))
-    );
+  // @deprecated This method does a lookup in the methods' metadata stored
+  // globally with injectMethods. Prefer passing the metadata to the Method
+  // constructor.
+  static findFunction (callIndex: Uint8Array): MethodFunction {
+    assert(Object.keys(injected).length > 0, 'Calling Method.findFunction before extrinsics have been injected.');
 
-    return methods.find((method: MethodFunction) =>
-      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN;
+    return injected[callIndex.toString()] || FN_UNKNOWN;
   }
 
-  static findMeta (callIndex: Uint8Array, moduleMethods: ModulesWithMethods): FunctionMetadataV5 {
-    return Method.findFunction(callIndex, moduleMethods).meta;
+  private static getMethodsFromMetadata (metadata: Metadata): MethodFunction[] {
+    const moduleMethods = extrinsicsFromMetadata(metadata);
+
+    return ([] as MethodFunction[]).concat(
+      ...Object.values(moduleMethods).map(methods => Object.values(methods))
+    );
+  }
+
+  /**
+   * Retrieves the function metadata
+   * @param callIndex Call index of the function, e.g. new Uint8Array([3, 0])
+   * @param metadata Runtime metadata, e.g. api.runtimeMetadata
+   */
+  static findMetaByCallIndex (callIndex: Uint8Array, metadata: Metadata): FunctionMetadataV5 {
+    const methods = Method.getMethodsFromMetadata(metadata);
+
+    return (methods.find((method: MethodFunction) =>
+      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN).meta;
+  }
+
+  /**
+   * Retrieves the function metadata
+   * @param section Name of the module, e.g. 'balances'
+   * @param method Name of the function, e.g. 'setBalance'
+   * @param metadata Runtime metadata, e.g. api.runtimeMetadata
+   */
+  static findMetaByName (section: string, method: string, metadata: Metadata): FunctionMetadataV5 {
+    const methods = Method.getMethodsFromMetadata(metadata);
+
+    return (methods.find((_method: MethodFunction) =>
+      _method.section === section && _method.method === method) || FN_UNKNOWN).meta;
   }
 
   /**
@@ -165,6 +220,23 @@ export default class Method extends Struct implements IMethod {
   }
 
   /**
+   * This is called/injected by the API on init, allowing a snapshot of
+   * the available system extrinsics to be used in lookups
+   *
+   * deprecated: Instead of injecting the methods' metadata globally, call the
+   * Method constructor and pass the function metadata (retrieved with
+   * Method.findMetaByName or Method.findMetaByCallIndex) as second argument.
+   * This way we're not relying on globals.
+   */
+  static injectMethods (moduleMethods: ModulesWithMethods): void {
+    Object.values(moduleMethods).forEach((methods) =>
+      Object.values(methods).forEach((method) =>
+        injected[method.callIndex.toString()] = method
+      )
+    );
+  }
+
+  /**
    * @description The arguments for the function call
    */
   get args (): Array<Codec> {
@@ -173,7 +245,7 @@ export default class Method extends Struct implements IMethod {
   }
 
   /**
-   * @description Thge argument defintions
+   * @description The argument definitions
    */
   get argsDef (): ArgsDef {
     return Method.getArgsDef(this.meta);
@@ -207,6 +279,24 @@ export default class Method extends Struct implements IMethod {
    */
   get meta (): FunctionMetadataV5 {
     return this._meta;
+  }
+
+  /**
+   * @description Returns the name of the method
+   *
+   * @deprecated Will be removed soon.
+   */
+  get methodName (): string {
+    return Method.findFunction(this.callIndex).method;
+  }
+
+  /**
+   * @description Returns the module containing the method
+   *
+   * @deprecated Will be removed soon.
+   */
+  get sectionName (): string {
+    return Method.findFunction(this.callIndex).section;
   }
 
   /**

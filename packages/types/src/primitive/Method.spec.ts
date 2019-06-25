@@ -2,9 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
 import Method from './Method';
+import Metadata from '../Metadata';
+import latestSubstrate from '../Metadata/v5/latest.substrate.v5.json';
 
 describe('Method', () => {
+  beforeEach(() => {
+    Method.injectMethods(extrinsics);
+  });
+
   // FIXME susbtrate master does not currently expose the new system module calls in meta,
   // once it does the index here will change, so a different method would be refrerred to
   it('handles decoding correctly (bare)', () => {
@@ -12,13 +20,25 @@ describe('Method', () => {
       new Method({
         args: [],
         callIndex: [3, 1] // balances.setBalance
-      }, { args: [{ name: 'a', type: 'Address' }, { name: 'b', type: 'Compact<Balance>' }, { name: 'c', type: 'Compact<Balance>' }] } as any).toU8a()
+      }).toU8a()
     ).toEqual(new Uint8Array([3, 1, 0, 0, 0]));
+  });
+
+  it('handles getting the function metadata', () => {
+    const runtimeMetadata = new Metadata(latestSubstrate);
+
+    expect(
+      Method.findMetaByCallIndex(new Uint8Array([3,1]), runtimeMetadata).name
+    ).toEqual('set_balance');
+
+    expect(
+      Method.findMetaByName('balances', 'setBalance', runtimeMetadata).name
+    ).toEqual('set_balance');
   });
 
   it('handles creation from a hex value properly', () => {
     expect(
-      new Method('0x0301', { args: [{ name: 'a', type: 'Address' }, { name: 'b', type: 'Compact<Balance>' }, { name: 'c', type: 'Compact<Balance>' }] } as any).toU8a()
+      new Method('0x0301').toU8a()
     ).toEqual(new Uint8Array([3, 1, 0, 0, 0])); // balances.setBalance
   });
 

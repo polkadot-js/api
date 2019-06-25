@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import extrinsics from '@polkadot/extrinsics/static';
+
 import { CodecTo } from '../types';
 import Method from '../primitive/Method';
 import Text from '../primitive/Text';
@@ -51,6 +53,8 @@ describe('Tuple', () => {
   });
 
   it.skip('creates properly via actual hex string', () => {
+    Method.injectMethods(extrinsics);
+
     const test = new (Tuple.with([
       BlockNumber, Proposal, VoteThreshold
     ]
