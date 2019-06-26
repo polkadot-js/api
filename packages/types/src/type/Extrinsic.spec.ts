@@ -31,6 +31,7 @@ describe('Extrinsic', () => {
     expect(extrinsic.signature.nonce.toNumber()).toEqual(3);
     expect(extrinsic.signature.era.toU8a()).toEqual(new Uint8Array([0]));
     expect(extrinsic.callIndex).toEqual(new Uint8Array([3, 0]));
+    expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
     expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
   });
 
@@ -47,6 +48,7 @@ describe('Extrinsic', () => {
     expect(extrinsic.signature.nonce.toNumber()).toEqual(3);
     expect(extrinsic.signature.era.toU8a()).toEqual(new Uint8Array([0]));
     expect(extrinsic.callIndex).toEqual(new Uint8Array([3, 0]));
+    expect(`${extrinsic.method.sectionName}.${extrinsic.method.methodName}`).toEqual('balances.transfer');
     expect(extrinsic.args[0].toString()).toEqual('5DkQbYAExs3M2sZgT1Ec3mKfZnAQCL4Dt9beTCknkCUn5jzo');
   });
 });

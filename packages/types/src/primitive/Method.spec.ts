@@ -30,14 +30,6 @@ describe('Method', () => {
     expect(
       Method.findByCallIndex(new Uint8Array([3,1]), runtimeMetadata).method
     ).toEqual('setBalance');
-
-    expect(
-      Method.findByName('balances', 'setBalance', runtimeMetadata).method
-    ).toEqual('setBalance');
-
-    expect(
-      Method.findByValue('0x0300ff4a83f1c09be797bc3d9adce29818368b276a84e6b545ced492c25c948978d7f8e5c0', runtimeMetadata).method
-    ).toEqual('transfer');
   });
 
   it('handles creation from a hex value properly', () => {
@@ -54,19 +46,19 @@ describe('Method', () => {
 
     it('is false with no arguments', () => {
       expect(
-        new Method(test, { args: [] } as any).hasOrigin
+        new Method(test, { meta: { args: [] } as any }).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { args: [{ name: 'a', type: 'u32' }] } as any).hasOrigin
+        new Method(test, { meta: { args: [{ name: 'a', type: 'u32' }] } as any }).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { args: [{ name: 'a', type: 'Origin' }] } as any).hasOrigin
+        new Method(test, { meta: { args: [{ name: 'a', type: 'Origin' }] } as any }).hasOrigin
       ).toEqual(true);
     });
   });

@@ -34,7 +34,7 @@ export default function createDescriptor (
     return new Method({
       args,
       callIndex
-    }, callMetadata);
+    }, { meta: callMetadata });
   };
 
   extrinsicFn.callIndex = callIndex;

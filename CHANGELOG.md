@@ -4,7 +4,7 @@
 - **Breaking change** `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
 - **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
 - Update with latest substrate 2.x types
-- `Method.injectMethods` is going to be removed. Instead of injecting the methods metadata globally, it is now recommended to pass the function metadata to the `Method` constructor. The function metadata can be retrieved from the runtime metadata using `Method.findByCallIndex`, `Method.findByValue` or `Method.findByName`.
+- `Method.injectMethods` is going to be removed. Instead of injecting the methods metadata globally, it is now recommended to pass the function metadata (or the whole runtime metadata) to the `Method` constructor.
 
 # 0.81.1
 
