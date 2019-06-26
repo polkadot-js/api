@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 const definition = {
+  AuctionIndex: 'U32',
   ParaId: 'U32',
   ParaIdOf: 'ParaId',
   SubId: 'U32',
@@ -30,6 +31,30 @@ const definition = {
       Fixed: 'IncomingParachainFixed',
       Deploy: 'IncomingParachainDeploy'
     }
+  },
+  ParachainDispatchOrigin: {
+    _enum: [
+      'Signed',
+      'Parachain'
+    ]
+  },
+  SlotRange: {
+    _enum: [
+      'ZeroZero', // 0
+      'ZeroOne', // 1,
+      'ZeroTwo', // 2,
+      'ZeroThree', // 3,
+      'OneOne', // 4,
+      'OneTwo', // 5,
+      'OneThree', // 6,
+      'TwoTwo', // 7,
+      'TwoThree', // 8,
+      'ThreeThree' // 9,     // == SLOT_RANGE_COUNT - 1
+    ]
+  },
+  UpwardMessage: {
+    origin: 'ParachainDispatchOrigin',
+    data: 'Bytes'
   },
   WinningDataEntry: '(AccountId, ParaIdOf, BalanceOf)',
   WinningData: '[WinningDataEntry; 10]'

@@ -171,7 +171,7 @@ These types are only available in Polkadot chains -
 | [[SubId]] | A sub-bidder identifier. Used to distinguish between different logical bidders coming from the same account ID. |
 | [[UpwardMessage]] | A message from a parachain to its Relay Chain |
 | [[WinningData]] | Winning data type. This encodes the top bidders of each range together with their bid. |
-| [[WinningDataentry]] | And entry in the [[WinningData]] fixed vector |
+| [[WinningDataEntry]] | And entry in the [[WinningData]] fixed vector |
 
 
 ## RPC types

@@ -18,10 +18,14 @@ const srml = { parachains };
 function tsEnum ({ name, sub }: TypeDef, otherTypes: TypeExist): string {
   otherTypes[name as string] = false;
 
-  const keys = (sub as Array<TypeDef>).map(({ info, name }) => {
+  const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
+    const enumType = type === 'Null'
+      ? ''
+      : `(${type})`;
+
     switch (info) {
       case TypeDefInfo.Plain:
-        return `  readonly is${name}: boolean;\n`;
+        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${name}: boolean;\n`;
 
       default:
         throw new Error(`Unhandled type ${info}`);
