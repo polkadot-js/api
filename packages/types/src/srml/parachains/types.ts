@@ -21,10 +21,12 @@ export interface Bidder extends Enum {
    * @description 0:: New(NewBidder)
    */
   readonly isNew: boolean;
+  readonly asNew: NewBidder;
   /**
    * @description 1:: Existing(ParaId)
    */
   readonly isExisting: boolean;
+  readonly asExisting: ParaId;
 }
 
 export interface IncomingParachainDeploy extends Struct {
@@ -42,14 +44,17 @@ export interface IncomingParachain extends Enum {
    * @description 0:: Unset(NewBidder)
    */
   readonly isUnset: boolean;
+  readonly asUnset: NewBidder;
   /**
    * @description 1:: Fixed(IncomingParachainFixed)
    */
   readonly isFixed: boolean;
+  readonly asFixed: IncomingParachainFixed;
   /**
    * @description 2:: Deploy(IncomingParachainDeploy)
    */
   readonly isDeploy: boolean;
+  readonly asDeploy: IncomingParachainDeploy;
 }
 
 export interface ParachainDispatchOrigin extends Enum {

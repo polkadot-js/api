@@ -129,17 +129,27 @@ export default class Enum extends Base<Codec> implements Codec {
         super(Types, value, index);
 
         Object.keys(this._def).forEach((_key) => {
-          const key = `is${_key}`;
+          const askey = `as${_key}`;
+          const iskey = `is${_key}`;
 
           // do not clobber existing properties on the object
-          if (!isUndefined((this as any)[key])) {
-            return;
+          if (isUndefined((this as any)[iskey])) {
+            Object.defineProperty(this, iskey, {
+              enumerable: true,
+              get: () => this.type === _key
+            });
           }
 
-          Object.defineProperty(this, key, {
-            enumerable: true,
-            get: () => this.type === _key
-          });
+          if (isUndefined((this as any)[askey])) {
+            Object.defineProperty(this, askey, {
+              enumerable: true,
+              get: () => {
+                assert((this as any)[iskey], `Cannot convert ${this.type} via ${askey}`);
+
+                return this.value;
+              }
+            });
+          }
         });
       }
     };

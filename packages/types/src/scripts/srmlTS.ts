@@ -22,10 +22,13 @@ function tsEnum ({ name, sub }: TypeDef, otherTypes: TypeExist): string {
     const enumType = type === 'Null'
       ? ''
       : `(${type})`;
+    const asGetter = type === 'Null'
+      ? ''
+      : `  readonly as${name}: ${type};\n`;
 
     switch (info) {
       case TypeDefInfo.Plain:
-        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${name}: boolean;\n`;
+        return `  /**\n   * @description ${index}:: ${name}${enumType}\n   */\n  readonly is${name}: boolean;\n${asGetter}`;
 
       default:
         throw new Error(`Unhandled type ${info}`);
