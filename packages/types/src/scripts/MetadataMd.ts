@@ -141,7 +141,7 @@ function addStorage (metadata: MetadataV5) {
       return md;
     }
 
-    const sectionName = stringLowerFirst(moduleMetadata.prefix.toString());
+    const sectionName = stringLowerFirst(moduleMetadata.name.toString());
 
     renderAnchors += sectionLink(sectionName);
 

@@ -11,7 +11,7 @@ _The following sections contain Storage methods are part of the default Substrat
 
 - **[democracy](#democracy)**
 
-- **[grandpaFinality](#grandpaFinality)**
+- **[grandpa](#grandpa)**
 
 - **[indices](#indices)**
 
@@ -213,7 +213,7 @@ ___
 ___
 
 
-### councilMotions
+### council_motions
 
 ▸ **proposalCount**(): `u32`
 - **summary**:   Proposals so far.
@@ -280,7 +280,7 @@ ___
 ___
 
 
-### grandpaFinality
+### grandpa
 
 ▸ **authorities**(): `Vec<(AuthorityId,AuthorityWeight)>`
 - **summary**:   The current authority set.

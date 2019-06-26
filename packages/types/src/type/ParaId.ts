@@ -11,3 +11,11 @@ import U32 from '../primitive/U32';
  */
 export default class ParaId extends U32 {
 }
+
+/**
+ * @name ParaIdOf
+ * @description
+ * Identifier for a deployed parachain implemented as a [[U32]]
+ */
+export class ParaIdOf extends ParaId {
+}

@@ -38,7 +38,7 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
     } else if (isU8a(value)) {
       // the isU8a check happens last in the if-tree - since the wrapped value
       // may be an instance of it, so Type and Option checks go in first
-      return value[0] === 0
+      return !value.length || value[0] === 0
         ? new Null()
         : new Type(value.subarray(1));
     }
@@ -105,7 +105,11 @@ export default class Option<T extends Codec> extends Base<T> implements Codec {
    * @description Returns a hex string representation of the value
    */
   toHex (): string {
-    return u8aToHex(this.toU8a());
+    // This attempts to align with the JSON encoding - actually in this case
+    // the isSome value is correct, however the `isNone` may be problematic
+    return this.isNone
+      ? '0x'
+      : u8aToHex(this.toU8a().subarray(1));
   }
 
   /**

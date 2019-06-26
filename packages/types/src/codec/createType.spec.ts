@@ -239,12 +239,18 @@ describe('createType', () => {
     ).toEqual('0x1200230045006700');
   });
 
+  it('allows creation of a [u16; 4]', () => {
+    expect(
+      createType('[u16; 4]', [0x1200, 0x2300, 0x4500, 0x6700]).toU8a()
+    ).toEqual(new Uint8Array([0x00, 0x12, 0x00, 0x23, 0x00, 0x45, 0x00, 0x67]));
+  });
+
   it('throw error when create base is a StorageData with null value and isPedantic is true', () => {
     const base = createType('StorageData', null);
 
     expect(
       () => createType('DoubleMap<Vec<(BlockNumber,EventIndex)>>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
+    ).toThrow(/ Input doesn't match output, received 0x, created 0x00/);
   });
 
   it('throw error when create base is a StorageData with null value and isPedantic is true', () => {
@@ -252,6 +258,6 @@ describe('createType', () => {
 
     expect(
       () => createType('Vec<(BlockNumber,EventIndex)>', base, true)
-    ).toThrow(/Encoding for input doesn't match output, created 0x00 from 0x/);
+    ).toThrow(/Input doesn't match output, received 0x, created 0x00/);
   });
 });
