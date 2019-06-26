@@ -262,6 +262,11 @@ export function createClass (type: Text | string): Constructor {
   );
 }
 
+// alias for createClass
+export function ClassOf (name: string): Constructor {
+  return createClass(name);
+}
+
 function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec {
   try {
     const created = new Type(value);

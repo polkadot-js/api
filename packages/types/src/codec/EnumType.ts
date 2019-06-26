@@ -127,6 +127,20 @@ export default class Enum extends Base<Codec> implements Codec {
     return class extends Enum {
       constructor (value?: any, index?: number) {
         super(Types, value, index);
+
+        Object.keys(this._def).forEach((_key) => {
+          const key = `is${_key}`;
+
+          // do not clobber existing properties on the object
+          if (!isUndefined((this as any)[key])) {
+            return;
+          }
+
+          Object.defineProperty(this, key, {
+            enumerable: true,
+            get: () => this.type === _key
+          });
+        });
       }
     };
   }
