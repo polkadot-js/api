@@ -4,7 +4,7 @@
 
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { Metadata } from '@polkadot/types';
-import json from '@polkadot/types/Metadata/v5/static';
+import json from '@polkadot/types/Metadata/v6/static';
 import { u8aToHex } from '@polkadot/util';
 
 import fromMetadata from './';

@@ -104,7 +104,7 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
     );
   }
 
-  private get constantNames() {
+  private get constantNames () {
     return this.modules.map((mod) =>
       mod.events.isNone
         ? []

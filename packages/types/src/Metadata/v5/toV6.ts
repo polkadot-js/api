@@ -5,7 +5,7 @@
 import { Option, Vector } from '../../codec';
 import MetadataV5 from './Metadata';
 import MetadataV6 from '../v6';
-import { ModuleConstantsMetadata } from '../v6/Constants';
+import { ModuleConstantMetadata } from '../v6/Constants';
 
 /**
  * Convert from MetadataV5 to MetadataV6
@@ -20,7 +20,7 @@ export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
         storage: modul.storage,
         calls: modul.calls,
         events: modul.events,
-        constants: new Option(Vector.with(ModuleConstantsMetadata))
+        constants: new Option(Vector.with(ModuleConstantMetadata))
       };
     })
   });
