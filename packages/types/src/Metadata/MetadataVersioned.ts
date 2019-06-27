@@ -91,7 +91,7 @@ class MetadataEnum extends Enum {
   /**
    * @description Returns the wrapped values as a V6 object
    */
-  get asV6(): MetadataV6 {
+  get asV6 (): MetadataV6 {
     assert(this.isV6, `Cannot convert '${this.type}' via asV6`);
 
     return this.value as MetadataV6;
