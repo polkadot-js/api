@@ -10,10 +10,14 @@ import { blake2AsU8a } from '@polkadot/util-crypto';
 import Compact from '../codec/Compact';
 import Struct from '../codec/Struct';
 import { FunctionMetadata } from '../Metadata/v5/Calls';
-import Method from '../primitive/Method';
+import Method, { MetaLike } from '../primitive/Method';
 import Address from '../primitive/Address';
 import Hash from '../primitive/Hash';
 import ExtrinsicSignature from './ExtrinsicSignature';
+
+interface ConstructorOptions {
+  meta?: MetaLike;
+}
 
 type ExtrinsicValue = {
   method?: Method
@@ -33,10 +37,10 @@ type ExtrinsicValue = {
  * - left as is, to create an inherent
  */
 export default class Extrinsic extends Struct implements IExtrinsic {
-  constructor (value?: ExtrinsicValue | AnyU8a | Method, meta?: FunctionMetadata) {
+  constructor (value?: ExtrinsicValue | AnyU8a | Method, options: ConstructorOptions = {}) {
     super({
       signature: ExtrinsicSignature,
-      method: meta ? Method.withMeta(meta) : Method
+      method: (isU8a(value) && options.meta) ? Method.withMeta(options.meta) : Method
     }, Extrinsic.decodeExtrinsic(value));
   }
 

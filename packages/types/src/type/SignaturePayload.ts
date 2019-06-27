@@ -4,15 +4,20 @@
 
 import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
 
+import { isU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Struct from '../codec/Struct';
 import U8a from '../codec/U8a';
 import Hash from '../primitive/Hash';
-import Method from '../primitive/Method';
+import Method, { MetaLike } from '../primitive/Method';
 import RuntimeVersion from '../rpc/RuntimeVersion';
 import ExtrinsicEra from './ExtrinsicEra';
 import Nonce from './NonceCompact';
+
+interface ConstructorOptions {
+  meta?: MetaLike;
+}
 
 type SignaturePayloadValue = {
   nonce?: AnyNumber,
@@ -44,10 +49,10 @@ function sign (signerPair: IKeyringPair, u8a: Uint8Array): Uint8Array {
 export default class SignaturePayload extends Struct {
   protected _signature?: Uint8Array;
 
-  constructor (value?: SignaturePayloadValue | Uint8Array) {
+  constructor (value?: SignaturePayloadValue | Uint8Array, options: ConstructorOptions = {}) {
     super({
       nonce: Nonce,
-      method: Method,
+      method: (isU8a(value) && options.meta) ? Method.withMeta(options.meta) : Method,
       era: ExtrinsicEra,
       blockHash: Hash
     }, value);

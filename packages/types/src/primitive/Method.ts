@@ -14,7 +14,7 @@ import U8aFixed from '../codec/U8aFixed';
 import { FunctionMetadata as FunctionMetadataV5, FunctionArgumentMetadata } from '../Metadata/v5/Calls';
 
 interface ConstructorOptions {
-  meta?: FunctionMetadataV5 | MethodFunction | Metadata;
+  meta?: MetaLike;
 }
 
 interface DecodeMethodInput {
@@ -29,11 +29,7 @@ interface DecodedMethod extends DecodeMethodInput {
   section?: string;
 }
 
-interface MetaMethodSection {
-  meta: FunctionMetadataV5;
-  method?: string;
-  section?: string;
-}
+export type MetaLike = FunctionMetadataV5 | MethodFunction | Metadata;
 
 export interface MethodFunction {
   (...args: any[]): Method;
@@ -101,7 +97,7 @@ export default class Method extends Struct implements IMethod {
     this._section = decoded.section;
   }
 
-  static withMeta (meta: FunctionMetadataV5): Constructor<Method> {
+  static withMeta (meta: MetaLike): Constructor<Method> {
     return class extends Method {
       constructor (value?: any) {
         super(value, { meta });
@@ -119,9 +115,13 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: FunctionMetadataV5 | MethodFunction | Metadata): DecodedMethod {
+  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: MetaLike): DecodedMethod {
 
-    const unwrapMeta = (callIndex: Uint8Array, meta?: FunctionMetadataV5 | MethodFunction | Metadata): MetaMethodSection => {
+    const unwrapMeta = (callIndex: Uint8Array, meta?: MetaLike): {
+      meta: FunctionMetadataV5;
+      method?: string;
+      section?: string;
+    } => {
       const isFunctionMetadata = (x: any): x is FunctionMetadataV5 =>
         !!(x && 'args' in x);
 
