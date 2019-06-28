@@ -40,7 +40,7 @@ export default class Extrinsic extends Struct implements IExtrinsic {
   constructor (value?: ExtrinsicValue | AnyU8a | Method, options: ConstructorOptions = {}) {
     super({
       signature: ExtrinsicSignature,
-      method: (isU8a(value) && options.meta) ? Method.withMeta(options.meta) : Method
+      method: options.meta ? Method.withMeta(options.meta) : Method
     }, Extrinsic.decodeExtrinsic(value));
   }
 
