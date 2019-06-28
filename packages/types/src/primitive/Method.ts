@@ -32,6 +32,7 @@ interface DecodedMethod extends DecodeMethodInput {
 export type MetaLike = FunctionMetadataV5 | MethodFunction | Metadata;
 
 export interface MethodFunction {
+  (...args: any[]): Method;
   callIndex: Uint8Array;
   meta: FunctionMetadataV5;
   method: string;
