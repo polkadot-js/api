@@ -11,8 +11,8 @@ import Vector from '../../codec/Vector';
 export class ModuleConstantMetadata extends Struct {
   constructor (value?: any) {
     super({
-      name: Text,
-      ty: Text,
+      name: Type,
+      type: Type,
       value: Bytes,
       documentation: Vector.with(Text)
     });

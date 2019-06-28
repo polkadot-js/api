@@ -13,7 +13,7 @@ import { flattenUniq, validateTypes } from '../util';
 import { FunctionMetadata } from './Calls';
 import { ModuleConstantMetadata } from './Constants';
 import { EventMetadata } from './Events';
-import { StorageFunctionMetadata } from './Storage';
+import { StorageEntryMetadata } from './Storage';
 
 /**
  * @name ModuleMetadata
@@ -25,10 +25,10 @@ export class ModuleMetadata extends Struct {
     super({
       name: Text,
       prefix: Text,
-      storage: Option.with(Vector.with(StorageFunctionMetadata)),
+      storage: Option.with(Vector.with(StorageEntryMetadata)),
       calls: Option.with(Vector.with(FunctionMetadata)),
       events: Option.with(Vector.with(EventMetadata)),
-      constants: Option.with(Vector.with(ModuleConstantMetadata))
+      constants: Vector.with(ModuleConstantMetadata)
     }, value);
   }
 
@@ -42,8 +42,8 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the module constants
    */
-  get constants (): Option<Vector<ModuleConstantMetadata>> {
-    return this.get('constants') as Option<Vector<ModuleConstantMetadata>>;
+  get constants (): Vector<ModuleConstantMetadata> {
+    return this.get('constants') as Vector<ModuleConstantMetadata>;
   }
 
   /**
@@ -70,8 +70,8 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the associated module storage
    */
-  get storage (): Option<Vector<StorageFunctionMetadata>> {
-    return this.get('storage') as Option<Vector<StorageFunctionMetadata>>;
+  get storage(): Option<Vector<StorageEntryMetadata>> {
+    return this.get('storage') as Option<Vector<StorageEntryMetadata>>;
   }
 }
 
@@ -106,11 +106,9 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
 
   private get constantNames () {
     return this.modules.map((mod) =>
-      mod.constants.isNone
-        ? []
-        : mod.constants.unwrap().map((c) => (
-          c.toString()
-        ))
+      mod.constants.map((c) => (
+        c.toString()
+      ))
     );
   }
 

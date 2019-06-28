@@ -9,8 +9,8 @@ export {
   MapType,
   PlainType,
   DoubleMapType,
-  StorageFunctionMetadata,
-  StorageFunctionMetadataValue,
-  StorageFunctionModifier,
-  StorageFunctionType
+  StorageFunctionMetadata as StorageEntryMetadata,
+  StorageFunctionMetadataValue as StorageEntryMetadataValue,
+  StorageFunctionModifier as StorageEntryMetadataModifier,
+  StorageFunctionType as StorageEntryType
 };
