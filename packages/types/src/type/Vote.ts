@@ -2,13 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyJsonObject } from '@polkadot/types/types';
-import { isBoolean, isNumber, isUndefined } from '@polkadot/util';
+import { isBoolean, isObject } from '@polkadot/util';
 
 import Conviction from './Conviction';
 import Boolean from '../primitive/Bool';
 import Bytes from '../primitive/Bytes';
-import Struct from '../codec/Struct';
 import I8 from '../primitive/I8';
 
 type Decoded = {
@@ -40,8 +38,11 @@ export default class Vote extends Bytes {
         aye: new I8(value ? -1 : 0)
       };
     } else if (value instanceof Boolean) {
+      return Vote.decodeVote(value.valueOf());
+    } else if (isObject(value)) {
       return {
-        aye: new Boolean(value)
+        aye: value.aye,
+        conviction: value.conviction
       };
     }
 
