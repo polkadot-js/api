@@ -29,10 +29,17 @@ export default class Vote extends Bytes {
     const { aye, conviction } = Vote.decodeVote(value);
 
     super(value.toU8a());
+
+    this._aye = aye;
+    this._conviction = conviction;
   }
 
-  private static decodeVote(value?: any): Decoded {
+  private static decodeVote (value?: any): Decoded {
     if (isBoolean(value)) {
+      return {
+        aye: new I8(value ? -1 : 0)
+      };
+    } else if (value instanceof Boolean) {
       return {
         aye: new Boolean(value)
       };
