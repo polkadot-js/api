@@ -70,7 +70,7 @@ export class ModuleMetadata extends Struct {
   /**
    * @description the associated module storage
    */
-  get storage(): Option<Vector<StorageEntryMetadata>> {
+  get storage (): Option<Vector<StorageEntryMetadata>> {
     return this.get('storage') as Option<Vector<StorageEntryMetadata>>;
   }
 }
@@ -106,9 +106,9 @@ export default class MetadataV6 extends Struct implements MetadataInterface<Modu
 
   private get constantNames () {
     return this.modules.map((mod) =>
-      mod.constants.map((c) => (
-        c.toString()
-      ))
+      mod.constants.map((c) =>
+        c.type.toString()
+      )
     );
   }
 

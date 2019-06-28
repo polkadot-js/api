@@ -28,8 +28,6 @@ export default function validateTypes (types: Array<string>, throwError: boolean
           );
 
         default:
-          console.log('TESTING DECODING _> ', decoded);
-          console.log('For type _> ', type);
           throw new Error('Unreachable');
       }
     });
