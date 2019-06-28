@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Boolean from '../primitive/Bool';
+import Conviction from './Conviction';
 import Vote from './Vote';
 
 describe('Vote', () => {
@@ -27,5 +29,60 @@ describe('Vote', () => {
 
   it('is negative for positive numbers', () => {
     expect(new Vote(999).isNay).toBe(true);
+  });
+
+  it('constructs V2 Vote with raw boolean', () => {
+    expect(
+      new Vote({aye: true, conviction: new Conviction('Locked1x')})
+      .toJSON()
+    ) // returns the conviction enum index
+      .toEqual({ aye: true, conviction: 1 });
+  });
+
+  it('constructs with Vote aye is false, conviction is None', () => {
+    expect(
+      new Vote({ aye: new Boolean(false), conviction: new Conviction('None') })
+      .toJSON()
+    ) // returns the conviction enum index
+      .toEqual({ aye: false, conviction: 0 });
+  });
+
+  it('constructs with Vote aye is true, conviction is Locked4x', () => {
+    expect(
+      new Vote({
+        aye: new Boolean(true),
+        conviction: new Conviction('Locked4x')
+      }
+      )
+      .toJSON()
+    )
+      .toEqual({ aye: true, conviction: 4, version: 2 });
+  });
+
+  it('conviction getter works', () => {
+    expect(
+      new Vote({
+        aye: new Boolean(true),
+        conviction: new Conviction('Locked2x')
+      }).conviction.toString())
+      .toEqual('Locked2x');
+  });
+
+  it('isAye getter works', () => {
+    expect(
+      new Vote({
+        aye: new Boolean(true),
+        conviction: new Conviction('None')
+      }).isAye)
+      .toEqual(true);
+  });
+
+  it('isNay getter works', () => {
+    expect(
+      new Vote({
+        aye: new Boolean(true),
+        conviction: new Conviction('None')
+      }).isNay)
+      .toEqual(false);
   });
 });
