@@ -10,7 +10,7 @@ describe('Event', () => {
   it('handles extracting the event data type from the runtime metadata', () => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
-    const DataTypeConstructor = Event.getDataType(new Uint8Array([2, 1]), runtimeMetadata);
+    const DataTypeConstructor = Event.getDataType(new Uint8Array([2, 1]), runtimeMetadata) as any;
     const { section, method } = new DataTypeConstructor([]);
 
     expect(section).toEqual('balances');

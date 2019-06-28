@@ -25,14 +25,13 @@ interface DecodeMethodInput {
 interface DecodedMethod extends DecodeMethodInput {
   argsDef: ArgsDef;
   meta: FunctionMetadataV5;
-  method?: string;
-  section?: string;
+  method: string;
+  section: string;
 }
 
 export type MetaLike = FunctionMetadataV5 | MethodFunction | Metadata;
 
 export interface MethodFunction {
-  (...args: any[]): Method;
   callIndex: Uint8Array;
   meta: FunctionMetadataV5;
   method: string;
@@ -77,9 +76,9 @@ export default class Method extends Struct implements IMethod {
 
   // The method name is already in _meta but we're storing it here for
   // convenience and (?) case consistency
-  protected _method?: string;
+  protected _method: string;
 
-  protected _section?: string;
+  protected _section: string;
 
   /**
    * Method constructor
@@ -123,21 +122,18 @@ export default class Method extends Struct implements IMethod {
 
     const unwrapMeta = (callIndex: Uint8Array, meta?: MetaLike): {
       meta: FunctionMetadataV5;
-      method?: string;
-      section?: string;
+      method: string;
+      section: string;
     } => {
-      const isFunctionMetadata = (x: any): x is FunctionMetadataV5 =>
-        !!(x && 'args' in x);
-
-      if (isFunctionMetadata(meta)) {
-        return { meta };
+      if (meta instanceof FunctionMetadataV5) {
+        return { meta } as MethodFunction;
       }
 
-      const methodFunction = !meta
+      const methodFunction = (!meta
         ? Method.findFunction(callIndex) // Global lookup
         : meta instanceof Metadata
           ? Method.findByCallIndex(callIndex, meta) // meta is the runtime metadata
-          : meta;
+          : meta) as MethodFunction;
 
       return { meta: methodFunction.meta, method: methodFunction.method, section: methodFunction.section };
     };
@@ -216,7 +212,7 @@ export default class Method extends Struct implements IMethod {
    * @param callIndex Call index of the function, e.g. new Uint8Array([3, 0])
    * @param metadata Runtime metadata, e.g. api.runtimeMetadata
    */
-  static findByCallIndex (callIndex: Uint8Array, metadata: Metadata): MethodFunction {
+  static findByCallIndex (callIndex: Uint8Array, metadata: Metadata): MethodFunction | undefined {
     const moduleMethods = extrinsicsFromMetadata(metadata);
 
     const methods: MethodFunction[] = ([] as MethodFunction[]).concat(
@@ -224,7 +220,7 @@ export default class Method extends Struct implements IMethod {
     );
 
     return methods.find((method: MethodFunction) =>
-      method.callIndex.toString() === callIndex.toString()) || FN_UNKNOWN;
+      method.callIndex.toString() === callIndex.toString());
   }
 
   /**

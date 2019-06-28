@@ -7,6 +7,7 @@ import extrinsics from '@polkadot/extrinsics/static';
 import Method from './Method';
 import Metadata from '../Metadata';
 import latestSubstrate from '../Metadata/v5/latest.substrate.v5.json';
+import { FunctionMetadata } from '../Metadata/v5/Calls';
 
 describe('Method', () => {
   beforeEach(() => {
@@ -28,7 +29,7 @@ describe('Method', () => {
     const runtimeMetadata = new Metadata(latestSubstrate);
 
     expect(
-      Method.findByCallIndex(new Uint8Array([3,1]), runtimeMetadata).method
+      (Method.findByCallIndex(new Uint8Array([3,1]), runtimeMetadata) as any).method
     ).toEqual('setBalance');
   });
 
@@ -46,19 +47,19 @@ describe('Method', () => {
 
     it('is false with no arguments', () => {
       expect(
-        new Method(test, { meta: { args: [] } as any }).hasOrigin
+        new Method(test, { meta: new FunctionMetadata({ args: [] }) }).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { meta: { args: [{ name: 'a', type: 'u32' }] } as any }).hasOrigin
+        new Method(test, { meta: new FunctionMetadata({ args: [{ name: 'a', type: 'u32' }] }) }).hasOrigin
       ).toEqual(false);
     });
 
     it('is false with first argument as non-Origin', () => {
       expect(
-        new Method(test, { meta: { args: [{ name: 'a', type: 'Origin' }] } as any }).hasOrigin
+        new Method(test, { meta: new FunctionMetadata({ args: [{ name: 'a', type: 'Origin' }] }) }).hasOrigin
       ).toEqual(true);
     });
   });
