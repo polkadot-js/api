@@ -16,6 +16,11 @@ import Null from './Null';
 import U32 from './U32';
 import Unconstructable from './Unconstructable';
 
+interface ConstructorOptions {
+  DataType?: Constructor<EventData>;
+  meta?: Metadata;
+}
+
 const EventTypes: { [index: string]: Constructor<EventData> } = {};
 
 /**
@@ -96,8 +101,8 @@ export class EventId extends U8aFixed {
 export default class Event extends Struct {
   // Currently we _only_ decode from Uint8Array, since we expect it to
   // be used via EventRecord
-  constructor (_value?: Uint8Array) {
-    const { DataType, value } = Event.decodeEvent(_value);
+  constructor (_value?: Uint8Array, options: ConstructorOptions = {}) {
+    const { DataType, value } = Event.decodeEvent(_value, options);
 
     super({
       index: EventId,
@@ -105,7 +110,23 @@ export default class Event extends Struct {
     }, value);
   }
 
-  static decodeEvent (value: Uint8Array = new Uint8Array()) {
+  static withDataType (DataType: Constructor<EventData>): Constructor<Event> {
+    return class extends Event {
+      constructor (value?: any) {
+        super(value, { DataType });
+      }
+    };
+  }
+
+  static withMeta (meta: Metadata): Constructor<Event> {
+    return class extends Event {
+      constructor (value?: any) {
+        super(value, { meta });
+      }
+    };
+  }
+
+  static decodeEvent (value: Uint8Array = new Uint8Array(), options: ConstructorOptions) {
     if (!value.length) {
       return {
         DataType: Null
@@ -113,7 +134,10 @@ export default class Event extends Struct {
     }
 
     const index = value.subarray(0, 2);
-    const DataType = EventTypes[index.toString()];
+    const { DataType: _DataType, meta } = options;
+    const DataType = _DataType
+      || (meta && Event.getDataType(index, meta))
+      || EventTypes[index.toString()]; // global lookup
 
     assert(!isUndefined(DataType), `Unable to decode ${u8aToHex(index)}`);
 
@@ -126,8 +150,46 @@ export default class Event extends Struct {
     };
   }
 
+  static getDataType (soughtEventIndex: Uint8Array, metadata: Metadata): Constructor<EventData> | undefined {
+    const methods = ([] as {meta: EventMetadataV5, eventIndex: Uint8Array, sectionName: string}[]).concat(
+      ...metadata.asV5.modules
+      .filter((section) => section.events.isSome)
+      .map((section, sectionIndex) =>
+        section.events.unwrap().map((meta, methodIndex) => ({
+          meta,
+          eventIndex: new Uint8Array([sectionIndex, methodIndex]),
+          sectionName: stringCamelCase(section.name.toString())
+        }))
+      )
+    );
+
+    const found = methods.find(({ eventIndex }) => eventIndex.toString() === soughtEventIndex.toString());
+    if (!found) return;
+
+    const { meta, sectionName } = found;
+    const methodName = meta.name.toString();
+    const typeDef = meta.args.map((arg) => getTypeDef(arg));
+    const Types = typeDef.map((typeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
+
+    return class extends EventData {
+      constructor (value: Uint8Array) {
+        super(
+          Types,
+          value,
+          typeDef,
+          meta,
+          sectionName,
+          methodName
+        );
+      }
+    };
+  }
+
   // This is called/injected by the API on init, allowing a snapshot of
   // the available system events to be used in lookups
+  //
+  // deprecated: Instead of injecting the events metadata globally, call the
+  // Event constructor with the DataType or runtime metadata.
   static injectMetadata (metadata: Metadata): void {
     metadata.asV5.modules
       .filter((section) => section.events.isSome)

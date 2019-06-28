@@ -5,7 +5,7 @@
 - **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
 - **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`.
 - **Breaking change** The second argument to `Method` is now an object containing the meta, rather than the meta directly. Before: `new Method(value, meta)`. Now: `new Method(value, { meta })`.
-- `Method.injectMethods` is going to be removed. Instead of injecting the methods metadata globally, it is now recommended to pass the function metadata (or the whole runtime metadata) to the `Method` constructor.
+- `Method.injectMethods` and `Event.injectMethods` are going to be removed. It is recommended to pass the runtime metadata (or method metadata / event data type) `Method`/`Event` constructor instead.
 - Update with latest substrate 2.x types
 
 # 0.81.1

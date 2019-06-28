@@ -74,7 +74,11 @@ export class MethodIndex extends U8aFixed {
  */
 export default class Method extends Struct implements IMethod {
   protected _meta: FunctionMetadataV5;
+
+  // The method name is already in _meta but we're storing it here for
+  // convenience and (?) case consistency
   protected _method?: string;
+
   protected _section?: string;
 
   /**
@@ -125,18 +129,15 @@ export default class Method extends Struct implements IMethod {
       const isFunctionMetadata = (x: any): x is FunctionMetadataV5 =>
         !!(x && 'args' in x);
 
-      const isMethodFunction = (x: any): x is MethodFunction =>
-        !!(x && 'meta' in x);
-
       if (isFunctionMetadata(meta)) {
         return { meta };
       }
 
       const methodFunction = !meta
         ? Method.findFunction(callIndex) // Global lookup
-        : isMethodFunction(meta)
-          ? meta
-          : Method.findByCallIndex(callIndex, meta); // meta is then the runtime metadata
+        : meta instanceof Metadata
+          ? Method.findByCallIndex(callIndex, meta) // meta is the runtime metadata
+          : meta;
 
       return { meta: methodFunction.meta, method: methodFunction.method, section: methodFunction.section };
     };

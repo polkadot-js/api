@@ -52,6 +52,9 @@ export default class SignaturePayload extends Struct {
   constructor (value?: SignaturePayloadValue | Uint8Array, options: ConstructorOptions = {}) {
     super({
       nonce: Nonce,
+      // Making explicit that if value is SignaturePayloadValue, then the method
+      // is already instanciated (as value.method) and as such options.meta will
+      // be ignored
       method: (isU8a(value) && options.meta) ? Method.withMeta(options.meta) : Method,
       era: ExtrinsicEra,
       blockHash: Hash

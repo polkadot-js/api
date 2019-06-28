@@ -8,9 +8,16 @@ import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
 import Hash from './Hash';
-import Event from './Event';
+import Event, { EventData } from './Event';
+import Metadata from '../Metadata';
 import Null from './Null';
 import U32 from './U32';
+import { Constructor } from '../types';
+
+interface ConstructorOptions {
+  DataType?: Constructor<EventData>;
+  meta?: Metadata;
+}
 
 /**
  * @name ApplyExtrinsic
@@ -82,10 +89,14 @@ export class Phase extends Enum {
  */
 // tslint:disable-next-line
 export class EventRecord_0_76 extends Struct {
-  constructor (value: any) {
+  constructor (value: any, options: ConstructorOptions = {}) {
     super({
       phase: Phase,
-      event: Event
+      event: options.DataType
+        ? Event.withDataType(options.DataType)
+        : options.meta
+          ? Event.withMeta(options.meta)
+          : Event
     }, value);
   }
 
@@ -118,10 +129,14 @@ export class EventRecord_0_76 extends Struct {
  * application.
  */
 export default class EventRecord extends Struct {
-  constructor (value: any) {
+  constructor (value: any, options: ConstructorOptions = {}) {
     super({
       phase: Phase,
-      event: Event,
+      event: options.DataType
+        ? Event.withDataType(options.DataType)
+        : options.meta
+          ? Event.withMeta(options.meta)
+          : Event,
       topics: Vector.with(Hash)
     }, value);
   }
