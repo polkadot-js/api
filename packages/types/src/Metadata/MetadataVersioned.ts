@@ -262,10 +262,6 @@ export default class MetadataVersioned extends Struct {
     return this._convertedV3;
   }
 
-  getUniqTypes (throwError: boolean): Array<string> {
-    return this.asV5.getUniqTypes(throwError);
-  }
-
   /**
    * @description Returns the wrapped values as a V4 object
    */
@@ -315,5 +311,9 @@ export default class MetadataVersioned extends Struct {
     }
 
     return this._convertedV6;
+  }
+
+  getUniqTypes(throwError: boolean): Array<string> {
+    return this.asV6.getUniqTypes(throwError);
   }
 }

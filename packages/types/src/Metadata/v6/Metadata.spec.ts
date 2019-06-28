@@ -7,18 +7,13 @@ import substrateJson from './latest.substrate.v6.json';
 // import polkadotData from './static.polkadot';
 import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
-import Metadata from '../Metadata';
 
 describe('MetadataV6 (substrate)', () => {
-  const metadata = new Metadata(substrateData);
+  decodeLatestSubstrate(6, substrateData, substrateJson);
 
-  console.error(JSON.stringify(metadata.toJSON()));
+  toV6(6, substrateData);
 
-  // decodeLatestSubstrate(6, substrateData, substrateJson);
-
-  // toV6(6, substrateData);
-
-  // defaultValues(substrateData);
+  defaultValues(substrateData);
 });
 
 // describe('MetadataV6 (polkadot)', () => {

@@ -11,11 +11,11 @@ import Vector from '../../codec/Vector';
 export class ModuleConstantMetadata extends Struct {
   constructor (value?: any) {
     super({
-      name: Type,
+      name: Text,
       type: Type,
       value: Bytes,
       documentation: Vector.with(Text)
-    });
+    }, value);
   }
 
   /**
@@ -29,7 +29,7 @@ export class ModuleConstantMetadata extends Struct {
    * @description The [[Type]]
    */
   get type (): Type {
-    return this.get('ty') as Type;
+    return this.get('type') as Type;
   }
 
   /**
