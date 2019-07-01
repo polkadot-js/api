@@ -43,7 +43,7 @@ describe.skip('Rx e2e transactions', () => {
       });
   });
 
-  it.only('makes a proposal', (done) => {
+  it('makes a proposal', (done) => {
     (api.query.system.accountNonce(keyring.alice.address) as Observable<Index>)
       .pipe(
         first(),
