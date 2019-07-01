@@ -151,17 +151,18 @@ export default class Event extends Struct {
   }
 
   static getDataType (soughtEventIndex: Uint8Array, metadata: Metadata): Constructor<EventData> | undefined {
-    const methods = ([] as {meta: EventMetadataV5, eventIndex: Uint8Array, sectionName: string}[]).concat(
-      ...metadata.asV5.modules
-      .filter((section) => section.events.isSome)
-      .map((section, sectionIndex) =>
-        section.events.unwrap().map((meta, methodIndex) => ({
-          meta,
-          eventIndex: new Uint8Array([sectionIndex, methodIndex]),
-          sectionName: stringCamelCase(section.name.toString())
-        }))
-      )
-    );
+    const methods = ([] as {meta: EventMetadataV5, eventIndex: Uint8Array, sectionName: string}[])
+      .concat(
+        ...metadata.asV5.modules
+        .filter((section) => section.events.isSome)
+        .map((section, sectionIndex) =>
+          section.events.unwrap().map((meta, methodIndex) => ({
+            meta,
+            eventIndex: new Uint8Array([sectionIndex, methodIndex]),
+            sectionName: stringCamelCase(section.name.toString())
+          }))
+        )
+      );
 
     const found = methods.find(({ eventIndex }) => eventIndex.toString() === soughtEventIndex.toString());
     if (!found) return;

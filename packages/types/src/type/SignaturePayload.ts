@@ -4,7 +4,6 @@
 
 import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
 
-import { isU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import Struct from '../codec/Struct';
@@ -52,10 +51,7 @@ export default class SignaturePayload extends Struct {
   constructor (value?: SignaturePayloadValue | Uint8Array, options: ConstructorOptions = {}) {
     super({
       nonce: Nonce,
-      // Making explicit that if value is SignaturePayloadValue, then the method
-      // is already instanciated (as value.method) and as such options.meta will
-      // be ignored
-      method: (isU8a(value) && options.meta) ? Method.withMeta(options.meta) : Method,
+      method: options.meta ? Method.withMeta(options.meta) : Method,
       era: ExtrinsicEra,
       blockHash: Hash
     }, value);

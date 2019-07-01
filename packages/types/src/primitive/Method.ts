@@ -119,7 +119,7 @@ export default class Method extends Struct implements IMethod {
    * @param _meta - Metadata to use, so that `injectMethods` lookup is not
    * necessary.
    */
-  private static decodeMethod (value: DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: MetaLike): DecodedMethod {
+  private static decodeMethod (value: Method | DecodedMethod | Uint8Array | string = new Uint8Array(), _meta?: MetaLike): DecodedMethod {
 
     const unwrapMeta = (callIndex: Uint8Array, meta?: MetaLike): {
       meta: FunctionMetadataV5;
@@ -156,6 +156,10 @@ export default class Method extends Struct implements IMethod {
         method,
         section
       };
+    } else if (value instanceof Method) {
+      const { args, argsDef, callIndex, meta, methodName: method, sectionName: section } = value;
+
+      return { args, argsDef, callIndex, meta, method, section };
     } else if (isObject(value) && value.callIndex && value.args) {
       // destructure value, we only pass args/methodsIndex out
       const { args, callIndex } = value;
@@ -304,14 +308,14 @@ export default class Method extends Struct implements IMethod {
   /**
    * @description Returns the name of the method
    */
-  get methodName (): string | undefined {
+  get methodName (): string {
     return this._method;
   }
 
   /**
    * @description Returns the module containing the method
    */
-  get sectionName (): string | undefined {
+  get sectionName (): string {
     return this._section;
   }
 
