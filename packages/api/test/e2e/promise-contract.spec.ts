@@ -17,7 +17,7 @@ import { ApiPromise, SubmittableResult } from '../../src';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describe('Promise e2e contracts', () => {
+describe.skip('Promise e2e contracts', () => {
   let address: Address;
   let codeHash: Hash;
   let keyring: {
@@ -49,11 +49,8 @@ describe('Promise e2e contracts', () => {
         api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
           .signAndSend(keyring.eve, (result: SubmittableResult) => {
-            console.error('putCode', JSON.stringify(result));
-
             if (result.status.isFinalized) {
               const record = result.findRecord('contract', 'CodeStored');
-
               if (record) {
                 codeHash = record.event.data[0] as Hash;
 

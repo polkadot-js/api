@@ -7,7 +7,7 @@ import { Extrinsic, SignedBlock } from '@polkadot/types';
 import Api from './../../src/promise';
 
 // To run these tests locally you need to run a Alexander full archive node locally
-describe('alex archive queries (local)', () => {
+describe.skip('alex archive queries (local)', () => {
   let api: Api;
 
   beforeEach(() => {
