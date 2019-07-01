@@ -61,7 +61,7 @@ describe('Promise e2e contracts', () => {
       );
     });
 
-    it('allows contract create', (done) => {
+    it.skip('allows contract create', (done) => {
       expect(codeHash).toBeDefined();
 
       return (
@@ -83,7 +83,7 @@ describe('Promise e2e contracts', () => {
       );
     });
 
-    it('allows contract call', (done) => {
+    it.skip('allows contract call', (done) => {
       expect(address).toBeDefined();
 
       return (

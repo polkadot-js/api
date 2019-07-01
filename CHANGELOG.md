@@ -5,6 +5,7 @@
 - **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
 - **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`. 
 - Update with latest substrate 2.x types
+- Support latest substrate 2.x v6 metadata with module constants
 
 # 0.81.1
 
