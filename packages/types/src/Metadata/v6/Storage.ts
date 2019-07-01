@@ -11,6 +11,6 @@ export {
   DoubleMapType,
   StorageFunctionMetadata as StorageEntryMetadata,
   StorageFunctionMetadataValue as StorageEntryMetadataValue,
-  StorageFunctionModifier as StorageEntryMetadataModifier,
+  StorageFunctionModifier as StorageEntryModifier,
   StorageFunctionType as StorageEntryType
 };

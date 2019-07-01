@@ -4,11 +4,11 @@
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
-import { StorageFunctionMetadata as MetaV6 } from '../Metadata/v6/Storage';
+import { StorageEntryMetadata as MetaV6 } from '../Metadata/v6/Storage';
 import { AnyU8a } from '../types';
 import Bytes from './Bytes';
 
-export interface StorageFunction {
+export interface StorageEntry {
   (arg?: any): Uint8Array;
   headKey?: Uint8Array;
   meta: MetaV6;
@@ -27,7 +27,7 @@ type Decoded = {
  * @name StorageKey
  * @description
  * A representation of a storage key (typically hashed) in the system. It can be
- * constructed by passing in a raw key or a StorageFunction with (optional) arguments.
+ * constructed by passing in a raw key or a StorageEntry with (optional) arguments.
  */
 export default class StorageKey extends Bytes {
   private _meta?: MetaV6;
@@ -35,7 +35,7 @@ export default class StorageKey extends Bytes {
   private _outputType?: string;
   private _section?: string;
 
-  constructor (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]) {
+  constructor (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]) {
     const { key, method, section } = StorageKey.decodeStorageKey(value);
 
     super(key);
@@ -46,7 +46,7 @@ export default class StorageKey extends Bytes {
     this._section = section;
   }
 
-  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageFunction | [StorageFunction, any]): Decoded {
+  static decodeStorageKey (value?: AnyU8a | StorageKey | StorageEntry | [StorageEntry, any]): Decoded {
     if (value instanceof StorageKey) {
       return {
         key: value,
@@ -65,7 +65,7 @@ export default class StorageKey extends Bytes {
         section: value.section
       };
     } else if (Array.isArray(value)) {
-      const [fn, ...arg]: [StorageFunction, ...Array<any>] = value as any;
+      const [fn, ...arg]: [StorageEntry, ...Array<any>] = value as any;
 
       assert(isFunction(fn), 'Expected function input for key construction');
 
@@ -79,7 +79,7 @@ export default class StorageKey extends Bytes {
     throw new Error(`Unable to convert input ${value} to StorageKey`);
   }
 
-  static getMeta (value: StorageKey | StorageFunction | [StorageFunction, any]): MetaV6 | undefined {
+  static getMeta (value: StorageKey | StorageEntry | [StorageEntry, any]): MetaV6 | undefined {
     if (value instanceof StorageKey) {
       return value.meta;
     } else if (isFunction(value)) {
@@ -93,7 +93,7 @@ export default class StorageKey extends Bytes {
     return undefined;
   }
 
-  static getType (value: StorageKey | StorageFunction | [StorageFunction, any]): string | undefined {
+  static getType (value: StorageKey | StorageEntry | [StorageEntry, any]): string | undefined {
     if (value instanceof StorageKey) {
       return value.outputType;
     } else if (isFunction(value)) {

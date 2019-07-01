@@ -18,7 +18,7 @@ const WS_LOCAL = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('derive e2e', () => {
+describe('derive e2e', () => {
   let api: ApiRx;
 
   beforeAll(() => {
@@ -179,7 +179,7 @@ describe.skip('derive e2e', () => {
     });
 
     // FIXME https://github.com/polkadot-js/api/issues/868
-    describe.skip('getHeader', () => {
+    describe('getHeader', () => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
           // WIP

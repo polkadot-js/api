@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { createType, Bytes, Compact, StorageKey, Text, U8a } from '@polkadot/types';
-import { PlainType, StorageFunctionMetadata, StorageFunctionModifier, StorageFunctionType } from '@polkadot/types/Metadata/v6/Storage';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { PlainType, StorageEntryMetadata, StorageEntryModifier, StorageEntryType } from '@polkadot/types/Metadata/v6/Storage';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, isNull, isUndefined, stringLowerFirst, stringToU8a, u8aConcat } from '@polkadot/util';
 
 import getHasher, { HasherFunction } from './getHasher';
@@ -24,7 +24,7 @@ export interface CreateItemOptions {
  * are not known at runtime (from state_getMetadata), they need to be supplied
  * by us manually at compile time.
  */
-export default function createFunction (section: Text | string, method: Text | string, meta: StorageFunctionMetadata, options: CreateItemOptions = {}): StorageFunction {
+export default function createFunction (section: Text | string, method: Text | string, meta: StorageEntryMetadata, options: CreateItemOptions = {}): StorageEntry {
   const stringKey = options.key
     ? options.key
     : `${section.toString()} ${method.toString()}`;
@@ -81,10 +81,10 @@ export default function createFunction (section: Text | string, method: Text | s
   if (meta.type.isMap && meta.type.asMap.isLinked) {
     const keyHash = new U8a(hasher(`head of ${stringKey}`));
     const keyFn: any = () => keyHash;
-    keyFn.meta = new StorageFunctionMetadata({
+    keyFn.meta = new StorageEntryMetadata({
       name: meta.name,
-      modifier: new StorageFunctionModifier('Required'),
-      type: new StorageFunctionType(new PlainType(meta.type.asMap.key), 0),
+      modifier: new StorageEntryModifier('Required'),
+      type: new StorageEntryType(new PlainType(meta.type.asMap.key), 0),
       fallback: new Bytes(),
       documentation: meta.documentation
     });
@@ -96,5 +96,5 @@ export default function createFunction (section: Text | string, method: Text | s
   storageFn.section = stringLowerFirst(section.toString());
   storageFn.toJSON = (): any => meta.toJSON();
 
-  return storageFn as StorageFunction;
+  return storageFn as StorageEntry;
 }

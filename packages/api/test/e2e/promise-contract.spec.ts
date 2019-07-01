@@ -17,7 +17,7 @@ import { ApiPromise, SubmittableResult } from '../../src';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describe.skip('Promise e2e contracts', () => {
+describe('Promise e2e contracts', () => {
   let address: Address;
   let codeHash: Hash;
   let keyring: {

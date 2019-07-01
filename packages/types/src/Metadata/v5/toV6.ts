@@ -2,10 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Vector } from '../../codec';
 import MetadataV5 from './Metadata';
 import MetadataV6 from '../v6';
-import { ModuleConstantMetadata } from '../v6/Constants';
 
 /**
  * Convert from MetadataV5 to MetadataV6
@@ -20,7 +18,7 @@ export default function toV6 (metadataV5: MetadataV5): MetadataV6 {
         storage: modul.storage,
         calls: modul.calls,
         events: modul.events,
-        constants: Vector.with(ModuleConstantMetadata)
+        constants: []
       };
     })
   });
