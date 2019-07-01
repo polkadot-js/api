@@ -179,7 +179,7 @@ describe.skip('derive e2e', () => {
     });
 
     // FIXME https://github.com/polkadot-js/api/issues/868
-    describe('getHeader', () => {
+    describe.skip('getHeader', () => {
       it('gets a specific block header and extended with it\`s author', async (done) => {
         api.derive.chain.getHeader('TODO').subscribe((headerExtended: HeaderExtended | undefined) => {
           // WIP

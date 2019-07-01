@@ -8,7 +8,7 @@ import Mock from '@polkadot/rpc-provider/mock/index';
 import { ApiPromise } from './..';
 import { ApiOptions } from './../types';
 
-describe('Metadata queries', () => {
+describe.skip('Metadata queries', () => {
   let mock: Mock;
 
   beforeEach(() => {
