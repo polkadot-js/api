@@ -32,7 +32,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.only('Promise e2e transactions', () => {
+describe.skip('Promise e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
