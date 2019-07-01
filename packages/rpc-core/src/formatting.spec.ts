@@ -112,8 +112,9 @@ function formattingTests (version: string, storage: Storage, encodedValues: [str
     });
 
     it('handles the case where Option<Bytes> are retrieved', (done) => {
+      let call = Number(version.slice(1)) <= 5 ? storage.contract.pristineCode : storage.contracts.pristineCode;
       api.state
-        .subscribeStorage([[storage.contract.pristineCode, '0x00']])
+        .subscribeStorage([[call, '0x00']])
         .subscribe((value: any) => {
           // console.error(value);
 
