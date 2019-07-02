@@ -56,7 +56,7 @@ describe('StorageKey', () => {
       ).toBe('0x7f864e18e3dd8b58386310d2fe0919eef27c6e558564b7f67f22d99d20f587bb');
     });
 
-    it(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
+    it.only(`should correctly get Alice's freeBalance storage key (u8a)`, () => {
       expect(
         new StorageKey(
           storage

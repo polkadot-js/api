@@ -7,19 +7,19 @@ import Conviction from './Conviction';
 import Vote from './Vote';
 
 describe('Vote', () => {
-  it.only('constructs via boolean true', () => {
-    expect(new Vote(true)).toEqual(-1);
+  it('constructs via boolean true', () => {
+    expect(new Vote(true).toNumber()).toEqual(-1);
   });
 
   it('constructs via boolean false', () => {
-    expect(new Vote(false)).toEqual(0);
+    expect(new Vote(false).toNumber()).toEqual(0);
   });
 
   it('has isYay for positive', () => {
     expect(new Vote(new Boolean(true)).isAye).toBe(true);
   });
 
-  it('has isYay for negative', () => {
+  it('has isNay for negative', () => {
     expect(new Vote(new Boolean(false)).isNay).toBe(true);
   });
 
@@ -33,18 +33,16 @@ describe('Vote', () => {
 
   it('constructs V2 Vote with raw boolean', () => {
     expect(
-      new Vote({ aye: true, conviction: new Conviction('Locked1x' )})
-      .toJSON()
-    ) // returns the conviction enum index
-      .toEqual({ aye: true, conviction: 1 });
+      new Vote({ aye: true, conviction: new Conviction('Locked1x') }).toHex()
+    )
+      .toEqual('0x7b22617965223a747275652c22636f6e76696374696f6e223a317d');
   });
 
   it('constructs with Vote aye is false, conviction is None', () => {
     expect(
-      new Vote({ aye: new Boolean(false), conviction: new Conviction('None') })
-      .toJSON()
+      new Vote({ aye: new Boolean(false), conviction: new Conviction('None') }).toHex()
     ) // returns the conviction enum index
-      .toEqual({ aye: false, conviction: 0 });
+      .toEqual('0x7b22617965223a66616c73652c22636f6e76696374696f6e223a307d');
   });
 
   it('constructs with Vote aye is true, conviction is Locked4x', () => {
@@ -52,11 +50,10 @@ describe('Vote', () => {
       new Vote({
         aye: new Boolean(true),
         conviction: new Conviction('Locked4x')
-      }
-      )
-      .toJSON()
+      })
+      .toHex()
     )
-      .toEqual({ aye: true, conviction: 4, version: 2 });
+      .toEqual('0x7b22617965223a747275652c22636f6e76696374696f6e223a347d');
   });
 
   it('conviction getter works', () => {

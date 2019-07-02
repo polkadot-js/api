@@ -8,7 +8,7 @@ import Conviction from './Conviction';
 import Boolean from '../primitive/Bool';
 import Bytes from '../primitive/Bytes';
 import I8 from '../primitive/I8';
-import { Struct } from '../codec';
+import { Struct, Compact } from '../codec';
 
 // type Decoded = {
 //   aye: Boolean | I8,
@@ -27,27 +27,25 @@ export default class Vote extends Bytes {
   constructor (value?: any) {
     const decoded = Vote.decodeVote(value);
 
-    const { aye, conviction } = decoded;
-
-    console.log(decoded);
-
-    // either construct with aye: I8
-    if (aye instanceof I8) {
-      console.log(aye.toU8a())
-      super(aye.toU8a());
-    } else { // or Struct<aye: bool, conviction: enum>
-      super(decoded.toU8a());
+    if (decoded.aye instanceof I8) {
+      // I8
+      super(decoded.aye.toString());
+    } else {
+      // Struct<aye: bool, conviction: enum>
+      super(decoded.toString());
     }
 
-    this._aye = aye;
-    this._conviction = conviction;
+    this._aye = decoded.aye;
+    this._conviction = decoded.conviction;
   }
 
   private static decodeVote (value?: any): any {
     if (isBoolean(value)) {
-      return {
-        aye: new I8(value ? -1 : 0)
-      };
+      if (value === true) {
+        return { aye: new I8(-1) };
+      } else {
+        return { aye: new I8(0) };
+      }
     } else if (value instanceof Boolean) {
       return Vote.decodeVote(value.valueOf());
     } else if (isObject(value)) {
