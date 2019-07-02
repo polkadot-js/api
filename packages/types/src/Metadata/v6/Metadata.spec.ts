@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import latestSubstrate from './latest.substrate.v2.json';
-import rpcData from './static';
+import substrateJson from './latest.substrate.v6.json';
+import substrateData from './static';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
 
-describe('MetadataV2', () => {
-  decodeLatestSubstrate(2, rpcData, latestSubstrate);
+describe('MetadataV6 (substrate)', () => {
+  decodeLatestSubstrate(6, substrateData, substrateJson);
 
-  toV6(2, rpcData);
+  toV6(6, substrateData);
 
-  defaultValues(rpcData);
+  defaultValues(substrateData);
 });

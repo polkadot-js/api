@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction, Callback, Codec } from '@polkadot/types/types';
-import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageFunctionPromiseOverloads, UnsubscribePromise } from '../types';
+import { ApiOptions, DecorateMethodOptions, ObsInnerType, StorageEntryPromiseOverloads, UnsubscribePromise } from '../types';
 
 import { EMPTY } from 'rxjs';
 import { catchError, first, tap } from 'rxjs/operators';
@@ -198,7 +198,7 @@ export default class ApiPromise extends ApiBase<'promise'> {
     };
   }
 
-  protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageFunctionPromiseOverloads {
+  protected decorateMethod<Method extends AnyFunction> (method: Method, options?: DecorateMethodOptions): StorageEntryPromiseOverloads {
     const needsCallback = options && options.methodName && options.methodName.includes('subscribe');
 
     return function (...args: any[]) {
@@ -247,6 +247,6 @@ export default class ApiPromise extends ApiBase<'promise'> {
           )
           .subscribe(callback);
       }) as UnsubscribePromise;
-    } as StorageFunctionPromiseOverloads;
+    } as StorageEntryPromiseOverloads;
   }
 }
