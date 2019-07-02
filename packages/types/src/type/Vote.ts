@@ -23,7 +23,7 @@ export default class Vote extends U8a {
     super(decoded);
 
     this._aye = new Boolean(decoded[0]);
-    this._conviction = new Conviction(1);
+    this._conviction = new Conviction();
   }
 
   private static decodeVote (value?: any): Uint8Array {
@@ -38,11 +38,7 @@ export default class Vote extends U8a {
 
       const index = value.conviction.toNumber();
       const conviction = new Uint8Array((index >>> 0).toString(2).split('').map(Number)); // 1 to 3 bytes
-      console.log('conviction -> ', conviction);
       const padding = new Uint8Array(7 - conviction.length); // 4 - 6 bytes
-      console.log('padding => ', padding);
-      console.log(aye);
-      console.log(u8aConcat(aye, u8aConcat(padding, conviction)));
 
       return u8aConcat(aye, u8aConcat(padding, conviction));
     } else if (isU8a(value)) {

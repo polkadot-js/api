@@ -42,7 +42,7 @@ describe('Vote', () => {
       .toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 1]));
   });
 
-  it.only('constructs with Vote aye is false, conviction is None', () => {
+  it('constructs with Vote aye is false, conviction is None', () => {
     expect(
       new Vote({
         aye: new Boolean(false),
@@ -53,7 +53,7 @@ describe('Vote', () => {
       .toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
   });
 
-  it.only('constructs with Vote aye is true, conviction is Locked4x', () => {
+  it('constructs with Vote aye is true, conviction is Locked4x', () => {
     expect(
       new Vote({
         aye: new Boolean(true),
@@ -61,7 +61,7 @@ describe('Vote', () => {
       })
       .toU8a()
     )
-      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 1, 0, 0]));
+      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 1, 0, 0]));
   });
 
   it('conviction getter works', () => {
