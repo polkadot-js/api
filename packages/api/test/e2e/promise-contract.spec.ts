@@ -17,7 +17,7 @@ import { ApiPromise, SubmittableResult } from '../../src';
 
 const flipperCode = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
 
-describe('Promise e2e contracts', () => {
+describe.skip('Promise e2e contracts', () => {
   let address: Address;
   let codeHash: Hash;
   let keyring: {
@@ -44,7 +44,7 @@ describe('Promise e2e contracts', () => {
       abi = new Abi(flipperAbi);
     });
 
-    it.only('allows putCode', (done) => {
+    it('allows putCode', (done) => {
       return (
         api.tx.contracts
           .putCode(MAX_GAS, `0x${flipperCode}`)
@@ -61,7 +61,7 @@ describe('Promise e2e contracts', () => {
       );
     });
 
-    it.skip('allows contract create', (done) => {
+    it('allows contract create', (done) => {
       expect(codeHash).toBeDefined();
 
       return (
@@ -83,7 +83,7 @@ describe('Promise e2e contracts', () => {
       );
     });
 
-    it.skip('allows contract call', (done) => {
+    it('allows contract call', (done) => {
       expect(address).toBeDefined();
 
       return (
