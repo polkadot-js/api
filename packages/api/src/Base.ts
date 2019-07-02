@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
-import { Storage } from '@polkadot/metadata/storage/types';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
@@ -17,9 +16,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
 import extrinsicsFromMeta from '@polkadot/metadata/extrinsics/fromMetadata';
+import { Storage } from '@polkadot/metadata/storage/types';
+import storageFromMeta from '@polkadot/metadata/storage/fromMetadata';
+import constantsFromMeta from '@polkadot/metadata/constants/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import storageFromMeta from '@polkadot/metadata/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
@@ -473,6 +474,7 @@ export default abstract class ApiBase<ApiType> {
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
+    const constants = constantsFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
