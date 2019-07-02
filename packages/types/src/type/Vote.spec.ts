@@ -23,15 +23,15 @@ describe('Vote', () => {
     expect(new Vote(new Boolean(false)).isNay).toBe(true);
   });
 
-  it('is positive for negative numbers', () => {
+  it('is Aye for negative numbers', () => {
     expect(new Vote(-999).isAye).toBe(true);
   });
 
-  it('is negative for positive numbers', () => {
+  it('is Nay for positive numbers', () => {
     expect(new Vote(999).isNay).toBe(true);
   });
 
-  it.only('constructs V2 Vote with raw boolean', () => {
+  it('constructs V2 Vote with raw boolean', () => {
     expect(
       new Vote({
         aye: true,
@@ -39,25 +39,29 @@ describe('Vote', () => {
       })
       .toU8a()
     )
-      .toEqual([1, 1]);
+      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 1]));
   });
 
   it.only('constructs with Vote aye is false, conviction is None', () => {
     expect(
-      new Vote({ aye: new Boolean(false), conviction: new Conviction('None') }).toHex()
-    ) // returns the conviction enum index
-      .toEqual('0x7b22617965223a66616c73652c22636f6e76696374696f6e223a307d');
+      new Vote({
+        aye: new Boolean(false),
+        conviction: new Conviction('None')
+      })
+      .toU8a()
+    )
+      .toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
   });
 
-  it('constructs with Vote aye is true, conviction is Locked4x', () => {
+  it.only('constructs with Vote aye is true, conviction is Locked4x', () => {
     expect(
       new Vote({
         aye: new Boolean(true),
         conviction: new Conviction('Locked4x')
       })
-      .toHex()
+      .toU8a()
     )
-      .toEqual('0x7b22617965223a747275652c22636f6e76696374696f6e223a347d');
+      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 1, 0, 0]));
   });
 
   it('conviction getter works', () => {
