@@ -31,14 +31,18 @@ describe('Vote', () => {
     expect(new Vote(999).isNay).toBe(true);
   });
 
-  it('constructs V2 Vote with raw boolean', () => {
+  it.only('constructs V2 Vote with raw boolean', () => {
     expect(
-      new Vote({ aye: true, conviction: new Conviction('Locked1x') }).toHex()
+      new Vote({
+        aye: true,
+        conviction: new Conviction('Locked1x')
+      })
+      .toU8a()
     )
-      .toEqual('0x7b22617965223a747275652c22636f6e76696374696f6e223a317d');
+      .toEqual([1, 1]);
   });
 
-  it('constructs with Vote aye is false, conviction is None', () => {
+  it.only('constructs with Vote aye is false, conviction is None', () => {
     expect(
       new Vote({ aye: new Boolean(false), conviction: new Conviction('None') }).toHex()
     ) // returns the conviction enum index
@@ -61,7 +65,8 @@ describe('Vote', () => {
       new Vote({
         aye: new Boolean(true),
         conviction: new Conviction('Locked2x')
-      }).conviction.toString())
+      }).conviction
+    )
       .toEqual('Locked2x');
   });
 
