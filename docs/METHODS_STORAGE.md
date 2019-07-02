@@ -3,7 +3,7 @@
 _The following sections contain Storage methods are part of the default Substrate runtime._
 - **[balances](#balances)**
 
-- **[contract](#contract)**
+- **[contracts](#contracts)**
 
 - **[council](#council)**
 
@@ -68,16 +68,13 @@ ___
 ___
 
 
-### contract
+### contracts
 
 ▸ **accountCounter**(): `u64`
 - **summary**:   The subtrie counter.
 
 ▸ **blockGasLimit**(): `Gas`
 - **summary**:   The maximum amount of gas that could be expended per block.
-
-▸ **callBaseFee**(): `Gas`
-- **summary**:   The base fee charged for calling into a contract.
 
 ▸ **codeStorage**(`CodeHash`): `Option<PrefabWasmModule>`
 - **summary**:   A mapping between an original code hash and instrumented wasm code, ready for execution.
@@ -87,9 +84,6 @@ ___
 
 ▸ **contractInfoOf**(`AccountId`): `Option<ContractInfo>`
 - **summary**:   The code associated with a given account.
-
-▸ **createBaseFee**(): `Gas`
-- **summary**:   The base fee charged for creating a contract.
 
 ▸ **creationFee**(): `BalanceOf`
 - **summary**:   The fee required to create an account.
