@@ -3,26 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Boolean from '../primitive/Bool';
-import Struct from '../codec/Struct';
 import Conviction from './Conviction';
 import Vote from './Vote';
 
 describe('Vote', () => {
   it.only('constructs via boolean true', () => {
-    // expect(new Vote(true).toNumber()).toEqual(-1);
-    expect(new Struct({
-      aye: Boolean,
-      conviction: Conviction
-    },
-    { 
-      aye: new Boolean(true),
-      conviction: new Conviction('Locked1x')
-    }
-    ));
+    expect(new Vote(true)).toEqual(-1);
   });
 
   it('constructs via boolean false', () => {
-    expect(new Vote(false).toNumber()).toEqual(0);
+    expect(new Vote(false)).toEqual(0);
   });
 
   it('has isYay for positive', () => {

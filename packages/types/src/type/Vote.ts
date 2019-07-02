@@ -8,11 +8,12 @@ import Conviction from './Conviction';
 import Boolean from '../primitive/Bool';
 import Bytes from '../primitive/Bytes';
 import I8 from '../primitive/I8';
+import { Struct } from '../codec';
 
-type Decoded = {
-  aye: Boolean | I8,
-  conviction?: Conviction
-};
+// type Decoded = {
+//   aye: Boolean | I8,
+//   conviction?: Conviction
+// };
 
 /**
  * @name Vote
@@ -28,18 +29,21 @@ export default class Vote extends Bytes {
 
     const { aye, conviction } = decoded;
 
+    console.log(decoded);
+
     // either construct with aye: I8
     if (aye instanceof I8) {
+      console.log(aye.toU8a())
       super(aye.toU8a());
     } else { // or Struct<aye: bool, conviction: enum>
-      super(Object.entries(decoded));
+      super(decoded.toU8a());
     }
 
     this._aye = aye;
     this._conviction = conviction;
   }
 
-  private static decodeVote (value?: any): Decoded {
+  private static decodeVote (value?: any): any {
     if (isBoolean(value)) {
       return {
         aye: new I8(value ? -1 : 0)
@@ -48,10 +52,13 @@ export default class Vote extends Bytes {
       return Vote.decodeVote(value.valueOf());
     } else if (isObject(value)) {
       // decode as a struct { bool, string }
-      return {
-        aye: isBoolean(value.aye) ? value.aye : value.aye.valueOf(),
+      return new Struct({
+        aye: Boolean,
+        conviction: Conviction
+      }, {
+        aye: isBoolean(value.aye) ? new Boolean(value.aye) : value.aye,
         conviction: value.conviction
-      };
+      });
     }
 
     throw new Error(`Unable to convert input ${value} to Vote`);
