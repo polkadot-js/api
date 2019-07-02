@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isBoolean, isObject } from '@polkadot/util';
+import { isBoolean, isObject, u8aConcat } from '@polkadot/util';
 
 import Conviction from './Conviction';
 import Boolean from '../primitive/Bool';
@@ -24,9 +24,16 @@ export default class Vote extends Bytes {
   private _conviction?: Conviction;
 
   constructor (value?: any) {
-    const { aye, conviction } = Vote.decodeVote(value);
+    const decoded = Vote.decodeVote(value);
 
-    super(value.toU8a());
+    const { aye, conviction } = decoded;
+
+    // either construct with aye: I8
+    if (aye instanceof I8) {
+      super(aye.toU8a());
+    } else { // or Struct<aye: bool, conviction: enum>
+      super(Object.entries(decoded));
+    }
 
     this._aye = aye;
     this._conviction = conviction;
@@ -40,8 +47,9 @@ export default class Vote extends Bytes {
     } else if (value instanceof Boolean) {
       return Vote.decodeVote(value.valueOf());
     } else if (isObject(value)) {
+      // decode as a struct { bool, string }
       return {
-        aye: value.aye,
+        aye: isBoolean(value.aye) ? value.aye : value.aye.valueOf(),
         conviction: value.conviction
       };
     }

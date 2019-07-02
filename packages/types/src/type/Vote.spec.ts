@@ -3,12 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Boolean from '../primitive/Bool';
+import Struct from '../codec/Struct';
 import Conviction from './Conviction';
 import Vote from './Vote';
 
 describe('Vote', () => {
-  it('constructs via boolean true', () => {
-    expect(new Vote(true).toNumber()).toEqual(-1);
+  it.only('constructs via boolean true', () => {
+    // expect(new Vote(true).toNumber()).toEqual(-1);
+    expect(new Struct({
+      aye: Boolean,
+      conviction: Conviction
+    },
+    { 
+      aye: new Boolean(true),
+      conviction: new Conviction('Locked1x')
+    }
+    ));
   });
 
   it('constructs via boolean false', () => {
@@ -33,7 +43,7 @@ describe('Vote', () => {
 
   it('constructs V2 Vote with raw boolean', () => {
     expect(
-      new Vote({aye: true, conviction: new Conviction('Locked1x')})
+      new Vote({ aye: true, conviction: new Conviction('Locked1x' )})
       .toJSON()
     ) // returns the conviction enum index
       .toEqual({ aye: true, conviction: 1 });

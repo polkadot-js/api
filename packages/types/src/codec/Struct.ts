@@ -106,9 +106,12 @@ export default class Struct<
             ? mapped
             : new Types[key](mapped);
         } else if (isObject(value)) {
+          console.log('decoding struct value -> ', value);
           raw[key] = value[jsonKey as string] instanceof Types[key]
             ? value[jsonKey as string]
             : new Types[key](value[jsonKey as string]);
+
+          console.log('decoded struct raw -> ', raw);
         } else {
           throw new Error(`Struct: cannot decode type ${Types[key].name} with value ${JSON.stringify(value)}`);
         }
