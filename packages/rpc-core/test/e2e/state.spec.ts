@@ -11,7 +11,7 @@ import { Abi } from '@polkadot/api-contract';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import storage from '@polkadot/storage/static';
+import storage from '@polkadot/metadata/storage/static';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
 import Rpc from '../../src';
