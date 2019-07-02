@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageHasher, Text } from '@polkadot/types';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import createFunction from './createFunction';
@@ -57,7 +57,7 @@ describe('createFunction', () => {
   });
 
   describe('the created double map function', () => {
-    let storageFn: StorageFunction;
+    let storageFn: StorageEntry;
     beforeAll(() => {
       storageFn = createFunction(
         'GenericAsset',

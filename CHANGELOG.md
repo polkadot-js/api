@@ -7,6 +7,8 @@
 - **Breaking change** The second argument to `Method` is now an object containing the meta, rather than the meta directly. Before: `new Method(value, meta)`. Now: `new Method(value, { meta })`.
 - `Method.injectMethods` and `Event.injectMethods` are going to be removed. It is recommended to pass the runtime metadata (or method metadata / event data type) `Method`/`Event` constructor instead.
 - Update with latest substrate 2.x types
+- **Breaking Change** StorageFunction has been renamed to StorageEntry.
+- Support latest substrate 2.x v6 metadata with module constants.
 
 # 0.81.1
 

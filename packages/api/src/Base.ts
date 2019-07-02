@@ -8,7 +8,7 @@ import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/typ
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
-  QueryableModuleStorage, QueryableStorage, QueryableStorageFunction, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
+  QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics, Signer
 } from './types';
 
@@ -23,7 +23,7 @@ import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
-import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
+import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
 
@@ -523,8 +523,8 @@ export default abstract class ApiBase<ApiType> {
   private decorateMulti<ApiType> (decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageMulti<ApiType> {
     return decorateMethod(
       (calls: QueryableStorageMultiArgs<ApiType>) => {
-        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageFunction<ApiType>, ...Array<CodecArg>] =>
-          // the input is a QueryableStorageFunction, convert to StorageFunction
+        const mapped = calls.map((arg: QueryableStorageMultiArg<ApiType>): [QueryableStorageEntry<ApiType>, ...Array<CodecArg>] =>
+          // the input is a QueryableStorageEntry, convert to StorageEntry
           Array.isArray(arg)
             ? [arg[0].creator, ...arg.slice(1)]
             : [arg.creator] as any
@@ -575,7 +575,7 @@ export default abstract class ApiBase<ApiType> {
     }, {} as QueryableStorage<ApiType>);
   }
 
-  private decorateStorageEntry<ApiType> (creator: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageFunction<ApiType> {
+  private decorateStorageEntry<ApiType> (creator: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): QueryableStorageEntry<ApiType> {
     const decorated = creator.headKey
       ? this.decorateStorageEntryLinked(creator, decorateMethod)
       : decorateMethod(
@@ -633,10 +633,10 @@ export default abstract class ApiBase<ApiType> {
           : [creator, arg1])
     );
 
-    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageFunction<ApiType>;
+    return this.decorateFunctionMeta(creator, decorated) as unknown as QueryableStorageEntry<ApiType>;
   }
 
-  private decorateStorageEntryLinked<ApiType> (method: StorageFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
+  private decorateStorageEntryLinked<ApiType> (method: StorageEntry, decorateMethod: ApiBase<ApiType>['decorateMethod']): ReturnType<ApiBase<ApiType>['decorateMethod']> {
     const result: Map<Codec, [Codec, Linkage<Codec>]> = new Map();
     let subject: BehaviorSubject<LinkageResult>;
     let head: Codec | null = null;

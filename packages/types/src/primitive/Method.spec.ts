@@ -6,8 +6,8 @@ import extrinsics from '@polkadot/extrinsics/static';
 
 import Method from './Method';
 import Metadata from '../Metadata';
-import latestSubstrate from '../Metadata/v5/latest.substrate.v5.json';
-import { FunctionMetadata } from '../Metadata/v5/Calls';
+import latestSubstrate from '../Metadata/v6/latest.substrate.v6.json';
+import { FunctionMetadata } from '../Metadata/v6/Calls';
 
 describe('Method', () => {
   beforeEach(() => {

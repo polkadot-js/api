@@ -6,12 +6,13 @@ import { Constructor } from '../types';
 
 import { assert, isUndefined, stringCamelCase, u8aToHex } from '@polkadot/util';
 
+import { Type } from '.';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U8aFixed from '../codec/U8aFixed';
 import { TypeDef, getTypeClass, getTypeDef } from '../codec/createType';
 import Metadata from '../Metadata';
-import { EventMetadata as EventMetadataV5 } from '../Metadata/v5/Events';
+import { EventMetadata as EventMetadataV6 } from '../Metadata/v6/Events';
 import Null from './Null';
 import U32 from './U32';
 import Unconstructable from './Unconstructable';
@@ -37,12 +38,12 @@ export class EventIndex extends U32 {
  * Wrapper for the actual data that forms part of an [[Event]]
  */
 export class EventData extends Tuple {
-  private _meta: EventMetadataV5;
+  private _meta: EventMetadataV6;
   private _method: string;
   private _section: string;
   private _typeDef: Array<TypeDef>;
 
-  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV5, section: string, method: string) {
+  constructor (Types: Array<Constructor>, value: Uint8Array, typeDef: Array<TypeDef>, meta: EventMetadataV6, section: string, method: string) {
     super(Types, value);
 
     this._meta = meta;
@@ -54,7 +55,7 @@ export class EventData extends Tuple {
   /**
    * @description The wrapped [[EventMetadata]]
    */
-  get meta (): EventMetadataV5 {
+  get meta (): EventMetadataV6 {
     return this._meta;
   }
 
@@ -151,9 +152,9 @@ export default class Event extends Struct {
   }
 
   static getDataType (soughtEventIndex: Uint8Array, metadata: Metadata): Constructor<EventData> | undefined {
-    const methods = ([] as {meta: EventMetadataV5, eventIndex: Uint8Array, sectionName: string}[])
+    const methods = ([] as {meta: EventMetadataV6, eventIndex: Uint8Array, sectionName: string}[])
       .concat(
-        ...metadata.asV5.modules
+        ...metadata.asV6.modules
         .filter((section) => section.events.isSome)
         .map((section, sectionIndex) =>
           section.events.unwrap().map((meta, methodIndex) => ({
@@ -169,8 +170,8 @@ export default class Event extends Struct {
 
     const { meta, sectionName } = found;
     const methodName = meta.name.toString();
-    const typeDef = meta.args.map((arg) => getTypeDef(arg));
-    const Types = typeDef.map((typeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
+    const typeDef = meta.args.map((arg: Type) => getTypeDef(arg));
+    const Types = typeDef.map((typeDef: TypeDef) => getTypeClass(typeDef, Unconstructable.with(typeDef)));
 
     return class extends EventData {
       constructor (value: Uint8Array) {
@@ -192,7 +193,7 @@ export default class Event extends Struct {
   // deprecated: Instead of injecting the events metadata globally, call the
   // Event constructor with the DataType or runtime metadata.
   static injectMetadata (metadata: Metadata): void {
-    metadata.asV5.modules
+    metadata.asV6.modules
       .filter((section) => section.events.isSome)
       .forEach((section, sectionIndex) => {
         const sectionName = stringCamelCase(section.name.toString());
@@ -229,7 +230,7 @@ export default class Event extends Struct {
   /**
    * @description The [[EventMetadata]] with the documentation
    */
-  get meta (): EventMetadataV5 {
+  get meta (): EventMetadataV6 {
     return this.data.meta;
   }
 
