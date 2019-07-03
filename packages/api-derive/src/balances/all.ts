@@ -58,7 +58,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
 
 /**
  * @name all
- * @param {( ccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
+ * @param {( AccountIndex | AccountId | Address | string )} address - An accounts Id in different formats.
  * @returns An object containing the combined results of the storage queries for
  * all relevant fees as declared in the substrate chain spec.
  * @example

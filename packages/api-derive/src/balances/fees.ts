@@ -3,13 +3,15 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
+import { Balance } from '@polkadot/types';
 import { DerivedFees } from '../types';
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
+import { creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee } from '../util/v6consts';
 
 /**
  * @name fees
@@ -26,14 +28,29 @@ import { drr } from '../util/drr';
  */
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
-    return (api.queryMulti([
-      api.query.balances.creationFee,
-      api.query.balances.existentialDeposit,
-      api.query.balances.transactionBaseFee,
-      api.query.balances.transactionByteFee,
-      api.query.balances.transferFee
+    return (api.query.balances.transactionBaseFee
+      ? api.queryMulti([
+        api.query.balances.creationFee,
+        api.query.balances.existentialDeposit,
+        api.query.balances.transactionBaseFee,
+        api.query.balances.transactionByteFee,
+        api.query.balances.transferFee
+      ]) as any as Observable<[BN, BN, BN, BN, BN]>
+    : of([
+      // @TODO replace this with calls to `api.consts` once implemented
+      creationFee.toNumber(),
+      existentialDeposit.toNumber(),
+      transactionBaseFee.toNumber(),
+      transactionByteFee.toNumber(),
+      transferFee.toNumber()
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
-      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
+      map(([
+        creationFee,
+        existentialDeposit,
+        transactionBaseFee,
+        transactionByteFee,
+        transferFee
+      ]) => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,

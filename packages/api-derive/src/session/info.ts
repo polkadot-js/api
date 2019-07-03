@@ -65,12 +65,13 @@ function createDerived ([sessionsPerEra, [currentIndex, currentEra]]: Result): D
 }
 
 /**
- * @description Retrieves all the session and era info and calculates specific valus on it sunh as the length of the session and eras
+ * @description Retrieves all the session and era info and calculates specific values on it as the length of the session and eras
  */
 export function info (api: ApiInterface$Rx) {
   return (): Observable<DerivedSessionInfo> => {
-    // with 94, the era and session has been explicitly exposed, pre-94
-    // we had more info and needed to calculate (handle old/Alex first)
+    // With substrate `spec_version 94`, the era and session has been explicitly exposed as `parameter_types`.
+    // pre-94 we had more info and needed to calculate (handle old/Alex first)
+    // https://github.com/paritytech/substrate/commit/dbf322620948935d2bbae214504e6c668c3073ed#diff-c29f42d6b931fa93ba038dbbbfec3055
     return api.query.session.lastLengthChange
       ? (combineLatest([
         bestNumber(api)(),
@@ -87,6 +88,7 @@ export function info (api: ApiInterface$Rx) {
       )
     : (combineLatest([
       // sessionsPerEra, hardcoded, due to https://github.com/paritytech/substrate/pull/2802/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R156
+      // @TODO Switch to `api.constants` after https://github.com/polkadot-js/api/pull/1066 is merged.
       of(new BN(6)),
       api.queryMulti([
         api.query.session.currentIndex,
