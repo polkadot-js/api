@@ -11,11 +11,9 @@ import createFunction from './createFunction';
 import { storage } from './storage';
 
 /**
- * Extend a storage object with the storage modules & module functions present
- * in the metadata.
+ * Return an object with the modules and the functions to access their storage.
  *
- * @param storage - A storage object to be extended.
- * @param metadata - The metadata to extend the storage object against.
+ * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): Storage {
   return metadata.asV6.modules.reduce((result, moduleMetadata) => {

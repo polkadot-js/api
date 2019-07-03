@@ -11,11 +11,9 @@ import extrinsics from '../';
 import createUnchecked from './createUnchecked';
 
 /**
- * Extend a storage object with the storage modules & module functions present
- * in the metadata.
+ * Return an object with the modules and the functions to use extrinsics.
  *
- * @param extrinsics - An extrinsics object to be extended.
- * @param metadata - The metadata to extend the storage object against.
+ * @param metadata - The metadata
  */
 export default function fromMetadata (metadata: Metadata): ModulesWithMethods {
   return metadata.asV6.modules

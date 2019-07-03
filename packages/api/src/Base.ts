@@ -15,10 +15,11 @@ import EventEmitter from 'eventemitter3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import decorateDerive from '@polkadot/api-derive';
+import constantsFromMeta from '@polkadot/metadata/consts/fromMetadata';
+import { Constants } from '@polkadot/metadata/consts/fromMetadata/types';
 import extrinsicsFromMeta from '@polkadot/metadata/extrinsics/fromMetadata';
 import { Storage } from '@polkadot/metadata/storage/types';
 import storageFromMeta from '@polkadot/metadata/storage/fromMetadata';
-import constantsFromMeta from '@polkadot/metadata/constants/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
@@ -63,6 +64,7 @@ function rxDecorateMethod<Method extends AnyFunction> (method: Method): Method {
 }
 
 export default abstract class ApiBase<ApiType> {
+  private _consts?: Constants;
   private _derive?: ReturnType<ApiBase<ApiType>['decorateDerive']>;
   private _eventemitter: EventEmitter;
   private _extrinsics?: SubmittableExtrinsics<ApiType>;
@@ -198,6 +200,24 @@ export default abstract class ApiBase<ApiType> {
     assert(!isUndefined(this._derive), INIT_ERROR);
 
     return this._derive as ReturnType<ApiBase<ApiType>['decorateDerive']>;
+  }
+
+  /**
+   * @description Contains the parameter types (constants) of all modules.
+   *
+   * The values are instances of the appropriate type and are accessible using `section`.`constantName`,
+   *
+   * @example
+   * <BR>
+   *
+   * ```javascript
+   * console.log(api.consts.democracy.enactmentPeriod.toHex(true))
+   * ```
+   */
+  get consts (): Constants {
+    assert(!isUndefined(this._consts), INIT_ERROR);
+
+    return this._consts as Constants;
   }
 
   /**
@@ -474,10 +494,10 @@ export default abstract class ApiBase<ApiType> {
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
-    const constants = constantsFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
+    this._consts = constantsFromMeta(this.runtimeMetadata);
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
