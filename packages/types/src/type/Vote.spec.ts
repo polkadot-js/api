@@ -31,18 +31,18 @@ describe('Vote', () => {
     expect(new Vote(999).isNay).toBe(true);
   });
 
-  it('constructs V2 Vote with raw boolean', () => {
+  it('constructs V2 Vote with Boolean', () => {
     expect(
       new Vote({
-        aye: true,
+        aye: new Boolean(true),
         conviction: new Conviction('Locked1x')
       })
       .toU8a()
     )
-      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 0, 0, 1]));
+      .toEqual(new Uint8Array([0b10000001]));
   });
 
-  it('constructs with Vote aye is false, conviction is None', () => {
+  it('constructs with V2 Vote aye is false, conviction is None', () => {
     expect(
       new Vote({
         aye: new Boolean(false),
@@ -50,7 +50,7 @@ describe('Vote', () => {
       })
       .toU8a()
     )
-      .toEqual(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
+      .toEqual(new Uint8Array([0b00000000]));
   });
 
   it('constructs with Vote aye is true, conviction is Locked4x', () => {
@@ -61,15 +61,15 @@ describe('Vote', () => {
       })
       .toU8a()
     )
-      .toEqual(new Uint8Array([1, 0, 0, 0, 0, 1, 0, 0]));
+      .toEqual(new Uint8Array([0b10000100]));
   });
 
-  it('conviction getter works', () => {
+  it('Conviction getter works', () => {
     expect(
       new Vote({
         aye: new Boolean(true),
         conviction: new Conviction('Locked2x')
-      }).conviction
+      }).conviction.toString()
     )
       .toEqual('Locked2x');
   });

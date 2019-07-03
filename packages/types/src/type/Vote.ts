@@ -18,12 +18,18 @@ export default class Vote extends U8a {
   private _conviction?: Conviction;
 
   constructor (value?: any) {
+    // decoded is just 1 byte
+    // Aye: Most Significant Bit
+    // Conviction: 0000 - 0101
     const decoded = Vote.decodeVote(value);
 
     super(decoded);
 
-    this._aye = new Boolean(decoded[0]);
-    this._conviction = new Conviction();
+    const msb = decoded[0] << 7;
+    const conviction = decoded[0] & ((1 << 2) - 1);
+
+    this._aye = new Boolean(msb);
+    this._conviction = new Conviction(conviction);
   }
 
   private static decodeVote (value?: any): Uint8Array {
@@ -34,13 +40,12 @@ export default class Vote extends U8a {
     } else if (isNumber(value)) {
       return value < 0 ? bnToU8a(1, { bitLength: -1, isLe: true, isNegative: true }) : bnToU8a(0);
     } else if (isObject(value)) {
-      const aye = new Uint8Array([value.aye]); // 1 byte
-
+      const aye = value.aye;
       const index = value.conviction.toNumber();
-      const conviction = new Uint8Array((index >>> 0).toString(2).split('').map(Number)); // 1 to 3 bytes
-      const padding = new Uint8Array(7 - conviction.length); // 4 - 6 bytes
+      const conviction = index >>> 0;
+      const result = conviction | (aye.eq(true) ? 0b1 << 7 : 0b0 >>> 7);
 
-      return u8aConcat(aye, u8aConcat(padding, conviction));
+      return new Uint8Array([result]);
     } else if (isU8a(value)) {
       return value;
     }
