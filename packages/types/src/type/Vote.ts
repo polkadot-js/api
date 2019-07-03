@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isBoolean, isNumber, isObject, u8aToBn, isU8a, bnToU8a } from '@polkadot/util';
+import { isBoolean, isNumber, isObject, u8aToBn, isU8a } from '@polkadot/util';
 
 import Conviction from './Conviction';
 import U8a from '../codec/U8a';
@@ -25,8 +25,8 @@ export default class Vote extends U8a {
 
     super(decoded);
 
-    const msb = decoded[0] << 7;
-    const conviction = decoded[0] & ((1 << 2) - 1);
+    const msb = decoded[0] >> 7;
+    const conviction = decoded[0] & 0b01111111;
 
     this._aye = new Boolean(msb);
     this._conviction = new Conviction(conviction);
@@ -34,19 +34,18 @@ export default class Vote extends U8a {
 
   private static decodeVote (value?: any): Uint8Array {
     if (isBoolean(value)) {
-      return value ? new Uint8Array([-1]) : new Uint8Array([0]);
+      return value ? new Uint8Array([0b10000000]) : new Uint8Array([0b0]);
     } else if (value instanceof Boolean) {
       return Vote.decodeVote(value.valueOf());
-    } else if (isNumber(value)) {
-      return value < 0 ? bnToU8a(1, { bitLength: -1, isLe: true, isNegative: true }) : bnToU8a(0);
-    } else if (isObject(value)) {
+    } else if (isNumber(value) && value !== 0) {
+      return value < 0 ? new Uint8Array([0b10000000]) : new Uint8Array([0b0]);
+    } else if (isObject(value) && value.aye && value.conviction) {
       const aye = value.aye;
-      const index = value.conviction.toNumber();
-      const conviction = index >>> 0;
-      const result = conviction | (aye.eq(true) ? 0b1 << 7 : 0b0 >>> 7);
+      const convictionIndex = isNumber(value.conviction) ? value.conviction : value.conviction.toNumber();
+      const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 
       return new Uint8Array([result]);
-    } else if (isU8a(value)) {
+    } else if (isU8a(value) && value.length > 0) {
       return value;
     }
 
@@ -75,6 +74,6 @@ export default class Vote extends U8a {
   }
 
   toNumber (): number {
-    return u8aToBn(this, { isNegative: true }).toNumber();
+    return this._aye.valueOf() ? -1 : 0;
   }
 }

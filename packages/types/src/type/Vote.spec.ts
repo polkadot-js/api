@@ -24,11 +24,11 @@ describe('Vote', () => {
   });
 
   it('is Aye for negative numbers', () => {
-    expect(new Vote(-999).isAye).toBe(true);
+    expect(new Vote(-128).isAye).toBe(true);
   });
 
   it('is Nay for positive numbers', () => {
-    expect(new Vote(999).isNay).toBe(true);
+    expect(new Vote(127).isNay).toBe(true);
   });
 
   it('constructs V2 Vote with Boolean', () => {
