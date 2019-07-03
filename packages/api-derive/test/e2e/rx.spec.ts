@@ -9,7 +9,7 @@ import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedFees } from '../../src/types';
+import { DerivedBalances, DerivedContractFees, DerivedFees } from '../../src/types';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
 // const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
@@ -18,7 +18,7 @@ const WS_LOCAL = 'ws://127.0.0.1:9944/';
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const IX = 'F7Hs';
 
-describe.skip('derive e2e', () => {
+describe('Api-RX derive e2e', () => {
   let api: ApiRx;
 
   beforeAll(() => {
@@ -135,11 +135,11 @@ describe.skip('derive e2e', () => {
       it('fees: It returns an object with all relevant fees of type BN', async (done) => {
         api.derive.balances.fees().subscribe((fees: DerivedFees) => {
           expect(fees).toEqual(expect.objectContaining({
-            creationFee: expect.any(BN),
-            existentialDeposit: expect.any(BN),
-            transactionBaseFee: expect.any(BN),
-            transactionByteFee: expect.any(BN),
-            transferFee: expect.any(BN)
+            creationFee: expect.any(Balance),
+            existentialDeposit: expect.any(Balance),
+            transactionBaseFee: expect.any(Balance),
+            transactionByteFee: expect.any(Balance),
+            transferFee: expect.any(Balance)
           }));
           done();
         });
@@ -193,6 +193,28 @@ describe.skip('derive e2e', () => {
       it('gets an observable of the current block header and it\'s author', async (done) => {
         api.derive.chain.subscribeNewHead().subscribe((headerExtended: HeaderExtended) => {
           // WIP https://github.com/polkadot-js/api/issues/868
+          done();
+        });
+      });
+    });
+  });
+
+  describe('derive.contracts', () => {
+    describe('fees', () => {
+      it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
+        api.derive.contract.fees().subscribe((fees: DerivedContractFees) => {
+          expect(fees).toEqual(expect.objectContaining({
+            callBaseFee: expect.any(Balance),
+            contractFee: expect.any(Balance),
+            createBaseFee: expect.any(Balance),
+            creationFee: expect.any(Balance),
+            rentByteFee: expect.any(Balance),
+            rentDepositOffset: expect.any(Balance),
+            transactionBaseFee: expect.any(Balance),
+            transactionByteFee: expect.any(Balance),
+            transferFee: expect.any(Balance),
+            tombstoneDeposit: expect.any(Balance)
+          }));
           done();
         });
       });

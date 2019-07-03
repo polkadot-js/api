@@ -12,8 +12,10 @@ import { SubmittableResult } from '../../../api/src';
 
 const WS = 'ws://127.0.0.1:9944';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
+// const WS = 'wss://substrate-rpc.parity.io/';
 
-describe('api-derive e2e', () => {
+
+describe('Api-Promise derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -83,7 +85,7 @@ describe('api-derive e2e', () => {
   describe('Tests for contracts derive methods', () => {
     it('retrieves the contract fees', (done) => {
       return api.derive.contracts.fees((fees: DerivedFees) => {
-        console.log('fees contracts polka', JSON.stringify(fees));
+        console.log('fees contracts', JSON.stringify(fees));
 
         done();
       });

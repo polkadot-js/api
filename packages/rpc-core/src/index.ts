@@ -145,7 +145,7 @@ export default class Rpc implements RpcInterface {
           catchError((error) => {
             const message = this.createErrorMessage(method, error);
 
-            l.error(message);
+            // l.error(message);
 
             return throwError(new ExtError(message, (error as ExtError).code, undefined));
           }),
@@ -175,7 +175,7 @@ export default class Rpc implements RpcInterface {
           const paramsJson = params.map((param) => param.toJSON());
           const update = (error?: Error, result?: any) => {
             if (error) {
-              l.error(this.createErrorMessage(method, error));
+              // l.error(this.createErrorMessage(method, error));
               return;
             }
 
@@ -186,7 +186,7 @@ export default class Rpc implements RpcInterface {
         } catch (error) {
           const message = this.createErrorMessage(method, error);
 
-          l.error(message);
+          // l.error(message);
 
           observer.error(new ExtError(message, (error as ExtError).code, undefined));
         }
@@ -209,7 +209,7 @@ export default class Rpc implements RpcInterface {
             .catch((error: Error) => {
               const message = this.createErrorMessage(method, error);
 
-              l.error(message);
+              // l.error(message);
             });
         };
       }).pipe(

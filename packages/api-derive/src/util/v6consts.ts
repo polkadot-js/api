@@ -6,6 +6,7 @@
 // https://github.com/paritytech/substrate/pull/2883 and to prevent the api from breaking.
 // Once https://github.com/polkadot-js/api/pull/1066 is merged and the derive methods have
 // been changed to make use of the new `api.consts` endpoint, this file can be removed.
+// @TODO replace this with calls to `api.consts` once implemented
 
 import BN from 'bn.js';
 

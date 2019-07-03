@@ -40,7 +40,8 @@ export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedContractFees> => {
     const queryBase = api.query.contracts || api.query.contract;
 
-    // FIXME A number of these are being moved https://github.com/paritytech/substrate/pull/2883
+    // rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
+
     return (queryBase.contractFee
       ? api.queryMulti([
         queryBase.callBaseFee,
@@ -66,7 +67,7 @@ export function fees (api: ApiInterface$Rx) {
       contractTransactionByteFee.toNumber(),
       contractTransferFee.toNumber(),
       tombstoneDeposit.toNumber()
-    ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
+    ]) as any as Observable<Array<BN>>).pipe(
       map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, transactionBaseFee, transactionByteFee, transferFee, tombstoneDeposit]) => ({
         callBaseFee,
         contractFee,

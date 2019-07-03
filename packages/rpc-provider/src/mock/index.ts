@@ -100,7 +100,7 @@ export default class Mock implements ProviderInterface {
   }
 
   async subscribe (type: string, method: string, ...params: Array<any>): Promise<number> {
-    l.debug(() => ['subscribe', method, params]);
+    // l.debug(() => ['subscribe', method, params]);
 
     if (this.subscriptions[method]) {
       const callback: MockState$Subscription$Callback = params.pop();
@@ -122,7 +122,7 @@ export default class Mock implements ProviderInterface {
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
     const sub = this.subscriptionMap[id];
 
-    l.debug(() => ['unsubscribe', id, sub]);
+    // l.debug(() => ['unsubscribe', id, sub]);
 
     if (!sub) {
       throw new Error(`Unable to find subscription for ${id}`);

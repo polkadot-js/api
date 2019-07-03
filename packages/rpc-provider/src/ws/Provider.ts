@@ -133,7 +133,7 @@ export default class WsProvider implements WSProviderInterface {
       this.websocket.onmessage = this.onSocketMessage;
       this.websocket.onopen = this.onSocketOpen;
     } catch (error) {
-      l.error(error);
+      // l.error(error);
     }
   }
 
@@ -187,7 +187,7 @@ export default class WsProvider implements WSProviderInterface {
             : resolve(result);
         };
 
-        l.debug(() => ['calling', method, params, json, !!subscription]);
+        // l.debug(() => ['calling', method, params, json, !!subscription]);
 
         this.handlers[id] = {
           callback,
@@ -247,7 +247,7 @@ export default class WsProvider implements WSProviderInterface {
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
     if (isUndefined(this.subscriptions[subscription])) {
-      l.debug(() => `Unable to find active subscription=${subscription}`);
+      // l.debug(() => `Unable to find active subscription=${subscription}`);
 
       return false;
     }
@@ -265,7 +265,7 @@ export default class WsProvider implements WSProviderInterface {
 
   private onSocketClose = (event: CloseEvent): void => {
     if (this.autoConnect) {
-      l.error(`disconnected from ${this.endpoint} code: '${event.code}' reason: '${event.reason}'`);
+      // l.error(`disconnected from ${this.endpoint} code: '${event.code}' reason: '${event.reason}'`);
     }
 
     this._isConnected = false;
@@ -279,12 +279,12 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketError = (error: Event): void => {
-    l.debug(() => ['socket error', error]);
+    // l.debug(() => ['socket error', error]);
     this.emit('error', error);
   }
 
   private onSocketMessage = (message: MessageEvent): void => {
-    l.debug(() => ['received', message.data]);
+    // l.debug(() => ['received', message.data]);
 
     const response: JsonRpcResponse = JSON.parse(message.data as string);
 
@@ -294,12 +294,12 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketMessageResult = (response: JsonRpcResponse): void => {
-    l.debug(() => ['handling: response =', response, 'id =', response.id]);
+    // l.debug(() => ['handling: response =', response, 'id =', response.id]);
 
     const handler = this.handlers[response.id];
 
     if (!handler) {
-      l.debug(() => `Unable to find handler for id=${response.id}`);
+      // l.debug(() => `Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -336,7 +336,7 @@ export default class WsProvider implements WSProviderInterface {
     const method = ALIASSES[response.method as string] || response.method;
     const subId = `${method}::${response.params.subscription}`;
 
-    l.debug(() => ['handling: response =', response, 'subscription =', subId]);
+    // l.debug(() => ['handling: response =', response, 'subscription =', subId]);
 
     const handler = this.subscriptions[subId];
 
@@ -344,7 +344,7 @@ export default class WsProvider implements WSProviderInterface {
       // store the JSON, we could have out-of-order subid coming in
       this.waitingForId[subId] = response;
 
-      l.debug(() => `Unable to find handler for subscription=${subId}`);
+      // l.debug(() => `Unable to find handler for subscription=${subId}`);
       return;
     }
 
@@ -363,7 +363,7 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketOpen = (): boolean => {
     assert(!isNull(this.websocket), 'WebSocket cannot be null in onOpen');
 
-    l.debug(() => ['connected to', this.endpoint]);
+    // l.debug(() => ['connected to', this.endpoint]);
 
     this._isConnected = true;
     this.emit('connected');
@@ -392,7 +392,7 @@ export default class WsProvider implements WSProviderInterface {
       try {
         await this.subscribe(type, method, params, callback);
       } catch (error) {
-        l.error(error);
+        // l.error(error);
       }
     });
   }
@@ -407,7 +407,7 @@ export default class WsProvider implements WSProviderInterface {
 
         delete this.queued[id];
       } catch (error) {
-        l.error(error);
+        // l.error(error);
       }
     });
   }
