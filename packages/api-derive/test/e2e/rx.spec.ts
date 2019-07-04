@@ -12,7 +12,8 @@ import { HeaderExtended } from '../../src/type';
 import { DerivedBalances, DerivedContractFees, DerivedFees } from '../../src/types';
 
 const WS_LOCAL = 'ws://127.0.0.1:9944/';
-// const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
+const WS_POC3 = 'wss://poc3-rpc.polkadot.io/';
+const WS_EE = 'wss://substrate-rpc.parity.io/';
 
 // Dev account Alice
 const ID = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
@@ -26,7 +27,7 @@ describe('Api-RX derive e2e', () => {
   });
 
   beforeEach(async (done) => {
-    api = await ApiRx.create(new WsProvider(WS_LOCAL)).toPromise();
+    api = await ApiRx.create(new WsProvider(WS_POC3)).toPromise();
     done();
   });
 
@@ -119,12 +120,12 @@ describe('Api-RX derive e2e', () => {
           expect(balances).toEqual(expect.objectContaining({
             accountId: expect.any(AccountId),
             accountNonce: expect.any(Index),
-            availableBalance: expect.any(Balance),
-            freeBalance: expect.any(Balance),
-            lockedBalance: expect.any(Balance),
-            reservedBalance: expect.any(Balance),
-            vestedBalance: expect.any(Balance),
-            votingBalance: expect.any(Balance)
+            availableBalance: expect.any(BN),
+            freeBalance: expect.any(BN),
+            lockedBalance: expect.any(BN),
+            reservedBalance: expect.any(BN),
+            vestedBalance: expect.any(BN),
+            votingBalance: expect.any(BN)
           }));
           done();
         });
@@ -135,11 +136,11 @@ describe('Api-RX derive e2e', () => {
       it('fees: It returns an object with all relevant fees of type BN', async (done) => {
         api.derive.balances.fees().subscribe((fees: DerivedFees) => {
           expect(fees).toEqual(expect.objectContaining({
-            creationFee: expect.any(Balance),
-            existentialDeposit: expect.any(Balance),
-            transactionBaseFee: expect.any(Balance),
-            transactionByteFee: expect.any(Balance),
-            transferFee: expect.any(Balance)
+            creationFee: expect.any(BN),
+            existentialDeposit: expect.any(BN),
+            transactionBaseFee: expect.any(BN),
+            transactionByteFee: expect.any(BN),
+            transferFee: expect.any(BN)
           }));
           done();
         });
@@ -202,18 +203,18 @@ describe('Api-RX derive e2e', () => {
   describe('derive.contracts', () => {
     describe('fees', () => {
       it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
-        api.derive.contract.fees().subscribe((fees: DerivedContractFees) => {
+        api.derive.contracts.fees().subscribe((fees: DerivedContractFees) => {
           expect(fees).toEqual(expect.objectContaining({
-            callBaseFee: expect.any(Balance),
-            contractFee: expect.any(Balance),
-            createBaseFee: expect.any(Balance),
-            creationFee: expect.any(Balance),
-            rentByteFee: expect.any(Balance),
-            rentDepositOffset: expect.any(Balance),
-            transactionBaseFee: expect.any(Balance),
-            transactionByteFee: expect.any(Balance),
-            transferFee: expect.any(Balance),
-            tombstoneDeposit: expect.any(Balance)
+            callBaseFee: expect.any(BN),
+            contractFee: expect.any(BN),
+            createBaseFee: expect.any(BN),
+            creationFee: expect.any(BN),
+            rentByteFee: expect.any(BN),
+            rentDepositOffset: expect.any(BN),
+            transactionBaseFee: expect.any(BN),
+            transactionByteFee: expect.any(BN),
+            transferFee: expect.any(BN),
+            tombstoneDeposit: expect.any(BN)
           }));
           done();
         });

@@ -32,8 +32,8 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
 
   // offset = balance locked at genesis, perBlock is the unlock amount
   const { offset, perBlock } = vesting.unwrapOr(new VestingSchedule());
-  const vestedNow = perBlock.mul(bestNumber);
-  const vestedBalance = vestedNow.gt(offset)
+  const vestedNow: BN = perBlock.mul(bestNumber);
+  const vestedBalance: BN = vestedNow.gt(offset)
     ? freeBalance
     : freeBalance.sub(offset).add(vestedNow);
 
@@ -42,7 +42,7 @@ function calcBalances ([accountId = EMPTY_ACCOUNT, bestNumber = ZERO, [freeBalan
   // The locked is > the vested and ended up with the locked > free,
   // i.e. related to https://github.com/paritytech/polkadot/issues/225
   // (most probably due to movements from stash -> controller -> free)
-  const availableBalance = bnMax(ZERO, vestedBalance.sub(lockedBalance));
+  const availableBalance: BN = bnMax(ZERO, vestedBalance.sub(lockedBalance));
 
   return {
     accountId,
