@@ -8,10 +8,10 @@ import Enum from '../codec/Enum';
  * @name UncleEntryItem
  */
 export default class UncleEntryItem extends Enum {
-  constructor(value?: any) {
+  constructor (value?: any) {
     super([
       'InclusionHeight',
-      'Uncle',
+      'Uncle'
     ], value);
   }
 }

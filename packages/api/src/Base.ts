@@ -250,7 +250,7 @@ export default abstract class ApiBase<ApiType> {
    * api.queryMulti(
    *   [
    *     // you can include the storage without any parameters
-   *     api.query.balances.existentialDeposit,
+   *     api.consts.balances.existentialDeposit,
    *     // or you can pass parameters to the storage query
    *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
@@ -494,15 +494,17 @@ export default abstract class ApiBase<ApiType> {
 
     const extrinsics = extrinsicsFromMeta(this.runtimeMetadata);
     const storage = storageFromMeta(this.runtimeMetadata);
+    const constants = constantsFromMeta(this.runtimeMetadata);
 
     this._extrinsics = this.decorateExtrinsics(extrinsics, this.decorateMethod);
     this._query = this.decorateStorage(storage, this.decorateMethod);
-    this._consts = constantsFromMeta(this.runtimeMetadata);
+    this._consts = constants;
 
     this._rx.genesisHash = this._genesisHash;
     this._rx.runtimeVersion = this._runtimeVersion;
     this._rx.tx = this.decorateExtrinsics(extrinsics, rxDecorateMethod);
     this._rx.query = this.decorateStorage(storage, rxDecorateMethod);
+    this._rx.consts = constants;
     this._derive = this.decorateDerive(this._rx as ApiInterface$Rx, this.decorateMethod);
 
     // only inject if we are not a clone (global init)
