@@ -294,7 +294,7 @@ function initType (Type: Constructor, value?: any, isPedantic?: boolean): Codec 
 }
 
 export default function createType (type: Text | string, value?: any, isPedantic?: boolean): Codec {
-  //// l.debug(() => ['createType', { type, value }]);
+  // // l.debug(() => ['createType', { type, value }]);
 
   try {
     return initType(createClass(type), value, isPedantic);

@@ -61,7 +61,7 @@ export default class Struct<
     _,
     T extends { [K in keyof S]: Codec }
   > (Types: S, value: any, jsonMap: Map<keyof S, string>): T {
-    //// l.debug(() => ['Struct.decode', { Types, value }]);
+    // // l.debug(() => ['Struct.decode', { Types, value }]);
 
     if (isHex(value)) {
       return Struct.decodeStruct(Types, hexToU8a(value as string), jsonMap);
