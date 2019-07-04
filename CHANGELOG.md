@@ -7,7 +7,7 @@
 - Update with latest substrate 2.x types
 - **Breaking Change** StorageFunction has been renamed to StorageEntry.
 - **Breaking Change** `@polkadot/extrinsics` and `@polkadot/storage` have been moved to `@polkadot/metadata` and are now accessible as `@polkadot/metadata/extrinsics` and `@polkadot/metadata/storage`, respectively.
-- Support latest substrate 2.x v6 metadata with module constants.
+- Support latest substrate 2.x v6 metadata with module constants using `api.consts`.
 
 # 0.81.1
 

@@ -250,7 +250,7 @@ export default abstract class ApiBase<ApiType> {
    * api.queryMulti(
    *   [
    *     // you can include the storage without any parameters
-   *     api.consts.balances.existentialDeposit,
+   *     api.query.balances.totalIssuance,
    *     // or you can pass parameters to the storage query
    *     [api.query.balances.freeBalance, '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY']
    *   ],
