@@ -1,4 +1,4 @@
-// Copyright 2017-2019 @polkadot/metadata authors & contributors
+// Copyright 2017-2019 @polkadot/api authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
@@ -6,7 +6,6 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { ApiPromise } from '@polkadot/api';
 import { BlockNumber } from '@polkadot/types';
 
-// @TODO: Move tests out of ./type-metadata to ./api folder
 describe.skip('e2e consts', () => {
   let api: ApiPromise;
 
