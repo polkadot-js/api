@@ -8,11 +8,15 @@ import Vote from './Vote';
 
 describe('Vote', () => {
   it('constructs via boolean true', () => {
-    expect(new Vote(true).toNumber()).toEqual(-1);
+    expect(new Vote(true).toU8a()).toEqual(new Uint8Array([128]));
+    expect(new Vote(true).isAye).toBe(true);
+    expect(new Vote(true).isNay).toBe(false);
   });
 
   it('constructs via boolean false', () => {
-    expect(new Vote(false).toNumber()).toEqual(0);
+    expect(new Vote(false).toU8a()).toEqual(new Uint8Array([0]));
+    expect(new Vote(false).isNay).toBe(true);
+    expect(new Vote(false).isAye).toBe(false);
   });
 
   it('has isYay for positive', () => {
@@ -31,10 +35,10 @@ describe('Vote', () => {
     expect(new Vote(127).isNay).toBe(true);
   });
 
-  it('constructs V2 Vote with Boolean', () => {
+  it('constructs V2 Vote with raw boolean', () => {
     expect(
       new Vote({
-        aye: new Boolean(true),
+        aye: true,
         conviction: new Conviction('Locked1x')
       })
       .toU8a()

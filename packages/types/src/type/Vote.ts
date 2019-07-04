@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { isBoolean, isNumber, isObject, isU8a } from '@polkadot/util';
+import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
 
 import Conviction from './Conviction';
 import U8a from '../codec/U8a';
@@ -15,7 +15,7 @@ import Boolean from '../primitive/Bool';
  */
 export default class Vote extends U8a {
   private _aye: Boolean;
-  private _conviction?: Conviction;
+  private _conviction: Conviction; // for V1, default to None
 
   constructor (value?: any) {
     // decoded is just 1 byte
@@ -34,14 +34,26 @@ export default class Vote extends U8a {
 
   private static decodeVote (value?: any): Uint8Array {
     if (isBoolean(value)) {
-      return value ? new Uint8Array([0b10000000]) : new Uint8Array([0b0]);
+      return value
+              ? new Uint8Array([0b10000000])
+              : new Uint8Array([0b0]);
     } else if (value instanceof Boolean) {
       return Vote.decodeVote(value.valueOf());
     } else if (isNumber(value) && value !== 0) {
-      return value < 0 ? new Uint8Array([0b10000000]) : new Uint8Array([0b0]);
-    } else if (isObject(value) && value.aye && value.conviction) {
-      const aye = value.aye;
-      const convictionIndex = isNumber(value.conviction) ? value.conviction : value.conviction.toNumber();
+      return value < 0
+        ? new Uint8Array([0b10000000])
+        : new Uint8Array([0b0]);
+    } else if (isObject(value) && !isUndefined(value.aye) && !isUndefined(value.conviction)) {
+      const aye =
+        isBoolean(value.aye)
+          ? new Boolean(value.aye)
+          : value.aye;
+
+      const convictionIndex =
+        isNumber(value.conviction)
+          ? value.conviction
+          : value.conviction.toNumber();
+
       const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 
       return new Uint8Array([result]);
@@ -56,7 +68,7 @@ export default class Vote extends U8a {
    * @description returns a V2 conviction
    */
   get conviction (): Conviction {
-    return this._conviction as Conviction;
+    return this._conviction;
   }
 
   /**
@@ -71,9 +83,5 @@ export default class Vote extends U8a {
    */
   get isNay (): boolean {
     return !this.isAye;
-  }
-
-  toNumber (): number {
-    return this._aye.valueOf() ? -1 : 0;
   }
 }
