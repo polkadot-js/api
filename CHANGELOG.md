@@ -6,6 +6,8 @@
 - **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`. 
 - Update with latest substrate 2.x types
 - **Breaking Change** StorageFunction has been renamed to StorageEntry.
+- **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. 
+Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined. 
 - Support latest substrate 2.x v6 metadata with module constants.
 
 # 0.81.1

@@ -8,7 +8,7 @@ import { Constructor } from './types';
 import * as Classes from './index.types';
 
 const Types = Classes as { [index: string]: Constructor };
-const UNCONSTRUCTABLE = ['origin', 'usize'];
+const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];
 
 describe('types', () => {
   describe('default creation', () => {
