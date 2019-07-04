@@ -247,7 +247,7 @@ export default class WsProvider implements WSProviderInterface {
     // a slight complication in solving - since we cannot rely on the send id, but rather
     // need to find the actual subscription id to map it
     if (isUndefined(this.subscriptions[subscription])) {
-      // l.debug(() => `Unable to find active subscription=${subscription}`);
+      l.error(() => `Unable to find active subscription=${subscription}`);
 
       return false;
     }
@@ -279,7 +279,7 @@ export default class WsProvider implements WSProviderInterface {
   }
 
   private onSocketError = (error: Event): void => {
-    // l.debug(() => ['socket error', error]);
+    l.error(() => ['socket error', error]);
     this.emit('error', error);
   }
 
@@ -299,7 +299,7 @@ export default class WsProvider implements WSProviderInterface {
     const handler = this.handlers[response.id];
 
     if (!handler) {
-      // l.debug(() => `Unable to find handler for id=${response.id}`);
+      l.error(() => `Unable to find handler for id=${response.id}`);
       return;
     }
 
@@ -344,7 +344,7 @@ export default class WsProvider implements WSProviderInterface {
       // store the JSON, we could have out-of-order subid coming in
       this.waitingForId[subId] = response;
 
-      // l.debug(() => `Unable to find handler for subscription=${subId}`);
+      l.error(() => `Unable to find handler for subscription=${subId}`);
       return;
     }
 
@@ -363,7 +363,7 @@ export default class WsProvider implements WSProviderInterface {
   private onSocketOpen = (): boolean => {
     assert(!isNull(this.websocket), 'WebSocket cannot be null in onOpen');
 
-    // l.debug(() => ['connected to', this.endpoint]);
+    l.debug(() => ['connected to', this.endpoint]);
 
     this._isConnected = true;
     this.emit('connected');
