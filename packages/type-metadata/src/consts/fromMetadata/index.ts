@@ -4,7 +4,7 @@
 
 import { createType } from '@polkadot/types';
 import Metadata from '@polkadot/types/Metadata';
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import { stringCamelCase } from '@polkadot/util';
 
 import { Constants, ModuleConstants } from './types';
 
@@ -23,7 +23,7 @@ export default function fromMetadata (metadata: Metadata): Constants {
 
     // For access, we change the index names, i.e. Democracy.EnactmentPeriod -> democracy.enactmentPeriod
     result[stringCamelCase(name.toString())] = moduleMetadata.constants.reduce((newModule, constantMeta) => {
-      newModule[stringLowerFirst(constantMeta.name.toString())] = createType(constantMeta.type, constantMeta.value);
+      newModule[stringCamelCase(constantMeta.name.toString())] = createType(constantMeta.type, constantMeta.value);
       return newModule;
     }, {} as ModuleConstants);
 

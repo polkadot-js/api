@@ -13,7 +13,7 @@ const consts = fromMetadata(metadata);
 
 describe('fromMetadata', () => {
   it('should return constants with the correct type and value', () => {
-    expect(consts.democracy.enactmentPeriod).toBeInstanceOf(BlockNumber);
-    expect(consts.democracy.enactmentPeriod.toHex(true)).toEqual('0x80f4030000000000');
+    expect(consts.democracy.cooloffPeriod).toBeInstanceOf(BlockNumber);
+    expect(consts.democracy.cooloffPeriod.eq(432000)).toBeTruthy();
   });
 });

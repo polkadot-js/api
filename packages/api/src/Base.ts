@@ -211,7 +211,7 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * console.log(api.consts.democracy.enactmentPeriod.toHex(true))
+   * console.log(api.consts.democracy.enactmentPeriod.toString())
    * ```
    */
   get consts (): Constants {
