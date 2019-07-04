@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { BlockNumber, Index, SignedBlock, StorageChangeSet } from '@polkadot/types';
-import storage from '@polkadot/storage/static';
+import storage from '@polkadot/metadata/storage/static';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';

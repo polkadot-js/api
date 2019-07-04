@@ -26,9 +26,8 @@ The API is split up into a number of internal packages -
 
 Type definitions for interfaces as exposed by Polkadot & Substrate clients -
 
-- [@polkadot/extrinsics](packages/type-extrinsics/) Base extrinsic definitions & codecs
+- [@polkadot/metadata](packages/type-metadata/) Base extrinsic definitions & codecs; definitions for storage entries
 - [@polkadot/jsonrpc](packages/type-jsonrpc/) Definitions for JSONRPC endpoints
-- [@polkadot/storage](packages/type-storage/) Definitions for storage entries
 - [@polkadot/types](packages/types/) Codecs for all Polkadot and Substrate primitives
 
 ## development
