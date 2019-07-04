@@ -7,6 +7,7 @@
 - Update with latest substrate 2.x types
 - **Breaking Change** StorageFunction has been renamed to StorageEntry.
 - **Breaking Change** `@polkadot/extrinsics` and `@polkadot/storage` have been moved to `@polkadot/metadata` and are now accessible as `@polkadot/metadata/extrinsics` and `@polkadot/metadata/storage`, respectively.
+- **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
 - Support latest substrate 2.x v6 metadata with module constants using `api.consts`.
 
 # 0.81.1
