@@ -16,7 +16,7 @@ export default function filterEvents (extHash: U8a, { block: { extrinsics, heade
 
   // if we do get the block after finalized, it _should_ be there
   if (index === -1) {
-    l.warn(`block ${header.hash}: Unable to find extrinsic ${myHash} inside ${allHashes}`);
+   // l.warn(`block ${header.hash}: Unable to find extrinsic ${myHash} inside ${allHashes}`);
     return;
   }
 

@@ -83,7 +83,7 @@ export default class HttpProvider implements ProviderInterface {
    * @description HTTP Provider does not have 'on' emitters. WebSockets should be used instead.
    */
   on (type: ProviderInterface$Emitted, sub: ProviderInterface$EmitCb): void {
-    l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
+   l.error(`HTTP Provider does not have 'on' emitters, use WebSockets instead`);
   }
 
   /**
@@ -112,7 +112,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async subscribe (types: string, method: string, params: Array<any>, cb: ProviderInterface$Callback): Promise<number> {
-    l.error(ERROR_SUBSCRIBE);
+   l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
   }
@@ -121,7 +121,7 @@ export default class HttpProvider implements ProviderInterface {
    * @summary Subscriptions are not supported with the HttpProvider, see [[WsProvider]].
    */
   async unsubscribe (type: string, method: string, id: number): Promise<boolean> {
-    l.error(ERROR_SUBSCRIBE);
+   l.error(ERROR_SUBSCRIBE);
 
     throw new Error(ERROR_SUBSCRIBE);
   }

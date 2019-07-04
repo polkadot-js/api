@@ -437,7 +437,7 @@ export default abstract class ApiBase<ApiType> {
       } catch (_error) {
         const error = new Error(`FATAL: Unable to initialize the API: ${_error.message}`);
 
-        l.error(error);
+       l.error(error);
 
         this.emit('error', error);
       }
