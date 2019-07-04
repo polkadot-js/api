@@ -6,7 +6,7 @@ import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/uti
 
 import Conviction from './Conviction';
 import U8a from '../codec/U8a';
-import Boolean from '../primitive/Bool';
+import Bool from '../primitive/Bool';
 
 /**
  * @name Vote
@@ -14,7 +14,7 @@ import Boolean from '../primitive/Bool';
  * A number of lock periods, plus a vote, one way or the other.
  */
 export default class Vote extends U8a {
-  private _aye: Boolean;
+  private _aye: Bool;
   private _conviction: Conviction; // for V1, default to None
 
   constructor (value?: any) {
@@ -28,7 +28,7 @@ export default class Vote extends U8a {
     const msb = decoded[0] >> 7;
     const conviction = decoded[0] & 0b01111111;
 
-    this._aye = new Boolean(msb);
+    this._aye = new Bool(msb);
     this._conviction = new Conviction(conviction);
   }
 
@@ -37,22 +37,15 @@ export default class Vote extends U8a {
       return value
               ? new Uint8Array([0b10000000])
               : new Uint8Array([0b0]);
-    } else if (value instanceof Boolean) {
+    } else if (value instanceof Bool) {
       return Vote.decodeVote(value.valueOf());
-    } else if (isNumber(value) && value !== 0) {
+    } else if (isNumber(value)) {
       return value < 0
         ? new Uint8Array([0b10000000])
         : new Uint8Array([0b0]);
     } else if (isObject(value) && !isUndefined(value.aye) && !isUndefined(value.conviction)) {
-      const aye =
-        isBoolean(value.aye)
-          ? new Boolean(value.aye)
-          : value.aye;
-
-      const convictionIndex =
-        isNumber(value.conviction)
-          ? value.conviction
-          : value.conviction.toNumber();
+      const aye = new Bool(value.aye);
+      const convictionIndex = new Conviction(value.conviction).index;
 
       const result = convictionIndex | (aye.eq(true) ? 0b1 << 7 : 0b0);
 

@@ -78,6 +78,25 @@ describe('Vote', () => {
       .toEqual('Locked2x');
   });
 
+  it('Conviction getter works with raw boolean and string conviction', () => {
+    expect(
+      new Vote({
+        aye: true,
+        conviction: 'Locked2x'
+      }).conviction.toString()
+    )
+      .toEqual('Locked2x');
+  });
+  it('Conviction getter works with raw boolean and conviction index', () => {
+    expect(
+      new Vote({
+        aye: true,
+        conviction: 2
+      }).conviction.toString()
+    )
+      .toEqual('Locked2x');
+  });
+
   it('isAye getter works', () => {
     expect(
       new Vote({
