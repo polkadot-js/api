@@ -38,11 +38,11 @@ export function fees (api: ApiInterface$Rx) {
       ]) as any as Observable<[BN, BN, BN, BN, BN]>
     : of([
       // @TODO replace this with calls to `api.consts` once implemented
-      creationFee.toNumber(),
-      existentialDeposit.toNumber(),
-      transactionBaseFee.toNumber(),
-      transactionByteFee.toNumber(),
-      transferFee.toNumber()
+      creationFee,
+      existentialDeposit,
+      transactionBaseFee,
+      transactionByteFee,
+      transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
       map(([
         creationFee,

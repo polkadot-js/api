@@ -203,7 +203,7 @@ describe('Api-RX derive e2e', () => {
   describe('derive.contracts', () => {
     describe('fees', () => {
       it('fees: It returns an object with all relevant constract fees of type Balance', async (done) => {
-        api.derive.contract.fees().subscribe((fees: DerivedContractFees) => {
+        api.derive.contracts.fees().subscribe((fees: DerivedContractFees) => {
           expect(fees).toEqual(expect.objectContaining({
             callBaseFee: expect.any(BN),
             contractFee: expect.any(BN),
