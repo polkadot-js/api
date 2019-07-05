@@ -9,7 +9,7 @@ import { DerivedBalances } from '@polkadot/api-derive/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
-import { Balance, EventRecord, Header, Index, Option, ValidatorPrefs, Vector } from '@polkadot/types';
+import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 
 import Api from './../../src/promise';
 
@@ -17,7 +17,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('Promise e2e queries', () => {
+describe('Promise e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -200,43 +200,42 @@ describe.skip('Promise e2e queries', () => {
   });
 
   describe('with plain type', () => {
-    const EXISTENTIAL_DEPOSIT = 500;
-    it('queries correct value', async () => {
-      const existentialDeposit = await api.query.balances.existentialDeposit() as Balance;
+    it('queries a correct value', async () => {
+      const sessionIndex = await api.query.session.currentIndex() as SessionIndex;
 
-      expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+      expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
     it('queries correct value at a specified block', async () => {
       const header = await api.rpc.chain.getHeader() as Header;
-      const existentialDepositAt = await api.query.balances.existentialDeposit.at(header.hash) as Balance;
+      const sessionIndex = await api.query.session.currentIndex.at(header.hash) as SessionIndex;
 
-      expect(existentialDepositAt.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+      expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
     it('subscribes to query and get correct result', (done) => {
-      return api.query.balances.existentialDeposit((existentialDeposit: Balance) => {
-        expect(existentialDeposit.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+      return api.query.session.currentIndex((sessionIndex: SessionIndex) => {
+        expect(sessionIndex.toNumber()).toBeGreaterThanOrEqual(0);
         done();
       });
     });
 
     it('queries correct hash', async () => {
-      const hash = await api.query.balances.existentialDeposit.hash();
+      const hash: Hash = await api.query.session.currentIndex.hash();
 
       expect(hash).toBeDefined();
     });
 
     it('gets correct key', async () => {
-      const key = api.query.balances.existentialDeposit.key();
-      const existentialDepositData = await api.rpc.state.getStorage(key) as Option<any>;
-      const existentialDepositRPC = new Balance(existentialDepositData.unwrapOr(undefined));
+      const key = api.query.session.currentIndex.key();
+      const sessionIndexData = await api.rpc.state.getStorage(key) as Option<any>;
+      const sessionIndexRPC = new SessionIndex(sessionIndexData.unwrapOr(undefined));
 
-      expect(existentialDepositRPC.toNumber()).toEqual(EXISTENTIAL_DEPOSIT);
+      expect(sessionIndexRPC.toNumber()).toBeGreaterThanOrEqual(0);
     });
 
     it('queries correct size', async () => {
-      const size = await api.query.balances.existentialDeposit.size();
+      const size = await api.query.session.currentIndex.size();
 
       expect(size.toNumber()).not.toEqual(0);
     });
