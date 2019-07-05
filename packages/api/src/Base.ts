@@ -388,7 +388,7 @@ export default abstract class ApiBase<ApiType> {
    *
    * We could easily imagine other user-facing interfaces, which are simply
    * implemented by transforming the Observable to Stream/Iterator/Kefir/Bacon
-   * via `deocrateMethod`.
+   * via `decorateMethod`.
    */
   protected abstract decorateMethod (method: (...args: Array<any>) => Observable<any>, options?: DecorateMethodOptions): any;
 
