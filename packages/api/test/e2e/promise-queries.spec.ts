@@ -237,7 +237,8 @@ describe.skip('Promise e2e queries', () => {
     it('queries correct size', async () => {
       const size = await api.query.session.currentIndex.size();
 
-      expect(size.toNumber()).not.toEqual(0);
+      expect(size).not.toHaveLength(0);
+      expect(size.toNumber()).toBeGreaterThanOrEqual(0);
     });
   });
 
@@ -338,9 +339,9 @@ describe.skip('Promise e2e queries', () => {
     it('queries correct value at a specified block', async () => {
       const header = await api.rpc.chain.getHeader() as Header;
 
-      // TODO check: this will throw the error: Encoding for input doesn't match output, created 0x00 from 0x
+      // TODO check & fix: this will throw the error: Encoding for input doesn't match output, created 0x00 from 0x
       const eventTopicsAt = await api.query.system.eventTopics.at(header.hash, KEY1, KEY2);
-      expect(eventTopicsAt).toEqual(undefined);
+      expect(eventTopicsAt.toJSON()).toEqual([]);
 
       // const eventTopicsAt = await api.query.system.eventTopics.at(header.hash, KEY1, KEY2);
       // expect(eventTopicsAt.toJSON()).toEqual([]);
