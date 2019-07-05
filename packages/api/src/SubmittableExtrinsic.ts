@@ -169,7 +169,20 @@ export class SubmittableExtrinsic<ApiType> extends Extrinsic {
     return this;
   }
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, _options?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
+/*
+
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<ApiType>;
+
+  signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+}
+*/
+
+  signAndSend (account: IKeyringPair | string | AccountId | Address, _options?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>):
+    ApiType extends 'rxjs'
+    ? SubmittableResultResult<ApiType>
+    : typeof _options extends Callback<ISubmittableResult>
+      ? SubmittableResultSubscription<ApiType>
+      : SubmittableResultResult<ApiType> {
     let options: Partial<SignatureOptions> = {};
 
     if (isFunction(_options)) {
