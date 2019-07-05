@@ -462,7 +462,7 @@
               "name": "TotalIssuance",
               "modifier": "Default",
               "type": {
-                "PlainType": "Balancex"
+                "PlainType": "Balance"
               },
               "fallback": "0x00000000000000000000000000000000",
               "documentation": [
