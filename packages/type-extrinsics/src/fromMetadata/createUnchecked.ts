@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FunctionMetadata } from '@polkadot/types/Metadata/v5/Calls';
+import { FunctionMetadata } from '@polkadot/types/Metadata/v6/Calls';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
 import { Method } from '@polkadot/types';
 import { assert, stringCamelCase } from '@polkadot/util';

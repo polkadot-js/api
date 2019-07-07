@@ -3,7 +3,7 @@
 Events are emitted for certain operations on the runtime. The following sections describe the events that are part of the default Substrate runtime.
 - **[balances](#balances)**
 
-- **[contract](#contract)**
+- **[contracts](#contracts)**
 
 - **[council](#council)**
 
@@ -43,7 +43,7 @@ ___
 ___
 
 
-### contract
+### contracts
 
 ▸ **CodeStored**(`Hash`)
 - **summary**:   Code with the specified hash has been stored.
