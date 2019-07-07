@@ -1,5 +1,5 @@
 {
-  "name": "07_read_storage_at",
+  "name": "05_read_storage_at",
   "version": "0.2.0",
   "description": "Example showing how to query storage at a specific block",
   "main": "index.js",

@@ -16,7 +16,7 @@ async function main () {
   console.log(`last header hash ${hash.toHex()}`);
 
   // retrieve the balance at the preceding block for Alice. For at queries
-  // the format is always `.at(<blockhash>, params)`
+  // the format is always `.at(<blockhash>, ...params)`
   const balance = await api.query.balances.freeBalance.at(parentHash, ALICE);
 
   console.log(`Alice's balance at ${parentHash.toHex()} was ${balance}`);
