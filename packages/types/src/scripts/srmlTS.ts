@@ -6,14 +6,12 @@ import fs from 'fs';
 import { isString, isUndefined } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
-import parachains from '../srml/parachains';
+import * as definitions from '../srml/definitions';
 
 type TypeExist = { [index: string]: boolean };
 
 const HEADER = '// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
-
-const srml = { parachains };
 
 function tsEnum ({ name, sub }: TypeDef, otherTypes: TypeExist): string {
   otherTypes[name as string] = false;
@@ -99,10 +97,10 @@ function tsVectorFixed ({ ext, name }: TypeDef, otherTypes: TypeExist): string {
   return `export interface ${name} extends Vector<${type}> {}`;
 }
 
-function generateTsDef (srmlName: string, obj: { [index: string]: any }): void {
+function generateTsDef (srmlName: string, { types }: { types: { [index: string]: any } }): void {
   const codecTypes: TypeExist = {};
   const otherTypes: TypeExist = {};
-  const interfaces = Object.entries(obj).map(([name, type]) => {
+  const interfaces = Object.entries(types).map(([name, type]) => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
     switch (def.info) {
@@ -149,6 +147,6 @@ function generateTsDef (srmlName: string, obj: { [index: string]: any }): void {
   fs.writeFileSync(`packages/types/src/srml/${srmlName}/types.ts`, header.concat('\n').concat(interfaces.join('\n\n')).concat(FOOTER), { flag: 'w' });
 }
 
-Object.entries(srml).forEach(([name, obj]) =>
+Object.entries(definitions).forEach(([name, obj]) =>
   generateTsDef(name, obj)
 );

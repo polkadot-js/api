@@ -99,7 +99,7 @@ export type ConstructorDef<T = Codec> = { [index: string]: Constructor<T> };
 export type TypeDef = { [index: string]: Codec };
 
 export type RegistryTypes = {
-  [name: string]: Constructor | string | { [name: string]: string }
+  [name: string]: Constructor | string | { [name: string]: string } | { _enum: Array<string> | { [index: string]: string } }
 };
 
 export interface RuntimeVersionInterface {

@@ -23,6 +23,7 @@ import storageFromMeta from '@polkadot/storage/fromMetadata';
 import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
+import * as srmlTypes from '@polkadot/types/srml/definitions';
 import { StorageFunction } from '@polkadot/types/primitive/StorageKey';
 import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
 import { cryptoWaitReady } from '@polkadot/util-crypto';
@@ -120,6 +121,12 @@ export default abstract class ApiBase<ApiType> {
 
     // we only re-register the types (global) if this is not a cloned instance
     if (!options.source) {
+      // first register the definitions we have, i.e. those where there are no type classes
+      Object.values(srmlTypes).forEach(({ types }) =>
+        this.registerTypes(types)
+      );
+
+      // next register all the user types
       this.registerTypes(options.types);
     }
 
