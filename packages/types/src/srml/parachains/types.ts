@@ -1,20 +1,19 @@
 // Auto-generated, do not edit
 
 import { Enum, Struct, Tuple, Vector } from '../../codec';
-import { AccountId, Bytes, Hash, U32 } from '../../primitive';
+import { AccountId, Bytes, Hash, Signature, U32, u64 } from '../../primitive';
+
+export interface AttestedCandidate extends Struct {
+  readonly candidate: CandidateReceipt;
+  readonly validityVotes: Vector<ValidityVote>;
+  readonly availabilityVotes: Vector<AvailabilityVote>;
+}
 
 export interface AuctionIndex extends U32 {}
 
-export interface ParaId extends U32 {}
+export interface AvailabilityVote extends Tuple {}
 
-export interface ParaIdOf extends ParaId {}
-
-export interface SubId extends U32 {}
-
-export interface NewBidder extends Struct {
-  readonly who: AccountId;
-  readonly sub: SubId;
-}
+export interface BalanceUpload extends Tuple {}
 
 export interface Bidder extends Enum {
   /**
@@ -29,15 +28,22 @@ export interface Bidder extends Enum {
   readonly asExisting: ParaId;
 }
 
-export interface IncomingParachainDeploy extends Struct {
-  readonly code: Bytes;
-  readonly initialHeadData: Bytes;
+export interface CandidateReceipt extends Struct {
+  readonly parachainIndex: ParaId;
+  readonly collator: AccountId;
+  readonly signature: CollatorSignature;
+  readonly headData: HeadData;
+  readonly balanceUploads: Vector<BalanceUpload>;
+  readonly egressQueueRoots: Vector<EgressQueueRoot>;
+  readonly fees: u64;
+  readonly blockDataHash: Hash;
 }
 
-export interface IncomingParachainFixed extends Struct {
-  readonly codeHash: Hash;
-  readonly initialHeadData: Bytes;
-}
+export interface CollatorSignature extends Signature {}
+
+export interface EgressQueueRoot extends Tuple {}
+
+export interface HeadData extends Bytes {}
 
 export interface IncomingParachain extends Enum {
   /**
@@ -57,6 +63,21 @@ export interface IncomingParachain extends Enum {
   readonly asDeploy: IncomingParachainDeploy;
 }
 
+export interface IncomingParachainDeploy extends Struct {
+  readonly code: Bytes;
+  readonly initialHeadData: Bytes;
+}
+
+export interface IncomingParachainFixed extends Struct {
+  readonly codeHash: Hash;
+  readonly initialHeadData: Bytes;
+}
+
+export interface NewBidder extends Struct {
+  readonly who: AccountId;
+  readonly sub: SubId;
+}
+
 export interface ParachainDispatchOrigin extends Enum {
   /**
    * @description 0:: Signed
@@ -67,6 +88,10 @@ export interface ParachainDispatchOrigin extends Enum {
    */
   readonly isParachain: boolean;
 }
+
+export interface ParaId extends U32 {}
+
+export interface ParaIdOf extends ParaId {}
 
 export interface SlotRange extends Enum {
   /**
@@ -111,11 +136,32 @@ export interface SlotRange extends Enum {
   readonly isThreeThree: boolean;
 }
 
+export interface SubId extends U32 {}
+
 export interface UpwardMessage extends Struct {
   readonly origin: ParachainDispatchOrigin;
   readonly data: Bytes;
 }
 
-export interface WinningDataEntry extends Tuple {}
+export interface ValidityAttestation extends Enum {
+  /**
+   * @description 0:: None
+   */
+  readonly isNone: boolean;
+  /**
+   * @description 1:: Implicit(CollatorSignature)
+   */
+  readonly isImplicit: boolean;
+  readonly asImplicit: CollatorSignature;
+  /**
+   * @description 2:: Explicit(CollatorSignature)
+   */
+  readonly isExplicit: boolean;
+  readonly asExplicit: CollatorSignature;
+}
+
+export interface ValidityVote extends Tuple {}
 
 export interface WinningData extends Vector<WinningDataEntry> {}
+
+export interface WinningDataEntry extends Tuple {}

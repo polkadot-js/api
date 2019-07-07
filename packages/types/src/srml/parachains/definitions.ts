@@ -4,10 +4,41 @@
 
 export default {
   types: {
-    AuctionIndex: 'U32',
-    ParaId: 'U32',
+    AuctionIndex: 'u32',
+    CollatorSignature: 'Signature',
+    // Until we are able to import the SessionKey from grandpa, define as AccountId
+    AvailabilityVote: '(AccountId, CollatorSignature)', // '(SessionKey, CollatorSignature)',
+    ValidityAttestation: {
+      _enum: {
+        // This Null is not in the original, however indexes start at 1, so add a
+        // placeholder in the first position (which is basically non-valid)
+        None: 'Null',
+        Implicit: 'CollatorSignature', // 1
+        Explicit: 'CollatorSignature' // 2
+      }
+    },
+    ParaId: 'u32',
     ParaIdOf: 'ParaId',
-    SubId: 'U32',
+    ValidityVote: '(AccountId, ValidityAttestation)',
+    BalanceUpload: '(AccountId, u64)',
+    EgressQueueRoot: '(ParaId, Hash)',
+    HeadData: 'Bytes',
+    CandidateReceipt: {
+      parachainIndex: 'ParaId',
+      collator: 'AccountId',
+      signature: 'CollatorSignature',
+      headData: 'HeadData',
+      balanceUploads: 'Vec<BalanceUpload>',
+      egressQueueRoots: 'Vec<EgressQueueRoot>',
+      fees: 'u64',
+      blockDataHash: 'Hash'
+    },
+    AttestedCandidate: {
+      candidate: 'CandidateReceipt',
+      validityVotes: 'Vec<ValidityVote>',
+      availabilityVotes: 'Vec<AvailabilityVote>'
+    },
+    SubId: 'u32',
     NewBidder: {
       who: 'AccountId',
       sub: 'SubId'

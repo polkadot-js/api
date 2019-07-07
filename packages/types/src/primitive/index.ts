@@ -33,6 +33,7 @@ export { default as Method } from './Method';
 export { default as Moment, MomentOf } from './Moment';
 export { default as Null } from './Null';
 export { default as Origin } from './Origin';
+export { default as Signature, Ed25519Signature, Sr25519Signature } from './Signature';
 export { default as StorageData } from './StorageData';
 export { default as StorageHasher } from './StorageHasher';
 export { default as StorageKey } from './StorageKey';
