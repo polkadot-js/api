@@ -15,29 +15,29 @@ const MILLICENTS: BN = new BN(1000000000);
 const CENTS: BN = new BN(1000).mul(MILLICENTS);    // assume this is worth about a cent.
 const DOLLARS: BN = new BN(100).mul(CENTS);
 
-export const existentialDeposit: BN = new BN(1).mul(DOLLARS);
-export const transferFee: BN = new BN(1).mul(CENTS);
-export const creationFee: BN = new BN(1).mul(CENTS);
-export const transactionBaseFee: BN = new BN(1).mul(CENTS);
-export const transactionByteFee: BN = new BN(10).mul(MILLICENTS);
+export const v6existentialDeposit: BN = new BN(1).mul(DOLLARS);
+export const v6transferFee: BN = new BN(1).mul(CENTS);
+export const v6creationFee: BN = new BN(1).mul(CENTS);
+export const v6transactionBaseFee: BN = new BN(1).mul(CENTS);
+export const v6transactionByteFee: BN = new BN(10).mul(MILLICENTS);
 
 // parameter_types of council module as implemented here:
 // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R250
-export const CandidacyBond: BN = new BN(10).mul(DOLLARS);
-export const VotingBond: BN = new BN(1).mul(DOLLARS);
-export const VotingFee: BN = new BN(2).mul(DOLLARS);
-export const PresentSlashPerVoter: BN = new BN(1).mul(CENTS);
+export const v6CandidacyBond: BN = new BN(10).mul(DOLLARS);
+export const v6VotingBond: BN = new BN(1).mul(DOLLARS);
+export const v6VotingFee: BN = new BN(2).mul(DOLLARS);
+export const v6PresentSlashPerVoter: BN = new BN(1).mul(CENTS);
 
 // Fees for the contract module as implemented here:
 // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R305
 // @TODO replace this with calls to `api.consts` once implemented
-export const callBaseFee: BN = new BN(1000);
-export const contractFee: BN = new BN(1).mul(CENTS);
-export const createBaseFee: BN = new BN(1000);
-export const contractCreationFee: BN = new BN(1).mul(CENTS);
-export const rentByteFee: BN = new BN(4);
-export const rentDepositOffset: BN = new BN(1000);
-export const contractTransactionBaseFee: BN = new BN(1).mul(CENTS);
-export const contractTransactionByteFee: BN = new BN(10).mul(MILLICENTS);
-export const contractTransferFee: BN = new BN(1).mul(CENTS);
-export const tombstoneDeposit: BN = new BN(16);
+export const v6callBaseFee: BN = new BN(1000);
+export const v6contractFee: BN = new BN(1).mul(CENTS);
+export const v6createBaseFee: BN = new BN(1000);
+export const v6contractCreationFee: BN = new BN(1).mul(CENTS);
+export const v6rentByteFee: BN = new BN(4);
+export const v6rentDepositOffset: BN = new BN(1000);
+export const v6contractTransactionBaseFee: BN = new BN(1).mul(CENTS);
+export const v6contractTransactionByteFee: BN = new BN(10).mul(MILLICENTS);
+export const v6contractTransferFee: BN = new BN(1).mul(CENTS);
+export const v6tombstoneDeposit: BN = new BN(16);

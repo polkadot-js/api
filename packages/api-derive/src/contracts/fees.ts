@@ -11,16 +11,16 @@ import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 import {
-  callBaseFee,
-  contractFee,
-  createBaseFee,
-  contractCreationFee,
-  rentByteFee,
-  rentDepositOffset,
-  contractTransactionBaseFee,
-  contractTransactionByteFee,
-  contractTransferFee,
-  tombstoneDeposit
+  v6callBaseFee,
+  v6contractFee,
+  v6createBaseFee,
+  v6contractCreationFee,
+  v6rentByteFee,
+  v6rentDepositOffset,
+  v6contractTransactionBaseFee,
+  v6contractTransactionByteFee,
+  v6contractTransferFee,
+  v6tombstoneDeposit
 } from '../util/v6consts';
 
 /**
@@ -41,6 +41,38 @@ export function fees (api: ApiInterface$Rx) {
     const queryBase = api.query.contracts || api.query.contract;
 
     // // rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
+
+    const obs = of(
+
+    );
+
+    if (queryBase && !queryBase.rentByteFee) {
+      console.log('1.0 checkskdvahkashdf');
+      return (api.queryMulti([
+        queryBase.callBaseFee,
+        queryBase.contractFee,
+        queryBase.createBaseFee,
+        queryBase.creationFee,
+        queryBase.transactionBaseFee,
+        queryBase.transactionByteFee,
+        queryBase.transferFee
+      ])).pipe(
+        map(([callBaseFee, contractFee, createBaseFee, creationFee, transactionBaseFee, transactionByteFee, transferFee]) => ({
+          callBaseFee,
+          contractFee,
+          createBaseFee,
+          creationFee,
+          v6rentByteFee,
+          v6rentDepositOffset,
+          transactionBaseFee,
+          transactionByteFee,
+          transferFee,
+          v6tombstoneDeposit
+        } as DerivedContractFees)),
+        drr().concat()
+      );
+    }
+
     return (queryBase.contractFee
       ? api.queryMulti([
         queryBase.callBaseFee,
@@ -56,16 +88,16 @@ export function fees (api: ApiInterface$Rx) {
       ]) as any as Observable<Array<BN>>
     : of([
       // @TODO replace this with calls to `api.consts` once implemented
-      callBaseFee,
-      contractFee,
-      createBaseFee,
-      contractCreationFee,
-      rentByteFee,
-      rentDepositOffset,
-      contractTransactionBaseFee,
-      contractTransactionByteFee,
-      contractTransferFee,
-      tombstoneDeposit
+      v6callBaseFee,
+      v6contractFee,
+      v6createBaseFee,
+      v6contractCreationFee,
+      v6rentByteFee,
+      v6rentDepositOffset,
+      v6contractTransactionBaseFee,
+      v6contractTransactionByteFee,
+      v6contractTransferFee,
+      v6tombstoneDeposit
     ]) as any as Observable<Array<BN>>).pipe(
       map(([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, transactionBaseFee, transactionByteFee, transferFee, tombstoneDeposit]) => ({
         callBaseFee,
