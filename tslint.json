@@ -4,6 +4,7 @@
     "exclude": "packages/**/src/**/*.json"
   },
   "rules": {
-    "completed-docs": false
+    "completed-docs": false,
+    "file-header": [true, "Copyright"]
   }
 }
