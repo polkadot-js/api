@@ -13,7 +13,6 @@ export { default as ApprovalFlag } from './ApprovalFlag';
 export { default as AssetOf } from './AssetOf';
 export { default as AuthorityId } from './AuthorityId';
 export { default as AuthorityWeight } from './AuthorityWeight';
-export { default as Balance, BalanceOf } from './Balance';
 export { default as BalanceLock } from './BalanceLock';
 // NOTE Bft items are only used in internal structures
 // export * from './Bft;

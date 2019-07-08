@@ -1,7 +1,8 @@
 // Auto-generated, do not edit
 
-import { Enum, Struct, Tuple, Vector } from '../../codec';
-import { AccountId, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
+import { Codec } from '../../types';
+import { Enum, Struct, Vector } from '../../codec';
+import { AccountId, BalanceOf, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
@@ -11,9 +12,11 @@ export interface AttestedCandidate extends Struct {
 
 export interface AuctionIndex extends u32 {}
 
-export interface AvailabilityVote extends Tuple {}
+type _AvailabilityVote = [AccountId, CollatorSignature];
+export interface AvailabilityVote extends Codec, _AvailabilityVote {}
 
-export interface BalanceUpload extends Tuple {}
+type _BalanceUpload = [AccountId, u64];
+export interface BalanceUpload extends Codec, _BalanceUpload {}
 
 export interface Bidder extends Enum {
   /**
@@ -41,7 +44,8 @@ export interface CandidateReceipt extends Struct {
 
 export interface CollatorSignature extends Signature {}
 
-export interface EgressQueueRoot extends Tuple {}
+type _EgressQueueRoot = [ParaId, Hash];
+export interface EgressQueueRoot extends Codec, _EgressQueueRoot {}
 
 export interface HeadData extends Bytes {}
 
@@ -160,8 +164,10 @@ export interface ValidityAttestation extends Enum {
   readonly asExplicit: CollatorSignature;
 }
 
-export interface ValidityVote extends Tuple {}
+type _ValidityVote = [AccountId, ValidityAttestation];
+export interface ValidityVote extends Codec, _ValidityVote {}
 
 export interface WinningData extends Vector<WinningDataEntry> {}
 
-export interface WinningDataEntry extends Tuple {}
+type _WinningDataEntry = [AccountId, ParaIdOf, BalanceOf];
+export interface WinningDataEntry extends Codec, _WinningDataEntry {}

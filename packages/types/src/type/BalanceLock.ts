@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../codec/Struct';
-import Balance from './Balance';
+import Balance from '../primitive/Balance';
 import BlockNumber from './BlockNumber';
 import LockIdentifier from './LockIdentifier';
 import WithdrawReasons from './WithdrawReasons';

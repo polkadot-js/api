@@ -3,20 +3,20 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import fs from 'fs';
-import { isString, isUndefined } from '@polkadot/util';
+import { isString } from '@polkadot/util';
 
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as definitions from '../srml/definitions';
 
 // these map all the codec and primitive types for import, see the TypeImports below. If
-// we have an unseen type, it is `undefined`, if we need to import it, it is `true`, in the
-// case where it is part of our definition structure, it is `false`
+// we have an unseen type, it is `undefined`/`false`, if we need to import it, it is `true`
 type TypeExist = {
   [index: string]: boolean
 };
 type TypeImports = {
   codecTypes: TypeExist,
-  otherTypes: TypeExist
+  otherTypes: TypeExist,
+  ownTypes: Array<string>
 };
 
 const HEADER = '// Auto-generated, do not edit\n\n';
@@ -45,7 +45,6 @@ function errorUnhandled (def: TypeDef, imports: TypeImports): string {
 
 function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
   codecTypes['Enum'] = true;
-  otherTypes[enumName as string] = false;
 
   const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
     const [enumType, asGetter] = type === 'Null'
@@ -64,17 +63,15 @@ function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: T
   return `export interface ${enumName} extends Enum {\n${keys.join('')}}`;
 }
 
-function tsPlain ({ name: plainName, type }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
-  otherTypes[plainName as string] = false;
-
-  if (isUndefined(otherTypes[type])) {
+function tsPlain ({ name: plainName, type }: TypeDef, { otherTypes, ownTypes }: TypeImports): string {
+  if (!ownTypes.includes(type) && !otherTypes[type]) {
     otherTypes[type] = true;
   }
 
   return `export interface ${plainName} extends ${type} {}`;
 }
 
-function _tsStructGetterTypes (structName: string | undefined, { info, sub, type }: TypeDef): [string, string] {
+function _tsStructGetterType (structName: string | undefined, { info, sub, type }: TypeDef): [string, string] {
   switch (info) {
     case TypeDefInfo.Plain:
       return [type, type];
@@ -90,15 +87,14 @@ function _tsStructGetterTypes (structName: string | undefined, { info, sub, type
 }
 
 function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
-  const { codecTypes, otherTypes } = imports;
+  const { codecTypes, otherTypes, ownTypes } = imports;
 
   codecTypes['Struct'] = true;
-  otherTypes[structName as string] = false;
 
   const keys = (sub as Array<TypeDef>).map((typedef) => {
-    const [embedType, returnType] = _tsStructGetterTypes(structName, typedef);
+    const [embedType, returnType] = _tsStructGetterType(structName, typedef);
 
-    if (isUndefined(otherTypes[embedType])) {
+    if (!ownTypes.includes(embedType) && !otherTypes[embedType]) {
       otherTypes[embedType] = true;
     }
 
@@ -108,23 +104,29 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
 }
 
-function tsTuple ({ name: tupleName }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+function tsTuple ({ name: tupleName, sub }: TypeDef, { codecTypes, otherTypes, ownTypes }: TypeImports): string {
   codecTypes['Tuple'] = true;
-  otherTypes[tupleName as string] = false;
+
+  const types = (sub as Array<TypeDef>).map(({ type }) => {
+    if (!ownTypes.includes(type) && !otherTypes[type]) {
+      otherTypes[type] = true;
+    }
+
+    return type;
+  });
 
   // TODO We need some way here of identifying the fields
-  return `export interface ${tupleName} extends Tuple {}`;
+  return `type _${tupleName} = [${types.join(', ')}];\nexport interface ${tupleName} extends Codec, _${tupleName} {}`;
 }
 
-function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, { codecTypes, otherTypes, ownTypes }: TypeImports): string {
   const type = info === TypeDefInfo.VectorFixed
     ? (ext as TypeDefExtVecFixed).type
     : (sub as TypeDef).type;
 
   codecTypes['Vector'] = true;
-  otherTypes[vectorName as string] = false;
 
-  if (isUndefined(otherTypes[type])) {
+  if (!ownTypes.includes(type) && !otherTypes[type]) {
     otherTypes[type] = true;
   }
 
@@ -134,16 +136,21 @@ function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, { codecTypes, 
 function generateTsDef (srmlName: string, { types }: { types: { [index: string]: any } }): void {
   const codecTypes: TypeExist = {};
   const otherTypes: TypeExist = {};
+  const ownTypes = Object.keys(types);
   const interfaces = Object.entries(types).map(([name, type]) => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
-    return [name, generators[def.info](def, { codecTypes, otherTypes })];
+    return [name, generators[def.info](def, { codecTypes, otherTypes, ownTypes })];
   });
 
   let header = HEADER;
-  const codecImports = Object.keys(codecTypes).sort();
+  const codecImports = Object.keys(codecTypes).filter((name) => name !== 'Tuple').sort();
   const primitiveImports = Object.keys(otherTypes).filter((type) => otherTypes[type]).sort();
   const sortedDefs = interfaces.sort((a, b) => a[0].localeCompare(b[0])).map(([, definition]) => definition);
+
+  if (codecTypes['Tuple']) {
+    header = header.concat(`import { Codec } from '../../types';\n`);
+  }
 
   if (codecImports.length) {
     header = header.concat(`import { ${codecImports.join(', ')} } from '../../codec';\n`);
