@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
-import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions as ExtrinsicSignatatueOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -36,6 +36,10 @@ export type SumbitableResultSubscription<ApiType> =
 type SubmittableResultValue = {
   events?: Array<EventRecord>;
   status: ExtrinsicStatus;
+};
+
+type SignerOptions = ExtrinsicSignatatueOptions & {
+  era?: IExtrinsicEra | number
 };
 
 export class SubmittableResult implements ISubmittableResult {
@@ -148,12 +152,12 @@ export default function createSubmittableExtrinsic<ApiType> (
       );
   }
 
-  function expandOptions (options: Partial<SignatureOptions>): SignatureOptions {
+  function expandOptions (options: Partial<ExtrinsicSignatatueOptions>): ExtrinsicSignatatueOptions {
     return {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options
-    } as SignatureOptions;
+    } as ExtrinsicSignatatueOptions;
   }
 
   const signOrigin = _extrinsic.sign;

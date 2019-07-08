@@ -114,7 +114,6 @@ export interface RuntimeVersionInterface {
 export type SignatureOptions = {
   blockHash: AnyU8a,
   era?: IExtrinsicEra,
-  eraLength?: number,
   nonce: AnyNumber,
   version?: RuntimeVersionInterface
 };
