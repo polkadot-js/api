@@ -207,23 +207,27 @@ export default function createSubmittableExtrinsic<ApiType> (
               ])
             ).pipe(
               first(),
-              mergeMap(async ([nonce, block]) => {
+              mergeMap(async ([nonce, signedBlock]) => {
+                let blockHash: Hash | undefined;
                 let era: ExtrinsicEra | undefined;
 
-                if (block) {
+                if (signedBlock) {
+                  const { blockNumber, hash } = signedBlock.block.header;
+
+                  blockHash = hash;
                   era = new ExtrinsicEra({
-                    current: block.block.header.blockNumber,
+                    current: blockNumber,
                     period: options.eraLength || 10
                   });
                 }
 
                 if (isKeyringPair) {
-                  this.sign(account as IKeyringPair, { ...options, era, nonce });
+                  this.sign(account as IKeyringPair, { ...options, blockHash, era, nonce });
                 } else {
                   assert(api.signer, 'no signer exists');
 
                   updateId = await (api.signer as Signer).sign(_extrinsic, address, {
-                    ...expandOptions({ ...options, era, nonce }),
+                    ...expandOptions({ ...options, blockHash, era, nonce }),
                     genesisHash: api.genesisHash
                   });
                 }

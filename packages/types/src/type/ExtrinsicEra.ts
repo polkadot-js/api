@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a, IExtrinsicEra } from '../types';
+
 import { assert, hexToU8a, isHex, isU8a, isObject, u8aToBn } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
 import Tuple from '../codec/Tuple';
 import U8a from '../codec/U8a';
 import U64 from '../primitive/U64';
-import { AnyU8a, IExtrinsicEra } from '../types';
 
 type MortalEraValue = [U64, U64];
 
