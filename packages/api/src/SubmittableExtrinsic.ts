@@ -184,7 +184,7 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       signAndSend: {
-        value: function (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<Partial<SignatureOptions>> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
+        value: function (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
           let options: Partial<SignatureOptions> = {};
 
           if (isFunction(optionsOrStatus)) {
