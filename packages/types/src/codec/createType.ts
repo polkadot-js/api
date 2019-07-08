@@ -193,7 +193,7 @@ export function getTypeClass (value: TypeDef, Fallback?: Constructor): Construct
       assert(value.sub && Array.isArray(value.sub), 'Expected subtype for Enum');
 
       return Enum.with(
-        (value.sub as Array<TypeDef>).reduce((result, sub, index) => {
+        (value.sub as Array<TypeDef>).reduce((result, sub) => {
           result[sub.name as string] = getTypeClass(sub);
 
           return result;
