@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
-import { Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions as ExtrinsicSignatatueOptions } from '@polkadot/types/types';
+import { Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -38,9 +38,12 @@ type SubmittableResultValue = {
   status: ExtrinsicStatus;
 };
 
-type SignerOptions = ExtrinsicSignatatueOptions & {
+type SignerOptions = SignatureOptions & {
   era?: IExtrinsicEra | number
 };
+
+// pick a default - in the case of 4s blocktimes, this translates to 60 seconds
+const DEFAULT_MORTAL_LENGTH = 15;
 
 export class SubmittableResult implements ISubmittableResult {
   readonly events: Array<EventRecord>;
@@ -78,13 +81,13 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
   send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
+  sign (account: IKeyringPair, _options: Partial<SignerOptions>): this;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignatureOptions>): SumbitableResultResult<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignatureOptions>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -154,12 +157,20 @@ export default function createSubmittableExtrinsic<ApiType> (
       );
   }
 
-  function expandOptions (options: Partial<ExtrinsicSignatatueOptions>): ExtrinsicSignatatueOptions {
-    return {
+  function expandOptions (_options: Partial<SignatureOptions>): SignatureOptions {
+    const options = {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
-      ...options
-    } as ExtrinsicSignatatueOptions;
+      ..._options
+    } as SignatureOptions;
+
+    // in the cases where a zero/negative number is provided, we don't want to pass the
+    // era up, so remove it - this is for the case of immortal transactions
+    if (isNumber(options.era)) {
+      delete options.era;
+    }
+
+    return options;
   }
 
   const signOrigin = _extrinsic.sign;
@@ -175,10 +186,10 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       sign: {
-        value: function (account: IKeyringPair, _options: Partial<SignatureOptions>): SubmittableExtrinsic<ApiType> {
+        value: function (account: IKeyringPair, _options: Partial<SignerOptions>): SubmittableExtrinsic<ApiType> {
           // HACK here we actually override nonce if it was specified (backwards compat for
           // the previous signature - don't let userspace break, but allow then time to upgrade)
-          const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
+          const options: Partial<SignerOptions> = isBn(_options) || isNumber(_options)
             ? { nonce: _options as any as number }
             : _options;
 
@@ -188,8 +199,8 @@ export default function createSubmittableExtrinsic<ApiType> (
         }
       },
       signAndSend: {
-        value: function (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
-          let options: Partial<SignatureOptions> = {};
+        value: function (account: IKeyringPair | string | AccountId | Address, optionsOrStatus?: Partial<SignerOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SumbitableResultResult<ApiType> | SumbitableResultSubscription<ApiType> {
+          let options: Partial<SignerOptions> = {};
 
           if (isFunction(optionsOrStatus)) {
             statusCb = optionsOrStatus;
@@ -209,25 +220,23 @@ export default function createSubmittableExtrinsic<ApiType> (
                 isUndefined(options.nonce)
                   ? api.query.system.accountNonce<Index>(address)
                   : of(new Index(options.nonce)),
-                // if we have an era provided already or eraLength is -1 (immortal)
+                // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
-                isUndefined(options.era) && options.eraLength !== -1
-                  ? api.rpc.chain.getBlock() as Observable<SignedBlock>
+                isUndefined(options.era) || (isNumber(options.era) && options.era >= 0)
+                  ? api.rpc.chain.getBlock(options.blockHash) as Observable<SignedBlock>
                   : of(null)
               ])
             ).pipe(
               first(),
               mergeMap(async ([nonce, signedBlock]) => {
                 let blockHash: Hash | undefined;
-                let era: ExtrinsicEra | undefined;
+                let era: IExtrinsicEra | undefined;
 
                 if (signedBlock) {
-                  const { blockNumber, hash } = signedBlock.block.header;
-
-                  blockHash = hash;
+                  blockHash = signedBlock.block.header.hash;
                   era = new ExtrinsicEra({
-                    current: blockNumber,
-                    period: options.eraLength || 10
+                    current: signedBlock.block.header.blockNumber,
+                    period: options.era || DEFAULT_MORTAL_LENGTH
                   });
                 }
 
