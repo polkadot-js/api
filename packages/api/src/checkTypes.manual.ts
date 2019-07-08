@@ -8,7 +8,7 @@ import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring from '@polkadot/keyring/testingPairs';
 import { IExtrinsic, IMethod } from '@polkadot/types/types';
-import { Header } from '@polkadot/types';
+import { Header, Nonce } from '@polkadot/types';
 
 import { SubmittableResult } from './';
 
@@ -44,14 +44,33 @@ export default async function test () {
   console.log('transfer as Method', transfer as IMethod);
   console.log('transfer as Extrinsic', transfer as IExtrinsic);
 
-  const hash = await transfer.signAndSend(keyring.alice);
-  console.log('hash:', hash.toHex());
+  // simple "return the hash" variant
+  console.log('hash:', (await transfer.signAndSend(keyring.alice)).toHex());
 
+  // passing options, but waiting for hash
+  const nonce = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+
+  (await api.tx.balances
+    .transfer(keyring.bob.address, 12345)
+    .signAndSend(keyring.alice, { nonce })
+  ).toHex();
+
+  // just with the callback
   const unsub = await api.tx.balances
     .transfer(keyring.bob.address, 12345)
     .signAndSend(keyring.alice, ({ status }: SubmittableResult) => {
       console.log('transfer status:', status.type);
 
       unsub();
+    });
+
+  // with options and the callback
+  const nonce2 = await api.query.system.accountNonce<Nonce>(keyring.alice.address);
+  const unsub2 = await api.tx.balances
+    .transfer(keyring.bob.address, 12345)
+    .signAndSend(keyring.alice, { nonce: nonce2 }, ({ status }: SubmittableResult) => {
+      console.log('transfer status:', status.type);
+
+      unsub2();
     });
 }
