@@ -198,9 +198,12 @@ export default function createSubmittableExtrinsic<ApiType> (
           return decorateMethod(
             () => ((
               combineLatest([
+                // if we have a nonce already, don't retrieve the latest, use what is there
                 isUndefined(options.nonce)
                   ? api.query.system.accountNonce<Index>(address)
                   : of(new Index(options.nonce)),
+                // if we have an era provided already or eraLength is -1 (immortal)
+                // don't get the latest block, just pass null, handle in mergeMap
                 isUndefined(options.era) && options.eraLength !== -1
                   ? api.rpc.chain.getBlock() as Observable<SignedBlock>
                   : of(null)
