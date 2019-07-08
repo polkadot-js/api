@@ -30,6 +30,11 @@ export class TypeRegistry {
     }
   }
 
+  extends <O,T>(baseType: string, modifier: (klass: Constructor<O>) => Constructor<T>): Constructor<T> {
+    const Type = this.getOrThrow(baseType);
+    return modifier(Type as any);
+  }
+
   private registerObject (obj: RegistryTypes, overwrite: boolean = true) {
     Object.entries(obj).forEach(([name, type]) => {
       if (overwrite || !this.get(name)) {

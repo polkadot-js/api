@@ -538,7 +538,7 @@ export default abstract class ApiBase<ApiType> {
 
   private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-      createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, value);
+      new (createSubmittable<ApiType>(this.type, this._rx as ApiInterface$Rx, decorateMethod))(value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
@@ -556,7 +556,7 @@ export default abstract class ApiBase<ApiType> {
   private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType> =>
-        createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod, method(...params));
+        new (createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod))(method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }

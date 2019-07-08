@@ -6,7 +6,7 @@ import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import {EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock} from '@polkadot/types';
 
 import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
@@ -32,14 +32,18 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('Promise e2e transactions', () => {
+describe('Promise e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
   beforeEach(async (done) => {
     if (!api) {
       api = await Api.create({
-        provider: new WsProvider('ws://127.0.0.1:9944')
+        provider: new WsProvider('ws://127.0.0.1:9944'),
+        types: {
+          'AssetId': 'U32',
+
+        }
       });
     }
 
@@ -57,8 +61,9 @@ describe.skip('Promise e2e transactions', () => {
       .transfer(keyring.eve.address, 12345)
       .sign(keyring.dave, { nonce })
       .toHex();
-
-    return api.tx(hex).send(logEvents(done));
+    const tx = api.tx(hex);
+    expect(tx.toHex()).toBe(hex);
+    return tx.send(logEvents(done));
   });
 
   it('makes a transfer (sign, then send)', async (done) => {
