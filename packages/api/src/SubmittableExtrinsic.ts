@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector } from '@polkadot/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
 import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
 
@@ -197,19 +197,33 @@ export default function createSubmittableExtrinsic<ApiType> (
 
           return decorateMethod(
             () => ((
-              isUndefined(options.nonce)
-                ? api.query.system.accountNonce<Index>(address)
-                : of(new Index(options.nonce))
+              combineLatest([
+                isUndefined(options.nonce)
+                  ? api.query.system.accountNonce<Index>(address)
+                  : of(new Index(options.nonce)),
+                isUndefined(options.era) && options.eraLength !== -1
+                  ? api.rpc.chain.getBlock() as Observable<SignedBlock>
+                  : of(null)
+              ])
             ).pipe(
               first(),
-              mergeMap(async (nonce) => {
+              mergeMap(async ([nonce, block]) => {
+                let era: ExtrinsicEra | undefined;
+
+                if (block) {
+                  era = new ExtrinsicEra({
+                    current: block.block.header.blockNumber,
+                    period: options.eraLength || 10
+                  });
+                }
+
                 if (isKeyringPair) {
-                  this.sign(account as IKeyringPair, { ...options, nonce });
+                  this.sign(account as IKeyringPair, { ...options, era, nonce });
                 } else {
                   assert(api.signer, 'no signer exists');
 
                   updateId = await (api.signer as Signer).sign(_extrinsic, address, {
-                    ...expandOptions({ ...options, nonce }),
+                    ...expandOptions({ ...options, era, nonce }),
                     genesisHash: api.genesisHash
                   });
                 }

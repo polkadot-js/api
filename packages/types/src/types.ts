@@ -114,6 +114,7 @@ export interface RuntimeVersionInterface {
 export type SignatureOptions = {
   blockHash: AnyU8a,
   era?: Uint8Array,
+  eraLength?: number,
   nonce: AnyNumber,
   version?: RuntimeVersionInterface
 };
