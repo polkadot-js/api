@@ -15,7 +15,7 @@ export default class Votes extends Struct {
       threshold: MemberCount,
       ayes: Vector.with(AccountId),
       nays: Vector.with(AccountId)
-    });
+    }, value);
   }
 
   /**

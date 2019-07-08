@@ -1,5 +1,5 @@
 {
-  "version": "0.82.0-beta.27",
+  "version": "0.82.0-beta.30",
   "private": true,
   "engines": {
     "yarn": "^1.10.1"
@@ -24,10 +24,10 @@
     "test:watch": "jest --coverage --watch"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.5",
+    "@babel/core": "^7.5.0",
     "@babel/register": "^7.4.4",
-    "@babel/runtime": "^7.4.5",
-    "@polkadot/dev": "^0.30.0-beta.16",
+    "@babel/runtime": "^7.5.0",
+    "@polkadot/dev": "^0.30.0-beta.17",
     "@polkadot/ts": "^0.1.60",
     "gh-pages": "^2.0.1"
   }
