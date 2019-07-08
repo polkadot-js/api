@@ -230,7 +230,7 @@ export default function createSubmittableExtrinsic<ApiType> (
               first(),
               mergeMap(async ([nonce, signedBlock]) => {
                 let blockHash: Hash | undefined;
-                let era: IExtrinsicEra | undefined;
+                let era: ExtrinsicEra | undefined;
 
                 if (signedBlock) {
                   blockHash = signedBlock.block.header.hash;
