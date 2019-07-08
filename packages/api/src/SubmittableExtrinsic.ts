@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
-import { Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
+import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Header, Index, Method, SignedBlock, Vector, ExtrinsicEra } from '@polkadot/types';
+import { AnyNumber, AnyU8a, Callback, Codec, IExtrinsic, IExtrinsicEra, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
 import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
 import { Observable, combineLatest, of } from 'rxjs';
@@ -38,8 +38,10 @@ type SubmittableResultValue = {
   status: ExtrinsicStatus;
 };
 
-type SignerOptions = SignatureOptions & {
-  era?: IExtrinsicEra | number
+type SignerOptions = {
+  blockHash: AnyU8a,
+  era?: IExtrinsicEra | number,
+  nonce: AnyNumber
 };
 
 // pick a default - in the case of 4s blocktimes, this translates to 60 seconds
@@ -81,13 +83,13 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
   send (statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  sign (account: IKeyringPair, _options: Partial<SignerOptions>): this;
+  sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignerOptions>): SumbitableResultResult<ApiType>;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignerOptions>, statusCb?: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
@@ -157,20 +159,42 @@ export default function createSubmittableExtrinsic<ApiType> (
       );
   }
 
-  function expandOptions (_options: Partial<SignatureOptions>): SignatureOptions {
-    const options = {
+  function expandOptions (options: Partial<SignerOptions>): SignatureOptions {
+    const _options = {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
-      ..._options
+      ...options
     } as SignatureOptions;
 
-    // in the cases where a zero/negative number is provided, we don't want to pass the
-    // era up, so remove it - this is for the case of immortal transactions
-    if (isNumber(options.era)) {
-      delete options.era;
+    console.error(JSON.stringify(_options));
+
+    return _options;
+  }
+
+  function setupEraOptions (header: Header | null, options: Partial<SignerOptions>): Partial<SignatureOptions> {
+    if (!header) {
+      if (isNumber(options.era)) {
+        // since we have no header, it is immortal, remove any option overrides
+        delete options.era;
+        delete options.blockHash;
+      }
+
+      return {};
     }
 
-    return options;
+    const { blockNumber, hash } = header;
+    const era = new ExtrinsicEra({
+      current: blockNumber,
+      period: options.era || DEFAULT_MORTAL_LENGTH
+    });
+
+    era.asMortalEra.birth(blockNumber);
+    era.asMortalEra.death(blockNumber);
+
+    return {
+      blockHash: hash,
+      era
+    };
   }
 
   const signOrigin = _extrinsic.sign;
@@ -205,7 +229,7 @@ export default function createSubmittableExtrinsic<ApiType> (
           if (isFunction(optionsOrStatus)) {
             statusCb = optionsOrStatus;
           } else {
-            options = optionsOrStatus || {};
+            options = { ...optionsOrStatus };
           }
 
           const isSubscription = _noStatusCb || !!statusCb;
@@ -222,31 +246,22 @@ export default function createSubmittableExtrinsic<ApiType> (
                   : of(new Index(options.nonce)),
                 // if we have an era provided already or eraLength is <= 0 (immortal)
                 // don't get the latest block, just pass null, handle in mergeMap
-                isUndefined(options.era) || (isNumber(options.era) && options.era >= 0)
-                  ? api.rpc.chain.getBlock(options.blockHash) as Observable<SignedBlock>
+                (isUndefined(options.era) || (isNumber(options.era) && options.era > 0))
+                  ? api.rpc.chain.getHeader() as Observable<Header>
                   : of(null)
               ])
             ).pipe(
               first(),
-              mergeMap(async ([nonce, signedBlock]) => {
-                let blockHash: Hash | undefined;
-                let era: ExtrinsicEra | undefined;
-
-                if (signedBlock) {
-                  blockHash = signedBlock.block.header.hash;
-                  era = new ExtrinsicEra({
-                    current: signedBlock.block.header.blockNumber,
-                    period: options.era || DEFAULT_MORTAL_LENGTH
-                  });
-                }
+              mergeMap(async ([nonce, header]) => {
+                const eraOptions = setupEraOptions(header, options);
 
                 if (isKeyringPair) {
-                  this.sign(account as IKeyringPair, { ...options, blockHash, era, nonce });
+                  this.sign(account as IKeyringPair, { ...options, ...eraOptions, nonce });
                 } else {
                   assert(api.signer, 'no signer exists');
 
                   updateId = await (api.signer as Signer).sign(_extrinsic, address, {
-                    ...expandOptions({ ...options, blockHash, era, nonce }),
+                    ...expandOptions({ ...options, ...eraOptions, nonce }),
                     genesisHash: api.genesisHash
                   });
                 }

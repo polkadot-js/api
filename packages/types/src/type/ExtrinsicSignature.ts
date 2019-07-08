@@ -50,6 +50,8 @@ export default class ExtrinsicSignature extends Struct implements IExtrinsicSign
       };
     }
 
+    console.error('value', value);
+
     const version = value[0];
 
     // only decode the full Uint8Array if we have the signed indicator,
