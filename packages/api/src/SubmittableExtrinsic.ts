@@ -76,11 +76,11 @@ export interface SubmittableExtrinsic<ApiType> extends IExtrinsic {
 
   sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<Partial<SignatureOptions>>): SumbitableResultResult<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignatureOptions>): SumbitableResultResult<ApiType>;
 
   signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 
-  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<Partial<SignatureOptions>>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
+  signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignatureOptions>, statusCb: Callback<ISubmittableResult>): SumbitableResultSubscription<ApiType>;
 }
 
 export default function createSubmittableExtrinsic<ApiType> (
