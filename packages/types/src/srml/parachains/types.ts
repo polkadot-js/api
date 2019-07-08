@@ -1,7 +1,7 @@
 // Auto-generated, do not edit
 
 import { Enum, Struct, Tuple, Vector } from '../../codec';
-import { AccountId, Bytes, Hash, Signature, U32, u64 } from '../../primitive';
+import { AccountId, Bytes, Hash, Signature, u32, u64 } from '../../primitive';
 
 export interface AttestedCandidate extends Struct {
   readonly candidate: CandidateReceipt;
@@ -9,7 +9,7 @@ export interface AttestedCandidate extends Struct {
   readonly availabilityVotes: Vector<AvailabilityVote>;
 }
 
-export interface AuctionIndex extends U32 {}
+export interface AuctionIndex extends u32 {}
 
 export interface AvailabilityVote extends Tuple {}
 
@@ -89,7 +89,7 @@ export interface ParachainDispatchOrigin extends Enum {
   readonly isParachain: boolean;
 }
 
-export interface ParaId extends U32 {}
+export interface ParaId extends u32 {}
 
 export interface ParaIdOf extends ParaId {}
 
@@ -136,7 +136,7 @@ export interface SlotRange extends Enum {
   readonly isThreeThree: boolean;
 }
 
-export interface SubId extends U32 {}
+export interface SubId extends u32 {}
 
 export interface UpwardMessage extends Struct {
   readonly origin: ParachainDispatchOrigin;

@@ -9,11 +9,31 @@ import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/c
 import * as definitions from '../srml/definitions';
 
 type TypeExist = { [index: string]: boolean };
+type TypeImports = { codecTypes: TypeExist, otherTypes: TypeExist };
 
 const HEADER = '// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
 
-function tsEnum ({ name: enumName, sub }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+const generators = {
+  [TypeDefInfo.Compact]: errorUnhandled,
+  [TypeDefInfo.DoubleMap]: errorUnhandled,
+  [TypeDefInfo.Enum]: tsEnum,
+  [TypeDefInfo.Linkage]: errorUnhandled,
+  [TypeDefInfo.Null]: errorUnhandled,
+  [TypeDefInfo.Option]: errorUnhandled,
+  [TypeDefInfo.Plain]: tsPlain,
+  [TypeDefInfo.Struct]: tsStruct,
+  [TypeDefInfo.Tuple]: tsTuple,
+  [TypeDefInfo.Vector]: tsVector,
+  [TypeDefInfo.VectorFixed]: tsVectorFixed
+};
+
+function errorUnhandled (def: TypeDef, imports: TypeImports): string {
+  throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
+}
+
+function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+  codecTypes['Enum'] = true;
   otherTypes[enumName as string] = false;
 
   const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
@@ -36,7 +56,7 @@ function tsEnum ({ name: enumName, sub }: TypeDef, codecTypes: TypeExist, otherT
   return `export interface ${enumName} extends Enum {\n${keys.join('')}}`;
 }
 
-function tsPlain ({ name: plainName, type }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+function tsPlain ({ name: plainName, type }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
   otherTypes[plainName as string] = false;
 
   if (isUndefined(otherTypes[type])) {
@@ -46,7 +66,8 @@ function tsPlain ({ name: plainName, type }: TypeDef, codecTypes: TypeExist, oth
   return `export interface ${plainName} extends ${type} {}`;
 }
 
-function tsStruct ({ name: structName, sub }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+function tsStruct ({ name: structName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+  codecTypes['Struct'] = true;
   otherTypes[structName as string] = false;
 
   const keys = (sub as Array<TypeDef>).map(({ info, name, sub, type }) => {
@@ -77,16 +98,18 @@ function tsStruct ({ name: structName, sub }: TypeDef, codecTypes: TypeExist, ot
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
 }
 
-function tsTuple ({ name: tupleName }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+function tsTuple ({ name: tupleName }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+  codecTypes['Tuple'] = true;
   otherTypes[tupleName as string] = false;
 
   // TODO We need some way here of identifying the fields
   return `export interface ${tupleName} extends Tuple {}`;
 }
 
-function tsVector ({ name: vectorName, sub }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+function tsVector ({ name: vectorName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
   const type = (sub as TypeDef).type;
 
+  codecTypes['Vector'] = true;
   otherTypes[vectorName as string] = false;
 
   if (isUndefined(otherTypes[type])) {
@@ -96,9 +119,10 @@ function tsVector ({ name: vectorName, sub }: TypeDef, codecTypes: TypeExist, ot
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
-function tsVectorFixed ({ ext, name: vectorName }: TypeDef, codecTypes: TypeExist, otherTypes: TypeExist): string {
+function tsVectorFixed ({ ext, name: vectorName }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
   const type = (ext as TypeDefExtVecFixed).type;
 
+  codecTypes['Vector'] = true;
   otherTypes[vectorName as string] = false;
 
   if (isUndefined(otherTypes[type])) {
@@ -114,33 +138,7 @@ function generateTsDef (srmlName: string, { types }: { types: { [index: string]:
   const interfaces = Object.entries(types).map(([name, type]) => {
     const def = getTypeDef(isString(type) ? type.toString() : JSON.stringify(type), name);
 
-    switch (def.info) {
-      case TypeDefInfo.Enum:
-        codecTypes['Enum'] = true;
-        return [name, tsEnum(def, codecTypes, otherTypes)];
-
-      case TypeDefInfo.Plain:
-        return [name, tsPlain(def, codecTypes, otherTypes)];
-
-      case TypeDefInfo.Struct:
-        codecTypes['Struct'] = true;
-        return [name, tsStruct(def, codecTypes, otherTypes)];
-
-      case TypeDefInfo.Tuple:
-        codecTypes['Tuple'] = true;
-        return [name, tsTuple(def, codecTypes, otherTypes)];
-
-      case TypeDefInfo.Vector:
-        codecTypes['Vector'] = true;
-        return [name, tsVector(def, codecTypes, otherTypes)];
-
-      case TypeDefInfo.VectorFixed:
-        codecTypes['Vector'] = true;
-        return [name, tsVectorFixed(def, codecTypes, otherTypes)];
-
-      default:
-        throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
-    }
+    return [name, generators[def.info](def, { codecTypes, otherTypes })];
   });
 
   let header = HEADER;
