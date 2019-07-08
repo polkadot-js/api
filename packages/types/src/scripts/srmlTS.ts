@@ -63,33 +63,36 @@ function tsPlain ({ name: plainName, type }: TypeDef, { codecTypes, otherTypes }
   return `export interface ${plainName} extends ${type} {}`;
 }
 
-function tsStruct ({ name: structName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
+function _tsStructGetterTypes (structName: string | undefined, { info, sub, type }: TypeDef): [string, string] {
+  switch (info) {
+    case TypeDefInfo.Plain:
+      return [type, type];
+
+    case TypeDefInfo.Vector:
+      const _type = (sub as TypeDef).type;
+
+      return [_type, `Vector<${_type}>`];
+
+    default:
+      throw new Error(`Struct: ${structName}: Unhandled type ${TypeDefInfo[info]}`);
+  }
+}
+
+function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
+  const { codecTypes, otherTypes } = imports;
+
   codecTypes['Struct'] = true;
   otherTypes[structName as string] = false;
 
-  const keys = (sub as Array<TypeDef>).map(({ info, name, sub, type }) => {
-    switch (info) {
-      case TypeDefInfo.Plain:
-        if (isUndefined(otherTypes[type])) {
-          otherTypes[type] = true;
-        }
+  const keys = (sub as Array<TypeDef>).map((typedef) => {
+    const [embedType, returnType] = _tsStructGetterTypes(structName, typedef);
 
-        return `  readonly ${name}: ${type};\n`;
-
-      case TypeDefInfo.Vector:
-        const _type = (sub as TypeDef).type;
-
-        codecTypes['Vector'] = true;
-
-        if (isUndefined(otherTypes[_type])) {
-          otherTypes[_type] = true;
-        }
-
-        return `  readonly ${name}: Vector<${_type}>;\n`;
-
-      default:
-        throw new Error(`Struct: ${structName}: Unhandled type ${TypeDefInfo[info]}`);
+    if (isUndefined(otherTypes[embedType])) {
+      otherTypes[embedType] = true;
     }
+
+    return `  readonly ${typedef.name}: ${returnType};\n`;
+
   });
 
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
