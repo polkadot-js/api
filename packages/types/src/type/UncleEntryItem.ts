@@ -6,7 +6,8 @@ import BlockNumber from './BlockNumber';
 import Enum from '../codec/Enum';
 import Tuple from '../codec/Tuple';
 import Option from '../codec/Option';
-import { Hash, AccountId } from '../primitive';
+import AccountId from '../primitive/AccountId';
+import Hash from '../primitive/Hash';
 
 /**
  * @name InclusionHeight
