@@ -39,12 +39,22 @@ const generators = {
   [TypeDefInfo.VectorFixed]: tsVector
 };
 
+function setImports ({ codecTypes, otherTypes, ownTypes }: TypeImports, type: string | null, codecType: string | null): void {
+  if (type && !ownTypes.includes(type) && !otherTypes[type]) {
+    otherTypes[type] = true;
+  }
+
+  if (codecType) {
+    codecTypes[codecType] = true;
+  }
+}
+
 function errorUnhandled (def: TypeDef, imports: TypeImports): string {
   throw new Error(`Generate: ${name}: Unhandled type ${TypeDefInfo[def.info]}`);
 }
 
-function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
-  codecTypes['Enum'] = true;
+function tsEnum ({ name: enumName, sub }: TypeDef, imports: TypeImports): string {
+  setImports(imports, null, 'Enum');
 
   const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
     const [enumType, asGetter] = type === 'Null'
@@ -63,10 +73,8 @@ function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: T
   return `export interface ${enumName} extends Enum {\n${keys.join('')}}`;
 }
 
-function tsPlain ({ name: plainName, type }: TypeDef, { otherTypes, ownTypes }: TypeImports): string {
-  if (!ownTypes.includes(type) && !otherTypes[type]) {
-    otherTypes[type] = true;
-  }
+function tsPlain ({ name: plainName, type }: TypeDef, imports: TypeImports): string {
+  setImports(imports, type, null);
 
   return `export interface ${plainName} extends ${type} {}`;
 }
@@ -87,16 +95,10 @@ function _tsStructGetterType (structName: string | undefined, { info, sub, type 
 }
 
 function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): string {
-  const { codecTypes, otherTypes, ownTypes } = imports;
-
-  codecTypes['Struct'] = true;
-
   const keys = (sub as Array<TypeDef>).map((typedef) => {
     const [embedType, returnType] = _tsStructGetterType(structName, typedef);
 
-    if (!ownTypes.includes(embedType) && !otherTypes[embedType]) {
-      otherTypes[embedType] = true;
-    }
+    setImports(imports, embedType, 'Struct');
 
     return `  readonly ${typedef.name}: ${returnType};\n`;
   });
@@ -104,13 +106,9 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
 }
 
-function tsTuple ({ name: tupleName, sub }: TypeDef, { codecTypes, otherTypes, ownTypes }: TypeImports): string {
-  codecTypes['Tuple'] = true;
-
+function tsTuple ({ name: tupleName, sub }: TypeDef, imports: TypeImports): string {
   const types = (sub as Array<TypeDef>).map(({ type }) => {
-    if (!ownTypes.includes(type) && !otherTypes[type]) {
-      otherTypes[type] = true;
-    }
+    setImports(imports, type, 'Tuple');
 
     return type;
   });
@@ -119,16 +117,12 @@ function tsTuple ({ name: tupleName, sub }: TypeDef, { codecTypes, otherTypes, o
   return `type _${tupleName} = [${types.join(', ')}];\nexport interface ${tupleName} extends Codec, _${tupleName} {}`;
 }
 
-function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, { codecTypes, otherTypes, ownTypes }: TypeImports): string {
+function tsVector ({ ext, info, name: vectorName, sub }: TypeDef, imports: TypeImports): string {
   const type = info === TypeDefInfo.VectorFixed
     ? (ext as TypeDefExtVecFixed).type
     : (sub as TypeDef).type;
 
-  codecTypes['Vector'] = true;
-
-  if (!ownTypes.includes(type) && !otherTypes[type]) {
-    otherTypes[type] = true;
-  }
+  setImports(imports, type, 'Vector');
 
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
