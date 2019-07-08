@@ -106,11 +106,9 @@ function tsTuple ({ name: tupleName }: TypeDef, { codecTypes, otherTypes }: Type
   return `export interface ${tupleName} extends Tuple {}`;
 }
 
-function tsVector ({ name: vectorName, sub }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
-  const type = (sub as TypeDef).type;
-
+function _tsVectorShared (vectorName: string, type: string, { codecTypes, otherTypes }: TypeImports): string {
   codecTypes['Vector'] = true;
-  otherTypes[vectorName as string] = false;
+  otherTypes[vectorName] = false;
 
   if (isUndefined(otherTypes[type])) {
     otherTypes[type] = true;
@@ -119,17 +117,12 @@ function tsVector ({ name: vectorName, sub }: TypeDef, { codecTypes, otherTypes 
   return `export interface ${vectorName} extends Vector<${type}> {}`;
 }
 
-function tsVectorFixed ({ ext, name: vectorName }: TypeDef, { codecTypes, otherTypes }: TypeImports): string {
-  const type = (ext as TypeDefExtVecFixed).type;
+function tsVector ({ name: vectorName, sub }: TypeDef, imports: TypeImports): string {
+  return _tsVectorShared(vectorName as string, (sub as TypeDef).type, imports);
+}
 
-  codecTypes['Vector'] = true;
-  otherTypes[vectorName as string] = false;
-
-  if (isUndefined(otherTypes[type])) {
-    otherTypes[type] = true;
-  }
-
-  return `export interface ${vectorName} extends Vector<${type}> {}`;
+function tsVectorFixed ({ ext, name: vectorName }: TypeDef, imports: TypeImports): string {
+  return _tsVectorShared(vectorName as string, (ext as TypeDefExtVecFixed).type, imports);
 }
 
 function generateTsDef (srmlName: string, { types }: { types: { [index: string]: any } }): void {
