@@ -4,8 +4,8 @@
 
 import BN from 'bn.js';
 
-import fromMetadata from '@polkadot/metadata/storage/fromMetadata';
-import { Storage } from '@polkadot/metadata/storage/types';
+import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
+import { Storage } from '@polkadot/api-metadata/storage/types';
 import Metadata from '@polkadot/types/Metadata';
 import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';

@@ -1,1 +1,1 @@
-# @polkadot/metadata
+# @polkadot/api-metadata

@@ -4,7 +4,7 @@
 
 import { Observable } from 'rxjs';
 import { DeriveCustom } from '@polkadot/api-derive';
-import { Constants } from '@polkadot/metadata/consts/fromMetadata/types';
+import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
 import { ProviderInterface, ProviderInterface$Emitted } from '@polkadot/rpc-provider/types';
 import { Hash, RuntimeVersion, u64 as U64 } from '@polkadot/types';
 import { AnyFunction, Callback, Codec, CodecArg, IExtrinsic, RegistryTypes, SignatureOptions } from '@polkadot/types/types';
