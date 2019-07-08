@@ -37,12 +37,9 @@ function tsEnum ({ name: enumName, sub }: TypeDef, { codecTypes, otherTypes }: T
   otherTypes[enumName as string] = false;
 
   const keys = (sub as Array<TypeDef>).map(({ info, name, type }, index) => {
-    const enumType = type === 'Null'
-      ? ''
-      : `(${type})`;
-    const asGetter = type === 'Null'
-      ? ''
-      : `  readonly as${name}: ${type};\n`;
+    const [enumType, asGetter] = type === 'Null'
+      ? ['', '']
+      : [`(${type})`, `  readonly as${name}: ${type};\n`];
 
     switch (info) {
       case TypeDefInfo.Plain:
