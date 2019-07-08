@@ -8,12 +8,23 @@ import { isString, isUndefined } from '@polkadot/util';
 import { getTypeDef, TypeDef, TypeDefInfo, TypeDefExtVecFixed } from '../codec/createType';
 import * as definitions from '../srml/definitions';
 
-type TypeExist = { [index: string]: boolean };
-type TypeImports = { codecTypes: TypeExist, otherTypes: TypeExist };
+// these map all the codec and primitive types for import, see the TypeImports below. If
+// we have an unseen type, it is `undefined`, if we need to import it, it is `true`, in the
+// case where it is part of our definition structure, it is `false`
+type TypeExist = {
+  [index: string]: boolean
+};
+type TypeImports = {
+  codecTypes: TypeExist,
+  otherTypes: TypeExist
+};
 
 const HEADER = '// Auto-generated, do not edit\n\n';
 const FOOTER = '\n';
 
+// handlers are defined externally to use - this means that when we do a
+// `generators[typedef.info](...)` TS will show any unhandled types. Rather
+// we are being explicit in having no handlers where we do not support (yet)
 const generators = {
   [TypeDefInfo.Compact]: errorUnhandled,
   [TypeDefInfo.DoubleMap]: errorUnhandled,
@@ -92,7 +103,6 @@ function tsStruct ({ name: structName, sub }: TypeDef, imports: TypeImports): st
     }
 
     return `  readonly ${typedef.name}: ${returnType};\n`;
-
   });
 
   return `export interface ${structName} extends Struct {\n${keys.join('')}}`;
