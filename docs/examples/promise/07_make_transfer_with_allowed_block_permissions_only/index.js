@@ -22,7 +22,7 @@ async function main () {
   // get current block
   const signedBlock = await api.rpc.chain.getBlock();
 
-  // get current block height and height
+  // get current block height and hash
   const currentHeight = signedBlock.block.header.number;
   const blockHash = signedBlock.block.header.hash;
 
