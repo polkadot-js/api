@@ -70,8 +70,8 @@ function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
   return remaining.lten(0) ? new BN(0) : remaining;
 }
 
-function nextSessionId (_nextKeyFor: Option<Keys | SessionKey> | null): AccountId | undefined {
-  const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor ? _nextKeyFor.unwrapOr(null) : null;
+function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | undefined {
+  const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor.unwrapOr(null);
 
   // For substrate 2.x, nextKeyFor is SessionKeys/Keys, for 1.x it is SessionKey
   return nextKeyFor
@@ -96,10 +96,8 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
       ])
     ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, _nominators, rewardDestination, stakers, _validatorPrefs]]) => {
-      const nominators = _nominators ? _nominators[0] : undefined;
-      const validatorPrefs = _validatorPrefs ? _validatorPrefs[0] : undefined;
-      const stakingLedger = _stakingLedger ? _stakingLedger.unwrapOr(undefined) : undefined;
+    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
+      const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
 
       return {
         accountId,
