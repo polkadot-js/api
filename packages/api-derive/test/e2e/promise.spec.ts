@@ -15,7 +15,7 @@ const ALICE_STASH = testingPairs().alice_stash.address;
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';
 
-describe('derive e2e', () => {
+describe.skip('derive e2e', () => {
   let api: ApiPromise;
 
   beforeAll(() => {
@@ -168,9 +168,8 @@ describe('derive e2e', () => {
       });
     });
 
-    it.only('staking.info updates itself after changing reward destination', async (done) => {
+    it('staking.info updates itself after changing reward destination', async (done) => {
       const stashId = testingPairs().alice_stash.address;
-      const controllerId = testingPairs().alice.address;
 
       // start by setting the reqred to Staked, so we have a common starting point
       await api.tx.staking
@@ -183,30 +182,16 @@ describe('derive e2e', () => {
 
       let count = 0; // The # of times we got a callback response from api.derive.staking.info
 
-      // api.query.staking.payee(stashId, (result) => {
-      //   console.error('payee via query', JSON.stringify(result));
-      // }).catch(console.error);
-
-      // api.queryMulti([[api.query.staking.payee, stashId]], (result) => {
-      //   console.error('payee via api.queryMulti', JSON.stringify(result[0]));
-      // }).catch(console.error);
-
-      // api.queryMulti([
-      //   [api.query.session.nextKeyFor, controllerId],
-      //   [api.query.staking.ledger, controllerId],
-      //   [api.query.staking.nominators, stashId],
-      //   [api.query.staking.payee, stashId],
-      //   [api.query.staking.stakers, stashId],
-      //   [api.query.staking.validators, stashId]
-      // ], (result) => {
-      //   console.error('payee via api.queryMulti (mini-derive)', JSON.stringify(result[3]));
-      // }).catch(console.error);
-
       // Subscribe to staking.info
       api.derive.staking.info(stashId, (result) => {
         ++count;
 
         console.error('***', count, JSON.stringify(result));
+
+        if (count === 2) {
+          expect(result.rewardDestination!.toString()).toBe('Stash');
+          done();
+        }
       }).catch(console.error);
 
       // Wait a bit, and change reward destination

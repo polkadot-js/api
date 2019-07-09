@@ -99,7 +99,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
     map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, _nominators, rewardDestination, stakers, _validatorPrefs]]) => {
       const nominators = _nominators ? _nominators[0] : undefined;
       const validatorPrefs = _validatorPrefs ? _validatorPrefs[0] : undefined;
-      const stakingLedger = _stakingLedger.unwrapOr(undefined) || undefined;
+      const stakingLedger = _stakingLedger ? _stakingLedger.unwrapOr(undefined) : undefined;
 
       return {
         accountId,
