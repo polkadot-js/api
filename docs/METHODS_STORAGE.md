@@ -1,6 +1,8 @@
 ## Storage
 
 _The following sections contain Storage methods are part of the default Substrate runtime._
+- **[authorship](#authorship)**
+
 - **[balances](#balances)**
 
 - **[contracts](#contracts)**
@@ -33,13 +35,21 @@ _The following sections contain Storage methods are part of the default Substrat
 ___
 
 
+### authorship
+
+▸ **author**(): `Option<AccountId>`
+- **summary**:   Author of current block.
+
+▸ **didSetUncles**(): `bool`
+- **summary**:   Whether uncles were already set in this block.
+
+▸ **uncles**(): `Vec<UncleEntryItem>`
+- **summary**:   Uncles
+
+___
+
+
 ### balances
-
-▸ **creationFee**(): `Balance`
-- **summary**:   The fee required to create an account.
-
-▸ **existentialDeposit**(): `Balance`
-- **summary**:   The minimum amount required to keep an account open.
 
 ▸ **freeBalance**(`AccountId`): `Balance`
 - **summary**:   The 'free' balance of a given account.   This is the only balance that matters in terms of most operations on tokens. It  alone is used to determine the balance when in the contract execution environment. When this  balance falls below the value of `ExistentialDeposit`, then the 'current account' is  deleted: specifically `FreeBalance`. Further, the `OnFreeBalanceZero` callback  is invoked, giving a chance to external modules to clean up data associated with  the deleted account.   `system::AccountNonce` is also deleted if `ReservedBalance` is also zero (it also gets  collapsed to zero if it ever becomes less than `ExistentialDeposit`.
@@ -53,15 +63,6 @@ ___
 ▸ **totalIssuance**(): `Balance`
 - **summary**:   The total units issued in the system.
 
-▸ **transactionBaseFee**(): `Balance`
-- **summary**:   The fee to be paid for making a transaction; the base.
-
-▸ **transactionByteFee**(): `Balance`
-- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
-
-▸ **transferFee**(): `Balance`
-- **summary**:   The fee required to make a transfer.
-
 ▸ **vesting**(`AccountId`): `Option<VestingSchedule>`
 - **summary**:   Information regarding the vesting of a given account.
 
@@ -73,20 +74,11 @@ ___
 ▸ **accountCounter**(): `u64`
 - **summary**:   The subtrie counter.
 
-▸ **blockGasLimit**(): `Gas`
-- **summary**:   The maximum amount of gas that could be expended per block.
-
 ▸ **codeStorage**(`CodeHash`): `Option<PrefabWasmModule>`
 - **summary**:   A mapping between an original code hash and instrumented wasm code, ready for execution.
 
-▸ **contractFee**(): `BalanceOf`
-- **summary**:   The fee required to create a contract instance.
-
 ▸ **contractInfoOf**(`AccountId`): `Option<ContractInfo>`
 - **summary**:   The code associated with a given account.
-
-▸ **creationFee**(): `BalanceOf`
-- **summary**:   The fee required to create an account.
 
 ▸ **currentSchedule**(): `Schedule`
 - **summary**:   Current cost schedule for contracts.
@@ -97,38 +89,8 @@ ___
 ▸ **gasSpent**(): `Gas`
 - **summary**:   Gas spent so far in this block.
 
-▸ **maxDepth**(): `u32`
-- **summary**:   The maximum nesting level of a call/create stack.
-
 ▸ **pristineCode**(`CodeHash`): `Option<Bytes>`
 - **summary**:   A mapping from an original code hash to the original code, untouched by instrumentation.
-
-▸ **rentByteFee**(): `BalanceOf`
-- **summary**:   Price of a byte of storage per one block interval. Should be greater than 0.
-
-▸ **rentDepositOffset**(): `BalanceOf`
-- **summary**:   The amount of funds a contract should deposit in order to offset  the cost of one byte.   Let's suppose the deposit is 1,000 BU (balance units)/byte and the rent is 1 BU/byte/day,  then a contract with 1,000,000 BU that uses 1,000 bytes of storage would pay no rent.  But if the balance reduced to 500,000 BU and the storage stayed the same at 1,000,  then it would pay 500 BU/day.
-
-▸ **signedClaimHandicap**(): `BlockNumber`
-- **summary**:   Number of block delay an extrinsic claim surcharge has.   When claim surchage is called by an extrinsic the rent is checked  for current_block - delay
-
-▸ **storageSizeOffset**(): `u32`
-- **summary**:   Size of a contract at the time of creation. This is a simple way to ensure  that empty contracts eventually gets deleted.
-
-▸ **surchargeReward**(): `BalanceOf`
-- **summary**:   Reward that is received by the party whose touch has led  to removal of a contract.
-
-▸ **tombstoneDeposit**(): `BalanceOf`
-- **summary**:   The minimum amount required to generate a tombstone.
-
-▸ **transactionBaseFee**(): `BalanceOf`
-- **summary**:   The fee to be paid for making a transaction; the base.
-
-▸ **transactionByteFee**(): `BalanceOf`
-- **summary**:   The fee to be paid for making a transaction; the per-byte portion.
-
-▸ **transferFee**(): `BalanceOf`
-- **summary**:   The fee required to make a transfer.
 
 ___
 
@@ -141,26 +103,14 @@ ___
 ▸ **approvalsOf**(`(AccountId,SetIndex)`): `Vec<ApprovalFlag>`
 - **summary**:   A list of votes for each voter. The votes are stored as numeric values and parsed in a bit-wise manner.   In order to get a human-readable representation (`Vec<bool>`), use [`all_approvals_of`].   Furthermore, each vector of scalars is chunked with the cap of `APPROVAL_SET_SIZE`.
 
-▸ **candidacyBond**(): `BalanceOf`
-- **summary**:   How much should be locked up in order to submit one's candidacy.
-
 ▸ **candidateCount**(): `u32`
 - **summary**:   Current number of active candidates
 
 ▸ **candidates**(): `Vec<AccountId>`
 - **summary**:   The present candidate list.
 
-▸ **carryCount**(): `u32`
-- **summary**:   How many runners-up should have their approvals persist until the next vote.
-
-▸ **decayRatio**(): `u32`
-- **summary**:   Decay factor of weight when being accumulated. It should typically be set to  __at least__ `council_size -1` to keep the council secure.  When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight increment step `t`.  0 will result in no weight being added at all (normal approval voting).
-
 ▸ **desiredSeats**(): `u32`
 - **summary**:   Number of accounts that should be sitting on the council.
-
-▸ **inactiveGracePeriod**(): `VoteIndex`
-- **summary**:   How many vote indices need to go by after a target voter's last vote before they can be reaped if their  approvals are moot.
 
 ▸ **leaderboard**(): `Option<Vec<(BalanceOf,AccountId)>>`
 - **summary**:   Get the leaderboard if we're in the presentation phase. The first element is the weight of each entry;  It may be the direct summed approval stakes, or a weighted version of it.
@@ -173,9 +123,6 @@ ___
 
 ▸ **presentationDuration**(): `BlockNumber`
 - **summary**:   How long to give each top candidate to present themselves after the vote ends.
-
-▸ **presentSlashPerVoter**(): `BalanceOf`
-- **summary**:   The punishment, per voter, if you provide an invalid presentation.
 
 ▸ **registerInfoOf**(`AccountId`): `Option<(VoteIndex,u32)>`
 - **summary**:   The vote index and list slot that the candidate `who` was registered or `None` if they are not  currently registered.
@@ -194,15 +141,6 @@ ___
 
 ▸ **voters**(`SetIndex`): `Vec<Option<AccountId>>`
 - **summary**:   The present voter list (chunked and capped at [`VOTER_SET_SIZE`]).
-
-▸ **votingBond**(): `BalanceOf`
-- **summary**:   How much should be locked up in order to be able to submit votes.
-
-▸ **votingFee**(): `BalanceOf`
-- **summary**:   The amount of fee paid upon each vote submission, unless if they submit a _hole_ index and replace it.
-
-▸ **votingPeriod**(): `BlockNumber`
-- **summary**:   How often (in blocks) to check for new votes.
 
 ___
 
@@ -314,7 +252,13 @@ ___
 - **summary**:   Current index of the session.
 
 ▸ **nextKeyFor**(`AccountId`): `Option<Keys>`
-- **summary**:   The next key for a given validator.
+- **summary**:   The next key to be used for a given validator. At the end of the session, they  will be moved into the `QueuedKeys` and so changes here will not take effect for  at least one whole session.
+
+▸ **queuedChanged**(): `bool`
+- **summary**:   Queued keys changed.
+
+▸ **queuedKeys**(): `Vec<(AccountId,Keys)>`
+- **summary**:   The queued keys for the next session. When the next session begins, these keys  will be used to determine the validator's session keys.
 
 ▸ **validators**(): `Vec<AccountId>`
 - **summary**:   The current set of validators.
@@ -461,26 +405,11 @@ ___
 ▸ **approvals**(): `Vec<ProposalIndex>`
 - **summary**:   Proposal indices that have been approved but not yet awarded.
 
-▸ **burn**(): `Permill`
-- **summary**:   Percentage of spare funds (if any) that are burnt per spend period.
-
-▸ **pot**(): `BalanceOf`
-- **summary**:   Total funds available to this module for spending.
-
-▸ **proposalBond**(): `Permill`
-- **summary**:   Fraction of a proposal's value that should be bonded in order to place the proposal.  An accepted proposal gets these back. A rejected proposal does not.
-
-▸ **proposalBondMinimum**(): `BalanceOf`
-- **summary**:   Minimum amount of funds that should be placed in a deposit for making a proposal.
-
 ▸ **proposalCount**(): `ProposalIndex`
 - **summary**:   Number of proposals that have been made.
 
 ▸ **proposals**(`ProposalIndex`): `Option<TreasuryProposal>`
 - **summary**:   Proposals that have been made.
-
-▸ **spendPeriod**(): `BlockNumber`
-- **summary**:   Period between successive spends.
 
 ---
 

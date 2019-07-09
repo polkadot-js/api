@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
 import { hexToU8a } from '@polkadot/util';
-import fromMetadata from '@polkadot/storage/fromMetadata';
 import rpcDataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcDataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcDataV5 from '@polkadot/types/Metadata/v5/static';

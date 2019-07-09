@@ -9,7 +9,7 @@ import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 import interfaces from '@polkadot/jsonrpc';
 import testKeyring from '@polkadot/keyring/testing';
-import storage from '@polkadot/storage/static';
+import storage from '@polkadot/api-metadata/storage/static';
 import { Codec } from '@polkadot/types/types';
 import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
 import { Header, RuntimeVersion } from '@polkadot/types';

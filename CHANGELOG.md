@@ -3,12 +3,12 @@
 - **Breaking change** The `ContractsAbi` type has been moved from `@polkadot/types` to `import { Abi } from '@polkadot/api-contract`. This paves the way for an enhanced contracts interface, instead of dealing with low-level API calls.
 - **Breaking change** `usize` is now a blacklisted type that will throw on construction. Since it is platform-specific, it creates incompatibilities between native (generally u64) and WASM (always u32) code. Use one of the `u32` or `u64` types explicitly.
 - **Breaking change** `api.derive.contract` is now `api.derive.contracts` to align with the substrate 2.x rename. (Feture detection is used so it supports both 1.x and 2.x chains)
-- **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`. 
+- **Breaking change** The api now uses the module name instead of the prefix to generate the storage methods. The methods of the grandpa module changed from `api.query.grandpaFinality` to `api.query.grandpa`.
 - Update with latest substrate 2.x types
 - **Breaking Change** StorageFunction has been renamed to StorageEntry.
-- **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. 
-Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined. 
-- Support latest substrate 2.x v6 metadata with module constants.
+- **Breaking Change** `@polkadot/extrinsics` and `@polkadot/storage` have been moved to `@polkadot/api-metadata` and are now accessible as `@polkadot/api-metadata/extrinsics` and `@polkadot/api-metadata/storage`, respectively.
+- **Breaking Change** Vote interface extends U8a instead of I8. Vote properties can be accessed via the `isAye`, `isNay`, and `conviction` getters. Votes can still be constructed as before with a raw JS boolean, a SCALE encoded Boolean, an i8 number, or a JS object with properties `aye` and `conviction` defined.
+- Support latest substrate 2.x v6 metadata with module constants using `api.consts`.
 
 # 0.81.1
 

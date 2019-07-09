@@ -6,10 +6,12 @@ import { ApiInterface$Rx } from '@polkadot/api/types';
 import { DerivedFees } from '../types';
 
 import BN from 'bn.js';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
+
+const ZERO = new BN(0);
 
 /**
  * @name fees
@@ -26,13 +28,19 @@ import { drr } from '../util/drr';
  */
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
-    return (api.queryMulti([
-      api.query.balances.creationFee,
-      api.query.balances.existentialDeposit,
-      api.query.balances.transactionBaseFee,
-      api.query.balances.transactionByteFee,
-      api.query.balances.transferFee
-    ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
+    return (
+      // HACK This is a very quick fix to actually get the types in to continue with
+      // other work - so as of now, the fees are completely broken
+      api.query.balances.creationFee
+        ? api.queryMulti([
+          api.query.balances.creationFee,
+          api.query.balances.existentialDeposit,
+          api.query.balances.transactionBaseFee,
+          api.query.balances.transactionByteFee,
+          api.query.balances.transferFee
+        ]) as any as Observable<[BN, BN, BN, BN, BN]>
+      : of([ZERO, ZERO, ZERO, ZERO, ZERO])
+    ).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
         creationFee,
         existentialDeposit,

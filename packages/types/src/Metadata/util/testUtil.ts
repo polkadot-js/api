@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import extrinsicsFromMeta from '@polkadot/extrinsics/fromMetadata';
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 import { getTypeRegistry } from '@polkadot/types';
 import * as srmlTypes from '@polkadot/types/srml/definitions';
 
