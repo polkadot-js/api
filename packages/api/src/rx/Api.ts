@@ -4,10 +4,11 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { AnyFunction } from '@polkadot/types/types';
+import { ApiOptions } from '../types';
+
 import { from, Observable } from 'rxjs';
 
 import ApiBase from '../Base';
-import { ApiOptions } from '../types';
 
 /**
  * # @polkadot/api/rx

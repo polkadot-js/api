@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Abi } from '@polkadot/api-contract';
-import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { Address, Hash } from '@polkadot/types';
+
 import fs from 'fs';
 import path from 'path';
+
+import { Abi } from '@polkadot/api-contract';
+import testingPairs from '@polkadot/keyring/testingPairs';
 
 import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
 import { ApiPromise, SubmittableResult } from '../../src';

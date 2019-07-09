@@ -5,6 +5,7 @@
 import { Method } from '@polkadot/types';
 import { FunctionMetadata } from '@polkadot/types/Metadata/v6/Calls';
 import { MethodFunction } from '@polkadot/types/primitive/Method';
+
 import { assert, stringCamelCase } from '@polkadot/util';
 
 /**

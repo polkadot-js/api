@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { HeaderExtended } from '../../src/type';
+import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
+
 import ApiPromise from '@polkadot/api/promise/Api';
 import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { SubmittableResult } from '../../../api/src';
-import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
 
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';

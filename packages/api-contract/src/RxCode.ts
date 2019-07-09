@@ -2,19 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApiRx } from '@polkadot/api';
-import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { AccountId, Address, Hash } from '@polkadot/types';
 import { IKeyringPair } from '@polkadot/types/types';
-import { compactAddLength, u8aToU8a } from '@polkadot/util';
+import { ContractABI } from './types';
+
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ApiRx } from '@polkadot/api';
+import { ISubmittableResult, SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
+import { compactAddLength, u8aToU8a } from '@polkadot/util';
+
 import Abi from './Abi';
 import RxBase from './RxBase';
 import RxBlueprint from './RxBlueprint';
-import { ContractABI } from './types';
 
 // Ok, tried, failed, eventually ... well, we are only trying with RxJs as a
 // start, so take a big fat shortcut with this version, real intended version

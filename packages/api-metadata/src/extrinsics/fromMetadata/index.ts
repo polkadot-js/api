@@ -5,6 +5,7 @@
 import Metadata from '@polkadot/types/Metadata';
 import { ModuleMetadata } from '@polkadot/types/Metadata/v6/Metadata';
 import { Methods, ModulesWithMethods } from '@polkadot/types/primitive/Method';
+
 import { stringCamelCase } from '@polkadot/util';
 
 import extrinsics from '../';

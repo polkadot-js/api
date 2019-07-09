@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, AnyU8a } from '../types';
+
 import BlockNumber from './BlockNumber';
 import SessionKey from './SessionKey';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
-import { AnyNumber, AnyU8a } from '../types';
 import U64 from '../primitive/U64';
 import Vector from '../codec/Vector';
 

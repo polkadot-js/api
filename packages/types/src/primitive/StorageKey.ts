@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a } from '../types';
+
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
 import Bytes from './Bytes';
 import { StorageEntryMetadata as MetaV6 } from '../Metadata/v6/Storage';
-import { AnyU8a } from '../types';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;

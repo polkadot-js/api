@@ -2,19 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import storage from '@polkadot/api-metadata/storage/static';
-import interfaces from '@polkadot/jsonrpc';
-import testKeyring from '@polkadot/keyring/testing';
 import { Header, RuntimeVersion } from '@polkadot/types';
 import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
 import { Codec } from '@polkadot/types/types';
-import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
-import { randomAsU8a } from '@polkadot/util-crypto';
+import { ProviderInterface, ProviderInterface$EmitCb, ProviderInterface$Emitted } from '../types';
+import { MockState$Db, MockState$Subscription$Callback, MockState$Subscriptions } from './types';
+
 import BN from 'bn.js';
 import EventEmitter from 'eventemitter3';
 
-import { ProviderInterface, ProviderInterface$EmitCb, ProviderInterface$Emitted } from '../types';
-import { MockState$Db, MockState$Subscription$Callback, MockState$Subscriptions } from './types';
+import storage from '@polkadot/api-metadata/storage/static';
+import interfaces from '@polkadot/jsonrpc';
+import testKeyring from '@polkadot/keyring/testing';
+import { bnToU8a, logger, u8aToHex } from '@polkadot/util';
+import { randomAsU8a } from '@polkadot/util-crypto';
 
 const INTERVAL = 1000;
 const SUBSCRIPTIONS: string[] = Array.prototype.concat.apply(

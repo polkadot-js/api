@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
+import { AnyNumber, Codec } from '../types';
+
 import BN from 'bn.js';
 
-import { AnyNumber, Codec } from '../types';
+import { bnToBn, hexToBn, isHex, isString, isU8a, u8aToBn } from '@polkadot/util';
 
 export type UIntBitLength = 8 | 16 | 32 | 64 | 128 | 256;
 

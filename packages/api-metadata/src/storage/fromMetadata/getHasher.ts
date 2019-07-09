@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { StorageHasher } from '@polkadot/types/primitive';
+
 import { blake2AsU8a, xxhashAsU8a } from '@polkadot/util-crypto';
 
 type HasherInput = string | Buffer | Uint8Array;

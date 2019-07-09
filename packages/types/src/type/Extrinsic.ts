@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
+
 import { assert, isHex, isU8a, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
@@ -12,7 +14,6 @@ import ExtrinsicSignature from './ExtrinsicSignature';
 import Hash from '../primitive/Hash';
 import Method from '../primitive/Method';
 import Struct from '../codec/Struct';
-import { AnyNumber, AnyU8a, ArgsDef, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '../types';
 
 type ExtrinsicValue = {
   method?: Method

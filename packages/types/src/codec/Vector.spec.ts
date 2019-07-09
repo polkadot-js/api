@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import PropIndex from '../type/PropIndex';
+import Proposal from '../type/Proposal';
+import { Codec, CodecTo } from '../types';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import AccountId from '../primitive/AccountId';
 import createType from './createType';
 import Method from '../primitive/Method';
-import PropIndex from '../type/PropIndex';
-import Proposal from '../type/Proposal';
 import Text from '../primitive/Text';
 import Tuple from './Tuple';
-import { Codec, CodecTo } from '../types';
 import Vector from './Vector';
 
 describe('Vector', () => {

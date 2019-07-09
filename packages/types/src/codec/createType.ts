@@ -2,6 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import getRegistry from './typeRegistry';
+import { Codec, Constructor } from '../types';
+
 import { assert } from '@polkadot/util';
 
 import Compact from './Compact';
@@ -13,8 +16,6 @@ import StorageData from '../primitive/StorageData';
 import Struct from './Struct';
 import Text from '../primitive/Text';
 import Tuple from './Tuple';
-import getRegistry from './typeRegistry';
-import { Codec, Constructor } from '../types';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
 import Vector from './Vector';

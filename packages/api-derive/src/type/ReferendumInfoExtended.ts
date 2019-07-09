@@ -4,6 +4,7 @@
 
 import { ReferendumIndex, ReferendumInfo } from '@polkadot/types';
 import { AnyJsonObject } from '@polkadot/types/types';
+
 import BN from 'bn.js';
 
 /**

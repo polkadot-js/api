@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyJsonArray, Codec } from '../types';
+
 import { u8aConcat, u8aToHex } from '@polkadot/util';
 
 import Compact from './Compact';
-import { AnyJsonArray, Codec } from '../types';
 import { compareArray } from './utils';
 
 /**

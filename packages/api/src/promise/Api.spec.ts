@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Mock from '@polkadot/rpc-provider/mock/index';
 import { Hash, Metadata } from '@polkadot/types';
-
 import { ApiOptions } from './../types';
+
+import Mock from '@polkadot/rpc-provider/mock/index';
+
 import { ApiPromise } from './..';
 
 describe.skip('Metadata queries', () => {

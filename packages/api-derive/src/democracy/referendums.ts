@@ -4,12 +4,13 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumIndex } from '@polkadot/types';
+import { ReferendumInfoExtended } from '../type';
+
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 import { referendumInfos } from './referendumInfos';
-import { ReferendumInfoExtended } from '../type';
 
 export function referendums (api: ApiInterface$Rx) {
   return (): Observable<Array<Option<ReferendumInfoExtended>>> =>

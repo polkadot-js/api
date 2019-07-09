@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, bnToBn } from '@polkadot/util';
+import AuthorityId from '../type/AuthorityId';
+import Signature from '../type/Signature';
+
 import BN from 'bn.js';
 
-import AuthorityId from '../type/AuthorityId';
+import { assert, bnToBn } from '@polkadot/util';
+
 import Bytes from '../primitive/Bytes';
 import Enum from '../codec/Enum';
 import Hash from '../primitive/Hash';
-import Signature from '../type/Signature';
 import Struct from '../codec/Struct';
 import Tuple from '../codec/Tuple';
 import U32 from '../primitive/U32';

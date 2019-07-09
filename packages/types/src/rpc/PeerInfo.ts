@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import BlockNumber from '../type/BlockNumber';
+
 import Hash from '../primitive/Hash';
 import Struct from '../codec/Struct';
 import Text from '../primitive/Text';

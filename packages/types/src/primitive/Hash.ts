@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import H256 from './H256';
 import { IHash } from '../types';
+
+import H256 from './H256';
 
 /**
  * @name Hash

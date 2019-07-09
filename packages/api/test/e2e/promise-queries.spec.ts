@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { HeaderExtended } from '@polkadot/api-derive';
 import { DerivedBalances } from '@polkadot/api-derive/types';
-import testingPairs from '@polkadot/keyring/testingPairs';
-import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, EventRecord, Hash, Header, Index, Option, SessionIndex, ValidatorPrefs, Vector } from '@polkadot/types';
 import { LinkageResult } from '@polkadot/types/codec/Linkage';
+
 import BN from 'bn.js';
+
+import { HeaderExtended } from '@polkadot/api-derive';
+import testingPairs from '@polkadot/keyring/testingPairs';
+import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Api from './../../src/promise';
 

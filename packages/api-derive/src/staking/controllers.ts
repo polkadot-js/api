@@ -4,6 +4,7 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Option } from '@polkadot/types';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

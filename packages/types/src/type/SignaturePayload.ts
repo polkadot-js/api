@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
+
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
 import ExtrinsicEra from './ExtrinsicEra';
@@ -10,7 +12,6 @@ import Method from '../primitive/Method';
 import Nonce from './NonceCompact';
 import RuntimeVersion from '../rpc/RuntimeVersion';
 import Struct from '../codec/Struct';
-import { AnyNumber, AnyU8a, IKeyringPair } from '../types';
 import U8a from '../codec/U8a';
 
 type SignaturePayloadValue = {

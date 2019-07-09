@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { CodecTo } from '../types';
+
 import BN from 'bn.js';
 
 import Moment from './Moment';
-import { CodecTo } from '../types';
 import U64 from './U64';
 
 describe('Moment', () => {

@@ -5,6 +5,7 @@
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Vector } from '@polkadot/types';
 import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 

@@ -4,9 +4,9 @@
 
 import { Compact, createClass } from '@polkadot/types';
 import { CodecArg, Constructor } from '@polkadot/types/types';
-import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
-
 import { ContractABIFn, ContractABIFn$Arg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
+
+import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
 
 export function typeToString (type: ContractABITypes): string {
   if (isString(type)) {

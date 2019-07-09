@@ -2,14 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec } from '../types';
+
+import BN from 'bn.js';
+
 import { hexToU8a, isBn, isHex, isNumber, isU8a, u8aConcat, u8aToBn, u8aToHex, u8aToU8a } from '@polkadot/util';
 import { decodeAddress } from '@polkadot/util-crypto';
-import BN from 'bn.js';
 
 import AccountId from './AccountId';
 import AccountIndex from './AccountIndex';
 import Base from '../codec/Base';
-import { Codec } from '../types';
 
 type AnyAddress = BN | Address | AccountId | AccountIndex | Array<number> | Uint8Array | number | string;
 

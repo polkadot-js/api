@@ -4,13 +4,14 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber, Option } from '@polkadot/types';
+import { DerivedSessionInfo } from '../types';
+
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { bestNumber } from '../chain';
 import { drr } from '../util/drr';
-import { DerivedSessionInfo } from '../types';
 
 type Result0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
 type Result = [BN, [BN, BN]];

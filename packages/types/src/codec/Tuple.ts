@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, AnyString, AnyU8a, Codec, Constructor } from '../types';
+
 import { hexToU8a, isHex, isU8a, u8aConcat } from '@polkadot/util';
 
 import AbstractArray from './AbstractArray';
-import { AnyNumber, AnyString, AnyU8a, Codec, Constructor } from '../types';
 import { decodeU8a } from './utils';
 
 type TupleConstructors = Array<Constructor> | {

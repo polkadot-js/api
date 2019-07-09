@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Coder from './';
 import { JsonRpcResponse } from '../types';
+
+import Coder from './';
 
 describe('decodeResponse', () => {
   let coder: Coder;

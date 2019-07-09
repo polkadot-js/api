@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber } from '../../types';
+
 import { assert } from '@polkadot/util';
 
 import Bool from '../../primitive/Bool';
@@ -12,7 +14,6 @@ import StorageHasher from '../../primitive/StorageHasher';
 import Struct from '../../codec/Struct';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import { AnyNumber } from '../../types';
 import Vector from '../../codec/Vector';
 
 // Re-export classes that haven't changed between V3 and V4

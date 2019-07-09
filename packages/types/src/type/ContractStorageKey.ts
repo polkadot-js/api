@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyU8a } from '../types';
+
 import U8aFixed from '../codec/U8aFixed';
 
 /**

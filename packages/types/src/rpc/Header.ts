@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BlockNumber from '../type/BlockNumber';
+import { AnyNumber, AnyU8a } from '../types';
+
 import { blake2AsU8a } from '@polkadot/util-crypto';
 
-import BlockNumber from '../type/BlockNumber';
 import Compact from '../codec/Compact';
 import Digest, { DigestItem } from './Digest';
 import Hash from '../primitive/Hash';
 import Struct from '../codec/Struct';
-import { AnyNumber, AnyU8a } from '../types';
 
 export type HeaderValue = {
   digest?: Digest | { logs: DigestItem[] },

@@ -2,6 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyNumber, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../types';
+
 import Address from '../primitive/Address';
 import ExtrinsicEra from './ExtrinsicEra';
 import Method from '../primitive/Method';
@@ -10,7 +12,6 @@ import RuntimeVersion from '../rpc/RuntimeVersion';
 import Signature from './Signature';
 import SignaturePayload from './SignaturePayload';
 import Struct from '../codec/Struct';
-import { AnyNumber, IExtrinsicSignature, IKeyringPair, SignatureOptions } from '../types';
 import U8 from '../primitive/U8';
 
 export const IMMORTAL_ERA = new Uint8Array([0]);

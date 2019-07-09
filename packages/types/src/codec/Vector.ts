@@ -2,11 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Codec, Constructor } from '../types';
+
 import { assert, u8aToU8a } from '@polkadot/util';
 
 import AbstractArray from './AbstractArray';
 import Compact from './Compact';
-import { Codec, Constructor } from '../types';
 import { decodeU8a } from './utils';
 
 const MAX_LENGTH = 32768;

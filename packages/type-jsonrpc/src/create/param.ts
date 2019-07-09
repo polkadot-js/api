@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecTypes } from '@polkadot/types/classes';
-
 import { RpcParam } from '../types';
 
 type RpcParamOptions = {

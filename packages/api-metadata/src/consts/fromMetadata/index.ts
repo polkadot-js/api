@@ -4,9 +4,9 @@
 
 import { createType } from '@polkadot/types';
 import Metadata from '@polkadot/types/Metadata';
-import { stringCamelCase } from '@polkadot/util';
-
 import { Constants, ModuleConstants } from './types';
+
+import { stringCamelCase } from '@polkadot/util';
 
 /**
  * Retrieve the parameter types (module constants) from the runtime metadata.

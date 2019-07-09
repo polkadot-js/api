@@ -2,35 +2,37 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import decorateDerive from '@polkadot/api-derive';
-import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
 import { Constants } from '@polkadot/api-metadata/consts/fromMetadata/types';
-import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
-import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
-import RpcCore from '@polkadot/rpc-core';
-import { WsProvider } from '@polkadot/rpc-provider';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Event, getTypeRegistry, Hash, Metadata, Method, Null, RuntimeVersion, VectorAny } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
 import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
-import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
-import { cryptoWaitReady } from '@polkadot/util-crypto';
-import EventEmitter from 'eventemitter3';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-
-import { decorateSections } from './util/decorate';
-import injectNodeCompat from './nodeCompat';
-import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 import {
   ApiInterface$Events, ApiInterface$Rx, ApiOptions, ApiTypes, DecoratedRpc,
   DecoratedRpc$Section, DecorateMethodOptions,
   QueryableModuleStorage, QueryableStorage, QueryableStorageEntry, QueryableStorageMulti, QueryableStorageMultiArg, QueryableStorageMultiArgs,
   Signer, SubmittableExtrinsicFunction, SubmittableExtrinsics, SubmittableModuleExtrinsics
 } from './types';
+
+import EventEmitter from 'eventemitter3';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+import decorateDerive from '@polkadot/api-derive';
+import constantsFromMeta from '@polkadot/api-metadata/consts/fromMetadata';
+import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
+import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
+import RpcCore from '@polkadot/rpc-core';
+import { WsProvider } from '@polkadot/rpc-provider';
+import { assert, compactStripLength, isFunction, isObject, isUndefined, logger, u8aToHex } from '@polkadot/util';
+import { cryptoWaitReady } from '@polkadot/util-crypto';
+
+import { decorateSections } from './util/decorate';
+import injectNodeCompat from './nodeCompat';
+import createSubmittable, { SubmittableExtrinsic } from './SubmittableExtrinsic';
 
 type MetaDecoration = {
   callIndex?: Uint8Array,

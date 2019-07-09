@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Constructor } from '@polkadot/types/types';
+import { Global, Mock } from './../mock/types';
 
 import WsProvider from './';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
-import { Global, Mock } from './../mock/types';
 
 declare const global: Global;
 let provider: WsProvider;

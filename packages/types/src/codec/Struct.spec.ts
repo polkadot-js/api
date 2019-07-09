@@ -2,14 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import AccountId from '../primitive/AccountId';
 import Balance from '../type/Balance';
 import BlockNumber from '../type/BlockNumber';
+import { CodecTo } from '../types';
+
+import AccountId from '../primitive/AccountId';
 import Compact from './Compact';
 import Option from './Option';
 import Struct from './Struct';
 import Text from '../primitive/Text';
-import { CodecTo } from '../types';
 import U32 from '../primitive/U32';
 import Vector from './Vector';
 

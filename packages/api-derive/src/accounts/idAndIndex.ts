@@ -4,10 +4,12 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
-import { isU8a } from '@polkadot/util';
-import { decodeAddress } from '@polkadot/util-crypto';
+
 import { Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+
+import { isU8a } from '@polkadot/util';
+import { decodeAddress } from '@polkadot/util-crypto';
 
 import { drr } from '../util/drr';
 import { idToIndex } from './idToIndex';

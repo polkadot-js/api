@@ -4,13 +4,15 @@
 
 import { AccountId, Address, EventRecord, ExtrinsicStatus, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector } from '@polkadot/types';
 import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { ApiInterface$Rx, ApiTypes, Signer } from './types';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
+import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+
 import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
-import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
 export interface ISubmittableResult {
   readonly events: Array<EventRecord>;

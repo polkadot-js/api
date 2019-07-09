@@ -4,14 +4,16 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Balance, BalanceLock, BlockNumber, Index, Option, VestingSchedule } from '@polkadot/types';
-import { bnMax } from '@polkadot/util';
+import { DerivedBalances } from '../types';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+
+import { bnMax } from '@polkadot/util';
 
 import { bestNumber } from '../chain/bestNumber';
 import { drr } from '../util/drr';
 import { idAndIndex } from '../accounts/idAndIndex';
-import { DerivedBalances } from '../types';
 
 type Result = [AccountId | undefined, BlockNumber | undefined, [Balance?, Balance?, Array<BalanceLock>?, Option<VestingSchedule>?, Index?]];
 

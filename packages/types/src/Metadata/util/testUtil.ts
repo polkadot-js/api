@@ -2,13 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { MetadataInterface } from '../types';
+import { Codec } from '../../types';
+
 import extrinsicsFromMeta from '@polkadot/api-metadata/extrinsics/fromMetadata';
 
 import createType from '../../codec/createType';
 import Metadata from '../Metadata';
 import Method from '../../primitive/Method';
-import { MetadataInterface } from '../types';
-import { Codec } from '../../types';
 
 /**
  * Given the static `rpcData` and the `latestSubstrate` JSON file, Metadata

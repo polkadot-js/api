@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a, Constructor } from '../types';
+
 import { isString, isU8a, u8aToU8a } from '@polkadot/util';
 
-import { AnyU8a, Constructor } from '../types';
 import U8a from './U8a';
 
 export type BitLength = 8 | 16 | 32 | 64 | 128 | 160 | 256 | 512 | 1024 | 2048;

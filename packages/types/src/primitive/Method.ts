@@ -2,12 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
+
 import { assert, hexToU8a, isHex, isObject, isU8a } from '@polkadot/util';
 
 import { FunctionArgumentMetadata, FunctionMetadata as FunctionMetadataV6 } from '../Metadata/v6/Calls';
 import { getTypeClass, getTypeDef } from '../codec/createType';
 import Struct from '../codec/Struct';
-import { AnyU8a, ArgsDef, Codec, IMethod } from '../types';
 import U8aFixed from '../codec/U8aFixed';
 
 interface DecodeMethodInput {

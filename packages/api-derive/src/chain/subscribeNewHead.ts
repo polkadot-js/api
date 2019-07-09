@@ -4,11 +4,12 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Header } from '@polkadot/types';
+import { HeaderExtended } from '../type';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-import { HeaderExtended } from '../type';
 
 export type HeaderAndValidators = [Header, Array<AccountId>];
 

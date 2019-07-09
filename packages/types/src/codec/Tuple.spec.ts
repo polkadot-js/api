@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import BlockNumber from '../type/BlockNumber';
+import Proposal from '../type/Proposal';
+import { CodecTo } from '../types';
+import VoteThreshold from '../type/VoteThreshold';
+
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import BlockNumber from '../type/BlockNumber';
 import Method from '../primitive/Method';
-import Proposal from '../type/Proposal';
 import Text from '../primitive/Text';
 import Tuple from './Tuple';
-import { CodecTo } from '../types';
 import U32 from '../primitive/U32';
-import VoteThreshold from '../type/VoteThreshold';
 
 describe('Tuple', () => {
   let tuple: Tuple;

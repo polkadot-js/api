@@ -2,13 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { assert, isNull, isUndefined, logger } from '@polkadot/util';
+import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$EmitCb, ProviderInterface$Emitted } from '../types';
+
 import EventEmitter from 'eventemitter3';
+
+import { assert, isNull, isUndefined, logger } from '@polkadot/util';
 
 import Coder from '../coder';
 import defaults from '../defaults';
 import './polyfill';
-import { JsonRpcResponse, ProviderInterface, ProviderInterface$Callback, ProviderInterface$EmitCb, ProviderInterface$Emitted } from '../types';
 
 type CallbackHandler = (error?: null | Error, value?: any) => void;
 

@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import interfaces from '@polkadot/jsonrpc';
 import { RpcMethod, RpcSection } from '@polkadot/jsonrpc/types';
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { createClass, createType, Option, StorageChangeSet, StorageKey, Vector } from '@polkadot/types';
 import { Codec } from '@polkadot/types/types';
-import { assert, ExtError, isFunction, isNull, logger } from '@polkadot/util';
+import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
+
 import memoize from 'memoizee';
 import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs';
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 
-import { RpcInterface, RpcInterface$Method, RpcInterface$Section } from './types';
+import interfaces from '@polkadot/jsonrpc';
+import { assert, ExtError, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
 

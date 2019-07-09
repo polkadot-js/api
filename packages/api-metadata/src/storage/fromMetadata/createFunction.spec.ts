@@ -4,6 +4,7 @@
 
 import { StorageHasher, Text } from '@polkadot/types';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
+
 import { stringToU8a, u8aConcat, u8aToHex } from '@polkadot/util';
 
 import createFunction from './createFunction';

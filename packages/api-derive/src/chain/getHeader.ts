@@ -4,12 +4,13 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Header } from '@polkadot/types';
+import { HeaderExtended } from '../type';
+
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
-import { HeaderExtended } from '../type';
 
 /**
  * @name bestNumberFinalized

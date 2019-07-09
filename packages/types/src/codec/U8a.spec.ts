@@ -3,6 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CodecTo } from '../types';
+
 import U8a from './U8a';
 
 const testDecode = (type: string, input: any, expected: string) =>

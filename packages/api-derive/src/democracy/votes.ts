@@ -4,6 +4,7 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Vector, Vote } from '@polkadot/types';
+
 import BN from 'bn.js';
 import { Observable, of } from 'rxjs';
 

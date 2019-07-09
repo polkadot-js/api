@@ -2,16 +2,17 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import { Signer } from './../../src/types';
+
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
 import { randomAsHex } from '@polkadot/util-crypto';
 
 import Api from './../../src/promise';
 import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
-import { Signer } from './../../src/types';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>

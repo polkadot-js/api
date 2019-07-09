@@ -4,15 +4,17 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, SessionKey, SessionKeys, StakingLedger, UnlockChunk, ValidatorPrefs } from '@polkadot/types';
-import { isUndefined } from '@polkadot/util';
+import { DerivedStaking, DerivedUnlocking } from '../types';
+
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+import { isUndefined } from '@polkadot/util';
+
 import { bestNumber } from '../chain/bestNumber';
 import { drr } from '../util/drr';
 import { eraLength } from '../session/eraLength';
-import { DerivedStaking, DerivedUnlocking } from '../types';
 
 function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {

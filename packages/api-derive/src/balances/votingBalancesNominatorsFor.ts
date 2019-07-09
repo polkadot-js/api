@@ -4,12 +4,13 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Vector } from '@polkadot/types';
+import { DerivedBalances } from '../types';
+
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 import { idAndIndex } from '../accounts/idAndIndex';
-import { DerivedBalances } from '../types';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {

@@ -2,12 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
+import interfaces from '../../../type-jsonrpc/src';
+
 import fs from 'fs';
+
+import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import Metadata from '../Metadata';
 import Method from '../primitive/Method';
-import interfaces from '../../../type-jsonrpc/src';
 import rpcdata from '../Metadata/static';
 import MetadataV6 from '../Metadata/v6';
 

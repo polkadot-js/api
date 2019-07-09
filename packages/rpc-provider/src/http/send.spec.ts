@@ -2,9 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Mock } from './../mock/types';
+
 import Http from './';
 import { mockHttp, TEST_HTTP_URL } from '../../test/mockHttp';
-import { Mock } from './../mock/types';
 
 describe('send', () => {
   let http: Http;

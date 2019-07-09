@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { RpcInterface } from '@polkadot/rpc-core/types';
+
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import Rpc from '@polkadot/rpc-core';
-import { RpcInterface } from '@polkadot/rpc-core/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 
 import extrinsics from './../../static';

@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Combinator from './Combinator';
 import { UnsubscribePromise } from '../types';
+
+import Combinator from './Combinator';
 
 describe('Combinator', () => {
   let fns: Array<(value: any) => void> = [];

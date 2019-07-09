@@ -3,11 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Metadata from '@polkadot/types/Metadata';
+import { ModuleStorage, Storage } from '../types';
+
 import { stringCamelCase, stringLowerFirst } from '@polkadot/util';
 
 import createFunction from './createFunction';
 import { storage } from './storage';
-import { ModuleStorage, Storage } from '../types';
 
 /**
  * Return an object with the modules and the functions to access their storage.

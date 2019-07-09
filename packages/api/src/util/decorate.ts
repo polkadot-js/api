@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AnyFunction } from '@polkadot/types/types';
-
 import { MethodResult } from '../types';
 
 // A technically unsafe version of Object.keys(obj) that assumes that

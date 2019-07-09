@@ -4,13 +4,15 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumInfo } from '@polkadot/types';
-import { isNull } from '@polkadot/util';
+import { ReferendumInfoExtended } from '../type';
+
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { isNull } from '@polkadot/util';
+
 import { drr } from '../util/drr';
-import { ReferendumInfoExtended } from '../type';
 
 export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
   const info = optionInfo

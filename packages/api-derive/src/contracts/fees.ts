@@ -3,12 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
+import { DerivedContractFees } from '../types';
+
 import BN from 'bn.js';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-import { DerivedContractFees } from '../types';
 
 /**
  * Retrieves all the contract fees

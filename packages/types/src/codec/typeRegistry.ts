@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Constructor, RegistryTypes } from '../types';
+
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
 import { createClass } from './createType';
-import { Constructor, RegistryTypes } from '../types';
 
 export class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();
