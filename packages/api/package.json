@@ -1,6 +1,6 @@
 {
   "name": "@polkadot/api",
-  "version": "0.82.0-beta.36",
+  "version": "0.82.0-beta.37",
   "description": "Promise and RxJS wrappers around the Polkadot JS RPC",
   "main": "index.js",
   "keywords": [
@@ -27,11 +27,11 @@
   "homepage": "https://github.com/polkadot-js/api/tree/master/packages/api#readme",
   "dependencies": {
     "@babel/runtime": "^7.5.2",
-    "@polkadot/api-derive": "^0.82.0-beta.36",
-    "@polkadot/api-metadata": "^0.82.0-beta.36",
-    "@polkadot/rpc-core": "^0.82.0-beta.36",
-    "@polkadot/rpc-provider": "^0.82.0-beta.36",
-    "@polkadot/types": "^0.82.0-beta.36",
+    "@polkadot/api-derive": "^0.82.0-beta.37",
+    "@polkadot/api-metadata": "^0.82.0-beta.37",
+    "@polkadot/rpc-core": "^0.82.0-beta.37",
+    "@polkadot/rpc-provider": "^0.82.0-beta.37",
+    "@polkadot/types": "^0.82.0-beta.37",
     "@polkadot/util-crypto": "^0.94.0-beta.6"
   },
   "devDependencies": {
