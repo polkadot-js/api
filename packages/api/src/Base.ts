@@ -247,7 +247,7 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * const unsub = api.queryMulti(
+   * const unsub = await api.queryMulti(
    *   [
    *     // you can include the storage without any parameters
    *     api.query.balances.totalIssuance,
