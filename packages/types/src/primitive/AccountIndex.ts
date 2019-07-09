@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
-
-import BN from 'bn.js';
-import { bnToBn, isBn, isNumber, isU8a, isHex } from '@polkadot/util';
+import { bnToBn, isBn, isHex, isNumber, isU8a } from '@polkadot/util';
 import { decodeAddress, encodeAddress } from '@polkadot/util-crypto';
+import BN from 'bn.js';
 
+import { AnyNumber } from '../types';
 import U32 from './U32';
 
 export const ENUMSET_SIZE = new BN(64);

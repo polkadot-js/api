@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { ApiInterface$Rx } from '@polkadot/api/types';
+import { AccountId, AccountIndex, Vector } from '@polkadot/types';
+import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ApiInterface$Rx } from '@polkadot/api/types';
-import { ENUMSET_SIZE } from '@polkadot/types/primitive/AccountIndex';
-import { AccountId, AccountIndex, Vector } from '@polkadot/types';
 
 import { drr } from '../util/drr';
 

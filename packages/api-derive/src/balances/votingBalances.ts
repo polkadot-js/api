@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { combineLatest, Observable, of } from 'rxjs';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address } from '@polkadot/types';
+import { combineLatest, Observable, of } from 'rxjs';
 
-import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
 import { all } from './all';
+import { drr } from '../util/drr';
+import { DerivedBalances } from '../types';
 
 export function votingBalances (api: ApiInterface$Rx) {
   return (addresses?: Array<AccountId | AccountIndex | Address | string>): Observable<Array<DerivedBalances>> => {

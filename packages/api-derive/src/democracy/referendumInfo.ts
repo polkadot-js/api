@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumInfo } from '@polkadot/types';
 import { isNull } from '@polkadot/util';
+import BN from 'bn.js';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
+import { ReferendumInfoExtended } from '../type';
 
 export function constructInfo (index: BN | number, optionInfo?: Option<ReferendumInfo>): Option<ReferendumInfoExtended> {
   const info = optionInfo

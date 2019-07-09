@@ -5,12 +5,12 @@
 import { assert } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
-import Hash from './Hash';
 import Event from './Event';
+import Hash from './Hash';
 import Null from './Null';
+import Struct from '../codec/Struct';
 import U32 from './U32';
+import Vector from '../codec/Vector';
 
 /**
  * @name ApplyExtrinsic

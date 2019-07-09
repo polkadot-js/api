@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
 import AccountId from '../primitive/AccountId';
+import Enum from '../codec/Enum';
 import ParaId from './ParaId';
+import Struct from '../codec/Struct';
 import SubId from './SubId';
 
 /**

@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
 import { bnToBn, compactAddLength, compactFromU8a, compactStripLength, compactToU8a, hexToBn, isBn, isHex, isNumber, isString } from '@polkadot/util';
 import { DEFAULT_BITLENGTH } from '@polkadot/util/compact/defaults';
+import BN from 'bn.js';
 
-import Moment from '../primitive/Moment';
-import { AnyNumber, Codec, Constructor } from '../types';
 import { UIntBitLength } from './AbstractInt';
 import Base from './Base';
+import Moment from '../primitive/Moment';
+import { AnyNumber, Codec, Constructor } from '../types';
 import UInt from './UInt';
 
 /**

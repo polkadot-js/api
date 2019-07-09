@@ -4,11 +4,11 @@
 
 import { setAddressPrefix } from '@polkadot/util-crypto';
 
+import AccountId from './AccountId';
+import jsonVec from '../json/AccountIdVec.001.json';
+import StorageData from './StorageData';
 import U8a from '../codec/U8a';
 import Vector from '../codec/Vector';
-import jsonVec from '../json/AccountIdVec.001.json';
-import AccountId from './AccountId';
-import StorageData from './StorageData';
 
 describe('AccountId', () => {
   describe('defaults', () => {

@@ -5,8 +5,14 @@
 import { assert, isUndefined } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
 import MagicNumber from './MagicNumber';
+import Struct from '../codec/Struct';
+import v0ToV1 from './v0/toV1';
+import v1ToV2 from './v1/toV2';
+import v2ToV3 from './v2/toV3';
+import v3ToV4 from './v3/toV4';
+import v4ToV5 from './v4/toV5';
+import v5ToV6 from './v5/toV6';
 import MetadataV0 from './v0';
 import MetadataV1 from './v1';
 import MetadataV2 from './v2';
@@ -14,12 +20,6 @@ import MetadataV3 from './v3';
 import MetadataV4 from './v4';
 import MetadataV5 from './v5';
 import MetadataV6 from './v6';
-import v0ToV1 from './v0/toV1';
-import v1ToV2 from './v1/toV2';
-import v2ToV3 from './v2/toV3';
-import v3ToV4 from './v3/toV4';
-import v4ToV5 from './v4/toV5';
-import v5ToV6 from './v5/toV6';
 
 class MetadataEnum extends Enum {
   constructor (value?: any) {

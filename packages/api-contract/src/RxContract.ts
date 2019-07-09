@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIFn, IContract, IContract$Calls } from './types';
-import { IKeyringPair } from '@polkadot/types/types';
-
-import BN from 'bn.js';
-import { Observable } from 'rxjs';
 import { ApiRx } from '@polkadot/api';
 import { SubmittableResult } from '@polkadot/api/SubmittableExtrinsic';
 import { AccountId, Address } from '@polkadot/types';
+import { IKeyringPair } from '@polkadot/types/types';
+import BN from 'bn.js';
+import { Observable } from 'rxjs';
 
 import Abi from './Abi';
 import RxBase from './RxBase';
+import { ContractABI, ContractABIFn, IContract, IContract$Calls } from './types';
 
 export type IContractCallResultSubscription = Observable<SubmittableResult>;
 

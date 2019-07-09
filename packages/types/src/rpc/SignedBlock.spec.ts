@@ -6,9 +6,9 @@ import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
 import Extrinsics from '../type/Extrinsics';
 import Method from '../primitive/Method';
+import SignedBlock from './SignedBlock';
 import rpc from '../json/SignedBlock.001.json';
 import events from '../json/SignedBlock.002.json';
-import SignedBlock from './SignedBlock';
 
 describe.skip('SignedBlock', () => {
   let block: SignedBlock;

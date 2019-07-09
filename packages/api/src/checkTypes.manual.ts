@@ -7,8 +7,8 @@
 import { ApiPromise } from '@polkadot/api';
 import { HeaderExtended } from '@polkadot/api-derive';
 import testKeyring from '@polkadot/keyring/testingPairs';
-import { IExtrinsic, IMethod } from '@polkadot/types/types';
 import { Header, Nonce } from '@polkadot/types';
+import { IExtrinsic, IMethod } from '@polkadot/types/types';
 
 import { SubmittableResult } from './';
 

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Text from './Text';
 import { CodecTo } from '../types';
 import U8a from '../codec/U8a';
-import Text from './Text';
 
 describe('Text', () => {
   describe('decode', () => {

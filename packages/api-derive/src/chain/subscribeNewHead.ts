@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, Header } from '@polkadot/types';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
-import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
+import { HeaderExtended } from '../type';
 
 export type HeaderAndValidators = [Header, Array<AccountId>];
 

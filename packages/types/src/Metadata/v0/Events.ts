@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Tuple from '../../codec/Tuple';
-import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
+import Tuple from '../../codec/Tuple';
 import Type from '../../primitive/Type';
+import Vector from '../../codec/Vector';
 
 export class EventMetadata extends Struct {
   constructor (value?: any) {

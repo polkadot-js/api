@@ -5,10 +5,10 @@
 import { assert } from '@polkadot/util';
 
 import Enum from '../codec/Enum';
-import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
 import Text from '../primitive/Text';
+import Vector from '../codec/Vector';
 
 /**
  * @name Broadcast

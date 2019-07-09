@@ -4,8 +4,8 @@
 
 import polkadotJson from './latest.polkadot.v5.json';
 import substrateJson from './latest.substrate.v5.json';
-import polkadotData from './static.polkadot';
 import substrateData from './static';
+import polkadotData from './static.polkadot';
 import { decodeLatestSubstrate, defaultValues, toV6 } from '../util/testUtil';
 
 describe('MetadataV5 (substrate)', () => {

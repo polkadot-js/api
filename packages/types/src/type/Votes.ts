@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
 import AccountId from '../primitive/AccountId';
 import MemberCount from './MemberCount';
 import ProposalIndex from './ProposalIndex';
+import Struct from '../codec/Struct';
+import Vector from '../codec/Vector';
 
 export default class Votes extends Struct {
   constructor (value: any) {

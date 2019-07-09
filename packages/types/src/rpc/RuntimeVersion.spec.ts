@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import rpc from '../json/RuntimeVersion.002.json';
 import RuntimeVersion from './RuntimeVersion';
+import rpc from '../json/RuntimeVersion.002.json';
 
 describe('RuntimeVersion', () => {
   const version = new RuntimeVersion(rpc.result);

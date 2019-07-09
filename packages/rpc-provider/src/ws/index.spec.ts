@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import WsProvider from './';
-import { Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { Mock } from './../mock/types';
 
 let ws: WsProvider;
 let mock: Mock;

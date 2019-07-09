@@ -4,9 +4,9 @@
 
 import { isBoolean, isNumber, isObject, isU8a, isUndefined } from '@polkadot/util';
 
+import Bool from '../primitive/Bool';
 import Conviction from './Conviction';
 import U8a from '../codec/U8a';
-import Bool from '../primitive/Bool';
 
 /**
  * @name Vote

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Bytes from '../primitive/Bytes';
 import Enum from '../codec/Enum';
 import Struct from '../codec/Struct';
-import Bytes from '../primitive/Bytes';
 
 export class ParachainDispatchOrigin extends Enum {
   constructor (value?: any) {

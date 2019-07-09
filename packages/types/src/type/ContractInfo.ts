@@ -4,15 +4,15 @@
 
 import { assert } from '@polkadot/util';
 
-import Option from '../codec/Option';
-import Bytes from '../primitive/Bytes';
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Hash from '../primitive/Hash';
-import U32 from '../primitive/U32';
 import Balance from './Balance';
 import BlockNumber from './BlockNumber';
+import Bytes from '../primitive/Bytes';
 import CodeHash from './CodeHash';
+import Enum from '../codec/Enum';
+import Hash from '../primitive/Hash';
+import Option from '../codec/Option';
+import Struct from '../codec/Struct';
+import U32 from '../primitive/U32';
 
 export class TrieId extends Bytes {
 }

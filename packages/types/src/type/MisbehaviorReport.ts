@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../types';
-
 import { assert } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Hash from '../primitive/Hash';
-import U32 from '../primitive/U32';
 import AuthorityId from './AuthorityId';
 import { BftHashSignature, BftHashSignatureValue } from './Bft';
 import BlockNumber from './BlockNumber';
+import Enum from '../codec/Enum';
+import Hash from '../primitive/Hash';
+import Struct from '../codec/Struct';
+import { AnyNumber } from '../types';
+import U32 from '../primitive/U32';
 
 type BftAtReportValueSingle = {
   round?: AnyNumber,

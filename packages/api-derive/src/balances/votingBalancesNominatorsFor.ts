@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AccountId, AccountIndex, Address, Vector } from '@polkadot/types';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
+import { drr } from '../util/drr';
 import { idAndIndex } from '../accounts/idAndIndex';
 import { DerivedBalances } from '../types';
-import { drr } from '../util/drr';
 import { votingBalances } from './votingBalances';
 
 export function votingBalancesNominatorsFor (api: ApiInterface$Rx) {

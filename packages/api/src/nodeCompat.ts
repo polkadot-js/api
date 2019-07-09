@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { EventRecord_0_76, getTypeRegistry, RuntimeVersion } from '@polkadot/types';
 import { Constructor } from '@polkadot/types/types';
-
-import { EventRecord_0_76, RuntimeVersion, getTypeRegistry } from '@polkadot/types';
 
 type Compat = {
   // an array of the spec-name and spec_version that denotes the first version that

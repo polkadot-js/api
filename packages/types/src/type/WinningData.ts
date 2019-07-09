@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Tuple from '../codec/Tuple';
-import VectorFixed from '../codec/VectorFixed';
 import AccountId from '../primitive/AccountId';
 import { BalanceOf } from './Balance';
 import { ParaIdOf } from './ParaId';
+import Tuple from '../codec/Tuple';
+import VectorFixed from '../codec/VectorFixed';
 
 const SLOT_RANGE_COUNT = 10;
 

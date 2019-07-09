@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import createType from '../codec/createType';
-import Vector from '../codec/Vector';
+import Event from './Event';
+import EventRecord from './EventRecord';
 import json1 from '../json/EventRecord.001.json';
 import json3 from '../json/EventRecord.003.json';
 import Metadata from '../Metadata';
 import metadataV0 from '../Metadata/v0/static';
 import metadata from '../Metadata/static';
-import Event from './Event';
-import EventRecord from './EventRecord';
+import Vector from '../codec/Vector';
 
 describe('EventRecord', () => {
   describe('EventRecord_0_76', () => {

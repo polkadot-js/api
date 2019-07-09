@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AccountId, Address, ExtrinsicStatus, EventRecord, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector } from '@polkadot/types';
+import { AccountId, Address, EventRecord, ExtrinsicStatus, getTypeRegistry, Hash, Index, Method, SignedBlock, Vector } from '@polkadot/types';
 import { Callback, Codec, IExtrinsic, IKeyringPair, SignatureOptions } from '@polkadot/types/types';
-import { ApiInterface$Rx, ApiTypes, Signer } from './types';
-
-import { Observable, of, combineLatest } from 'rxjs';
-import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { assert, isBn, isFunction, isNumber, isUndefined } from '@polkadot/util';
+import { combineLatest, Observable, of } from 'rxjs';
+import { first, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 
 import ApiBase from './Base';
 import filterEvents from './util/filterEvents';
+import { ApiInterface$Rx, ApiTypes, Signer } from './types';
 
 export interface ISubmittableResult {
   readonly events: Array<EventRecord>;

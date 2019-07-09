@@ -2,18 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataInterface } from '../types';
-
-import Option from '../../codec/Option';
-import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
-import Text from '../../primitive/Text';
-import { flattenUniq, validateTypes } from '../util';
-
 import { FunctionMetadata } from './Calls';
 import { ModuleConstantMetadata } from './Constants';
 import { EventMetadata } from './Events';
+import Option from '../../codec/Option';
 import { StorageEntryMetadata } from './Storage';
+import Struct from '../../codec/Struct';
+import Text from '../../primitive/Text';
+import { MetadataInterface } from '../types';
+import { flattenUniq, validateTypes } from '../util';
+import Vector from '../../codec/Vector';
 
 /**
  * @name ModuleMetadata

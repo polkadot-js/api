@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import BN from 'bn.js';
-
 import fromMetadata from '@polkadot/api-metadata/storage/fromMetadata';
 import { Storage } from '@polkadot/api-metadata/storage/types';
 import Metadata from '@polkadot/types/Metadata';
@@ -11,6 +9,7 @@ import rpcMetadataV3 from '@polkadot/types/Metadata/v3/static';
 import rpcMetadataV4 from '@polkadot/types/Metadata/v4/static';
 import rpcMetadataV5 from '@polkadot/types/Metadata/v5/static';
 import rpcMetadataV6 from '@polkadot/types/Metadata/v6/static';
+import BN from 'bn.js';
 
 import Api from '.';
 

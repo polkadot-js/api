@@ -4,8 +4,8 @@
 
 import BN from 'bn.js';
 
-import { CodecTo } from '../types';
 import Moment from './Moment';
+import { CodecTo } from '../types';
 import U64 from './U64';
 
 describe('Moment', () => {

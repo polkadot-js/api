@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Option, ReferendumIndex } from '@polkadot/types';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-import { ReferendumInfoExtended } from '../type';
 import { drr } from '../util/drr';
 import { referendumInfos } from './referendumInfos';
+import { ReferendumInfoExtended } from '../type';
 
 export function referendums (api: ApiInterface$Rx) {
   return (): Observable<Array<Option<ReferendumInfoExtended>>> =>

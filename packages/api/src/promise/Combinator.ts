@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Callback } from '@polkadot/types/types';
-import { UnsubscribePromise } from '../types';
-
 import { isFunction } from '@polkadot/util';
+
+import { UnsubscribePromise } from '../types';
 
 export type CombinatorCallback = Callback<Array<any>>;
 export type CombinatorFunction = {

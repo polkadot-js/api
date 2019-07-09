@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import createType, { TypeDefInfo, getTypeClass, getTypeDef, typeSplit } from './createType';
+import createType, { getTypeClass, getTypeDef, TypeDefInfo, typeSplit } from './createType';
 
 describe('typeSplit', () => {
   it('splits simple types into an array', () => {

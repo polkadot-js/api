@@ -4,9 +4,9 @@
 
 import { assert, isFunction, isString, isU8a } from '@polkadot/util';
 
+import Bytes from './Bytes';
 import { StorageEntryMetadata as MetaV6 } from '../Metadata/v6/Storage';
 import { AnyU8a } from '../types';
-import Bytes from './Bytes';
 
 export interface StorageEntry {
   (arg?: any): Uint8Array;

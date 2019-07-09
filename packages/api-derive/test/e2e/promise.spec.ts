@@ -6,9 +6,9 @@ import ApiPromise from '@polkadot/api/promise/Api';
 import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
+import { SubmittableResult } from '../../../api/src';
 import { HeaderExtended } from '../../src/type';
 import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
-import { SubmittableResult } from '../../../api/src';
 
 const WS = 'ws://127.0.0.1:9944/';
 // const WS = 'wss://poc3-rpc.polkadot.io/';

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ContractABI, ContractABIArg } from './types';
+import { assert, isNull, isNumber, isObject, isString } from '@polkadot/util';
 
-import { assert, isNumber, isNull, isString, isObject } from '@polkadot/util';
+import { ContractABI, ContractABIArg } from './types';
 
 export function validateArgs (name: string, args: Array<ContractABIArg>): void {
   assert(Array.isArray(args), `Expected 'args' to exist on ${name}`);

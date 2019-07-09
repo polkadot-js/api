@@ -2,21 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyNumber } from '../../types';
-
 import { assert } from '@polkadot/util';
 
-import Enum from '../../codec/Enum';
-import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
 import Bytes from '../../primitive/Bytes';
-import Text from '../../primitive/Text';
-import Type from '../../primitive/Type';
+import Enum from '../../codec/Enum';
 import {
   MapType,
   PlainType,
   StorageFunctionModifier
 } from '../v2/Storage';
+import Struct from '../../codec/Struct';
+import Text from '../../primitive/Text';
+import Type from '../../primitive/Type';
+import { AnyNumber } from '../../types';
+import Vector from '../../codec/Vector';
 
 // Re-export classes that haven't changed between V2 and V3
 export {

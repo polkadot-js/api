@@ -4,14 +4,14 @@
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { CodecTo } from '../types';
-import Method from '../primitive/Method';
-import Text from '../primitive/Text';
-import U32 from '../primitive/U32';
 import BlockNumber from '../type/BlockNumber';
+import Method from '../primitive/Method';
 import Proposal from '../type/Proposal';
-import VoteThreshold from '../type/VoteThreshold';
+import Text from '../primitive/Text';
 import Tuple from './Tuple';
+import { CodecTo } from '../types';
+import U32 from '../primitive/U32';
+import VoteThreshold from '../type/VoteThreshold';
 
 describe('Tuple', () => {
   let tuple: Tuple;

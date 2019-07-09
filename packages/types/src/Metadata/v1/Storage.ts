@@ -5,9 +5,9 @@
 import {
   MapType,
   PlainType,
+  StorageFunctionMetadata,
   StorageFunctionModifier,
-  StorageFunctionType,
-  StorageFunctionMetadata
+  StorageFunctionType
 } from '../v0/Storage';
 
 // Re-export classes that haven't changed between V0 and V1

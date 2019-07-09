@@ -2,13 +2,13 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import Compact from '../codec/Compact';
-import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
 import AccountId from '../primitive/AccountId';
 import Balance from './Balance';
 import BlockNumber from './BlockNumber';
+import Compact from '../codec/Compact';
+import Struct from '../codec/Struct';
 import UnlockChunk from './UnlockChunk';
+import Vector from '../codec/Vector';
 
 /**
  * @name StakingLedger

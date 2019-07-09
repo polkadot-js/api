@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
-import Struct from '../codec/Struct';
-import Vector from '../codec/Vector';
 import Hash from '../primitive/Hash';
 import { KeyValueOption, KeyValueOptionValue } from '../type/KeyValue';
+import Struct from '../codec/Struct';
+import { AnyU8a } from '../types';
+import Vector from '../codec/Vector';
 
 type StorageChangeSetValue = {
   block?: AnyU8a,

@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
 import U16 from '../../primitive/U16';
+import Vector from '../../codec/Vector';
 
 export class OuterDispatchCall extends Struct {
   constructor (value?: any) {

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Digest, { CID_AURA, CID_BABE, CID_GRPA, ConsensusEngineId } from './Digest';
 import json3 from '../json/Header.003.json';
 import block1 from '../json/SignedBlock.003.00.json';
-import Digest, { ConsensusEngineId, CID_AURA, CID_BABE, CID_GRPA } from './Digest';
 
 describe('Digest', () => {
   it('decodes logs with consensus', () => {

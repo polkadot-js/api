@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, from } from 'rxjs';
 import ApiRx from '@polkadot/api/rx/Api';
 import MockProvider from '@polkadot/rpc-provider/mock';
+import { from, Observable } from 'rxjs';
 
 import { Derive } from '.';
 

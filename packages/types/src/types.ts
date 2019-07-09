@@ -4,10 +4,10 @@
 
 import BN from 'bn.js';
 
-import U8a from './codec/U8a';
+import Address from './primitive/Address';
 import { FunctionMetadata } from './Metadata/v6/Calls';
 import Method from './primitive/Method';
-import Address from './primitive/Address';
+import U8a from './codec/U8a';
 
 export type IKeyringPair = {
   address: string,

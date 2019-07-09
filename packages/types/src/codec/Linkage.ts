@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Struct, Option, Tuple, Vector } from '.';
-import { Constructor, Codec } from '../types';
+import { Codec, Constructor } from '../types';
+import { Option, Struct, Tuple, Vector } from '.';
 
 type TypeWithValues = [Constructor, Array<any>];
 

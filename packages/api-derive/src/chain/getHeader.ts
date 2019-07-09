@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { Header } from '@polkadot/types';
+import { combineLatest, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { HeaderExtended } from '../type';
 import { drr } from '../util/drr';
 import { HeaderAndValidators } from './subscribeNewHead';
+import { HeaderExtended } from '../type';
 
 /**
  * @name bestNumberFinalized

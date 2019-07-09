@@ -2,14 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber } from '@polkadot/types';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { drr } from '../util/drr';
 import { bestNumber } from './bestNumber';
 import { bestNumberFinalized } from './bestNumberFinalized';
+import { drr } from '../util/drr';
 
 /**
  * @name bestNumberLag

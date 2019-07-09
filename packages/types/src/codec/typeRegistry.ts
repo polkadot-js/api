@@ -4,8 +4,8 @@
 
 import { isFunction, isString, isUndefined } from '@polkadot/util';
 
-import { Constructor, RegistryTypes } from '../types';
 import { createClass } from './createType';
+import { Constructor, RegistryTypes } from '../types';
 
 export class TypeRegistry {
   static readonly defaultRegistry: TypeRegistry = new TypeRegistry();

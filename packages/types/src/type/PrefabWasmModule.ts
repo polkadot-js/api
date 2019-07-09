@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Bytes from '../primitive/Bytes';
 import Compact from '../codec/Compact';
+import Null from '../primitive/Null';
 import Option from '../codec/Option';
 import Struct from '../codec/Struct';
-import Bytes from '../primitive/Bytes';
-import Null from '../primitive/Null';
 import U32 from '../primitive/U32';
 
 class PrefabWasmModuleReserved extends Option<Null> {

@@ -2,20 +2,19 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import fs from 'fs';
-import path from 'path';
-
 import { SubmittableResult } from '@polkadot/api';
-import ApiPromise from '@polkadot/api/promise/Api';
-import storage from '@polkadot/api-metadata/storage/static';
 import { Abi } from '@polkadot/api-contract';
+import storage from '@polkadot/api-metadata/storage/static';
+import ApiPromise from '@polkadot/api/promise/Api';
 import testingPairs from '@polkadot/keyring/testingPairs';
 import { KeyringPair } from '@polkadot/keyring/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
+import fs from 'fs';
+import path from 'path';
 
-import Rpc from '../../src';
 import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
+import Rpc from '../../src';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code

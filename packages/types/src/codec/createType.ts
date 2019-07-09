@@ -4,21 +4,21 @@
 
 import { assert } from '@polkadot/util';
 
-import { Codec, Constructor } from '../types';
-import Null from '../primitive/Null';
-import StorageData from '../primitive/StorageData';
-import Text from '../primitive/Text';
 import Compact from './Compact';
 import Enum from './Enum';
 import Linkage from './Linkage';
+import Null from '../primitive/Null';
 import Option from './Option';
+import StorageData from '../primitive/StorageData';
 import Struct from './Struct';
+import Text from '../primitive/Text';
 import Tuple from './Tuple';
+import getRegistry from './typeRegistry';
+import { Codec, Constructor } from '../types';
 import U8aFixed, { BitLength as U8aFixedBitLength } from './U8aFixed';
 import UInt from './UInt';
 import Vector from './Vector';
 import VectorFixed from './VectorFixed';
-import getRegistry from './typeRegistry';
 
 export enum TypeDefInfo {
   Compact,

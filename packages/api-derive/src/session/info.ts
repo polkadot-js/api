@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DerivedSessionInfo } from '../types';
-
-import BN from 'bn.js';
-import { Observable, combineLatest, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { BlockNumber, Option } from '@polkadot/types';
+import BN from 'bn.js';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { drr } from '../util/drr';
 import { bestNumber } from '../chain';
+import { drr } from '../util/drr';
+import { DerivedSessionInfo } from '../types';
 
 type Result0_94 = [BN, [BN, Option<BlockNumber>, BN, BN, BN]];
 type Result = [BN, [BN, BN]];

@@ -4,8 +4,8 @@
 
 import extrinsics from '@polkadot/api-metadata/extrinsics/static';
 
-import { Constructor } from './types';
 import * as Classes from './index.types';
+import { Constructor } from './types';
 
 const Types = Classes as { [index: string]: Constructor };
 const UNCONSTRUCTABLE = ['origin', 'usize', 'vote'];

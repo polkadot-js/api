@@ -3,9 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { KeyringPair } from '@polkadot/keyring/types';
-import { SignatureOptions } from '@polkadot/types/types';
-
 import { Extrinsic } from '@polkadot/types';
+import { SignatureOptions } from '@polkadot/types/types';
 
 let id = 0;
 

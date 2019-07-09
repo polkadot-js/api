@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Bytes from '../../primitive/Bytes';
+import Struct from '../../codec/Struct';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
-import Struct from '../../codec/Struct';
 import Vector from '../../codec/Vector';
 
 export class ModuleConstantMetadata extends Struct {

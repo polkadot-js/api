@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { distinctUntilChanged, publishReplay, refCount } from 'rxjs/operators';
 
 /**
  * Shorthand for distinctUntilChanged(), publishReplay(1) and refCount().

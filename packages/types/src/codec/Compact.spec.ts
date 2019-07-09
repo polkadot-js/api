@@ -4,11 +4,11 @@
 
 import BN from 'bn.js';
 
-import Moment from '../primitive/Moment';
-import U32 from '../primitive/U32';
 import Balance from '../type/Balance';
 import BlockNumber from '../type/BlockNumber';
 import Compact from './Compact';
+import Moment from '../primitive/Moment';
+import U32 from '../primitive/U32';
 import UInt from './UInt';
 
 describe('Compact', () => {

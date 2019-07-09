@@ -4,18 +4,18 @@
 
 import { assert } from '@polkadot/util';
 
-import Enum from '../codec/Enum';
-import Struct from '../codec/Struct';
-import Tuple from '../codec/Tuple';
-import Vector from '../codec/Vector';
 import AccountId from '../primitive/AccountId';
 import Bytes from '../primitive/Bytes';
+import Enum from '../codec/Enum';
 import Hash from '../primitive/Hash';
 import Null from '../primitive/Null';
-import U64 from '../primitive/U64';
 import ParaId from './ParaId';
-import Signature from './Signature';
 import SessionKey from './SessionKey';
+import Signature from './Signature';
+import Struct from '../codec/Struct';
+import Tuple from '../codec/Tuple';
+import U64 from '../primitive/U64';
+import Vector from '../codec/Vector';
 
 export class CandidateSignature extends Signature {
 }

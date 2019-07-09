@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Option, Vector } from '../../codec';
-import Text from '../../primitive/Text';
 import MetadataV4 from './Metadata';
-import StorageHasher from '../../primitive/StorageHasher';
-import MetadataV5 from '../v5';
 import { StorageFunctionMetadata as StorageFunctionMetadataV4 } from '../v4/Storage';
 import { DoubleMapType, StorageFunctionMetadata, StorageFunctionType } from '../v5/Storage';
+import StorageHasher from '../../primitive/StorageHasher';
+import Text from '../../primitive/Text';
+import MetadataV5 from '../v5';
 
 /**
  * Convert V4 StorageFunction to V5 StorageFunction

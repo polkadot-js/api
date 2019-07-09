@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import Balance from './Balance';
 import Compact from '../codec/Compact';
+import IndividualExposure from './IndividualExposure';
 import Struct from '../codec/Struct';
 import Vector from '../codec/Vector';
-import Balance from './Balance';
-import IndividualExposure from './IndividualExposure';
 
 /**
  * @name Exposure

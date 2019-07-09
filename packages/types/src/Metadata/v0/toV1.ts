@@ -5,13 +5,13 @@
 
 import { stringUpperFirst } from '@polkadot/util';
 
+import { FunctionMetadata } from '../v1/Calls';
 import { Option, Vector } from '../../codec';
+import { EventMetadata } from '../v1/Events';
 import MetadataV0 from './Metadata';
+import MetadataV1, { ModuleMetadata } from '../v1/Metadata';
 import { RuntimeModuleMetadata } from './Modules';
 import { Text } from '../../primitive';
-import { FunctionMetadata } from '../v1/Calls';
-import { EventMetadata } from '../v1/Events';
-import MetadataV1, { ModuleMetadata } from '../v1/Metadata';
 import { StorageFunctionMetadata } from '../v1/Storage';
 
 function toV1Calls (modul: RuntimeModuleMetadata) {

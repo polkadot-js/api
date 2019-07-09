@@ -2,17 +2,16 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { MetadataInterface } from '../types';
-
 import { hexToU8a, isHex, isU8a } from '@polkadot/util';
 
+import { OuterDispatchCall, OuterDispatchMetadata } from './Calls';
 import Compact from '../../codec/Compact';
-import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
-import { flattenUniq, validateTypes } from '../util';
-import { OuterDispatchMetadata, OuterDispatchCall } from './Calls';
-import { OuterEventMetadata, OuterEventEventMetadata } from './Events';
+import { OuterEventEventMetadata, OuterEventMetadata } from './Events';
 import { RuntimeModuleMetadata } from './Modules';
+import Struct from '../../codec/Struct';
+import { MetadataInterface } from '../types';
+import { flattenUniq, validateTypes } from '../util';
+import Vector from '../../codec/Vector';
 
 // Decodes the runtime metadata as passed through from the `state_getMetadata` call.
 

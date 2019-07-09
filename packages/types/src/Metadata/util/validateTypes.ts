@@ -4,9 +4,9 @@
 
 import { isUndefined } from '@polkadot/util';
 
+import { getTypeRegistry } from '../../codec';
 import { getTypeDef, TypeDef, TypeDefInfo } from '../../codec/createType';
 import flattenUniq from './flattenUniq';
-import { getTypeRegistry } from '../../codec';
 
 export default function validateTypes (types: Array<string>, throwError: boolean): void {
   const extractTypes = (types: Array<string>): Array<any> => {

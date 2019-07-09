@@ -3,13 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import Option from '../../codec/Option';
+import { StorageMetadata } from './Storage';
 import Struct from '../../codec/Struct';
-import Vector from '../../codec/Vector';
 import Text from '../../primitive/Text';
 import Type from '../../primitive/Type';
 import U16 from '../../primitive/U16';
-
-import { StorageMetadata } from './Storage';
+import Vector from '../../codec/Vector';
 
 export class FunctionArgumentMetadata extends Struct {
   constructor (value?: any) {

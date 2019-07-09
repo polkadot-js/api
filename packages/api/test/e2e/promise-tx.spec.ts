@@ -4,14 +4,14 @@
 
 import Keyring from '@polkadot/keyring';
 import testingPairs from '@polkadot/keyring/testingPairs';
-import { randomAsHex } from '@polkadot/util-crypto';
 import WsProvider from '@polkadot/rpc-provider/ws';
 import { EventRecord, ExtrinsicEra, Hash, Header, Index, SignedBlock } from '@polkadot/types';
+import { randomAsHex } from '@polkadot/util-crypto';
 
+import Api from './../../src/promise';
 import SingleAccountSigner from '../util/SingleAccountSigner';
 import { SubmittableResult } from './../../src';
 import { Signer } from './../../src/types';
-import Api from './../../src/promise';
 
 // log all events for the transfare, calling done() when finalized
 const logEvents = (done: () => {}) =>

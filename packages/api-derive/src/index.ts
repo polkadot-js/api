@@ -4,7 +4,6 @@
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
 import { AnyFunction } from '@polkadot/types/types';
-
 import { Observable } from 'rxjs';
 
 import * as accounts from './accounts';

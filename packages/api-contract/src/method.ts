@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CodecArg, Constructor } from '@polkadot/types/types';
-import { ContractABIFn, ContractABIFn$Arg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
-
 import { Compact, createClass } from '@polkadot/types';
+import { CodecArg, Constructor } from '@polkadot/types/types';
 import { assert, isString, isUndefined, stringCamelCase } from '@polkadot/util';
+
+import { ContractABIFn, ContractABIFn$Arg, ContractABIMethod, ContractABIMethodBase, ContractABITypes } from './types';
 
 export function typeToString (type: ContractABITypes): string {
   if (isString(type)) {

@@ -5,8 +5,8 @@
 import { Constructor } from '@polkadot/types/types';
 
 import WsProvider from './';
-import { Global, Mock } from './../mock/types';
 import { mockWs, TEST_WS_URL } from '../../test/mockWs';
+import { Global, Mock } from './../mock/types';
 
 declare var global: Global;
 let ws: WsProvider;

@@ -4,10 +4,10 @@
 
 import { Option, Vector } from '../../codec';
 import MetadataV3 from './Metadata';
-import StorageHasher from '../../primitive/StorageHasher';
-import MetadataV4 from '../v4';
 import { StorageFunctionMetadata as StorageFunctionMetadataV3 } from '../v3/Storage';
 import { DoubleMapType, MapType, StorageFunctionMetadata, StorageFunctionType } from '../v4/Storage';
+import StorageHasher from '../../primitive/StorageHasher';
+import MetadataV4 from '../v4';
 
 /**
  * Convert V3 StorageFunction to V4 StorageFunction

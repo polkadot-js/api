@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { RpcMethodOpt, RpcSection } from './types';
-
 import createMethod from './create/method';
+import { RpcMethodOpt, RpcSection } from './types';
 
 // NOTE order here is the same as in Rust, alphabetical below
 

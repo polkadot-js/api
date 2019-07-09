@@ -5,8 +5,8 @@
 import { isNull, isU8a, isUndefined, u8aToHex } from '@polkadot/util';
 
 import Base from './Base';
-import { AnyJson, Codec, Constructor } from '../types';
 import Null from '../primitive/Null';
+import { AnyJson, Codec, Constructor } from '../types';
 
 /**
  * @name Option

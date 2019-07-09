@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { AnyU8a } from '../types';
-
-import Struct from '../codec/Struct';
+import Block, { BlockValue } from './Block';
 import Hash from '../primitive/Hash';
 import Justification from '../type/Justification';
-import Block, { BlockValue } from './Block';
+import Struct from '../codec/Struct';
+import { AnyU8a } from '../types';
 
 type SignedBlockValue = {
   block?: BlockValue,

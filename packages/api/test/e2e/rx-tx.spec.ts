@@ -2,11 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import testingPairs from '@polkadot/keyring/testingPairs';
+import { Index } from '@polkadot/types';
 import { Observable } from 'rxjs';
 import { first, switchMap } from 'rxjs/operators';
-
-import { Index } from '@polkadot/types';
-import testingPairs from '@polkadot/keyring/testingPairs';
 
 import Api from './../../src/rx';
 import { SubmittableResult } from './../../src';
