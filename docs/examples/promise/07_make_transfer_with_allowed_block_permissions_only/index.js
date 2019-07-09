@@ -22,11 +22,11 @@ async function main () {
   // get current block
   const signedBlock = await api.rpc.chain.getBlock();
 
-  // get current block height and height
+  // get current block height and hash
   const currentHeight = signedBlock.block.header.number;
   const blockHash = signedBlock.block.header.hash;
 
-  // construct an mortal era
+  // construct a mortal era
   const era = new ExtrinsicEra({ current: currentHeight, period: 10 });
 
   // Create an extrinsic, transferring 12345 units to Bob
