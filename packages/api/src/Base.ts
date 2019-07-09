@@ -554,13 +554,7 @@ export default abstract class ApiBase<ApiType> {
             : [arg.creator] as any
         );
 
-        return this._rpcCore.state
-          .subscribeStorage(mapped)
-          .pipe(map((results) => {
-            console.error('decorateMulti', JSON.stringify(results));
-
-            return results;
-          }));
+        return this._rpcCore.state.subscribeStorage(mapped);
       });
   }
 
