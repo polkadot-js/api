@@ -11,14 +11,19 @@
       "grouped-imports": true,
       "groups": [
         {
-          "name": "Absolute imports",
-          "match": "^[^.]",
+          "name": "Types imports",
+          "match": "type",
           "order": 10
         },
         {
-          "name": "Relative imports",
-          "match": "^.",
+          "name": "External imports",
+          "match": "^[^.]",
           "order": 20
+        },
+        {
+          "name": "@polkadot imports",
+          "match": "^@polkadot/",
+          "order": 30
         }
       ]
     }]
