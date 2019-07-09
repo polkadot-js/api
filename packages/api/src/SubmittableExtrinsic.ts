@@ -95,9 +95,9 @@ export default function createSubmittableExtrinsic<ApiType> (
   decorateMethod: ApiBase<ApiType>['decorateMethod'],
   extrinsic: Method | Uint8Array | string
 ): SubmittableExtrinsic<ApiType> {
-  const DynamicExtrinsic = getTypeRegistry().getOrThrow('Extrinsic') as any as typeof Extrinsic;
+  const DynamicExtrinsic = getTypeRegistry().getOrThrow('Extrinsic') as typeof Extrinsic;
 
-  class DynamicExtrinsicSubmittable<ApiType> extends DynamicExtrinsic {
+  return new class extends DynamicExtrinsic {
     private _api: ApiInterface$Rx;
     private _decorateMethod: ApiBase<ApiType>['decorateMethod'];
     private _noStatusCb: boolean;
@@ -179,7 +179,7 @@ export default function createSubmittableExtrinsic<ApiType> (
       return this._decorateMethod(isSubscription ? this.subscribeObservable.bind(this) : this.sendObservable.bind(this))(statusCb);
     }
 
-    sign (account: IKeyringPair, _options: Partial<SignatureOptions>): DynamicExtrinsicSubmittable<ApiType> {
+    sign (account: IKeyringPair, _options: Partial<SignatureOptions>): this {
       // HACK here we actually override nonce if it was specified (backwards compat for
       // the previous signature - don't let userspace break, but allow then time to upgrade)
       const options: Partial<SignatureOptions> = isBn(_options) || isNumber(_options)
@@ -235,7 +235,5 @@ export default function createSubmittableExtrinsic<ApiType> (
         ) as Observable<Codec>)
       )(statusCb);
     }
-  }
-
-  return new DynamicExtrinsicSubmittable(extrinsic, { type, api, decorateMethod }) as SubmittableExtrinsic<ApiType>;
+  }(extrinsic, { type, api, decorateMethod }) as SubmittableExtrinsic<ApiType>;
 }
