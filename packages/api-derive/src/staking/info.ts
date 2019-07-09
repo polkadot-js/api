@@ -7,7 +7,7 @@ import { DerivedStaking, DerivedUnlocking } from '../types';
 
 import BN from 'bn.js';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { AccountId, BlockNumber, Exposure, Keys, Option, RewardDestination, SessionKey, SessionKeys, StakingLedger, ValidatorPrefs, UnlockChunk } from '@polkadot/types';
 
 import { isUndefined } from '@polkadot/util';
@@ -16,7 +16,7 @@ import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { drr } from '../util/drr';
 
-function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
+function calculateUnlocking(stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
@@ -38,7 +38,7 @@ function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength
   return results.length ? results : undefined;
 }
 
-function groupByEra (list: UnlockChunk[]) {
+function groupByEra(list: UnlockChunk[]) {
   return list.reduce((map, { era, value }) => {
     const key = era.toString();
 
@@ -52,7 +52,7 @@ function groupByEra (list: UnlockChunk[]) {
   }, {} as { [index: string]: BN });
 }
 
-function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+function redeemableSum(stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
   if (isUndefined(stakingLedger)) {
     return new BN(0);
   }
@@ -64,14 +64,14 @@ function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN,
     }, new BN(0));
 }
 
-function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
+function remainingBlocks(era: BN, eraLength: BN, bestNumber: BlockNumber) {
   const remaining = eraLength.mul(era).sub(bestNumber);
 
   return remaining.lten(0) ? new BN(0) : remaining;
 }
 
-function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | undefined {
-  const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor.unwrapOr(null);
+function nextSessionId(_nextKeyFor: Option<Keys | SessionKey> | null): AccountId | undefined {
+  const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor ? _nextKeyFor.unwrapOr(null) : null;
 
   // For substrate 2.x, nextKeyFor is SessionKeys/Keys, for 1.x it is SessionKey
   return nextKeyFor
@@ -79,32 +79,27 @@ function nextSessionId (_nextKeyFor: Option<Keys | SessionKey>): AccountId | und
     : undefined;
 }
 
-function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function withStashController(api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
-  combineLatest([
-    eraLength(api)(),
-    bestNumber(api)(),
-    api.queryMulti([
-      [api.query.session.nextKeyFor, controllerId],
-      [api.query.staking.ledger, controllerId],
-      [api.query.staking.nominators, stashId],
-      [api.query.staking.payee, stashId],
-      [api.query.staking.stakers, stashId],
-      [api.query.staking.validators, stashId]
-    ]).pipe(
-      tap((result) => {
-        console.error('api.queryMulti (inside derive)', JSON.stringify(result));
-      })
-    )
-  ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
+    combineLatest([
+      eraLength(api)(),
+      bestNumber(api)(),
+      api.queryMulti([
+        [api.query.session.nextKeyFor, controllerId],
+        [api.query.staking.ledger, controllerId],
+        [api.query.staking.nominators, stashId],
+        [api.query.staking.payee, stashId],
+        [api.query.staking.stakers, stashId],
+        [api.query.staking.validators, stashId]
+      ])
+    ]) as any as Observable<[BN, BlockNumber, [Option<Keys | SessionKey>, Option<StakingLedger>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]]>
   ).pipe(
-    tap((result) => {
-      console.error('withStashController', JSON.stringify(result));
-    }),
-    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, [nominators], rewardDestination, stakers, [validatorPrefs]]]) => {
-      const stakingLedger = _stakingLedger.unwrapOr(null) || undefined;
+    map(([eraLength, bestNumber, [nextKeyFor, _stakingLedger, _nominators, rewardDestination, stakers, _validatorPrefs]]) => {
+      const nominators = _nominators ? _nominators[0] : undefined;
+      const validatorPrefs = _validatorPrefs ? _validatorPrefs[0] : undefined;
+      const stakingLedger = _stakingLedger.unwrapOr(undefined) || undefined;
 
       return {
         accountId,
@@ -124,7 +119,7 @@ function withStashController (api: ApiInterface$Rx, accountId: AccountId, contro
   );
 }
 
-function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
+function withControllerLedger(api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
 
@@ -137,9 +132,6 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
       [api.query.staking.validators, stashId]
     ]) as any as Observable<[Option<Keys | SessionKey>, [Array<AccountId>], RewardDestination, Exposure, [ValidatorPrefs]]>
   ).pipe(
-    tap((result) => {
-      console.error('withControllerLedger', JSON.stringify(result));
-    }),
     map(([nextKeyFor, [nominators], rewardDestination, stakers, [validatorPrefs]]) => ({
       accountId,
       controllerId,
@@ -158,7 +150,7 @@ function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, staki
 /**
  * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
-export function info (api: ApiInterface$Rx) {
+export function info(api: ApiInterface$Rx) {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = new AccountId(_accountId);
 

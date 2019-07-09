@@ -22,7 +22,7 @@ import { Storage } from '@polkadot/api-metadata/storage/types';
 import storageFromMeta from '@polkadot/api-metadata/storage/fromMetadata';
 import RpcCore from '@polkadot/rpc-core';
 import { WsProvider } from '@polkadot/rpc-provider';
-import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null, VectorAny } from '@polkadot/types';
+import { Event, getTypeRegistry, Hash, Metadata, Method, RuntimeVersion, Null } from '@polkadot/types';
 import Linkage, { LinkageResult } from '@polkadot/types/codec/Linkage';
 import { MethodFunction, ModulesWithMethods } from '@polkadot/types/primitive/Method';
 import { StorageEntry } from '@polkadot/types/primitive/StorageKey';
@@ -559,7 +559,7 @@ export default abstract class ApiBase<ApiType> {
           .pipe(map((results) => {
             console.error('decorateMulti', JSON.stringify(results));
 
-            return new VectorAny(...results);
+            return results;
           }));
       });
   }
@@ -651,7 +651,6 @@ export default abstract class ApiBase<ApiType> {
       (args: Array<CodecArg[] | CodecArg>) =>
         this._rpcCore.state
           .subscribeStorage(args.map((arg: CodecArg[] | CodecArg) => [creator, arg]))
-          .pipe(map((results) => new VectorAny(...results)))
     );
 
     decorated.size = decorateMethod(
