@@ -32,6 +32,10 @@ When reviewing a pull request, the end-goal is to suggest useful changes to the 
 - There exists a somewhat cleaner/better/faster way of accomplishing the same feature/fix.
 - It does not fit well with some other contributors' longer-term vision for the project.
 
+## Styleguide
+
+To ensure consistency across the codebase, we follow a set of style guidelines. These can be applied automatically to your changes by running `yarn lint`.
+
 ## Releases
 
 Declaring formal releases remains the prerogative of the project maintainer(s).
