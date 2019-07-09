@@ -4,7 +4,7 @@
 
 import { ProviderInterface } from '@polkadot/rpc-provider/types';
 import { Storage } from '@polkadot/storage/types';
-import { AnyFunction, Codec, CodecArg, RegistryTypes } from '@polkadot/types/types';
+import {AnyFunction, Codec, CodecArg, Constructor, RegistryTypes} from '@polkadot/types/types';
 import {
   ApiInterface$Rx, ApiInterface$Events, ApiOptions, ApiTypes, DecorateMethodOptions,
   DecoratedRpc, DecoratedRpc$Section,
@@ -537,14 +537,15 @@ export default abstract class ApiBase<ApiType> {
   }
 
   private decorateExtrinsics<ApiType> (extrinsics: ModulesWithMethods, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsics<ApiType> {
+    const Submittable = createSubmittable<ApiType>(this.type, this._rx as ApiInterface$Rx, decorateMethod);
     const creator = (value: Uint8Array | string): SubmittableExtrinsic<ApiType> =>
-      new (createSubmittable<ApiType>(this.type, this._rx as ApiInterface$Rx, decorateMethod))(value);
+      new Submittable(value);
 
     return Object.keys(extrinsics).reduce((result, sectionName) => {
       const section = extrinsics[sectionName];
 
       result[sectionName] = Object.keys(section).reduce((result, methodName) => {
-        result[methodName] = this.decorateExtrinsicEntry(section[methodName], decorateMethod);
+        result[methodName] = this.decorateExtrinsicEntry(Submittable, section[methodName], decorateMethod);
 
         return result;
       }, {} as SubmittableModuleExtrinsics<ApiType>);
@@ -553,10 +554,10 @@ export default abstract class ApiBase<ApiType> {
     }, creator as SubmittableExtrinsics<ApiType>);
   }
 
-  private decorateExtrinsicEntry<ApiType> (method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
+  private decorateExtrinsicEntry<ApiType> (Submittable: Constructor<SubmittableExtrinsic<ApiType>>, method: MethodFunction, decorateMethod: ApiBase<ApiType>['decorateMethod']): SubmittableExtrinsicFunction<ApiType> {
     const decorated =
       (...params: Array<CodecArg>): SubmittableExtrinsic<ApiType> =>
-        new (createSubmittable(this.type, this._rx as ApiInterface$Rx, decorateMethod))(method(...params));
+        new Submittable(method(...params));
 
     return this.decorateFunctionMeta(method, decorated as any) as SubmittableExtrinsicFunction<ApiType>;
   }
