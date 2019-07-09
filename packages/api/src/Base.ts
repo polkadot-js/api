@@ -247,7 +247,7 @@ export default abstract class ApiBase<ApiType> {
    * <BR>
    *
    * ```javascript
-   * api.queryMulti(
+   * const unsub = await api.queryMulti(
    *   [
    *     // you can include the storage without any parameters
    *     api.query.balances.totalIssuance,
@@ -256,6 +256,8 @@ export default abstract class ApiBase<ApiType> {
    *   ],
    *   ([existential, balance]) => {
    *     console.log(`You have ${balance.sub(existential)} more than the existential deposit`);
+   *
+   *     unsub();
    *   }
    * );
    * ```

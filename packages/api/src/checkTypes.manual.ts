@@ -19,6 +19,16 @@ export default async function test () {
   const intentions = await api.query.staking.intentions();
   console.log('intentions:', intentions);
 
+  // check multi for unsub
+  const multiUnsub = await api.queryMulti([
+    [api.query.system.accountNonce, keyring.eve.address],
+    [api.query.system.accountNonce, keyring.bob.address]
+  ], (balances) => {
+    console.log('balances', balances);
+
+    multiUnsub();
+  });
+
   await api.query.staking.intentions((intentions) => {
     console.log('intentions:', intentions);
   });
