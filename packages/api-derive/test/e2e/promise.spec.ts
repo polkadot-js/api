@@ -33,7 +33,7 @@ describe('Api-Promise derive e2e', () => {
   describe('Tests for balances derive methods', () => {
     it('retrieves the fees (api.queryMulti)', (done) => {
       return api.derive.balances.fees((fees: DerivedFees) => {
-        // console.error('fees', JSON.stringify(fees));
+        console.error('fees', JSON.stringify(fees));
 
         done();
       });
@@ -41,7 +41,7 @@ describe('Api-Promise derive e2e', () => {
 
     it('retrieves the balances', (done) => {
       return api.derive.balances.all('5FLSigC9HGRKVhB9FiEo4Y3koPsNmBmLJbpXg2mp1hXcS59Y', (balance: DerivedBalances) => {
-        // console.error(JSON.stringify(balance));
+        console.error(JSON.stringify(balance));
 
         if (balance.freeBalance.gtn(1)) {
           done();
@@ -51,7 +51,7 @@ describe('Api-Promise derive e2e', () => {
 
     it('retrieves balances for a problematic account', (done) => {
       return api.derive.balances.all('5F7BJL6Z4m8RLtK7nXEqqpEqhBbd535Z3CZeYF6ccvaQAY6N', (balance: DerivedBalances) => {
-        // console.error(JSON.stringify(balance));
+        console.error(JSON.stringify(balance));
 
         if (balance.availableBalance.eqn(0)) {
           done();
@@ -72,7 +72,7 @@ describe('Api-Promise derive e2e', () => {
 
     it('subscribes to newHead, retrieving the actual validator', (done) => {
       return api.derive.chain.subscribeNewHead(({ author }: HeaderExtended) => {
-        // console.log('author', author && author.toString());
+        console.log('author', author && author.toString());
 
         if (author) {
           done();
@@ -84,7 +84,7 @@ describe('Api-Promise derive e2e', () => {
   describe('Tests for contracts derive methods', () => {
     it('retrieves the contract fees', (done) => {
       return api.derive.contracts.fees((fees: DerivedFees) => {
-        // console.log('fees contracts', JSON.stringify(fees));
+        console.log('fees contracts', JSON.stringify(fees));
 
         done();
       });
@@ -100,7 +100,7 @@ describe('Api-Promise derive e2e', () => {
       let count = 0;
 
       return api.derive.session.info((info: DerivedSessionInfo) => {
-        // console.error(JSON.stringify(info));
+        console.error(JSON.stringify(info));
 
         // 5 blocks only, then go our merry way
         if (++count === 5) {
@@ -115,7 +115,7 @@ describe('Api-Promise derive e2e', () => {
       const accountId = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 
       return api.derive.staking.info(accountId, (info: DerivedStaking) => {
-        // console.error(JSON.stringify(info));
+        console.error(JSON.stringify(info));
 
         expect(info.accountId.eq(accountId)).toBe(true);
         expect(info.controllerId!.eq(accountId)).toBe(true);
@@ -130,7 +130,7 @@ describe('Api-Promise derive e2e', () => {
       const accountId = '5GNJqTPyNqANBkUVMN1LPPrxXnFouWXoe2wNSmmEoLctxiZY';
 
       return api.derive.staking.info(accountId, (info: DerivedStaking) => {
-        // console.error(JSON.stringify(info));
+        console.error(JSON.stringify(info));
 
         if (!info.stashId || !info.controllerId || !info.stakingLedger) {
           return done.fail(new Error('At leat one of info.stashId, info.controllerId or info.stakingLedger is undefined.'));
