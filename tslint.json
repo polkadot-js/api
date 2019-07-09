@@ -16,14 +16,14 @@
           "order": 10
         },
         {
-          "name": "External imports",
-          "match": "^[^.]",
-          "order": 20
-        },
-        {
           "name": "@polkadot imports",
           "match": "^@polkadot/",
           "order": 30
+        },
+        {
+          "name": "External imports",
+          "match": "^[^.]",
+          "order": 20
         }
       ]
     }]
