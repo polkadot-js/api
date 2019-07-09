@@ -168,6 +168,8 @@ describe.skip('derive e2e', () => {
       });
     });
 
+    // FIXME This test doesn't pass
+    // https://github.com/polkadot-js/api/issues/1060
     it('staking.info updates itself after changing reward destination', async (done) => {
       const stashId = testingPairs().alice_stash.address;
 
