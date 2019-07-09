@@ -752,7 +752,32 @@
               },
               "fallback": "0x00",
               "documentation": [
-                " The next key for a given validator."
+                " The next key to be used for a given validator. At the end of the session, they",
+                " will be moved into the `QueuedKeys` and so changes here will not take effect for",
+                " at least one whole session."
+              ]
+            },
+            {
+              "name": "QueuedChanged",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "bool"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " Queued keys changed."
+              ]
+            },
+            {
+              "name": "QueuedKeys",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<(AccountId,Keys)>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The queued keys for the next session. When the next session begins, these keys",
+                " will be used to determine the validator's session keys."
               ]
             },
             {
@@ -2525,6 +2550,97 @@
               "name": "VotingBond",
               "type": "BalanceOf",
               "value": "0x00407a10f35a00000000000000000000",
+              "documentation": [
+                " How much should be locked up in order to be able to submit votes."
+              ]
+            },
+            {
+              "name": "VotingFee",
+              "type": "BalanceOf",
+              "value": "0x0080f420e6b500000000000000000000",
+              "documentation": [
+                " The amount of fee paid upon each vote submission, unless if they submit a",
+                " _hole_ index and replace it."
+              ]
+            },
+            {
+              "name": "PresentSlashPerVoter",
+              "type": "BalanceOf",
+              "value": "0x0010a5d4e80000000000000000000000",
+              "documentation": [
+                " The punishment, per voter, if you provide an invalid presentation. A",
+                " reasonable default value is 1."
+              ]
+            },
+            {
+              "name": "CarryCount",
+              "type": "u32",
+              "value": "0x06000000",
+              "documentation": [
+                " How many runners-up should have their approvals persist until the next",
+                " vote. A reasonable default value is 2."
+              ]
+            },
+            {
+              "name": "InactiveGracePeriod",
+              "type": "VoteIndex",
+              "value": "0x01000000",
+              "documentation": [
+                " How many vote indices need to go by after a target voter's last vote before",
+                " they can be reaped if their approvals are moot. A reasonable default value",
+                " is 1."
+              ]
+            },
+            {
+              "name": "CouncilVotingPeriod",
+              "type": "BlockNumber",
+              "value": "0x8070000000000000",
+              "documentation": [
+                " How often (in blocks) to check for new votes. A reasonable default value",
+                " is 1000."
+              ]
+            },
+            {
+              "name": "DecayRatio",
+              "type": "u32",
+              "value": "0x00000000",
+              "documentation": [
+                " Decay factor of weight when being accumulated. It should typically be set to",
+                " __at least__ `council_size -1` to keep the council secure.",
+                " When set to `N`, it indicates `(1/N)^t` of staked is decayed at weight",
+                " increment step `t`. 0 will result in no weight being added at all (normal",
+                " approval voting). A reasonable default value is 24."
+              ]
+            }
+          ]
+        },
+        {
+          "name": "council_motions",
+          "prefix": "CouncilMotions",
+          "storage": [
+            {
+              "name": "Proposals",
+              "modifier": "Default",
+              "type": {
+                "PlainType": "Vec<Hash>"
+              },
+              "fallback": "0x00",
+              "documentation": [
+                " The hashes of the active proposals."
+              ]
+            },
+            {
+              "name": "ProposalOf",
+              "modifier": "Optional",
+              "type": {
+                "MapType": {
+                  "hasher": "Blake2_256",
+                  "key": "Hash",
+                  "value": "Proposal",
+                  "isLinked": false
+                }
+              },
+              "fallback": "0x00",
               "documentation": [
                 " How much should be locked up in order to be able to submit votes."
               ]

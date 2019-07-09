@@ -2,10 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BlockNumber } from '.';
-import { Tuple, Option } from '../codec';
+import BlockNumber from './BlockNumber';
 import Enum from '../codec/Enum';
-import { Hash, AccountId } from '../primitive';
+import Tuple from '../codec/Tuple';
+import Option from '../codec/Option';
+import AccountId from '../primitive/AccountId';
+import Hash from '../primitive/Hash';
 
 /**
  * @name InclusionHeight
