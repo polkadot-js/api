@@ -11,7 +11,7 @@ import { combineLatest, from, Observable, Observer, of, throwError } from 'rxjs'
 import { catchError, map, publishReplay, refCount, switchMap } from 'rxjs/operators';
 import interfaces from '@polkadot/jsonrpc';
 import { Codec } from '@polkadot/types/types';
-import { Option, StorageChangeSet, StorageKey, Vector, createClass, createType } from '@polkadot/types';
+import { Option, StorageChangeSet, StorageData, StorageKey, Vector, createClass, createType } from '@polkadot/types';
 import { ExtError, assert, isFunction, isNull, logger } from '@polkadot/util';
 
 const l = logger('rpc-core');
@@ -49,6 +49,7 @@ const EMPTY_META = {
  * ```
  */
 export default class Rpc implements RpcInterface {
+  private _storageCache = new Map<string, Option<StorageData> | null>();
   readonly provider: ProviderInterface;
   readonly author: RpcInterface$Section;
   readonly chain: RpcInterface$Section;
@@ -299,13 +300,19 @@ export default class Rpc implements RpcInterface {
   private formatStorageSet (key: StorageKey, base: StorageChangeSet): Codec | undefined {
     // Fallback to Data (i.e. just the encoding) if we don't have a specific type
     const type = key.outputType || 'Data';
+    const hexKey = key.toHex();
+    const meta = key.meta || EMPTY_META;
 
     // see if we have a result value for this specific key
-    const hexKey = key.toHex();
     const { value } = base.changes.find((item) =>
-      item.key.toHex() === hexKey
-    ) || { value: null };
-    const meta = key.meta || EMPTY_META;
+      item.key.toHex() === hexKey && item.value.isSome
+    ) || { value: this._storageCache.get(hexKey) || null };
+
+    // store the retrieved result - the only issue with this cache is that there is no
+    // clearning of it, so very long running processes (not just a couple of hours, longer)
+    // will increase memory beyond what is allowed. (LRU is a possibility, however have
+    // not had much luck with proper LRUs elsewhere)
+    this._storageCache.set(hexKey, value);
 
     if (!value) {
       return;
