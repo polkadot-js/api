@@ -32,7 +32,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe('Promise e2e transactions', () => {
+describe.skip('Promise e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -79,7 +79,7 @@ describe('Promise e2e transactions', () => {
       .send(logEvents(done));
   });
 
-  it.only('makes a transfer (signAndSend)', async (done) => {
+  it('makes a transfer (signAndSend, immortal)', async (done) => {
     return api.tx.balances
       .transfer(keyring.eve.address, 12345)
       .signAndSend(keyring.charlie, { era: 0 }, logEvents(done));
@@ -148,13 +148,13 @@ describe('Promise e2e transactions', () => {
     function doOne (cb: any) {
       return api.tx.balances
         .transfer(pair.address, 1234567)
-        .signAndSend(keyring.dave, { era: 0 }, logEvents(cb));
+        .signAndSend(keyring.dave, logEvents(cb));
     }
 
     function doTwo (cb: any) {
       return api.tx.balances
         .transfer(keyring.alice.address, 1111111)
-        .signAndSend(pair, { era: 0 }, logEvents(cb));
+        .signAndSend(pair, logEvents(cb));
     }
 
     // return doTwo(done);
@@ -164,21 +164,14 @@ describe('Promise e2e transactions', () => {
   });
 
   describe('eras', () => {
-    it('makes a transfer', async (done) => {
-      const nonce = await api.query.system.accountNonce(keyring.dave.address) as Index;
+    it('makes a transfer (specified era)', async (done) => {
       const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
       const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 10 });
-      // const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
-      // const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-      // console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
-      // const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
-      // console.error('Initial hash:', signedBlock.block.header.hash.toHex(), 'birth hash:', eraHash.toHex(),eraBirth);
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
-      const hash = await ex.signAndSend(keyring.dave, {
+      const hash = await ex.signAndSend(keyring.charlie, {
         blockHash: signedBlock.block.header.hash,
-        era: exERA,
-        nonce
+        era: exERA
       });
 
       expect(hash.toHex()).toHaveLength(66);
@@ -187,20 +180,18 @@ describe('Promise e2e transactions', () => {
 
     it('makes a transfer with invalid time', async (done) => {
       const nonce = await api.query.system.accountNonce(keyring.alice.address) as Index;
-      const signedBlock = await api.rpc.chain.getBlock();
-      const currentHeight = (signedBlock as SignedBlock).block.header.number;
+      const signedBlock = await api.rpc.chain.getBlock() as SignedBlock;
+      const currentHeight = signedBlock.block.header.number;
       const exERA = new ExtrinsicEra({ current: currentHeight, period: 4 });
-      const eraBirth = exERA.asMortalEra.birth(currentHeight.toNumber());
       const eraDeath = exERA.asMortalEra.death(currentHeight.toNumber());
-      console.log('STARTED AT :' + eraBirth + ' EXPIRED AT :' + eraDeath);
-      const eraHash = await api.rpc.chain.getBlockHash(eraBirth);
+      const blockHash = signedBlock.block.header.hash;
       const ex = api.tx.balances.transfer(keyring.eve.address, 12345);
 
       return (
         api.rpc.chain.subscribeNewHead(async (header: Header) => {
           if (header.blockNumber.toNumber() === eraDeath - 1) {
             try {
-              await ex.signAndSend(keyring.alice, { blockHash: eraHash, era: exERA, nonce } as any);
+              await ex.signAndSend(keyring.alice, { blockHash, era: exERA, nonce } as any);
             } catch (error) {
               expect(error.message).toMatch(/1010: Invalid Transaction \(0\)/);
               done();
@@ -210,10 +201,10 @@ describe('Promise e2e transactions', () => {
       );
     });
 
-    it('makes a transfer with custom numeric', async (done) => {
+    it('makes a transfer with custom numeric era', async (done) => {
       const hash = await api.tx.balances
         .transfer(keyring.eve.address, 12345)
-        .signAndSend(keyring.alice, { era: 2 });
+        .signAndSend(keyring.charlie, { era: 2 });
 
       expect(hash.toHex()).toHaveLength(66);
       done();

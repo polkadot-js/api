@@ -160,21 +160,18 @@ export default function createSubmittableExtrinsic<ApiType> (
   }
 
   function expandOptions (options: Partial<SignerOptions>): SignatureOptions {
-    const _options = {
+    return options = {
       blockHash: api.genesisHash,
       version: api.runtimeVersion,
       ...options
     } as SignatureOptions;
-
-    console.error(JSON.stringify(_options));
-
-    return _options;
   }
 
   function setupEraOptions (header: Header | null, options: Partial<SignerOptions>): Partial<SignatureOptions> {
     if (!header) {
       if (isNumber(options.era)) {
         // since we have no header, it is immortal, remove any option overrides
+        // so we only supply the genesisHash and no era to the construction
         delete options.era;
         delete options.blockHash;
       }

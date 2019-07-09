@@ -165,6 +165,13 @@ export class MortalEra extends Tuple {
   }
 
   /**
+   * @description Encoded length for mortals occupy 2 bytes, different from the actual Tuple since it is encoded. This is a shortcut fro `toU8a().length`
+   */
+  get encodedLength (): number {
+    return 2;
+  }
+
+  /**
    * @description The period of this Mortal wraps as a [[U64]]
    */
   get period (): U64 {
