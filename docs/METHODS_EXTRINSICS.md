@@ -1,6 +1,8 @@
 ## Extrinsics
 
 _The following sections contain Extrinsics methods are part of the default Substrate runtime._
+- **[authorship](#authorship)**
+
 - **[balances](#balances)**
 
 - **[contract](#contract)**
@@ -27,6 +29,14 @@ _The following sections contain Extrinsics methods are part of the default Subst
 
 - **[treasury](#treasury)**
 
+
+___
+
+
+### authorship
+
+▸ **setUncles**(new_uncles: `Vec<Header>`)
+- **summary**:   Provide a set of uncles.
 
 ___
 
@@ -279,14 +289,8 @@ ___
 ▸ **approveProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**:   Approve a proposal. At a later time, the proposal will be allocated to the beneficiary  and the original deposit will be returned.   # <weight>  - O(1).  - Limited storage reads.  - One DB change.  # </weight>
 
-▸ **configure**(proposal_bond: `Compact<Permill>`, proposal_bond_minimum: `Compact<BalanceOf>`, spend_period: `Compact<BlockNumber>`, burn: `Compact<Permill>`)
-- **summary**:   (Re-)configure this module.
-
 ▸ **proposeSpend**(value: `Compact<BalanceOf>`, beneficiary: `Address`)
 - **summary**:   Put forward a suggestion for spending. A deposit proportional to the value  is reserved and slashed if the proposal is rejected. It is returned once the  proposal is awarded.   # <weight>  - O(1).  - Limited storage reads.  - One DB change, one extra DB entry.  # </weight>
 
 ▸ **rejectProposal**(proposal_id: `Compact<ProposalIndex>`)
 - **summary**:   Reject a proposed spend. The original deposit will be slashed.   # <weight>  - O(1).  - Limited storage reads.  - One DB clear.  # </weight>
-
-▸ **setPot**(new_pot: `Compact<BalanceOf>`)
-- **summary**:   Set the balance of funds available to spend.
