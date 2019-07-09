@@ -29,8 +29,6 @@ export default async function test () {
     multiUnsub();
   });
 
-  multiUnsub();
-
   await api.query.staking.intentions((intentions) => {
     console.log('intentions:', intentions);
   });
