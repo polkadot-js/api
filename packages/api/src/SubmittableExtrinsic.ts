@@ -191,16 +191,16 @@ export default function createSubmittableExtrinsic<ApiType> (
       return this;
     }
 
-    signAndSend(account: IKeyringPair | string | AccountId | Address, options?: Partial<SignatureOptions>): SubmittableResultResult<ApiType>;
-    signAndSend(account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
-    signAndSend(account: IKeyringPair | string | AccountId | Address, options: Partial<SignatureOptions>, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
-    signAndSend (account: IKeyringPair | string | AccountId | Address, _options?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType>{
+    signAndSend (account: IKeyringPair | string | AccountId | Address, options?: Partial<SignatureOptions>): SubmittableResultResult<ApiType>;
+    signAndSend (account: IKeyringPair | string | AccountId | Address, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
+    signAndSend (account: IKeyringPair | string | AccountId | Address, options: Partial<SignatureOptions>, statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
+    signAndSend (account: IKeyringPair | string | AccountId | Address, _optionsOrStatus?: Partial<SignatureOptions> | Callback<ISubmittableResult>, statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       let options: Partial<SignatureOptions> = {};
 
-      if (isFunction(_options)) {
-        statusCb = _options;
+      if (isFunction(_optionsOrStatus)) {
+        statusCb = _optionsOrStatus;
       } else {
-        options = _options || {};
+        options = _optionsOrStatus || {};
       }
 
       const isSubscription = this._noStatusCb || statusCb;

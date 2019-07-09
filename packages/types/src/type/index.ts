@@ -43,7 +43,7 @@ export { default as LeasePeriod, LeasePeriodOf } from './LeasePeriod';
 export { default as LockIdentifier } from './LockIdentifier';
 export { default as LockPeriods } from './LockPeriods';
 // NOTE Nonce is renamed to Index
-export { default as Index } from './Nonce';
+export { default as Index, default as Nonce } from './Nonce';
 export { default as IndexCompact } from './NonceCompact';
 export { default as Justification } from './Justification';
 export { default as MemberCount } from './MemberCount';
@@ -73,6 +73,7 @@ export { default as StakingLedger } from './StakingLedger';
 export { default as StoredPendingChange } from './StoredPendingChange';
 export { default as SubId } from './SubId';
 export { default as TreasuryProposal } from './TreasuryProposal';
+export { default as UncleEntryItem } from './UncleEntryItem';
 export { default as UnlockChunk } from './UnlockChunk';
 export { default as UpwardMessage, ParachainDispatchOrigin } from './UpwardMessage';
 export { default as ValidatorPrefs } from './ValidatorPrefs';
