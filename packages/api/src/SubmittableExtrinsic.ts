@@ -174,6 +174,8 @@ export default function createSubmittableExtrinsic<ApiType> (
       } as SignatureOptions;
     }
 
+    send (): SubmittableResultResult<ApiType>;
+    send (statusCb: Callback<ISubmittableResult>): SubmittableResultSubscription<ApiType>;
     send (statusCb?: Callback<ISubmittableResult>): SubmittableResultResult<ApiType> | SubmittableResultSubscription<ApiType> {
       const isSubscription = this._noStatusCb || statusCb;
       return this._decorateMethod(isSubscription ? this.subscribeObservable.bind(this) : this.sendObservable.bind(this))(statusCb);
