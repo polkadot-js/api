@@ -16,7 +16,7 @@ import { bestNumber } from '../chain/bestNumber';
 import { eraLength } from '../session/eraLength';
 import { drr } from '../util/drr';
 
-function calculateUnlocking(stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
+function calculateUnlocking (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber): DerivedUnlocking | undefined {
   if (isUndefined(stakingLedger)) {
     return undefined;
   }
@@ -38,7 +38,7 @@ function calculateUnlocking(stakingLedger: StakingLedger | undefined, eraLength:
   return results.length ? results : undefined;
 }
 
-function groupByEra(list: UnlockChunk[]) {
+function groupByEra (list: UnlockChunk[]) {
   return list.reduce((map, { era, value }) => {
     const key = era.toString();
 
@@ -52,7 +52,7 @@ function groupByEra(list: UnlockChunk[]) {
   }, {} as { [index: string]: BN });
 }
 
-function redeemableSum(stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
+function redeemableSum (stakingLedger: StakingLedger | undefined, eraLength: BN, bestNumber: BlockNumber) {
   if (isUndefined(stakingLedger)) {
     return new BN(0);
   }
@@ -64,13 +64,13 @@ function redeemableSum(stakingLedger: StakingLedger | undefined, eraLength: BN, 
     }, new BN(0));
 }
 
-function remainingBlocks(era: BN, eraLength: BN, bestNumber: BlockNumber) {
+function remainingBlocks (era: BN, eraLength: BN, bestNumber: BlockNumber) {
   const remaining = eraLength.mul(era).sub(bestNumber);
 
   return remaining.lten(0) ? new BN(0) : remaining;
 }
 
-function nextSessionId(_nextKeyFor: Option<Keys | SessionKey> | null): AccountId | undefined {
+function nextSessionId (_nextKeyFor: Option<Keys | SessionKey> | null): AccountId | undefined {
   const nextKeyFor: SessionKeys | SessionKey | null = _nextKeyFor ? _nextKeyFor.unwrapOr(null) : null;
 
   // For substrate 2.x, nextKeyFor is SessionKeys/Keys, for 1.x it is SessionKey
@@ -79,7 +79,7 @@ function nextSessionId(_nextKeyFor: Option<Keys | SessionKey> | null): AccountId
     : undefined;
 }
 
-function withStashController(api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
+function withStashController (api: ApiInterface$Rx, accountId: AccountId, controllerId: AccountId): Observable<DerivedStaking> {
   const stashId = accountId;
 
   return (
@@ -119,7 +119,7 @@ function withStashController(api: ApiInterface$Rx, accountId: AccountId, control
   );
 }
 
-function withControllerLedger(api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
+function withControllerLedger (api: ApiInterface$Rx, accountId: AccountId, stakingLedger: StakingLedger): Observable<DerivedStaking> {
   const controllerId = accountId;
   const stashId = stakingLedger.stash;
 
@@ -150,7 +150,7 @@ function withControllerLedger(api: ApiInterface$Rx, accountId: AccountId, stakin
 /**
  * @description From either a stash or controller id, retrieve the controllerId, stashId, nextSessionId, stakingLedger and preferences
  */
-export function info(api: ApiInterface$Rx) {
+export function info (api: ApiInterface$Rx) {
   return (_accountId: Uint8Array | string): Observable<DerivedStaking> => {
     const accountId = new AccountId(_accountId);
 
