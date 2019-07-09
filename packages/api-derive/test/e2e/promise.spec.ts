@@ -98,10 +98,8 @@ describe('Api-Promise derive e2e', () => {
   describe('Tests for session derive methods', () => {
     it('retrieves all session info', (done) => {
       let count = 0;
-
       return api.derive.session.info((info: DerivedSessionInfo) => {
         console.error(JSON.stringify(info));
-
         // 5 blocks only, then go our merry way
         if (++count === 5) {
           done();

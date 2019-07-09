@@ -10,18 +10,36 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-import {
-  v6callBaseFee,
-  v6contractFee,
-  v6createBaseFee,
-  v6contractCreationFee,
-  v6rentByteFee,
-  v6rentDepositOffset,
-  v6tombstoneDeposit,
-  v6contractTransactionBaseFee,
-  v6contractTransactionByteFee,
-  v6contractTransferFee
-} from '../util/v6consts';
+
+// get values from api.const for substrate versions post spec_version: 101
+// https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
+const contractFees = (api) => {
+  const {
+    callBaseFee,
+    contractFee,
+    createBaseFee,
+    creationFee,
+    rentByteFee,
+    rentDepositOffset,
+    tombstoneDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  } = api.consts.contracts;
+
+  return [
+    callBaseFee,
+    contractFee,
+    createBaseFee,
+    creationFee,
+    rentByteFee,
+    rentDepositOffset,
+    tombstoneDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  ];
+};
 
 /**
  * @name fees
@@ -40,13 +58,13 @@ export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedContractFees> => {
     const queryBase = api.query.contracts || api.query.contract;
 
-    if (queryBase.createBaseFee && !queryBase.rentByteFee) {
+    if (api.query.contract && !api.query.contract.rentByteFee) {
       // Only for 1.0 support. rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
       // @TODO remove this once 1.0 support is dropped
       return (combineLatest([
-        of(v6rentByteFee),
-        of(v6rentDepositOffset),
-        of(v6tombstoneDeposit),
+        of(new BN(0)),
+        of(new BN(0)),
+        of(new BN(0)),
         api.queryMulti([
           queryBase.callBaseFee,
           queryBase.contractFee,
@@ -85,8 +103,11 @@ export function fees (api: ApiInterface$Rx) {
       );
     }
 
-    return (queryBase.contractFee
-      ? api.queryMulti([
+    return (api.consts.contracts
+      // Substrate versions supporting parameter_types
+      ? of(contractFees(api)) as any as Observable<Array<BN>>
+      // Support versions pre spec_version 101 and get values from storage
+      : api.queryMulti([
         queryBase.callBaseFee,
         queryBase.contractFee,
         queryBase.createBaseFee,
@@ -97,20 +118,7 @@ export function fees (api: ApiInterface$Rx) {
         queryBase.transactionBaseFee,
         queryBase.transactionByteFee,
         queryBase.transferFee
-      ]) as any as Observable<Array<BN>>
-    : of([
-      // @TODO replace this with calls to `api.consts` once implemented
-      v6callBaseFee,
-      v6contractFee,
-      v6createBaseFee,
-      v6contractCreationFee,
-      v6rentByteFee,
-      v6rentDepositOffset,
-      v6tombstoneDeposit,
-      v6contractTransactionBaseFee,
-      v6contractTransactionByteFee,
-      v6contractTransferFee
-    ]) as any as Observable<Array<BN>>).pipe(
+      ]) as any as Observable<Array<BN>>).pipe(
       map(
         ([callBaseFee, contractFee, createBaseFee, creationFee, rentByteFee, rentDepositOffset, tombstoneDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
           callBaseFee,

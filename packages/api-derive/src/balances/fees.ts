@@ -11,7 +11,26 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-import { v6creationFee, v6existentialDeposit, v6transactionBaseFee, v6transactionByteFee, v6transferFee } from '../util/v6consts';
+
+// get values from api.const for substrate versions post spec_version: 101
+// https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
+const balanceFees = (api) => {
+  const {
+    creationFee,
+    existentialDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  } = api.consts.balances;
+
+  return [
+    creationFee,
+    existentialDeposit,
+    transactionBaseFee,
+    transactionByteFee,
+    transferFee
+  ];
+};
 
 /**
  * @name fees
@@ -28,22 +47,15 @@ import { v6creationFee, v6existentialDeposit, v6transactionBaseFee, v6transactio
  */
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
-    return (api.query.balances.transactionBaseFee
-      ? api.queryMulti([
+    return (api.consts.balances
+      ? of(balanceFees(api)) as any as Observable<[BN, BN, BN, BN, BN]>
+      : api.queryMulti([
         api.query.balances.creationFee,
         api.query.balances.existentialDeposit,
         api.query.balances.transactionBaseFee,
         api.query.balances.transactionByteFee,
         api.query.balances.transferFee
-      ]) as any as Observable<[BN, BN, BN, BN, BN]>
-    : of([
-      // @TODO replace this with calls to `api.consts` once implemented
-      v6creationFee,
-      v6existentialDeposit,
-      v6transactionBaseFee,
-      v6transactionByteFee,
-      v6transferFee
-    ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
+      ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
       map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
         creationFee,
         existentialDeposit,
