@@ -5,6 +5,22 @@
   },
   "rules": {
     "completed-docs": false,
-    "file-header": [true, "Copyright"]
+    "file-header": [true, "Copyright"],
+    "ordered-imports": [true, {
+      "module-source-path": "basename",
+      "grouped-imports": true,
+      "groups": [
+        {
+          "name": "Absolute imports",
+          "match": "^[^.]",
+          "order": 10
+        },
+        {
+          "name": "Relative imports",
+          "match": "^.",
+          "order": 20
+        }
+      ]
+    }]
   }
 }
