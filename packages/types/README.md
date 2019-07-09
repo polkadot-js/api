@@ -141,6 +141,7 @@ These custom types implement specific types that are found as part of the Substr
 | [[StakingLedger]] | The ledger of a (bonded) stash |
 | [[StoredPendingChange]] | Stored pending change for a Grandpa events |
 | [[TreasuryProposal]] | A Proposal made for Treasury |
+| [[UncleEntryItem]] | Information about an uncle to include |
 | [[UnlockChunk]] | Just a Balance/BlockNumber tuple to encode when a chunk of funds will be unlocked |
 | [[ValidatorPrefs]] | Validator preferences |
 | [[VestingSchedule]] | Struct to encode the vesting schedule of an individual account |
