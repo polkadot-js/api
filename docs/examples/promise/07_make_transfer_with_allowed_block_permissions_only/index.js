@@ -26,7 +26,7 @@ async function main () {
   const currentHeight = signedBlock.block.header.number;
   const blockHash = signedBlock.block.header.hash;
 
-  // construct an mortal era
+  // construct a mortal era
   const era = new ExtrinsicEra({ current: currentHeight, period: 10 });
 
   era.asMortalEra.birth(currentHeight);
