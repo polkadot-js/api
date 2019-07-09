@@ -211,10 +211,10 @@ describe('Api-RX derive e2e', () => {
             creationFee: expect.any(BN),
             rentByteFee: expect.any(BN),
             rentDepositOffset: expect.any(BN),
+            tombstoneDeposit: expect.any(BN),
             transactionBaseFee: expect.any(BN),
             transactionByteFee: expect.any(BN),
-            transferFee: expect.any(BN),
-            tombstoneDeposit: expect.any(BN)
+            transferFee: expect.any(BN)
           }));
           done();
         });

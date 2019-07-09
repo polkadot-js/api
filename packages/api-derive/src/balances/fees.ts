@@ -11,7 +11,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-import { creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee } from '../util/v6consts';
+import { v6creationFee, v6existentialDeposit, v6transactionBaseFee, v6transactionByteFee, v6transferFee } from '../util/v6consts';
 
 /**
  * @name fees
@@ -38,19 +38,13 @@ export function fees (api: ApiInterface$Rx) {
       ]) as any as Observable<[BN, BN, BN, BN, BN]>
     : of([
       // @TODO replace this with calls to `api.consts` once implemented
-      creationFee,
-      existentialDeposit,
-      transactionBaseFee,
-      transactionByteFee,
-      transferFee
+      v6creationFee,
+      v6existentialDeposit,
+      v6transactionBaseFee,
+      v6transactionByteFee,
+      v6transferFee
     ]) as any as Observable<[BN, BN, BN, BN, BN]>).pipe(
-      map(([
-        creationFee,
-        existentialDeposit,
-        transactionBaseFee,
-        transactionByteFee,
-        transferFee
-      ]) => ({
+      map(([creationFee, existentialDeposit, transactionBaseFee, transactionByteFee, transferFee]) => ({
         creationFee,
         existentialDeposit,
         transactionBaseFee,
