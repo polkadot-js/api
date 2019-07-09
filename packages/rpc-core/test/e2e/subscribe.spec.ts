@@ -4,7 +4,7 @@
 
 import { StorageChangeSet } from '@polkadot/types';
 import WsProvider from '@polkadot/rpc-provider/ws';
-import storage from '@polkadot/metadata/storage/static';
+import storage from '@polkadot/api-metadata/storage/static';
 
 import Rpc from '../../src';
 

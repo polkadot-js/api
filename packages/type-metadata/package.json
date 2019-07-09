@@ -1,5 +1,5 @@
 {
-  "name": "@polkadot/metadata",
+  "name": "@polkadot/api-metadata",
   "version": "0.82.0-beta.32",
   "description": "Helpers to extract information from runtime metadata",
   "main": "index.js",

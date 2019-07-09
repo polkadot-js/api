@@ -25,7 +25,9 @@ const testFunction = (api: ApiRx) => {
   };
 };
 
-describe('derive', () => {
+// https://github.com/polkadot-js/api/pull/1066#issuecomment-509142048
+// https://github.com/polkadot-js/api/issues/1064
+describe.skip('derive', () => {
   describe('builtin', () => {
     const api = new ApiRx(new MockProvider());
 
