@@ -43,12 +43,12 @@ export function fees (api: ApiInterface$Rx) {
           queryBase.transactionByteFee,
           queryBase.transferFee
         ])
-      ]) as any as Observable<[BN, BN, BN, [BN, BN, BN, BN, BN, BN, BN]]>).pipe(
-        map(([
-          rentByteFee,
-          rentDepositOffset,
-          tombstoneDeposit,
-          [
+      ]) as any as Observable<[[BN, BN, BN], [BN, BN, BN, BN, BN, BN, BN]]>).pipe(
+        map(([[
+            rentByteFee,
+            rentDepositOffset,
+            tombstoneDeposit
+          ],[
             callBaseFee,
             contractFee,
             createBaseFee,
