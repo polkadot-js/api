@@ -17,7 +17,7 @@ const ZERO = new BN(0);
 const WS_URL = 'ws://127.0.0.1:9944';
 // const WS_URL = 'wss://poc3-rpc.polkadot.io/';
 
-describe.skip('Promise e2e queries', () => {
+describe('Promise e2e queries', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -104,7 +104,7 @@ describe.skip('Promise e2e queries', () => {
     );
   });
 
-  it.skip('subscribes to queries (default)', (done) => {
+  it('subscribes to queries (default)', (done) => {
     return (
       api.query.staking.validators(keyring.ferdie.address, (prefs: ValidatorPrefs) => {
         expect(prefs.unstakeThreshold.toNumber()).toBe(3);

@@ -15,13 +15,14 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 import { Balance, Bytes, Hash, Metadata, Moment, StorageData, StorageKey } from '@polkadot/types';
 
 import Rpc from '../../src';
-import flipperAbi from '../../../api-contract/test/contracts/flipper.json';
+import flipperAbiPre97 from '../../../api-contract/test/contracts<spec_version-97/Flipper.json';
+import flipperAbiPost97 from '../../../api-contract/test/contracts>=spec_version-97/Flipper.json';
 
 const ALICE = '5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY';
 const CODE = '0x3a636f6465'; // :code
 const CHILD_STORAGE = '0x3a6368696c645f73746f726167653a'; // :child_storage:
 
-describe.skip('e2e state', () => {
+describe('e2e state', () => {
   let rpc: Rpc;
 
   beforeEach(() => {
@@ -92,14 +93,25 @@ describe.skip('e2e state', () => {
     let codeHash: Hash;
 
     beforeAll(async (done) => {
-      const code: string = fs.readFileSync(path.join(__dirname, '../../../api-contract/test/contracts/flipper-pruned.wasm')).toString('hex');
-      const abi = new Abi(flipperAbi);
       const apiPromise: ApiPromise = await ApiPromise.create(new WsProvider('ws://127.0.0.1:9944'));
+
+      const txPath = apiPromise.tx.contracts || apiPromise.tx.contract;
+
+      const pathName: string = apiPromise.runtimeVersion.specVersion.toNumber() < 97 ? 'contracts<spec_version-97' : 'contracts>=spec_version-97';
+      const code: string = fs.readFileSync(path.join(__dirname, `../../../api-contract/test/${pathName}/flipper-pruned.wasm`)).toString('hex');
+      const abi = apiPromise.runtimeVersion.specVersion.toNumber() > 97
+        ? new Abi(flipperAbiPre97)
+        : new Abi(flipperAbiPost97);
+
       const keyring: {
         [index: string]: KeyringPair
       } = testingPairs({ type: 'sr25519' });
 
-      const putCode = apiPromise.tx.contract
+      console.log('CODE');
+      console.log(code);
+      console.log(abi);
+
+      const putCode = txPath
         .putCode(50000, `0x${code}`)
         .signAndSend(keyring.eve, (result: SubmittableResult) => {
           if (result.status.isFinalized) {
@@ -113,7 +125,7 @@ describe.skip('e2e state', () => {
         });
 
       return putCode.then(() => {
-        return apiPromise.tx.contract
+        return txPath
           .create(12345, 50000, codeHash, abi.deploy())
           .signAndSend(keyring.bob);
       });

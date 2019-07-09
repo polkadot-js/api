@@ -32,7 +32,7 @@ const logEvents = (done: () => {}) =>
     }
   };
 
-describe.skip('Promise e2e transactions', () => {
+describe('Promise e2e transactions', () => {
   const keyring = testingPairs({ type: 'ed25519' });
   let api: Api;
 
@@ -142,7 +142,7 @@ describe.skip('Promise e2e transactions', () => {
   });
 
   // this one is slightly difficult with the current testnet config - CantPay
-  it.skip('makes a transfer, and uses new balance to transfers to new', async (done) => {
+  it('makes a transfer, and uses new balance to transfers to new', async (done) => {
     const pair = new Keyring().addFromUri('testing123', {}, 'ed25519');
 
     function doOne (cb: any) {

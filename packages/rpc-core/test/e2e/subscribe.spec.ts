@@ -8,7 +8,7 @@ import storage from '@polkadot/api-metadata/storage/static';
 
 import Rpc from '../../src';
 
-describe.skip('e2e subscriptions', () => {
+describe('e2e subscriptions', () => {
   let rpc: Rpc;
 
   beforeEach(() => {

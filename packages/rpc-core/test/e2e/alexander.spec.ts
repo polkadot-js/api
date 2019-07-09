@@ -10,7 +10,7 @@ import Rpc from '../../src';
 
 const randomAccount = '5HTqyWJHAVUieZnpb1V8gK4T1E4mnhkrUVSSzWBQd6kYgsVJ';
 
-describe.skip('e2e Alexander - Polkadot', () => {
+describe('e2e Alexander - Polkadot', () => {
   let rpc: Rpc;
 
   beforeEach(() => {

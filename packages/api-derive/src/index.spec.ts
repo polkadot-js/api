@@ -25,9 +25,7 @@ const testFunction = (api: ApiRx) => {
   };
 };
 
-// https://github.com/polkadot-js/api/pull/1066#issuecomment-509142048
-// https://github.com/polkadot-js/api/issues/1064
-describe.skip('derive', () => {
+describe('derive', () => {
   describe('builtin', () => {
     const api = new ApiRx(new MockProvider());
 
@@ -48,6 +46,9 @@ describe.skip('derive', () => {
 
     testFunction(api)('chain', 'bestNumber', []);
     testFunction(api)('chain', 'bestNumberFinalized', []);
+    testFunction(api)('chain', 'bestNumberLag', []);
+    testFunction(api)('chain', 'getHeader', []);
+    testFunction(api)('chain', 'subscribeNewHead', []);
 
     testFunction(api)('democracy', 'referendumInfos', []);
     testFunction(api)('democracy', 'referendums', []);

@@ -14,7 +14,7 @@ const keyring = testingPairs({ type: 'ed25519' });
 
 // @TODO 1: All three tests below are broken, fix or find better way to test transfers.
 // @TODO 2: Move tests out of ./type-metadata to ./api folder
-describe.skip('e2e transfer', () => {
+describe('e2e transfer', () => {
   let api: RpcInterface;
 
   beforeAll(() => {

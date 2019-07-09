@@ -7,7 +7,7 @@ import WsProvider from '@polkadot/rpc-provider/ws';
 
 import Rpc from '../../src';
 
-describe.skip('e2e chain', () => {
+describe('e2e chain', () => {
   let rpc: Rpc;
 
   beforeEach(() => {
