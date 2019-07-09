@@ -5,7 +5,7 @@
 import BN from 'bn.js';
 
 import ApiRx from '@polkadot/api/rx/Api';
-import { AccountId, AccountIndex, Balance, BlockNumber, Index } from '@polkadot/types';
+import { AccountId, AccountIndex, BlockNumber, Index } from '@polkadot/types';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { HeaderExtended } from '../../src/type';

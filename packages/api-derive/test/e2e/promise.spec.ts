@@ -7,7 +7,7 @@ import testKeyring from '@polkadot/keyring/testing';
 import { WsProvider } from '@polkadot/rpc-provider';
 
 import { HeaderExtended } from '../../src/type';
-import { DerivedBalances, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
+import { DerivedBalances, DerivedContractFees, DerivedFees, DerivedSessionInfo, DerivedStaking } from '../../src/types';
 import { SubmittableResult } from '../../../api/src';
 
 const WS = 'ws://127.0.0.1:9944';
@@ -83,7 +83,7 @@ describe('Api-Promise derive e2e', () => {
 
   describe('Tests for contracts derive methods', () => {
     it('retrieves the contract fees', (done) => {
-      return api.derive.contracts.fees((fees: DerivedFees) => {
+      return api.derive.contracts.fees((fees: DerivedContractFees) => {
         console.log('fees contracts', JSON.stringify(fees));
 
         done();

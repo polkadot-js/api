@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ApiInterface$Rx } from '@polkadot/api/types';
-import { Balance } from '@polkadot/types';
 import { DerivedFees } from '../types';
 
 import BN from 'bn.js';
@@ -11,26 +10,6 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
-
-// get values from api.const for substrate versions post spec_version: 101
-// https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
-const balanceFees = (api) => {
-  const {
-    creationFee,
-    existentialDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  } = api.consts.balances;
-
-  return [
-    creationFee,
-    existentialDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  ];
-};
 
 /**
  * @name fees
@@ -48,7 +27,16 @@ const balanceFees = (api) => {
 export function fees (api: ApiInterface$Rx) {
   return (): Observable<DerivedFees> => {
     return (api.consts.balances
-      ? of(balanceFees(api)) as any as Observable<[BN, BN, BN, BN, BN]>
+      // get values from api.const for substrate versions post spec_version: 101
+      // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
+      ? of([
+        api.consts.balances.creationFee,
+        api.consts.balances.existentialDeposit,
+        api.consts.balances.transactionBaseFee,
+        api.consts.balances.transactionByteFee,
+        api.consts.balances.transferFee
+      ]) as any as Observable<[BN, BN, BN, BN, BN]>
+      // Support older versions and get values from storage
       : api.queryMulti([
         api.query.balances.creationFee,
         api.query.balances.existentialDeposit,

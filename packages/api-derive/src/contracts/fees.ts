@@ -11,36 +11,6 @@ import { map } from 'rxjs/operators';
 
 import { drr } from '../util/drr';
 
-// get values from api.const for substrate versions post spec_version: 101
-// https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
-const contractFees = (api) => {
-  const {
-    callBaseFee,
-    contractFee,
-    createBaseFee,
-    creationFee,
-    rentByteFee,
-    rentDepositOffset,
-    tombstoneDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  } = api.consts.contracts;
-
-  return [
-    callBaseFee,
-    contractFee,
-    createBaseFee,
-    creationFee,
-    rentByteFee,
-    rentDepositOffset,
-    tombstoneDeposit,
-    transactionBaseFee,
-    transactionByteFee,
-    transferFee
-  ];
-};
-
 /**
  * @name fees
  * @returns An object containing the combined results of the queries for
@@ -61,10 +31,9 @@ export function fees (api: ApiInterface$Rx) {
     if (api.query.contract && !api.query.contract.rentByteFee) {
       // Only for 1.0 support. rentByteFee, rentDepositOffset, tombstoneDeposit are not available in substrate 1.0.
       // @TODO remove this once 1.0 support is dropped
+      const ZERO = new BN(0);
       return (combineLatest([
-        of(new BN(0)),
-        of(new BN(0)),
-        of(new BN(0)),
+        of([ZERO, ZERO, ZERO]),
         api.queryMulti([
           queryBase.callBaseFee,
           queryBase.contractFee,
@@ -74,7 +43,7 @@ export function fees (api: ApiInterface$Rx) {
           queryBase.transactionByteFee,
           queryBase.transferFee
         ])
-      ]) as any as Observable<>).pipe(
+      ]) as any as Observable<[BN, BN, BN, [BN, BN, BN, BN, BN, BN, BN]]>).pipe(
         map(([
           rentByteFee,
           rentDepositOffset,
@@ -104,8 +73,20 @@ export function fees (api: ApiInterface$Rx) {
     }
 
     return (api.consts.contracts
-      // Substrate versions supporting parameter_types
-      ? of(contractFees(api)) as any as Observable<Array<BN>>
+      // get values from api.const for substrate versions post spec_version: 101
+      // https://github.com/paritytech/substrate/pull/2883/files#diff-5e5e1c3aec9ddfde0a9054d062ab3db9R131
+      ? of([
+        api.consts.contracts.callBaseFee,
+        api.consts.contracts.contractFee,
+        api.consts.contracts.createBaseFee,
+        api.consts.contracts.creationFee,
+        api.consts.contracts.rentByteFee,
+        api.consts.contracts.rentDepositOffset,
+        api.consts.contracts.tombstoneDeposit,
+        api.consts.contracts.transactionBaseFee,
+        api.consts.contracts.transactionByteFee,
+        api.consts.contracts.transferFee
+      ]) as any as Observable<Array<BN>>
       // Support versions pre spec_version 101 and get values from storage
       : api.queryMulti([
         queryBase.callBaseFee,
